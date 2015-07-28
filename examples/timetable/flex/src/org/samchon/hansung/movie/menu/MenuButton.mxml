@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" 
+		  
+		  width="80" height="75" gap="0"
+		  horizontalAlign="center"
+		  
+		  rollOver="rollOver(event)" 
+		  rollOut="rollOut(event)" 
+		  mouseDown="rollOut(event)"
+		  >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			protected var _source:String;
+			protected var _label:String;
+			
+			public function set source(value:String):void {
+				this._source = value;
+				
+				var imgRollOutURL:String = imageURL;
+				var imgRollOverURL:String = imgRollOutURL.substr(0, imgRollOutURL.lastIndexOf(".png")) + "_over.png";
+				image.source = imgRollOutURL;
+				image_over.source = imgRollOverURL;
+			}
+			public function set label(value:String):void {
+				this._label = value;
+				labelText.htmlText = value;
+			}
+			
+			
+			public function get source():String {
+				return this._source;
+			}
+			public function get label():String {
+				return this._label;
+			}
+			protected function get imageURL():String {
+				var src:String = source.charAt(0).toLowerCase() + source.substr(1);
+				var index:int = src.indexOf("Window");
+				if(index != -1 && src != "newWindow")
+					src = src.substr(0, index);
+				return "assets/buttons/" + src + ".png";
+			}
+			
+			protected function rollOver(event:MouseEvent):void {
+				image.visible = false;
+				image_over.visible = true;
+				labelText.htmlText = "<u>" + _label + "</u>";
+			}
+			protected function rollOut(event:MouseEvent):void {
+				image.visible = true;
+				image_over.visible = false;
+				labelText.htmlText = _label;
+			}
+		]]>
+	</fx:Script>
+	<s:Group>
+		<s:BitmapImage id="image" 
+					   width="80" height="60" />
+		<s:BitmapImage id="image_over" 
+					   width="80" height="60" 
+					   visible="false" />
+	</s:Group>
+	<mx:Label id="labelText" />
+</s:VGroup>

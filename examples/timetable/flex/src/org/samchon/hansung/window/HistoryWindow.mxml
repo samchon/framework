@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:Window xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" 
+		   xmlns:ui="org.samchon.ui.*" 
+		   xmlns:movie="org.samchon.hansung.movie.*" 
+		   
+		   title="과거 시간표 조회">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<!-- 배경 그림: 파란색 사선 무늬 -->
+	<s:BorderContainer width="100%" height="100%"
+					   backgroundImage="@Embed('assets/images/background.gif')"
+					   backgroundImageFillMode="repeat"/>
+	
+	<!-- HistoryMovie : public TimetableMovie -->
+	<movie:HistoryMovie main="{this}" 
+						width="100%" height="100%" />
+</ui:Window>

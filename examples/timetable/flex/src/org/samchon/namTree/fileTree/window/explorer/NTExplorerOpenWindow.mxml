@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<explorer:NTExplorerWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						   xmlns:s="library://ns.adobe.com/flex/spark" 
+						   xmlns:mx="library://ns.adobe.com/flex/mx" 
+						   xmlns:explorer="org.samchon.namTree.fileTree.window.explorer.*" 
+						   
+						   title="Load Nam-Tree's Criteria File">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			
+			import org.samchon.fileTree.file.FTFile;
+			import org.samchon.fileTree.file.FTFileList;
+			import org.samchon.fileTree.file.FTFolder;
+			import org.samchon.namTree.NTGrid;
+			import org.samchon.namTree.criteria.NTCriteria;
+			import org.samchon.namTree.fileTree.file.NTFileList;
+			
+			public var ntGrid:NTGrid;
+			protected function get ntFileList():NTFileList
+			{
+				return ntGrid.fileList;
+			}
+			
+			protected function getNewCriteria():NTCriteria
+			{
+				return new NTCriteria();
+			}
+			
+			override protected function creationCompleted(event:FlexEvent):void
+			{
+				super.creationCompleted(event);
+				
+				nameInput.editable = false;
+				commentInput.editable = false;
+			}
+			override protected function handleFileChanged(event:ListEvent):void
+			{
+				super.handleFileChanged(event);
+				var selectedFile:FTFolder = fileTreeMgr.selectedFile;
+				
+				nameInput.text = selectedFile.getLabel();
+				if(selectedFile is FTFile)
+				{
+					commentInput.text = FTFile(selectedFile).getComment();
+					determineButton.enabled = true;
+				}
+				else
+				{
+					commentInput.text = "";
+					determineButton.enabled = false;
+				}
+			}
+			override protected function goDetermine(event:MouseEvent):void
+			{
+				var selectedFile:FTFolder = fileTreeMgr.selectedFile;
+				if(selectedFile == null)
+					return;
+				else if( !(selectedFile is FTFile) )
+					Alert.show("Select a valid file to load.", "File Load Error");
+				else
+				{
+					var xml:XML = new XML( FTFile(selectedFile).getContent() );
+					var criteria:NTCriteria = getNewCriteria();
+					
+					criteria.constructXML(xml, ntFileList);
+					
+					if(parentCriteria is ArrayCollection)
+						parentCriteria.removeAll();
+					parentCriteria.addItem( criteria );
+					
+					//REFRESHING AND EXPANDING
+					ntGrid.refresh();
+					if(parentCriteria is ArrayCollection)
+						ntGrid.expandAll();
+					else
+						ntGrid.expandChildrenOf(parentCriteria, true);
+					
+					//CLOSE
+					this.close();
+				}
+			}
+			
+		]]>
+	</fx:Script>
+</explorer:NTExplorerWindow>

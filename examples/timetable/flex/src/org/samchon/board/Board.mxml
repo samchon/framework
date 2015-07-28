@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HDividedBox xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:ui="org.samchon.ui.*"
+				xmlns:board="org.samchon.board.*"
+				creationComplete="main(event)" currentState="List">
+	<mx:states>
+		<s:State name="List"/>
+		<s:State name="Read"/>
+		<s:State name="Write"/>
+	</mx:states>
+	<fx:Declarations>
+		<s:ArrayCollection id="retrieveList">
+			<fx:Object label="제목" field="title"/>
+			<fx:Object label="내용" field="memo"/>
+			<fx:Object label="작성자" field="nick"/>
+		</s:ArrayCollection>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.conversion.TextConverter;
+			import flashx.textLayout.elements.TextFlow;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			import org.samchon.utils.StringUtil;
+			
+			import org.samchon.board.textEditBar.FileIOHelper;
+			
+			public var application:int;
+			
+		/*
+		=============================================================
+			CATEGORY LIST
+		=============================================================
+		*/
+			[Bindable]protected var categoryList:ArrayCollection = new ArrayCollection();
+			protected function get category():int	{	return categoryGrid.selectedItem.category;	}
+			protected function get page():int		{	return pageNumericStepper.value;			}
+			
+			protected function main(event:FlexEvent):void {
+				event.target.removeEventListener(FlexEvent.CREATION_COMPLETE, main);
+				
+				goCategory();
+			}
+			protected function goCategory():void {
+				var httpService:HTTPService = new HTTPService();
+				httpService.url = URL.BOARD_CATEGORY;
+				httpService.resultFormat = HTTPService.RESULT_FORMAT_E4X;
+				httpService.method = "POST";
+				httpService.addEventListener(ResultEvent.RESULT, handleCategory);
+				
+				httpService.send({application:application});
+			}
+			protected function handleCategory(event:ResultEvent):void {
+				event.target.removeEventListener(ResultEvent.RESULT, handleCategory);
+				var xmlList:XMLList = new XMLList(event.result);
+				
+				for(var i:int = 0; i < xmlList.category.length(); i++)
+					categoryList.addItem( new BoardCategory(xmlList.category[i]) );
+				
+				categoryGrid.selectedIndex = 0;
+				goList(category);
+			}
+			
+		/*
+		=============================================================
+			LIST
+		=============================================================
+		*/
+			[Bindable]protected var listList:ArrayCollection = new ArrayCollection();
+			[Bindable]protected var totalPage:int;
+			
+			protected var retrieveField:String;
+			protected var retrieveValue:String;
+			
+			protected function goList(category:int, page:int = 1, retrieveField:String = null, retrieveValue:String = null):void {
+				page = page;
+				this.retrieveField = retrieveField;
+				this.retrieveValue = retrieveValue;
+				
+				var httpService:HTTPService = new HTTPService();
+				httpService.url = URL.BOARD_LIST;
+				httpService.method = "POST";
+				httpService.resultFormat = HTTPService.RESULT_FORMAT_E4X;
+				httpService.addEventListener(ResultEvent.RESULT, handleList);
+				
+				var formData:Object = new Object();
+				formData.application = application;
+				formData.category = category;
+				formData.page = page;
+				
+				if(retrieveField) {
+					formData.retrieveField = retrieveField;
+					formData.retrieveValue = retrieveValue;
+				}
+				httpService.send(formData);
+			}
+			protected function handleList(event:ResultEvent):void {
+				event.target.removeEventListener(ResultEvent.RESULT, handleList);
+				listList.removeAll();
+				
+				var xmlList:XMLList = new XMLList(event.result);
+				for(var i:int = 0; i < xmlList.list.length(); i++)
+					listList.addItem( new BoardList(xmlList.list[i]) );
+				
+				if(this.currentState != "List")
+					this.currentState = "List";
+				totalPage = xmlList.totalPage;
+			}
+		
+		/*
+		=============================================================
+			READ
+		=============================================================
+		*/	
+			[Bindable]protected var readUid:int;
+			[Bindable]protected var readNickname:String;
+			[Bindable]protected var readTitle:String;
+			[Bindable]protected var readContent:String;
+			[Bindable]protected var readTimestamp:String;
+			[Bindable]protected var readHit:int;
+			
+			[Bindable]protected var readContentTextFlow:TextFlow;
+			
+			protected function goRead(uid:int):void {
+				var httpService:HTTPService = new HTTPService();
+				httpService.url = URL.BOARD_READ;
+				httpService.method = "POST";
+				httpService.resultFormat = HTTPService.RESULT_FORMAT_E4X;
+				httpService.addEventListener(ResultEvent.RESULT, handleRead);
+				
+				httpService.send({uid:uid});
+			}
+			protected function handleRead(event:ResultEvent):void {
+				event.target.removeEventListener(ResultEvent.RESULT, handleRead);
+				
+				var xmlList:XMLList = new XMLList(event.result);
+				var xml:XML = xmlList.list[0];
+				
+				readUid			=	xml.@uid;
+				readNickname	=	StringUtil.decodeURI(	xml.@nickname	);
+				readTitle		=	StringUtil.decodeURI(	xml.@title	);
+				readContent		=	StringUtil.decodeURI(	xml.@content	);
+				readTimestamp	=	StringUtil.decodeURI(	xml.@timestamp	);
+				readHit			=	xml.@hit;
+				
+				readContentTextFlow = TextConverter.importToFlow(readContent, TextConverter.TEXT_LAYOUT_FORMAT);
+				
+				if(this.currentState != "Read")
+					this.currentState = "Read";
+				
+			}
+			
+		/*
+		=============================================================
+			READ
+		=============================================================
+		*/
+			protected static const WRITE:int = 1;
+			protected static const MODIFY:int = 2;
+			protected static const REPLY:int = 3;
+			
+			[Bindable]protected var writeTitle:String;
+			[Bindable]protected var writeContentTextFlow:TextFlow;
+			
+			protected var writeMode:int;
+			
+			protected function goWrite(mode:int = WRITE):void {
+				writeMode = mode;
+				
+				if(mode == MODIFY){
+					writeTitle = readTitle;
+					writeContentTextFlow = FileIOHelper.moveTextFlow(readContentRichEditableText.textFlow);
+				}else if(mode == REPLY) {
+					var orgData:String = FileIOHelper.exportToLayout(readContentRichEditableText.textFlow);
+					
+					var head:String = StringUtil.between(orgData, "<TextFlow", ">") + ">\n";
+					var body:String = StringUtil.between(orgData, "<TextFlow");
+						body		= StringUtil.between(body, 	  "xmlns=\"http://ns.adobe.com/textLayout/2008\">", "</TextFlow>");
+						body		= body.replace(/<p/g, "<p textIndent=\"50\"");
+					
+					var replyLayout:String = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<TextFlow" + head +
+						"<p></p><p></p>" +
+						"<p color=\"#000000\" fontFamily=\"Arial\" fontSize=\"12\" kerning=\"auto\" textAlign=\"left\" trackingRight=\"0\">" +
+						"<span>============================ 다음은 원본 글입니다 ============================" +
+						"</span></p><p></p>"
+							+ body
+						+ "</TextFlow>";
+					
+					writeTitle = "RE]" + readTitle;
+					writeContentTextFlow =	FileIOHelper.moveTextFlow
+											(
+												TextConverter.importToFlow(replyLayout, TextConverter.TEXT_LAYOUT_FORMAT)
+											);
+				}else{
+					writeTitle = "";
+					writeContentTextFlow = null;
+				}
+				this.currentState = "Write";
+			}
+			protected function doWrite(event:MouseEvent):void {
+				var httpService:HTTPService = new HTTPService();
+				httpService.method = "POST";
+				httpService.resultFormat = HTTPService.RESULT_FORMAT_E4X;
+				httpService.addEventListener(ResultEvent.RESULT, handleWrite);
+				
+				var formData:Object = new Object();
+				formData.application = application;
+				formData.title = writeTitleTextInput.text;
+				formData.content = writeContent.layoutText;
+				
+				switch(writeMode) {
+					case WRITE:
+						httpService.url = URL.BOARD_WRITE;
+						formData.category = category;
+						break;
+					case MODIFY:
+						httpService.url = URL.BOARD_MODIFY;
+						formData.uid = readUid;
+						break;
+					case REPLY:
+						httpService.url = URL.BOARD_REPLY;
+						formData.uid = readUid;
+						break;
+				}
+				httpService.send(formData);
+			}
+			protected function handleWrite(event:ResultEvent):void {
+				event.target.removeEventListener(ResultEvent.RESULT, handleWrite);
+				var xmlList:XMLList = new XMLList(event.result);
+				
+				if(xmlList.result == 0) {
+					if(writeMode == MODIFY)
+						Alert.show("Cannot modify which is not your own.", "Modification Error", 4, this);
+				}
+				if(writeMode == MODIFY)
+					goRead( readUid );
+				else if(writeMode == REPLY)
+					goList(category, page, retrieveField, retrieveValue);
+				else
+					goList(category);
+			}
+			
+			//DELETE
+			protected function goDelete(uid:int):void {
+				var httpService:HTTPService = new HTTPService();
+				httpService.url = URL.BOARD_DELETE;
+				httpService.method = "POST";
+				httpService.resultFormat = HTTPService.RESULT_FORMAT_E4X;
+				httpService.addEventListener(ResultEvent.RESULT, handleDelete);
+				
+				httpService.send( {application: application, uid: uid} );
+			}
+			protected function handleDelete(event:ResultEvent):void {
+				event.target.removeEventListener(ResultEvent.RESULT, handleDelete);
+				
+				var replyData:XMLList = new XMLList(event.result);
+				if(replyData.result == 0)
+					Alert.show("Can't delete others.", "Deletion Error", 4, this);
+				else
+					goList(category, page, retrieveField, retrieveValue);
+			}
+		]]>
+	</fx:Script>
+	<s:List id="categoryGrid" width="250" height="100%" change="goList(category)"
+			dataProvider="{categoryList}" labelField="name"/>
+	
+	<!--
+	==================================================
+		LIST FRAME
+	==================================================
+	-->
+	<ui:VGroup includeIn="List" width="100%" height="100%" padding="5">
+		<s:HGroup width="100%" horizontalAlign="right">
+			<s:ComboBox id="retrieveComboBox" width="100" dataProvider="{retrieveList}"
+						prompt="Retrieve"/>
+			<s:TextInput id="retrieveValueTextInput"/>
+			<s:Button label="Retrieve"
+					  click="{if(retrieveComboBox.selectedItem) goList(category, 1, retrieveComboBox.selectedItem.field, retrieveValueTextInput.text)}"
+					  icon="assets/icons/lens16.png"/>
+		</s:HGroup>
+		
+		<mx:DataGrid id="listGrid" width="100%" height="100%"
+					 change="goRead(listGrid.selectedItem.uid)" dataProvider="{listList}">
+			<mx:columns>
+				<mx:DataGridColumn width="80" dataField="uid" headerText="No"/>
+				<mx:DataGridColumn dataField="title" headerText="Title"/>
+				<mx:DataGridColumn width="120" dataField="nickname" headerText="Writer"/>
+				<mx:DataGridColumn width="80" dataField="hit" headerText="Hits"/>
+				<mx:DataGridColumn width="100" dataField="timestamp" headerText="Timestamp"/>
+			</mx:columns>
+		</mx:DataGrid>
+		
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Button label="To list" click="goList(category)" icon="assets/icons/news16.png"/>
+			<s:Label text="Current page / Total page: "/>
+			<s:NumericStepper id="pageNumericStepper"
+							  change="goList(category, page, retrieveField, retrieveValue)"
+							  maximum="{totalPage}" minimum="1" value="1"/>
+			<s:Label text=" / {totalPage}"/>
+			<s:Spacer width="100%"/>
+			
+			<s:Button label="Write" click="goWrite()" icon="assets/icons/write16.png"/>
+		</s:HGroup>
+	</ui:VGroup>
+	
+	<!--
+	==================================================
+		READ FRAME
+	==================================================
+	-->
+	<ui:VGroup includeIn="Read" width="100%" height="100%" padding="5">
+		<s:HGroup width="100%">
+			<s:Label width="50%" text="No: {readUid}"/>
+			<s:Label width="50%" text="Hit: {readHit}"/>
+		</s:HGroup>
+		<s:HGroup width="100%">
+			<s:Label width="50%" text="Writer: {readNickname}"/>
+			<s:Label width="50%" text="Timestamp: {readTimestamp}"/>
+		</s:HGroup>
+		
+		<s:Label/>
+		
+		<s:TextArea width="100%" height="25" editable="false" text="{readTitle}"/>
+		<s:BorderContainer width="100%" height="100%">
+			<mx:Canvas width="100%" height="100%">  
+				<s:Scroller width="100%" height="100%" horizontalScrollPolicy="off">
+					<s:RichEditableText id="readContentRichEditableText" width="100%" height="100%"
+										editable="false" textFlow="{readContentTextFlow}"/>
+				</s:Scroller>
+			</mx:Canvas>
+		</s:BorderContainer>
+		<s:HGroup width="100%">
+			<s:Button label="To list" click="goList(category)" icon="assets/icons/news16.png"/>
+			<s:Spacer width="100%"/>
+			<s:Button label="Modify" click="goWrite(MODIFY)" icon="assets/icons/modify16.png"/>
+			<s:Button label="Reply" click="goWrite(REPLY)" icon="assets/icons/reply16.png"/>
+			<s:Button label="Delete" 
+					  click="goDelete(readUid)"
+					  icon="assets/icons/trash16.png"/>
+		</s:HGroup>
+	</ui:VGroup>
+	
+	<!--
+	==================================================
+		WRITE FRAME
+	==================================================
+	-->
+	<ui:VGroup includeIn="Write" width="100%" height="100%" padding="5">
+		<s:HGroup width="100%">
+			<s:Label width="70" text="Title"/>
+			<s:TextInput id="writeTitleTextInput" 
+						 text="{writeTitle}"
+						 width="100%"/>
+		</s:HGroup>
+		<board:TextLayoutEditorCanvas id="writeContent" width="100%" height="100%"
+									  textFlow="{writeContentTextFlow}"
+									  uploadURL="{URL.BOARD_UPLOAD}"/>
+		
+		<s:HGroup width="100%">
+			<s:Button label="To list" click="goList(category)" icon="assets/icons/news16.png"/>
+			<s:Spacer width="100%"/>
+			<s:Button label="Write" 
+					  click="doWrite(event)" 
+					  icon="assets/icons/write16.png"/>
+		</s:HGroup>
+	</ui:VGroup>
+	
+</mx:HDividedBox>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,69 @@
+/* CSS file */
+
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+/*
+================================
+	SCROLL BAR
+================================
+*/
+mx|ScrollBar {
+	trackSkin : Embed(source='skins/scrollbar/img/track_skin.png');
+	thumbUpSkin : Embed(source='skins/scrollbar/img/thum_skin.png', scaleGridLeft=8, scaleGridRight=9, scaleGridTop=11,scaleGridBottom=12);
+	thumbOverSkin : Embed(source='skins/scrollbar/img/thum_skin.png', scaleGridLeft=8, scaleGridRight=9, scaleGridTop=11,scaleGridBottom=12);
+	thumbDownSkin : Embed(source='skins/scrollbar/img/thum_skin.png', scaleGridLeft=8, scaleGridRight=9, scaleGridTop=11,scaleGridBottom=12);
+	upArrowUpSkin : Embed(source='skins/scrollbar/img/scroll_arrow_up_up.png');
+	upArrowDownSkin : Embed(source='skins/scrollbar/img/scroll_arrow_up_over.png');
+	upArrowOverSkin : Embed(source='skins/scrollbar/img/scroll_arrow_up_over.png');
+	downArrowUpSkin : Embed(source='skins/scrollbar/img/scroll_arrow_down_up.png');
+	downArrowDownSkin : Embed(source='skins/scrollbar/img/scroll_arrow_down_over.png');
+	downArrowOverSkin : Embed(source='skins/scrollbar/img/scroll_arrow_down_over.png');
+}
+s|VScrollBar {
+	skinClass: ClassReference("skins.scrollbar.VSparkScroller");
+}
+
+/*
+================================
+	TAB NAVIGATOR
+================================
+*/
+mx|Tab {
+	disabledSkin: Embed(source="skins/AeonGraphical.swf", symbol="Tab_disabledSkin");
+	downSkin: Embed(source="skins/AeonGraphical.swf", symbol="Tab_downSkin");
+	overSkin: Embed(source="skins/AeonGraphical.swf", symbol="Tab_overSkin");
+	selectedDisabledSkin: Embed(source="skins/AeonGraphical.swf", symbol="TabSelected_disabledSkin");
+	selectedDownSkin: Embed(source="skins/AeonGraphical.swf", symbol="TabSelected_upSkin");
+	selectedOverSkin: Embed(source="skins/AeonGraphical.swf", symbol="TabSelected_upSkin");
+	selectedUpSkin: Embed(source="skins/AeonGraphical.swf", symbol="TabSelected_upSkin");
+	upSkin: Embed(source="skins/AeonGraphical.swf", symbol="Tab_upSkin");
+}
+mx|TabBar {
+	tabStyleName: "myTabs";
+	firstTabStyleName: "myTabs";
+	lastTabStyleName: "myTabs";
+	selectedTabTextStyleName: "mySelectedTabs";
+}
+.myTabs {
+	color: #5a5c59;
+	textRollOverColor: #000000;
+}
+.mySelectedTabs {
+	color: #3f940c;
+	textRollOverColor: #3f940c;
+}
+
+/*
+================================
+	PROGRESS BAR
+================================
+*/
+mx|ProgressBar
+{
+	color: #AAB3B3;
+	fontWeight: "bold";
+	barSkin: ClassReference("skins.halo.ProgressBarSkin");
+	indeterminateSkin: ClassReference("skins.halo.ProgressIndeterminateSkin");
+	trackSkin: ClassReference("skins.halo.ProgressTrackSkin");
+}

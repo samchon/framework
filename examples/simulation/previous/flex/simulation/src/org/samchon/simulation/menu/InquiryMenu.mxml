@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mx:TabNavigator xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:menu="org.samchon.simulation.menu.*" 
+				 
+				 dropShadowVisible="true"
+				 width="100%"
+				 paddingTop="5" paddingRight="5" paddingBottom="5">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.graphics.codec.PNGEncoder;
+			import mx.managers.PopUpManager;
+			
+			import org.samchon.simulation.accessory.AboutWindow;
+			
+			public var window:*;
+			
+			//SET & GET METHOD
+			protected function getExtension(source:String):String {
+				var extension:String;
+				
+				switch(source) {
+					case "toWord":
+						extension = "doc";
+						break;
+					case "toExcel":
+						extension = "xls";
+						break;
+					case "toHTML":
+						extension = "html";
+						break;
+				}
+				return extension;
+			}
+			
+			/* ----------------------------------------------------
+				MOUSE EVENT HANDLER
+			---------------------------------------------------- */
+			//MAIN
+			protected function goState(event:MouseEvent):void 
+			{
+				var menuButton:StateMenuButton = event.currentTarget as StateMenuButton;
+				var state:String = menuButton.state;
+				
+				window.currentState = state;
+			}
+			protected function goWindow(event:MouseEvent):void 
+			{
+				var menuButton:MenuButton = event.currentTarget as MenuButton;
+				var source:String = menuButton.source;
+				
+				if(source == "close")
+					ExternalInterface.call("closeWindow");
+				else if(source == "newWindow")
+					ExternalInterface.call("openNewSimulationWindow", window.parameters.window);
+				else
+					ExternalInterface.call("openNewSimulationWindow", source);
+			}
+			
+			//EXPORT
+			protected function goSave(event:MouseEvent):void 
+			{
+				var menuButton:MenuButton = event.currentTarget as MenuButton;
+				var source:String = menuButton.source;
+				
+				window.goSave( getExtension(source) );
+			}
+			protected function goScreenshot(event:MouseEvent):void 
+			{
+				var fileName:String = window.getFileName();
+				if(fileName == null)
+					return;
+				
+				var pngSource:BitmapData = new BitmapData(window.width, window.height);
+				var pngEncoder:PNGEncoder = new PNGEncoder();
+				var pngData:ByteArray;
+				
+				pngSource.draw(window as IBitmapDrawable);
+				pngData = pngEncoder.encode(pngSource);
+				
+				var file:FileReference = new FileReference();
+				file.save(pngData, fileName + ".png");
+			}
+			
+			//ACCOUNT
+			protected function goLogout(event:MouseEvent):void 
+			{
+				var loginSharedObject:SharedObject = SharedObject.getLocal("org.samchon.simulation", "/");
+				if(loginSharedObject.data.id == null)
+					loginSharedObject.clear();
+				
+				ExternalInterface.call("goLogout");
+			}
+			
+			//HELP
+			protected function goManual(event:MouseEvent):void 
+			{
+				//DOWNLOAD MANUAL(PDF)
+				URL.openNewWindow(URL.DOWNLOAD_MANUAL);
+			}
+			protected function goFullScreen(event:MouseEvent):void
+			{
+				stage.displayState = (stage.displayState == "normal") ? "fullScreen" : "normal";
+			}
+			protected function goAbout(event:MouseEvent):void {
+				var aboutWindow:AboutWindow = PopUpManager.createPopUp(parent, AboutWindow, true) as AboutWindow;
+				PopUpManager.centerPopUp(aboutWindow);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<menu:MenuNavigatorContent label=" - Main -">
+		<s:HGroup id="mainGroup" width="100%">
+			<menu:MenuButton click="goWindow(event)" 
+							 source="Price" label="Price"
+							 toolTip="Inquiry stocks" />
+			<menu:MenuButton click="goWindow(event)" 
+							 source="Finance"  label="Finance"
+							 toolTip="Information about Financial statements which are disclosured" />
+			<menu:MenuButton click="goWindow(event)" 
+							 source="Retrieve" label="Retrieve"
+							 toolTip="Retrieve companies by your SQL programming source" />
+			<menu:MenuButton click="goWindow(event)" 
+							 source="Comparison" label="Comparison"
+							 toolTip="Relative stock price and financial indices" />
+			<menu:MenuButton click="goWindow(event)" 
+							 source="BackTesting" label="Back Test"
+							 toolTip="Verify your trading alghorithm by back test with internal compiler" />
+			<menu:MenuButton click="goWindow(event)" 
+							 source="Montecarlo" label="Montecarlo"
+							 toolTip="Montecarlo Simulation with internal compiler" />
+			<menu:MenuButton click="goWindow(event)" 
+							 source="Board" label="Board"
+							 toolTip="Board" />
+			<menu:MenuButton click="goWindow(event)" 
+							 source="close"  label="Close"
+							 toolTip="Good-bye~!!" />
+			
+			<!-- TO REALIZE ALIGN TO RIGHT -->
+			<s:Spacer width="100%" />
+			
+			<!-- OPEN A NEW WINDOW -->
+			<menu:MenuButton click="goWindow(event)" 
+							 id="newSameWindowButton"
+							 source="newWindow" label="new window"
+							 toolTip="Pop-up new window" />
+		</s:HGroup>
+	</menu:MenuNavigatorContent>
+	<menu:MenuNavigatorContent label=" - Export -">
+		<s:HGroup id="exportHGroup"
+				  width="100%">
+			<menu:MenuButton source="toWord" label="To Word"
+							 click="goSave(event)" 
+							 toolTip="Save as word(doc) file what you see" />
+			<menu:MenuButton source="toExcel" label="To Excel"
+							 click="goSave(event)" 
+							 toolTip="Save as excel(xls) file what you see" />
+			<menu:MenuButton source="toHTML" label="To HTML"
+							 click="goSave(event)" 
+							 toolTip="Save as html file what you see" />
+			<menu:MenuButton source="toPicture" label="To Picture"
+							 click="goScreenshot(event)" 
+							 toolTip="Save as picture(png) file what you see" />
+		</s:HGroup>
+	</menu:MenuNavigatorContent>
+	<menu:MenuNavigatorContent label=" - Account -">
+		<s:HGroup width="100%">
+			<menu:MenuButton source="logout" label="Log-out"
+							 click="goLogout(event)" 
+							 toolTip="Good-bye~!!" />
+		</s:HGroup>
+	</menu:MenuNavigatorContent>
+	<menu:MenuNavigatorContent label=" - Help -">
+		<s:HGroup width="100%">
+			<menu:MenuButton source="Manual" label="Manual"
+							 click="goManual(event)" 
+							 toolTip="Hangang Simulation Cloud Manual" />
+			<menu:MenuButton source="fullScreen" label="Full Screen"
+							 click="goFullScreen(event)" 
+							 toolTip="Full Screen" />
+			<menu:MenuButton source="About" label="About"
+							 click="goAbout(event)" 
+							 toolTip="About me, Hangang Simulation Developer" />
+		</s:HGroup>
+	</menu:MenuNavigatorContent>
+</mx:TabNavigator>

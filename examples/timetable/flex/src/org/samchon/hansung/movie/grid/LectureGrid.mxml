@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 
+			 doubleClickEnabled="true"
+			 dragEnabled="true" 
+			 rowHeight="75">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:columns>
+		<mx:DataGridColumn width="100"	dataField="$code"		headerText="코드"/>
+		<mx:DataGridColumn 				dataField="$name"		headerText="과목명"/>
+		<mx:DataGridColumn width="60"	dataField="$kind"		headerText="구분"/>
+		<mx:DataGridColumn width="40"	dataField="$mid"		headerText="주야"/>
+		<mx:DataGridColumn width="40"	dataField="$credit"		headerText="학점"/>
+		<mx:DataGridColumn width="40"	dataField="$divide"		headerText="분반"/>
+		<mx:DataGridColumn width="40"	dataField="$grade"		headerText="학년"/>
+		<mx:DataGridColumn width="100"	dataField="$professor"	headerText="교수"/>
+		<mx:DataGridColumn width="40"	dataField="$day"		headerText="요일"/>
+		<mx:DataGridColumn width="40"	dataField="$hour"		headerText="교시"/>
+		<mx:DataGridColumn width="120"	dataField="$classroom"	headerText="강의실"/>
+	</mx:columns>
+</mx:DataGrid>

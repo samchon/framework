@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				xmlns:ui="org.samchon.ui.*" 
+				
+				creationComplete="creationCompleted(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flash.net.navigateToURL;
+			
+			import mx.events.FlexEvent;
+			
+			import org.samchon.socket.HTTPService;
+			import org.samchon.utils.StringUtil;
+			
+			[Bindable]protected var image:String;
+			protected var url:String;
+			protected var startDate:String;
+			
+			protected function creationCompleted(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				var httpService:HTTPService = new HTTPService(URL.APPLICATION_POPUP);
+				httpService.addEventListener(Event.COMPLETE, handleReply);
+				imageLoader.addEventListener(Event.COMPLETE, handleImageReply);
+				
+				httpService.send({application: Root.application});
+			}
+			protected function handleReply(event:Event):void
+			{
+				var httpService:HTTPService = event.target as HTTPService;
+				httpService.removeEventListener(Event.COMPLETE, handleReply);
+				
+				var sharedObject:SharedObject = SharedObject.getLocal("samchon.timetable.popUp");
+				
+				var xml:XML = new XML(httpService.data);
+				if(xml.hasOwnProperty("title") == false || (sharedObject.data.startDate && xml.startDate == sharedObject.data.startDate))
+				{
+					super.close();
+					return;
+				}
+				this.title = StringUtil.decodeURI( xml.title );
+				this.image = StringUtil.decodeURI( xml.image );
+				this.url = StringUtil.decodeURI( xml.url );
+				this.startDate = xml.startDate;
+			}
+			private function handleImageReply(event:Event):void
+			{
+				imageLoader.removeEventListener(Event.COMPLETE, handleImageReply);
+				
+				var targX:int = (Root.window.width - imageLoader.sourceWidth) / 2;
+				var targY:int = (Root.window.height - imageLoader.sourceHeight) / 2;
+				
+				this.move(targX, targY);
+			}
+			
+			override public function close():void
+			{
+				if(checkBox.selected == true)
+				{
+					var sharedObject:SharedObject = SharedObject.getLocal("samchon.timetable.popUp");
+					sharedObject.data.startDate = this.startDate;
+					sharedObject.flush();
+				}
+				super.close();
+			}
+			
+			protected function goLink(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL( new URLRequest(url), "_blank" );
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Image id="imageLoader" 
+			 source="{image}"
+			 click="goLink(event)" />
+	<ui:controlBarContent>
+		<ui:HGroup width="100%">
+			<s:CheckBox id="checkBox" label="이 팝업창을 다시는 띄우지 않습니다." />
+			<s:Spacer width="100%" />
+			<s:Button icon="assets/icons/check16.png" 
+					  label="닫기" 
+					  click="close()" />
+		</ui:HGroup>
+	</ui:controlBarContent>
+</ui:TitleWindow>

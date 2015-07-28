@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<advDg:AdvDg xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx" 
+			 xmlns:advDg="org.samchon.ui.advDg.*"
+			 
+			 editable="true"
+			 sortableColumns="false" 
+			 iconFunction="handleIcon">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			
+			public function get selectedCriteria():NTCriteria
+			{
+				return this.selectedItem as NTCriteria;
+			}
+			public function refresh():void
+			{
+				hierarchicalData.addItem(null);
+				hierarchicalData.removeItemAt(1);
+			}
+			
+			[Bindable][Embed(source="assets/icons/reply16.png")]protected var groupIcon:Class;
+			[Bindable][Embed(source="assets/icons/ntr16.gif")]protected var ntrIcon:Class;
+			
+			protected function handleIcon(item:NTCriteria):Class
+			{
+				var leftItem:NTItem = item.getLeftItem();
+				if(leftItem.getType() == "Group")
+					return groupIcon;
+				else
+					return ntrIcon;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<advDg:groupedColumns>
+		<mx:AdvancedDataGridColumn headerText="Icon"
+								   editable="false" />
+		<mx:AdvancedDataGridColumnGroup headerText="Left Term">
+			<mx:AdvancedDataGridColumn headerText="Aggregation" 
+									   dataField="$leftAggregation"
+									   editable="false" />
+			<mx:AdvancedDataGridColumn headerText="Type" 
+									   dataField="$leftType"
+									   editable="false" />
+			<mx:AdvancedDataGridColumn headerText="Field / Value" 
+									   dataField="$leftData" 
+									   editable="false" />
+			<mx:AdvancedDataGridColumn headerText="Option" 
+									   dataField="$leftOption"
+									   editable="false" />
+		</mx:AdvancedDataGridColumnGroup>
+		
+		<mx:AdvancedDataGridColumn headerText="Operator" 
+								   dataField="$operator"
+								   itemEditor="org.samchon.namTree.criteria.grid.NTCriteriaOperatorDGEditor" />
+		
+		<mx:AdvancedDataGridColumnGroup headerText="Right Term">
+			<mx:AdvancedDataGridColumn headerText="Aggregation" 
+									   dataField="$rightAggregation"
+									   editable="false" />
+			<mx:AdvancedDataGridColumn headerText="Type" 
+									   dataField="$rightType" 
+									   editable="false" />
+			<mx:AdvancedDataGridColumn headerText="Field / Value" 
+									   dataField="$rightData" 
+									   editable="false" />
+			<mx:AdvancedDataGridColumn headerText="Option" 
+									   dataField="$rightOption" 
+									   editable="false" />
+		</mx:AdvancedDataGridColumnGroup>
+		
+		<mx:AdvancedDataGridColumn headerText="Weight" 
+								   dataField="$weight" 
+								   itemEditor="org.samchon.namTree.criteria.grid.NTItemWeightDGEditor" />
+	</advDg:groupedColumns>
+</advDg:AdvDg>

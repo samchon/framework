@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx" 
+			 
+			 editable="true"
+			 sortableColumns="false"
+			 
+			 dataProvider="{ac}" 
+			 width="100%" height="100%" xmlns:ui="org.samchon.ui.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import org.samchon.namTree.NTGrid;
+			import org.samchon.namTree.criteria.NTCriteriaAdvDg;
+			import org.samchon.namTree.criteria.NTItem;
+			import org.samchon.namTree.fileTree.file.NTFile;
+			import org.samchon.namTree.fileTree.file.NTFileList;
+			import org.samchon.namTree.fileTree.file.NTParameter;
+			import org.samchon.namTree.fileTree.file.NTParameterList;
+			
+			[Bindable]protected var ac:ArrayCollection = new ArrayCollection();
+			
+			public var criteriaGrid:NTGrid;
+			
+			public function set item($item:NTItem):void
+			{
+				var parameterMap:Object = $item.getParameterMap();
+				
+				var file:NTFile = $item.getFile();
+				var commonParameterList:NTParameterList = NTFileList(file.fileList).commonParameterList;
+				var parameterList:NTParameterList = file.parameterList;
+				
+				addItem( commonParameterList );
+				addItem( parameterList );
+				
+				function addItem($parameterList:NTParameterList):void
+				{
+					var parameter:NTParameter;
+					for(var i:int = 0; i < $parameterList.length; i++)
+					{
+						parameter = $parameterList.getParamterAt(i);
+						ac.addItem
+						( 
+							new NTItemParameter
+							(
+								criteriaGrid, 
+								parameterMap, 
+								parameter
+							) 
+						);
+					}
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<mx:columns>
+		<mx:DataGridColumn headerText="Name" 
+						   dataField="name" 
+						   editable="false" />
+		<mx:DataGridColumn headerText="Type" 
+						   dataField="type" 
+						   editable="false" />
+		<!-- itemEditor="org.samchon.namTree.item.grid.NTItemParameterDGEditor" -->
+		<mx:DataGridColumn headerText="Value" 
+						   dataField="value" 
+						   editorDataField="value"
+						   itemEditor="org.samchon.namTree.criteria.grid.NTItemParameterDGEditor" />
+	</mx:columns>
+</mx:DataGrid>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fileTree:FileTreeManager xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						  xmlns:s="library://ns.adobe.com/flex/spark" 
+						  xmlns:mx="library://ns.adobe.com/flex/mx" 
+						  xmlns:fileTree="org.samchon.fileTree.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.samchon.fileTree.file.FTFile;
+			import org.samchon.fileTree.file.FTFolder;
+			import org.samchon.fileTree.window.FTCreationWindow;
+			import org.samchon.fileTree.window.ScriptCreationWindow;
+			import org.samchon.namTree.fileTree.file.NTFile;
+			import org.samchon.namTree.fileTree.file.NTFileList;
+			import org.samchon.namTree.fileTree.window.NTFileCreationWindow;
+			import org.samchon.namTree.fileTree.window.NTFileTypeDetermineWindow;
+			
+			[Bindable][Embed(source="assets/icons/ntr16.gif")]protected var ntrIcon:Class;
+			
+			override protected function get fileCreationWindow():Class
+			{
+				return NTFileTypeDetermineWindow;
+			}
+			override protected function handleIcon(file:FTFolder):Class
+			{
+				if(file is NTFile)
+					return ntrIcon;
+				else
+					return super.handleIcon(file);
+			}
+			
+			override protected function handleDoubleClick(event:ListEvent):void
+			{
+				var file:FTFolder = tree.selectedFile;
+				var creationWindow:FTCreationWindow;
+				
+				if(file is NTFile)
+				{
+					creationWindow = PopUpManager.createPopUp(Root.window, NTFileCreationWindow, true) as NTFileCreationWindow;
+					creationWindow.fileList = fileList;
+					creationWindow.parentFile = tree.selectedFile;
+					PopUpManager.centerPopUp( creationWindow );
+				}
+				else if(file is FTFile)
+				{
+					creationWindow = PopUpManager.createPopUp(Root.window, ScriptCreationWindow, true) as ScriptCreationWindow;
+					creationWindow.fileList = fileList;
+					creationWindow.parentFile = tree.selectedFile;
+					PopUpManager.centerPopUp( creationWindow );
+				}
+			}
+			
+		]]>
+	</fx:Script>
+</fileTree:FileTreeManager>

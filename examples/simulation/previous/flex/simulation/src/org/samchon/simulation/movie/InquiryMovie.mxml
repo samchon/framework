@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 
+		 creationComplete="creationCompleted(event)"
+		 width="100%" height="100%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.samchon.simulation.accessory.InquiryProgressMovie;
+			import org.samchon.simulation.menu.InquiryMenu;
+			import org.samchon.simulation.simulation.retrieve.Corporate;
+			import org.samchon.simulation.simulation.retrieve.CorporateGrid;
+			import org.samchon.simulation.worker.InquiryWorker;
+			
+			protected var window:Simulation;
+			protected var worker:InquiryWorker;
+			
+			protected var loadingMovie:InquiryProgressMovie;
+			protected function get corporateGrid():CorporateGrid	{	return window.corporateGrid;	}
+			
+			public function get category():int	{	return 0;	}
+			
+			//FOR OVERRIDING
+			protected function getNewWorker():InquiryWorker	{	return new InquiryWorker(this);	}
+			protected function getNewTopMenu():InquiryMenu	{	return new InquiryMenu();		}
+			
+			protected var creationCompleteFlag:Boolean = false;
+			protected function creationCompleted(event:FlexEvent):void {
+				this.removeEventListener(FlexEvent.CREATION_COMPLETE, creationCompleted);
+				creationCompleteFlag = true;
+				
+				//CONSTRUCTING WORKER AND MENU
+				worker = getNewWorker();
+				window.topMenu = getNewTopMenu();
+				
+				constructUI();
+			}
+			protected function constructUI():void
+			{
+				
+			}
+			public function getWorker():InquiryWorker
+			{
+				return this.worker;
+			}
+			
+			/* -------------------------------------------------------
+				GET & SET METHOD
+			------------------------------------------------------- */
+			protected function getRequestParameters():Object {
+				return null;
+			}
+			public function set parent(pointer:*):void {
+				this.window = pointer;
+			}
+			
+			public function setEnabled(value:Boolean):void
+			{
+				if(value == false)
+				{
+					loadingMovie = PopUpManager.createPopUp(Root.window, InquiryProgressMovie, true) as InquiryProgressMovie;
+					PopUpManager.centerPopUp(loadingMovie);
+				}
+				else
+				{
+					loadingMovie.close();
+				}
+			}
+			
+			/* -------------------------------------------------------
+				RESPONSIBILITIES FROM WINDOW
+			------------------------------------------------------- */
+			public function goState(state:String):void {
+				this.currentState = state;
+			}
+			public function goCorporate(code:String = null):void {
+				worker.goCorporate( code, getRequestParameters() );
+			}
+			public function goCorporateDoubleClicked(code:String = null):void {
+				worker.goCorporateDoubleClicked( code, getRequestParameters() );
+			}
+			
+			public function goSave(extension:String):void {
+				worker.goSave(extension);
+			}
+			public function getFileName():String {
+				return worker.getFileName();
+			}
+			
+		]]>
+	</fx:Script>
+</s:Group>

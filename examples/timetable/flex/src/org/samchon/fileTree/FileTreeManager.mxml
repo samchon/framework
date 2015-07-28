@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" 
+		   xmlns:ui="org.samchon.ui.*" 
+		   xmlns:fileTree="org.samchon.fileTree.*" 
+		   
+		   creationComplete="creationCompleted(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.controls.Tree;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.samchon.fileTree.file.FTFile;
+			import org.samchon.fileTree.file.FTFileList;
+			import org.samchon.fileTree.file.FTFolder;
+			import org.samchon.fileTree.window.FTCreationWindow;
+			import org.samchon.fileTree.window.FolderCreationWindow;
+			import org.samchon.fileTree.window.ScriptCreationWindow;
+			import org.samchon.socket.HTTPService;
+			
+			//public var tree:FileTree = new FileTree();
+			
+			protected function get fileList():FTFileList
+			{
+				return tree.dataProvider as FTFileList;
+			}
+			
+			/* --------------------------------------------------------------
+				CONSTRUCTOR
+			-------------------------------------------------------------- */
+			[Bindable][Embed(source="assets/icons/as16.gif")]protected var asIcon:Class;
+			[Bindable][Embed(source="assets/icons/package16.gif")]protected var packageIcon:Class;
+			[Bindable][Embed(source="assets/icons/emptyPackage16.gif")]protected var emptyPackageIcon:Class;
+			
+			protected function creationCompleted(event:FlexEvent):void
+			{
+				this.removeEventListener(FlexEvent.CREATION_COMPLETE, creationCompleted);
+				this.addElementAt(tree, 1);
+				
+				tree.iconFunction = handleIcon;
+				tree.percentWidth = 100;
+				tree.percentHeight = 100;
+				
+				tree.addEventListener(ListEvent.ITEM_DOUBLE_CLICK, handleDoubleClick);
+			}
+			
+			//METHODS OF TREE
+			public function expandAll():void
+			{
+				tree.expandAll();
+			}
+			public function set dataProvider(value:Object):void
+			{
+				tree.dataProvider = value;
+				fileList.addEventListener(Event.COMPLETE, handleLoadCompleted);
+			}
+			public function get selectedFile():FTFolder
+			{
+				return tree.selectedFile;
+			}
+			override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
+			{
+				if(type == MouseEvent.DOUBLE_CLICK || type == ListEvent.ITEM_DOUBLE_CLICK || type == ListEvent.CHANGE)
+					tree.addEventListener(type, listener, useCapture, priority, useWeakReference);
+				else
+					super.addEventListener(type, listener, useCapture, priority, useWeakReference);
+			}
+			protected function handleIcon(file:FTFolder):Class
+			{
+				if(file is FTFile)
+					return asIcon;
+				else if(file is FTFolder)
+					if(file.length > 0)
+						return packageIcon;
+					else
+						return emptyPackageIcon;
+				else
+					return tree.getStyle("defaultLeafIcon");
+			}
+			
+			
+			
+			/* 
+			==============================================================
+				FILE HANDLER
+			============================================================== 
+			*/
+			/* -----------------------------------------------------------
+				CREATION
+			----------------------------------------------------------- */
+			protected const FOLDER:String = "folder";
+			protected const FILE:String = "file";
+			protected function get fileCreationWindow():Class	{	return ScriptCreationWindow;	}
+			
+			protected function createWindow(type:String):void
+			{
+				//TARGET VIRTUAL
+				if( checkCreatable(type) == false )
+					return;
+				
+				var creationWindow:Object;
+				if(type == FOLDER)
+					creationWindow = PopUpManager.createPopUp(Root.window, FolderCreationWindow, true) as Object;
+				else if(type == FILE)
+					creationWindow = PopUpManager.createPopUp(Root.window, fileCreationWindow, true) as Object;
+				
+				//OPEN WINDOW
+				creationWindow.fileList = fileList;
+				creationWindow.parentFile = tree.selectedFile;
+				creationWindow.addEventListener(Event.COMPLETE, handleFileCreationCompleted);
+				
+				PopUpManager.centerPopUp( creationWindow as IFlexDisplayObject );
+			}
+			protected function checkCreatable(type:String):Boolean
+			{
+				var parentItem:FTFolder = tree.selectedFile;
+				var errorTitle:String = type.charAt(0).toUpperCase() + type.substr(1) + " Creation Error";
+				
+				//COMMON ERRORS
+				if(tree.selectedItem == null) //SELECTED_ITEM IS NULL
+					Alert.show("Please select a target folder before.", errorTitle);
+				else if( !(parentItem is FTFolder) ) //SELECTED NOT A FOLDER BUT A FILE
+					Alert.show("Cannot create under a file.", errorTitle);
+				else if(parentItem.getOwner() == "example") //TARGET IS EXAMPLE
+					Alert.show("Cannot create under example's. It's not your own.", errorTitle);
+				else if(type == FILE && parentItem.getFileID() == 0) //TRYING TO CREATE A FILE UNDER ROOT
+					Alert.show("Cannot create a file under root.\nPlease select or make a folder below root.", errorTitle);
+				else
+					return true;
+				return false;
+			}
+			protected function handleFileCreationCompleted(event:Event):void
+			{
+				tree.expandItem(tree.selectedFile, true, true);
+			}
+			protected function handleLoadCompleted(event:Event):void
+			{
+				tree.expandAll();
+			}
+			
+			/* -----------------------------------------------------------
+				MODIFICATION
+			----------------------------------------------------------- */
+			protected function handleDoubleClick(event:ListEvent):void
+			{
+				var file:FTFolder = tree.selectedFile;
+				if(file is FTFile)
+				{
+					var creationWindow:ScriptCreationWindow = PopUpManager.createPopUp(Root.window, ScriptCreationWindow, true) as ScriptCreationWindow;
+					creationWindow.fileList = fileList;
+					creationWindow.parentFile = tree.selectedFile;
+					PopUpManager.centerPopUp( creationWindow );
+				}
+			}
+			
+			/* -----------------------------------------------------------
+				DELETION
+			----------------------------------------------------------- */
+			protected function goDelete(event:MouseEvent):void
+			{
+				var file:FTFolder = tree.selectedFile;
+				
+				if(file == null)
+					Alert.show("Please select a target folder before.", "Delete Error");
+				else if(file.getFileID() == 0)
+					Alert.show("Cannot delete root folder.", "Delete Error");
+				else if(file.getOwner() == "example")
+					Alert.show("Cannot delete example's. It's not your own.", "Delete Error");
+				else
+					fileList.removeItemByFID( file.getFileID() );
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<ui:HGroup width="100%" id="buttonHGroup">
+		<s:Button icon="assets/icons/folder16.png" 
+				  label="New Folder" 
+				  click="createWindow(FOLDER)" />
+		<s:Button id="newFileButton" 
+				  icon="assets/icons/as16.gif" 
+				  label="New File" 
+				  click="createWindow(FILE)" />
+		<s:Spacer width="100%" />
+		<s:Button icon="assets/icons/trash16.png"
+				  label="Delete" 
+				  click="goDelete(event)" />
+	</ui:HGroup>
+	<fileTree:FileTree id="tree" 
+					   width="100%" height="100%" />
+</ui:VGroup>

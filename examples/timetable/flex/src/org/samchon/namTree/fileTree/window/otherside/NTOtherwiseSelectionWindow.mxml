@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:ui="org.samchon.ui.*"
+				xmlns:fileTree="org.samchon.namTree.fileTree.*" 
+				
+				width="300" height="600"
+				creationComplete="creationCompleted(event)"
+				title="Select a otherside" xmlns:window="org.samchon.namTree.fileTree.window.*" xmlns:otherside="org.samchon.namTree.fileTree.window.otherside.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			
+			import org.samchon.fileTree.file.FTFileList;
+			import org.samchon.fileTree.file.FTFolder;
+			import org.samchon.namTree.fileTree.file.NTFile;
+			import org.samchon.namTree.fileTree.window.NTFileCreationWindow;
+			
+			[Bindable]public var creationWindow:NTFileCreationWindow;
+			[Bindable]public var fileList:FTFileList;
+			
+			protected function creationCompleted(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				this.removeEventListener(FlexEvent.CREATION_COMPLETE, creationCompleted);
+				tree.removeElementAt(0);
+				
+				Global.callLater( tree.expandAll );
+			}
+			protected function goDetermine():void
+			{
+				var file:FTFolder = tree.selectedFile;
+				if( !(file is NTFile) )
+					return;
+				
+				creationWindow.setOtherside(file as NTFile);
+				this.close();
+			}	
+			
+		]]>
+	</fx:Script>
+	
+	<ui:VGroup width="100%" height="100%" 
+			   padding="5">
+		<otherside:NTSelectionFileTreeManager id="tree" 
+										   dataProvider="{fileList}" 
+										   doubleClick="goDetermine()"
+										   width="100%" height="100%" />
+	</ui:VGroup>
+	
+	<ui:controlBarContent>
+		<s:HGroup width="100%" horizontalAlign="right">
+			<s:Button icon="assets/icons/check16.png" 
+					  label="Determine" 
+					  click="goDetermine()" />
+		</s:HGroup>
+	</ui:controlBarContent>
+</ui:TitleWindow>

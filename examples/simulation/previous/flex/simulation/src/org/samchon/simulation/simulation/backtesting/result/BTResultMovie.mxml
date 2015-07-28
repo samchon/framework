@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<result:SMResultMovie xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" 
+					  xmlns:result="org.samchon.simulation.simulation.abstract.result.*" 
+					  xmlns:ui="org.samchon.ui.*"
+					  
+					  title="Back-testing Result">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.XMLListCollection;
+			import mx.core.IVisualElement;
+			
+			import org.samchon.simulation.simulation.backtesting.history.BTHistoryArray;
+			import org.samchon.simulation.simulation.backtesting.result.comparison.BTComparisonMovie;
+			
+			protected var xml:XML;
+			
+			override public function setResult(xml:XML):void
+			{
+				this.xml = xml;
+				resultNavigator.removeAllElements();
+				
+				var xmlList:XMLList = xml.algorithm;
+				var returnGrid:BTReturnGrid;
+				
+				//RETURN_GRID
+				for(var i:int = 0; i < xmlList.length(); i++)
+				{
+					returnGrid = new BTReturnGrid();
+					
+					returnGrid.xmlListCollection = new XMLListCollection( xmlList[i].result );
+					returnGrid.historyArray = movie.simulationWorker.getHistoryArray() as BTHistoryArray;
+					returnGrid.index = i;
+					
+					resultNavigator.addNavigator( returnGrid, xmlList[i].@name );
+				}
+				
+				//COMPARISON_MOVIE
+				var comparisonMovie:BTComparisonMovie = new BTComparisonMovie();
+				comparisonMovie.setHistoryArray( movie.simulationWorker.getHistoryArray() as BTHistoryArray );
+				resultNavigator.addNavigator( comparisonMovie, "Compare Returns" );
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<ui:VGroup width="100%" height="100%" 
+			   padding="5">
+		<!-- 
+			OPTION 
+		-->
+		<ui:HGroup width="100%" 
+				   verticalAlign="middle">
+			<mx:Label id="settingLabel" />
+			<s:Spacer width="100%" />
+			<s:Button label="Do Test" 
+					  click="goSimulate(event)"
+					  icon="assets/icons/move16.png"/>
+		</ui:HGroup>
+		
+		<!-- 
+			RESULT SCREEN 
+		-->
+		<ui:TabNavigator id="resultNavigator" 
+						 width="100%" height="100%"
+						 paddingTop="0" paddingLeft="0" paddingRight="0" paddingBottom="0">
+			<s:NavigatorContent label="Waiting...">
+				<s:VGroup width="100%" height="100%"
+						  verticalAlign="middle" horizontalAlign="center">
+					<s:Image source="assets/images/backTesting.png" />
+				</s:VGroup>
+			</s:NavigatorContent>
+		</ui:TabNavigator>
+	</ui:VGroup>
+</result:SMResultMovie>

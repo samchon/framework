@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  
+		  width="100%" height="100%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.charts.ChartItem;
+			import mx.charts.HitData;
+			import mx.charts.chartClasses.IAxis;
+			import mx.charts.series.items.ColumnSeriesItem;
+			import mx.collections.ListCollectionView;
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.graphics.IFill;
+			import mx.graphics.SolidColor;
+			
+			import org.samchon.format.Format;
+			
+			public function set dataProvider(listCollection:ListCollectionView):void {
+				chart.dataProvider = listCollection;
+				todayGrid.dataProvider = listCollection;
+			}
+			
+			protected function fill(element:ChartItem, index:int):IFill {
+				var item:ColumnSeriesItem = ColumnSeriesItem(element);
+				var c:SolidColor = new SolidColor(0xFF4646);
+				
+				if(item.minNumber > item.yValue) {
+					c.color = 0x7097FE;
+				}
+				return c;
+			}
+			protected function dataTipFunction(hitData:HitData):String {
+				var today:Object = hitData.item as Object;
+				var str:String = "";
+				
+				str += "<b>"		+	Format.getTime(today.time) + "</b>\n";
+				str += "주가 :   "		+	Format.numberFormat(today.price) + "\n";
+				str += "전일대비 :   "	+	Format.numberFormat(today.upRisePrice) + " ( " + Format.percentFormat(today.upRiseRatio) + " )\n";
+				str += "거 래 량 :   "	+	Format.numberFormat(today.volume);
+				
+				return str;
+			}
+			protected function intLabelFunction(item:Object, Value:Object, axis:IAxis):String {
+				return Format.numberFormat(Number(item));
+			}
+			protected function timeAxisFunction(categoryValue:Object, previousCategoryValue:Object, axis:CategoryAxis, categoryItem:Object):String {
+				return Format.getTime( int(categoryValue) );
+			}
+			protected function timeLabelFunction(item:Object, col:AdvancedDataGridColumn):String {
+				var value:int = item[col.dataField];
+				return Format.getTime(value);
+			}
+		]]>
+	</fx:Script>
+	
+	<s:CheckBox id="showVolume" label="Volume"/>
+	
+	<!--
+	=================================================================================
+		TODAY CHART
+	=================================================================================
+	-->
+	<mx:ColumnChart	id="chart" width="100%" height="40%" columnWidthRatio="1.05"
+					showDataTips="true" dataTipFunction="dataTipFunction" dataTipMode="multiple">
+		<mx:series>
+			<mx:ColumnSeries minField="yesterday"
+							 xField="time" yField="price"
+							 fillFunction="fill">
+				<mx:verticalAxis>
+					<mx:LinearAxis id="priceAxis" baseAtZero="false" labelFunction="intLabelFunction" />
+				</mx:verticalAxis>
+			</mx:ColumnSeries>
+			<mx:LineSeries visible="{showVolume.selected}" xField="time"
+						   yField="volume">
+				<mx:verticalAxis>
+					<mx:LinearAxis id="volumeAxis" labelFunction="intLabelFunction"/>
+				</mx:verticalAxis>
+				<mx:lineStroke>
+					<mx:SolidColorStroke alpha=".75" color="black" weight="1"/>
+				</mx:lineStroke>
+			</mx:LineSeries>
+		</mx:series>
+		
+		<mx:horizontalAxis>
+			<mx:CategoryAxis id="timeAxis" categoryField="time" labelFunction="timeAxisFunction" />
+		</mx:horizontalAxis>
+		
+		<mx:horizontalAxisRenderers>
+			<mx:AxisRenderer axis="{timeAxis}" canDropLabels="true" />
+		</mx:horizontalAxisRenderers>
+		<mx:verticalAxisRenderers>
+			<mx:AxisRenderer axis="{priceAxis}" placement="left"/>
+			<mx:AxisRenderer axis="{volumeAxis}" placement="right"/>
+		</mx:verticalAxisRenderers>
+	</mx:ColumnChart>
+	
+	<!--
+	=================================================================================
+		TODAY DATAGRID
+	=================================================================================
+	-->
+	<mx:AdvancedDataGrid id="todayGrid" 
+						 sortableColumns="false" selectable="true" editable="false" 
+						 width="100%" height="60%">
+		<mx:columns>
+			<mx:AdvancedDataGridColumn headerText="Time" dataField="time" labelFunction="timeLabelFunction" />
+			<mx:AdvancedDataGridColumn headerText="Price" dataField="price" itemRenderer="org.samchon.ui.label.DataGridNumberLabel" />
+			<mx:AdvancedDataGridColumn headerText="Uprise Price" dataField="upRisePrice" itemRenderer="org.samchon.ui.label.DataGridColorNumberLabel" />
+			<mx:AdvancedDataGridColumn headerText="Uprise Ratio" dataField="upRiseRatio" itemRenderer="org.samchon.ui.label.DataGridColorPercentLabel" />
+			<mx:AdvancedDataGridColumn headerText="Volume" dataField="volume" itemRenderer="org.samchon.ui.label.DataGridNumberLabel" />
+		</mx:columns>
+	</mx:AdvancedDataGrid>
+</s:VGroup>

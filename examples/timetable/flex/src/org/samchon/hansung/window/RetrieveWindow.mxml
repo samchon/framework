@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:Window xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" 
+		   xmlns:ui="org.samchon.ui.*" 
+		   xmlns:namTree="org.samchon.namTree.*" 
+		   
+		   creationComplete="creationCompleted(event)"
+		   showStatusBar="false" title="한성대 시간표 v3.0 - 조건 검색 ">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.samchon.hansung.SubjectList;
+			import org.samchon.hansung.lecture.Lecture;
+			import org.samchon.hansung.lecture.LectureTime;
+			import org.samchon.hansung.lecture.Subject;
+			import org.samchon.hansung.movie.ProgressMovie;
+			
+			import spark.components.Button;
+			import spark.components.HGroup;
+			
+			public var subjectList:SubjectList;
+			public var lectureList:ArrayList;
+			
+			protected var progressMovie:ProgressMovie;
+			
+			protected function creationCompleted(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				//ADD CONTENT_GROUP
+				Root.window = this;
+				
+				var hGroup:HGroup = new HGroup();
+				var button:Button = new Button();
+				
+				button.setStyle("icon", "assets/icons/lens16.png");
+				button.label = "Retrieve";
+				button.addEventListener(MouseEvent.CLICK, goRetrieve);
+				
+				hGroup.horizontalAlign = "right";
+				hGroup.percentWidth = 100;
+				hGroup.percentHeight = 100;
+				hGroup.addElement(button);
+				
+				namTree.leftPanel.controlBarContent = [ hGroup ]; 
+			}
+			override public function close():void
+			{
+				Root.window = null;
+				super.close();
+			}
+			
+			protected function goRetrieve(event:MouseEvent):void
+			{
+				Compiler.addCompilerListener( handleCompileCompleted );	
+				namTree.goCompile();
+			}
+			protected function handleCompileCompleted(compiled:Object):void
+			{
+				progressMovie = PopUpManager.createPopUp(this, ProgressMovie, true) as ProgressMovie;
+				lectureList.removeAll();
+				
+				var i:int;
+				var j:int;
+				var k:int;
+				
+				var subject:Subject;
+				var lecture:Lecture;
+				var lectureTime:LectureTime;
+				
+				var no:int;
+				var value:Number;
+				
+				for(i = 0; i < subjectList.length; i++)
+				{
+					subject = subjectList.at(i);
+					
+					for(j = 0; j < subject.length; j++)
+					{
+						lecture = subject.at(j);
+						no = 0;
+						
+						for(k = 0; k < lecture.length; k++)
+						{
+							lectureTime = lecture.at(k);
+							try
+							{
+								value = namTree.getRetrieved( [subjectList, subject, lecture, lectureTime] );
+							}
+							catch(error:Error)
+							{
+								Alert.show(error.message, error.errorID + ": " + error.name);
+								
+								progressMovie.close();
+								return;
+							}
+							if(value > 0)
+								no++;
+						}
+						if(no == lecture.length)
+							lectureList.addItem( lecture );
+					}
+				}
+				progressMovie.close();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!-- 배경 그림: 파란색 사선 무늬 -->
+	<s:BorderContainer width="100%" height="100%"
+					   backgroundImage="@Embed('assets/images/background.gif')"
+					   backgroundImageFillMode="repeat"/>
+	
+	<!-- 남트리 -->
+	<ui:VGroup width="100%" height="100%" 
+			   padding="5">
+		<namTree:NamTreeMovie id="namTree"
+							  width="100%" height="100%" />
+	</ui:VGroup>
+</ui:Window>

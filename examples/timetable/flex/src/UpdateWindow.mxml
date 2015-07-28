@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:ui="org.samchon.ui.*"
+				creationComplete="creationCompleted(event)" 
+				
+				currentState="CHECK" 
+				title="삼촌 업데이트 관리자">
+	<ui:states>
+		<s:State name="CHECK"/>
+		<s:State name="UPDATE"/>
+	</ui:states>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.samchon.socket.HTTPService;
+			public var main:*;
+			
+			protected var air:Object = new Object();
+			protected var airLoader:Loader = new Loader();
+			
+			[Bindable]protected var thisVersion:String;
+			[Bindable]protected var newVersion:String;
+			protected var appURL:String;
+			
+			protected function creationCompleted(event:FlexEvent):void
+			{
+				//현재 버젼종보 확인
+				var applicationDescriptor:XML = NativeApplication.nativeApplication.applicationDescriptor;
+				var adns:Namespace = applicationDescriptor.namespace();
+				thisVersion = applicationDescriptor.adns::versionNumber.toString();
+				
+				//air 정보 요청
+				airLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, handleAir);
+				airLoader.load(new URLRequest("http://airdownload.adobe.com/air/browserapi/air.swf"));
+			}
+			protected function handleAir(event:Event):void
+			{
+				air = airLoader.content;
+				
+				goVersion();
+			}
+			protected function goVersion():void
+			{
+				//새 버젼 확인 요청
+				var httpService:HTTPService = new HTTPService(URL.VERSION);
+				httpService.addEventListener(Event.COMPLETE, handleVersion);
+				httpService.send({application: Root.application});
+			}
+			protected function handleVersion(event:Event):void
+			{
+				var httpService:HTTPService = event.target as HTTPService;
+				httpService.removeEventListener(Event.COMPLETE, handleVersion);
+				
+				var xml:XML = new XML(httpService.data);
+				var udns:Namespace = xml.namespace();
+				
+				newVersion = xml.versionNumber;
+				appURL = xml.url;
+				
+				if( thisVersion == newVersion ) {
+					PopUpManager.removePopUp(this);
+					main.goLogin();
+				}else
+					this.currentState = "UPDATE";
+			}
+			
+			/*
+			============================================================================
+				업데이트 설치
+			============================================================================
+			*/
+			protected function goUpdate(eevent:MouseEvent):void
+			{
+				air.installApplication(appURL, "3.1");
+				main.close();
+			}
+			protected override function closeButton_clickHandler(event:MouseEvent):void
+			{
+				//업데이트는 강제사항, 취소하면 프로그램도 꺼짐
+				main.close();
+			}
+			
+		]]>
+	</fx:Script>
+	<ui:VGroup includeIn="CHECK" 
+			   horizontalAlign="center" padding="10">
+		<s:Label text="버젼 정보를 확인 중입니다..." />
+		<s:Spacer height="10" />
+		<mx:ProgressBar indeterminate="true" />
+	</ui:VGroup>
+	<ui:VGroup includeIn="UPDATE" 
+			   padding="10">
+		<s:Label fontWeight="bold" text="새 버젼이 나왔습니다."/>
+		<s:Label text="     현재 버젼: {thisVersion}" />
+		<s:Label text="         새 버젼: {newVersion}" />
+		<s:Spacer height="10"/>
+		<s:HGroup width="100%" horizontalAlign="center">
+			<s:Button label="업데이트" click="goUpdate(event)"
+					  icon="assets/icons/move16.png"/>
+		</s:HGroup>
+	</ui:VGroup>
+</ui:TitleWindow>

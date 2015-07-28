@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window:FTCreationWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						   xmlns:s="library://ns.adobe.com/flex/spark" 
+						   xmlns:mx="library://ns.adobe.com/flex/mx" 
+						   xmlns:fileTree="org.samchon.fileTree.*" 
+						   xmlns:ui="org.samchon.ui.*" 
+						   xmlns:window="org.samchon.fileTree.window.*" 
+						   
+						   title="To create a folder">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			
+			import org.samchon.fileTree.file.FTFolder;
+			
+			override protected function getFile():FTFolder
+			{
+				var file:FTFolder = new FTFolder(fileList, Global.NULL, parentID, nameText.text);
+				return file;
+			}
+		]]>
+	</fx:Script>
+	<ui:VGroup width="100%" height="100%" padding="20">
+		<s:Label text="Folder's name is:" />
+		<s:Spacer height="5" />
+		<s:HGroup verticalAlign="bottom" horizontalAlign="right"
+				  paddingLeft="20"
+				  width="100%">
+			<fileTree:FileNameTextInput id="nameText" />
+		</s:HGroup>
+	</ui:VGroup>
+	<window:controlBarContent>
+		<s:HGroup width="100%" horizontalAlign="right">
+			<s:Button label="Create" click="goCreate(event)"
+					  icon="assets/icons/folder16.png"/>
+		</s:HGroup>
+	</window:controlBarContent>
+</window:FTCreationWindow>

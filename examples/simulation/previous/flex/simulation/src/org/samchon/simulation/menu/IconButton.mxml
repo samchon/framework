@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		  
+		 mouseDown="rollOut(event)" rollOut="rollOut(event)" rollOver="rollOver(event)"
+		 width="16" height="16">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			private var _source:String;
+			private var _label:String;
+			
+			public function set source(value:String):void {
+				this._source = value;
+				
+				image.source = "assets/buttons/" + value + ".png";
+				image_over.source = "assets/buttons/" + value + "_over.png";
+			}
+			public function get source():String {
+				return this._source;
+			}
+			
+			protected function rollOver(event:MouseEvent):void {
+				image.visible = false;
+				image_over.visible = true;
+			}
+			protected function rollOut(event:MouseEvent):void {
+				image.visible = true;
+				image_over.visible = false;
+			}
+		]]>
+	</fx:Script>
+	<s:BitmapImage id="image"
+				   width="16" height="16" />
+	<s:BitmapImage id="image_over" visible="false" 
+				   width="16" height="16" />
+</s:Group>

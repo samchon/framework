@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VDividedBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				xmlns:ui="org.samchon.ui.*" 
+				xmlns:axis="org.samchon.ui.axis.*">
+	<fx:Declarations>
+		<s:RadioButtonGroup id="financeType" change="indexGrid.expandAll()" />
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.charts.chartClasses.Series;
+			import mx.charts.series.ColumnSeries;
+			import mx.collections.XMLListCollection;
+			import mx.controls.advancedDataGridClasses.AdvancedDataGridColumn;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			
+			import org.samchon.format.Format;
+			import org.samchon.simulation.movie.ComparisonMovie;
+			import org.samchon.simulation.simulation.retrieve.CorporateList;
+			
+			protected var corporateList:CorporateList;
+			
+			[Bindable]protected var xmlList:XMLList;
+			[Bindable]protected var indexChartList:XMLListCollection = new XMLListCollection();			
+			
+			public function setSource(xmlList:XMLList, corporateList:CorporateList):void {
+				this.xmlList = xmlList;
+				this.corporateList = corporateList;
+					
+				setColumn();
+				indexGrid.expandAll();
+			}
+			protected function setColumn():void {
+				var column:AdvancedDataGridColumn = new AdvancedDataGridColumn();
+				column.dataField = "@label";
+				column.headerText = "Category";
+				column.width = 150;
+				
+				var columns:Array = [column];
+				for(var i:int = 0; i < corporateList.length; i++) {
+					column = new AdvancedDataGridColumn();
+					column.dataField = "@company" + i;
+					column.headerText = corporateList.at(i).getCode();
+					
+					columns.push( column );
+				}
+				indexGrid.columns = columns;
+			}
+			protected function indexGridChanged(event:ListEvent):void {
+				// TODO Auto-generated method stub
+				var items:Array = event.target.selectedItems;
+				setSeries();
+				drawChart(items);
+			}
+			protected function setSeries():void {
+				var columnSeries:ColumnSeries;
+				var series:Array = [];
+				
+				for(var i:int = 0; i < corporateList.length; i++) {
+					columnSeries = new ColumnSeries();
+					columnSeries.xField = "label";
+					columnSeries.yField = "company" + i;
+					columnSeries.displayName = corporateList.at(i).getCode();
+					
+					series.push( columnSeries );
+				}
+				indexChart.series = series;
+			}
+			protected function drawChart(items:Array):void {
+				var xml:String = "<index>\n";
+				var company:String;
+				var i:int;
+				var j:int;
+				
+				for(i = 0; i < items.length; i++) {
+					if(items[i].hasOwnProperty("@company0") == false)
+						continue;
+					xml += "	<index>\n";
+					xml += "		<label>" + items[i].@label + "</label>\n";
+					for(j = 0; j < corporateList.length; j++) {
+						company = "company" + j;
+						xml += "		<" + company + ">" + items[i]["@" + company] + "</" + company + ">\n";
+					}
+					xml += "	</index>\n";
+				}
+				xml += "</index>";
+				trace(xml);
+				
+				var xmlList:XMLList = new XMLList(xml);
+				indexChartList = new XMLListCollection( xmlList.index );
+			}
+			protected function labelFunction(item:Object, col:AdvancedDataGridColumn):String {
+				var value:Number = item[col.dataField];
+				
+				if(item.hasOwnProperty(col.dataField) == false)
+					return "";
+				else if(isNaN(value) == true)
+					return item[col.dataField];
+				
+				return Format.numberFormat(value);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="70%">
+		<s:HGroup width="100%">
+			<s:RadioButton label="GAAP" groupName="financeType" value="0" selected="true"/>
+			<s:RadioButton label="IFRS" groupName="financeType" value="1" selected="false"/>
+		</s:HGroup>
+		<mx:AdvancedDataGrid id="indexGrid"
+							 allowMultipleSelection="true" change="indexGridChanged(event)"
+							 sortableColumns="false" lockedColumnCount="1"
+							 horizontalScrollPolicy="auto" labelFunction="labelFunction"
+							 width="100%" height="100%">
+			<mx:dataProvider>
+				<mx:HierarchicalData id="hierarchialData" source="{xmlList[financeType.selectedValue].index}" />
+			</mx:dataProvider>
+		</mx:AdvancedDataGrid>
+		<mx:HRule width="100%" />
+	</s:VGroup>
+	<s:VGroup width="100%" height="30%">
+		<mx:HRule width="100%" />
+		<mx:ColumnChart id="indexChart" dataProvider="{indexChartList}" 
+						width="100%" height="100%">
+			<mx:horizontalAxis>
+				<mx:CategoryAxis categoryField="label" />
+			</mx:horizontalAxis>
+			<mx:verticalAxis>
+				<axis:NumberLinearAxis />
+			</mx:verticalAxis>
+		</mx:ColumnChart>
+	</s:VGroup>
+</mx:VDividedBox>

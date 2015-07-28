@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+	ADOBE SYSTEMS INCORPORATED
+	Copyright 2008 Adobe Systems Incorporated
+	All Rights Reserved.
+	
+	NOTICE:  Adobe permits you to use, modify, and distribute this file 
+	in accordance with the terms of the Adobe license agreement 
+	accompanying it.  If you have received this file from a source 
+	other than Adobe, then your use, modification, or distribution 
+	of it requires the prior written permission of Adobe.
+
+-->
+
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+		 xmlns:textEditBar="org.samchon.board.textEditBar.*"
+		 addedToStage="onAddedToStage()" horizontalScrollPolicy="off"
+		 removedFromStage="onRemovedFromStage()" verticalScrollPolicy="off">
+	
+	<mx:Script>
+		<![CDATA[
+			import flash.net.FileReference;
+			import flash.net.FileReferenceList;
+			
+			import flashx.textLayout.compose.FlowComposerBase;
+			import flashx.textLayout.conversion.TextConverter;
+			import flashx.textLayout.edit.ElementRange;
+			import flashx.textLayout.edit.IEditManager;
+			import flashx.textLayout.elements.InlineGraphicElement;
+			import flashx.textLayout.elements.LinkElement;
+			import flashx.textLayout.elements.ParagraphElement;
+			import flashx.textLayout.elements.SpanElement;
+			import flashx.textLayout.elements.TextFlow;
+			import flashx.textLayout.formats.FormatValue;
+			import flashx.textLayout.formats.TextAlign;
+			import flashx.textLayout.tlf_internal;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			
+			import org.osmf.elements.ImageElement;
+			import org.osmf.media.URLResource;
+			import org.samchon.board.TextLayoutEditorCanvas;
+			
+			import spark.components.RichEditableText;
+			
+			import org.samchon.board.textEditBar.FileIOHelper;
+			
+			use namespace tlf_internal;
+			
+			public var activeFlow:TextFlow;
+			
+			/*
+			=========================================================
+				UPLOADING
+			=========================================================
+			*/
+			public var parentMovie:TextLayoutEditorCanvas;
+			
+			public function get uploadURL():String	{	return parentMovie.uploadURL;	}
+			[Bindable]public var imageArray:ArrayCollection = new ArrayCollection();
+			[Bindable]public var fileArray:ArrayCollection = new ArrayCollection();
+			
+			protected function applyChange():void
+			{
+				changeForeignElement(imageURL.text, imageWidth.text, imageHeight.text, "none", doChangeImage);				
+			}
+			
+			//UPLOAD IMAGE
+			protected var imageFileReferenceList:FileReferenceList = null;
+			public function uploadImage():void {
+				if(imageFileReferenceList == null) {
+					imageFileReferenceList = new FileReferenceList();
+					imageFileReferenceList.addEventListener(Event.SELECT, handleImagesSelect);
+				}
+				imageFileReferenceList.browse( [new FileFilter("Image File", "*.jpg; *.jpeg; *.png; *.gif;")] );
+			}
+			protected function handleImagesSelect(event:Event):void {
+				var fileList:FileReferenceList = event.target as FileReferenceList;
+				var file:FileReference;
+
+				//UPLOADING REQUEST
+				var sendURL:URLRequest = new URLRequest(uploadURL);
+				
+				for(var i:int = 0; i < fileList.fileList.length; i++) {
+					file = fileList.fileList[i] as FileReference;
+					if(file.size > 10000000)
+						Alert.show("10MB가 넘는 파일은 올릴 수 없습니다.", file.name);
+					else{
+						file.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA, handleImagesComplete);
+						file.upload(sendURL);
+					}
+				}
+			}
+			protected function handleImagesComplete(event:DataEvent):void {
+				event.target.removeEventListener(DataEvent.UPLOAD_COMPLETE_DATA, handleImagesComplete);
+				var replyData:XMLList = new XMLList(event.data);
+				
+				if(replyData.result == 1)
+					imageArray.addItem( {label: replyData.fileName, data: replyData.filePath} );	
+				else
+					Alert.show("Failed to upload your image");
+			}
+			
+			//UPLOAD FILE
+			protected var fileFileReferenceList:FileReferenceList = null;
+			public function uploadFile():void {
+				if(fileFileReferenceList == null) {
+					fileFileReferenceList = new FileReferenceList();
+					fileFileReferenceList.addEventListener(Event.SELECT, handleFilesSelect);
+				}
+				fileFileReferenceList.browse();
+			}
+			protected function handleFilesSelect(event:Event):void {
+				var fileList:FileReferenceList = event.target as FileReferenceList;
+				var file:FileReference;
+				
+				//UPLOADING REQUEST
+				var sendURL:URLRequest = new URLRequest(uploadURL);
+				
+				for(var i:int = 0; i < fileList.fileList.length; i++) {
+					file = fileList.fileList[i] as FileReference;
+					if(file.size > 10000000)
+						Alert.show("10MB가 넘는 파일은 올릴 수 없습니다.", file.name);
+					else{
+						file.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA, handleFilesComplete);
+						file.upload(sendURL);
+					}
+				}
+			}
+			protected function handleFilesComplete(event:DataEvent):void {
+				event.target.removeEventListener(DataEvent.UPLOAD_COMPLETE_DATA, handleFilesComplete);
+				var replyData:XMLList = new XMLList(event.data);
+				
+				if(replyData.result == 1)
+					fileArray.addItem({label : replyData.fileName, data : replyData.filePath});	
+				else
+					Alert.show("Failed to upload your file");
+			}
+	  		public function changeForeignElement(foreignElementUrl:String, width:String, height:String, float:String, changeCurrent:Boolean):void
+	 		{
+	 			if (activeFlow && activeFlow.interactionManager is IEditManager)
+	 			{
+					if (changeCurrent)
+	 					IEditManager(activeFlow.interactionManager).modifyInlineGraphic(foreignElementUrl, width, height, float);
+					else
+						IEditManager(activeFlow.interactionManager).insertInlineGraphic(foreignElementUrl, width, height, float);
+	 				activeFlow.interactionManager.setFocus();
+	 			}
+	 		}
+			public function insertFileLink(theURL:String, fileName:String):void
+			{
+				var p:ParagraphElement = new ParagraphElement();
+				//paragraphElement.textAlign = TextAlign.RIGHT;
+				var p2:ParagraphElement = new ParagraphElement();
+				
+				var pic:InlineGraphicElement = new InlineGraphicElement();
+				var url:String = uploadURL.substr(0, uploadURL.lastIndexOf("/")) + "/file.png";
+				pic.source = url;
+				
+				var span:SpanElement = new SpanElement();
+				span.text = " " + fileName;
+				
+				var linkElement:LinkElement = new LinkElement();
+				linkElement.href = theURL;
+				linkElement.target = "_blank";
+				linkElement.addChild(pic);
+				linkElement.addChild(span);
+				
+				p.addChild(linkElement);
+				IEditManager(activeFlow.interactionManager).textFlow.addChildAt(0, p);
+				IEditManager(activeFlow.interactionManager).textFlow.addChildAt(1, p2);
+				IEditManager(activeFlow.interactionManager).insertText("");
+			}
+		
+			public var doChangeImage:Boolean = false;
+			
+			public function update(range:ElementRange):void
+ 			{
+ 				if (onStage)
+ 				{
+ 					if (range ==  null)
+ 						visible = false;
+ 					else
+ 					{
+ 						if (!visible)
+ 							visible = true;
+
+	 					var makeItTheChangeButton:Boolean = false;
+	 					
+	 					// this logic is a complicated by the fact that we extend the end of the selection because the FE is at the end of the paragraph
+	 					if (range && range.firstLeaf is InlineGraphicElement && range.absoluteStart == range.firstLeaf.getAbsoluteStart())
+	 					{
+	 						// two cases just the FE and just the FE plus the paragraph terminator
+	 						if (range.absoluteEnd == range.absoluteStart+1 || (range.firstParagraph == range.lastParagraph && range.absoluteEnd == range.absoluteStart+2 && range.absoluteEnd == range.lastParagraph.getAbsoluteStart() + range.lastParagraph.textLength))
+	 							makeItTheChangeButton = true; 
+	 					}
+	 					
+	 					// block selection of just the FE
+	 					if (makeItTheChangeButton)
+	 						updateForChange(InlineGraphicElement(range.firstLeaf));
+	 					else
+	 						updateForInsert(range)
+ 					}
+ 				}
+				lastRange = range;	
+ 			}
+ 			
+ 			protected function updateForChange(inlineElement:InlineGraphicElement):void
+ 			{
+				var sourceString:String = inlineElement.source.toString()
+				var widthString:String = inlineElement.width === undefined ? FormatValue.AUTO : inlineElement.width.toString();
+				var heightString:String = inlineElement.height === undefined ? FormatValue.AUTO : inlineElement.height.toString();
+ 				doUpdate(sourceString, widthString, heightString, true, true);
+ 			}
+			
+ 			protected function updateForInsert(range:ElementRange):void
+ 			{
+ 				doUpdate("", 
+ 					InlineGraphicElement.tlf_internal::widthPropertyDefinition.defaultValue.toString(),
+ 					InlineGraphicElement.tlf_internal::heightPropertyDefinition.defaultValue.toString(),
+ 					false, range && range.firstLeaf);
+	 		}
+	 		
+ 			private function doUpdate(url:String, width:String, height:String, modify:Boolean, enableImage:Boolean):void
+ 			{
+  				imageURL.text = url;
+ 				imageWidth.text = width;
+ 				imageHeight.text = height;
+ 				imageButton.label = modify ? "Change" : "Insert";
+ 				doChangeImage = modify;
+ 				imageButton.enabled = enableImage;			
+ 			}
+
+			private var onStage:Boolean = false;
+			private var addedFrameEventListener:Boolean = false;
+			protected var lastRange:ElementRange = null;
+			private function onAddedToStage():void
+			{
+				// the dataProviders aren't set up yet - delay to the frame
+				onStage = true;
+				if (!addedFrameEventListener)
+				{
+					addedFrameEventListener = true;
+					addEventListener("enterFrame",onEnterFrame);
+				}
+			}
+				
+			private function onEnterFrame(p:Event):void
+			{
+				this.removeEventListener("enterFrame",onEnterFrame);
+				addedFrameEventListener = false;	
+				
+				var temp:ElementRange = lastRange;
+				lastRange = null;
+				update(temp);
+					
+			}
+			
+			private function onRemovedFromStage():void
+			{
+				onStage = false;
+			}
+		]]>
+	</mx:Script>
+
+	<mx:Label fontWeight="bold" text="Image URL:"/>
+	<mx:TextInput id="imageURL" width="140"/>
+	<mx:Label fontWeight="bold" text="Width:"/>
+	<mx:TextInput id="imageWidth" width="60"/>
+	<mx:Label fontWeight="bold" text="Height:"/>
+	<mx:TextInput id="imageHeight" width="60"/>	
+	<mx:Button id="imageButton" label="Insert Image" click="applyChange();"/>
+</mx:HBox>

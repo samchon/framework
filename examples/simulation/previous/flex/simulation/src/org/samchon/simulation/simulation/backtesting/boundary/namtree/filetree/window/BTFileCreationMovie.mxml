@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" 
+		  xmlns:ui="org.samchon.ui.*" 
+		   
+		  width="60%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			private static const LABEL_WIDTH:int = 50;
+			private static const TI_WIDTH:int = 80;
+			
+			private static const PADDING_LEFT:int = 30;
+		]]>
+	</fx:Script>
+	
+	<s:CheckBox id="checkBox" 
+				label="Enable exploration" />
+	<s:VGroup enabled="{checkBox.selected}" 
+			  width="100%" height="100%" 
+			  paddingLeft="{PADDING_LEFT}">
+		<s:HGroup width="100%" >
+			<!-- WHEN BUYING -->
+			<s:VGroup width="50%" height="100%">
+				<s:Label fontWeight="bold" text="Buying Exploration"/>
+				<ui:HGroup paddingLeft="{PADDING_LEFT}">
+					<s:Label text="Minimum: " width="{LABEL_WIDTH}" />
+					<ui:NumberInput id="buyingMinimumTI" width="{TI_WIDTH}" />
+				</ui:HGroup>
+				<ui:HGroup paddingLeft="{PADDING_LEFT}">
+					<s:Label text="Maximum: " width="{LABEL_WIDTH}" />
+					<ui:NumberInput id="buyingMaximumTI" width="{TI_WIDTH}" />
+				</ui:HGroup>
+			</s:VGroup>
+			
+			<!-- WHEN SELLING -->
+			<s:VGroup width="50%" height="100%">
+				<s:Label fontWeight="bold" text="Selling Exploration"/>
+				<ui:HGroup paddingLeft="{PADDING_LEFT}">
+					<s:Label text="Minimum: " width="{LABEL_WIDTH}" />
+					<ui:NumberInput id="sellingMinimumTI" width="{TI_WIDTH}" />
+				</ui:HGroup>
+				<ui:HGroup paddingLeft="{PADDING_LEFT}">
+					<s:Label text="Maximum: " width="{LABEL_WIDTH}" />
+					<ui:NumberInput id="sellingMaximumTI" width="{TI_WIDTH}" />
+				</ui:HGroup>
+			</s:VGroup>
+		</s:HGroup>
+		
+		<!-- ACCURACY -->
+		<ui:HGroup width="100%" >
+			<s:Label text="Accuracy: 10 ^ " />
+			<s:NumericStepper id="accuracyStepper" 
+							  minimum="-10" maximum="10" value="-2" />
+		</ui:HGroup>
+	</s:VGroup>
+</s:VGroup>

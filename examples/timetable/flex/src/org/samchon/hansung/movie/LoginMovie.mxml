@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/halo"
+		 xmlns:ui="org.samchon.ui.*"
+		 xmlns:menu="org.samchon.menu.*"
+		 xmlns:movie="org.samchon.hansung.movie.*" 
+		 
+		 creationComplete="creationCompleted(event)" 
+		 title="Log-in">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayList;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			import org.samchon.hansung.Timetable;
+			import org.samchon.hansung.base.SecondMajor;
+			import org.samchon.hansung.base.Student;
+			import org.samchon.hansung.movie.SecondMajorMovie;
+			import org.samchon.socket.BytesHTTPService;
+			import org.samchon.utils.StringUtil;
+			
+			import spark.components.ComboBox;
+		
+			public var main:*;
+			protected var secondMajorMovieList:ArrayList = new ArrayList();
+			protected var httpService:BytesHTTPService = new BytesHTTPService(URL.LOGIN);
+			
+			//자동로그인을 위한 로컬 저장 데이터
+			protected var sharedObject:SharedObject;
+		
+			protected function creationCompleted(event:FlexEvent):void 
+			{
+				this.removeEventListener(FlexEvent.CREATION_COMPLETE, creationCompleted);
+				httpService.addEventListener(Event.COMPLETE, handleLogin);
+				
+				//자동로그인
+				sharedObject = SharedObject.getLocal("samchon.timetable.login");
+				if(sharedObject.data.xml != null)
+				{
+					var xml:XML = new XML(sharedObject.data.xml);
+					login_id.text = xml.id;
+					login_pass.text = xml.pass;
+					if(xml.hasOwnProperty("secondMajor") == true)
+					{
+						var secondMajorMovie:SecondMajorMovie;
+						
+						for(var i:int = 0; i < xml.secondMajor.length(); i++)
+						{
+							secondMajorMovie = new SecondMajorMovie();
+							secondMajorMovie.typeCombo.selectedIndex = xml.secondMajor[i].@type - 1;
+							secondMajorMovie.majorCombo.selectedIndex = xml.secondMajor[i].@major;
+							
+							secondMajorGroup.addElement( secondMajorMovie );
+							secondMajorMovieList.addItem( secondMajorMovie );
+						}
+					}
+					autoLoginCheckBox.selected = true;
+					goLogin(null);
+				}
+			}
+			
+			/* -------------------------------------------------------
+				로그인 실시
+			------------------------------------------------------- */ 
+			protected function goLogin(event:MouseEvent):void 
+			{
+				var id:String = login_id.text;
+				var pass:String = login_pass.text;
+				
+				if(id == "guest")
+				{
+					id = "1194060";
+					pass = "c3850234";
+				}
+				httpService.send({id: id, passwd: pass});
+			}
+			protected function handleLogin(event:Event):void 
+			{
+				var replyData:String = httpService.replyData;
+				if(replyData.indexOf("일치하지 않습니다.") != -1) { 
+					//로그인 실패
+					Alert.show("아이디나 비밀번호가 일치하지 않습니다.", "로그인 실패");
+					return;
+				}
+				
+				//학생 정보를 기록 -> 일단 아이디와 이중 전공 정보만,
+				var secondMajorList:ArrayList = new ArrayList();
+				
+				var id:String = login_id.text;
+				var i:int;
+				
+				if(id == "guest")
+					secondMajorList.addItem( new SecondMajor(SecondMajor.PLURAL, 4) );
+				else
+					for (i = 0; i < secondMajorMovieList.length; i++)
+						secondMajorList.addItem( SecondMajorMovie(secondMajorMovieList.getItemAt(i)).getSecondMajor() );
+				
+				Root.timetable = new Timetable(id, secondMajorList);
+				
+				//자동 로그인時,
+				if(autoLoginCheckBox.selected == true)
+				{
+					var xml:XML = Root.student.toXML();
+					xml.pass = login_pass.text;
+					sharedObject.data.xml = xml.toString();
+					sharedObject.flush();
+				}
+				
+				//로그인 완료
+				main.handleLogin();
+			}
+			
+			/* -------------------------------------------------------
+				다 전공 추가/삭제
+			------------------------------------------------------- */ 
+			protected function addSecondMajor(event:MouseEvent):void 
+			{
+				var secondMajorMovie:SecondMajorMovie = new SecondMajorMovie();
+				
+				secondMajorGroup.addElement( secondMajorMovie );
+				secondMajorMovieList.addItem( secondMajorMovie );
+			}
+			protected function popSecondMajor(event:MouseEvent):void 
+			{
+				if (secondMajorMovieList.length == 0)
+					return;
+					
+				var x:int = secondMajorMovieList.length - 1;
+				secondMajorMovieList.removeItemAt( x );
+				secondMajorGroup.removeElementAt( x );
+			}
+		
+		]]>
+	</fx:Script>
+	
+	<ui:VGroup width="100%" height="100%"
+			   padding="5"
+			   horizontalAlign="center">
+		<s:Form defaultButton="{loginButton}" 
+				width="100%">
+			<s:FormItem label="학번" height="25" >
+				<s:TextInput id="login_id" 
+							 width="120"/>
+			</s:FormItem>
+			<s:FormItem label="비밀번호" height="25">
+				<s:TextInput id="login_pass" 
+							 displayAsPassword="true"
+							 width="120"/>
+			</s:FormItem>
+		</s:Form>
+		<ui:HGroup width="100%"
+				   paddingTop="5"
+				   horizontalAlign="right">
+			<s:Label text="다(복수/부) 전공" />
+			<menu:IconButton source="plus" click="addSecondMajor(event)" />
+			<menu:IconButton source="delete" click="popSecondMajor(event)" />
+		</ui:HGroup>
+		<ui:VGroup id="secondMajorGroup" 
+				   width="100%" 
+				   padding="5"
+				   horizontalAlign="right" />
+	</ui:VGroup>
+	
+	<s:controlBarContent>
+		<s:HGroup width="100%" horizontalAlign="right">
+			<s:CheckBox id="autoLoginCheckBox" label="Auto Login"/>
+			<s:Spacer width="100%" />
+			<s:Button id="loginButton" 
+					  click="goLogin(event)"
+					  icon="assets/icons/key16.png"
+					  label="Log-in" />
+		</s:HGroup>
+	</s:controlBarContent>
+</s:Panel>

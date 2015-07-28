@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:ui="org.samchon.ui.*"
+				
+				title="About Samchon Simulation"
+				creationComplete="creationCompleted(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flash.net.navigateToURL;
+			
+			import flashx.textLayout.conversion.TextConverter;
+			
+			import mx.events.FlexEvent;
+			
+			import org.samchon.socket.HTTPService;
+			import org.samchon.utils.StringUtil;
+			
+			private function creationCompleted(event:FlexEvent):void {
+				this.removeEventListener(FlexEvent.CREATION_COMPLETE, creationCompleted);
+				
+				var httpService:HTTPService = new HTTPService(URL.APPLICATION_ABOUT);
+				httpService.addEventListener(Event.COMPLETE, handleReply);
+				image.addEventListener(Event.COMPLETE, handleImageReply);
+				
+				httpService.send({application: Root.application});
+			}
+			private function handleReply(event:Event):void
+			{
+				event.target.removeEventListener(Event.COMPLETE, handleReply);
+				
+				var xml:XML = new XML(event.target.data);
+				
+				var imageURL:String = StringUtil.decodeURI( xml.image );
+				var comment:String = StringUtil.decodeURI( xml.comment );
+				
+				image.source = imageURL;
+				commentText.textFlow = TextConverter.importToFlow(comment, TextConverter.TEXT_FIELD_HTML_FORMAT);
+			}
+			private function handleImageReply(event:Event):void
+			{
+				image.removeEventListener(Event.COMPLETE, handleImageReply);
+				
+				var targX:int = (Root.window.width - image.sourceWidth) / 2;
+				var targY:int = (Root.window.height - image.sourceHeight) / 2;
+				
+				this.move(targX, targY);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Image id="image" />
+	<s:BorderContainer right="10" bottom="10" 
+					   backgroundAlpha="0.75" backgroundColor="#FFFFFF"
+					   borderVisible="true" dropShadowVisible="true">
+		<ui:VGroup padding="10">
+			<s:RichEditableText id="commentText" 
+								editable="false" />
+		</ui:VGroup>
+	</s:BorderContainer>
+</ui:TitleWindow>

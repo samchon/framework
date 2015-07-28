@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<explorer:NTExplorerWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						   xmlns:s="library://ns.adobe.com/flex/spark" 
+						   xmlns:mx="library://ns.adobe.com/flex/mx" 
+						   xmlns:explorer="org.samchon.namTree.fileTree.window.explorer.*" 
+						   
+						   title="Save Nam-Tree's Criteria">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			
+			import org.samchon.fileTree.file.FTFile;
+			import org.samchon.fileTree.file.FTFolder;
+			import org.samchon.namTree.criteria.NTCriteria;
+			import org.samchon.socket.HTTPService;
+			
+			protected var httpService:HTTPService = new HTTPService(URL.FILETREE_CREATE);
+			
+			override protected function creationCompleted(event:FlexEvent):void
+			{
+				super.creationCompleted(event);
+				
+				extensionLabel.text = ".ntrx";
+			}
+			override protected function handleFileChanged(event:ListEvent):void
+			{
+				super.handleFileChanged(event);
+				var file:FTFolder = fileTreeMgr.selectedFile;
+				
+				if(file == null || file.getParent() == null || file is FTFile || file.getOwner() == "example")
+					determineButton.enabled = false;
+				else
+					determineButton.enabled = true;
+			}
+			override protected function goDetermine(event:MouseEvent):void
+			{
+				var selectedFile:FTFolder = fileTreeMgr.selectedFile;
+				if(selectedFile == null)
+					return;
+				else if( selectedFile is FTFile )
+					Alert.show("Select a valid folder to put.", "File Creation Error");
+				else if( selectedFile.getOwner() == "example" )
+					Alert.show("You can't make a file under example's own.", "File Creation Error");
+				else
+				{
+					var criteria:NTCriteria;
+					if(parentCriteria is ArrayCollection)
+						criteria = parentCriteria.getItemAt(0);
+					else
+						criteria = parentCriteria;
+					
+					var file:FTFile = new FTFile(fileList, Global.NULL, fileTreeMgr.selectedFile.getFileID(), nameInput.text, "ntrx", criteria.toXML(), commentInput.text);
+					var formData:Object = file.toFormData();
+					formData.application = application;
+					formData.category = category;
+					
+					httpService.send(formData);
+					this.close();
+				}	
+			}
+			
+		]]>
+	</fx:Script>
+</explorer:NTExplorerWindow>

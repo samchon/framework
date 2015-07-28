@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" 
+		   xmlns:ui="org.samchon.ui.*" 
+		   xmlns:label="org.samchon.ui.label.*" 
+		   xmlns:axis="org.samchon.ui.axis.*" 
+		   
+		   padding="10">
+	<fx:Declarations>
+		<s:RadioButtonGroup id="financeType" />
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.charts.HitData;
+			import mx.charts.chartClasses.IAxis;
+			import mx.charts.series.ColumnSeries;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			import org.samchon.format.Format;
+			[Bindable]protected var xml:XML;
+			[Bindable]protected var indexXML:XML;
+			[Bindable]protected var kospiXML:XML;
+			
+			/*
+			======================================================
+			KOSPI
+			======================================================
+			*/
+			public function set kospi(xml:XML):void {
+				this.kospiXML = xml;
+				
+				//MARKET INDEX
+				var kospiIndex:  Number = kospiXML.index.kospi;		var kosdaqIndex: Number = kospiXML.index.kosdaq;
+				var kospiUpDown: Number = kospiXML.upDown.kospi;	var kosdaqUpDown:Number = kospiXML.upDown.kosdaq;
+				
+				kospiText.text	= Format.numberFormat(kospiIndex)  + " (" + Format.numberFormat(kospiUpDown)  + ", " + Format.percentFormat(kospiUpDown/(kospiIndex - kospiUpDown))	+ ")";
+				kosdaqText.text	= Format.numberFormat(kosdaqIndex) + " (" + Format.numberFormat(kosdaqUpDown) + ", " + Format.percentFormat(kosdaqUpDown/(kosdaqIndex - kosdaqUpDown))	+ ")";
+				
+				if(kospiUpDown > 0)			kospiText.setStyle("color", "red");
+				else if(kospiUpDown == 0)	kospiText.setStyle("color", "black");
+				else						kospiText.setStyle("color", "blue");
+				
+				if(kosdaqUpDown > 0)		kosdaqText.setStyle("color", "red");
+				else if(kosdaqUpDown == 0)	kosdaqText.setStyle("color", "black");
+				else						kosdaqText.setStyle("color", "blue");
+			}
+			
+			/*
+			======================================================
+			DATA
+			======================================================
+			*/
+			public function set source(xml:XML):void {
+				//SET SERIES
+				if(xml.gaap.pnl.hasOwnProperty("pnl") == false) //놀랍게도 손익계산서가 없는 기업들도 있다.
+					pnlChart.series = [];
+				else{
+					if(xml.gaap.pnl.pnl[0].hasOwnProperty("sales") == true)
+						setSeries(1);
+					else
+						setSeries(2);
+				}
+				this.indexXML = getIndexXML(xml);
+				this.xml = xml;
+			}
+			protected function setSeries(category:int):void {
+				var items:Array = [];
+				var series:Array = [];
+				var columnSeries:ColumnSeries;
+				
+				if(category == 1) {
+					items.push
+						(
+							{displayName:"Sales", yField:"sales"},
+							{displayName:"Gross Profit", yField:"grossProfit"}
+						);
+				}else{
+					items.push
+						(
+							{displayName:"Operating Revenue", yField:"operatingRevenue"}
+						);
+				}
+				items.push
+					(
+						{displayName:"Operating Profit", yField:"operatingProfit"},
+						{displayName:"Earnings Before Tax", yField:"earningsBeforeTax"},
+						{displayName:"Net Income", yField:"netIncome"}
+					);
+				
+				for(var i:int = 0; i < items.length; i++) {
+					columnSeries = new ColumnSeries();
+					columnSeries.xField = "date";
+					columnSeries.yField = items[i].yField;
+					columnSeries.displayName = items[i].displayName;
+					
+					series.push( columnSeries );
+				}
+				
+				pnlChart.series = series;
+			}
+			protected function getIndexXML(xml:XML):XML {
+				var standards:Array = ["gaap", "ifrs"];
+				var xmlString:String = "<index>\n";
+				
+				for(var i:int = 0; i < standards.length; i++) {
+					xmlString += "	<" + standards[i] + ">\n";
+					xmlString += "		<name>" + xml.company.name + "</name>\n";
+					xmlString += "		<price>" + xml.price.price + "</price>\n";
+					xmlString += "		<EPS>" + xml[standards[i]].index.EPS + "</EPS>\n";
+					xmlString += "		<BPS>" + xml[standards[i]].index.BPS + "</BPS>\n";
+					xmlString += "		<SPS>" + xml[standards[i]].index.SPS + "</SPS>\n";
+					xmlString += "		<face>" + xml.company.face + "</face>\n";
+					xmlString += "	</" + standards[i] + ">\n";
+				}
+				xmlString += "</index>";
+				return new XML(xmlString);
+			}
+			
+			/*
+			======================================================
+			FORMAT
+			======================================================
+			*/
+			private function indexDataTipFunction(hitData:HitData):String {
+				var obj:Object = hitData.item as Object;
+				var targ:Object = hitData.element as Object;
+				
+				var value:Number = obj[targ.yField];
+				var ratio:Number = obj.price / value;
+				
+				var str:String;
+				str = "<b>" + targ.displayName + "</b>: " + Format.numberFormat(value);
+				
+				if(targ.displayName != "Price")
+					str +=	"\n<b>P" + targ.displayName.charAt(0) + "R</b>: " + Format.numberFormat(ratio) + "\n" +
+						"         " + Format.percentFormat(1 / ratio);
+				
+				return str;
+			}
+			protected function pnlDataTipFunction(hitData:HitData):String {
+				var obj:Object = hitData.item as Object;
+				var targ:Object = hitData.element as Object;
+				
+				var numerator:Number = obj[targ.yField];
+				var denominator:Number = (xml.gaap.pnl.pnl[0].hasOwnProperty("sales") == true) ? obj.sales : obj.operatingRevenue;
+				
+				var str:String;
+				str = "<b>" + targ.displayName + "</b>\n";
+				str += "	Value: " + Format.numberFormat(numerator) + " billions\n";
+				str += "	Ratio: " + Format.percentFormat(numerator / denominator);
+				
+				return str;
+			}
+			protected function pieLabelFunction(item:Object, field:String, index:Number, percentValue:Number):String {
+				var text:String = Format.numberFormat(item.data);
+				
+				return text;
+			}
+		]]>
+	</fx:Script>
+	
+	<!-- 
+	=============================================================
+	KOSPI & KOSDAQ INDEX
+	=============================================================
+	-->
+	<s:HGroup width="100%">
+		<s:Label text="KOSPI"  width="45" /><s:Label text=":	" /><s:Label id="kospiText" />
+	</s:HGroup>
+	<s:HGroup width="100%">
+		<s:Label text="KOSDAQ" width="45" /><s:Label text=":	" /><s:Label id="kosdaqText" />
+	</s:HGroup>
+	<s:HGroup width="100%" gap="20" paddingBottom="10" paddingTop="10">
+		<s:RadioButton label="GAAP" groupName="financeType" value="gaap" selected="true"/>
+		<s:RadioButton label="IFRS" groupName="financeType" value="ifrs" selected="false"/>
+	</s:HGroup>
+	
+	<!-- 
+	=============================================================
+	COMPANY NAME & CODE
+	=============================================================
+	-->
+	<s:Label text="{xml.company.name} ({xml.company.code})" 
+			 fontFamily="바탕체" fontSize="15" fontWeight="bold" />
+	
+	<!-- PRICE & INDEX -->
+	<s:VGroup paddingLeft="25">
+		<!-- PRICE - horizontally -->
+		<s:HGroup gap="0">
+			<s:Label text="￦{Format.numberFormat(xml.price.price)}" /><s:Label text=" (" />
+			<label:IntLabel text="{xml.price.upRisePrice}" />
+			<s:Label text="," width="10" />
+			<label:PercentLabel text="{xml.price.upRiseRatio}" />
+			<s:Label text=")" />
+		</s:HGroup>
+		<!-- INDEX -->
+		<s:TileGroup requestedColumnCount="2">
+			<s:Spacer /><s:Spacer />
+			
+			<s:Label text="Market Cap." /><s:Label text="{Format.numberFormat(xml.price.marketCap)} billions" />
+			<s:Label text="Total Volume" /><s:Label text="{ Format.numberFormat(xml.company.volume) }" />
+			<s:Spacer /><s:Spacer />
+			
+			<s:Label text="EPS" /><s:Label text="{Format.numberFormat(xml[financeType.selectedValue].index.EPS)}" />
+			<s:Label text="BPS" /><s:Label text="{Format.numberFormat(xml[financeType.selectedValue].index.BPS)}" />
+			<s:Label text="SPS" /><s:Label text="{Format.numberFormat(xml[financeType.selectedValue].index.SPS)}" />
+			<s:Spacer /><s:Spacer />
+			
+			<s:Label text="PER" /><s:Label text="{Format.numberFormat(xml[financeType.selectedValue].index.PER)}" />
+			<s:Label text="PBR" /><s:Label text="{Format.numberFormat(xml[financeType.selectedValue].index.PBR)}" />
+			<s:Label text="PSR" /><s:Label text="{Format.numberFormat(xml[financeType.selectedValue].index.PSR)}" />
+		</s:TileGroup>
+	</s:VGroup>
+	
+	<!-- 
+	=============================================================
+	DEBT & CURRENT RATIO
+	=============================================================
+	-->
+	<s:HGroup width="100%" paddingTop="10">
+		<!-- DEBT RATIO -->
+		<s:VGroup width="50%" horizontalAlign="center">
+			<mx:PieChart id="debtChart" 
+						 dataProvider="{xml[financeType.selectedValue].bs.debtRatio}"
+						 width="80%" height="{debtChart.width}"
+						 showDataTips="true">
+				<mx:series>
+					<mx:PieSeries nameField="label" field="data" 
+								  labelPosition="insideWithCallout" labelFunction="pieLabelFunction" />
+				</mx:series>
+			</mx:PieChart>
+			<s:Spacer height="10" />
+			<s:Label text="Liability Ratio: {Format.numberFormat(xml[financeType.selectedValue].index.debtRatio)}%" />
+		</s:VGroup>
+		<!-- CURRENT RATIO -->
+		<s:VGroup width="50%" horizontalAlign="center" visible="{xml.gaap.pnl.pnl[0].hasOwnProperty('sales')}">
+			<mx:PieChart dataProvider="{xml[financeType.selectedValue].bs.currentRatio}"
+						 width="{debtChart.width}" height="{debtChart.width}"
+						 showDataTips="true">
+				<mx:series>
+					<mx:PieSeries nameField="label" field="data"
+								  labelPosition="insideWithCallout" labelFunction="pieLabelFunction" />
+				</mx:series>
+			</mx:PieChart>
+			<s:Spacer height="10" />
+			<s:Label text="Current Ratio: {Format.numberFormat(xml[financeType.selectedValue].index.currentRatio)}%" />
+		</s:VGroup>
+	</s:HGroup>
+	
+	<!-- 
+	=============================================================
+	PRICE & INDEX & FACE VALUE CHART
+	=============================================================
+	-->
+	<s:HGroup width="100%" paddingTop="20">
+		<mx:ColumnChart id="indexChart"
+						dataProvider="{indexXML[financeType.selectedValue]}" 
+						showDataTips="true" dataTipFunction="indexDataTipFunction"
+						width="100%" height="{indexLegend.height + 20}">
+			<mx:series>
+				<mx:ColumnSeries displayName="Price"	xField="name"	yField="price" />
+				<mx:ColumnSeries displayName="BPS"		xField="name"	yField="BPS" />
+				<mx:ColumnSeries displayName="SPS"		xField="name"	yField="SPS" />
+				<mx:ColumnSeries displayName="EPS"		xField="name"	yField="EPS" />
+				<mx:ColumnSeries displayName="Face"		xField="name"	yField="face" />
+			</mx:series>
+			
+			<!-- AXIS -->
+			<mx:horizontalAxis>
+				<mx:CategoryAxis categoryField="name"/>
+			</mx:horizontalAxis>
+			<mx:verticalAxis>
+				<axis:NumberLinearAxis />
+			</mx:verticalAxis>
+		</mx:ColumnChart>
+		<mx:Legend id="indexLegend" borderStyle="none" dataProvider="{indexChart}"/>
+	</s:HGroup>
+	
+	<!-- 
+	=============================================================
+	PNL CHART
+	=============================================================
+	-->
+	<mx:ColumnChart id="pnlChart" 
+					dataProvider="{xml[financeType.selectedValue].pnl.pnl}"
+					showDataTips="true" dataTipFunction="pnlDataTipFunction"
+					width="100%" height="{pnlChart.width * .6}">
+		<!-- EXAMPLE
+		<mx:series>
+		<mx:ColumnSeries displayName="Sales"				xField="date"	yField="sales" />
+		<mx:ColumnSeries displayName="Gross Profit"			xField="date"	yField="grossProfit" />
+		<mx:ColumnSeries displayName="Operating Profit"		xField="date"	yField="operatingProfit" />
+		<mx:ColumnSeries displayName="Before Tax"			xField="date"	yField="earningsBeforeTax" />
+		<mx:ColumnSeries displayName="Net Income"			xField="date"	yField="netIncome" />
+		</mx:series>
+		-->
+		<!-- AXIS -->
+		<mx:horizontalAxis>
+			<mx:CategoryAxis categoryField="date"/>
+		</mx:horizontalAxis>
+		<mx:verticalAxis>
+			<axis:NumberLinearAxis />
+		</mx:verticalAxis>
+	</mx:ColumnChart>
+	<mx:Legend dataProvider="{pnlChart}" 
+			   direction="horizontal" 
+			   width="100%" />
+</ui:VGroup>

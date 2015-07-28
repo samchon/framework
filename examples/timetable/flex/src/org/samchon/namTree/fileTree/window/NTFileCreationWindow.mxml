@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window:FTCreationWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						 xmlns:s="library://ns.adobe.com/flex/spark" 
+						 xmlns:mx="library://ns.adobe.com/flex/mx" 
+						 xmlns:window="org.samchon.fileTree.window.*"
+						 xmlns:ui="org.samchon.ui.*" 
+						 xmlns:fileTree="org.samchon.fileTree.*"
+						 xmlns:grid="org.samchon.namTree.fileTree.window.grid.*"
+						 
+						 title="To create a Nam-tree file" 
+						 creationComplete="creationCompleted(event)" 
+						 width="700" height="800">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import org.samchon.namTree.fileTree.window.otherside.NTOtherwiseSelectionWindow;
+			import mx.controls.Alert;
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.samchon.fileTree.file.FTFolder;
+			import org.samchon.namTree.fileTree.file.NTFile;
+			import org.samchon.namTree.fileTree.file.NTFileList;
+			import org.samchon.namTree.fileTree.file.NTParameter;
+			import org.samchon.namTree.fileTree.file.NTParameterList;
+			
+			override protected function get createURL():String	{	return URL.NAMTREE_FILE_CREATE;	}
+			protected const LABEL_WIDTH:int = 90;
+			
+			protected var headerCreationFlag:Boolean = false;
+			protected var getFunctionCreationFlag:Boolean = false;
+			protected var composerFunctionCreationFlag:Boolean = false;
+			
+			//THE FILE
+			[Bindable]protected var file:NTFile;
+			
+			//GO-CREATE
+			override protected function goCreate(event:MouseEvent):void
+			{
+				if(nameText.text == "")
+					Alert.show("File's name is empty", "Creation Error");
+				else if(file.getOwner() == "example")
+					Alert.show("You can't modify example's. It's not your own.", "File Modification Error"); 
+				else
+					super.goCreate(event);
+			}
+			
+			//TAB-NAVIGATOR'S CHILD IS CREATED
+			protected function creationCompleted(event:FlexEvent):void
+			{
+				this.removeEventListener(FlexEvent.CREATION_COMPLETE, creationCompleted);
+				
+				this.width = 700;
+				this.height = Root.window.height * .9;
+				super.moveToCenter( Root.window );
+				
+				if(parentFile is NTFile)
+				{
+					file = parentFile as NTFile;
+					
+					//SET NAME_TEXT
+					nameText.text = file.getName();
+					nameText.enabled = false;
+					
+					//SET OTHERWISE_TEXT
+					setOtherside( file.getOtherside() );
+					
+					for(var i:int = 0; i < NTParameter.typeParameterList.length; i++)
+						if( NTParameter.typeParameterList.getItemAt(i).data == file.getReturnType() )
+							returnTypeCombo.selectedIndex = i;
+				}
+				else
+					file = new NTFile(fileList, Global.NULL, parentFile.getFileID(), "");
+				file.parameterList.addEventListener(CollectionEvent.COLLECTION_CHANGE, parameterListChanged);
+			}
+			protected function itemCreationCompleted(event:FlexEvent):void
+			{
+				var textArea:TextArea = event.target as TextArea;
+				textArea.removeEventListener(FlexEvent.CREATION_COMPLETE, itemCreationCompleted);
+				
+				switch(textArea)
+				{
+					case headerText:
+						textArea.text = file.getHeader();
+						headerCreationFlag = true;
+						break;
+					case getFunctionText:
+						textArea.text = file.getGetFunction();
+						getFunctionCreationFlag = true;
+						parameterListChanged(null);
+						break;
+					case composerFunctionText:
+						textArea.text = file.getComposerFunction();
+						composerFunctionCreationFlag = true;
+						composeFunctionTextCreated();
+						break;
+				}
+			}
+			protected function parameterListChanged(event:CollectionEvent):void //GET_FUNCTION_TEXT IS CREATED
+			{
+				if(getFunctionCreationFlag == false)
+					return;
+				
+				var text:String = file.toAS3_getFunctionHeader();
+				text = text.replace("getFunction" + file.getFileID(), "getFunction");
+				text += "\n}";
+				
+				getFunctionHeaderText.text = text;
+			}
+			protected function composeFunctionTextCreated():void //GET_COMPOSER_FUNCTION IS CREATED
+			{
+				var text:String = file.toAS3_composerFunctionHeader();
+				text = text.replace("composerFunction" + file.getFileID(), "composerFunction");
+				text += "\n}";
+				
+				composerFunctionHeaderText.text = text;
+			}
+			
+			override protected function getFile():FTFolder
+			{
+				file.setName( nameText.text );
+				file.setReturnType( returnTypeCombo.selectedItem.data );
+				
+				if(headerCreationFlag)				file.setHeader( headerText.text );
+				if(getFunctionCreationFlag)			file.setGetFunction( getFunctionText.text );
+				if(composerFunctionCreationFlag)	file.setComposerFunction( composerFunctionText.text );
+				
+				return file;
+			}
+			public function setOtherside(otherside:NTFile):void
+			{
+				if(otherside == null)
+					othersideText.text = "NULL";
+				else
+				{
+					file.setOtherside(otherside);
+					othersideText.text = otherside.getName();
+				}
+			}
+			
+			protected function goOthersideSelectionWindow(event:MouseEvent):void
+			{
+				var selectionWindow:NTOtherwiseSelectionWindow = PopUpManager.createPopUp(Root.window, NTOtherwiseSelectionWindow, true) as NTOtherwiseSelectionWindow;
+				selectionWindow.creationWindow = this;
+				selectionWindow.fileList = this.fileList;
+				
+				PopUpManager.centerPopUp(selectionWindow);
+			}
+			
+		]]>
+	</fx:Script>
+	<ui:VGroup width="100%" height="100%"
+			   padding="5">
+		<mx:TabNavigator id="tabNavigator" width="100%" height="100%">
+			<s:NavigatorContent label="- Configuration - "
+								width="100%" height="100%">
+				<ui:VGroup id="vGroup" 
+						   width="100%" height="100%"
+						   padding="5">
+					<ui:HGroup width="100%">
+						<s:Label text="File Name" 
+								 fontWeight="bold" 
+								 width="{LABEL_WIDTH}" />
+						<fileTree:FileNameTextInput id="nameText"
+													text="" />
+						<s:Label text=".ntr" />
+					</ui:HGroup>
+					<ui:HGroup width="100%">
+						<s:Label text="Return Type" 
+								 fontWeight="bold"
+								 width="{LABEL_WIDTH}" />
+						<s:ComboBox id="returnTypeCombo" 
+									dataProvider="{NTParameter.typeParameterList}" 
+									change="parameterListChanged(null)"
+									selectedIndex="0" />
+					</ui:HGroup>
+					<ui:HGroup width="100%">
+						<s:Label text="Otherside"
+								 fontWeight="bold"
+								 width="{LABEL_WIDTH}" />
+						<s:TextInput id="othersideText" 
+									 click="goOthersideSelectionWindow(event)"
+									 editable="false"
+									 text="NULL" />
+					</ui:HGroup>
+					<s:Label fontWeight="bold" text="Parameter"/>
+					<s:HGroup width="100%" height="100%">
+						<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+							PARAMTER_GRID
+						~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+						<grid:NTFileParameterGrid id="parameterGrid" 
+												  dataProvider="{file.parameterList}"
+												  width="100%" 
+												  height="100%" />
+					</s:HGroup>
+				</ui:VGroup>
+			</s:NavigatorContent>
+			<s:NavigatorContent label="- Header -"
+								width="100%" height="100%">
+				<ui:VGroup width="100%" height="100%"
+						   padding="5">
+					<s:TextArea id="headerText"
+								creationComplete="itemCreationCompleted(event)"
+								width="100%" height="100%" />
+				</ui:VGroup>
+			</s:NavigatorContent>
+			<s:NavigatorContent label="- Get Function -"
+								width="100%" height="100%">
+				<ui:VGroup width="100%" height="100%"
+						   padding="5">
+					<s:Label id="getFunctionHeaderText" />
+					<s:TextArea id="getFunctionText" 
+								creationComplete="itemCreationCompleted(event)"
+								width="100%" height="100%"
+								paddingLeft="47" />
+					<s:Label text="{" />
+				</ui:VGroup>
+			</s:NavigatorContent>
+			<s:NavigatorContent label="- Composer Function -"
+								width="100%" height="100%">
+				<ui:VGroup width="100%" height="100%"
+						   padding="5">
+					<s:Label id="composerFunctionHeaderText" />
+					<s:TextArea id="composerFunctionText" 
+								creationComplete="itemCreationCompleted(event)"
+								width="100%" height="100%" 
+								paddingLeft="47" />
+					<s:Label text="{" />
+				</ui:VGroup>
+			</s:NavigatorContent>
+		</mx:TabNavigator>
+	</ui:VGroup>
+	<window:controlBarContent>
+		<s:HGroup width="100%" horizontalAlign="right">
+			<s:Button click="goCreate(event)"
+					  icon="assets/icons/ntr16.gif"
+					  label="Create" />
+		</s:HGroup>
+	</window:controlBarContent>
+</window:FTCreationWindow>

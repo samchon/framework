@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:HDividedBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				xmlns:ui="org.samchon.ui.*" 
+				xmlns:fileTree="org.samchon.namTree.fileTree.*" 
+				xmlns:namTree="org.samchon.namTree.*" 
+				xmlns:criteria="org.samchon.namTree.criteria.*"
+				
+				creationComplete="creationCompleted(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.hurlant.eval.ByteLoader;
+			import com.hurlant.eval.Evaluator;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			
+			import org.samchon.fileTree.file.FTFile;
+			import org.samchon.fileTree.file.FTFolder;
+			import org.samchon.namTree.criteria.NTCriteria;
+			import org.samchon.namTree.criteria.NTItem;
+			import org.samchon.namTree.criteria.data.NTAggregation;
+			import org.samchon.namTree.criteria.data.NTOperator;
+			import org.samchon.namTree.fileTree.file.NTFile;
+			import org.samchon.namTree.fileTree.file.NTFileList;
+			
+			[Bindable]public var fileList:NTFileList;
+			[Bindable]protected var criteriaList:ArrayCollection = new ArrayCollection();
+			
+			protected function get topCriteria():NTCriteria
+			{
+				return criteriaList.getItemAt(0) as NTCriteria;
+			}
+			protected function getNewCriteria():NTCriteria
+			{
+				return new NTCriteria();
+			}
+			protected function getNewItem():NTItem
+			{
+				return new NTItem(0, null, "int", "1");
+			}
+			
+			protected function creationCompleted(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub)
+				constructFileList();
+				constructUI();
+				constructCriteria();
+			}
+			protected function constructCriteria():void
+			{
+				criteriaList.removeAll();
+				
+				var criteria:NTCriteria = getNewCriteria();
+				criteria.setLeftItem( getNewItem() );
+				criteria.setOperator( NTOperator.EQUAL );
+				criteria.setRightItem( getNewItem() );
+				criteriaList.addItem( criteria );
+				
+				criteriaGrid.addEventListener(ListEvent.CHANGE, itemGridChanged);
+			}
+			protected function constructFileList():void
+			{
+				fileList = new NTFileList(Root.application, Root.category + 1000);
+				fileList.load();
+			}
+			protected function constructUI():void
+			{
+				
+			}
+			
+			public function constructCriteriaByXML(xml:XML, parentItem:*):void
+			{
+				var criteria:NTCriteria = getNewCriteria();
+				criteria.constructXML(xml, this.fileList);
+				
+				if(parentItem is ArrayCollection)
+					parentItem.removeAll();
+				
+				parentItem.addItem( criteria );
+			}
+			
+			public function getTopCriteria():NTCriteria
+			{
+				return this.topCriteria;
+			}
+			
+			
+			/*
+			=====================================================================
+				ABOUT COMPILE
+			=====================================================================
+			*/
+			protected function goImportClasses():void
+			{
+				
+			}
+			public function goCompile():void {
+				var evaluator:Evaluator = new Evaluator();
+				var bytes:ByteArray;
+				
+				goImportClasses();
+				var script:String = topCriteria.toAS3(this.fileList);
+				
+				try 
+				{
+					bytes = evaluator.eval( script );
+				} 
+				catch(error:Error) 
+				{
+					Alert.show(error.message, error.errorID + ": " + error.name);
+					return;
+				}
+				ByteLoader.loadBytes(bytes, Compiler.LOCAL_FLAG); //false : web, true : air
+			}
+			public function getRetrieved(args:Array):Number
+			{
+				topCriteria.initRetrieve();
+				return topCriteria.getRetrieved(args);
+			}
+			
+			/*
+			=====================================================================
+				ITEM COMPOSING
+			=====================================================================
+			*/
+			protected function goApplyFile(direction:int):void
+			{
+				// TODO Auto-generated method stub
+				//1: left
+				//2: right
+				var selectedCriteria:NTCriteria = criteriaGrid.selectedCriteria as NTCriteria;
+				var selectedFile:NTFile = fileTreeManager.selectedFile as NTFile;
+				
+				if(selectedCriteria == null)
+					return;
+				else if( selectedFile == null || !(selectedFile is NTFile) )
+					return;
+				
+				if(selectedFile.getOtherside() == null)
+				{
+					var item:NTItem = (direction == 1) ? selectedCriteria.getLeftItem() : selectedCriteria.getRightItem();
+					var itemContainer:NTItemContainer = (direction == 1) ? leftContainer : rightContainer;
+					
+					item.setFile( fileTreeManager.selectedFile as NTFile );
+					itemContainer.setItem( item );
+				}
+				else
+				{
+					selectedCriteria.getLeftItem().setFile( selectedFile );
+					selectedCriteria.getRightItem().setFile( selectedFile.getOtherside() );
+					
+					leftContainer.setItem( selectedCriteria.getLeftItem() );
+					rightContainer.setItem( selectedCriteria.getRightItem() );
+				}
+				criteriaGrid.refresh();
+			}		
+			protected function itemGridChanged(event:ListEvent):void
+			{
+				// TODO Auto-generated method stub
+				var item:NTCriteria = criteriaGrid.selectedCriteria;
+				
+				//IS GROUP?
+				if(item.getLeftItem().getType() == "Group")
+					leftContainer.enabled = false;
+				else
+					leftContainer.enabled = true;
+				
+				leftContainer.setItem( item.getLeftItem() );
+				rightContainer.setItem( item.getRightItem() );
+			}
+			
+			/*
+			=====================================================================
+				ICON HANDLER
+			=====================================================================
+			*/
+			[Bindable][Embed(source="assets/icons/reply16.png")]protected var groupIcon:Class;
+			[Bindable][Embed(source="assets/icons/ntr16.gif")]protected var ntrIcon:Class;
+			
+			protected function handleIcon(item:NTCriteria):Class
+			{
+				var leftItem:NTItem = item.getLeftItem();
+				if(leftItem.getType() == "Group")
+					return groupIcon;
+				else
+					return ntrIcon;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Panel id="leftPanel" 
+			 title="Wizard Configuration" 
+			 width="100%" height="100%">
+		<ui:VDividedBox id="vDividedBox" 
+						width="100%" height="100%" 
+						padding="5">
+			<!-- 
+			##########################################################
+				NT_ITEM_PAIR_GRID	
+			########################################################## 
+			-->
+			<ui:VGroup width="100%" height="100%" 
+					   padding="5">
+				<!-- CRITERIA GRID -->
+				<namTree:NTGrid id="criteriaGrid" 
+								hierarchicalData="{criteriaList}"
+								fileList="{fileList as NTFileList}"
+								width="100%" height="100%" />
+			</ui:VGroup>	
+		
+			<s:HGroup width="100%" height="250">
+				<criteria:NTItemContainer id="leftContainer" 
+									  direction="1" 
+									  criteriaGrid="{this.criteriaGrid}"
+									  width="50%" height="100%" />
+				<criteria:NTItemContainer id="rightContainer"
+									  direction="2"
+									  criteriaGrid="{this.criteriaGrid}"
+									  width="50%" height="100%" />
+			</s:HGroup>
+		</ui:VDividedBox>
+		
+	</s:Panel>
+	<s:Panel title="Wizard Item Tree" 
+			 width="300" height="100%">
+		<ui:VGroup id="rightVGroup" 
+				   width="100%" height="100%" 
+				   padding="5">
+			
+			<!-- ################################################
+				FILE_TREE_MANAGER
+			################################################# -->
+			<fileTree:NTFileTreeManager id="fileTreeManager" 
+										dataProvider="{fileList}"
+										width="100%" height="100%" />
+			<s:HGroup width="100%">
+				<s:Button click="goApplyFile(1)" 
+						  label="&lt; &lt;" 
+						  width="50%" />
+				<s:Button click="goApplyFile(2)" 
+						  label="&gt; &gt;"
+						  width="50%" />
+			</s:HGroup>
+		</ui:VGroup>
+	</s:Panel>
+</ui:HDividedBox>

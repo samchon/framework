@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<movie:InquiryMovie xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:movie="org.samchon.simulation.movie.*" width="100%" height="100%" xmlns:ui="org.samchon.ui.*" xmlns:axis="org.samchon.ui.axis.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:ArrayCollection id="reportList">
+			<fx:Object label="Financial Ratio" data="0" />
+			<fx:Object label="Balanced Sheet" data="1" />
+			<fx:Object label="Profit and Losses" data="2" />
+			<fx:Object label="Cash Flow" data="3" />
+		</s:ArrayCollection>
+		<s:ArrayCollection id="standardList">
+			<fx:Object label="GAAP" data="1"/>
+			<fx:Object label="IFRS" data="2"/>
+		</s:ArrayCollection>
+		<s:ArrayCollection id="periodList">
+			<fx:Object label="Year" data="4"/>
+			<fx:Object label="Quarter" data="1"/>
+		</s:ArrayCollection>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.charts.series.ColumnSeries;
+			import mx.charts.series.LineSeries;
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.controls.advancedDataGridClasses.AdvancedDataGridColumn;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			
+			import org.samchon.simulation.inquiry.finance.FinanceChart;
+			import org.samchon.simulation.worker.FinanceWorker;
+			import org.samchon.simulation.worker.InquiryWorker;
+			import org.samchon.ui.label.*;
+			
+			import spark.events.IndexChangeEvent;
+			
+			protected var xml:XML = null;
+			[Bindable]protected var xmlListCollection:XMLListCollection;
+			[Bindable]protected var volumeXML:XMLListCollection;
+			[Bindable]protected var growthXML:XMLListCollection;
+			
+			protected var classFactory:ClassFactory = new ClassFactory(DataGridNumberLabel);
+			
+			override protected function getNewWorker():InquiryWorker	{	return new FinanceWorker(this);	}
+			
+			protected override function getRequestParameters():Object {
+				var map:Object = new Object();
+				
+				map.standard = standardTabBar.selectedItem.data;
+				map.period = periodTabBar.selectedItem.data;
+				map.length = lengthNumericStepper.value;
+				
+				return map;
+			}
+			
+			/* -----------------------------------------------------------------------------
+				CONSTRUCTING XML OF REPORT
+			----------------------------------------------------------------------------- */
+			protected function get dateLength():int {
+				return xml.date.date.length();
+			}
+			public function set source(xml:XML):void {
+				this.xml = xml;
+				
+				//SET SERIES
+				var column:AdvancedDataGridColumn= new AdvancedDataGridColumn();
+				column.headerText = "Components";
+				column.dataField = "@label";
+				column.width = 150;
+				
+				var columns:Array = [column];
+				
+				for(var i:int = 0; i < dateLength; i++) {
+					column = new AdvancedDataGridColumn();
+					column.dataField = "@date" + i;
+					column.headerText = xml.date.date[i];
+					column.itemRenderer = classFactory;
+					
+					columns.push(column);
+				}
+				advDg.columns = columns;
+				
+				//SET DATA
+				var x:int = reportComboBox.selectedItem.data;
+				goReport(x);
+			}
+			protected function goReport(x:int):void {
+				if(xml == null)
+					return;
+				xmlListCollection = new XMLListCollection(xml.report[x].report);
+				if(x == 0)
+					advDg.expandAll();
+			}
+			
+			//DRAW CHART WHEN ADVDG'S ITEMS ARE SELECTED
+			protected function drawChart(event:ListEvent):void {
+				var array:Array = [];
+				var labelArray:Array = [];
+				
+				for(var i:int = 0; i < advDg.selectedItems.length; i++)
+					if(advDg.selectedItems[i].hasOwnProperty("@date0")) {
+						array.push( advDg.selectedItems[i] );
+						labelArray.push( advDg.selectedItems[i]["@label"] );
+					}
+				if(array.length == 0)
+					return;
+				array = array.reverse();
+				
+				var financeChart:FinanceChart = new FinanceChart(array, xml.date);
+				volumeXML = new XMLListCollection( financeChart.toVolumeXML().volume );
+				growthXML = new XMLListCollection( financeChart.toGrowthXML().growth );
+				
+				setChartSeries(labelArray);
+			}
+			protected function setChartSeries(labelArray:Array):void {
+				var columnSeriesArray:Array = [];
+				var lineSeriesArray:Array = [];
+				var columnSeries:ColumnSeries;
+				var line:LineSeries;
+				
+				for(var i:int = labelArray.length - 1; i >= 0; i--) {
+					columnSeries = new ColumnSeries();
+					line = new LineSeries();
+					
+					columnSeries.xField = line.xField = "date";
+					columnSeries.yField = line.yField = columnSeries.displayName = line.displayName = labelArray[i];
+					
+					columnSeriesArray.push(	columnSeries	);
+					lineSeriesArray.push(	line	);
+				}
+				volumeChart.series = columnSeriesArray;
+				growthChart.series = lineSeriesArray;
+			}
+			
+		]]>
+	</fx:Script>
+	<mx:HDividedBox width="100%" height="100%">
+		<!-- TABLE -->
+		<s:Panel title="Financial Statement"
+				 width="70%" height="100%">
+			<ui:VGroup width="100%" height="100%" padding="5">
+				<s:HGroup width="100%">
+					<s:ComboBox id="reportComboBox" 
+								dataProvider="{reportList}" 
+								change="goReport(reportComboBox.selectedItem.data)" 
+								selectedIndex="0" />
+					<s:Spacer width="100%" />
+					<s:NumericStepper id="lengthNumericStepper" minimum="1" value="5"
+									  change="goCorporate()"/>
+					<s:TabBar id="standardTabBar" 
+							  dataProvider="{standardList}"
+							  change="goCorporate()"/>
+					<s:TabBar id="periodTabBar" 
+							  dataProvider="{periodList}" 
+							  selectedIndex="0"
+							  change="goCorporate()"/>
+				</s:HGroup>
+				<s:BorderContainer width="100%" height="100%">
+					<mx:AdvancedDataGrid id="advDg" 
+										 change="drawChart(event)"
+										 lockedColumnCount="1"
+										 allowMultipleSelection="true"
+										 sortableColumns="false" borderVisible="false" 
+										 width="100%" height="100%">
+						<mx:dataProvider>
+							<mx:HierarchicalData source="{xmlListCollection}"/>
+						</mx:dataProvider>
+					</mx:AdvancedDataGrid>
+				</s:BorderContainer>
+			</ui:VGroup>
+		</s:Panel>
+		
+		<!-- CHART -->
+		<s:Panel title="Financial Graph and Growth Ratio"
+				 width="30%" height="100%">
+			<ui:VGroup width="100%" height="100%" padding="5">
+				<mx:ColumnChart id="volumeChart" 
+								dataProvider="{volumeXML}"
+								width="100%" height="50%">
+					<mx:verticalAxis>
+						<axis:NumberLinearAxis />
+					</mx:verticalAxis>
+					<mx:horizontalAxis>
+						<mx:CategoryAxis categoryField="date" />
+					</mx:horizontalAxis>
+				</mx:ColumnChart>
+				<mx:Legend dataProvider="{volumeChart}" 
+						   direction="horizontal" 
+						   width="100%" />
+				<mx:LineChart id="growthChart" 
+							  dataProvider="{growthXML}"
+							  width="100%" height="50%">
+					<mx:verticalAxis>
+						<axis:PercentLinearAxis />
+					</mx:verticalAxis>
+					<mx:horizontalAxis>
+						<mx:CategoryAxis categoryField="date" />
+					</mx:horizontalAxis>
+				</mx:LineChart>
+			</ui:VGroup>
+		</s:Panel>
+	</mx:HDividedBox>
+</movie:InquiryMovie>

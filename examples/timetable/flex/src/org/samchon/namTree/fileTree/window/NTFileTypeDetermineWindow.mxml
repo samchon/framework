@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:BorderContainerWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						  xmlns:s="library://ns.adobe.com/flex/spark" 
+						  xmlns:mx="library://ns.adobe.com/flex/mx" 
+						  xmlns:ui="org.samchon.ui.*" 
+						  xmlns:menu="org.samchon.menu.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexMouseEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.samchon.fileTree.file.FTFolder;
+			import org.samchon.fileTree.file.FTFileList;
+			import org.samchon.fileTree.window.FTCreationWindow;
+			import org.samchon.fileTree.window.ScriptCreationWindow;
+			
+			public var fileList:FTFileList;
+			public var parentFile:FTFolder;
+			
+			protected var completeHandler:Function = null;
+			
+			protected function buttonClicked(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var creationWindow:FTCreationWindow;
+				
+				var source:String = event.currentTarget.source;
+				if(source == "programming")
+					creationWindow = PopUpManager.createPopUp(Root.window, ScriptCreationWindow, true) as ScriptCreationWindow;
+				else if(source == "retrieve")
+					creationWindow = PopUpManager.createPopUp(Root.window, NTFileCreationWindow, true) as NTFileCreationWindow;
+				
+				creationWindow.fileList = this.fileList;
+				creationWindow.parentFile = this.parentFile;
+				creationWindow.addEventListener(Event.COMPLETE, completeHandler);
+				
+				PopUpManager.removePopUp( this );
+			}
+			override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
+			{
+				if(type == Event.COMPLETE)
+					completeHandler = listener;
+				super.addEventListener(type, listener, useCapture, priority, useWeakReference);
+			}
+			
+			protected function mouseDownOutsideHandler(event:FlexMouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				PopUpManager.removePopUp( this );
+			}
+			
+		]]>
+	</fx:Script>
+	<ui:VGroup width="100%" height="100%" 
+			   padding="10"
+			   horizontalAlign="center">
+		<s:Label fontFamily="Times New Roman" fontSize="16" fontWeight="bold"
+				 text="Select a file to create."/>
+		<s:Spacer height="0" />
+		<s:HGroup width="100%" height="100%">
+			<menu:MenuButton source="retrieve"
+							 click="buttonClicked(event)" 
+							 label="Nam-tree File"
+							 toolTip="A wizard file which will be placed in Nam-Tree" />
+			
+			<menu:MenuButton source="programming" 
+							 click="buttonClicked(event)" 
+							 label="Script File" 
+							 toolTip="A script file which will be included by wizard file" />
+		</s:HGroup>
+	</ui:VGroup>
+</ui:BorderContainerWindow>

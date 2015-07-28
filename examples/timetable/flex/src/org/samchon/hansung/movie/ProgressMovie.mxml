@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:BorderContainerWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   xmlns:mx="library://ns.adobe.com/flex/mx" 
+				   xmlns:ui="org.samchon.ui.*" 
+				   
+				   dropShadowVisible="true" creationComplete="bordercontainerwindow1_creationCompleteHandler(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			public function setProgress(value:Number, total:Number):void
+			{
+				progressBar.setProgress(value, total);
+			}
+			
+			protected function bordercontainerwindow1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				this.closeWhenReleaseOutside = false;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:HGroup width="100%" 
+			  paddingBottom="5" paddingLeft="10" paddingRight="10" paddingTop="5">
+		<s:Image source="assets/images/icon.png" />
+		<ui:VGroup fontFamily="Courier New" fontSize="13"
+				   width="100%" height="100%"
+				   padding="10"
+				   verticalAlign="middle">
+			<s:Label fontFamily="궁서체" 
+					 fontSize="20" 
+					 fontWeight="bold" 
+					 text="데이터 수집 중..."/>
+			
+			<s:Spacer height="5" />
+			
+			<s:Label fontFamily="바탕체" 
+					 text="    잠시만 기다려주십시오."/>
+			<s:Label fontFamily="바탕체" 
+					 text="    자료를 읽어들이는 중입니다.."/>
+			
+			<s:Spacer height="5" />
+			<mx:ProgressBar id="progressBar" 
+							mode="manual" 
+							indeterminate="false"
+							fontSize="11" 
+							fontWeight="normal"
+							labelPlacement="right"
+							width="100%"/>
+		</ui:VGroup>
+	</s:HGroup>
+</ui:BorderContainerWindow>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<result:SMResultMovie xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" 
+					  xmlns:result="org.samchon.simulation.simulation.abstract.result.*" 
+					  
+					  title="Montecarlo Simulation Result" xmlns:ui="org.samchon.ui.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.ListEvent;
+			
+			import org.samchon.simulation.simulation.montecarlo.history.MCHistory;
+			import org.samchon.utils.StringUtil;
+			
+			override public function setResult(xml:XML):void
+			{
+				xmlListCollection.source = xml.result;
+			}
+			
+			protected function itemDoubleClicked(event:ListEvent):void
+			{
+				var x:int = event.rowIndex;
+				
+				var history:MCHistory = movie.simulationWorker.getHistoryArray().at(x) as MCHistory;
+				var title:String = 
+					StringUtil.sprintf
+					(
+						"Montecarlo - {0}({1})", 
+						history.getName(), 
+						history.getCode()
+					);
+				
+				ExternalInterface.call("openMCWindow", title, history.toDetailXML());
+				/*
+				var win:MCDetailWindow = new MCDetailWindow();
+				win.title = title;
+				win.xml = history.toDetailXML();
+				win.open(false);
+				*/
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<ui:VGroup width="100%" height="100%" 
+			   padding="5">
+		<s:HGroup width="100%" horizontalAlign="right">
+			<s:Button label="Simulate" 
+					  icon="assets/icons/move16.png" 
+					  click="goSimulate(event)"/>
+		</s:HGroup>
+		<mx:AdvancedDataGrid id="advDg"
+							 dataProvider="{xmlListCollection}"
+							 itemDoubleClick="itemDoubleClicked(event)"
+							 
+							 doubleClickEnabled="true"
+							 sortableColumns="false" 
+							 sortExpertMode="true"
+							 variableRowHeight="true"
+							 width="100%" height="100%">
+			<!--<mx:dataProvider>
+				<mx:HierarchicalData source="{xmlListCollection}" />
+			</mx:dataProvider>-->
+			<mx:groupedColumns>
+				<mx:AdvancedDataGridColumn headerText="Company Name"
+										   dataField="@name"
+										   itemRenderer="org.samchon.ui.label.DataGridCompanyLabel" />
+				<mx:AdvancedDataGridColumnGroup headerText="Parameter">
+					<mx:AdvancedDataGridColumn headerText="Mean" 
+											   dataField="@prMean"
+											   itemRenderer="org.samchon.ui.label.DataGridColorPercentLabel" />
+					<mx:AdvancedDataGridColumn headerText="Stdev" 
+											   dataField="@prStdev"
+											   itemRenderer="org.samchon.ui.label.DataGridColorPercentLabel" />
+				</mx:AdvancedDataGridColumnGroup>
+				<mx:AdvancedDataGridColumnGroup headerText="Simulated">
+					<mx:AdvancedDataGridColumn headerText="Mean" 
+											   dataField="@siMean"
+											   itemRenderer="org.samchon.ui.label.DataGridColorPercentLabel" />
+					<mx:AdvancedDataGridColumn headerText="Stdev" 
+											   dataField="@siStdev"
+											   itemRenderer="org.samchon.ui.label.DataGridColorPercentLabel" />
+				</mx:AdvancedDataGridColumnGroup>
+				<mx:AdvancedDataGridColumnGroup headerText="Distribution of Return">
+					<mx:AdvancedDataGridColumn headerText="5%" 
+											   dataField="@percent5"
+											   itemRenderer="org.samchon.ui.label.DataGridColorPercentLabel" />
+					<mx:AdvancedDataGridColumn headerText="Median" 
+											   dataField="@median"
+											   itemRenderer="org.samchon.ui.label.DataGridColorPercentLabel" />
+					<mx:AdvancedDataGridColumn headerText="95%" 
+											   dataField="@percent95"
+											   itemRenderer="org.samchon.ui.label.DataGridColorPercentLabel" />
+				</mx:AdvancedDataGridColumnGroup>
+			</mx:groupedColumns>
+			<!--<mx:rendererProviders>            
+				<mx:AdvancedDataGridRendererProvider 
+					renderer="org.samchon.simulation.montecarlo.result.chart.MCResultChart"
+					dataField="index" 
+					columnIndex="0" columnSpan="0"/>
+			</mx:rendererProviders>-->
+		</mx:AdvancedDataGrid>
+	</ui:VGroup>
+</result:SMResultMovie>

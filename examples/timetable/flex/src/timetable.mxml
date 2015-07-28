@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx" 
+					   xmlns:movie="org.samchon.hansung.movie.*"
+					   
+					   creationComplete="creationCompleted(event)" 
+					   invoke="handleInvoke(event)"
+					   
+					   status="한성대 시간표 v3.0 - 2014.02.14" 
+					   width="1280" height="800">
+	
+	<fx:Style source="index.css" />
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.events.InvokeEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.samchon.hansung.Timetable;
+			import org.samchon.hansung.base.Student;
+			import org.samchon.hansung.movie.LoginMovie;
+			import org.samchon.hansung.movie.TimetableMovie;
+			import org.samchon.ui.Window;
+			
+			import spark.components.HGroup;
+			
+			protected var loginMovie:LoginMovie;
+			protected var timetableMoive:TimetableMovie;
+			
+			public var file:File = null;
+			
+			protected function creationCompleted(event:FlexEvent):void 
+			{
+				this.removeEventListener(FlexEvent.CREATION_COMPLETE, creationCompleted);
+				
+				Root.window = this;
+				
+				//업데이트 관리자 실행
+				var updateWindow:UpdateWindow = PopUpManager.createPopUp(this, UpdateWindow, true) as UpdateWindow;
+				updateWindow.main = this;
+				PopUpManager.centerPopUp(updateWindow);
+				
+				vGroup.addElement( new HGroup() );
+			}
+			protected function handleInvoke(event:InvokeEvent):void
+			{
+				if(event.currentDirectory == null || event.arguments.length != 1)
+					return;
+				
+				var file:File = event.currentDirectory.resolvePath(event.arguments[0]);
+				
+				if(Root.isReady == true)
+					timetableMoive.openHTT(file);
+				else
+					this.file = file;
+			}
+			
+			public function handleLogin():void 
+			{
+				//로그인 화면을 없애고,
+				//시간표 프로그램 본문을 불러옴
+				goTimetable();
+			}
+			public function goLogin():void
+			{	
+				loginMovie = new LoginMovie();
+				loginMovie.main = this;
+				
+				vGroup.removeElementAt(0);
+				vGroup.addElement( loginMovie );
+			}
+			protected function goTimetable():void
+			{
+				timetableMoive = new TimetableMovie();
+				timetableMoive.main = this;
+				
+				vGroup.removeElementAt(0);
+				vGroup.addElement( timetableMoive );
+			}
+			public function goLogout():void
+			{
+				//자동로그인 항목을 지우고,
+				var sharedObject:SharedObject = SharedObject.getLocal("samchon.timetable.login");
+				sharedObject.clear();
+				
+				//시간표 본문을 없앤 뒤,
+				Root.timetable = null;
+				
+				//로그인 화면으로 돌아감
+				goLogin();
+			}
+			
+			//종료時, 다른 창도 모두 끔
+			public override function close():void
+			{
+				Window.closeAll();
+				super.close();
+			}
+		]]>
+	</fx:Script>
+	
+	<!-- 배경 그림: 파란색 사선 무늬 -->
+	<s:BorderContainer width="100%" height="100%"
+					   backgroundImage="@Embed('assets/images/background.gif')"
+					   backgroundImageFillMode="repeat"/>
+	
+	<s:VGroup id="vGroup" 
+			  width="100%" height="100%" 
+			  horizontalAlign="center" verticalAlign="middle" />
+	
+</s:WindowedApplication>

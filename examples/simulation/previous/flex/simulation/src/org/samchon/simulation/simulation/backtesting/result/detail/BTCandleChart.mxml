@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<price:CandleChart xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   xmlns:mx="library://ns.adobe.com/flex/mx" 
+				   xmlns:price="org.samchon.simulation.inquiry.price.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.charts.HitData;
+			import mx.charts.series.ColumnSeries;
+			import mx.charts.series.LineSeries;
+			import mx.collections.XMLListCollection;
+			import mx.events.FlexEvent;
+			import mx.graphics.SolidColor;
+			import mx.graphics.SolidColorStroke;
+			
+			import org.samchon.ui.chart.minimap.MinimapSubChart;
+			import org.samchon.ui.chart.minimap.MinimapSubChartEvent;
+			import org.samchon.format.Format;
+			import org.samchon.utils.Color;
+			
+			override protected function creationCompleted(event:FlexEvent):void
+			{
+				subSeriesTitleList.addItem({label:"Trade History", data:"trade"});
+				
+				super.creationCompleted(event);
+			}
+			override protected function setSubSeries():void {
+				super.setSubSeries();
+				
+				//BOUGHT SERIES
+				var boughtSeries:ColumnSeries = new ColumnSeries();
+				boughtSeries.xField = "@date";
+				boughtSeries.yField = "@bought";
+				boughtSeries.displayName = "Bought";
+				boughtSeries.setStyle("fill", new SolidColor(Color.GREEN, .5));
+				
+				//SOLD SERIES
+				var soldSeries:LineSeries = new LineSeries();
+				soldSeries.xField = "@date";
+				soldSeries.yField = "@sold";
+				soldSeries.displayName = "Sold";
+				soldSeries.setStyle("fill", new SolidColor(Color.ORANGE, .5));
+				
+				subSeriesMap["bought"] = boughtSeries;
+				subSeriesMap["sold"] = soldSeries;
+			}
+			override protected function subSeriesMain():void
+			{
+				//DO NOTHING
+			}
+			
+			override protected function addSubChartAt(x:int):void {
+				if(subSeriesTitleList[x].data == "trade")
+				{
+					var minimapSubChart:MinimapSubChart = new MinimapSubChart();
+					var series:Array = [subSeriesMap.bought, subSeriesMap.sold];
+					
+					minimapSubChart.title = "Trade History";
+					minimapSubChart.categoryField = "@date";
+					minimapSubChart.subLinearAxis.baseAtZero = true;
+					minimapSubChart.series = series;
+					minimapSubChart.addEventListener(MinimapSubChartEvent.REMOVE_ACTIVATE, handleSubChartRemoveActivated);
+					minimapChart.addSubChart( minimapSubChart );
+				}
+				else
+					super.addSubChartAt(x);
+			}
+			
+			override protected function dataTipFunction(hitData:HitData):String
+			{
+				var html:String = super.dataTipFunction(hitData);
+				var candle:Object = hitData.item;
+				
+				html += "\n" +
+					"Trade History\n" +
+					"		Bought		:	" + Format.intFormat( candle.@bought ) + "\n" +
+					"		Sold			:	" + Format.intFormat( candle.@sold	) + "\n";
+				
+				return html;
+			}
+			
+		]]>
+	</fx:Script>
+</price:CandleChart>

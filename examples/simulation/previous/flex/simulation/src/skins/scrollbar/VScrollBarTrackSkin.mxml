@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+    ADOBE SYSTEMS INCORPORATED
+    Copyright 2008 Adobe Systems Incorporated
+    All Rights Reserved.
+
+    NOTICE: Adobe permits you to use, modify, and distribute this file
+    in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!--- The Spark skin class for the track of the MX ScrollBar component. 
+
+      @see mx.controls.scrollClasses.ScrollBar        
+        
+      @langversion 3.0
+      @playerversion Flash 10
+      @playerversion AIR 1.5
+      @productversion Flex 4
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 alpha.disabled="0.5">
+
+    <fx:Script>
+        /**
+         * @private
+         */
+        override protected function initializationComplete():void
+        {
+            useChromeColor = true;
+            super.initializationComplete();
+        }
+    </fx:Script>
+        
+    <s:states>
+        <s:State name="up" />
+        <s:State name="down" />
+        <s:State name="over" />
+        <s:State name="disabled" />
+    </s:states>
+
+	<s:BitmapImage source="@Embed(source='img/track_skin.png')" width="100%" height="100%" />
+</s:SparkSkin>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;
+			
+			import org.samchon.namTree.fileTree.file.NTParameter;
+			import org.samchon.namTree.fileTree.file.NTParameterDetermined;
+			import org.samchon.namTree.fileTree.file.NTParameterList;
+			
+			[Bindable]protected var parameterList:NTParameterList = new NTParameterList();
+			
+			public function set dataProvider(parameterList:NTParameterList):void
+			{
+				this.parameterList = parameterList;
+			}
+			
+			protected function goAddParameter(event:MouseEvent):void
+			{
+				parameterList.addItem( new NTParameter("", "int", "0") );
+			}
+			protected function goDeleteParameter(event:MouseEvent):void
+			{
+				var index:int = parameterGrid.selectedIndex;
+				if(index == -1)
+					return;
+				
+				var parameter:NTParameter = parameterList.getParamterAt(index);
+				parameter.removeAll();
+				parameterList.removeItem(parameter);
+			}
+			
+			protected function goAddParameterDetermined(event:MouseEvent):void
+			{
+				var parameter:NTParameter = parameterGrid.selectedItem as NTParameter;
+				if(parameter == null)
+					return;
+				
+				parameter.addItem( new NTParameterDetermined("", parameter.initialValue) );
+			}
+			protected function goDeleteParameterDetermined(event:MouseEvent):void
+			{
+				var parameter:NTParameter = parameterGrid.selectedItem as NTParameter;
+				if(parameter == null)
+					return;
+				
+				var index:int = parameterDeterminedGrid.selectedIndex;
+				if(index == -1)
+					return;
+				
+				parameter.removeItemAt(index);
+			}
+		]]>
+	</fx:Script>
+	
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		PARAMETER GRID
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<s:VGroup width="100%" height="100%">
+		<mx:DataGrid id="parameterGrid" 
+					 dataProvider="{parameterList}"
+					 editable="true"
+					 sortableColumns="false"
+					 width="100%" height="100%">
+			<mx:columns>
+				<mx:DataGridColumn headerText="Name" 
+								   dataField="name" 
+								   itemEditor="org.samchon.namTree.fileTree.window.grid.NTParameterNameDGEditor" />
+				<mx:DataGridColumn headerText="Data Type" 
+								   dataField="type"
+								   itemEditor="org.samchon.namTree.fileTree.window.grid.NTParameterTypeDGEditor" />
+				<mx:DataGridColumn headerText="Default Value" 
+								   dataField="initialValue"
+								   itemEditor="org.samchon.namTree.fileTree.window.grid.NTParameterInputDGEditor" />
+			</mx:columns>
+		</mx:DataGrid>
+		<s:HGroup width="100%" horizontalAlign="right">
+			<s:Button label="+) Add" click="goAddParameter(event)" />
+			<s:Button label="-) Delete" click="goDeleteParameter(event)" />
+		</s:HGroup>
+	</s:VGroup>
+	
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		DETERMINED GRID - CANDIDATES OF COMBO_BOX
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<s:VGroup width="250" height="100%">
+		<s:Label text="Determined piece of paramater" 
+				 fontSize="15" 
+				 fontWeight="bold" />
+		<s:Label text=": Candidates of ComboBox" 
+				 paddingLeft="40" />
+		<mx:DataGrid id="parameterDeterminedGrid" 
+					 dataProvider="{parameterGrid.selectedItem}"
+					 editable="true"
+					 sortableColumns="false"
+					 width="100%" height="100%" >
+			<mx:columns>
+				<mx:DataGridColumn headerText="Label" 
+								   dataField="label" 
+								   itemEditor="org.samchon.namTree.fileTree.window.grid.NTParameterNameDGEditor" />
+				<mx:DataGridColumn headerText="Data" 
+								   dataField="data"
+								   itemEditor="org.samchon.namTree.fileTree.window.grid.NTParameterInputDGEditor" />
+			</mx:columns>
+		</mx:DataGrid>
+		<s:HGroup width="100%" horizontalAlign="right">
+			<s:Button label="+) Add" click="goAddParameterDetermined(event)" />
+			<s:Button label="-) Delete" click="goDeleteParameterDetermined(event)" />
+		</s:HGroup>
+	</s:VGroup>
+</s:HGroup>

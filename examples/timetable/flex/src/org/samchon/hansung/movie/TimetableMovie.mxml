@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:menu="org.samchon.menu.*"
+		  xmlns:ui="org.samchon.ui.*"
+		  xmlns:movie="org.samchon.hansung.movie.*"
+		  xmlns:grid="org.samchon.hansung.movie.grid.*"
+		  
+		  creationComplete="creationCompleted(event)" 
+		  currentState="LIST"
+		  
+		  width="100%" height="100%" >
+	
+	<fx:Declarations>
+		<s:ArrayList id="retrieveFieldList">
+			<fx:Object label="과목명" data="name" />
+			<fx:Object label="코드명" data="code" />
+			<fx:Object label="교수명" data="professor" />
+			<fx:Object label="분류명" data="kind" />
+		</s:ArrayList>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.filesystem.File;
+			import flash.net.URLRequest;
+			import flash.net.navigateToURL;
+			
+			import mx.collections.ArrayList;
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.controls.DataGrid;
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			import mx.graphics.codec.PNGEncoder;
+			import mx.managers.PopUpManager;
+			
+			import org.samchon.hansung.window.AboutWindow;
+			import org.samchon.hansung.SubjectList;
+			import org.samchon.hansung.Timetable;
+			import org.samchon.hansung.apply.ApplyList;
+			import org.samchon.hansung.base.Major;
+			import org.samchon.hansung.lecture.Lecture;
+			import org.samchon.hansung.score.ScoreList;
+			import org.samchon.hansung.window.BoardWindow;
+			import org.samchon.hansung.window.PopUpWindow;
+			import org.samchon.hansung.window.HistoryWindow;
+			import org.samchon.hansung.window.RetrieveWindow;
+			import org.samchon.hansung.window.SyllabusWindow;
+			import org.samchon.ui.TitleWindow;
+			import org.samchon.ui.Window;
+			import org.samchon.utils.StringUtil;
+			
+			import spark.events.IndexChangeEvent;
+			
+			public var main:Object;
+			protected var timetable:Timetable = Root.timetable;
+			
+			//BINDED DATA
+			[Bindable]protected var lectureList:ArrayList = new ArrayList();
+			[Bindable]public var scoreList:XMLListCollection = new XMLListCollection();
+			[Bindable]protected var tableHTMLText:String = "";
+			
+			protected function get idx():int					{	return timetable.length - 1;	}
+			protected function get subjectList():SubjectList	{	return timetable.at( idx );		}
+			protected function get applyList():ApplyList		{	return subjectList.applyList;	}
+			
+			/*
+			============================================================
+			구성자 및 데이터 바인딩 처리
+			============================================================
+			*/
+			protected var progressMovie:ProgressMovie;
+			
+			protected function creationCompleted(event:FlexEvent):void
+			{
+				this.removeEventListener(FlexEvent.CREATION_COMPLETE, creationCompleted);
+				
+				goPopUp();
+				load();
+			}
+			protected function goPopUp():void
+			{
+				//var sharedObject:SharedObject = SharedObject.getLocal("samchon.timetable.flash");
+				//if(sharedObject.data.block == true)
+				//	return;
+				
+				var flashWindow:PopUpWindow = PopUpManager.createPopUp(this, PopUpWindow, true) as PopUpWindow;
+				PopUpManager.centerPopUp(flashWindow);
+			}
+			protected function load():void
+			{
+				progressMovie = PopUpManager.createPopUp(this, ProgressMovie, true) as ProgressMovie;
+				PopUpManager.centerPopUp(progressMovie);
+				
+				timetable.addEventListener(ProgressEvent.PROGRESS, loadProgressed);
+				timetable.addEventListener(Event.COMPLETE, loadCompleted);
+				
+				timetable.load();	
+			}
+			protected function loadProgressed(event:ProgressEvent):void
+			{
+				progressMovie.setProgress(event.bytesLoaded, event.bytesTotal);
+			}
+			protected function loadCompleted(event:Event):void
+			{
+				PopUpManager.removePopUp(progressMovie);
+				
+				//이수한 학점(credit) 표시
+				scoreGrid.construct();
+				scoreList.source = timetable.scoreList.toXMLList( idx );
+				
+				//수강신청 리스트에 대한 연결작업
+				applyList.addEventListener(CollectionEvent.COLLECTION_CHANGE, applyChanged);
+				applyGrid.dataProvider = applyList;
+				
+				//자신의 전공과목에 대한 강의목록을 제일 먼저 불러옴
+				var major:Major = Root.student.at(0).getMajor();
+				majorCombo.selectedIndex = major.getNo();
+				retrieveLecture( "major", major );
+				
+				//강의정보 구성이 끝났음을 기록
+				Root.isReady = true;
+				
+				//만일 미리 불러진 파일이 있다면, 연다
+				if ( main.file != null )
+					openHTT(main.file);
+			}
+			public function openHTT(file:File):void
+			{
+				applyList.openHTT(file);
+			}
+			
+			/*
+			============================================================
+			수강신청 및 강의목록 핸들러
+			============================================================
+			*/
+			//강의계획서 더블클릭 -> syllabus: 강의계획서
+			protected function syllabusDoubleClicked(event:MouseEvent):void
+			{
+				if(event.currentTarget.selectedItem == null)
+					return;
+				
+				var lecture:Lecture = event.currentTarget.selectedItem as Lecture;
+				var link:String = lecture.getLink();
+				
+				var syllabusWindow:SyllabusWindow = new SyllabusWindow(link);
+				syllabusWindow.title = 
+					StringUtil.sprintf
+					(
+						"강의계획서 - {0}({1} - {2})", 
+						lecture.getName(), 
+						lecture.getCode(), 
+						lecture.getDivide()
+					);
+				syllabusWindow.width = 700;
+				syllabusWindow.height = this.height * .9;
+				syllabusWindow.open();
+			}
+			//수강 신청
+			public function apply(code:String, divide:String):void
+			{
+				code = code.toUpperCase();
+				divide = divide.toUpperCase();
+				
+				var result:int = applyList.apply(code, divide);
+				switch(result)
+				{
+					case ApplyList.DUPLICATE_SUBJECT:
+						Alert.show("동일한 과목을 이미 신청하셨습니다.", "수강신청 실패");
+						break;
+					case ApplyList.DUPLICATE_TIME:
+						Alert.show("시간이 겹치는 과목이 존재합니다.", "수강신청 실패");
+						break;
+					case ApplyList.NO_CODE:
+						Alert.show("존재하지 않는 과목입니다.", "수강신청 실패");
+						break;
+					case ApplyList.NO_DIVIDE:
+						Alert.show("존재하지 않는 분반입니다.", "수강신청 실패");
+						break;
+				}
+			}
+			//수강신청으로 인해 변할 시,
+			protected function applyChanged(event:CollectionEvent):void
+			{
+				subjectList.score.construct( applyList );
+				scoreList.source = timetable.scoreList.toXMLList( idx );
+				tableHTMLText = applyList.toHTML();
+			}
+			//수강과목 삭제
+			protected function goDeleteApplied(event:MouseEvent):void 
+			{
+				var selectedIndices:Array = applyGrid.selectedIndices;
+				if(selectedIndices.length == 0)
+					return;
+				
+				//순서 정렬을 해 놔야 지울 때 문제가 없다
+				selectedIndices.sort();
+				for(var i:int = selectedIndices.length - 1; i >= 0; i--)
+					applyList.removeItemAt( selectedIndices[i] );
+			}
+			
+			//강의목록 검색
+			protected function retrieveLecture(field:String, value:*):void
+			{
+				lectureList.source = subjectList.getRetrievedLectureArray(field, value);
+			}
+			protected function majorComboChanged(event:IndexChangeEvent):void
+			{
+				retrieveLecture("majorNo", event.target.selectedIndex);
+			}
+			
+			/* 
+			============================================================
+			버튼 이벤트 리스터
+			============================================================
+			*/
+			//MAIN
+			protected function clickHandler(event:MouseEvent):void
+			{
+				switch(event.currentTarget.source)
+				{
+					//MAIN
+					case "new":
+						applyList.goNewHTT();
+						break;
+					case "open":
+						applyList.goOpenHTT();
+						break;
+					case "save":
+						applyList.goSaveHTT();
+						break;
+					case "retrieve":
+						for(var i:int = 0; i < Window.windowList.length; i++)
+							if( Window.windowList.getItemAt(i) is RetrieveWindow )
+								Window.windowList.getItemAt(i).close();
+						
+						var retrieveWindow:RetrieveWindow = new RetrieveWindow();
+						retrieveWindow.width = main.width;
+						retrieveWindow.height = main.height;
+						
+						retrieveWindow.subjectList = this.subjectList;
+						retrieveWindow.lectureList = this.lectureList;
+						
+						retrieveWindow.open();
+						break;
+					case "history":
+						var historyWindow:HistoryWindow = new HistoryWindow();
+						historyWindow.width = main.width;
+						historyWindow.height = main.height;
+						historyWindow.open();
+						break;
+					case "board":
+						var boardWindow:BoardWindow = new BoardWindow();
+						boardWindow.application = Root.application;
+						boardWindow.width = this.width * .85;
+						boardWindow.height = this.height * .9;
+						boardWindow.open();
+						break;
+					case "logout":
+						main.goLogout();
+						break;
+					case "close":
+						main.close();
+						break;
+					
+					//EXPORT
+					case "toWord":
+						applyList.goExport("doc");
+						break
+					case "toExcel":
+						applyList.goExport("xls");
+						break
+					case "toHTML":
+						applyList.goExport("html");
+						break;
+					case "toPicture":
+						goScreenshot();
+						break;
+					
+					//ABOUT
+					case "manual":
+						navigateToURL( new URLRequest(URL.DOWNLOAD_MANUAL) );
+						break;
+					case "fullScreen":
+						stage.displayState = 'fullScreen';
+						break;
+					case "about":
+						//TitleWindow 팝업 생성
+						var aboutWindow:AboutWindow = PopUpManager.createPopUp(this, AboutWindow, true) as AboutWindow;
+						PopUpManager.centerPopUp(aboutWindow);
+						break;
+				}
+			}
+			
+			//그림 저장 핸들러
+			protected function goScreenshot():void
+			{
+				var file:File = new File(File.desktopDirectory.nativePath + File.separator + applyList.getFileName() + ".png");
+				file.addEventListener(Event.SELECT, handleScreenshot);
+				
+				//파일 브라우저를 연다
+				file.browseForSave("그림 파일로 내보내기");
+			}
+			protected function handleScreenshot(event:Event):void
+			{
+				var file:File = event.target as File;
+				file.removeEventListener(Event.SELECT, handleScreenshot);
+				applyList.getFlashVar();
+				
+				//현재 화면을 bytearray로 기록
+				var pngSource:BitmapData = new BitmapData(this.width, this.height);
+				pngSource.draw(main as IBitmapDrawable);
+				var pngEncoder:PNGEncoder = new PNGEncoder();
+				var pngData:ByteArray = pngEncoder.encode(pngSource); 
+				
+				//그 bytearray를 파일에 저장
+				var stream:FileStream = new FileStream();
+				stream.open(file, FileMode.WRITE);
+				stream.writeBytes(pngData);
+				stream.close();
+				
+				//저장한 파일을 연다
+				file.openWithDefaultApplication();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="LIST" />
+		<s:State name="TABLE"/>
+	</s:states>
+	
+	<!-- 
+	=========================================================================
+	상단 리본 메뉴 
+	=========================================================================
+	-->
+	<mx:TabNavigator id="menuNavigator" 
+					 dropShadowVisible="true" 
+					 width="100%"
+					 paddingTop="5" paddingRight="5" paddingBottom="5">
+		<menu:MenuNavigatorContent label=" - Main -">
+			<s:HGroup width="100%">
+				<menu:MenuButton click="clickHandler(event)" 
+								 source="new" label="새 파일"
+								 toolTip="시간표를 새로 작성합니다." />
+				<menu:MenuButton click="clickHandler(event)" 
+								 source="open"  label="파일 열기"
+								 toolTip="기존에 작성했던 시간표를 불러옵니다." />
+				<menu:MenuButton click="clickHandler(event)" 
+								 source="save" label="파일 저장"
+								 toolTip="현재의 시간표를 저장합니다." />
+				<menu:MenuButton click="clickHandler(event)" 
+								 source="retrieve" label="조건 검색"
+								 toolTip="원하시는 조건의 과목을 찾아줍니다." />
+				<menu:MenuButton click="clickHandler(event)" 
+								 source="history" label="과거 시간표"
+								 toolTip="과거의 시간표를 조회합니다." />
+				<menu:MenuButton click="clickHandler(event)" 
+								 source="board" label="게시판"
+								 toolTip="게시판 창을 새로 엽니다." />
+				<menu:MenuButton source="logout" label="Log-out"
+								 click="clickHandler(event)" 
+								 toolTip="로그아웃 합니다." />
+				<menu:MenuButton click="clickHandler(event)" 
+								 source="close"  label="종료"
+								 toolTip="Good-bye~!!" />
+			</s:HGroup>
+		</menu:MenuNavigatorContent>
+		<menu:MenuNavigatorContent label=" - Export -">
+			<s:HGroup width="100%">
+				<menu:MenuButton source="toWord" label="To Word"
+								 click="clickHandler(event)" 
+								 toolTip="Save as word(doc) file what you see" />
+				<menu:MenuButton source="toExcel" label="To Excel"
+								 click="clickHandler(event)" 
+								 toolTip="Save as excel(xls) file what you see" />
+				<menu:MenuButton source="toHTML" label="To HTML"
+								 click="clickHandler(event)" 
+								 toolTip="Save as html file what you see" />
+				<menu:MenuButton source="toPicture" label="To Picture"
+								 click="clickHandler(event)" 
+								 toolTip="Save as picture(png) file what you see" />
+			</s:HGroup>
+		</menu:MenuNavigatorContent>
+		<menu:MenuNavigatorContent label=" - Help -">
+			<s:HGroup width="100%">
+				<menu:MenuButton source="manual" label="Manual"
+								 click="clickHandler(event)" 
+								 toolTip="Samchon Simulation Cloud Manual" />
+				<menu:MenuButton source="fullScreen" label="Full Screen"
+								 click="clickHandler(event)" 
+								 toolTip="Full Screen" />
+				<menu:MenuButton source="about" label="About"
+								 click="clickHandler(event)" 
+								 toolTip="About Samchon Simulation and its Developer" />
+			</s:HGroup>
+		</menu:MenuNavigatorContent>
+	</mx:TabNavigator>
+	
+	<!-- 
+	=========================================================================
+		본문
+	=========================================================================
+	-->
+	<ui:HGroup width="100%" height="100%" 
+			   padding="5">
+		<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			강의 신청 목록 그리드
+		+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<s:Panel title="강의 신청 목록" 
+				 height="100%">
+			<ui:VGroup id="leftVGroup"
+					   width="100%" height="100%" 
+					   padding="5">
+				<s:HGroup width="100%" 
+						  horizontalAlign="right">
+					<s:TextInput id="apply_code" 
+								 prompt="과목 코드" 
+								 width="100" />
+					<s:TextInput id="apply_divide" 
+								 prompt="분반" 
+								 width="35" />
+					<s:Button icon="assets/icons/check16.png" 
+							  label="추가" 
+							  click="apply(apply_code.text, apply_divide.text);"/>
+				</s:HGroup>
+				
+				<!-- 강의 신척 목록 그리드 -->
+				<grid:ApplyGrid id="applyGrid" 
+								timetableMovie="{this}"
+								doubleClick="syllabusDoubleClicked(event)"
+								width="100%" height="100%" />
+				
+				<s:HGroup width="100%" 
+						  horizontalAlign="right">
+					<s:Button includeIn="LIST"
+							  icon="assets/icons/address16.png"
+							  label="시간표"
+							  click="{this.currentState = 'TABLE'}"/>
+					<s:Button includeIn="TABLE"
+							  icon="assets/icons/news16.png"
+							  label="강의목록" 
+							  click="{this.currentState = 'LIST'}"/>
+					<s:Button icon="assets/icons/trash16.png"
+							  label="삭제" 
+							  click="goDeleteApplied(event)"/>
+				</s:HGroup>
+			</ui:VGroup>
+		</s:Panel>
+		
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			강의 목록 및 시간표
+		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<s:VGroup width="100%" height="100%">
+			<s:Panel title="강의 목록 / 시간표" 
+					 width="100%" height="100%">
+				
+				<!-- **************************************************************
+				강의 목록
+				*************************************************************** -->
+				<ui:VGroup includeIn="LIST" 
+						   width="100%" height="100%" padding="5">
+					<s:HGroup width="100%">
+						<s:ComboBox id="majorCombo" 
+									labelField="$name"
+									dataProvider="{Root.majorList}" 
+									change="majorComboChanged(event)"
+									width="180" />
+						<s:Spacer width="100%" />
+						
+						<!-- 검색하기 -->
+						<s:ComboBox id="retrieveCombo" 
+									dataProvider="{retrieveFieldList}" 
+									selectedIndex="0" 
+									width="100" />
+						<s:TextInput id="retrieveText" 
+									 width="150" />
+						<s:Button icon="assets/icons/lens16.png" 
+								  label="검색" 
+								  click="retrieveLecture(retrieveCombo.selectedItem.data, retrieveText.text)" />
+					</s:HGroup>
+					
+					<!-- 강의목록 그리드 -->
+					<grid:LectureGrid dataProvider="{lectureList}" 
+									  doubleClick="syllabusDoubleClicked(event)" 
+									  width="100%" height="100%" />
+				</ui:VGroup>
+				
+				<!-- ***************************************************************
+					시간표
+				**************************************************************** -->
+				<mx:HTML includeIn="TABLE" 
+						 htmlText="{tableHTMLText}" 
+						 width="100%" height="100%" />
+			</s:Panel>
+			
+			<!-- ***************************************************************
+				이수한 학점 및 이수할 학점
+			**************************************************************** -->
+			<grid:ScoreGrid id="scoreGrid" 
+							hierarchicalData="{scoreList}"
+							width="100%" height="150" />
+		</s:VGroup>
+	</ui:HGroup>	
+</s:VGroup>

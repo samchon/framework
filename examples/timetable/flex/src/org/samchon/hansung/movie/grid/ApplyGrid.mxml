@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 
+			 dropEnabled="true" 
+			 doubleClickEnabled="true"
+			 allowMultipleSelection="true" 
+			 sortableColumns="false">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.DragEvent;
+			
+			import org.samchon.hansung.lecture.Lecture;
+			import org.samchon.hansung.movie.TimetableMovie;
+			
+			public var timetableMovie:TimetableMovie
+			
+			protected override function dragDropHandler(event:DragEvent):void {
+				var lecture:Lecture =  event.dragSource.dataForFormat("items")[0] as Lecture;
+				timetableMovie.apply( lecture.getCode(), lecture.getDivide() );
+			}
+		]]>
+	</fx:Script>
+	<mx:columns>
+		<mx:DataGridColumn	width="60"		dataField="$code"		headerText="코드"/>
+		<mx:DataGridColumn					dataField="$name"		headerText="과목명"/>
+		<mx:DataGridColumn	width="37.5"	dataField="$divide"		headerText="분반"/>
+		<mx:DataGridColumn	width="55"		dataField="$kind"		headerText="분류"/>
+		<mx:DataGridColumn	width="37.5"	dataField="$credit"		headerText="학점"/>
+		<mx:DataGridColumn	width="70"		dataField="$professor"	headerText="교수"/>
+	</mx:columns>
+</mx:DataGrid>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window:FTCreationWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						   xmlns:s="library://ns.adobe.com/flex/spark" 
+						   xmlns:mx="library://ns.adobe.com/flex/mx" 
+						   xmlns:window="org.samchon.fileTree.window.*"
+						   xmlns:ui="org.samchon.ui.*"
+						   xmlns:fileTree="org.samchon.fileTree.*"
+						   
+						   title="To create a script file" 
+						   creationComplete="creationCompleted(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			import org.samchon.fileTree.file.FTFile;
+			import org.samchon.fileTree.file.FTFolder;
+			
+			protected function creationCompleted(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				this.removeEventListener(FlexEvent.CREATION_COMPLETE, creationCompleted);
+				
+				this.width = 700;
+				this.height = Root.window.height * .9;
+				super.moveToCenter( Root.window );
+				
+				if(parentFile is FTFile) //UPDATE
+				{
+					nameText.text = parentFile.getName();
+					contentText.text = FTFile(parentFile).getContent();
+					
+					nameText.enabled = false;
+				}
+			}
+			override protected function getFile():FTFolder
+			{
+				var file:FTFile;
+				if(parentFile is FTFolder) //INSERT
+					file = new FTFile
+					(
+						fileList,
+						Global.NULL, 
+						this.parentID, 
+						nameText.text,
+						"as",
+						contentText.text
+					);
+				else //UPDATE
+				{
+					file = parentFile as FTFile;
+					file.setName( nameText.text );
+					file.setContent( contentText.text );
+				}
+				return file;
+			}
+			
+			override protected function goCreate(event:MouseEvent):void
+			{
+				if(nameText.text == "")
+					Alert.show("File's name is empty", "Creation Error");
+				else if(contentText.text == "")
+					Alert.show("Script is empty");
+				else
+					super.goCreate(event);
+			}
+			
+		]]>
+	</fx:Script>
+	<ui:VGroup width="100%" height="100%" 
+			   padding="5">
+		<ui:HGroup width="100%">
+			<s:Label text="File Name" />
+			<fileTree:FileNameTextInput id="nameText"
+										text="" />
+			<s:Label text=".as" />
+		</ui:HGroup>
+		<s:Label text="Script" />
+		<s:TextArea id="contentText" 
+					width="100%" height="100%" 
+					text="" />
+	</ui:VGroup>
+	<window:controlBarContent>
+		<s:HGroup width="100%" horizontalAlign="right">
+			<s:Button click="goCreate(event)"
+					  icon="assets/icons/as16.gif" 
+					  label="Create" />
+		</s:HGroup>
+	</window:controlBarContent>
+</window:FTCreationWindow>

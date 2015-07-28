@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   xmlns:mx="library://ns.adobe.com/flex/mx" 
+				   xmlns:ui="org.samchon.ui.*"
+				   
+				   borderVisible="true" dropShadowVisible="true"
+				   creationComplete="creationCompleted(event)">
+	<fx:Declarations>
+		<s:ArrayList id="typeList">
+			<fx:Object label="int" data="int" />
+			<fx:Object label="Number" data="Number" />
+			<fx:Object label="String" data="String" />
+		</s:ArrayList>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			import org.samchon.namTree.NTGrid;
+			import org.samchon.namTree.criteria.data.NTAggregation;
+			import org.samchon.namTree.criteria.grid.NTItemParameterGrid;
+			import org.samchon.namTree.fileTree.file.NTFile;
+			import org.samchon.namTree.fileTree.file.NTParameterList;
+			import org.samchon.ui.NumberInput;
+			
+			import spark.events.IndexChangeEvent;
+			
+			public var criteriaGrid:NTGrid;
+			
+			[Bindable]public var direction:int;
+			[Bindable]public var commonParameterList:NTParameterList;
+			
+			protected var item:NTItem = null;
+			
+			protected var aggregationCombo:ComboBox;
+			
+			protected function get file():NTFile					{	return item.getFile();			}
+			protected function get parameterList():NTParameterList	{	return file.parameterList;			}
+			protected function get parameterMap():Object			{	return item.getParameterMap();	}
+			
+			protected function creationCompleted(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				aggregationCombo = new ComboBox();
+				aggregationCombo.dataProvider = NTAggregation.aggregationList;
+				aggregationCombo.addEventListener(IndexChangeEvent.CHANGE, aggregationComboChanged);
+			}
+			
+			public function setItem(item:NTItem):void
+			{
+				this.item = item;
+				
+				refresh();
+			}
+			public function refresh():void
+			{
+				vGroup.removeAllElements();
+				
+				if(file == null)
+				{
+					//SET SELECTED_INDEX OF TYPE_COMBO
+					for(var i:int = 0; i < typeList.length; i++)
+						if(typeList.getItemAt(i).data == item.getType())
+							typeCombo.selectedIndex = i;
+					
+					//INSERT TEXT_INPUT AND SET RESTRICTION
+					var textInput:NumberInput = new NumberInput();
+					switch(item.getType())
+					{
+						case "int":
+							textInput.restrict = "[0-9\\-]";
+							break;
+						case "Number":
+							textInput.restrict = "[0-9\\.\\-]";
+							break;
+						case "String":
+							textInput.restrict = "^";
+							break;
+					}
+					textInput.text = item.getValue();
+					textInput.addEventListener(Event.CHANGE, valueChanged);
+					vGroup.addElement(textInput);
+				}
+				else
+				{
+					typeCombo.selectedIndex = -1;
+					typeCombo.prompt = this.file.getName();
+					
+					var dg:NTItemParameterGrid = new NTItemParameterGrid();
+					dg.criteriaGrid = criteriaGrid;
+					dg.item = this.item;
+					
+					aggregationCombo.selectedIndex = item.getAggregation();
+					vGroup.addElement(aggregationCombo);
+					vGroup.addElement(dg);
+				}
+				criteriaGrid.refresh();
+			}
+			
+			protected function typeComboChanged(event:IndexChangeEvent):void
+			{
+				// TODO Auto-generated method stub
+				item.setFile(null);
+				item.setType( event.target.selectedItem.data );
+				
+				if(item.getType() == "String")
+					item.setValue("");
+				else
+					item.setValue("0");
+				
+				refresh();
+			}
+			protected function aggregationComboChanged(event:IndexChangeEvent):void
+			{
+				item.setAggregation( event.target.selectedItem.data );
+				criteriaGrid.refresh();
+			}
+			protected function valueChanged(event:Event):void
+			{
+				item.setValue(event.target.text);
+				criteriaGrid.refresh();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<ui:VGroup padding="10" 
+			   width="100%" height="100%">
+		<s:Label text="Retrieve Item -&gt; {(direction == 1) ? 'Left' : 'Right'} Term" 
+				 fontSize="15" fontWeight="bold" textDecoration="underline"/>
+		
+		<!-- NT-ITEM BASE INFORMATION -->
+		<s:ComboBox id="typeCombo" 
+					dataProvider="{typeList}" 
+					change="typeComboChanged(event)" />
+		
+		<!-- NT-ITEM CONFIGURATERS CONTAINER -->
+		<s:VGroup id="vGroup" 
+				  width="100%" height="100%">
+			
+		</s:VGroup>
+	</ui:VGroup>
+</s:BorderContainer>

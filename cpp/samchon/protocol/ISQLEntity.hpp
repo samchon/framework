@@ -13,16 +13,35 @@ namespace samchon
 
 	namespace protocol
 	{
+		/**
+		 * ISQLEntity is an interface for interacting with Database
+		 */
 		class SAMCHON_FRAMEWORK_API ISQLEntity
 		{
 		public:
 			ISQLEntity();
 			virtual ~ISQLEntity() = default;
 
-			virtual void load(std::shared_ptr<library::SQLStatement>);
-			virtual void archive(std::shared_ptr<library::SQLStatement>);
+			/**
+			 * Load data of the Entity from Database by SQLStatement
+			 *
+			 * @param stmt SQLStatement storing data of the Entity
+			 */
+			virtual void load(std::shared_ptr<library::SQLStatement> stmt);
+			
+			/**
+			 * Archive data of the Entity to Database by SQLStatement
+			 *
+			 * @param stmt SQLStatement would store data of the Entity
+			 */
+			virtual void archive(std::shared_ptr<library::SQLStatement> stmt);
 
-			virtual auto toSQL() const -> String = NULL;
+			/**
+			 * Make a SQL representing data of the Enitty
+			 *
+			 * @return SQL storing record(s) to temporary table of a Procedure
+			 */
+			virtual auto toSQL() const -> String;
 		};
 	};
 };

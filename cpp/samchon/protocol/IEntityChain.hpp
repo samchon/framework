@@ -7,6 +7,9 @@ namespace samchon
 	{
 		class Entity;
 
+		/**
+		 * 
+		 */
 		class SAMCHON_FRAMEWORK_API IEntityChain
 		{
 		protected:

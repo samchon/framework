@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2D22D7DA-299E-4AA4-9115-9FC9D56E7628}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>SamchonFramework</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir);C:\Program Files\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x86;E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir);C:\Program Files\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x86;E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);C:\Program Files\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);C:\Program Files\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;SAMCHON_FRAMEWORK_EXPORT;_DEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;SAMCHON_FRAMEWORK_EXPORT;_DEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\samchon\API.hpp" />
+    <ClInclude Include="..\samchon\IndexPair.hpp" />
+    <ClInclude Include="..\samchon\library\Base64.hpp" />
+    <ClInclude Include="..\samchon\library\BaseEvent.hpp" />
+    <ClInclude Include="..\samchon\library\Case.hpp" />
+    <ClInclude Include="..\samchon\library\Charset.hpp" />
+    <ClInclude Include="..\samchon\library\CombinedPermutation.hpp" />
+    <ClInclude Include="..\samchon\library\CriticalAllocator.hpp" />
+    <ClInclude Include="..\samchon\library\CriticalMap.hpp" />
+    <ClInclude Include="..\samchon\library\CriticalSet.hpp" />
+    <ClInclude Include="..\samchon\library\Date.hpp" />
+    <ClInclude Include="..\samchon\library\Datetime.hpp" />
+    <ClInclude Include="..\samchon\library\ErrorEvent.hpp" />
+    <ClInclude Include="..\samchon\library\Event.hpp" />
+    <ClInclude Include="..\samchon\library\EventDispatcher.hpp" />
+    <ClInclude Include="..\samchon\library\Factorial.hpp" />
+    <ClInclude Include="..\samchon\library\HTTPService.hpp" />
+    <ClInclude Include="..\samchon\library\IOperator.hpp" />
+    <ClInclude Include="..\samchon\library\Math.hpp" />
+    <ClInclude Include="..\samchon\library\MSSQLi.hpp" />
+    <ClInclude Include="..\samchon\library\MSSQLStatement.hpp" />
+    <ClInclude Include="..\samchon\library\Permutation.hpp" />
+    <ClInclude Include="..\samchon\library\ProgressEvent.hpp" />
+    <ClInclude Include="..\samchon\library\RWMutex.hpp" />
+    <ClInclude Include="..\samchon\library\RWUniqueLock.hpp" />
+    <ClInclude Include="..\samchon\library\Semaphore.hpp" />
+    <ClInclude Include="..\samchon\library\SQLi.hpp" />
+    <ClInclude Include="..\samchon\library\SQLStatement.hpp" />
+    <ClInclude Include="..\samchon\library\StringUtil.hpp" />
+    <ClInclude Include="..\samchon\library\URLVariables.hpp" />
+    <ClInclude Include="..\samchon\library\WeakString.hpp" />
+    <ClInclude Include="..\samchon\library\XML.hpp" />
+    <ClInclude Include="..\samchon\library\XMLQuote.hpp" />
+    <ClInclude Include="..\samchon\Map.hpp" />
+    <ClInclude Include="..\samchon\namtree\FTByteFile.hpp" />
+    <ClInclude Include="..\samchon\namtree\FTFactory.hpp" />
+    <ClInclude Include="..\samchon\namtree\FTFile.hpp" />
+    <ClInclude Include="..\samchon\namtree\FTFolder.hpp" />
+    <ClInclude Include="..\samchon\namtree\FTTextFile.hpp" />
+    <ClInclude Include="..\samchon\namtree\IFTFile.hpp" />
+    <ClInclude Include="..\samchon\namtree\INTExplore.hpp" />
+    <ClInclude Include="..\samchon\namtree\NTCriteria.hpp" />
+    <ClInclude Include="..\samchon\namtree\NTEntityGroup.hpp" />
+    <ClInclude Include="..\samchon\namtree\NTFactory.hpp" />
+    <ClInclude Include="..\samchon\namtree\NTFile.hpp" />
+    <ClInclude Include="..\samchon\namtree\NTIterator.hpp" />
+    <ClInclude Include="..\samchon\namtree\NTParameter.hpp" />
+    <ClInclude Include="..\samchon\namtree\NTParameterArray.hpp" />
+    <ClInclude Include="..\samchon\namtree\NTParameterDetermined.hpp" />
+    <ClInclude Include="..\samchon\namtree\NTSide.hpp" />
+    <ClInclude Include="..\samchon\protocol\IEntityChain.hpp" />
+    <ClInclude Include="..\samchon\protocol\IHTMLEntity.hpp" />
+    <ClInclude Include="..\samchon\protocol\Entity.hpp" />
+    <ClInclude Include="..\samchon\protocol\EntityArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\EntityList.hpp" />
+    <ClInclude Include="..\samchon\protocol\FlashPolicyServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\IClient.hpp" />
+    <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp" />
+    <ClInclude Include="..\samchon\protocol\IEntityPtrGroup.hpp" />
+    <ClInclude Include="..\samchon\protocol\IEntitySharedPtrGroup.hpp" />
+    <ClInclude Include="..\samchon\protocol\IEntityUniquePtrGroup.hpp" />
+    <ClInclude Include="..\samchon\protocol\Invoke.hpp" />
+    <ClInclude Include="..\samchon\protocol\InvokeParameter.hpp" />
+    <ClInclude Include="..\samchon\protocol\IProtocol.hpp" />
+    <ClInclude Include="..\samchon\protocol\IServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\IServerConnector.hpp" />
+    <ClInclude Include="..\samchon\protocol\ISQLEntity.hpp" />
+    <ClInclude Include="..\samchon\protocol\DistributedServerArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedClient.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedClientArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedServerArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystem.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArrayMediator.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ExternalClient.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ExternalClientArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ExternalClientArrayMediator.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ExternalServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ExternalServerArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ExternalServerArrayMediator.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ExternalSystem.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ExternalSystemArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ExternalSystemArrayMediator.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ExternalSystemRole.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\MediatorClientSocket.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\MediatorServerSocket.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\MediatorSocket.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ParallelClient.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ParallelClientArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ParallelServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ParallelServerArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ParallelSystem.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ParallelSystemArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\OneToOneServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\service\Client.hpp" />
+    <ClInclude Include="..\samchon\protocol\service\Server.hpp" />
+    <ClInclude Include="..\samchon\protocol\service\Service.hpp" />
+    <ClInclude Include="..\samchon\protocol\service\ServiceKeeper.hpp" />
+    <ClInclude Include="..\samchon\protocol\service\User.hpp" />
+    <ClInclude Include="..\samchon\protocol\SharedEntityArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\SharedEntityList.hpp" />
+    <ClInclude Include="..\samchon\protocol\DistributedServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\UniqueEntityArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\UniqueEntityList.hpp" />
+    <ClInclude Include="..\samchon\Set.hpp" />
+    <ClInclude Include="..\samchon\SmartPointer.hpp" />
+    <ClInclude Include="..\samchon\String.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\samchon\library\Base64.cpp" />
+    <ClCompile Include="..\samchon\library\BaseEvent.cpp" />
+    <ClCompile Include="..\samchon\library\Case.cpp" />
+    <ClCompile Include="..\samchon\library\Charset.cpp" />
+    <ClCompile Include="..\samchon\library\Date.cpp" />
+    <ClCompile Include="..\samchon\library\Datetime.cpp" />
+    <ClCompile Include="..\samchon\library\ErrorEvent.cpp" />
+    <ClCompile Include="..\samchon\library\Event.cpp" />
+    <ClCompile Include="..\samchon\library\EventDispatcher.cpp" />
+    <ClCompile Include="..\samchon\library\Factorial.cpp" />
+    <ClCompile Include="..\samchon\library\IOperator.cpp" />
+    <ClCompile Include="..\samchon\library\MSSQLi.cpp" />
+    <ClCompile Include="..\samchon\library\MSSQLStatement.cpp" />
+    <ClCompile Include="..\samchon\library\Permutation.cpp" />
+    <ClCompile Include="..\samchon\library\ProgressEvent.cpp" />
+    <ClCompile Include="..\samchon\library\RWMutex.cpp" />
+    <ClCompile Include="..\samchon\library\RWUniqueLock.cpp" />
+    <ClCompile Include="..\samchon\library\Semaphore.cpp" />
+    <ClCompile Include="..\samchon\library\CombinedPermutation.cpp" />
+    <ClCompile Include="..\samchon\library\SQLi.cpp" />
+    <ClCompile Include="..\samchon\library\SQLStatement.cpp" />
+    <ClCompile Include="..\samchon\library\StringUtilA.cpp" />
+    <ClCompile Include="..\samchon\library\StringUtilW.cpp" />
+    <ClCompile Include="..\samchon\library\URLVariablesA.cpp" />
+    <ClCompile Include="..\samchon\library\URLVariablesW.cpp" />
+    <ClCompile Include="..\samchon\library\WBase64.cpp" />
+    <ClCompile Include="..\samchon\library\WCharset.cpp" />
+    <ClCompile Include="..\samchon\library\WeakStringA.cpp" />
+    <ClCompile Include="..\samchon\library\WeakStringW.cpp" />
+    <ClCompile Include="..\samchon\library\XML.cpp" />
+    <ClCompile Include="..\samchon\library\XMLQuote.cpp" />
+    <ClCompile Include="..\samchon\namtree\FTFactory.cpp" />
+    <ClCompile Include="..\samchon\namtree\FTFile.cpp" />
+    <ClCompile Include="..\samchon\namtree\FTFolder.cpp" />
+    <ClCompile Include="..\samchon\namtree\IFTFile.cpp" />
+    <ClCompile Include="..\samchon\namtree\INTExplore.cpp" />
+    <ClCompile Include="..\samchon\namtree\NTCriteria.cpp" />
+    <ClCompile Include="..\samchon\namtree\NTEntityGroup.cpp" />
+    <ClCompile Include="..\samchon\namtree\NTFactory.cpp" />
+    <ClCompile Include="..\samchon\namtree\NTFile.cpp" />
+    <ClCompile Include="..\samchon\namtree\NTIterator.cpp" />
+    <ClCompile Include="..\samchon\namtree\NTParameter.cpp" />
+    <ClCompile Include="..\samchon\namtree\NTParameterArray.cpp" />
+    <ClCompile Include="..\samchon\namtree\NTParameterDetermined.cpp" />
+    <ClCompile Include="..\samchon\namtree\NTSide.cpp" />
+    <ClCompile Include="..\samchon\protocol\IEntityChain.cpp" />
+    <ClCompile Include="..\samchon\protocol\IHTMLEntity.cpp" />
+    <ClCompile Include="..\samchon\protocol\Entity.cpp" />
+    <ClCompile Include="..\samchon\protocol\EntityGroup.cpp" />
+    <ClCompile Include="..\samchon\protocol\FlashPolicyServer.cpp" />
+    <ClCompile Include="..\samchon\protocol\IClient.cpp" />
+    <ClCompile Include="..\samchon\protocol\Invoke.cpp" />
+    <ClCompile Include="..\samchon\protocol\InvokeParameter.cpp" />
+    <ClCompile Include="..\samchon\protocol\IProtocol.cpp" />
+    <ClCompile Include="..\samchon\protocol\IServer.cpp" />
+    <ClCompile Include="..\samchon\protocol\IServerConnector.cpp" />
+    <ClCompile Include="..\samchon\protocol\ISQLEntity.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\DistributedSystem.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\DistributedSystemArray.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\DistributedSystemRole.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ExternalSystem.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ExternalSystemArray.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ExternalSystemArrayMediator.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ExternalSystemRole.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\MediatorSocket.cpp" />
+    <ClCompile Include="..\samchon\protocol\OneToOneServer.cpp" />
+    <ClCompile Include="..\samchon\protocol\service\Client.cpp" />
+    <ClCompile Include="..\samchon\protocol\service\Server.cpp" />
+    <ClCompile Include="..\samchon\protocol\service\Service.cpp" />
+    <ClCompile Include="..\samchon\protocol\service\ServiceKeeper.cpp" />
+    <ClCompile Include="..\samchon\protocol\service\User.cpp" />
+    <ClCompile Include="..\samchon\protocol\SharedEntityArray.cpp" />
+    <ClCompile Include="..\samchon\String.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

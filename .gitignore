@@ -41,3 +41,47 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# ======================================================
+#	API DOCUMENTS (HTML)
+# ======================================================
+docs/api/
+
+# ======================================================
+#	CPP: VISUAL STUDIO
+# ======================================================
+#IN NORMAL CASE
+[Rr]elease/
+[Dd]ebug/
+x86/
+x64/
+*.sdf
+*.opensdf
+
+#FOR EXCEPTION CASE
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.unsuccessfulbuild
+ipch/
+
+# ======================================================
+#	FLEX - FLASH BUILDER
+# ======================================================
+.settings/
+bin/
+bin-debug/
+bin-release/
+html-template/
+*.actionScriptProperties
+*.flexProperties
+*.project
+.DS_Store

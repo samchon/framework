@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!---
+	An image button having label
+	{image_name}.{image_extension}<br/>
+	{image_name}_over.{image_extension}
+-->
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		 
+		  rollOver="this.currentState='over'" 
+		  rollOut="this.currentState='up'" 
+		  currentState="up">
+	<fx:Script>
+		<![CDATA[
+			/**
+			 * Location of image
+			 */
+			[Bindable]public var image:String;
+			/**
+			 * Label of image
+			 */
+			[Bindable]public var label:String;
+			
+			[Bindable]public var imageWidth:int = 80;
+			[Bindable]public var imageHeight:int = 60;
+			
+		]]>
+	</fx:Script>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="disabled" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="up" />
+	</s:states>
+	
+	<!---
+		WHEN NOT OVERRED
+	-->
+	<s:VGroup includeIn="up, down, disabled" 
+			  width="100%" height="100%"
+			  horizontalAlign="center">
+		<s:BitmapImage id="bitmapImage" 
+					   source="{image}" 
+					   width="{imageWidth}" height="{imageHeight}" />
+		<s:Label text="{label}" />
+	</s:VGroup>
+	
+	<!---
+		WHEN OVERRED
+	-->
+	<s:VGroup includeIn="over" 
+			  width="100%" height="100%"
+			  horizontalAlign="center">
+		<s:BitmapImage id="overBitmapImage"
+					   source="{image.substr(0, image.lastIndexOf('.')) + '_over.' + image.substr(image.lastIndexOf('.') + 1)}" 
+					   width="{bitmapImage.width}" height="{bitmapImage.height}" />
+		<s:Label text="{label}" 
+				 textDecoration="underline" />
+	</s:VGroup>
+</s:VGroup>

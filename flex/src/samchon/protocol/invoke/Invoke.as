@@ -12,9 +12,9 @@ package samchon.protocol.invoke
 	 * <br/>
 	 * <b>Example message:</b><br/>
 	 * &lt;invoke listener="{$FUNC_NAME}"&gt;<br/>
-	 * ---- &lt;parameter name=&quot;{$PARAM_NAME}&quot; type=&quot;{$PARAM_TYPE}&quot; &gt;{$VALUE}&lt;/parameter&gt;<br/>
-	 * ---- &lt;parameter name=&quot;{$PARAM_NAME}&quot; type=&quot;{$PARAM_TYPE}&quot; &gt;{$VALUE}&lt;/parameter&gt;<br/>
-	 * ---- ...<br/>
+	 * &#xA0;&#xA0;&#xA0;&#xA0; &lt;parameter name=&quot;{$PARAM_NAME}&quot; type=&quot;{$PARAM_TYPE}&quot; &gt;{$VALUE}&lt;/parameter&gt;<br/>
+	 * &#xA0;&#xA0;&#xA0;&#xA0; &lt;parameter name=&quot;{$PARAM_NAME}&quot; type=&quot;{$PARAM_TYPE}&quot; &gt;{$VALUE}&lt;/parameter&gt;<br/>
+	 * &#xA0;&#xA0;&#xA0;&#xA0; ...<br/>
 	 * &lt;/invoke&gt;<br/>
 	 * <br/>
 	 * &lt;invoke /&gt; -&gt; class <code>Invoke</code><br/>
@@ -22,6 +22,7 @@ package samchon.protocol.invoke
 	 * <br/>
 	 * @see IProtocol
 	 * @see InvokeParameter
+	 * @author Jeongho Nam
 	 */
 	public class Invoke
 		extends ArrayList//ArrayList<InvokeParameter>
@@ -82,8 +83,8 @@ package samchon.protocol.invoke
 		
 		//ELEMENT ACCESSORS
 		/**
-		 * Get the <code>InvokeParameter</code> at specified index
-		 * 
+		 * Get the <code>InvokeParameter</code> at specified index<br/>
+		 * <br/>
 		 * @param index the index in the <code>Invoke</code> from which to retrieve the <code>InvokeParameter</code>
 		 * @return the <code>InvokeParameter</code> at that index
 		 * @throws RangeError if the index &lt; 0 or index &gt;= length
@@ -94,8 +95,8 @@ package samchon.protocol.invoke
 		}
 		
 		/**
-		 * Access the <code>InvokeParameter</code> by specified identifier(parameter's name)
-		 * 
+		 * Access the <code>InvokeParameter</code> by specified identifier(parameter's name)<br/>
+		 * <br/>
 		 * @param key the identifier of the <code>InvokeParameter</code> wants to access 
 		 * @return The <code>InvokeParameter</code> having the key, or null if there is none.
 		 */

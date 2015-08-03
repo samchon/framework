@@ -1,6 +1,0 @@
-CREATE VIEW Simulation.v_member
-AS
-SELECT M.id, M.name, C.content as comment, L.timestamp, L.ip
-FROM Member.list M, Member.v_recent_login L, Member.comment C
-WHERE M.application = 1 AND L.application = 1 AND C.application = 1 AND
-	M.id = L.id AND L.id = C.id;

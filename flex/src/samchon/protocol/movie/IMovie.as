@@ -4,9 +4,10 @@ package samchon.protocol.movie
 
 	/**
 	 * IMovie is a common interface for Movie and SubMovie<br/>
+	 * <br/>
 	 * Designed only for SubMovie's parent<br/>
-	 * ----- SubMovie's parent can be one of Movie and SubMovie<br/>
-	 * ----- Thus, SubMovie can contain SubMovie(s) hierarchically<br/>
+	 * &#xA0;&#xA0;&#xA0;&#xA0; SubMovie's parent can be one of Movie or SubMovie<br/>
+	 * &#xA0;&#xA0;&#xA0;&#xA0; Thus, SubMovie can contain SubMovie(s) hierarchically<br/>
 	 * <br/>
 	 * @see Movie
 	 * @see SubMovie

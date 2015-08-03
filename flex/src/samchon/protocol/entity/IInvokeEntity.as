@@ -8,8 +8,7 @@ package samchon.protocol.entity
 	 * <br/>
 	 * @see Entity
 	 * @see Invoke
-	 * @author Jeongho Nam<br/>
-	 * <a href="http://samchon.org" target="_blank">http://samchon.org</a>
+	 * @author Jeongho Nam
 	 */
 	public interface IInvokeEntity
 	{

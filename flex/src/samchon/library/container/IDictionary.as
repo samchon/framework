@@ -12,8 +12,8 @@ package samchon.library.container
 		//function get(key:*):_Ty;
 		
 		/**
-		 * <p>Access the element by specified identifier(key)</p>
-		 * 
+		 * Access the element by specified identifier(key)<br/>
+		 * <br/>
 		 * @param key the identifier of the element wants to access 
 		 * @return The element having the key, or null if there is none.
 		 */

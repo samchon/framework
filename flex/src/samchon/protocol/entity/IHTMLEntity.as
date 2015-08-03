@@ -5,8 +5,7 @@ package samchon.protocol.entity
 	 * If you want to convert an Entity to HTML, implement IHTMLEntity to Entity<br/>
 	 * <br/>
 	 * @see Entity
-	 * @author Jeongho Nam<br/>
-	 * <a href="http://samchon.org" target="_blank">http://samchon.org</a>
+	 * @author Jeongho Nam
 	*/
 	public interface IHTMLEntity
 	{

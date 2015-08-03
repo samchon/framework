@@ -7,18 +7,17 @@ package samchon.protocol.entity
 	import samchon.protocol.invoke.InvokeParameter;
 
 	/**
-	 * EntityArray is an Entity and a ArrayCollection&lt;Entity&gt;
-	 * 
-<pre>The EntityArray is a container set of Entity.
-But it's not only a container for <code>Entity</code>, but also <code>EntityArray</code> is another type of <code>Entity</code>, too.
-
-It shares same interface with <code>Entity.</code><br>
-So it privdes similar methods for converting between <code>EntityArray</code> and {<code>XML</code>, <code>Invoke</code>}
-Addictionally, there's a <u>composite relationship</u> between <code>EntityArray</code> and <code>Entity.</code></pre>
-	 * 
-	 * @author Jeongho Nam<br/>
-	 * @see ArrayCollection
+	 * EntityArray is an Entity and a ArrayCollection&lt;Entity&gt;<br/>
+	 * <br/>
+	 * The EntityArray is a container set of Entity.<br/>
+	 * But it's not only a container for <code>Entity</code>, but also <code>EntityArray</code> is another type of <code>Entity</code>, too.<br/>
+	 * <br/>
+	 * It shares same interface with <code>Entity.</code><br/>
+	 * So it privdes similar methods for converting between <code>EntityArray</code> and {<code>XML</code>, <code>Invoke</code>}<br/>
+	 * Addictionally, there's a <u>composite relationship</u> between <code>EntityArray</code> and <code>Entity.</code><br/>
+	 * <br/>
 	 * @see Entity
+	 * @author Jeongho Nam<br/>
 	 */ 
 	public class EntityArray 
 		extends ArrayCollection
@@ -27,15 +26,15 @@ Addictionally, there's a <u>composite relationship</u> between <code>EntityArray
 		public function get TAG():String { return null; }
 		
 		/**
-		 * A tag name of children in composite relationship
-<pre>
-Needed for
-	<i>virtual EntityArray::construct(XML)</i>
-	<i>virtual EntityArray::toXML() -> XML</i>
-&lt;TAG&gt;
-	&lt;CHILD_TAG /&gt;
-	&lt;CHILD_TAG /&gt;
-&lt;/TAG&gt;</pre>
+		 * A tag name of children in composite relationship<br/>
+		 * <br/>
+		 * Needed for<br/>
+		 * &#xA0;&#xA0;&#xA0;&#xA0; <i>virtual EntityArray::construct(XML)</i><br/>
+		 * &#xA0;&#xA0;&#xA0;&#xA0; <i>virtual EntityArray::toXML() -> XML</i><br/>
+		 * <p>&lt;TAG&gt;<br/>
+		 * &#xA0;&#xA0;&#xA0;&#xA0; &lt;CHILD_TAG /&gt;<br/>
+		 * &#xA0;&#xA0;&#xA0;&#xA0; &lt;CHILD_TAG /&gt;<br/>
+		 * &lt;/TAG&gt;
 		 */ 
 		public function get CHILD_TAG():String { return null; }
 		
@@ -48,8 +47,8 @@ Needed for
 		}
 		
 		/**
-		 * You don't need to consider the children Entities' members
-		 * <p>Just concentrate on this EntityArray's own members</p>
+		 * You don't need to consider the children Entities' members<br/>
+		 * Just concentrate on this EntityArray's own members<br/>
 		 * 
 		 * @inheritDoc
 		 */
@@ -72,9 +71,9 @@ Needed for
 		}
 		
 		/**
-		 * Abstract method creating a new chil <code>Entity</code> which is belonged to the <code>EntityArray</code>
-		 * <p>This method is called by construct method (<code>EntityArray::construct(XML)</code>)</p>
-		 * 
+		 * Abstract method creating a new chil <code>Entity</code> which is belonged to the <code>EntityArray</code><br/>
+		 * This method is called by construct method (<code>EntityArray::construct(XML)</code>)<br/>
+		 * <br/>
 		 * @return New Children Entity in a <u>composite relationship</u>
 		 */
 		protected function createChild(xml:XML):IEntity
@@ -106,8 +105,8 @@ Needed for
 		}
 		
 		/**
-		 * Access the element(<code>Entity</code>) by specified index
-		 * 
+		 * Access the element(<code>Entity</code>) by specified index<br/>
+		 * <br/>
 		 * @param index The index in the list from which to retrieve the item.
 		 * @return The item(Entity) at that index. or null if there is none.
 		 */
@@ -117,8 +116,8 @@ Needed for
 		}
 		
 		/**
-		 * Access the element(<code>Entity</code>) by specified identifier(key)
-		 * 
+		 * Access the element(<code>Entity</code>) by specified identifier(key)<br/>
+		 * <br/>
 		 * @param key the identifier of the <code>Entity</code> wants to access 
 		 * @return The <code>Entity</code> having the key, or null if there is none.
 		 */

@@ -5,13 +5,12 @@ package samchon.protocol.entity
 	 * Provide converting methods between Entity XML<br/>
 	 * <br/>
 	 * @see XML
-	 * @author Jeongho Nam<br/>
-	 * <a href="http://samchon.org" target="_blank">http://samchon.org</a>
+	 * @author Jeongho Nam
 	 */
 	public interface IEntity
 	{
 		/**
-		 * A tag name when converted to XML<br/>
+		 * A tag name used when converted to XML<br/>
 		 * <u>&lt;TAG /&gt;</u>
 		 */ 
 		function get TAG():String;
@@ -23,8 +22,8 @@ package samchon.protocol.entity
 		
 		/**
 		 * <u>XML -> Entity</u><br/>
-		 * construct Entity's data from XML
-		 * 
+		 * construct Entity's data from XML<br/>
+		 * <br/>
 		 * @param xml to be refered to construct data in <code>Entity</code>
 		 */ 
 		function construct(xml:XML):void;		
@@ -32,8 +31,8 @@ package samchon.protocol.entity
 		
 		/**
 		 * <u>Entity -> XML</u><br/>
-		 * convert the data of Entity to XML
-		 * 
+		 * convert the data of Entity to XML<br/>
+		 * <br/>
 		 * @return XML representing data of the <code>IEntity</code>
 		 */ 
 		function toXML():XML;

@@ -19,6 +19,22 @@ namespace samchon
 			class User;
 			class Service;
 
+			/**
+			 * @brief A network boundary with the client in an User
+			 *
+			 * @details
+			 * <p> Client is an object interacting with physical client by socket. </p>
+			 * 
+			 * 
+			 * <p> Client is correspond with Window in UI 1:1 </p>
+			 *	\li A Window, the object in UI
+			 *	\li A Window, matching with window of a internet browser
+			 *
+			 * @note Method to override
+			 *	\li createUser()
+			 *
+			 * @author Jeongho Nam
+			 */
 			class SAMCHON_FRAMEWORK_API Client
 				: public IClient
 			{
@@ -26,41 +42,157 @@ namespace samchon
 				typedef IClient super;
 
 			protected:
-				User *user; //PARENT
-				long no; //PK
+				/**
+				 * @brief An User of the Client
+				 */
+				User *user;
 
-				//SERVICE
+				/**
+				 * @brief Sequence number of the Client in an User
+				 */
+				size_t no;
+
+				/**
+				 * @brief A Service belongs to the Client
+				 */
 				Service *service;
 
 			public:
-				Client(User*, long, boost::asio::basic_stream_socket<boost::asio::ip::tcp>*);
+				/**
+				 * @brief Construct from User, No and socket
+				 *
+				 * @param user An User containing the Client
+				 * @param no Sequence number of the Client in User
+				 * @param socket A socket for interacting with (physical) client
+				 */
+				Client(User*, size_t, Socket*);
 				virtual ~Client();
 
-				virtual void listen();
-
 			protected:
+				/**
+				 * @brief Factory method of Service
+				 *
+				 * @param name Requested name representing a Service from the (physical) client
+				 * @return A new Service belongs the the Client
+				 */
 				virtual auto createService(const String &) const -> Service* = NULL;
 
 				auto __keepAlive() -> ServiceKeeper;
 
 			public:
-				//GETTERS
+				/**
+				 * @brief Get User
+				 */
 				auto getUser() const -> User*;
+
+				/**
+				 * @brief Get Service
+				 */
 				auto getService() const -> Service*;
-				auto getNo() const -> long;
+
+				/**
+				 * @brief Get no
+				 */
+				auto getNo() const -> size_t;
 
 			public:
-				virtual void replyData(std::shared_ptr<Invoke>);
+				/**
+				 * @brief Send Invoke message to (physical) client
+				 *
+				 * @details
+				 * <p> Method sendData of Client does not only send Invoke message to client system,
+				 * but also archives the Invoke message to database system as a historical-log. </p>
+				 * 
+				 * @note 
+				 * <p> Method sendData monopolies a critical section. </p>
+				 * <p> How many threads have called that sendData, the Invoke messages are delivered sequentially.</p>
+				 *	\li Using sendData with a new thread is not recommended
+				 *
+				 * @warning You can't override this method, sendData.
+				 * @param invoke Invoke message to send
+				 */
+				void sendData(std::shared_ptr<Invoke>);
 
-				virtual void sendData(std::shared_ptr<Invoke>);
-				//virtual void sendData(std::shared_ptr<Invoke>, const std::vector<unsigned char>&);
-				virtual void sendError(const long);
-
-				// 		protected:
-				// 			virtual void archiveReplyDataHistory(std::shared_ptr<Invoke>);
-
+				/**
+				 * @brief Reply Invoke message from (physical) client
+				 *
+				 * @details
+				 * <p> Handles replied Invoke message from client system. </p>
+				 *
+				 * <ol>
+				 *	<li> Constructs Service </li>
+				 *	<ul>
+				 *		<li> Constructs Service by requested service name. </li>
+				 *		<li> Notifies client system whether the user satisfies the authority. </li>
+				 *	</ul>
+				 *	<li> Shifts responsibility to related chain. </li>
+				 *	<ul>
+				 *		<li> Invoke message is about member (join, login, etc.), shift to User. </li>
+				 *		<li> Except that all, shifts to Service. </li>
+				 *	</ul>
+				 *	<li> Archives the Invoke message to Database system as a historical-log. </li>
+				 *	<ul>
+				 *		<li> Invoke to HISTORY_INVOKE table, with User's session and Client's sequence id. </li>
+				 *		<li> InvokeParameters(s) to HISTORY_INVOKE_PARAMETER with key of HISTORY_INVOKE as foriegn key. </li>
+				 *	</ul>
+				 * </ol>
+				 *
+				 * @note
+				 * \par Historical-log
+				 * <p> HISTORY_INVOKE and HISTORY_INVOKE_PARAMETER has a 1:N relationship </p>
+				 * <p> If you want to modify archiving method, override method of Server::archiveReplyData() </p>
+				 *
+				 * \par Shifting responsibility to Service
+				 * <p> Service::replyData will be called by a new thread. The thread will acquire an admission 
+				 * from semaphore in User to avoid exhausted allocation of threads.</p>
+				 *
+				 * \par Exception handling
+				 * <p> If an std::exception has thrown from Service::replyData, the exception will 
+				 * archived in Database (HISTORY_INVOKE_EXCEPTION) </p>
+				 * <p> The most famous thrown parameters like std::exception, std::invalid_argument and
+				 * std::runtime_error, those are all derived from std::exception. <br>
+				 * &nbsp;&nbsp;&nbsp;&nbsp; -> http://www.cplusplus.com/reference/stdexcept/ </p>
+				 * 
+				 * <ul>
+				 *  <li> std::exception </li>
+				 *	<ul>
+				 *		<li> std::logic_error </li>
+				 *		<ul>
+				 *			<li> std::domain_error </li>
+				 *			<li> std::invalid_argument </li>
+				 *			<li> std::length_error </li>
+				 *			<li> std::out_of_range </li>
+				 *			<li> std::future_error </li>
+				 *		</ul>
+				 *		<li> std::runtime_error </li>
+				 *		<ul>
+				 *			<li> std::range_error </li>
+				 *			<li> std::overflow_error </li>
+				 *			<li> std::underflow_error </li>
+				 *			<li> std::system_error </li>
+				 *		</ul>
+				 *	</ol>
+				 * </ul>
+				 *
+				 * @warning 
+				 * <p> You can't override this method, replyData. </p>
+				 * <p> If you want to modify replyData's rule, override related objects' replyData </p>
+				 *
+				 * @param invoke Invoke message replied from client system
+				 */
+				void replyData(std::shared_ptr<Invoke>);
+				
 			private:
-				void goService(const String &);
+				/**
+				 * @brief Construct Service
+				 *
+				 * @details 
+				 * <p> Constructs Service by requested name from client and notify whether the 
+				 * User is satisfying authority. </p>
+				 *
+				 * @param name A name representing type of Service
+				 */
+				void constructService(const String &);
 			};
 		};
 	};

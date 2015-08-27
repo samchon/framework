@@ -1,24 +1,22 @@
 #include <samchon/library/ProgressEvent.hpp>
 using namespace samchon::library;
 
-ProgressEvent::ProgressEvent(EventDispatcher *source, long type, long long numerator, long long denominator)
+ProgressEvent::ProgressEvent(EventDispatcher *source, double numerator, double denominator)
 	: Event(source, type)
 {
 	this->numerator = numerator;
 	this->denominator = denominator;
 }
-ProgressEvent::ProgressEvent(EventDispatcher *source, long long numerator, long long denominator)
-	: ProgressEvent(source, PROGRESS, numerator, denominator) {}
 
-auto ProgressEvent::getNumerator() const -> long long
+auto ProgressEvent::getNumerator() const -> double
 {
 	return numerator;
 };
-auto ProgressEvent::getDenominator() const -> long long
+auto ProgressEvent::getDenominator() const -> double
 {
 	return denominator;
 };
 auto ProgressEvent::getPercent() const -> double
 {
-	return numerator / (double)denominator;
+	return numerator / denominator;
 };

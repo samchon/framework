@@ -19,7 +19,7 @@ namespace samchon
 				typedef Entity super;
 
 			protected:
-				virtual auto TAG() const->String;
+				virtual auto TAG() const -> String;
 
 				ExternalSystem *externalSystem;
 				Set<String> listenerSet;

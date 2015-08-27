@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon\API.hpp>
+#include <samchon/API.hpp>
 
 #include <string>
 
@@ -11,12 +11,16 @@
 #else
 #	ifndef _T
 		typedef char TCHAR;
-#		define _T(X)
+#		define _T(X) X
 #	endif
 #endif
 
 namespace samchon
 {
+	/**
+	 * When char-set is multibyte or UTF8, then String is std::string
+	 * Otherwise the char-set is unicode, String is the std::wstring
+	 */
 	typedef std::basic_string<TCHAR> String;
 
 	SAMCHON_FRAMEWORK_API String toString(int);

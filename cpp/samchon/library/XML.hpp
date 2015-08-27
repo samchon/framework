@@ -1,10 +1,12 @@
 ﻿#pragma once
 #include <samchon\API.hpp>
 
-#include <memory>
-#include <vector>
-#include <samchon/String.hpp>
 #include <samchon/Map.hpp>
+#include <samchon/library/XMLList.hpp>
+
+#include <sstream>
+#include <samchon/String.hpp>
+#include <samchon/WeakString.hpp>
 
 namespace std
 {
@@ -14,33 +16,138 @@ namespace samchon
 {
 	namespace library
 	{
-		template<typename _Elem> class BasicWeakString;
-		typedef BasicWeakString<TCHAR> WeakString;
-
-		class SAMCHON_FRAMEWORK_API XML;
-		typedef std::vector<std::shared_ptr<XML>> XMLList;
-		typedef Map<String, std::shared_ptr<XMLList>> XMLListMap;
-		
-		class SAMCHON_FRAMEWORK_API XML :
-			public XMLListMap
+		/**
+		 * @brief XML is a class representing xml object
+		 *
+		 * @details
+		 * \par
+		 * The XML class provides methods and properties for working with XML objects.
+		 * 
+		 * \par
+		 * The XML class (along with the XMLList and Namespace) implements 
+		 * the powerful XML-handling standard defined in ECMAScript for XML (E4X) specification.
+		 *
+		 * \par
+		 * XML class has a recursive, hierarchical relationship.
+		 * 
+		 * \par
+		 * All XML objects're managed by shared_ptr.
+		 *	\li XML contains XMLList from dictionary of shared pointer<XMLList>
+		 *  \li XMLList contains XML from vector of shared pointer<XML>
+		 *  \li Even if user creates a XML object directly, it's the basic principle to use shared pointer
+		 * 
+		 * @warning Parsing comment is not supported yet
+		 * @warning It's not recommeded to creating a XML object which is not being managed by shared pointer
+		 * 
+		 * @warning Do not abuse values for expressing member variables
+		 * <table>
+		 *	<tr>
+		 *		<th>Standard Usage</th>
+		 *		<th>Non-standard usage abusing value</th>
+		 *	</tr>
+		 *	<tr>
+		 *		<td>
+		 *			\<memberList\>\n
+		 *			&nbsp;&nbsp;&nbsp;&nbsp; \<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
+		 *			&nbsp;&nbsp;&nbsp;&nbsp; \<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
+		 *			\</memberList\>
+		 *		</td>
+		 *		<td>
+		 *			\<member\>\n
+		 *			&nbsp;&nbsp;&nbsp;&nbsp; \<id\>jhnam88\</id\>\n
+		 *			&nbsp;&nbsp;&nbsp;&nbsp; \<name\>Jeongho+Nam\</name\>\n
+		 *			&nbsp;&nbsp;&nbsp;&nbsp; \<birthdate\>1988-03-11\</birthdate\>\n
+		 *			\</member\>
+		 *		</td>
+		 *	</tr>
+		 * </table>
+		 * 
+		 * @author Jeongho Nam
+		 */
+		class SAMCHON_FRAMEWORK_API XML 
+			: public Map<String, std::shared_ptr<XMLList>>
 		{
-		protected:
-			XML *parent;
-			String key; //AS A LABEL: <tag asdf=asfds /> -> tag
-			long level; //XML TREE's DEPTH
+		private:
+			typedef Map<String, std::shared_ptr<XMLList>> super;
 
+			/**
+			 * @brief Tag name
+			 *
+			 * @details 
+			 *	\li \<<b>tag</b> label='property' /\>: tag => \"tag\"
+			 *  \li \<<b>price</b> high='1500' low='1300' open='1450' close='1320' /\>: tag => \"price\"
+			 */
+			String tag;
+			
+			/**
+			 * @brief Value of the XML
+			 * 
+			 * @details  
+			 *  \li \<parameter name='age' type='int'\><b>26</b>\</parameter\>: value => 26
+			 *	\li \<price high='1500' low='1300' open='1450' close='1320' /\>: tag => null
+			 */
 			String value;
+
+			/**
+			 * @brief Properties in the XML
+			 *
+			 * @details 
+			 * Pairs of the properties
+			 *	\li \<price <b>high='1500' low='1300' open='1450' close='1320'</b> /\>: 
+			 *		propertyMap => {{\"high\": 1500}, {\"low\": 1300}, {\"open\": 1450}, {\"close\", 1320}}
+			 *	\li \<member <b>id='jhnam88' name='Jeongho+Nam' comment='Hello.+My+name+is+Jeongho+Nam'</b> \>: 
+			 *		propertyMap => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam\"}, {\"comment\", \"Hello. My name is Jeongho Nam\"}}
+			 */
 			Map<String, String> propertyMap;
 
+		/* -----------------------------------------------------------
+			CONSTRUCTORS
+		----------------------------------------------------------- */
 		public:
+			/**
+			 * @brief Default Constructor
+			 *
+			 * @warning Declare XML to managed by shared pointer 
+			 */
 			XML();
-			XML(const String &str);
-			XML(WeakString);
-			virtual ~XML() = default;
 
-		protected:
-			//CONSTRUCTORS
-			XML(XML *, WeakString &);
+			/**
+			 * @brief Copy Constructor
+			 *
+			 * @details
+			 * Not copying (shared) pointer of children xml objects, 
+			 * but copying the real objects of children xml
+			 */
+			XML(const XML &);
+
+			/**
+			 * @brief Move Constructor
+			 */
+			XML(XML &&);
+
+			/**
+			 * @brief Constructor by string
+			 *
+			 * @details
+			 * Parses a string so that constructs a XML object
+			 *
+			 * @param str A string representing xml object
+			 * @warning Declare XML to managed by shared pointer
+			 */
+			XML(WeakString);
+
+		private:
+			/**
+			 * @brief Protected Constructor by string for child
+			 *
+			 * @details
+			 * Parses a string so that creates a XML object
+			 * It is called for creating children XML objects from parent XML object.
+			 *
+			 * @param parent Parent object who will contains this XML object
+			 * @param str A string to be parsed
+			 */
+			XML(XML*, WeakString &);
 
 			void construct(WeakString &);
 			void constructKey(WeakString &);
@@ -49,40 +156,144 @@ namespace samchon
 			void constructChildren(WeakString &);
 
 		public:
-			void set(const String &, const std::shared_ptr<XMLList> &);
-			void push_back(const String &);
+			/**
+			 * @brief Add children xml objects by string representing them
+			 *
+			 * @param str A string representing xml objects whould be belonged to this XML
+			 */
 			void push_back(const WeakString &);
+			
+			/**
+			 * @brief Add children xml
+			 *
+			 * @param xml A xml object you want to add
+			 */
 			void push_back(const std::shared_ptr<XML>);
 
+			/**
+			 * @brief Add all properties from another XML
+			 *
+			 * @details
+			 * \par Copies all properties from target to here.
+			 *
+			 * @warning Not a category of assign, but an insert.
+			 * @param xml Target xml object to deliver its properties
+			 */
 			void addAllProperty(const std::shared_ptr<XML>);
 
 			/* -----------------------------------------------------------
-				Set Methods
+				SETTERS
 			----------------------------------------------------------- */
-			virtual void setKey(const String &);
-			template<class _Ty> void setValue(const _Ty &val);
-			template<class _Ty> void setProperty(const String &, const _Ty &);
+			/**
+			 * @brief Set tag (identifier) of the XML
+			 *
+			 * @see XML::tag
+			 */
+			void setTag(const String &);
 
-			/* -----------------------------------------------------------
-				Get Methods
-			----------------------------------------------------------- */
-			auto getParent() const -> XML*;
-			auto getKey() const -> String;
-			auto getLevel()	const -> long;
+			/**
+			 * @brief Set value of the XML
+			 *
+			 * @tparam _Ty Type of the value
+			 * @param val The value to set
+			 *
+			 * @warning Do not abuse values for expressing member variables
+			 * <table>
+			 *	<tr>
+			 *		<th>Standard Usage</th>
+			 *		<th>Non-standard usage abusing value</th>
+			 *	</tr>
+			 *	<tr>
+			 *		<td>
+			 *			\<memberList\>\n
+			 *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
+			 *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
+			 *			\</memberList\>
+			 *		</td>
+			 *		<td>
+			 *			\<member\>\n
+			 *				\<id\>jhnam88\</id\>\n
+			 *				\<name\>Jeongho+Nam\</name\>\n
+			 *				\<birthdate\>1988-03-11\</birthdate\>\n
+			 *			\</member\>
+			 *		</td>
+			 *	</tr>
+			 * </table>
+			 */
+			template <typename _Ty>
+			void setValue(const _Ty &val)
+			{
+				basic_stringstream<TCHAR> sstream;
+				sstream << val;
+
+				this->value = sstream.str();
+			};
+			template<> void setValue(const String &val);
+			template<> void setValue(const WeakString &val);
+
+			/**
+			 * @brief Set a property with its key
+			 */
+			template<typename _Ty> 
+			void setProperty(const String &name, const _Ty &val)
+			{
+				basic_stringstream<TCHAR> sstream;
+				sstream << val;
+
+				propertyMap.set(name, sstream.str());
+			};
+			template<> void setProperty(const String &name, const String &val);
+			template<> void setProperty(const String &name, const WeakString &val);
+
+			/**
+			 * @brief Erase a property by its key
+			 *
+			 * @param key The key of the property to erase
+			 * @throw exception Unable to find the element
+			 */
+			void eraseProperty(const String&);
+
+			/**
+			 * @brief Remove all properties in the XML
+			 */
+			void clearProperties();
+
+		/* -----------------------------------------------------------
+			GETTERS
+		----------------------------------------------------------- */
+		public:
+			/**
+			 * @brief Get key; identifer of the XML
+			 *
+			 * @return tag, identifer of the XML
+			 * @see XML::tag
+			 */
+			auto getTag() const -> String;
+
+			/**
+			 * @brief Get value of the XML
+			 */
 			template<class _Ty = String> auto getValue() const -> _Ty;
-
-			auto hasProperty(const String &) const -> bool;
+			
+			/**
+			 * @brief Get property
+			 */
 			template<class _Ty = String> auto getProperty(const String &) const -> _Ty;
-			virtual void eraseProperty(const String&);
-			virtual void clearProperty();
 
+			/**
+			 * @brief Test wheter a property exists or not
+			 */
+			auto hasProperty(const String &) const -> bool;
+			
+			/**
+			 * @brief Get propertyMap
+			 */
 			auto getPropertyMap() const -> const Map<String, String>&;
-			auto propertySize() const -> size_t;
-
-			/* -----------------------------------------------------------
-				UTILITY
-			----------------------------------------------------------- */
-		protected:
+			
+		/* -----------------------------------------------------------
+			FILTERS
+		----------------------------------------------------------- */
+		private:
 			auto calcMinIndex(const std::vector<size_t>&) const -> size_t;
 			
 			auto encodeValue(const WeakString &) const -> String;
@@ -90,10 +301,20 @@ namespace samchon
 			auto encodeProperty(const WeakString &) const -> String;
 			auto decodeProperty(const WeakString &) const -> String;
 
-			void fetchString(std::list<String, std::allocator<String>> &, size_t) const;
-
-		public:
+		/* -----------------------------------------------------------
+			EXPORTERS
+		----------------------------------------------------------- */
+		public:	
+			/**
+			 * @brief Get the string content
+			 * @details Returns a string representation of the XML and its all children
+			 *
+			 * @return A string representing the xml
+			 */
 			auto toString(size_t level = 0) const -> String;
+
+		private:
+			void fetchString(std::list<String, std::allocator<String>> &, size_t) const;
 		};
 	};
 };

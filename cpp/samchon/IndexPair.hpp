@@ -2,29 +2,70 @@
 
 namespace samchon
 {
-	template<class T>
+	/**
+	 * @brief 
+	 * A pair of index and its value(_Ty)
+	 *
+	 * @details
+	 * \par IndexPair is a std::pair<size_t, _Ty> class.
+	 *
+	 * \par 
+	 * IndexPair expresses index and value. It's useful for expressing finding literals,
+	 * specified object, calculating mininum or maximum with its position.
+	 *
+	 * \par
+	 * [Inherited] This class couples together a pair of values, which may be of different 
+	 * types (T1 and T2). The individual values can be accessed through its public members 
+	 * first and second.
+	 *
+	 * \par Pairs are a particular case of tuple.
+	 *
+	 * \par Referenced comments of std::pair
+	 *	\li http://www.cplusplus.com/reference/utility/pair/
+	 *
+	 * @author Jeongho Nam
+	 */
+	template<class _Ty>
 	class IndexPair
-		: private std::pair < size_t, T >
+		: private std::pair<size_t, _Ty>
 	{
 	private:
-		typedef std::pair<size_t, T> super;
+		typedef std::pair<size_t, _Ty> super;
 
 	public:
-		IndexPair() : super() {};
-		IndexPair(const size_t &index, const T& val)
-			: super(index, val) {};
-
+		/**
+		 * @brief Inherited constructors
+		 */
+		using super::super;
+		
+		/**
+		 * @brief Get index
+		 *
+		 * @return Index of the pair
+		 */
 		auto getIndex() const -> size_t
 		{
 			return super::first;
 		};
-		auto getValue() const -> const T&
+
+		/**
+		 * @brief Get const value
+		 *
+		 * @return Reference of value of the pair
+		 */
+		auto getValue() -> _Ty&
 		{
 			return super::second;
 		};
-		auto getValue() -> T&
+
+		/**
+		 * @brief Get value
+		 *
+		 * @return Const reference of value of the pair
+		 */
+		auto getValue() const -> const _Ty&
 		{
 			return super::second;
-		}
+		};
 	};
 };

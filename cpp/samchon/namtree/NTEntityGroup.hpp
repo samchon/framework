@@ -9,6 +9,9 @@ namespace samchon
 	{
 		class NTIterator;
 
+		/** 
+		 * @brief Abstract class for historical, studying data
+		 */
 		class SAMCHON_FRAMEWORK_API NTEntityGroup
 		{
 		public:

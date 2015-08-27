@@ -1,7 +1,8 @@
 #pragma once
 #include <samchon\API.hpp>
-
 #include <samchon/protocol/IProtocol.hpp>
+
+#include <samchon/String.hpp>
 #include <samchon/protocol/service/ServiceKeeper.hpp>
 
 #define KEEP_SERVICE_ALIVE auto &ucPair = __keepAlive();
@@ -19,35 +20,58 @@ namespace samchon
 		{
 			class Client;
 
+			/**
+			 * @brief Service
+			 */
 			class SAMCHON_FRAMEWORK_API Service
 				: public IProtocol
 			{
+				friend class Client;
+
 			private:
 				typedef IProtocol super;
 
-			public:
-				virtual auto ID() const -> long = NULL;
-
 			protected:
+				/**
+				 * @brief Name of the service
+				 */
+				virtual auto NAME() const -> String = NULL;
+
+				/**
+				 * @brief Required authority to access the service
+				 */
+				virtual auto REQUIRE_AUTHORITY() const -> int = NULL;
+				
+			private:
+				/**
+				 * @brief Client object Service is belonged to
+				 */
 				Client *client;
 
 			public:
+				/**
+				 * @brief Construct from Client
+				 *
+				 * @param client Client object Service is belonged to
+				 */
 				Service(Client*);
 				virtual ~Service() = default;
-
-				virtual auto REQUIRE_AUTHORITY() const -> long = NULL;
-				auto getClient() const -> const Client*;
-				virtual auto getSQLi() const->library::SQLi*;
-
+				
+				/**
+				 * @brief Get Client
+				 */
+				auto getClient() const -> Client*;
+				
 			protected:
-				auto __keepAlive()->ServiceKeeper;
+				auto __keepAlive() -> ServiceKeeper;
 
 			public:
-				virtual void replyData(std::shared_ptr<Invoke>) = NULL;
-
+				/**
+				 * @brief Shift the responsibility of sending an Invoke message to Client
+				 *
+				 * @param in An Invoke message to be sent to the (physical) client
+				 */
 				virtual void sendData(std::shared_ptr<Invoke>);
-				//virtual void sendData(std::shared_ptr<Invoke>, const std::vector<unsigned char>&);
-				virtual void sendError(const long);
 			};
 		};
 	};

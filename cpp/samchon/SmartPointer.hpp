@@ -4,35 +4,107 @@
 
 namespace samchon
 {
-	template<typename T> 
+	/**
+	 * @brief Global shared pointer\n
+	 * @details
+	 * \par
+	 * SmartPointer is a global shared pointer based on map, map referencing.
+	 * 
+	 * \par
+	 * Manages the storage of a pointer, providing a limited garbage-collection 
+	 * facility, possibly sharing that management with other objects.
+	 * 
+	 * \par
+	 * Referenced comments of std::allocator
+	 *	\li http://www.cplusplus.com/reference/memory/shared_ptr/
+	 *
+	 * @tparam The type of managed object
+	 * @author Jeongho Nam
+	 */
+	template<typename _Ty> 
 	class SmartPointer
 	{
 	private:
-		static std::map<T*, long long> referedSizeMap;
+		/**
+		 * @brief Map of use count of each pointer
+		 */
+		static std::map<_Ty*, long long> useCountMap;
+
+		/**
+		 * @brief Mutex assigned to useCountMap
+		 */
 		static std::mutex mtx;
 
-		T* ptr;
+	private:
+		/**
+		 * @brief A pointer managed by SmartPointer
+		 */
+		_Ty* ptr;
 
 	public:
 		/* --------------------------------------------------------------
-		CONSTRUCTORS
+			CONSTRUCTORS
 		-------------------------------------------------------------- */
+		/**
+		 * @brief Default Constructor
+		 * @details The object is empty (owns no pointer, use count of zero)
+		 */
 		SmartPointer()
 		{
 			ptr = nullptr;
 		};
-		explicit SmartPointer(const T* ptr)
+
+		/**
+		 * @brief Constrct from pointer
+		 * @details The object owns ptr, setting the use count to add 1
+		 *
+		 * @param ptr The pointer to own
+		 */
+		explicit SmartPointer(const _Ty* ptr)
 			: SmartPointer()
 		{
 			reset(ptr);
 		};
+
+		/**
+		 * @brief Copy Constructor
+		 * @details 
+		 * The object shares ownership of smartPointer's asset and increases the use count
+		 *
+		 * @param smartPointer The object to copy
+		 */
 		SmartPointer(const SmartPointer &smartPointer)
 			: SmartPointer(smartPointer.ptr) {};
+
+		/**
+		 * @brief Move constructor
+		 * @details 
+		 * The object acquires the content managed by smartPointer\n
+		 * The ceding object becomes empty and there's no change on use count
+		 *
+		 * @param smartPointer The object to move
+		 */
 		SmartPointer(SmartPointer &&smartPointer)
 		{
 			ptr = smartPointer.ptr;
 			smartPointer.ptr = nullptr;
 		}
+
+		/**
+		 * @brief Destroy SmartPointer
+		 *
+		 * @details 
+		 * Destroys the object. But, before, it may produce 
+		 * the following side effects depending on the use_count of member 
+		 *
+		 *	\li If use_count is greater than 1: 
+		 *		The use count is decreased by 1.
+		 *	\li If use_count is 1 (i.e., the object is the unique owner of 
+		 *		the managed pointer): the object pointed by its owned pointer is 
+		 *		deleted.
+		 *	\li If use_count is zero (i.e., the object is empty), 
+		 *		this destructor has no side effects.
+		 */
 		~SmartPointer()
 		{
 			std::lock_guard<std::mutex> lockGuard(mtx);
@@ -41,68 +113,116 @@ namespace samchon
 
 	public:
 		/* --------------------------------------------------------------
-		SETTERS
+			SETTERS
 		-------------------------------------------------------------- */
-		void reset(const T* ptr)
+		/**
+		 * @brief Reset pointer
+		 *
+		 * @details
+		 * \par
+		 * Reset pointer to manage and shrink use count of previous pointer.
+		 *
+		 * \par
+		 * Additionally, a call to this function has the same side effects as if 
+		 * SmartPointer's destructor was called before its value changed 
+		 * (including the deletion of the managed object if this SmartPointer was unique).
+		 *
+		 * @param Pointer whose ownership is taken over by the object.
+		 *		  Unlike std::shared_ptr, ptr being managed by another SmartPointer does not cause any problem
+		 */
+		void reset(const _Ty* ptr)
 		{
 			std::lock_guard<std::mutex> lockGuard(mtx);
 			if (this->ptr == ptr)
 				return;
 
-			construct((T*)ptr);
+			construct((_Ty*)ptr);
 			destruct(this->ptr);
 
-			this->ptr = (T*)ptr;
+			this->ptr = (_Ty*)ptr;
 		};
 
 		/* --------------------------------------------------------------
-		GETTERS
+			GETTERS
 		-------------------------------------------------------------- */
-		inline auto get() const -> T*
+		/**
+		 * @brief Get pointer
+		 *
+		 * @details
+		 * \par
+		 * Returns the stored pointer.
+		 *
+		 * \par
+		 * The stored pointer points to the object the shared_ptr object dereferences to, 
+		 * which is generally the same as its owned pointer.
+		 *
+		 * @return The stored pointer
+		 */
+		inline auto get() const -> _Ty*
 		{
 			return ptr;
 		};
-		inline auto operator ->() const -> T*
+
+		/**
+		 * @brief Dereference object membr
+		 * 
+		 * @details
+		 * \par
+		 * Returns a pointer to the object pointed by the stored pointer in order to access one of its members.
+		 * This member function shall not be called if the stored pointer is a null pointer.
+		 * 
+		 * \par
+		 * It returns the same value as get()
+		 * @return A pointer to be managed by SmartPointer
+		 */
+		auto operator->() const -> _Ty*
 		{
 			return get();
 		};
-		inline auto operator*() -> T&
-		{
-			return *get();
-		};
-		inline auto operator*() const -> const T&
+
+		/**
+		 * @brief Dereference object
+		 *
+		 * @details
+		 * \par
+		 * Returns a reference to the object pointerd by pointer.
+		 * It is equivalent to: *get()
+		 *
+		 * @return A reference to the object pointed
+		 */
+		auto operator*() const -> _Ty&
 		{
 			return *get();
 		};
 
 		/* --------------------------------------------------------------
-		STATICS
+			STATISTICS
 		-------------------------------------------------------------- */
 	private:
-		static void construct(T *ptr)
+		static void construct(_Ty *ptr)
 		{
 			if (ptr == nullptr)
 				return;
 
-			if (referedSizeMap.find(ptr) != referedSizeMap.end())
-				referedSizeMap[ptr]++;
+			if (useCountMap.find(ptr) != useCountMap.end())
+				useCountMap[ptr]++;
 			else
-				referedSizeMap[ptr] = 1;
+				useCountMap[ptr] = 1;
 		}
-		static void destruct(T *ptr)
+		static void destruct(_Ty *ptr)
 		{
 			if (ptr == nullptr)
 				return;
 
-			if (referedSizeMap.find(ptr) != referedSizeMap.end())
-				if (--referedSizeMap[ptr] == 0)
+			if (useCountMap.find(ptr) != useCountMap.end())
+				if (--useCountMap[ptr] == 0)
 				{
-					referedSizeMap.erase(ptr);
+					useCountMap.erase(ptr);
 					delete ptr;
 				}
 		};
 	};
 
-	template<typename T> std::map<T*, long long> SmartPointer<T>::referedSizeMap;
-	template<typename T> std::mutex SmartPointer<T>::mtx;
+	template<typename _Ty> std::map<_Ty*, long long> SmartPointer<_Ty>::useCountMap;
+	template<typename _Ty> std::mutex SmartPointer<_Ty>::mtx;
 };

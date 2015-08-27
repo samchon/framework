@@ -31,8 +31,8 @@ namespace samchon
 				virtual void construct(std::shared_ptr<library::XML>); //TO DISCARD CREATING CHILDREN BY XML
 
 			protected:
-				virtual void addClient(boost::asio::basic_stream_socket<boost::asio::ip::tcp>*);
-				virtual auto createChild(boost::asio::basic_stream_socket<boost::asio::ip::tcp>*) -> ExternalClient*;
+				virtual void addClient(Socket*);
+				virtual auto createChild(Socket*) -> ExternalClient*;
 				
 			public:
 				virtual void start();

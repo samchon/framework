@@ -1,4 +1,4 @@
-#include <samchon/library/Case.hpp>
+#include <samchon/library/CaseGenerator.hpp>
 
 using namespace std;
 using namespace samchon::library;
@@ -6,74 +6,45 @@ using namespace samchon::library;
 /* ---------------------------------------------------------
 	NORMAL METHODS
 --------------------------------------------------------- */
-//CONSTRUCTOR
-Case::Case(size_t indexSize, size_t levelSize)
+CaseGenerator::CaseGenerator(size_t n, size_t r)
 {
-	this->indexSize = indexSize;
-	this->levelSize = levelSize;
-	this->size_ = (size_t)pow(indexSize, levelSize);
-
-	dividerArray.assign(levelSize, NULL);
-	for (size_t i = 0; i < levelSize; i++)
-	{
-		size_t x = levelSize - (i + 1);
-		dividerArray[i] = (size_t)pow(indexSize, x);
-	}
+	this->n = n;
+	this->r = r;
 }
 
-auto Case::getIndexSize() const -> size_t
-{
-	return indexSize;
-}
-auto Case::getLevelSize() const -> size_t
-{
-	return levelSize;
-}
-
-//ACCESSORS
-auto Case::size() const -> size_t
+/* ---------------------------------------------------------
+	ACCESSORS
+--------------------------------------------------------- */
+auto CaseGenerator::size() const -> size_t
 {
 	return size_;
 }
-auto Case::at(size_t x) const -> vector<size_t>
+auto CaseGenerator::operator[](size_t index) const -> vector<size_t>
 {
-	vector<size_t> row(levelSize, 0);
-	fetchRow(row, x);
-
-	return move(row);
-}
-auto Case::operator[](size_t x) const -> vector<size_t>
-{
-	return move(at(x));
+	return move( at(index) );
 }
 
-//FETCHERS
-void Case::fetchRow(vector<size_t> &row, size_t x) const
+/* ---------------------------------------------------------
+	GETTERS
+--------------------------------------------------------- */
+auto CaseGenerator::getIndexSize() const -> size_t
 {
-	for (size_t i = 0; i < row.size(); i++)
-		row[i] = (x / dividerArray[i]) % indexSize;
+	return n;
 }
-auto Case::isValid(size_t x) const -> bool
+auto CaseGenerator::getLevelSize() const -> size_t
 {
-	return isValid(at(x));
+	return r;
 }
 
 /* ---------------------------------------------------------
 	MATRIX METHOD
 --------------------------------------------------------- */
-auto Case::toMatrix() const -> vector<vector<size_t>>
+auto CaseGenerator::toMatrix() const -> vector<vector<size_t>>
 {
-	vector<vector<size_t>> matrix(MATRIX_SIZE(), vector<size_t>(levelSize, 0));
-	size_t matrixSize = MATRIX_SIZE();
-	size_t x = 0;
+	vector<vector<size_t>> matrix(size_, vector<size_t>(r, 0));
 
 	for (size_t i = 0; i < size_; i++)
-	{
-		vector<size_t> &row = matrix[x];
-		fetchRow(row, i);
-
-		if (isValid(row) == true)
-			x++;
-	}
+		matrix[i] = move(at(i));
+	
 	return move(matrix);
 }

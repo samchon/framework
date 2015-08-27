@@ -1,33 +1,88 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/Map.hpp>
-#include <samchon/String.hpp>
+#include <string>
 
 namespace samchon
 {
 	namespace library
 	{
-		template <typename _Elem> class BasicWeakString;
-
-		template <typename _Elem>
-		class SAMCHON_FRAMEWORK_API BasicURLVariables
-			: public Map<std::basic_string<_Elem>, std::basic_string<_Elem>>
+		/**
+		 * @brief URLVariables class is for representing variables of HTTP
+		 * @details
+		 * URLVariables class allows you to transfer variables between an application and server.
+		 * When transfering, URLVariables will be converted to a URI string
+		 *	\li URI: Uniform Resource Identifier
+		 *
+		 * Use URLVariabels objects with methods of HTTPLoader class
+		 *
+		 * @author Jeongho Nam
+		 */
+		class SAMCHON_FRAMEWORK_API URLVariables
+			: public Map<std::string, std::string>
 		{
 		private:
-			typedef Map<std::basic_string<_Elem>, std::basic_string<_Elem>> super;
+			typedef Map<std::string, std::string> super;
 
 		public:
-			//using super::super;
-			BasicURLVariables();
-			BasicURLVariables(const BasicWeakString<_Elem> &flashVars);
+			/* ------------------------------------------------------------
+				CONSTRUCTORS
+			 ------------------------------------------------------------ */
+			/**
+			 * @brief Inherits all constructors of map<string, string>
+			 */
+			using super::super;
 
-			static auto encode(const BasicWeakString<_Elem> &) -> std::basic_string<_Elem>;
-			static auto decode(const BasicWeakString<_Elem> &) -> std::basic_string<_Elem>;
+			/**
+			 * @brief Default Constructor
+			 */
+			URLVariables();
+			
+			/**
+			 * @brief Constructor by a string representing encoded properties
+			 * @details 
+			 * Converts the variable string to properties of the specified URLVariables object.\n
+			 * &nbps;&nbps;&nbps;&nbps; ex) URLVariables(\"id=jhnam88&name=Jeongho+Nam") => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam\"}}
+			 * 
+			 * @param A uri-encoded string containing pair of properties
+			 */
+			URLVariables(const std::string &flashVars);
 
-			auto toString() const -> std::basic_string<_Elem>;
+		private:
+			/* ------------------------------------------------------------
+				URI ENCODING & DECONDING
+			------------------------------------------------------------ */
+			/**
+			 * @brief Encodes a string into a valid URI
+			 * @details Encodes a string to follow URI standard format.
+			 *
+			 * @param A string to encode to URI
+			 * @return A string converted to URI
+			 */
+			auto encode(const std::string &) const -> std::string;
+
+			/**
+			 * @brief Decodes a URI string
+			 * @details Decodes a URI string to its original
+			 *
+			 * @param A string encoded
+			 * @return A string decoded from URI
+			 */
+			auto decode(const std::string &) const -> std::string;
+
+		public:
+			/* ------------------------------------------------------------
+				TO_STRING
+			------------------------------------------------------------ */
+			/**
+			 * @brief Get the string representing URLVariables
+			 * @details Returns a string object representing URLVariables following the URI\n
+			 * &nbsp;&nbsp;&nbsp;&nbsp; ex) URLVariables({{"id", "jhnam88"}, {"name", "Jeongho Nam"}}).toString() => "id=jhnam88&name=Jeongho+Nam"
+			 *
+			 * @return A string representing URLVariables following the URI
+			 */
+			auto toString() const -> std::string;
 		};
-
-		typedef BasicURLVariables<TCHAR> URLVariables;
-		typedef BasicURLVariables<char> URLVariablesA;
-		typedef BasicURLVariables<wchar_t> URLVariablesW;
 	};
 };

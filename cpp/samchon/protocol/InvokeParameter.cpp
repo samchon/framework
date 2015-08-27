@@ -130,7 +130,7 @@ auto InvokeParameter::getValueAsXML() const -> shared_ptr<XML>
 auto InvokeParameter::toXML() const -> shared_ptr<XML>
 {
 	shared_ptr<XML> xml(new XML());
-	xml->setKey(_T("parameter"));
+	xml->setTag(_T("parameter"));
 	xml->setProperty(_T("name"), name);
 	xml->setProperty(_T("type"), type);
 
@@ -150,6 +150,6 @@ auto InvokeParameter::toSQL() const -> String
 	else
 		value = this->value;
 
-	String &sql = StringUtil::substituteSQL(_T("({1}, {2}, {3})"), name, type, value);
+	String &sql = TStringUtil::substituteSQL(_T("({1}, {2}, {3})"), name, type, value);
 	return move(sql);
 }

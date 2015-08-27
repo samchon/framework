@@ -10,12 +10,8 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API MSSQLi
 			: public SQLi
 		{
-		protected:
-			virtual auto DRIVER() const -> String;
-			virtual auto PORT() const -> long;
-
 		public:
-			MSSQLi();
+			MSSQLi(int port = 1433);
 			virtual ~MSSQLi();
 
 			virtual auto createStatement() -> std::shared_ptr<SQLStatement>;

@@ -10,6 +10,11 @@ namespace samchon
 			class DistributedSystemArray;
 			class DistributedSystemRole;
 
+			/**
+			 * @brief A slavery distributed system
+			 *
+			 * @author Jeongho Nam
+			 */
 			class SAMCHON_FRAMEWORK_API DistributedSystem
 				: public virtual ExternalSystem
 			{
@@ -17,6 +22,9 @@ namespace samchon
 				typedef ExternalSystem super;
 
 			protected:
+				/**
+				 * @brief Measurement of performance
+				 */
 				double performance;
 
 			public:
@@ -28,7 +36,7 @@ namespace samchon
 			public:
 				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(DistributedSystemRole)
 
-					virtual auto toXML() const -> std::shared_ptr<library::XML>;
+				virtual auto toXML() const -> std::shared_ptr<library::XML>;
 			};
 		};
 	};

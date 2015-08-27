@@ -9,6 +9,7 @@
 #include <samchon/library/SQLi.hpp>
 #include <samchon/library/SQLStatement.hpp>
 #include <samchon/library/XML.hpp>
+#include <samchon/library/Semaphore.hpp>
 
 #include <samchon/protocol/Invoke.hpp>
 
@@ -25,7 +26,7 @@ using namespace samchon::protocol::service;
 /* --------------------------------------------------------
 	CONSTRUCTORS
 -------------------------------------------------------- */
-Client::Client(User *user, long no, tcp::socket *socket)
+Client::Client(User *user, size_t no, Socket *socket)
 	: super()
 {
 	this->user = user;
@@ -54,121 +55,61 @@ auto Client::getService() const -> Service*
 {
 	return service;
 }
-auto Client::getNo() const -> long
+auto Client::getNo() const -> size_t
 {
 	return no;
 }
 
 /* --------------------------------------------------------
-	SOCKET
+	HANDLING MESSAGE
 -------------------------------------------------------- */
-void Client::listen()
-{
-	KEEP_CLIENT_ALIVE;
-
-	super::listen();
-}
-
 void Client::sendData(shared_ptr<Invoke> invoke)
 {
 	KEEP_CLIENT_ALIVE;
 
 	super::sendData(invoke);
 }
-// void Client::sendData(shared_ptr<Invoke> invoke, const vector<unsigned char> &data)
-// {
-// 	KEEP_CLIENT_ALIVE;
-// 
-// 	invoke->push_back(new InvokeParameter(_T("data"), _T("byteArray"), _T("")));
-// 	invoke->push_back(new InvokeParameter(_T("size"), (long long)data.size()));
-// 
-// 	boost::system::error_code error;
-// 	String &header = invoke->toXML()->toString();
-// 
-// 	socketMutex.lock();
-// 	do
-// 	{
-// 		socket->write_some(boost::asio::buffer(header), error);
-// 		if (error)
-// 			break;
-// 
-// 		socket->write_some(boost::asio::buffer(data), error);
-// 	} while (false);
-// 	socketMutex.unlock();
-// }
-void Client::sendError(const long errorID)
-{
-// 	SQLi *sqli;
-// 	shared_ptr<SQLStatement> stmt;
-
-	//FIELDS
-	long serviceID;
-	//long errorID;
-	String &userID = user->getID();
-
-	if (service == nullptr)
-	{
-		//sqli = getUser()->getServer()->getSQLi();
-		serviceID = LONG_MIN;
-	}
-	else
-	{
-		//sqli = service->getSQLi();
-		serviceID = service->ID();
-	}
-	//stmt = sqli->createStatement();
-
-// 	if (sqli != nullptr)
-// 	{
-// 		try
-// 		{
-// 			stmt->prepare
-// 			(
-// 				_T("goInsertError ?, ?, ?"), serviceID, errorID, userID
-// 			);
-// 			stmt->execute();
-// 		}
-// 		catch (exception &e)
-// 		{
-// 			//DO NOTHING
-// 		}
-// 		stmt.reset();
-// 	}
-
-	shared_ptr<Invoke> invoke(new Invoke(_T("handleError")));
-	invoke->push_back(new InvokeParameter(_T("serviceID"), serviceID));
-	invoke->push_back(new InvokeParameter(_T("id"), errorID));
-
-	sendData(invoke);
-}
 void Client::replyData(shared_ptr<Invoke> invoke)
 {
-	//archiveReplyDataHistory(invoke);
-
 	String &listener = invoke->getListener();
-	if (listener == _T("goService") || listener == _T("goAuthorization"))
+
+	if (listener == _T("notifyService"))
 	{
-		goService(invoke->at(0)->getValue<String>());
+		constructService(invoke->at(0)->getValue());
 	}
-	else if (listener == _T("goLogin"))
-		((User*)user)->goLogin(this, invoke);
-	else if (listener == _T("goLogout"))
-		((User*)user)->goLogout(this);
-	else if (listener == _T("goJoin"))
-		((User*)user)->goJoin(this, invoke);
+	else if (listener == _T("login"))
+	{
+		user->goLogin(this, invoke);
+	}
+	else if (listener == _T("logout"))
+	{
+		user->goLogout(this);
+	}
+	else if (listener == _T("join"))
+	{
+		user->goJoin(this, invoke);
+	}
 	else
 	{
 		if (service != nullptr)
-			service->replyData(invoke);
+		{
+			thread([this, invoke]()
+			{
+				KEEP_CLIENT_ALIVE;
+				UniqueAcquire acquire(*user->getSemaphore());
+
+				service->replyData(invoke);
+			}).detach();
+		}
 	}
 }
 
-void Client::goService(const String &name)
+void Client::constructService(const String &name)
 {
 	if (service != nullptr)
 		return;
 
-	long authority;
+	int authority;
 	bool satisfactory;
 
 	service = createService(name);
@@ -183,44 +124,9 @@ void Client::goService(const String &name)
 		satisfactory = (authority >= service->REQUIRE_AUTHORITY());
 	}
 
-	shared_ptr<Invoke> replyInvoke(new Invoke(_T("handleAuthority")));
+	shared_ptr<Invoke> replyInvoke(new Invoke(_T("notifyAuthority")));
 	replyInvoke->push_back(new InvokeParameter(_T("authority"), authority));
 	replyInvoke->push_back(new InvokeParameter(_T("satisfactory"), satisfactory));
 
 	sendData(replyInvoke);
 }
-// void Client::archiveReplyDataHistory(shared_ptr<Invoke> invoke)
-// {
-// 	SQLi *sqli;
-// 	shared_ptr<SQLStatement> stmt;
-// 
-// 	long serviceID;
-// 	String &listener = invoke->getListener();
-// 	String &userID = getUser()->getID();
-// 
-// 	if (service == nullptr)
-// 	{
-// 		sqli = getUser()->getServer()->getSQLi();
-// 		serviceID = 0;
-// 	}
-// 	else
-// 	{
-// 		sqli = service->getSQLi();
-// 		serviceID = service->ID();
-// 	}
-// 
-// 	if (sqli == nullptr)
-// 		return;
-// 
-// 	stmt = sqli->createStatement();
-// 
-// 	try
-// 	{
-// 		stmt->prepare(invoke->toSQL(), serviceID, listener, userID);
-// 		stmt->execute();
-// 	}
-// 	catch (exception &e)
-// 	{
-// 		//DO NOTHING
-// 	}
-// }

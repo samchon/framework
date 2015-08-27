@@ -5,6 +5,11 @@ namespace samchon
 {
 	namespace protocol
 	{
+		/**
+		 * EntityPtrGroup is an EntityGroup having children Entity as their pointers.\n
+		 *
+		 * @inheritDoc
+		 */
 		template <typename _Container>
 		class IEntityPtrGroup
 			: public virtual IEntityGroup<_Container, Entity*>

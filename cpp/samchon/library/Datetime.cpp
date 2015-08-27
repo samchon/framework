@@ -1,7 +1,7 @@
 #include <samchon/library/Datetime.hpp>
 
 #include <chrono>
-#include <samchon/library/WeakString.hpp>
+#include <samchon/WeakString.hpp>
 #include <samchon/library/StringUtil.hpp>
 
 using namespace std;
@@ -30,10 +30,6 @@ Datetime::Datetime(int year, int month, int date, int hour, int min, int sec)
 	: Datetime()
 {
 	set(year, month, date, hour, min, sec);
-}
-Datetime::Datetime(const String &str)
-	: Datetime(WeakString(str))
-{
 }
 Datetime::Datetime(const WeakString &wStr)
 	: Datetime()
@@ -153,32 +149,32 @@ void Datetime::addDate(int val)
 }
 void Datetime::addHour(int val)
 {
-	((TimePoint*)timePoint)->operator+=(chrono::hours(val));
-	refreshTM();
+	operator+=(chrono::hours(val));
 }
 void Datetime::addMinute(int val)
 {
-	((TimePoint*)timePoint)->operator+=(chrono::minutes(val));
-	refreshTM();
+	operator+=(chrono::minutes(val));
 }
 void Datetime::addSecond(int val)
 {
-	((TimePoint*)timePoint)->operator+=(chrono::seconds(val));
-	refreshTM();
+	operator+=(chrono::seconds(val));
 }
 
 //GETTERS
 int Datetime::getHour() const
 {
-	return tm->tm_hour;
+	struct tm &tm = toTM();
+	return tm.tm_hour;
 }
 int Datetime::getMinute() const
 {
-	return tm->tm_min;
+	struct tm &tm = toTM();
+	return tm.tm_min;
 }
 int Datetime::getSecond() const
 {
-	return tm->tm_sec;
+	struct tm &tm = toTM();
+	return tm.tm_sec;
 }
 
 //TO_STRING

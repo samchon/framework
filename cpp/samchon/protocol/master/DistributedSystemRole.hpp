@@ -9,6 +9,11 @@ namespace samchon
 		{
 			class DistributedSystem;
 
+			/**
+			 * @brief Role of a slavery distributed system
+			 *
+			 * @author Jeongho Nam
+			 */
 			class SAMCHON_FRAMEWORK_API DistributedSystemRole
 				: public ExternalSystemRole
 			{
@@ -16,6 +21,9 @@ namespace samchon
 				typedef ExternalSystemRole super;
 
 			protected:
+				/** 
+				 * @brief Measurement of required resource
+				 */
 				double performance;
 
 			public:

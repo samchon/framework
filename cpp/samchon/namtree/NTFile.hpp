@@ -16,6 +16,11 @@ namespace samchon
 		class NTParameterArray;
 		class NTIterator;
 
+		/**
+		 * @brief File for medata of function used in NTSide
+		 *
+		 * @author Jeongho Nam
+		 */
 		class SAMCHON_FRAMEWORK_API NTFile
 			: public FTFile,
 			public INTExplore

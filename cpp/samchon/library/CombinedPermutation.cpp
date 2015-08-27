@@ -1,19 +1,25 @@
-#include <samchon/library/CombinedPermutation.hpp>
+#include <samchon/library/CombinedPermutationGenerator.hpp>
 
 using namespace std;
 using namespace samchon::library;
 
-CombinedPermutation::CombinedPermutation(size_t indexSize, size_t levelSize)
-	: super(indexSize, levelSize)
+CombinedPermutationGenerator::CombinedPermutationGenerator(size_t n, size_t r)
+	: super(n, r)
 {
-}
+	this->size_ = (size_t)pow(n, r);
 
-auto CombinedPermutation::isValid(const vector<size_t> &) const -> bool
-{
-	return true;
+	dividerArray.assign(r, NULL);
+	for (size_t i = 0; i < r; i++)
+	{
+		size_t x = r - (i + 1);
+		dividerArray[i] = (size_t)pow(n, x);
+	}
 }
-auto CombinedPermutation::MATRIX_SIZE() const -> size_t
+auto CombinedPermutationGenerator::at(size_t x) const -> vector<size_t>
 {
-	return size();
-	//return (size_t)(getIndexSize(), getLevelSize());
+	vector<size_t> row(r, 0);
+	for (size_t i = 0; i < row.size(); i++)
+		row[i] = (x / dividerArray[i]) % n;
+
+	return move(row);
 }

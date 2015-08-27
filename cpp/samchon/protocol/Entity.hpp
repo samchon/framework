@@ -13,8 +13,10 @@ namespace samchon
 	namespace protocol
 	{
 		/**
-		 * Entity is a standard data class in Samchon Framework<br/>
-		 * Entity provides converting methods between XML
+		 * @brief Entity, the standard data class
+		 *
+		 * @details
+		 * 
 		 * 
 		 * @author Jeongho Nam
 		 */
@@ -22,34 +24,40 @@ namespace samchon
 		{
 		public:
 			/**
-			 * A tag name when converted to XML<br/>
-			 * <u>&lt;TAG /&gt;</u>
+			 * @brief A tag name of XML
+			 *
+			 * @details 
 			 */
 			virtual auto TAG() const -> String = NULL;
 			
 			/**
-			 * An identifier of Entity<br/>
-			 * If the key is not atomic or not string, then make an artificial(surrogate) key
+			 * @brief Identifier of the Entity
+			 * 
+			 * @details
+			 * If the key is not atomic or not string, then makes an artificial(surrogate) key
 			 */
 			virtual auto key() const -> String;
 
 		public:
+			/**
+			 * @brief Default Constructor.
+			 */
 			Entity();
 			virtual ~Entity() = default;
 			
 			/**
-			 * <u>XML -> Entity</u>
-			 * Constructs data of Entity by XML
+			 * @brief XML -> Entity
+			 * @details Constructs data of Entity by XML
 			 *
-			 * @param xml Contains the data of Entity.
+			 * @param xml A xml used to construct data of entity
 			 */
-			virtual void construct(std::shared_ptr<library::XML> xml) = NULL;
+			virtual void construct(std::shared_ptr<library::XML>) = NULL;
 
 			/**
-			 * <u>Entity -> XML</u><br>
-			 * Converts data of the Entity to XML
+			 * @brief Entity -> XML
+			 * @details Converts data of the Entity to XML
 			 *
-			 * @return XML contaning data of the Entity
+			 * @return XML representing the Entity
 			 */
 			virtual auto toXML() const -> std::shared_ptr<library::XML> = NULL;
 		};

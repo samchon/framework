@@ -1,32 +1,32 @@
-#include <samchon/library/Permutation.hpp>
+#include <samchon/library/PermutationGenerator.hpp>
 #include <samchon/Set.hpp>
 
 using namespace std;
 using namespace samchon::library;
 
-Permutation::Permutation(size_t indexSize, size_t levelSize)
-	: super(indexSize, levelSize)
+PermutationGenerator::PermutationGenerator(size_t n, size_t r)
+	: super(n, r)
 {
-}
+	size_ = n;
+	for (size_t i = n - 1; i > n - r; i--)
+		size_ *= i;
 
-auto Permutation::isValid(const vector<size_t> &row) const -> bool
+	dividerArray.assign(n, NULL);
+	for (size_t i = 0; i < n; i++)
+		dividerArray[i] = i;
+}
+auto PermutationGenerator::at(size_t x) const -> vector<size_t>
 {
-	//DUPLICATION IS NOT PERMITTED
-	Set<size_t> set;
+	vector<size_t> atoms = this->dividerArray;
+	vector<size_t> row(r, NULL);
+
 	for (size_t i = 0; i < row.size(); i++)
-		if (set.has(i) == true)
-			return false;
-		else
-			set.insert(i);
-	
-	return true;
-}
-auto Permutation::MATRIX_SIZE() const -> size_t
-{
-	//nPr
-	size_t val = 1;
-	for (size_t i = 0; i < getLevelSize(); i++)
-		val *= (getIndexSize() - i);
+	{
+		size_t item = x % atoms.size();
+		x = (size_t)floor(x / (double)atoms.size());
 
-	return val;
+		row[i] = atoms[item];
+		atoms.erase(atoms.begin() + item);
+	}
+	return move(row);
 }

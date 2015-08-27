@@ -10,6 +10,11 @@ namespace samchon
 			class DistributedSystem;
 			class DistributedSystemRole;
 
+			/**
+			 * @brief A master managing distributed system(s)
+			 *
+			 * @author Jeongho Nam
+			 */
 			class SAMCHON_FRAMEWORK_API DistributedSystemArray
 				: public virtual ExternalSystemArray
 			{

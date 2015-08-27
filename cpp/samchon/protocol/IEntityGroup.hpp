@@ -7,22 +7,59 @@ namespace samchon
 {
 	namespace protocol
 	{
+		/**
+		 * @brief Entity, Container of Entity
+		 *
+		 * @details
+		 * <p> EntityGroup is a container of Entity, and also another type of Entity, too. </p>
+		 * Thus, there's a composite relationship between EntityGroup and Entity</br>
+		 * \n
+		 * @note
+		 * <ul>
+		 *	<li> When data-set has a "Hierarchical Relationship": </li>
+		 *		<p> Compose the data class(entity) having children by inheriting EntityGroup and 
+		 *		terminate the leaf node by inheriting Entity </p>
+		 *
+		 *	<li> Not only hierarchical, but also recursive </li>
+		 *		<p> 
+		 * 
+		 * @author Jeongho Nam
+		 */
 		template <typename _Container, typename _Ty = _Container::value_type>
 		class IEntityGroup
 			: public virtual Entity,
 			public _Container
 		{
 		protected:
-			virtual auto TAG() const -> String = NULL;
+			/**
+			* A tag name of children in composite relationship\n
+			* \n
+			* Needed for\n
+			* &nbsp;&nbsp;&nbsp;&nbsp; <i>virtual EntityGroup::construct(XML)</i>\n
+			* &nbsp;&nbsp;&nbsp;&nbsp; <i>virtual EntityGroup::toXML() -> XML</i>\n
+			* <p>&lt;TAG&gt;\n
+			* &nbsp;&nbsp;&nbsp;&nbsp; &lt;CHILD_TAG /&gt;\n
+			* &nbsp;&nbsp;&nbsp;&nbsp; &lt;CHILD_TAG /&gt;\n
+			* &lt;/TAG&gt;
+			*/
 			virtual auto CHILD_TAG() const -> String = NULL;
 
 		public:
+			/**
+			 * Constructor
+			 */
 			IEntityGroup()
 				: Entity(),
 				_Container()
 			{};
 			virtual ~IEntityGroup() = default;
 			
+			/**
+			* Indicates whether a container has an object having the specified identifier.</br>
+			* </br>
+			* @param key The identifier wants to check
+			* @return If there's the object then true, otherwise false
+			*/
 			auto has(const String &key) const -> bool
 			{
 				for (auto it = begin(); it != end(); it++)
@@ -31,6 +68,13 @@ namespace samchon
 
 				return false;
 			};
+
+			/**
+			* Access the element by specified identifier(key)\n
+			* \n
+			* @param key the identifier of the element wants to access
+			* @return The element having the key, or throw exception if there is none.
+			*/
 			auto get(const String &key) -> _Ty&
 			{
 				for (auto it = begin(); it != end(); it++)
@@ -39,6 +83,13 @@ namespace samchon
 
 				throw "out of range";
 			};
+
+			/**
+			* Access the const element by specified identifier(key)\n
+			* \n
+			* @param key the identifier of the element wants to access
+			* @return The const element having the key, or throw exception if there is none.
+			*/
 			auto get(const String &key) const -> const _Ty&
 			{
 				for (auto it = begin(); it != end(); it++)
@@ -48,6 +99,12 @@ namespace samchon
 				throw "out of range";
 			};
 
+			/**
+			* You don't need to consider the children Entities' members\n
+			* Just concentrate on this EntityArray's own members\n
+			*
+			* @inheritDoc
+			*/
 			virtual void construct(std::shared_ptr<library::XML> xml)
 			{
 				clear();
@@ -76,10 +133,17 @@ namespace samchon
 					}
  				}
 			};
+
+			/**
+			* You don't need to consider the children Entities' members\n
+			* Just concentrate on this EntityArray's own members\n
+			*
+			* @inheritDoc
+			*/
 			virtual auto toXML() const -> std::shared_ptr<library::XML>
 			{
 				std::shared_ptr<library::XML> xml(new library::XML());
-				xml->setKey(TAG());
+				xml->setTag(TAG());
 				
 				std::shared_ptr<library::XMLList> xmlList(new library::XMLList());
 				//xmlList->reserve(size());
@@ -92,6 +156,12 @@ namespace samchon
 			};
 
 		protected:
+			/**
+			* Factory method for creating a new child <code>Entity</code> which is belonged to the <code>EntityArray</code>\n
+			* This method will be called by construct method (<code>EntityArray::construct(XML)</code>)\n
+			* \n
+			* @return A new child Entity belongs to EntityGroup
+			*/
 			virtual auto createChild(std::shared_ptr<library::XML>) -> Entity*
 			{
 				return nullptr;

@@ -1,12 +1,15 @@
 #include <samchon/library/ErrorEvent.hpp>
+
+using namespace std;
+using namespace samchon;
 using namespace samchon::library;
 
-ErrorEvent::ErrorEvent(EventDispatcher *source, long type, long id)
+ErrorEvent::ErrorEvent(EventDispatcher *source, int type, const string &message)
 	: Event(source, type)
 {
-	this->id = id;
+	this->message = message;
 }
-auto ErrorEvent::getID() const -> long
+auto ErrorEvent::getMessage() const -> String
 {
-	return id;
+	return String(message.begin(), message.end());
 }

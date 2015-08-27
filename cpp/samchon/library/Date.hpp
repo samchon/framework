@@ -1,121 +1,289 @@
 #pragma once
-#include <samchon\API.hpp>
+#include <samchon/API.hpp>
+#include <samchon/library/IOperator.hpp>
 
 #include <samchon/String.hpp>
+#include <samchon/WeakString.hpp>
+#include <chrono>
 
-struct tm;
-/*
-	I DON'T KNOW HOW TO PRE-DEFINE THE std::chrono::system_clock::time_point
-	IF YOU KNOW THE WAY, PLEASE WRITE THE SOLUTION ON GITHUB OR MY HOMEPAGE
-
-		http://samchon.org/framework
-*/
-/*
-namespace std
-{
-	namespace chrono
-	{
-		template<class _Rep, class _Period> class duration;
-		template<class _Clock, class _Duration> class time_point;
-
-		struct system_clock;
-	};
-
-	template<intmax_t _Nx, intmax_t _Dx> struct ratio;
-	template<intmax_t _Ax, intmax_t _Bx> struct _Gcd;
-	template<intmax_t _Ax, intmax_t _Bx> struct _Safe_mult;
-
-	template<class _R1, class _R2> struct _Ratio_multiply
-	{
-		static const intmax_t _N1 = _R1::num;
-		static const intmax_t _D1 = _R1::den;
-		static const intmax_t _N2 = _R2::num;
-		static const intmax_t _D2 = _R2::den;
-
-		static const intmax_t _Gx = _Gcd<_N1, _D2>::value;
-		static const intmax_t _Gy = _Gcd<_N2, _D1>::value;
-
-		// typename ratio<>::type is unnecessary here
-		typedef ratio<
-			_Safe_mult<_N1 / _Gx, _N2 / _Gy>::value,
-			_Safe_mult<_D1 / _Gy, _D2 / _Gx>::value
-		> type;
-	};
-	
-	template<class _R1, class _R2> using ratio_multiply = typename _Ratio_multiply<_R1, _R2>::type;
-};
-*/
 namespace samchon
 {
 	namespace library
 	{
-		template <typename _Elem> class BasicWeakString;
-		typedef BasicWeakString<TCHAR> WeakString;
-
+		/**
+		 * @brief Date (year, month, day in month)
+		 * 
+		 * @details
+		 * \par Date class is a chrono::time_point\<std::chrono::system_clock\>.
+		 * \par Date represents the date with year, month and day in month.
+		 * \par The basic date (local time) is from your operating system
+		 *
+		 * \par [Inherited]
+		 * A time_point object expresses a point in time relative to a clock's epoch.
+		 *
+		 * \par
+		 * Internally, the object stores an object of a duration type, and uses the Clock 
+		 * type as a reference for its epoch.
+		 *
+		 * Referenced comments of std::chrono::time_point
+		 *	\li http://www.cplusplus.com/reference/chrono/time_point/
+		 *
+		 * @author Jeongho Nam
+		 */
 		class SAMCHON_FRAMEWORK_API Date
+			: public std::chrono::system_clock::time_point
 		{
-		protected:
-			//1970-01-01 09:00:00 -> 0 in Linux-Time
-			/*static std::chrono::time_point < std::chrono::system_clock,
-				std::chrono::duration < long long,
-				std::ratio_multiply < std::ratio<100, 1>, std::ratio<1, 1000000000> >
-				>
-			> *TP_1970;*/
-			static void *TP_1970; //1970-01-01 09:00:00
-			static long long SECONDS_1970;
+		private:
+			typedef std::chrono::system_clock::time_point super;
 
-			//TIME VARIABLES
-			/*std::chrono::time_point < std::chrono::system_clock,
-				std::chrono::duration < long long,
-				std::ratio_multiply < std::ratio<100, 1>, std::ratio<1, 1000000000> >
-				>
-			> *timePoint;*/
-			void *timePoint;
-			struct tm *tm; //-> 시간 변경시마다 갱신이 필요함
+		protected:
+			/**
+			 * @brief time_point for 1970-01-01 09:00:00
+			 * @details It's the zero(0) in linux_time
+			 */
+			static std::chrono::system_clock::time_point TP_1970;
+
+			/**
+			 * @brief Calculates how many seconds have flowen since 0000-01-01 00:00:00
+			 * @details This static method is used for calculate the linux_time (since 1970-01-01 09:00:00)
+			 * 
+			 * @return linux_time of the Date
+			 */
+			static auto calcSeconds(int year, int month, int date) -> long long;
+
+			/**
+			* @brief Calculates and gets an array of final date of each month for that year.
+			* 
+			* @param year The target year
+			* @return Array of fianl date of each month for that year
+			*/
+			static auto calcLastDates(int year) -> std::array<int, 12>;
 
 		public:
+			/* --------------------------------------------------------------------------
+				CONSTRUCTORS
+			-------------------------------------------------------------------------- */
+			/**
+			 * @brief Default Constructor
+			 * 
+			 * @detail The date will be now (Now's date from operating system)
+			 */
 			Date();
+			/**
+			 * @brief Copy Constructor
+			 * @details Copy the date from another Date
+			 * 
+			 * @param date Target to be copied
+			 */
 			Date(const Date&);
+			/**
+			 * @briref Move Constructor
+			 * @details Gets the date from other and truncate the other
+			 * 
+			 * @param date Target to be moved
+			 */
 			Date(Date&&);
 
+			/**
+			 * @brief Construct from date elements
+			 * 
+			 * @param year ex) 2015
+			 * @param month January to December. 1 ~ 12
+			 * @param date day in month. 1 ~ 31
+			 * @throw invalid_argument month or date is invalid.
+			 */
 			Date(int year, int month, int date);
+			
+			/**
+			 * @brief Construct from String
+			 * 
+			 * @param str A string expressing the date. (1991-01-01)
+			 * @throw invalid_argument month or date is invalid.
+			 */
 			Date(const String &);
+
+			/**
+			* @brief Constructor by String
+			* 
+			* @param str A weak_string expressing the date. (1991-01-01)
+			* @throw invalid_argument month or date is invalid.
+			*/
 			Date(const WeakString &);
+			
+			/**
+			 * @brief Construct from linux_time
+			 * 
+			 * @param linuxTime linux_time to be converted
+			 */
 			Date(long long linuxTime);
+			virtual ~Date() = default;
 			
-			virtual ~Date();
-			
-			//SET METHODS -> SEMI-CONSTRUCTORS
+			/**
+			 * @brief Setter by string
+			 * 
+			 * @param str Y-m-d
+			 * @throw invalid_argument month or date is invalid.
+			 */
 			void set(const String &);
+
+			/**
+			 * @brief Setter by weak_string
+			 * 
+			 * @param wstr Y-m-d
+			 * @throw invalid_argument month or date is invalid.
+			 */
 			virtual void set(const WeakString &);
+
+			/**
+			 * @brief Setter by elements of date
+			 * 
+			 * @param year ex) 2015
+			 * @param month January to December. 1 ~ 12
+			 * @param date day in month. 1 ~ 31
+			 * @throw invalid_argument month or date is invalid.
+			 */
 			void set(int year, int month, int date);
+
+			/**
+			 * @brief Setter by linux_time
+			 * 
+			 * @param linuxTime linux_time to be converted
+			 */
 			void set(long long linuxTime);
 
-		protected:
-			auto fetchLastDates(int year) const -> std::array<int, 12>;
-			
-			void refreshTM();
-			auto calcSeconds(int year, int month, int date) -> long long;
-
 		public:
-			//SET METHODS
+			/* --------------------------------------------------------------------------
+				SETTERS
+			-------------------------------------------------------------------------- */
+			/**
+			 * @brief Set year of the Date
+			 *
+			 * @details
+			 * If previous date is leaf month's expiration date and 
+			 * target year what you want is not leaf, the date will be 28
+			 *
+			 * \li 2000-02-29 -> setYear(2001) -> 2001-02-28
+			 * \li 2001-02-28 -> setYear(2000) -> 2000-02-08
+			 * 
+			 * @param val Target year
+			 */
 			virtual void setYear(int);
+			
+			/**
+			 * @brief Set month of the Date
+			 *
+			 * @details
+			 * If the expiration date of the month will be shrinked, the date will be changed to the expiration date
+			 *
+			 * \li 2000-03-31 -> setMonth(4) -> 2000-04-30
+			 * \li 2007-08-31 -> setMonth(9) -> 2007-09-30
+			 * 
+			 * @param val Target month (1 - 12)
+			 * @throw invalid_argument month is out of range
+			 */
 			virtual void setMonth(int);
+			/**
+			 * Set date of the Date
+			 * 
+			 * @param val Target day in month
+			 * @throw invalid_argument When date is over expiration date in month
+			 */
 			virtual void setDate(int);
 
 			//ADD METHODS
+			/**
+			 * @brief Add years to the Date
+			 * 
+			 * @param val Years to add
+			 */
 			virtual void addYear(int);
+
+			/**
+			 * @brief Add months to the Date
+			 *
+			 * @details
+			 * Not a matter to val is over 12. If the month is over 12, 
+			 * then years will be added. 
+			 * 
+			 * @param val Months to add
+			*/
 			virtual void addMonth(int);
+			
+			/**
+			 * @brief Add weeks to the Date
+			 *
+			 * @details
+			 * Not a matter that val is too huge. If the adding weeks derives 
+			 * modification in month or year, then it will be.
+			 * 
+			 * @param val Weeks to add
+			 */
 			virtual void addWeek(int);
+			
+			/**
+			 * @brief Add days to the Date
+			 *
+			 * @details
+			 * Not a matter that val is too huge. If the adding dates derives
+			 * modification in month or year, then it will be.
+			 * 
+			 * @param val Days to add
+			 */
 			virtual void addDate(int);
 
-			//GET METHODS
-			auto getLinuxTime() const -> long long;
+			/* --------------------------------------------------------------------------
+				GETTERS
+			-------------------------------------------------------------------------- */
+			/**
+			 * @brief Get year of the Date
+			 * 
+			 * @return Year
+			 */
 			auto getYear() const -> int;
+
+			/**
+			 * @brief Get month of the Date
+			 * 
+			 * @return Month as integer (1: January, 12: December)
+			 */
 			auto getMonth() const -> int;
-			auto getDay() const -> int;
+
+			/**
+			 * @brief Get the day in month of the Date
+			 * 
+			 * @return Day in month (1 to 31)
+			 */
 			auto getDate() const -> int;
-			
+
+			/**
+			 * @brief Get the day in week of the Date
+			 * 
+			 * @return Day in week to integer (0: Sunday, 1: Monday, ..., 6: Saturday)
+			 */
+			auto getDay() const -> int;
+
+			/* --------------------------------------------------------------------------
+				EXPORTERS
+			-------------------------------------------------------------------------- */
+			/**
+			 * @brief Converts the Date to struct tm
+			 * 
+			 * @return struct tm representing the Date
+			 */
+			virtual auto toTM() const -> struct ::tm;
+
+			/**
+			 * @brief Converts the Date to linux_time
+			 * 
+			 * @return linux_time of the Date
+			 */
+			virtual auto toLinuxTime() const -> long long;
+
+			/**
+			 * @brief Converts the Date to String
+			 * 
+			 * @return String expressing the Date
+			 */
 			virtual auto toString() const -> String;
 		};
 	};

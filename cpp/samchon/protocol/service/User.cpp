@@ -2,10 +2,11 @@
 #	include <samchon/protocol/service/Server.hpp>
 #	include <samchon/protocol/service/Client.hpp>
 
-#include <samchon/protocol/Invoke.hpp>
-
 #include <boost/asio.hpp>
+
 #include <mutex>
+#include <samchon/library/Semaphore.hpp>
+#include <samchon/protocol/Invoke.hpp>
 
 using namespace std;
 
@@ -20,31 +21,25 @@ using namespace boost::asio::ip;
 /* --------------------------------------------------------
 	CONSTRUCTORS
 -------------------------------------------------------- */
-User::User(Server *server, const pair<String, String> &ipPair)
+User::User(Server *server, const String &sessionID)
 	: super()
 {
-	mtx = new mutex();
-
 	this->server = server;
-	this->ipPair = ipPair;
+	this->sessionID = sessionID;
+	
+	semaphore = new Semaphore(2);
+	sequence = 0;
 
-	sequence = 1;
 	id = _T("guest");
 	authority = 1;
 }
 User::~User()
 {
-	delete mtx;
 }
 
 auto User::__keepAlive(Client *client) -> ServiceKeeper
 {
 	return ServiceKeeper(this, client);
-}
-void User::setMember(const String &id, long authority)
-{
-	this->id = id;
-	this->authority = authority;
 }
 
 /* --------------------------------------------------------
@@ -54,15 +49,11 @@ auto User::getServer() const -> Server*
 {
 	return server;
 }
-auto User::getIPPair() const -> pair<String, String>
-{
-	return ipPair;
-}
 auto User::getID() const -> String
 {
 	return id;
 }
-auto User::getAuthority() const -> long
+auto User::getAuthority() const -> int
 {
 	return authority;
 }
@@ -70,28 +61,32 @@ auto User::getAuthority() const -> long
 /* --------------------------------------------------------
 	MANAGING CLIENT
 -------------------------------------------------------- */
-void User::addClient(tcp::socket *socket)
+void User::addClient(Socket *socket)
 {
-	mtx->lock();
-		SmartPointer<Client> client(createClient(++sequence, socket));
-		this->set(sequence, client);
-	mtx->unlock();
+	unique_lock<mutex> uk(mtx);
+
+	size_t no = ++sequence;
+
+	SmartPointer<Client> client(createClient(no, socket));
+	this->set(no, client);
+	
+	uk.unlock();
 
 	client->listen();
-	eraseClient(client->getNo());
+	this->eraseClient(no);
 }
-void User::eraseClient(long no)
+void User::eraseClient(size_t no)
 {
 	auto &ucPair = __keepAlive();
-
-	Sleep(15 * 1000);
-	mtx->lock();
+	
+	unique_lock<mutex> uk(mtx);
 	{
-		erase(no);
-		if (size() == 0)
-			((Server*)server)->eraseUser(this->ipPair);
+		super::erase(no);
 	}
-	mtx->unlock();
+	uk.unlock();
+
+	if (empty() == true)
+		server->eraseUser(sessionID);
 }
 
 /* --------------------------------------------------------
@@ -119,12 +114,11 @@ void User::goJoin(Client *client, shared_ptr<Invoke> invoke)
 }
 void User::goLogout(Client *client)
 {
+	KEEP_USER_ALIVE;
+
 	shared_ptr<Invoke> invoke(new Invoke(_T("doLogout")));
 	for (auto it = begin(); it != end(); it++)
-		if (it->second.get() == client)
-			continue;
-		else
-			it->second->sendData(invoke);
+		it->second->sendData(invoke);
 
 	id = _T("guest");
 	authority = 0;

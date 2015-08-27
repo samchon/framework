@@ -9,6 +9,9 @@ namespace samchon
 	{
 		class NTParameter;
 
+		/**
+		 * @brief An Array of NTParameter
+		 */
 		class SAMCHON_FRAMEWORK_API NTParameterArray
 			: public virtual protocol::SharedEntityArray
 		{

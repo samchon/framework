@@ -13,6 +13,11 @@ namespace samchon
 		class NTFile;
 		class NTIterator;
 
+		/**
+		 * @brief A side of a conditional expresson
+		 *
+		 * @author Jeongho Nam
+		 */
 		class SAMCHON_FRAMEWORK_API NTSide
 			: public virtual protocol::Entity
 		{

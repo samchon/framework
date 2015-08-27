@@ -39,7 +39,7 @@ Invoke::Invoke(const String &listener)
 	auto Invoke::toXML() const -> shared_ptr<XML>
 	{
 		std::shared_ptr<XML> xml(new XML());
-		xml->setKey(_T("invoke"));
+		xml->setTag(_T("invoke"));
 		xml->setProperty(_T("listener"), listener);
 
 		std::shared_ptr<XMLList> xmlList(new XMLList());

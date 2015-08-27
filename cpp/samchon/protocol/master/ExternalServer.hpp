@@ -1,5 +1,5 @@
 #include <samchon/protocol/master/ExternalSystem.hpp>
-#include <samchon/protocol/IServerConnector.hpp>
+#include <samchon/protocol/ServerConnector.hpp>
 
 namespace samchon
 {
@@ -11,7 +11,7 @@ namespace samchon
 
 			class SAMCHON_FRAMEWORK_API ExternalServer
 				: public virtual ExternalSystem,
-				public virtual IServerConnector
+				public virtual ServerConnector
 			{
 			private:
 				typedef ExternalSystem super;

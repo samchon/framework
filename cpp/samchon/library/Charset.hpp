@@ -1,33 +1,107 @@
 #pragma once
-#include <samchon\API.hpp>
+#include <samchon/API.hpp>
 
-#include <string>
-#include <codecvt>
-#include <vector>
+#include <samchon/String.hpp>
+#include <samchon/WeakString.hpp>
 
 namespace samchon
 {
 	namespace library
 	{
-		template <typename C> class SAMCHON_FRAMEWORK_API BasicCharset;
-		typedef BasicCharset<char> Charset;
-		typedef BasicCharset<wchar_t> WCharset;
-
-		template <typename C>
-		class SAMCHON_FRAMEWORK_API BasicCharset
+		/**
+		 * @brief A utility class supporting conversion between multiple character-sets
+		 *
+		 * @details 
+		 * Charset class, it's easier to think iconv in linux\n
+		 * Supported character-sets
+		 *	\li Multibyte (ANSI)
+		 *	\li UTF-8
+		 *	\li Unicode (UTF-16)
+		 *
+		 * @warning In some system, std::wstring is not for unicode(utf-16) but for utf-8
+		 * @author Jeongho Nam
+		 */
+		class SAMCHON_FRAMEWORK_API Charset
 		{
 		public:
-			static const long MULTIBYTE = 4;
-			static const long UTF8 = 8;
-			static const long UTF16 = 16;
+			enum : int
+			{
+				MULTIBYTE = 4,
+				UTF8 = 8
+			};
+			
+			/**
+			 * @brief Convert utf-8 to multibyte
+			 *
+			 * @details 
+			 * Converts utf-8 string to multibyte string\n
+			 * If the utf-8 string has header int the front, it will be erased
+			 * 
+			 * @warning If utf-8 header is not at the front of string, 
+			 *			it can't be erased and may cause breakage on letters
+			 * @param str A utf-8 string would be converted to multibyte
+			 * @return A multibyte string
+			 */
+			static auto toMultibyte(const WeakString &) -> std::string;
 
-			//static basic_string<C> UTF8_HEADER;
+			/**
+			 * @brief Convert unicode to multibyte
+			 *
+			 * @details
+			 * Converts unicode string to multibyte string\n
+			 * If the unicode string has header in the front, it will be erased
+			 *
+			 * @warning If unicode header is not at the front of string, 
+			 *			it can't be erased and may cause breakage on letters
+			 * @param str A unicode string to be converted
+			 * @return A multibyte string
+			 */
+			static auto toMultibyte(const WWeakString &) -> std::string;
 
-			BasicCharset();
 
-			static auto toMultibyte(const std::basic_string<C> &) -> std::string;
-			static auto toUTF8(const std::basic_string<C> &) -> std::string;
-			static auto toUnicode(const std::basic_string<C> &, long charset = NULL) -> std::wstring;
+			/**
+			 * @brief Convert multibyte to utf-8
+			 *
+			 * @details 
+			 * Converts multibyte string to utf-8 string\n
+			 * If the inputted string is not multibyte, then may cause breakage on letters
+			 *
+			 * @warning Converted utf-8 string does not contain the header  
+			 * @param str A multibyte string would be converted
+			 * @return A utf-8 string
+			 */
+			static auto toUTF8(const WeakString &) -> std::string;
+
+			/**
+			 * @brief Convert unicode to utf-8
+			 *
+			 * @details
+			 * Converts unicode string to utf-8 string\n
+			 * Generated utf-8 string follows unicode string wheter to have header or not
+			 *	\li If the unicode string has header on first, utf-8 will also have the header, too
+			 *  \li If not, generated utf-8 string doesn't have the header, either
+			 *
+			 * @param str A unicode string would be converted
+			 * @return A utf-8 string
+			 */
+			static auto toUTF8(const WWeakString &) -> std::string;
+
+			/**
+			 * @brief Convert multibyte or utf-8 to unicode
+			 *
+			 * @details
+			 * 
+			 *
+			 * @param str A multibyte or utf-8 string would be converted
+			 * @param Designate str is multibyte or utf-8 string
+			 * @return A unicode string
+			 */
+			static auto toUnicode(const WeakString &, int = UTF8) -> std::wstring;
+
+			/**
+			 * 
+			 */
+			static auto toUnicode(const WeakString &) -> std::wstring;
 		};
-	}
+	};
 };

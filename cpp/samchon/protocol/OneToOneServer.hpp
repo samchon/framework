@@ -8,16 +8,24 @@ namespace samchon
 {
 	namespace protocol
 	{
+		/**
+		 * @brief A server accepts only a client
+		 *
+		 * @author Jeongho Nam
+		 */
 		class SAMCHON_FRAMEWORK_API OneToOneServer
 			: public virtual IServer, 
 			public virtual IClient
 		{
 		public:
+			/**
+			 * @brief Default Constructor
+			 */
 			OneToOneServer();
 			virtual ~OneToOneServer() = default;
 
 		protected:
-			virtual void addClient(boost::asio::basic_stream_socket<boost::asio::ip::tcp>*); //LISTEN
+			virtual void addClient(Socket*); //LISTEN
 		};
 	};
 };

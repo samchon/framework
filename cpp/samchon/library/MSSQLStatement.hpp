@@ -13,8 +13,10 @@ namespace samchon
 		private:
 			typedef SQLStatement super;
 
-		public:
+		protected:
 			MSSQLStatement(SQLi *sqli);
+
+		public:
 			virtual ~MSSQLStatement();
 
 			//virtual auto getDataAsByteArray(short) -> vector<unsigned char>;

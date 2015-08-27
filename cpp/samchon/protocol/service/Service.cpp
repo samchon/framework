@@ -29,13 +29,9 @@ auto Service::__keepAlive() -> ServiceKeeper
 /* --------------------------------------------------------
 	GETTERS
 -------------------------------------------------------- */
-auto Service::getClient() const -> const Client*
+auto Service::getClient() const -> Client*
 {
 	return client;
-}
-auto Service::getSQLi() const -> SQLi*
-{
-	return client->getUser()->getServer()->getSQLi();
 }
 
 /* --------------------------------------------------------
@@ -44,12 +40,4 @@ auto Service::getSQLi() const -> SQLi*
 void Service::sendData(shared_ptr<Invoke> invoke)
 {
 	client->sendData(invoke);
-}
-// void Service::sendData(shared_ptr<Invoke> invoke, const vector<unsigned char> &data)
-// {
-// 	client->sendData(invoke, data);
-// }
-void Service::sendError(const long errorID)
-{
-	client->sendError(errorID);
 }

@@ -5,23 +5,54 @@ namespace samchon
 {
 	namespace library
 	{
+		/** 
+		 * @brief Event for expressing progress
+		 * @details
+		 *
+		 * @author Jeongho Nam
+		 */
 		class SAMCHON_FRAMEWORK_API ProgressEvent
 			: public Event
 		{
 		public:
-			static const long PROGRESS = 11;
+			enum TYPES : int
+			{
+				PROGRESS = 11
+			};
 
 		protected:
-			long long numerator;
-			long long denominator;
+			/**
+			 * @brief The number of current progress
+			 */
+			double numerator;
+
+			/**
+			 * @brief The number of total progress
+			 * @warning denominator cannot be zero
+			 */
+			double denominator;
 
 		public:
-			ProgressEvent(EventDispatcher *, long, long long, long long);
-			ProgressEvent(EventDispatcher *, long long, long long);
+			/**
+			 * @brief Construct from source and progress
+			 * @details 
+			 *
+			 * @param source Source of the event; who made the event
+			 * @param numerator The number of current progress
+			 * @param denominator The number of total progress
+			 *
+			 * @throw exception denominator is zero
+			 */
+			ProgressEvent(EventDispatcher *, double, double);
 			virtual ~ProgressEvent() = default;
 
-			auto getNumerator() const -> long long;
-			auto getDenominator() const -> long long;
+			auto getNumerator() const -> double;
+			auto getDenominator() const -> double;
+
+			/**
+			 * @brief Get percentage of prgress
+			 * @details 
+			 */
 			auto getPercent() const -> double;
 		};
 	};

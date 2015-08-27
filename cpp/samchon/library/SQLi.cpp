@@ -49,7 +49,7 @@ void SQLi::connect(const String &ip, const String &db, const String &id, const S
 					(SQLTCHAR *)&StringUtil::substitute
 					(
 						_T("DRIVER={0};SERVER={1}, {2};DATABASE={3};UID={4};PWD={5};"),
-						DRIVER(), ip, PORT(), db, id, pwd
+						driver, ip, port, db, id, pwd
 					)[0],
 					SQL_NTS, NULL, 1024, NULL, SQL_DRIVER_NOPROMPT
 				);

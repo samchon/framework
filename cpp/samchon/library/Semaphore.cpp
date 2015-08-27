@@ -6,34 +6,69 @@
 using namespace std;
 using namespace samchon::library;
 
+/* ====================================================
+	CONSTRUCTORS
+==================================================== */
 Semaphore::Semaphore(size_t size)
 {
-	this->_size = size;
-	locked = new atomic<size_t>(0);
+	this->size_ = size;
+	this->acquired = 0;
 
 	mtx = new mutex();
-	minusMtx = new mutex();
+	countMtx = new mutex();
 }
 Semaphore::~Semaphore()
 {
-	delete locked;
-
 	delete mtx;
-	delete minusMtx;
+	delete countMtx;
 }
 
+/* ====================================================
+	GETTERS
+==================================================== */
 auto Semaphore::size() const -> size_t
 {
-	return _size;
+	return size_;
 }
-void Semaphore::lock()
+auto Semaphore::acquiredSize() const -> size_t
 {
-	if (locked->operator++() == _size)
+	unique_lock<mutex> uk(*countMtx);
+
+	return acquired;
+}
+
+/* ====================================================
+	LOCKERS
+==================================================== */
+void Semaphore::acquire()
+{
+	unique_lock<mutex> uk(*countMtx);
+
+	if (++acquired >= size_)
+	{
+		uk.unlock();
 		mtx->lock();
+	}
 }
-void Semaphore::unlock()
+auto Semaphore::tryAcquire() -> bool
 {
-	unique_lock<mutex> uk(*minusMtx);
-	if (*locked != 0 && locked->operator--() == _size)
+	unique_lock<mutex> uk(*countMtx);
+	
+	if (acquired == size_)
+		return false;
+	else
+	{
+		if (++acquired >= size_)
+			return mtx->try_lock();
+		
+		return true;
+	}
+}
+
+void Semaphore::release()
+{
+	unique_lock<mutex> uk(*countMtx);
+
+	if (acquired != 0 && --acquired == size_)
 		mtx->unlock();
 }

@@ -56,7 +56,3 @@ void ExternalSystemArray::sendData(shared_ptr<Invoke> invoke)
 		for (size_t i = 0; i < size(); i++)
 			at(i)->sendData(invoke);
 }
-void ExternalSystemArray::replyData(shared_ptr<Invoke> invoke)
-{
-	parent->replyData(invoke);
-}

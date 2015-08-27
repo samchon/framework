@@ -1,13 +1,19 @@
 #include <samchon/protocol/service/Server.hpp>
 #	include <samchon/protocol/service/User.hpp>
-
-#include <samchon/SmartPointer.hpp>
-#include <samchon/library/SQLi.hpp>
-#include <samchon/library/Charset.hpp>
+#	include <samchon/protocol/service/IPUserPair.hpp>
 
 #include <boost/asio.hpp>
 #include <mutex>
 #include <thread>
+#include <sstream>
+
+#include <samchon/SmartPointer.hpp>
+#include <samchon/library/SQLi.hpp>
+#include <samchon/library/Datetime.hpp>
+
+#include <samchon/library/XML.hpp>
+#include <samchon/protocol/Invoke.hpp>
+#include <samchon/protocol/InvokeParameter.hpp>
 
 using namespace std;
 
@@ -20,22 +26,21 @@ using namespace boost::asio;
 using namespace boost::asio::ip;
 
 /* --------------------------------------------------------
-CONSTRUCTORS & DESTRUCTORS
+	CONSTRUCTORS & DESTRUCTORS
 -------------------------------------------------------- */
 Server::Server()
-	: super()
+	: super(), IServer()
 {
 	sqli = nullptr;
-	containerMutex = new mutex();
+	sequence = 0;
 }
 Server::~Server()
 {
-	delete containerMutex;
 	delete sqli;
 }
 
 /* --------------------------------------------------------
-GETTERS
+	GETTERS
 -------------------------------------------------------- */
 auto Server::getSQLi() const -> SQLi*
 {
@@ -43,59 +48,84 @@ auto Server::getSQLi() const -> SQLi*
 }
 
 /* --------------------------------------------------------
-ACCOUNT & REGISTER MANAGER
+	ACCESSORS OF MAP
+-------------------------------------------------------- */
+auto Server::size() const -> size_t
+{
+	return super::size();
+}
+auto Server::begin() const -> const_iterator
+{
+	return super::begin();
+}
+auto Server::end() const -> const_iterator
+{
+	return super::end();
+}
+
+/* --------------------------------------------------------
+	ACCOUNT & REGISTER MANAGER
 -------------------------------------------------------- */
 void Server::addClient(tcp::socket *socket)
 {
-	thread(&Server::_addClient, this, socket).detach();
-}
-void Server::_addClient(tcp::socket *socket)
-{
-	boost::asio::ip::address &address = socket->remote_endpoint().address();
-	string &_ip = address.to_v4().to_string();
-	String ip(_ip.begin(), _ip.end());
-	String uniqueID;
-
-	//GET UNIQUE_ID FROM CLIENT -> SESSION_ID
-	{
-		String data;
-		vector<TCHAR> piece;
-		boost::system::error_code error;
-
-		piece.assign(1000, NULL);
-		socket->read_some(boost::asio::buffer(&piece[0], 1000), error);
-		if (error)
+	thread([this, socket]()
 		{
-			socket->close();
-			return;
+			//GET IP
+			std::string ip = socket->remote_endpoint().address().to_v4().to_string();
+			
+			unique_ptr<unique_lock<mutex>> uk(new unique_lock<mutex>(mtx));
+			if (ipMap.has(ip) == false)
+				ipMap.insert({ip, make_shared<IPUserPair>(this, ip)});
+
+			shared_ptr<IPUserPair> pair = ipMap.get(ip);
+			sequence++;
+			uk->unlock();
+
+			//GET SESSION_ID
+			String &sessionID = pair->getSessionID(socket, sequence);
+			
+			uk->lock();
+
+			//FAILED TO GET SESSION ID
+			if (sessionID.empty() == true)
+			{
+				//ERASE PAIR FROM CONTAINER
+				if (pair->userSet.size() == 1)
+					ipMap.erase(ip);
+
+				return;
+			}
+
+			iterator it = find(sessionID);
+			if (it == end())
+			{
+				//CREATE USER AND LINK CONNECTION BY PAIR
+				SmartPointer<User> user( createUser(sessionID) );
+				user->ipPair = pair.get();
+				pair->userSet.insert(user.get());
+
+				it = insert({ sessionID, user }).first;
+			}
+			uk.reset(nullptr);
+
+			//WILL HOLD A THREAD
+			it->second->addClient(socket);
 		}
-		uniqueID.append(piece.data());
-	}
-
-	pair<String, String> ipPair = { ip, uniqueID };
-	iterator it;
-
-	//TO HANDLE CHILD (USER)
-	containerMutex->lock();
-	{
-		it = find(ipPair);
-		if (it == end())
-		{
-			SmartPointer<User> user(createUser(ipPair));
-
-			insert({ ipPair, user });
-			it = find(ipPair);
-		}
-		it->second->addClient(socket);
-	}
-	containerMutex->unlock();
+	).detach();
 }
-void Server::eraseUser(const pair<String, String> &ipPair)
+void Server::eraseUser(const String &session)
 {
-	containerMutex->lock();
-	{
-		if (has(ipPair) == true)
-			erase(ipPair);
-	}
-	containerMutex->unlock();
+	Sleep(15 * 1000);
+
+	unique_lock<mutex> uk(mtx);
+	if (!(has(session) == true && get(session)->empty() == true))
+		return;
+
+	User *user = get(session).get();
+	IPUserPair *ipPair = user->ipPair;
+
+	if (ipPair->userSet.empty() == true)
+		ipMap.erase(user->ipPair->ip);
+
+	super::erase(session);
 }

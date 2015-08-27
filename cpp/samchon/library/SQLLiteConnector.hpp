@@ -1,0 +1,18 @@
+#pragma once
+#include <samchon/library/SQLi.hpp>
+
+namespace samchon
+{
+	namespace library
+	{
+		class SQLStatement;
+
+		class SAMCHON_FRAMEWORK_API SQLLiteConnector
+			: public SQLi
+		{
+		public:
+			SQLLiteConnector(int port = 1433);
+			virtual ~SQLLiteConnector();
+		};
+	};
+};

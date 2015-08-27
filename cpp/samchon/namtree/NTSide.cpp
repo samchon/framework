@@ -66,12 +66,12 @@ auto NTSide::toXML() const -> shared_ptr<XML>
 	xml->setProperty(_T("fileUID"), file->key());
 
 	shared_ptr<XML> parameterListXML(new XML());
-	parameterListXML->setKey(_T("parameterList"));
+	parameterListXML->setTag(_T("parameterList"));
 
 	for (auto it = parameterMap->begin(); it != parameterMap->end(); it++)
 	{
 		shared_ptr<XML> parameter(new XML());
-		parameter->setKey(_T("parameter"));
+		parameter->setTag(_T("parameter"));
 
 		parameter->setProperty(_T("name"), it->first);
 		if (it->second != NUM_NULL)

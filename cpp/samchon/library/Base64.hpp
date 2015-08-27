@@ -1,32 +1,44 @@
 #pragma once
 #include <samchon\API.hpp>
 
-#include <array>
 #include <string>
-#include <vector>
+#include <samchon/ByteArray.hpp>
 
 namespace samchon
 {
 	namespace library
 	{
-		//SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API std::vector<unsigned char>;
-
+		/**
+		 * @brief Utility class for base64 format's en-decoding
+		 * @details
+		 * Base64 supports
+		 *	\li Encoding from binary data to base64-string 
+		 *	\li Decoding from base64-string to binary data
+		 * 
+		 * @author Jeongho Nam
+		 */
 		class SAMCHON_FRAMEWORK_API Base64
 		{
-		private:
-			static std::array<char, 64> base64CharArray;
-			static std::array<int, 256> base64DecodeArray;
-
 		public:
-			static auto encode(const std::vector<unsigned char>&)->std::string;
-			static auto decode(const std::string &)->std::vector < unsigned char > ;
-		};
+			/**
+			 * @brief Encode from binary data to base64-string
+			 * @details Encodes a binary data to base64-string
+			 *
+			 * @param byteArray binary data you want to encode
+			 * @return A base64-string encoded from binary data
+			 */
+			static auto encode(const ByteArray &) -> std::string;
 
-		class SAMCHON_FRAMEWORK_API WBase64
-		{
-		public:
-			static auto encode(const std::vector<unsigned char>&)->std::wstring;
-			static auto decode(const std::wstring &)->std::vector < unsigned char > ;
+			/**
+			 * @brief Decode from base64-string to binary data
+			 * @details Decodes a base64 encoded string to binary data
+			 *
+			 * @warning If the encoded string is not whole but a part of the binary data, 
+			 *			Base64Decoder will be better
+			 * @param str A encoded string representing binary data as base64 format
+			 * @return A binary data decoded from string
+			 */
+			static auto decode(const std::string &) -> ByteArray;
 		};
 	};
 };

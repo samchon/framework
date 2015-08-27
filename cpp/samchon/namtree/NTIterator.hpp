@@ -11,6 +11,9 @@ namespace samchon
 	{
 		class NTEntityGroup;
 
+		/**
+		 * @brief Abstract iterator of historical, studying data
+		 */
 		class SAMCHON_FRAMEWORK_API NTIterator
 			: public library::IOperator
 		{

@@ -15,6 +15,11 @@ namespace samchon
 			class ExternalSystem;
 			class ExternalSystemRole;
 
+			/**
+			 * @brief Manager for external system(s)
+			 *
+			 * @author Jeongho Nam
+			 */
 			class SAMCHON_FRAMEWORK_API ExternalSystemArray
 				: public virtual SharedEntityArray,
 				public virtual IProtocol
@@ -24,16 +29,28 @@ namespace samchon
 
 			protected:
 				virtual auto TAG() const -> String;
-				virtual auto CHILD_TAG() const->String;
+				virtual auto CHILD_TAG() const -> String;
 
-				IProtocol *parent;
-				Map<String, ExternalSystemRole*> roleMap;
+				/**
+				 * 
+				 */
+				Map<String, ExternalSystemRole*> roleArray;
 
 			public:
-				ExternalSystemArray(IProtocol* = nullptr); //BE CAREFUL FOR VIRTUAL INHERITANCE -> NO DEFAULT CONSTRUCTOR ISSUE
+				/**
+				 * @Default Constructor
+				 */
+				ExternalSystemArray();
 				virtual ~ExternalSystemArray() = default;
 
+				/**
+				 * @brief Start manager of external systems
+				 */
 				virtual void start() = NULL;
+
+				/**
+				 * @brief Factory method of ExternalSystemRole
+				 */
 				virtual auto createRole(std::shared_ptr<library::XML>) -> ExternalSystemRole* = NULL;
 
 				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(ExternalSystem)
@@ -42,7 +59,6 @@ namespace samchon
 
 			public:
 				virtual void sendData(std::shared_ptr<Invoke>);
-				virtual void replyData(std::shared_ptr<Invoke>);
 			};
 		};
 	};

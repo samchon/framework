@@ -10,6 +10,9 @@ namespace samchon
 	{
 		class NTParameterDetermined;
 
+		/**
+		 * @brief A metadat of a parameter in a function
+		 */
 		class SAMCHON_FRAMEWORK_API NTParameter
 			: public virtual protocol::SharedEntityArray,
 			public INTExplore

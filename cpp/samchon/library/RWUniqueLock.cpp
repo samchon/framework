@@ -1,29 +1,24 @@
 #include <samchon/library/RWMutex.hpp>
 using namespace samchon::library;
 
-RWUniqueLock::RWUniqueLock(RWMutex &mtx, int direction)
+ReadUniqueLock::ReadUniqueLock(RWMutex &mtx)
 {
-	if (direction == READ)
-		mtx.readLock();
-	else if (direction == WRITE)
-		mtx.writeLock();
+	mtx.readLock();
 
 	this->mtx = &mtx;
-	this->direction = direction;
 }
-RWUniqueLock::~RWUniqueLock()
+ReadUniqueLock::~ReadUniqueLock()
 {
-	if (direction == READ)
-		mtx->readUnlock();
-	else if (direction == WRITE)
-		mtx->writeUnlock();
+	mtx->readUnlock();
 }
 
-ReadUniqueLock::ReadUniqueLock(RWMutex &mtx)
-	: super(mtx, READ)
-{
-}
 WriteUniqueLock::WriteUniqueLock(RWMutex &mtx)
-	: super(mtx, WRITE)
 {
+	mtx.writeLock();
+
+	this->mtx = &mtx;
+}
+WriteUniqueLock::~WriteUniqueLock()
+{
+	mtx->writeUnlock();
 }

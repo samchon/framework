@@ -71,7 +71,7 @@ package samchon.protocol.entity
 		}
 		
 		/**
-		 * Abstract method creating a new chil <code>Entity</code> which is belonged to the <code>EntityArray</code><br/>
+		 * Abstract method creating a new child <code>Entity</code> which is belonged to the <code>EntityArray</code><br/>
 		 * This method is called by construct method (<code>EntityArray::construct(XML)</code>)<br/>
 		 * <br/>
 		 * @return New Children Entity in a <u>composite relationship</u>

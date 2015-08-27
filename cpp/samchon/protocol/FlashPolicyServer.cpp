@@ -2,13 +2,39 @@
 
 #include <thread>
 #include <boost/asio.hpp>
+
 #include <samchon/String.hpp>
+#include <samchon/library/XML.hpp>
 
 using namespace std;
 using namespace samchon;
+using namespace samchon::library;
 using namespace samchon::protocol;
 
-FlashPolicyServer::FlashPolicyServer() {}
+FlashPolicyServer::FlashPolicyServer()
+	: FlashPolicyServer
+	(
+		make_shared<XML>
+		(
+			String() +
+			_T("<cross-domain-policy>\n") +
+			_T("	<allow-access-from domain='*' to-ports='*' />\n") +
+			_T("</cross-domain-policy>")
+		)
+	)
+{
+}
+FlashPolicyServer::FlashPolicyServer(shared_ptr<XML> xml)
+{
+#ifdef _UNICODE
+	String &str = xml->toString();
+	policy = std::string(str.begin(), str.end());
+#else
+	policy = xml->toString();
+#endif
+
+	policy = _T("<?xml version=\"1.0\"?>\n") + policy;
+}
 
 void FlashPolicyServer::openServer()
 {
@@ -24,10 +50,8 @@ void FlashPolicyServer::openServer()
 		thread(&FlashPolicyServer::accept, this, socket).detach();
 	}
 }
-void FlashPolicyServer::accept(void *ptr)
+void FlashPolicyServer::accept(boost::asio::ip::tcp::socket *socket)
 {
-	boost::asio::ip::tcp::socket *socket = (boost::asio::ip::tcp::socket *)ptr;
-
 	string data;
 	vector<char> piece;
 	boost::system::error_code error;
@@ -37,7 +61,6 @@ void FlashPolicyServer::accept(void *ptr)
 		piece.assign(1000, NULL);
 		socket->read_some(boost::asio::buffer(&piece[0], 1000), error);
 
-		string policy = "<?xml version='1.0'?><cross-domain-policy><allow-access-from domain='*' to-ports='*' /></cross-domain-policy>";
 		boost::system::error_code error;
 		socket->write_some(boost::asio::buffer(policy), error);
 

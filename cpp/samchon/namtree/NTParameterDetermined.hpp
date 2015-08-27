@@ -7,6 +7,9 @@ namespace samchon
 {
 	namespace namtree
 	{
+		/**
+		 * @brief A pre-determined parameter
+		 */
 		class SAMCHON_FRAMEWORK_API NTParameterDetermined
 			: public virtual protocol::Entity
 		{

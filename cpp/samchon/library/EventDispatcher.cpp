@@ -23,22 +23,20 @@ using namespace samchon::library;
 ------------------------------------------------------------- */
 EventDispatcher::EventDispatcher() 
 {
-	addiction = nullptr;
 }
-
-void EventDispatcher::setAddiction(void *ptr)
+EventDispatcher::EventDispatcher(const EventDispatcher &eventDispatcher)
 {
-	addiction = ptr;
+	//DO NOT COPY EVENTS
 }
-auto EventDispatcher::getAddiction() const -> void*
+EventDispatcher::EventDispatcher(EventDispatcher &&eventDispatcher)
 {
-	return addiction;
+	//COPY EVENTS
 }
 
 /* -------------------------------------------------------------
 	EVENT LISTENER IN & OUT
 ------------------------------------------------------------- */
-void EventDispatcher::addEventListener(long type, void(*listener)(shared_ptr<Event>))
+void EventDispatcher::addEventListener(int type, void(*listener)(shared_ptr<Event>))
 {
 	if (eventSetMap.has(type) == false)
 		eventSetMap.insert({ type, make_shared<CriticalSet<void(*)(std::shared_ptr<Event>)>>()});
@@ -47,37 +45,58 @@ void EventDispatcher::addEventListener(long type, void(*listener)(shared_ptr<Eve
 	if (set->has(listener) == false)
 		set->insert(listener);
 }
-void EventDispatcher::addEventListener(long type, void(*listener)(shared_ptr<ErrorEvent>))
+/*void EventDispatcher::addEventListener(int type, void(*listener)(shared_ptr<ErrorEvent>))
 {
 	if (errorSet.has(listener) == false)
 		errorSet.insert(listener);
 }
-void EventDispatcher::addEventListener(long type, void(*listener)(shared_ptr<ProgressEvent>))
+void EventDispatcher::addEventListener(int type, void(*listener)(shared_ptr<ProgressEvent>))
 {
 	if (progressSet.has(listener) == false)
 		progressSet.insert(listener);
-}
+}*/
 
-void EventDispatcher::removeEventListener(long type, void(*listener)(shared_ptr<Event>))
+void EventDispatcher::removeEventListener(int type, void(*listener)(shared_ptr<Event>))
 {
 	if (eventSetMap.has(type) == true && eventSetMap[type]->has(listener) == true)
 		eventSetMap[type]->erase(listener);
 }
-void EventDispatcher::removeEventListener(long type, void(*listener)(shared_ptr<ErrorEvent>))
+/*void EventDispatcher::removeEventListener(int type, void(*listener)(shared_ptr<ErrorEvent>))
 {
 	if (errorSet.has(listener) == true)
 		errorSet.erase(listener);
 }
-void EventDispatcher::removeEventListener(long type, void(*listener)(shared_ptr<ProgressEvent>))
+void EventDispatcher::removeEventListener(int type, void(*listener)(shared_ptr<ProgressEvent>))
 {
 	if (progressSet.has(listener) == true)
 		progressSet.erase(listener);
-}
+}*/
 
 /* -------------------------------------------------------------
 	SEND EVENT
 ------------------------------------------------------------- */
-void EventDispatcher::eventActivated()
+auto EventDispatcher::dispatchEvent(shared_ptr<Event> event) -> bool
+{
+	int type = event->getType();
+
+	if (eventSetMap.has(type) == false
+		|| eventSetMap.get(type)->empty() == true)
+		return false;
+
+	auto eventSet = eventSetMap.get(type);
+	for (auto it = eventSet->begin(); it != eventSet->end(); it++)
+		thread(*it, event).detach();
+
+	return true;
+}
+auto EventDispatcher::dispatchProgressEvent(double x, double size) -> bool
+{
+	shared_ptr<ProgressEvent> event(new ProgressEvent(this, x, size));
+
+	return dispatchEvent(event);
+}
+
+/*void EventDispatcher::eventActivated()
 {
 	sendEvent(Event::ACTIVATE);
 }
@@ -134,4 +153,4 @@ void EventDispatcher::sendProgress(unsigned long long x, unsigned long long size
 	for (auto it = progressSet.begin(); it != progressSet.end(); it++)
 		thread(*it, event).detach();
 	progressSet.readUnlock();
-}
+}*/

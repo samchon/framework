@@ -43,7 +43,6 @@ void SQLStatement::free()
 	SQLFreeHandle(SQL_HANDLE_STMT, hstmt);
 
 	bindParameterCount = 0;
-	bindParameterBASizeMap.clear();
 
 	if (sqli == nullptr || sqli->stmt != this)
 		return;
@@ -71,7 +70,7 @@ void SQLStatement::execute()
 	if (res == SQL_ERROR)
 		throw exception(sqli->getErrorMessage(SQL_HANDLE_STMT).c_str());
 }
-void SQLStatement::executeDirect(const String &sql)
+void SQLStatement::executeDirectly(const String &sql)
 {
 	sqli->stmtMutex.lock();
 	sqli->stmt = this;
@@ -84,7 +83,7 @@ void SQLStatement::executeDirect(const String &sql)
 /* --------------------------------------------------------------------------------------
 GET DATA
 -------------------------------------------------------------------------------------- */
-auto SQLStatement::toNextStatement() const -> bool
+auto SQLStatement::next() const -> bool
 {
 	return (SQLMoreResults(hstmt) != SQL_NO_DATA);
 }
@@ -97,63 +96,71 @@ auto SQLStatement::fetch() const -> bool
 
 		if (colSize > 0)
 			break;
-	} while (toNextStatement() == true);
+	} while (next() == true);
 
 	return (SQLFetch(hstmt) == SQL_SUCCESS);
 }
 
-auto SQLStatement::getDataAsINT32(short col) const -> long
+/* -------------------------------------------------------------------
+	AT
+------------------------------------------------------------------- */
+template<> auto SQLStatement::at(size_t index) const -> long
 {
 	long value;
-	SQLGetData(hstmt, col, SQL_C_LONG, &value, 0, NULL);
+	SQLGetData(hstmt, index, SQL_C_LONG, &value, 0, NULL);
 
 	return value;
 }
-auto SQLStatement::getDataAsINT64(short col) const -> long long
+template<> auto SQLStatement::at(size_t index) const -> long long
 {
 	long long value;
 
-	SQLGetData(hstmt, col, SQL_C_SBIGINT, &value, 0, NULL);
+	SQLGetData(hstmt, index, SQL_C_SBIGINT, &value, 0, NULL);
 	return value;
 }
-auto SQLStatement::getDataAsFloat(short col) const -> float
+template<> auto SQLStatement::at(size_t index) const -> float
 {
 	float value;
 
-	SQLGetData(hstmt, col, SQL_C_FLOAT, &value, 0, NULL);
+	SQLGetData(hstmt, index, SQL_C_FLOAT, &value, 0, NULL);
 	return value;
 }
-auto SQLStatement::getDataAsDouble(short col) const -> double
+auto SQLStatement::at(size_t index) const -> double
 {
 	double value;
 
-	SQLGetData(hstmt, col, SQL_C_DOUBLE, &value, 0, NULL);
+	SQLGetData(hstmt, index, SQL_C_DOUBLE, &value, 0, NULL);
 	return value;
 }
-auto SQLStatement::getDataAsString(short col) const -> String
+auto SQLStatement::at(size_t index) const -> String
 {
 	String str(1, NULL);
 	SQL_SIZE_T size = 0;
 
-	if (SQLGetData(hstmt, col, SQL_C_TCHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
+	if (SQLGetData(hstmt, index, SQL_C_TCHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
 	{
 		str.assign((size_t)size, NULL);
-		SQLGetData(hstmt, col, SQL_C_TCHAR, &str[0], sizeof(TCHAR)*size, NULL);
+		SQLGetData(hstmt, index, SQL_C_TCHAR, &str[0], sizeof(TCHAR)*size, NULL);
 	}
 	return move(str);
 }
-auto SQLStatement::getDataAsByteArray(short col) const -> vector<unsigned char>
+auto SQLStatement::at(size_t index) const -> vector<unsigned char>
 {
 	vector<unsigned char> data = { NULL };
 	SQL_SIZE_T size = 0;
 
-	if (SQLGetData(hstmt, col, SQL_C_BINARY, &data[0], 0, &size) != SQL_SUCCESS && size != 0)
+	if (SQLGetData(hstmt, index, SQL_C_BINARY, &data[0], 0, &size) != SQL_SUCCESS && size != 0)
 	{
 		data.assign(size, NULL);
-		SQLGetData(hstmt, col, SQL_C_BINARY, &data[0], data.size(), NULL);
+		SQLGetData(hstmt, index, SQL_C_BINARY, &data[0], data.size(), NULL);
 	}
 	return move(data);
 }
+
+/* -------------------------------------------------------------------
+	GET
+------------------------------------------------------------------- */
+
 auto SQLStatement::toXML() const -> shared_ptr<XML>
 {
 	shared_ptr<XML> xml(new XML());

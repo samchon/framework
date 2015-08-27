@@ -1,84 +1,68 @@
 #include <samchon/library/Date.hpp>
 
 #include <array>
-#include <chrono>
-#include <mutex>
 
-#include <samchon/library/WeakString.hpp>
+#include <samchon/WeakString.hpp>
 #include <samchon/library/StringUtil.hpp>
 
 using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 
-void *Date::TP_1970 = nullptr;
-long long Date::SECONDS_1970 = NULL;
-
-typedef chrono::system_clock::time_point TimePoint;
+chrono::system_clock::time_point Date::TP_1970 = chrono::system_clock::from_time_t(0);
 
 /* --------------------------------------------------------------------------
 	CONSTRUCTORS
 -------------------------------------------------------------------------- */
 //CONSTRUCTORS
 Date::Date()
+	: super(chrono::system_clock::now())
 {
-	static mutex mtx;
-	{
-		mtx.lock();
-		if (TP_1970 == nullptr)
-		{
-			TP_1970 = new TimePoint(chrono::system_clock::from_time_t(0));
-			SECONDS_1970 = calcSeconds(1970, 1, 1) + 9*60*60; //1970-01-01 09:00:00
-		}
-		mtx.unlock();
-	}
-	timePoint = new TimePoint(chrono::system_clock::now());
-	tm = new struct tm();
-
-	refreshTM();
 }
 Date::Date(const Date &date)
+	: super(date)
 {
-	timePoint = new TimePoint(*(TimePoint*)date.timePoint);
-	memcpy_s(tm, sizeof(struct tm), date.tm, sizeof(struct tm));
 }
 Date::Date(Date &&date)
+	: super(move(date))
 {
-	timePoint = date.timePoint;
-	tm = date.tm;
-
-	date.timePoint = nullptr;
-	date.tm = nullptr;
 }
+
 Date::Date(int year, int month, int date)
-	: Date()
 {
 	set(year, month, date);
 }
-Date::Date(const String &str)
-	: Date(WeakString(str))
-{
-}
 Date::Date(const WeakString &wStr)
-	: Date()
 {
 	set(wStr);
 }
 Date::Date(long long linuxTime)
-	: Date()
+	: super(chrono::system_clock::from_time_t(linuxTime))
 {
-	set(linuxTime);
-}
-Date::~Date()
-{
-	delete timePoint;
-	delete tm;
 }
 
 //SEMI-CONSTRUCTORS
+void Date::set(const WeakString &wStr)
+{
+	WeakString val = wStr.trim();
+
+	int year, month, date;
+
+	//시분초까지 있을 때
+	if (val.find(_T(" ")) != String::npos)
+		val = val.between(String(), _T(" "));
+
+	//년월일 설정
+	vector<WeakString> &ymdVec = val.split(_T("-"));
+	year = stoi(ymdVec[0].str());
+	month = stoi(ymdVec[1].str());
+	date = stoi(ymdVec[2].str());
+
+	set(year, month, date);
+}
 void Date::set(int year, int month, int date) //날짜, 시간 설정
 {
-	array<int, 12> &monthArray = fetchLastDates(year);
+	array<int, 12> &monthArray = calcLastDates(year);
 
 	if (month > 12)
 		throw invalid_argument("month is over 12");
@@ -90,57 +74,28 @@ void Date::set(int year, int month, int date) //날짜, 시간 설정
 };
 void Date::set(long long linuxTime)
 {
-	*(TimePoint*)timePoint = chrono::system_clock::from_time_t(linuxTime);
-
-	refreshTM();
-}
-void Date::set(const String &str)
-{
-	set(WeakString(str));
-}
-void Date::set(const WeakString &wStr)
-{
-	WeakString val = wStr.trim();
-	
-	int year, month, date;
-	
-	//시분초까지 있을 때
-	if (val.find(_T(" ")) != String::npos)
-		val = val.between(String(), _T(" "));
-	
-	//년월일 설정
-	vector<WeakString> &ymdVec = val.split(_T("-"));
-	year = stoi(ymdVec[0].str());
-	month = stoi(ymdVec[1].str());
-	date = stoi(ymdVec[2].str());
-
-	set(year, month, date);
+	this->operator-=(chrono::seconds(toLinuxTime()));
+	this->operator+=(chrono::seconds(linuxTime));
 }
 
 /* --------------------------------------------------------------------------
 	HIDDEN METHODS
 -------------------------------------------------------------------------- */
-auto Date::fetchLastDates(int year) const -> array<int, 12>
+auto Date::calcLastDates(int year) -> array<int, 12>
 {
-	//월 별 마지막 날짜
+	//Last dates of each month
 	static array<int, 12> monthArray = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-	//윤달이면 2월을 29일로
+	//When the year contains leaf month, then make expiration date of Feburary to 29
 	if (year % 4 == 0)
 		if (!(year % 100 == 0 && year % 400 != 0))
 			monthArray[1] = 29;
 
 	return move(monthArray);
 }
-void Date::refreshTM()
-{
-	//TM 갱신
-	time_t tt = chrono::system_clock::to_time_t(*(TimePoint*)timePoint);
-	localtime_s(tm, &tt);
-};
 long long Date::calcSeconds(int year, int month, int date)
 {
-	array<int, 12> &monthArray = fetchLastDates(year);
+	array<int, 12> &monthArray = calcLastDates(year);
 	long long total;
 
 	//연, 월, 일의 총 일수
@@ -188,7 +143,7 @@ void Date::setMonth(int month)
 	int year = getYear();
 	int newDate = getDate();
 
-	array<int, 12> &monthArray = fetchLastDates(year);
+	array<int, 12> &monthArray = calcLastDates(year);
 
 	//해당 월의 마지막 일을 초과할 때, 조정한다
 	//EX-> 4월인데 31일이면 4월 30일로 조정
@@ -198,7 +153,7 @@ void Date::setMonth(int month)
 	set(year, month, newDate);
 }
 void Date::setDate(int val)
-{ 
+{
 	set(getYear(), getMonth(), val); 
 }
 
@@ -222,7 +177,7 @@ void Date::addMonth(int val)
 	}
 
 	//달력
-	std::array<int, 12> &monthArray = fetchLastDates(newYear);
+	std::array<int, 12> &monthArray = calcLastDates(newYear);
 
 	//해당 월의 마지막 일을 초과할 때, 조정한다
 	//EX-> 4월인데 31일이면 4월 30일로 조정
@@ -237,37 +192,48 @@ void Date::addWeek(int val)
 }
 void Date::addDate(int val)
 {
-	//addHour(24 * val);
-	((TimePoint*)timePoint)->operator+=( chrono::hours(24) );
+	operator+=(chrono::hours(24 * val));
 }
 
 /* --------------------------------------------------------------------------
 	GETTERS AND TO_STRING
 -------------------------------------------------------------------------- */
-auto Date::getLinuxTime() const -> long long
+auto Date::toLinuxTime() const -> long long
 {
-	std::chrono::system_clock::duration duration = *(TimePoint*)timePoint - *(TimePoint*)TP_1970;
+	std::chrono::system_clock::duration duration = *this - TP_1970;
 	std::chrono::seconds seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
 
 	return seconds.count();
 }
 int Date::getYear() const
 {
-	return tm->tm_year + 1900;
+	auto &tm = toTM();
+	return tm.tm_year + 1900;
 }
 int Date::getMonth() const		
-{ 
-	return tm->tm_mon + 1; 
+{
+	auto &tm = toTM();
+	return tm.tm_mon + 1; 
 }
 int Date::getDay() const		
 { 
-	return tm->tm_wday; 
+	auto &tm = toTM();
+	return tm.tm_wday; 
 }
 int Date::getDate() const		
 { 
-	return tm->tm_mday; 
+	auto &tm = toTM();
+	return tm.tm_mday; 
 }
 
+auto Date::toTM() const -> struct tm
+{
+	struct tm tm;
+	time_t tt = chrono::system_clock::to_time_t(*this);
+	localtime_s(&tm, &tt);
+
+	return tm;
+}
 auto Date::toString() const -> String
 {
 	return StringUtil::substitute

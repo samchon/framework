@@ -14,31 +14,28 @@ namespace samchon
 		{
 		protected:
 			/**
-			 * 
+			 * @brief N, size of the candidates
 			 */
-			size_t n;
+			size_t n_;
 
 			/**
-			 * 
+			 * @brief R, size of elements of each case
 			 */
-			size_t r;
+			size_t r_;
 
 			/**
-			 * 
+			 * @brief Size, the number of all cases
 			 */
 			size_t size_;
 
-			/**
-			 * 
-			 */
 			std::vector<size_t> dividerArray;
 
 		public:
 			/**
-			 * @brief Construct from size of index and level
+			 * @brief Construct from size of N and R
 			 *
-			 * @param n
-			 * @param r
+			 * @param n Size of candidates
+			 * @param r Size of elements of each case
 			 */
 			CaseGenerator(size_t n, size_t r);
 			virtual ~CaseGenerator() = default;
@@ -64,14 +61,14 @@ namespace samchon
 			auto operator[](size_t) const -> std::vector<size_t>;
 
 			/** 
-			 * @brief Get size of N
+			 * @brief Get size of the N
 			 */
-			auto getN() const -> size_t;
+			auto n() const -> size_t;
 
 			/**
-			 * @brief Get size of R
+			 * @brief Get size of the R
 			 */
-			auto getR() const -> size_t;
+			auto r() const -> size_t;
 
 		public:
 			/* ----------------------------------------------------
@@ -80,7 +77,7 @@ namespace samchon
 			/**
 			 * @return A matrix containing all cases
 			 */
-			auto toMatrix() const->std::vector<std::vector<size_t>>;
+			auto toMatrix() const -> std::vector<std::vector<size_t>>;
 		};
 	};
 };

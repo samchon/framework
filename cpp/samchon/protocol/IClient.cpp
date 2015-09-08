@@ -33,8 +33,8 @@ IClient::~IClient()
 void IClient::listen()
 {
 	//SET BUFFER SIZE
-	socket->set_option(boost::asio::socket_base::send_buffer_size(BUFFER_SIZE()));	
-	socket->set_option(boost::asio::socket_base::receive_buffer_size(BUFFER_SIZE()));
+	//socket->set_option(boost::asio::socket_base::send_buffer_size(BUFFER_SIZE()));	
+	//socket->set_option(boost::asio::socket_base::receive_buffer_size(BUFFER_SIZE()));
 
 	//VARIABLES
 	String data;

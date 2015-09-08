@@ -6,7 +6,7 @@ namespace samchon
 	namespace library
 	{
 		/**
-		 * @brief Combined-permutation case generator
+		 * @brief A combined-permutation case generator; <sub>n</sub>TT<sub>r</sub>
 		 */
 		class SAMCHON_FRAMEWORK_API CombinedPermutationGenerator
 			: public CaseGenerator
@@ -15,6 +15,11 @@ namespace samchon
 			typedef CaseGenerator super;
 
 		public:
+			/**
+			 * @brief Construct from n, r
+			 *
+			 * @copydoc CaseGenerator::CaseGenerator()
+			 */
 			CombinedPermutationGenerator(size_t n, size_t r);
 			virtual ~CombinedPermutationGenerator() = default;
 

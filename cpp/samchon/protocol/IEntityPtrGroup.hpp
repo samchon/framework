@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon/protocol/IEntityGroup.hpp>
+#include <samchon/protocol/EntityGroup.hpp>
 
 namespace samchon
 {
@@ -12,10 +12,10 @@ namespace samchon
 		 */
 		template <typename _Container>
 		class IEntityPtrGroup
-			: public virtual IEntityGroup<_Container, Entity*>
+			: public virtual EntityGroup<_Container, Entity*>
 		{
 		private:
-			typedef IEntityGroup<_Container, Entity*> super;
+			typedef EntityGroup<_Container, Entity*> super;
 
 		public:
 			IEntityPtrGroup()

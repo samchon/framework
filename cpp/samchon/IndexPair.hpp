@@ -1,4 +1,5 @@
 #pragma once
+#include <utility>
 
 namespace samchon
 {
@@ -7,20 +8,18 @@ namespace samchon
 	 * A pair of index and its value(_Ty)
 	 *
 	 * @details
-	 * \par IndexPair is a std::pair<size_t, _Ty> class.
+	 * <p> IndexPair is a std::pair<size_t, _Ty> class. </p>
 	 *
-	 * \par 
-	 * IndexPair expresses index and value. It's useful for expressing finding literals,
-	 * specified object, calculating mininum or maximum with its position.
+	 * <p> IndexPair expresses index and value. It's useful for expressing finding literals,
+	 * specified object, calculating mininum or maximum with its position. </p>
 	 *
-	 * \par
-	 * [Inherited] This class couples together a pair of values, which may be of different 
+	 * <p> [Inherited] This class couples together a pair of values, which may be of different 
 	 * types (T1 and T2). The individual values can be accessed through its public members 
-	 * first and second.
+	 * first and second. </p>
 	 *
-	 * \par Pairs are a particular case of tuple.
+	 * <p> Pairs are a particular case of tuple. </p>
 	 *
-	 * \par Referenced comments of std::pair
+	 * <p> Referenced comments of std::pair </p>
 	 *	\li http://www.cplusplus.com/reference/utility/pair/
 	 *
 	 * @author Jeongho Nam

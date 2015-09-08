@@ -12,6 +12,9 @@ namespace samchon
 		{
 			class ExternalSystem;
 
+			/**
+			 * @brief A role allocated to (a) system(s)
+			 */
 			class SAMCHON_FRAMEWORK_API ExternalSystemRole
 				: public virtual Entity
 			{
@@ -21,15 +24,25 @@ namespace samchon
 			protected:
 				virtual auto TAG() const -> String;
 
-				ExternalSystem *externalSystem;
-				Set<String> listenerSet;
+				Set<ExternalSystem*> externalSystems;
+
+				/**
+				 * @brief Listeners the role has
+				 */
+				Set<String> listeners;
 
 			public:
-				ExternalSystemRole(ExternalSystem *);
+				/**
+				 * @brief 
+				 */
+				ExternalSystemRole();
 				virtual ~ExternalSystemRole() = default;
+				
+				void registerSystem(ExternalSystem*);
+				void eraseSystem(ExternalSystem*);
 
-				virtual auto key() const->String = NULL;
-				auto getSystem() const->ExternalSystem*;
+				virtual auto key() const -> String = NULL;
+				auto getSystems() const -> Set<ExternalSystem*>;
 				auto hasListener(const String &) const -> bool;
 			};
 		};

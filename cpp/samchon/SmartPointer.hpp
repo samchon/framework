@@ -7,15 +7,12 @@ namespace samchon
 	/**
 	 * @brief Global shared pointer\n
 	 * @details
-	 * \par
-	 * SmartPointer is a global shared pointer based on map, map referencing.
+	 * <p> SmartPointer is a global shared pointer based on map, map referencing. </p>
 	 * 
-	 * \par
-	 * Manages the storage of a pointer, providing a limited garbage-collection 
-	 * facility, possibly sharing that management with other objects.
+	 * <p> Manages the storage of a pointer, providing a limited garbage-collection 
+	 * facility, possibly sharing that management with other objects. </p>
 	 * 
-	 * \par
-	 * Referenced comments of std::allocator
+	 * <p> Referenced comments of std::allocator. </p>
 	 *	\li http://www.cplusplus.com/reference/memory/shared_ptr/
 	 *
 	 * @tparam The type of managed object

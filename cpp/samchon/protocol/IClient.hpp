@@ -31,7 +31,7 @@ namespace samchon
 		class Invoke;
 
 		/**
-		 * @brief Interface of a client
+		 * @brief Interface for a client
 		 */
 		class SAMCHON_FRAMEWORK_API IClient
 			: public virtual IProtocol
@@ -43,7 +43,7 @@ namespace samchon
 			Socket *socket;
 
 			/**
-			 * @brief A mutex for ensuring sequence of sending message
+			 * @brief A mutex for sending message
 			 */
 			std::mutex *sendMtx;
 
@@ -53,6 +53,9 @@ namespace samchon
 			virtual auto BUFFER_SIZE() const -> size_t;
 
 		public:
+			/**
+			 * @brief Default Constructor
+			 */
 			IClient();
 			virtual ~IClient();
 

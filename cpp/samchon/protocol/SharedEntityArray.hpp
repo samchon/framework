@@ -1,20 +1,20 @@
 #pragma once
 #include <samchon\API.hpp>
 
-#include <samchon/protocol/IEntitySharedPtrGroup.hpp>
+#include <samchon/protocol/EntityGroup.hpp>
 #include <vector>
 
 namespace samchon
 {
 	namespace protocol
 	{
-		SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API IEntitySharedPtrGroup<std::vector<std::shared_ptr<Entity>>>;
+		SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API EntityGroup<std::vector<std::shared_ptr<Entity>>>;
 
 		class SAMCHON_FRAMEWORK_API SharedEntityArray
-			: public IEntitySharedPtrGroup<std::vector<std::shared_ptr<Entity>>>
+			: public EntityGroup<std::vector<std::shared_ptr<Entity>>>
 		{
 		private:
-			typedef IEntitySharedPtrGroup<std::vector<std::shared_ptr<Entity>>> super;
+			typedef EntityGroup<std::vector<std::shared_ptr<Entity>>> super;
 
 		public:
 			SharedEntityArray();
@@ -22,7 +22,7 @@ namespace samchon
 
 			auto operator[](size_t) const -> Entity*;
 			auto at(size_t) const -> Entity*;
-			auto get(const samchon::String&) const -> Entity*;
+			auto get(const String&) const -> Entity*;
 		};
 	};
 };

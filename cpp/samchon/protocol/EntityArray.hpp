@@ -1,30 +1,45 @@
 #pragma once
-#include <samchon\API.hpp>
-
+#include <samchon/protocol/Entity.hpp>
 #include <samchon/protocol/IEntityGroup.hpp>
 #include <vector>
+
+#include <samchon/library/XML.hpp>
+#include <memory>
 
 namespace samchon
 {
 	namespace protocol
 	{
-		SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API IEntityGroup<std::vector<Entity*>>;
+		template <typename _Ty>
+		class EntityArray
+			: public virtual Entity,
+			public std::vector<_Ty>, public virtual IEntityGroup
+		{
+		public:
+			EntityArray();
+			virtual ~EntityArray() = default;
 
-		typedef IEntityGroup<std::vector<Entity*>> EntityArray;
+			virtual void construct(std::shared_ptr<library::XML> xml)
+			{
+				clear();
+				if (xml->has(CHILD_TAG()) == false)
+					return;
+
+				std::shared_ptr<library::XMLList> &xmlList = xml->get(CHILD_TAG());
+				assign(xmlList->size());
+
+				for (size_t i = 0; i < xmlList->size(); i++)
+				{
+					std::shared_ptr<library::XML> &xmlElement = xmlList->at(i);
+
+					at(i).construct(xmlList->at(i));
+;				}
+			}
+
+			virtual auto toXML() const -> std::shared_ptr<library::XML>
+			{
+
+			};
+		};
 	};
 };
-
-/* ------------------------------------------------------------------------------
-	MACROS
------------------------------------------------------------------------------- */
-//HEADER
-#define ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(CHILD_TYPE) \
-auto operator[](size_t) const -> CHILD_TYPE*; \
-auto at(size_t) const -> CHILD_TYPE*; \
-auto get(const samchon::String&) const -> CHILD_TYPE*;
-
-//BODY
-#define ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(THIS_TYPE, CHILD_TYPE) \
-auto THIS_TYPE::operator[](size_t x) const -> CHILD_TYPE* { return dynamic_cast<CHILD_TYPE*>(samchon::protocol::EntityArray::operator[](x)); }; \
-auto THIS_TYPE::at(size_t x) const -> CHILD_TYPE* { return dynamic_cast<CHILD_TYPE*>(samchon::protocol::EntityArray::at(x)); }; \
-auto THIS_TYPE::get(const samchon::String &key) const -> CHILD_TYPE* { return dynamic_cast<CHILD_TYPE*>(samchon::protocol::EntityArray::get(key)); }

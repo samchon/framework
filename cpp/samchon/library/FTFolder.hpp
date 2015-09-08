@@ -9,7 +9,9 @@ namespace samchon
 		class FTFactory;
 
 		/**
-		 * @brief Virtual folder
+		 * @brief A virtual folder
+		 *
+		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API FTFolder
 			: public IFTFile,
@@ -32,7 +34,7 @@ namespace samchon
 			 * @brief Construct from factory and parent folder
 			 *
 			 * @param factory Factory instance
-			 * @param parent Parent folder containing the folder
+			 * @param parent Parent folder that this folder is belonged to
 			 */
 			FTFolder(FTFactory*, FTFolder*);
 			virtual ~FTFolder() = default;

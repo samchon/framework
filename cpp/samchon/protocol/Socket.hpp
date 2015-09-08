@@ -2,6 +2,18 @@
 
 namespace boost
 {
+	/**
+	 * @brief Boost.Asio
+	 *
+	 * @details 
+	 * <p> The most famous network commuation library in C++ supporting cross compile between multiple 
+	 * operating systems. Samchon Framework have adopted the Boost.Asio in protocol (samchon::protocol) </p>
+	 * \li http://www.boost.org/doc/libs/1_59_0/doc/html/boost_asio.html
+	 *
+	 * @note
+	 * <p> In the C++17, standard of network communiation will be established. As that reason, 
+	 * network library of the Samchon Framework can be changed in near future. </p>
+	 */
 	namespace asio
 	{
 		namespace ip

@@ -16,17 +16,17 @@ namespace samchon
 		 * @brief Utility class for string 
 		 * 
 		 * @details 
-		 * StringUtil is an utility class providing lots of static methods for string 
+		 * <p> StringUtil is an utility class providing lots of static methods for String. </p>
 		 * 
-		 * There are two methods to strength std::string to have addictional uility methods like trim and split. 
+		 * <p> There are two methods to strength std::string to have addictional uility methods like trim and split. 
 		 * The way of first is to make String class inheriting from std::string. 
-		 * The second is to make StringUtil class having static methods.
+		 * The second is to make StringUtil class having static methods. </p>
 		 *
-		 * But those methods have problems. String class violates standard and StringUtil class violates principle of Object-Oriented Design.
-		 * For the present, I've made the StringUtil class, but if you have a good opinion about the issue, please write your opinion on my github.
+		 * <p> But those methods have problems. String class violates standard and StringUtil class violates 
+		 * principle of Object-Oriented Design. For the present, I've made the StringUtil class, but if you 
+		 * have a good opinion about the issue, please write your opinion on my github. </p>
 		 *
 		 * @author Jeongho Nam
-		 * @todo modify doxygen comments on replaceAll
 		 */
 		class SAMCHON_FRAMEWORK_API StringUtil
 		{
@@ -92,7 +92,7 @@ namespace samchon
 					if (isNumeric(*it) == true)
 						vec.push_back(stoi(*it));
 
-				size_t index = (size_t)Math::calcMin(vec).getValue();
+				size_t index = (size_t)Math::min(vec).getValue();
 
 				//replaceAll
 				String &to = toString(value);
@@ -107,7 +107,7 @@ namespace samchon
 					if (isNumeric(*it) == true)
 						vec.push_back(stoi(*it));
 
-				size_t index = (size_t)Math::calcMin(vec).getValue();
+				size_t index = (size_t)Math::min(vec).getValue();
 
 				//replaceAll
 				String &to = toSQL(value);

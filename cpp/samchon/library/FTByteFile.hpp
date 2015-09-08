@@ -8,7 +8,7 @@ namespace samchon
 	namespace library
 	{
 		/** 
-		 * @brief Virtual binary file
+		 * @brief A binary file
 		 */
 		class SAMCHON_FRAMEWORK_API FTByteFile
 			: public FTFile

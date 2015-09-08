@@ -75,7 +75,9 @@ void Client::replyData(shared_ptr<Invoke> invoke)
 
 	if (listener == _T("notifyService"))
 	{
-		constructService(invoke->at(0)->getValue());
+		String &name = invoke->at(0)->getValue();
+
+		constructService(name);
 	}
 	else if (listener == _T("login"))
 	{

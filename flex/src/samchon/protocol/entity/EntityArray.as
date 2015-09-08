@@ -31,7 +31,7 @@ package samchon.protocol.entity
 		 * Needed for<br/>
 		 * &#xA0;&#xA0;&#xA0;&#xA0; <i>virtual EntityArray::construct(XML)</i><br/>
 		 * &#xA0;&#xA0;&#xA0;&#xA0; <i>virtual EntityArray::toXML() -> XML</i><br/>
-		 * <p>&lt;TAG&gt;<br/>
+		 * &lt;TAG&gt;
 		 * &#xA0;&#xA0;&#xA0;&#xA0; &lt;CHILD_TAG /&gt;<br/>
 		 * &#xA0;&#xA0;&#xA0;&#xA0; &lt;CHILD_TAG /&gt;<br/>
 		 * &lt;/TAG&gt;

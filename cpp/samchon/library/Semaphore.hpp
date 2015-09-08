@@ -67,12 +67,9 @@ namespace samchon
 			 * @brief Acquire admission
 			 *
 			 * @details
-			 * \par
-			 * Acquires admission and increases count of admission by 1. 
-			 * 
-			 * \par 
-			 * If the count is over permitted size, wait until other admissions to be released.
-			 * \li Lock on mutex
+			 * <p> Acquires an admission and increases count of admission by 1. </p> 
+			 * <p> If the count is over permitted size, wait until other admissions to be released. </p>
+			 *	\li Lock on mutex
 			 */
 			void acquire();
 
@@ -80,15 +77,14 @@ namespace samchon
 			 * @brief Try to acquire admission
 			 * 
 			 * @details
-			 * \par
-			 * If admission count is below the permitted size, acquire admission and 
-			 * increase the count by 1 and return true which means succeded to get admission.
+			 * <p> If admission count is below the permitted size, acquire admission and increase the 
+			 * count by 1 and return true which means succeded to get admission. </p>
+			 *
 			 *	\li If the count is matched to the permitted size, lock the mutex
 			 * 
-			 * \par
-			 * Else, do not acquire admission and return false which means failed to get admmission.
+			 * <p> Else, do not acquire admission and return false which means failed to get admmission. </p>
 			 *
-			 * @return Whether succeded to acquire admission or not
+			 * @return Whether succeded to acquire an admission or not
 			 */
 			auto tryAcquire() -> bool;
 

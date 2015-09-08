@@ -115,26 +115,11 @@
     <Filter Include="Header Files\protocol\message">
       <UniqueIdentifier>{dd7a1759-a73b-4da3-b0d6-4a2d73c6c5f6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\protocol\message\entity">
-      <UniqueIdentifier>{4d045df9-7433-44ea-9b82-1126ab97c74f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\message\entity\group">
-      <UniqueIdentifier>{f0727314-ee82-4e1e-8dc9-e884f32ee0cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\message\entity\group\determined group">
-      <UniqueIdentifier>{d56ac013-6993-4626-ba57-7743cbc8e4f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\message\entity\chain">
-      <UniqueIdentifier>{eb2d0d10-0e75-465e-aff1-3470d07f8562}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\protocol\message\invoke">
       <UniqueIdentifier>{9fb1c07a-ef14-4f49-bb7c-24db5a83578f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\protocol\master\external system\mediator\socket">
       <UniqueIdentifier>{69a919e9-22d0-407b-98aa-b5963d9ebb3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\common\container">
-      <UniqueIdentifier>{bf04985c-1da1-4568-b53a-d024be7a677c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\library\utils">
       <UniqueIdentifier>{91bcfbe4-61b2-474e-9850-a9ec7c7d73cf}</UniqueIdentifier>
@@ -208,12 +193,6 @@
     <Filter Include="Header Files\library\critical section\unique_lock">
       <UniqueIdentifier>{e574e41b-713a-4e2d-beb2-b3db7f7bfd04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\protocol">
-      <UniqueIdentifier>{ddf233df-853a-40c1-a685-d685e7ffd693}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\protocol\master">
-      <UniqueIdentifier>{980495db-f700-4690-9b7a-6f6bc2a8f431}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\documentation">
       <UniqueIdentifier>{a4688e62-07b8-4163-944c-b7cd80ab584f}</UniqueIdentifier>
     </Filter>
@@ -244,8 +223,23 @@
     <Filter Include="Header Files\protocol\service\utility\abstract">
       <UniqueIdentifier>{61cdc665-21e4-4085-92c8-995937b9c8de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\protocol\service">
-      <UniqueIdentifier>{a4ded742-a611-49cc-84e1-ea5068e3b512}</UniqueIdentifier>
+    <Filter Include="Header Files\common\string\container">
+      <UniqueIdentifier>{bf04985c-1da1-4568-b53a-d024be7a677c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\entity">
+      <UniqueIdentifier>{4d045df9-7433-44ea-9b82-1126ab97c74f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\entity\group">
+      <UniqueIdentifier>{f0727314-ee82-4e1e-8dc9-e884f32ee0cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\entity\group\determined group">
+      <UniqueIdentifier>{d56ac013-6993-4626-ba57-7743cbc8e4f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\entity\chain">
+      <UniqueIdentifier>{eb2d0d10-0e75-465e-aff1-3470d07f8562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol">
+      <UniqueIdentifier>{7facc266-2b15-4615-91b9-cd3bb5f476fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -307,7 +301,7 @@
       <Filter>Header Files\protocol\interface</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\Entity.hpp">
-      <Filter>Header Files\protocol\message\entity</Filter>
+      <Filter>Header Files\protocol\entity</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\Invoke.hpp">
       <Filter>Header Files\protocol\message\invoke</Filter>
@@ -333,44 +327,29 @@
     <ClInclude Include="..\samchon\namtree\NTIterator.hpp">
       <Filter>Header Files\nam-tree\history data</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\EntityArray.hpp">
-      <Filter>Header Files\protocol\message\entity\group\determined group</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\EntityList.hpp">
-      <Filter>Header Files\protocol\message\entity\group\determined group</Filter>
+      <Filter>Header Files\protocol\entity\group\determined group</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\SharedEntityArray.hpp">
-      <Filter>Header Files\protocol\message\entity\group\determined group</Filter>
+      <Filter>Header Files\protocol\entity\group\determined group</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\SharedEntityList.hpp">
-      <Filter>Header Files\protocol\message\entity\group\determined group</Filter>
+      <Filter>Header Files\protocol\entity\group\determined group</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\UniqueEntityArray.hpp">
-      <Filter>Header Files\protocol\message\entity\group\determined group</Filter>
+      <Filter>Header Files\protocol\entity\group\determined group</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\UniqueEntityList.hpp">
-      <Filter>Header Files\protocol\message\entity\group\determined group</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp">
-      <Filter>Header Files\protocol\message\entity\group</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntityPtrGroup.hpp">
-      <Filter>Header Files\protocol\message\entity\group</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntitySharedPtrGroup.hpp">
-      <Filter>Header Files\protocol\message\entity\group</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntityUniquePtrGroup.hpp">
-      <Filter>Header Files\protocol\message\entity\group</Filter>
+      <Filter>Header Files\protocol\entity\group\determined group</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\ISQLEntity.hpp">
-      <Filter>Header Files\protocol\message\entity\chain</Filter>
+      <Filter>Header Files\protocol\entity\chain</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\IEntityChain.hpp">
-      <Filter>Header Files\protocol\message\entity\chain</Filter>
+      <Filter>Header Files\protocol\entity\chain</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\IHTMLEntity.hpp">
-      <Filter>Header Files\protocol\message\entity\chain</Filter>
+      <Filter>Header Files\protocol\entity\chain</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\Math.hpp">
       <Filter>Header Files\library\utils\math</Filter>
@@ -481,7 +460,7 @@
       <Filter>Header Files\protocol\message\invoke</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\Map.hpp">
-      <Filter>Header Files\common\container</Filter>
+      <Filter>Header Files\common\string\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\Base64.hpp">
       <Filter>Header Files\library\utils\string</Filter>
@@ -539,9 +518,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\ServerConnector.hpp">
       <Filter>Header Files\protocol\service\utility\abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\API.hpp">
-      <Filter>Source Files\protocol</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\documentation\samchon.hpp">
       <Filter>Header Files\documentation\namespace</Filter>
@@ -609,11 +585,23 @@
     <ClInclude Include="..\samchon\IndexPair.hpp">
       <Filter>Header Files\protocol\master</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\service\Session.hpp">
-      <Filter>Header Files\protocol\service\logical objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\Socket.hpp">
       <Filter>Header Files\protocol\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\service\IPUserPair.hpp">
+      <Filter>Header Files\protocol\service\logical objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ISystemRole.hpp">
+      <Filter>Header Files\protocol\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\EntityGroup.hpp">
+      <Filter>Header Files\protocol\entity\group</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp">
+      <Filter>Header Files\protocol\entity\group</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\EntityArray.hpp">
+      <Filter>Header Files\protocol\entity\group\determined group</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -692,15 +680,6 @@
     <ClCompile Include="..\samchon\protocol\Entity.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\OneToOneServer.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\SharedEntityArray.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\API.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\protocol\EntityGroup.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
@@ -716,6 +695,12 @@
     <ClCompile Include="..\samchon\protocol\IHTMLEntity.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
+    <ClCompile Include="..\samchon\protocol\Invoke.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\InvokeParameter.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
     <ClCompile Include="..\samchon\protocol\IProtocol.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
@@ -725,65 +710,14 @@
     <ClCompile Include="..\samchon\protocol\ISQLEntity.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
+    <ClCompile Include="..\samchon\protocol\OneToOneServer.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
     <ClCompile Include="..\samchon\protocol\ServerConnector.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\DistributedSystem.cpp">
-      <Filter>Source Files\protocol\master</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\DistributedSystemArray.cpp">
-      <Filter>Source Files\protocol\master</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\DistributedSystemRole.cpp">
-      <Filter>Source Files\protocol\master</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\ExternalSystem.cpp">
-      <Filter>Source Files\protocol\master</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\ExternalSystemArray.cpp">
-      <Filter>Source Files\protocol\master</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\ExternalSystemArrayMediator.cpp">
-      <Filter>Source Files\protocol\master</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\ExternalSystemRole.cpp">
-      <Filter>Source Files\protocol\master</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\MediatorServerSocket.cpp">
-      <Filter>Source Files\protocol\master</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\MediatorSocket.cpp">
-      <Filter>Source Files\protocol\master</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\FTFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\FTFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\FTFolder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\IFTFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\INTExplore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\service\Client.cpp">
-      <Filter>Source Files\protocol\service</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\service\Server.cpp">
-      <Filter>Source Files\protocol\service</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\service\Service.cpp">
-      <Filter>Source Files\protocol\service</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\service\ServiceKeeper.cpp">
-      <Filter>Source Files\protocol\service</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\service\User.cpp">
-      <Filter>Source Files\protocol\service</Filter>
+    <ClCompile Include="..\samchon\protocol\SharedEntityArray.cpp">
+      <Filter>Source Files\protocol</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

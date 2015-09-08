@@ -6,7 +6,7 @@ namespace samchon
 	namespace library
 	{
 		/**
-		 * @brief Vitual text file
+		 * @brief A text file
 		 */
 		class SAMCHON_FRAMEWORK_API FTTextFile
 			: public FTFile

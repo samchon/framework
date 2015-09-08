@@ -27,6 +27,9 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API IServer
 		{
 		protected:
+			/**
+			 * @brief An acceptor
+			 */
 			boost::asio::basic_socket_acceptor<boost::asio::ip::tcp> *acceptor;
 
 			/**
@@ -40,6 +43,9 @@ namespace samchon
 			virtual auto PORT() const -> int = NULL;
 
 		public:
+			/**
+			 * @brief Default Constructor
+			 */
 			IServer();
 			virtual ~IServer();
 
@@ -55,7 +61,7 @@ namespace samchon
 
 		protected:
 			/**
-			 * @brief Handling a connection of a client
+			 * @brief Handling connection of a client
 			 */
 			virtual void addClient(Socket*) = NULL; //ADD_CLIENT
 		};

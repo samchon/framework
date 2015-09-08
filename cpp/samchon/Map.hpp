@@ -154,11 +154,11 @@ namespace samchon
 		 */
 		void set(const _Kty &key, const _Ty &val)
 		{
-			at(key) = val;
+			insert({ key, val });
 		};
 		void set(const _Kty &key, const _Ty &&val)
 		{
-			at(key) = move(val);
+			insert({ key, val });
 		};
 
 		/**

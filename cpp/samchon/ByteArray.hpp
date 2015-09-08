@@ -10,20 +10,19 @@ namespace samchon
 	 * @brief Binary data class
 	 *
 	 * @details
-	 * \par ByteArray is the standard class for handling binary data in Samchon Framework
-	 * \par ByteArray provides methods for reading and writing binary data
-	 * \par In addition, zlib compression and decompression are supported
+	 * <p> ByteArray is the standard class for handling binary data in Samchon Framework. </p>
+	 * <p> ByteArray provides methods for reading and writing binary data. </p>
+	 * <p> In addition, zlib compression and decompression are supported. </p>
 	 * 
 	 * @note
-	 * \par ByteArray is a class only for advanced developer who can access data on byte level as the reason of:
+	 * <p> ByteArray is a class only for advanced developer who can access data on byte level as the reason of: </p>
 	 * 
 	 *	\li Handling File Data
 	 *	\li Custom protocol for network I/O
 	 *	\li Optimizing the size of data for performance
 	 *
-	 * \par 
-	 * If you're not trying to use ByteArray as the reason of what I've mentioned
-	 * but only for representing entity data, I recomment you to use Entity instead.\n
+	 * <p> If you're not trying to use ByteArray as the reason of what I've mentioned
+	 * but only for representing entity data, I recomment you to use Entity instead. </p>
 	 * 
 	 * @author Jeongho Nam
 	 */
@@ -37,7 +36,7 @@ namespace samchon
 		 * @brief Current position of the ByteArray.\n
 		 *
 		 * @details
-		 * \par If you call read, starting pointer will be the position
+		 * If you call read, starting pointer will be the position
 		 * \li (_Ty *ptr = (_Ty*)data() + position)
 		 */
 		size_t position;
@@ -113,8 +112,8 @@ namespace samchon
 		 * @brief Compress the binary data\n
 		 * 
 		 * @details
-		 * Generates a binary data compressed from the ByteArray
-		 * The binary data will be compressed by zlib library
+		 * <p> Generates a binary data compressed from the ByteArray. </p>
+		 * <p> The binary data will be compressed by zlib library. </p>
 		 * 
 		 * @return ByteArray which is compressed
 		 */
@@ -124,8 +123,8 @@ namespace samchon
 		 * @brief Decompress the binary data
 		 *
 		 * @details
-		 * Generates a decompressed binary data form the ByteArray.
-		 * The binary data will be decompressed by zlib library
+		 * <p> Generates a decompressed binary data form the ByteArray. </p>
+		 * <p> The binary data will be decompressed by zlib library. </p>
 		 * 
 		 * @return ByteArray that is decompressed
 		 */

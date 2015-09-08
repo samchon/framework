@@ -1,6 +1,21 @@
 #pragma once
 #include <samchon/API.hpp>
 
+/**
+ * @brief Macro writing writing inline method of comparison operators
+ *
+ * @details
+ * <p> OPERATOR_METHODS_INLINE is a macro realizing all compare operators by only writing
+ * operator< and operator== methods. </p>
+ *	\li [!=] -> [NOT ==]
+ *	\li [<=] -> [< OR ==]
+ *	\li [>] -> [NOT < AND NOT ==]
+ *	\li [>=] -> [NOT <]
+ *
+ * @warning Methods operator< and operator== must be written. </p>
+ *
+ * @param _Ty Type of parameter, what to compare
+ */
 #define OPERATOR_METHODS_INLINE(_Ty) \
 auto operator!=(const _Ty &obj) const -> bool \
 { \
@@ -19,12 +34,43 @@ auto operator>=(const _Ty &obj) const -> bool \
 	return !operator<(obj); \
 };
 
+/**
+ * @brief Macro writing header of comparison operators' method
+ *
+ * @details
+ * <p> OPERATOR_METHODS_HEADER is a macro realizing all compare operators by only writing
+ * operator< and operator== methods. </p>
+ *	\li [!=] -> [NOT ==]
+ *	\li [<=] -> [< OR ==]
+ *	\li [>] -> [NOT < AND NOT ==]
+ *	\li [>=] -> [NOT <]
+ *
+ * @warning Methods operator< and operator== must be written. </p>
+ *
+ * @param _Ty Type of parameter, what to compare
+ */
 #define OPERATOR_METHODS_HEADER(_Ty) \
 auto operator!=(const _Ty &obj) const -> bool; \
 auto operator<=(const _Ty &obj) const -> bool; \
 auto operator>(const _Ty &obj) const -> bool; \
 auto operator>=(const _Ty &obj) const -> bool;
 
+/**
+ * @brief Macro writing body of comparison operators' method
+ *
+ * @details
+ * <p> OPERATOR_METHODS_BODY is a macro realizing all compare operators by only writing
+ * operator< and operator== methods. </p>
+ *	\li [!=] -> [NOT ==]
+ *	\li [<=] -> [< OR ==]
+ *	\li [>] -> [NOT < AND NOT ==]
+ *	\li [>=] -> [NOT <]
+ *
+ * @warning Methods operator< and operator== must be written. </p>
+ *
+ * @param _Class The class operator methods are belonged to
+ * @param _Ty Type of parameter, what to compare
+ */
 #define OPERATOR_METHODS_BODY(_Class, _Ty) \
 auto _Class::operator!=(const _Ty &obj) const -> bool \
 { \
@@ -51,22 +97,23 @@ namespace samchon
 		 * @brief Interface for comparision operator
 		 *
 		 * @details
-		 * \par
-		 * IOperator is an interface realizing all compare operators 
-		 * by only overriding operator< and operator== methods.
+		 * <p> IOperator is an interface realizing all compare operators by only overriding 
+		 * operator< and operator== methods. </p>
 		 *	\li [!=] -> [NOT ==]
 		 *	\li [<=] -> [< OR ==]
 		 *	\li [>] -> [NOT < AND NOT ==]
 		 *	\li [>=] -> [NOT <]
 		 *
-		 * \par 
-		 * Methods operator< and operator== are abstract.\n
-		 * Overrides them.
+		 * <p> Methods operator< and operator== are abstract. Overrides them. </p>
 		 *
 		 * @note 
+		 * If you want to realize all comparison operators without inheritance and specifying
+		 * clear type of parameter, you can use following macros instead.
+		 *
 		 *	\li OPERATOR_METHODS_INLINE(_Ty)
 		 *	\li OPERATOR_METHODS_HEADER(_Ty)
 		 *	\li OPERATOR_METHODS_BODY(_Class, _Ty)
+		 *
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API IOperator

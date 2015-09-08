@@ -5,9 +5,9 @@ namespace samchon
 	namespace protocol
 	{
 		/**
-		* @biref Package of external system, within the framework of master
+		* @biref Package of external system, within the framework of slave
 		*/
-		namespace master
+		namespace slave
 		{
 
 		};

@@ -172,7 +172,8 @@ void XML::constructProperty(WeakString &wStr)
 	size_t startPoint, equalPoint;
 	size_t i;
 
-	for (i = 0; i < line.size(); i++) {
+	for (i = 0; i < line.size(); i++) 
+	{
 		//Start of quote
 		if (inQuote == false && (line[i] == _T('\'') || line[i] == _T('"')))
 		{

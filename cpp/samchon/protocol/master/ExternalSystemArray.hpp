@@ -31,11 +31,6 @@ namespace samchon
 				virtual auto TAG() const -> String;
 				virtual auto CHILD_TAG() const -> String;
 
-				/**
-				 * 
-				 */
-				Map<String, ExternalSystemRole*> roleArray;
-
 			public:
 				/**
 				 * @Default Constructor
@@ -58,6 +53,9 @@ namespace samchon
 				auto getRole(const String&) const -> ExternalSystemRole*;
 
 			public:
+				/**
+				 * @brief Send a Invoke message to (an) ExternalSystem(s)
+				 */
 				virtual void sendData(std::shared_ptr<Invoke>);
 			};
 		};

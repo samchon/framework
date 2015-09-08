@@ -133,7 +133,7 @@ auto WeakString::finds(const std::vector<WeakString> &delims, size_t startIndex)
 	for (size_t i = 0; i < delims.size(); i++)
 		positionVector.push_back(find(delims[i], startIndex));
 
-	IndexPair<size_t> &iPair = Math::calcMin(positionVector);
+	IndexPair<size_t> &iPair = Math::min(positionVector);
 	return{ iPair.getIndex(), delims[iPair.getValue()] };
 }
 
@@ -163,14 +163,24 @@ auto WeakString::rfinds(const std::vector<WeakString> &delims, size_t endIndex) 
 	if (positionVector.empty() == true)
 		return{ wstring::npos, WeakString() };
 
-	IndexPair<size_t> &iPair = Math::calcMax(positionVector);
+	IndexPair<size_t> &iPair = Math::max(positionVector);
 	return{ iPair.getIndex(), delims[iPair.getValue()] };
 }
 
 /* --------------------------------------------------------------------
 	FINDERS
 -------------------------------------------------------------------- */
-auto WeakString::substr(size_t startIndex, size_t endIndex) const -> WeakString
+auto WeakString::substr(size_t startIndex, size_t size) const -> WeakString
+{
+	if (startIndex > size - 1)
+		return WeakString();
+
+	if (startIndex + size > size_)
+		size = size_ - startIndex;
+
+	return WeakString(data_, size);
+}
+auto WeakString::substring(size_t startIndex, size_t endIndex) const -> WeakString
 {
 	if (startIndex > endIndex)
 		swap(startIndex, endIndex);
@@ -182,16 +192,6 @@ auto WeakString::substr(size_t startIndex, size_t endIndex) const -> WeakString
 		endIndex = size_;
 
 	return WeakString(data_ + startIndex, data_ + endIndex);
-}
-auto WeakString::substring(size_t startIndex, size_t size) const -> WeakString
-{
-	if (startIndex > size - 1)
-		return WeakString();
-
-	if (startIndex + size > size_)
-		size = size_ - startIndex;
-
-	return WeakString(data_, size);
 }
 auto WeakString::between(const WeakString &start, const WeakString &end) const -> WeakString
 {
@@ -301,7 +301,7 @@ auto WeakString::ltrim(const std::vector<WeakString> &delims) const-> WeakString
 		for (size_t i = 0; i < delims.size(); i++)
 			indexVec.push_back(str.find(delims[i]));
 
-		indexPair = Math::calcMin(indexVec);
+		indexPair = Math::min(indexVec);
 		if (indexPair.getValue() == 0)
 		{
 			size_t size = delims[indexPair.getIndex()].size();
@@ -334,7 +334,7 @@ auto WeakString::rtrim(const std::vector<WeakString> &delims) const-> WeakString
 		if (indexVec.empty() == true)
 			break;
 
-		pairIndex = Math::calcMax(indexVec);
+		pairIndex = Math::max(indexVec);
 		size_t size = delims[pairIndex.getIndex()].size();
 
 		if (pairIndex.getValue() == str.size() - size)

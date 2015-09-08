@@ -1,6 +1,6 @@
 #pragma once
+#include <map>
 #include <samchon/IndexPair.hpp>
-#include <samchon/Map.hpp>
 
 namespace samchon
 {
@@ -104,6 +104,19 @@ namespace samchon
 			static auto random() -> double;
 
 			/* ========================================================
+				PIE
+			======================================================== */
+			/**
+			 * @brief Convert degree to radian
+			 */
+			static auto degree_to_radian(double) -> double;
+
+			/**
+			 * @brief Convert radian to degree
+			 */
+			static auto radian_to_degree(double) -> double;
+
+			/* ========================================================
 				STATISTICS
 			======================================================== */
 			/**
@@ -111,8 +124,8 @@ namespace samchon
 			 *
 			 * @tparam _Cont Type of the container
 			 * @tparam _Ty 
-			 *	\par Value type of the container.
-			 *	\par Do not modify the default template argument.
+			 *	<p> Value type of the container. </p>
+			 *	<p> Do not modify the default template argument. </p>
 			 *
 			 * @param container Container to find its minimum value
 			 * @return Pair of minimum value and its index
@@ -142,8 +155,8 @@ namespace samchon
 			 *
 			 * @tparam _Cont Type of the container
 			 * @tparam _Ty 
-			 *	\par Value type of the container.
-			 *	\par Do not modify the default template argument.
+			 *	<p> Value type of the container. </p>
+			 *	<p> Do not modify the default template argument. </p>
 			 *
 			 * @param container Container to find its minimum value
 			 * @return Pair of maximum value and its index
@@ -170,6 +183,14 @@ namespace samchon
 
 			/**
 			 * @brief Calculate average
+			 *
+			 * @tparam _Cont Type of the container
+			 * @tparam _Ty
+			 *	<p> Value type of the container. </p>
+			 *	<p> Do not modify the default template argument. </p>
+			 *
+			 * @param container Container to find its mean
+			 * @return Average(mean) of the contaier
 			 */
 			template <typename _Cont, typename _Ty = _Cont::value_type>
 			static auto mean(const _Cont &container) -> double
@@ -183,6 +204,14 @@ namespace samchon
 
 			/**
 			 * @brief Get median value
+			 *
+			 * @tparam _Cont Type of the container
+			 * @tparam _Ty 
+			 *	<p> Value type of the container. </p>
+			 *	<p> Do not modify the default template argument. </p>
+			 *
+			 * @param container Container to find its median
+			 * @return Median value of the container
 			 */
 			template <typename _Cont, typename _Ty = _Cont::value_type>
 			static auto median(const _Cont &container) -> double
@@ -207,16 +236,24 @@ namespace samchon
 
 			/** 
 			 * @brief Find mode value
+			 *
+			 * @tparam _Cont Type of the container
+			 * @tparam _Ty
+			 *	<p> Value type of the container. </p>
+			 *	<p> Do not modify the default template argument. </p>
+			 *
+			 * @param container Container to find its mode
+			 * @return Most appeared value in the container
 			 */
 			template <typename _Cont, typename _Ty = _Cont::value_type>
 			static auto mode(const _Cont &container) -> _Ty
 			{
-				Map<_Ty, size_t> frequencyMap;
+				std::map<_Ty, size_t> frequencyMap;
 				for (auto it = container.begin(); it != container.end(); it++)
-					if (frequencyMap.has(*it) == false)
-						frequencyMap.set(*it, 1);
+					if (frequencyMap.find(*it) == frequencyMap.end())
+						frequencyMap[*it] = 1;
 					else
-						frequencyMap.get(*it)++;
+						frequencyMap[*it]++;
 
 				auto det_it = frequencyMap.begin();
 				for (auto it = frequencyMap.begin(); it != frequencyMap.end(); it++)
@@ -250,6 +287,14 @@ namespace samchon
 
 			/**
 			 * @brief Calculate standard deviation for all population
+			 *
+			 * @tparam _Cont Type of the container
+			 * @tparam _Ty 
+			 *	<p> Value type of the container. </p>
+			 *	<p> Do not modify the default template argument. </p>
+			 *
+			 * @param container Container to find its standard deviation
+			 * @return Standard deviation of the container
 			 */
 			template <typename _Cont, typename _Ty = _Cont::value_type>
 			static auto variance_p(const _Cont &container) -> double
@@ -264,7 +309,15 @@ namespace samchon
 			};
 
 			/**
-			 * @brief Calculate standard deviation for sample
+			 * @brief Calculate variance for sample
+			 *
+			 * @tparam _Cont Type of the container
+			 * @tparam _Ty
+			 *	<p> Value type of the container. </p>
+			 *	<p> Do not modify the default template argument. </p>
+			 *
+			 * @param container Container to find its variance
+			 * @return Variance of the container
 			 */
 			template <typename _Cont, typename _Ty = _Cont::value_type>
 			static auto variance_s(const _Cont &container) -> double

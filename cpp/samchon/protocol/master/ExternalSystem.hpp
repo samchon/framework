@@ -61,12 +61,10 @@ namespace samchon
 
 				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(ExternalSystemRole)
 				auto getSystemArray() const -> ExternalSystemArray*;
-				auto getIP() const -> String;
-				auto getPort() const -> int;
 
 			public:
 				/**
-				 * @brief Handling replied message from external system
+				 * @brief Handling replied message from an external system
 				 *
 				 * @param invoke Replied invoke message
 				 */

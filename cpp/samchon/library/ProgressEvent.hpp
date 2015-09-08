@@ -6,7 +6,7 @@ namespace samchon
 	namespace library
 	{
 		/** 
-		 * @brief Event for expressing progress
+		 * @brief Event representing a progress
 		 * @details
 		 *
 		 * @author Jeongho Nam
@@ -35,7 +35,6 @@ namespace samchon
 		public:
 			/**
 			 * @brief Construct from source and progress
-			 * @details 
 			 *
 			 * @param source Source of the event; who made the event
 			 * @param numerator The number of current progress
@@ -50,8 +49,7 @@ namespace samchon
 			auto getDenominator() const -> double;
 
 			/**
-			 * @brief Get percentage of prgress
-			 * @details 
+			 * @brief Get percentage of the progress
 			 */
 			auto getPercent() const -> double;
 		};

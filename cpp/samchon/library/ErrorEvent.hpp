@@ -9,10 +9,10 @@ namespace samchon
 	namespace library
 	{
 		/**
-		 * @brief Event for expressing Error
-		 * @details
+		 * @brief Event representing an error
 		 *
-		 * @author Jeongho Nam
+		 * @details [Inherited]
+		 * @copydoc Event
 		 */
 		class SAMCHON_FRAMEWORK_API ErrorEvent 
 			: public Event
@@ -30,9 +30,19 @@ namespace samchon
 			std::string id;
 
 		public:
+			/**
+			 * @brief Construct from source and error-id
+			 * @details The event object owns its source and type
+			 *
+			 * @param source Source of the event; who made the event
+			 * @param id An error-id
+			 */
 			ErrorEvent(EventDispatcher *, int);
 			virtual ~ErrorEvent() = default;
 
+			/**
+			 * @brief Get error-id
+			 */
 			auto getID() const -> int;
 		};
 	};

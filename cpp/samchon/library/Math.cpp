@@ -21,6 +21,18 @@ const double Math::SQRT1_2 = sqrt(.5);
 const double Math::SQRT2 = sqrt(2.0);
 
 /* ========================================================
+	PIE
+======================================================== */
+auto Math::degree_to_radian(double val) -> double
+{
+	return val * PI / 180.0;
+}
+auto Math::radian_to_degree(double val) -> double
+{
+	return val * 180.0 / PI;
+}
+
+/* ========================================================
 	RANDOM
 ======================================================== */
 auto Math::random() -> double

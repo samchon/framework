@@ -18,9 +18,17 @@ namespace samchon
 		 * @brief Abstract class for dispatching Event
 		 *
 		 * @details
-		 * EventDispatcher class is the base class for all classes that dispatch events
+		 * <p> EventDispatcher is the base class for all classes that dispatch events. </p>
 		 * 
-		 * @warning EventDispatcher is a candidate to be depreciated
+		 * @note 
+		 * <p> EventDispatcher is a candidate to be depreciated. </p>
+		 * <p> Since C++11, calling member method of a class by a new thread passing by static 
+		 * method and using void pointer are recommeded to avoid. As the reason, using <i>std::thread</i> 
+		 * and <i>std::bind will</i> be better. </p>
+		 *
+		 *	\li std::thread: http://www.cplusplus.com/reference/thread/thread/
+		 *	\li std::bind: http://www.cplusplus.com/reference/functional/bind/
+		 *
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API EventDispatcher

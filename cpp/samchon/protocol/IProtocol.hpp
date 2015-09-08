@@ -12,8 +12,7 @@ namespace samchon
 
 		/**
 		 * @brief Interface of message chain
-		 *
-		 * @details IProtocol is an interface of message chain.
+		 * @details IProtocol is an interface of Invoke message chain.
 		 *
 		 * @author Jeongho Nam
 		 * @see Invoke

@@ -69,21 +69,6 @@ var Pair = (function () {
         this.second = second;
     }
     /**
-     * @brief Whether a Map is equal with the Map.
-     *
-     * @details
-     * <p> Map::equals() does not compare reference(address of pointer) of Maps or elements
-     * in the two Maps. The target of comparison are the key and value in all children elements(pairs).
-     * It's not a matter that order sequence of children are different between two Maps. </p>
-     *
-     * <p> If stored key or value in a pair (element) in those Maps are not number or string, but an object
-     * like a class or struct, the comparison will be executed by a member method (SomeObject)::equals(). If
-     * the object does not have the member method equals(), only address of pointer will be compared. </p>
-     *
-     * @param obj A Map to compare
-     * @return Indicates whether equal or not.
-     */
-    /**
      * @brief Whether a Pair is equal with the Pair.
      *
      * @details
@@ -97,7 +82,17 @@ var Pair = (function () {
      * @return Indicates whether equal or not.
      */
     Pair.prototype.equals = function (obj) {
-        return (this.first == obj.first && this.second == obj.second);
+        var first;
+        var second;
+        if (this.first.hasOwnProperty("equals") && this.first["equals"] instanceof Function)
+            first = this.first["equals"](obj.first);
+        else
+            first = this.first == obj.first;
+        if (this.second.hasOwnProperty("equals") && this.second["equals"] instanceof Function)
+            second = this.second["equals"](obj.second);
+        else
+            second = this.second == obj.second;
+        return first == true && second == true;
     };
     /**
      * @brief Returns a string representation of the Map.
@@ -152,13 +147,11 @@ var Vector = (function () {
     /**
      * @brief Removes the last element from an array and returns it.
      */
-    Vector.prototype.pop = function () {
-        return null;
-    };
+    Vector.prototype.pop = function () { return null; };
     /**
-      * @biref Combines two or more arrays.
-      * @param items Additional items to add to the end of array1.
-      */
+     * @biref Combines two or more arrays.
+     * @param items Additional items to add to the end of array1.
+     */
     Vector.prototype.concat = function () {
         var items = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -167,46 +160,36 @@ var Vector = (function () {
         return [];
     };
     /**
-      * @brief Adds all the elements of an array separated by the specified separator string.
-      * @param separator A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma.
-      */
-    Vector.prototype.join = function (separator) {
-        return "";
-    };
+     * @brief Adds all the elements of an array separated by the specified separator string.
+     * @param separator A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma.
+     */
+    Vector.prototype.join = function (separator) { return ""; };
     /**
      * @brief Reverses the elements in an Array.
      */
-    Vector.prototype.reverse = function () {
-        return [];
-    };
+    Vector.prototype.reverse = function () { return []; };
     /**
-      * Removes the first element from an array and returns it.
-      */
-    Vector.prototype.shift = function () {
-        return null;
-    };
+     * Removes the first element from an array and returns it.
+     */
+    Vector.prototype.shift = function () { return null; };
     /**
      * Returns a section of an array.
      *
      * @param start The beginning of the specified portion of the array.
      * @param end The end of the specified portion of the array.
      */
-    Vector.prototype.slice = function (start, end) {
-        return [];
-    };
+    Vector.prototype.slice = function (start, end) { return []; };
     /**
-      * Sorts an array.
-      * @param compareFn The name of the function used to determine the order of the elements. If omitted, the elements are sorted in ascending, ASCII character order.
-      */
-    Vector.prototype.sort = function (compareFn) {
-        return [];
-    };
+     * Sorts an array.
+     * @param compareFn The name of the function used to determine the order of the elements. If omitted, the elements are sorted in ascending, ASCII character order.
+     */
+    Vector.prototype.sort = function (compareFn) { return []; };
     /**
-      * Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
-      * @param start The zero-based location in the array from which to start removing elements.
-      * @param deleteCount The number of elements to remove.
-      * @param items Elements to insert into the array in place of the deleted elements.
-      */
+     * Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
+     * @param start The zero-based location in the array from which to start removing elements.
+     * @param deleteCount The number of elements to remove.
+     * @param items Elements to insert into the array in place of the deleted elements.
+     */
     Vector.prototype.splice = function (start, deleteCount) {
         if (deleteCount === void 0) { deleteCount = 1; }
         var items = [];
@@ -216,9 +199,9 @@ var Vector = (function () {
         return [];
     };
     /**
-      * Inserts new elements at the start of an array.
-      * @param items  Elements to insert at the start of the Array.
-      */
+     * Inserts new elements at the start of an array.
+     * @param items  Elements to insert at the start of the Array.
+     */
     Vector.prototype.unshift = function () {
         var items = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -227,87 +210,67 @@ var Vector = (function () {
         return 0;
     };
     /**
-      * Returns the index of the first occurrence of a value in an array.
-      * @param searchElement The value to locate in the array.
-      * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0.
-      */
-    Vector.prototype.indexOf = function (searchElement, fromIndex) {
-        return 0;
-    };
+     * Returns the index of the first occurrence of a value in an array.
+     * @param searchElement The value to locate in the array.
+     * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0.
+     */
+    Vector.prototype.indexOf = function (searchElement, fromIndex) { return 0; };
     /**
-      * Returns the index of the last occurrence of a specified value in an array.
-      * @param searchElement The value to locate in the array.
-      * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the search starts at the last index in the array.
-      */
-    Vector.prototype.lastIndexOf = function (searchElement, fromIndex) {
-        return 0;
-    };
+     * Returns the index of the last occurrence of a specified value in an array.
+     * @param searchElement The value to locate in the array.
+     * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the search starts at the last index in the array.
+     */
+    Vector.prototype.lastIndexOf = function (searchElement, fromIndex) { return 0; };
     /**
-      * Determines whether all the members of an array satisfy the specified test.
-      * @param callbackfn A function that accepts up to three arguments. The every method calls the callbackfn function for each element in array1 until the callbackfn returns false, or until the end of the array.
-      * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
-      */
-    Vector.prototype.every = function (callbackfn, thisArg) {
-        return false;
-    };
+     * Determines whether all the members of an array satisfy the specified test.
+     * @param callbackfn A function that accepts up to three arguments. The every method calls the callbackfn function for each element in array1 until the callbackfn returns false, or until the end of the array.
+     * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
+     */
+    Vector.prototype.every = function (callbackfn, thisArg) { return false; };
     /**
-      * Determines whether the specified callback function returns true for any element of an array.
-      * @param callbackfn A function that accepts up to three arguments. The some method calls the callbackfn function for each element in array1 until the callbackfn returns true, or until the end of the array.
-      * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
-      */
-    Vector.prototype.some = function (callbackfn, thisArg) {
-        return false;
-    };
+     * Determines whether the specified callback function returns true for any element of an array.
+     * @param callbackfn A function that accepts up to three arguments. The some method calls the callbackfn function for each element in array1 until the callbackfn returns true, or until the end of the array.
+     * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
+     */
+    Vector.prototype.some = function (callbackfn, thisArg) { return false; };
     /**
-      * Performs the specified action for each element in an array.
-      * @param callbackfn  A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array.
-      * @param thisArg  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
-      */
+     * Performs the specified action for each element in an array.
+     * @param callbackfn  A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array.
+     * @param thisArg  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
+     */
     Vector.prototype.forEach = function (callbackfn, thisArg) { };
     /**
-      * Calls a defined callback function on each element of an array, and returns an array that contains the results.
-      * @param callbackfn A function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array.
-      * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
-      */
-    Vector.prototype.map = function (callbackfn, thisArg) {
-        return [];
-    };
+     * Calls a defined callback function on each element of an array, and returns an array that contains the results.
+     * @param callbackfn A function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array.
+     * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
+     */
+    Vector.prototype.map = function (callbackfn, thisArg) { return []; };
     /**
-      * Returns the elements of an array that meet the condition specified in a callback function.
-      * @param callbackfn A function that accepts up to three arguments. The filter method calls the callbackfn function one time for each element in the array.
-      * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
-      */
-    Vector.prototype.filter = function (callbackfn, thisArg) {
-        return [];
-    };
+     * Returns the elements of an array that meet the condition specified in a callback function.
+     * @param callbackfn A function that accepts up to three arguments. The filter method calls the callbackfn function one time for each element in the array.
+     * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
+     */
+    Vector.prototype.filter = function (callbackfn, thisArg) { return []; };
     /**
-      * Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
-      * @param callbackfn A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array.
-      * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
-      */
-    Vector.prototype.reduce = function (callbackfn, initialValue) {
-        return null;
-    };
+     * Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+     * @param callbackfn A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array.
+     * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
+     */
+    Vector.prototype.reduce = function (callbackfn, initialValue) { return null; };
     /**
-      * Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
-      * @param callbackfn A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array.
-      * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
-      */
-    Vector.prototype.reduceRight = function (callbackfn, initialValue) {
-        return null;
-    };
+     * Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+     * @param callbackfn A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array.
+     * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
+     */
+    Vector.prototype.reduceRight = function (callbackfn, initialValue) { return null; };
     /* ------------------------------------------------------------------------
         EXPORTERS
     ------------------------------------------------------------------------ */
     /**
-      * @brief Returns a string representation of an array.
-      */
-    Vector.prototype.toString = function () {
-        return "";
-    };
-    Vector.prototype.toLocaleString = function () {
-        return "";
-    };
+     * @brief Returns a string representation of an array.
+     */
+    Vector.prototype.toString = function () { return ""; };
+    Vector.prototype.toLocaleString = function () { return ""; };
     return Vector;
 })();
 Vector.prototype = new Array();

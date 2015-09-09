@@ -95,7 +95,6 @@ api/js/
 
 # 	TYPESCRIPT
 # ------------------------------------------------------
-js/SamchonFrameworkJS/
-js/copy.bat
-js/*.sln
-js/*.htm
+js/
+!/js/SamchonFramework.ts
+!/js/SamchonFramework.js

@@ -19,27 +19,26 @@ namespace samchon
 		/**
 		 * @brief XML is a class representing xml object
 		 *
-		 * @details
-		 * \par
-		 * The XML class provides methods and properties for working with XML objects.
+		 * @details 
+		 * <p> The XML class provides methods and properties for working with XML objects. </p>
 		 * 
-		 * \par
-		 * The XML class (along with the XMLList and Namespace) implements 
-		 * the powerful XML-handling standard defined in ECMAScript for XML (E4X) specification.
+		 * <p> The XML class (along with the XMLList and Namespace) implements 
+		 * the powerful XML-handling standard defined in ECMAScript for XML (E4X) specification. </p>
 		 *
-		 * \par
-		 * XML class has a recursive, hierarchical relationship.
+		 * <p> XML class has a recursive, hierarchical relationship. </p>
 		 * 
-		 * \par
-		 * All XML objects're managed by shared_ptr.
+		 * <p> All XML objects're managed by shared_ptr. </p>
 		 *	\li XML contains XMLList from dictionary of shared pointer<XMLList>
 		 *  \li XMLList contains XML from vector of shared pointer<XML>
 		 *  \li Even if user creates a XML object directly, it's the basic principle to use shared pointer
 		 * 
-		 * @warning Parsing comment is not supported yet
-		 * @warning It's not recommeded to creating a XML object which is not being managed by shared pointer
+		 * @note 
+		 * <p> Parsing comment is not supported yet. </p>
+		 * <p> It's not recommeded to creating a XML object which is not being managed by shared pointer. </p>
 		 * 
-		 * @warning Do not abuse values for expressing member variables
+		 * @warning 
+		 * <p> Do not abuse values for expressing member variables. </p>
+		 *
 		 * <table>
 		 *	<tr>
 		 *		<th>Standard Usage</th>
@@ -89,10 +88,10 @@ namespace samchon
 			String value;
 
 			/**
-			 * @brief Properties in the XML
+			 * @brief Properties belongs to the XML
 			 *
 			 * @details 
-			 * Pairs of the properties
+			 * A Dictionary of properties accessing each property by its key.
 			 *	\li \<price <b>high='1500' low='1300' open='1450' close='1320'</b> /\>: 
 			 *		propertyMap => {{\"high\": 1500}, {\"low\": 1300}, {\"open\": 1450}, {\"close\", 1320}}
 			 *	\li \<member <b>id='jhnam88' name='Jeongho+Nam' comment='Hello.+My+name+is+Jeongho+Nam'</b> \>: 

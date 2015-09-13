@@ -6,16 +6,28 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 function test() {
     var str = "<memberList>\n" +
-        "   <member id='jhnam88' pass='1231' />\n" +
-        "   <member id='samchon' pass='1231'>Administrator</member>\n" +
-        "   <group>3</group>\n" +
+        "	<member id='jhnam88' pass='1231' />\n" +
+        "	<member id='samchon' pass='1231'>Administrator</member>\n" +
+        "	<group>3</group>\n" +
         "</memberList>";
     var xml = new XML(str);
     var invoke = new Invoke("login", "jhnam88", 4, xml);
-    alert(invoke.toXML().toString());
+    alert(invoke.toXML());
 }
 /**
  * @brief Trace arguments on screen
+ *
+ * @details
+ * <p> Displays arguments on screen by <i>document.write</i>. </p>
+ *
+ * <p> If any argument in a trace statement includes a data type other than a string, the trace function
+ * invokes the associated toString() method for that data type. If the argument which is not a string
+ * doesn't have <i>toString()</i> method, only "[object Object]" words will be traced. </p>
+ *
+ * @warning trace prints words in web page direclty. It can harm ordinary layout of the page.
+ *
+ * @param args One or more (comma separated) expressions to evaluate.
+ *			   For multiple expressions, a space is inserted between each expression in the output.
  *
  * @author Jeongho Nam
  */
@@ -99,7 +111,7 @@ var Pair = (function () {
      *
      * @details
      * <p> The returned string will follow the form of JSonObject </p>
-     *  \li {"first": "???", "second": ???}
+     *	\li {"first": "???", "second": ???}
      */
     Pair.prototype.toString = function () {
         return "{first: " + this.first + ", second: " + this.second + "}";
@@ -119,6 +131,8 @@ var Pair = (function () {
  *
  * <p> Vector implements the Array and filled the methods of Array and other classes
  * can inherit array extending Vector instead of Array. </p>
+ *
+ * @tparam _Ty Type of elements
  *
  * @author Jeongho Nam
  */
@@ -150,6 +164,7 @@ var Vector = (function () {
     Vector.prototype.pop = function () { return null; };
     /**
      * @biref Combines two or more arrays.
+     *
      * @param items Additional items to add to the end of array1.
      */
     Vector.prototype.concat = function () {
@@ -161,6 +176,7 @@ var Vector = (function () {
     };
     /**
      * @brief Adds all the elements of an array separated by the specified separator string.
+     *
      * @param separator A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma.
      */
     Vector.prototype.join = function (separator) { return ""; };
@@ -169,23 +185,25 @@ var Vector = (function () {
      */
     Vector.prototype.reverse = function () { return []; };
     /**
-     * Removes the first element from an array and returns it.
+     * @brief Removes the first element from an array and returns it.
      */
     Vector.prototype.shift = function () { return null; };
     /**
-     * Returns a section of an array.
+     * @brief Returns a section of an array.
      *
      * @param start The beginning of the specified portion of the array.
      * @param end The end of the specified portion of the array.
      */
     Vector.prototype.slice = function (start, end) { return []; };
     /**
-     * Sorts an array.
+     * @brief Sorts an array.
+     *
      * @param compareFn The name of the function used to determine the order of the elements. If omitted, the elements are sorted in ascending, ASCII character order.
      */
     Vector.prototype.sort = function (compareFn) { return []; };
     /**
-     * Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
+     * @brief Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
+     *
      * @param start The zero-based location in the array from which to start removing elements.
      * @param deleteCount The number of elements to remove.
      * @param items Elements to insert into the array in place of the deleted elements.
@@ -199,8 +217,9 @@ var Vector = (function () {
         return [];
     };
     /**
-     * Inserts new elements at the start of an array.
-     * @param items  Elements to insert at the start of the Array.
+     * @briefInserts new elements at the start of an array.
+     *
+     * @param items Elements to insert at the start of the Array.
      */
     Vector.prototype.unshift = function () {
         var items = [];
@@ -210,55 +229,64 @@ var Vector = (function () {
         return 0;
     };
     /**
-     * Returns the index of the first occurrence of a value in an array.
+     * @brief Returns the index of the first occurrence of a value in an array.
+     *
      * @param searchElement The value to locate in the array.
      * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0.
      */
     Vector.prototype.indexOf = function (searchElement, fromIndex) { return 0; };
     /**
-     * Returns the index of the last occurrence of a specified value in an array.
+     * @brief Returns the index of the last occurrence of a specified value in an array.
+     *
      * @param searchElement The value to locate in the array.
      * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the search starts at the last index in the array.
      */
     Vector.prototype.lastIndexOf = function (searchElement, fromIndex) { return 0; };
     /**
-     * Determines whether all the members of an array satisfy the specified test.
+     * @brief Determines whether all the members of an array satisfy the specified test.
+     *
      * @param callbackfn A function that accepts up to three arguments. The every method calls the callbackfn function for each element in array1 until the callbackfn returns false, or until the end of the array.
      * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
      */
     Vector.prototype.every = function (callbackfn, thisArg) { return false; };
     /**
-     * Determines whether the specified callback function returns true for any element of an array.
+     * @brief Determines whether the specified callback function returns true for any element of an array.
+     *
      * @param callbackfn A function that accepts up to three arguments. The some method calls the callbackfn function for each element in array1 until the callbackfn returns true, or until the end of the array.
      * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
      */
     Vector.prototype.some = function (callbackfn, thisArg) { return false; };
     /**
-     * Performs the specified action for each element in an array.
-     * @param callbackfn  A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array.
-     * @param thisArg  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
+     * @brief Performs the specified action for each element in an array.
+     *
+     * @param callbackfn A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array.
+     * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
      */
     Vector.prototype.forEach = function (callbackfn, thisArg) { };
     /**
-     * Calls a defined callback function on each element of an array, and returns an array that contains the results.
+     * @brief Calls a defined callback function on each element of an array, and returns an array that contains the results.
+     *
      * @param callbackfn A function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array.
      * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
      */
     Vector.prototype.map = function (callbackfn, thisArg) { return []; };
     /**
-     * Returns the elements of an array that meet the condition specified in a callback function.
+     * @brief Returns the elements of an array that meet the condition specified in a callback function.
+     *
      * @param callbackfn A function that accepts up to three arguments. The filter method calls the callbackfn function one time for each element in the array.
      * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
      */
     Vector.prototype.filter = function (callbackfn, thisArg) { return []; };
     /**
-     * Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+     * @brief Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+     *
      * @param callbackfn A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array.
      * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
      */
     Vector.prototype.reduce = function (callbackfn, initialValue) { return null; };
     /**
-     * Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+     * @brief Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+     *
      * @param callbackfn A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array.
      * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
      */
@@ -281,7 +309,7 @@ Vector.prototype = new Array();
  * <p> Map is designed to pursuing formality in JavaScript. </p>
  *
  * \par Definition of std::unordered_map
- *  \li Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/
+ *	\li Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/
  *
  * <p> Unordered maps are associative containers that store elements formed by the combination of
  * a key value and a mapped value, and which allows for fast retrieval of individual elements
@@ -306,23 +334,26 @@ Vector.prototype = new Array();
  *
  * \par Differences between std::unordered_map
  * <ul>
- *  <li> Addicted Methods </li>
- *  <ul>
- *      <li> has := { find(key) != end(); } </li>
- *      <li> set := { insert({key, value}); } </li>
- *      <li> get := { find(key).second; } </li>
- *  </ul>
- *  <li> Depreciated Methods </li>
- *  <ul>
- *      <li> Modifier methods using iterators </li>
- *      <li> operator[] </li>
- *  </ul>
+ *	<li> Addicted Methods </li>
+ *	<ul>
+ *		<li> has := { find(key) != end(); } </li>
+ *		<li> set := { insert({key, value}); } </li>
+ *		<li> get := { find(key).second; } </li>
+ *	</ul>
+ *	<li> Depreciated Methods </li>
+ *	<ul>
+ *		<li> Modifier methods using iterators </li>
+ *		<li> operator[] </li>
+ *	</ul>
  * </ul>
  *
  * @note
  * <p> Do not use operator[] and hasOwnProperty(). Use get() and has() instead. </p>
  * <p> Do not iterate by <i>for statement</i> used for dynamic object of JavaScript; <i>for(var key in Map)</i> </p>.
  * <p> Use <i>iterator</i> with begin() and end() instaed. </p>
+ *
+ * @tparam _Kty Type of the keys. Each element in a map is uniquely identified by its key value.
+ * @tparam _Ty Type of the mapped value. Each element in a map stores some data as its mapped value.
  *
  * @author Jeongho Nam
  */
@@ -334,7 +365,7 @@ var Map = (function () {
         this.data_ = new Vector();
     }
     /* ---------------------------------------------------------
-        GETTERS
+        ACCESSORS
     --------------------------------------------------------- */
     /**
      * @brief Get data
@@ -354,6 +385,30 @@ var Map = (function () {
     Map.prototype.size = function () {
         return this.data_.length;
     };
+    /**
+     * @brief Get iterator to element
+     *
+     * <p> Searches the container for an element with a identifier equivalent to <i>key</i> and
+     * returns an iterator to it if found, otherwise it returns an iterator to Map::end(). </p>
+     *
+     * <p> Two keys are considered equivalent if the container's comparison object returns false
+     * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+     *
+     * <p> Another member function, Map.has(), can be used to just check whether
+     * a particular key exists. </p>
+     *
+     * @param key Key to be searched for
+     * @return An iterator to the element, if an element with specified key is found, or Map::end() otherwise.
+     */
+    Map.prototype.find = function (key) {
+        for (var i = 0; i < this.data_.length; i++)
+            if (this.data_[i].first == key)
+                return new MapIterator(this, i);
+        return this.end();
+    };
+    /* ---------------------------------------------------------
+        GETTERS
+    --------------------------------------------------------- */
     /**
      * @brief Whether have the item or not
      * @details Indicates whether a map has an item having the specified identifier.
@@ -503,7 +558,7 @@ var Map = (function () {
      *
      * @details
      * <p> The returned string will follow the form of JSonObject </p>
-     *  \li {{"key": "???", "value": ???}, {"key": "?", "value": ?}, ...}
+     *	\li {{"key": "???", "value": ???}, {"key": "?", "value": ?}, ...}
      */
     Map.prototype.toString = function () {
         var str = "{";
@@ -520,7 +575,25 @@ var Map = (function () {
     };
     return Map;
 })();
+/**
+ * @brief A bi-directional iterator
+ *
+ * @tparam _Kty Type of the keys. Each element in a map is uniquely identified by its key value.
+ * @tparam _Ty Type of the mapped value. Each element in a map stores some data as its mapped value.
+ *
+ * @author Jeongho Nam
+ */
 var MapIterator = (function () {
+    /**
+     * @brief Construct from source and index number
+     *
+     * @note
+     * <p> Do not create iterator directly. </p>
+     * <p> Use begin(), find() or end() in Map instead. </p>
+     *
+     * @param map The source map to reference
+     * @param index Sequence number of the element in the source map
+     */
     function MapIterator(map, index) {
         this.map = map;
         if (index != -1 && index < map.size())
@@ -532,9 +605,15 @@ var MapIterator = (function () {
         /* ---------------------------------------------------------
             GETTERS AND SETTERS
         --------------------------------------------------------- */
+        /**
+         * @brief Get first element (key)
+         */
         get: function () {
             return this.map.data()[this.index].first;
         },
+        /**
+         * @brief Set first element (key)
+         */
         set: function (key) {
             this.map.data()[this.index].first = key;
         },
@@ -542,9 +621,15 @@ var MapIterator = (function () {
         configurable: true
     });
     Object.defineProperty(MapIterator.prototype, "second", {
+        /**
+         * @brief Get second element (mapped value)
+         */
         get: function () {
             return this.map.data()[this.index].second;
         },
+        /**
+         * @brief Set second element (mapped value)
+         */
         set: function (val) {
             this.map.data()[this.index].second = val;
         },
@@ -554,18 +639,43 @@ var MapIterator = (function () {
     /* ---------------------------------------------------------
         COMPARISON
     --------------------------------------------------------- */
-    MapIterator.prototype.equals = function (it) {
-        return (this.map == it.map && this.index == it.index);
+    /**
+     * @brief Whether an iterator is equal with the iterator.
+     * @details Compare two iterators and returns whether they are equal or not.
+     *
+     * @note
+     * <p> Iterator's equals() only compare souce map and index number. </p>
+     * <p> Although elements in a pair, key and value are equals, if the source map or
+     * index number is different, then the equals() will return false. If you want to
+     * compare the elements of a pair, compare them directly by yourself. </p>
+     *
+     * @param obj An iterator to compare
+     * @return Indicates whether equal or not.
+     */
+    MapIterator.prototype.equals = function (obj) {
+        return (this.map == obj.map && this.index == obj.index);
     };
     /* ---------------------------------------------------------
         MOVERS
     --------------------------------------------------------- */
+    /**
+     * @brief Get iterator to previous element
+     * @details If current iterator is the first item(equal with <i>begin()</i>), returns end().
+     *
+     * @return An iterator of the previous item.
+     */
     MapIterator.prototype.prev = function () {
         if (this.index - 1 < 0)
             return this.map.end();
         else
             return new MapIterator(this.map, this.index - 1);
     };
+    /**
+     * @brief Get iterator to next element
+     * @details If current iterator is the last item, returns end().
+     *
+     * @return An iterator of the next item.
+     */
     MapIterator.prototype.next = function () {
         if (this.index + 1 >= this.map.size())
             return this.map.end();
@@ -590,7 +700,7 @@ var Dictionary = (function (_super) {
     return Dictionary;
 })(Map);
 /**
- * @brief A utility class supports static method of string
+ * @brief A utility class supporting static methods of string
  *
  * @author Jeongho Nam
  */
@@ -645,7 +755,44 @@ var StringUtil = (function () {
     return StringUtil;
 })();
 /**
- * @brief XML
+ * @brief XML is a class representing a tree structued xml objects
+ *
+ * @details
+ * <p> The XML class provides methods and properties for working with XML objects. </p>
+ *
+ * <p> The XML class (along with the XMLList and Namespace) implements
+ * the powerful XML-handling standard defined in ECMAScript for XML (E4X) specification. </p>
+ *
+ * <p> XML class has a recursive, hierarchical relationship. </p>
+ *
+ * <p> Relationships between XML and XMLList </p>
+ *	\li XML contains XMLList from dictionary of XMLList
+ *  \li XMLList contains XML from vector of XML
+ *
+ * @note
+ * <p> Do not abuse values for expressing member variables. </p>
+ *
+ * <table>
+ *	<tr>
+ *		<th>Standard Usage</th>
+ *		<th>Non-standard usage abusing value</th>
+ *	</tr>
+ *	<tr>
+ *		<td>
+ *			\<memberList\>\n
+ *			&nbsp;&nbsp;&nbsp;&nbsp; \<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
+ *			&nbsp;&nbsp;&nbsp;&nbsp; \<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
+ *			\</memberList\>
+ *		</td>
+ *		<td>
+ *			\<member\>\n
+ *			&nbsp;&nbsp;&nbsp;&nbsp; \<id\>jhnam88\</id\>\n
+ *			&nbsp;&nbsp;&nbsp;&nbsp; \<name\>Jeongho+Nam\</name\>\n
+ *			&nbsp;&nbsp;&nbsp;&nbsp; \<birthdate\>1988-03-11\</birthdate\>\n
+ *			\</member\>
+ *		</td>
+ *	</tr>
+ * </table>
  *
  * @author Jeongho Nam
  */
@@ -656,6 +803,17 @@ var XML = (function (_super) {
     ------------------------------------------------------------- */
     /**
      * @brief Default Constructor.
+     *
+     * @details
+     * <p> If the string parameter is not omitted, constructs its tag, value and
+     * properties by parsing the string. If there's children, then construct the
+     * children XML, XMLList objects, too. </p>
+     *
+     * @warning
+     * <p> Throwing exceptions on parsing are not defined yet. If there's some problem on
+     * the string representing the XML object, error will be occured. </p>
+     *
+     * @param str A string to be parsed
      */
     function XML(str) {
         if (str === void 0) { str = ""; }
@@ -681,21 +839,30 @@ var XML = (function (_super) {
         //BEGIN PARSING
         this.construct(str);
     }
+    /**
+     * @brief Construct XML objects by parsing a string
+     */
     XML.prototype.construct = function (str) {
-        this.constructTag(str);
-        this.constructProperty(str);
-        var res = this.constructValue(str);
+        this.parseTag(str);
+        this.parseProperty(str);
+        var res = this.parseValue(str);
         if (res.second == true)
-            this.constructChildren(res.first);
+            this.parseChildren(res.first);
     };
-    XML.prototype.constructTag = function (str) {
+    /**
+     * @brief Parse and fetch a tag
+     */
+    XML.prototype.parseTag = function (str) {
         var start = str.indexOf("<") + 1;
         var end = this.calcMinIndex(str.indexOf(" ", start), str.indexOf("\r\n", start), str.indexOf("\n", start), str.indexOf("\t", start), str.indexOf(">", start), str.indexOf("/", start));
         if (start == 0 || end == -1)
             return;
         this.tag = str.substring(start, end);
     };
-    XML.prototype.constructProperty = function (str) {
+    /**
+     * @brief Parse and fetch properties
+     */
+    XML.prototype.parseProperty = function (str) {
         var start = str.indexOf("<" + this.tag) + this.tag.length + 1;
         var end = this.calcMinIndex(str.lastIndexOf("/"), str.indexOf(">", start));
         if (start == -1 || end == -1 || start >= end)
@@ -740,10 +907,13 @@ var XML = (function (_super) {
                 label = line.substring(helpers[i - 1]["end"] + 1, equal).trim();
             }
             value = line.substring(helpers[i]["start"] + 1, helpers[i]["end"]);
-            this.setProperty(label, this.decodeProperty(value));
+            this.setProperty(label, XML.decodeProperty(value));
         }
     };
-    XML.prototype.constructValue = function (str) {
+    /**
+     * @brief Parse and fetch a value
+     */
+    XML.prototype.parseValue = function (str) {
         var end_slash = str.lastIndexOf("/");
         var end_block = str.indexOf(">");
         if (end_slash < end_block || end_slash + 1 == str.lastIndexOf("<")) {
@@ -756,12 +926,15 @@ var XML = (function (_super) {
         var end = str.lastIndexOf("<");
         str = str.substring(start, end); //REDEFINE WEAK_STRING -> IN TO THE TAG
         if (str.indexOf("<") == -1)
-            this.value = this.decodeValue(str.trim());
+            this.value = XML.decodeValue(str.trim());
         else
             this.value = "";
         return new Pair(str, true);
     };
-    XML.prototype.constructChildren = function (str) {
+    /**
+     * @brief Parse and construct children XML objects
+     */
+    XML.prototype.parseChildren = function (str) {
         if (str.indexOf("<") == -1)
             return;
         var start = str.indexOf("<");
@@ -797,32 +970,89 @@ var XML = (function (_super) {
     /* -------------------------------------------------------------
         ACCESSORS
     ------------------------------------------------------------- */
+    /**
+     * @brief Get tag
+     */
     XML.prototype.getTag = function () {
         return this.tag;
     };
+    /**
+     * @brief Get value
+     */
     XML.prototype.getValue = function () {
         return this.value;
     };
+    /**
+     * @brief Test wheter a property exists or not
+     */
     XML.prototype.hasProperty = function (key) {
         return this.properties.has(key);
     };
+    /**
+     * @brief Get property by its key
+     */
     XML.prototype.getProperty = function (key) {
         return this.properties.get(key);
     };
     /* -------------------------------------------------------------
         SETTERS
     ------------------------------------------------------------- */
+    /**
+     * @brief Set tag (identifier) of the XML
+     *
+     * @see XML::tag
+     */
     XML.prototype.setTag = function (str) {
         this.tag = str;
     };
+    /**
+     * @brief Set value of the XML
+     *
+     * @param val The value to set
+     *
+     * @warning Do not abuse values for expressing member variables
+     * <table>
+     *	<tr>
+     *		<th>Standard Usage</th>
+     *		<th>Non-standard usage abusing value</th>
+     *	</tr>
+     *	<tr>
+     *		<td>
+     *			\<memberList\>\n
+     *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
+     *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
+     *			\</memberList\>
+     *		</td>
+     *		<td>
+     *			\<member\>\n
+     *				\<id\>jhnam88\</id\>\n
+     *				\<name\>Jeongho+Nam\</name\>\n
+     *				\<birthdate\>1988-03-11\</birthdate\>\n
+     *			\</member\>
+     *		</td>
+     *	</tr>
+     * </table>
+     */
     XML.prototype.setValue = function (str) {
         this.value = str;
     };
+    /**
+     * @brief Set a property with its key
+     */
     XML.prototype.setProperty = function (key, value) {
         this.properties.set(key, value);
     };
+    /**
+     * @brief Erase a property by its key
+     *
+     * @param key The key of the property to erase
+     * @throw exception out of range
+     */
     XML.prototype.eraseProperty = function (key) {
-        this.properties.erase(key);
+        if (this.properties.has(key) == false)
+            throw "out of range";
+        else
+            this.properties.erase(key);
     };
     /* -------------------------------------------------------------
         FILTERS
@@ -841,7 +1071,32 @@ var XML = (function (_super) {
         }
         return min;
     };
-    XML.prototype.decodeValue = function (str) {
+    /**
+     * @brief Decode a value
+     *
+     * @details
+     * <table>
+     *	<tr>
+     *		<th>Encoded</th>
+     *		<th>Decoded</th>
+     *	</tr>
+     *	<tr>
+     *		<td>\&amp;</td>
+     *		<td>\&</td>
+     *	</tr>
+     *	<tr>
+     *		<td>\&lt;</td>
+     *		<td>\<</td>
+     *	</tr>
+     *	<tr>
+     *		<td>\&gt;</td>
+     *		<td>\></td>
+     *	</tr>
+     * </table>
+     *
+     * @return A decoded string represents a value
+     */
+    XML.decodeValue = function (str) {
         var pairs = [
             new Pair("&amp;", "&"),
             new Pair("&lt;", "<"),
@@ -849,7 +1104,32 @@ var XML = (function (_super) {
         ];
         return StringUtil.replaceAll(str, pairs);
     };
-    XML.prototype.encodeValue = function (str) {
+    /**
+     * @brief Encode a value
+     *
+     * @brief
+     * <table>
+     *	<tr>
+     *		<th>Original</th>
+     *		<th>Encoded</th>
+     *	</tr>
+     *	<tr>
+     *		<td>\&</td>
+     *		<td>\&amp;</td>
+     *	</tr>
+     *	<tr>
+     *		<td>\<</td>
+     *		<td>\&lt;</td>
+     *	</tr>
+     *	<tr>
+     *		<td>\></td>
+     *		<td>\&gt;</td>
+     *	</tr>
+     * </table>
+     *
+     * @return A encoded string represents a value
+     */
+    XML.encodeValue = function (str) {
         var pairs = [
             new Pair("&", "&amp;"),
             new Pair("<", "&lt;"),
@@ -857,7 +1137,56 @@ var XML = (function (_super) {
         ];
         return StringUtil.replaceAll(str, pairs);
     };
-    XML.prototype.decodeProperty = function (str) {
+    /**
+      * @brief Decode a property
+      *
+      * @details
+      * <table>
+      *	<tr>
+      *		<th>Encoded</th>
+      *		<th>Decoded</th>
+      *	</tr>
+      *	<tr>
+      *		<td>\&amp;</td>
+      *		<td>\&</td>
+      *	</tr>
+      *	<tr>
+      *		<td>\&lt;</td>
+      *		<td>\<</td>
+      *	</tr>
+      *	<tr>
+      *		<td>\&gt;</td>
+      *		<td>\></td>
+      *	</tr>
+      *	<tr>
+      *		<td>&quot;</td>
+      *		<td>\"</td>
+      *	</tr>
+      *	<tr>
+      *		<td>&apos;</td>
+      *		<td>'</td>
+      *	</tr>
+      *	<tr>
+      *		<td>&#x9;</td>
+      *		<td>'</td>
+      *	</tr>
+      *	<tr>
+      *		<td>&apos;</td>
+      *		<td>\\t</td>
+      *	</tr>
+      *	<tr>
+      *		<td>&#xA;</td>
+      *		<td>\\n</td>
+      *	</tr>
+      *	<tr>
+      *		<td>&#xD;</td>
+      *		<td>\\r</td>
+      *	</tr>
+      * </table>
+      *
+      * @return A decoded string represents a property
+      */
+    XML.decodeProperty = function (str) {
         var pairs = [
             new Pair("&amp;", "&"),
             new Pair("&lt;", "<"),
@@ -870,7 +1199,56 @@ var XML = (function (_super) {
         ];
         return StringUtil.replaceAll(str, pairs);
     };
-    XML.prototype.encodeProperty = function (str) {
+    /**
+     * @brief Decode a property
+     *
+     * @details
+     * <table>
+     *	<tr>
+     *		<th>Original</th>
+     *		<th>Encoded</th>
+     *	</tr>
+     *	<tr>
+     *		<td>\&</td>
+     *		<td>\&amp;</td>
+     *	</tr>
+     *	<tr>
+     *		<td>\<</td>
+     *		<td>\&lt;</td>
+     *	</tr>
+     *	<tr>
+     *		<td>\></td>
+     *		<td>\&gt;</td>
+     *	</tr>
+     *	<tr>
+     *		<td>\"</td>
+     *		<td>&quot;</td>
+     *	</tr>
+     *	<tr>
+     *		<td>'</td>
+     *		<td>&apos;</td>
+     *	</tr>
+     *	<tr>
+     *		<td>'</td>
+     *		<td>&#x9;</td>
+     *	</tr>
+     *	<tr>
+     *		<td>\\t</td>
+     *		<td>&apos;</td>
+     *	</tr>
+     *	<tr>
+     *		<td>\\n</td>
+     *		<td>&#xA;</td>
+     *	</tr>
+     *	<tr>
+     *		<td>\\r</td>
+     *		<td>&#xD;</td>
+     *	</tr>
+     * </table>
+     *
+     * @return A encoded string represents a property
+     */
+    XML.encodeProperty = function (str) {
         var pairs = [
             new Pair("&", "&amp;"),
             new Pair("<", "&lt;"),
@@ -895,10 +1273,10 @@ var XML = (function (_super) {
         var childrenString = "";
         //PROPERTIES
         for (var p_it = this.properties.begin(); p_it.equals(this.properties.end()) == false; p_it = p_it.next())
-            str += " " + p_it.first + "=\"" + this.encodeProperty(p_it.second) + "\"";
+            str += " " + p_it.first + "=\"" + XML.encodeProperty(p_it.second) + "\"";
         if (this.size() == 0) {
             if (this.value != "")
-                str += ">" + this.value + "</" + this.tag + ">";
+                str += ">" + XML.encodeValue(this.value) + "</" + this.tag + ">";
             else
                 str += " />";
         }
@@ -925,6 +1303,17 @@ var XMLList = (function (_super) {
     function XMLList() {
         _super.call(this);
     }
+    XMLList.prototype.push = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        var tag = args[0].getTag();
+        for (var i = 1; i < args.length; i++)
+            if (args[i].getTag() != tag)
+                throw "invalid tag";
+        return _super.prototype.push.call(null, args);
+    };
     /**
      * @brief Convert XMLList to String
      *
@@ -1014,7 +1403,7 @@ var ServerConnector = (function () {
     return ServerConnector;
 })();
 /**
- * @brief Standard network I/O message
+ * @brief Standard message of network I/O
  *
  * @author Jeongho Nam
  */
@@ -1025,17 +1414,17 @@ var Invoke = (function (_super) {
      *
      * \par Construct from listener
      *
-     *  \li listener: String => A string represents name of function
+     *	\li listener: String => A string represents name of function
      *
      * \par Construct from XML
      *
-     *  \li xml: A XML instance representing Invoke
+     *	\li xml: A XML instance representing Invoke
      *
      * \par Construct from arguments
      *
-     *  \li listener: String =>
-     *  \li value: _Ty =>
-     *  \li arguments: ... Tytes =>
+     *	\li listener: String =>
+     *	\li value: _Ty =>
+     *	\li arguments: ... Tytes =>
      */
     function Invoke() {
         var args = [];
@@ -1116,16 +1505,16 @@ var InvokeParameter = (function () {
      *
      * \par Construct from XML.
      *
-     *  \li xml: XML => A XML instance representing InvokeParameter.
+     *	\li xml: XML => A XML instance representing InvokeParameter.
      *
      * \par Construct from value.
      *
-     *  \li value: _Ty => Value belonged to the parameter.
+     *	\li value: _Ty => Value belonged to the parameter.
      *
      * \par Construct from specified type and value.
      *
-     *  \li type: String => Type of the parameter.
-     *  \li value: _Ty => Value belonged to the parameter.
+     *	\li type: String => Type of the parameter.
+     *	\li value: _Ty => Value belonged to the parameter.
      */
     function InvokeParameter() {
         var args = [];
@@ -1214,16 +1603,16 @@ var InvokeParameter = (function () {
  * <ul>
  * 	<li>Socket Connection</li>
  * 	<ul>
- * 	    <li>Connect to the CPP-Server</li>
+ * 		<li>Connect to the CPP-Server</li>
  * 	</ul>
  * 	<li>Fetch authority</li>
  * 	<ul>
- * 	    <li>Send a request to fetching authority</li>
- * 	    <li>The window can be navigated to other page by the authority</li>
+ * 		<li>Send a request to fetching authority</li>
+ * 		<li>The window can be navigated to other page by the authority</li>
  * 	</ul>
  * 	<li>Construct Movie</li>
  * 	<ul>
- * 	    <li>Determine a Movie by URLVariables::movie and construct it</li>
+ * 		<li>Determine a Movie by URLVariables::movie and construct it</li>
  * 	</ul>
  * 	<li>All the routines are done</li>
  * </ul>

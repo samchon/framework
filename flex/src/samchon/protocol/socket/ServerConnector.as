@@ -248,7 +248,7 @@ package samchon.protocol.socket
 					//CLEAR CURRENT INDEX PAIR
 					indexPair = null;
 				}
-				
+				trace()
 				//ADJUST INDEX
 				index = (iPair.end == -1) 
 					? (iPair.start + 1) : (iPair.end + 1);

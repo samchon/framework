@@ -9,7 +9,7 @@ namespace samchon
 		{
 			class ParallelSystemArray;
 
-			class SAMCHON_FRAMEWORK_API ParallelSystem
+			class  ParallelSystem
 				: public virtual DistributedSystem
 			{
 			private:

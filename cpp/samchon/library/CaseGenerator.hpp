@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon/API.hpp>
+
 
 #include <vector>
 
@@ -10,7 +10,7 @@ namespace samchon
 		/**
 		 * @brief Case generator
 		 */
-		class SAMCHON_FRAMEWORK_API CaseGenerator
+		class CaseGenerator
 		{
 		protected:
 			/**

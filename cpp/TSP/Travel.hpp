@@ -67,7 +67,7 @@ public:
 	EXPORTER
 	----------------------------------------------------------- */
 	/**
-	* @brief Convert the Travel to String
+	* @brief Convert the Travel to std::string
 	*
 	* @details
 	* <p> Have of form of tab and enter delimeters for Excel. </p>

@@ -14,39 +14,32 @@ using namespace samchon::library;
 using namespace samchon::protocol;
 using namespace samchon::namtree;
 
-auto NTSide::TAG() const -> String { return _T("side"); }
+auto NTSide::TAG() const -> string { return "side"; }
 
 NTSide::NTSide(NTFactory *factory)
 	: super()
 {
 	this->factory = factory;
 	file = nullptr;
-	parameterMap = new Map<String, double>();
 }
-NTSide::~NTSide()
-{
-	delete parameterMap;
-}
-
 void NTSide::construct(shared_ptr<XML> xml)
 {
-	parameterMap->clear();
-	if (xml->hasProperty(_T("parameterList")) == false)
+	
+	if (xml->hasProperty("parameterArray") == false)
 		return;
 
-	shared_ptr<XMLList> &parameterList = xml->get(_T("parameterList"));
+	shared_ptr<XMLList> &parameterList = xml->get("parameterArray");
 	for (auto it = parameterList->begin(); it != parameterList->end(); it++)
 	{
 		shared_ptr<XML> &parameter = *it;
-		String &name = parameter->getProperty(_T("name"));
-		String &strValue = parameter->getValue();
+		string &name = parameter->getProperty("name");
+		string &strValue = parameter->getValue();
 
-		parameterMap->set
+		parameters.push_back
 		(
-			name, 
 			strValue.empty() == false
 				? stod(strValue) 
-				: NUM_NULL
+				: INT_MIN
 		);
 	}
 }
@@ -57,26 +50,26 @@ void NTSide::initRetrieve()
 }
 auto NTSide::calcRetrieved(NTIterator &iterator) const -> double
 {
-	return file->getFunction()(iterator, *parameterMap);
+	return file->getFunction()(iterator, parameters);
 }
 
 auto NTSide::toXML() const -> shared_ptr<XML>
 {
 	shared_ptr<XML> &xml = super::toXML();
-	xml->setProperty(_T("fileUID"), file->key());
+	xml->setProperty("fileUID", file->key());
 
 	shared_ptr<XML> parameterListXML(new XML());
-	parameterListXML->setTag(_T("parameterList"));
+	parameterListXML->setTag("parameterArray");
 
-	for (auto it = parameterMap->begin(); it != parameterMap->end(); it++)
+	for (auto it = parameters.begin(); it != parameters.end(); it++)
 	{
 		shared_ptr<XML> parameter(new XML());
-		parameter->setTag(_T("parameter"));
-
-		parameter->setProperty(_T("name"), it->first);
-		if (it->second != NUM_NULL)
-			parameter->setValue( toString(it->second) );
-
+		parameter->setTag("parameter");
+		
+		if (*it != INT_MIN)
+			continue;
+		
+		parameter->setValue( to_string(*it) );
 		parameterListXML->push_back(parameter);
 	}
 	xml->push_back(parameterListXML);

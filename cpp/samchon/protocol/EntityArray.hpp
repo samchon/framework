@@ -10,16 +10,27 @@ namespace samchon
 {
 	namespace protocol
 	{
+		/**
+		 * @brief A static array of Entity
+		 *
+		 * @tparam _Ty Type of children Entity. Must be derived class from the Entity class.
+		 */
 		template <typename _Ty>
 		class EntityArray
-			: public virtual Entity,
-			public std::vector<_Ty>, public virtual IEntityGroup
+			: public virtual Entity, public std::vector<_Ty>, //CLASSES
+			public virtual IEntityGroup //INTERFACE
 		{
+		private:
+			typedef Entity super;
+
 		public:
+			/**
+			 * @brief Default Constructor
+			 */
 			EntityArray();
 			virtual ~EntityArray() = default;
 
-			virtual void construct(std::shared_ptr<library::XML> xml)
+			virtual void construct(std::shared_ptr<library::XML> xml) override
 			{
 				clear();
 				if (xml->has(CHILD_TAG()) == false)
@@ -36,9 +47,18 @@ namespace samchon
 ;				}
 			}
 
-			virtual auto toXML() const -> std::shared_ptr<library::XML>
+			virtual auto toXML() const -> std::shared_ptr<library::XML> override
 			{
+				std::shared_ptr<library::XML> &xml = super::toXML();
 
+				std::shared_ptr<library::XMLList> xmlList(new XMLList());
+				xmlList->reserve(this->size());
+
+				for(size_t i = 0; i < size(); i++)
+					xmlList->push_back( at(i).toXML() );
+
+				xml->set(CHILD_TAG(), xmlList);
+				return xml;
 			};
 		};
 	};

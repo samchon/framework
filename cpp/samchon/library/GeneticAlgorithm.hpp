@@ -83,11 +83,6 @@ namespace samchon
 			 */
 			size_t tournament;
 
-			/**
-			 * @brief Whether to keep the elitest GeneArray
-			 */
-			bool elitism;
-
 		public:
 			/**
 			 * @brief Construct from parameters of Genetic Algorithm
@@ -97,13 +92,12 @@ namespace samchon
 			 * @param tournament Size of tournament in selection
 			 * @param elitism Whether to keep the elitest GeneArray
 			 */
-			GeneticAlgorithm(bool unique, double mutationRate = 0.015, size_t tournament = 10, bool elitism = true)
+			GeneticAlgorithm(bool unique, double mutationRate = 0.015, size_t tournament = 10)
 			{
 				this->unique = unique;
 
 				this->mutationRate = mutationRate;
 				this->tournament = tournament;
-				this->elitism = elitism;
 			};
 
 			/**
@@ -137,12 +131,9 @@ namespace samchon
 				size_t size = population->children.size();
 				std::shared_ptr<MyPopulation> evolved(new MyPopulation(size));
 
-				size_t start = 0;
-				if (elitism == true)
-				{
-					evolved->children[0] = population->fitTest();
-					start = 1;
-				}
+				//ELITICISM
+				evolved->children[0] = population->fitTest();
+				int start = 1;
 
 				#pragma omp parallel for
 				for (int i = start; i < size; i++)

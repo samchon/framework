@@ -5,7 +5,7 @@ namespace samchon
 {
 	namespace library
 	{
-		class SAMCHON_FRAMEWORK_API PermutationGenerator
+		class PermutationGenerator
 			: public CaseGenerator
 		{
 		private:

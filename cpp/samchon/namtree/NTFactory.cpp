@@ -18,7 +18,7 @@ NTFactory::NTFactory(NTEntityGroup *data)
 
 auto NTFactory::createFile(FTFolder *folder, shared_ptr<XML> xml) -> FTFile*
 {
-	if (xml->getProperty(_T("extension")) == _T("ntfx"))
+	if (xml->getProperty("extension") == "ntfx")
 		return new NTFile(this, folder);
 	else
 		return super::createFile(folder, xml);

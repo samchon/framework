@@ -26,7 +26,7 @@ void NTFile::construct(shared_ptr<XML> xml)
 		parameterArray->construct( xml->get(parameterArray->TAG())->at(0) );
 }
 
-auto NTFile::getParameterArray() const -> const NTParameterArray*
+auto NTFile::getParameterArray() const -> NTParameterArray*
 {
 	return parameterArray;
 }
@@ -34,7 +34,7 @@ auto NTFile::getOtherside() const -> NTFile*
 {
 	return otherside;
 }
-auto NTFile::getFunction() const -> double(*)(NTIterator&, Map<String, double>&)
+auto NTFile::getFunction() const -> std::function<double(NTIterator&, const std::vector<double> &)>
 {
 	return function;
 }
@@ -45,7 +45,7 @@ auto NTFile::toXML() const -> shared_ptr<XML>
 	xml->push_back(parameterArray->toXML());
 	
 	if (otherside != nullptr)
-		xml->setProperty(_T("othersideUID"), otherside->key());
+		xml->setProperty("othersideUID", otherside->key());
 	
 	return xml;
 }

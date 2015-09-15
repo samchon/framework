@@ -74,21 +74,21 @@ XML::XML(XML &&xml)
 XML::XML(WeakString wStr)
 	: XML()
 {
-	if (wStr.find(_T('<')) == String::npos)
+	if (wStr.find('<') == std::string::npos)
 		return;
 
 	//WHEN COMMENT IS
-	String replacedStr;
-	if (wStr.find(_T("<!--")) != String::npos)
+	std::string replacedStr;
+	if (wStr.find("<!--") != std::string::npos)
 	{
 		queue<pair<size_t, size_t>> indexPairQueue;
 		size_t beginX = 0, endX;
 
 		//CONSTRUCT INDEXES
 		replacedStr.reserve(wStr.size());
-		while ((beginX = wStr.find(_T("<!--"), beginX)) != String::npos)
+		while ((beginX = wStr.find("<!--", beginX)) != std::string::npos)
 		{
-			indexPairQueue.push({ beginX, wStr.find(_T("-->"), beginX + 1) + 3 });
+			indexPairQueue.push({ beginX, wStr.find("-->", beginX + 1) + 3 });
 			beginX++;
 		}
 
@@ -109,8 +109,8 @@ XML::XML(WeakString wStr)
 	}
 
 	//ERASE HEADERS OF XML
-	if (wStr.find(_T("<?xml")) != String::npos)
-		wStr = wStr.between(_T("?>"));
+	if (wStr.find("<?xml") != std::string::npos)
+		wStr = wStr.between("?>");
 
 	construct(wStr);
 }
@@ -132,17 +132,17 @@ void XML::construct(WeakString &wStr)
 }
 void XML::constructKey(WeakString &wStr)
 {
-	size_t startX = wStr.find(_T("<")) + 1;
+	size_t startX = wStr.find("<") + 1;
 	size_t endX =
 		calcMinIndex
 		(
 			{
-				wStr.find(_T(' '), startX),
-				wStr.find(_T("\r\n"), startX),
-				wStr.find(_T('\n'), startX),
-				wStr.find(_T('\t'), startX),
-				wStr.find(_T('>'), startX),
-				wStr.find(_T('/'), startX)
+				wStr.find(' ', startX),
+				wStr.find("\r\n", startX),
+				wStr.find('\n', startX),
+				wStr.find('\t', startX),
+				wStr.find('>', startX),
+				wStr.find('/', startX)
 			}
 		);
 
@@ -151,21 +151,21 @@ void XML::constructKey(WeakString &wStr)
 }
 void XML::constructProperty(WeakString &wStr)
 {
-	size_t i_begin = wStr.find(_T('<') + tag) + tag.size() + 1;
-	size_t i_endSlash = wStr.rfind(_T('/'));
-	size_t i_endBlock = wStr.find(_T('>'), i_begin);
+	size_t i_begin = wStr.find('<' + tag) + tag.size() + 1;
+	size_t i_endSlash = wStr.rfind('/');
+	size_t i_endBlock = wStr.find('>', i_begin);
 
 	size_t i_end = calcMinIndex({ i_endSlash, i_endBlock });
-	if (i_end == String::npos || i_begin >= i_end)
+	if (i_end == std::string::npos || i_begin >= i_end)
 		return;
 
 	//<comp label='ABCD' /> : " label='ABCD' "
 	WeakString &line = wStr.substring(i_begin, i_end); 
 
-	if (line.find(_T('=')) == String::npos)
+	if (line.find('=') == std::string::npos)
 		return;
 
-	String label, value;
+	std::string label, value;
 	vector<QuotePair*> helpers;
 	bool inQuote = false;
 	QuotePair::TYPE type;
@@ -175,22 +175,22 @@ void XML::constructProperty(WeakString &wStr)
 	for (i = 0; i < line.size(); i++) 
 	{
 		//Start of quote
-		if (inQuote == false && (line[i] == _T('\'') || line[i] == _T('"')))
+		if (inQuote == false && (line[i] == '\'' || line[i] == '"'))
 		{
 			inQuote = true;
 			startPoint = i;
 
-			if (line[i] == _T('\''))
+			if (line[i] == '\'')
 				type = QuotePair::SINGLE;
-			else if (line[i] == _T('"'))
+			else if (line[i] == '"')
 				type = QuotePair::DOUBLE;
 		}
 		else if
 			(
 				inQuote == true &&
 				(
-					(type == QuotePair::SINGLE && line[i] == _T('\'')) ||
-					(type == QuotePair::DOUBLE && line[i] == _T('"'))
+					(type == QuotePair::SINGLE && line[i] == '\'') ||
+					(type == QuotePair::DOUBLE && line[i] == '"')
 				)
 			)
 		{
@@ -232,10 +232,10 @@ void XML::constructProperty(WeakString &wStr)
 }
 auto XML::constructValue(WeakString &wStr) -> bool
 {
-	size_t i_endSlash = wStr.rfind(_T('/'));
-	size_t i_endBlock = wStr.find(_T('>'));
+	size_t i_endSlash = wStr.rfind('/');
+	size_t i_endBlock = wStr.find('>');
 
-	if (i_endSlash < i_endBlock || i_endBlock + 1 == wStr.rfind(_T('<')))
+	if (i_endSlash < i_endBlock || i_endBlock + 1 == wStr.rfind('<'))
 	{
 		//STATEMENT1: <TAG />
 		//STATEMENT2: <TAG></TAG> -> SAME WITH STATEMENT1: <TAG />
@@ -244,10 +244,10 @@ auto XML::constructValue(WeakString &wStr) -> bool
 	}
 
 	size_t startX = i_endBlock + 1;
-	size_t endX = wStr.rfind(_T('<'));
+	size_t endX = wStr.rfind('<');
 	wStr = wStr.substring(startX, endX); //REDEFINE WEAK_STRING -> IN TO THE TAG
 
-	if (wStr.find(_T('<')) == string::npos)
+	if (wStr.find('<') == string::npos)
 		value = move( wStr.trim().str() );
 	else
 		value.clear();
@@ -256,14 +256,14 @@ auto XML::constructValue(WeakString &wStr) -> bool
 }
 void XML::constructChildren(WeakString &wStr)
 {
-	if (wStr.find(_T('<')) == String::npos)
+	if (wStr.find('<') == std::string::npos)
 		return;
 
-	size_t startX = wStr.find(_T('<'));
-	size_t endX = wStr.rfind(_T('>')) + 1;
+	size_t startX = wStr.find('<');
+	size_t endX = wStr.rfind('>') + 1;
 	wStr = wStr.substring(startX, endX);
 
-	map<String, queue<XML *>> xmlQueueMap;
+	map<std::string, queue<XML *>> xmlQueueMap;
 	queue<XML*> *xmlQueue;
 	XML *xml;
 
@@ -276,15 +276,15 @@ void XML::constructChildren(WeakString &wStr)
 	//FIND BLOCKS, CREATES XML AND PUT IN TEMPORARY CONTAINER
 	for (i = 0; i < wStr.size(); i++) 
 	{
-		if (wStr[i] == _T('<') && wStr.substr(i, 2) != _T("</"))
+		if (wStr[i] == '<' && wStr.substr(i, 2) != "</")
 			blockStartCount++;
-		else if (wStr.substr(i, 2) == _T("/>") || wStr.substr(i, 2) == _T("</"))
+		else if (wStr.substr(i, 2) == "/>" || wStr.substr(i, 2) == "</")
 			blockEndCount++;
 
 		if (blockStartCount >= 1 && blockStartCount == blockEndCount) 
 		{
 			//NO PROBLEM TO AVOID COMMENT
-			end = wStr.find(_T('>'), i);
+			end = wStr.find('>', i);
 
 			xml = new XML(this, wStr.substring(start, end + 1));
 			xmlQueueMap[xml->tag].push(xml);
@@ -299,7 +299,7 @@ void XML::constructChildren(WeakString &wStr)
 	//RESERVE
 	for (auto it = xmlQueueMap.begin(); it != xmlQueueMap.end(); it++)
 	{
-		String tag = move(it->first); //GET KEY
+		std::string tag = move(it->first); //GET KEY
 		shared_ptr<XMLList> xmlList(new XMLList());
 
 		xmlQueue = &(it->second);
@@ -324,7 +324,7 @@ void XML::constructChildren(WeakString &wStr)
 /* -------------------------------------------------------------------
 	GETTERS
 ------------------------------------------------------------------- */
-auto XML::getTag() const -> String
+auto XML::getTag() const -> std::string
 {
 	return this->tag;
 }
@@ -370,7 +370,7 @@ template<> auto XML::getValue() const -> long double
 	return stold(value);
 }
 
-template<> auto XML::getValue() const -> String
+template<> auto XML::getValue() const -> std::string
 {
 	return value;
 }
@@ -378,49 +378,49 @@ template<> auto XML::getValue() const -> String
 /* -------------------------------------------------------------------
 	SETTERS
 ------------------------------------------------------------------- */
-void XML::setTag(const String &tag)
+void XML::setTag(const std::string &tag)
 {
 	this->tag = tag;
 }
 
 template<> void XML::setValue(const int &value)
 {
-	this->value = ::toString(value);
+	this->value = std::to_string(value);
 }
 template<> void XML::setValue(const long &value)
 {
-	this->value = ::toString(value);
+	this->value = std::to_string(value);
 }
 template<> void XML::setValue(const long long &value)
 {
-	this->value = ::toString(value);
+	this->value = std::to_string(value);
 }
 template<> void XML::setValue(const float &value)
 {
-	this->value = ::toString(value);
+	this->value = std::to_string(value);
 }
 template<> void XML::setValue(const double &value)
 {
-	this->value = ::toString(value);
+	this->value = std::to_string(value);
 }
 template<> void XML::setValue(const unsigned int &value)
 {
-	this->value = ::toString(value);
+	this->value = std::to_string(value);
 }
 template<> void XML::setValue(const unsigned long &value)
 {
-	this->value = ::toString(value);
+	this->value = std::to_string(value);
 }
 template<> void XML::setValue(const unsigned long long &value)
 {
-	this->value = ::toString(value);
+	this->value = std::to_string(value);
 }
 template<> void XML::setValue(const long double &value)
 {
-	this->value = ::toString(value);
+	this->value = std::to_string(value);
 }
 
-template<> void XML::setValue(const String &value)
+template<> void XML::setValue(const std::string &value)
 {
 	this->value = value;
 }
@@ -453,7 +453,7 @@ void XML::push_back(const WeakString &str)
 }
 void XML::push_back(const shared_ptr<XML> xml)
 {
-	String &tag = xml->tag;
+	std::string &tag = xml->tag;
 	if (this->has(tag) == false)
 		set(tag, make_shared<XMLList>());
 
@@ -470,7 +470,7 @@ void XML::addAllProperty(const shared_ptr<XML> xml)
 	for (auto it = xml->propertyMap.begin(); it != xml->propertyMap.end(); it++)
 		propertyMap[it->first] = it->second;
 }
-void XML::eraseProperty(const String &tag)
+void XML::eraseProperty(const std::string &tag)
 {
 	propertyMap.erase(tag);
 }
@@ -479,96 +479,96 @@ void XML::clearProperties()
 	propertyMap.clear();
 }
 
-auto XML::getPropertyMap() const -> const Map<String, String>&
+auto XML::getPropertyMap() const -> const Map<std::string, std::string>&
 {
 	return propertyMap;
 }
 
 //GETTERS
-auto XML::hasProperty(const String &tag) const -> bool
+auto XML::hasProperty(const std::string &tag) const -> bool
 {
 	return propertyMap.has(tag);
 }
 
-template<> auto XML::getProperty(const String &tag) const -> int
+template<> auto XML::getProperty(const std::string &tag) const -> int
 {
 	return stoi( propertyMap.get(tag) );
 }
-template<> auto XML::getProperty(const String &tag) const -> long
+template<> auto XML::getProperty(const std::string &tag) const -> long
 {
 	return stol( propertyMap.get(tag) );
 }
-template<> auto XML::getProperty(const String &tag) const -> long long
+template<> auto XML::getProperty(const std::string &tag) const -> long long
 {
 	return stoll( propertyMap.get(tag) );
 }
-template<> auto XML::getProperty(const String &tag) const -> float
+template<> auto XML::getProperty(const std::string &tag) const -> float
 {
 	return stof( propertyMap.get(tag) );
 }
-template<> auto XML::getProperty(const String &tag) const -> double
+template<> auto XML::getProperty(const std::string &tag) const -> double
 {
 	return stod( propertyMap.get(tag) );
 }
-template<> auto XML::getProperty(const String &tag) const -> unsigned int
+template<> auto XML::getProperty(const std::string &tag) const -> unsigned int
 {
 	return (unsigned int)stoull( propertyMap.get(tag) );
 }
-template<> auto XML::getProperty(const String &tag) const -> unsigned long
+template<> auto XML::getProperty(const std::string &tag) const -> unsigned long
 {
 	return stoul( propertyMap.get(tag) );
 }
-template<> auto XML::getProperty(const String &tag) const -> unsigned long long
+template<> auto XML::getProperty(const std::string &tag) const -> unsigned long long
 {
 	return stoll( propertyMap.get(tag) );
 }
-template<> auto XML::getProperty(const String &tag) const -> long double
+template<> auto XML::getProperty(const std::string &tag) const -> long double
 {
 	return stold( propertyMap.get(tag) );
 }
-template<> auto XML::getProperty(const String &tag) const -> String
+template<> auto XML::getProperty(const std::string &tag) const -> std::string
 {
 	return propertyMap.get(tag);
 }
 
 //SETTERS
-template<> void XML::setProperty(const String &tag, const int &val)
+template<> void XML::setProperty(const std::string &tag, const int &val)
 {
-	propertyMap.set(tag, ::toString(val));
+	propertyMap.set(tag, std::to_string(val));
 }
-template<> void XML::setProperty(const String &tag, const long &val)
+template<> void XML::setProperty(const std::string &tag, const long &val)
 {
-	propertyMap.set(tag, ::toString(val));
+	propertyMap.set(tag, std::to_string(val));
 }
-template<> void XML::setProperty(const String &tag, const long long &val)
+template<> void XML::setProperty(const std::string &tag, const long long &val)
 {
-	propertyMap.set(tag, ::toString(val));
+	propertyMap.set(tag, std::to_string(val));
 }
-template<> void XML::setProperty(const String &tag, const float &val)
+template<> void XML::setProperty(const std::string &tag, const float &val)
 {
-	propertyMap.set(tag, ::toString(val));
+	propertyMap.set(tag, std::to_string(val));
 }
-template<> void XML::setProperty(const String &tag, const double &val)
+template<> void XML::setProperty(const std::string &tag, const double &val)
 {
-	propertyMap.set(tag, ::toString(val));
+	propertyMap.set(tag, std::to_string(val));
 }
-template<> void XML::setProperty(const String &tag, const unsigned int &val)
+template<> void XML::setProperty(const std::string &tag, const unsigned int &val)
 {
-	propertyMap.set(tag, ::toString(val));
+	propertyMap.set(tag, std::to_string(val));
 }
-template<> void XML::setProperty(const String &tag, const unsigned long &val)
+template<> void XML::setProperty(const std::string &tag, const unsigned long &val)
 {
-	propertyMap.set(tag, ::toString(val));
+	propertyMap.set(tag, std::to_string(val));
 }
-template<> void XML::setProperty(const String &tag, const unsigned long long &val)
+template<> void XML::setProperty(const std::string &tag, const unsigned long long &val)
 {
-	propertyMap.set(tag, ::toString(val));
+	propertyMap.set(tag, std::to_string(val));
 }
-template<> void XML::setProperty(const String &tag, const long double &val)
+template<> void XML::setProperty(const std::string &tag, const long double &val)
 {
-	propertyMap.set(tag, ::toString(val));
+	propertyMap.set(tag, std::to_string(val));
 }
-template<> void XML::setProperty(const String &tag, const String &val)
+template<> void XML::setProperty(const std::string &tag, const std::string &val)
 {
 	propertyMap.set(tag, val);
 }
@@ -578,119 +578,119 @@ template<> void XML::setProperty(const String &tag, const String &val)
 ------------------------------------------------------------------- */
 auto XML::calcMinIndex(const std::vector<size_t> &vec) const -> size_t
 {
-	size_t val = String::npos;
+	size_t val = std::string::npos;
 	for (size_t i = 0; i < vec.size(); i++)
-		if (vec[i] != String::npos && vec[i] < val)
+		if (vec[i] != std::string::npos && vec[i] < val)
 			val = vec[i];
 
 	return val;
 }
 
-auto XML::encodeProperty(const WeakString &str) const -> String
+auto XML::encodeProperty(const WeakString &str) const -> std::string
 {
-	static vector<pair<String, String>> pairArray =
+	static vector<pair<std::string, std::string>> pairArray =
 	{
-		{ _T("&"), _T("&amp;") },
-		{ _T("<"), _T("&lt;") },
-		{ _T(">"), _T("&gt;") },
-		{ _T("\""), _T("&quot;") },
-		{ _T("'"), _T("&apos;") },
-		{ _T("\t"), _T("&#x9;") }, //9
-		{ _T("\n"), _T("&#xA;") }, //10
-		{ _T("\r"), _T("&#xD;") } //13
+		{ "&", "&amp;" },
+		{ "<", "&lt;" },
+		{ ">", "&gt;" },
+		{ "\"", "&quot;" },
+		{ "'", "&apos;" },
+		{ "\t", "&#x9;" }, //9
+		{ "\n", "&#xA;" }, //10
+		{ "\r", "&#xD;" } //13
 	};
 	
 	return str.replaceAll(pairArray);
 }
-auto XML::decodeProperty(const WeakString &str) const -> String
+auto XML::decodeProperty(const WeakString &str) const -> std::string
 {
-	static vector<pair<String, String>> pairArray =
+	static vector<pair<std::string, std::string>> pairArray =
 	{
-		{ _T("&amp;"), _T("&") },
-		{ _T("&lt;"), _T("<") },
-		{ _T("&gt;"), _T(">") },
-		{ _T("&quot;"), _T("\"") },
-		{ _T("&apos;"), _T("'") },
-		{ _T("&#x9;"), _T("\t") }, //9
-		{ _T("&#xA;"), _T("\n") }, //10
-		{ _T("&#xD;"), _T("\r") } //13
+		{ "&amp;", "&" },
+		{ "&lt;", "<" },
+		{ "&gt;", ">" },
+		{ "&quot;", "\"" },
+		{ "&apos;", "'" },
+		{ "&#x9;", "\t" }, //9
+		{ "&#xA;", "\n" }, //10
+		{ "&#xD;", "\r" } //13
 	};
 
 	return str.replaceAll(pairArray);
 }
-auto XML::encodeValue(const WeakString &str) const -> String
+auto XML::encodeValue(const WeakString &str) const -> std::string
 {
-	static vector<pair<String, String>> pairArray =
+	static vector<pair<std::string, std::string>> pairArray =
 	{
-		{ _T("&"), _T("&amp;") },
-		{ _T("<"), _T("&lt;") },
-		{ _T(">"), _T("&gt;") }
+		{ "&", "&amp;" },
+		{ "<", "&lt;" },
+		{ ">", "&gt;" }
 	};
 
 	return str.trim().replaceAll(pairArray);
 }
-auto XML::decodeValue(const WeakString &str) const -> String
+auto XML::decodeValue(const WeakString &str) const -> std::string
 {
-	static vector<pair<String, String>> pairArray =
+	static vector<pair<std::string, std::string>> pairArray =
 	{
-		{ _T("&amp;"), _T("&") },
-		{ _T("&lt;"), _T("<") },
-		{ _T("&gt;"), _T(">") }
+		{ "&amp;", "&" },
+		{ "&lt;", "<" },
+		{ "&gt;", ">" }
 	};
 
 	return str.replaceAll(pairArray);
 }
 
-auto XML::toString(size_t level) const -> String
+auto XML::toString(size_t level) const -> std::string
 {
-	String str;
+	std::string str;
 	size_t size = 0;
 
-	list<String> buffer;
+	list<std::string> buffer;
 	fetchString(buffer, level);
 
-	for (String &line : buffer)
+	for (std::string &line : buffer)
 		size += line.size();
 	str.reserve(size);
 
-	for (String &line : buffer)
+	for (std::string &line : buffer)
 		str.append(line);
 
 	return move(str);
 }
-void XML::fetchString(list<String> &buffer, size_t level) const
+void XML::fetchString(list<std::string> &buffer, size_t level) const
 {
 	//KEY
-	buffer.push_back( String(level, _T('\t')) + _T("<") + tag );
+	buffer.push_back( std::string(level, '\t') + "<" + tag );
 
 	//PROPERTIES
 	for (auto it = propertyMap.begin(); it != propertyMap.end(); it++)
 	{
-		buffer.push_back(_T(" ") + it->first + _T("=\""));
+		buffer.push_back(" " + it->first + "=\"");
 		buffer.push_back( move(encodeProperty(it->second)) );
-		buffer.push_back(_T("\""));
+		buffer.push_back("\"");
 	}
 	
 	//CHILDREN
 	if (empty() == true) //NO CHILDREN
 		if (value.empty() == false) //BUT HAS VALUE
 		{
-			buffer.push_back(_T(">"));
+			buffer.push_back(">");
 			buffer.push_back( move(encodeValue(value)) );
-			buffer.push_back(_T("</") + tag + _T(">"));
+			buffer.push_back("</" + tag + ">");
 		}
 		else
-			buffer.push_back(_T(" />"));
+			buffer.push_back(" />");
 	else //HAS CHILDREN
 	{
-		buffer.push_back(_T(">\n"));
+		buffer.push_back(">\n");
 
 		for (auto it = begin(); it != end(); it++)
 			for (size_t i = 0; i < it->second->size(); i++)
 				it->second->at(i)->fetchString(buffer, level + 1);
 
-		buffer.push_back( String(level, _T('\t')) + _T("</") + tag + _T(">") );
+		buffer.push_back( std::string(level, '\t') + "</" + tag + ">" );
 	}
 	if (level >= 1)
-		buffer.push_back(_T("\n"));
+		buffer.push_back("\n");
 }

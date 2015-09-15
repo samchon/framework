@@ -15,7 +15,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class SAMCHON_FRAMEWORK_API DistributedSystem
+			class  DistributedSystem
 				: public virtual ExternalSystem
 			{
 			private:

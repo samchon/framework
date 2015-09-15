@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon\API.hpp>
+
 
 #include <vector>
 #include <memory>
@@ -17,7 +17,7 @@ namespace samchon
 		 * @author Jeongho Nam
 		 * @see Invoke
 		 */
-		class SAMCHON_FRAMEWORK_API IProtocol
+		class  IProtocol
 		{
 		public:
 			IProtocol();

@@ -1,6 +1,4 @@
 #pragma once
-#include <samchon/API.hpp>
-
 #include <samchon/protocol/SharedEntityArray.hpp>
 
 namespace samchon
@@ -64,15 +62,15 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API NTCriteria
+		class  NTCriteria
 			: public virtual protocol::SharedEntityArray
 		{
 		private:
 			typedef protocol::SharedEntityArray super;
 
 		public:
-			virtual auto TAG() const -> String;
-			virtual auto CHILD_TAG() const -> String;
+			virtual auto TAG() const -> std::string override;
+			virtual auto CHILD_TAG() const -> std::string override;
 
 			enum
 			{
@@ -97,17 +95,17 @@ namespace samchon
 			NTCriteria(NTFactory*, NTCriteria*);
 			virtual ~NTCriteria();
 
-			virtual void construct(std::shared_ptr<library::XML>);
+			virtual void construct(std::shared_ptr<library::XML>) override;
 			SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(NTCriteria)
 
 		protected:
-			virtual auto createChild(std::shared_ptr<library::XML>) -> protocol::Entity*;
+			virtual auto createChild(std::shared_ptr<library::XML>) -> protocol::Entity* override;
 
 		public:
 			virtual void initRetrieve();
 			auto calcRetrieved(NTIterator&) const -> double;
 			
-			virtual auto toXML() const -> std::shared_ptr<library::XML>;
+			virtual auto toXML() const -> std::shared_ptr<library::XML> override;
 		};
 	};
 };

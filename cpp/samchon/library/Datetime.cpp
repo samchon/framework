@@ -46,10 +46,10 @@ Datetime::Datetime(long long linuxTime)
 void Datetime::set(const WeakString &wStr)
 {
 	super::set(wStr);
-	if (wStr.find(_T(" ")) == String::npos)
+	if (wStr.find(" ") == std::string::npos)
 		return;
 
-	vector<WeakString> &vec = wStr.between(_T(" ")).split(_T(":"));
+	vector<WeakString> &vec = wStr.between(" ").split(":");
 	int hour = stoi(vec[0].str());
 	int min = stoi(vec[1].str());
 	int sec = stoi(vec[2].str());
@@ -178,12 +178,12 @@ int Datetime::getSecond() const
 }
 
 //TO_STRING
-auto Datetime::toString() const -> String
+auto Datetime::toString() const -> std::string
 {
 	return super::toString() +
 		StringUtil::substitute
 		(
-			_T(" {1}:{2}:{3}"),
+			" {1}:{2}:{3}",
 			getHour(), getMinute(), getSecond()
 		);
 }

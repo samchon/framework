@@ -1,6 +1,6 @@
-#include <samchon/namtree/FTFolder.hpp>
-#	include <samchon/namtree/FTFactory.hpp>
-#	include <samchon/namtree/FTFile.hpp>
+#include <samchon/library/FTFolder.hpp>
+#	include <samchon/library/FTFactory.hpp>
+#	include <samchon/library/FTFile.hpp>
 
 #include <samchon/library/XML.hpp>
 
@@ -9,10 +9,9 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 using namespace samchon::protocol;
-using namespace samchon::namtree;
 
-auto FTFolder::TAG() const -> String { return super::TAG(); }
-auto FTFolder::CHILD_TAG() const -> String { return super::TAG(); }
+auto FTFolder::TAG() const -> string { return super::TAG(); }
+auto FTFolder::CHILD_TAG() const -> string { return super::TAG(); }
 
 FTFolder::FTFolder(FTFactory *factory, FTFolder *parent)
 	: super(parent), SharedEntityArray()
@@ -27,17 +26,17 @@ void FTFolder::construct(shared_ptr<XML> xml)
 
 auto FTFolder::createChild(shared_ptr<XML> xml) -> Entity*
 {
-	IFTFile *file = nullptr;
-	if (xml->hasProperty(_T("extension")) == false)
+	FTInstance *file = nullptr;
+	if (xml->hasProperty("extension") == false)
 		file = new FTFolder(factory, this);
 	else
 		file = factory->createFile(this, xml);
 		
-	factory->registerFile(file);
+	factory->registerInstance(file);
 	return file;
 }
 
-SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(FTFolder, IFTFile)
+SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(FTFolder, FTInstance)
 
 auto FTFolder::toXML() const -> shared_ptr<XML>
 {

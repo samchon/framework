@@ -1,8 +1,8 @@
 #pragma once
-#include <samchon\API.hpp>
+
 #include <samchon/protocol/IProtocol.hpp>
 
-#include <samchon/String.hpp>
+#include <string>
 #include <samchon/protocol/service/ServiceKeeper.hpp>
 
 #define KEEP_SERVICE_ALIVE auto &ucPair = __keepAlive();
@@ -23,7 +23,7 @@ namespace samchon
 			/**
 			 * @brief Service
 			 */
-			class SAMCHON_FRAMEWORK_API Service
+			class  Service
 				: public IProtocol
 			{
 				friend class Client;
@@ -35,7 +35,7 @@ namespace samchon
 				/**
 				 * @brief Name of the service
 				 */
-				virtual auto NAME() const -> String = NULL;
+				virtual auto NAME() const -> std::string = NULL;
 
 				/**
 				 * @brief Required authority to access the service

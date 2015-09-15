@@ -423,7 +423,7 @@ var Map = (function () {
         return false;
     };
     /**
-     * @brief Get element
+     * @brief Get element by key
      * @details Returns a reference to the mapped value of the element identified with key.
      *
      * @param key Key value of the element whose mapped value is accessed.
@@ -1273,10 +1273,10 @@ var XML = (function (_super) {
         var childrenString = "";
         //PROPERTIES
         for (var p_it = this.properties.begin(); p_it.equals(this.properties.end()) == false; p_it = p_it.next())
-            str += " " + p_it.first + "=\"" + XML.encodeProperty(p_it.second) + "\"";
+            str += " " + p_it.first + "=\"" + XML.encodeProperty(String(p_it.second)) + "\"";
         if (this.size() == 0) {
             if (this.value != "")
-                str += ">" + XML.encodeValue(this.value) + "</" + this.tag + ">";
+                str += ">" + XML.encodeValue(String(this.value)) + "</" + this.tag + ">";
             else
                 str += " />";
         }
@@ -1303,17 +1303,6 @@ var XMLList = (function (_super) {
     function XMLList() {
         _super.call(this);
     }
-    XMLList.prototype.push = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
-        }
-        var tag = args[0].getTag();
-        for (var i = 1; i < args.length; i++)
-            if (args[i].getTag() != tag)
-                throw "invalid tag";
-        return _super.prototype.push.call(null, args);
-    };
     /**
      * @brief Convert XMLList to String
      *
@@ -1334,11 +1323,26 @@ var XMLList = (function (_super) {
  * @author Jeongho Nam
  */
 var ServerConnector = (function () {
+    /**
+     * @brief Constructor with parent
+     */
     function ServerConnector(parent) {
         this.parent = parent;
         this.str = "";
     }
+    /**
+     * @brief Connect to a server
+     *
+     * @param ip IP address of the web-socket server
+     * @param port Port number of the server
+     */
     ServerConnector.prototype.connect = function (ip, port) {
+        if (ip.indexOf("ws://") == -1) {
+            if (ip.indexOf("://") != -1)
+                throw "only websocket is possible";
+            else
+                ip = "ws://" + ip;
+        }
         this.socket = new WebSocket(ip + ":" + port);
         this.socket.onopen = this.handleConnect;
         this.socket.onmessage = this.handleReply;
@@ -1346,11 +1350,17 @@ var ServerConnector = (function () {
     /* ----------------------------------------------------
         IPROTOCOL'S METHOD
     ---------------------------------------------------- */
+    /**
+     * @brief Send data to the server.
+     */
     ServerConnector.prototype.sendData = function (invoke) {
         var xml = invoke.toXML();
         var str = xml.toString();
         this.socket.send(str);
     };
+    /**
+     * @brief Shift responsiblity of handling message to parent.
+     */
     ServerConnector.prototype.replyData = function (invoke) {
         this.parent.replyData(invoke);
     };
@@ -1358,8 +1368,13 @@ var ServerConnector = (function () {
         HANDLING CONNECTION AND MESSAGES
     ---------------------------------------------------- */
     ServerConnector.prototype.handleConnect = function (event) {
+        if (this.onopen == null)
+            return;
         this.onopen.apply([event]);
     };
+    /**
+     * @brief Handling replied message.
+     */
     ServerConnector.prototype.handleReply = function (event) {
         this.str += event.data;
         var invokeArray;
@@ -1412,19 +1427,19 @@ var Invoke = (function (_super) {
     /**
      * @brief Multiple Constructors
      *
-     * \par Construct from listener
+     * \par Invoke(string)
+     * <p> Construct from listener. </p>
+     *	\li listener: string => A string represents name of a function.
      *
-     *	\li listener: String => A string represents name of function
+     * \par Invoke(XML)
+     * <p> Construct from XML. </p>
+     *	\li xml:XML => A XML instance representing an Invoke and InvokeParameter(s).
      *
-     * \par Construct from XML
-     *
-     *	\li xml: A XML instance representing Invoke
-     *
-     * \par Construct from arguments
-     *
-     *	\li listener: String =>
-     *	\li value: _Ty =>
-     *	\li arguments: ... Tytes =>
+     * \par template<_Ty, ... _Types> Invoke(String, _Ty, ... _Types)
+     * <p> Construct from arguments </p>
+     *	\li listener: string => A string represents name of a Function.
+     *	\li value: _Ty => A value to be a parameter
+     *	\li arguments: ... Types => Arguments to be the parameters
      */
     function Invoke() {
         var args = [];
@@ -1458,15 +1473,44 @@ var Invoke = (function (_super) {
     /* -------------------------------------------------------------------
         GETTERS
     ------------------------------------------------------------------- */
+    /**
+     * @brief Get listener
+     */
     Invoke.prototype.getListener = function () {
         return this.listener;
     };
+    /**
+     * @brief Whether have the item or not
+     *
+     * @param key Key value of the element whose mapped value is accessed.
+     * @return Whether the map has an item having the specified identifier
+     */
+    Invoke.prototype.has = function (key) {
+        for (var i = 0; i < this.length; i++)
+            if (this[i].getName() == key)
+                return true;
+        return false;
+    };
+    /**
+     * @brief Get element by key
+     * @details Returns a reference to the mapped value of the element identified with key.
+     *
+     * @param key Key value of the element whose mapped value is accessed.
+     * @throw exception out of range.
+     *
+     * @return A reference object of the mapped value (_Ty)
+     */
     Invoke.prototype.get = function (key) {
         for (var i = 0; i < this.length; i++)
             if (this[i].getName() == key)
                 return this[i];
-        return null;
+        throw "out of range";
     };
+    /**
+     * @brief Get arguments for Function.apply()
+     *
+     * @return An array containing values of the parameters.
+     */
     Invoke.prototype.getArguments = function () {
         var args = [];
         for (var i = 0; i < this.length; i++)
@@ -1476,17 +1520,23 @@ var Invoke = (function (_super) {
     /* -------------------------------------------------------------------
        APPLY BY FUNCTION POINTER
    ------------------------------------------------------------------- */
+    /**
+     * @brief Apply to a matched function
+     */
     Invoke.prototype.apply = function (obj) {
         if (!(obj.hasOwnProperty(this.listener) == true && obj[this.listener] instanceof Function))
             return false;
         var func = obj[this.listener];
         var args = this.getArguments();
-        func.apply(args);
+        func.apply(null, args);
         return true;
     };
     /* -------------------------------------------------------------------
        EXPORTER
    ------------------------------------------------------------------- */
+    /**
+     * @brief Convert to an XML object.
+     */
     Invoke.prototype.toXML = function () {
         var xml = new XML();
         xml.setTag("invoke");
@@ -1499,22 +1549,27 @@ var Invoke = (function (_super) {
     };
     return Invoke;
 })(Vector);
+/**
+ * @brief A parameter of an Invoke
+ *
+ * @author Jeongho Nam
+ */
 var InvokeParameter = (function () {
     /**
      * @brief Multiple Constructors
      *
-     * \par Construct from XML.
-     *
+     * \par InvokeParameter(XML)
+     * <p> Construct from XML. </p>
      *	\li xml: XML => A XML instance representing InvokeParameter.
      *
-     * \par Construct from value.
-     *
+     * \par template <typename _Ty> InvokeParameter(_Ty)
+     * <p> Construct from a value. </p>
      *	\li value: _Ty => Value belonged to the parameter.
      *
-     * \par Construct from specified type and value.
-     *
+     * \par template <typename _Ty> InvokeParameter(string, _Ty)
+     * <p> Construct from specified type and value. </p>
      *	\li type: String => Type of the parameter.
-     *	\li value: _Ty => Value belonged to the parameter.
+     *	\li value: _Ty => A value belongs to the parameter.
      */
     function InvokeParameter() {
         var args = [];
@@ -1619,18 +1674,30 @@ var InvokeParameter = (function () {
  *
  */
 var Application = (function () {
+    /**
+     * @brief Construct from arguments
+     */
     function Application(movie, ip, port) {
         this.movie = movie;
         this.socket = new ServerConnector(this);
         this.socket.onopen = this.handleConnect;
         this.socket.connect(ip, port);
     }
+    /**
+     *
+     */
     Application.prototype.handleConnect = function (event) {
     };
+    /**
+     * @brief Handle replied message or shift the responsibility
+     */
     Application.prototype.replyData = function (invoke) {
         if (invoke.apply(this) == false)
             this.movie.sendData(invoke);
     };
+    /**
+     * @brief Send a data to server.
+     */
     Application.prototype.sendData = function (invoke) {
         this.socket.sendData(invoke);
     };
@@ -1642,9 +1709,15 @@ var Application = (function () {
 var Movie = (function () {
     function Movie() {
     }
+    /**
+     * @brief Handle replied data
+     */
     Movie.prototype.replyData = function (invoke) {
         invoke.apply(this) == false;
     };
+    /**
+     * @brief Send data to server
+     */
     Movie.prototype.sendData = function (invoke) {
         this.application.sendData(invoke);
     };
@@ -1664,6 +1737,9 @@ var SubMovie = (function () {
     };
     return SubMovie;
 })();
+/**
+ * @brief A standard entity class
+ */
 var Entity = (function () {
     function Entity() {
         //NOTHING
@@ -1680,6 +1756,9 @@ var Entity = (function () {
     };
     return Entity;
 })();
+/**
+ * @brief A standard entity and entity container
+ */
 var EntityArray = (function (_super) {
     __extends(EntityArray, _super);
     function EntityArray() {
@@ -1696,6 +1775,9 @@ var EntityArray = (function (_super) {
                 this.push(child);
         }
     };
+    /**
+     * @brief Factory method of creating a child.
+     */
     EntityArray.prototype.createChild = function (xml) {
         return null;
     };

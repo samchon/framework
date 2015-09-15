@@ -1,5 +1,4 @@
 #pragma once
-#include <samchon/API.hpp>
 
 #include <samchon/Map.hpp>
 #include <samchon/library/XML.hpp>
@@ -8,13 +7,14 @@ namespace samchon
 {
 	namespace library
 	{
+		class FTInstance;
 		class FTFolder;
 		class FTFile;
 
 		/**
 		 * @brief Factory for virtual files
 		 */
-		class SAMCHON_FRAMEWORK_API FTFactory
+		class FTFactory
 		{
 		protected:
 			/**
@@ -24,7 +24,7 @@ namespace samchon
 			 *	\li key: uid
 			 *	\li value: pointer of file
 			 */
-			Map<int, FTFile*> fileMap;
+			Map<int, FTInstance*> instanceMap;
 
 		public:
 			/**
@@ -36,12 +36,12 @@ namespace samchon
 			/**
 			 * @brief Factory method of file
 			 */
-			virtual auto createFile(FTFolder*, std::shared_ptr<XML>) -> FTFile*;
+			virtual auto createFile(FTFolder*, std::shared_ptr<XML>) -> FTFile* = 0;
 		
 			/**
 			 * @brief Register file instance to map
 			 */
-			void registerFile(FTFile*);
+			void registerInstance(FTInstance*);
 		};
 	};
 };

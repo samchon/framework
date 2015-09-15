@@ -69,51 +69,54 @@ auto Server::end() const -> const_iterator
 void Server::addClient(tcp::socket *socket)
 {
 	thread([this, socket]()
+	{
+		//GET IP
+		std::string ip = socket->remote_endpoint().address().to_v4().to_string();
+			
+		unique_ptr<unique_lock<mutex>> uk(new unique_lock<mutex>(mtx));
+		if (ipMap.has(ip) == false)
+			ipMap.set
+			(
+				ip, 
+				shared_ptr<IPUserPair>(new IPUserPair(this, ip))
+			);
+
+		shared_ptr<IPUserPair> pair = ipMap.get(ip);
+		sequence++;
+		uk->unlock();
+
+		//GET SESSION_ID
+		std::string &sessionID = pair->getSessionID(socket, sequence);
+			
+		uk->lock();
+
+		//FAILED TO GET SESSION ID
+		if (sessionID.empty() == true)
 		{
-			//GET IP
-			std::string ip = socket->remote_endpoint().address().to_v4().to_string();
+			//ERASE PAIR FROM CONTAINER
+			if (pair->userSet.size() == 1)
+				ipMap.erase(ip);
 			
-			unique_ptr<unique_lock<mutex>> uk(new unique_lock<mutex>(mtx));
-			if (ipMap.has(ip) == false)
-				ipMap.insert({ip, make_shared<IPUserPair>(this, ip)});
-
-			shared_ptr<IPUserPair> pair = ipMap.get(ip);
-			sequence++;
-			uk->unlock();
-
-			//GET SESSION_ID
-			String &sessionID = pair->getSessionID(socket, sequence);
-			
-			uk->lock();
-
-			//FAILED TO GET SESSION ID
-			if (sessionID.empty() == true)
-			{
-				//ERASE PAIR FROM CONTAINER
-				if (pair->userSet.size() == 1)
-					ipMap.erase(ip);
-
-				return;
-			}
-
-			iterator it = find(sessionID);
-			if (it == end())
-			{
-				//CREATE USER AND LINK CONNECTION BY PAIR
-				SmartPointer<User> user( createUser(sessionID) );
-				user->ipPair = pair.get();
-				pair->userSet.insert(user.get());
-
-				it = insert({ sessionID, user }).first;
-			}
-			uk.reset(nullptr);
-
-			//WILL HOLD A THREAD
-			it->second->addClient(socket);
+			return;
 		}
-	).detach();
+
+		iterator it = find(sessionID);
+		if (it == end())
+		{
+			//CREATE USER AND LINK CONNECTION BY PAIR
+			SmartPointer<User> user( createUser(sessionID) );
+			user->ipPair = pair.get();
+			pair->userSet.insert(user.get());
+
+			it = insert({ sessionID, user }).first;
+		}
+		uk.reset(nullptr);
+
+		//WILL HOLD A THREAD
+		it->second->addClient(socket);
+	}).detach();
 }
-void Server::eraseUser(const String &session)
+void Server::eraseUser(const std::string &session)
 {
 	Sleep(15 * 1000);
 

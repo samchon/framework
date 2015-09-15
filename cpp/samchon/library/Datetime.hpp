@@ -13,7 +13,7 @@ namespace samchon
 		*
 		* \par [Inherited] @copydoc library::Date
 		*/
-		class SAMCHON_FRAMEWORK_API Datetime
+		class  Datetime
 			: public Date
 		{
 		private:
@@ -55,12 +55,12 @@ namespace samchon
 			Datetime(int year, int month, int date, int hour = 0, int min = 0, int sec = 0);
 			
 			/**
-			 * @brief Construct from String
+			 * @brief Construct from std::string
 			 * 
 			 * @param str A string expressing the date. (1991-01-01 09:27:03)
 			 * @throw invalid_argument parameter is out of its own range.
 			 */
-			Datetime(const String &);
+			Datetime(const std::string &);
 			
 			/**
 			 * @brief Construct from WeakString
@@ -225,11 +225,11 @@ namespace samchon
 				EXPORTERS
 			-------------------------------------------------------------------------- */
 			/**
-			* @brief Converts the Datetime to String
+			* @brief Converts the Datetime to std::string
 			* 
-			* @return String expressing the Datetime
+			* @return std::string expressing the Datetime
 			*/
-			virtual auto toString() const -> String;
+			virtual auto toString() const -> std::string;
 		};
 	};
 };

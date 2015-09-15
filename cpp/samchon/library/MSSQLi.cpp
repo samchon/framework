@@ -5,17 +5,9 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 
-auto MSSQLi::DRIVER() const -> String
-{
-	return _T("{SQL Server}");
-}
-auto MSSQLi::PORT() const -> long
-{
-	return 1433;
-}
-
-MSSQLi::MSSQLi()
-	: SQLi() {}
+MSSQLi::MSSQLi(int port)
+	: SQLi("{SQL Server}", port) 
+{}
 MSSQLi::~MSSQLi() {}
 
 auto MSSQLi::createStatement() -> shared_ptr<SQLStatement>

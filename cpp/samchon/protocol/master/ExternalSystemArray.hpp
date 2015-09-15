@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon\API.hpp>
+
 
 #include <samchon/protocol/SharedEntityArray.hpp>
 #include <samchon/protocol/IProtocol.hpp>
@@ -20,7 +20,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class SAMCHON_FRAMEWORK_API ExternalSystemArray
+			class  ExternalSystemArray
 				: public virtual SharedEntityArray,
 				public virtual IProtocol
 			{
@@ -28,8 +28,8 @@ namespace samchon
 				typedef SharedEntityArray super;
 
 			protected:
-				virtual auto TAG() const -> String;
-				virtual auto CHILD_TAG() const -> String;
+				virtual auto TAG() const -> std::string;
+				virtual auto CHILD_TAG() const -> std::string;
 
 			public:
 				/**
@@ -49,8 +49,8 @@ namespace samchon
 				virtual auto createRole(std::shared_ptr<library::XML>) -> ExternalSystemRole* = NULL;
 
 				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(ExternalSystem)
-				auto hasRole(const String&) const -> bool;
-				auto getRole(const String&) const -> ExternalSystemRole*;
+				auto hasRole(const std::string&) const -> bool;
+				auto getRole(const std::string&) const -> ExternalSystemRole*;
 
 			public:
 				/**

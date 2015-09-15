@@ -10,7 +10,7 @@ namespace samchon
 		{
 			class ExternalClientArrayMediator;
 
-			class SAMCHON_FRAMEWORK_API MediatorClientSocket
+			class  MediatorClientSocket
 				: public MediatorSocket,
 				public virtual ServerConnector
 			{
@@ -18,8 +18,8 @@ namespace samchon
 				typedef MediatorSocket super;
 
 			protected:
-				virtual auto IP() const -> String;
-				virtual auto MY_IP() const -> String;
+				virtual auto IP() const -> std::string;
+				virtual auto MY_IP() const -> std::string;
 				virtual auto PORT() const -> int;
 
 			public:

@@ -9,7 +9,7 @@ namespace samchon
 		{
 			class MediatorSocket;
 
-			class SAMCHON_FRAMEWORK_API ExternalSystemArrayMediator
+			class  ExternalSystemArrayMediator
 				: public virtual ExternalSystemArray
 			{
 				friend class MediatorSocket;

@@ -46,7 +46,7 @@ public:
 	auto calcDistance(const Branch&) const -> double;
 
 	/**
-	 * @brief Convert the Branch to String
+	 * @brief Convert the Branch to std::string
 	 *
 	 * @details Have of form of tab and enter delimeters for Excel.
 	 *  \li <pre> {$uid}	{$longitude}	{$latitude} </pre>

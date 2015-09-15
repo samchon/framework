@@ -1,16 +1,14 @@
 #pragma once
-#include <samchon/API.hpp>
-#include <samchon/String.hpp>
-
 #include <samchon/library/IOperator.hpp>
 
+#include <string>
 #include <vector>
 #include <samchon/IndexPair.hpp>
 
 namespace samchon
 {
 	/**
-	 * @brief String class only references characeters, reference only
+	 * @brief std::string class only references characeters, reference only
 	 *
 	 * @details
 	 * WeakSring does not consider any construction, modification and destruction of characters.
@@ -18,20 +16,20 @@ namespace samchon
 	 * but of course, you can't modify the characeters at all.
 	 *
 	 * @warning
-	 * \li WeakString not copy(strcpy) characeters but only references characeters.\n
+	 * \li WeakString not copy(strcpy) characeters but only references characeters.
 	 *	   Be careful about destruction of the characters being referenced by the WeakString
-	 * \li WeakString will be used for basic data type in most case.\n
+	 * \li WeakString will be used for basic data type in most case.
 	 *	   Avoid to use WeakString by pre-definition in header (*.hpp)
 	 *
 	 * @author Jeongho Nam
 	 */
-	class SAMCHON_FRAMEWORK_API WeakString
+	class WeakString
 	{
 	private:
 		/**
 		 * @brief An array containing whitespaces
 		 */
-		static const std::vector<String> SPACE_ARRAY;
+		static const std::vector<std::string> SPACE_ARRAY;
 
 	public:
 		/**
@@ -52,7 +50,7 @@ namespace samchon
 		/**
 		 * @brief Referenced characters's pointer of begining position
 		 */
-		const TCHAR *data_;
+		const char *data_;
 
 		/**
 		 * @brief (Specified) size of referenced characters
@@ -88,7 +86,7 @@ namespace samchon
 		 *	<p> Specified limit-size of characters to be referenced. </p>
 		 *	<p> If the specified size is greater than original size, it will be ignored </p>
 		 */
-		WeakString(const TCHAR *data, size_t size);
+		WeakString(const char *data, size_t size);
 
 		/**
 		 * @brief
@@ -109,7 +107,7 @@ namespace samchon
 		 *	<p> Specified end point of characters to be referenced. </p>
 		 *	<p> If the specified end point is greater than original end point, it will be ignored. </p>
 		 */
-		WeakString(const TCHAR *begin, const TCHAR *end);
+		WeakString(const char *begin, const char *end);
 
 		/**
 		 * @brief Constructor by characters
@@ -118,7 +116,7 @@ namespace samchon
 		 * @warning WeakString only references. Be careful about destruction of the characeters (data)
 		 * @param data Target characters to be referenced by string
 		 */
-		WeakString(const TCHAR *data);
+		WeakString(const char *data);
 
 		/**
 		 * @brief Constructor by a single character
@@ -127,7 +125,7 @@ namespace samchon
 		 * @warning WeakString only references. Be careful about destruction of the characeter (data)
 		 * @param ch Target character to be referenced by string
 		 */
-		WeakString(const TCHAR &ch);
+		WeakString(const char &ch);
 
 		/**
 		* @brief Constructor by a initializer list
@@ -136,7 +134,7 @@ namespace samchon
 		* @warning WeakString only references. Be careful about destruction of the characeters (data)
 		* @param il Target initializer list of characters to be referenced by string
 		*/
-		WeakString(std::initializer_list<TCHAR> &il);
+		WeakString(std::initializer_list<char> &il);
 
 		/**
 		 * @brief Constructor by string
@@ -145,7 +143,7 @@ namespace samchon
 		 * @warning WeakString only references. Be careful about destruction of the string
 		 * @param str Target string to be referenced by string
 		 */
-		WeakString(const String &str);
+		WeakString(const std::string &str);
 
 		/* --------------------------------------------------------------------
 			ELEMENT ACCESSORS
@@ -161,7 +159,7 @@ namespace samchon
 		 *			if the string references only a part of the characters
 		 * @return A pointer of characters being referenced by the string
 		 */
-		auto data() const -> const TCHAR*;
+		auto data() const -> const char*;
 
 		/**
 		 * @brief Returns size of the characters which are being referenced
@@ -188,12 +186,12 @@ namespace samchon
 		 *
 		 * @return const reference of character at the specified index
 		 */
-		auto at(size_t index) const -> const TCHAR&;
+		auto at(size_t index) const -> const char&;
 
 		/**
 		 * @copydoc WeakString::at()
 		 */
-		auto operator[](size_t index) const -> const TCHAR&;
+		auto operator[](size_t index) const -> const char&;
 
 		/* --------------------------------------------------------------------
 		FINDERS
@@ -240,7 +238,7 @@ namespace samchon
 		 * @param startIndex Specified starting index of find. Default is 0
 		 * @return pair\<size_t := position, string := matched substring\>
 		 */
-		auto finds(const std::vector<String> &delims, size_t startIndex = 0) const -> IndexPair<WeakString>;
+		auto finds(const std::vector<std::string> &delims, size_t startIndex = 0) const -> IndexPair<WeakString>;
 		auto finds(const std::vector<WeakString> &delims, size_t startIndex = 0) const -> IndexPair<WeakString>;
 
 		/**
@@ -258,7 +256,7 @@ namespace samchon
 		 * @param endIndex Specified starting index of find. Default is size() - 1
 		 * @return pair\<size_t := position, string := matched substring\>
 		 */
-		auto rfinds(const std::vector<String> &delims, size_t endIndex = SIZE_MAX) const -> IndexPair<WeakString>;
+		auto rfinds(const std::vector<std::string> &delims, size_t endIndex = SIZE_MAX) const -> IndexPair<WeakString>;
 		auto rfinds(const std::vector<WeakString> &delims, size_t endIndex = SIZE_MAX) const -> IndexPair<WeakString>;
 
 		/* --------------------------------------------------------------------
@@ -361,7 +359,7 @@ namespace samchon
 		 * @param delims Designated character(s)
 		 * @return Updated string where designated characters was removed from the beginning and end
 		 */
-		auto trim(const std::vector<String> &delims) const -> WeakString;
+		auto trim(const std::vector<std::string> &delims) const -> WeakString;
 		
 		/**
 		 * @brief Removes all designated characters from the beginning of the specified string
@@ -369,7 +367,7 @@ namespace samchon
 		 * @param delims Designated character(s)
 		 * @return Updated string where designated characters was removed from the beginning
 		 */
-		auto ltrim(const std::vector<String> &delims) const -> WeakString;
+		auto ltrim(const std::vector<std::string> &delims) const -> WeakString;
 		
 		/**
 		 * @brief Removes all designated characters from the end of the specified string
@@ -377,7 +375,7 @@ namespace samchon
 		 * @param delims Designated character(s)
 		 * @return Updated string where designated characters was removed from the end
 		 */
-		auto rtrim(const std::vector<String> &delims) const -> WeakString;
+		auto rtrim(const std::vector<std::string> &delims) const -> WeakString;
 
 		auto trim() const -> WeakString;
 		auto ltrim() const -> WeakString;
@@ -401,7 +399,7 @@ namespace samchon
 		 * @param after A specific word you want to replace
 		 * @return A string specific word is replaced once
 		 */
-		auto replace(const WeakString &before, const WeakString &after) const -> String;
+		auto replace(const WeakString &before, const WeakString &after) const -> std::string;
 
 		/**
 		 * @brief Returns a string specified word is replaced
@@ -410,7 +408,7 @@ namespace samchon
 		 * @param after A specific word you want to replace
 		 * @return A string specified word is replaced
 		 */
-		auto replaceAll(const WeakString &before, const WeakString &after) const -> String;
+		auto replaceAll(const WeakString &before, const WeakString &after) const -> std::string;
 
 		/**
 		 * @brief Returns a string specified words are replaced
@@ -419,8 +417,8 @@ namespace samchon
 		 * @param pairs A specific word's pairs you want to replace and to be replaced
 		 * @return A string specified words are replaced
 		 */
-		auto replaceAll(const std::vector<std::pair<String, String>> &pairs) const -> String;
-		auto replaceAll(const std::vector<std::pair<WeakString, WeakString>> &pairs) const -> String;
+		auto replaceAll(const std::vector<std::pair<std::string, std::string>> &pairs) const -> std::string;
+		auto replaceAll(const std::vector<std::pair<WeakString, WeakString>> &pairs) const -> std::string;
 
 		/**
 		 * @brief Convert uppercase letters to lowercase
@@ -429,7 +427,7 @@ namespace samchon
 		 * @param wstr Target string to convert uppercase to lowercase
 		 * @return A string converted to lowercase
 		 */
-		auto toLowerCase() const -> String;
+		auto toLowerCase() const -> std::string;
 
 		/**
 		 * @brief Convert uppercase letters to lowercase
@@ -438,7 +436,7 @@ namespace samchon
 		 * @param str Target string to convert lowercase to uppercase
 		 * @return A string converted to uppercase
 		 */
-		auto toUpperCase() const -> String;
+		auto toUpperCase() const -> std::string;
 
 		/* --------------------------------------------------------------------
 			COMPARISONS
@@ -456,7 +454,7 @@ namespace samchon
 		 *
 		 * @return A new string copied from the WeakString
 		 */
-		auto str() const -> String;
-		operator String();
+		auto str() const -> std::string;
+		operator std::string();
 	};
 };

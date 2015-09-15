@@ -1,9 +1,8 @@
 #pragma once
-#include <samchon\API.hpp>
 
 #include <memory>
 #include <mutex>
-#include <samchon/String.hpp>
+#include <string>
 
 namespace samchon
 {
@@ -14,12 +13,11 @@ namespace samchon
 		/**
 		 * @brief SQL interface; DBMS connector
 		 *
-		 * @details
-		 * SQLi is an utility class for connecting to the DBMS
+		 * @details SQLi is an utility class for connecting to the DBMS
 		 * 
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API SQLi
+		class  SQLi
 		{
 		friend class SQLStatement;
 		
@@ -32,7 +30,7 @@ namespace samchon
 			 *	\li MS-SQL: \"{SQL Server}\"
 			 *	\li PL-SQL: \"{Oracle}\"
 			 */
-			String driver;
+			std::string driver;
 
 			/**
 			 * @brief Port number of DBMS
@@ -72,7 +70,7 @@ namespace samchon
 			 * @param driver Driver name of DBMS
 			 * @param port Port number of DBMS
 			 */
-			SQLi(const String &driver, int port);
+			SQLi(const std::string &driver, int port);
 			virtual ~SQLi();
 
 			/**
@@ -87,8 +85,8 @@ namespace samchon
 			 */
 			virtual void connect
 			(
-				const String &ip, const String &db,
-				const String &id, const String &pwd
+				const std::string &ip, const std::string &db,
+				const std::string &id, const std::string &pwd
 			);
 
 			/**

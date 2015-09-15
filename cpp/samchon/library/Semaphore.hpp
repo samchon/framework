@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon\API.hpp>
+
 
 namespace std
 {
@@ -15,7 +15,7 @@ namespace samchon
 		 *
 		 * 
 		 */
-		class SAMCHON_FRAMEWORK_API Semaphore
+		class  Semaphore
 		{
 		private:
 			/**

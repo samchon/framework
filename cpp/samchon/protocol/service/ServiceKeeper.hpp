@@ -1,5 +1,4 @@
 #pragma once
-#include <samchon\API.hpp>
 
 #include <samchon/SmartPointer.hpp>
 
@@ -28,7 +27,7 @@ namespace samchon
 			 * @see SmartPointer
 			 * @author Jeongho Nam
 			 */
-			class SAMCHON_FRAMEWORK_API ServiceKeeper
+			class ServiceKeeper
 			{
 			private:
 				/**

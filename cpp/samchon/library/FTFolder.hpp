@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon/library/IFTFile.hpp>
+#include <samchon/library/FTInstance.hpp>
 #include <samchon/protocol/SharedEntityArray.hpp>
 
 namespace samchon
@@ -13,16 +13,16 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API FTFolder
-			: public IFTFile,
+		class FTFolder
+			: public FTInstance,
 			public virtual protocol::SharedEntityArray
 		{
 		private:
-			typedef IFTFile super;
+			typedef FTInstance super;
 
 		protected:
-			virtual auto TAG() const -> String;
-			virtual auto CHILD_TAG() const -> String;
+			virtual auto TAG() const -> std::string override;
+			virtual auto CHILD_TAG() const -> std::string override;
 			
 			/**
 			 * @brief Factory instance for creating sub files
@@ -39,15 +39,15 @@ namespace samchon
 			FTFolder(FTFactory*, FTFolder*);
 			virtual ~FTFolder() = default;
 
-			virtual void construct(std::shared_ptr<library::XML> xml);
+			virtual void construct(std::shared_ptr<library::XML> xml) override;
 
 		protected:
-			virtual auto createChild(std::shared_ptr<library::XML>) -> protocol::Entity*;
+			virtual auto createChild(std::shared_ptr<library::XML>) -> protocol::Entity* override;
 
 		public:
-			SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(IFTFile)
+			SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(FTInstance)
 
-			virtual auto toXML() const -> std::shared_ptr<library::XML>;
+			virtual auto toXML() const -> std::shared_ptr<library::XML> override;
 		};
 	};
 };

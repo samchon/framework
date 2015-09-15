@@ -7,7 +7,7 @@ namespace samchon
 	{
 		class SQLStatement;
 
-		class SAMCHON_FRAMEWORK_API SQLLiteConnector
+		class  SQLLiteConnector
 			: public SQLi
 		{
 		public:

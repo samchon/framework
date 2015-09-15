@@ -1,8 +1,8 @@
 #pragma once
-#include <samchon/API.hpp>
+
 #include <samchon/library/Event.hpp>
 
-#include <samchon/String.hpp>
+#include <string>
 
 namespace samchon
 {
@@ -14,7 +14,7 @@ namespace samchon
 		 * @details [Inherited]
 		 * @copydoc Event
 		 */
-		class SAMCHON_FRAMEWORK_API ErrorEvent 
+		class  ErrorEvent 
 			: public Event
 		{
 		public:
@@ -25,9 +25,9 @@ namespace samchon
 
 		protected:
 			/**
-			 * @brief Error id (enumeration)
+			 * @brief Error message
 			 */
-			std::string id;
+			std::string message;
 
 		public:
 			/**
@@ -37,13 +37,13 @@ namespace samchon
 			 * @param source Source of the event; who made the event
 			 * @param id An error-id
 			 */
-			ErrorEvent(EventDispatcher *, int);
+			ErrorEvent(EventDispatcher *, const std::string &);
 			virtual ~ErrorEvent() = default;
 
 			/**
 			 * @brief Get error-id
 			 */
-			auto getID() const -> int;
+			auto getMessage() const -> std::string;
 		};
 	};
 };

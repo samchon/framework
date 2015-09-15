@@ -9,7 +9,7 @@ namespace samchon
 		 * @brief Factorical case generator
 		 * @details n! = nPn
 		 */
-		class SAMCHON_FRAMEWORK_API FactorialGenerator
+		class FactorialGenerator
 			: public PermutationGenerator
 		{
 		private:

@@ -13,8 +13,8 @@ using namespace samchon::library;
 using namespace samchon::protocol;
 using namespace samchon::namtree;
 
-auto NTCriteria::TAG() const -> String { return _T("criteria"); }
-auto NTCriteria::CHILD_TAG() const -> String { return _T("criteria"); }
+auto NTCriteria::TAG() const -> string { return "criteria"; }
+auto NTCriteria::CHILD_TAG() const -> string { return "criteria"; }
 
 NTCriteria::NTCriteria(NTFactory *factory, NTCriteria *parent)
 	: super()
@@ -35,11 +35,11 @@ void NTCriteria::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	leftSide->construct(xml->get(_T("side"))->at(0));
-	rightSide->construct(xml->get(_T("side"))->at(1));
+	leftSide->construct(xml->get("side")->at(0));
+	rightSide->construct(xml->get("side")->at(1));
 
-	operator_ = xml->getProperty<int>(_T("operator"));
-	weight = xml->getProperty<int>(_T("weight"));
+	operator_ = xml->getProperty<int>("operator");
+	weight = xml->getProperty<int>("weight");
 }
 auto NTCriteria::createChild(shared_ptr<XML> xml) -> Entity*
 {
@@ -75,8 +75,8 @@ auto NTCriteria::toXML() const -> shared_ptr<XML>
 	xml->push_back( leftSide->toXML() );
 	xml->push_back( rightSide->toXML() );
 
-	xml->setProperty(_T("operator"), operator_);
-	xml->setProperty(_T("weight"), weight);
+	xml->setProperty("operator", operator_);
+	xml->setProperty("weight", weight);
 
 	return xml;
 }

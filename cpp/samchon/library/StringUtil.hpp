@@ -1,7 +1,7 @@
 #pragma once
-#include <samchon\API.hpp>
 
-#include <samchon/String.hpp>
+
+#include <string>
 #include <samchon/WeakString.hpp>
 
 #include <sstream>
@@ -16,19 +16,19 @@ namespace samchon
 		 * @brief Utility class for string 
 		 * 
 		 * @details 
-		 * <p> StringUtil is an utility class providing lots of static methods for String. </p>
+		 * <p> StringUtil is an utility class providing lots of static methods for std::string. </p>
 		 * 
 		 * <p> There are two methods to strength std::string to have addictional uility methods like trim and split. 
-		 * The way of first is to make String class inheriting from std::string. 
+		 * The way of first is to make std::string class inheriting from std::string. 
 		 * The second is to make StringUtil class having static methods. </p>
 		 *
-		 * <p> But those methods have problems. String class violates standard and StringUtil class violates 
+		 * <p> But those methods have problems. std::string class violates standard and StringUtil class violates 
 		 * principle of Object-Oriented Design. For the present, I've made the StringUtil class, but if you 
 		 * have a good opinion about the issue, please write your opinion on my github. </p>
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API StringUtil
+		class StringUtil
 		{
 		public:
 			/* ----------------------------------------------------------------------
@@ -46,13 +46,13 @@ namespace samchon
 			 * @return New string with all of the {n} tokens replaced with the respective arguments specified.
 			 */
 			template <typename _Ty, typename ... _Args>
-			static auto substitute(const String &format,
-				const _Ty& val, const _Args& ... args) -> String
+			static auto substitute(const std::string &format,
+				const _Ty& val, const _Args& ... args) -> std::string
 			{
-				String &res = _substitute(format, val);
+				std::string &res = _substitute(format, val);
 				return StringUtil::substitute(res, args...);
 			};
-			template <typename _Ty> static auto substitute(const String &format, const _Ty& val) -> String
+			template <typename _Ty> static auto substitute(const std::string &format, const _Ty& val) -> std::string
 			{
 				return _substitute(format, val);
 			};
@@ -71,77 +71,77 @@ namespace samchon
 			 * @return New sql-string with all of the {n} tokens replaced with the respective arguments specified.
 			 */
 			template <typename _Ty, typename ... _Args >
-			static auto substituteSQL(const String &format,
-				const _Ty& value, const _Args& ... args) -> String
+			static auto substituteSQL(const std::string &format,
+				const _Ty& value, const _Args& ... args) -> std::string
 			{
-				String &res = _substituteSQL(format, value);
+				std::string &res = _substituteSQL(format, value);
 				return StringUtil::substituteSQL(res, args...);
 			};
-			template <typename _Ty> static auto substituteSQL(const String &format, const _Ty& value) -> String
+			template <typename _Ty> static auto substituteSQL(const std::string &format, const _Ty& value) -> std::string
 			{
 				return _substituteSQL(format, value);
 			};
 
 		protected:
-			template <typename _Ty> static auto _substitute(const String &format, const _Ty& value) -> String
+			template <typename _Ty> static auto _substitute(const std::string &format, const _Ty& value) -> std::string
 			{
-				std::vector<String> &parenthesisArray = betweens(format, { (TCHAR)'{' }, { (TCHAR)'}' });
+				std::vector<std::string> &parenthesisArray = betweens(format, { (char)'{' }, { (char)'}' });
 				std::vector<long> vec;
 
 				for (auto it = parenthesisArray.begin(); it != parenthesisArray.end(); it++)
 					if (isNumeric(*it) == true)
 						vec.push_back(stoi(*it));
 
-				size_t index = (size_t)Math::min(vec).getValue();
+				size_t index = (size_t)Math::minimum(vec).getValue();
 
 				//replaceAll
-				String &to = toString(value);
-				return replaceAll(format, (TCHAR)'{' + toString(index) + (TCHAR)'}', to);
+				std::string &to = toString(value);
+				return replaceAll(format, "{" + toString(index) + "}", to);
 			};
-			template <typename _Ty> static auto _substituteSQL(const String &format, const _Ty& value) -> String
+			template <typename _Ty> static auto _substituteSQL(const std::string &format, const _Ty& value) -> std::string
 			{
-				std::vector<String> &parenthesisArray = betweens(format, { (TCHAR)'{' }, { (TCHAR)'}' });
+				std::vector<std::string> &parenthesisArray = betweens(format, "{", "}");
 				std::vector<long> vec;
 
 				for (auto it = parenthesisArray.begin(); it != parenthesisArray.end(); it++)
 					if (isNumeric(*it) == true)
 						vec.push_back(stoi(*it));
 
-				size_t index = (size_t)Math::min(vec).getValue();
+				size_t index = (size_t)Math::minimum(vec).getValue();
 
 				//replaceAll
-				String &to = toSQL(value);
-				return replaceAll(format, (TCHAR)'{' + toString(index) + (TCHAR)'}', to);
+				std::string &to = toSQL(value);
+				return replaceAll(format, "{" + toString(index) + "}", to);
 			};
 
 			/* ----------------------------------------------------------------------
 				SUBSTITUTE -> TO_STRING
 			---------------------------------------------------------------------- */
 			template <typename _Ty> 
-			static auto toString(const _Ty &val) -> String
+			static auto toString(const _Ty &val) -> std::string
 			{
-				std::basic_stringstream<TCHAR> stream;
+				std::basic_stringstream<char> stream;
 				stream << val;
 
 				return move(stream.str());
 			};
-			template<> static auto toString(const WeakString &str) -> String;
+			template<> static auto toString(const WeakString &str) -> std::string;
 
 			template <typename _Ty>
-			static auto toSQL(const _Ty &val) -> String
+			static auto toSQL(const _Ty &val) -> std::string
 			{
 				if (val == INT_MIN)
-					return _T("NULL");
+					return "NULL";
 
-				std::basic_stringstream<TCHAR> stream;
+				std::basic_stringstream<char> stream;
 				stream << val;
 
 				return move(stream.str());
 			};
-			template<> static auto toSQL(const bool &flag) -> String;
-			template<> static auto toSQL(const TCHAR &val) -> String;
-			template<> static auto toSQL(const String &str) -> String;
-			template<> static auto toSQL(const WeakString &str) -> String;
+			template<> static auto toSQL(const bool &flag) -> std::string;
+			template<> static auto toSQL(const char &val) -> std::string;
+			template<> static auto toSQL(const std::string &str) -> std::string;
+			template<> static auto toSQL(const WeakString &str) -> std::string;
 
 		public:
 			/* ----------------------------------------------------------------------
@@ -154,20 +154,20 @@ namespace samchon
 					ZERO IS BLACK
 			---------------------------------------------------------------------- */
 			/**
-			 * @brief Returns wheter the String represents Number or not\n
+			 * @brief Returns wheter the std::string represents Number or not\n
 			 *
-			 * @param str Target String to check
-			 * @return Whether the String can be converted to Number or not
+			 * @param str Target std::string to check
+			 * @return Whether the std::string can be converted to Number or not
 			 */
-			static auto isNumeric(const String &str) -> bool;
+			static auto isNumeric(const std::string &str) -> bool;
 
 			/**
-			 * @brief Number String to Number having ',' symbols
+			 * @brief Number std::string to Number having ',' symbols
 			 *
-			 * @param str Target String you want to convert to Number
-			 * @return Number from String
+			 * @param str Target std::string you want to convert to Number
+			 * @return Number from std::string
 			 */
-			static auto toNumber(const String &str) -> double;
+			static auto toNumber(const std::string &str) -> double;
 
 			/**
 			 * @brief 
@@ -180,7 +180,7 @@ namespace samchon
 			 * @param precision Target precision of roundoff
 			 * @return A string representing the number with roundoff and &quot;,&quot; symbols
 			 */
-			static auto numberFormat(double val, int precision = 2) -> String;
+			static auto numberFormat(double val, int precision = 2) -> std::string;
 			
 			/**
 			 * @brief
@@ -191,7 +191,7 @@ namespace samchon
 			 * @param val A number wants to convert to percentage string
 			 * @param precision Target precision of roundoff
 			 */
-			static auto percentFormat(double val, int precision = 2) -> String;
+			static auto percentFormat(double val, int precision = 2) -> std::string;
 
 			/**
 			 * @brief
@@ -208,7 +208,7 @@ namespace samchon
 			 * @param precision Target precision of roundoff
 			 * @return A colored string representing the number with roundoff and &quot;,&quot; symbols
 			 */
-			static auto colorNumberFormat(double value, int precision = 2, double delimiter = 0.0) -> String;
+			static auto colorNumberFormat(double value, int precision = 2, double delimiter = 0.0) -> std::string;
 			
 			/**
 			 * @brief Returns a percentage string converted from the number rounded off from specified precision with &quot;,&quot; symbols\n
@@ -218,7 +218,7 @@ namespace samchon
 			 * @param val A number wants to convert to percentage string
 			 * @param precision Target precision of roundoff
 			 */
-			static auto colorPercentFormat(double value, int precision = 2, double delimiter = 0.0) -> String;
+			static auto colorPercentFormat(double value, int precision = 2, double delimiter = 0.0) -> std::string;
 
 			/* ----------------------------------------------------------------------
 				TRIM -> WITH LTRIM & RTRIM
@@ -231,7 +231,7 @@ namespace samchon
 			 * @param delims Designated character(s)
 			 * @return Updated string where designated characters was removed from the beginning and end
 			 */
-			static auto trim(const String &val, const std::vector<String> &delims) -> String;
+			static auto trim(const std::string &val, const std::vector<std::string> &delims) -> std::string;
 			
 			/**
 			 * @brief Removes all designated characters from the beginning of the specified string
@@ -240,7 +240,7 @@ namespace samchon
 			 * @param delims Designated character(s)
 			 * @return Updated string where designated characters was removed from the beginning
 			 */
-			static auto ltrim(const String &val, const std::vector<String> &delims) -> String;
+			static auto ltrim(const std::string &val, const std::vector<std::string> &delims) -> std::string;
 			
 			/**
 			 * @brief Removes all designated characters from the end of the specified string
@@ -249,15 +249,15 @@ namespace samchon
 			 * @param delims Designated character(s)
 			 * @return Updated string where designated characters was removed from the end
 			 */
-			static auto rtrim(const String &val, const std::vector<String> &delims) -> String;
+			static auto rtrim(const std::string &val, const std::vector<std::string> &delims) -> std::string;
 
-			static auto trim(const String &str) -> String;
-			static auto ltrim(const String &str) -> String;
-			static auto rtrim(const String &str) -> String;
+			static auto trim(const std::string &str) -> std::string;
+			static auto ltrim(const std::string &str) -> std::string;
+			static auto rtrim(const std::string &str) -> std::string;
 
-			static auto trim(const String &str, const String &delim) -> String;
-			static auto ltrim(const String &str, const String &delim) -> String;
-			static auto rtrim(const String &str, const String &delim) -> String;
+			static auto trim(const std::string &str, const std::string &delim) -> std::string;
+			static auto ltrim(const std::string &str, const std::string &delim) -> std::string;
+			static auto rtrim(const std::string &str, const std::string &delim) -> std::string;
 
 			/* ----------------------------------------------------------------------
 				EXTRACTORS
@@ -277,8 +277,8 @@ namespace samchon
 			 * @param startIndex Specified starting index of find. Default is 0
 			 * @return pair\<size_t := position, string := matched substring\>
 			 */
-			static auto finds(const String &str,
-				const std::vector<String> &delims, size_t startIndex = 0) -> IndexPair<String>;
+			static auto finds(const std::string &str,
+				const std::vector<std::string> &delims, size_t startIndex = 0) -> IndexPair<std::string>;
 			
 			/**
 			 * @brief Finds last occurence in string
@@ -295,8 +295,8 @@ namespace samchon
 			 * @param endIndex Specified starting index of find. Default is str.size() - 1
 			 * @return pair\<size_t := position, string := matched substring\>
 			*/
-			static auto rfinds(const String &str,
-				const std::vector<String> &delims, size_t endIndex = SIZE_MAX) -> IndexPair<String>;
+			static auto rfinds(const std::string &str,
+				const std::vector<std::string> &delims, size_t endIndex = SIZE_MAX) -> IndexPair<std::string>;
 
 			/**
 			 * @brief Generates a substring
@@ -313,8 +313,8 @@ namespace samchon
 							   If not specified, then string::size() will be used instead
 			 * @return Extracted string by specified index(es)
 			 */
-			static auto substring(const String &str, 
-				size_t startIndex, size_t endIndex = SIZE_MAX) -> String;
+			static auto substring(const std::string &str, 
+				size_t startIndex, size_t endIndex = SIZE_MAX) -> std::string;
 			
 			/**
 			 * @brief Generates a substring
@@ -333,8 +333,8 @@ namespace samchon
 			 * @param end A string for separating substring at the end
 			 * @return substring by specified terms
 			 */
-			static auto between(const String &str,
-				const String &start = _T(""), const String &end = _T("")) -> String;
+			static auto between(const std::string &str,
+				const std::string &start = "", const std::string &end = "") -> std::string;
 
 			//TAB
 			/**
@@ -344,7 +344,7 @@ namespace samchon
 			 * @param n The size of tab to be added for each line
 			 * @return A string added multiple tabs
 			 */
-			static auto addTab(const String &str, size_t n = 1) -> String;
+			static auto addTab(const std::string &str, size_t n = 1) -> std::string;
 
 			//MULTIPLE STRINGS
 			/**
@@ -355,7 +355,7 @@ namespace samchon
 			 * @param delim The pattern that specifies where to split this string
 			 * @return An array of substrings
 			 */
-			static auto split(const String &str, const String &delim) -> std::vector<String>;
+			static auto split(const std::string &str, const std::string &delim) -> std::vector<std::string>;
 			
 			/**
 			 * @brief Generates substrings
@@ -375,8 +375,8 @@ namespace samchon
 			 *			  If omitted, it's same with split(start) not having first item
 			 * @return An array of substrings
 			 */
-			static auto betweens(const String &str,
-				const String &start = _T(""), const String &end = _T("")) -> std::vector<String>;
+			static auto betweens(const std::string &str,
+				const std::string &start = "", const std::string &end = "") -> std::vector<std::string>;
 
 			/* ----------------------------------------------------------------------
 				REPLACERS
@@ -387,7 +387,7 @@ namespace samchon
 			 * @param str Target string to convert uppercase to lowercase
 			 * @return A string converted to lowercase
 			 */
-			static auto toLowerCase(const String &str) -> String;
+			static auto toLowerCase(const std::string &str) -> std::string;
 			
 			/**
 			 * Returns a string all lowercase characters are converted to uppercase\n
@@ -395,7 +395,7 @@ namespace samchon
 			 * @param str Target string to convert lowercase to uppercase
 			 * @return A string converted to uppercase
 			 */
-			static auto toUpperCase(const String &str) -> String;
+			static auto toUpperCase(const std::string &str) -> std::string;
 
 			/**
 			 * @brief Returns a string specified word is replaced
@@ -405,8 +405,8 @@ namespace samchon
 			 * @param after Specific word you want to replace
 			 * @return A string specified word is replaced
 			 */
-			static auto replaceAll(const String &str,
-				const String &before, const String &after) -> String;
+			static auto replaceAll(const std::string &str,
+				const std::string &before, const std::string &after) -> std::string;
 			
 			/**
 			 * @brief Returns a string specified words are replaced
@@ -415,8 +415,8 @@ namespace samchon
 			 * @param pairs A specific word's pairs you want to replace and to be replaced
 			 * @return A string specified words are replaced
 			 */
-			static auto replaceAll(const String &str,
-				const std::vector<std::pair<String, String>> &pairs) -> String;
+			static auto replaceAll(const std::string &str,
+				const std::vector<std::pair<std::string, std::string>> &pairs) -> std::string;
 		};
 	};
 };

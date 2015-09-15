@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon\API.hpp>
+
 
 #include <samchon/protocol/SharedEntityArray.hpp>
 #include <samchon/protocol/IProtocol.hpp>
@@ -18,7 +18,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class SAMCHON_FRAMEWORK_API ExternalSystem
+			class  ExternalSystem
 				: public virtual SharedEntityArray,
 				public virtual IProtocol
 			{
@@ -26,13 +26,13 @@ namespace samchon
 				typedef SharedEntityArray super;
 
 			protected:
-				virtual auto TAG() const -> String;
-				virtual auto CHILD_TAG() const -> String;
+				virtual auto TAG() const -> std::string;
+				virtual auto CHILD_TAG() const -> std::string;
 
 				/**
 				 * @brief IP address of external system
 				 */
-				String ip;
+				std::string ip;
 				
 				/**
 				 * @brief Port number associated with external system

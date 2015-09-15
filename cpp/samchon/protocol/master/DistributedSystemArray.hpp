@@ -15,7 +15,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class SAMCHON_FRAMEWORK_API DistributedSystemArray
+			class  DistributedSystemArray
 				: public virtual ExternalSystemArray
 			{
 			private:

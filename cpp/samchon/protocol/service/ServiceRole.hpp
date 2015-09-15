@@ -1,8 +1,5 @@
 #pragma once
-#include <samchon/protocol/IProtocol.hpp>
-
-#include <samchon/protocol/Entity.hpp>
-#include <samchon/Set.hpp>
+#include <samchon/protocol/SystemRole.hpp>
 
 namespace samchon
 {
@@ -12,24 +9,17 @@ namespace samchon
 		{
 			class Service;
 
-			class SAMCHON_FRAMEWORK_API ServiceRole
-				: public IProtocol
+			class ServiceRole
+				: public SystemRole
 			{
+			private:
+				typedef SystemRole super;
+
 			protected:
 				/**
 				 * @brief Related service
 				 */
 				Service *service;
-
-				/**
-				 * @brief The name can represent the role
-				 */
-				String name;
-
-				/**
-				 * @brief Listeners handled by the ServiceRole
-				 */
-				Set<String> listenerSet;
 
 			public:
 				/**
@@ -38,10 +28,10 @@ namespace samchon
 				 * @param service A service the role is belonged to
 				 * @param name Name of the role
 				 */
-				ServiceRole(Service*, const String&);
+				ServiceRole(Service*, const std::string&);
 				virtual ~ServiceRole() = default;
 
-				virtual void sendData(std::shared_ptr<Invoke>);
+				virtual void sendData(std::shared_ptr<Invoke>) override;
 			};
 		};
 	};

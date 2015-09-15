@@ -8,8 +8,8 @@ using namespace samchon::library;
 using namespace samchon::protocol;
 using namespace samchon::namtree;
 
-auto NTParameterArray::TAG() const -> String { return _T("parameterArray"); }
-auto NTParameterArray::CHILD_TAG() const -> String { return _T("parameter"); }
+auto NTParameterArray::TAG() const -> string { return "parameterArray"; }
+auto NTParameterArray::CHILD_TAG() const -> string { return "parameter"; }
 
 NTParameterArray::NTParameterArray()
 	: super()

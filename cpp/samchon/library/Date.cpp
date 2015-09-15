@@ -49,11 +49,11 @@ void Date::set(const WeakString &wStr)
 	int year, month, date;
 
 	//시분초까지 있을 때
-	if (val.find(_T(" ")) != String::npos)
-		val = val.between(String(), _T(" "));
+	if (val.find(" ") != std::string::npos)
+		val = val.between(std::string(), " ");
 
 	//년월일 설정
-	vector<WeakString> &ymdVec = val.split(_T("-"));
+	vector<WeakString> &ymdVec = val.split("-");
 	year = stoi(ymdVec[0].str());
 	month = stoi(ymdVec[1].str());
 	date = stoi(ymdVec[2].str());
@@ -234,11 +234,11 @@ auto Date::toTM() const -> struct tm
 
 	return tm;
 }
-auto Date::toString() const -> String
+auto Date::toString() const -> std::string
 {
 	return StringUtil::substitute
 		(
-			_T("{1}-{2}-{3}"),
+			"{1}-{2}-{3}",
 			getYear(), getMonth(), getDate()
 		);
 }

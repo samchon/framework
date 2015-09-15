@@ -8,7 +8,6 @@
 #include <sql.h>
 #include <sqlext.h>
 
-#include <String>
 #include <memory>
 #include <mutex>
 
@@ -19,9 +18,12 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 
-SQLi::SQLi()
+SQLi::SQLi(const std::string &driver, int port)
 {
 	stmt = nullptr;
+
+	this->driver = driver;
+	this->port = port;
 }
 SQLi::~SQLi()
 {
@@ -33,7 +35,7 @@ auto SQLi::createStatement() -> shared_ptr<SQLStatement>
 	return shared_ptr<SQLStatement>(new SQLStatement(this));
 };
 
-void SQLi::connect(const String &ip, const String &db, const String &id, const String &pwd)
+void SQLi::connect(const std::string &ip, const std::string &db, const std::string &id, const std::string &pwd)
 {
 	unique_lock<mutex> uk(stmtMutex);
 	SQLRETURN res;
@@ -43,12 +45,12 @@ void SQLi::connect(const String &ip, const String &db, const String &id, const S
 		if ((res = SQLSetEnvAttr(environment, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0)) == SQL_SUCCESS)
 			if ((res = SQLAllocHandle(SQL_HANDLE_DBC, environment, &hdbc)) == SQL_SUCCESS)
 				res =
-				SQLDriverConnect
+				SQLDriverConnectA
 				(
 					hdbc, NULL,
-					(SQLTCHAR *)&StringUtil::substitute
+					(SQLCHAR *)&StringUtil::substitute
 					(
-						_T("DRIVER={0};SERVER={1}, {2};DATABASE={3};UID={4};PWD={5};"),
+						"DRIVER={0};SERVER={1}, {2};DATABASE={3};UID={4};PWD={5};",
 						driver, ip, port, db, id, pwd
 					)[0],
 					SQL_NTS, NULL, 1024, NULL, SQL_DRIVER_NOPROMPT

@@ -1,6 +1,4 @@
 #pragma once
-#include <samchon/API.hpp>
-
 #include <samchon/protocol/Entity.hpp>
 
 namespace samchon
@@ -14,14 +12,14 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API IFTFile
+		class FTInstance
 			: public virtual protocol::Entity
 		{
 		private:
 			typedef protocol::Entity super;
 
 		protected:
-			virtual auto TAG() const -> String;
+			virtual auto TAG() const -> std::string;
 
 			/**
 			 * @brief Parent folder containing the instance
@@ -36,12 +34,12 @@ namespace samchon
 			/**
 			 * @brief Name of the file
 			 */
-			String name;
+			std::string name;
 
 			/**
 			 * @brief Comment of the file
 			 */
-			String comment;
+			std::string comment;
 
 		public:
 			/* ========================================================
@@ -52,15 +50,15 @@ namespace samchon
 			 *
 			 * @param parent Parent folder that this instance is belonged to
 			 */
-			IFTFile(FTFolder*);
-			virtual ~IFTFile() = default;
+			FTInstance(FTFolder*);
+			virtual ~FTInstance() = default;
 
 			virtual void construct(std::shared_ptr<library::XML> xml);
 
 			/* ========================================================
 				GETTERS
 			======================================================== */
-			virtual auto key() const -> String;
+			virtual auto key() const -> std::string;
 
 			/**
 			 * @brief Get uid
@@ -75,12 +73,12 @@ namespace samchon
 			/**
 			 * @brief Get name
 			 */
-			auto getName() const -> String;
+			auto getName() const -> std::string;
 
 			/**
 			 * @brief Get comment
 			 */
-			auto getComment() const -> String;
+			auto getComment() const -> std::string;
 
 
 			/* ========================================================

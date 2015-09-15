@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon/API.hpp>
+
 
 /**
  * @brief Macro writing writing inline method of comparison operators
@@ -116,7 +116,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API IOperator
+		class IOperator
 		{
 		public:
 			/** 
@@ -132,7 +132,7 @@ namespace samchon
 			 * @param obj The object to compare.
 			 * @return The object is less than this.
 			 */
-			virtual auto operator<(const IOperator&) const -> bool = NULL;
+			virtual auto operator<(const IOperator&) const -> bool = 0;
 
 			/**
 			 * @brief Equal
@@ -141,7 +141,7 @@ namespace samchon
 			 * @param obj The object to compare.
 			 * @return The object is equal with this.
 			 */
-			virtual auto operator==(const IOperator&) const -> bool = NULL;
+			virtual auto operator==(const IOperator&) const -> bool = 0;
 
 			auto operator!=(const IOperator&) const -> bool;
 			auto operator<=(const IOperator&) const -> bool;

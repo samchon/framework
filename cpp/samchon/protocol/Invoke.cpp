@@ -10,37 +10,35 @@ using namespace samchon;
 using namespace samchon::library;
 using namespace samchon::protocol;
 
-Invoke::Invoke(const String &listener)
-		: VectorDictionary<InvokeParameter>()
+Invoke::Invoke(const std::string &listener)
+		: super()
 	{
 		this->listener = listener;
 	}
 	Invoke::Invoke(shared_ptr<XML> xml)
-		: Invoke(xml->getProperty(_T("listener")))
+		: Invoke(xml->getProperty("listener"))
 	{
-		if (xml->has(_T("parameter")) == false)
+		if (xml->has("parameter") == false)
 			return;
 
-		std::shared_ptr<XMLList> xmlList = xml->get(_T("parameter"));
-		for (auto it = xmlList->begin(); it != xmlList->end(); it++)
-			push_back(new InvokeParameter(*it));
+		std::shared_ptr<XMLList> xmlList = xml->get("parameter");
+		for (size_t i = 0; i < xmlList->size(); i++)
+			emplace_back(new InvokeParameter( xmlList->at(i) ));
 	}
 
-	auto Invoke::getListener() const -> String
+	auto Invoke::getListener() const -> std::string
 	{
 		return listener;
 	}
 
-	void Invoke::archive(shared_ptr<SQLStatement> stmt)
-	{
-		//stmt->prepare(_T("archive"));
-	}
-
+	/* -----------------------------------------------------------------------
+		EXPORTERS
+	----------------------------------------------------------------------- */
 	auto Invoke::toXML() const -> shared_ptr<XML>
 	{
 		std::shared_ptr<XML> xml(new XML());
-		xml->setTag(_T("invoke"));
-		xml->setProperty(_T("listener"), listener);
+		xml->setTag("invoke");
+		xml->setProperty("listener", listener);
 
 		std::shared_ptr<XMLList> xmlList(new XMLList());
 		xmlList->reserve(size());
@@ -48,18 +46,18 @@ Invoke::Invoke(const String &listener)
 		for (auto it = begin(); it != end(); it++)
 			xmlList->push_back((*it)->toXML());
 
-		xml->set(_T("parameter"), xmlList);
+		xml->set("parameter", xmlList);
 		return xml;
 	}
-	auto Invoke::toSQL() const -> String
+	auto Invoke::toSQL() const -> std::string
 	{
-		String sql = _T("DECLARE @parameterTable INVOKE_PARAMETER_INSERT_TABLE\n");
+		std::string sql = "DECLARE @parameterTable INVOKE_PARAMETER_INSERT_TABLE\n";
 		if (empty() == false)
 		{
-			sql += _T("INSERT INTO @parameterTable VALUES\n");
+			sql += "INSERT INTO @parameterTable VALUES\n";
 			for (size_t i = 0; i < size(); i++)
-				sql += _T("\t") + at(i)->toSQL() + ((i == size() - 1) ? _T(";\n\n") : _T(",\n"));
+				sql += "\t" + at(i)->toSQL() + ((i == size() - 1) ? ";\n\n" : ",\n");
 		}
-		sql += _T("EXEC goInsertInvokeHistory ?, ?, @parameterTable, ?"); //SERVICE, MEMBER_ID
+		sql += "EXEC goInsertInvokeHistory ?, ?, @parameterTable, ?"; //SERVICE, MEMBER_ID
 		return move(sql);
 	}

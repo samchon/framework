@@ -7,7 +7,7 @@ namespace samchon
 	{
 		class SQLStatement;
 
-		class SAMCHON_FRAMEWORK_API MSSQLi
+		class  MSSQLi
 			: public SQLi
 		{
 		public:

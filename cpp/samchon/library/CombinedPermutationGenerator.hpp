@@ -8,7 +8,7 @@ namespace samchon
 		/**
 		 * @brief A combined-permutation case generator; <sub>n</sub>TT<sub>r</sub>
 		 */
-		class SAMCHON_FRAMEWORK_API CombinedPermutationGenerator
+		class CombinedPermutationGenerator
 			: public CaseGenerator
 		{
 		private:

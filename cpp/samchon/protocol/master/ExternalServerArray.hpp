@@ -9,7 +9,7 @@ namespace samchon
 		{
 			class ExternalServer;
 
-			class SAMCHON_FRAMEWORK_API ExternalServerArray
+			class  ExternalServerArray
 				: public virtual ExternalSystemArray
 			{
 				//External Systems are Servers

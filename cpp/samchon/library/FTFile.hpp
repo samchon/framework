@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon/library/IFTFile.hpp>
+#include <samchon/library/FTInstance.hpp>
 
 namespace samchon
 {
@@ -8,14 +8,14 @@ namespace samchon
 		/** 
 		 * @brief A virtual file
 		 */
-		class SAMCHON_FRAMEWORK_API FTFile
-			: public IFTFile
+		class FTFile
+			: public FTInstance
 		{
 		private:
-			typedef IFTFile super;
+			typedef FTInstance super;
 
 		protected:
-			String extension;
+			std::string extension;
 
 		public:
 			FTFile(FTFolder*);
@@ -23,7 +23,7 @@ namespace samchon
 
 			virtual void construct(std::shared_ptr<library::XML> xml);
 
-			auto getExtension() const -> String;
+			auto getExtension() const -> std::string;
 
 			virtual auto toXML() const -> std::shared_ptr<library::XML>;
 		};

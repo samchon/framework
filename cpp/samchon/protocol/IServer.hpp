@@ -1,7 +1,7 @@
 #pragma once
-#include <samchon\API.hpp>
 
-#include <samchon/String.hpp>
+
+#include <string>
 #include <samchon/protocol/Socket.hpp>
 
 namespace boost
@@ -24,7 +24,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API IServer
+		class  IServer
 		{
 		protected:
 			/**
@@ -35,7 +35,7 @@ namespace samchon
 			/**
 			 * @brief (optional) Server's IP
 			 */
-			virtual auto MY_IP() const -> String;
+			virtual auto MY_IP() const -> std::string;
 
 			/**
 			 * @brief Port number of the server

@@ -1,8 +1,8 @@
 #pragma once
-#include <samchon/API.hpp>
+
 #include <samchon/library/IOperator.hpp>
 
-#include <samchon/String.hpp>
+#include <string>
 #include <samchon/WeakString.hpp>
 #include <chrono>
 
@@ -30,7 +30,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API Date
+		class  Date
 			: public std::chrono::system_clock::time_point
 		{
 		private:
@@ -95,15 +95,15 @@ namespace samchon
 			Date(int year, int month, int date);
 			
 			/**
-			 * @brief Construct from String
+			 * @brief Construct from std::string
 			 * 
 			 * @param str A string expressing the date. (1991-01-01)
 			 * @throw invalid_argument month or date is invalid.
 			 */
-			Date(const String &);
+			Date(const std::string &);
 
 			/**
-			* @brief Constructor by String
+			* @brief Constructor by std::string
 			* 
 			* @param str A weak_string expressing the date. (1991-01-01)
 			* @throw invalid_argument month or date is invalid.
@@ -124,7 +124,7 @@ namespace samchon
 			 * @param str Y-m-d
 			 * @throw invalid_argument month or date is invalid.
 			 */
-			void set(const String &);
+			void set(const std::string &);
 
 			/**
 			 * @brief Setter by weak_string
@@ -280,11 +280,11 @@ namespace samchon
 			virtual auto toLinuxTime() const -> long long;
 
 			/**
-			 * @brief Converts the Date to String
+			 * @brief Converts the Date to std::string
 			 * 
-			 * @return String expressing the Date
+			 * @return std::string expressing the Date
 			 */
-			virtual auto toString() const -> String;
+			virtual auto toString() const -> std::string;
 		};
 	};
 };

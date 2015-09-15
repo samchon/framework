@@ -7,9 +7,11 @@ namespace samchon
 	{
 		class SQLi;
 
-		class SAMCHON_FRAMEWORK_API MSSQLStatement
+		class  MSSQLStatement
 			: public SQLStatement
 		{
+			friend class MSSQLi;
+
 		private:
 			typedef SQLStatement super;
 

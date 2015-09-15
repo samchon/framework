@@ -7,7 +7,7 @@ namespace samchon
 	{
 		class SQLStatement;
 
-		class SAMCHON_FRAMEWORK_API MySQLi
+		class  MySQLi
 			: public SQLi
 		{
 		public:

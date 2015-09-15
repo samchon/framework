@@ -10,7 +10,7 @@ namespace samchon
 		/** 
 		 * @brief A binary file
 		 */
-		class SAMCHON_FRAMEWORK_API FTByteFile
+		class  FTByteFile
 			: public FTFile
 		{
 		private:

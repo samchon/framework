@@ -9,7 +9,7 @@ using namespace samchon::library;
 using namespace samchon::protocol;
 using namespace samchon::namtree;
 
-auto NTParameterDetermined::TAG() const -> String { return _T("parameterDetermined"); }
+auto NTParameterDetermined::TAG() const -> string { return "parameterDetermined"; }
 
 NTParameterDetermined::NTParameterDetermined()
 	: super()
@@ -17,16 +17,16 @@ NTParameterDetermined::NTParameterDetermined()
 }
 void NTParameterDetermined::construct(shared_ptr<XML> xml)
 {
-	label = xml->getProperty(_T("label"));
-	value = xml->hasProperty(_T("value"))
-		? xml->getProperty<double>(_T("value")) : NUM_NULL;
+	label = xml->getProperty("label");
+	value = xml->hasProperty("value")
+		? xml->getProperty<double>("value") : INT_MIN;
 }
 
-auto NTParameterDetermined::key() const -> String
+auto NTParameterDetermined::key() const -> string
 {
 	return label;
 }
-auto NTParameterDetermined::getLabel() const -> String
+auto NTParameterDetermined::getLabel() const -> string
 {
 	return label;
 }
@@ -38,9 +38,9 @@ auto NTParameterDetermined::getValue() const -> double
 auto NTParameterDetermined::toXML() const -> shared_ptr<XML>
 {
 	shared_ptr<XML> &xml = super::toXML();
-	xml->setProperty(_T("label"), label);
-	if(value != NUM_NULL)
-		xml->setProperty(_T("value"), value);
+	xml->setProperty("label", label);
+	if(value != INT_MIN)
+		xml->setProperty("value", value);
 
 	return xml;
 }

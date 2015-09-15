@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon\API.hpp>
+
 
 #include <string>
 #include <samchon/ByteArray.hpp>
@@ -17,7 +17,7 @@ namespace samchon
 		 * 
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API Base64
+		class  Base64
 		{
 		public:
 			/**
@@ -33,8 +33,8 @@ namespace samchon
 			 * @brief Decode from base64-string to binary data
 			 * @details Decodes a base64 encoded string to binary data
 			 *
-			 * @warning If the encoded string is not whole but a part of the binary data, 
-			 *			Base64Decoder will be better
+			 * @note If the encoded string is not whole but a part of the binary data, 
+			 *		 Base64Decoder will be better
 			 * @param str A encoded string representing binary data as base64 format
 			 * @return A binary data decoded from string
 			 */

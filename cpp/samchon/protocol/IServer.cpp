@@ -13,7 +13,7 @@ using namespace std;
 using namespace boost::asio;
 using namespace boost::asio::ip;
 
-auto IServer::MY_IP() const -> String { return _T(""); }
+auto IServer::MY_IP() const -> std::string { return ""; }
 
 IServer::IServer() 
 {
@@ -44,7 +44,7 @@ void IServer::open()
 		}
 		else
 		{
-			String &tIP = MY_IP();
+			std::string &tIP = MY_IP();
 			string ip(tIP.begin(), tIP.end());
 
 			endPoint.reset( new tcp::endpoint( address::from_string(ip), PORT() ) );

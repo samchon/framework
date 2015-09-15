@@ -1,7 +1,7 @@
 #pragma once
 #include <samchon/protocol/IProtocol.hpp>
 
-#include <samchon/String.hpp>
+#include <string>
 
 namespace samchon
 {
@@ -11,7 +11,7 @@ namespace samchon
 		{
 			class ExternalSystemArrayMediator;
 
-			class SAMCHON_FRAMEWORK_API MediatorSocket
+			class  MediatorSocket
 				: public virtual IProtocol
 			{
 				friend class ExternalSystemArrayMediator;
@@ -21,7 +21,7 @@ namespace samchon
 
 			protected:
 				ExternalSystemArrayMediator *mediator;
-				String ip;
+				std::string ip;
 				int port;
 
 			public:

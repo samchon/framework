@@ -1,19 +1,19 @@
 #pragma once
-#include <samchon\API.hpp>
 
-#include <samchon/String.hpp>
+
+#include <string>
 
 namespace samchon
 {
 	namespace protocol
 	{
-		class SAMCHON_FRAMEWORK_API IHTMLEntity
+		class  IHTMLEntity
 		{
 		public:
 			IHTMLEntity();
 			virtual ~IHTMLEntity() = default;
 
-			virtual auto toHTML() const -> String = NULL;
+			virtual auto toHTML() const -> std::string = NULL;
 		};
 	};
 };

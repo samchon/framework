@@ -55,14 +55,20 @@ void SQLStatement::refresh()
 	reset(this->sqli);
 }
 
-void SQLStatement::prepare(const String &sql)
+/* --------------------------------------------------------------------------------------
+	QUERY
+		- PREPARE
+		- EXECUTE
+		- EXECUTE_DIRECTLY
+-------------------------------------------------------------------------------------- */
+void SQLStatement::prepare(const std::string &sql)
 {
 	refresh();
 
 	sqli->stmtMutex.lock();
 	sqli->stmt = this;
 
-	SQLPrepare(hstmt, (SQLTCHAR*)&sql[0], SQL_NTS);
+	SQLPrepareA(hstmt, (SQLCHAR*)&sql[0], SQL_NTS);
 }
 void SQLStatement::execute()
 {
@@ -70,18 +76,20 @@ void SQLStatement::execute()
 	if (res == SQL_ERROR)
 		throw exception(sqli->getErrorMessage(SQL_HANDLE_STMT).c_str());
 }
-void SQLStatement::executeDirectly(const String &sql)
+void SQLStatement::executeDirectly(const std::string &sql)
 {
 	sqli->stmtMutex.lock();
 	sqli->stmt = this;
 
-	SQLRETURN res = SQLExecDirect(sqli->hdbc, (SQLTCHAR*)sql.c_str(), (SQLINTEGER)sql.size());
+	SQLRETURN res = SQLExecDirectA(sqli->hdbc, (SQLCHAR*)sql.c_str(), (SQLINTEGER)sql.size());
 	if (res == SQL_ERROR)
 		throw exception(sqli->getErrorMessage(SQL_HANDLE_STMT).c_str());
 }
 
 /* --------------------------------------------------------------------------------------
-GET DATA
+	CURSOR
+		- NEXT
+		- FETCH
 -------------------------------------------------------------------------------------- */
 auto SQLStatement::next() const -> bool
 {
@@ -101,66 +109,66 @@ auto SQLStatement::fetch() const -> bool
 	return (SQLFetch(hstmt) == SQL_SUCCESS);
 }
 
-/* -------------------------------------------------------------------
-	AT
-------------------------------------------------------------------- */
-template<> auto SQLStatement::at(size_t index) const -> long
+/* --------------------------------------------------------------------------------------
+	GET DATA
+		- SIZE
+		- AT
+		- GET
+-------------------------------------------------------------------------------------- */
+auto SQLStatement::size() const -> size_t
 {
-	long value;
-	SQLGetData(hstmt, index, SQL_C_LONG, &value, 0, NULL);
+	SQLSMALLINT val = 0;
 
-	return value;
+	SQLNumResultCols(hstmt, &val);
+	return (size_t)val;
 }
-template<> auto SQLStatement::at(size_t index) const -> long long
-{
-	long long value;
 
-	SQLGetData(hstmt, index, SQL_C_SBIGINT, &value, 0, NULL);
-	return value;
-}
-template<> auto SQLStatement::at(size_t index) const -> float
+template<> auto SQLStatement::at(size_t index) const -> std::string
 {
-	float value;
+	index++;
 
-	SQLGetData(hstmt, index, SQL_C_FLOAT, &value, 0, NULL);
-	return value;
-}
-auto SQLStatement::at(size_t index) const -> double
-{
-	double value;
-
-	SQLGetData(hstmt, index, SQL_C_DOUBLE, &value, 0, NULL);
-	return value;
-}
-auto SQLStatement::at(size_t index) const -> String
-{
-	String str(1, NULL);
-	SQL_SIZE_T size = 0;
-
-	if (SQLGetData(hstmt, index, SQL_C_TCHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
+	std::string str(1, NULL);
+	SQLLEN size = 0;
+	
+	if (::SQLGetData(hstmt, index, SQL_C_CHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
 	{
 		str.assign((size_t)size, NULL);
-		SQLGetData(hstmt, index, SQL_C_TCHAR, &str[0], sizeof(TCHAR)*size, NULL);
+		::SQLGetData(hstmt, index, SQL_C_CHAR, &str[0], sizeof(char)*size, NULL);
 	}
 	return move(str);
 }
-auto SQLStatement::at(size_t index) const -> vector<unsigned char>
+template<> auto SQLStatement::at(size_t index) const -> std::wstring
 {
-	vector<unsigned char> data = { NULL };
-	SQL_SIZE_T size = 0;
+	index++;
 
-	if (SQLGetData(hstmt, index, SQL_C_BINARY, &data[0], 0, &size) != SQL_SUCCESS && size != 0)
+	std::wstring str(1, NULL);
+	SQLLEN size = 0;
+
+	if (::SQLGetData(hstmt, index, SQL_C_WCHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
+	{
+		str.assign((size_t)size, NULL);
+		::SQLGetData(hstmt, index, SQL_C_WCHAR, &str[0], sizeof(wchar_t)*size, NULL);
+	}
+	return move(str);
+}
+template<> auto SQLStatement::at(size_t index) const -> ByteArray
+{
+	index++;
+
+	ByteArray data;
+	SQLLEN size = 0;
+
+	if (::SQLGetData(hstmt, index, SQL_C_BINARY, &data[0], 0, &size) != SQL_SUCCESS && size != 0)
 	{
 		data.assign(size, NULL);
-		SQLGetData(hstmt, index, SQL_C_BINARY, &data[0], data.size(), NULL);
+		::SQLGetData(hstmt, index, SQL_C_BINARY, &data[0], data.size(), NULL);
 	}
 	return move(data);
 }
 
 /* -------------------------------------------------------------------
-	GET
+	TO_XML
 ------------------------------------------------------------------- */
-
 auto SQLStatement::toXML() const -> shared_ptr<XML>
 {
 	shared_ptr<XML> xml(new XML());
@@ -168,66 +176,155 @@ auto SQLStatement::toXML() const -> shared_ptr<XML>
 }
 
 /* --------------------------------------------------------------------------------------
-BIND PARAMETER
+	BIND PARAMETER
 -------------------------------------------------------------------------------------- */
-void SQLStatement::bindParameter(const long double &val)
+template<> void SQLStatement::bindParameter(const std::string &val)
 {
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_DOUBLE, SQL_DOUBLE, 0, 0, (long double*)&val, 0, NULL);
+	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_TCHAR, SQL_VARCHAR, val.size(), 0, (char*)&val[0], 0, NULL);
 }
-void SQLStatement::bindParameter(const double &val)
+template<> void SQLStatement::bindParameter(const std::wstring &val)
 {
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_DOUBLE, SQL_DOUBLE, 0, 0, (double*)&val, 0, NULL);
-}
-void SQLStatement::bindParameter(const float &val)
-{
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, 0, 0, (float*)&val, 0, NULL);
-}
-void SQLStatement::bindParameter(const unsigned int &val)
-{
-#ifdef _WIN64
-	bindParameter((const unsigned long long&)val);
-#else
-	bindParameter((const unsigned long&)val);
-#endif
-}
-void SQLStatement::bindParameter(const int &val)
-{
-#ifdef _WIN64
-	bindParameter((const unsigned long long&)val);
-#else
-	bindParameter((const unsigned long&)val);
-#endif
-}
-void SQLStatement::bindParameter(const unsigned long long &val)
-{
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_UBIGINT, SQL_BIGINT, 0, 0, (unsigned long long*)&val, 0, NULL);
-}
-void SQLStatement::bindParameter(const long long &val)
-{
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_SBIGINT, SQL_BIGINT, 0, 0, (long long*)&val, 0, NULL);
-}
-void SQLStatement::bindParameter(const unsigned long &val)
-{
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, (unsigned long*)&val, 0, NULL);
-}
-void SQLStatement::bindParameter(const long &val)
-{
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, (long*)&val, 0, NULL);
-}
-void SQLStatement::bindParameter(const bool &val)
-{
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_BIT, SQL_BIT, 0, 0, (bool*)&val, 0, NULL);
-}
-void SQLStatement::bindParameter(const String &val)
-{
-#ifdef _UNICODE
 	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_WCHAR, SQL_WVARCHAR, val.size(), 0, (wchar_t*)&val[0], 0, NULL);
-#else
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindedCount, SQL_PARAM_INPUT, SQL_C_TCHAR, SQL_VARCHAR, val.size(), 0, (char*)&val[0], 0, NULL);
-#endif
 }
-void SQLStatement::bindParameter(const vector<unsigned char> &val)
+template<> void SQLStatement::bindParameter(const ByteArray &val)
 {
 	bindParameterBASizeMap.set(++bindParameterCount, (SQL_SIZE_T)val.size());
+
 	::SQLBindParameter(hstmt, (SQLSMALLINT)bindParameterCount, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_LONGVARBINARY, val.size(), 0, (unsigned char*)&val[0], 0, &bindParameterBASizeMap.get(bindParameterCount));
+}
+
+/* -------------------------------------------------------------------
+	ODBC'S FUNCTION
+------------------------------------------------------------------- */
+void SQLStatement::sql_get_data(size_t index, short type, void *listener) const
+{
+	//SQLGetData(hstmt, index, SQL_C_FLOAT, &value, 0, NULL);
+	::SQLGetData(hstmt, index, type, listener, 0, nullptr);
+}
+void SQLStatement::sql_bind_parameter(short cppType, short sqlType, void *val)
+{
+	//::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_BIT, SQL_BIT, 0, 0, (bool*)&val, 0, NULL);
+	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, cppType, sqlType, 0, 0, val, 0, nullptr);
+}
+
+/* -------------------------------------------------------------------
+	C-TYPE
+------------------------------------------------------------------- */
+template<> auto SQLStatement::C_TYPE(const bool &) const -> short
+{
+	return SQL_C_BIT;
+}
+template<> auto SQLStatement::C_TYPE(const char &) const -> short
+{
+	return SQL_CHAR;
+}
+template<> auto SQLStatement::C_TYPE(const short &) const -> short
+{
+	return SQL_C_SSHORT;
+}
+template<> auto SQLStatement::C_TYPE(const long &) const -> short
+{
+	return SQL_C_SLONG;
+}
+template<> auto SQLStatement::C_TYPE(const long long &) const -> short
+{
+	return SQL_C_SBIGINT;
+}
+template<> auto SQLStatement::C_TYPE(const int &) const -> short
+{
+	return SQL_C_SLONG;
+}
+template<> auto SQLStatement::C_TYPE(const float &) const -> short
+{
+	return SQL_C_FLOAT;
+}
+template<> auto SQLStatement::C_TYPE(const double &) const -> short
+{
+	return SQL_C_DOUBLE;
+}
+
+template<> auto SQLStatement::C_TYPE(const unsigned char &) const -> short
+{
+	return SQL_C_BINARY;
+}
+template<> auto SQLStatement::C_TYPE(const unsigned short &) const -> short
+{
+	return SQL_C_USHORT;
+}
+template<> auto SQLStatement::C_TYPE(const unsigned long &) const -> short
+{
+	return SQL_C_ULONG;
+}
+template<> auto SQLStatement::C_TYPE(const unsigned long long &) const -> short
+{
+	return SQL_C_UBIGINT;
+}
+template<> auto SQLStatement::C_TYPE(const unsigned int &) const -> short
+{
+	return SQL_C_UBIGINT;
+}
+template<> auto SQLStatement::C_TYPE(const long double &) const -> short
+{
+	return SQL_C_DOUBLE;
+}
+
+/* -------------------------------------------------------------------
+	SQL-TYPE
+------------------------------------------------------------------- */
+template<> auto SQLStatement::SQL_TYPE(const bool &) const -> short
+{
+	return SQL_BIT;
+}
+template<> auto SQLStatement::SQL_TYPE(const char &) const -> short
+{
+	return SQL_CHAR;
+}
+template<> auto SQLStatement::SQL_TYPE(const short &) const -> short
+{
+	return SQL_TINYINT;
+}
+template<> auto SQLStatement::SQL_TYPE(const long &) const -> short
+{
+	return SQL_INTEGER;
+}
+template<> auto SQLStatement::SQL_TYPE(const long long &) const -> short
+{
+	return SQL_BIGINT;
+}
+template<> auto SQLStatement::SQL_TYPE(const int &) const -> short
+{
+	return SQL_INTEGER;
+}
+template<> auto SQLStatement::SQL_TYPE(const float &) const -> short
+{
+	return SQL_FLOAT;
+}
+template<> auto SQLStatement::SQL_TYPE(const double &) const -> short
+{
+	return SQL_DOUBLE;
+}
+
+template<> auto SQLStatement::SQL_TYPE(const unsigned char &) const -> short
+{
+	return SQL_BINARY;
+}
+template<> auto SQLStatement::SQL_TYPE(const unsigned short &) const -> short
+{
+	return SQL_TINYINT;
+}
+template<> auto SQLStatement::SQL_TYPE(const unsigned long &) const -> short
+{
+	return SQL_INTEGER;
+}
+template<> auto SQLStatement::SQL_TYPE(const unsigned long long &) const -> short
+{
+	return SQL_BIGINT;
+}
+template<> auto SQLStatement::SQL_TYPE(const unsigned int &) const -> short
+{
+	return SQL_INTEGER;
+}
+template<> auto SQLStatement::SQL_TYPE(const long double &) const -> short
+{
+	return SQL_DOUBLE;
 }

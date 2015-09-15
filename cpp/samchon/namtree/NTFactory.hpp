@@ -12,7 +12,7 @@ namespace samchon
 		/** 
 		 * Factory for Nam-Tree files
 		 */
-		class SAMCHON_FRAMEWORK_API NTFactory
+		class  NTFactory
 			: public library::FTFactory
 		{
 		private:
@@ -28,7 +28,7 @@ namespace samchon
 			NTFactory(NTEntityGroup*);
 			virtual ~NTFactory() = default;
 
-			virtual auto createFile(library::FTFolder*, std::shared_ptr<library::XML>) -> library::FTFile*;
+			virtual auto createFile(library::FTFolder*, std::shared_ptr<library::XML>) -> library::FTFile* override;
 			virtual auto createCriteria(NTCriteria*, std::shared_ptr<library::XML>) -> NTCriteria*;
 			virtual auto createSide(std::shared_ptr<library::XML>) -> NTSide*;
 		};

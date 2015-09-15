@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon/API.hpp>
+
 
 #include <samchon/ByteArray.hpp>
 
@@ -12,7 +12,7 @@ namespace samchon
 		/**
 		 * @brief A
 		 */
-		class SAMCHON_FRAMEWORK_API HTTPLoader
+		class  HTTPLoader
 		{
 		private:
 			std::string url;

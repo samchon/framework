@@ -71,23 +71,23 @@ void Client::sendData(shared_ptr<Invoke> invoke)
 }
 void Client::replyData(shared_ptr<Invoke> invoke)
 {
-	String &listener = invoke->getListener();
+	std::string &listener = invoke->getListener();
 
-	if (listener == _T("notifyService"))
+	if (listener == "notifyService")
 	{
-		String &name = invoke->at(0)->getValue();
+		std::string &name = invoke->at(0)->getValueAsString();
 
 		constructService(name);
 	}
-	else if (listener == _T("login"))
+	else if (listener == "login")
 	{
 		user->goLogin(this, invoke);
 	}
-	else if (listener == _T("logout"))
+	else if (listener == "logout")
 	{
 		user->goLogout(this);
 	}
-	else if (listener == _T("join"))
+	else if (listener == "join")
 	{
 		user->goJoin(this, invoke);
 	}
@@ -106,7 +106,7 @@ void Client::replyData(shared_ptr<Invoke> invoke)
 	}
 }
 
-void Client::constructService(const String &name)
+void Client::constructService(const std::string &name)
 {
 	if (service != nullptr)
 		return;
@@ -126,9 +126,9 @@ void Client::constructService(const String &name)
 		satisfactory = (authority >= service->REQUIRE_AUTHORITY());
 	}
 
-	shared_ptr<Invoke> replyInvoke(new Invoke(_T("notifyAuthority")));
-	replyInvoke->push_back(new InvokeParameter(_T("authority"), authority));
-	replyInvoke->push_back(new InvokeParameter(_T("satisfactory"), satisfactory));
+	shared_ptr<Invoke> replyInvoke(new Invoke("notifyAuthority"));
+	replyInvoke->emplace_back( new InvokeParameter("authority", authority) );
+	replyInvoke->emplace_back( new InvokeParameter("satisfactory", satisfactory) );
 
 	sendData(replyInvoke);
 }

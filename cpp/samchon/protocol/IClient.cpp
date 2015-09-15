@@ -37,8 +37,8 @@ void IClient::listen()
 	//socket->set_option(boost::asio::socket_base::receive_buffer_size(BUFFER_SIZE()));
 
 	//VARIABLES
-	String data;
-	vector<TCHAR> piece;
+	std::string data;
+	vector<char> piece;
 	boost::system::error_code error;
 
 	while (true)
@@ -48,13 +48,13 @@ void IClient::listen()
 		socket->read_some(boost::asio::buffer(piece), error);
 
 		data.append(piece.data());
-		if (data.rfind(_T("</invoke>")) == String::npos)
+		if (data.rfind("</invoke>") == std::string::npos)
 			continue;
 
-		vector<String> &invokeArray = StringUtil::betweens(data, _T("<invoke"), _T("</invoke>"));
+		vector<std::string> &invokeArray = StringUtil::betweens(data, "<invoke", "</invoke>");
 		for (size_t i = 0; i < invokeArray.size(); i++)
 		{
-			String &message = _T("<invoke") + invokeArray[i] + _T("</invoke>");
+			std::string &message = "<invoke" + invokeArray[i] + "</invoke>";
 
 			shared_ptr<XML> xml(new XML(message));
 			shared_ptr<Invoke> invoke(new Invoke(xml));
@@ -68,13 +68,13 @@ void IClient::listen()
 				//sendError(errorID);
 			}
 		}
-		data = move(data.substr(data.rfind(_T("</invoke>")) + String(_T("</invoke>")).size()));
+		data = move(data.substr(data.rfind("</invoke>") + std::string("</invoke>").size()));
 	}
 }
 
 void IClient::sendData(shared_ptr<Invoke> invoke)
 {
-	String &data = invoke->toXML()->toString();
+	std::string &data = invoke->toXML()->toString();
 	boost::system::error_code error;
 
 	sendMtx->lock();

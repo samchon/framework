@@ -1,7 +1,7 @@
 #pragma once
 #include <samchon/protocol/IClient.hpp>
 
-#include <samchon/String.hpp>
+#include <string>
 
 namespace boost
 {
@@ -23,7 +23,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API ServerConnector
+		class  ServerConnector
 			: public virtual IClient
 		{
 		private:
@@ -48,7 +48,7 @@ namespace samchon
 			/**
 			 * @brief Destinatio IP
 			 */
-			virtual auto IP() const -> String = NULL;
+			virtual auto IP() const -> std::string = NULL;
 
 			/**
 			 * @brief Destination port
@@ -58,7 +58,7 @@ namespace samchon
 			/**
 			 * @brief (optional) My IP, if you want to bind
 			 */
-			virtual auto MY_IP() const -> String;
+			virtual auto MY_IP() const -> std::string;
 
 		public:
 			/**

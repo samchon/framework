@@ -1,5 +1,4 @@
 #pragma once
-#include <samchon/API.hpp>
 
 #include <memory>
 #include <samchon/protocol/Socket.hpp>
@@ -13,19 +12,18 @@ namespace samchon
 	namespace protocol
 	{
 		/**
-		 * @brief A policy server for flash
+		 * @brief A flash policy server
+		 * @details FlashPolicyServer is a policy server replying cross-domain-policy to flash client.
 		 *
-		 * @details 
-		 * FlashPolicyServer is a policy server 
-		 * which is replying cross-domain-policy to flash client.
+		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API FlashPolicyServer
+		class  FlashPolicyServer
 		{
 		protected:
 			/**
-			 * @brief cross-domain-policy string
+			 * @brief cross-domain-policy
 			 */
-			std::string policy;
+			std::shared_ptr<library::XML> policy;
 
 		public:
 			/**
@@ -40,7 +38,7 @@ namespace samchon
 			 *
 			 * @param policy Custom cross-domain-policy to adjust
 			 */
-			FlashPolicyServer(std::shared_ptr<library::XML> policy);
+			FlashPolicyServer(std::shared_ptr<library::XML>);
 
 			/**
 			 * @brief Open server

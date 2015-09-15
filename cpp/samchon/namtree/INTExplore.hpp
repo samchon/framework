@@ -8,7 +8,7 @@ namespace samchon
 		/**
 		 * @brief Interface for exploration
 		 */
-		class SAMCHON_FRAMEWORK_API INTExplore
+		class  INTExplore
 			: public virtual protocol::Entity
 		{
 		private:

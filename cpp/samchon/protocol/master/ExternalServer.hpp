@@ -9,7 +9,7 @@ namespace samchon
 		{
 			class ExternalServerArray;
 
-			class SAMCHON_FRAMEWORK_API ExternalServer
+			class  ExternalServer
 				: public virtual ExternalSystem,
 				public virtual ServerConnector
 			{
@@ -17,8 +17,8 @@ namespace samchon
 				typedef ExternalSystem super;
 
 			protected:
-				virtual auto IP() const -> String;
-				virtual auto MY_IP() const -> String;
+				virtual auto IP() const -> std::string;
+				virtual auto MY_IP() const -> std::string;
 				virtual auto PORT() const -> int;
 
 			public:

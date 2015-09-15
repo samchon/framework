@@ -1,7 +1,7 @@
 #pragma once
-#include <samchon\API.hpp>
 
-#include <samchon/String.hpp>
+
+#include <string>
 #include <memory>
 
 namespace samchon
@@ -16,7 +16,7 @@ namespace samchon
 		/**
 		 * ISQLEntity is an interface for interacting with Database
 		 */
-		class SAMCHON_FRAMEWORK_API ISQLEntity
+		class ISQLEntity
 		{
 		public:
 			ISQLEntity();
@@ -41,7 +41,7 @@ namespace samchon
 			 *
 			 * @return SQL storing record(s) to temporary table of a Procedure
 			 */
-			virtual auto toSQL() const -> String;
+			virtual auto toSQL() const -> std::string;
 		};
 	};
 };

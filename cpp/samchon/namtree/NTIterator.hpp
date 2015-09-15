@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon/API.hpp>
+
 
 #include <samchon/library/IOperator.hpp>
 
@@ -14,7 +14,7 @@ namespace samchon
 		/**
 		 * @brief Abstract iterator of historical, studying data
 		 */
-		class SAMCHON_FRAMEWORK_API NTIterator
+		class  NTIterator
 			: public library::IOperator
 		{
 		private:

@@ -1,12 +1,12 @@
 #pragma once
-#include <samchon\API.hpp>
+
 
 #include <samchon/protocol/IServer.hpp>
 #include <samchon/Map.hpp>
 #include <samchon/SmartPointer.hpp>
 #include <samchon/library/CriticalAllocator.hpp>
 
-#include <samchon/String.hpp>
+#include <string>
 
 namespace samchon
 {
@@ -34,22 +34,22 @@ namespace samchon
 			 * 	\li PORT()
 			 * 	\li createUser()
 			 *
-			 * @tparam key_Kty String := Session id of User
+			 * @tparam key_Kty std::string := Session id of User
 			 * @tparam _Ty SmartPointer<User>
 			 * @author Jeongho Nam
 			 */
-			class SAMCHON_FRAMEWORK_API Server
-				: private Map<String, SmartPointer<User>>,
+			class  Server
+				: private Map<std::string, SmartPointer<User>>,
 				public IServer
 			{
 				friend class IPUserPair;
 				friend class User;
 				
 			private:
-				typedef Map<String, SmartPointer<User>> super;
+				typedef Map<std::string, SmartPointer<User>> super;
 			
 			protected:
-				virtual auto NAME() const -> String = NULL;
+				virtual auto NAME() const -> std::string = NULL;
 
 				/**
 				 * @brief SQLi for archiving log
@@ -95,7 +95,7 @@ namespace samchon
 				/**
 				* @brief Factory method of User
 				*/
-				virtual auto createUser(const String&) const -> User* = NULL;
+				virtual auto createUser(const std::string&) const -> User* = NULL;
 
 				/**
 				* @brief Handling connection of a client
@@ -103,7 +103,7 @@ namespace samchon
 				void addClient(Socket*);
 
 			private:
-				void eraseUser(const String &);
+				void eraseUser(const std::string &);
 			};
 		};
 	};

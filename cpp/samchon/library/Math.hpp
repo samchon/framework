@@ -131,7 +131,7 @@ namespace samchon
 			 * @return Pair of minimum value and its index
 			 */
 			template <typename _Cont, typename _Ty = _Cont::value_type>
-			static auto min(const _Cont &container) -> IndexPair<_Ty>
+			static auto minimum(const _Cont &container) -> IndexPair<_Ty>
 			{
 				auto it = container.begin();
 				size_t i = 0, position = 0;
@@ -162,7 +162,7 @@ namespace samchon
 			 * @return Pair of maximum value and its index
 			 */
 			template <typename _Cont, typename _Ty = _Cont::value_type>
-			static auto max(const _Cont &container) -> IndexPair<_Ty>
+			static auto maximum(const _Cont &container) -> IndexPair<_Ty>
 			{
 				auto it = container.begin();
 				size_t i = 0, position = 0;

@@ -4,12 +4,12 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 
-ErrorEvent::ErrorEvent(EventDispatcher *source, int type, const string &message)
+ErrorEvent::ErrorEvent(EventDispatcher *source, const string &message)
 	: Event(source, type)
 {
 	this->message = message;
 }
-auto ErrorEvent::getMessage() const -> String
+auto ErrorEvent::getMessage() const -> std::string
 {
-	return String(message.begin(), message.end());
+	return message;
 }

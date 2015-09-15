@@ -8,7 +8,7 @@ namespace samchon
 		/**
 		 * @brief A text file
 		 */
-		class SAMCHON_FRAMEWORK_API FTTextFile
+		class  FTTextFile
 			: public FTFile
 		{
 		private:
@@ -18,7 +18,7 @@ namespace samchon
 			/**
 			 * @brief Text recorded in the file
 			 */
-			String data;
+			std::string data;
 
 		public:
 			/**
@@ -29,7 +29,7 @@ namespace samchon
 
 			virtual void construct(std::shared_ptr<library::XML> xml);
 
-			auto getData() const -> String;
+			auto getData() const -> std::string;
 
 			virtual auto toXML() const->std::shared_ptr<library::XML>;
 		};

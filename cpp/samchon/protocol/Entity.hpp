@@ -1,7 +1,7 @@
 #pragma once
-#include <samchon\API.hpp>
 
-#include <samchon/String.hpp>
+
+#include <string>
 #include <memory>
 
 namespace samchon
@@ -20,7 +20,7 @@ namespace samchon
 		 * 
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API Entity
+		class  Entity
 		{
 		public:
 			/**
@@ -28,7 +28,7 @@ namespace samchon
 			 *
 			 * @details 
 			 */
-			virtual auto TAG() const -> String = NULL;
+			virtual auto TAG() const -> std::string = NULL;
 			
 			/**
 			 * @brief Identifier of the Entity
@@ -36,7 +36,7 @@ namespace samchon
 			 * @details
 			 * If the key is not atomic or not string, then makes an artificial(surrogate) key
 			 */
-			virtual auto key() const -> String;
+			virtual auto key() const -> std::string;
 
 		public:
 			/**

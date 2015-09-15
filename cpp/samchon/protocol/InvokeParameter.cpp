@@ -3,6 +3,9 @@
 #include <samchon/library/XML.hpp>
 #include <samchon/library/StringUtil.hpp>
 
+#include <samchon/library/Base64.hpp>
+#include <samchon/library/StringUtil.hpp>
+
 using namespace std;
 using namespace samchon;
 using namespace samchon::library;
@@ -11,117 +14,135 @@ using namespace samchon::protocol;
 /* ----------------------------------------------------------
 	CONSTRUCTORS
 ---------------------------------------------------------- */
-InvokeParameter::InvokeParameter(shared_ptr<XML> xml)
-{
-	this->name = xml->getProperty(_T("name"));
-	this->type = xml->getProperty(_T("type"));
-
-	if (this->type == _T("xml"))
-		this->xml = xml->begin()->second->at(0);
-	else
-		this->value = xml->getValue();
-}
-InvokeParameter::InvokeParameter(const String &name, const String &type, const String &value)
+InvokeParameter::InvokeParameter(const string &name, const double &val)
 {
 	this->name = name;
-	this->type = type;
-	this->value = value;
-}
+	this->type = "string";
 
-#define INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(_Ty) \
-template<> InvokeParameter::InvokeParameter(const String &name, const _Ty &value) \
-{ \
-	this->name = name; \
-	this->type = _T(#_Ty); \
-	this->value = toString(value); \
+	this->value = new double(val);
 }
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(bool)
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(short)
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(int)
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(long)
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(long long)
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(unsigned short)
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(unsigned int)
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(unsigned long)
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(unsigned long long)
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(float)
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(double)
-INVOKE_PARAMETER_TEMPLATE_CONSTRUCTOR(long double)
-
-template<> InvokeParameter::InvokeParameter(const String &name, const String &value)
+InvokeParameter::InvokeParameter(const string &name, const string &str)
 {
 	this->name = name;
-	this->type = _T("String");
-	this->value = value;
+	this->type = "string";
+	
+	this->value = new string(str);
 }
-template<> InvokeParameter::InvokeParameter(const String &name, const shared_ptr<XML> &xml)
+InvokeParameter::InvokeParameter(const string &name, const shared_ptr<XML> &xml)
 {
 	this->name = name;
-	this->type = _T("XML");
-	this->xml = xml;
+	this->type = "XML";
+
+	this->value = new shared_ptr<XML>(xml);
+}
+
+InvokeParameter::~InvokeParameter()
+{
+	if(type == "number")
+		delete (double*)value;
+	else if(type == "string")
+		delete (string*)value;
+	else if(type == "XML")
+		delete (shared_ptr<XML>*)value;
 }
 
 /* ----------------------------------------------------------
 	GETTERS
 ---------------------------------------------------------- */
-auto InvokeParameter::key() const -> String
+auto InvokeParameter::getName() const -> std::string
 {
 	return name;
 }
-auto InvokeParameter::getName() const -> String
-{
-	return name;
-}
-auto InvokeParameter::getType() const -> String
+auto InvokeParameter::getType() const -> std::string
 {
 	return type;
 }
 
-//TEMPLATE VALUE GETTERS
-template<> auto InvokeParameter::getValue() const -> bool
+auto InvokeParameter::getValueAsNumber() const -> double
 {
-	return (bool)stoi(value);
+	if(type == "number")
+		return *(double*)value;
+	else if(type == "string")
+		return stod(*(string*)value);
+	else
+		throw invalid_argument("invalid type specification");
 }
-template<> auto InvokeParameter::getValue() const -> short
+auto InvokeParameter::getValueAsString() const -> string
 {
-	return (short)stoi(value);
+	if(type == "number")
+		return to_string(*(double*)value);
+	else if(type == "string")
+		return *(string*)value;
+	else if(type == "XML")
+		return ((shared_ptr<XML>*)value)->get()->toString();
+	else
+		throw invalid_argument("invalid type specification");
 }
-template<> auto InvokeParameter::getValue() const -> int
-{
-	return stoi(value);
-}
-template<> auto InvokeParameter::getValue() const -> long
-{
-	return stol(value);
-}
-template<> auto InvokeParameter::getValue() const -> long long
-{
-	return stoll(value);
-}
-template<> auto InvokeParameter::getValue() const -> unsigned short
-{
-	return (unsigned short)stoul(value);
-}
-template<> auto InvokeParameter::getValue() const -> unsigned int
-{
-	return (unsigned int)stoull(value);
-}
-template<> auto InvokeParameter::getValue() const -> unsigned long
-{
-	return stoul(value);
-}
-template<> auto InvokeParameter::getValue() const -> unsigned long long
-{
-	return stoull(value);
-}
-template<> auto InvokeParameter::getValue() const -> String
-{
-	return value;
-}
-
 auto InvokeParameter::getValueAsXML() const -> shared_ptr<XML>
 {
-	return xml;
+	if(type == "XML")
+		return *(shared_ptr<XML>*)value;
+	else
+		throw invalid_argument("invalid type specification");
+}
+auto InvokeParameter::getValueAsByteArray() const -> ByteArray
+{
+	if(type == "ByteArray")
+		return *(ByteArray*)value;
+	else
+		throw invalid_argument("invalid type specification");
+}
+
+auto InvokeParameter::moveValueAsString() -> string
+{
+	if(type != "string")
+		throw invalid_argument("invalid type specification");
+
+	return move(*(string*)value);
+}
+auto InvokeParameter::moveValueAsByteArray() -> ByteArray
+{
+	if(type != "ByteArray")
+		throw invalid_argument("invalid type specification");
+
+	return move(*(ByteArray*)value);
+}
+
+/* ----------------------------------------------------------
+	HIDDEN METHODS
+---------------------------------------------------------- */
+InvokeParameter::InvokeParameter(shared_ptr<XML> xml)
+{
+	if(xml->hasProperty("name") == true)
+		this->name = xml->getProperty("name");
+	this->type = xml->getProperty("type");
+
+	if(type == "double")
+		this->value = new double(xml->getValue<double>());
+	else if(type == "string")
+		this->value = new string(xml->getValue<string>());
+	else if (type == "XML")
+		this->value = new shared_ptr<XML>(xml->begin()->second->at(0));
+	else if (type == "ByteArray")
+	{
+		if (xml->getValue().find("size: #") == string::npos)
+		{
+			ByteArray &byteArray = Base64::decode(xml->getValue());
+			
+			this->value = new ByteArray(move(byteArray));
+		}
+		else
+		{
+			unsigned long long size = stoull(StringUtil::between(xml->getValue(), "size: #"));
+
+			this->type = "Pre-ByteArray";
+			this->value = (void*)size;
+		}
+	}
+}
+auto InvokeParameter::reservedByteArraySize() const -> size_t
+{
+	return (size_t)value;
 }
 
 /* ----------------------------------------------------------
@@ -130,26 +151,35 @@ auto InvokeParameter::getValueAsXML() const -> shared_ptr<XML>
 auto InvokeParameter::toXML() const -> shared_ptr<XML>
 {
 	shared_ptr<XML> xml(new XML());
-	xml->setTag(_T("parameter"));
-	xml->setProperty(_T("name"), name);
-	xml->setProperty(_T("type"), type);
+	xml->setTag("parameter");
 
-	if (type == _T("XML"))
-		xml->push_back(this->xml);
+	if(name.empty() == false)
+		xml->setProperty("name", name);
+	xml->setProperty("type", type);
+
+	if (type == "XML")
+		xml->push_back(this->getValueAsXML());
+	else if (type == "ByteArray")
+	{
+		ByteArray *byteArray = (ByteArray*)this->value;
+
+		xml->setValue("size: #" + to_string(byteArray->size()));
+	}
 	else
-		xml->setValue(value);
+		xml->setValue(getValueAsString());
 
 	return xml;
 }
-auto InvokeParameter::toSQL() const -> String
+auto InvokeParameter::toSQL() const -> std::string
 {
+	return "";
 	//NAME, TYPE, VALUE
-	String value;
+	/*std::string value;
 	if (xml != nullptr)
 		value = move(xml->toString());
 	else
 		value = this->value;
 
-	String &sql = TStringUtil::substituteSQL(_T("({1}, {2}, {3})"), name, type, value);
-	return move(sql);
+	std::string &sql = StringUtil::substituteSQL("({1}, {2}, {3})", name, type, value);
+	return move(sql);*/
 }

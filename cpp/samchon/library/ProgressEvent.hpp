@@ -11,7 +11,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API ProgressEvent
+		class  ProgressEvent
 			: public Event
 		{
 		public:
@@ -45,7 +45,14 @@ namespace samchon
 			ProgressEvent(EventDispatcher *, double, double);
 			virtual ~ProgressEvent() = default;
 
+			/**
+			 * @brief Get numerator, number of current progress
+			 */
 			auto getNumerator() const -> double;
+
+			/**
+			 * @brief Get denominator, number of total progress
+			 */
 			auto getDenominator() const -> double;
 
 			/**

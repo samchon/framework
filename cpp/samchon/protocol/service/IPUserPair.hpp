@@ -1,10 +1,9 @@
 #pragma once
-#include <samchon/API.hpp>
 
 #include <mutex>
 #include <set>
+#include <string>
 
-#include <samchon/String.hpp>
 #include <samchon/protocol/Socket.hpp>
 
 namespace samchon
@@ -68,7 +67,7 @@ namespace samchon
 				 * @brief A mutex matched with an IP address
 				 */
 				std::mutex mtx;
-
+				
 			private:
 				/**
 				 * @brief Construct from Server and IP address
@@ -90,9 +89,8 @@ namespace samchon
 				 * @warning The session id must be unique
 				 * @return A new session ID that can ensure uniqueness
 				 */
-				auto getSessionID(Socket*, size_t) -> String;
+				auto getSessionID(Socket*, size_t) -> std::string;
 
-			private:
 				/**
 				 * @brief Issue a session ID
 				 *
@@ -112,7 +110,7 @@ namespace samchon
 				 *	</ol>
 				 * </ul>
 				 */
-				auto issueSessionID(size_t) const -> String;
+				auto issueSessionID(size_t) const -> std::string;
 			};
 		};
 	};

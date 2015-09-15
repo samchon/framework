@@ -14,7 +14,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class SAMCHON_FRAMEWORK_API DistributedSystemRole
+			class  DistributedSystemRole
 				: public ExternalSystemRole
 			{
 			private:

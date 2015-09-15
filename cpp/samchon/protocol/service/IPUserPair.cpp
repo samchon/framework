@@ -27,28 +27,28 @@ IPUserPair::IPUserPair(Server *server, const string &ip)
 	this->server = server;
 	this->ip = ip;
 }
-auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> String
+auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> std::string
 {
 	unique_lock<mutex> uk(mtx);
 
-	String sessionID;
+	std::string sessionID;
 
 	//GET SESSION_ID FROM CLIENT'S COOKIE
 	{
 		boost::system::error_code error;
 
 		//GET SESSION ID
-		vector<TCHAR> piece(1000, NULL);
-		socket->read_some(piece, error);
+		vector<unsigned char> piece(1000, NULL);
+		socket->read_some(boost::asio::buffer(piece), error);
 
 		if (error)
-			return _T("");
+			return "";
 
-		String str(piece.data());
+		std::string str((char*)piece.data());
 		shared_ptr<XML> xml(new XML(str));
 
 		shared_ptr<Invoke> invoke(new Invoke(xml));
-		sessionID = invoke->at(0)->getValue();
+		sessionID = invoke->at(0)->getValueAsString();
 	}
 	
 	server->mtx.lock();
@@ -61,20 +61,20 @@ auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> String
 		if (server->has(sessionID) == true)
 		{
 			server->mtx.unlock();
-			throw runtime_error(_T("Session ID is not unique"));
+			throw runtime_error("Session ID is not unique");
 		}
 		server->mtx.unlock();
 
 		//NOTIFY TO CLIENT
-		shared_ptr<Invoke> invoke( new Invoke(_T("notifySessionID")) );
-		invoke->emplace_back(new InvokeParameter(_T("id"), sessionID));
+		shared_ptr<Invoke> invoke( new Invoke("notifySessionID") );
+		invoke->emplace_back( new InvokeParameter("id", sessionID) );
 		
-		String &data = invoke->toXML()->toString();
+		std::string &data = invoke->toXML()->toString();
 		boost::system::error_code error;
 
-		socket->write_some(data, error);
+		socket->write_some(boost::asio::buffer(data), error);
 		if (error)
-			return _T("");
+			return "";
 	}
 	else
 		server->mtx.unlock();
@@ -82,16 +82,16 @@ auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> String
 	return move(sessionID);
 }
 
-auto IPUserPair::issueSessionID(size_t sequence) const -> String
+auto IPUserPair::issueSessionID(size_t sequence) const -> std::string
 {
-	String &name = server->NAME();
+	std::string &name = server->NAME();
 	int port = server->PORT();
 	long long linuxTime = Datetime().toLinuxTime();
 
 	basic_stringstream<TCHAR> sstream;
-	sstream << name << _T("::")
-		<< hex << port << _T("::")
-		<< hex << sequence << _T("::")
+	sstream << name << "::"
+		<< hex << port << "::"
+		<< hex << sequence << "::"
 		<< hex << linuxTime;
 
 	return move(sstream.str());

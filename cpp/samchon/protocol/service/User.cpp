@@ -21,7 +21,7 @@ using namespace boost::asio::ip;
 /* --------------------------------------------------------
 	CONSTRUCTORS
 -------------------------------------------------------- */
-User::User(Server *server, const String &sessionID)
+User::User(Server *server, const std::string &sessionID)
 	: super()
 {
 	this->server = server;
@@ -30,7 +30,7 @@ User::User(Server *server, const String &sessionID)
 	semaphore = new Semaphore(2);
 	sequence = 0;
 
-	id = _T("guest");
+	id = "guest";
 	authority = 1;
 }
 User::~User()
@@ -49,7 +49,7 @@ auto User::getServer() const -> Server*
 {
 	return server;
 }
-auto User::getID() const -> String
+auto User::getID() const -> std::string
 {
 	return id;
 }
@@ -97,8 +97,8 @@ void User::goLogin(Client *client, shared_ptr<Invoke> invoke)
 	KEEP_USER_ALIVE;
 	bool result = doLogin(invoke);
 
-	shared_ptr<Invoke> reply(new Invoke(_T("handleLogin")));
-	reply->push_back(new InvokeParameter(_T("result"), result));
+	shared_ptr<Invoke> reply(new Invoke("handleLogin"));
+	reply->emplace_back(new InvokeParameter("result", result));
 
 	client->sendData(reply);
 }
@@ -107,8 +107,8 @@ void User::goJoin(Client *client, shared_ptr<Invoke> invoke)
 	KEEP_USER_ALIVE;
 	bool result = doJoin(invoke);
 
-	shared_ptr<Invoke> reply(new Invoke(_T("handleJoin")));
-	reply->push_back(new InvokeParameter(_T("result"), result));
+	shared_ptr<Invoke> reply(new Invoke("handleJoin"));
+	reply->emplace_back(new InvokeParameter("result", result));
 
 	client->sendData(reply);
 }
@@ -116,11 +116,11 @@ void User::goLogout(Client *client)
 {
 	KEEP_USER_ALIVE;
 
-	shared_ptr<Invoke> invoke(new Invoke(_T("doLogout")));
+	shared_ptr<Invoke> invoke(new Invoke("doLogout"));
 	for (auto it = begin(); it != end(); it++)
 		it->second->sendData(invoke);
 
-	id = _T("guest");
+	id = "guest";
 	authority = 0;
 
 	clear();

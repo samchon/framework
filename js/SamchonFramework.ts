@@ -345,7 +345,7 @@ interface IMap<_Kty, _Ty>
 	has(key: _Kty): boolean;
 
 	/**
-	 * @brief Get element
+	 * @brief Get element by key
 	 * 
 	 * @param key Key value of the element whose mapped value is accessed.
 	 * @return A reference object of the mapped value (_Ty)
@@ -515,7 +515,7 @@ class Map<_Kty, _Ty>
 	}
 
 	/**
-	 * @brief Get element
+	 * @brief Get element by key
 	 * @details Returns a reference to the mapped value of the element identified with key.
 	 *
 	 * @param key Key value of the element whose mapped value is accessed.
@@ -971,7 +971,7 @@ class XML
      * 
 	 * @details  
 	 *  \li \<parameter name='age' type='int'\><b>26</b>\</parameter\>: value => 26
-	 *	\li \<price high='1500' low='1300' open='1450' close='1320' /\>: tag => null
+	 *	\li \<price high='1500' low='1300' open='1450' close='1320' /\>: value => null
 	 */
 	private value: string;
 
@@ -1560,12 +1560,12 @@ class XML
 
 		//PROPERTIES
 		for (var p_it = this.properties.begin(); p_it.equals(this.properties.end()) == false; p_it = p_it.next())
-			str += " " + p_it.first + "=\"" + XML.encodeProperty(p_it.second) + "\"";
+			str += " " + p_it.first + "=\"" + XML.encodeProperty(String(p_it.second)) + "\"";
 		
 		if (this.size() == 0) 
         {
 			if (this.value != "")
-				str += ">" + XML.encodeValue(this.value) + "</" + this.tag + ">";
+				str += ">" + XML.encodeValue(String(this.value)) + "</" + this.tag + ">";
 			else
 				str += " />";
 		} 
@@ -1597,16 +1597,6 @@ class XMLList
     {
 		super();
 	}
-
-    public push(...args: XML[]): number
-    {
-        var tag: string = args[0].getTag();
-        for(var i: number = 1; i < args.length; i++)
-            if(args[i].getTag() != tag)
-                throw "invalid tag";
-
-        return super.push.call(null, args);
-    }
 
 	/**
 	 * @brief Convert XMLList to String
@@ -1678,21 +1668,51 @@ interface IProtocol
 class ServerConnector
 	implements IProtocol
 {
+    /**
+     * @brief A parent to get message.
+     */
 	private parent: IProtocol;
+
+    /**
+     * @brief A web-socket handler.
+     */
 	private socket: WebSocket;
 
+    /**
+     * @brief Unused string from a server.
+     */
 	private str: string;
 
+    /**
+     * @brief An open-event listener.
+     */
 	public onopen: Function;
 
+    /**
+     * @brief Constructor with parent
+     */
 	constructor(parent: IProtocol) 
     {
 		this.parent = parent;
 
 		this.str = "";
 	}
+
+    /**
+     * @brief Connect to a server
+     *
+     * @param ip IP address of the web-socket server
+     * @param port Port number of the server
+     */
 	public connect(ip: string, port: number): void 
     {
+        if(ip.indexOf("ws://") == -1)
+        {
+            if(ip.indexOf("://") != -1)
+                throw "only websocket is possible";
+            else
+                ip = "ws://" + ip;
+        }
 		this.socket = new WebSocket(ip + ":" + port);
 
 		this.socket.onopen = this.handleConnect;
@@ -1702,6 +1722,9 @@ class ServerConnector
 	/* ----------------------------------------------------
 		IPROTOCOL'S METHOD
 	---------------------------------------------------- */
+    /**
+     * @brief Send data to the server.
+     */
 	public sendData(invoke: Invoke): void 
     {
 		var xml: XML = invoke.toXML();
@@ -1709,6 +1732,10 @@ class ServerConnector
 
 		this.socket.send(str);
 	}
+
+    /**
+     * @brief Shift responsiblity of handling message to parent.
+     */
 	public replyData(invoke: Invoke): void 
     {
 		this.parent.replyData(invoke);
@@ -1719,8 +1746,15 @@ class ServerConnector
 	---------------------------------------------------- */
 	private handleConnect(event: Event): void
 	{
-		this.onopen.apply([event]);
+        if(this.onopen == null)
+            return;
+		
+        this.onopen.apply([event]);
 	}
+
+    /**
+     * @brief Handling replied message.
+     */
 	private handleReply(event: MessageEvent): void
 	{
 		this.str += event.data;
@@ -1791,24 +1825,27 @@ class ServerConnector
 class Invoke
 	extends Vector<InvokeParameter>
 {
+    /**
+     * @brief Listener, represent function's name
+     */
 	private listener: string;
 
 	/**
 	 * @brief Multiple Constructors
 	 *
-	 * \par Construct from listener
+	 * \par Invoke(string)
+     * <p> Construct from listener. </p>
+	 *	\li listener: string => A string represents name of a function.
 	 *
-	 *	\li listener: String => A string represents name of function
+	 * \par Invoke(XML)
+     * <p> Construct from XML. </p>
+	 *	\li xml:XML => A XML instance representing an Invoke and InvokeParameter(s).
 	 *
-	 * \par Construct from XML
-	 *
-	 *	\li xml: A XML instance representing Invoke
-	 *
-	 * \par Construct from arguments
-	 *
-	 *	\li listener: String => 
-	 *	\li value: _Ty => 
-	 *	\li arguments: ... Tytes => 
+	 * \par template<_Ty, ... _Types> Invoke(String, _Ty, ... _Types)
+     * <p> Construct from arguments </p>
+	 *	\li listener: string => A string represents name of a Function.
+	 *	\li value: _Ty => A value to be a parameter
+	 *	\li arguments: ... Types => Arguments to be the parameters
 	 */
 	constructor(...args)
 	{
@@ -1850,18 +1887,52 @@ class Invoke
 	/* -------------------------------------------------------------------
 		GETTERS
 	------------------------------------------------------------------- */
+    /**
+     * @brief Get listener
+     */
 	public getListener(): string
 	{
 		return this.listener;
 	}
+
+    /**
+	 * @brief Whether have the item or not
+	 *
+	 * @param key Key value of the element whose mapped value is accessed.
+	 * @return Whether the map has an item having the specified identifier
+	 */
+    public has(key: string): boolean
+    {
+        for (var i: number = 0; i < this.length; i++)
+            if (this[i].getName() == key)
+                return true;
+
+        return false;
+    }
+
+    /**
+	 * @brief Get element by key
+	 * @details Returns a reference to the mapped value of the element identified with key.
+	 *
+	 * @param key Key value of the element whose mapped value is accessed.
+	 * @throw exception out of range.
+	 *
+	 * @return A reference object of the mapped value (_Ty)
+	 */
 	public get(key: string): InvokeParameter
 	{
 		for (var i: number = 0; i < this.length; i++)
 			if (this[i].getName() == key)
 				return this[i];
 
-		return null;
+		throw "out of range";
 	}
+
+    /**
+     * @brief Get arguments for Function.apply()
+     *
+     * @return An array containing values of the parameters.
+     */
 	public getArguments(): Array<any>
 	{
 		var args: Array<any> = [];
@@ -1874,6 +1945,9 @@ class Invoke
 	 /* -------------------------------------------------------------------
 		APPLY BY FUNCTION POINTER
 	------------------------------------------------------------------- */
+    /**
+     * @brief Apply to a matched function
+     */
 	public apply(obj: IProtocol): boolean
 	{
 		if (!(obj.hasOwnProperty(this.listener) == true && obj[this.listener] instanceof Function))
@@ -1882,7 +1956,7 @@ class Invoke
 		var func: Function = obj[this.listener];
 		var args: Array<any> = this.getArguments();
 
-		func.apply(args);
+		func.apply(null, args);
 
 		return true;
 	}
@@ -1890,6 +1964,9 @@ class Invoke
 	 /* -------------------------------------------------------------------
 		EXPORTER
 	------------------------------------------------------------------- */
+    /**
+     * @brief Convert to an XML object.
+     */
 	public toXML(): XML
 	{
 		var xml: XML = new XML();
@@ -1906,6 +1983,11 @@ class Invoke
 	}
 }
 
+/**
+ * @brief A parameter of an Invoke
+ *
+ * @author Jeongho Nam
+ */
 class InvokeParameter
 {
 	/**
@@ -1928,18 +2010,18 @@ class InvokeParameter
 	/**
 	 * @brief Multiple Constructors
 	 *
-	 * \par Construct from XML.
-	 *
+	 * \par InvokeParameter(XML)
+     * <p> Construct from XML. </p>
 	 *	\li xml: XML => A XML instance representing InvokeParameter.
 	 *
-	 * \par Construct from value.
-	 *
+	 * \par template <typename _Ty> InvokeParameter(_Ty)
+     * <p> Construct from a value. </p>
 	 *	\li value: _Ty => Value belonged to the parameter.
 	 *
-	 * \par Construct from specified type and value.
-	 *
+	 * \par template <typename _Ty> InvokeParameter(string, _Ty)
+     * <p> Construct from specified type and value. </p>
 	 *	\li type: String => Type of the parameter. 
-	 *	\li value: _Ty => Value belonged to the parameter.
+	 *	\li value: _Ty => A value belongs to the parameter.
 	 */
 	constructor(...args: any[])
 	{
@@ -2065,9 +2147,19 @@ class InvokeParameter
 class Application
 	implements IProtocol
 {
+    /**
+     * @brief Invoke Socket
+     */
 	protected socket: ServerConnector;
+
+    /**
+     * @brief A movie
+     */
 	protected movie: Movie;
 
+    /**
+     * @brief Construct from arguments
+     */
 	constructor(movie:Movie, ip: string, port: number)
 	{
 		this.movie = movie;
@@ -2076,15 +2168,26 @@ class Application
 
 		this.socket.connect(ip, port);
 	}
+
+    /**
+     * 
+     */
 	private handleConnect(event: Event): void
 	{
 	}
 
+    /**
+     * @brief Handle replied message or shift the responsibility
+     */
 	public replyData(invoke: Invoke): void 
     {
 		if (invoke.apply(this) == false)
 			this.movie.sendData(invoke);
 	}
+
+    /**
+     * @brief Send a data to server.
+     */
 	public sendData(invoke: Invoke): void 
     {
 		this.socket.sendData(invoke);
@@ -2097,12 +2200,22 @@ class Application
 class Movie
 	implements IProtocol
 {
+    /**
+     * @brief An application the movie is belonged to
+     */
 	protected application: Application;
 
+    /**
+     * @brief Handle replied data
+     */
 	public replyData(invoke: Invoke): void
 	{
 		invoke.apply(this) == false;
 	}
+
+    /**
+     * @brief Send data to server
+     */
 	public sendData(invoke: Invoke): void
 	{
 		this.application.sendData(invoke);
@@ -2115,6 +2228,9 @@ class Movie
 class SubMovie
 	implements IProtocol 
 {
+    /**
+     * @brief A parent object the SubMovie is belonged to
+     */
 	protected parent: IProtocol;
 
 	public replyData(invoke: Invoke): void 
@@ -2140,6 +2256,9 @@ interface IEntity
 	toXML(): XML;
 }
 
+/**
+ * @brief A standard entity class
+ */
 class Entity
 	implements IEntity
 {
@@ -2155,7 +2274,8 @@ class Entity
 	public TAG(): string { return ""; }
 	public key(): any { return ""; }
 
-	public toXML(): XML {
+	public toXML(): XML 
+    {
 		var xml: XML = new XML();
 		xml.setTag(this.TAG());
 
@@ -2163,7 +2283,11 @@ class Entity
 	}
 }
 
-class EntityArray extends Vector<IEntity>
+/**
+ * @brief A standard entity and entity container
+ */
+class EntityArray 
+    extends Vector<IEntity>
 {
 	constructor() 
     {
@@ -2185,6 +2309,9 @@ class EntityArray extends Vector<IEntity>
 		}
 	}
 
+    /**
+     * @brief Factory method of creating a child.
+     */
 	public createChild(xml: XML): IEntity 
     {
 		return null;
@@ -2193,7 +2320,7 @@ class EntityArray extends Vector<IEntity>
 	public TAG(): string { return ""; }
 	public CHILD_TAG(): string { return ""; }
 	public key(): any { return ""; }
-
+    
 	public toXML(): XML
 	{
 		var xml: XML = new XML();

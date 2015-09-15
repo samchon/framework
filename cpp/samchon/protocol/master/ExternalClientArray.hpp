@@ -11,17 +11,17 @@ namespace samchon
 		{
 			class ExternalClient;
 
-			class SAMCHON_FRAMEWORK_API ExternalClientArray
+			class  ExternalClientArray
 				: public virtual ExternalSystemArray,
 				private virtual IServer
 			{
 				//External Systems are Clients
 				//And I'm a Server for them
 			protected:
-				virtual auto MY_IP() const -> String;
+				virtual auto MY_IP() const -> std::string;
 				virtual auto PORT() const -> int;
 
-				String myIP;
+				std::string myIP;
 				int port;
 
 			public:

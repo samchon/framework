@@ -28,17 +28,18 @@ namespace samchon
 		 */
 		template <typename _Container, typename _Ty = _Container::value_type>
 		class EntityGroup
-			: public _Container,
-			public virtual Entity, public virtual IEntityGroup	
+			: public _Container, public virtual Entity, //CLASS
+			public virtual IEntityGroup	//INTERFACE
 		{
 		public:
 			/**
 			 * Constructor
 			 */
 			EntityGroup()
-				: _Container(),
-				Entity(), IEntityGroup()
-			{};
+				: _Container(), Entity(), 
+				IEntityGroup()
+			{
+			};
 			virtual ~EntityGroup() = default;
 			
 			/**
@@ -47,7 +48,7 @@ namespace samchon
 			* @param key The identifier wants to check
 			* @return If there's the object then true, otherwise false
 			*/
-			auto has(const String &key) const -> bool
+			auto has(const std::string &key) const -> bool
 			{
 				for (auto it = begin(); it != end(); it++)
 					if ((*it)->key() == key)
@@ -62,7 +63,7 @@ namespace samchon
 			* @param key the identifier of the element wants to access
 			* @return The element having the key, or throw exception if there is none.
 			*/
-			auto get(const String &key) -> _Ty&
+			auto get(const std::string &key) -> _Ty&
 			{
 				for (auto it = begin(); it != end(); it++)
 				if ((*it)->key() == key)
@@ -77,7 +78,7 @@ namespace samchon
 			* @param key the identifier of the element wants to access
 			* @return The const element having the key, or throw exception if there is none.
 			*/
-			auto get(const String &key) const -> const _Ty&
+			auto get(const std::string &key) const -> const _Ty&
 			{
 				for (auto it = begin(); it != end(); it++)
 					if ((*it)->key() == key)
@@ -89,8 +90,6 @@ namespace samchon
 			/**
 			* You don't need to consider the children Entities' members\n
 			* Just concentrate on this EntityArray's own members\n
-			*
-			* @inheritDoc
 			*/
 			virtual void construct(std::shared_ptr<library::XML> xml)
 			{
@@ -132,7 +131,7 @@ namespace samchon
 				xml->setTag(TAG());
 				
 				std::shared_ptr<library::XMLList> xmlList(new library::XMLList());
-				//xmlList->reserve(size());
+				xmlList->reserve(this->size());
 
 				for (auto it = begin(); it != end(); it++)
 					xmlList->push_back( (*it)->toXML() );
@@ -148,6 +147,7 @@ namespace samchon
 			* \n
 			* @return A new child Entity belongs to EntityGroup
 			*/
-			virtual auto createChild(std::shared_ptr<library::XML>) -> Entity* = NULL;
+			virtual auto createChild(std::shared_ptr<library::XML>) -> Entity* = 0;
+		};
 	};
 };

@@ -12,7 +12,7 @@ using namespace samchon::protocol;
 /* ---------------------------------------------------------------
 	IDENTIFIERS
 --------------------------------------------------------------- */
-auto Entity::key() const -> String { return _T(""); }
+auto Entity::key() const -> std::string { return ""; }
 
 /* ---------------------------------------------------------------
 	CONSTRUCTORS

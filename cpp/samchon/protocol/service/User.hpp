@@ -1,8 +1,8 @@
 #pragma once
-#include <samchon\API.hpp>
+
 
 #include <samchon/Map.hpp>
-#include <samchon/String.hpp>
+#include <string>
 #include <samchon/SmartPointer.hpp>
 
 #include <memory>
@@ -47,7 +47,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class SAMCHON_FRAMEWORK_API User
+			class  User
 				: private Map<size_t, SmartPointer<Client>>
 			{
 				friend class Server;
@@ -84,7 +84,7 @@ namespace samchon
 				 *	</ol>
 				 * </ul>
 				 */
-				String sessionID;
+				std::string sessionID;
 
 				IPUserPair *ipPair;
 
@@ -123,7 +123,7 @@ namespace samchon
 				 *
 				 * @details Default is \"guest\"
 				 */
-				String id;
+				std::string id;
 
 				/**
 				 * @brief Authority allocated to user
@@ -199,7 +199,7 @@ namespace samchon
 				 * @param server A server who containing users and clients
 				 * @param sessionID A session ID for discriminating User; A logical identifier
 				 */
-				User(Server*, const String&);
+				User(Server*, const std::string&);
 				virtual ~User();
 
 				/* =========================================================
@@ -227,7 +227,7 @@ namespace samchon
 				/**
 				 * @brief Get user's account id
 				 */
-				auto getID() const -> String;
+				auto getID() const -> std::string;
 
 				/**
 				 * @brief Get authority of user
@@ -244,7 +244,7 @@ namespace samchon
 				 * @param authority
 				 */
 				virtual auto createClient(int, Socket*) const -> Client* = NULL;
-				//void setMember(const String &id, int authority);
+				//void setMember(const std::string &id, int authority);
 
 				auto __keepAlive(Client* = nullptr) -> ServiceKeeper;
 			

@@ -11,9 +11,9 @@ using namespace boost;
 using namespace boost::asio;
 using namespace boost::asio::ip;
 
-auto ServerConnector::MY_IP() const -> String
+auto ServerConnector::MY_IP() const -> std::string
 {
-	return _T("");
+	return "";
 }
 
 ServerConnector::ServerConnector()
@@ -32,8 +32,8 @@ ServerConnector::~ServerConnector()
 
 void ServerConnector::connect()
 {
-	String &ip = IP();
-	String &myIP = MY_IP();
+	std::string &ip = IP();
+	std::string &myIP = MY_IP();
 
 	if (super::socket != nullptr && super::socket->is_open() == true)
 		return;

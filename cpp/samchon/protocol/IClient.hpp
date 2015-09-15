@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon\API.hpp>
+
 
 #include <samchon/protocol/IProtocol.hpp>
 #include <samchon/protocol/Socket.hpp>
@@ -33,7 +33,7 @@ namespace samchon
 		/**
 		 * @brief Interface for a client
 		 */
-		class SAMCHON_FRAMEWORK_API IClient
+		class  IClient
 			: public virtual IProtocol
 		{
 		protected:

@@ -101,7 +101,9 @@ namespace samchon
 				for (size_t i = 0; i < size; i++)
 				{
 					GeneArray *ptr = new GeneArray(*geneArray);
-					std::random_shuffle(ptr->begin(), ptr->end());
+
+					if(i > 0) //FOR ELITICISM
+						std::random_shuffle(ptr->begin(), ptr->end());
 
 					children.emplace_back(ptr);
 				}

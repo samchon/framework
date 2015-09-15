@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include <samchon\API.hpp>
+
 
 #include <samchon/Map.hpp>
 #include <samchon/library/XMLList.hpp>
 
 #include <sstream>
-#include <samchon/String.hpp>
+#include <string>
 #include <samchon/WeakString.hpp>
 
 namespace std
@@ -63,11 +63,11 @@ namespace samchon
 		 * 
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API XML 
-			: public Map<String, std::shared_ptr<XMLList>>
+		class  XML 
+			: public Map<std::string, std::shared_ptr<XMLList>>
 		{
 		private:
-			typedef Map<String, std::shared_ptr<XMLList>> super;
+			typedef Map<std::string, std::shared_ptr<XMLList>> super;
 
 			/**
 			 * @brief Tag name
@@ -76,7 +76,7 @@ namespace samchon
 			 *	\li \<<b>tag</b> label='property' /\>: tag => \"tag\"
 			 *  \li \<<b>price</b> high='1500' low='1300' open='1450' close='1320' /\>: tag => \"price\"
 			 */
-			String tag;
+			std::string tag;
 			
 			/**
 			 * @brief Value of the XML
@@ -85,7 +85,7 @@ namespace samchon
 			 *  \li \<parameter name='age' type='int'\><b>26</b>\</parameter\>: value => 26
 			 *	\li \<price high='1500' low='1300' open='1450' close='1320' /\>: tag => null
 			 */
-			String value;
+			std::string value;
 
 			/**
 			 * @brief Properties belongs to the XML
@@ -97,7 +97,7 @@ namespace samchon
 			 *	\li \<member <b>id='jhnam88' name='Jeongho+Nam' comment='Hello.+My+name+is+Jeongho+Nam'</b> \>: 
 			 *		propertyMap => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam\"}, {\"comment\", \"Hello. My name is Jeongho Nam\"}}
 			 */
-			Map<String, String> propertyMap;
+			Map<std::string, std::string> propertyMap;
 
 		/* -----------------------------------------------------------
 			CONSTRUCTORS
@@ -188,7 +188,7 @@ namespace samchon
 			 *
 			 * @see XML::tag
 			 */
-			void setTag(const String &);
+			void setTag(const std::string &);
 
 			/**
 			 * @brief Set value of the XML
@@ -222,27 +222,27 @@ namespace samchon
 			template <typename _Ty>
 			void setValue(const _Ty &val)
 			{
-				basic_stringstream<TCHAR> sstream;
+				basic_stringstream<char> sstream;
 				sstream << val;
 
 				this->value = sstream.str();
 			};
-			template<> void setValue(const String &val);
+			template<> void setValue(const std::string &val);
 			template<> void setValue(const WeakString &val);
 
 			/**
 			 * @brief Set a property with its key
 			 */
 			template<typename _Ty> 
-			void setProperty(const String &name, const _Ty &val)
+			void setProperty(const std::string &name, const _Ty &val)
 			{
-				basic_stringstream<TCHAR> sstream;
+				basic_stringstream<char> sstream;
 				sstream << val;
 
 				propertyMap.set(name, sstream.str());
 			};
-			template<> void setProperty(const String &name, const String &val);
-			template<> void setProperty(const String &name, const WeakString &val);
+			template<> void setProperty(const std::string &name, const std::string &val);
+			template<> void setProperty(const std::string &name, const WeakString &val);
 
 			/**
 			 * @brief Erase a property by its key
@@ -250,7 +250,7 @@ namespace samchon
 			 * @param key The key of the property to erase
 			 * @throw exception Unable to find the element
 			 */
-			void eraseProperty(const String&);
+			void eraseProperty(const std::string&);
 
 			/**
 			 * @brief Remove all properties in the XML
@@ -267,27 +267,27 @@ namespace samchon
 			 * @return tag, identifer of the XML
 			 * @see XML::tag
 			 */
-			auto getTag() const -> String;
+			auto getTag() const -> std::string;
 
 			/**
 			 * @brief Get value of the XML
 			 */
-			template<class _Ty = String> auto getValue() const -> _Ty;
+			template<class _Ty = std::string> auto getValue() const -> _Ty;
 			
 			/**
 			 * @brief Get property
 			 */
-			template<class _Ty = String> auto getProperty(const String &) const -> _Ty;
+			template<class _Ty = std::string> auto getProperty(const std::string &) const -> _Ty;
 
 			/**
 			 * @brief Test wheter a property exists or not
 			 */
-			auto hasProperty(const String &) const -> bool;
+			auto hasProperty(const std::string &) const -> bool;
 			
 			/**
 			 * @brief Get propertyMap
 			 */
-			auto getPropertyMap() const -> const Map<String, String>&;
+			auto getPropertyMap() const -> const Map<std::string, std::string>&;
 			
 		/* -----------------------------------------------------------
 			FILTERS
@@ -295,10 +295,10 @@ namespace samchon
 		private:
 			auto calcMinIndex(const std::vector<size_t>&) const -> size_t;
 			
-			auto encodeValue(const WeakString &) const -> String;
-			auto decodeValue(const WeakString &) const -> String;
-			auto encodeProperty(const WeakString &) const -> String;
-			auto decodeProperty(const WeakString &) const -> String;
+			auto encodeValue(const WeakString &) const -> std::string;
+			auto decodeValue(const WeakString &) const -> std::string;
+			auto encodeProperty(const WeakString &) const -> std::string;
+			auto decodeProperty(const WeakString &) const -> std::string;
 
 		/* -----------------------------------------------------------
 			EXPORTERS
@@ -310,10 +310,10 @@ namespace samchon
 			 *
 			 * @return A string representing the xml
 			 */
-			auto toString(size_t level = 0) const -> String;
+			auto toString(size_t level = 0) const -> std::string;
 
 		private:
-			void fetchString(std::list<String, std::allocator<String>> &, size_t) const;
+			void fetchString(std::list<std::string, std::allocator<std::string>> &, size_t) const;
 		};
 	};
 };

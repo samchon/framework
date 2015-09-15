@@ -10,7 +10,7 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 
-const vector<String> WeakString::SPACE_ARRAY = { _T(" "), _T("\t"), _T("\r"), _T("\n") };
+const vector<std::string> WeakString::SPACE_ARRAY = { " ", "\t", "\r", "\n" };
 
 /* --------------------------------------------------------------------
 	CONSTRUCTORS
@@ -20,30 +20,30 @@ WeakString::WeakString()
 	this->data_ = nullptr;
 	this->size_ = 0;
 }
-WeakString::WeakString(const TCHAR *data, size_t size)
+WeakString::WeakString(const char *data, size_t size)
 {
 	this->data_ = data;
-	this->size_ = std::min<size_t>(std::char_traits<TCHAR>::length(data), size);
+	this->size_ = std::min<size_t>(std::char_traits<char>::length(data), size);
 }
-WeakString::WeakString(const TCHAR *begin, const TCHAR *end)
+WeakString::WeakString(const char *begin, const char *end)
 	: WeakString(begin, end - begin)
 {
 }
-WeakString::WeakString(const TCHAR *data)
+WeakString::WeakString(const char *data)
 {
 	this->data_ = data;
 
 	if (data == nullptr)
 		this->size_ = 0;
 	else
-		this->size_ = std::char_traits<TCHAR>::length(data);
+		this->size_ = std::char_traits<char>::length(data);
 }
-WeakString::WeakString(const TCHAR &ch)
+WeakString::WeakString(const char &ch)
 {
 	this->data_ = &ch;
 	this->size_ = 1;
 }
-WeakString::WeakString(std::initializer_list<TCHAR> &il)
+WeakString::WeakString(std::initializer_list<char> &il)
 {
 	if (il.size() == 0)
 		this->data_ = nullptr;
@@ -52,7 +52,7 @@ WeakString::WeakString(std::initializer_list<TCHAR> &il)
 
 	this->size_ = il.size();
 }
-WeakString::WeakString(const String &str)
+WeakString::WeakString(const std::string &str)
 {
 	this->data_ = str.data();
 	this->size_ = str.size();
@@ -61,7 +61,7 @@ WeakString::WeakString(const String &str)
 /* --------------------------------------------------------------------
 	ELEMENT ACCESSORS
 -------------------------------------------------------------------- */
-auto WeakString::data() const -> const TCHAR*
+auto WeakString::data() const -> const char*
 {
 	return data_;
 }
@@ -75,11 +75,11 @@ auto WeakString::empty() const -> bool
 	return (size_ == 0 || data_ == nullptr);
 }
 
-auto WeakString::at(size_t index) const -> const TCHAR&
+auto WeakString::at(size_t index) const -> const char&
 {
 	return *(data_ + index);
 }
-auto WeakString::operator[](size_t index) const -> const TCHAR&
+auto WeakString::operator[](size_t index) const -> const char&
 {
 	return *(data_ + index);
 }
@@ -117,7 +117,7 @@ auto WeakString::rfind(const WeakString &delim, size_t endIndex) const -> size_t
 		return npos;
 }
 
-auto WeakString::finds(const std::vector<String> &delims, size_t startIndex) const -> IndexPair<WeakString>
+auto WeakString::finds(const std::vector<std::string> &delims, size_t startIndex) const -> IndexPair<WeakString>
 {
 	std::vector<WeakString> wdelims(delims.size());
 	for (size_t i = 0; i < delims.size(); i++)
@@ -133,11 +133,11 @@ auto WeakString::finds(const std::vector<WeakString> &delims, size_t startIndex)
 	for (size_t i = 0; i < delims.size(); i++)
 		positionVector.push_back(find(delims[i], startIndex));
 
-	IndexPair<size_t> &iPair = Math::min(positionVector);
+	IndexPair<size_t> &iPair = Math::minimum(positionVector);
 	return{ iPair.getIndex(), delims[iPair.getValue()] };
 }
 
-auto WeakString::rfinds(const std::vector<String> &delims, size_t endIndex) const -> IndexPair<WeakString>
+auto WeakString::rfinds(const std::vector<std::string> &delims, size_t endIndex) const -> IndexPair<WeakString>
 {
 	std::vector<WeakString> wdelims(delims.size());
 	for (size_t i = 0; i < delims.size(); i++)
@@ -163,7 +163,7 @@ auto WeakString::rfinds(const std::vector<WeakString> &delims, size_t endIndex) 
 	if (positionVector.empty() == true)
 		return{ wstring::npos, WeakString() };
 
-	IndexPair<size_t> &iPair = Math::max(positionVector);
+	IndexPair<size_t> &iPair = Math::maximum(positionVector);
 	return{ iPair.getIndex(), delims[iPair.getValue()] };
 }
 
@@ -276,7 +276,7 @@ auto WeakString::betweens(const WeakString &start, const WeakString &end) const 
 				if (vec.at((size_t)i).find(end) == npos)
 					vec.erase(vec.begin() + (size_t)i);
 				else
-					vec[(size_t)i] = vec[(size_t)i].between(_T(""), end);
+					vec[(size_t)i] = vec[(size_t)i].between("", end);
 	}
 	return move(vec);
 }
@@ -301,7 +301,7 @@ auto WeakString::ltrim(const std::vector<WeakString> &delims) const-> WeakString
 		for (size_t i = 0; i < delims.size(); i++)
 			indexVec.push_back(str.find(delims[i]));
 
-		indexPair = Math::min(indexVec);
+		indexPair = Math::minimum(indexVec);
 		if (indexPair.getValue() == 0)
 		{
 			size_t size = delims[indexPair.getIndex()].size();
@@ -334,7 +334,7 @@ auto WeakString::rtrim(const std::vector<WeakString> &delims) const-> WeakString
 		if (indexVec.empty() == true)
 			break;
 
-		pairIndex = Math::max(indexVec);
+		pairIndex = Math::maximum(indexVec);
 		size_t size = delims[pairIndex.getIndex()].size();
 
 		if (pairIndex.getValue() == str.size() - size)
@@ -371,7 +371,7 @@ auto WeakString::rtrim(const WeakString &delim) const -> WeakString
 	return rtrim(vector<WeakString>({ delim }));
 }
 
-auto WeakString::trim(const std::vector<String> &delims) const -> WeakString
+auto WeakString::trim(const std::vector<std::string> &delims) const -> WeakString
 {
 	std::vector<WeakString> wdelims(delims.size());
 	for (size_t i = 0; i < delims.size(); i++)
@@ -379,7 +379,7 @@ auto WeakString::trim(const std::vector<String> &delims) const -> WeakString
 
 	return trim(wdelims);
 }
-auto WeakString::ltrim(const std::vector<String> &delims) const -> WeakString
+auto WeakString::ltrim(const std::vector<std::string> &delims) const -> WeakString
 {
 	std::vector<WeakString> wdelims(delims.size());
 	for (size_t i = 0; i < delims.size(); i++)
@@ -387,7 +387,7 @@ auto WeakString::ltrim(const std::vector<String> &delims) const -> WeakString
 
 	return ltrim(wdelims);
 }
-auto WeakString::rtrim(const std::vector<String> &delims) const -> WeakString
+auto WeakString::rtrim(const std::vector<std::string> &delims) const -> WeakString
 {
 	std::vector<WeakString> wdelims(delims.size());
 	for (size_t i = 0; i < delims.size(); i++)
@@ -399,13 +399,13 @@ auto WeakString::rtrim(const std::vector<String> &delims) const -> WeakString
 /* --------------------------------------------------------------------
 	REPLACERS
 -------------------------------------------------------------------- */
-auto WeakString::replace(const WeakString &before, const WeakString &after) const -> String
+auto WeakString::replace(const WeakString &before, const WeakString &after) const -> std::string
 {
 	size_t index = find(before);
 	if (index == npos)
 		return move(str());
 
-	String str;
+	std::string str;
 	str.reserve(size() - before.size() + after.size());
 
 	str.append(substr(0, index).str());
@@ -415,12 +415,12 @@ auto WeakString::replace(const WeakString &before, const WeakString &after) cons
 	return move(str);
 }
 
-auto WeakString::replaceAll(const WeakString &before, const WeakString &after) const -> String
+auto WeakString::replaceAll(const WeakString &before, const WeakString &after) const -> std::string
 {
 	//to replaceAll(vector<pair<string, string>>)
 	return move(replaceAll({ { before, after } }));
 }
-auto WeakString::replaceAll(const std::vector<std::pair<String, String>> &pairs) const -> String
+auto WeakString::replaceAll(const std::vector<std::pair<std::string, std::string>> &pairs) const -> std::string
 {
 	std::vector<std::pair<WeakString, WeakString>> wPairs(pairs.size());
 	for (size_t i = 0; i < pairs.size(); i++)
@@ -428,7 +428,7 @@ auto WeakString::replaceAll(const std::vector<std::pair<String, String>> &pairs)
 
 	return move(replaceAll(wPairs));
 }
-auto WeakString::replaceAll(const std::vector<std::pair<WeakString, WeakString>> &pairs) const -> String
+auto WeakString::replaceAll(const std::vector<std::pair<WeakString, WeakString>> &pairs) const -> std::string
 {
 	if (pairs.empty() == true)
 		return this->str();
@@ -465,7 +465,7 @@ auto WeakString::replaceAll(const std::vector<std::pair<WeakString, WeakString>>
 	foundPairList.sort();
 
 	//REPLACE
-	String str;
+	std::string str;
 	str.reserve(strSize);
 
 	index = 0;
@@ -488,18 +488,18 @@ auto WeakString::replaceAll(const std::vector<std::pair<WeakString, WeakString>>
 	return str;
 }
 
-auto WeakString::toLowerCase() const -> String
+auto WeakString::toLowerCase() const -> std::string
 {
-	String &str = this->str();
+	std::string &str = this->str();
 	for (size_t i = 0; i < str.size(); i++)
 		if ('A' <= str[i] && str[i] <= 'Z')
 			str[i] = tolower(str[i]);
 
 	return move(str);
 }
-auto WeakString::toUpperCase() const -> String
+auto WeakString::toUpperCase() const -> std::string
 {
-	String &str = this->str();
+	std::string &str = this->str();
 	for (size_t i = 0; i < str.size(); i++)
 		if ('a' <= str[i] && str[i] <= 'z')
 			str[i] = toupper(str[i]);
@@ -543,11 +543,11 @@ OPERATOR_METHODS_BODY(WeakString, WeakString)
 /* --------------------------------------------------------------------
 	CONVERSIONS
 -------------------------------------------------------------------- */
-auto WeakString::str() const -> String
+auto WeakString::str() const -> std::string
 {
-	return move(String(data_, data_ + size_));
+	return move(std::string(data_, data_ + size_));
 };
-WeakString::operator String()
+WeakString::operator std::string()
 {
 	return move(str());
 };

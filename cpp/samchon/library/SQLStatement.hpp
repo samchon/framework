@@ -1,10 +1,11 @@
 #pragma once
-#include <samchon\API.hpp>
+
 
 #include <vector>
 #include <memory>
 #include <samchon/Map.hpp>
-#include <samchon/String.hpp>
+#include <string>
+#include <samchon/ByteArray.hpp>
 
 namespace samchon
 {
@@ -17,24 +18,26 @@ namespace samchon
 		 * @brief The sql statement
 		 *
 		 * @details
-		 * \par
-		 * A SQLStatement instance is used to executing a SQL statement and returning
+		 * <p> A SQLStatement instance is used to executing a SQL statement and returning
 		 * the results it produces against a SQL database that is opened through a SQLi 
-		 * instance.
+		 * instance. </p>
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API SQLStatement
+		class SQLStatement
 		{
 			friend class SQLi;
-		/*private:
-#ifdef _WIN64
+		private:
+		#ifdef _WIN64
 			typedef long long SQL_SIZE_T;
-#else
+		#else
 			typedef long SQL_SIZE_T;
-#endif*/
+		#endif
 
 		protected:
+			/* --------------------------------------------------------------
+				BASIC MEMBER VARIABLES
+			-------------------------------------------------------------- */
 			/**
 			 * @brief SQLi who created the SQLStatement
 			 */
@@ -45,22 +48,25 @@ namespace samchon
 			 */
 			void *hstmt;
 
+			/* --------------------------------------------------------------
+				MEMBER VARIABLES FOR BINDING
+			-------------------------------------------------------------- */
 			/**
 			 * @brief Count of binded parameters\n
 			 */
 			size_t bindParameterCount;
+			Map<size_t, SQL_SIZE_T> bindParameterBASizeMap;
 
 		protected:
 			/**
 			 * @brief Protected Constructor 
 			 *
 			 * @details
-			 * \par
 			 * SQLStatement's constructor have to created by SQLi::createStatement().
 			 * 
-			 * @warning 
-			 * Don't create SQLStatement by yourself.\n
-			 * SQLStatement has to be created by SQLi::createStatement().
+			 * @note
+			 * <p> Don't create SQLStatement by yourself. </p>
+			 * <p> SQLStatement has to be created by SQLi::createStatement(). </p>
 			 *
 			 * @param sqli Parent SQLi who created the SQLStatement
 			 */
@@ -73,57 +79,45 @@ namespace samchon
 		public:
 			/**
 			 * @brief Free the sql statement
-			 * 
-			 * @details
-			 * 
 			 */
 			void free();
 
 			/**
 			 * @brief Refresh the sql statement
-			 *
-			 * @details
-			 * 
-			 * 
 			 */
 			void refresh();
 			
+			/* -----------------------------------------------------------------------
+				QUERY
+			----------------------------------------------------------------------- */
 			/**
 			 * @brief Prepare a sql statement
+			 * @details Prepare a sql statement with parameters to bind for execution
 			 *
-			 * @details
-			 * \par 
-			 * Prepare a sql statement with parameters to bind for execution
-			 *
-			 * @warning
-			 * \par Be careful for destructions of binded parameters
+			 * @warning Be careful for destructions of binded parameters
 			 *
 			 * @param sql A sql-statement to prepare
 			 * @param ... args The parameters to bind
 			 */
 			template <typename _Ty, typename ... _Args> 
-			void prepare(const String &sql, const _Ty& val, const _Args& ... args)
+			void prepare(const std::string &sql, const _Ty& val, const _Args& ... args)
 			{
 				prepare(sql);
 
 				bindParameter(val);
 				bindParameter(args...);
 			};
-			template <typename _Ty> void prepare(const String &str, const _Ty& val)
+			template <typename _Ty> void prepare(const std::string &str, const _Ty& val)
 			{
 				prepare(str);
 
 				bindParameter(val);
 			};
-			void prepare(const String &);
+			void prepare(const std::string &);
 
 			/**
 			 * @brief Execute the prepared sql statement
 			 *
-			 * @details 
-			 * Executes the prepared sql statement.
-			 * 
-			 * 
 			 * @throw exception Error message from DBMS
 			 */
 			void execute();
@@ -132,44 +126,49 @@ namespace samchon
 			 * @brief Execute sql-statement direclty 
 			 *
 			 * @details
-			 * \par
 			 * Executes the given sql-statement without preparing or binding any parameter
 			 *
 			 * @warning
-			 *	\li 
-			 *		\par Cannot use if prepare has already called.
-			 *		\par Use execute instead.
-			 *  \li 
-			 *		\par
-			 *		Not recommended when the case of dynamic sql and the sql-statement 
-			 *		is not for procedure but for direct access to table. 
-			 * 
-			 *		\par
+			 *	\li Cannot use if prepare statement has already defined. Use execute instead.
+			 *  \li Not recommended when the case of dynamic sql and the sql-statement 
+			 *		is not for procedure but for direct access to table.
 			 *		Use prepare and execute instead.
 			 * 
 			 * @param sql sql-statement you want to execute
 			 * @throw exception Error message from DBMS
 			 * @throw exception Method prepare is already called
 			 */
-			void executeDirectly(const String&);
+			void executeDirectly(const std::string&);
 
+			/* -----------------------------------------------------------------------
+				CURSOR
+			----------------------------------------------------------------------- */
 			/**
 			 * @brief Fetch a record
-			 * @details
-			 * 
 			 * 
 			 * @return 
-			 * \par Whether succeded to fetch a record or not\n
-			 * \par False means there's not any record or previous record was the last
+			 * <p> Whether succeded to fetch a record. </p>
+			 * <p> False means there's not any record or previous record was the last. </p>
 			 */
 			auto fetch() const -> bool;
 
 			/**
-			 * Moves fetching pointer to the next sql-statement\n
-			 * \n
-			 * @return Whether succeded to move pointer to the next statement or not
+			 * @brief Move cursor to the next sql-statement
+			 * 
+			 * @return Whether succeded to move cursor to the next statement.
 			 */
 			auto next() const -> bool;
+
+			/* -------------------------------------------------------------------------
+				GET DATA IN A COLUMN
+			------------------------------------------------------------------------- */
+			/**
+			 * @brief Get size of columns
+			 *
+			 * @details Returns the number of columns in a result set.
+			 * @warning Not size of rows.
+			 */
+			auto size() const -> size_t;
 
 			/**
 			 * @brief Get column's data by its index
@@ -178,26 +177,19 @@ namespace samchon
 			 * @param index Index number of a column wants to get
 			 * @return Data stored in the record at the position of specifield column
 			 */
-			template <typename _Ty> auto at(size_t) const -> _Ty;
-			template<> auto at(size_t) const -> bool;
-			template<> auto at(size_t) const -> char;
-			template<> auto at(size_t) const -> short;
-			template<> auto at(size_t) const -> int;
-			template<> auto at(size_t) const -> long;
-			template<> auto at(size_t) const -> long long;
-			template<> auto at(size_t) const -> float;
-			template<> auto at(size_t) const -> double;
-			template<> auto at(size_t) const -> unsigned char;
-			template<> auto at(size_t) const -> unsigned short;
-			template<> auto at(size_t) const -> unsigned int;
-			template<> auto at(size_t) const -> unsigned long;
-			template<> auto at(size_t) const -> unsigned long long;
-			template<> auto at(size_t) const -> long double;
+			template <typename _Ty> auto at(size_t index) const -> _Ty
+			{
+				_Ty val;
+				sql_get_data(index + 1, C_TYPE<_Ty>(), &val);
+				
+				return val;
+			};
 			template<> auto at(size_t) const -> std::string;
 			template<> auto at(size_t) const -> std::wstring;
+			template<> auto at(size_t) const -> ByteArray;
 
 			/**
-			 * @brief Get column data by its name
+			 * @brief Get a column data by its name
 			 * @details Returns column's data from fetchched-recrod by specified column name 
 			 *
 			 * @details
@@ -206,43 +198,79 @@ namespace samchon
 			 * @param name Name of a column wants to get
 			 * @return Data stored in the record at the position of specifield column
 			 */
-			template <typename _Ty> auto get(const String &) const -> _Ty;
-			template<> auto get(const String &) const -> bool;
-			template<> auto get(const String &) const -> char;
-			template<> auto get(const String &) const -> short;
-			template<> auto get(const String &) const -> int;
-			template<> auto get(const String &) const -> long;
-			template<> auto get(const String &) const -> long long;
-			template<> auto get(const String &) const -> float;
-			template<> auto get(const String &) const -> double;
-			template<> auto get(const String &) const -> unsigned char;
-			template<> auto get(const String &) const -> unsigned short;
-			template<> auto get(const String &) const -> unsigned int;
-			template<> auto get(const String &) const -> unsigned long;
-			template<> auto get(const String &) const -> unsigned long long;
-			template<> auto get(const String &) const -> long double;
-			template<> auto get(const String &) const -> std::string;
-			template<> auto get(const String &) const -> std::wstring;
+			template <typename _Ty> auto get(const std::string &) const -> _Ty
+			{
+				return move( at<_Ty>(0) );
+			};
 
 			/**
 			 * @brief Result sets to XML
 			 *
 			 * @details
-			 * \par Converts the records of current sql-statement to XML
-			 * \par Recommends to override for each DBMS's domain XML rule
+			 * <p> Converts the records of current sql-statement to XML. </p>
+			 * <p> Recommends to override for each DBMS's domain XML rule. </p>
 			 * 
 			 * @return XML representing records of the statement
 			 */
 			virtual auto toXML() const -> std::shared_ptr<XML>;
 
 		private:
+			/* -------------------------------------------------------------------
+				BIND
+			------------------------------------------------------------------- */
 			template <typename _Ty, typename ... _Args>
 			void bindParameter(const _Ty& val, const _Args& ... args)
 			{
 				bindParameter(val);
 				bindParameter(args...);
 			};
-			template <typename _Ty> void bindParameter(const _Ty &);
+			template <typename _Ty> void bindParameter(const _Ty &val)
+			{
+				sql_bind_parameter(C_TYPE<_Ty>(), SQL_TYPE<_Ty>(), (void*)&val);
+			};
+			template<> void bindParameter(const std::string &val);
+			template<> void bindParameter(const std::wstring &val);
+			template<> void bindParameter(const ByteArray &val);
+			
+			/* -------------------------------------------------------------------
+				ODBC'S FUNCTION
+			------------------------------------------------------------------- */
+			void sql_get_data(size_t, short, void*) const;
+			void sql_bind_parameter(short, short, void*);
+			
+			template <typename _Ty> auto C_TYPE(const _Ty &) const -> short;
+				template<> auto C_TYPE(const bool &) const -> short;
+				template<> auto C_TYPE(const char &) const -> short;
+				template<> auto C_TYPE(const short &) const -> short;
+				template<> auto C_TYPE(const long &) const -> short;
+				template<> auto C_TYPE(const long long &) const -> short;
+				template<> auto C_TYPE(const int &) const -> short;
+				template<> auto C_TYPE(const float &) const -> short;
+				template<> auto C_TYPE(const double &) const -> short;
+
+				template<> auto C_TYPE(const unsigned char &) const -> short;
+				template<> auto C_TYPE(const unsigned short &) const -> short;
+				template<> auto C_TYPE(const unsigned long &) const -> short;
+				template<> auto C_TYPE(const unsigned long long &) const -> short;
+				template<> auto C_TYPE(const unsigned int &) const -> short;
+				template<> auto C_TYPE(const long double &) const -> short;
+
+			template <typename _Ty> auto SQL_TYPE(const _Ty &) const -> short;
+				template<> auto SQL_TYPE(const bool &) const -> short;
+				template<> auto SQL_TYPE(const char &) const -> short;
+				template<> auto SQL_TYPE(const short &) const -> short;
+				template<> auto SQL_TYPE(const long &) const -> short;
+				template<> auto SQL_TYPE(const long long &) const -> short;
+				template<> auto SQL_TYPE(const int &) const -> short;
+				template<> auto SQL_TYPE(const float &) const -> short;
+				template<> auto SQL_TYPE(const double &) const -> short;
+
+				template<> auto SQL_TYPE(const unsigned char &) const -> short;
+				template<> auto SQL_TYPE(const unsigned short &) const -> short;
+				template<> auto SQL_TYPE(const unsigned long &) const -> short;
+				template<> auto SQL_TYPE(const unsigned long long &) const -> short;
+				template<> auto SQL_TYPE(const unsigned int &) const -> short;
+				template<> auto SQL_TYPE(const long double &) const -> short;
 		};
 	};
 };

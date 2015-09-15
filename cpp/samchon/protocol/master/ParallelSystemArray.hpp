@@ -7,7 +7,7 @@ namespace samchon
 	{
 		namespace master
 		{
-			class SAMCHON_FRAMEWORK_API ParallelMaster
+			class  ParallelMaster
 				: public virtual DistributedSystemArray
 			{
 			private:

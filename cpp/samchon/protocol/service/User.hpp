@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <samchon/Map.hpp>
 #include <string>
@@ -47,7 +47,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class  User
+			class SAMCHON_FRAMEWORK_API User
 				: private Map<size_t, SmartPointer<Client>>
 			{
 				friend class Server;

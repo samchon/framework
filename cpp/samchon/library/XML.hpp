@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include <samchon/API.hpp>
 
 #include <samchon/Map.hpp>
 #include <samchon/library/XMLList.hpp>
@@ -61,9 +61,11 @@ namespace samchon
 		 *	</tr>
 		 * </table>
 		 * 
+		 * @includelineno xml/main.cpp
+		 *
 		 * @author Jeongho Nam
 		 */
-		class  XML 
+		class SAMCHON_FRAMEWORK_API XML 
 			: public Map<std::string, std::shared_ptr<XMLList>>
 		{
 		private:
@@ -222,13 +224,11 @@ namespace samchon
 			template <typename _Ty>
 			void setValue(const _Ty &val)
 			{
-				basic_stringstream<char> sstream;
+				stringstream sstream;
 				sstream << val;
 
-				this->value = sstream.str();
+				this->value = move(sstream.str());
 			};
-			template<> void setValue(const std::string &val);
-			template<> void setValue(const WeakString &val);
 
 			/**
 			 * @brief Set a property with its key
@@ -236,13 +236,11 @@ namespace samchon
 			template<typename _Ty> 
 			void setProperty(const std::string &name, const _Ty &val)
 			{
-				basic_stringstream<char> sstream;
+				stringstream sstream;
 				sstream << val;
 
 				propertyMap.set(name, sstream.str());
 			};
-			template<> void setProperty(const std::string &name, const std::string &val);
-			template<> void setProperty(const std::string &name, const WeakString &val);
 
 			/**
 			 * @brief Erase a property by its key
@@ -272,12 +270,30 @@ namespace samchon
 			/**
 			 * @brief Get value of the XML
 			 */
-			template<class _Ty = std::string> auto getValue() const -> _Ty;
+			template<class _Ty = std::string> auto getValue() const -> _Ty
+			{
+				stringstream sstream;
+				sstream << this->value;
+
+				_Ty val;
+				sstream >> val;
+
+				return move(val);
+			};
 			
 			/**
 			 * @brief Get property
 			 */
-			template<class _Ty = std::string> auto getProperty(const std::string &) const -> _Ty;
+			template<class _Ty = std::string> auto getProperty(const std::string &key) const -> _Ty
+			{
+				stringstream sstream;
+				sstream << propertyMap.get(key);
+
+				_Ty val;
+				sstream >> val;
+
+				return move(val);
+			};
 
 			/**
 			 * @brief Test wheter a property exists or not

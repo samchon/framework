@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/master/ExternalSystemArray.hpp>
 
 namespace samchon
@@ -9,7 +11,7 @@ namespace samchon
 		{
 			class ExternalServer;
 
-			class  ExternalServerArray
+			class SAMCHON_FRAMEWORK_API ExternalServerArray
 				: public virtual ExternalSystemArray
 			{
 				//External Systems are Servers

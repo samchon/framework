@@ -14,7 +14,7 @@ MSSQLStatement::~MSSQLStatement() {}
 auto MSSQLStatement::toXML() const -> shared_ptr<XML>
 {
 	fetch();
-	string &str = this->at<string>(0);
+	string &str = super::at<std::string>(0);
 
 	shared_ptr<XML> xml(new XML(str));
 	return xml;

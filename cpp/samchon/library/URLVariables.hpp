@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <samchon/Map.hpp>
 #include <string>
@@ -19,7 +19,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  URLVariables
+		class SAMCHON_FRAMEWORK_API URLVariables
 			: public Map<std::string, std::string>
 		{
 		private:

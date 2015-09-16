@@ -2,7 +2,7 @@
 #include <memory>
 #include <samchon/library/EventDispatcher.hpp>
 
-class Travel;
+class SAMCHON_FRAMEWORK Travel;
 
 /**
  * @brief Parameters for Genetic-Algorithm
@@ -19,7 +19,7 @@ struct GAParameters
 	size_t generation;
 };
 
-class TSP
+class SAMCHON_FRAMEWORK TSP
 	: public samchon::library::EventDispatcher
 {
 private:

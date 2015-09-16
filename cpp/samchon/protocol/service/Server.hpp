@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <samchon/protocol/IServer.hpp>
 #include <samchon/Map.hpp>
@@ -38,7 +38,7 @@ namespace samchon
 			 * @tparam _Ty SmartPointer<User>
 			 * @author Jeongho Nam
 			 */
-			class  Server
+			class SAMCHON_FRAMEWORK_API Server
 				: private Map<std::string, SmartPointer<User>>,
 				public IServer
 			{

@@ -1,8 +1,7 @@
 #include <samchon/protocol/InvokeParameter.hpp>
 
+#include <samchon/ByteArray.hpp>
 #include <samchon/library/XML.hpp>
-#include <samchon/library/StringUtil.hpp>
-
 #include <samchon/library/Base64.hpp>
 #include <samchon/library/StringUtil.hpp>
 
@@ -17,7 +16,7 @@ using namespace samchon::protocol;
 InvokeParameter::InvokeParameter(const string &name, const double &val)
 {
 	this->name = name;
-	this->type = "string";
+	this->type = "number";
 
 	this->value = new double(val);
 }
@@ -34,6 +33,27 @@ InvokeParameter::InvokeParameter(const string &name, const shared_ptr<XML> &xml)
 	this->type = "XML";
 
 	this->value = new shared_ptr<XML>(xml);
+}
+InvokeParameter::InvokeParameter(const string &name, const ByteArray &byteArray)
+{
+	this->name = name;
+	this->type = "ByteArray";
+	this->value = new ByteArray(byteArray);
+}
+
+InvokeParameter::InvokeParameter(const string &name, string &&str)
+{
+	this->name = name;
+	this->type = "string";
+
+	this->value = new string(move(str));
+}
+InvokeParameter::InvokeParameter(const string &name, ByteArray &&byteArray)
+{
+	this->name = name;
+	this->type = "ByteArray";
+
+	this->value = new ByteArray(move(byteArray));
 }
 
 InvokeParameter::~InvokeParameter()
@@ -120,7 +140,7 @@ InvokeParameter::InvokeParameter(shared_ptr<XML> xml)
 	if(type == "double")
 		this->value = new double(xml->getValue<double>());
 	else if(type == "string")
-		this->value = new string(xml->getValue<string>());
+		this->value = new string(xml->getValue());
 	else if (type == "XML")
 		this->value = new shared_ptr<XML>(xml->begin()->second->at(0));
 	else if (type == "ByteArray")
@@ -166,8 +186,9 @@ auto InvokeParameter::toXML() const -> shared_ptr<XML>
 		xml->setValue("size: #" + to_string(byteArray->size()));
 	}
 	else
+	{
 		xml->setValue(getValueAsString());
-
+	}
 	return xml;
 }
 auto InvokeParameter::toSQL() const -> std::string

@@ -1,4 +1,5 @@
 #pragma once
+#include <samchon/API.hpp>
 
 #include <samchon/library/IOperator.hpp>
 
@@ -30,7 +31,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  Date
+		class SAMCHON_FRAMEWORK_API Date
 			: public std::chrono::system_clock::time_point
 		{
 		private:

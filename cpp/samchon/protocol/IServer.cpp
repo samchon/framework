@@ -58,9 +58,12 @@ void IServer::open()
 		acceptor->accept(*socket, error);
 
 		if (error)
-			break;
-
+		{
+			delete socket;
+			continue;
+		}
 		addClient(socket);
+		//thread(&IServer::addClient, this, socket).detach();
 	}
 	delete acceptor;
 	acceptor = nullptr;

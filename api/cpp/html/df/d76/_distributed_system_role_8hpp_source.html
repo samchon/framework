@@ -108,53 +108,56 @@ $(document).ready(function(){initNavTree('df/d76/_distributed_system_role_8hpp_s
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;samchon/protocol/master/ExternalSystemRole.hpp&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;samchon/API.hpp&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keyword">namespace </span>protocol</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="keyword">namespace </span>master</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;            <span class="keyword">class </span>DistributedSystem;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html">   17</a></span>&#160;            <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html">DistributedSystemRole</a></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                : <span class="keyword">public</span> ExternalSystemRole</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                <span class="keyword">typedef</span> ExternalSystemRole super;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html#aa2077efeea63b5386dd64ac50b1a870c">   27</a></span>&#160;                <span class="keywordtype">double</span> <a class="code" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html#aa2077efeea63b5386dd64ac50b1a870c">performance</a>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                <span class="comment">//CONSTRUCTORS</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <a class="code" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html">DistributedSystemRole</a>(<a class="code" href="../../d5/d3d/classsamchon_1_1protocol_1_1master_1_1_distributed_system.html">DistributedSystem</a>* = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keyword">virtual</span> ~<a class="code" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html">DistributedSystemRole</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="keyword">virtual</span> <span class="keywordtype">void</span> construct(std::shared_ptr&lt;library::XML&gt;);</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;samchon/protocol/master/ExternalSystemRole.hpp&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">namespace </span>protocol</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keyword">namespace </span>master</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            <span class="keyword">class </span>DistributedSystem;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html">   19</a></span>&#160;            <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html">DistributedSystemRole</a></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                : <span class="keyword">public</span> <a class="code" href="../../d4/dcb/classsamchon_1_1protocol_1_1master_1_1_external_system_role.html">ExternalSystemRole</a></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                <span class="keyword">typedef</span> <a class="code" href="../../d4/dcb/classsamchon_1_1protocol_1_1master_1_1_external_system_role.html">ExternalSystemRole</a> <a class="code" href="../../d4/dcb/classsamchon_1_1protocol_1_1master_1_1_external_system_role.html">super</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html#aa2077efeea63b5386dd64ac50b1a870c">   29</a></span>&#160;                <span class="keywordtype">double</span> <a class="code" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html#aa2077efeea63b5386dd64ac50b1a870c">performance</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="comment">//CONSTRUCTORS</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <a class="code" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html">DistributedSystemRole</a>(<a class="code" href="../../d5/d3d/classsamchon_1_1protocol_1_1master_1_1_distributed_system.html">DistributedSystem</a>* = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="keyword">virtual</span> ~<a class="code" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html">DistributedSystemRole</a>() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                <span class="comment">//SETTER &amp; GETTERS</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordtype">void</span> setSystem(<a class="code" href="../../d5/d3d/classsamchon_1_1protocol_1_1master_1_1_distributed_system.html">DistributedSystem</a>*);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="keyword">auto</span> getPerformance() const -&gt; <span class="keywordtype">double</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="comment">//EXPORTERS</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                virtual auto toXML() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;library::XML&gt;;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            };</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        };</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    };</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                <span class="keyword">virtual</span> <span class="keywordtype">void</span> construct(std::shared_ptr&lt;library::XML&gt;);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="comment">//SETTER &amp; GETTERS</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keywordtype">void</span> setSystem(<a class="code" href="../../d5/d3d/classsamchon_1_1protocol_1_1master_1_1_distributed_system.html">DistributedSystem</a>*);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keyword">auto</span> getPerformance() const -&gt; <span class="keywordtype">double</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="comment">//EXPORTERS</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                virtual auto toXML() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;library::XML&gt;;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            };</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        };</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    };</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;};</div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1master_1_1_distributed_system_role_html"><div class="ttname"><a href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html">samchon::protocol::master::DistributedSystemRole</a></div><div class="ttdoc">Role of a slavery distributed system. </div><div class="ttdef"><b>Definition:</b> DistributedSystemRole.hpp:17</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1master_1_1_distributed_system_html"><div class="ttname"><a href="../../d5/d3d/classsamchon_1_1protocol_1_1master_1_1_distributed_system.html">samchon::protocol::master::DistributedSystem</a></div><div class="ttdoc">A slavery distributed system. </div><div class="ttdef"><b>Definition:</b> DistributedSystem.hpp:18</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1master_1_1_distributed_system_role_html"><div class="ttname"><a href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html">samchon::protocol::master::DistributedSystemRole</a></div><div class="ttdoc">Role of a slavery distributed system. </div><div class="ttdef"><b>Definition:</b> DistributedSystemRole.hpp:19</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1master_1_1_distributed_system_html"><div class="ttname"><a href="../../d5/d3d/classsamchon_1_1protocol_1_1master_1_1_distributed_system.html">samchon::protocol::master::DistributedSystem</a></div><div class="ttdoc">A slavery distributed system. </div><div class="ttdef"><b>Definition:</b> DistributedSystem.hpp:20</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1master_1_1_external_system_role_html"><div class="ttname"><a href="../../d4/dcb/classsamchon_1_1protocol_1_1master_1_1_external_system_role.html">samchon::protocol::master::ExternalSystemRole</a></div><div class="ttdoc">A role allocated to (a) system(s) </div><div class="ttdef"><b>Definition:</b> ExternalSystemRole.hpp:18</div></div>
 <div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1master_1_1_distributed_system_role_html_aa2077efeea63b5386dd64ac50b1a870c"><div class="ttname"><a href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html#aa2077efeea63b5386dd64ac50b1a870c">samchon::protocol::master::DistributedSystemRole::performance</a></div><div class="ttdeci">double performance</div><div class="ttdoc">Measurement of required resource. </div><div class="ttdef"><b>Definition:</b> DistributedSystemRole.hpp:27</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1master_1_1_distributed_system_role_html_aa2077efeea63b5386dd64ac50b1a870c"><div class="ttname"><a href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html#aa2077efeea63b5386dd64ac50b1a870c">samchon::protocol::master::DistributedSystemRole::performance</a></div><div class="ttdeci">double performance</div><div class="ttdoc">Measurement of required resource. </div><div class="ttdef"><b>Definition:</b> DistributedSystemRole.hpp:29</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_df511e5bd85cec96854b39d5e1c27aa8.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_755660e512283558937a7da1d548d92e.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_ede6bd7a55aac57efb143eea32900adc.html">protocol</a></li><li class="navelem"><a class="el" href="../../dir_15b7f1e2b8eb7aa7641934bc681853f5.html">master</a></li><li class="navelem"><b>DistributedSystemRole.hpp</b></li>
+    <li class="navelem"><a class="el" href="../../dir_beb05f3485d188aed3dda18f840e7d17.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_4e81bc2a8507dfc26e8b5eec41d77369.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_aa4f0b916fe2667f4336810dff6942c7.html">protocol</a></li><li class="navelem"><a class="el" href="../../dir_31f0445e831b56c862ce74405f112fc1.html">master</a></li><li class="navelem"><b>DistributedSystemRole.hpp</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.10 </li>

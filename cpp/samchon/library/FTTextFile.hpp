@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/FTFile.hpp>
 
 namespace samchon
@@ -8,7 +10,7 @@ namespace samchon
 		/**
 		 * @brief A text file
 		 */
-		class  FTTextFile
+		class SAMCHON_FRAMEWORK_API FTTextFile
 			: public FTFile
 		{
 		private:

@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <string>
 #include <samchon/ByteArray.hpp>
@@ -17,7 +17,7 @@ namespace samchon
 		 * 
 		 * @author Jeongho Nam
 		 */
-		class  Base64
+		class SAMCHON_FRAMEWORK_API Base64
 		{
 		public:
 			/**

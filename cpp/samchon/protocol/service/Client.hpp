@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <samchon/protocol/IClient.hpp>
 #include <samchon/protocol/service/ServiceKeeper.hpp>
@@ -35,7 +35,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class  Client
+			class SAMCHON_FRAMEWORK_API Client
 				: public IClient
 			{
 			private:
@@ -75,7 +75,7 @@ namespace samchon
 				 * @param name Requested name representing a Service from the (physical) client
 				 * @return A new Service belongs the the Client
 				 */
-				virtual auto createService(const std::string &) const -> Service* = NULL;
+				virtual auto createService(const std::string &) const -> Service* = 0;
 
 				auto __keepAlive() -> ServiceKeeper;
 

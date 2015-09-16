@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <vector>
 #include <memory>
@@ -24,7 +24,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SQLStatement
+		class SAMCHON_FRAMEWORK_API SQLStatement
 		{
 			friend class SQLi;
 		private:
@@ -180,7 +180,7 @@ namespace samchon
 			template <typename _Ty> auto at(size_t index) const -> _Ty
 			{
 				_Ty val;
-				sql_get_data(index + 1, C_TYPE<_Ty>(), &val);
+				sql_get_data(index + 1, C_TYPE(_Ty()), &val);
 				
 				return val;
 			};
@@ -226,7 +226,7 @@ namespace samchon
 			};
 			template <typename _Ty> void bindParameter(const _Ty &val)
 			{
-				sql_bind_parameter(C_TYPE<_Ty>(), SQL_TYPE<_Ty>(), (void*)&val);
+				sql_bind_parameter(C_TYPE(val), SQL_TYPE(val), (void*)&val);
 			};
 			template<> void bindParameter(const std::string &val);
 			template<> void bindParameter(const std::wstring &val);
@@ -255,6 +255,10 @@ namespace samchon
 				template<> auto C_TYPE(const unsigned int &) const -> short;
 				template<> auto C_TYPE(const long double &) const -> short;
 
+				template<> auto C_TYPE(const std::string &) const -> short;
+				template<> auto C_TYPE(const std::wstring &) const -> short;
+				template<> auto C_TYPE(const ByteArray &) const -> short;
+
 			template <typename _Ty> auto SQL_TYPE(const _Ty &) const -> short;
 				template<> auto SQL_TYPE(const bool &) const -> short;
 				template<> auto SQL_TYPE(const char &) const -> short;
@@ -271,6 +275,10 @@ namespace samchon
 				template<> auto SQL_TYPE(const unsigned long long &) const -> short;
 				template<> auto SQL_TYPE(const unsigned int &) const -> short;
 				template<> auto SQL_TYPE(const long double &) const -> short;
+
+				template<> auto SQL_TYPE(const std::string &) const -> short;
+				template<> auto SQL_TYPE(const std::wstring &) const -> short;
+				template<> auto SQL_TYPE(const ByteArray &) const -> short;
 		};
 	};
 };

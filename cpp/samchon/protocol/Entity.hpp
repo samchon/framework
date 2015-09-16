@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <string>
 #include <memory>
@@ -20,7 +20,7 @@ namespace samchon
 		 * 
 		 * @author Jeongho Nam
 		 */
-		class  Entity
+		class SAMCHON_FRAMEWORK_API Entity
 		{
 		public:
 			/**

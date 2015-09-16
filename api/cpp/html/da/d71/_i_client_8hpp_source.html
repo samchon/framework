@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('da/d71/_i_client_8hpp_source.html','..
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;samchon\API.hpp&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;samchon/API.hpp&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;samchon/protocol/IProtocol.hpp&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;samchon/protocol/Socket.hpp&gt;</span></div>
@@ -119,7 +119,7 @@ $(document).ready(function(){initNavTree('da/d71/_i_client_8hpp_source.html','..
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;};</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d4/da9/namespaceboost.html">boost</a></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">namespace </span>asio</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../d2/d1e/namespaceboost_1_1asio.html">   13</a></span>&#160;    <span class="keyword">namespace </span>asio</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    {</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keyword">namespace </span>ip</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div>
@@ -150,28 +150,29 @@ $(document).ready(function(){initNavTree('da/d71/_i_client_8hpp_source.html','..
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keyword">virtual</span> <span class="keyword">auto</span> BUFFER_SIZE() const -&gt; <span class="keywordtype">size_t</span>;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        public:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <a class="code" href="../../d0/db7/classsamchon_1_1protocol_1_1_i_client.html">IClient</a>();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            virtual ~IClient();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            virtual <span class="keywordtype">void</span> listen();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            virtual <span class="keywordtype">void</span> sendData(<a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;Invoke&gt;);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        };</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    };</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;};</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <a class="code" href="../../d0/db7/classsamchon_1_1protocol_1_1_i_client.html">IClient</a>();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            virtual ~IClient();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            virtual <span class="keywordtype">void</span> listen();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            virtual <span class="keywordtype">void</span> sendData(<a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;<a class="code" href="../../db/d9f/classsamchon_1_1protocol_1_1_invoke.html">Invoke</a>&gt;);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        };</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    };</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;};</div>
 <div class="ttc" id="namespaceboost_html"><div class="ttname"><a href="../../d4/da9/namespaceboost.html">boost</a></div><div class="ttdef"><b>Definition:</b> IClient.hpp:11</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1_i_client_html"><div class="ttname"><a href="../../d0/db7/classsamchon_1_1protocol_1_1_i_client.html">samchon::protocol::IClient</a></div><div class="ttdoc">Interface of a client. </div><div class="ttdef"><b>Definition:</b> IClient.hpp:36</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_i_client_html"><div class="ttname"><a href="../../d0/db7/classsamchon_1_1protocol_1_1_i_client.html">samchon::protocol::IClient</a></div><div class="ttdoc">Interface for a client. </div><div class="ttdef"><b>Definition:</b> IClient.hpp:36</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1_i_client_html_aed772851e668352566c18806fc6456f4"><div class="ttname"><a href="../../d0/db7/classsamchon_1_1protocol_1_1_i_client.html#aed772851e668352566c18806fc6456f4">samchon::protocol::IClient::sendMtx</a></div><div class="ttdeci">std::mutex * sendMtx</div><div class="ttdoc">A mutex for ensuring sequence of sending message. </div><div class="ttdef"><b>Definition:</b> IClient.hpp:48</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1_i_protocol_html"><div class="ttname"><a href="../../db/d36/classsamchon_1_1protocol_1_1_i_protocol.html">samchon::protocol::IProtocol</a></div><div class="ttdoc">Interface of message chain. </div><div class="ttdef"><b>Definition:</b> IProtocol.hpp:21</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_i_client_html_aed772851e668352566c18806fc6456f4"><div class="ttname"><a href="../../d0/db7/classsamchon_1_1protocol_1_1_i_client.html#aed772851e668352566c18806fc6456f4">samchon::protocol::IClient::sendMtx</a></div><div class="ttdeci">std::mutex * sendMtx</div><div class="ttdoc">A mutex for sending message. </div><div class="ttdef"><b>Definition:</b> IClient.hpp:48</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_i_protocol_html"><div class="ttname"><a href="../../db/d36/classsamchon_1_1protocol_1_1_i_protocol.html">samchon::protocol::IProtocol</a></div><div class="ttdoc">Interface of message chain. </div><div class="ttdef"><b>Definition:</b> IProtocol.hpp:20</div></div>
 <div class="ttc" id="classsamchon_1_1protocol_1_1_i_client_html_af61f5e26383c9eba182d578f1572e89c"><div class="ttname"><a href="../../d0/db7/classsamchon_1_1protocol_1_1_i_client.html#af61f5e26383c9eba182d578f1572e89c">samchon::protocol::IClient::socket</a></div><div class="ttdeci">Socket * socket</div><div class="ttdoc">Socket for network I/O. </div><div class="ttdef"><b>Definition:</b> IClient.hpp:43</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_invoke_html"><div class="ttname"><a href="../../db/d9f/classsamchon_1_1protocol_1_1_invoke.html">samchon::protocol::Invoke</a></div><div class="ttdoc">Standard message for network I/O. </div><div class="ttdef"><b>Definition:</b> Invoke.hpp:22</div></div>
 <div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_df511e5bd85cec96854b39d5e1c27aa8.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_755660e512283558937a7da1d548d92e.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_ede6bd7a55aac57efb143eea32900adc.html">protocol</a></li><li class="navelem"><b>IClient.hpp</b></li>
+    <li class="navelem"><a class="el" href="../../dir_beb05f3485d188aed3dda18f840e7d17.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_4e81bc2a8507dfc26e8b5eec41d77369.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_aa4f0b916fe2667f4336810dff6942c7.html">protocol</a></li><li class="navelem"><b>IClient.hpp</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.10 </li>

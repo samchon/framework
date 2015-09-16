@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 namespace samchon
 {
@@ -10,7 +10,7 @@ namespace samchon
 		/**
 		 * 
 		 */
-		class  IEntityChain
+		class SAMCHON_FRAMEWORK_API IEntityChain
 		{
 		protected:
 			Entity *entity;

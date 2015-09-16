@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/SharedEntityArray.hpp>
 
 namespace samchon
@@ -62,7 +64,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  NTCriteria
+		class SAMCHON_FRAMEWORK_API NTCriteria
 			: public virtual protocol::SharedEntityArray
 		{
 		private:

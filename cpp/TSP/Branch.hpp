@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-class Branch
+class SAMCHON_FRAMEWORK Branch
 {
 private:
 	/**

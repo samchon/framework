@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 /**
  * @brief Macro writing writing inline method of comparison operators
@@ -116,7 +116,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class IOperator
+		class SAMCHON_FRAMEWORK_API IOperator
 		{
 		public:
 			/** 

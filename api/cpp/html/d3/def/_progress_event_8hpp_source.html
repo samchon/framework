@@ -108,49 +108,52 @@ $(document).ready(function(){initNavTree('d3/def/_progress_event_8hpp_source.htm
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;samchon/library/Event.hpp&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;samchon/API.hpp&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keyword">namespace </span>library</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    {</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html">   14</a></span>&#160;        <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html">ProgressEvent</a></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            : <span class="keyword">public</span> <a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <span class="keyword">enum</span> TYPES : <span class="keywordtype">int</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                PROGRESS = 11</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            };</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#ac21872370f8dabb5e329fbad7b0c6f25">   27</a></span>&#160;            <span class="keywordtype">double</span> <a class="code" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#ac21872370f8dabb5e329fbad7b0c6f25">numerator</a>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#a64b801cc1ef1c043a042d5bb74ebd890">   33</a></span>&#160;            <span class="keywordtype">double</span> <a class="code" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#a64b801cc1ef1c043a042d5bb74ebd890">denominator</a>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <a class="code" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html">ProgressEvent</a>(<a class="code" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">EventDispatcher</a> *, <span class="keywordtype">double</span>, <span class="keywordtype">double</span>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keyword">virtual</span> ~<a class="code" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html">ProgressEvent</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keyword">auto</span> getNumerator() const -&gt; <span class="keywordtype">double</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            auto getDenominator() const -&gt; <span class="keywordtype">double</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            auto getPercent() const -&gt; <span class="keywordtype">double</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        };</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    };</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;samchon/library/Event.hpp&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">namespace </span>library</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    {</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html">   16</a></span>&#160;        <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html">ProgressEvent</a></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            : <span class="keyword">public</span> <a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="keyword">enum</span> TYPES : <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                PROGRESS = 11</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            };</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#ac21872370f8dabb5e329fbad7b0c6f25">   29</a></span>&#160;            <span class="keywordtype">double</span> <a class="code" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#ac21872370f8dabb5e329fbad7b0c6f25">numerator</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#a64b801cc1ef1c043a042d5bb74ebd890">   35</a></span>&#160;            <span class="keywordtype">double</span> <a class="code" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#a64b801cc1ef1c043a042d5bb74ebd890">denominator</a>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <a class="code" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html">ProgressEvent</a>(<a class="code" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">EventDispatcher</a> *, <span class="keywordtype">double</span>, <span class="keywordtype">double</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keyword">virtual</span> ~<a class="code" href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html">ProgressEvent</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keyword">auto</span> getNumerator() const -&gt; <span class="keywordtype">double</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            auto getDenominator() const -&gt; <span class="keywordtype">double</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            auto getPercent() const -&gt; <span class="keywordtype">double</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        };</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    };</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;};</div>
 <div class="ttc" id="classsamchon_1_1library_1_1_event_html"><div class="ttname"><a href="../../db/df5/classsamchon_1_1library_1_1_event.html">samchon::library::Event</a></div><div class="ttdoc">Represent an event running on background. </div><div class="ttdef"><b>Definition:</b> Event.hpp:35</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_progress_event_html_a64b801cc1ef1c043a042d5bb74ebd890"><div class="ttname"><a href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#a64b801cc1ef1c043a042d5bb74ebd890">samchon::library::ProgressEvent::denominator</a></div><div class="ttdeci">double denominator</div><div class="ttdoc">The number of total progress. </div><div class="ttdef"><b>Definition:</b> ProgressEvent.hpp:33</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_progress_event_html_ac21872370f8dabb5e329fbad7b0c6f25"><div class="ttname"><a href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#ac21872370f8dabb5e329fbad7b0c6f25">samchon::library::ProgressEvent::numerator</a></div><div class="ttdeci">double numerator</div><div class="ttdoc">The number of current progress. </div><div class="ttdef"><b>Definition:</b> ProgressEvent.hpp:27</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_progress_event_html_a64b801cc1ef1c043a042d5bb74ebd890"><div class="ttname"><a href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#a64b801cc1ef1c043a042d5bb74ebd890">samchon::library::ProgressEvent::denominator</a></div><div class="ttdeci">double denominator</div><div class="ttdoc">The number of total progress. </div><div class="ttdef"><b>Definition:</b> ProgressEvent.hpp:35</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_progress_event_html_ac21872370f8dabb5e329fbad7b0c6f25"><div class="ttname"><a href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#ac21872370f8dabb5e329fbad7b0c6f25">samchon::library::ProgressEvent::numerator</a></div><div class="ttdeci">double numerator</div><div class="ttdoc">The number of current progress. </div><div class="ttdef"><b>Definition:</b> ProgressEvent.hpp:29</div></div>
 <div class="ttc" id="classsamchon_1_1library_1_1_event_dispatcher_html"><div class="ttname"><a href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">samchon::library::EventDispatcher</a></div><div class="ttdoc">Abstract class for dispatching Event. </div><div class="ttdef"><b>Definition:</b> EventDispatcher.hpp:34</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_progress_event_html"><div class="ttname"><a href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html">samchon::library::ProgressEvent</a></div><div class="ttdoc">Event representing a progress. </div><div class="ttdef"><b>Definition:</b> ProgressEvent.hpp:14</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_progress_event_html"><div class="ttname"><a href="../../d4/d3d/classsamchon_1_1library_1_1_progress_event.html">samchon::library::ProgressEvent</a></div><div class="ttdoc">Event representing a progress. </div><div class="ttdef"><b>Definition:</b> ProgressEvent.hpp:16</div></div>
 <div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_df511e5bd85cec96854b39d5e1c27aa8.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_755660e512283558937a7da1d548d92e.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_13b6e06c9dd3dc17107fa5aafb37c75b.html">library</a></li><li class="navelem"><b>ProgressEvent.hpp</b></li>
+    <li class="navelem"><a class="el" href="../../dir_beb05f3485d188aed3dda18f840e7d17.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_4e81bc2a8507dfc26e8b5eec41d77369.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_869f6e937c191a7333480bfb5f57d9e3.html">library</a></li><li class="navelem"><b>ProgressEvent.hpp</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.10 </li>

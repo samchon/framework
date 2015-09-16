@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <memory>
 
@@ -31,7 +31,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  EventDispatcher
+		class SAMCHON_FRAMEWORK_API EventDispatcher
 		{
 		private:
 			//EVENT-LISTENER CONTAINERS

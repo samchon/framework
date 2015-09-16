@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/FTInstance.hpp>
 #include <samchon/protocol/SharedEntityArray.hpp>
 
@@ -13,7 +15,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class FTFolder
+		class SAMCHON_FRAMEWORK_API FTFolder
 			: public FTInstance,
 			public virtual protocol::SharedEntityArray
 		{

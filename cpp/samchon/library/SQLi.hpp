@@ -1,4 +1,5 @@
 #pragma once
+#include <samchon/API.hpp>
 
 #include <memory>
 #include <mutex>
@@ -17,7 +18,7 @@ namespace samchon
 		 * 
 		 * @author Jeongho Nam
 		 */
-		class  SQLi
+		class SAMCHON_FRAMEWORK_API SQLi
 		{
 		friend class SQLStatement;
 		

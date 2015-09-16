@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/CaseGenerator.hpp>
 
 namespace samchon
@@ -8,7 +10,7 @@ namespace samchon
 		/**
 		 * @brief A combined-permutation case generator; <sub>n</sub>TT<sub>r</sub>
 		 */
-		class CombinedPermutationGenerator
+		class SAMCHON_FRAMEWORK_API CombinedPermutationGenerator
 			: public CaseGenerator
 		{
 		private:

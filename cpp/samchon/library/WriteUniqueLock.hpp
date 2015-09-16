@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 namespace samchon
 {
@@ -39,7 +39,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  WriteUniqueLock
+		class SAMCHON_FRAMEWORK_API WriteUniqueLock
 		{
 		private:
 			/**

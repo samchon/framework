@@ -1,4 +1,5 @@
 #pragma once
+#include <samchon/API.hpp>
 
 #include <string>
 #include <memory>
@@ -12,15 +13,14 @@ namespace samchon
 	};
 	namespace protocol
 	{
-		class Invoke;
-
 		/**
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  InvokeParameter
+		class SAMCHON_FRAMEWORK_API InvokeParameter
 		{
 			friend class Invoke;
+			friend class IClient;
 
 		protected:
 			/**
@@ -95,6 +95,31 @@ namespace samchon
 			 * @brief Construct from name and a moved ByteArray
 			 */
 			InvokeParameter(const std::string &, ByteArray &&);
+
+			/* ----------------------------------------------------------
+				ADDICTINAL CONSTRUCTORS FOR VARADIC TEMPLATE
+			---------------------------------------------------------- */
+			/*#define INVOKE_PARAMETER_CONSTRUCTOR_INLINE(_Ty, _Conv) \
+			inline InvokeParameter(const std::string &listener, _Ty val) \
+				: InvokeParameter(listener, _Conv(val)) \
+			{ \
+			};
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const bool &, double)
+			//INVOKE_PARAMETER_CONSTRUCTOR_INLINE(char, double)
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const short &, double)
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const long &, double)
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(long long &, double)
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const int &, double)
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const float &, double)
+			
+			//INVOKE_PARAMETER_CONSTRUCTOR_INLINE(unsigned char, double)
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned short &, double)
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned long &, double)
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned long long &, double)
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned int &, double)
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const long double &, double)
+
+			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const char *, std::string)*/
 
 			~InvokeParameter();
 

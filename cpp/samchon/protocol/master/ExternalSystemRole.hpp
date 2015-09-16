@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <samchon/protocol/Entity.hpp>
 #include <samchon/Set.hpp>
@@ -15,7 +15,7 @@ namespace samchon
 			/**
 			 * @brief A role allocated to (a) system(s)
 			 */
-			class  ExternalSystemRole
+			class SAMCHON_FRAMEWORK_API ExternalSystemRole
 				: public virtual Entity
 			{
 			private:

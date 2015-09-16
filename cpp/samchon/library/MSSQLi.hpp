@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/SQLi.hpp>
 
 namespace samchon
@@ -7,7 +9,7 @@ namespace samchon
 	{
 		class SQLStatement;
 
-		class  MSSQLi
+		class SAMCHON_FRAMEWORK_API MSSQLi
 			: public SQLi
 		{
 		public:

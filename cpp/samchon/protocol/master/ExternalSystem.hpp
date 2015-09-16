@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <samchon/protocol/SharedEntityArray.hpp>
 #include <samchon/protocol/IProtocol.hpp>
@@ -18,7 +18,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class  ExternalSystem
+			class SAMCHON_FRAMEWORK_API ExternalSystem
 				: public virtual SharedEntityArray,
 				public virtual IProtocol
 			{

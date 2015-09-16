@@ -268,6 +268,19 @@ template<> auto SQLStatement::C_TYPE(const long double &) const -> short
 	return SQL_C_DOUBLE;
 }
 
+template<> auto SQLStatement::C_TYPE(const string &) const -> short
+{
+	return SQL_C_CHAR;
+}
+template<> auto SQLStatement::C_TYPE(const wstring &) const -> short
+{
+	return SQL_C_WCHAR;
+}
+template<> auto SQLStatement::C_TYPE(const ByteArray &) const -> short
+{
+	return SQL_C_BINARY;
+}
+
 /* -------------------------------------------------------------------
 	SQL-TYPE
 ------------------------------------------------------------------- */
@@ -327,4 +340,17 @@ template<> auto SQLStatement::SQL_TYPE(const unsigned int &) const -> short
 template<> auto SQLStatement::SQL_TYPE(const long double &) const -> short
 {
 	return SQL_DOUBLE;
+}
+
+template<> auto SQLStatement::SQL_TYPE(const string &) const -> short
+{
+	return SQL_CHAR;
+}
+template<> auto SQLStatement::SQL_TYPE(const wstring &) const -> short
+{
+	return SQL_WCHAR;
+}
+template<> auto SQLStatement::SQL_TYPE(const ByteArray &) const -> short
+{
+	return SQL_BINARY;
 }

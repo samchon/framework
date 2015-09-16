@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/SQLStatement.hpp>
 
 namespace samchon
@@ -7,7 +9,7 @@ namespace samchon
 	{
 		class SQLi;
 
-		class  MSSQLStatement
+		class SAMCHON_FRAMEWORK_API MSSQLStatement
 			: public SQLStatement
 		{
 			friend class MSSQLi;
@@ -22,7 +24,7 @@ namespace samchon
 			virtual ~MSSQLStatement();
 
 			//virtual auto getDataAsByteArray(short) -> vector<unsigned char>;
-			virtual auto toXML() const -> std::shared_ptr<XML>;
+			virtual auto toXML() const -> std::shared_ptr<XML> override;
 		};
 	};
 };

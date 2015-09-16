@@ -1,11 +1,13 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/CaseGenerator.hpp>
 
 namespace samchon
 {
 	namespace library
 	{
-		class PermutationGenerator
+		class SAMCHON_FRAMEWORK_API PermutationGenerator
 			: public CaseGenerator
 		{
 		private:

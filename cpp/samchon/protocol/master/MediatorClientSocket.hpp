@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/master/MediatorSocket.hpp>
 #include <samchon/protocol/ServerConnector.hpp>
 
@@ -10,7 +12,7 @@ namespace samchon
 		{
 			class ExternalClientArrayMediator;
 
-			class  MediatorClientSocket
+			class SAMCHON_FRAMEWORK_API MediatorClientSocket
 				: public MediatorSocket,
 				public virtual ServerConnector
 			{

@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/master/ExternalSystemRole.hpp>
 
 namespace samchon
@@ -14,7 +16,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class  DistributedSystemRole
+			class SAMCHON_FRAMEWORK_API DistributedSystemRole
 				: public ExternalSystemRole
 			{
 			private:

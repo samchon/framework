@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/Event.hpp>
 
 namespace samchon
@@ -11,7 +13,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  ProgressEvent
+		class SAMCHON_FRAMEWORK_API ProgressEvent
 			: public Event
 		{
 		public:

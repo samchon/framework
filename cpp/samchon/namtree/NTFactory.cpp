@@ -21,7 +21,7 @@ auto NTFactory::createFile(FTFolder *folder, shared_ptr<XML> xml) -> FTFile*
 	if (xml->getProperty("extension") == "ntfx")
 		return new NTFile(this, folder);
 	else
-		return super::createFile(folder, xml);
+		return nullptr;
 }
 auto NTFactory::createCriteria(NTCriteria *parent, shared_ptr<XML>) -> NTCriteria*
 {

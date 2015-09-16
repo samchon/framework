@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <samchon/namtree/INTExplore.hpp>
 #include <samchon/protocol/SharedEntityArray.hpp>
@@ -13,7 +13,7 @@ namespace samchon
 		/**
 		 * @brief A metadat of a parameter in a function
 		 */
-		class  NTParameter
+		class SAMCHON_FRAMEWORK_API NTParameter
 			: public virtual protocol::SharedEntityArray,
 			public INTExplore
 		{

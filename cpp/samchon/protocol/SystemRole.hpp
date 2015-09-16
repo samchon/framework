@@ -8,7 +8,7 @@ namespace samchon
 {
 	namespace protocol
 	{
-		class SystemRole
+		class SAMCHON_FRAMEWORK_API SystemRole
 			: public virtual IProtocol
 		{
 		protected:
@@ -30,7 +30,7 @@ namespace samchon
 			 * @brief Default Constructor
 			 */
 			SystemRole();
-			virtual ~SystemRole();
+			virtual ~SystemRole() = default;
 
 			/* ----------------------------------------------------
 				GETTERS

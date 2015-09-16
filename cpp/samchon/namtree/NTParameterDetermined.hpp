@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <samchon/protocol/Entity.hpp>
 
@@ -10,7 +10,7 @@ namespace samchon
 		/**
 		 * @brief A pre-determined parameter
 		 */
-		class  NTParameterDetermined
+		class SAMCHON_FRAMEWORK_API NTParameterDetermined
 			: public virtual protocol::Entity
 		{
 		private:

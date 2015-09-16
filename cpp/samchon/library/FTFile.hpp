@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/FTInstance.hpp>
 
 namespace samchon
@@ -8,7 +10,7 @@ namespace samchon
 		/** 
 		 * @brief A virtual file
 		 */
-		class FTFile
+		class SAMCHON_FRAMEWORK_API FTFile
 			: public FTInstance
 		{
 		private:

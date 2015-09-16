@@ -1,4 +1,5 @@
 #pragma once
+#include <samchon/API.hpp>
 
 #include <memory>
 #include <samchon/protocol/Socket.hpp>
@@ -17,7 +18,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  FlashPolicyServer
+		class SAMCHON_FRAMEWORK_API FlashPolicyServer
 		{
 		protected:
 			/**

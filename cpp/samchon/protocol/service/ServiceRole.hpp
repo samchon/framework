@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/SystemRole.hpp>
 
 namespace samchon
@@ -9,7 +11,7 @@ namespace samchon
 		{
 			class Service;
 
-			class ServiceRole
+			class SAMCHON_FRAMEWORK_API ServiceRole
 				: public SystemRole
 			{
 			private:

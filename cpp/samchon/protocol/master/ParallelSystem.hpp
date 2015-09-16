@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/master/DistributedSystem.hpp>
 
 namespace samchon
@@ -9,7 +11,7 @@ namespace samchon
 		{
 			class ParallelSystemArray;
 
-			class  ParallelSystem
+			class SAMCHON_FRAMEWORK_API ParallelSystem
 				: public virtual DistributedSystem
 			{
 			private:

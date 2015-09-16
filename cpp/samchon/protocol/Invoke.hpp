@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <vector>
 #include <memory>
@@ -13,11 +13,20 @@ namespace samchon
 	};
 	namespace protocol
 	{
-		class  Invoke
+		/**
+		 * @brief Standard message for network I/O
+		 *
+		 * @includelineno invoke/main.cpp
+		 * @author Jeongho Nam
+		 */
+		class SAMCHON_FRAMEWORK_API Invoke
 			: public std::vector<std::shared_ptr<InvokeParameter>>
 		{
 		private:
 			typedef std::vector<std::shared_ptr<InvokeParameter>> super;
+
+		public:
+			static Invoke* s_invoke();
 
 		protected:
 			/**
@@ -49,7 +58,7 @@ namespace samchon
 			 * @tparam _Args Left varadic template arguments' types
 			 */
 			template <typename _Ty, typename ... _Args>
-			Invoke(const std::string &listener, const _Ty &val, const _Args &...args)
+			Invoke(const std::string &listener, const _Ty &val, const _Args& ... args)
 				: Invoke(listener)
 			{
 				construct(val);
@@ -65,17 +74,58 @@ namespace samchon
 
 		private:
 			template <typename _Ty, typename ... _Args>
-			void construct(const _Ty &val, const _Args &...args)
+			void construct(const _Ty &val, const _Args& ... args)
 			{
 				construct(val);
 				construct(args...);
 			};
-
-			template <typename _Ty>
-			void construct(const _Ty &val)
-			{
-				emplace_back("", val);
+			
+			#define INVOKE_CONSTRUCT_INLINE($TYPE) \
+			inline void construct($TYPE val) \
+			{ \
+				emplace_back(new InvokeParameter("", val)); \
 			};
+
+			//INVOKE_CONSTRUCT_INLINE(char)
+			INVOKE_CONSTRUCT_INLINE(short)
+			INVOKE_CONSTRUCT_INLINE(long)
+			INVOKE_CONSTRUCT_INLINE(long long)
+			INVOKE_CONSTRUCT_INLINE(int)
+			INVOKE_CONSTRUCT_INLINE(float)
+			INVOKE_CONSTRUCT_INLINE(double)
+
+			//INVOKE_CONSTRUCT_INLINE(unsigned char)
+			INVOKE_CONSTRUCT_INLINE(unsigned short)
+			INVOKE_CONSTRUCT_INLINE(unsigned long)
+			INVOKE_CONSTRUCT_INLINE(unsigned long long)
+			INVOKE_CONSTRUCT_INLINE(unsigned int)
+			INVOKE_CONSTRUCT_INLINE(long double)
+
+			INVOKE_CONSTRUCT_INLINE(const char *)
+			INVOKE_CONSTRUCT_INLINE(const std::string &)
+			INVOKE_CONSTRUCT_INLINE(const ByteArray &)
+			INVOKE_CONSTRUCT_INLINE(const std::shared_ptr<library::XML> &)
+
+			/*void construct(bool);
+			void construct(char);
+			void construct(short);
+			void construct(long);
+			void construct(long long);
+			void construct(int);
+			void construct(float);
+			void construct(double);
+
+			void construct(unsigned char);
+			void construct(unsigned short);
+			void construct(unsigned long);
+			void construct(unsigned long long);
+			void construct(unsigned int);
+			void construct(long double);
+
+			void construct(const char*);
+			void construct(const std::string &);
+			void construct(const ByteArray &);
+			void construct(const std::shared_ptr<library::XML> &);*/
 
 		public:
 			/* -----------------------------------------------------------------------

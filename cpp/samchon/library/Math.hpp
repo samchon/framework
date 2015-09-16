@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <map>
 #include <samchon/IndexPair.hpp>
 
@@ -11,7 +13,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class Math
+		class SAMCHON_FRAMEWORK_API Math
 		{
 		public:
 			/* ========================================================

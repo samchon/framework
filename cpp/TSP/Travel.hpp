@@ -2,15 +2,15 @@
 #include <vector>
 #include <string>
 
-class Scheduler;
-class Branch;
+class SAMCHON_FRAMEWORK Scheduler;
+class SAMCHON_FRAMEWORK Branch;
 
 /**
 * @brief Represent a travel containing Branch(s)
 *
 * @author Jeongho Nam
 */
-class Travel
+class SAMCHON_FRAMEWORK Travel
 	: public std::vector<Branch*>
 {
 private:

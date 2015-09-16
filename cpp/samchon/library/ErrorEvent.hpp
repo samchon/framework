@@ -1,4 +1,5 @@
 #pragma once
+#include <samchon/API.hpp>
 
 #include <samchon/library/Event.hpp>
 
@@ -14,7 +15,7 @@ namespace samchon
 		 * @details [Inherited]
 		 * @copydoc Event
 		 */
-		class  ErrorEvent 
+		class SAMCHON_FRAMEWORK_API ErrorEvent 
 			: public Event
 		{
 		public:

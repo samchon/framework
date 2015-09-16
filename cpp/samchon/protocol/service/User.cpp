@@ -58,6 +58,24 @@ auto User::getAuthority() const -> int
 	return authority;
 }
 
+auto User::getSemaphore() const -> Semaphore*
+{
+	return semaphore;
+}
+
+auto User::size() const -> size_t
+{
+	return super::size();
+}
+auto User::begin() const -> const_iterator
+{
+	return super::begin();
+}
+auto User::end() const -> const_iterator
+{
+	return super::end();
+}
+
 /* --------------------------------------------------------
 	MANAGING CLIENT
 -------------------------------------------------------- */

@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/IOperator.hpp>
 
 #include <string>
@@ -23,7 +25,7 @@ namespace samchon
 	 *
 	 * @author Jeongho Nam
 	 */
-	class WeakString
+	class SAMCHON_FRAMEWORK_API WeakString
 	{
 	private:
 		/**

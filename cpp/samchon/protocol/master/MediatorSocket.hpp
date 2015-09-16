@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/IProtocol.hpp>
 
 #include <string>
@@ -11,7 +13,7 @@ namespace samchon
 		{
 			class ExternalSystemArrayMediator;
 
-			class  MediatorSocket
+			class SAMCHON_FRAMEWORK_API MediatorSocket
 				: public virtual IProtocol
 			{
 				friend class ExternalSystemArrayMediator;

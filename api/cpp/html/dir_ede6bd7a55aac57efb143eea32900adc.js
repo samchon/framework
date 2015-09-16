@@ -5,6 +5,7 @@ var dir_ede6bd7a55aac57efb143eea32900adc =
     [ "API.hpp", "d2/d87/protocol_2_a_p_i_8hpp_source.html", null ],
     [ "Entity.hpp", "d2/db6/_entity_8hpp_source.html", null ],
     [ "EntityArray.hpp", "df/d4c/_entity_array_8hpp_source.html", null ],
+    [ "EntityGroup.hpp", "df/d13/_entity_group_8hpp_source.html", null ],
     [ "EntityList.hpp", "da/dd2/_entity_list_8hpp_source.html", null ],
     [ "FlashPolicyServer.hpp", "dd/d1d/_flash_policy_server_8hpp_source.html", null ],
     [ "IClient.hpp", "da/d71/_i_client_8hpp_source.html", null ],
@@ -18,13 +19,12 @@ var dir_ede6bd7a55aac57efb143eea32900adc =
     [ "InvokeParameter.hpp", "d0/d8d/_invoke_parameter_8hpp_source.html", null ],
     [ "IProtocol.hpp", "d7/d6e/_i_protocol_8hpp_source.html", null ],
     [ "IServer.hpp", "d0/dfb/_i_server_8hpp_source.html", null ],
-    [ "ISocket.hpp", "db/d72/_i_socket_8hpp_source.html", null ],
     [ "ISQLEntity.hpp", "d7/da0/_i_s_q_l_entity_8hpp_source.html", null ],
-    [ "OneToOneServer.hpp", "dd/dfd/_one_to_one_server_8hpp_source.html", null ],
     [ "ServerConnector.hpp", "d7/de2/_server_connector_8hpp_source.html", null ],
     [ "SharedEntityArray.hpp", "dd/d01/_shared_entity_array_8hpp_source.html", null ],
     [ "SharedEntityList.hpp", "d1/db5/_shared_entity_list_8hpp_source.html", null ],
     [ "Socket.hpp", "df/dab/_socket_8hpp_source.html", null ],
+    [ "SystemRole.hpp", "d6/d4e/_system_role_8hpp_source.html", null ],
     [ "UniqueEntityArray.hpp", "dd/d62/_unique_entity_array_8hpp_source.html", null ],
     [ "UniqueEntityList.hpp", "d9/dad/_unique_entity_list_8hpp_source.html", null ]
 ];

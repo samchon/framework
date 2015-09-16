@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/Date.hpp>
 
 namespace samchon
@@ -13,7 +15,7 @@ namespace samchon
 		*
 		* \par [Inherited] @copydoc library::Date
 		*/
-		class  Datetime
+		class SAMCHON_FRAMEWORK_API Datetime
 			: public Date
 		{
 		private:

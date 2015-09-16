@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <string>
 #include <samchon/WeakString.hpp>
@@ -28,7 +28,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class StringUtil
+		class SAMCHON_FRAMEWORK_API StringUtil
 		{
 		public:
 			/* ----------------------------------------------------------------------

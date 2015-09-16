@@ -1,7 +1,6 @@
 var dir_13b6e06c9dd3dc17107fa5aafb37c75b =
 [
     [ "Base64.hpp", "d4/d4a/_base64_8hpp_source.html", null ],
-    [ "BaseEvent.hpp", "d9/de2/_base_event_8hpp_source.html", null ],
     [ "CaseGenerator.hpp", "d7/dd9/_case_generator_8hpp_source.html", null ],
     [ "CaseTree.hpp", "db/da6/_case_tree_8hpp_source.html", null ],
     [ "Charset.hpp", "d2/de8/_charset_8hpp_source.html", null ],
@@ -19,12 +18,11 @@ var dir_13b6e06c9dd3dc17107fa5aafb37c75b =
     [ "FTFactory.hpp", "da/df3/_f_t_factory_8hpp_source.html", null ],
     [ "FTFile.hpp", "dc/d2f/_f_t_file_8hpp_source.html", null ],
     [ "FTFolder.hpp", "df/dc3/_f_t_folder_8hpp_source.html", null ],
+    [ "FTInstance.hpp", "d2/d9f/_f_t_instance_8hpp_source.html", null ],
     [ "FTTextFile.hpp", "d8/dc5/_f_t_text_file_8hpp_source.html", null ],
     [ "GAPopulation.hpp", "dc/dfb/_g_a_population_8hpp_source.html", null ],
     [ "GeneticAlgorithm.hpp", "de/d25/_genetic_algorithm_8hpp_source.html", null ],
     [ "HTTPLoader.hpp", "da/db8/_h_t_t_p_loader_8hpp_source.html", null ],
-    [ "IFTFile.hpp", "d0/daf/_i_f_t_file_8hpp_source.html", null ],
-    [ "INTExplore.hpp", "d6/d6f/_i_n_t_explore_8hpp_source.html", null ],
     [ "IOperator.hpp", "d7/d22/_i_operator_8hpp_source.html", null ],
     [ "Math.hpp", "dc/dba/_math_8hpp_source.html", null ],
     [ "MSSQLi.hpp", "d5/d8d/_m_s_s_q_li_8hpp_source.html", null ],

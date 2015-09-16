@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <string>
 #include <samchon/WeakString.hpp>
@@ -22,7 +22,7 @@ namespace samchon
 		 * @warning In some system, std::wstring is not for unicode(utf-16) but for utf-8
 		 * @author Jeongho Nam
 		 */
-		class  Charset
+		class SAMCHON_FRAMEWORK_API Charset
 		{
 		public:
 			enum : int

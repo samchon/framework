@@ -1,19 +1,10 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/IClient.hpp>
 
 #include <string>
 
-namespace boost
-{
-	namespace asio
-	{
-		namespace ip
-		{
-			template <typename InternetProtocol> class basic_endpoint;
-		};
-		class io_service;
-	};
-};
 namespace samchon
 {
 	namespace protocol
@@ -23,7 +14,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  ServerConnector
+		class SAMCHON_FRAMEWORK_API ServerConnector
 			: public virtual IClient
 		{
 		private:
@@ -38,12 +29,12 @@ namespace samchon
 			/**
 			 * 
 			 */
-			boost::asio::ip::basic_endpoint<boost::asio::ip::tcp> *endPoint;
+			EndPoint *endPoint;
 
 			/**
 			 * 
 			 */
-			boost::asio::ip::basic_endpoint<boost::asio::ip::tcp> *localEndPoint;
+			EndPoint *localEndPoint;
 
 			/**
 			 * @brief Destinatio IP

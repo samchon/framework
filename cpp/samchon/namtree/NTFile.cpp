@@ -2,6 +2,7 @@
 #	include <samchon/namtree/NTFactory.hpp>
 #	include <samchon/namtree/NTParameterArray.hpp>
 
+#include <vector>
 #include <samchon/library/XML.hpp>
 
 using namespace std;
@@ -34,7 +35,7 @@ auto NTFile::getOtherside() const -> NTFile*
 {
 	return otherside;
 }
-auto NTFile::getFunction() const -> std::function<double(NTIterator&, const std::vector<double> &)>
+auto NTFile::getFunction() const -> SideFunction
 {
 	return function;
 }

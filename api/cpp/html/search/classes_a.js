@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['onetooneserver',['OneToOneServer',['../d3/de2/classsamchon_1_1protocol_1_1_one_to_one_server.html',1,'samchon::protocol']]]
+  ['progressevent',['ProgressEvent',['../d4/d3d/classsamchon_1_1library_1_1_progress_event.html',1,'samchon::library']]]
 ];

@@ -1,4 +1,5 @@
 #pragma once
+#include <samchon/API.hpp>
 
 namespace samchon
 {
@@ -38,7 +39,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  ReadUniqueLock
+		class SAMCHON_FRAMEWORK_API ReadUniqueLock
 		{
 		private:
 			/**

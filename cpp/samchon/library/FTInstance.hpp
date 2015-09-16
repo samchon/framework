@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/Entity.hpp>
 
 namespace samchon
@@ -12,7 +14,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class FTInstance
+		class SAMCHON_FRAMEWORK_API FTInstance
 			: public virtual protocol::Entity
 		{
 		private:

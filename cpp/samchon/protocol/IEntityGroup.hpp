@@ -1,11 +1,13 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <string>
 
 namespace samchon
 {
 	namespace protocol
 	{
-		class IEntityGroup
+		class SAMCHON_FRAMEWORK_API IEntityGroup
 		{
 		protected:
 			/**

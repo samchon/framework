@@ -1,12 +1,12 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/Entity.hpp>
 
 #include <vector>
 
 namespace samchon
 {
-	template <typename _Kty, typename _Ty, typename _Pr = std::less<_Kty>, typename _Alloc = std::allocator<std::pair<const _Kty, _Ty>>> class Map;
-
 	namespace namtree
 	{
 		class NTFactory;
@@ -18,7 +18,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  NTSide
+		class SAMCHON_FRAMEWORK_API NTSide
 			: public virtual protocol::Entity
 		{
 		private:

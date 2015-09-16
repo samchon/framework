@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/Entity.hpp>
 
 namespace samchon
@@ -8,7 +10,7 @@ namespace samchon
 		/**
 		 * @brief Interface for exploration
 		 */
-		class  INTExplore
+		class SAMCHON_FRAMEWORK_API INTExplore
 			: public virtual protocol::Entity
 		{
 		private:

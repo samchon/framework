@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/FTFactory.hpp>
 
 namespace samchon
@@ -12,7 +14,7 @@ namespace samchon
 		/** 
 		 * Factory for Nam-Tree files
 		 */
-		class  NTFactory
+		class SAMCHON_FRAMEWORK_API NTFactory
 			: public library::FTFactory
 		{
 		private:

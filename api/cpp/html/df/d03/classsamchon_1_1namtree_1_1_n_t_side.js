@@ -1,6 +1,6 @@
 var classsamchon_1_1namtree_1_1_n_t_side =
 [
-    [ "TAG", "df/d03/classsamchon_1_1namtree_1_1_n_t_side.html#a32960f6509c334d55ad08910bc3895c4", null ],
-    [ "construct", "df/d03/classsamchon_1_1namtree_1_1_n_t_side.html#ab045dbd17b7b991eb394d0e3f6f8973f", null ],
-    [ "toXML", "df/d03/classsamchon_1_1namtree_1_1_n_t_side.html#a7dd324e1ea4ab009fcaa74fa96a56519", null ]
+    [ "TAG", "df/d03/classsamchon_1_1namtree_1_1_n_t_side.html#a98efcffd45bd7bf3a74709fec3cf47cc", null ],
+    [ "construct", "df/d03/classsamchon_1_1namtree_1_1_n_t_side.html#af2c496f57a09aa7704d55ad91659a551", null ],
+    [ "toXML", "df/d03/classsamchon_1_1namtree_1_1_n_t_side.html#aee1f42f1191f6e4d0ba3cc8e5ac30839", null ]
 ];

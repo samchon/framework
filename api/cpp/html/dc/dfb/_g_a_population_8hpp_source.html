@@ -141,29 +141,31 @@ $(document).ready(function(){initNavTree('dc/dfb/_g_a_population_8hpp_source.htm
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; size; i++)</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                {</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    GeneArray *ptr = <span class="keyword">new</span> GeneArray(*geneArray);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                    std::random_shuffle(ptr-&gt;begin(), ptr-&gt;end());</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                    children.emplace_back(ptr);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            };</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html#abcdc1b706c7bfcc9ae638697c84d5add">  115</a></span>&#160;            <span class="keyword">auto</span> <a class="code" href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html#abcdc1b706c7bfcc9ae638697c84d5add">fitTest</a>() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;GeneArray&gt;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                std::shared_ptr&lt;GeneArray&gt; best = children[0];</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 1; i &lt; children.size(); i++)</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                    <span class="keywordflow">if</span> (Compare()(*children[i] , *best) == <span class="keyword">true</span>)</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                        best = children[i];</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                </div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <span class="keywordflow">return</span> best;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            };</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        };</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    };</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;};</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                    <span class="keywordflow">if</span>(i &gt; 0) <span class="comment">//FOR ELITICISM</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                        std::random_shuffle(ptr-&gt;begin(), ptr-&gt;end());</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                    children.emplace_back(ptr);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            };</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html#abcdc1b706c7bfcc9ae638697c84d5add">  117</a></span>&#160;            <span class="keyword">auto</span> <a class="code" href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html#abcdc1b706c7bfcc9ae638697c84d5add">fitTest</a>() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;GeneArray&gt;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                std::shared_ptr&lt;GeneArray&gt; best = children[0];</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 1; i &lt; children.size(); i++)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    <span class="keywordflow">if</span> (Compare()(*children[i] , *best) == <span class="keyword">true</span>)</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                        best = children[i];</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                <span class="keywordflow">return</span> best;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            };</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        };</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    };</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;};</div>
 <div class="ttc" id="classsamchon_1_1library_1_1_genetic_algorithm_html"><div class="ttname"><a href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html">samchon::library::GeneticAlgorithm</a></div><div class="ttdoc">A genetic algorithm class. </div><div class="ttdef"><b>Definition:</b> GeneticAlgorithm.hpp:58</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
 <div class="ttc" id="classsamchon_1_1library_1_1_g_a_population_html"><div class="ttname"><a href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html">samchon::library::GAPopulation</a></div><div class="ttdoc">A population of a generation in G.A. </div><div class="ttdef"><b>Definition:</b> GAPopulation.hpp:56</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_g_a_population_html_abcdc1b706c7bfcc9ae638697c84d5add"><div class="ttname"><a href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html#abcdc1b706c7bfcc9ae638697c84d5add">samchon::library::GAPopulation::fitTest</a></div><div class="ttdeci">auto fitTest() const  -&gt; std::shared_ptr&lt; GeneArray &gt;</div><div class="ttdoc">Test fitness of each GeneArray in the population. </div><div class="ttdef"><b>Definition:</b> GAPopulation.hpp:115</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_g_a_population_html_abcdc1b706c7bfcc9ae638697c84d5add"><div class="ttname"><a href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html#abcdc1b706c7bfcc9ae638697c84d5add">samchon::library::GAPopulation::fitTest</a></div><div class="ttdeci">auto fitTest() const  -&gt; std::shared_ptr&lt; GeneArray &gt;</div><div class="ttdoc">Test fitness of each GeneArray in the population. </div><div class="ttdef"><b>Definition:</b> GAPopulation.hpp:117</div></div>
 <div class="ttc" id="classsamchon_1_1library_1_1_g_a_population_html_a8218a780cf66e5dd4d3a268a68dc40cd"><div class="ttname"><a href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html#a8218a780cf66e5dd4d3a268a68dc40cd">samchon::library::GAPopulation::GAPopulation</a></div><div class="ttdeci">GAPopulation(size_t size)</div><div class="ttdoc">Private Constructor with population. </div><div class="ttdef"><b>Definition:</b> GAPopulation.hpp:78</div></div>
 <div class="ttc" id="classsamchon_1_1library_1_1_g_a_population_html_ae088f8f450f7255328972220a9bad77c"><div class="ttname"><a href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html#ae088f8f450f7255328972220a9bad77c">samchon::library::GAPopulation::children</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; GeneArray &gt; &gt; children</div><div class="ttdoc">Genes representing the population. </div><div class="ttdef"><b>Definition:</b> GAPopulation.hpp:66</div></div>
 <div class="ttc" id="classsamchon_1_1library_1_1_g_a_population_html_a1d15d093f367bfc9f16165d3e8cf9396"><div class="ttname"><a href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html#a1d15d093f367bfc9f16165d3e8cf9396">samchon::library::GAPopulation::GAPopulation</a></div><div class="ttdeci">GAPopulation(std::shared_ptr&lt; GeneArray &gt; geneArray, size_t size)</div><div class="ttdoc">Construct from a GeneArray and size of the population. </div><div class="ttdef"><b>Definition:</b> GAPopulation.hpp:97</div></div>
@@ -173,7 +175,7 @@ $(document).ready(function(){initNavTree('dc/dfb/_g_a_population_8hpp_source.htm
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_df511e5bd85cec96854b39d5e1c27aa8.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_755660e512283558937a7da1d548d92e.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_13b6e06c9dd3dc17107fa5aafb37c75b.html">library</a></li><li class="navelem"><b>GAPopulation.hpp</b></li>
+    <li class="navelem"><a class="el" href="../../dir_beb05f3485d188aed3dda18f840e7d17.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_4e81bc2a8507dfc26e8b5eec41d77369.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_869f6e937c191a7333480bfb5f57d9e3.html">library</a></li><li class="navelem"><b>GAPopulation.hpp</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.10 </li>

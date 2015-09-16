@@ -128,14 +128,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a30767e1d44eb503cab4b3cad4c968892"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html#a30767e1d44eb503cab4b3cad4c968892">~WriteUniqueLock</a> ()</td></tr>
 <tr class="memdesc:a30767e1d44eb503cab4b3cad4c968892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#a30767e1d44eb503cab4b3cad4c968892">More...</a><br /></td></tr>
 <tr class="separator:a30767e1d44eb503cab4b3cad4c968892"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4341a2cf3fa66a2c9d20886a126d1c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html#af4341a2cf3fa66a2c9d20886a126d1c8">lock</a> ()</td></tr>
-<tr class="memdesc:af4341a2cf3fa66a2c9d20886a126d1c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock on writing.  <a href="#af4341a2cf3fa66a2c9d20886a126d1c8">More...</a><br /></td></tr>
-<tr class="separator:af4341a2cf3fa66a2c9d20886a126d1c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9870eb45acb67b5aae103ea5bc70bf3d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html#a9870eb45acb67b5aae103ea5bc70bf3d">unlock</a> ()</td></tr>
-<tr class="memdesc:a9870eb45acb67b5aae103ea5bc70bf3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unlock on writing.  <a href="#a9870eb45acb67b5aae103ea5bc70bf3d">More...</a><br /></td></tr>
-<tr class="separator:a9870eb45acb67b5aae103ea5bc70bf3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a87eea089f64d956da4c4aa1eb27da0"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html#a9a87eea089f64d956da4c4aa1eb27da0">tryLock</a> () -&gt; bool</td></tr>
-<tr class="separator:a9a87eea089f64d956da4c4aa1eb27da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af877c9265c11710b1fec72e91ee68b36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html#af877c9265c11710b1fec72e91ee68b36">lock</a> ()</td></tr>
+<tr class="memdesc:af877c9265c11710b1fec72e91ee68b36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock on writing.  <a href="#af877c9265c11710b1fec72e91ee68b36">More...</a><br /></td></tr>
+<tr class="separator:af877c9265c11710b1fec72e91ee68b36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7acd6f87ef845ed99f93023e99ffcf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html#ae7acd6f87ef845ed99f93023e99ffcf4">unlock</a> ()</td></tr>
+<tr class="memdesc:ae7acd6f87ef845ed99f93023e99ffcf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unlock on writing.  <a href="#ae7acd6f87ef845ed99f93023e99ffcf4">More...</a><br /></td></tr>
+<tr class="separator:ae7acd6f87ef845ed99f93023e99ffcf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -169,13 +167,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../.
           <td class="memname">WriteUniqueLock::WriteUniqueLock </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d9/dbc/classsamchon_1_1library_1_1_r_w_mutex.html">RWMutex</a> &amp;&#160;</td>
-          <td class="paramname">, </td>
+          <td class="paramname"><em>mtx</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"> = <code>true</code>&#160;</td>
+          <td class="paramname"><em>doLock</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -215,12 +213,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../.
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="af4341a2cf3fa66a2c9d20886a126d1c8"></a>
+<a class="anchor" id="af877c9265c11710b1fec72e91ee68b36"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void samchon::library::WriteUniqueLock::lock </td>
+          <td class="memname">void WriteUniqueLock::lock </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -239,12 +237,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../.
 
 </div>
 </div>
-<a class="anchor" id="a9870eb45acb67b5aae103ea5bc70bf3d"></a>
+<a class="anchor" id="ae7acd6f87ef845ed99f93023e99ffcf4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void samchon::library::WriteUniqueLock::unlock </td>
+          <td class="memname">void WriteUniqueLock::unlock </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -256,26 +254,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../.
 
 </div>
 </div>
-<a class="anchor" id="a9a87eea089f64d956da4c4aa1eb27da0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto samchon::library::WriteUniqueLock::tryLock </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> -&gt;  bool</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p></p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>D:/OneDrive/Project/Samchon/framework/cpp/samchon/library/<a class="el" href="../../d3/d7a/_write_unique_lock_8hpp_source.html">WriteUniqueLock.hpp</a></li>
-<li>D:/OneDrive/Project/Samchon/framework/cpp/samchon/library/RWUniqueLock.cpp</li>
+<li>D:/OneDrive/Project/Samchon/framework/cpp/samchon/library/WriteUniqueLock.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

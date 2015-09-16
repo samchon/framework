@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <string>
 #include <memory>
@@ -16,7 +16,7 @@ namespace samchon
 		/**
 		 * ISQLEntity is an interface for interacting with Database
 		 */
-		class ISQLEntity
+		class SAMCHON_FRAMEWORK_API ISQLEntity
 		{
 		public:
 			ISQLEntity();

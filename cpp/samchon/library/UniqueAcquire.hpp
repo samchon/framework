@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 namespace samchon
 {
@@ -40,7 +40,7 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  UniqueAcquire
+		class SAMCHON_FRAMEWORK_API UniqueAcquire
 		{
 		private:
 			/**
@@ -89,7 +89,7 @@ namespace samchon
 			/**
 			 * @copydoc Semaphore::tryAcquire()
 			 */
-			auto tryAcquire() const -> bool;
+			//auto tryAcquire() const -> bool;
 		};
 	};
 };

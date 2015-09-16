@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/master/ExternalSystem.hpp>
 
 namespace samchon
@@ -15,7 +17,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class  DistributedSystem
+			class SAMCHON_FRAMEWORK_API DistributedSystem
 				: public virtual ExternalSystem
 			{
 			private:

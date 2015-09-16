@@ -172,13 +172,10 @@ auto WeakString::rfinds(const std::vector<WeakString> &delims, size_t endIndex) 
 -------------------------------------------------------------------- */
 auto WeakString::substr(size_t startIndex, size_t size) const -> WeakString
 {
-	if (startIndex > size - 1)
-		return WeakString();
-
 	if (startIndex + size > size_)
 		size = size_ - startIndex;
 
-	return WeakString(data_, size);
+	return WeakString(data_ + startIndex, size);
 }
 auto WeakString::substring(size_t startIndex, size_t endIndex) const -> WeakString
 {

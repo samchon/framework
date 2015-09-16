@@ -1,3 +1,5 @@
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/master/ExternalSystem.hpp>
 #include <samchon/protocol/ServerConnector.hpp>
 
@@ -9,7 +11,7 @@ namespace samchon
 		{
 			class ExternalServerArray;
 
-			class  ExternalServer
+			class SAMCHON_FRAMEWORK_API ExternalServer
 				: public virtual ExternalSystem,
 				public virtual ServerConnector
 			{

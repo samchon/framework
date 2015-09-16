@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/library/FTFile.hpp>
 
 #include <samchon/ByteArray.hpp>
@@ -10,7 +12,7 @@ namespace samchon
 		/** 
 		 * @brief A binary file
 		 */
-		class  FTByteFile
+		class SAMCHON_FRAMEWORK_API FTByteFile
 			: public FTFile
 		{
 		private:

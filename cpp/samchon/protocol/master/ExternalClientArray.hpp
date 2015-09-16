@@ -1,6 +1,7 @@
 #pragma once
-#include <samchon/protocol/master/ExternalSystemArray.hpp>
+#include <samchon/API.hpp>
 
+#include <samchon/protocol/master/ExternalSystemArray.hpp>
 #include <samchon/protocol/IServer.hpp>
 
 namespace samchon
@@ -11,7 +12,7 @@ namespace samchon
 		{
 			class ExternalClient;
 
-			class  ExternalClientArray
+			class SAMCHON_FRAMEWORK_API ExternalClientArray
 				: public virtual ExternalSystemArray,
 				private virtual IServer
 			{

@@ -329,7 +329,7 @@ auto XML::getTag() const -> std::string
 	return this->tag;
 }
 
-template<> auto XML::getValue() const -> int
+/*template<> auto XML::getValue() const -> int
 {
 	return stoi(value);
 }
@@ -373,7 +373,7 @@ template<> auto XML::getValue() const -> long double
 template<> auto XML::getValue() const -> std::string
 {
 	return value;
-}
+}*/
 
 /* -------------------------------------------------------------------
 	SETTERS
@@ -383,7 +383,7 @@ void XML::setTag(const std::string &tag)
 	this->tag = tag;
 }
 
-template<> void XML::setValue(const int &value)
+/*template<> void XML::setValue(const int &value)
 {
 	this->value = std::to_string(value);
 }
@@ -428,7 +428,7 @@ template<> void XML::setValue(const shared_ptr<XML> &xml)
 {
 	clear();
 	push_back(xml);
-}
+}*/
 
 /* -------------------------------------------------------------------
 	METHODS OF MAP
@@ -490,7 +490,7 @@ auto XML::hasProperty(const std::string &tag) const -> bool
 	return propertyMap.has(tag);
 }
 
-template<> auto XML::getProperty(const std::string &tag) const -> int
+/*template<> auto XML::getProperty(const std::string &tag) const -> int
 {
 	return stoi( propertyMap.get(tag) );
 }
@@ -529,10 +529,10 @@ template<> auto XML::getProperty(const std::string &tag) const -> long double
 template<> auto XML::getProperty(const std::string &tag) const -> std::string
 {
 	return propertyMap.get(tag);
-}
+}*/
 
 //SETTERS
-template<> void XML::setProperty(const std::string &tag, const int &val)
+/*template<> void XML::setProperty(const std::string &tag, const int &val)
 {
 	propertyMap.set(tag, std::to_string(val));
 }
@@ -571,7 +571,7 @@ template<> void XML::setProperty(const std::string &tag, const long double &val)
 template<> void XML::setProperty(const std::string &tag, const std::string &val)
 {
 	propertyMap.set(tag, val);
-}
+}*/
 
 /* -------------------------------------------------------------------
 	UTILITY

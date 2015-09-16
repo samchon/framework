@@ -1,4 +1,5 @@
 #pragma once
+#include <samchon/API.hpp>
 
 #include <samchon/protocol/IProtocol.hpp>
 
@@ -23,7 +24,7 @@ namespace samchon
 			/**
 			 * @brief Service
 			 */
-			class  Service
+			class SAMCHON_FRAMEWORK_API Service
 				: public IProtocol
 			{
 				friend class Client;

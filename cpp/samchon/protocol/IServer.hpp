@@ -1,36 +1,41 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <string>
 #include <samchon/protocol/Socket.hpp>
 
-namespace boost
-{
-	namespace asio
-	{
-		template <typename Protocol> class socket_acceptor_service;
-		template <typename Protocol, typename SocketAcceptorService = socket_acceptor_service<Protocol>>
-		class basic_socket_acceptor;
-	};
-};
 namespace samchon
 {
 	namespace protocol
 	{
 		/**
-		 * @brief Interface of a server
+		 * @brief An interface of a server
 		 * 
-		 * @details
+		 * @details Provides methods for opening a server.
+		 *
+		 * <h3>Example Source</h3>
+		 * <p> A simple chat server running on console </p>
+		 *
+		 *	\par examples/console_chat_server/ChatServer.hpp
+		 *		@includelineno console_chat_server/ChatServer.hpp
+		 *	\par examples/console_chat_server/ChatServer.cpp
+		 *		@includelineno console_chat_server/ChatServer.cpp
+		 *	\par examples/console_chat_server/ChatClient.hpp
+		 *		@includelineno console_chat_server/ChatClient.hpp
+		 *	\par examples/console_chat_server/ChatClient.cpp
+		 *		@includelineno console_chat_server/ChatClient.cpp
+		 *	\par examples/console_chat_server/main.cpp
+		 *		@includelineno console_chat_server/main.cpp
 		 *
 		 * @author Jeongho Nam
 		 */
-		class  IServer
+		class SAMCHON_FRAMEWORK_API IServer
 		{
 		protected:
 			/**
 			 * @brief An acceptor
 			 */
-			boost::asio::basic_socket_acceptor<boost::asio::ip::tcp> *acceptor;
+			Acceptor *acceptor;
 
 			/**
 			 * @brief (optional) Server's IP

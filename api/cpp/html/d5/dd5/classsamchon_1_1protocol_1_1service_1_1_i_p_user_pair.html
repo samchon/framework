@@ -126,12 +126,12 @@ Private Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a9662cb3e808fe12341ba0cfe420e9fe6">IPUserPair</a> (<a class="el" href="../../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html">Server</a> *<a class="el" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a9dcc734800a3c6ecfb04dc118ea3b3c5">server</a>, const std::string &amp;)</td></tr>
 <tr class="memdesc:a9662cb3e808fe12341ba0cfe420e9fe6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct from <a class="el" href="../../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html" title="Server for (cloud) service. ">Server</a> and IP address. <br /></td></tr>
 <tr class="separator:a9662cb3e808fe12341ba0cfe420e9fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b85586e628d6ed46079a1483f4d7cd7"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a9b85586e628d6ed46079a1483f4d7cd7">getSessionID</a> (Socket *, size_t) -&gt; <a class="el" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a></td></tr>
-<tr class="memdesc:a9b85586e628d6ed46079a1483f4d7cd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a session ID.  <a href="#a9b85586e628d6ed46079a1483f4d7cd7">More...</a><br /></td></tr>
-<tr class="separator:a9b85586e628d6ed46079a1483f4d7cd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a478708855138841c6089d6cb04b6b02e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a478708855138841c6089d6cb04b6b02e">issueSessionID</a> (size_t) const  -&gt; <a class="el" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a></td></tr>
-<tr class="memdesc:a478708855138841c6089d6cb04b6b02e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Issue a session ID.  <a href="#a478708855138841c6089d6cb04b6b02e">More...</a><br /></td></tr>
-<tr class="separator:a478708855138841c6089d6cb04b6b02e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bfabb620b5c9d1585d7f86d8880ccec"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a7bfabb620b5c9d1585d7f86d8880ccec">getSessionID</a> (Socket *, size_t) -&gt; std::string</td></tr>
+<tr class="memdesc:a7bfabb620b5c9d1585d7f86d8880ccec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a session ID.  <a href="#a7bfabb620b5c9d1585d7f86d8880ccec">More...</a><br /></td></tr>
+<tr class="separator:a7bfabb620b5c9d1585d7f86d8880ccec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82f940b471818a076ededaa38a8bf445"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a82f940b471818a076ededaa38a8bf445">issueSessionID</a> (size_t) const  -&gt; std::string</td></tr>
+<tr class="memdesc:a82f940b471818a076ededaa38a8bf445"><td class="mdescLeft">&#160;</td><td class="mdescRight">Issue a session ID.  <a href="#a82f940b471818a076ededaa38a8bf445">More...</a><br /></td></tr>
+<tr class="separator:a82f940b471818a076ededaa38a8bf445"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -161,12 +161,12 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <p>When changing the strategy, you've to careful about policy of each system or libraries. </p>
 <p>Followings are something to consider when adjusting MAC address for uniqueness. </p>
 <ul>
-<li>In server side and view of socket, boost::asio or candidate network i/o libary of stl does not allow accessing otherside system's MAC address. But basic socket of window or linux are allowed. </li>
+<li>In server side and view of socket, <a class="el" href="../../d2/d1e/namespaceboost_1_1asio.html" title="Boost.Asio. ">boost::asio</a> or candidate network i/o libary of stl does not allow accessing otherside system's MAC address. But basic socket of window or linux are allowed. </li>
 <li>In client side and view of browser, IE allows to get MAC address by javascript with ActiveX, but other browsers do not allow.</li>
 </ul>
 <dl class="section author"><dt>Author</dt><dd>Jeongho Nam </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a9b85586e628d6ed46079a1483f4d7cd7"></a>
+<a class="anchor" id="a7bfabb620b5c9d1585d7f86d8880ccec"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -188,7 +188,7 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> -&gt; <a class="el" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a></td>
+          <td></td><td> -&gt; std::string</td>
         </tr>
       </table>
   </td>
@@ -207,7 +207,7 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 
 </div>
 </div>
-<a class="anchor" id="a478708855138841c6089d6cb04b6b02e"></a>
+<a class="anchor" id="a82f940b471818a076ededaa38a8bf445"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -219,7 +219,7 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>sequence</em></td><td>)</td>
-          <td> const -&gt; <a class="el" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a></td>
+          <td> const -&gt; std::string</td>
         </tr>
       </table>
   </td>

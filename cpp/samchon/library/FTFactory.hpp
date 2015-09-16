@@ -1,4 +1,5 @@
 #pragma once
+#include <samchon/API.hpp>
 
 #include <samchon/Map.hpp>
 #include <samchon/library/XML.hpp>
@@ -14,7 +15,7 @@ namespace samchon
 		/**
 		 * @brief Factory for virtual files
 		 */
-		class FTFactory
+		class SAMCHON_FRAMEWORK_API FTFactory
 		{
 		protected:
 			/**

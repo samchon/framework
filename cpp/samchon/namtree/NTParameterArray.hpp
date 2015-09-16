@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <samchon/protocol/SharedEntityArray.hpp>
 
@@ -12,7 +12,7 @@ namespace samchon
 		/**
 		 * @brief An Array of NTParameter
 		 */
-		class  NTParameterArray
+		class SAMCHON_FRAMEWORK_API NTParameterArray
 			: public virtual protocol::SharedEntityArray
 		{
 		private:

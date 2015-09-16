@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('d6/db2/classsamchon_1_1_byte_array.htm
 
 <p><code>#include &lt;<a class="el" href="../../d3/d57/_byte_array_8hpp_source.html">ByteArray.hpp</a>&gt;</code></p>
 
-<p>Inherits vector&lt; unsigned char &gt;.</p>
+<p>Inherits std::vector&lt; _Ty, _Alloc &gt;.</p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -161,18 +161,17 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Binary data class. </p>
-<dl class="section user"><dt>ByteArray is the standard class for handling binary data in Samchon Framework</dt><dd></dd></dl>
-<dl class="section user"><dt>ByteArray provides methods for reading and writing binary data</dt><dd></dd></dl>
-<dl class="section user"><dt>In addition, zlib compression and decompression are supported</dt><dd></dd></dl>
+<p><a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a> is the standard class for handling binary data in Samchon Framework. </p>
+<p><a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a> provides methods for reading and writing binary data. </p>
+<p>In addition, zlib compression and decompression are supported. </p>
 <dl class="section note"><dt>Note</dt><dd></dd></dl>
-<dl class="section user"><dt>ByteArray is a class only for advanced developer who can access data on byte level as the reason of:</dt><dd></dd></dl>
+<p><a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a> is a class only for advanced developer who can access data on byte level as the reason of: </p>
 <ul>
 <li>Handling File Data </li>
 <li>Custom protocol for network I/O </li>
 <li>Optimizing the size of data for performance</li>
 </ul>
-<dl class="section user"><dt></dt><dd>If you're not trying to use <a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a> as the reason of what I've mentioned but only for representing entity data, I recomment you to use Entity instead.<br />
- </dd></dl>
+<p>If you're not trying to use <a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a> as the reason of what I've mentioned but only for representing entity data, I recomment you to use Entity instead. </p>
 <dl class="section author"><dt>Author</dt><dd>Jeongho Nam </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a6ec82a573fa3bcfcd1abd05bc9a26447"></a>
@@ -273,7 +272,8 @@ template&lt;typename _Ty &gt; </div>
 
 <p>Compress the binary data<br />
 . </p>
-<p>Generates a binary data compressed from the <a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a> The binary data will be compressed by zlib library</p>
+<p>Generates a binary data compressed from the <a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a>. </p>
+<p>The binary data will be compressed by zlib library. </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a> which is compressed </dd></dl>
 
 </div>
@@ -292,7 +292,8 @@ template&lt;typename _Ty &gt; </div>
 </div><div class="memdoc">
 
 <p>Decompress the binary data. </p>
-<p>Generates a decompressed binary data form the <a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a>. The binary data will be decompressed by zlib library</p>
+<p>Generates a decompressed binary data form the <a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a>. </p>
+<p>The binary data will be decompressed by zlib library. </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a> that is decompressed </dd></dl>
 
 </div>
@@ -318,10 +319,9 @@ template&lt;typename _Ty &gt; </div>
 
 <p>Current position of the <a class="el" href="../../d6/db2/classsamchon_1_1_byte_array.html" title="Binary data class. ">ByteArray</a>.<br />
 . </p>
-<dl class="section user"><dt>If you call read, starting pointer will be the position</dt><dd><ul>
+<p>If you call read, starting pointer will be the position </p><ul>
 <li>(_Ty <em>ptr = (_Ty</em>)data() + position) </li>
 </ul>
-</dd></dl>
 
 </div>
 </div>

@@ -2,7 +2,7 @@ var searchData=
 [
   ['n',['n',['../d7/dd7/classsamchon_1_1library_1_1_case_generator.html#a4ffb79764b2415118611459799565e7d',1,'samchon::library::CaseGenerator']]],
   ['n_5f',['n_',['../d7/dd7/classsamchon_1_1library_1_1_case_generator.html#aa161f029c8ad81a8cf216d92823e04a6',1,'samchon::library::CaseGenerator']]],
-  ['name',['name',['../db/d63/classsamchon_1_1library_1_1_i_f_t_file.html#ac5433955d54f8eb191ef3e6bf985323d',1,'samchon::library::IFTFile::name()'],['../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html#ade9f2cbce99fb08a1d5768a47355820e',1,'samchon::protocol::service::Service::NAME()']]],
+  ['name',['NAME',['../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html#aba0b8e0f23826f86f3e351f2c1bef3b7',1,'samchon::protocol::service::Service::NAME()'],['../d7/dc4/classsamchon_1_1library_1_1_f_t_instance.html#aff308be3106dda9409e70a8ba66ffd3c',1,'samchon::library::FTInstance::name()'],['../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#a81b4a8abcf27ce8e8e3ea2501248e83b',1,'samchon::protocol::InvokeParameter::name()']]],
   ['next',['next',['../dc/d15/classsamchon_1_1library_1_1_s_q_l_statement.html#abec0011da628396e9e8bc2d6c78c18c9',1,'samchon::library::SQLStatement']]],
   ['no',['no',['../df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html#afad10012006f4dfa5b58d5cf527112c8',1,'samchon::protocol::service::Client']]],
   ['npos',['npos',['../d0/d25/classsamchon_1_1_weak_string.html#ac338c7951e4a83999f06e29f4aae63b1',1,'samchon::WeakString']]],
@@ -16,6 +16,6 @@ var searchData=
   ['ntparameterarray',['NTParameterArray',['../dd/d64/classsamchon_1_1namtree_1_1_n_t_parameter_array.html',1,'samchon::namtree']]],
   ['ntparameterdetermined',['NTParameterDetermined',['../d4/d68/classsamchon_1_1namtree_1_1_n_t_parameter_determined.html',1,'samchon::namtree']]],
   ['ntside',['NTSide',['../df/d03/classsamchon_1_1namtree_1_1_n_t_side.html',1,'samchon::namtree']]],
-  ['numberformat',['numberFormat',['../d7/d9b/classsamchon_1_1library_1_1_string_util.html#ab93b84a04f0fd4e2012f70ec1b2e03e6',1,'samchon::library::StringUtil']]],
+  ['numberformat',['numberFormat',['../d7/d9b/classsamchon_1_1library_1_1_string_util.html#a0d08c3881db7aa435401bf66433a1bc7',1,'samchon::library::StringUtil']]],
   ['numerator',['numerator',['../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#ac21872370f8dabb5e329fbad7b0c6f25',1,'samchon::library::ProgressEvent']]]
 ];

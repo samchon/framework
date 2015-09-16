@@ -1,5 +1,7 @@
 #pragma once
-#include <samchon/protocol/Master.hpp>
+#include <samchon/API.hpp>
+
+#include <samchon/protocol/master/Master.hpp>
 
 namespace samchon
 {
@@ -7,7 +9,7 @@ namespace samchon
 	{
 		class MasterProxySocket;
 
-		class MasterProxy
+		class SAMCHON_FRAMEWORK_API MasterProxy
 			: public virtual Master
 		{
 		private:

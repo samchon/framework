@@ -1,4 +1,6 @@
 #pragma once
+#include <samchon/API.hpp>
+
 #include <samchon/protocol/master/ExternalSystemArray.hpp>
 
 namespace samchon
@@ -15,7 +17,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class  DistributedSystemArray
+			class SAMCHON_FRAMEWORK_API DistributedSystemArray
 				: public virtual ExternalSystemArray
 			{
 			private:
@@ -28,7 +30,7 @@ namespace samchon
 			public:
 				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(DistributedSystem)
 
-					virtual void distributeRoles();
+				virtual void distributeRoles();
 			};
 		};
 	};

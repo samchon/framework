@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <atomic>
 #include <mutex>
@@ -26,7 +26,7 @@ namespace samchon
 		 * 
 		 * @author Jeongho Nam
 		 */
-		class RWMutex
+		class SAMCHON_FRAMEWORK_API RWMutex
 		{
 		private:
 			//Status variables

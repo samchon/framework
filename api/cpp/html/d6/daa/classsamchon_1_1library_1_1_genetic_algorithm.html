@@ -123,9 +123,9 @@ $(document).ready(function(){initNavTree('d6/daa/classsamchon_1_1library_1_1_gen
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0a58befb20c146ecde29dfbde40255d0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#a0a58befb20c146ecde29dfbde40255d0">GeneticAlgorithm</a> (bool <a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#ac1837decacb330d4c95a7bf728c0ee6f">unique</a>, double <a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#ac2d0f402a252742ea25c9a57ae95d6b8">mutationRate</a>=0.015, size_t <a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#aa5d17788ee32e38bd186386af5050163">tournament</a>=10, bool <a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#a94e90d3947d24743d98bd78d86e23614">elitism</a>=true)</td></tr>
-<tr class="memdesc:a0a58befb20c146ecde29dfbde40255d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct from parameters of Genetic Algorithm.  <a href="#a0a58befb20c146ecde29dfbde40255d0">More...</a><br /></td></tr>
-<tr class="separator:a0a58befb20c146ecde29dfbde40255d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09b3f75a44907da0e065c1008f08dff6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#a09b3f75a44907da0e065c1008f08dff6">GeneticAlgorithm</a> (bool <a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#ac1837decacb330d4c95a7bf728c0ee6f">unique</a>, double <a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#ac2d0f402a252742ea25c9a57ae95d6b8">mutationRate</a>=0.015, size_t <a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#aa5d17788ee32e38bd186386af5050163">tournament</a>=10)</td></tr>
+<tr class="memdesc:a09b3f75a44907da0e065c1008f08dff6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct from parameters of Genetic Algorithm.  <a href="#a09b3f75a44907da0e065c1008f08dff6">More...</a><br /></td></tr>
+<tr class="separator:a09b3f75a44907da0e065c1008f08dff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09d14f4275c309f08d74ffa09b6dd69f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#a09d14f4275c309f08d74ffa09b6dd69f">evolveGeneArray</a> (std::shared_ptr&lt; GeneArray &gt; geneArray, size_t population, size_t generation) const  -&gt; std::shared_ptr&lt; GeneArray &gt;</td></tr>
 <tr class="memdesc:a09d14f4275c309f08d74ffa09b6dd69f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evolve a GeneArray.  <a href="#a09d14f4275c309f08d74ffa09b6dd69f">More...</a><br /></td></tr>
 <tr class="separator:a09d14f4275c309f08d74ffa09b6dd69f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,10 +158,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../.
 size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#aa5d17788ee32e38bd186386af5050163">tournament</a></td></tr>
 <tr class="memdesc:aa5d17788ee32e38bd186386af5050163"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of tournament in selection. <br /></td></tr>
 <tr class="separator:aa5d17788ee32e38bd186386af5050163"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94e90d3947d24743d98bd78d86e23614"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a94e90d3947d24743d98bd78d86e23614"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#a94e90d3947d24743d98bd78d86e23614">elitism</a></td></tr>
-<tr class="memdesc:a94e90d3947d24743d98bd78d86e23614"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether to keep the elitest GeneArray. <br /></td></tr>
-<tr class="separator:a94e90d3947d24743d98bd78d86e23614"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename GeneArray, typename Compare = std::less&lt;GeneArray&gt;&gt;<br />
@@ -206,7 +202,7 @@ GeneArray has custom <em>auto operator&lt;(const GeneArray &amp;) const -&gt; bo
 <p>Most of logical errors failed to access optimal solution are occured by those mistakens. </p>
 <dl class="section author"><dt>Author</dt><dd>Jeongho Nam </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a0a58befb20c146ecde29dfbde40255d0"></a>
+<a class="anchor" id="a09b3f75a44907da0e065c1008f08dff6"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -231,13 +227,7 @@ template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>tournament</em> = <code>10</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>elitism</em> = <code>true</code>&#160;</td>
+          <td class="paramname"><em>tournament</em> = <code>10</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

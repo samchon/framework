@@ -645,6 +645,9 @@
     <ClInclude Include="..\samchon\library\FTInstance.hpp">
       <Filter>Header Files\library\virtual file tree\instances</Filter>
     </ClInclude>
+    <ClInclude Include="..\samchon\API.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samchon\library\Date.cpp">
@@ -823,6 +826,15 @@
     </ClCompile>
     <ClCompile Include="..\samchon\namtree\NTIterator.cpp">
       <Filter>Source Files\nam-tree\history data</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\IEntityGroup.cpp">
+      <Filter>Source Files\protocol\common\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\UniqueAcquire.cpp">
+      <Filter>Source Files\library\critical section</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 var classsamchon_1_1library_1_1_error_event =
 [
-    [ "ErrorEvent", "d2/dba/classsamchon_1_1library_1_1_error_event.html#a08edf806dfee5821d1eeacf9d4b4b0b3", null ],
-    [ "getID", "d2/dba/classsamchon_1_1library_1_1_error_event.html#a6df62b922057a9caa0decfc609ecf690", null ],
-    [ "id", "d2/dba/classsamchon_1_1library_1_1_error_event.html#a369a5b79f405597537b3d48b03442ceb", null ]
+    [ "ErrorEvent", "d2/dba/classsamchon_1_1library_1_1_error_event.html#a42b3f5f664e34c925958abddedf4fa8b", null ],
+    [ "getMessage", "d2/dba/classsamchon_1_1library_1_1_error_event.html#a3ec25cba7118a4005d95650eb00cbefa", null ],
+    [ "message", "d2/dba/classsamchon_1_1library_1_1_error_event.html#a43006ea855c53e95918916d84b272bc3", null ]
 ];

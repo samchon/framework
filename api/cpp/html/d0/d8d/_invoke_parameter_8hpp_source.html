@@ -110,49 +110,126 @@ $(document).ready(function(){initNavTree('d0/d8d/_invoke_parameter_8hpp_source.h
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;samchon/API.hpp&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;samchon/protocol/ISQLEntity.hpp&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">namespace </span>library</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keyword">class </span>XML;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    };</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">namespace </span>protocol</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">class </span>SAMCHON_FRAMEWORK_API InvokeParameter</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <a class="code" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a> name;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <a class="code" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a> type;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <a class="code" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a> value;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            std::shared_ptr&lt;library::XML&gt; xml;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            InvokeParameter(std::shared_ptr&lt;library::XML&gt;);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            InvokeParameter(<span class="keyword">const</span> <a class="code" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a>&amp;, <span class="keyword">const</span> <a class="code" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a>&amp;, <span class="keyword">const</span> <a class="code" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a>&amp;);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keyword">template</span>&lt;<span class="keyword">typename</span> _Ty&gt; InvokeParameter(<span class="keyword">const</span> <a class="code" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a>&amp;, <span class="keyword">const</span> _Ty&amp;);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keyword">auto</span> key() const -&gt; <a class="code" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            auto getName() const -&gt; <a class="code" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            auto getType() const -&gt; String;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            template&lt;typename _Ty = String&gt; auto getValue() const -&gt; _Ty;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            auto getValueAsXML() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;library::XML&gt;;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            auto toXML() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;library::XML&gt;;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            virtual auto toSQL() const -&gt; String;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        };</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    };</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;samchon/ByteArray.hpp&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">namespace </span>library</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keyword">class </span>XML;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    };</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">namespace </span>protocol</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    {</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">   20</a></span>&#160;        <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">InvokeParameter</a></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../db/d9f/classsamchon_1_1protocol_1_1_invoke.html">Invoke</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../d0/db7/classsamchon_1_1protocol_1_1_i_client.html">IClient</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#a81b4a8abcf27ce8e8e3ea2501248e83b">   29</a></span>&#160;            std::string <a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#a81b4a8abcf27ce8e8e3ea2501248e83b">name</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#a3d855711f962b37f0b6cffd099b557e8">   42</a></span>&#160;            std::string <a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#a3d855711f962b37f0b6cffd099b557e8">type</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#afecd8ded35872acad98323ac8d2c91fe">   63</a></span>&#160;            <span class="keywordtype">void</span> *<a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#afecd8ded35872acad98323ac8d2c91fe">value</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="comment">/* ----------------------------------------------------------</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">                CONSTRUCTORS</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">            ---------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">InvokeParameter</a>(<span class="keyword">const</span> std::string &amp;, <span class="keyword">const</span> <span class="keywordtype">double</span> &amp;);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">InvokeParameter</a>(<span class="keyword">const</span> std::string &amp;, <span class="keyword">const</span> std::string &amp;);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">InvokeParameter</a>(<span class="keyword">const</span> std::string &amp;, <span class="keyword">const</span> std::shared_ptr&lt;library::XML&gt; &amp;);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">InvokeParameter</a>(<span class="keyword">const</span> std::string &amp;, <span class="keyword">const</span> <a class="code" href="../../d6/db2/classsamchon_1_1_byte_array.html">ByteArray</a> &amp;);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">InvokeParameter</a>(<span class="keyword">const</span> std::string &amp;, std::string &amp;&amp;);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">InvokeParameter</a>(<span class="keyword">const</span> std::string &amp;, <a class="code" href="../../d6/db2/classsamchon_1_1_byte_array.html">ByteArray</a> &amp;&amp;);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="comment">/* ----------------------------------------------------------</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">                ADDICTINAL CONSTRUCTORS FOR VARADIC TEMPLATE</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">            ---------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="comment">/*#define INVOKE_PARAMETER_CONSTRUCTOR_INLINE(_Ty, _Conv) \</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">            inline InvokeParameter(const std::string &amp;listener, _Ty val) \</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">                : InvokeParameter(listener, _Conv(val)) \</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment">            { \</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment">            };</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const bool &amp;, double)</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment">            //INVOKE_PARAMETER_CONSTRUCTOR_INLINE(char, double)</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const short &amp;, double)</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const long &amp;, double)</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(long long &amp;, double)</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const int &amp;, double)</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const float &amp;, double)</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">            </span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">            //INVOKE_PARAMETER_CONSTRUCTOR_INLINE(unsigned char, double)</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned short &amp;, double)</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned long &amp;, double)</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned long long &amp;, double)</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned int &amp;, double)</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const long double &amp;, double)</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">            INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const char *, std::string)*/</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            ~<a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">InvokeParameter</a>();</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <span class="comment">/* ----------------------------------------------------------</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment">                GETTERS</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment">            ---------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keyword">auto</span> getName() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            auto getType() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            auto getValueAsNumber() const -&gt; <span class="keywordtype">double</span>;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            auto getValueAsString() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            auto getValueAsXML() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;library::XML&gt;;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            auto getValueAsByteArray() const -&gt; <a class="code" href="../../d6/db2/classsamchon_1_1_byte_array.html">ByteArray</a>;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            auto moveValueAsString() -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            auto moveValueAsByteArray() -&gt; ByteArray;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        private:</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="comment">/* ----------------------------------------------------------</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment">                HIDDEN METHODS</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment">            ---------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <a class="code" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">InvokeParameter</a>(<a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;library::XML&gt;);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            auto reservedByteArraySize() const -&gt; <span class="keywordtype">size_t</span>;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            <span class="keywordtype">void</span> setByteArray(ByteArray &amp;&amp;);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            </div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        public:</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            <span class="comment">/* ----------------------------------------------------------</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment">                EXPORTERS</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment">            ---------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            auto toXML() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;library::XML&gt;;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            auto toSQL() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        };</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    };</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;};</div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_invoke_parameter_html"><div class="ttname"><a href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">samchon::protocol::InvokeParameter</a></div><div class="ttdef"><b>Definition:</b> InvokeParameter.hpp:20</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_i_client_html"><div class="ttname"><a href="../../d0/db7/classsamchon_1_1protocol_1_1_i_client.html">samchon::protocol::IClient</a></div><div class="ttdoc">Interface for a client. </div><div class="ttdef"><b>Definition:</b> IClient.hpp:36</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
-<div class="ttc" id="namespacesamchon_html_a3e9d14ef4a03e314f0612549e374f4ce"><div class="ttname"><a href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">samchon::String</a></div><div class="ttdeci">std::basic_string&lt; TCHAR &gt; String</div><div class="ttdef"><b>Definition:</b> String.hpp:24</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_invoke_parameter_html_afecd8ded35872acad98323ac8d2c91fe"><div class="ttname"><a href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#afecd8ded35872acad98323ac8d2c91fe">samchon::protocol::InvokeParameter::value</a></div><div class="ttdeci">void * value</div><div class="ttdoc">Dynamic pointer of the value. </div><div class="ttdef"><b>Definition:</b> InvokeParameter.hpp:63</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_invoke_parameter_html_a3d855711f962b37f0b6cffd099b557e8"><div class="ttname"><a href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#a3d855711f962b37f0b6cffd099b557e8">samchon::protocol::InvokeParameter::type</a></div><div class="ttdeci">std::string type</div><div class="ttdoc">Type of the parameter. </div><div class="ttdef"><b>Definition:</b> InvokeParameter.hpp:42</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_invoke_parameter_html_a81b4a8abcf27ce8e8e3ea2501248e83b"><div class="ttname"><a href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#a81b4a8abcf27ce8e8e3ea2501248e83b">samchon::protocol::InvokeParameter::name</a></div><div class="ttdeci">std::string name</div><div class="ttdoc">A name of the parameter. </div><div class="ttdef"><b>Definition:</b> InvokeParameter.hpp:29</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_invoke_html"><div class="ttname"><a href="../../db/d9f/classsamchon_1_1protocol_1_1_invoke.html">samchon::protocol::Invoke</a></div><div class="ttdoc">Standard message for network I/O. </div><div class="ttdef"><b>Definition:</b> Invoke.hpp:22</div></div>
 <div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+<div class="ttc" id="classsamchon_1_1_byte_array_html"><div class="ttname"><a href="../../d6/db2/classsamchon_1_1_byte_array.html">samchon::ByteArray</a></div><div class="ttdoc">Binary data class. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:29</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_df511e5bd85cec96854b39d5e1c27aa8.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_755660e512283558937a7da1d548d92e.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_ede6bd7a55aac57efb143eea32900adc.html">protocol</a></li><li class="navelem"><b>InvokeParameter.hpp</b></li>
+    <li class="navelem"><a class="el" href="../../dir_beb05f3485d188aed3dda18f840e7d17.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_4e81bc2a8507dfc26e8b5eec41d77369.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_aa4f0b916fe2667f4336810dff6942c7.html">protocol</a></li><li class="navelem"><b>InvokeParameter.hpp</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.10 </li>

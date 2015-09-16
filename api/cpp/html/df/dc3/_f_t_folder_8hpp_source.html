@@ -108,59 +108,61 @@ $(document).ready(function(){initNavTree('df/dc3/_f_t_folder_8hpp_source.html','
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;samchon/library/IFTFile.hpp&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;samchon/protocol/SharedEntityArray.hpp&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">namespace </span>library</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keyword">class </span>FTFactory;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">   16</a></span>&#160;        <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">FTFolder</a></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            : <span class="keyword">public</span> <a class="code" href="../../db/d63/classsamchon_1_1library_1_1_i_f_t_file.html">IFTFile</a>,</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <span class="keyword">public</span> <span class="keyword">virtual</span> protocol::SharedEntityArray</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            <span class="keyword">typedef</span> <a class="code" href="../../db/d63/classsamchon_1_1library_1_1_i_f_t_file.html">IFTFile</a> <a class="code" href="../../db/d63/classsamchon_1_1library_1_1_i_f_t_file.html">super</a>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="keyword">virtual</span> <span class="keyword">auto</span> TAG() <span class="keyword">const</span> -&gt; <a class="code" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keyword">virtual</span> <span class="keyword">auto</span> CHILD_TAG() <span class="keyword">const</span> -&gt; <a class="code" href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">String</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            </div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html#a8dedf28e973c71c1ba3871e0db76e1a9">   30</a></span>&#160;            <a class="code" href="../../db/d8f/classsamchon_1_1library_1_1_f_t_factory.html">FTFactory</a> *<a class="code" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html#a8dedf28e973c71c1ba3871e0db76e1a9">factory</a>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <a class="code" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">FTFolder</a>(<a class="code" href="../../db/d8f/classsamchon_1_1library_1_1_f_t_factory.html">FTFactory</a>*, <a class="code" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">FTFolder</a>*);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keyword">virtual</span> ~<a class="code" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">FTFolder</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">void</span> construct(std::shared_ptr&lt;library::XML&gt; xml);</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;samchon/API.hpp&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;samchon/library/FTInstance.hpp&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;samchon/protocol/SharedEntityArray.hpp&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">namespace </span>library</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keyword">class </span>FTFactory;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">   18</a></span>&#160;        <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">FTFolder</a></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            : <span class="keyword">public</span> <a class="code" href="../../d7/dc4/classsamchon_1_1library_1_1_f_t_instance.html">FTInstance</a>,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="code" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html">protocol::SharedEntityArray</a></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keyword">typedef</span> <a class="code" href="../../d7/dc4/classsamchon_1_1library_1_1_f_t_instance.html">FTInstance</a> <a class="code" href="../../d7/dc4/classsamchon_1_1library_1_1_f_t_instance.html">super</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keyword">virtual</span> <span class="keyword">auto</span> TAG() <span class="keyword">const</span> -&gt; std::string <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keyword">virtual</span> <span class="keyword">auto</span> CHILD_TAG() <span class="keyword">const</span> -&gt; std::string <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            </div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html#a8dedf28e973c71c1ba3871e0db76e1a9">   32</a></span>&#160;            <a class="code" href="../../db/d8f/classsamchon_1_1library_1_1_f_t_factory.html">FTFactory</a> *<a class="code" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html#a8dedf28e973c71c1ba3871e0db76e1a9">factory</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <a class="code" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">FTFolder</a>(<a class="code" href="../../db/d8f/classsamchon_1_1library_1_1_f_t_factory.html">FTFactory</a>*, <a class="code" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">FTFolder</a>*);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="keyword">virtual</span> ~<a class="code" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">FTFolder</a>() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keyword">virtual</span> <span class="keyword">auto</span> createChild(std::shared_ptr&lt;library::XML&gt;) -&gt; <a class="code" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html">protocol::Entity</a>*;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(<a class="code" href="../../db/d63/classsamchon_1_1library_1_1_i_f_t_file.html">IFTFile</a>)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            virtual auto toXML() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;library::<a class="code" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">XML</a>&gt;;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        };</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    };</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">void</span> construct(std::shared_ptr&lt;library::XML&gt; xml) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keyword">virtual</span> <span class="keyword">auto</span> createChild(std::shared_ptr&lt;library::XML&gt;) -&gt; <a class="code" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html">protocol::Entity</a>* <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(<a class="code" href="../../d7/dc4/classsamchon_1_1library_1_1_f_t_instance.html">FTInstance</a>)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            virtual auto toXML() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;library::<a class="code" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">XML</a>&gt; override;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        };</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    };</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_entity_group_html"><div class="ttname"><a href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html">samchon::protocol::EntityGroup</a></div><div class="ttdoc">Entity, Container of Entity. </div><div class="ttdef"><b>Definition:</b> EntityGroup.hpp:30</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_f_t_instance_html"><div class="ttname"><a href="../../d7/dc4/classsamchon_1_1library_1_1_f_t_instance.html">samchon::library::FTInstance</a></div><div class="ttdoc">Interface of virtual folder and file. </div><div class="ttdef"><b>Definition:</b> FTInstance.hpp:17</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_x_m_l_html"><div class="ttname"><a href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">samchon::library::XML</a></div><div class="ttdoc">XML is a class representing xml object. </div><div class="ttdef"><b>Definition:</b> XML.hpp:67</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_f_t_factory_html"><div class="ttname"><a href="../../db/d8f/classsamchon_1_1library_1_1_f_t_factory.html">samchon::library::FTFactory</a></div><div class="ttdoc">Factory for virtual files. </div><div class="ttdef"><b>Definition:</b> FTFactory.hpp:17</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_f_t_folder_html_a8dedf28e973c71c1ba3871e0db76e1a9"><div class="ttname"><a href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html#a8dedf28e973c71c1ba3871e0db76e1a9">samchon::library::FTFolder::factory</a></div><div class="ttdeci">FTFactory * factory</div><div class="ttdoc">Factory instance for creating sub files. </div><div class="ttdef"><b>Definition:</b> FTFolder.hpp:30</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_i_f_t_file_html"><div class="ttname"><a href="../../db/d63/classsamchon_1_1library_1_1_i_f_t_file.html">samchon::library::IFTFile</a></div><div class="ttdoc">Interface of virtual folder and file. </div><div class="ttdef"><b>Definition:</b> IFTFile.hpp:17</div></div>
-<div class="ttc" id="namespacesamchon_html_a3e9d14ef4a03e314f0612549e374f4ce"><div class="ttname"><a href="../../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce">samchon::String</a></div><div class="ttdeci">std::basic_string&lt; TCHAR &gt; String</div><div class="ttdef"><b>Definition:</b> String.hpp:24</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_x_m_l_html"><div class="ttname"><a href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">samchon::library::XML</a></div><div class="ttdoc">XML is a class representing xml object. </div><div class="ttdef"><b>Definition:</b> XML.hpp:68</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_f_t_factory_html"><div class="ttname"><a href="../../db/d8f/classsamchon_1_1library_1_1_f_t_factory.html">samchon::library::FTFactory</a></div><div class="ttdoc">Factory for virtual files. </div><div class="ttdef"><b>Definition:</b> FTFactory.hpp:18</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_f_t_folder_html_a8dedf28e973c71c1ba3871e0db76e1a9"><div class="ttname"><a href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html#a8dedf28e973c71c1ba3871e0db76e1a9">samchon::library::FTFolder::factory</a></div><div class="ttdeci">FTFactory * factory</div><div class="ttdoc">Factory instance for creating sub files. </div><div class="ttdef"><b>Definition:</b> FTFolder.hpp:32</div></div>
 <div class="ttc" id="classsamchon_1_1protocol_1_1_entity_html"><div class="ttname"><a href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html">samchon::protocol::Entity</a></div><div class="ttdoc">Entity, the standard data class. </div><div class="ttdef"><b>Definition:</b> Entity.hpp:23</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_f_t_folder_html"><div class="ttname"><a href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">samchon::library::FTFolder</a></div><div class="ttdoc">A virtual folder. </div><div class="ttdef"><b>Definition:</b> FTFolder.hpp:16</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_f_t_folder_html"><div class="ttname"><a href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html">samchon::library::FTFolder</a></div><div class="ttdoc">A virtual folder. </div><div class="ttdef"><b>Definition:</b> FTFolder.hpp:18</div></div>
 <div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_df511e5bd85cec96854b39d5e1c27aa8.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_755660e512283558937a7da1d548d92e.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_13b6e06c9dd3dc17107fa5aafb37c75b.html">library</a></li><li class="navelem"><b>FTFolder.hpp</b></li>
+    <li class="navelem"><a class="el" href="../../dir_beb05f3485d188aed3dda18f840e7d17.html">cpp</a></li><li class="navelem"><a class="el" href="../../dir_4e81bc2a8507dfc26e8b5eec41d77369.html">samchon</a></li><li class="navelem"><a class="el" href="../../dir_869f6e937c191a7333480bfb5f57d9e3.html">library</a></li><li class="navelem"><b>FTFolder.hpp</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.10 </li>

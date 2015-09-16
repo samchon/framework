@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <string>
 
@@ -7,7 +7,7 @@ namespace samchon
 {
 	namespace protocol
 	{
-		class  IHTMLEntity
+		class SAMCHON_FRAMEWORK_API IHTMLEntity
 		{
 		public:
 			IHTMLEntity();

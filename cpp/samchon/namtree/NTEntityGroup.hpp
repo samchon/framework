@@ -1,5 +1,5 @@
 #pragma once
-
+#include <samchon/API.hpp>
 
 #include <memory>
 
@@ -12,7 +12,7 @@ namespace samchon
 		/** 
 		 * @brief Abstract class for historical, studying data
 		 */
-		class  NTEntityGroup
+		class SAMCHON_FRAMEWORK_API NTEntityGroup
 		{
 		public:
 			NTEntityGroup();

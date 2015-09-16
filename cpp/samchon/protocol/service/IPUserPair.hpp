@@ -1,4 +1,5 @@
 #pragma once
+#include <samchon/API.hpp>
 
 #include <mutex>
 #include <set>
@@ -42,7 +43,7 @@ namespace samchon
 			 *
 			 * @author Jeongho Nam
 			 */
-			class IPUserPair
+			class SAMCHON_FRAMEWORK_API IPUserPair
 			{
 				friend class Server;
 				friend class User;

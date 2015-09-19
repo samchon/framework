@@ -1,7 +1,7 @@
 var searchData=
 [
   ['accept',['accept',['../d1/dc1/classsamchon_1_1protocol_1_1_flash_policy_server.html#a8834ec753dcb4a2eef4eb58fd62c6232',1,'samchon::protocol::FlashPolicyServer']]],
-  ['acceptor',['acceptor',['../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html#a309445947918eceecf3fe96bdfb2f934',1,'samchon::protocol::IServer']]],
+  ['acceptor',['acceptor',['../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html#aeaf892467eb5a15b1869a121138f60dc',1,'samchon::protocol::IServer']]],
   ['acquire',['acquire',['../dc/d94/classsamchon_1_1library_1_1_semaphore.html#acce26e3de2fa933e111a45ea48a90b1f',1,'samchon::library::Semaphore::acquire()'],['../d8/d9e/classsamchon_1_1library_1_1_unique_acquire.html#a2c4e2c23b7373d7b738a76017a46d4b9',1,'samchon::library::UniqueAcquire::acquire()']]],
   ['acquired',['acquired',['../dc/d94/classsamchon_1_1library_1_1_semaphore.html#a06dae3512138ed698727cb4e7aa1fd49',1,'samchon::library::Semaphore']]],
   ['addallproperty',['addAllProperty',['../d3/d02/classsamchon_1_1library_1_1_x_m_l.html#abe5fca01b65f9f2a4c66db50ef0f7e2a',1,'samchon::library::XML']]],

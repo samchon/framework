@@ -22,5 +22,5 @@ var searchData=
   ['rfinds',['rfinds',['../d7/d9b/classsamchon_1_1library_1_1_string_util.html#a8693254d2e96a955a561cedfb6e9cf8a',1,'samchon::library::StringUtil::rfinds()'],['../d0/d25/classsamchon_1_1_weak_string.html#ae708a6fc4e7736ce7b645a7d00fafef9',1,'samchon::WeakString::rfinds()']]],
   ['rtrim',['rtrim',['../d7/d9b/classsamchon_1_1library_1_1_string_util.html#af7220c256a131649050cd8789de8491a',1,'samchon::library::StringUtil::rtrim()'],['../d0/d25/classsamchon_1_1_weak_string.html#ad50078bfe61fef3e6906340ff9754f3a',1,'samchon::WeakString::rtrim()']]],
   ['rwmutex',['RWMutex',['../d9/dbc/classsamchon_1_1library_1_1_r_w_mutex.html',1,'samchon::library']]],
-  ['rwmutex',['rwMutex',['../d7/d8c/classsamchon_1_1examples_1_1console__chat__server_1_1_chat_server.html#aef957437273184e588572c84c542766b',1,'samchon::examples::console_chat_server::ChatServer::rwMutex()'],['../d9/dbc/classsamchon_1_1library_1_1_r_w_mutex.html#a4e68d6356a035d1e2c9db7cdf0e004c9',1,'samchon::library::RWMutex::RWMutex()']]]
+  ['rwmutex',['RWMutex',['../d9/dbc/classsamchon_1_1library_1_1_r_w_mutex.html#a4e68d6356a035d1e2c9db7cdf0e004c9',1,'samchon::library::RWMutex::RWMutex()'],['../d7/d8c/classsamchon_1_1examples_1_1console__chat__server_1_1_chat_server.html#aef957437273184e588572c84c542766b',1,'samchon::examples::console_chat_server::ChatServer::rwMutex()']]]
 ];

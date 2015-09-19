@@ -2,7 +2,7 @@
 #include <samchon/API.hpp>
 
 #include <samchon/Map.hpp>
-#include <string>
+#include <samchon/WeakString.hpp>
 
 namespace samchon
 {
@@ -10,12 +10,16 @@ namespace samchon
 	{
 		/**
 		 * @brief URLVariables class is for representing variables of HTTP
+		 *
 		 * @details
-		 * URLVariables class allows you to transfer variables between an application and server.
-		 * When transfering, URLVariables will be converted to a URI string
+		 * <p> URLVariables class allows you to transfer variables between an application and server.
+		 * When transfering, URLVariables will be converted to a URI string. </p>
 		 *	\li URI: Uniform Resource Identifier
 		 *
-		 * Use URLVariabels objects with methods of HTTPLoader class
+		 * <p> Use URLVariabels objects with methods of HTTPLoader class. </p>
+		 *
+		 * <h4> Example code </h4>
+		 * @includelineno url_variables/main.cpp
 		 *
 		 * @author Jeongho Nam
 		 */
@@ -41,35 +45,39 @@ namespace samchon
 			
 			/**
 			 * @brief Constructor by a string representing encoded properties
-			 * @details 
-			 * Converts the variable string to properties of the specified URLVariables object.\n
-			 * &nbps;&nbps;&nbps;&nbps; ex) URLVariables(\"id=jhnam88&name=Jeongho+Nam") => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam\"}}
+			 * @details Converts the variable string to properties of the specified URLVariables object.
+			 *
+			 *	\li URLVariables(\"id=jhnam88&name=Jeongho+Nam") => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam\"}}
 			 * 
 			 * @param A uri-encoded string containing pair of properties
 			 */
-			URLVariables(const std::string &flashVars);
+			URLVariables(const WeakString &flashVars);
 
-		private:
-			/* ------------------------------------------------------------
-				URI ENCODING & DECONDING
-			------------------------------------------------------------ */
+		public:
 			/**
-			 * @brief Encodes a string into a valid URI
+			 * @brief Encode a string into a valid URI
 			 * @details Encodes a string to follow URI standard format.
 			 *
 			 * @param A string to encode to URI
 			 * @return A string converted to URI
 			 */
-			auto encode(const std::string &) const -> std::string;
+			static auto encode(const WeakString &) -> std::string;
 
 			/**
-			 * @brief Decodes a URI string
+			 * @brief Decode a URI string
 			 * @details Decodes a URI string to its original
 			 *
 			 * @param A string encoded
 			 * @return A string decoded from URI
 			 */
-			auto decode(const std::string &) const -> std::string;
+			static auto decode(const WeakString &) -> std::string;
+
+		private:
+			/* ------------------------------------------------------------
+				URI ENCODING & DECONDING
+			------------------------------------------------------------ */
+			static auto toHex(const char ch) -> char;
+			static auto fromHex(const char ch) -> char;
 
 		public:
 			/* ------------------------------------------------------------
@@ -78,7 +86,8 @@ namespace samchon
 			/**
 			 * @brief Get the string representing URLVariables
 			 * @details Returns a string object representing URLVariables following the URI\n
-			 * &nbsp;&nbsp;&nbsp;&nbsp; ex) URLVariables({{"id", "jhnam88"}, {"name", "Jeongho Nam"}}).toString() => "id=jhnam88&name=Jeongho+Nam"
+			 * 
+			 *	\li URLVariables({{"id", "jhnam88"}, {"name", "Jeongho Nam"}}).toString() => "id=jhnam88&name=Jeongho+Nam"
 			 *
 			 * @return A string representing URLVariables following the URI
 			 */

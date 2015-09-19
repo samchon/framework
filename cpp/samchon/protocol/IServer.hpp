@@ -13,7 +13,7 @@ namespace samchon
 		 * 
 		 * @details Provides methods for opening a server.
 		 *
-		 * <h3>Example Source</h3>
+		 * <h3>Example source</h3>
 		 * <p> A simple chat server running on console </p>
 		 *
 		 *	\par examples/console_chat_server/ChatServer.hpp
@@ -33,7 +33,7 @@ namespace samchon
 		{
 		protected:
 			/**
-			 * @brief An acceptor
+			 * @brief An acceptor for clients
 			 */
 			Acceptor *acceptor;
 

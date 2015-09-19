@@ -33,7 +33,7 @@ namespace samchon
 
 			public:
 				/**
-				 * @brief 
+				 * @brief Default Constructor
 				 */
 				ExternalSystemRole();
 				virtual ~ExternalSystemRole() = default;

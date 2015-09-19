@@ -292,6 +292,24 @@
     <Filter Include="Source Files\protocol\master">
       <UniqueIdentifier>{c560f956-4169-424e-90b1-104a9618b7c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\library\network i/o\sql driver\base">
+      <UniqueIdentifier>{dd79c28e-9385-4e95-a2f4-1ae5e0db1b75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\network i/o\sql driver\t-sql">
+      <UniqueIdentifier>{7e423dc6-5d35-4c33-94c0-6a3b225373bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\network i/o\sql driver\pl-sql">
+      <UniqueIdentifier>{9ece7f82-c2cc-4bd7-839f-119320a5701f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\network i/o\sql driver\my-sql">
+      <UniqueIdentifier>{431cf1e6-f948-4499-9ce1-4070368d1cb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\network i/o\sql driver\sql-lite">
+      <UniqueIdentifier>{e9d7982a-06c0-4d9c-a954-2dbea27cf286}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\utils\math\genetic algorithm">
+      <UniqueIdentifier>{77cfcec8-1a8b-442c-bf17-db5a41c4ffac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\SmartPointer.hpp">
@@ -314,18 +332,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\library\XML.hpp">
       <Filter>Header Files\library\data structure\xml</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\MSSQLi.hpp">
-      <Filter>Header Files\library\network i/o\sql driver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\MSSQLStatement.hpp">
-      <Filter>Header Files\library\network i/o\sql driver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SQLi.hpp">
-      <Filter>Header Files\library\network i/o\sql driver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SQLStatement.hpp">
-      <Filter>Header Files\library\network i/o\sql driver</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\RWMutex.hpp">
       <Filter>Header Files\library\critical section</Filter>
@@ -510,9 +516,6 @@
     <ClInclude Include="..\samchon\library\StringUtil.hpp">
       <Filter>Header Files\library\utils\string</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\library\URLVariables.hpp">
-      <Filter>Header Files\library\data structure</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\ByteArray.hpp">
       <Filter>Header Files\common</Filter>
     </ClInclude>
@@ -542,12 +545,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\library\UniqueAcquire.hpp">
       <Filter>Header Files\library\critical section\unique_lock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\MySQLi.hpp">
-      <Filter>Header Files\library\network i/o\sql driver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SQLLiteConnector.hpp">
-      <Filter>Header Files\library\network i/o\sql driver</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\ServerConnector.hpp">
       <Filter>Header Files\protocol\common\abstract</Filter>
@@ -647,6 +644,33 @@
     </ClInclude>
     <ClInclude Include="..\samchon\API.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\URLVariables.hpp">
+      <Filter>Header Files\library\network i/o\http service</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SQLi.hpp">
+      <Filter>Header Files\library\network i/o\sql driver\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SQLStatement.hpp">
+      <Filter>Header Files\library\network i/o\sql driver\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\MSSQLi.hpp">
+      <Filter>Header Files\library\network i/o\sql driver\t-sql</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\MSSQLStatement.hpp">
+      <Filter>Header Files\library\network i/o\sql driver\t-sql</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SQLLiteConnector.hpp">
+      <Filter>Header Files\library\network i/o\sql driver\sql-lite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\MySQLi.hpp">
+      <Filter>Header Files\library\network i/o\sql driver\pl-sql</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\GeneticAlgorithm.hpp">
+      <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\GAPopulation.hpp">
+      <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -835,6 +859,9 @@
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\UniqueAcquire.cpp">
       <Filter>Source Files\library\critical section</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\URLVariables.cpp">
+      <Filter>Source Files\library\network i/o\http service</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

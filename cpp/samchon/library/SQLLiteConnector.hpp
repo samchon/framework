@@ -13,7 +13,7 @@ namespace samchon
 			: public SQLi
 		{
 		public:
-			SQLLiteConnector(int port = 1433);
+			SQLLiteConnector();
 			virtual ~SQLLiteConnector();
 		};
 	};

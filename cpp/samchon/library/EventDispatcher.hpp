@@ -24,7 +24,7 @@ namespace samchon
 		 * <p> EventDispatcher is a candidate to be depreciated. </p>
 		 * <p> Since C++11, calling member method of a class by a new thread passing by static 
 		 * method and using void pointer are recommeded to avoid. As the reason, using <i>std::thread</i> 
-		 * and <i>std::bind will</i> be better. </p>
+		 * and <i>std::bind</i> will be better. </p>
 		 *
 		 *	\li std::thread: http://www.cplusplus.com/reference/thread/thread/
 		 *	\li std::bind: http://www.cplusplus.com/reference/functional/bind/

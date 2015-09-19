@@ -1847,7 +1847,7 @@ class Invoke
 	 *	\li value: _Ty => A value to be a parameter
 	 *	\li arguments: ... Types => Arguments to be the parameters
 	 */
-	constructor(...args)
+	constructor(...args: any[])
 	{
 		super();
 

@@ -113,45 +113,35 @@ $(document).ready(function(){initNavTree('d0/dfb/_i_server_8hpp_source.html','..
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;samchon/protocol/Socket.hpp&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d4/da9/namespaceboost.html">boost</a></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">namespace </span>asio</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">namespace </span>protocol</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Protocol&gt; <span class="keyword">class </span>socket_acceptor_service;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Protocol, <span class="keyword">typename</span> SocketAcceptorService = socket_acceptor_service&lt;Protocol&gt;&gt;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keyword">class </span>basic_socket_acceptor;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    };</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;};</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">namespace </span>protocol</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    {</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html">   41</a></span>&#160;        <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html">IServer</a></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html#a309445947918eceecf3fe96bdfb2f934">   47</a></span>&#160;            boost::asio::basic_socket_acceptor&lt;boost::asio::ip::tcp&gt; *<a class="code" href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html#a309445947918eceecf3fe96bdfb2f934">acceptor</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keyword">virtual</span> <span class="keyword">auto</span> MY_IP() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            virtual auto PORT() const -&gt; <span class="keywordtype">int</span> = NULL;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        public:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <a class="code" href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html">IServer</a>();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            virtual ~IServer();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            virtual <span class="keywordtype">void</span> open();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            virtual <span class="keywordtype">void</span> close();</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        protected:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            virtual <span class="keywordtype">void</span> addClient(Socket*) = NULL; <span class="comment">//ADD_CLIENT</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        };</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    };</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;};</div>
-<div class="ttc" id="namespaceboost_html"><div class="ttname"><a href="../../d4/da9/namespaceboost.html">boost</a></div><div class="ttdef"><b>Definition:</b> IClient.hpp:11</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1_i_server_html_a309445947918eceecf3fe96bdfb2f934"><div class="ttname"><a href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html#a309445947918eceecf3fe96bdfb2f934">samchon::protocol::IServer::acceptor</a></div><div class="ttdeci">boost::asio::basic_socket_acceptor&lt; boost::asio::ip::tcp &gt; * acceptor</div><div class="ttdoc">An acceptor. </div><div class="ttdef"><b>Definition:</b> IServer.hpp:47</div></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html">   32</a></span>&#160;        <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html">IServer</a></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html#aeaf892467eb5a15b1869a121138f60dc">   38</a></span>&#160;            Acceptor *<a class="code" href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html#aeaf892467eb5a15b1869a121138f60dc">acceptor</a>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keyword">virtual</span> <span class="keyword">auto</span> MY_IP() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            virtual auto PORT() const -&gt; <span class="keywordtype">int</span> = NULL;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        public:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <a class="code" href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html">IServer</a>();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            virtual ~IServer();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            virtual <span class="keywordtype">void</span> open();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            virtual <span class="keywordtype">void</span> close();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        protected:</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            virtual <span class="keywordtype">void</span> addClient(Socket*) = NULL; <span class="comment">//ADD_CLIENT</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        };</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    };</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_i_server_html_aeaf892467eb5a15b1869a121138f60dc"><div class="ttname"><a href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html#aeaf892467eb5a15b1869a121138f60dc">samchon::protocol::IServer::acceptor</a></div><div class="ttdeci">Acceptor * acceptor</div><div class="ttdoc">An acceptor for clients. </div><div class="ttdef"><b>Definition:</b> IServer.hpp:38</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1_i_server_html"><div class="ttname"><a href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html">samchon::protocol::IServer</a></div><div class="ttdoc">An interface of a server. </div><div class="ttdef"><b>Definition:</b> IServer.hpp:41</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_i_server_html"><div class="ttname"><a href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html">samchon::protocol::IServer</a></div><div class="ttdoc">An interface of a server. </div><div class="ttdef"><b>Definition:</b> IServer.hpp:32</div></div>
 <div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

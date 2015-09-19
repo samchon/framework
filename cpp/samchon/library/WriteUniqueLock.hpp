@@ -11,25 +11,20 @@ namespace samchon
 		 * @brief Unique lock for writing
 		 *
 		 * @details
-		 * \par
-		 * A WriteUniqueLock is an object manages a RWMutex object on writing
-		 * with unique ownership in both states: locked and unlocked.
+		 * <p> A WriteUniqueLock is an object manages a RWMutex object on writing
+		 * with unique ownership in both states: locked and unlocked. </p>
 		 *
-		 * \par
-		 * On construction (or by move-assigning to it), the object acquires
-		 * a mutex object, for whose locking and unlocking operations becomes responsible.
+		 * <p> On construction (or by move-assigning to it), the object acquires
+		 * a mutex object, for whose locking and unlocking operations becomes responsible. </p>
 		 *
-		 * \par
-		 * The object supports both states: locked and unlocked.
+		 * <p> The object supports both states: locked and unlocked. </p>
 		 *
-		 * \par
-		 * This class guarantees an unlocked status on destruction
+		 * <p> This class guarantees an unlocked status on destruction
 		 * (even if not called explicitly). Therefore it is especially useful as an object
 		 * with automatic duration, as it guarantees the mutex object is properly unlocked
-		 * in case an exception is thrown.
+		 * in case an exception is thrown. </p>
 		 *
-		 * \par
-		 * Referenced comments of std::unique_lock
+		 * <p> Referenced comments of std::unique_lock </p>
 		 *	\li http://www.cplusplus.com/reference/mutex/unique_lock/
 		 *
 		 * @warning

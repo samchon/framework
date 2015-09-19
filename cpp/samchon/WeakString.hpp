@@ -10,7 +10,7 @@
 namespace samchon
 {
 	/**
-	 * @brief std::string class only references characeters, reference only
+	 * @brief A string class only references characeters, reference only
 	 *
 	 * @details
 	 * WeakSring does not consider any construction, modification and destruction of characters.

@@ -181,6 +181,8 @@
     <ClInclude Include="..\samchon\library\FTFile.hpp" />
     <ClInclude Include="..\samchon\library\FTFolder.hpp" />
     <ClInclude Include="..\samchon\library\FTTextFile.hpp" />
+    <ClInclude Include="..\samchon\library\GAPopulation.hpp" />
+    <ClInclude Include="..\samchon\library\GeneticAlgorithm.hpp" />
     <ClInclude Include="..\samchon\library\HTTPLoader.hpp" />
     <ClInclude Include="..\samchon\library\FTInstance.hpp" />
     <ClInclude Include="..\samchon\library\IOperator.hpp" />
@@ -300,6 +302,7 @@
     <ClCompile Include="..\samchon\library\SQLi.cpp" />
     <ClCompile Include="..\samchon\library\SQLStatement.cpp" />
     <ClCompile Include="..\samchon\library\StringUtil.cpp" />
+    <ClCompile Include="..\samchon\library\URLVariables.cpp" />
     <ClCompile Include="..\samchon\library\WriteUniqueLock.cpp" />
     <ClCompile Include="..\samchon\library\XML.cpp" />
     <ClCompile Include="..\samchon\namtree\INTExplore.cpp" />

@@ -9,7 +9,7 @@ namespace samchon
 	{
 		/** 
 		 * @brief Event representing a progress
-		 * @details
+		 * @details 
 		 *
 		 * @author Jeongho Nam
 		 */

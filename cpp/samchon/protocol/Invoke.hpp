@@ -25,12 +25,9 @@ namespace samchon
 		private:
 			typedef std::vector<std::shared_ptr<InvokeParameter>> super;
 
-		public:
-			static Invoke* s_invoke();
-
 		protected:
 			/**
-			 * @brief A symbol who listens
+			 * @brief Represent who listens
 			 */
 			std::string listener;
 

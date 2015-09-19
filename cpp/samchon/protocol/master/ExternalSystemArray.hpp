@@ -16,7 +16,7 @@ namespace samchon
 			class ExternalSystemRole;
 
 			/**
-			 * @brief Manager for external system(s)
+			 * @brief Manager of external system(s)
 			 *
 			 * @author Jeongho Nam
 			 */

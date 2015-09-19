@@ -21,7 +21,7 @@ namespace samchon
 		public:
 			enum TYPES : int
 			{
-				ERROR = -1
+				ERROR = 0
 			};
 
 		protected:

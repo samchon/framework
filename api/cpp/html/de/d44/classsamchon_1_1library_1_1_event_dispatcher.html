@@ -133,35 +133,39 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a82723838f6122d1acf6dc94c411a0e8f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#a82723838f6122d1acf6dc94c411a0e8f">EventDispatcher</a> (<a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">EventDispatcher</a> &amp;&amp;eventDispatcher)</td></tr>
 <tr class="memdesc:a82723838f6122d1acf6dc94c411a0e8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move Constructor.  <a href="#a82723838f6122d1acf6dc94c411a0e8f">More...</a><br /></td></tr>
 <tr class="separator:a82723838f6122d1acf6dc94c411a0e8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e0fe4727148398e3ab2d80a90049546"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#a5e0fe4727148398e3ab2d80a90049546">addEventListener</a> (int, void(*listener)(std::shared_ptr&lt; <a class="el" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a> &gt;))</td></tr>
-<tr class="memdesc:a5e0fe4727148398e3ab2d80a90049546"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register an event listener.  <a href="#a5e0fe4727148398e3ab2d80a90049546">More...</a><br /></td></tr>
-<tr class="separator:a5e0fe4727148398e3ab2d80a90049546"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e52021a987bc001a63e8b0d683e9b56"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#a2e52021a987bc001a63e8b0d683e9b56">removeEventListener</a> (int, void(*listener)(std::shared_ptr&lt; <a class="el" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a> &gt;))</td></tr>
-<tr class="memdesc:a2e52021a987bc001a63e8b0d683e9b56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a registered event listener.  <a href="#a2e52021a987bc001a63e8b0d683e9b56">More...</a><br /></td></tr>
-<tr class="separator:a2e52021a987bc001a63e8b0d683e9b56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61413d9d745c086c96ea57b5f5189e54"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#a61413d9d745c086c96ea57b5f5189e54">addEventListener</a> (int, void(*)(std::shared_ptr&lt; <a class="el" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a> &gt;))</td></tr>
+<tr class="memdesc:a61413d9d745c086c96ea57b5f5189e54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register an event listener.  <a href="#a61413d9d745c086c96ea57b5f5189e54">More...</a><br /></td></tr>
+<tr class="separator:a61413d9d745c086c96ea57b5f5189e54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8fa7bf87172a64bb34e2ff2ca203cd3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#ac8fa7bf87172a64bb34e2ff2ca203cd3">removeEventListener</a> (int, void(*)(std::shared_ptr&lt; <a class="el" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a> &gt;))</td></tr>
+<tr class="memdesc:ac8fa7bf87172a64bb34e2ff2ca203cd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a registered event listener.  <a href="#ac8fa7bf87172a64bb34e2ff2ca203cd3">More...</a><br /></td></tr>
+<tr class="separator:ac8fa7bf87172a64bb34e2ff2ca203cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a98d0815f2bcb36410bfcadad437b0ead"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#a98d0815f2bcb36410bfcadad437b0ead">dispatchEvent</a> (std::shared_ptr&lt; <a class="el" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a> &gt;) -&gt; bool</td></tr>
 <tr class="memdesc:a98d0815f2bcb36410bfcadad437b0ead"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatches an event to all listeners.  <a href="#a98d0815f2bcb36410bfcadad437b0ead">More...</a><br /></td></tr>
 <tr class="separator:a98d0815f2bcb36410bfcadad437b0ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b3f97485a68174aa7b2f56cef9517a3"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#a3b3f97485a68174aa7b2f56cef9517a3">dispatchProgressEvent</a> (double x, double size) -&gt; bool</td></tr>
-<tr class="memdesc:a3b3f97485a68174aa7b2f56cef9517a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenient method of dispatching a progress event.  <a href="#a3b3f97485a68174aa7b2f56cef9517a3">More...</a><br /></td></tr>
-<tr class="separator:a3b3f97485a68174aa7b2f56cef9517a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35332a2deb4e2007a47608a3273c65aa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#a35332a2deb4e2007a47608a3273c65aa">dispatchProgressEvent</a> (size_t x, size_t size) -&gt; bool</td></tr>
+<tr class="memdesc:a35332a2deb4e2007a47608a3273c65aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenient method of dispatching a progress event.  <a href="#a35332a2deb4e2007a47608a3273c65aa">More...</a><br /></td></tr>
+<tr class="separator:a35332a2deb4e2007a47608a3273c65aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a00e32b4184ca292e574398b87847c617"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a00e32b4184ca292e574398b87847c617"></a>
-CriticalMap&lt; int, std::shared_ptr&lt; CriticalSet&lt; void(*)(std::shared_ptr&lt; <a class="el" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a> &gt;)&gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#a00e32b4184ca292e574398b87847c617">eventSetMap</a></td></tr>
-<tr class="memdesc:a00e32b4184ca292e574398b87847c617"><td class="mdescLeft">&#160;</td><td class="mdescRight">A container storing listeners. <br /></td></tr>
-<tr class="separator:a00e32b4184ca292e574398b87847c617"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af78687af35bd98de867cb0b5fc087f9d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af78687af35bd98de867cb0b5fc087f9d"></a>
+std::map&lt; int, std::set&lt; void(*)(std::shared_ptr&lt; <a class="el" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a> &gt;)&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#af78687af35bd98de867cb0b5fc087f9d">eventSetMap</a></td></tr>
+<tr class="memdesc:af78687af35bd98de867cb0b5fc087f9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A container storing listeners. <br /></td></tr>
+<tr class="separator:af78687af35bd98de867cb0b5fc087f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7a2f4870e8645dd16b7124c945ffc25"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab7a2f4870e8645dd16b7124c945ffc25"></a>
+<a class="el" href="../../d9/dbc/classsamchon_1_1library_1_1_r_w_mutex.html">library::RWMutex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#ab7a2f4870e8645dd16b7124c945ffc25">mtx</a></td></tr>
+<tr class="memdesc:ab7a2f4870e8645dd16b7124c945ffc25"><td class="mdescLeft">&#160;</td><td class="mdescRight">A rw_mutex for concurrency. <br /></td></tr>
+<tr class="separator:ab7a2f4870e8645dd16b7124c945ffc25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract class for dispatching <a class="el" href="../../db/df5/classsamchon_1_1library_1_1_event.html" title="Represent an event running on background. ">Event</a>. </p>
 <p><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html" title="Abstract class for dispatching Event. ">EventDispatcher</a> is the base class for all classes that dispatch events. </p>
 <dl class="section note"><dt>Note</dt><dd></dd></dl>
 <p><a class="el" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html" title="Abstract class for dispatching Event. ">EventDispatcher</a> is a candidate to be depreciated. </p>
-<p>Since C++11, calling member method of a class by a new thread passing by static method and using void pointer are recommeded to avoid. As the reason, using <em>std::thread</em> and <em>std::bind will</em> be better. </p>
+<p>Since C++11, calling member method of a class by a new thread passing by static method and using void pointer are recommeded to avoid. As the reason, using <em>std::thread</em> and <em>std::bind</em> will be better. </p>
 <ul>
 <li>std::thread: <a href="http://www.cplusplus.com/reference/thread/thread/">http://www.cplusplus.com/reference/thread/thread/</a> </li>
 <li>std::bind: <a href="http://www.cplusplus.com/reference/functional/bind/">http://www.cplusplus.com/reference/functional/bind/</a></li>
@@ -218,7 +222,7 @@ CriticalMap&lt; int, std::shared_ptr&lt; CriticalSet&lt; void(*)(std::shared_ptr
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a5e0fe4727148398e3ab2d80a90049546"></a>
+<a class="anchor" id="a61413d9d745c086c96ea57b5f5189e54"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -229,7 +233,7 @@ CriticalMap&lt; int, std::shared_ptr&lt; CriticalSet&lt; void(*)(std::shared_ptr
           <td class="memname">void EventDispatcher::addEventListener </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname">, </td>
+          <td class="paramname"><em>type</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -265,7 +269,7 @@ If you no longer need an event listener, remove it by calling removeEventListene
 
 </div>
 </div>
-<a class="anchor" id="a2e52021a987bc001a63e8b0d683e9b56"></a>
+<a class="anchor" id="ac8fa7bf87172a64bb34e2ff2ca203cd3"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -276,7 +280,7 @@ If you no longer need an event listener, remove it by calling removeEventListene
           <td class="memname">void EventDispatcher::removeEventListener </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname">, </td>
+          <td class="paramname"><em>type</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -343,7 +347,7 @@ If you no longer need an event listener, remove it by calling removeEventListene
 
 </div>
 </div>
-<a class="anchor" id="a3b3f97485a68174aa7b2f56cef9517a3"></a>
+<a class="anchor" id="a35332a2deb4e2007a47608a3273c65aa"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -353,13 +357,13 @@ If you no longer need an event listener, remove it by calling removeEventListene
         <tr>
           <td class="memname">auto EventDispatcher::dispatchProgressEvent </td>
           <td>(</td>
-          <td class="paramtype">double&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>size</em>&#160;</td>
         </tr>
         <tr>

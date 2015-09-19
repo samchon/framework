@@ -1,7 +1,21 @@
 var searchData=
 [
-  ['tag',['tag',['../d3/d02/classsamchon_1_1library_1_1_x_m_l.html#ad3a060587514d1bb86295bc393df4503',1,'samchon::library::XML']]],
-  ['tournament',['tournament',['../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#aa5d17788ee32e38bd186386af5050163',1,'samchon::library::GeneticAlgorithm']]],
-  ['tp_5f1970',['TP_1970',['../d6/d57/classsamchon_1_1library_1_1_date.html#aa93cb0b1beb70a199f1b9cba7cf0fa42',1,'samchon::library::Date']]],
-  ['type',['type',['../db/df5/classsamchon_1_1library_1_1_event.html#a9d320b88ed35b413642980310ed9332b',1,'samchon::library::Event::type()'],['../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#a3d855711f962b37f0b6cffd099b557e8',1,'samchon::protocol::InvokeParameter::type()']]]
+  ['sample',['sample',['../d5/d83/classsamchon_1_1examples_1_1packer_1_1_wrapper_array.html#abfbde6c64e859e847d71be22c771b378',1,'samchon::examples::packer::WrapperArray']]],
+  ['section',['section',['../d0/d04/classsamchon_1_1namtree_1_1_i_n_t_explore.html#a612a6ae0a86e331325bf547d1def66fd',1,'samchon::namtree::INTExplore']]],
+  ['semaphore',['semaphore',['../d8/d9e/classsamchon_1_1library_1_1_unique_acquire.html#a9c10a3201c16692f6ad18e874e3c2f1c',1,'samchon::library::UniqueAcquire::semaphore()'],['../d4/d98/classsamchon_1_1protocol_1_1service_1_1_user.html#a2d5837c2130808f4f18a4508482f5e5f',1,'samchon::protocol::service::User::semaphore()']]],
+  ['sendmtx',['sendMtx',['../d0/db7/classsamchon_1_1protocol_1_1_i_client.html#aed772851e668352566c18806fc6456f4',1,'samchon::protocol::IClient']]],
+  ['sequence',['sequence',['../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html#aafbcdbe74e4e3e7830918ad3e9bc4b71',1,'samchon::protocol::service::Server']]],
+  ['server',['server',['../de/d13/classsamchon_1_1examples_1_1console__chat__server_1_1_chat_client.html#aadc27b93fd168cdc4d7d17daf5ecb650',1,'samchon::examples::console_chat_server::ChatClient::server()'],['../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a9dcc734800a3c6ecfb04dc118ea3b3c5',1,'samchon::protocol::service::IPUserPair::server()'],['../d4/d98/classsamchon_1_1protocol_1_1service_1_1_user.html#a25fd470c66d0c6eecab5c8cae0d20c07',1,'samchon::protocol::service::User::server()']]],
+  ['service',['service',['../df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html#a455ceb981259aaba3201ffdf3e1d09a8',1,'samchon::protocol::service::Client']]],
+  ['sessionid',['sessionID',['../d4/d98/classsamchon_1_1protocol_1_1service_1_1_user.html#ade547b6cc666be36ff05420f15314940',1,'samchon::protocol::service::User']]],
+  ['size_5f',['size_',['../d7/dd7/classsamchon_1_1library_1_1_case_generator.html#aac091a29ed6ea65dfbe218b598d70900',1,'samchon::library::CaseGenerator::size_()'],['../dc/d94/classsamchon_1_1library_1_1_semaphore.html#a35cd12f1ac3ec60be8eb87fd77317b7b',1,'samchon::library::Semaphore::size_()'],['../d0/d25/classsamchon_1_1_weak_string.html#a765b8c2d85bff6a896fbd44d62dc5bad',1,'samchon::WeakString::size_()']]],
+  ['socket',['socket',['../d0/db7/classsamchon_1_1protocol_1_1_i_client.html#af61f5e26383c9eba182d578f1572e89c',1,'samchon::protocol::IClient']]],
+  ['source',['source',['../db/df5/classsamchon_1_1library_1_1_event.html#a4a1f085faecf6b69fe99a28d1fd9368d',1,'samchon::library::Event']]],
+  ['space_5farray',['SPACE_ARRAY',['../d0/d25/classsamchon_1_1_weak_string.html#ac7b75a0969eb104457667e1d2c9d9c96',1,'samchon::WeakString']]],
+  ['sqli',['sqli',['../dc/d15/classsamchon_1_1library_1_1_s_q_l_statement.html#a6270ac1661dba2cfce34fdb87ac15d3f',1,'samchon::library::SQLStatement::sqli()'],['../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html#aa3871dc0fcba93c034f6affdf793bae0',1,'samchon::protocol::service::Server::sqli()']]],
+  ['sqrt1_5f2',['SQRT1_2',['../d1/d21/classsamchon_1_1library_1_1_math.html#a8459e57beff4707c556f787dab4a7d22',1,'samchon::library::Math']]],
+  ['sqrt2',['SQRT2',['../d1/d21/classsamchon_1_1library_1_1_math.html#a46482853dcdea387358c15666bfc4018',1,'samchon::library::Math']]],
+  ['stmt',['stmt',['../d3/d78/classsamchon_1_1library_1_1_s_q_li.html#a47441dc2e662a712b0ae8a5a86183a7c',1,'samchon::library::SQLi']]],
+  ['stmtmutex',['stmtMutex',['../d3/d78/classsamchon_1_1library_1_1_s_q_li.html#ad965fdc236d31b607cad14e77f73333f',1,'samchon::library::SQLi']]],
+  ['systemarray',['systemArray',['../de/daa/classsamchon_1_1protocol_1_1master_1_1_external_system.html#af54edbc33ff7b2922b68e4c4af8b5c32',1,'samchon::protocol::master::ExternalSystem']]]
 ];

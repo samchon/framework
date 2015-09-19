@@ -9,6 +9,35 @@ namespace samchon
 	{
 		/**
 		 * @brief Case generator
+		 *
+		 * <h3>Example source</h3>
+		 * <p> Packer - Find the best packaging solution </p>
+		 * 
+		 * \par examples/packer/Packer.hpp
+		 *		@includelineno examples/packer/Packer.hpp
+		 * \par examples/packer/WrapperArray.hpp
+		 *		@includelineno examples/packer/WrapperArray.hpp
+		 * \par examples/packer/Wrapper.hpp
+		 *		@includelineno examples/packer/Wrapper.hpp
+		 * \par examples/packer/Product.hpp
+		 *		@includelineno examples/packer/Product.hpp
+		 * \par examples/packer/Instance.hpp
+		 *		@includelineno examples/packer/Instance.hpp
+		 *
+		 * \par examples/packer/main.cpp
+		 *		@includelineno examples/packer/main.cpp
+		 * \par examples/packer/Packer.cpp
+		 *		@includelineno examples/packer/Packer.cpp
+		 * \par examples/packer/WrapperArray.cpp
+		 *		@includelineno examples/packer/WrapperArray.cpp
+		 * \par examples/packer/Wrapper.cpp
+		 *		@includelineno examples/packer/Wrapper.cpp
+		 * \par examples/packer/Product.cpp
+		 *		@includelineno examples/packer/Product.cpp
+		 * \par examples/packer/Instance.cpp
+		 *		@includelineno examples/packer/Instance.cpp
+		 *
+		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API CaseGenerator
 		{
@@ -31,6 +60,9 @@ namespace samchon
 			std::vector<size_t> dividerArray;
 
 		public:
+			/* ----------------------------------------------------
+				CONSTRUCTORS
+			---------------------------------------------------- */
 			/**
 			 * @brief Construct from size of N and R
 			 *
@@ -40,7 +72,9 @@ namespace samchon
 			CaseGenerator(size_t n, size_t r);
 			virtual ~CaseGenerator() = default;
 
-			//ACCESSORS
+			/* ----------------------------------------------------
+				ELEMENT ACCESSORS
+			---------------------------------------------------- */
 			/**
 			 * @brief Get size of all cases
 			 *
@@ -53,12 +87,12 @@ namespace samchon
 			 *
 			 * @return The row of the x'th in combined permuation case
 			 */
-			virtual auto at(size_t x) const -> std::vector<size_t> = NULL;
+			virtual auto operator[](size_t) const -> std::vector<size_t> = 0;
 
 			/**
-			 * @copy CaseGenerator::at()
+			 * @copy CaseGenerator::operator[]()
 			 */
-			auto operator[](size_t) const -> std::vector<size_t>;
+			auto at(size_t) const -> std::vector<size_t>;
 
 			/** 
 			 * @brief Get size of the N

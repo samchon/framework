@@ -10,7 +10,7 @@ var searchData=
   ['destroy',['destroy',['../d6/dfb/classsamchon_1_1library_1_1_critical_allocator.html#abe22860864b977368f7539d2b27238e3',1,'samchon::library::CriticalAllocator']]],
   ['disconnect',['disconnect',['../d3/d78/classsamchon_1_1library_1_1_s_q_li.html#a53877f6e0173fa6b5deae7dcf7f14dad',1,'samchon::library::SQLi']]],
   ['dispatchevent',['dispatchEvent',['../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#a98d0815f2bcb36410bfcadad437b0ead',1,'samchon::library::EventDispatcher']]],
-  ['dispatchprogressevent',['dispatchProgressEvent',['../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#a3b3f97485a68174aa7b2f56cef9517a3',1,'samchon::library::EventDispatcher']]],
+  ['dispatchprogressevent',['dispatchProgressEvent',['../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html#a35332a2deb4e2007a47608a3273c65aa',1,'samchon::library::EventDispatcher']]],
   ['dojoin',['doJoin',['../d4/d98/classsamchon_1_1protocol_1_1service_1_1_user.html#a3ae208b83139739e4e52d05b472ee815',1,'samchon::protocol::service::User']]],
   ['dologin',['doLogin',['../d4/d98/classsamchon_1_1protocol_1_1service_1_1_user.html#a31746ea0d4e21eb3ade51f4d93326d0d',1,'samchon::protocol::service::User']]]
 ];

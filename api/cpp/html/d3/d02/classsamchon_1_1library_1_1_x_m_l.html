@@ -263,78 +263,91 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;samchon/library/XML.hpp&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#pragma comment(lib, &quot;Debug/SamchonFramework.lib&quot;)</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a>;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">struct </span>Member</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">string</span> id;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">string</span> name;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">int</span> age;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">int</span> grade;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">auto</span> toXML() const -&gt; shared_ptr&lt;<a class="code" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">XML</a>&gt;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        shared_ptr&lt;XML&gt; xml(<span class="keyword">new</span> <a class="code" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html#ad78c545d1504b9af96847afb03f787c8">XML</a>());</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        xml-&gt;setTag(<span class="stringliteral">&quot;member&quot;</span>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        xml-&gt;setProperty(<span class="stringliteral">&quot;id&quot;</span>, <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        xml-&gt;setProperty(<span class="stringliteral">&quot;name&quot;</span>, name);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        xml-&gt;setProperty(<span class="stringliteral">&quot;age&quot;</span>, age);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        xml-&gt;setProperty(<span class="stringliteral">&quot;grade&quot;</span>, grade);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">return</span> xml;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    };</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;};</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifdef _WIN64</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#   ifdef _DEBUG</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;x64/Debug/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#   else</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;x64/Release/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#   endif</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#   ifdef _DEBUG</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;Debug/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#   else</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;Release/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#   endif</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">struct </span>Member</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">string</span> id;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">string</span> name;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">int</span> age;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">int</span> grade;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">void</span> main()</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment">//DECLARE A XML WITH MEMBER_ARRAY TAG</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    shared_ptr&lt;XML&gt; xml(<span class="keyword">new</span> <a class="code" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html#ad78c545d1504b9af96847afb03f787c8">XML</a>());</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    xml-&gt;setTag(<span class="stringliteral">&quot;memberArray&quot;</span>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment">//ADD MEMBER(S) TO XML</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    vector&lt;struct Member&gt; memberArray =</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        {<span class="stringliteral">&quot;samchon&quot;</span>, <span class="stringliteral">&quot;Jeongho Nam&quot;</span>, 27, 1},</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        {<span class="stringliteral">&quot;gkyu&quot;</span>, <span class="stringliteral">&quot;Kwangkyu Ko&quot;</span>, 25, 1},</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        {<span class="stringliteral">&quot;guest&quot;</span>, <span class="stringliteral">&quot;John Doe&quot;</span>, 99, 4}</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    };</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; memberArray.size(); i++)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        xml-&gt;push_back( memberArray[i].toXML() );</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">//ADD FILE_LIST BY STRING DIRECTLY</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    xml-&gt;push_back</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    (</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">string</span>(<span class="stringliteral">&quot;&quot;</span>) +</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="stringliteral">&quot;&lt;fileList&gt;\n&quot;</span> + </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="stringliteral">&quot;&lt;file extension=&#39;pdf&#39; name=&#39;API&#39; /&gt;&quot;</span> +</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="stringliteral">&quot;&lt;file extension=&#39;pdf&#39; name=&#39;Guidance+For+Developer&#39;&gt;Damaged&lt;/file&gt;&quot;</span> + </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="stringliteral">&quot;&lt;file extension=&#39;docx&#39; name=&#39;Resume&#39; /&gt;&quot;</span> +</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="stringliteral">&quot;&lt;file extension=&#39;jpg&#39; name=&#39;My+House&#39; /&gt;&quot;</span> +</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="stringliteral">&quot;&lt;file extension=&#39;xlsx&#39; name=&#39;Grades&#39; /&gt;&quot;</span> +</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="stringliteral">&quot;&lt;/fileList&gt;&quot;</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    );</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">auto</span> toXML() const -&gt; shared_ptr&lt;<a class="code" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">XML</a>&gt;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        shared_ptr&lt;XML&gt; xml(<span class="keyword">new</span> <a class="code" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html#ad78c545d1504b9af96847afb03f787c8">XML</a>());</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        xml-&gt;setTag(<span class="stringliteral">&quot;member&quot;</span>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        xml-&gt;setProperty(<span class="stringliteral">&quot;id&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        xml-&gt;setProperty(<span class="stringliteral">&quot;name&quot;</span>, name);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        xml-&gt;setProperty(<span class="stringliteral">&quot;age&quot;</span>, age);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        xml-&gt;setProperty(<span class="stringliteral">&quot;grade&quot;</span>, grade);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">return</span> xml;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    };</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;};</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">void</span> main()</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//DECLARE A XML WITH MEMBER_ARRAY TAG</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    shared_ptr&lt;XML&gt; xml(<span class="keyword">new</span> <a class="code" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html#ad78c545d1504b9af96847afb03f787c8">XML</a>());</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    xml-&gt;setTag(<span class="stringliteral">&quot;memberArray&quot;</span>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">//ADD MEMBER(S) TO XML</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    vector&lt;struct Member&gt; memberArray =</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        {<span class="stringliteral">&quot;samchon&quot;</span>, <span class="stringliteral">&quot;Jeongho Nam&quot;</span>, 27, 1},</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        {<span class="stringliteral">&quot;gkyu&quot;</span>, <span class="stringliteral">&quot;Kwangkyu Ko&quot;</span>, 25, 1},</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {<span class="stringliteral">&quot;guest&quot;</span>, <span class="stringliteral">&quot;John Doe&quot;</span>, 99, 4}</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    };</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; memberArray.size(); i++)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        xml-&gt;push_back( memberArray[i].toXML() );</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;-----------------------------------------------------------------&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot; Get Properties And Values&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;-----------------------------------------------------------------&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Age of 2nd member: &quot;</span> &lt;&lt; xml-&gt;get(<span class="stringliteral">&quot;member&quot;</span>)-&gt;at(1)-&gt;getProperty&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;age&quot;</span>) &lt;&lt; endl;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Age of 1st member: &quot;</span> &lt;&lt; xml-&gt;get(<span class="stringliteral">&quot;member&quot;</span>)-&gt;at(0)-&gt;getProperty(<span class="stringliteral">&quot;id&quot;</span>) &lt;&lt; endl &lt;&lt; endl;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;File name and extension of 5th: &quot;</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        &lt;&lt; xml-&gt;get(<span class="stringliteral">&quot;fileList&quot;</span>)-&gt;at(0)-&gt;get(<span class="stringliteral">&quot;file&quot;</span>)-&gt;at(4)-&gt;getProperty(<span class="stringliteral">&quot;name&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;.&quot;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        &lt;&lt; xml-&gt;get(<span class="stringliteral">&quot;fileList&quot;</span>)-&gt;at(0)-&gt;get(<span class="stringliteral">&quot;file&quot;</span>)-&gt;at(4)-&gt;getProperty(<span class="stringliteral">&quot;extension&quot;</span>) &lt;&lt; endl;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Value of 2nd file: &quot;</span> &lt;&lt; xml-&gt;get(<span class="stringliteral">&quot;fileList&quot;</span>)-&gt;at(0)-&gt;get(<span class="stringliteral">&quot;file&quot;</span>)-&gt;at(1)-&gt;getValue() &lt;&lt; endl &lt;&lt; endl;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;-----------------------------------------------------------------&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot; XML to String: &quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">//ADD FILE_LIST BY STRING DIRECTLY</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    xml-&gt;push_back</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    (</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordtype">string</span>(<span class="stringliteral">&quot;&quot;</span>) +</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="stringliteral">&quot;&lt;fileList&gt;\n&quot;</span> + </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="stringliteral">&quot;&lt;file extension=&#39;pdf&#39; name=&#39;API&#39; /&gt;&quot;</span> +</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="stringliteral">&quot;&lt;file extension=&#39;pdf&#39; name=&#39;Guidance+For+Developer&#39;&gt;Damaged&lt;/file&gt;&quot;</span> + </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="stringliteral">&quot;&lt;file extension=&#39;docx&#39; name=&#39;Resume&#39; /&gt;&quot;</span> +</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="stringliteral">&quot;&lt;file extension=&#39;jpg&#39; name=&#39;My+House&#39; /&gt;&quot;</span> +</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="stringliteral">&quot;&lt;file extension=&#39;xlsx&#39; name=&#39;Grades&#39; /&gt;&quot;</span> +</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="stringliteral">&quot;&lt;/fileList&gt;&quot;</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    );</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;-----------------------------------------------------------------&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    cout &lt;&lt; xml-&gt;toString() &lt;&lt; endl;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    system(<span class="stringliteral">&quot;pause&quot;</span>);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot; Get Properties And Values&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;-----------------------------------------------------------------&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Age of 2nd member: &quot;</span> &lt;&lt; xml-&gt;get(<span class="stringliteral">&quot;member&quot;</span>)-&gt;at(1)-&gt;getProperty&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;age&quot;</span>) &lt;&lt; endl;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Age of 1st member: &quot;</span> &lt;&lt; xml-&gt;get(<span class="stringliteral">&quot;member&quot;</span>)-&gt;at(0)-&gt;getProperty(<span class="stringliteral">&quot;id&quot;</span>) &lt;&lt; endl &lt;&lt; endl;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;File name and extension of 5th: &quot;</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        &lt;&lt; xml-&gt;get(<span class="stringliteral">&quot;fileList&quot;</span>)-&gt;at(0)-&gt;get(<span class="stringliteral">&quot;file&quot;</span>)-&gt;at(4)-&gt;getProperty(<span class="stringliteral">&quot;name&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;.&quot;</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        &lt;&lt; xml-&gt;get(<span class="stringliteral">&quot;fileList&quot;</span>)-&gt;at(0)-&gt;get(<span class="stringliteral">&quot;file&quot;</span>)-&gt;at(4)-&gt;getProperty(<span class="stringliteral">&quot;extension&quot;</span>) &lt;&lt; endl;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Value of 2nd file: &quot;</span> &lt;&lt; xml-&gt;get(<span class="stringliteral">&quot;fileList&quot;</span>)-&gt;at(0)-&gt;get(<span class="stringliteral">&quot;file&quot;</span>)-&gt;at(1)-&gt;getValue() &lt;&lt; endl &lt;&lt; endl;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;-----------------------------------------------------------------&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot; XML to String: &quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;-----------------------------------------------------------------&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    cout &lt;&lt; xml-&gt;toString() &lt;&lt; endl;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    system(<span class="stringliteral">&quot;pause&quot;</span>);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
 <div class="ttc" id="namespacesamchon_1_1library_html"><div class="ttname"><a href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a></div><div class="ttdoc">Package of libraries. </div><div class="ttdef"><b>Definition:</b> library.hpp:8</div></div>
 <div class="ttc" id="classsamchon_1_1library_1_1_x_m_l_html"><div class="ttname"><a href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">samchon::library::XML</a></div><div class="ttdoc">XML is a class representing xml object. </div><div class="ttdef"><b>Definition:</b> XML.hpp:68</div></div>

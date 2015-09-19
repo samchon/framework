@@ -15,7 +15,7 @@ CombinedPermutationGenerator::CombinedPermutationGenerator(size_t n, size_t r)
 		dividerArray[i] = (size_t)pow(n, x);
 	}
 }
-auto CombinedPermutationGenerator::at(size_t x) const -> vector<size_t>
+auto CombinedPermutationGenerator::operator[](size_t x) const -> vector<size_t>
 {
 	vector<size_t> row(r_, 0);
 	for (size_t i = 0; i < row.size(); i++)

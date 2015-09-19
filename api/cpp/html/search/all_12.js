@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['uid',['uid',['../d7/dc4/classsamchon_1_1library_1_1_f_t_instance.html#a2d8f2218b7ac7dad36a2057f50aa5a13',1,'samchon::library::FTInstance']]],
+  ['uid',['uid',['../d5/db9/classsamchon_1_1examples_1_1tsp_1_1_geometry_point.html#a8a1cb7d56a27f33153a4679e66a03947',1,'samchon::examples::tsp::GeometryPoint::uid()'],['../d7/dc4/classsamchon_1_1library_1_1_f_t_instance.html#a2d8f2218b7ac7dad36a2057f50aa5a13',1,'samchon::library::FTInstance::uid()']]],
   ['unique',['unique',['../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#ac1837decacb330d4c95a7bf728c0ee6f',1,'samchon::library::GeneticAlgorithm']]],
   ['uniqueacquire',['UniqueAcquire',['../d8/d9e/classsamchon_1_1library_1_1_unique_acquire.html',1,'samchon::library']]],
   ['uniqueacquire',['UniqueAcquire',['../d8/d9e/classsamchon_1_1library_1_1_unique_acquire.html#a099a7c3b67d9d8083b38ef3acbe4b6da',1,'samchon::library::UniqueAcquire']]],

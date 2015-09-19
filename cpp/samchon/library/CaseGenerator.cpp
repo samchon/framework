@@ -19,9 +19,9 @@ auto CaseGenerator::size() const -> size_t
 {
 	return size_;
 }
-auto CaseGenerator::operator[](size_t index) const -> vector<size_t>
+auto CaseGenerator::at(size_t index) const -> vector<size_t>
 {
-	return move( at(index) );
+	return move(operator[](index));
 }
 
 /* ---------------------------------------------------------

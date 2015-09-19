@@ -8,28 +8,28 @@ using namespace samchon::library;
 	SUBSTITUTE -> TO_STRING, TO_SQL
 ---------------------------------------------------------------------- */
 //TO_STRING
-template<> auto StringUtil::toString(const WeakString &str) -> std::string
+template<> auto StringUtil::toString(const WeakString &str) -> string
 {
 	return move(str.str());
 }
 
 //TO_SQL
-template<> auto StringUtil::toSQL(const bool &flag) -> std::string
+template<> auto StringUtil::toSQL(const bool &flag) -> string
 {
 	return toString(flag);
 }
-template<> auto StringUtil::toSQL(const char &val) -> std::string
+template<> auto StringUtil::toSQL(const char &val) -> string
 {
 	return {'\'', val, '\'' };
 }
-template<> auto StringUtil::toSQL(const std::string &str) -> std::string
+template<> auto StringUtil::toSQL(const string &str) -> string
 {
 	if (str.empty() == true)
 		return "NULL";
 	else
 		return "'" + str + "'";
 }
-template<> auto StringUtil::toSQL(const WeakString &str) -> std::string
+template<> auto StringUtil::toSQL(const WeakString &str) -> string
 {
 	if (str.empty() == true)
 		return "NULL";
@@ -46,87 +46,74 @@ template<> auto StringUtil::toSQL(const WeakString &str) -> std::string
 		NEGATIVE NUMBER IS BLUE
 		ZERO IS BLACK
 ---------------------------------------------------------------------- */
-auto StringUtil::isNumeric(const std::string &str) -> bool
+auto StringUtil::isNumeric(const string &str) -> bool
 {
 	try
 	{
 		stod( replaceAll(str, ",", "") );
 	}
-	catch (std::exception &e)
+	catch (exception &e)
 	{
 		return false;
 	}
 	return true;
 }
-auto StringUtil::toNumber(const std::string &str) -> double
+auto StringUtil::toNumber(const string &str) -> double
 {
-	std::string &numStr = replaceAll(str, ",", "");
+	string &numStr = replaceAll(str, ",", "");
 	return stod(numStr);
 }
 
-auto StringUtil::numberFormat(double val, int precision) -> std::string
+auto StringUtil::numberFormat(double val, int precision) -> string
 {
-	std::string text;
-
-	//IF VALUE IS ZERO
+	//IF VALUE IS ZERO OR NULL
 	if (val == 0.0)
 		return "0";
-	else if (val == LONG_MIN)
+	else if (val == INT_MIN)
 		return "";
 
+	string str = "";
+
 	//SETTING
-	bool isPositive = (val > 0);
+	bool isNegative = (val < 0);
 	val = abs(val);
-	//cout << "value: " << value << endl;
+	
 	int cipher = (int)log10(val) + 1;
 
-	int i, j, k;
-	int groups = (cipher - 1) / 3;
-
-	if (val == (long long)val)
-		precision = 0;
-
-	//RESERVE
-	text.reserve(cipher + groups + precision + 5);
-
-	k = cipher;
-	for (i = 0; i < cipher + groups; i++)
+	//PRECISION
+	if (val != (unsigned long long)val)
 	{
-		j = cipher + groups - i;
-
-		if (j != 0 && j-- % 4 == 0)
-			text += ",";
-		else
-		{
-			val = ((int)val % (int)pow(10.0, k)) / (int)pow(10.0, k - 1);
-			text += toString(val);
-			k--;
-		}
+		int pointValue = (int)round((val - (unsigned long long)val) * pow(10.0, (double)precision));
+		str = "." + to_string(pointValue);
 	}
 
-	//DECIMAL PART
-	if (precision > 0)
+	//NATURAL NUMBER
+	for (int i = 0; i < cipher; i++)
 	{
-		double pointValue = (double)val - (long long)val;
-		std::string &precisionText = toString(pointValue).substr(2);
-		text += precisionText;
-	}
-	//ADD POINT FROM HERE
-	if (isPositive == false)
-		text = "-" + text;
+		int num = (int)((unsigned long long)val % (unsigned long long)pow(10.0, i + 1.0)); //TRUNCATE UPPER DIGIT VALUE
+		num = (int)(num / pow(10.0, (double)i));
 
-	return move(text);
+		str = (char)(num + '0') + str;
+		if((i + 1) % 3 == 0 && i < cipher - 1)
+			str = "," + str;
+	}
+	
+	//NEGATIVE NUMBER
+	if(isNegative == true)
+		str = "-" + str;
+
+	return move(str);
 }
-auto StringUtil::percentFormat(double val, int precision) -> std::string
+auto StringUtil::percentFormat(double val, int precision) -> string
 {
 	if (val == INT_MIN)
 		return "";
 	return numberFormat(val * 100, precision) + "%";
 }
 
-auto StringUtil::colorNumberFormat(double value, int precision, double delimiter) -> std::string
+auto StringUtil::colorNumberFormat(double value, int precision, double delimiter) -> string
 {
-	std::string color;
+	string color;
 
 	if (value > delimiter)			color = "red";
 	else if (value == delimiter)	color = "black";
@@ -139,9 +126,9 @@ auto StringUtil::colorNumberFormat(double value, int precision, double delimiter
 			numberFormat(value, precision)
 		);
 }
-auto StringUtil::colorPercentFormat(double value, int precision, double delimiter) -> std::string
+auto StringUtil::colorPercentFormat(double value, int precision, double delimiter) -> string
 {
-	std::string color;
+	string color;
 
 	if (value > delimiter)			color = "red";
 	else if (value == delimiter)	color = "black";
@@ -159,41 +146,41 @@ auto StringUtil::colorPercentFormat(double value, int precision, double delimite
 	TRIM -> WITH LTRIM & RTRIM
 		IT'S RIGHT, THE TRIM OF ORACLE
 ---------------------------------------------------------------------- */
-auto StringUtil::trim(const std::string &val, const std::vector<std::string> &delims) -> std::string
+auto StringUtil::trim(const string &val, const vector<string> &delims) -> string
 {
 	return move(WeakString(val).trim(delims).str());
 }
-auto StringUtil::ltrim(const std::string &val, const std::vector<std::string> &delims) -> std::string
+auto StringUtil::ltrim(const string &val, const vector<string> &delims) -> string
 {
 	return move(WeakString(val).ltrim(delims).str());
 }
-auto StringUtil::rtrim(const std::string &val, const std::vector<std::string> &delims) -> std::string
+auto StringUtil::rtrim(const string &val, const vector<string> &delims) -> string
 {
 	return move(WeakString(val).rtrim(delims).str());
 }
 
-auto StringUtil::trim(const std::string &str) -> std::string
+auto StringUtil::trim(const string &str) -> string
 {
 	return move(WeakString(str).trim().str());
 }
-auto StringUtil::ltrim(const std::string &str) -> std::string
+auto StringUtil::ltrim(const string &str) -> string
 {
 	return move(WeakString(str).ltrim().str());
 }
-auto StringUtil::rtrim(const std::string &str) -> std::string
+auto StringUtil::rtrim(const string &str) -> string
 {
 	return move(WeakString(str).rtrim().str());
 }
 
-auto StringUtil::trim(const std::string &str, const std::string &delim) -> std::string
+auto StringUtil::trim(const string &str, const string &delim) -> string
 {
 	return move(WeakString(str).trim(delim).str());
 }
-auto StringUtil::ltrim(const std::string &str, const std::string &delim)->std::string
+auto StringUtil::ltrim(const string &str, const string &delim)->string
 {
 	return move(WeakString(str).ltrim(delim).str());
 }
-auto StringUtil::rtrim(const std::string &str, const std::string &delim)->std::string
+auto StringUtil::rtrim(const string &str, const string &delim)->string
 {
 	return move(WeakString(str).rtrim(delim).str());
 }
@@ -202,36 +189,36 @@ auto StringUtil::rtrim(const std::string &str, const std::string &delim)->std::s
 	EXTRACTORS
 ---------------------------------------------------------------------- */
 //FINDERS
-auto StringUtil::finds(const std::string &str,
-	const std::vector<std::string> &delims, size_t startIndex) -> IndexPair<std::string>
+auto StringUtil::finds(const string &str,
+	const vector<string> &delims, size_t startIndex) -> IndexPair<string>
 {
 	IndexPair<WeakString> &iPair = WeakString(str).finds(delims, startIndex);
 	return { iPair.getIndex(), iPair.getValue().str() };
 }
-auto StringUtil::rfinds(const std::string &str,
-	const std::vector<std::string> &delims, size_t endIndex) -> IndexPair<std::string>
+auto StringUtil::rfinds(const string &str,
+	const vector<string> &delims, size_t endIndex) -> IndexPair<string>
 {
 	IndexPair<WeakString> &iPair = WeakString(str).rfinds(delims, endIndex);
 	return { iPair.getIndex(), iPair.getValue().str() };
 }
 
 //SUBSTRING
-auto StringUtil::substring(const std::string &str,
-	size_t startIndex, size_t endIndex) -> std::string
+auto StringUtil::substring(const string &str,
+	size_t startIndex, size_t endIndex) -> string
 {
 	return move(WeakString(str).substring(startIndex, endIndex).str());
 }
-auto StringUtil::between(const std::string &str,
-	const std::string &start, const std::string &end) -> std::string
+auto StringUtil::between(const string &str,
+	const string &start, const string &end) -> string
 {
 	return move(WeakString(str).between(start, end).str());
 }
-auto StringUtil::addTab(const std::string &str, size_t n) -> std::string
+auto StringUtil::addTab(const string &str, size_t n) -> string
 {
-	vector<std::string> &lines = split(str, "\n");
+	vector<string> &lines = split(str, "\n");
 
-	std::string val;
-	std::string tab;
+	string val;
+	string tab;
 	size_t i;
 
 	val.reserve(val.size() + lines.size());
@@ -247,22 +234,22 @@ auto StringUtil::addTab(const std::string &str, size_t n) -> std::string
 }
 
 //SUBSTRINGS
-auto StringUtil::split(const std::string &str, const std::string &delim) -> std::vector<std::string>
+auto StringUtil::split(const string &str, const string &delim) -> vector<string>
 {
-	std::vector<WeakString> &arr = WeakString(str).split(delim);
+	vector<WeakString> &arr = WeakString(str).split(delim);
 
-	std::vector<std::string> resArray(arr.size());
+	vector<string> resArray(arr.size());
 	for (size_t i = 0; i < arr.size(); i++)
 		resArray[i] = move(arr[i].str());
 
 	return move(resArray);
 }
-auto StringUtil::betweens(const std::string &str,
-	const std::string &start, const std::string &end) -> std::vector<std::string>
+auto StringUtil::betweens(const string &str,
+	const string &start, const string &end) -> vector<string>
 {
-	std::vector<WeakString> &arr = WeakString(str).betweens(start, end);
+	vector<WeakString> &arr = WeakString(str).betweens(start, end);
 
-	std::vector<std::string> resArray(arr.size());
+	vector<string> resArray(arr.size());
 	for (size_t i = 0; i < arr.size(); i++)
 		resArray[i] = move(arr[i].str());
 
@@ -272,22 +259,22 @@ auto StringUtil::betweens(const std::string &str,
 /* ----------------------------------------------------------------------
 	REPLACERS
 ---------------------------------------------------------------------- */
-auto StringUtil::toLowerCase(const std::string &str) -> std::string
+auto StringUtil::toLowerCase(const string &str) -> string
 {
 	return move(WeakString(str).toLowerCase());
 }
-auto StringUtil::toUpperCase(const std::string &str) -> std::string
+auto StringUtil::toUpperCase(const string &str) -> string
 {
 	return move(WeakString(str).toUpperCase());
 }
 
-auto StringUtil::replaceAll(const std::string &str,
-	const std::string &before, const std::string &after) -> std::string
+auto StringUtil::replaceAll(const string &str,
+	const string &before, const string &after) -> string
 {
 	return move(WeakString(str).replaceAll(before, after));
 }
-auto StringUtil::replaceAll(const std::string &str,
-	const std::vector<std::pair<std::string, std::string>> &pairs) -> std::string
+auto StringUtil::replaceAll(const string &str,
+	const vector<pair<string, string>> &pairs) -> string
 {
 	return move(WeakString(str).replaceAll(pairs));
 }

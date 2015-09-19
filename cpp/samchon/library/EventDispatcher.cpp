@@ -36,60 +36,39 @@ EventDispatcher::EventDispatcher(EventDispatcher &&eventDispatcher)
 /* -------------------------------------------------------------
 	EVENT LISTENER IN & OUT
 ------------------------------------------------------------- */
-void EventDispatcher::addEventListener(int type, void(*listener)(shared_ptr<Event>))
+void EventDispatcher::addEventListener(int type, void(*listener)(std::shared_ptr<Event>))
 {
-	if (eventSetMap.has(type) == false)
-		eventSetMap.insert({ type, make_shared<CriticalSet<void(*)(std::shared_ptr<Event>)>>()});
+	WriteUniqueLock uk(mtx);
 
-	auto &set = eventSetMap.get(type);
-	if (set->has(listener) == false)
-		set->insert(listener);
+	auto &set = eventSetMap[type];
+	set.insert(listener);
 }
-/*void EventDispatcher::addEventListener(int type, void(*listener)(shared_ptr<ErrorEvent>))
+void EventDispatcher::removeEventListener(int type, void(*listener)(std::shared_ptr<Event>))
 {
-	if (errorSet.has(listener) == false)
-		errorSet.insert(listener);
-}
-void EventDispatcher::addEventListener(int type, void(*listener)(shared_ptr<ProgressEvent>))
-{
-	if (progressSet.has(listener) == false)
-		progressSet.insert(listener);
-}*/
+	WriteUniqueLock uk(mtx);
 
-void EventDispatcher::removeEventListener(int type, void(*listener)(shared_ptr<Event>))
-{
-	if (eventSetMap.has(type) == true && eventSetMap[type]->has(listener) == true)
-		eventSetMap[type]->erase(listener);
+	if (eventSetMap.count(type) > 0 && eventSetMap[type].count(listener) > 0)
+		eventSetMap[type].erase(listener);
 }
-/*void EventDispatcher::removeEventListener(int type, void(*listener)(shared_ptr<ErrorEvent>))
-{
-	if (errorSet.has(listener) == true)
-		errorSet.erase(listener);
-}
-void EventDispatcher::removeEventListener(int type, void(*listener)(shared_ptr<ProgressEvent>))
-{
-	if (progressSet.has(listener) == true)
-		progressSet.erase(listener);
-}*/
 
 /* -------------------------------------------------------------
 	SEND EVENT
 ------------------------------------------------------------- */
 auto EventDispatcher::dispatchEvent(shared_ptr<Event> event) -> bool
 {
-	int type = event->getType();
+	ReadUniqueLock uk(mtx);
 
-	if (eventSetMap.has(type) == false
-		|| eventSetMap.get(type)->empty() == true)
+	int type = event->getType();
+	if (eventSetMap.count(type) == 0 || eventSetMap[type].empty() == true)
 		return false;
 
-	auto eventSet = eventSetMap.get(type);
-	for (auto it = eventSet->begin(); it != eventSet->end(); it++)
+	auto &eventSet = eventSetMap[type];
+	for (auto it = eventSet.begin(); it != eventSet.end(); it++)
 		thread(*it, event).detach();
 
 	return true;
 }
-auto EventDispatcher::dispatchProgressEvent(double x, double size) -> bool
+auto EventDispatcher::dispatchProgressEvent(size_t x, size_t size) -> bool
 {
 	shared_ptr<ProgressEvent> event(new ProgressEvent(this, x, size));
 

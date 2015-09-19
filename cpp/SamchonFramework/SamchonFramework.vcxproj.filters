@@ -851,9 +851,6 @@
     <ClCompile Include="..\samchon\namtree\NTIterator.cpp">
       <Filter>Source Files\nam-tree\history data</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\protocol\IEntityGroup.cpp">
       <Filter>Source Files\protocol\common\entity</Filter>
     </ClCompile>

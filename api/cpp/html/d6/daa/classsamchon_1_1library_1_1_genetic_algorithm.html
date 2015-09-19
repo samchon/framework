@@ -171,33 +171,412 @@ class samchon::library::GeneticAlgorithm&lt; GeneArray, Compare &gt;</h3>
 </ul>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">GeneArray</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<p>An array(std::vector) containing genes as elments; sequnce listing </p>
-<p>The GeneArray must be a type of <em>std::vector</em>. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Compare</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<p>A comparison class (or struct) returns whether left gene is more optimal. </p>
-<p>Default template parameter of Compare is <em>std::less&lt;GeneArray&gt;</em>. It means to compare two std::vector (GeneArray must be a std::vector). Thus, you've to keep follwing rules. </p>
-<ul>
+    <tr><td class="paramname">GeneArray</td><td>An array(std::vector) containing genes as elments; sequnce listing.<br />
+<br />
+ The GeneArray must be a type of <em>std::vector</em>.</td></tr>
+    <tr><td class="paramname">Compare</td><td>A comparison class (or struct) returns whether left gene is more optimal.<br />
+<br />
+ Default template parameter of Compare is <em>std::less&lt;GeneArray&gt;</em>. It means to compare two std::vector (GeneArray must be a std::vector). Thus, you've to keep follwing rules.<br />
+<br />
+ <ul>
 <li>
 GeneArray is inherited from <em>std::vector</em>  </li>
 <li>
 GeneArray has custom <em>auto operator&lt;(const GeneArray &amp;) const -&gt; bool</em>  </li>
 </ul>
-<p>If you don't want to follow the rules or want a custom comparison class, you have to realize a comparison class. The following code is an example realizing the comparison class. </p>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If you don't want to follow the rules or want a custom comparison class, you have to realize a comparison class. The following code is an example realizing the comparison class.</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _Ty&gt;</div>
 <div class="line"><span class="keyword">struct </span>MyCompare</div>
 <div class="line">{</div>
 <div class="line"><span class="keyword">auto</span> operator()(<span class="keyword">const</span> _Ty &amp;newObj, <span class="keyword">const</span> _Ty &amp;prevObj) <span class="keyword">const</span> -&gt; bool;</div>
 <div class="line">};</div>
-</div><!-- fragment --><dl class="section warning"><dt>Warning</dt><dd></dd></dl>
+</div><!-- fragment --><h3>Example source</h3>
+<p>TSP - Traveling Salesman Problem </p>
+<dl class="section user"><dt>examples/tsp/Scheduler.hpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">namespace </span>examples</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keyword">namespace </span>tsp</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;            <span class="keyword">class </span>Travel;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keyword">struct </span>GAParameters</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                <span class="keywordtype">double</span> <a class="code" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#ac2d0f402a252742ea25c9a57ae95d6b8">mutationRate</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                <span class="keywordtype">size_t</span> tornament;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                <span class="keywordtype">size_t</span> population;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                <span class="keywordtype">size_t</span> generation;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            };</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keyword">class </span>Scheduler</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                std::shared_ptr&lt;Travel&gt; travel;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keyword">struct </span>GAParameters gaParameters;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                Scheduler(std::shared_ptr&lt;Travel&gt;, <span class="keyword">const</span> <span class="keyword">struct</span> GAParameters &amp;);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="keyword">auto</span> optimize() -&gt; std::shared_ptr&lt;Travel&gt;;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            };</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        };</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    };</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
+<div class="ttc" id="classsamchon_1_1library_1_1_genetic_algorithm_html_ac2d0f402a252742ea25c9a57ae95d6b8"><div class="ttname"><a href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#ac2d0f402a252742ea25c9a57ae95d6b8">samchon::library::GeneticAlgorithm::mutationRate</a></div><div class="ttdeci">double mutationRate</div><div class="ttdoc">Rate of mutate ocurrence. </div><div class="ttdef"><b>Definition:</b> GeneticAlgorithm.hpp:98</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/tsp/Travel.hpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">namespace </span>examples</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keyword">namespace </span>tsp</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;            <span class="keyword">class </span>GeometryPoint;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keyword">class </span>Travel</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                : <span class="keyword">public</span> std::vector&lt;GeometryPoint*&gt;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                <span class="keyword">typedef</span> std::vector&lt;GeometryPoint*&gt; super;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <span class="keywordtype">double</span> distance;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">                    CONSTRUCTORS</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">                ----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                Travel();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                Travel(<span class="keyword">const</span> Travel&amp;);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                Travel(Travel&amp;&amp;);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">                    CALCULATORS</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">                ----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="keyword">auto</span> calcDistance() const -&gt; <span class="keywordtype">double</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            public:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                auto operator&lt;(const Travel &amp;) const -&gt; <span class="keywordtype">bool</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">                    EXPORTER</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">                ----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                auto toString() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            };</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        };</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    };</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;};</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/tsp/GeometryPoint.hpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keyword">namespace </span>examples</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="keyword">namespace </span>tsp</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            <span class="keyword">class </span>GeometryPoint</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                <span class="keywordtype">int</span> uid;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                <span class="keywordtype">double</span> longitude;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <span class="keywordtype">double</span> latitude;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">                    CONSTRUCTORS</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">                ----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                GeometryPoint(<span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                GeometryPoint(<span class="keywordtype">int</span>, <span class="keywordtype">double</span>, <span class="keywordtype">double</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">                    CALCULATOR</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">                ----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="keyword">auto</span> calcDistance(<span class="keyword">const</span> GeometryPoint &amp;) const -&gt; <span class="keywordtype">double</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">                    EXPORTER</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">                ----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                auto toString() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            };</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        };</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    };</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;};</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+</div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>examples/tsp/main.cpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;Windows.h&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Scheduler.hpp&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;Travel.hpp&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;GeometryPoint.hpp&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../dd/d9e/namespacesamchon_1_1examples_1_1tsp.html">samchon::examples::tsp</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#ifdef _WIN64</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#   ifdef _DEBUG</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;x64/Debug/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#   else</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;x64/Release/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#   endif</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#   ifdef _DEBUG</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;Debug/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#   else</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;Release/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#   endif</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordtype">void</span> toClipboard(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> main()</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">//GEOMETRY COORPORATES</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    shared_ptr&lt;Travel&gt; travel(<span class="keyword">new</span> <a class="code" href="../../d8/dd9/classsamchon_1_1examples_1_1tsp_1_1_travel.html">Travel</a>());</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 15; i++)</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        travel-&gt;push_back(<span class="keyword">new</span> <a class="code" href="../../d5/db9/classsamchon_1_1examples_1_1tsp_1_1_geometry_point.html">GeometryPoint</a>(i + 1));</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment">//OPTIMIZING</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">struct </span><a class="code" href="../../d9/dbd/structsamchon_1_1examples_1_1tsp_1_1_g_a_parameters.html">GAParameters</a> gaParameters = {.03, 50, 100, 300};</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../d5/de9/classsamchon_1_1examples_1_1tsp_1_1_scheduler.html">Scheduler</a> scheduler(travel, gaParameters);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    travel = scheduler.optimize();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">//PRINTING</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">string</span> &amp;str = travel-&gt;toString();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    toClipboard(str);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    cout &lt;&lt; str &lt;&lt; endl;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    system(<span class="stringliteral">&quot;pause&quot;</span>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keywordtype">void</span> toClipboard(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;str)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    OpenClipboard(0);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    EmptyClipboard();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, str.size());</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">if</span> (!hg)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        CloseClipboard();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    memcpy(GlobalLock(hg), str.c_str(), str.size());</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    GlobalUnlock(hg);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    SetClipboardData(CF_TEXT, hg);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    CloseClipboard();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    GlobalFree(hg);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1tsp_1_1_scheduler_html"><div class="ttname"><a href="../../d5/de9/classsamchon_1_1examples_1_1tsp_1_1_scheduler.html">samchon::examples::tsp::Scheduler</a></div><div class="ttdoc">A scheduler. </div><div class="ttdef"><b>Definition:</b> Scheduler.hpp:34</div></div>
+<div class="ttc" id="namespacesamchon_1_1examples_1_1tsp_html"><div class="ttname"><a href="../../dd/d9e/namespacesamchon_1_1examples_1_1tsp.html">samchon::examples::tsp</a></div><div class="ttdef"><b>Definition:</b> GeometryPoint.hpp:8</div></div>
+<div class="ttc" id="structsamchon_1_1examples_1_1tsp_1_1_g_a_parameters_html"><div class="ttname"><a href="../../d9/dbd/structsamchon_1_1examples_1_1tsp_1_1_g_a_parameters.html">samchon::examples::tsp::GAParameters</a></div><div class="ttdoc">Parameters for Genetic-Algorithm. </div><div class="ttdef"><b>Definition:</b> Scheduler.hpp:19</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1tsp_1_1_travel_html"><div class="ttname"><a href="../../d8/dd9/classsamchon_1_1examples_1_1tsp_1_1_travel.html">samchon::examples::tsp::Travel</a></div><div class="ttdoc">Represent a travel containning Point(s) </div><div class="ttdef"><b>Definition:</b> Travel.hpp:19</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1tsp_1_1_geometry_point_html"><div class="ttname"><a href="../../d5/db9/classsamchon_1_1examples_1_1tsp_1_1_geometry_point.html">samchon::examples::tsp::GeometryPoint</a></div><div class="ttdoc">A geometry coordinates (point) </div><div class="ttdef"><b>Definition:</b> GeometryPoint.hpp:15</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/tsp/Scheduler.cpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Scheduler.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#   include &quot;Travel.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;samchon/library/GeneticAlgorithm.hpp&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a>;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../dd/d9e/namespacesamchon_1_1examples_1_1tsp.html">samchon::examples::tsp</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;Scheduler::Scheduler(shared_ptr&lt;Travel&gt; travel, <span class="keyword">const</span> <a class="code" href="../../d9/dbd/structsamchon_1_1examples_1_1tsp_1_1_g_a_parameters.html">GAParameters</a> &amp;gaParameteres)</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    this-&gt;travel = travel;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    this-&gt;gaParameters = gaParameteres;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">auto</span> Scheduler::optimize() -&gt; shared_ptr&lt;Travel&gt;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html">GeneticAlgorithm&lt;Travel&gt;</a> geneticAlgorithm</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    (</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">true</span>,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        gaParameters.mutationRate,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        gaParameters.tornament</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    );</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    shared_ptr&lt;GAPopulation&lt;Travel&gt;&gt; population</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        (<span class="keyword">new</span> <a class="code" href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html">GAPopulation&lt;Travel&gt;</a>(travel, gaParameters.population));</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; gaParameters.generation; i++)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        population = geneticAlgorithm.evolvePopulation(population);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    travel = population-&gt;fitTest();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">return</span> travel;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
+<div class="ttc" id="classsamchon_1_1library_1_1_genetic_algorithm_html"><div class="ttname"><a href="../../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html">samchon::library::GeneticAlgorithm</a></div><div class="ttdoc">A genetic algorithm class. </div><div class="ttdef"><b>Definition:</b> GeneticAlgorithm.hpp:77</div></div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_1_1library_html"><div class="ttname"><a href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a></div><div class="ttdoc">Package of libraries. </div><div class="ttdef"><b>Definition:</b> library.hpp:8</div></div>
+<div class="ttc" id="namespacesamchon_1_1examples_1_1tsp_html"><div class="ttname"><a href="../../dd/d9e/namespacesamchon_1_1examples_1_1tsp.html">samchon::examples::tsp</a></div><div class="ttdef"><b>Definition:</b> GeometryPoint.hpp:8</div></div>
+<div class="ttc" id="structsamchon_1_1examples_1_1tsp_1_1_g_a_parameters_html"><div class="ttname"><a href="../../d9/dbd/structsamchon_1_1examples_1_1tsp_1_1_g_a_parameters.html">samchon::examples::tsp::GAParameters</a></div><div class="ttdoc">Parameters for Genetic-Algorithm. </div><div class="ttdef"><b>Definition:</b> Scheduler.hpp:19</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_g_a_population_html"><div class="ttname"><a href="../../df/dde/classsamchon_1_1library_1_1_g_a_population.html">samchon::library::GAPopulation</a></div><div class="ttdoc">A population of a generation in G.A. </div><div class="ttdef"><b>Definition:</b> GAPopulation.hpp:56</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/tsp/Travel.cpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Travel.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#   include &quot;GeometryPoint.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;samchon/library/StringUtil.hpp&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a>;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../dd/d9e/namespacesamchon_1_1examples_1_1tsp.html">samchon::examples::tsp</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    CONSTRUCTORS</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;Travel::Travel()</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    : super()</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    distance = INT_MIN;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;Travel::Travel(<span class="keyword">const</span> <a class="code" href="../../d8/dd9/classsamchon_1_1examples_1_1tsp_1_1_travel.html">Travel</a> &amp;travel)</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    : super(travel)</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    distance = INT_MIN;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;Travel::Travel(<a class="code" href="../../d8/dd9/classsamchon_1_1examples_1_1tsp_1_1_travel.html">Travel</a> &amp;&amp;travel)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    : super(move(travel))</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    distance = travel.distance;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">    CALCULATORS</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">auto</span> Travel::calcDistance() const -&gt; <span class="keywordtype">double</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">if</span>(this-&gt;distance != INT_MIN)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> this-&gt;distance;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">double</span> distance = 0.0;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 1; i &lt; size(); i++)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        distance += at(i-1)-&gt;calcDistance(*at(i));</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ((<a class="code" href="../../d8/dd9/classsamchon_1_1examples_1_1tsp_1_1_travel.html">Travel</a>*)<span class="keyword">this</span>)-&gt;distance = distance;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> distance;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">auto</span> Travel::operator&lt;(<span class="keyword">const</span> <a class="code" href="../../d8/dd9/classsamchon_1_1examples_1_1tsp_1_1_travel.html">Travel</a> &amp;travel) <span class="keyword">const</span> -&gt; <span class="keywordtype">bool</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> this-&gt;calcDistance() &lt; travel.calcDistance();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">    EXPORTER</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">auto</span> Travel::toString() const -&gt; <span class="keywordtype">string</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">string</span> str =</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="stringliteral">&quot;Distance: &quot;</span> + StringUtil::numberFormat(calcDistance()) + <span class="stringliteral">&quot; km\n&quot;</span> + </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="stringliteral">&quot;uid    longitude   latitude\n&quot;</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; size(); i++)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        str += at(i)-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">return</span> move(str);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_1_1library_html"><div class="ttname"><a href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a></div><div class="ttdoc">Package of libraries. </div><div class="ttdef"><b>Definition:</b> library.hpp:8</div></div>
+<div class="ttc" id="namespacesamchon_1_1examples_1_1tsp_html"><div class="ttname"><a href="../../dd/d9e/namespacesamchon_1_1examples_1_1tsp.html">samchon::examples::tsp</a></div><div class="ttdef"><b>Definition:</b> GeometryPoint.hpp:8</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1tsp_1_1_travel_html"><div class="ttname"><a href="../../d8/dd9/classsamchon_1_1examples_1_1tsp_1_1_travel.html">samchon::examples::tsp::Travel</a></div><div class="ttdoc">Represent a travel containning Point(s) </div><div class="ttdef"><b>Definition:</b> Travel.hpp:19</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/tsp/GeometryPoint.cpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;GeometryPoint.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;random&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;samchon/library/Math.hpp&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;samchon/library/StringUtil.hpp&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../dd/d9e/namespacesamchon_1_1examples_1_1tsp.html">samchon::examples::tsp</a>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    CONSTRUCTORS</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;GeometryPoint::GeometryPoint(<span class="keywordtype">int</span> uid)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    this-&gt;uid = uid;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    this-&gt;longitude = <a class="code" href="../../d1/d21/classsamchon_1_1library_1_1_math.html#aad7c9ffe2051330126b3a85c8164e21b">Math::random</a>() * 180.0;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    this-&gt;latitude = <a class="code" href="../../d1/d21/classsamchon_1_1library_1_1_math.html#aad7c9ffe2051330126b3a85c8164e21b">Math::random</a>() * 180 - 90.0;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;GeometryPoint::GeometryPoint(<span class="keywordtype">int</span> uid, <span class="keywordtype">double</span> longitude, <span class="keywordtype">double</span> latitude)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    this-&gt;uid = uid;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    this-&gt;longitude = longitude;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    this-&gt;latitude = latitude;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">    CALCULATOR</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">auto</span> GeometryPoint::calcDistance(<span class="keyword">const</span> <a class="code" href="../../d5/db9/classsamchon_1_1examples_1_1tsp_1_1_geometry_point.html">GeometryPoint</a> &amp;point) <span class="keyword">const</span> -&gt; <span class="keywordtype">double</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">if</span> (longitude == point.longitude &amp;&amp; latitude == point.latitude)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">return</span> 0.0;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">double</span> latitude_radian1 = <a class="code" href="../../d1/d21/classsamchon_1_1library_1_1_math.html#abe515875bcad5a048f806102076c9096">Math::degree_to_radian</a>(this-&gt;latitude);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">double</span> latitude_radian2 = <a class="code" href="../../d1/d21/classsamchon_1_1library_1_1_math.html#abe515875bcad5a048f806102076c9096">Math::degree_to_radian</a>(point.latitude);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">double</span> theta = this-&gt;longitude - point.longitude;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">double</span> val =</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        sin(latitude_radian1) * sin(latitude_radian2)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        + cos(latitude_radian1) * cos(latitude_radian2) * cos(<a class="code" href="../../d1/d21/classsamchon_1_1library_1_1_math.html#abe515875bcad5a048f806102076c9096">Math::degree_to_radian</a>(theta));</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    val = acos(val);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    val = <a class="code" href="../../d1/d21/classsamchon_1_1library_1_1_math.html#a851bde5327928d23b86398fd5636c054">Math::radian_to_degree</a>(val);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    val = val * 60 * 1.1515;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    val = val * 1.609344;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> val;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">/* -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">    EXPORTER</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">----------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">auto</span> GeometryPoint::toString() const -&gt; <span class="keywordtype">string</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d7/d9b/classsamchon_1_1library_1_1_string_util.html#a067a310ea10079ed5e47a9e25a1ba1fe">StringUtil::substitute</a></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        (</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="stringliteral">&quot;{1}\t{2}\t{3}&quot;</span>,</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            uid, longitude, latitude</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        );</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="ttc" id="classsamchon_1_1library_1_1_string_util_html_a067a310ea10079ed5e47a9e25a1ba1fe"><div class="ttname"><a href="../../d7/d9b/classsamchon_1_1library_1_1_string_util.html#a067a310ea10079ed5e47a9e25a1ba1fe">samchon::library::StringUtil::substitute</a></div><div class="ttdeci">static auto substitute(const std::string &amp;format, const _Ty &amp;val, const _Args &amp;...args) -&gt; std::string</div><div class="ttdoc">Substitutes "{n}" tokens within the specified string with the respective arguments passed in...</div><div class="ttdef"><b>Definition:</b> StringUtil.hpp:49</div></div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_1_1library_html"><div class="ttname"><a href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a></div><div class="ttdoc">Package of libraries. </div><div class="ttdef"><b>Definition:</b> library.hpp:8</div></div>
+<div class="ttc" id="namespacesamchon_1_1examples_1_1tsp_html"><div class="ttname"><a href="../../dd/d9e/namespacesamchon_1_1examples_1_1tsp.html">samchon::examples::tsp</a></div><div class="ttdef"><b>Definition:</b> GeometryPoint.hpp:8</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_math_html_aad7c9ffe2051330126b3a85c8164e21b"><div class="ttname"><a href="../../d1/d21/classsamchon_1_1library_1_1_math.html#aad7c9ffe2051330126b3a85c8164e21b">samchon::library::Math::random</a></div><div class="ttdeci">static auto random() -&gt; double</div><div class="ttdoc">Get a random value. </div><div class="ttdef"><b>Definition:</b> Math.cpp:38</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_math_html_abe515875bcad5a048f806102076c9096"><div class="ttname"><a href="../../d1/d21/classsamchon_1_1library_1_1_math.html#abe515875bcad5a048f806102076c9096">samchon::library::Math::degree_to_radian</a></div><div class="ttdeci">static auto degree_to_radian(double) -&gt; double</div><div class="ttdoc">Convert degree to radian. </div><div class="ttdef"><b>Definition:</b> Math.cpp:26</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1tsp_1_1_geometry_point_html"><div class="ttname"><a href="../../d5/db9/classsamchon_1_1examples_1_1tsp_1_1_geometry_point.html">samchon::examples::tsp::GeometryPoint</a></div><div class="ttdoc">A geometry coordinates (point) </div><div class="ttdef"><b>Definition:</b> GeometryPoint.hpp:15</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_math_html_a851bde5327928d23b86398fd5636c054"><div class="ttname"><a href="../../d1/d21/classsamchon_1_1library_1_1_math.html#a851bde5327928d23b86398fd5636c054">samchon::library::Math::radian_to_degree</a></div><div class="ttdeci">static auto radian_to_degree(double) -&gt; double</div><div class="ttdoc">Convert radian to degree. </div><div class="ttdef"><b>Definition:</b> Math.cpp:30</div></div>
+</div><!-- fragment --></dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd></dd></dl>
 <p>Be careful for the mistakes of direction or position of Compare. </p>
 <p>Most of logical errors failed to access optimal solution are occured by those mistakens. </p>
 <dl class="section author"><dt>Author</dt><dd>Jeongho Nam </dd></dl>
@@ -206,7 +585,7 @@ GeneArray has custom <em>auto operator&lt;(const GeneArray &amp;) const -&gt; bo
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&gt; </div>
+template&lt;typename GeneArray, typename Compare = std::less&lt;GeneArray&gt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -260,7 +639,7 @@ template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&gt; </div>
+template&lt;typename GeneArray, typename Compare = std::less&lt;GeneArray&gt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -315,7 +694,7 @@ template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&gt; </div>
+template&lt;typename GeneArray, typename Compare = std::less&lt;GeneArray&gt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -350,7 +729,7 @@ template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&gt; </div>
+template&lt;typename GeneArray, typename Compare = std::less&lt;GeneArray&gt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -402,7 +781,7 @@ The selected individual is the first one whose accumulated normalized value is g
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&gt; </div>
+template&lt;typename GeneArray, typename Compare = std::less&lt;GeneArray&gt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -453,7 +832,7 @@ template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&gt; </div>
+template&lt;typename GeneArray, typename Compare = std::less&lt;GeneArray&gt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -499,7 +878,7 @@ template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GeneArray , typename Compare  = std::less&lt;GeneArray&gt;&gt; </div>
+template&lt;typename GeneArray, typename Compare = std::less&lt;GeneArray&gt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

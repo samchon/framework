@@ -26,13 +26,13 @@ namespace samchon
 			/**
 			 * @brief The number of current progress
 			 */
-			double numerator;
+			size_t numerator;
 
 			/**
 			 * @brief The number of total progress
 			 * @warning denominator cannot be zero
 			 */
-			double denominator;
+			size_t denominator;
 
 		public:
 			/**
@@ -44,18 +44,18 @@ namespace samchon
 			 *
 			 * @throw exception denominator is zero
 			 */
-			ProgressEvent(EventDispatcher *, double, double);
+			ProgressEvent(EventDispatcher *, size_t, size_t);
 			virtual ~ProgressEvent() = default;
 
 			/**
 			 * @brief Get numerator, number of current progress
 			 */
-			auto getNumerator() const -> double;
+			auto getNumerator() const -> size_t;
 
 			/**
 			 * @brief Get denominator, number of total progress
 			 */
-			auto getDenominator() const -> double;
+			auto getDenominator() const -> size_t;
 
 			/**
 			 * @brief Get percentage of the progress

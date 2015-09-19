@@ -148,14 +148,14 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../.
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Unique lock for writing. </p>
-<dl class="section user"><dt></dt><dd>A <a class="el" href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html" title="Unique lock for writing. ">WriteUniqueLock</a> is an object manages a <a class="el" href="../../d9/dbc/classsamchon_1_1library_1_1_r_w_mutex.html" title="rw_mutex ">RWMutex</a> object on writing with unique ownership in both states: locked and unlocked.</dd></dl>
-<dl class="section user"><dt></dt><dd>On construction (or by move-assigning to it), the object acquires a mutex object, for whose locking and unlocking operations becomes responsible.</dd></dl>
-<dl class="section user"><dt></dt><dd>The object supports both states: locked and unlocked.</dd></dl>
-<dl class="section user"><dt></dt><dd>This class guarantees an unlocked status on destruction (even if not called explicitly). Therefore it is especially useful as an object with automatic duration, as it guarantees the mutex object is properly unlocked in case an exception is thrown.</dd></dl>
-<dl class="section user"><dt></dt><dd>Referenced comments of std::unique_lock <ul>
+<p>A <a class="el" href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html" title="Unique lock for writing. ">WriteUniqueLock</a> is an object manages a <a class="el" href="../../d9/dbc/classsamchon_1_1library_1_1_r_w_mutex.html" title="rw_mutex ">RWMutex</a> object on writing with unique ownership in both states: locked and unlocked. </p>
+<p>On construction (or by move-assigning to it), the object acquires a mutex object, for whose locking and unlocking operations becomes responsible. </p>
+<p>The object supports both states: locked and unlocked. </p>
+<p>This class guarantees an unlocked status on destruction (even if not called explicitly). Therefore it is especially useful as an object with automatic duration, as it guarantees the mutex object is properly unlocked in case an exception is thrown. </p>
+<p>Referenced comments of std::unique_lock </p>
+<ul>
 <li><a href="http://www.cplusplus.com/reference/mutex/unique_lock/">http://www.cplusplus.com/reference/mutex/unique_lock/</a></li>
 </ul>
-</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Though, that the <a class="el" href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html" title="Unique lock for writing. ">WriteUniqueLock</a> object does not manage the lifetime of the mutex object in any way: the duration of the mutex object shall extend at least until the destruction of the <a class="el" href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html" title="Unique lock for writing. ">WriteUniqueLock</a> that manages it.</dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Jeongho Nam </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>

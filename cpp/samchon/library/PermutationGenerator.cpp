@@ -14,7 +14,7 @@ PermutationGenerator::PermutationGenerator(size_t n, size_t r)
 	for (size_t i = 0; i < n; i++)
 		dividerArray[i] = i;
 }
-auto PermutationGenerator::at(size_t x) const -> vector<size_t>
+auto PermutationGenerator::operator[](size_t x) const -> vector<size_t>
 {
 	vector<size_t> atoms = this->dividerArray;
 	vector<size_t> row(r_, NULL);

@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['listener',['listener',['../db/d9f/classsamchon_1_1protocol_1_1_invoke.html#a46d60ebe7384d8d418db290dc3b6a153',1,'samchon::protocol::Invoke']]],
-  ['listeners',['listeners',['../d4/dcb/classsamchon_1_1protocol_1_1master_1_1_external_system_role.html#a6d1bf422544d71e50c50601f784eee7e',1,'samchon::protocol::master::ExternalSystemRole']]],
-  ['ln10',['LN10',['../d1/d21/classsamchon_1_1library_1_1_math.html#abc50022de2bd8cd7d67db204f9d30376',1,'samchon::library::Math']]],
-  ['ln2',['LN2',['../d1/d21/classsamchon_1_1library_1_1_math.html#a15d2c6519826df0e2a9ce4de1fb36096',1,'samchon::library::Math']]],
-  ['log10e',['LOG10E',['../d1/d21/classsamchon_1_1library_1_1_math.html#a84427c653089815542ddd51891602bd7',1,'samchon::library::Math']]],
-  ['log2e',['LOG2E',['../d1/d21/classsamchon_1_1library_1_1_math.html#af195f646ed0c7c35e8ef64f8fc0266bd',1,'samchon::library::Math']]]
+  ['id',['id',['../d4/d98/classsamchon_1_1protocol_1_1service_1_1_user.html#a4c7bfdde49538b011df69318aceef549',1,'samchon::protocol::service::User']]],
+  ['instancemap',['instanceMap',['../db/d8f/classsamchon_1_1library_1_1_f_t_factory.html#a3a3d460cfa485353e68ba0dcef73baed',1,'samchon::library::FTFactory']]],
+  ['ip',['ip',['../de/daa/classsamchon_1_1protocol_1_1master_1_1_external_system.html#a7d8a71c0d7ece86a02c45f367f6719cd',1,'samchon::protocol::master::ExternalSystem::ip()'],['../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a5899a025cc9a80140ddb496b203cc0b2',1,'samchon::protocol::service::IPUserPair::ip()']]],
+  ['ipmap',['ipMap',['../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html#aba7c0b771caf55275bc66c5362f16064',1,'samchon::protocol::service::Server']]],
+  ['islocked',['isLocked',['../d3/d2a/classsamchon_1_1library_1_1_read_unique_lock.html#a1cefe706fefe4adcfbc5fd58c5dc0854',1,'samchon::library::ReadUniqueLock::isLocked()'],['../d8/d9e/classsamchon_1_1library_1_1_unique_acquire.html#af11c4133f489dd4f169bb7804060b6a6',1,'samchon::library::UniqueAcquire::isLocked()'],['../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html#a7cf0a94f608d6b1fe1fbfa7222720962',1,'samchon::library::WriteUniqueLock::isLocked()']]]
 ];

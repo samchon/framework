@@ -111,7 +111,7 @@ $(document).ready(function(){initNavTree('d7/dd7/classsamchon_1_1library_1_1_cas
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="../../db/dd2/classsamchon_1_1library_1_1_case_generator-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">samchon::library::CaseGenerator Class Reference</div>  </div>
+<div class="title">samchon::library::CaseGenerator Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -137,11 +137,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a593b153313f1b66d9eadbd114ac7b9cb"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd7/classsamchon_1_1library_1_1_case_generator.html#a593b153313f1b66d9eadbd114ac7b9cb">size</a> () const  -&gt; size_t</td></tr>
 <tr class="memdesc:a593b153313f1b66d9eadbd114ac7b9cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get size of all cases.  <a href="#a593b153313f1b66d9eadbd114ac7b9cb">More...</a><br /></td></tr>
 <tr class="separator:a593b153313f1b66d9eadbd114ac7b9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae19f3a9c1510c060931d983f7365fa75"><td class="memItemLeft" align="right" valign="top">virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd7/classsamchon_1_1library_1_1_case_generator.html#ae19f3a9c1510c060931d983f7365fa75">at</a> (size_t x) const  -&gt; std::vector&lt; size_t &gt;=NULL</td></tr>
-<tr class="memdesc:ae19f3a9c1510c060931d983f7365fa75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get x'th row.  <a href="#ae19f3a9c1510c060931d983f7365fa75">More...</a><br /></td></tr>
-<tr class="separator:ae19f3a9c1510c060931d983f7365fa75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a219151b670a822d4f3158586bdc48910"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd7/classsamchon_1_1library_1_1_case_generator.html#a219151b670a822d4f3158586bdc48910">operator[]</a> (size_t) const  -&gt; std::vector&lt; size_t &gt;</td></tr>
-<tr class="separator:a219151b670a822d4f3158586bdc48910"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ed40ede1f502d8f7b399e929b415d40"><td class="memItemLeft" align="right" valign="top">virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd7/classsamchon_1_1library_1_1_case_generator.html#a3ed40ede1f502d8f7b399e929b415d40">operator[]</a> (size_t) const  -&gt; std::vector&lt; size_t &gt;=0</td></tr>
+<tr class="memdesc:a3ed40ede1f502d8f7b399e929b415d40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get x'th row.  <a href="#a3ed40ede1f502d8f7b399e929b415d40">More...</a><br /></td></tr>
+<tr class="separator:a3ed40ede1f502d8f7b399e929b415d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a182089fc6958911728e9503ad58d8a6f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd7/classsamchon_1_1library_1_1_case_generator.html#a182089fc6958911728e9503ad58d8a6f">at</a> (size_t) const  -&gt; std::vector&lt; size_t &gt;</td></tr>
+<tr class="separator:a182089fc6958911728e9503ad58d8a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ffb79764b2415118611459799565e7d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ffb79764b2415118611459799565e7d"></a>
 auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd7/classsamchon_1_1library_1_1_case_generator.html#a4ffb79764b2415118611459799565e7d">n</a> () const  -&gt; size_t</td></tr>
 <tr class="memdesc:a4ffb79764b2415118611459799565e7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get size of the N. <br /></td></tr>
@@ -170,6 +170,619 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="..
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Case generator. </p>
+<h3>Example source</h3>
+<p>Packer - Find the best packaging solution </p>
+<dl class="section user"><dt>examples/packer/Packer.hpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">namespace </span>examples</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keyword">namespace </span>packer</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            <span class="keyword">class </span>WrapperArray;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            <span class="keyword">class </span>Wrapper;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            <span class="keyword">class </span>Product;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keyword">class </span>Packer</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                : <span class="keyword">public</span> std::vector&lt;std::shared_ptr&lt;WrapperArray&gt;&gt;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keyword">typedef</span> std::vector&lt;std::shared_ptr&lt;WrapperArray&gt;&gt; super;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                std::vector&lt;Product&gt; *productArray;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                std::vector&lt;Wrapper&gt; *wrapperArray;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">                    CONSTRUCTORS</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                Packer(std::vector&lt;Product&gt; *, std::vector&lt;Wrapper&gt; *);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                Packer(<span class="keyword">const</span> Packer &amp;);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">                    CALCULATE AND OPTIMIZE</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordtype">void</span> optimize();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keyword">auto</span> calcPrice() const -&gt; <span class="keywordtype">int</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">                    EXPORT</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                auto toString() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            };</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        };</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    };</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;};</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/packer/WrapperArray.hpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">namespace </span>examples</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keyword">namespace </span>packer</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;            <span class="keyword">class </span>Wrapper;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            <span class="keyword">class </span>Product;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keyword">class </span>WrapperArray</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                : <span class="keyword">private</span> std::vector&lt;std::shared_ptr&lt;Wrapper&gt;&gt;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keyword">typedef</span> std::vector&lt;std::shared_ptr&lt;Wrapper&gt;&gt; super;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                std::vector&lt;Product*&gt; productArray;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                Wrapper *sample;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">                    CONSTRUCTORS</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                WrapperArray(Wrapper *);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="keyword">auto</span> tryInsert(Product*) -&gt; bool;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">                    CALCULATE AND OPTIMIZE</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <span class="keywordtype">void</span> optimize();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keyword">auto</span> calcPrice() const -&gt; <span class="keywordtype">int</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">                    EXPORT</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                auto toString() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            };</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        };</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    };</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;};</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/packer/Wrapper.hpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Instance.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">namespace </span>examples</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keyword">namespace </span>packer</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;            <span class="keyword">class </span>Product;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keyword">class </span>Wrapper</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                : <span class="keyword">public</span> Instance,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                <span class="keyword">private</span> std::vector&lt;Product*&gt;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                <span class="keyword">typedef</span> Instance super;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">                    CONSTRUCTORS</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                Wrapper(<span class="keyword">const</span> std::string &amp;name, <span class="keywordtype">int</span> price, <span class="keywordtype">int</span> volume, <span class="keywordtype">int</span> weight);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                Wrapper(<span class="keyword">const</span> Wrapper &amp;wrapper);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keyword">virtual</span> ~Wrapper() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keyword">auto</span> tryInsert(Product *) -&gt; bool;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">                    EXPORT</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keyword">virtual</span> <span class="keyword">auto</span> toString() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span> override;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            };</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        };</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    };</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;};</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/packer/Product.hpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;Instance.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keyword">namespace </span>examples</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="keyword">namespace </span>packer</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            <span class="keyword">class </span>Product</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                : <span class="keyword">public</span> Instance</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                <span class="keyword">typedef</span> Instance super;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">                    CONSTRUCTOR</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                Product(<span class="keyword">const</span> std::string &amp;name, <span class="keywordtype">int</span> price, <span class="keywordtype">int</span> volume, <span class="keywordtype">int</span> weight);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="keyword">virtual</span> ~Product() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">                    EXPORT</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keyword">virtual</span> <span class="keyword">auto</span> toString() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span> override;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            };</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        };</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    };</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;};</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/packer/Instance.hpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keyword">namespace </span>examples</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="keyword">namespace </span>packer</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            <span class="keyword">class </span>Instance</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                std::string name;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keywordtype">int</span> price;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keywordtype">int</span> volume;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordtype">int</span> weight;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">                    CONSTRUCTORS</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                Instance(<span class="keyword">const</span> std::string &amp;name, <span class="keywordtype">int</span> price, <span class="keywordtype">int</span> volume, <span class="keywordtype">int</span> weight);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keyword">virtual</span> ~Instance() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">                    GETTERS</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="keyword">auto</span> getName() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                auto getPrice() const -&gt; <span class="keywordtype">int</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                auto getVolume() const -&gt; <span class="keywordtype">int</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                auto getWeight() const -&gt; <span class="keywordtype">int</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">                    EXPORT</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">                --------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                virtual auto toString() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            };</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        };</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    };</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;};</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+</div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>examples/packer/main.cpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Packer.hpp&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#   include &quot;Product.hpp&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#   include &quot;Wrapper.hpp&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#ifdef _WIN64</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#   ifdef _DEBUG</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;x64/Debug/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#   else</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;x64/Release/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#   endif</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#   ifdef _DEBUG</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;Debug/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#   else</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;Release/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#   endif</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordtype">void</span> main()</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    vector&lt;Product&gt; productArray =</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>(<span class="stringliteral">&quot;Eraser&quot;</span>, 500, 10, 70),</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>(<span class="stringliteral">&quot;Pencil&quot;</span>, 400, 30, 35),</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>(<span class="stringliteral">&quot;Pencil&quot;</span>, 400, 30, 35),</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>(<span class="stringliteral">&quot;Pencil&quot;</span>, 400, 30, 35),</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>(<span class="stringliteral">&quot;Book&quot;</span>, 8000, 150, 300),</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>(<span class="stringliteral">&quot;Book&quot;</span>, 8000, 150, 300),</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>(<span class="stringliteral">&quot;Drink&quot;</span>, 1000, 75, 250),</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>(<span class="stringliteral">&quot;Umbrella&quot;</span>, 4000, 200, 1000),</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>(<span class="stringliteral">&quot;Notebook-PC&quot;</span>, 800000, 150, 850),</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>(<span class="stringliteral">&quot;Tablet-PC&quot;</span>, 600000, 120, 450)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    };</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    vector&lt;Wrapper&gt; wrapperArray =</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <a class="code" href="../../d0/d0e/classsamchon_1_1examples_1_1packer_1_1_wrapper.html">Wrapper</a>(<span class="stringliteral">&quot;Large&quot;</span>, 100, 200, 1000),</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="../../d0/d0e/classsamchon_1_1examples_1_1packer_1_1_wrapper.html">Wrapper</a>(<span class="stringliteral">&quot;Medium&quot;</span>, 70, 150, 500),</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="../../d0/d0e/classsamchon_1_1examples_1_1packer_1_1_wrapper.html">Wrapper</a>(<span class="stringliteral">&quot;Small&quot;</span>, 50, 100, 250)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    };</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="../../dd/ddf/classsamchon_1_1examples_1_1packer_1_1_packer.html">Packer</a> packer(&amp;productArray, &amp;wrapperArray);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    packer.optimize();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    cout &lt;&lt; packer.toString() &lt;&lt; endl;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    system(<span class="stringliteral">&quot;pause&quot;</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_packer_html"><div class="ttname"><a href="../../dd/ddf/classsamchon_1_1examples_1_1packer_1_1_packer.html">samchon::examples::packer::Packer</a></div><div class="ttdoc">A packer planning the best packaging. </div><div class="ttdef"><b>Definition:</b> Packer.hpp:29</div></div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_product_html"><div class="ttname"><a href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">samchon::examples::packer::Product</a></div><div class="ttdoc">A product, merchandise. </div><div class="ttdef"><b>Definition:</b> Product.hpp:16</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_wrapper_html"><div class="ttname"><a href="../../d0/d0e/classsamchon_1_1examples_1_1packer_1_1_wrapper.html">samchon::examples::packer::Wrapper</a></div><div class="ttdoc">A wrapper can contain products. </div><div class="ttdef"><b>Definition:</b> Wrapper.hpp:19</div></div>
+<div class="ttc" id="namespacesamchon_1_1examples_1_1packer_html"><div class="ttname"><a href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a></div><div class="ttdef"><b>Definition:</b> Instance.hpp:8</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/packer/Packer.cpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Packer.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;WrapperArray.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Wrapper.hpp&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;Product.hpp&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;samchon/library/CombinedPermutationGenerator.hpp&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a>;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;Packer::Packer(vector&lt;Product&gt; *productArray, vector&lt;Wrapper&gt; *wrapperArray)</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    : super()</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    this-&gt;productArray = productArray;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    this-&gt;wrapperArray = wrapperArray;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; wrapperArray-&gt;size(); i++)</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        emplace_back(<span class="keyword">new</span> <a class="code" href="../../d5/d83/classsamchon_1_1examples_1_1packer_1_1_wrapper_array.html">WrapperArray</a>(&amp;wrapperArray-&gt;at(i)));</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;Packer::Packer(<span class="keyword">const</span> <a class="code" href="../../dd/ddf/classsamchon_1_1examples_1_1packer_1_1_packer.html">Packer</a> &amp;packer)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    : <a class="code" href="../../dd/ddf/classsamchon_1_1examples_1_1packer_1_1_packer.html">Packer</a>(packer.productArray, packer.wrapperArray)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">    CALCULATE AND OPTIMIZE</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">--------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">void</span> Packer::optimize()</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">if</span>(empty() == <span class="keyword">true</span> || productArray-&gt;empty() == <span class="keyword">true</span>)</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="../../d9/d49/classsamchon_1_1library_1_1_combined_permutation_generator.html">CombinedPermutationGenerator</a> caseGenerator(size(), productArray-&gt;size());</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    shared_ptr&lt;Packer&gt; minPacker = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; caseGenerator.size(); i++)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        vector&lt;size_t&gt; &amp;row = caseGenerator[i];</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        shared_ptr&lt;Packer&gt; packer(<span class="keyword">new</span> <a class="code" href="../../dd/ddf/classsamchon_1_1examples_1_1packer_1_1_packer.html">Packer</a>(*<span class="keyword">this</span>));</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">bool</span> validity = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> j = 0; j &lt; row.size(); j++)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a> *product = &amp;productArray-&gt;at(j);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            shared_ptr&lt;WrapperArray&gt; &amp;wrapperArray = packer-&gt;at( row[j] );</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">if</span> (wrapperArray-&gt;tryInsert(product) == <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                validity = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">if</span>(validity == <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">//OPTIMIZE ALL WRAPPERS IN A PACKER</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> j = 0; j &lt; packer-&gt;size(); j++)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            packer-&gt;at(j)-&gt;optimize();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">if</span> (minPacker == <span class="keyword">nullptr</span> ||</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            packer-&gt;calcPrice() &lt; minPacker-&gt;calcPrice())</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            minPacker = packer;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">//COPY</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    assign(minPacker-&gt;begin(), minPacker-&gt;end());</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">auto</span> Packer::calcPrice() const -&gt; <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">int</span> price = 0;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; size(); i++)</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        price += at(i)-&gt;calcPrice();</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">return</span> price;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">    EXPORT</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">--------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">auto</span> Packer::toString() const -&gt; <span class="keywordtype">string</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;{</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">string</span> str = <span class="stringliteral">&quot;$&quot;</span> + to_string(calcPrice()) + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; size(); i++)</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        str += at(i)-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">return</span> move(str);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_packer_html"><div class="ttname"><a href="../../dd/ddf/classsamchon_1_1examples_1_1packer_1_1_packer.html">samchon::examples::packer::Packer</a></div><div class="ttdoc">A packer planning the best packaging. </div><div class="ttdef"><b>Definition:</b> Packer.hpp:29</div></div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_1_1library_html"><div class="ttname"><a href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a></div><div class="ttdoc">Package of libraries. </div><div class="ttdef"><b>Definition:</b> library.hpp:8</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_wrapper_array_html"><div class="ttname"><a href="../../d5/d83/classsamchon_1_1examples_1_1packer_1_1_wrapper_array.html">samchon::examples::packer::WrapperArray</a></div><div class="ttdoc">An array of wrapper with same category (name). </div><div class="ttdef"><b>Definition:</b> WrapperArray.hpp:23</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_combined_permutation_generator_html"><div class="ttname"><a href="../../d9/d49/classsamchon_1_1library_1_1_combined_permutation_generator.html">samchon::library::CombinedPermutationGenerator</a></div><div class="ttdoc">A combined-permutation case generator; nTTr </div><div class="ttdef"><b>Definition:</b> CombinedPermutationGenerator.hpp:13</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_product_html"><div class="ttname"><a href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">samchon::examples::packer::Product</a></div><div class="ttdoc">A product, merchandise. </div><div class="ttdef"><b>Definition:</b> Product.hpp:16</div></div>
+<div class="ttc" id="namespacesamchon_1_1examples_1_1packer_html"><div class="ttname"><a href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a></div><div class="ttdef"><b>Definition:</b> Instance.hpp:8</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/packer/WrapperArray.cpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;WrapperArray.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#   include &quot;Wrapper.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#   include &quot;Product.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;samchon/library/FactorialGenerator.hpp&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    CONSTRUCTOR</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">--------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;WrapperArray::WrapperArray(<a class="code" href="../../d0/d0e/classsamchon_1_1examples_1_1packer_1_1_wrapper.html">Wrapper</a> *sample)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    : super()</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    this-&gt;sample = sample;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;}</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">    CALCULATE AND OPTIMIZE</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">--------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">auto</span> WrapperArray::tryInsert(<a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a> *product) -&gt; <span class="keywordtype">bool</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">if</span> (product-&gt;getVolume() &gt; sample-&gt;getVolume() ||</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        product-&gt;getWeight() &gt; sample-&gt;getWeight())</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    productArray.push_back(product);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> WrapperArray::optimize()</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">if</span>(productArray.empty() == <span class="keyword">true</span>)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="../../d7/d82/classsamchon_1_1library_1_1_factorial_generator.html">FactorialGenerator</a> factorial(productArray.size());</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    shared_ptr&lt;WrapperArray&gt; minWrapperArray = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    mutex mtx;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">    #pragma omp parallel for</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; factorial.size(); i++)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        shared_ptr&lt;WrapperArray&gt; wrapperArray(<span class="keyword">new</span> <a class="code" href="../../d5/d83/classsamchon_1_1examples_1_1packer_1_1_wrapper_array.html">WrapperArray</a>(this-&gt;sample));</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        vector&lt;size_t&gt; &amp;row = factorial[i];</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> j = 0; j &lt; row.size(); j++)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a> *product = this-&gt;productArray[j];</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">if</span> (wrapperArray-&gt;empty() == <span class="keyword">true</span> || </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                wrapperArray-&gt;at(wrapperArray-&gt;size() - 1)-&gt;tryInsert(product) == <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <a class="code" href="../../d0/d0e/classsamchon_1_1examples_1_1packer_1_1_wrapper.html">Wrapper</a> *wrapper = <span class="keyword">new</span> <a class="code" href="../../d0/d0e/classsamchon_1_1examples_1_1packer_1_1_wrapper.html">Wrapper</a>(*this-&gt;sample);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                wrapper-&gt;tryInsert(product);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                wrapperArray-&gt;emplace_back(wrapper);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        unique_lock&lt;mutex&gt; uk(mtx);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">if</span> (minWrapperArray == <span class="keyword">nullptr</span> ||</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            wrapperArray-&gt;calcPrice() &lt; minWrapperArray-&gt;calcPrice())</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            minWrapperArray = wrapperArray;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="comment">//COPY</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    assign(minWrapperArray-&gt;begin(), minWrapperArray-&gt;end());</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">auto</span> WrapperArray::calcPrice() const -&gt; <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">return</span> sample-&gt;getPrice() * (int)size();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">    EXPORT</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">--------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">auto</span> WrapperArray::toString() const -&gt; <span class="keywordtype">string</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;{</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">string</span> str = <span class="stringliteral">&quot;Category - &quot;</span> + sample-&gt;getName() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; size(); i++)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        str += at(i)-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> move(str);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_1_1library_html"><div class="ttname"><a href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a></div><div class="ttdoc">Package of libraries. </div><div class="ttdef"><b>Definition:</b> library.hpp:8</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_wrapper_array_html"><div class="ttname"><a href="../../d5/d83/classsamchon_1_1examples_1_1packer_1_1_wrapper_array.html">samchon::examples::packer::WrapperArray</a></div><div class="ttdoc">An array of wrapper with same category (name). </div><div class="ttdef"><b>Definition:</b> WrapperArray.hpp:23</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_product_html"><div class="ttname"><a href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">samchon::examples::packer::Product</a></div><div class="ttdoc">A product, merchandise. </div><div class="ttdef"><b>Definition:</b> Product.hpp:16</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_factorial_generator_html"><div class="ttname"><a href="../../d7/d82/classsamchon_1_1library_1_1_factorial_generator.html">samchon::library::FactorialGenerator</a></div><div class="ttdoc">Factorical case generator. </div><div class="ttdef"><b>Definition:</b> FactorialGenerator.hpp:14</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_wrapper_html"><div class="ttname"><a href="../../d0/d0e/classsamchon_1_1examples_1_1packer_1_1_wrapper.html">samchon::examples::packer::Wrapper</a></div><div class="ttdoc">A wrapper can contain products. </div><div class="ttdef"><b>Definition:</b> Wrapper.hpp:19</div></div>
+<div class="ttc" id="namespacesamchon_1_1examples_1_1packer_html"><div class="ttname"><a href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a></div><div class="ttdef"><b>Definition:</b> Instance.hpp:8</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/packer/Wrapper.cpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Wrapper.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#   include &quot;Product.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a>;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">    CONSTRUCTORS</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">--------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;Wrapper::Wrapper(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;name, <span class="keywordtype">int</span> price, <span class="keywordtype">int</span> volume, <span class="keywordtype">int</span> weight)</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    : super(name, price, volume, weight),</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    vector&lt;<a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>*&gt;()</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;Wrapper::Wrapper(<span class="keyword">const</span> <a class="code" href="../../d0/d0e/classsamchon_1_1examples_1_1packer_1_1_wrapper.html">Wrapper</a> &amp;wrapper)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    : super(wrapper),</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    vector&lt;<a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a>*&gt;()</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;}</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">auto</span> Wrapper::tryInsert(<a class="code" href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">Product</a> *product) -&gt; <span class="keywordtype">bool</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">int</span> volume = 0;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">int</span> weight = 0;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; size(); i++)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        volume += at(i)-&gt;<a class="code" href="../../de/dcf/classsamchon_1_1examples_1_1packer_1_1_instance.html#a814ba65d5a3e99c1cfae32028f4ff897">getVolume</a>();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        weight += at(i)-&gt;getWeight();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">if</span> (product-&gt;getVolume() + volume &gt; this-&gt;volume || </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        product-&gt;getWeight() + weight &gt; this-&gt;weight)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    push_back(product);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">    EXPORT</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">--------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">auto</span> Wrapper::toString() const -&gt; <span class="keywordtype">string</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">string</span> str = <span class="stringliteral">&quot;\tWrapper &quot;</span> + super::toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; size(); i++)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        str += <span class="stringliteral">&quot;\t\t&quot;</span> + at(i)-&gt;toString() + ((i == size() - 1) ? <span class="stringliteral">&quot;&quot;</span> : <span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">return</span> move(str);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_product_html"><div class="ttname"><a href="../../db/d6f/classsamchon_1_1examples_1_1packer_1_1_product.html">samchon::examples::packer::Product</a></div><div class="ttdoc">A product, merchandise. </div><div class="ttdef"><b>Definition:</b> Product.hpp:16</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_wrapper_html"><div class="ttname"><a href="../../d0/d0e/classsamchon_1_1examples_1_1packer_1_1_wrapper.html">samchon::examples::packer::Wrapper</a></div><div class="ttdoc">A wrapper can contain products. </div><div class="ttdef"><b>Definition:</b> Wrapper.hpp:19</div></div>
+<div class="ttc" id="namespacesamchon_1_1examples_1_1packer_html"><div class="ttname"><a href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a></div><div class="ttdef"><b>Definition:</b> Instance.hpp:8</div></div>
+<div class="ttc" id="classsamchon_1_1examples_1_1packer_1_1_instance_html_a814ba65d5a3e99c1cfae32028f4ff897"><div class="ttname"><a href="../../de/dcf/classsamchon_1_1examples_1_1packer_1_1_instance.html#a814ba65d5a3e99c1cfae32028f4ff897">samchon::examples::packer::Instance::getVolume</a></div><div class="ttdeci">auto getVolume() const  -&gt; int</div><div class="ttdoc">Get volume. </div><div class="ttdef"><b>Definition:</b> Instance.cpp:31</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/packer/Product.cpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;Product.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a>;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;Product::Product(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;name, <span class="keywordtype">int</span> price, <span class="keywordtype">int</span> volume, <span class="keywordtype">int</span> weight)</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    : super(name, price, volume, weight)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">auto</span> Product::toString() const -&gt; <span class="keywordtype">string</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">return</span> <span class="stringliteral">&quot;Product &quot;</span> + super::toString();</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_1_1examples_1_1packer_html"><div class="ttname"><a href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a></div><div class="ttdef"><b>Definition:</b> Instance.hpp:8</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>examples/packer/Instance.cpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Instance.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;samchon/library/StringUtil.hpp&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dcc/namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a>;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a>;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    CONSTRUCTORS</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">--------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;Instance::Instance(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;name, <span class="keywordtype">int</span> price, <span class="keywordtype">int</span> volume, <span class="keywordtype">int</span> weight)</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    this-&gt;name = name;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    this-&gt;price = price;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    this-&gt;volume = volume;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    this-&gt;weight = weight;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;}</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">    GETTERS</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">--------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">auto</span> Instance::getName() const -&gt; <span class="keywordtype">string</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">return</span> name;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">auto</span> Instance::getPrice() const -&gt; <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">return</span> price;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">auto</span> Instance::getVolume() const -&gt; <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">return</span> volume;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">auto</span> Instance::getWeight() const -&gt; <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">return</span> weight;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">/* ---------------------------------------------------------</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">    EXPORT</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">--------------------------------------------------------- */</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">auto</span> Instance::toString() const -&gt; <span class="keywordtype">string</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d7/d9b/classsamchon_1_1library_1_1_string_util.html#a067a310ea10079ed5e47a9e25a1ba1fe">StringUtil::substitute</a></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        (</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="stringliteral">&quot;{1}: ${2}, {3}cm^3, {4}g&quot;</span>,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            name, price, volume, weight</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        );</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="ttc" id="classsamchon_1_1library_1_1_string_util_html_a067a310ea10079ed5e47a9e25a1ba1fe"><div class="ttname"><a href="../../d7/d9b/classsamchon_1_1library_1_1_string_util.html#a067a310ea10079ed5e47a9e25a1ba1fe">samchon::library::StringUtil::substitute</a></div><div class="ttdeci">static auto substitute(const std::string &amp;format, const _Ty &amp;val, const _Args &amp;...args) -&gt; std::string</div><div class="ttdoc">Substitutes "{n}" tokens within the specified string with the respective arguments passed in...</div><div class="ttdef"><b>Definition:</b> StringUtil.hpp:49</div></div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
+<div class="ttc" id="namespacesamchon_1_1library_html"><div class="ttname"><a href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a></div><div class="ttdoc">Package of libraries. </div><div class="ttdef"><b>Definition:</b> library.hpp:8</div></div>
+<div class="ttc" id="namespacesamchon_1_1examples_1_1packer_html"><div class="ttname"><a href="../../d1/d9d/namespacesamchon_1_1examples_1_1packer.html">samchon::examples::packer</a></div><div class="ttdef"><b>Definition:</b> Instance.hpp:8</div></div>
+</div><!-- fragment --></dd></dl>
+<dl class="section author"><dt>Author</dt><dd>Jeongho Nam </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a6e83ca1044d0b5628b0b2efe1d404cc9"></a>
 <div class="memitem">
@@ -225,7 +838,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="..
 
 </div>
 </div>
-<a class="anchor" id="ae19f3a9c1510c060931d983f7365fa75"></a>
+<a class="anchor" id="a3ed40ede1f502d8f7b399e929b415d40"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -233,16 +846,16 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="..
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual auto samchon::library::CaseGenerator::at </td>
+          <td class="memname">virtual auto samchon::library::CaseGenerator::operator[] </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const -&gt;  std::vector&lt; size_t &gt;=NULL</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt;  std::vector&lt; size_t &gt;</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -250,16 +863,16 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="..
 <p>Get x'th row. </p>
 <dl class="section return"><dt>Returns</dt><dd>The row of the x'th in combined permuation case </dd></dl>
 
-<p>Reimplemented in <a class="el" href="../../d9/d49/classsamchon_1_1library_1_1_combined_permutation_generator.html#aaffbcb824397c185846859125ef36948">samchon::library::CombinedPermutationGenerator</a>.</p>
+<p>Implemented in <a class="el" href="../../d9/d49/classsamchon_1_1library_1_1_combined_permutation_generator.html#a7a9f7971069a928d2f4db0cd7d792027">samchon::library::CombinedPermutationGenerator</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a219151b670a822d4f3158586bdc48910"></a>
+<a class="anchor" id="a182089fc6958911728e9503ad58d8a6f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">auto CaseGenerator::operator[] </td>
+          <td class="memname">auto CaseGenerator::at </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
@@ -267,7 +880,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="..
         </tr>
       </table>
 </div><div class="memdoc">
-<p><a class="el" href="../../d7/dd7/classsamchon_1_1library_1_1_case_generator.html#ae19f3a9c1510c060931d983f7365fa75" title="Get x&#39;th row. ">CaseGenerator::at()</a> </p>
+<p><a class="el" href="../../d7/dd7/classsamchon_1_1library_1_1_case_generator.html#a3ed40ede1f502d8f7b399e929b415d40" title="Get x&#39;th row. ">CaseGenerator::operator[]()</a> </p>
 
 </div>
 </div>

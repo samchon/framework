@@ -1,4 +1,5 @@
 #include <samchon/library/URLVariables.hpp>
+#include <initializer_list>
 
 using namespace std;
 using namespace samchon;
@@ -12,7 +13,7 @@ URLVariables::URLVariables()
 {
 }
 URLVariables::URLVariables(const WeakString &flashVars)
-	: URLVariables()
+	: super()
 {
 	vector<WeakString> &items = flashVars.split("&");
 	for (size_t i = 0; i < items.size(); i++)
@@ -26,9 +27,15 @@ URLVariables::URLVariables(const WeakString &flashVars)
 		string &key = item.substr(0, index).str();
 		string &value = decode(item.substr(index + 1));
 		
-		super::set(key, value);
+		set(key, value);
 	}
 }
+/*URLVariables::URLVariables(const initializer_list<pair<string, string>> &il)
+	: super()
+{
+	for(auto it = il.begin(); it != il.end(); it++)
+		set(it->first, it->second);
+}*/
 
 /* ------------------------------------------------------------
 	URL ENCODING & DECONDING

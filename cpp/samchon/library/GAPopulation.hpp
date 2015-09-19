@@ -57,7 +57,6 @@ namespace samchon
 		{
 			template <typename GeneArray, typename Compare>
 			friend class GeneticAlgorithm;
-			friend class Scheduler;
 
 		private:
 			/**

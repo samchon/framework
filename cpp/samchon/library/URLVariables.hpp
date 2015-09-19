@@ -33,10 +33,7 @@ namespace samchon
 			/* ------------------------------------------------------------
 				CONSTRUCTORS
 			 ------------------------------------------------------------ */
-			/**
-			 * @brief Inherits all constructors of map<string, string>
-			 */
-			using super::super;
+			//using super::super;
 
 			/**
 			 * @brief Default Constructor
@@ -52,7 +49,7 @@ namespace samchon
 			 * @param A uri-encoded string containing pair of properties
 			 */
 			URLVariables(const WeakString &flashVars);
-
+			
 		public:
 			/**
 			 * @brief Encode a string into a valid URI

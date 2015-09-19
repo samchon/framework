@@ -8,9 +8,9 @@ var classsamchon_1_1library_1_1_string_util =
     [ "percentFormat", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a693e96e759b93222f1863cb992680111", null ],
     [ "colorNumberFormat", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#ab5661013fa6358b7bcb84df6180e5b94", null ],
     [ "colorPercentFormat", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a15fe23e67d92a5ffe0f21f48ff4678bd", null ],
-    [ "trim", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a059a22ecbd1bc2b8c61fef4581128f5f", null ],
-    [ "ltrim", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a8ecdaf02de8b2e54460b7d18ac0f0cb9", null ],
-    [ "rtrim", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#af7220c256a131649050cd8789de8491a", null ],
+    [ "trim", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a1a37228f6ccc61f25a2f470d001b16c6", null ],
+    [ "ltrim", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a2336d040826d23e1dca81f417b1794b5", null ],
+    [ "rtrim", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#adf78b901f1aa36ba9304e304c7ef3e0d", null ],
     [ "finds", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#abd2f540b44c879f17617e0d9a2a200d3", null ],
     [ "rfinds", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a8693254d2e96a955a561cedfb6e9cf8a", null ],
     [ "substring", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#ac4cb99e962b8a16bbd6c94cac49cb209", null ],
@@ -20,6 +20,6 @@ var classsamchon_1_1library_1_1_string_util =
     [ "betweens", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a0d52ded08d36670635430f6a7a63b98f", null ],
     [ "toLowerCase", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#adf8abd8dfe8738c995bf9fd83c601bc7", null ],
     [ "toUpperCase", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a954b89485f47ad363f30290a3e7c889a", null ],
-    [ "replaceAll", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a115adb9f5be14f537c4fe6324a1d95da", null ],
-    [ "replaceAll", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a2a7924ff3856b01e1b3cbc7b498540ac", null ]
+    [ "replaceAll", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a74b61e1a509a87c29e7801221113c03d", null ],
+    [ "replaceAll", "d7/d9b/classsamchon_1_1library_1_1_string_util.html#a37a5a640beae67123fe5c1bc8442f845", null ]
 ];

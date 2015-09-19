@@ -22,23 +22,23 @@ namespace samchon
 		 *
 		 *	\li Referenced Wikipedia: https://en.wikipedia.org/wiki/Genetic_algorithm
 		 *
-		 * @tparam GeneArray
-		 * <p> An array(std::vector) containing genes as elments; sequnce listing </p>
-		 * <p> The GeneArray must be a type of <i>std::vector</i>. </p>
+		 * @tparam 
+		 * GeneArray An array(std::vector) containing genes as elments; sequnce listing.\n\n
+		 * The GeneArray must be a type of <i>std::vector</i>.
 		 *
-		 * @tparam Compare
-		 *	<p> A comparison class (or struct) returns whether left gene is more optimal. </p>
+		 * @tparam Compare 
+		 * A comparison class (or struct) returns whether left gene is more optimal.\n\n
 		 *
-		 *	<p> Default template parameter of Compare is <i>std::less<GeneArray></i>. It means to compare
-		 *	two std::vector (GeneArray must be a std::vector). Thus, you've to keep follwing rules. </p>
+		 * Default template parameter of Compare is <i>std::less<GeneArray></i>. It means to compare
+		 * two std::vector (GeneArray must be a std::vector). Thus, you've to keep follwing rules.\n\n
 		 *
 		 *	<ul>
 		 *		<li> GeneArray is inherited from <i>std::vector</i> </li>
 		 *		<li> GeneArray has custom <i>auto operator<(const GeneArray &) const -> bool</i> </li>
 		 *	</ul>
 		 *
-		 * <p> If you don't want to follow the rules or want a custom comparison class, you have to
-		 * realize a comparison class. The following code is an example realizing the comparison class. </p> 
+		 * If you don't want to follow the rules or want a custom comparison class, you have to
+		 * realize a comparison class. The following code is an example realizing the comparison class.
 		 *
 		 * @code
 		 template <typename _Ty>
@@ -47,6 +47,25 @@ namespace samchon
 		 auto operator()(const _Ty &newObj, const _Ty &prevObj) const -> bool;
 		 };
 		 * @endcode
+		 *
+		 * <h3>Example source</h3>
+		 * <p> TSP - Traveling Salesman Problem </p>
+		 * 
+		 * \par examples/tsp/Scheduler.hpp
+		 *		@includelineno examples/tsp/Scheduler.hpp
+		 * \par examples/tsp/Travel.hpp
+		 *		@includelineno examples/tsp/Travel.hpp
+		 * \par examples/tsp/GeometryPoint.hpp
+		 *		@includelineno examples/tsp/GeometryPoint.hpp
+		 *
+		 * \par examples/tsp/main.cpp
+		 *		@includelineno examples/tsp/main.cpp
+		 * \par examples/tsp/Scheduler.cpp
+		 *		@includelineno examples/tsp/Scheduler.cpp
+		 * \par examples/tsp/Travel.cpp
+		 *		@includelineno examples/tsp/Travel.cpp
+		 * \par examples/tsp/GeometryPoint.cpp
+		 *		@includelineno examples/tsp/GeometryPoint.cpp
 		 *
 		 * @warning
 		 * <p> Be careful for the mistakes of direction or position of Compare. </p>

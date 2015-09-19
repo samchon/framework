@@ -3,6 +3,7 @@ var searchData=
   ['iclient',['IClient',['../d0/db7/classsamchon_1_1protocol_1_1_i_client.html',1,'samchon::protocol']]],
   ['ientityptrgroup',['IEntityPtrGroup',['../d3/d23/classsamchon_1_1protocol_1_1_i_entity_ptr_group.html',1,'samchon::protocol']]],
   ['indexpair',['IndexPair',['../d2/d72/classsamchon_1_1_index_pair.html',1,'samchon']]],
+  ['instance',['Instance',['../de/dcf/classsamchon_1_1examples_1_1packer_1_1_instance.html',1,'samchon::examples::packer']]],
   ['intexplore',['INTExplore',['../d0/d04/classsamchon_1_1namtree_1_1_i_n_t_explore.html',1,'samchon::namtree']]],
   ['invoke',['Invoke',['../db/d9f/classsamchon_1_1protocol_1_1_invoke.html',1,'samchon::protocol']]],
   ['invokeparameter',['InvokeParameter',['../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html',1,'samchon::protocol']]],

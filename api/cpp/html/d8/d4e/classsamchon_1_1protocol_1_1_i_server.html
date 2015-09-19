@@ -266,7 +266,7 @@ Acceptor *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">auto</span> it = clientSet.begin(); it != clientSet.end(); it++)</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        (*it)-&gt;sendData(invoke);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
-<div class="ttc" id="classsamchon_1_1library_1_1_write_unique_lock_html"><div class="ttname"><a href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html">samchon::library::WriteUniqueLock</a></div><div class="ttdoc">Unique lock for writing. </div><div class="ttdef"><b>Definition:</b> WriteUniqueLock.hpp:42</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_write_unique_lock_html"><div class="ttname"><a href="../../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html">samchon::library::WriteUniqueLock</a></div><div class="ttdoc">Unique lock for writing. </div><div class="ttdef"><b>Definition:</b> WriteUniqueLock.hpp:37</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
 <div class="ttc" id="namespacesamchon_1_1library_html"><div class="ttname"><a href="../../d8/dd4/namespacesamchon_1_1library.html">samchon::library</a></div><div class="ttdoc">Package of libraries. </div><div class="ttdef"><b>Definition:</b> library.hpp:8</div></div>
 <div class="ttc" id="classsamchon_1_1examples_1_1console__chat__server_1_1_chat_client_html"><div class="ttname"><a href="../../de/d13/classsamchon_1_1examples_1_1console__chat__server_1_1_chat_client.html">samchon::examples::console_chat_server::ChatClient</a></div><div class="ttdoc">A chat client. </div><div class="ttdef"><b>Definition:</b> ChatClient.hpp:18</div></div>
@@ -339,17 +339,29 @@ Acceptor *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <dl class="section user"><dt>examples/console_chat_server/main.cpp</dt><dd><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;samchon/examples/console_chat_server/ChatServer.hpp&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#pragma comment(lib, &quot;Debug/SamchonFramework.lib&quot;)</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../dd/d93/namespacesamchon_1_1examples_1_1console__chat__server.html">samchon::examples::console_chat_server</a>;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordtype">void</span> main()</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <a class="code" href="../../d7/d8c/classsamchon_1_1examples_1_1console__chat__server_1_1_chat_server.html">ChatServer</a> chatServer;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    chatServer.open();</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    system(<span class="stringliteral">&quot;pause&quot;</span>);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#ifdef _WIN64</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#   ifdef _DEBUG</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;x64/Debug/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#   else</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;x64/Release/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#   endif</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#   ifdef _DEBUG</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;Debug/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#   else</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#       pragma comment(lib, &quot;Release/SamchonFramework.lib&quot;)</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#   endif</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../dd/d93/namespacesamchon_1_1examples_1_1console__chat__server.html">samchon::examples::console_chat_server</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keywordtype">void</span> main()</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="../../d7/d8c/classsamchon_1_1examples_1_1console__chat__server_1_1_chat_server.html">ChatServer</a> chatServer;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    chatServer.open();</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    system(<span class="stringliteral">&quot;pause&quot;</span>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
 <div class="ttc" id="classsamchon_1_1examples_1_1console__chat__server_1_1_chat_server_html"><div class="ttname"><a href="../../d7/d8c/classsamchon_1_1examples_1_1console__chat__server_1_1_chat_server.html">samchon::examples::console_chat_server::ChatServer</a></div><div class="ttdoc">A chat server. </div><div class="ttdef"><b>Definition:</b> ChatServer.hpp:27</div></div>
 <div class="ttc" id="namespacesamchon_1_1examples_1_1console__chat__server_html"><div class="ttname"><a href="../../dd/d93/namespacesamchon_1_1examples_1_1console__chat__server.html">samchon::examples::console_chat_server</a></div><div class="ttdoc">A chat server. </div><div class="ttdef"><b>Definition:</b> ChatClient.hpp:8</div></div>
 </div><!-- fragment --></dd></dl>

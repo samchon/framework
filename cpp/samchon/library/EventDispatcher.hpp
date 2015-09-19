@@ -2,9 +2,10 @@
 #include <samchon/API.hpp>
 
 #include <memory>
+#include <map>
+#include <samchon/Set.hpp>
 
-#include <samchon/library/CriticalSet.hpp>
-#include <samchon/library/CriticalMap.hpp>
+#include <samchon/library/RWMutex.hpp>
 
 namespace samchon
 {
@@ -38,7 +39,12 @@ namespace samchon
 			/**
 			 * @brief A container storing listeners
 			 */
-			CriticalMap<int, std::shared_ptr<CriticalSet<void(*)(std::shared_ptr<Event>)>>> eventSetMap; //EVENT
+			std::map<int, std::set<void(*)(std::shared_ptr<Event>)>> eventSetMap; //EVENT
+
+			/**
+			 * @brief A rw_mutex for concurrency
+			 */
+			library::RWMutex mtx;
 
 		public:
 			//CONSTRUCTORS
@@ -87,7 +93,7 @@ namespace samchon
 			 * @param type The type of event.
 			 * @param listener The listener function processes the event.
 			 */
-			virtual void addEventListener(int, void(*listener)(std::shared_ptr<Event>));
+			virtual void addEventListener(int, void(*)(std::shared_ptr<Event>));
 			
 			/**
 			 * @brief Remove a registered event listener
@@ -99,7 +105,7 @@ namespace samchon
 			 * @param type The type of event.
 			 * @param listener The listener function to remove.
 			 */
-			virtual void removeEventListener(int, void(*listener)(std::shared_ptr<Event>));
+			virtual void removeEventListener(int, void(*)(std::shared_ptr<Event>));
 			
 		protected:
 			/* ----------------------------------------------------------
@@ -132,7 +138,7 @@ namespace samchon
 			 * @see ProgressEvent
 			 * @see EventDispatcher::dispatchEvent
 			 */
-			auto dispatchProgressEvent(double x, double size) -> bool;
+			auto dispatchProgressEvent(size_t x, size_t size) -> bool;
 		};
 	};
 };

@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['uid',['uid',['../d7/dc4/classsamchon_1_1library_1_1_f_t_instance.html#a2d8f2218b7ac7dad36a2057f50aa5a13',1,'samchon::library::FTInstance']]],
-  ['unique',['unique',['../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#ac1837decacb330d4c95a7bf728c0ee6f',1,'samchon::library::GeneticAlgorithm']]],
-  ['usecountmap',['useCountMap',['../d4/d11/classsamchon_1_1_smart_pointer.html#a1881425456ac09edb5733daf28765479',1,'samchon::SmartPointer']]],
-  ['user',['user',['../df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html#a361d83231e00f122c10f8cfe453db4c3',1,'samchon::protocol::service::Client::user()'],['../de/d50/classsamchon_1_1protocol_1_1service_1_1_service_keeper.html#a6ffc51437070fcd0b2022430508485ea',1,'samchon::protocol::service::ServiceKeeper::user()']]],
-  ['userset',['userSet',['../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#ad5afa3b72b353bb8710024b17b32f1c3',1,'samchon::protocol::service::IPUserPair']]]
+  ['tag',['tag',['../d3/d02/classsamchon_1_1library_1_1_x_m_l.html#ad3a060587514d1bb86295bc393df4503',1,'samchon::library::XML']]],
+  ['tournament',['tournament',['../d6/daa/classsamchon_1_1library_1_1_genetic_algorithm.html#aa5d17788ee32e38bd186386af5050163',1,'samchon::library::GeneticAlgorithm']]],
+  ['tp_5f1970',['TP_1970',['../d6/d57/classsamchon_1_1library_1_1_date.html#aa93cb0b1beb70a199f1b9cba7cf0fa42',1,'samchon::library::Date']]],
+  ['travel',['travel',['../d5/de9/classsamchon_1_1examples_1_1tsp_1_1_scheduler.html#a6e85de3c4b90dd62a68c3231d9bc44d9',1,'samchon::examples::tsp::Scheduler']]],
+  ['type',['type',['../db/df5/classsamchon_1_1library_1_1_event.html#a9d320b88ed35b413642980310ed9332b',1,'samchon::library::Event::type()'],['../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html#a3d855711f962b37f0b6cffd099b557e8',1,'samchon::protocol::InvokeParameter::type()']]]
 ];

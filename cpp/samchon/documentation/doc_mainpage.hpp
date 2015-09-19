@@ -32,8 +32,8 @@
  *	<ul>
  *		<li> <a href="https://samchon.github.io/framework/design/CPP_Class_Diagram.pdf" target="_blank">
  *			 Class Diagram of CPP</a> </li>
- *		<li> <a href="https://samchon.github.io/framework/design/Flex_Class_Diagram.pdf" target="_blank">
- *			 Class Diagram of Flex(JS)</a> </li>
+ *		<li> <a href="https://samchon.github.io/framework/design/JS_Class_Diagram.pdf" target="_blank">
+ *			 Class Diagram of JS(TypeScript and Flex)</a> </li>
  *		<li> <a href="https://samchon.github.io/framework/design/Sequence_Diagram.pdf" target="_blank"> 
  *			 Sequence Diagram</a> </li>
  *		<li> <a href="https://samchon.github.io/framework/design/Entity_Relationship_Diagram.pdf" target="_blank">

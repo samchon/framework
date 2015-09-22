@@ -5,7 +5,7 @@
 
 using namespace std;
 using namespace samchon::library;
-using namespace samchon::examples::tsp;
+using namespace samchon::example::tsp;
 
 Scheduler::Scheduler(shared_ptr<Travel> travel, const GAParameters &gaParameteres)
 {
@@ -20,13 +20,13 @@ auto Scheduler::optimize() -> shared_ptr<Travel>
 		gaParameters.mutationRate,
 		gaParameters.tornament
 	);
-	shared_ptr<GAPopulation<Travel>> population
-		(new GAPopulation<Travel>(travel, gaParameters.population));
-
-	for (size_t i = 0; i < gaParameters.generation; i++)
-		population = geneticAlgorithm.evolvePopulation(population);
-
-	travel = population->fitTest();
 	
+	travel = 
+		geneticAlgorithm.evolveGeneArray
+		(
+			travel, 
+			gaParameters.population, 
+			gaParameters.generation
+		);
 	return travel;
 }

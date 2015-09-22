@@ -6,7 +6,7 @@
 using namespace std;
 using namespace samchon::library;
 using namespace samchon::protocol;
-using namespace samchon::examples::console_chat_server;
+using namespace samchon::example::console_chat_server;
 
 ChatClient::ChatClient(ChatServer *server, Socket *socket)
 	: super()

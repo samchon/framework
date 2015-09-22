@@ -75,7 +75,7 @@ namespace samchon
 				 * @param name Requested name representing a Service from the (physical) client
 				 * @return A new Service belongs the the Client
 				 */
-				virtual auto createService(const std::string &) const -> Service* = 0;
+				virtual auto createService(const std::string &) -> Service* = 0;
 
 				auto __keepAlive() -> ServiceKeeper;
 

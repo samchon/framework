@@ -5,7 +5,7 @@
 
 using namespace std;
 using namespace samchon::library;
-using namespace samchon::examples::tsp;
+using namespace samchon::example::tsp;
 
 /* -----------------------------------------------------------
 	CONSTRUCTORS

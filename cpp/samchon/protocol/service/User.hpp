@@ -239,11 +239,8 @@ namespace samchon
 			protected:
 				/**
 				 * @brief Factory method of a Client
-				 *
-				 * @param no
-				 * @param authority
 				 */
-				virtual auto createClient(int, Socket*) const -> Client* = NULL;
+				virtual auto createClient() -> Client* = 0;
 				//void setMember(const std::string &id, int authority);
 
 				auto __keepAlive(Client* = nullptr) -> ServiceKeeper;
@@ -347,7 +344,7 @@ namespace samchon
 				 * @param invoke Invoke message containing parameters for logging-in
 				 * @return Whether the log-in is succeded or not
 				 */
-				virtual auto doLogin(std::shared_ptr<Invoke>) -> bool = NULL;
+				virtual auto doLogin(std::shared_ptr<Invoke>) -> bool = 0;
 
 				/**
 				 * @brief Join and returns whether success
@@ -355,7 +352,7 @@ namespace samchon
 				 * @param invoke Invoke message containing paramters for joinning
 				 * @return Whether the join is succeded or not
 				 */
-				virtual auto doJoin(std::shared_ptr<Invoke>) -> bool = NULL;
+				virtual auto doJoin(std::shared_ptr<Invoke>) -> bool = 0;
 			};
 		};
 	};

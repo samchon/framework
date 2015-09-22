@@ -4,7 +4,7 @@
 
 using namespace std;
 using namespace samchon::library;
-using namespace samchon::examples::packer;
+using namespace samchon::example::packer;
 
 /* ---------------------------------------------------------
 	CONSTRUCTORS

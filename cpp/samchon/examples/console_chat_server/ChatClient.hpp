@@ -3,7 +3,7 @@
 
 namespace samchon
 {
-	namespace examples
+	namespace example
 	{
 		namespace console_chat_server
 		{

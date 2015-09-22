@@ -2,7 +2,7 @@
 #include "Product.hpp"
 
 using namespace std;
-using namespace samchon::examples::packer;
+using namespace samchon::example::packer;
 
 Product::Product(const string &name, int price, int volume, int weight)
 	: super(name, price, volume, weight)

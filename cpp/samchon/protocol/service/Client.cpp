@@ -125,6 +125,7 @@ void Client::constructService(const std::string &name)
 		authority = user->getAuthority();
 		satisfactory = (authority >= service->REQUIRE_AUTHORITY());
 	}
+	service->name = name;
 
 	shared_ptr<Invoke> replyInvoke(new Invoke("notifyAuthority"));
 	replyInvoke->emplace_back( new InvokeParameter("authority", authority) );

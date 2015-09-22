@@ -34,11 +34,6 @@ namespace samchon
 
 			protected:
 				/**
-				 * @brief Name of the service
-				 */
-				virtual auto NAME() const -> std::string = NULL;
-
-				/**
 				 * @brief Required authority to access the service
 				 */
 				virtual auto REQUIRE_AUTHORITY() const -> int = NULL;
@@ -48,6 +43,8 @@ namespace samchon
 				 * @brief Client object Service is belonged to
 				 */
 				Client *client;
+
+				std::string name;
 
 			public:
 				/**

@@ -51,7 +51,7 @@ namespace samchon
 			 *
 			 * @param xml A xml used to construct data of entity
 			 */
-			virtual void construct(std::shared_ptr<library::XML>) = NULL;
+			virtual void construct(std::shared_ptr<library::XML>) = 0;
 
 			/**
 			 * @brief Entity -> XML
@@ -59,7 +59,7 @@ namespace samchon
 			 *
 			 * @return XML representing the Entity
 			 */
-			virtual auto toXML() const -> std::shared_ptr<library::XML> = NULL;
+			virtual auto toXML() const -> std::shared_ptr<library::XML> = 0;
 		};
 	};
 };

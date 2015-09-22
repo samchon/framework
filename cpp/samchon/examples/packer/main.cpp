@@ -20,7 +20,7 @@
 #endif
 
 using namespace std;
-using namespace samchon::examples::packer;
+using namespace samchon::example::packer;
 
 void main()
 {

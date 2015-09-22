@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "packer", "samchon\examples\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tsp", "samchon\examples\tsp\tsp.vcxproj", "{752AC73B-2BAB-4CB9-856A-23DC3058E405}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chat_service", "chat_service\chat_service.vcxproj", "{DD5C2F7E-6A91-48FC-8E36-2F810F5F9B60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -83,6 +85,14 @@ Global
 		{752AC73B-2BAB-4CB9-856A-23DC3058E405}.Release|x64.Build.0 = Release|x64
 		{752AC73B-2BAB-4CB9-856A-23DC3058E405}.Release|x86.ActiveCfg = Release|Win32
 		{752AC73B-2BAB-4CB9-856A-23DC3058E405}.Release|x86.Build.0 = Release|Win32
+		{DD5C2F7E-6A91-48FC-8E36-2F810F5F9B60}.Debug|x64.ActiveCfg = Debug|x64
+		{DD5C2F7E-6A91-48FC-8E36-2F810F5F9B60}.Debug|x64.Build.0 = Debug|x64
+		{DD5C2F7E-6A91-48FC-8E36-2F810F5F9B60}.Debug|x86.ActiveCfg = Debug|Win32
+		{DD5C2F7E-6A91-48FC-8E36-2F810F5F9B60}.Debug|x86.Build.0 = Debug|Win32
+		{DD5C2F7E-6A91-48FC-8E36-2F810F5F9B60}.Release|x64.ActiveCfg = Release|x64
+		{DD5C2F7E-6A91-48FC-8E36-2F810F5F9B60}.Release|x64.Build.0 = Release|x64
+		{DD5C2F7E-6A91-48FC-8E36-2F810F5F9B60}.Release|x86.ActiveCfg = Release|Win32
+		{DD5C2F7E-6A91-48FC-8E36-2F810F5F9B60}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,5 +104,6 @@ Global
 		{4A74F7A1-FE9A-4BC6-898E-ADAEB03C1023} = {0974B3E2-1884-458E-8563-BF938C2C267D}
 		{6FB2026A-9C78-463D-B556-E8478FB4BE22} = {0974B3E2-1884-458E-8563-BF938C2C267D}
 		{752AC73B-2BAB-4CB9-856A-23DC3058E405} = {0974B3E2-1884-458E-8563-BF938C2C267D}
+		{DD5C2F7E-6A91-48FC-8E36-2F810F5F9B60} = {0974B3E2-1884-458E-8563-BF938C2C267D}
 	EndGlobalSection
 EndGlobal

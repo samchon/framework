@@ -15,7 +15,7 @@
 #	endif
 #endif
 
-using namespace samchon::examples::console_chat_server;
+using namespace samchon::example::console_chat_server;
 
 void main()
 {

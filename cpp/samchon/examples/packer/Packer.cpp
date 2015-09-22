@@ -8,7 +8,7 @@
 
 using namespace std;
 using namespace samchon::library;
-using namespace samchon::examples::packer;
+using namespace samchon::example::packer;
 
 Packer::Packer(vector<Product> *productArray, vector<Wrapper> *wrapperArray)
 	: super()

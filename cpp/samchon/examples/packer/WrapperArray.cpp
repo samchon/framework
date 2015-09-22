@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace samchon::library;
-using namespace samchon::examples::packer;
+using namespace samchon::example::packer;
 
 /* ---------------------------------------------------------
 	CONSTRUCTOR
@@ -29,15 +29,15 @@ auto WrapperArray::tryInsert(Product *product) -> bool
 		return false;
 	}
 
-	productArray.push_back(product);
+	reserved.push_back(product);
 	return true;
 }
 void WrapperArray::optimize()
 {
-	if(productArray.empty() == true)
+	if(reserved.empty() == true)
 		return;
 	
-	FactorialGenerator factorial(productArray.size());
+	FactorialGenerator factorial(reserved.size());
 	shared_ptr<WrapperArray> minWrapperArray = nullptr;
 	
 	mutex mtx;
@@ -50,7 +50,7 @@ void WrapperArray::optimize()
 
 		for (size_t j = 0; j < row.size(); j++)
 		{
-			Product *product = this->productArray[j];
+			Product *product = this->reserved[j];
 			
 			if (wrapperArray->empty() == true || 
 				wrapperArray->at(wrapperArray->size() - 1)->tryInsert(product) == false)

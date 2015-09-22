@@ -4,7 +4,7 @@
 
 namespace samchon
 {
-	namespace examples
+	namespace example
 	{
 		namespace packer
 		{
@@ -29,7 +29,7 @@ namespace samchon
 				/**
 				 * @brief A list for reserved Product(s).
 				 */
-				std::vector<Product*> productArray;
+				std::vector<Product*> reserved;
 
 				/**
 				 * @brief A sample wrapper used to copy

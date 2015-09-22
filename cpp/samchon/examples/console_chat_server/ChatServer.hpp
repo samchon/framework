@@ -7,7 +7,7 @@
 
 namespace samchon
 {
-	namespace examples
+	namespace example
 	{
 		/**
 		 * @brief A chat server

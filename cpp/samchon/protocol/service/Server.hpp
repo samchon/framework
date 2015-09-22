@@ -93,9 +93,9 @@ namespace samchon
 					ABSTRACT METHODS
 				========================================================= */
 				/**
-				* @brief Factory method of User
-				*/
-				virtual auto createUser(const std::string&) const -> User* = NULL;
+				 * @brief Factory method of User
+				 */
+				virtual auto createUser() -> User* = 0;
 
 				/**
 				* @brief Handling connection of a client

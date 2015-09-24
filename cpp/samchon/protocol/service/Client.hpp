@@ -38,6 +38,9 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API Client
 				: public IClient
 			{
+				friend class Server;
+				friend class User;
+
 			private:
 				typedef IClient super;
 
@@ -48,7 +51,7 @@ namespace samchon
 				User *user;
 
 				/**
-				 * @brief Sequence number of the Client in an User
+				 * @brief A sequence number of the Client in an User
 				 */
 				size_t no;
 
@@ -62,10 +65,8 @@ namespace samchon
 				 * @brief Construct from User, No and socket
 				 *
 				 * @param user An User containing the Client
-				 * @param no Sequence number of the Client in User
-				 * @param socket A socket for interacting with (physical) client
 				 */
-				Client(User*, size_t, Socket*);
+				Client(User*);
 				virtual ~Client();
 
 			protected:

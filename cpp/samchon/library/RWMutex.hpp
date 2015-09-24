@@ -5,8 +5,8 @@
 #include <mutex>
 #include <condition_variable>
 
-#include <samchon/library/ReadUniqueLock.hpp>
-#include <samchon/library/WriteUniqueLock.hpp>
+#include <samchon/library/UniqueReadLock.hpp>
+#include <samchon/library/UniqueWriteLock.hpp>
 
 namespace std
 {

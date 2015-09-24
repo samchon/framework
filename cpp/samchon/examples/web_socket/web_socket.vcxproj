@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{59D16907-49E6-410C-89A4-7EF2799FD7BF}</ProjectGuid>
+    <ProjectGuid>{CF1C30C2-7A87-4A09-BF3E-38FB85AD6F3F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>TSP</RootNamespace>
+    <RootNamespace>web_socket</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -71,19 +71,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -150,14 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Branch.hpp" />
-    <ClInclude Include="TSP.hpp" />
-    <ClInclude Include="Travel.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Branch.cpp" />
-    <ClCompile Include="Travel.cpp" />
-    <ClCompile Include="TSP.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

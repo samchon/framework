@@ -310,6 +310,12 @@
     <Filter Include="Header Files\library\utils\math\genetic algorithm">
       <UniqueIdentifier>{77cfcec8-1a8b-442c-bf17-db5a41c4ffac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\library\critical section\container">
+      <UniqueIdentifier>{e7c96ea0-6819-492b-a717-260111eda98a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\interface\web-socket">
+      <UniqueIdentifier>{e168dbad-6dc5-4cc6-b5e6-32ebfa38a153}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\SmartPointer.hpp">
@@ -537,12 +543,6 @@
     <ClInclude Include="..\samchon\library\XMLList.hpp">
       <Filter>Header Files\library\data structure\xml</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\library\ReadUniqueLock.hpp">
-      <Filter>Header Files\library\critical section\unique_lock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\WriteUniqueLock.hpp">
-      <Filter>Header Files\library\critical section\unique_lock</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\library\UniqueAcquire.hpp">
       <Filter>Header Files\library\critical section\unique_lock</Filter>
     </ClInclude>
@@ -602,9 +602,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\service\User.hpp">
       <Filter>Header Files\protocol\service\logical objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\Socket.hpp">
-      <Filter>Header Files\protocol\common\interface</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\service\IPUserPair.hpp">
       <Filter>Header Files\protocol\service\logical objects</Filter>
@@ -672,6 +669,42 @@
     <ClInclude Include="..\samchon\library\GAPopulation.hpp">
       <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
     </ClInclude>
+    <ClInclude Include="..\samchon\library\UniqueWriteLock.hpp">
+      <Filter>Header Files\library\critical section\unique_lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\UniqueReadLock.hpp">
+      <Filter>Header Files\library\critical section\unique_lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\Dictionary.hpp">
+      <Filter>Header Files\common\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalVector.hpp">
+      <Filter>Header Files\library\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalList.hpp">
+      <Filter>Header Files\library\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalSet.hpp">
+      <Filter>Header Files\library\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalMap.hpp">
+      <Filter>Header Files\library\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalDictionary.hpp">
+      <Filter>Header Files\library\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\WebServerConnector.hpp">
+      <Filter>Header Files\protocol\common\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IWebServer.hpp">
+      <Filter>Header Files\protocol\common\interface\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IWebClient.hpp">
+      <Filter>Header Files\protocol\common\interface\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\Socket.hpp">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samchon\library\Date.cpp">
@@ -730,12 +763,6 @@
     </ClCompile>
     <ClCompile Include="..\samchon\library\CaseGenerator.cpp">
       <Filter>Source Files\library\utils\math\serialized case</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\ReadUniqueLock.cpp">
-      <Filter>Source Files\library\critical section</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\WriteUniqueLock.cpp">
-      <Filter>Source Files\library\critical section</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\library\SQLStatement.cpp">
       <Filter>Source Files\library\network i/o\sql driver\basic</Filter>
@@ -859,6 +886,12 @@
     </ClCompile>
     <ClCompile Include="..\samchon\library\URLVariables.cpp">
       <Filter>Source Files\library\network i/o\http service</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\UniqueWriteLock.cpp">
+      <Filter>Source Files\library\critical section</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\UniqueReadLock.cpp">
+      <Filter>Source Files\library\critical section</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@ namespace samchon
 		 * @brief Unique lock for writing
 		 *
 		 * @details
-		 * <p> A WriteUniqueLock is an object manages a RWMutex object on writing
+		 * <p> A UniqueWriteLock is an object manages a RWMutex object on writing
 		 * with unique ownership in both states: locked and unlocked. </p>
 		 *
 		 * <p> On construction (or by move-assigning to it), the object acquires
@@ -28,13 +28,13 @@ namespace samchon
 		 *	\li http://www.cplusplus.com/reference/mutex/unique_lock/
 		 *
 		 * @warning
-		 * Though, that the WriteUniqueLock object does not manage the lifetime of the mutex
+		 * Though, that the UniqueWriteLock object does not manage the lifetime of the mutex
 		 * object in any way: the duration of the mutex object shall extend at least until
-		 * the destruction of the WriteUniqueLock that manages it.
+		 * the destruction of the UniqueWriteLock that manages it.
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API WriteUniqueLock
+		class SAMCHON_FRAMEWORK_API UniqueWriteLock
 		{
 		private:
 			/**
@@ -57,7 +57,7 @@ namespace samchon
 			 * @param mtx Mutex to manage
 			 * @param doLock Whether to lock directly or not
 			 */
-			WriteUniqueLock(RWMutex &, bool = true);
+			UniqueWriteLock(RWMutex &, bool = true);
 
 			/**
 			 * @brief Destructor
@@ -65,7 +65,7 @@ namespace samchon
 			 * @details
 			 * If write lock has done by the UniqueLock, unlock it
 			 */
-			~WriteUniqueLock();
+			~UniqueWriteLock();
 
 			/* ===================================================
 				LOCKERS

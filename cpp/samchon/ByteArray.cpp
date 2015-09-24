@@ -9,6 +9,7 @@ using namespace samchon;
 ByteArray::ByteArray()
 	: super()
 {
+	this->position = 0;
 }
 ByteArray::ByteArray(const ByteArray &byteArray)
 	: super(byteArray)
@@ -39,15 +40,10 @@ void ByteArray::setPosition(size_t val)
 -------------------------------------------------------------- */
 template<> auto ByteArray::read() const -> string
 {
-	return "";
-}
-template<> auto ByteArray::read() const -> wstring
-{
-	return L"";
-}
-template<> auto ByteArray::read() const -> ByteArray
-{
-	return {};
+	string str = (char*)(data() + position);
+	((ByteArray*)this)->position += str.size();
+
+	return move(str);
 }
 
 /* --------------------------------------------------------------
@@ -55,15 +51,13 @@ template<> auto ByteArray::read() const -> ByteArray
 -------------------------------------------------------------- */
 template<> void ByteArray::write(const string &str)
 {
+	unsigned char *begin = (unsigned char*)str.data();
 
-}
-template<> void ByteArray::write(const wstring &str)
-{
-
+	insert(end(), begin, begin + str.size());
 }
 template<> void ByteArray::write(const ByteArray &byteArray)
 {
-
+	insert(end(), byteArray.begin(), byteArray.end());
 }
 
 /* --------------------------------------------------------------

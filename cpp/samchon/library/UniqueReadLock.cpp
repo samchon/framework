@@ -1,7 +1,7 @@
 #include <samchon/library/RWMutex.hpp>
 using namespace samchon::library;
 
-ReadUniqueLock::ReadUniqueLock(const RWMutex &mtx, bool doLock)
+UniqueReadLock::UniqueReadLock(const RWMutex &mtx, bool doLock)
 {
 	if(doLock == true)
 		mtx.readLock();
@@ -9,13 +9,13 @@ ReadUniqueLock::ReadUniqueLock(const RWMutex &mtx, bool doLock)
 	this->mtx = &mtx;
 	this->isLocked = doLock;
 }
-ReadUniqueLock::~ReadUniqueLock()
+UniqueReadLock::~UniqueReadLock()
 {
 	if(isLocked == true)
 		mtx->readUnlock();
 }
 
-void ReadUniqueLock::lock() const
+void UniqueReadLock::lock() const
 {
 	if(isLocked == true)
 		return;
@@ -25,7 +25,7 @@ void ReadUniqueLock::lock() const
 	mtx->readLock();
 	*flag = true;
 }
-void ReadUniqueLock::unlock() const
+void UniqueReadLock::unlock() const
 {
 	if(isLocked == false)
 		return;

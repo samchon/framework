@@ -18,16 +18,14 @@ auto IClient::BUFFER_SIZE() const -> size_t { return 1000; }
 
 IClient::IClient()
 {
-	sendMtx = new mutex();
 	socket = nullptr;
+	sendMtx = new mutex();
 }
 IClient::~IClient()
 {
-	if (socket == nullptr)
-		return;
-	
-	socket->close();
-	delete socket;
+	if (socket != nullptr)
+		socket->close();
+	delete sendMtx;
 }
 
 void IClient::listen()
@@ -77,9 +75,6 @@ void IClient::sendData(shared_ptr<Invoke> invoke)
 	std::string &data = invoke->toXML()->toString();
 	boost::system::error_code error;
 
-	sendMtx->lock();
-	{
-		socket->write_some(boost::asio::buffer(data), error);
-	}
-	sendMtx->unlock();
+	unique_lock<mutex> uk(*sendMtx);
+	socket->write_some(boost::asio::buffer(data), error);
 }

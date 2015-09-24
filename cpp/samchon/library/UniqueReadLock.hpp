@@ -12,7 +12,7 @@ namespace samchon
 		 * 
 		 * @details
 		 * \par 
-		 * A ReadUniqueLock is an object manages a RWMutex object on reading
+		 * A UniqueReadLock is an object manages a RWMutex object on reading
 		 * with unique ownership in both states: locked and unlocked.
 		 * 
 		 * \par 
@@ -33,13 +33,13 @@ namespace samchon
 		 *	\li http://www.cplusplus.com/reference/mutex/unique_lock/
 		 *
 		 * @warning
-		 * Though, that the ReadUniqueLock object does not manage the lifetime of the mutex 
+		 * Though, that the UniqueReadLock object does not manage the lifetime of the mutex 
 		 * object in any way: the duration of the mutex object shall extend at least until 
-		 * the destruction of the ReadUniqueLock that manages it.
+		 * the destruction of the UniqueReadLock that manages it.
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API ReadUniqueLock
+		class SAMCHON_FRAMEWORK_API UniqueReadLock
 		{
 		private:
 			/**
@@ -62,7 +62,7 @@ namespace samchon
 			 * @param mtx Mutex to manage
 			 * @param doLock Whether to lock directly or not
 			 */
-			ReadUniqueLock(const RWMutex &, bool = true);
+			UniqueReadLock(const RWMutex &, bool = true);
 
 			/**
 			 * @brief Destructor
@@ -70,7 +70,7 @@ namespace samchon
 			 * @details
 			 * If read lock has done by the UniqueLock, unlock it
 			 */
-			~ReadUniqueLock();
+			~UniqueReadLock();
 
 			/* ===================================================
 				LOCKERS

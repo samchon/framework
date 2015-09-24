@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include <mutex>
+#include <samchon/library/RWMutex.hpp>
 
 namespace samchon
 {
@@ -53,9 +53,9 @@ namespace samchon
 			typedef std::allocator<_Ty> super;
 
 			/**
-			 * @brief A mutex for handling concurrency
+			 * @brief A rw_mutex for handling concurrency
 			 */
-			std::mutex mtx;
+			RWMutex mtx;
 
 		public:
 			/**
@@ -66,6 +66,15 @@ namespace samchon
 			template <typename U> struct rebind
 			{
 				typedef CriticalAllocator<U> other;
+			};
+
+			auto getMutex() -> RWMutex&
+			{
+				return mtx;
+			};
+			auto getMutex() const -> const RWMutex&
+			{
+				return mtx;
 			};
 
 			/* ---------------------------------------------------------------
@@ -96,7 +105,7 @@ namespace samchon
 			template<class _U, class... _Args>
 			void construct(_U *ptr, _Args&&... args)
 			{
-				std::unique_lock<std::mutex> uk(mtx);
+				UniqueWriteLock uk(mtx);
 				
 				super::construct(ptr, args);
 			};
@@ -122,8 +131,8 @@ namespace samchon
 			template<class _U>
 			void destroy(_U *ptr)
 			{
-				std::unique_lock<std::mutex> uk(mtx);
-
+				UniqueWriteLock uk(mtx);
+				
 				super::destroy(ptr);
 			};
 
@@ -162,7 +171,7 @@ namespace samchon
 			 */
 			auto allocate(size_type n, std::allocator<void>::const_pointer hint = NULL) -> pointer
 			{
-				std::unique_lock<std::mutex> uk(mtx);
+				UniqueWriteLock uk(mtx);
 
 				super::allocate(n, hint);
 			};
@@ -192,7 +201,7 @@ namespace samchon
 			 */
 			void deallocate(pointer ptr, size_type size)
 			{
-				std::unique_lock<std::mutex> uk(mtx);
+				UniqueWriteLock uk(mtx);
 				
 				super::deallocate(ptr, size);
 			};

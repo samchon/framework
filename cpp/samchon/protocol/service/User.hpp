@@ -2,11 +2,12 @@
 #include <samchon/API.hpp>
 
 #include <samchon/Map.hpp>
-#include <string>
 #include <samchon/SmartPointer.hpp>
+#include <samchon/protocol/IProtocol.hpp>
 
+#include <string>
 #include <memory>
-
+#include <samchon/library/RWMutex.hpp>
 #include <samchon/protocol/service/ServiceKeeper.hpp>
 #include <samchon/protocol/Socket.hpp>
 
@@ -15,7 +16,7 @@
  *
  * @param client
  */
-#define KEEP_USER_ALIVE auto &ucPair = __keepAlive(client);
+#define KEEP_USER_ALIVE auto &keeper = SmartPointer<User>(this);
 
 namespace samchon
 {
@@ -48,7 +49,8 @@ namespace samchon
 			 * @author Jeongho Nam
 			 */
 			class SAMCHON_FRAMEWORK_API User
-				: private Map<size_t, SmartPointer<Client>>
+				: private Map<size_t, SmartPointer<Client>>,
+				public IProtocol
 			{
 				friend class Server;
 				friend class Client;
@@ -94,7 +96,7 @@ namespace samchon
 				/**
 				 * @brief Mutex for container
 				 */
-				std::mutex mtx;
+				library::RWMutex mtx;
 
 				/**
 				 * @brief Semaphore to limit number of thread
@@ -199,7 +201,7 @@ namespace samchon
 				 * @param server A server who containing users and clients
 				 * @param sessionID A session ID for discriminating User; A logical identifier
 				 */
-				User(Server*, const std::string&);
+				User(Server*);
 				virtual ~User();
 
 				/* =========================================================
@@ -237,13 +239,14 @@ namespace samchon
 				auto getAuthority() const -> int;
 
 			protected:
+				/* =========================================================
+					CLIENT FACTORY
+				========================================================= */
 				/**
 				 * @brief Factory method of a Client
 				 */
 				virtual auto createClient() -> Client* = 0;
 				//void setMember(const std::string &id, int authority);
-
-				auto __keepAlive(Client* = nullptr) -> ServiceKeeper;
 			
 			private:
 				/**
@@ -308,7 +311,7 @@ namespace samchon
 				 * @param invoke
 				 * @see User::doLogin()
 				 */
-				void goLogin(Client*, std::shared_ptr<Invoke>);
+				void goLogin(std::shared_ptr<Invoke>);
 
 				/**
 				 * @brief Join as a member 
@@ -317,7 +320,7 @@ namespace samchon
 				 * @param invoke AN invoke message containing parameters of joinning
 				 * @see User::doJoin()
 				 */
-				void goJoin(Client*, std::shared_ptr<Invoke>);
+				void goJoin(std::shared_ptr<Invoke>);
 
 				/**
 				 * @brief Log-out
@@ -335,7 +338,7 @@ namespace samchon
 				 * 
 				 * @param client A window of browser; client who requested the log-out command
 				 */
-				virtual void goLogout(Client*);
+				virtual void goLogout();
 
 			protected:
 				/**
@@ -353,6 +356,13 @@ namespace samchon
 				 * @return Whether the join is succeded or not
 				 */
 				virtual auto doJoin(std::shared_ptr<Invoke>) -> bool = 0;
+				
+			public:
+				/* =========================================================
+					MESSAGE CHAIN
+				========================================================= */
+				virtual void sendData(std::shared_ptr<Invoke>) override;
+				virtual void replyData(std::shared_ptr<Invoke>) override;
 			};
 		};
 	};

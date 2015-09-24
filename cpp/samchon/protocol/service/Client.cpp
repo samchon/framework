@@ -3,6 +3,7 @@
 #	include <samchon/protocol/service/User.hpp>
 #	include <samchon/protocol/service/Service.hpp>
 
+#include <mutex>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
@@ -26,13 +27,10 @@ using namespace samchon::protocol::service;
 /* --------------------------------------------------------
 	CONSTRUCTORS
 -------------------------------------------------------- */
-Client::Client(User *user, size_t no, Socket *socket)
+Client::Client(User *user)
 	: super()
 {
 	this->user = user;
-	this->no = no;
-
-	this->socket = socket;
 }
 Client::~Client()
 {
@@ -67,7 +65,31 @@ void Client::sendData(shared_ptr<Invoke> invoke)
 {
 	KEEP_CLIENT_ALIVE;
 
-	super::sendData(invoke);
+	ByteArray header;
+	string &msg = invoke->toXML()->toString();
+	boost::system::error_code error;
+
+	header.push_back(129);
+	if (msg.size() < 126)
+	{
+		//DO NOTHING
+	}
+	else if(header.size() <= 65535)
+	{
+		header.push_back(126);	
+		header.writeReversely((unsigned short)msg.size());
+	}
+	else
+	{
+		header.push_back(127);
+		header.writeReversely((unsigned long long)msg.size());
+	}
+
+	unique_lock<mutex> uk(*sendMtx);
+	socket->write_some(boost::asio::buffer(header), error);
+	socket->write_some(boost::asio::buffer(msg), error);
+
+	//super::sendData(invoke);
 }
 void Client::replyData(shared_ptr<Invoke> invoke)
 {
@@ -79,17 +101,9 @@ void Client::replyData(shared_ptr<Invoke> invoke)
 
 		constructService(name);
 	}
-	else if (listener == "login")
+	else if (listener == "login" || listener == "join" || listener == "logout")
 	{
-		user->goLogin(this, invoke);
-	}
-	else if (listener == "logout")
-	{
-		user->goLogout(this);
-	}
-	else if (listener == "join")
-	{
-		user->goJoin(this, invoke);
+		user->replyData(invoke);
 	}
 	else
 	{

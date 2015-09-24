@@ -1,7 +1,7 @@
 #include <samchon/library/RWMutex.hpp>
 using namespace samchon::library;
 
-WriteUniqueLock::WriteUniqueLock(RWMutex &mtx, bool doLock)
+UniqueWriteLock::UniqueWriteLock(RWMutex &mtx, bool doLock)
 {
 	if(doLock == true)
 		mtx.writeLock();
@@ -9,13 +9,13 @@ WriteUniqueLock::WriteUniqueLock(RWMutex &mtx, bool doLock)
 	this->mtx = &mtx;
 	this->isLocked = doLock;
 }
-WriteUniqueLock::~WriteUniqueLock()
+UniqueWriteLock::~UniqueWriteLock()
 {
 	if(isLocked == true)
 		mtx->readUnlock();
 }
 
-void WriteUniqueLock::lock()
+void UniqueWriteLock::lock()
 {
 	if(isLocked == true)
 		return;
@@ -23,7 +23,7 @@ void WriteUniqueLock::lock()
 	mtx->writeLock();
 	isLocked = true;
 }
-void WriteUniqueLock::unlock()
+void UniqueWriteLock::unlock()
 {
 	if(isLocked == false)
 		return;

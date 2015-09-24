@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="..\samchon\API.hpp" />
     <ClInclude Include="..\samchon\ByteArray.hpp" />
+    <ClInclude Include="..\samchon\Dictionary.hpp" />
     <ClInclude Include="..\samchon\documentation\protocol_master.hpp" />
     <ClInclude Include="..\samchon\documentation\protocol_slave.hpp" />
     <ClInclude Include="..\samchon\documentation\samchon.hpp" />
@@ -170,6 +171,11 @@
     <ClInclude Include="..\samchon\library\Charset.hpp" />
     <ClInclude Include="..\samchon\library\CombinedPermutationGenerator.hpp" />
     <ClInclude Include="..\samchon\library\CriticalAllocator.hpp" />
+    <ClInclude Include="..\samchon\library\CriticalDictionary.hpp" />
+    <ClInclude Include="..\samchon\library\CriticalList.hpp" />
+    <ClInclude Include="..\samchon\library\CriticalMap.hpp" />
+    <ClInclude Include="..\samchon\library\CriticalSet.hpp" />
+    <ClInclude Include="..\samchon\library\CriticalVector.hpp" />
     <ClInclude Include="..\samchon\library\Date.hpp" />
     <ClInclude Include="..\samchon\library\Datetime.hpp" />
     <ClInclude Include="..\samchon\library\ErrorEvent.hpp" />
@@ -193,7 +199,7 @@
     <ClInclude Include="..\samchon\library\PermutationGenerator.hpp" />
     <ClInclude Include="..\samchon\library\ProgressEvent.hpp" />
     <ClInclude Include="..\samchon\library\RWMutex.hpp" />
-    <ClInclude Include="..\samchon\library\ReadUniqueLock.hpp" />
+    <ClInclude Include="..\samchon\library\UniqueReadLock.hpp" />
     <ClInclude Include="..\samchon\library\Semaphore.hpp" />
     <ClInclude Include="..\samchon\library\SQLLiteConnector.hpp" />
     <ClInclude Include="..\samchon\library\UniqueAcquire.hpp" />
@@ -201,7 +207,7 @@
     <ClInclude Include="..\samchon\library\SQLStatement.hpp" />
     <ClInclude Include="..\samchon\library\StringUtil.hpp" />
     <ClInclude Include="..\samchon\library\URLVariables.hpp" />
-    <ClInclude Include="..\samchon\library\WriteUniqueLock.hpp" />
+    <ClInclude Include="..\samchon\library\UniqueWriteLock.hpp" />
     <ClInclude Include="..\samchon\library\XML.hpp" />
     <ClInclude Include="..\samchon\library\XMLList.hpp" />
     <ClInclude Include="..\samchon\Map.hpp" />
@@ -228,6 +234,8 @@
     <ClInclude Include="..\samchon\protocol\InvokeParameter.hpp" />
     <ClInclude Include="..\samchon\protocol\IProtocol.hpp" />
     <ClInclude Include="..\samchon\protocol\IServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\IWebClient.hpp" />
+    <ClInclude Include="..\samchon\protocol\IWebServer.hpp" />
     <ClInclude Include="..\samchon\protocol\SystemRole.hpp" />
     <ClInclude Include="..\samchon\protocol\ServerConnector.hpp" />
     <ClInclude Include="..\samchon\protocol\ISQLEntity.hpp" />
@@ -272,6 +280,7 @@
     <ClInclude Include="..\samchon\protocol\Socket.hpp" />
     <ClInclude Include="..\samchon\protocol\UniqueEntityArray.hpp" />
     <ClInclude Include="..\samchon\protocol\UniqueEntityList.hpp" />
+    <ClInclude Include="..\samchon\protocol\WebServerConnector.hpp" />
     <ClInclude Include="..\samchon\SmartPointer.hpp" />
     <ClInclude Include="..\samchon\WeakString.hpp" />
   </ItemGroup>
@@ -297,13 +306,13 @@
     <ClCompile Include="..\samchon\library\PermutationGenerator.cpp" />
     <ClCompile Include="..\samchon\library\ProgressEvent.cpp" />
     <ClCompile Include="..\samchon\library\RWMutex.cpp" />
-    <ClCompile Include="..\samchon\library\ReadUniqueLock.cpp" />
+    <ClCompile Include="..\samchon\library\UniqueReadLock.cpp" />
     <ClCompile Include="..\samchon\library\Semaphore.cpp" />
     <ClCompile Include="..\samchon\library\SQLi.cpp" />
     <ClCompile Include="..\samchon\library\SQLStatement.cpp" />
     <ClCompile Include="..\samchon\library\StringUtil.cpp" />
     <ClCompile Include="..\samchon\library\URLVariables.cpp" />
-    <ClCompile Include="..\samchon\library\WriteUniqueLock.cpp" />
+    <ClCompile Include="..\samchon\library\UniqueWriteLock.cpp" />
     <ClCompile Include="..\samchon\library\XML.cpp" />
     <ClCompile Include="..\samchon\namtree\INTExplore.cpp" />
     <ClCompile Include="..\samchon\namtree\NTCriteria.cpp" />

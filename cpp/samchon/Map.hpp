@@ -85,7 +85,7 @@ namespace samchon
 	 */
 	template <typename _Kty, typename _Ty, typename _Pr = std::less<_Kty>, typename _Alloc = std::allocator<std::pair<const _Kty, _Ty>>>
 	class Map
-		: public std::map < _Kty, _Ty, _Pr, _Alloc >
+		: public std::map<_Kty, _Ty, _Pr, _Alloc>
 	{
 	private:
 		typedef std::map<_Kty, _Ty, _Pr, _Alloc> super;

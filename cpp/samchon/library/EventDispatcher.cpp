@@ -38,14 +38,14 @@ EventDispatcher::EventDispatcher(EventDispatcher &&eventDispatcher)
 ------------------------------------------------------------- */
 void EventDispatcher::addEventListener(int type, void(*listener)(std::shared_ptr<Event>))
 {
-	WriteUniqueLock uk(mtx);
+	UniqueWriteLock uk(mtx);
 
 	auto &set = eventSetMap[type];
 	set.insert(listener);
 }
 void EventDispatcher::removeEventListener(int type, void(*listener)(std::shared_ptr<Event>))
 {
-	WriteUniqueLock uk(mtx);
+	UniqueWriteLock uk(mtx);
 
 	if (eventSetMap.count(type) > 0 && eventSetMap[type].count(listener) > 0)
 		eventSetMap[type].erase(listener);
@@ -56,7 +56,7 @@ void EventDispatcher::removeEventListener(int type, void(*listener)(std::shared_
 ------------------------------------------------------------- */
 auto EventDispatcher::dispatchEvent(shared_ptr<Event> event) -> bool
 {
-	ReadUniqueLock uk(mtx);
+	UniqueReadLock uk(mtx);
 
 	int type = event->getType();
 	if (eventSetMap.count(type) == 0 || eventSetMap[type].empty() == true)

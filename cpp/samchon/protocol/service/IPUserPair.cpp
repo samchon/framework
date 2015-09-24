@@ -29,8 +29,6 @@ IPUserPair::IPUserPair(Server *server, const string &ip)
 }
 auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> std::string
 {
-	unique_lock<mutex> uk(mtx);
-
 	std::string sessionID;
 
 	//GET SESSION_ID FROM CLIENT'S COOKIE
@@ -51,7 +49,7 @@ auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> std::string
 		sessionID = invoke->at(0)->getValueAsString();
 	}
 	
-	server->mtx.lock();
+	UniqueReadLock uk(server->mtx);
 	if (sessionID.empty() == true || server->has(sessionID) == false)
 	{
 		//ISSUE SESSION ID
@@ -59,11 +57,9 @@ auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> std::string
 
 		//IF SESSION_ID IS NOT UNIQUE
 		if (server->has(sessionID) == true)
-		{
-			server->mtx.unlock();
 			throw runtime_error("Session ID is not unique");
-		}
-		server->mtx.unlock();
+
+		uk.unlock();
 
 		//NOTIFY TO CLIENT
 		shared_ptr<Invoke> invoke( new Invoke("notifySessionID") );
@@ -76,8 +72,6 @@ auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> std::string
 		if (error)
 			return "";
 	}
-	else
-		server->mtx.unlock();
 
 	return move(sessionID);
 }

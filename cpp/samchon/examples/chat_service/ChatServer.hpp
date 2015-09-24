@@ -33,9 +33,6 @@ namespace samchon
 
 			public:
 				auto getChatRoomArray() const -> ChatRoomArray*;
-				auto getChatRoom(const std::string &) const -> ChatRoom*;
-				
-				void eraseChatRoom(const std:: string &);
 			};
 		};
 	};

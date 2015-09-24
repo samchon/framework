@@ -5,14 +5,29 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = new __();
 };
 function test() {
-    var str = "<memberList>\n" +
+    var ws = new WebSocket("ws://127.0.0.1:11071");
+    ws.onopen = handleOpen;
+    ws.onerror = handleError;
+    ws.onmessage = handleMessage;
+    /*var str: string =
+        "<memberList>\n" +
         "	<member id='jhnam88' pass='1231' />\n" +
         "	<member id='samchon' pass='1231'>Administrator</member>\n" +
         "	<group>3</group>\n" +
         "</memberList>";
-    var xml = new XML(str);
-    var invoke = new Invoke("login", "jhnam88", 4, xml);
-    alert(invoke.toXML());
+    var xml: XML = new XML(str);
+    
+    var invoke: Invoke = new Invoke("login", "jhnam88", 4, xml);
+    alert(invoke.toXML());*/
+}
+function handleOpen(event) {
+    alert("handleOpen");
+}
+function handleError(event) {
+    alert("handleError");
+}
+function handleMessage(event) {
+    alert("handleMessage: " + event.data);
 }
 /**
  * @brief Trace arguments on screen
@@ -1703,6 +1718,13 @@ var Application = (function () {
     };
     return Application;
 })();
+var ChatApplication = (function (_super) {
+    __extends(ChatApplication, _super);
+    function ChatApplication(movie, ip, port) {
+        _super.call(this, movie, ip, port);
+    }
+    return ChatApplication;
+})(Application);
 /**
  * @brief A movie belonged to an Application
  */
@@ -1771,8 +1793,10 @@ var EntityArray = (function (_super) {
         var xmlList = xml[this.CHILD_TAG()];
         for (var i = 0; i < xmlList.length; i++) {
             var child = this.createChild(xmlList[i]);
-            if (child != null)
+            if (child != null) {
+                child.construct(xmlList[i]);
                 this.push(child);
+            }
         }
     };
     /**
@@ -1797,4 +1821,157 @@ var EntityArray = (function (_super) {
     };
     return EntityArray;
 })(Vector);
+/* =================================================================================
+    CHAT_SERVICE
+====================================================================================
+
+================================================================================= */
+var RoomArray = (function (_super) {
+    __extends(RoomArray, _super);
+    function RoomArray() {
+        _super.call(this);
+    }
+    RoomArray.prototype.TAG = function () { return "roomArray"; };
+    RoomArray.prototype.CHILD_TAG = function () { return "room"; };
+    RoomArray.prototype.createChild = function (xml) {
+        return new Room();
+    };
+    RoomArray.prototype.print = function () {
+        //기존 방 목록을 지우고
+        for (var i = 0; i < this.length; i++) {
+            this[i].print();
+        }
+    };
+    return RoomArray;
+})(EntityArray);
+var Room = (function (_super) {
+    __extends(Room, _super);
+    function Room() {
+        _super.call(this);
+        this.participants = new Vector();
+    }
+    Room.prototype.TAG = function () { return "room"; };
+    Room.prototype.construct = function (xml) {
+        this.name = xml.getProperty("name");
+        this.host = xml.getProperty("host");
+        this.participants = new Vector();
+        var xmlList = xml.get("participant");
+        for (var i = 0; i < xmlList.length; i++)
+            this.participants.push(xmlList[i].getValue());
+    };
+    Room.prototype.print = function () {
+        //화면에 출력할 것들
+    };
+    return Room;
+})(Entity);
+var ChatMessage = (function (_super) {
+    __extends(ChatMessage, _super);
+    function ChatMessage() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        _super.call(this);
+        if (args.length == 0)
+            return;
+        else if (args.length == 2) {
+            this.orator = args[0];
+            this.listener = "";
+            this.content = args[1];
+        }
+        else if (args.length == 3) {
+            this.orator = args[0];
+            this.listener = args[1];
+            this.content = args[2];
+        }
+    }
+    ChatMessage.prototype.TAG = function () { return "message"; };
+    ChatMessage.prototype.construct = function (xml) {
+        this.orator = xml.getProperty("orator");
+        if (xml.hasProperty("listener") == true)
+            this.listener = xml.getProperty("listener");
+        else
+            this.listener = "";
+        this.content = xml.getProperty("content");
+    };
+    ChatMessage.prototype.toXML = function () {
+        var xml = _super.prototype.toXML.call(this);
+        xml.setProperty("orator", this.orator);
+        xml.setProperty("content", this.content);
+        if (this.listener.length > 0)
+            xml.setProperty("listener", this.listener);
+        return xml;
+    };
+    ChatMessage.prototype.print = function () {
+        //메시지를 화면에 출력
+    };
+    return ChatMessage;
+})(Entity);
+var LoginMovie = (function (_super) {
+    __extends(LoginMovie, _super);
+    function LoginMovie() {
+        _super.call(this);
+    }
+    LoginMovie.prototype.goLogin = function (id) {
+        this.sendData(new Invoke("goLogin", id));
+    };
+    LoginMovie.prototype.handleLogin = function (success) {
+        if (success == true) {
+        }
+        else {
+            alert("동일한 아이디가 존재합니다.");
+        }
+    };
+    return LoginMovie;
+})(Movie);
+var ListMovie = (function (_super) {
+    __extends(ListMovie, _super);
+    function ListMovie() {
+        _super.call(this);
+        this.roomArray = new RoomArray();
+    }
+    ListMovie.prototype.makeRoom = function (name) {
+        this.sendData(new Invoke("makeRoom", name));
+    };
+    ListMovie.prototype.joinRoom = function (name) {
+        this.sendData(new Invoke("joinRoom", name));
+    };
+    ListMovie.prototype.handleRoomArray = function (xml) {
+        this.roomArray.construct(xml);
+        this.roomArray.print();
+    };
+    ListMovie.prototype.handleMakeRoom = function (success) {
+        if (success == true) {
+        }
+        else {
+        }
+    };
+    ListMovie.prototype.handleJoinRoom = function (success) {
+        if (success == true) {
+        }
+        else {
+        }
+    };
+    return ListMovie;
+})(Movie);
+var ChatMovie = (function (_super) {
+    __extends(ChatMovie, _super);
+    function ChatMovie() {
+        _super.call(this);
+    }
+    ChatMovie.prototype.sendMessage = function (message) {
+        this.sendData(new Invoke("sendMessgae", message));
+    };
+    ChatMovie.prototype.handleRoom = function (xml) {
+        var room = new Room();
+        room.construct(xml);
+        room.print();
+    };
+    ChatMovie.prototype.handleMessage = function (xml) {
+        var message = new ChatMessage();
+        message.construct(xml);
+        message.print();
+    };
+    return ChatMovie;
+})(Movie);
 //# sourceMappingURL=SamchonFramework.js.map

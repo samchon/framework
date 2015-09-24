@@ -64,6 +64,20 @@ namespace samchon
 		auto getPosition() const -> size_t;
 		void setPosition(size_t);
 
+		template <typename _Ty> static auto reverse(const _Ty &val) -> _Ty
+		{
+			_Ty res;
+			int size = sizeof(_Ty);
+
+			unsigned char *originalBytes = (unsigned char*)&val;
+			unsigned char *reversedBytes = (unsigned char*)&res;
+
+			for (int i = 0; i < size; i++)
+				reversedBytes[i] = originalBytes[size - i - 1];
+
+			return res;
+		};
+
 		/* --------------------------------------------------------------
 			READ BYTES
 		-------------------------------------------------------------- */
@@ -77,14 +91,18 @@ namespace samchon
 		 */
 		template <typename _Ty> auto read() const -> _Ty
 		{
-			_Ty *ptr = (_Ty*)data() + position;
-			position += sizeof(_Ty);
+			_Ty *ptr = (_Ty*)(data() + position);
+			((ByteArray*)this)->position += sizeof(_Ty);
 
 			return *ptr;
 		};
 		template<> auto read() const -> std::string;
-		template<> auto read() const -> std::wstring;
-		template<> auto read() const -> ByteArray;
+
+		template <typename _Ty> auto readReversely() const -> _Ty
+		{
+			_Ty val = read<_Ty>();
+			return reserve(val);
+		}
 
 		/* --------------------------------------------------------------
 			WRITE BYTES
@@ -98,12 +116,16 @@ namespace samchon
 		 */
 		template <typename _Ty> void write(const _Ty &val)
 		{
-			_Ty *ptr = &val;
+			unsigned char *ptr = (unsigned char*)&val;
 			insert(end(), ptr, ptr + sizeof(_Ty));
 		};
 		template<> void write(const std::string &str);
-		template<> void write(const std::wstring &str);
 		template<> void write(const ByteArray &byteArray);
+
+		template<typename _Ty> void writeReversely(const _Ty &val)
+		{
+			write(reverse(val));
+		};
 
 		/* --------------------------------------------------------------
 			COMPRESS & DECOMPRESS

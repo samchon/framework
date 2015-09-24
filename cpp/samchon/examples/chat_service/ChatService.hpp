@@ -19,7 +19,7 @@ namespace samchon
 
 			public:
 				ChatService(protocol::service::Client*);
-				virtual ~ChatService() = default;
+				virtual ~ChatService();
 
 				virtual void replyData(std::shared_ptr<protocol::Invoke>) override;
 			};

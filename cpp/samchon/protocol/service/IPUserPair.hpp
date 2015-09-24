@@ -1,7 +1,6 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <mutex>
 #include <set>
 #include <string>
 
@@ -63,11 +62,6 @@ namespace samchon
 				 * @brief User(s) belongs to the IP address
 				 */
 				std::set<const User*> userSet;
-
-				/**
-				 * @brief A mutex matched with an IP address
-				 */
-				std::mutex mtx;
 				
 			private:
 				/**

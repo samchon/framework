@@ -28,7 +28,7 @@ auto WrapperArray::tryInsert(Product *product) -> bool
 	{
 		return false;
 	}
-
+	
 	reserved.push_back(product);
 	return true;
 }
@@ -42,7 +42,7 @@ void WrapperArray::optimize()
 	
 	mutex mtx;
 
-	#pragma omp parallel for
+	//#pragma omp parallel for
 	for (int i = 0; i < factorial.size(); i++)
 	{
 		shared_ptr<WrapperArray> wrapperArray(new WrapperArray(this->sample));
@@ -50,7 +50,7 @@ void WrapperArray::optimize()
 
 		for (size_t j = 0; j < row.size(); j++)
 		{
-			Product *product = this->reserved[j];
+			Product *product = this->reserved[row[j]];
 			
 			if (wrapperArray->empty() == true || 
 				wrapperArray->at(wrapperArray->size() - 1)->tryInsert(product) == false)
@@ -61,16 +61,15 @@ void WrapperArray::optimize()
 				wrapperArray->emplace_back(wrapper);
 			}
 		}
-
-		unique_lock<mutex> uk(mtx);
+		
+		//unique_lock<mutex> uk(mtx);
 		if (minWrapperArray == nullptr ||
-			wrapperArray->calcPrice() < minWrapperArray->calcPrice())
+			wrapperArray->size() < minWrapperArray->size())
 		{
 			minWrapperArray = wrapperArray;
 		}
 	}
 
-	//COPY
 	assign(minWrapperArray->begin(), minWrapperArray->end());
 }
 auto WrapperArray::calcPrice() const -> int

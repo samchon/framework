@@ -1,38 +1,52 @@
 #pragma once
-#include <samchon/protocol/SharedEntityArray.hpp>
+#include <samchon/library/CriticalDictionary.hpp>
+#include <samchon/protocol/IEntityGroup.hpp>
 
 namespace samchon
 {
+	namespace library { class XML; };
+	namespace protocol { class Invoke; };
+
 	namespace example
 	{
 		namespace chat_service
 		{
-			class ChatServer;
 			class ChatRoom;
+			
+			class ChatServer;
+			class ChatUser;
 
 			class ChatRoomArray
-				: public protocol::SharedEntityArray
+				: public CriticalDictionary<std::shared_ptr<ChatRoom>>,
+				public protocol::IEntityGroup
 			{
 			protected:
-				virtual auto TAG() const -> std::string
-				{
-					return "roomArray";
-				};
-				virtual auto CHILD_TAG() const -> std::string
-				{
-					return "room";
-				};
+				typedef CriticalDictionary<std::shared_ptr<ChatRoom>> super;
+				
+				virtual auto TAG() const -> std::string { return "roomArray"; };
+				virtual auto CHILD_TAG() const -> std::string { return "room"; };
 
 			private:
 				ChatServer *server;
-
+				
 			public:
+				/* -----------------------------------------------------------------
+					CONSTRUCTORS
+				----------------------------------------------------------------- */
 				ChatRoomArray(ChatServer*);
 				virtual ~ChatRoomArray() = default;
+				
+				/* -----------------------------------------------------------------
+					NOTIFIER
+				----------------------------------------------------------------- */
+				void notify();
 
-				virtual auto createChild(std::shared_ptr<library::XML>) -> protocol::Entity* override;
-
-				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(ChatRoom)
+			private:
+				/* -----------------------------------------------------------------
+					EXPORTERS
+				----------------------------------------------------------------- */
+				auto toXML() const -> std::shared_ptr<library::XML>;
+				auto toInvoke() const -> std::shared_ptr<protocol::Invoke>;
 			};
 		};
 	};

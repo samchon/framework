@@ -42,3 +42,4 @@ auto ChatMessage::toXML() const -> shared_ptr<XML>
 		xml->setProperty("listener", listener);
 	return xml;
 }
+

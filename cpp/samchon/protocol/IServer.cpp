@@ -60,10 +60,9 @@ void IServer::open()
 		if (error)
 		{
 			delete socket;
-			continue;
+			break;
 		}
-		addClient(socket);
-		//thread(&IServer::addClient, this, socket).detach();
+		thread(&IServer::addClient, this, socket).detach();
 	}
 	delete acceptor;
 	acceptor = nullptr;

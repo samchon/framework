@@ -1,6 +1,11 @@
 ﻿function test()
 {
-	var str: string =
+    var ws: WebSocket = new WebSocket("ws://127.0.0.1:11071");
+    ws.onopen = handleOpen;
+    ws.onerror = handleError;
+    ws.onmessage = handleMessage;
+
+	/*var str: string =
 		"<memberList>\n" +
 		"	<member id='jhnam88' pass='1231' />\n" +
 		"	<member id='samchon' pass='1231'>Administrator</member>\n" +
@@ -9,7 +14,19 @@
 	var xml: XML = new XML(str);
 	
 	var invoke: Invoke = new Invoke("login", "jhnam88", 4, xml);
-	alert(invoke.toXML());
+	alert(invoke.toXML());*/
+}
+function handleOpen(event: Event): void
+{
+    alert("handleOpen");
+}
+function handleError(event: Event): void
+{
+    alert("handleError");
+}
+function handleMessage(event: MessageEvent): void
+{
+    alert("handleMessage: " + event.data);
 }
 
 /**
@@ -2194,6 +2211,15 @@ class Application
 	}
 }
 
+class ChatApplication
+    extends Application
+{
+    constructor(movie: Movie, ip: string, port: number)
+    {
+        super(movie, ip, port);
+    }
+}
+
 /**
  * @brief A movie belonged to an Application
  */
@@ -2305,14 +2331,17 @@ class EntityArray
         {
 			var child: IEntity = this.createChild(xmlList[i]);
 			if (child != null)
+            {
+                child.construct(xmlList[i]);
 				this.push(child);
+            }
 		}
 	}
 
     /**
      * @brief Factory method of creating a child.
      */
-	public createChild(xml: XML): IEntity 
+	protected createChild(xml: XML): IEntity 
     {
 		return null;
 	}
@@ -2338,3 +2367,224 @@ class EntityArray
 		return xml;
 	}
 }
+
+/* =================================================================================
+	CHAT_SERVICE
+==================================================================================== 
+
+================================================================================= */
+class RoomArray
+    extends EntityArray
+{
+    public TAG(): string { return "roomArray"; }
+    public CHILD_TAG(): string { return "room"; }
+
+    constructor()
+    {
+        super();
+    }
+    protected createChild(xml: XML): IEntity
+    {
+        return new Room();
+    }
+
+    public print(): void
+    {
+        //기존 방 목록을 지우고
+
+        for(var i: number = 0; i < this.length; i++)
+        {
+            (<Room>this[i]).print();
+        }
+    }
+}
+class Room
+    extends Entity
+{
+    public TAG(): string { return "room"; }
+
+    private name: string;
+    private host: string;
+    private participants: Vector<string>;
+
+    constructor()
+    {
+        super();
+
+        this.participants = new Vector<string>();
+    }
+    public construct(xml: XML): void
+    {
+        this.name = xml.getProperty("name");
+        this.host = xml.getProperty("host");
+        this.participants = new Vector<string>();
+        
+        var xmlList: XMLList = xml.get("participant");
+        for(var i: number = 0; i < xmlList.length; i++)
+            this.participants.push( xmlList[i].getValue() );
+    }
+
+    public print(): void
+    {
+        //화면에 출력할 것들
+    }
+}
+class ChatMessage
+    extends Entity
+{
+    public TAG(): string { return "message"; }
+
+    private orator: string;
+    private listener: string;
+    private content: string;
+
+    constructor(... args: string[])
+    {
+        super();
+
+        if(args.length == 0)
+            return;
+        else if(args.length == 2)
+        {
+            this.orator = args[0];
+            this.listener = "";
+            this.content = args[1];
+        }
+        else if(args.length == 3)
+        {
+            this.orator = args[0];
+            this.listener = args[1];
+            this.content = args[2];
+        }
+    }
+    public construct(xml: XML): void
+    {
+        this.orator = xml.getProperty("orator");
+        if( xml.hasProperty("listener") == true )
+            this.listener = xml.getProperty("listener");
+        else
+            this.listener = "";
+
+        this.content = xml.getProperty("content");
+    }
+
+    public toXML(): XML
+    {
+        var xml: XML = super.toXML();
+        xml.setProperty("orator", this.orator);
+        xml.setProperty("content", this.content);
+
+        if (this.listener.length > 0)
+            xml.setProperty("listener", this.listener);
+        
+        return xml;
+    }
+    public print(): void
+    {
+        //메시지를 화면에 출력
+    }
+}
+
+class LoginMovie
+    extends Movie
+{
+    constructor()
+    {
+         super();
+    }
+    public goLogin(id: string): void
+    {
+        this.sendData( new Invoke("goLogin", id) );
+    }
+    private handleLogin(success: boolean): void
+    {
+        if(success == true)
+        {
+            //페이지 이동
+        }
+        else
+        {
+            alert("동일한 아이디가 존재합니다.");
+        }
+    }
+}
+
+class ListMovie
+    extends Movie
+{
+    private roomArray: RoomArray;
+
+    constructor()
+    {
+        super();
+
+        this.roomArray = new RoomArray();
+    }
+    public makeRoom(name: string): void
+    {
+        this.sendData(new Invoke("makeRoom", name));
+    }
+    public joinRoom(name: string): void
+    {
+        this.sendData(new Invoke("joinRoom", name));
+    }
+
+    private handleRoomArray(xml: XML): void
+    {
+        this.roomArray.construct(xml);
+        this.roomArray.print();
+    }
+    private handleMakeRoom(success: boolean): void
+    {
+        if(success == true)
+        {
+            //해당 방으로 이동
+        }
+        else
+        {
+            //동일한 이름의 방이 존재합니다.
+        }
+    }
+    private handleJoinRoom(success: boolean): void
+    {
+        if (success == true) 
+        {
+            //해당 방으로 이동
+        }
+        else 
+        {
+            //해당 방이 존재하지 않습니다.
+        }
+    }
+}
+
+class ChatMovie
+    extends Movie
+{
+    private room: Room;
+
+    constructor()
+    {
+        super();
+    }
+    public sendMessage(message: ChatMessage): void
+    {
+        this.sendData(new Invoke("sendMessgae", message));
+    }
+
+    private handleRoom(xml: XML): void
+    {
+        var room: Room = new Room();
+        room.construct(xml);
+
+        room.print();
+    }
+    private handleMessage(xml: XML): void
+    {
+        var message: ChatMessage = new ChatMessage();
+        message.construct(xml);
+
+        message.print();
+    }
+}
+

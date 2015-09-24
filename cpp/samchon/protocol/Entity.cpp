@@ -17,7 +17,12 @@ auto Entity::key() const -> std::string { return ""; }
 /* ---------------------------------------------------------------
 	CONSTRUCTORS
 --------------------------------------------------------------- */
-Entity::Entity() {}
+Entity::Entity() 
+{
+}
+void Entity::construct(shared_ptr<XML>) 
+{
+}
 
 /* ---------------------------------------------------------------
 	PROTOCOLS

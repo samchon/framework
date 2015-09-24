@@ -17,14 +17,14 @@ void ChatServer::addClient(Socket *socket)
 {
 	ChatClient *client = new ChatClient(this, socket);
 
-	WriteUniqueLock uk(rwMutex);
+	UniqueWriteLock uk(rwMutex);
 	clientSet.insert(client);
 
 	thread(&ChatClient::listen, client).detach();
 }
 void ChatServer::eraseClient(ChatClient *client)
 {
-	WriteUniqueLock uk(rwMutex);
+	UniqueWriteLock uk(rwMutex);
 	clientSet.erase(client);
 }
 
@@ -34,7 +34,7 @@ void ChatServer::replyData(shared_ptr<Invoke> invoke)
 }
 void ChatServer::sendData(shared_ptr<Invoke> invoke)
 {
-	ReadUniqueLock uk(rwMutex);
+	UniqueReadLock uk(rwMutex);
 
 	for(auto it = clientSet.begin(); it != clientSet.end(); it++)
 		(*it)->sendData(invoke);

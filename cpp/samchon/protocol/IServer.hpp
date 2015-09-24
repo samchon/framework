@@ -68,7 +68,7 @@ namespace samchon
 			/**
 			 * @brief Handling connection of a client
 			 */
-			virtual void addClient(Socket*) = NULL; //ADD_CLIENT
+			virtual void addClient(Socket*) = 0; //ADD_CLIENT
 		};
 	};
 };

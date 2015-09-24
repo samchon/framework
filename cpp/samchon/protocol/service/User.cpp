@@ -21,11 +21,10 @@ using namespace boost::asio::ip;
 /* --------------------------------------------------------
 	CONSTRUCTORS
 -------------------------------------------------------- */
-User::User(Server *server, const std::string &sessionID)
+User::User(Server *server)
 	: super()
 {
 	this->server = server;
-	this->sessionID = sessionID;
 	
 	semaphore = new Semaphore(2);
 	sequence = 0;
@@ -35,11 +34,6 @@ User::User(Server *server, const std::string &sessionID)
 }
 User::~User()
 {
-}
-
-auto User::__keepAlive(Client *client) -> ServiceKeeper
-{
-	return ServiceKeeper(this, client);
 }
 
 /* --------------------------------------------------------
@@ -77,15 +71,19 @@ auto User::end() const -> const_iterator
 }
 
 /* --------------------------------------------------------
-	MANAGING CLIENT
+	CLIENT FACTORY
 -------------------------------------------------------- */
 void User::addClient(Socket *socket)
 {
-	unique_lock<mutex> uk(mtx);
+	UniqueWriteLock uk(mtx);
 
 	size_t no = ++sequence;
 
-	SmartPointer<Client> client(createClient(no, socket));
+	SmartPointer<Client> client(createClient());
+	client->user = this;
+	client->no = no;
+	client->socket = socket;
+
 	this->set(no, client);
 	
 	uk.unlock();
@@ -95,9 +93,9 @@ void User::addClient(Socket *socket)
 }
 void User::eraseClient(size_t no)
 {
-	auto &ucPair = __keepAlive();
+	KEEP_USER_ALIVE;
 	
-	unique_lock<mutex> uk(mtx);
+	UniqueWriteLock uk(mtx);
 	{
 		super::erase(no);
 	}
@@ -110,36 +108,59 @@ void User::eraseClient(size_t no)
 /* --------------------------------------------------------
 	AUTHENTIFICATION
 -------------------------------------------------------- */
-void User::goLogin(Client *client, shared_ptr<Invoke> invoke)
+void User::goLogin(shared_ptr<Invoke> invoke)
 {
-	KEEP_USER_ALIVE;
 	bool result = doLogin(invoke);
 
 	shared_ptr<Invoke> reply(new Invoke("handleLogin"));
 	reply->emplace_back(new InvokeParameter("result", result));
+	reply->emplace_back(new InvokeParameter("authority", authority));
 
-	client->sendData(reply);
+	this->sendData(reply);
 }
-void User::goJoin(Client *client, shared_ptr<Invoke> invoke)
+void User::goJoin(shared_ptr<Invoke> invoke)
 {
-	KEEP_USER_ALIVE;
-	bool result = doJoin(invoke);
+	bool success = doJoin(invoke);
 
 	shared_ptr<Invoke> reply(new Invoke("handleJoin"));
-	reply->emplace_back(new InvokeParameter("result", result));
+	reply->emplace_back(new InvokeParameter("success", success));
 
-	client->sendData(reply);
+	this->sendData(reply);
 }
-void User::goLogout(Client *client)
+void User::goLogout()
 {
-	KEEP_USER_ALIVE;
-
-	shared_ptr<Invoke> invoke(new Invoke("doLogout"));
-	for (auto it = begin(); it != end(); it++)
-		it->second->sendData(invoke);
-
 	id = "guest";
 	authority = 0;
 
-	clear();
+	shared_ptr<Invoke> invoke(new Invoke("doLogout"));
+	this->sendData(invoke);
+}
+
+/* --------------------------------------------------------
+	MESSAGE CHAIN
+-------------------------------------------------------- */
+void User::sendData(shared_ptr<Invoke> invoke)
+{
+	KEEP_USER_ALIVE;
+	UniqueReadLock uk(mtx);
+
+	for(auto it = begin(); it != end(); it++)
+		thread(&Client::sendData, it->second, invoke).detach();
+}
+void User::replyData(shared_ptr<Invoke> invoke)
+{
+	KEEP_USER_ALIVE;
+
+	if (invoke->getListener() == "goLogin")
+	{
+		this->goLogin(invoke);
+	}
+	else if(invoke->getListener() == "goJoin")
+	{
+		this->goJoin(invoke);
+	}
+	else if(invoke->getListener() == "goLogout")
+	{
+		this->goLogout();
+	}
 }

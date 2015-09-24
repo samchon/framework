@@ -66,14 +66,14 @@ auto Server::end() const -> const_iterator
 /* --------------------------------------------------------
 	ACCOUNT & REGISTER MANAGER
 -------------------------------------------------------- */
-void Server::addClient(tcp::socket *socket)
+void Server::addClient(Socket *socket)
 {
 	thread([this, socket]()
 	{
 		//GET IP
-		std::string ip = socket->remote_endpoint().address().to_v4().to_string();
+		string &ip = socket->remote_endpoint().address().to_v4().to_string();
 			
-		unique_ptr<unique_lock<mutex>> uk(new unique_lock<mutex>(mtx));
+		unique_ptr<UniqueWriteLock> uk(new UniqueWriteLock(mtx));
 		if (ipMap.has(ip) == false)
 			ipMap.set
 			(
@@ -87,7 +87,7 @@ void Server::addClient(tcp::socket *socket)
 
 		//GET SESSION_ID
 		std::string &sessionID = pair->getSessionID(socket, sequence);
-			
+		
 		uk->lock();
 
 		//FAILED TO GET SESSION ID
@@ -97,6 +97,7 @@ void Server::addClient(tcp::socket *socket)
 			if (pair->userSet.size() == 1)
 				ipMap.erase(ip);
 			
+			delete socket;
 			return;
 		}
 
@@ -104,12 +105,15 @@ void Server::addClient(tcp::socket *socket)
 		if (it == end())
 		{
 			//CREATE USER AND LINK CONNECTION BY PAIR
-			SmartPointer<User> user( createUser(sessionID) );
+			SmartPointer<User> user( createUser() );
+			user->server = this;
+			user->sessionID = sessionID;
 			user->ipPair = pair.get();
-			pair->userSet.insert(user.get());
 
+			pair->userSet.insert(user.get());
 			it = insert({ sessionID, user }).first;
 		}
+		uk->unlock();
 		uk.reset(nullptr);
 
 		//WILL HOLD A THREAD
@@ -120,12 +124,13 @@ void Server::eraseUser(const std::string &session)
 {
 	Sleep(15 * 1000);
 
-	unique_lock<mutex> uk(mtx);
+	UniqueWriteLock uk(mtx);
 	if (!(has(session) == true && get(session)->empty() == true))
 		return;
 
 	User *user = get(session).get();
 	IPUserPair *ipPair = user->ipPair;
+	ipPair->userSet.erase(user);
 
 	if (ipPair->userSet.empty() == true)
 		ipMap.erase(user->ipPair->ip);

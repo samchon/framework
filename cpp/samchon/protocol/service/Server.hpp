@@ -1,12 +1,10 @@
 #pragma once
 #include <samchon/API.hpp>
-
 #include <samchon/protocol/IServer.hpp>
-#include <samchon/Map.hpp>
-#include <samchon/SmartPointer.hpp>
-#include <samchon/library/CriticalAllocator.hpp>
 
-#include <string>
+#include <samchon/Dictionary.hpp>
+#include <samchon/SmartPointer.hpp>
+#include <samchon/library/RWMutex.hpp>
 
 namespace samchon
 {
@@ -39,17 +37,17 @@ namespace samchon
 			 * @author Jeongho Nam
 			 */
 			class SAMCHON_FRAMEWORK_API Server
-				: private Map<std::string, SmartPointer<User>>,
+				: private Dictionary<SmartPointer<User>>,
 				public IServer
 			{
 				friend class IPUserPair;
 				friend class User;
 				
 			private:
-				typedef Map<std::string, SmartPointer<User>> super;
+				typedef Dictionary<SmartPointer<User>> super;
 			
 			protected:
-				virtual auto NAME() const -> std::string = NULL;
+				virtual auto NAME() const -> std::string = 0;
 
 				/**
 				 * @brief SQLi for archiving log
@@ -57,12 +55,12 @@ namespace samchon
 				library::SQLi *sqli;
 
 			private:
-				std::mutex mtx;
+				library::RWMutex mtx;
 				
 				/**
 				 * @brief Map of issuer of session ID of each ip
 				 */
-				Map<std::string, std::shared_ptr<IPUserPair>> ipMap;
+				Dictionary<std::shared_ptr<IPUserPair>> ipMap;
 
 				/**
 				 * @brief Sequence for issuing session ID
@@ -100,7 +98,7 @@ namespace samchon
 				/**
 				* @brief Handling connection of a client
 				*/
-				void addClient(Socket*);
+				virtual void addClient(Socket*) override;
 
 			private:
 				void eraseUser(const std::string &);

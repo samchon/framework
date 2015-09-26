@@ -221,6 +221,7 @@
     <ClInclude Include="..\samchon\namtree\NTParameterArray.hpp" />
     <ClInclude Include="..\samchon\namtree\NTParameterDetermined.hpp" />
     <ClInclude Include="..\samchon\namtree\NTSide.hpp" />
+    <ClInclude Include="..\samchon\protocol\DSInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\EntityArray.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityChain.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp" />
@@ -231,11 +232,13 @@
     <ClInclude Include="..\samchon\protocol\IClient.hpp" />
     <ClInclude Include="..\samchon\protocol\EntityGroup.hpp" />
     <ClInclude Include="..\samchon\protocol\Invoke.hpp" />
+    <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\InvokeParameter.hpp" />
     <ClInclude Include="..\samchon\protocol\IProtocol.hpp" />
     <ClInclude Include="..\samchon\protocol\IServer.hpp" />
     <ClInclude Include="..\samchon\protocol\IWebClient.hpp" />
     <ClInclude Include="..\samchon\protocol\IWebServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\PRInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\SystemRole.hpp" />
     <ClInclude Include="..\samchon\protocol\ServerConnector.hpp" />
     <ClInclude Include="..\samchon\protocol\ISQLEntity.hpp" />

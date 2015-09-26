@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['factory',['factory',['../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html#a8dedf28e973c71c1ba3871e0db76e1a9',1,'samchon::library::FTFolder']]]
+  ['factory',['factory',['../d2/db1/classsamchon_1_1library_1_1FTFolder.html#a85b9909db89ee0391ebf7ff179dc3961',1,'samchon::library::FTFolder']]]
 ];

@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['data',['data',['../d1/d74/classsamchon_1_1library_1_1_f_t_byte_file.html#a895a8c16a6e0840b0270d90a0b53ee76',1,'samchon::library::FTByteFile::data()'],['../dc/d70/classsamchon_1_1library_1_1_f_t_text_file.html#a86f1bbeb6a338abd8d970815944b4949',1,'samchon::library::FTTextFile::data()']]],
-  ['data_5f',['data_',['../d0/d25/classsamchon_1_1_weak_string.html#a1b56ea0ea3b1212084e9f27e6bcf15cb',1,'samchon::WeakString']]],
-  ['denominator',['denominator',['../d4/d3d/classsamchon_1_1library_1_1_progress_event.html#afbcb742ac7baf3ff2fd113be7b638664',1,'samchon::library::ProgressEvent']]],
-  ['distance',['distance',['../d8/dd9/classsamchon_1_1examples_1_1tsp_1_1_travel.html#aee4ac9f74437f23fdae9489f0c626b0d',1,'samchon::examples::tsp::Travel']]],
-  ['driver',['driver',['../d3/d78/classsamchon_1_1library_1_1_s_q_li.html#a2c1a36362950528cef761f69db1c3076',1,'samchon::library::SQLi']]]
+  ['data',['data',['../dd/d68/classsamchon_1_1library_1_1FTByteFile.html#ad0336e49dc1f7273ae34ea50e6e87dbf',1,'samchon::library::FTByteFile::data()'],['../d7/d24/classsamchon_1_1library_1_1FTTextFile.html#a8a036d3167ef9d3099cafcac54e25c72',1,'samchon::library::FTTextFile::data()']]],
+  ['data_5f',['data_',['../d8/de4/classsamchon_1_1WeakString.html#a87cb119678e603084928af555fe13e36',1,'samchon::WeakString']]],
+  ['denominator',['denominator',['../de/d4a/classsamchon_1_1library_1_1ProgressEvent.html#aa4fee35ffb12f81b4c4168b5f381f04f',1,'samchon::library::ProgressEvent']]],
+  ['distance',['distance',['../db/dd4/classsamchon_1_1example_1_1tsp_1_1Travel.html#a79b8e036dca6911e3295a47d99f21f43',1,'samchon::example::tsp::Travel']]],
+  ['driver',['driver',['../d9/d2f/classsamchon_1_1library_1_1SQLi.html#ada10feddb1e7bd109da11d2f991bebca',1,'samchon::library::SQLi']]]
 ];

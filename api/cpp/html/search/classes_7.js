@@ -1,15 +1,15 @@
 var searchData=
 [
-  ['iclient',['IClient',['../d0/db7/classsamchon_1_1protocol_1_1_i_client.html',1,'samchon::protocol']]],
-  ['ientityptrgroup',['IEntityPtrGroup',['../d3/d23/classsamchon_1_1protocol_1_1_i_entity_ptr_group.html',1,'samchon::protocol']]],
-  ['indexpair',['IndexPair',['../d2/d72/classsamchon_1_1_index_pair.html',1,'samchon']]],
-  ['instance',['Instance',['../de/dcf/classsamchon_1_1examples_1_1packer_1_1_instance.html',1,'samchon::examples::packer']]],
-  ['intexplore',['INTExplore',['../d0/d04/classsamchon_1_1namtree_1_1_i_n_t_explore.html',1,'samchon::namtree']]],
-  ['invoke',['Invoke',['../db/d9f/classsamchon_1_1protocol_1_1_invoke.html',1,'samchon::protocol']]],
-  ['invokeparameter',['InvokeParameter',['../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html',1,'samchon::protocol']]],
-  ['ioperator',['IOperator',['../da/d70/classsamchon_1_1library_1_1_i_operator.html',1,'samchon::library']]],
-  ['iprotocol',['IProtocol',['../db/d36/classsamchon_1_1protocol_1_1_i_protocol.html',1,'samchon::protocol']]],
-  ['ipuserpair',['IPUserPair',['../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html',1,'samchon::protocol::service']]],
-  ['iserver',['IServer',['../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html',1,'samchon::protocol']]],
-  ['isqlentity',['ISQLEntity',['../de/dac/classsamchon_1_1protocol_1_1_i_s_q_l_entity.html',1,'samchon::protocol']]]
+  ['iclient',['IClient',['../d3/dc8/classsamchon_1_1protocol_1_1IClient.html',1,'samchon::protocol']]],
+  ['ientityptrgroup',['IEntityPtrGroup',['../d1/d9d/classsamchon_1_1protocol_1_1IEntityPtrGroup.html',1,'samchon::protocol']]],
+  ['indexpair',['IndexPair',['../d2/dc0/classsamchon_1_1IndexPair.html',1,'samchon']]],
+  ['instance',['Instance',['../dc/d54/classsamchon_1_1example_1_1packer_1_1Instance.html',1,'samchon::example::packer']]],
+  ['intexplore',['INTExplore',['../d5/d98/classsamchon_1_1namtree_1_1INTExplore.html',1,'samchon::namtree']]],
+  ['invoke',['Invoke',['../d8/d82/classsamchon_1_1protocol_1_1Invoke.html',1,'samchon::protocol']]],
+  ['invokeparameter',['InvokeParameter',['../d0/d1a/classsamchon_1_1protocol_1_1InvokeParameter.html',1,'samchon::protocol']]],
+  ['ioperator',['IOperator',['../dd/d2e/classsamchon_1_1library_1_1IOperator.html',1,'samchon::library']]],
+  ['iprotocol',['IProtocol',['../d4/dcf/classsamchon_1_1protocol_1_1IProtocol.html',1,'samchon::protocol']]],
+  ['ipuserpair',['IPUserPair',['../df/dc6/classsamchon_1_1protocol_1_1service_1_1IPUserPair.html',1,'samchon::protocol::service']]],
+  ['iserver',['IServer',['../d4/de8/classsamchon_1_1protocol_1_1IServer.html',1,'samchon::protocol']]],
+  ['isqlentity',['ISQLEntity',['../d7/d56/classsamchon_1_1protocol_1_1ISQLEntity.html',1,'samchon::protocol']]]
 ];

@@ -23,6 +23,7 @@
   $(document).ready(function() { init_search(); });
 </script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../image.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -110,7 +111,7 @@ $(document).ready(function(){initNavTree('d1/d2d/classsamchon_1_1protocol_1_1_en
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="../../de/dce/classsamchon_1_1protocol_1_1_entity-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">samchon::protocol::Entity Class Reference</div>  </div>
+<div class="title">samchon::protocol::Entity Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -133,7 +134,8 @@ Inheritance diagram for samchon::protocol::Entity:</div>
 <area href="../../df/d03/classsamchon_1_1namtree_1_1_n_t_side.html" title="A side of a conditional expresson. " alt="samchon::namtree::NTSide" shape="rect" coords="429,392,848,416"/>
 <area href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html" title="A static array of Entity. " alt="samchon::protocol::EntityArray&lt; _Ty &gt;" shape="rect" coords="429,448,848,472"/>
 <area href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html" title="Entity, Container of Entity. " alt="samchon::protocol::EntityGroup&lt; _Container, _Ty &gt;" shape="rect" coords="429,504,848,528"/>
-<area href="../../d4/dcb/classsamchon_1_1protocol_1_1master_1_1_external_system_role.html" title="A role allocated to (a) system(s) " alt="samchon::protocol::master::ExternalSystemRole" shape="rect" coords="429,560,848,584"/>
+<area href="../../da/dc6/classsamchon_1_1protocol_1_1_entity_list.html" title="A static array of Entity. " alt="samchon::protocol::EntityList&lt; _Ty &gt;" shape="rect" coords="429,560,848,584"/>
+<area href="../../d4/dcb/classsamchon_1_1protocol_1_1master_1_1_external_system_role.html" title="A role allocated to (a) system(s) " alt="samchon::protocol::master::ExternalSystemRole" shape="rect" coords="429,616,848,640"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -150,12 +152,12 @@ virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html#a980f368aa07ce358583982821533a54a">Entity</a> ()</td></tr>
 <tr class="memdesc:a980f368aa07ce358583982821533a54a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default Constructor. <br /></td></tr>
 <tr class="separator:a980f368aa07ce358583982821533a54a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e73dda626b42f93db0fe5f749614b6d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html#a9e73dda626b42f93db0fe5f749614b6d">construct</a> (std::shared_ptr&lt; <a class="el" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">library::XML</a> &gt;)</td></tr>
-<tr class="memdesc:a9e73dda626b42f93db0fe5f749614b6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">XML -&gt; <a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html" title="Entity, the standard data class. ">Entity</a>.  <a href="#a9e73dda626b42f93db0fe5f749614b6d">More...</a><br /></td></tr>
-<tr class="separator:a9e73dda626b42f93db0fe5f749614b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb38a9405acff9d13986019240151c54"><td class="memItemLeft" align="right" valign="top">virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html#abb38a9405acff9d13986019240151c54">toXML</a> () const  -&gt; std::shared_ptr&lt; <a class="el" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">library::XML</a> &gt;=NULL</td></tr>
-<tr class="memdesc:abb38a9405acff9d13986019240151c54"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html" title="Entity, the standard data class. ">Entity</a> -&gt; XML.  <a href="#abb38a9405acff9d13986019240151c54">More...</a><br /></td></tr>
-<tr class="separator:abb38a9405acff9d13986019240151c54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43f539d194c164f75d6e066f3cd112eb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html#a43f539d194c164f75d6e066f3cd112eb">construct</a> (std::shared_ptr&lt; <a class="el" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">library::XML</a> &gt;)</td></tr>
+<tr class="memdesc:a43f539d194c164f75d6e066f3cd112eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">XML -&gt; <a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html" title="Entity, the standard data class. ">Entity</a>.  <a href="#a43f539d194c164f75d6e066f3cd112eb">More...</a><br /></td></tr>
+<tr class="separator:a43f539d194c164f75d6e066f3cd112eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15aa62a85ff773fb613d13dbf61e722e"><td class="memItemLeft" align="right" valign="top">virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html#a15aa62a85ff773fb613d13dbf61e722e">toXML</a> () const  -&gt; std::shared_ptr&lt; <a class="el" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">library::XML</a> &gt;=0</td></tr>
+<tr class="memdesc:a15aa62a85ff773fb613d13dbf61e722e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html" title="Entity, the standard data class. ">Entity</a> -&gt; XML.  <a href="#a15aa62a85ff773fb613d13dbf61e722e">More...</a><br /></td></tr>
+<tr class="separator:a15aa62a85ff773fb613d13dbf61e722e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html" title="Entity, the standard data class. ">Entity</a>, the standard data class. </p>
@@ -189,7 +191,7 @@ virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 
 </div>
 </div>
-<a class="anchor" id="a9e73dda626b42f93db0fe5f749614b6d"></a>
+<a class="anchor" id="a43f539d194c164f75d6e066f3cd112eb"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -197,7 +199,7 @@ virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void samchon::protocol::Entity::construct </td>
+          <td class="memname">void Entity::construct </td>
           <td>(</td>
           <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">library::XML</a> &gt;&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -220,11 +222,11 @@ virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="../../d2/de0/classsamchon_1_1namtree_1_1_n_t_criteria.html#a6ad17a0b35e448b71e20ee2673b2d8ab">samchon::namtree::NTCriteria</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#ac1016f5942b04ff26a954f3cdbf4d819">samchon::protocol::EntityGroup&lt; _Container, _Ty &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#ac1016f5942b04ff26a954f3cdbf4d819">samchon::protocol::EntityGroup&lt; _Container, std::unique_ptr&lt; Entity &gt; &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#ac1016f5942b04ff26a954f3cdbf4d819">samchon::protocol::EntityGroup&lt; _Container, std::shared_ptr&lt; Entity &gt; &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#ac1016f5942b04ff26a954f3cdbf4d819">samchon::protocol::EntityGroup&lt; _Container, Entity * &gt;</a>, <a class="el" href="../../d0/d04/classsamchon_1_1namtree_1_1_i_n_t_explore.html#a3366e7960502301ffec9760f4a83f4cc">samchon::namtree::INTExplore</a>, <a class="el" href="../../d0/d66/classsamchon_1_1namtree_1_1_n_t_file.html#a427297829a52eaab4f7d36581a453bb2">samchon::namtree::NTFile</a>, <a class="el" href="../../df/d03/classsamchon_1_1namtree_1_1_n_t_side.html#af2c496f57a09aa7704d55ad91659a551">samchon::namtree::NTSide</a>, <a class="el" href="../../d5/d3d/classsamchon_1_1protocol_1_1master_1_1_distributed_system.html#a053735c5881979aea7023682bbcc4ff2">samchon::protocol::master::DistributedSystem</a>, <a class="el" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html#a93290dbe013d9ae333ed529086e37377">samchon::protocol::master::DistributedSystemRole</a>, <a class="el" href="../../de/dae/classsamchon_1_1namtree_1_1_n_t_parameter.html#a93c95109474886e7ffdd389343d69a7f">samchon::namtree::NTParameter</a>, <a class="el" href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#a9fb4ee7db15b230c4c6608af2514114f">samchon::protocol::EntityArray&lt; _Ty &gt;</a>, and <a class="el" href="../../d4/d68/classsamchon_1_1namtree_1_1_n_t_parameter_determined.html#a538e9a6b179265510fe628102f3b5287">samchon::namtree::NTParameterDetermined</a>.</p>
+<p>Reimplemented in <a class="el" href="../../d2/de0/classsamchon_1_1namtree_1_1_n_t_criteria.html#a6ad17a0b35e448b71e20ee2673b2d8ab">samchon::namtree::NTCriteria</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#ac1016f5942b04ff26a954f3cdbf4d819">samchon::protocol::EntityGroup&lt; _Container, _Ty &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#ac1016f5942b04ff26a954f3cdbf4d819">samchon::protocol::EntityGroup&lt; _Container, std::unique_ptr&lt; Entity &gt; &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#ac1016f5942b04ff26a954f3cdbf4d819">samchon::protocol::EntityGroup&lt; _Container, std::shared_ptr&lt; Entity &gt; &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#ac1016f5942b04ff26a954f3cdbf4d819">samchon::protocol::EntityGroup&lt; _Container, Entity * &gt;</a>, <a class="el" href="../../d0/d04/classsamchon_1_1namtree_1_1_i_n_t_explore.html#a3366e7960502301ffec9760f4a83f4cc">samchon::namtree::INTExplore</a>, <a class="el" href="../../d0/d66/classsamchon_1_1namtree_1_1_n_t_file.html#a427297829a52eaab4f7d36581a453bb2">samchon::namtree::NTFile</a>, <a class="el" href="../../df/d03/classsamchon_1_1namtree_1_1_n_t_side.html#af2c496f57a09aa7704d55ad91659a551">samchon::namtree::NTSide</a>, <a class="el" href="../../d5/d3d/classsamchon_1_1protocol_1_1master_1_1_distributed_system.html#a053735c5881979aea7023682bbcc4ff2">samchon::protocol::master::DistributedSystem</a>, <a class="el" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html#a93290dbe013d9ae333ed529086e37377">samchon::protocol::master::DistributedSystemRole</a>, <a class="el" href="../../de/dae/classsamchon_1_1namtree_1_1_n_t_parameter.html#a93c95109474886e7ffdd389343d69a7f">samchon::namtree::NTParameter</a>, <a class="el" href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#a9fb4ee7db15b230c4c6608af2514114f">samchon::protocol::EntityArray&lt; _Ty &gt;</a>, <a class="el" href="../../da/dc6/classsamchon_1_1protocol_1_1_entity_list.html#a88e7e4f721f9d4c9244998751adcac7d">samchon::protocol::EntityList&lt; _Ty &gt;</a>, and <a class="el" href="../../d4/d68/classsamchon_1_1namtree_1_1_n_t_parameter_determined.html#a538e9a6b179265510fe628102f3b5287">samchon::namtree::NTParameterDetermined</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="abb38a9405acff9d13986019240151c54"></a>
+<a class="anchor" id="a15aa62a85ff773fb613d13dbf61e722e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -235,12 +237,12 @@ virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
           <td class="memname">auto Entity::toXML </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; std::shared_ptr&lt;<a class="el" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">library::XML</a>&gt; = NULL</td>
+          <td> const -&gt; std::shared_ptr&lt;<a class="el" href="../../d3/d02/classsamchon_1_1library_1_1_x_m_l.html">library::XML</a>&gt;</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -249,7 +251,7 @@ virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Converts data of the <a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html" title="Entity, the standard data class. ">Entity</a> to XML</p>
 <dl class="section return"><dt>Returns</dt><dd>XML representing the <a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html" title="Entity, the standard data class. ">Entity</a> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#a27a13387371fd6cd78e97c848dea60a5">samchon::protocol::EntityGroup&lt; _Container, _Ty &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#a27a13387371fd6cd78e97c848dea60a5">samchon::protocol::EntityGroup&lt; _Container, std::unique_ptr&lt; Entity &gt; &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#a27a13387371fd6cd78e97c848dea60a5">samchon::protocol::EntityGroup&lt; _Container, std::shared_ptr&lt; Entity &gt; &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#a27a13387371fd6cd78e97c848dea60a5">samchon::protocol::EntityGroup&lt; _Container, Entity * &gt;</a>, <a class="el" href="../../d2/de0/classsamchon_1_1namtree_1_1_n_t_criteria.html#afc8bdcb0dda707084d8cfce7cf595289">samchon::namtree::NTCriteria</a>, <a class="el" href="../../d7/dc4/classsamchon_1_1library_1_1_f_t_instance.html#aed14b0a180aa13f4abb0948ad17372eb">samchon::library::FTInstance</a>, <a class="el" href="../../de/daa/classsamchon_1_1protocol_1_1master_1_1_external_system.html#a2cad698513ba7d105d5546301e1b703b">samchon::protocol::master::ExternalSystem</a>, <a class="el" href="../../d0/d04/classsamchon_1_1namtree_1_1_i_n_t_explore.html#a492bb42409583cecd3a9915505f70fc5">samchon::namtree::INTExplore</a>, <a class="el" href="../../d0/d66/classsamchon_1_1namtree_1_1_n_t_file.html#afbde5d2ccb95701423a937d26e3d865a">samchon::namtree::NTFile</a>, <a class="el" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html#ac201f16ab2ea8715ce6d53cb2e8a14b8">samchon::library::FTFolder</a>, <a class="el" href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#ac1eb753e85f9b925a6dc5eae82ba93ed">samchon::protocol::EntityArray&lt; _Ty &gt;</a>, <a class="el" href="../../de/dae/classsamchon_1_1namtree_1_1_n_t_parameter.html#a8bf1a6962f9eb92485b83b6d414e8671">samchon::namtree::NTParameter</a>, <a class="el" href="../../df/d03/classsamchon_1_1namtree_1_1_n_t_side.html#aee1f42f1191f6e4d0ba3cc8e5ac30839">samchon::namtree::NTSide</a>, <a class="el" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html#a5aecb1b352ccf76b515ab70cd4569ccc">samchon::protocol::master::DistributedSystemRole</a>, <a class="el" href="../../d5/d3d/classsamchon_1_1protocol_1_1master_1_1_distributed_system.html#a493bda411b5ac9919ac591fd02fe4fc5">samchon::protocol::master::DistributedSystem</a>, <a class="el" href="../../d1/d74/classsamchon_1_1library_1_1_f_t_byte_file.html#a14fc17688e73a27a7f565ff7017d69e9">samchon::library::FTByteFile</a>, <a class="el" href="../../dc/d70/classsamchon_1_1library_1_1_f_t_text_file.html#ab0760f366b4ebfbfe0904b639258a6cd">samchon::library::FTTextFile</a>, <a class="el" href="../../d4/d68/classsamchon_1_1namtree_1_1_n_t_parameter_determined.html#a7063516fbae418e0292484605a1e5cb7">samchon::namtree::NTParameterDetermined</a>, and <a class="el" href="../../d0/d08/classsamchon_1_1library_1_1_f_t_file.html#a14088a20e8ee4775e5f02f0fc536ad61">samchon::library::FTFile</a>.</p>
+<p>Implemented in <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#a27a13387371fd6cd78e97c848dea60a5">samchon::protocol::EntityGroup&lt; _Container, _Ty &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#a27a13387371fd6cd78e97c848dea60a5">samchon::protocol::EntityGroup&lt; _Container, std::unique_ptr&lt; Entity &gt; &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#a27a13387371fd6cd78e97c848dea60a5">samchon::protocol::EntityGroup&lt; _Container, std::shared_ptr&lt; Entity &gt; &gt;</a>, <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#a27a13387371fd6cd78e97c848dea60a5">samchon::protocol::EntityGroup&lt; _Container, Entity * &gt;</a>, <a class="el" href="../../d2/de0/classsamchon_1_1namtree_1_1_n_t_criteria.html#afc8bdcb0dda707084d8cfce7cf595289">samchon::namtree::NTCriteria</a>, <a class="el" href="../../d7/dc4/classsamchon_1_1library_1_1_f_t_instance.html#aed14b0a180aa13f4abb0948ad17372eb">samchon::library::FTInstance</a>, <a class="el" href="../../de/daa/classsamchon_1_1protocol_1_1master_1_1_external_system.html#a2cad698513ba7d105d5546301e1b703b">samchon::protocol::master::ExternalSystem</a>, <a class="el" href="../../d0/d04/classsamchon_1_1namtree_1_1_i_n_t_explore.html#a492bb42409583cecd3a9915505f70fc5">samchon::namtree::INTExplore</a>, <a class="el" href="../../d0/d66/classsamchon_1_1namtree_1_1_n_t_file.html#afbde5d2ccb95701423a937d26e3d865a">samchon::namtree::NTFile</a>, <a class="el" href="../../d9/d20/classsamchon_1_1library_1_1_f_t_folder.html#ac201f16ab2ea8715ce6d53cb2e8a14b8">samchon::library::FTFolder</a>, <a class="el" href="../../de/dae/classsamchon_1_1namtree_1_1_n_t_parameter.html#a8bf1a6962f9eb92485b83b6d414e8671">samchon::namtree::NTParameter</a>, <a class="el" href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#ac1eb753e85f9b925a6dc5eae82ba93ed">samchon::protocol::EntityArray&lt; _Ty &gt;</a>, <a class="el" href="../../da/dc6/classsamchon_1_1protocol_1_1_entity_list.html#a24cb6805565abcd6241d279366bbefb9">samchon::protocol::EntityList&lt; _Ty &gt;</a>, <a class="el" href="../../df/d03/classsamchon_1_1namtree_1_1_n_t_side.html#aee1f42f1191f6e4d0ba3cc8e5ac30839">samchon::namtree::NTSide</a>, <a class="el" href="../../dd/d65/classsamchon_1_1protocol_1_1master_1_1_distributed_system_role.html#a5aecb1b352ccf76b515ab70cd4569ccc">samchon::protocol::master::DistributedSystemRole</a>, <a class="el" href="../../d5/d3d/classsamchon_1_1protocol_1_1master_1_1_distributed_system.html#a493bda411b5ac9919ac591fd02fe4fc5">samchon::protocol::master::DistributedSystem</a>, <a class="el" href="../../d1/d74/classsamchon_1_1library_1_1_f_t_byte_file.html#a14fc17688e73a27a7f565ff7017d69e9">samchon::library::FTByteFile</a>, <a class="el" href="../../dc/d70/classsamchon_1_1library_1_1_f_t_text_file.html#ab0760f366b4ebfbfe0904b639258a6cd">samchon::library::FTTextFile</a>, <a class="el" href="../../d4/d68/classsamchon_1_1namtree_1_1_n_t_parameter_determined.html#a7063516fbae418e0292484605a1e5cb7">samchon::namtree::NTParameterDetermined</a>, and <a class="el" href="../../d0/d08/classsamchon_1_1library_1_1_f_t_file.html#a14088a20e8ee4775e5f02f0fc536ad61">samchon::library::FTFile</a>.</p>
 
 </div>
 </div>

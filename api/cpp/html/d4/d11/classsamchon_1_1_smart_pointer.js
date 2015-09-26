@@ -9,7 +9,7 @@ var classsamchon_1_1_smart_pointer =
     [ "get", "d4/d11/classsamchon_1_1_smart_pointer.html#ad76980ca51221155059243813f2ddb24", null ],
     [ "operator->", "d4/d11/classsamchon_1_1_smart_pointer.html#a0ec36f2c63d06186d996cacb5e0f5cf6", null ],
     [ "operator*", "d4/d11/classsamchon_1_1_smart_pointer.html#abb5f9606eab54e8f400a4b90cd765257", null ],
-    [ "useCountMap", "d4/d11/classsamchon_1_1_smart_pointer.html#a1881425456ac09edb5733daf28765479", null ],
+    [ "useCountMap", "d4/d11/classsamchon_1_1_smart_pointer.html#a85d5d992f1fc0b61a717882d7a3b1492", null ],
     [ "mtx", "d4/d11/classsamchon_1_1_smart_pointer.html#af10f65405a3912ff5724019df6675f83", null ],
     [ "ptr", "d4/d11/classsamchon_1_1_smart_pointer.html#a26e99ae7092b02bd6db742b58a80e3e7", null ]
 ];

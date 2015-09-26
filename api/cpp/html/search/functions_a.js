@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['listen',['listen',['../d0/db7/classsamchon_1_1protocol_1_1_i_client.html#a2c36bef1ddcc101dd1e1364ab22f4ee3',1,'samchon::protocol::IClient']]],
-  ['load',['load',['../de/dac/classsamchon_1_1protocol_1_1_i_s_q_l_entity.html#af6a9f8a80a5617bdf48e22af748224a9',1,'samchon::protocol::ISQLEntity']]],
-  ['lock',['lock',['../d3/d2a/classsamchon_1_1library_1_1_read_unique_lock.html#ad7c343e36bd0bd595862491edda55d0c',1,'samchon::library::ReadUniqueLock::lock()'],['../dc/d29/classsamchon_1_1library_1_1_write_unique_lock.html#af877c9265c11710b1fec72e91ee68b36',1,'samchon::library::WriteUniqueLock::lock()']]],
-  ['ltrim',['ltrim',['../d7/d9b/classsamchon_1_1library_1_1_string_util.html#a2336d040826d23e1dca81f417b1794b5',1,'samchon::library::StringUtil::ltrim()'],['../d0/d25/classsamchon_1_1_weak_string.html#aed85460cc007d41fdbb4d51533781719',1,'samchon::WeakString::ltrim()']]]
+  ['listen',['listen',['../d3/dc8/classsamchon_1_1protocol_1_1IClient.html#a458bbe4cf81360301586b2e62a7f9dd2',1,'samchon::protocol::IClient']]],
+  ['load',['load',['../d7/d56/classsamchon_1_1protocol_1_1ISQLEntity.html#acaf35a8be33a8c581bcaef1347bdc531',1,'samchon::protocol::ISQLEntity']]],
+  ['lock',['lock',['../de/d6f/classsamchon_1_1library_1_1UniqueReadLock.html#adb935251a59a654ff19259005a8ed7f7',1,'samchon::library::UniqueReadLock::lock()'],['../d1/dc0/classsamchon_1_1library_1_1UniqueWriteLock.html#aa81aed607133209dade63a226818224d',1,'samchon::library::UniqueWriteLock::lock()']]],
+  ['ltrim',['ltrim',['../d2/d53/classsamchon_1_1library_1_1StringUtil.html#a5d697e5a1851ed80cb1e54ed795cf505',1,'samchon::library::StringUtil::ltrim()'],['../d8/de4/classsamchon_1_1WeakString.html#a08ef09c4fd9e9ab5567e160d8845d0b3',1,'samchon::WeakString::ltrim()']]]
 ];

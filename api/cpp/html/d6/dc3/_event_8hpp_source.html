@@ -23,6 +23,7 @@
   $(document).ready(function() { init_search(); });
 </script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../image.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -116,36 +117,36 @@ $(document).ready(function(){initNavTree('d6/dc3/_event_8hpp_source.html','../..
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    {</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="keyword">class </span>EventDispatcher;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../db/df5/classsamchon_1_1library_1_1_event.html">   35</a></span>&#160;        <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keyword">enum</span> TYPES : <span class="keywordtype">int</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                ACTIVATE = 1,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                COMPLETE = 2,</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                REMOVED = -1</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            };</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../db/df5/classsamchon_1_1library_1_1_event.html#a4a1f085faecf6b69fe99a28d1fd9368d">   49</a></span>&#160;            <a class="code" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">EventDispatcher</a> *<a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html#a4a1f085faecf6b69fe99a28d1fd9368d">source</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../db/df5/classsamchon_1_1library_1_1_event.html#a9d320b88ed35b413642980310ed9332b">   54</a></span>&#160;            <span class="keywordtype">int</span> <a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html#a9d320b88ed35b413642980310ed9332b">type</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a>(<a class="code" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">EventDispatcher</a>*, <span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keyword">virtual</span> ~<a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keyword">auto</span> getSource() const -&gt; <a class="code" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">EventDispatcher</a>*;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            auto getType() const -&gt; <span class="keywordtype">int</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        };</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    };</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;};</div>
-<div class="ttc" id="classsamchon_1_1library_1_1_event_html"><div class="ttname"><a href="../../db/df5/classsamchon_1_1library_1_1_event.html">samchon::library::Event</a></div><div class="ttdoc">Represent an event running on background. </div><div class="ttdef"><b>Definition:</b> Event.hpp:35</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_event_html_a4a1f085faecf6b69fe99a28d1fd9368d"><div class="ttname"><a href="../../db/df5/classsamchon_1_1library_1_1_event.html#a4a1f085faecf6b69fe99a28d1fd9368d">samchon::library::Event::source</a></div><div class="ttdeci">EventDispatcher * source</div><div class="ttdoc">Source of the event. </div><div class="ttdef"><b>Definition:</b> Event.hpp:49</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_event_dispatcher_html"><div class="ttname"><a href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">samchon::library::EventDispatcher</a></div><div class="ttdoc">Abstract class for dispatching Event. </div><div class="ttdef"><b>Definition:</b> EventDispatcher.hpp:35</div></div>
-<div class="ttc" id="classsamchon_1_1library_1_1_event_html_a9d320b88ed35b413642980310ed9332b"><div class="ttname"><a href="../../db/df5/classsamchon_1_1library_1_1_event.html#a9d320b88ed35b413642980310ed9332b">samchon::library::Event::type</a></div><div class="ttdeci">int type</div><div class="ttdoc">Type of the event. </div><div class="ttdef"><b>Definition:</b> Event.hpp:54</div></div>
-<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../db/df5/classsamchon_1_1library_1_1_event.html">   37</a></span>&#160;        <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keyword">enum</span> TYPES : <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                ACTIVATE = 1,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                COMPLETE = 2,</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                REMOVED = -1</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            };</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../db/df5/classsamchon_1_1library_1_1_event.html#a4a1f085faecf6b69fe99a28d1fd9368d">   51</a></span>&#160;            <a class="code" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">EventDispatcher</a> *<a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html#a4a1f085faecf6b69fe99a28d1fd9368d">source</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="../../db/df5/classsamchon_1_1library_1_1_event.html#a9d320b88ed35b413642980310ed9332b">   56</a></span>&#160;            <span class="keywordtype">int</span> <a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html#a9d320b88ed35b413642980310ed9332b">type</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a>(<a class="code" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">EventDispatcher</a>*, <span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keyword">virtual</span> ~<a class="code" href="../../db/df5/classsamchon_1_1library_1_1_event.html">Event</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keyword">auto</span> getSource() const -&gt; <a class="code" href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">EventDispatcher</a>*;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            auto getType() const -&gt; <span class="keywordtype">int</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        };</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    };</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
+<div class="ttc" id="classsamchon_1_1library_1_1_event_html"><div class="ttname"><a href="../../db/df5/classsamchon_1_1library_1_1_event.html">samchon::library::Event</a></div><div class="ttdoc">Represent an event running on background. </div><div class="ttdef"><b>Definition:</b> Event.hpp:37</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_event_html_a4a1f085faecf6b69fe99a28d1fd9368d"><div class="ttname"><a href="../../db/df5/classsamchon_1_1library_1_1_event.html#a4a1f085faecf6b69fe99a28d1fd9368d">samchon::library::Event::source</a></div><div class="ttdeci">EventDispatcher * source</div><div class="ttdoc">Source of the event. </div><div class="ttdef"><b>Definition:</b> Event.hpp:51</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_event_dispatcher_html"><div class="ttname"><a href="../../de/d44/classsamchon_1_1library_1_1_event_dispatcher.html">samchon::library::EventDispatcher</a></div><div class="ttdoc">Abstract class for dispatching Event. </div><div class="ttdef"><b>Definition:</b> EventDispatcher.hpp:36</div></div>
+<div class="ttc" id="classsamchon_1_1library_1_1_event_html_a9d320b88ed35b413642980310ed9332b"><div class="ttname"><a href="../../db/df5/classsamchon_1_1library_1_1_event.html#a9d320b88ed35b413642980310ed9332b">samchon::library::Event::type</a></div><div class="ttdeci">int type</div><div class="ttdoc">Type of the event. </div><div class="ttdef"><b>Definition:</b> Event.hpp:56</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace of products built from samchon. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

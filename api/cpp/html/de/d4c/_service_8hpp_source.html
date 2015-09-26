@@ -23,6 +23,7 @@
   $(document).ready(function() { init_search(); });
 </script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../image.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -139,35 +140,35 @@ $(document).ready(function(){initNavTree('de/d4c/_service_8hpp_source.html','../
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keyword">typedef</span> <a class="code" href="../../db/d36/classsamchon_1_1protocol_1_1_i_protocol.html">IProtocol</a> <a class="code" href="../../db/d36/classsamchon_1_1protocol_1_1_i_protocol.html">super</a>;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keyword">virtual</span> <span class="keyword">auto</span> NAME() <span class="keyword">const</span> -&gt; std::string = NULL;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <span class="keyword">virtual</span> <span class="keyword">auto</span> REQUIRE_AUTHORITY() <span class="keyword">const</span> -&gt; <span class="keywordtype">int</span> = NULL;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html#abdf6203c973cc1bc797561b73fa87cc4">   50</a></span>&#160;                <a class="code" href="../../df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html">Client</a> *<a class="code" href="../../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html#abdf6203c973cc1bc797561b73fa87cc4">client</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <a class="code" href="../../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html">Service</a>(<a class="code" href="../../df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html">Client</a>*);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="keyword">virtual</span> ~<a class="code" href="../../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html">Service</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="keyword">auto</span> getClient() const -&gt; <a class="code" href="../../df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html">Client</a>*;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            protected:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                auto __keepAlive() -&gt; <a class="code" href="../../de/d50/classsamchon_1_1protocol_1_1service_1_1_service_keeper.html">ServiceKeeper</a>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            public:</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                virtual <span class="keywordtype">void</span> sendData(<a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;<a class="code" href="../../db/d9f/classsamchon_1_1protocol_1_1_invoke.html">Invoke</a>&gt;);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            };</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        };</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    };</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;};</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keyword">virtual</span> <span class="keyword">auto</span> REQUIRE_AUTHORITY() <span class="keyword">const</span> -&gt; <span class="keywordtype">int</span> = NULL;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html#abdf6203c973cc1bc797561b73fa87cc4">   45</a></span>&#160;                <a class="code" href="../../df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html">Client</a> *<a class="code" href="../../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html#abdf6203c973cc1bc797561b73fa87cc4">client</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                std::string name;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <a class="code" href="../../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html">Service</a>(<a class="code" href="../../df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html">Client</a>*);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="keyword">virtual</span> ~<a class="code" href="../../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html">Service</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keyword">auto</span> getClient() const -&gt; <a class="code" href="../../df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html">Client</a>*;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            protected:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                auto __keepAlive() -&gt; <a class="code" href="../../de/d50/classsamchon_1_1protocol_1_1service_1_1_service_keeper.html">ServiceKeeper</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            public:</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                virtual <span class="keywordtype">void</span> sendData(<a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;<a class="code" href="../../db/d9f/classsamchon_1_1protocol_1_1_invoke.html">Invoke</a>&gt;);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            };</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        };</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    };</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
 <div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_client_html"><div class="ttname"><a href="../../df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html">samchon::protocol::service::Client</a></div><div class="ttdoc">A network boundary with the client in an User. </div><div class="ttdef"><b>Definition:</b> Client.hpp:38</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_service_html_abdf6203c973cc1bc797561b73fa87cc4"><div class="ttname"><a href="../../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html#abdf6203c973cc1bc797561b73fa87cc4">samchon::protocol::service::Service::client</a></div><div class="ttdeci">Client * client</div><div class="ttdoc">Client object Service is belonged to. </div><div class="ttdef"><b>Definition:</b> Service.hpp:50</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_service_html_abdf6203c973cc1bc797561b73fa87cc4"><div class="ttname"><a href="../../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html#abdf6203c973cc1bc797561b73fa87cc4">samchon::protocol::service::Service::client</a></div><div class="ttdeci">Client * client</div><div class="ttdoc">Client object Service is belonged to. </div><div class="ttdef"><b>Definition:</b> Service.hpp:45</div></div>
 <div class="ttc" id="classsamchon_1_1protocol_1_1_i_protocol_html"><div class="ttname"><a href="../../db/d36/classsamchon_1_1protocol_1_1_i_protocol.html">samchon::protocol::IProtocol</a></div><div class="ttdoc">Interface of message chain. </div><div class="ttdef"><b>Definition:</b> IProtocol.hpp:20</div></div>
 <div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_service_keeper_html"><div class="ttname"><a href="../../de/d50/classsamchon_1_1protocol_1_1service_1_1_service_keeper.html">samchon::protocol::service::ServiceKeeper</a></div><div class="ttdef"><b>Definition:</b> ServiceKeeper.hpp:31</div></div>
 <div class="ttc" id="classsamchon_1_1protocol_1_1_invoke_html"><div class="ttname"><a href="../../db/d9f/classsamchon_1_1protocol_1_1_invoke.html">samchon::protocol::Invoke</a></div><div class="ttdoc">Standard message for network I/O. </div><div class="ttdef"><b>Definition:</b> Invoke.hpp:22</div></div>
-<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace of products from http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
 <div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_service_html"><div class="ttname"><a href="../../da/d6b/classsamchon_1_1protocol_1_1service_1_1_service.html">samchon::protocol::service::Service</a></div><div class="ttdoc">Service. </div><div class="ttdef"><b>Definition:</b> Service.hpp:27</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

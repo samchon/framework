@@ -10,6 +10,8 @@ namespace samchon
 		/**
 		 * @brief Case generator
 		 *
+		 * @details
+		 *
 		 * <h3>Example source</h3>
 		 * <p> Packer - Find the best packaging solution </p>
 		 * 
@@ -78,7 +80,7 @@ namespace samchon
 			/**
 			 * @brief Get size of all cases
 			 *
-			 * @return The size of all cases
+			 * @return Get a number of the all cases
 			 */
 			auto size() const -> size_t;
 

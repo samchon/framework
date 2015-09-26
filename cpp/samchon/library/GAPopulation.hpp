@@ -20,23 +20,24 @@ namespace samchon
 		 * <p> The success of evolution of genetic alogirhtm is depend on the GAPopulation's initial set 
 		 * and fitting test. (GeneArray and Compare.) </p>
 		 *
+		 * <p> @image html cpp/subset/library_genetic_algorithm.png
+		 * @image latex cpp/subset/library_genetic_algorithm.png width=12cm </p>
+		 *
 		 * @tparam GeneArray
 		 * <p> An array(std::vector) containing genes as elments; sequnce listing </p>
 		 * <p> The GeneArray must be a type of <i>std::vector</i>. </p>
 		 *
 		 * @tparam Compare
-		 *	<p> A comparison class (or struct) returns whether left gene is more optimal. </p>
+		 *	A comparison class (or struct) returns whether left gene is more optimal.\n\n
 		 *
-		 *	<p> Default template parameter of Compare is <i>std::less<GeneArray></i>. It means to compare
-		 *	two std::vector (GeneArray must be a std::vector). Thus, you've to keep follwing rules. </p>
+		 *	Default template parameter of Compare is <i>std::less<GeneArray></i>. It means to compare
+		 *	two std::vector (GeneArray must be a std::vector). Thus, you've to keep follwing rules.\n\n
 		 *
-		 *	<ul>
-		 *		<li> GeneArray is inherited from <i>std::vector</i> </li>
-		 *		<li> GeneArray has custom <i>auto operator<(const GeneArray &) const -> bool</i> </li>
-		 *	</ul>
+		 *		- GeneArray is inherited from <i>std::vector</i>
+		 *		- GeneArray has custom <i>auto operator<(const GeneArray &) const -> bool</i>
 		 *
-		 * <p> If you don't want to follow the rules or want a custom comparison class, you have to
-		 * realize a comparison class. The following code is an example realizing the comparison class. </p> 
+		 * If you don't want to follow the rules or want a custom comparison class, you have to
+		 * realize a comparison class. The following code is an example realizing the comparison class.
 		 *
 		 * @code
 		 template <typename _Ty>

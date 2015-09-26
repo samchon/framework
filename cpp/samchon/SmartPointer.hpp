@@ -25,7 +25,7 @@ namespace samchon
 		/**
 		 * @brief Map of use count of each pointer
 		 */
-		static std::map<_Ty*, long long> useCountMap;
+		static std::map<_Ty*, size_t> useCountMap;
 
 		/**
 		 * @brief Mutex assigned to useCountMap
@@ -220,6 +220,6 @@ namespace samchon
 		};
 	};
 
-	template<typename _Ty> std::map<_Ty*, long long> SmartPointer<_Ty>::useCountMap;
+	template<typename _Ty> std::map<_Ty*, size_t> SmartPointer<_Ty>::useCountMap;
 	template<typename _Ty> std::mutex SmartPointer<_Ty>::mtx;
 };

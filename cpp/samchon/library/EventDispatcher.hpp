@@ -30,6 +30,7 @@ namespace samchon
 		 *	\li std::thread: http://www.cplusplus.com/reference/thread/thread/
 		 *	\li std::bind: http://www.cplusplus.com/reference/functional/bind/
 		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API EventDispatcher

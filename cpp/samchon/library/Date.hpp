@@ -34,10 +34,9 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API Date
 			: public std::chrono::system_clock::time_point
 		{
-		private:
+		protected:
 			typedef std::chrono::system_clock::time_point super;
 
-		protected:
 			/**
 			 * @brief time_point for 1970-01-01 09:00:00
 			 * @details It's the zero(0) in linux_time
@@ -266,6 +265,7 @@ namespace samchon
 			/* --------------------------------------------------------------------------
 				EXPORTERS
 			-------------------------------------------------------------------------- */
+		protected:
 			/**
 			 * @brief Converts the Date to struct tm
 			 * 
@@ -273,6 +273,7 @@ namespace samchon
 			 */
 			virtual auto toTM() const -> struct ::tm;
 
+		public:
 			/**
 			 * @brief Converts the Date to linux_time
 			 * 

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['string',['String',['../db/df1/namespacesamchon.html#a3e9d14ef4a03e314f0612549e374f4ce',1,'samchon']]]
+  ['uniqueentityarray',['UniqueEntityArray',['../db/d64/namespacesamchon_1_1protocol.html#a99d4866aebaabce0b39e994f80da65d9',1,'samchon::protocol']]]
 ];

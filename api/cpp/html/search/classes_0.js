@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['base64',['Base64',['../d8/d3b/classsamchon_1_1library_1_1_base64.html',1,'samchon::library']]],
-  ['bytearray',['ByteArray',['../d6/db2/classsamchon_1_1_byte_array.html',1,'samchon']]]
+  ['base64',['Base64',['../df/d1b/classsamchon_1_1library_1_1Base64.html',1,'samchon::library']]],
+  ['bytearray',['ByteArray',['../dc/d37/classsamchon_1_1ByteArray.html',1,'samchon']]]
 ];

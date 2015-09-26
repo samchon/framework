@@ -23,6 +23,7 @@
   $(document).ready(function() { init_search(); });
 </script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../image.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -110,54 +111,50 @@ $(document).ready(function(){initNavTree('d1/d91/_i_p_user_pair_8hpp_source.html
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;samchon/API.hpp&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;set&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;samchon/protocol/Socket.hpp&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">namespace </span>protocol</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">namespace </span>service</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            <span class="keyword">class </span>Server;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keyword">class </span>User;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html">   46</a></span>&#160;            <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html">IPUserPair</a></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html">Server</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../d4/d98/classsamchon_1_1protocol_1_1service_1_1_user.html">User</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a9dcc734800a3c6ecfb04dc118ea3b3c5">   55</a></span>&#160;                <a class="code" href="../../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html">Server</a> *<a class="code" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a9dcc734800a3c6ecfb04dc118ea3b3c5">server</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a5899a025cc9a80140ddb496b203cc0b2">   60</a></span>&#160;                std::string <a class="code" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a5899a025cc9a80140ddb496b203cc0b2">ip</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#ad5afa3b72b353bb8710024b17b32f1c3">   65</a></span>&#160;                std::set&lt;const User*&gt; <a class="code" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#ad5afa3b72b353bb8710024b17b32f1c3">userSet</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a168d2b9477f301410d508edcbd1e7745">   70</a></span>&#160;                std::mutex <a class="code" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a168d2b9477f301410d508edcbd1e7745">mtx</a>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <a class="code" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html">IPUserPair</a>(<a class="code" href="../../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html">Server</a> *server, <span class="keyword">const</span> std::string &amp;);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keyword">auto</span> getSessionID(Socket*, <span class="keywordtype">size_t</span>) -&gt; std::string;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                <span class="keyword">auto</span> issueSessionID(<span class="keywordtype">size_t</span>) const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            };</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        };</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    };</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;};</div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_user_html"><div class="ttname"><a href="../../d4/d98/classsamchon_1_1protocol_1_1service_1_1_user.html">samchon::protocol::service::User</a></div><div class="ttdoc">User containing Client(s) </div><div class="ttdef"><b>Definition:</b> User.hpp:50</div></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;set&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;samchon/protocol/Socket.hpp&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df1/namespacesamchon.html">samchon</a></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">namespace </span>protocol</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keyword">namespace </span>service</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            <span class="keyword">class </span>Server;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            <span class="keyword">class </span>User;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html">   45</a></span>&#160;            <span class="keyword">class </span>SAMCHON_FRAMEWORK_API <a class="code" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html">IPUserPair</a></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html">Server</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../d4/d98/classsamchon_1_1protocol_1_1service_1_1_user.html">User</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a9dcc734800a3c6ecfb04dc118ea3b3c5">   54</a></span>&#160;                <a class="code" href="../../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html">Server</a> *<a class="code" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a9dcc734800a3c6ecfb04dc118ea3b3c5">server</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a5899a025cc9a80140ddb496b203cc0b2">   59</a></span>&#160;                std::string <a class="code" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a5899a025cc9a80140ddb496b203cc0b2">ip</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#ad5afa3b72b353bb8710024b17b32f1c3">   64</a></span>&#160;                std::set&lt;const User*&gt; <a class="code" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#ad5afa3b72b353bb8710024b17b32f1c3">userSet</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <a class="code" href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html">IPUserPair</a>(<a class="code" href="../../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html">Server</a> *server, <span class="keyword">const</span> std::string &amp;);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <span class="keyword">auto</span> getSessionID(Socket*, <span class="keywordtype">size_t</span>) -&gt; std::string;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keyword">auto</span> issueSessionID(<span class="keywordtype">size_t</span>) const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">string</span>;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            };</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        };</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    };</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;};</div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_user_html"><div class="ttname"><a href="../../d4/d98/classsamchon_1_1protocol_1_1service_1_1_user.html">samchon::protocol::service::User</a></div><div class="ttdoc">User containing Client(s) </div><div class="ttdef"><b>Definition:</b> User.hpp:51</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair_html_ad5afa3b72b353bb8710024b17b32f1c3"><div class="ttname"><a href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#ad5afa3b72b353bb8710024b17b32f1c3">samchon::protocol::service::IPUserPair::userSet</a></div><div class="ttdeci">std::set&lt; const User * &gt; userSet</div><div class="ttdoc">User(s) belongs to the IP address. </div><div class="ttdef"><b>Definition:</b> IPUserPair.hpp:65</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair_html_a5899a025cc9a80140ddb496b203cc0b2"><div class="ttname"><a href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a5899a025cc9a80140ddb496b203cc0b2">samchon::protocol::service::IPUserPair::ip</a></div><div class="ttdeci">std::string ip</div><div class="ttdoc">An IP address. </div><div class="ttdef"><b>Definition:</b> IPUserPair.hpp:60</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_server_html"><div class="ttname"><a href="../../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html">samchon::protocol::service::Server</a></div><div class="ttdoc">Server for (cloud) service. </div><div class="ttdef"><b>Definition:</b> Server.hpp:41</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair_html_a168d2b9477f301410d508edcbd1e7745"><div class="ttname"><a href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a168d2b9477f301410d508edcbd1e7745">samchon::protocol::service::IPUserPair::mtx</a></div><div class="ttdeci">std::mutex mtx</div><div class="ttdoc">A mutex matched with an IP address. </div><div class="ttdef"><b>Definition:</b> IPUserPair.hpp:70</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair_html"><div class="ttname"><a href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html">samchon::protocol::service::IPUserPair</a></div><div class="ttdoc">Relationship between IP address and User for issuing session. </div><div class="ttdef"><b>Definition:</b> IPUserPair.hpp:46</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair_html_a9dcc734800a3c6ecfb04dc118ea3b3c5"><div class="ttname"><a href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a9dcc734800a3c6ecfb04dc118ea3b3c5">samchon::protocol::service::IPUserPair::server</a></div><div class="ttdeci">Server * server</div><div class="ttdoc">The Server containing IP addresses and User(s) </div><div class="ttdef"><b>Definition:</b> IPUserPair.hpp:55</div></div>
-<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair_html_ad5afa3b72b353bb8710024b17b32f1c3"><div class="ttname"><a href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#ad5afa3b72b353bb8710024b17b32f1c3">samchon::protocol::service::IPUserPair::userSet</a></div><div class="ttdeci">std::set&lt; const User * &gt; userSet</div><div class="ttdoc">User(s) belongs to the IP address. </div><div class="ttdef"><b>Definition:</b> IPUserPair.hpp:64</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair_html_a5899a025cc9a80140ddb496b203cc0b2"><div class="ttname"><a href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a5899a025cc9a80140ddb496b203cc0b2">samchon::protocol::service::IPUserPair::ip</a></div><div class="ttdeci">std::string ip</div><div class="ttdoc">An IP address. </div><div class="ttdef"><b>Definition:</b> IPUserPair.hpp:59</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_server_html"><div class="ttname"><a href="../../db/d98/classsamchon_1_1protocol_1_1service_1_1_server.html">samchon::protocol::service::Server</a></div><div class="ttdoc">Server for (cloud) service. </div><div class="ttdef"><b>Definition:</b> Server.hpp:39</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair_html"><div class="ttname"><a href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html">samchon::protocol::service::IPUserPair</a></div><div class="ttdoc">Relationship between IP address and User for issuing session. </div><div class="ttdef"><b>Definition:</b> IPUserPair.hpp:45</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair_html_a9dcc734800a3c6ecfb04dc118ea3b3c5"><div class="ttname"><a href="../../d5/dd5/classsamchon_1_1protocol_1_1service_1_1_i_p_user_pair.html#a9dcc734800a3c6ecfb04dc118ea3b3c5">samchon::protocol::service::IPUserPair::server</a></div><div class="ttdeci">Server * server</div><div class="ttdoc">The Server containing IP addresses and User(s) </div><div class="ttdef"><b>Definition:</b> IPUserPair.hpp:54</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace of products built from samchon. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

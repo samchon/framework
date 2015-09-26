@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['travel',['Travel',['../d8/dd9/classsamchon_1_1examples_1_1tsp_1_1_travel.html',1,'samchon::examples::tsp']]]
+  ['travel',['Travel',['../db/dd4/classsamchon_1_1example_1_1tsp_1_1Travel.html',1,'samchon::example::tsp']]]
 ];

@@ -8,6 +8,8 @@ namespace samchon
 		class EventDispatcher;
 
 		/**
+		 * @ingroup event
+		 *
 		 * @brief Represent an event running on background.
 		 *
 		 * @details

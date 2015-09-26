@@ -23,6 +23,7 @@
   $(document).ready(function() { init_search(); });
 </script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../image.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -113,7 +114,7 @@ $(document).ready(function(){initNavTree('db/d64/namespacesamchon_1_1protocol.ht
 </div><!--header-->
 <div class="contents">
 
-<p>Package of protocol and network I/O.  
+<p>Package of network protocol and libraries.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -125,59 +126,184 @@ Namespaces</h2></td></tr>
 <tr class="memdesc:d8/d70/namespacesamchon_1_1protocol_1_1service"><td class="mdescLeft">&#160;</td><td class="mdescRight">Package of cloud service as a server. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:db/d33/namespacesamchon_1_1protocol_1_1slave"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d33/namespacesamchon_1_1protocol_1_1slave.html">slave</a></td></tr>
+<tr class="memdesc:db/d33/namespacesamchon_1_1protocol_1_1slave"><td class="mdescLeft">&#160;</td><td class="mdescRight">Package of external system, within the framework of slave. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html">Entity</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html" title="Entity, the standard data class. ">Entity</a>, the standard data class.  <a href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d3e/classsamchon_1_1protocol_1_1Entity.html">Entity</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d0/d3e/classsamchon_1_1protocol_1_1Entity.html" title="Entity, the standard data class. ">Entity</a>, the standard data class.  <a href="../../d0/d3e/classsamchon_1_1protocol_1_1Entity.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html">EntityArray</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A static array of <a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html" title="Entity, the standard data class. ">Entity</a>.  <a href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d8d/classsamchon_1_1protocol_1_1EntityArray.html">EntityArray</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A static array of <a class="el" href="../../d0/d3e/classsamchon_1_1protocol_1_1Entity.html" title="Entity, the standard data class. ">Entity</a>.  <a href="../../dc/d8d/classsamchon_1_1protocol_1_1EntityArray.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html">EntityGroup</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html" title="Entity, the standard data class. ">Entity</a>, Container of <a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html" title="Entity, the standard data class. ">Entity</a>.  <a href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html">EntityGroup</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d0/d3e/classsamchon_1_1protocol_1_1Entity.html" title="Entity, the standard data class. ">Entity</a>, Container of <a class="el" href="../../d0/d3e/classsamchon_1_1protocol_1_1Entity.html" title="Entity, the standard data class. ">Entity</a>.  <a href="../../d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc1/classsamchon_1_1protocol_1_1_flash_policy_server.html">FlashPolicyServer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A flash policy server.  <a href="../../d1/dc1/classsamchon_1_1protocol_1_1_flash_policy_server.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d5a/classsamchon_1_1protocol_1_1EntityList.html">EntityList</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A static array of <a class="el" href="../../d0/d3e/classsamchon_1_1protocol_1_1Entity.html" title="Entity, the standard data class. ">Entity</a>.  <a href="../../d6/d5a/classsamchon_1_1protocol_1_1EntityList.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/db7/classsamchon_1_1protocol_1_1_i_client.html">IClient</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface for a client.  <a href="../../d0/db7/classsamchon_1_1protocol_1_1_i_client.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d55/classsamchon_1_1protocol_1_1FlashPolicyServer.html">FlashPolicyServer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A flash policy server.  <a href="../../d2/d55/classsamchon_1_1protocol_1_1FlashPolicyServer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d23/classsamchon_1_1protocol_1_1_i_entity_ptr_group.html">IEntityPtrGroup</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dc8/classsamchon_1_1protocol_1_1IClient.html">IClient</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface for a client.  <a href="../../d3/dc8/classsamchon_1_1protocol_1_1IClient.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d9f/classsamchon_1_1protocol_1_1_invoke.html">Invoke</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard message for network I/O.  <a href="../../db/d9f/classsamchon_1_1protocol_1_1_invoke.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d9d/classsamchon_1_1protocol_1_1IEntityPtrGroup.html">IEntityPtrGroup</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d41/classsamchon_1_1protocol_1_1_invoke_parameter.html">InvokeParameter</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d82/classsamchon_1_1protocol_1_1Invoke.html">Invoke</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard message for network I/O.  <a href="../../d8/d82/classsamchon_1_1protocol_1_1Invoke.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d36/classsamchon_1_1protocol_1_1_i_protocol.html">IProtocol</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface of message chain.  <a href="../../db/d36/classsamchon_1_1protocol_1_1_i_protocol.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d1a/classsamchon_1_1protocol_1_1InvokeParameter.html">InvokeParameter</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html">IServer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An interface of a server.  <a href="../../d8/d4e/classsamchon_1_1protocol_1_1_i_server.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dcf/classsamchon_1_1protocol_1_1IProtocol.html">IProtocol</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface of message chain.  <a href="../../d4/dcf/classsamchon_1_1protocol_1_1IProtocol.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dac/classsamchon_1_1protocol_1_1_i_s_q_l_entity.html">ISQLEntity</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de8/classsamchon_1_1protocol_1_1IServer.html">IServer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An interface of a server.  <a href="../../d4/de8/classsamchon_1_1protocol_1_1IServer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dbd/classsamchon_1_1protocol_1_1_server_connector.html">ServerConnector</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Server connector for client.  <a href="../../d3/dbd/classsamchon_1_1protocol_1_1_server_connector.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d56/classsamchon_1_1protocol_1_1ISQLEntity.html">ISQLEntity</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d72/classsamchon_1_1protocol_1_1ServerConnector.html">ServerConnector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Server connector for client.  <a href="../../db/d72/classsamchon_1_1protocol_1_1ServerConnector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a1be8c29577e504f8e2c2b0d726a5b6eb"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html">EntityGroup</a>&lt; std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html">Entity</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d64/namespacesamchon_1_1protocol.html#a1be8c29577e504f8e2c2b0d726a5b6eb">UniqueEntityArray</a></td></tr>
-<tr class="memdesc:a1be8c29577e504f8e2c2b0d726a5b6eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">An array of Entity(s) of std::unique_ptr.  <a href="#a1be8c29577e504f8e2c2b0d726a5b6eb">More...</a><br /></td></tr>
-<tr class="separator:a1be8c29577e504f8e2c2b0d726a5b6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99d4866aebaabce0b39e994f80da65d9"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="../../d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html">EntityGroup</a>&lt; std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d0/d3e/classsamchon_1_1protocol_1_1Entity.html">Entity</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d64/namespacesamchon_1_1protocol.html#a99d4866aebaabce0b39e994f80da65d9">UniqueEntityArray</a></td></tr>
+<tr class="memdesc:a99d4866aebaabce0b39e994f80da65d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">An array of Entity(s) of std::unique_ptr.  <a href="#a99d4866aebaabce0b39e994f80da65d9">More...</a><br /></td></tr>
+<tr class="separator:a99d4866aebaabce0b39e994f80da65d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Package of protocol and network I/O. </p>
+<div class="textblock"><p>Package of network protocol and libraries. </p>
+<ul>
+<li>
+<h3><a class="el" href="../../d0/d3e/classsamchon_1_1protocol_1_1Entity.html" title="Entity, the standard data class. ">Entity</a> - data classes with utility methods </h3>
+<p></p>
+<p>In Samchon Framework, with entity, boundary and control, entity is the main. And the entity package provides I/O interface to/from XML, <a class="el" href="../../d8/d82/classsamchon_1_1protocol_1_1Invoke.html" title="Standard message for network I/O. ">Invoke</a> and DBMS. If you need some additional function (role of boundary or control) for an entity, use chain of responsibility pattern starting from the entity. </p>
+<p></p>
+<p></p>
+<p>When data-set has a "hierarchical relationship", do not have the children objects by having a container member variable. Directly inherits container set. Composes the data class (entity) having children by inheriting <a class="el" href="../../d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html" title="Entity, Container of Entity. ">EntityGroup</a> and terminate the leaf node by inheriting <a class="el" href="../../d0/d3e/classsamchon_1_1protocol_1_1Entity.html" title="Entity, the standard data class. ">Entity</a> (single object).</p>
+<div class="image">
+<img src="../../protocol_entity.png" alt="protocol_entity.png"/>
+</div>
+ <p class="endli"></p>
+</li>
+<li>
+<h3><a class="el" href="../../d8/d82/classsamchon_1_1protocol_1_1Invoke.html" title="Standard message for network I/O. ">Invoke</a> - standard network I/O message </h3>
+<p></p>
+<p><a class="el" href="../../d8/d82/classsamchon_1_1protocol_1_1Invoke.html" title="Standard message for network I/O. ">Invoke</a> is a standard message structure using network I/O in Samchon Framework. </p>
+<p></p>
+<p>Group invoke not only provides parsing and converting from/to invoke mssage, but also history classes can be used to archiving log or estimating performance of a system. The purpose of estimating performance a system, especially, used in module of distributed processing and parallel processing systems. </p>
+<p></p>
+<div class="image">
+<img src="../../protocol_invoke.png" alt="protocol_invoke.png"/>
+</div>
+ <p class="endli"></p>
+</li>
+<li>
+<h3>Intefaces </h3>
+<p></p>
+<p>You can make any type of network system with only three interfaces; <a class="el" href="../../d4/dcf/classsamchon_1_1protocol_1_1IProtocol.html" title="Interface of message chain. ">IProtocol</a>, <a class="el" href="../../d4/de8/classsamchon_1_1protocol_1_1IServer.html" title="An interface of a server. ">IServer</a> an IClent which are called basic 3 components. </p>
+<p></p>
+<p></p>
+<p>When you see protocol libraries from a different view, out of framework, all the modules in protocol are examples combinationing and utilizing those three basic components (interaces). </p>
+<p></p>
+<p></p>
+<div class="image">
+<img src="../../protocol_interface.png" alt="protocol_interface.png"/>
+</div>
+ <p></p>
+<p></p>
+<div class="image">
+<img src="../../send_invoke.png" alt="send_invoke.png"/>
+</div>
+ <p></p>
+<p class="endli"></p>
+</li>
+<li>
+<h3>External System </h3>
+<p></p>
+<p>Module <em>external_system</em> provides interfaces for interaction with external network system. Although, the module <em>external_system</em> acts boundary as main role, what you've to concentrate on is the entity. Samchon Framework takes responsibility of network communication and you only consider about relationship and role of each <em>external network systems</em>. </p>
+<p></p>
+<p></p>
+<p>ExternalSystem objects are managed by ExternalSystemArray and the ExternalSystemArray can access to a role belongs to a system directly. When you send an <a class="el" href="../../d8/d82/classsamchon_1_1protocol_1_1Invoke.html" title="Standard message for network I/O. ">Invoke</a> message to ExternalSystemArray, the ExternalSystemArray finds matched ExternalSystemRole and the ExternalSystemRole shifts the network I/O responsibility to belonged ExternalSystem. This relationship called "Proxy Pattern". By the pattern, "Proxy", you can concentrate on roles irrespective of where each role is belonged to. </p>
+<p></p>
+<ul>
+<li>
+ExternalSystemArray::sendData() -&gt; ExternalSystemRole(Proxy)::sendData() -&gt; ExternalSystem::sendData()  </li>
+<li>
+ExternalSystem::replyData() -&gt; ExternalSystemRole(Proxy)::replyData()  </li>
+</ul>
+<p></p>
+<p>Whether using the "Proxy pattern" is on your mind in <em>external_system module</em> level. "Proxy pattern" is recommend to use in <em>external_system</em> module, but not forced. However, since <em>parallel_processing_system</em> module, you've to follow the pattern.</p>
+<div class="image">
+<img src="../../protocol_entity.png" alt="protocol_entity.png"/>
+</div>
+ <p class="endli"></p>
+</li>
+<li>
+<h3>Packages in protocol </h3>
+<ul>
+<li>
+<h4>Cloud service </h4>
+<p></p>
+<p></p>
+<div class="image">
+<img src="../../protocol_service.png" alt="protocol_service.png"/>
+</div>
+ <p></p>
+<p></p>
+<div class="image">
+<img src="../../service_connection.png" alt="service_connection.png"/>
+</div>
+ <p></p>
+<p></p>
+<div class="image">
+<img src="../../service_communication.png" alt="service_communication.png"/>
+</div>
+ <p></p>
+<p class="endli"></p>
+</li>
+<li>
+<h4>Master system </h4>
+<p></p>
+<p></p>
+<div class="image">
+<img src="../../distributed_and_parallel_processing_system.png" alt="distributed_and_parallel_processing_system.png"/>
+</div>
+ <p></p>
+<p></p>
+<div class="image">
+<img src="../../protocol_master_distributed_system.png" alt="protocol_master_distributed_system.png"/>
+</div>
+ <p></p>
+<p></p>
+<div class="image">
+<img src="../../protocol_master_parallel_system.png" alt="protocol_master_parallel_system.png"/>
+</div>
+ <p></p>
+<p class="endli"></p>
+</li>
+<li>
+<h4>Slave system </h4>
+<p></p>
+<div class="image">
+<img src="../../cpp/protocol_slave.png" alt="protocol_slave.png"/>
+</div>
+ <p class="endli"></p>
+</li>
+</ul>
+</li>
+</ul>
+<dl class="section author"><dt>Author</dt><dd>Jeongho Nam </dd></dl>
 </div><h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="a1be8c29577e504f8e2c2b0d726a5b6eb"></a>
+<a class="anchor" id="a99d4866aebaabce0b39e994f80da65d9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="../../d4/d40/classsamchon_1_1protocol_1_1_entity_group.html">EntityGroup</a>&lt;std::vector&lt;std::unique_ptr&lt;<a class="el" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html">Entity</a>&gt; &gt; &gt; <a class="el" href="../../db/d64/namespacesamchon_1_1protocol.html#a1be8c29577e504f8e2c2b0d726a5b6eb">samchon::protocol::UniqueEntityArray</a></td>
+          <td class="memname">typedef <a class="el" href="../../d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html">EntityGroup</a>&lt;std::vector&lt;std::unique_ptr&lt;<a class="el" href="../../d0/d3e/classsamchon_1_1protocol_1_1Entity.html">Entity</a>&gt; &gt; &gt; <a class="el" href="../../db/d64/namespacesamchon_1_1protocol.html#a99d4866aebaabce0b39e994f80da65d9">UniqueEntityArray</a></td>
         </tr>
       </table>
 </div><div class="memdoc">

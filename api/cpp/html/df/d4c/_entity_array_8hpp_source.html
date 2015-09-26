@@ -23,6 +23,7 @@
   $(document).ready(function() { init_search(); });
 </script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../image.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -141,37 +142,33 @@ $(document).ready(function(){initNavTree('df/d4c/_entity_array_8hpp_source.html'
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                assign(xmlList-&gt;size());</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; xmlList-&gt;size(); i++)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    std::shared_ptr&lt;library::XML&gt; &amp;xmlElement = xmlList-&gt;at(i);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    at(i).construct(xmlList-&gt;at(i));</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            }</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    at(i).construct(xmlList-&gt;at(i));</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;;               }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            }</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#ac1eb753e85f9b925a6dc5eae82ba93ed">   46</a></span>&#160;            <span class="keyword">virtual</span> <span class="keyword">auto</span> <a class="code" href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#ac1eb753e85f9b925a6dc5eae82ba93ed">toXML</a>() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;library::XML&gt;<span class="keyword"> override</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">            </span>{</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                std::shared_ptr&lt;library::XML&gt; &amp;xml = <a class="code" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html#a15aa62a85ff773fb613d13dbf61e722e">super::toXML</a>();</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#ac1eb753e85f9b925a6dc5eae82ba93ed">   50</a></span>&#160;            <span class="keyword">virtual</span> <span class="keyword">auto</span> <a class="code" href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#ac1eb753e85f9b925a6dc5eae82ba93ed">toXML</a>() const -&gt; <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::shared_ptr&lt;library::XML&gt;<span class="keyword"> override</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">            </span>{</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                std::shared_ptr&lt;library::XML&gt; &amp;xml = <a class="code" href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html#abb38a9405acff9d13986019240151c54">super::toXML</a>();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                std::shared_ptr&lt;library::XMLList&gt; xmlList(<span class="keyword">new</span> XMLList());</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                xmlList-&gt;reserve(this-&gt;size());</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; size(); i++)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    xmlList-&gt;push_back( at(i).<a class="code" href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#ac1eb753e85f9b925a6dc5eae82ba93ed">toXML</a>() );</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                xml-&gt;set(CHILD_TAG(), xmlList);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">return</span> xml;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            };</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        };</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    };</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                std::shared_ptr&lt;library::XMLList&gt; xmlList(<span class="keyword">new</span> XMLList());</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                xmlList-&gt;reserve(this-&gt;size());</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; size(); i++)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                    xmlList-&gt;push_back( at(i).<a class="code" href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#ac1eb753e85f9b925a6dc5eae82ba93ed">toXML</a>() );</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                xml-&gt;set(CHILD_TAG(), xmlList);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">return</span> xml;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            };</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        };</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    };</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
 <div class="ttc" id="classsamchon_1_1protocol_1_1_entity_array_html_ac408fdb04321814c4548d672770e9a5d"><div class="ttname"><a href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#ac408fdb04321814c4548d672770e9a5d">samchon::protocol::EntityArray::EntityArray</a></div><div class="ttdeci">EntityArray()</div><div class="ttdoc">Default Constructor. </div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> RWMutex.hpp:11</div></div>
 <div class="ttc" id="classsamchon_1_1protocol_1_1_entity_array_html_a9fb4ee7db15b230c4c6608af2514114f"><div class="ttname"><a href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#a9fb4ee7db15b230c4c6608af2514114f">samchon::protocol::EntityArray::construct</a></div><div class="ttdeci">virtual void construct(std::shared_ptr&lt; library::XML &gt; xml) override</div><div class="ttdoc">XML -> Entity. </div><div class="ttdef"><b>Definition:</b> EntityArray.hpp:33</div></div>
 <div class="ttc" id="classsamchon_1_1protocol_1_1_entity_array_html"><div class="ttname"><a href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html">samchon::protocol::EntityArray</a></div><div class="ttdoc">A static array of Entity. </div><div class="ttdef"><b>Definition:</b> EntityArray.hpp:19</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1_entity_array_html_ac1eb753e85f9b925a6dc5eae82ba93ed"><div class="ttname"><a href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#ac1eb753e85f9b925a6dc5eae82ba93ed">samchon::protocol::EntityArray::toXML</a></div><div class="ttdeci">virtual auto toXML() const  -&gt; std::shared_ptr&lt; library::XML &gt; override</div><div class="ttdoc">Entity -> XML. </div><div class="ttdef"><b>Definition:</b> EntityArray.hpp:50</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_entity_array_html_ac1eb753e85f9b925a6dc5eae82ba93ed"><div class="ttname"><a href="../../d7/d2d/classsamchon_1_1protocol_1_1_entity_array.html#ac1eb753e85f9b925a6dc5eae82ba93ed">samchon::protocol::EntityArray::toXML</a></div><div class="ttdeci">virtual auto toXML() const  -&gt; std::shared_ptr&lt; library::XML &gt; override</div><div class="ttdoc">Entity -> XML. </div><div class="ttdef"><b>Definition:</b> EntityArray.hpp:46</div></div>
+<div class="ttc" id="classsamchon_1_1protocol_1_1_entity_html_a15aa62a85ff773fb613d13dbf61e722e"><div class="ttname"><a href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html#a15aa62a85ff773fb613d13dbf61e722e">samchon::protocol::Entity::toXML</a></div><div class="ttdeci">virtual auto toXML() const  -&gt; std::shared_ptr&lt; library::XML &gt;=0</div><div class="ttdoc">Entity -> XML. </div><div class="ttdef"><b>Definition:</b> Entity.cpp:30</div></div>
 <div class="ttc" id="classsamchon_1_1protocol_1_1_entity_html"><div class="ttname"><a href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html">samchon::protocol::Entity</a></div><div class="ttdoc">Entity, the standard data class. </div><div class="ttdef"><b>Definition:</b> Entity.hpp:23</div></div>
-<div class="ttc" id="classsamchon_1_1protocol_1_1_entity_html_abb38a9405acff9d13986019240151c54"><div class="ttname"><a href="../../d1/d2d/classsamchon_1_1protocol_1_1_entity.html#abb38a9405acff9d13986019240151c54">samchon::protocol::Entity::toXML</a></div><div class="ttdeci">virtual auto toXML() const  -&gt; std::shared_ptr&lt; library::XML &gt;=NULL</div><div class="ttdoc">Entity -> XML. </div><div class="ttdef"><b>Definition:</b> Entity.cpp:25</div></div>
-<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace for products of http://samchon.org. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
+<div class="ttc" id="namespacesamchon_html"><div class="ttname"><a href="../../db/df1/namespacesamchon.html">samchon</a></div><div class="ttdoc">Top level namespace of products built from samchon. </div><div class="ttdef"><b>Definition:</b> ByteArray.hpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

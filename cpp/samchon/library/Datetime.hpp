@@ -18,7 +18,7 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API Datetime
 			: public Date
 		{
-		private:
+		protected:
 			typedef Date super;
 
 		public:

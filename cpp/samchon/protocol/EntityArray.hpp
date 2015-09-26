@@ -40,11 +40,7 @@ namespace samchon
 				assign(xmlList->size());
 
 				for (size_t i = 0; i < xmlList->size(); i++)
-				{
-					std::shared_ptr<library::XML> &xmlElement = xmlList->at(i);
-
 					at(i).construct(xmlList->at(i));
-;				}
 			}
 
 			virtual auto toXML() const -> std::shared_ptr<library::XML> override

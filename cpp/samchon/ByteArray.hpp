@@ -61,9 +61,27 @@ namespace samchon
 		/* --------------------------------------------------------------
 			POSITION
 		-------------------------------------------------------------- */
+		/**
+		 * @brief Get position
+		 *
+		 * @details Get a position represents starting point of bytes to read
+		 */
 		auto getPosition() const -> size_t;
+
+		/**
+		 * @brief Set poisition
+		 *
+		 * @details Set a position represents starting point of bytes to read
+		 */
 		void setPosition(size_t);
 
+		/**
+		 * @brief Reverse byte ordering
+		 *
+		 * @details Creates a copy of data which of byte ordering is reversed.
+		 *	\li BIG_ENDIAN to SMALL_ENDIAN
+		 *	li SMALL_ENDIAN to BIG_ENDIAN
+		 */
 		template <typename _Ty> static auto reverse(const _Ty &val) -> _Ty
 		{
 			_Ty res;
@@ -83,7 +101,7 @@ namespace samchon
 		-------------------------------------------------------------- */
 		/**
 		 * @brief Read data
-		 * @details Reads data(_Ty) from the ByteArray and adds the position following the size
+		 * @details Reads a data(_Ty) from (starting) position of the ByteArray and adds the position following the size.
 		 * 
 		 * @tparam _Ty A type of data to be returned
 		 * @throw exception out of range
@@ -98,6 +116,19 @@ namespace samchon
 		};
 		template<> auto read() const -> std::string;
 
+		/**
+		 * @brief Read a reversed data
+		 *
+		 * @details Reads data(_Ty) from (starting) position of the ByteArray, which byte ordering is reversed, 
+		 * from the ByteArray and adds the position following the size.
+		 *
+		 *	\li BIG_ENDIAN to SMALL_ENDIAN
+		 *	li SMALL_ENDIAN to BIG_ENDIAN
+		 *
+		 * @tparam _Ty A type of data to be returned
+		 * @throw exception out of range
+		 * @return Read data from the byte stream
+		 */
 		template <typename _Ty> auto readReversely() const -> _Ty
 		{
 			_Ty val = read<_Ty>();
@@ -108,8 +139,8 @@ namespace samchon
 			WRITE BYTES
 		-------------------------------------------------------------- */
 		/**
-		 * @brief Write data
-		 * @details Writes data(_Ty) to tail of the ByteArray
+		 * @brief Write a data
+		 * @details Writes a data(_Ty) to tail of the ByteArray
 		 * 
 		 * @tparam _Ty A type of data to write
 		 * @param val Something to write on ByteArray
@@ -122,6 +153,16 @@ namespace samchon
 		template<> void write(const std::string &str);
 		template<> void write(const ByteArray &byteArray);
 
+		/**
+		 * @brief Write a data
+		 * @details Writes a data(_Ty), which byte order is reversed, to tail of the ByteArray
+		 *
+		 *	\li BIG_ENDIAN to SMALL_ENDIAN
+		 *	li SMALL_ENDIAN to BIG_ENDIAN
+		 * 
+		 * @tparam _Ty A type of data to write
+		 * @param val Something to write on ByteArray
+		 */
 		template<typename _Ty> void writeReversely(const _Ty &val)
 		{
 			write(reverse(val));

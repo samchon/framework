@@ -316,6 +316,9 @@
     <Filter Include="Header Files\protocol\common\interface\web-socket">
       <UniqueIdentifier>{e168dbad-6dc5-4cc6-b5e6-32ebfa38a153}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\protocol\common\invoke\history">
+      <UniqueIdentifier>{485354cd-3a91-4186-970f-5f65611ec6da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\SmartPointer.hpp">
@@ -704,6 +707,15 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\Socket.hpp">
       <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp">
+      <Filter>Header Files\protocol\common\invoke\history</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\DSInvokeHistory.hpp">
+      <Filter>Header Files\protocol\common\invoke\history</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\PRInvokeHistory.hpp">
+      <Filter>Header Files\protocol\common\invoke\history</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

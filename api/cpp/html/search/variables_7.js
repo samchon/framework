@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['hdbc',['hdbc',['../d3/d78/classsamchon_1_1library_1_1_s_q_li.html#aed3c7c729904cb96fe1f6f063b7bd0e1',1,'samchon::library::SQLi']]],
-  ['hstmt',['hstmt',['../dc/d15/classsamchon_1_1library_1_1_s_q_l_statement.html#ac0eae8ec2b96d3b8c0e2b0b803de2869',1,'samchon::library::SQLStatement']]]
+  ['hdbc',['hdbc',['../d9/d2f/classsamchon_1_1library_1_1SQLi.html#a228a03b046fa82434aa4f6f0053a7397',1,'samchon::library::SQLi']]],
+  ['hstmt',['hstmt',['../de/def/classsamchon_1_1library_1_1SQLStatement.html#a07586fe73a1456ecc4cc9cd922dcf7fb',1,'samchon::library::SQLStatement']]]
 ];

@@ -1,7 +1,7 @@
 var classsamchon_1_1protocol_1_1service_1_1_client =
 [
-    [ "Client", "df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html#a75b0b095debaa5213fdc67cb3da0e35c", null ],
-    [ "createService", "df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html#ae20ac05d3d8945d8f022a1624b93df23", null ],
+    [ "Client", "df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html#ad2122a9620bdd59c881659ee3667cc2e", null ],
+    [ "createService", "df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html#a60976245ffe46eca2f40d55bf4304fa4", null ],
     [ "getUser", "df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html#a6002341b55090f1d83ea3b53b160e846", null ],
     [ "getService", "df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html#ad1c88a817e3f8e91a18303b55200258d", null ],
     [ "getNo", "df/dcb/classsamchon_1_1protocol_1_1service_1_1_client.html#ab23c385f7cc020993e86ddf1440d9f6e", null ],

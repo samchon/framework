@@ -6,6 +6,7 @@
 #include <samchon/Set.hpp>
 
 #include <samchon/library/RWMutex.hpp>
+#include <samchon/library/Semaphore.hpp>
 
 namespace samchon
 {
@@ -20,6 +21,11 @@ namespace samchon
 		 *
 		 * @details
 		 * <p> EventDispatcher is the base class for all classes that dispatch events. </p>
+		 *
+		 * <p> All the events are sent asynchronously. To avoid from creating tooo enourmouse threads
+		 * dispatching events, all event sending processes will acuiqre a semaphore. The default permitted
+		 * size of the semaphore is 2. </p>
+		 *	\li Number of thread pools used to sending events is 2.
 		 * 
 		 * @note 
 		 * <p> EventDispatcher is a candidate to be depreciated. </p>
@@ -45,7 +51,12 @@ namespace samchon
 			/**
 			 * @brief A rw_mutex for concurrency
 			 */
-			library::RWMutex mtx;
+			RWMutex mtx;
+
+			/**
+			 * @brief A semaphore for restricting thread size
+			 */
+			Semaphore semaphore;
 
 		public:
 			//CONSTRUCTORS
@@ -94,7 +105,7 @@ namespace samchon
 			 * @param type The type of event.
 			 * @param listener The listener function processes the event.
 			 */
-			virtual void addEventListener(int, void(*)(std::shared_ptr<Event>));
+			void addEventListener(int, void(*listener)(std::shared_ptr<Event>));
 			
 			/**
 			 * @brief Remove a registered event listener
@@ -106,7 +117,7 @@ namespace samchon
 			 * @param type The type of event.
 			 * @param listener The listener function to remove.
 			 */
-			virtual void removeEventListener(int, void(*)(std::shared_ptr<Event>));
+			void removeEventListener(int, void(*listener)(std::shared_ptr<Event>));
 			
 		protected:
 			/* ----------------------------------------------------------

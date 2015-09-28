@@ -24,7 +24,8 @@ namespace samchon
 	 *	</ul>
 	 * </ul>
 	 *
-	 * <p> [Inherited] Maps are associative containers that store elements formed by a combination of 
+	 * \par Inherited 
+	 * <p>Maps are associative containers that store elements formed by a combination of 
 	 * a key value and a mapped value, following a specific order. </p>
 	 *
 	 * <p> In a map, the key values are generally used to sort and uniquely identify the elements, 

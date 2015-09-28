@@ -51,6 +51,9 @@
     <ClInclude Include="ChatRoomArray.hpp">
       <Filter>Header Files\chat</Filter>
     </ClInclude>
+    <ClInclude Include="namespace_chat_service.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChatMessage.cpp">

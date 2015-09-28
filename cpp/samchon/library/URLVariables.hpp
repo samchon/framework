@@ -18,6 +18,9 @@ namespace samchon
 		 *
 		 * <p> Use URLVariabels objects with methods of HTTPLoader class. </p>
 		 *
+		 * @image html cpp/subset/library_http.png
+		 * @image latex cpp/subset/library_http.png
+		 *
 		 * <h4> Example code </h4>
 		 * @includelineno url_variables/main.cpp
 		 *

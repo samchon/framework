@@ -97,8 +97,8 @@ namespace samchon
 		 * @brief Interface for comparision operator
 		 *
 		 * @details
-		 * <p> IOperator is an interface realizing all compare operators by only overriding 
-		 * operator< and operator== methods. </p>
+		 * <p> IOperator is a template class makes enalbe to realizing all compare operators by 
+		 * only overriding operator< and operator== methods. </p>
 		 *	\li [!=] -> [NOT ==]
 		 *	\li [<=] -> [< OR ==]
 		 *	\li [>] -> [NOT < AND NOT ==]
@@ -116,13 +116,16 @@ namespace samchon
 		 *
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API IOperator
+		template <typename _Ty>
+		class IOperator
 		{
 		public:
 			/** 
 			 * @brief Default Constructor
 			 */
-			IOperator();
+			IOperator()
+			{
+			};
 			virtual ~IOperator() = default;
 			
 			/**
@@ -143,10 +146,22 @@ namespace samchon
 			 */
 			virtual auto operator==(const IOperator&) const -> bool = 0;
 
-			auto operator!=(const IOperator&) const -> bool;
-			auto operator<=(const IOperator&) const -> bool;
-			auto operator>(const IOperator&) const -> bool;
-			auto operator>=(const IOperator&) const -> bool;
+			auto operator!=(const IOperator<_Ty> &obj) const -> bool
+			{
+				return !operator==(obj);
+			};
+			auto operator<=(const IOperator<_Ty> &obj) const -> bool
+			{
+				return operator<(obj) || operator==(obj);
+			};
+			auto operator>(const IOperator<_Ty> &obj) const -> bool
+			{
+				return !operator<(obj) && !operator==(obj);
+			};
+			auto operator>=(const IOperator<_Ty> &obj) const -> bool
+			{
+				return !operator<(obj);
+			};
 		};
 	}
 };

@@ -8,6 +8,11 @@ namespace samchon
 {
 	namespace protocol
 	{
+		/**
+		 * @brief A role belongs to a system.
+		 *
+		 * @author Jeongho Nam
+		 */
 		class SAMCHON_FRAMEWORK_API SystemRole
 			: public virtual IProtocol
 		{
@@ -36,7 +41,7 @@ namespace samchon
 				GETTERS
 			---------------------------------------------------- */
 			/**
-			 * @brief Test whether to have the listener in the role
+			 * @brief Test whether have a listener in the role
 			 */
 			auto hasListener(const std::string &) const -> bool;
 		};

@@ -11,7 +11,11 @@ namespace samchon
 		class FTFactory;
 
 		/**
-		 * @brief A virtual folder
+		 * @brief A folder
+		 * @details A folder object has recursive and hierarchical relationship.
+		 *
+		 * @image html cpp/library_file_tree.png
+		 * @image latex cpp/library_file_tree.png
 		 *
 		 * @author Jeongho Nam
 		 */

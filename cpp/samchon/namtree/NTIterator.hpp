@@ -15,10 +15,10 @@ namespace samchon
 		 * @brief Abstract iterator of historical, studying data
 		 */
 		class SAMCHON_FRAMEWORK_API NTIterator
-			: public library::IOperator
+			: public library::IOperator<NTIterator>
 		{
 		private:
-			typedef library::IOperator super;
+			typedef library::IOperator<NTIterator> super;
 
 		protected:
 			//NEED NOT TO USE THIS MEMBER-VARIABLE ESSENTIALLY
@@ -31,8 +31,8 @@ namespace samchon
 
 			virtual auto operator++() const -> std::shared_ptr<NTIterator> = NULL;
 			virtual auto operator--() const -> std::shared_ptr<NTIterator> = NULL;
-			virtual auto operator==(std::shared_ptr<NTIterator>&) const -> bool = NULL;
-			virtual auto operator<(std::shared_ptr<NTIterator>&) const -> bool = NULL;
+			virtual auto operator==(const NTIterator&) const -> bool = NULL;
+			virtual auto operator<(const NTIterator&) const -> bool = NULL;
 		};
 	};
 };

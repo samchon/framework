@@ -19,6 +19,9 @@ namespace samchon
 		 *	\li UTF-8
 		 *	\li Unicode (UTF-16)
 		 *
+		 * @image html cpp/subset/string.png
+		 * @image latex cpp/subset/string.png
+		 *
 		 * @warning In some system, std::wstring is not for unicode(utf-16) but for utf-8
 		 * @author Jeongho Nam
 		 */

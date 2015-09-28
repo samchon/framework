@@ -18,7 +18,10 @@ namespace samchon
 			 *
 			 * @details
 			 * <p> Retrieves the solution of packaging by combination permuation and factorial case. </p>
-			 * 
+			 *
+			 * <p> @image html cpp/example_packer.png
+			 * @image latex cpp/example_packer.png </p>
+			 *
 			 * @warning 
 			 * <p> Be careful about number of products and wrappers. </p> 
 			 * <p> The time complexity of Packer overs O(m^n). Elapsed time of calculation increases enourmously. 

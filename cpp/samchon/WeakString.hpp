@@ -13,9 +13,12 @@ namespace samchon
 	 * @brief A string class only references characeters, reference only
 	 *
 	 * @details
-	 * WeakSring does not consider any construction, modification and destruction of characters.
+	 * <p> WeakSring does not consider any construction, modification and destruction of characters. </p>
 	 * Thus, you can have greater advantages than std::string on the side of performance and memory,
-	 * but of course, you can't modify the characeters at all.
+	 * but of course, you can't modify the characeters at all. </p>
+	 *
+	 * @image html cpp/subset/string.png
+	 * @image latex cpp/subset/string.png
 	 *
 	 * @warning
 	 * \li WeakString not copy(strcpy) characeters but only references characeters.

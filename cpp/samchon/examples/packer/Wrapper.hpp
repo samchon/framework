@@ -12,7 +12,12 @@ namespace samchon
 
 			/**
 			 * @brief A wrapper can contain products
-			 * @details A wrapper containing products with its limitation of weight and volume
+			 *
+			 * @details 
+			 * <p> A wrapper containing products with its limitation of weight and volume. </p>
+			 *
+			 * <p> @image html cpp/example_packer.png
+			 * @image latex cpp/example_packer.png </p>
 			 *
 			 * @author Jeongho Nam
 			 */

@@ -15,6 +15,9 @@ namespace samchon
 		 *	\li Encoding from binary data to base64-string 
 		 *	\li Decoding from base64-string to binary data
 		 * 
+		 * @image html cpp/subset/string.png
+		 * @image latex cpp/subset/string.png
+		 *
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Base64

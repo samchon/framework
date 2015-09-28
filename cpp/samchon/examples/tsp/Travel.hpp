@@ -12,7 +12,12 @@ namespace samchon
 
 			/**
 			 * @brief Represent a travel containning Point(s)
-			 * @details Travel class is not only an array containing Point(s) but also a sequence listing of the Point(s).
+			 *
+			 * @details 
+			 * <p> Travel class is not only an array containing Point(s) but also a sequence listing of the Point(s). </p>
+			 *
+			 * <p> @image html cpp/example_tsp.png
+			 * @image latex cpp/example_tsp.png </p>
 			 *
 			 * @author Jeongho Nam
 			 */

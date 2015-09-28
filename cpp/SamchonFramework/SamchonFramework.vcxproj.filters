@@ -127,15 +127,6 @@
     <Filter Include="Header Files\library\critical section\unique_lock">
       <UniqueIdentifier>{e574e41b-713a-4e2d-beb2-b3db7f7bfd04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\documentation">
-      <UniqueIdentifier>{a4688e62-07b8-4163-944c-b7cd80ab584f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\documentation\namespace">
-      <UniqueIdentifier>{eee66f45-da7b-47cc-9075-eaa489c23f65}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\documentation\outline">
-      <UniqueIdentifier>{c51375d7-3333-4cfb-98fb-5a6d9baaf3a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\library\virtual file tree">
       <UniqueIdentifier>{7ff762d0-0ce3-4919-9d8f-dc78f0b499e6}</UniqueIdentifier>
     </Filter>
@@ -295,18 +286,6 @@
     <Filter Include="Header Files\library\network i/o\sql driver\base">
       <UniqueIdentifier>{dd79c28e-9385-4e95-a2f4-1ae5e0db1b75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\library\network i/o\sql driver\t-sql">
-      <UniqueIdentifier>{7e423dc6-5d35-4c33-94c0-6a3b225373bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\network i/o\sql driver\pl-sql">
-      <UniqueIdentifier>{9ece7f82-c2cc-4bd7-839f-119320a5701f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\network i/o\sql driver\my-sql">
-      <UniqueIdentifier>{431cf1e6-f948-4499-9ce1-4070368d1cb1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\network i/o\sql driver\sql-lite">
-      <UniqueIdentifier>{e9d7982a-06c0-4d9c-a954-2dbea27cf286}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\library\utils\math\genetic algorithm">
       <UniqueIdentifier>{77cfcec8-1a8b-442c-bf17-db5a41c4ffac}</UniqueIdentifier>
     </Filter>
@@ -318,6 +297,27 @@
     </Filter>
     <Filter Include="Header Files\protocol\common\invoke\history">
       <UniqueIdentifier>{485354cd-3a91-4186-970f-5f65611ec6da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{0c76dc7e-dc94-4e32-b589-67d4d5d9e8d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documentation\samchon">
+      <UniqueIdentifier>{7c5e55e2-20ba-46a2-9301-83224e9c913f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documentation\samchon\protocol">
+      <UniqueIdentifier>{a8b64621-b91e-4871-8129-48a60767bcb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\critical section\shared_lock">
+      <UniqueIdentifier>{1e4b6d2b-0e24-49e3-9215-8b0049264f06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\library\critical section\unique_lock">
+      <UniqueIdentifier>{965528cd-b47e-416a-abeb-7252566b6d12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\library\critical section\shared_lock">
+      <UniqueIdentifier>{7ed06a83-4f3a-4103-9cdc-24042e0e9fbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\network i/o\sql driver\derived">
+      <UniqueIdentifier>{431cf1e6-f948-4499-9ce1-4070368d1cb1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -552,30 +552,6 @@
     <ClInclude Include="..\samchon\protocol\ServerConnector.hpp">
       <Filter>Header Files\protocol\common\abstract</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\documentation\samchon.hpp">
-      <Filter>Header Files\documentation\namespace</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\documentation\protocol_slave.hpp">
-      <Filter>Header Files\documentation\namespace</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\documentation\protocol_master.hpp">
-      <Filter>Header Files\documentation\namespace</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\documentation\protocol.hpp">
-      <Filter>Header Files\documentation\namespace</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\documentation\protocol_service.hpp">
-      <Filter>Header Files\documentation\namespace</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\documentation\library.hpp">
-      <Filter>Header Files\documentation\namespace</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\documentation\namtree.hpp">
-      <Filter>Header Files\documentation\namespace</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\documentation\doc_mainpage.hpp">
-      <Filter>Header Files\documentation\outline</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\library\FTFolder.hpp">
       <Filter>Header Files\library\virtual file tree\instances</Filter>
     </ClInclude>
@@ -654,18 +630,6 @@
     <ClInclude Include="..\samchon\library\SQLStatement.hpp">
       <Filter>Header Files\library\network i/o\sql driver\base</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\library\MSSQLi.hpp">
-      <Filter>Header Files\library\network i/o\sql driver\t-sql</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\MSSQLStatement.hpp">
-      <Filter>Header Files\library\network i/o\sql driver\t-sql</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SQLLiteConnector.hpp">
-      <Filter>Header Files\library\network i/o\sql driver\sql-lite</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\MySQLi.hpp">
-      <Filter>Header Files\library\network i/o\sql driver\pl-sql</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\library\GeneticAlgorithm.hpp">
       <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
     </ClInclude>
@@ -717,6 +681,48 @@
     <ClInclude Include="..\samchon\protocol\PRInvokeHistory.hpp">
       <Filter>Header Files\protocol\common\invoke\history</Filter>
     </ClInclude>
+    <ClInclude Include="..\samchon\documentation\mainpage.hpp">
+      <Filter>Documentation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\documentation\library.hpp">
+      <Filter>Documentation\samchon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\documentation\namtree.hpp">
+      <Filter>Documentation\samchon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\documentation\protocol.hpp">
+      <Filter>Documentation\samchon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\documentation\samchon.hpp">
+      <Filter>Documentation\samchon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\documentation\slave.hpp">
+      <Filter>Documentation\samchon\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\documentation\service.hpp">
+      <Filter>Documentation\samchon\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\documentation\master.hpp">
+      <Filter>Documentation\samchon\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SharedAcquire.hpp">
+      <Filter>Header Files\library\critical section\shared_lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SharedWriteLock.hpp">
+      <Filter>Header Files\library\critical section\shared_lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SharedReadLock.hpp">
+      <Filter>Header Files\library\critical section\shared_lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\MySQLi.hpp">
+      <Filter>Header Files\library\network i/o\sql driver\derived</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\TSQLi.hpp">
+      <Filter>Header Files\library\network i/o\sql driver\derived</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\TSQLStatement.hpp">
+      <Filter>Header Files\library\network i/o\sql driver\derived</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samchon\library\Date.cpp">
@@ -743,9 +749,6 @@
     <ClCompile Include="..\samchon\library\RWMutex.cpp">
       <Filter>Source Files\library\critical section</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\library\Semaphore.cpp">
-      <Filter>Source Files\library\critical section</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\library\Base64.cpp">
       <Filter>Source Files\library\utils\string</Filter>
     </ClCompile>
@@ -760,9 +763,6 @@
     </ClCompile>
     <ClCompile Include="..\samchon\WeakString.cpp">
       <Filter>Source Files\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\IOperator.cpp">
-      <Filter>Source Files\library\utils</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\library\PermutationGenerator.cpp">
       <Filter>Source Files\library\utils\math\serialized case</Filter>
@@ -893,17 +893,29 @@
     <ClCompile Include="..\samchon\protocol\IEntityGroup.cpp">
       <Filter>Source Files\protocol\common\entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\UniqueAcquire.cpp">
-      <Filter>Source Files\library\critical section</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\library\URLVariables.cpp">
       <Filter>Source Files\library\network i/o\http service</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\library\UniqueWriteLock.cpp">
+    <ClCompile Include="..\samchon\library\Semaphore.cpp">
       <Filter>Source Files\library\critical section</Filter>
     </ClCompile>
+    <ClCompile Include="..\samchon\protocol\UniqueAcquire.cpp">
+      <Filter>Source Files\library\critical section\unique_lock</Filter>
+    </ClCompile>
     <ClCompile Include="..\samchon\library\UniqueReadLock.cpp">
-      <Filter>Source Files\library\critical section</Filter>
+      <Filter>Source Files\library\critical section\unique_lock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\UniqueWriteLock.cpp">
+      <Filter>Source Files\library\critical section\unique_lock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\SharedAcquire.cpp">
+      <Filter>Source Files\library\critical section\shared_lock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\SharedReadLock.cpp">
+      <Filter>Source Files\library\critical section\shared_lock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\SharedWriteLock.cpp">
+      <Filter>Source Files\library\critical section\shared_lock</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

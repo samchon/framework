@@ -11,11 +11,6 @@ using namespace boost;
 using namespace boost::asio;
 using namespace boost::asio::ip;
 
-auto ServerConnector::MY_IP() const -> std::string
-{
-	return "";
-}
-
 ServerConnector::ServerConnector()
 	: super()
 {
@@ -30,24 +25,30 @@ ServerConnector::~ServerConnector()
 	delete localEndPoint;
 }
 
+auto ServerConnector::getMyIP() const -> std::string
+{
+	return "";
+}
+
 void ServerConnector::connect()
 {
-	std::string &ip = IP();
-	std::string &myIP = MY_IP();
+	std::string &ip = getIP();
+	std::string &myIP = getMyIP();
 
 	if (super::socket != nullptr && super::socket->is_open() == true)
 		return;
 
 	ioService = new io_service();
 	super::socket = new tcp::socket(*ioService, tcp::v4());
-	endPoint = new tcp::endpoint(address::from_string(string(ip.begin(), ip.end())), PORT());
+	endPoint = new tcp::endpoint(address::from_string(ip), getPort());
 	
-	if (MY_IP().empty() == false && localEndPoint == nullptr)
+	if (getMyIP().empty() == false && localEndPoint == nullptr)
 	{
-		localEndPoint = new tcp::endpoint(address::from_string(string(myIP.begin(), myIP.end())), NULL);
+		localEndPoint = new tcp::endpoint(address::from_string(myIP), NULL);
 		super::socket->bind(*localEndPoint);
 	}
 
 	super::socket->connect(*endPoint);
-	thread(&ServerConnector::listen, this).detach();
+	super::listen();
+	//thread(&ServerConnector::listen, this).detach();
 }

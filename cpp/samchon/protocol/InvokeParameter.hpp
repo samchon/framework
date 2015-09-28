@@ -14,6 +14,11 @@ namespace samchon
 	namespace protocol
 	{
 		/**
+		 * @brief A parameter of an Invoke message
+		 *
+		 * @details
+		 * @image html  cpp/protocol_invoke.png
+		 * @image latex cpp/protocol_invoke.png
 		 *
 		 * @author Jeongho Nam
 		 */

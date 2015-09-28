@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="namespace_tsp.hpp" />
     <ClInclude Include="GeometryPoint.hpp" />
     <ClInclude Include="Scheduler.hpp" />
     <ClInclude Include="Travel.hpp" />

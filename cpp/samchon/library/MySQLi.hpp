@@ -9,10 +9,20 @@ namespace samchon
 	{
 		class SQLStatement;
 
+		/**
+		 * @brief A SQL interface for My-SQL
+		 *
+		 * @copydoc library::SQLi
+		 */
 		class SAMCHON_FRAMEWORK_API MySQLi
 			: public SQLi
 		{
 		public:
+			/**
+			 * @brief Construct from port
+			 *
+			 * @param port Port number of My-SQL. default is 3306.
+			 */
 			MySQLi(int port = 3306);
 			virtual ~MySQLi();
 		};

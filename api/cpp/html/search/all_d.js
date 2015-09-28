@@ -1,11 +1,22 @@
 var searchData=
 [
-  ['open',['open',['../d4/de8/classsamchon_1_1protocol_1_1IServer.html#a9e8555112049fc2b4945120b3c45f8ab',1,'samchon::protocol::IServer']]],
-  ['openserver',['openServer',['../d2/d55/classsamchon_1_1protocol_1_1FlashPolicyServer.html#a88271a233d022d104707bef9468bf496',1,'samchon::protocol::FlashPolicyServer']]],
-  ['operator_2a',['operator*',['../d9/d2d/classsamchon_1_1SmartPointer.html#affdf7511964cffba4774c08a70b5d023',1,'samchon::SmartPointer']]],
-  ['operator_2d_3e',['operator-&gt;',['../d9/d2d/classsamchon_1_1SmartPointer.html#aaba1ba1b4d27ca52c4956de53b9a83f3',1,'samchon::SmartPointer']]],
-  ['operator_3c',['operator&lt;',['../db/dd4/classsamchon_1_1example_1_1tsp_1_1Travel.html#a83bb5d868f8182d1e628b671fd0c704d',1,'samchon::example::tsp::Travel::operator&lt;()'],['../dd/d2e/classsamchon_1_1library_1_1IOperator.html#a2f2fad2d62c605c849433333eaf78908',1,'samchon::library::IOperator::operator&lt;()']]],
-  ['operator_3d_3d',['operator==',['../dd/d2e/classsamchon_1_1library_1_1IOperator.html#a43984ee2f1b4ff734bea3c115e537df5',1,'samchon::library::IOperator']]],
-  ['operator_5b_5d',['operator[]',['../de/ddf/classsamchon_1_1library_1_1CaseGenerator.html#a1b48b5c722264f3896b04d323c8e706d',1,'samchon::library::CaseGenerator::operator[]()'],['../dc/db2/classsamchon_1_1library_1_1CombinedPermutationGenerator.html#aacb7e087b940186ee0f6f9aad2434733',1,'samchon::library::CombinedPermutationGenerator::operator[]()'],['../d8/de4/classsamchon_1_1WeakString.html#a4ee6ef2600bc591e86719d3a08f7379d',1,'samchon::WeakString::operator[]()']]],
-  ['optimize',['optimize',['../da/da0/classsamchon_1_1example_1_1packer_1_1Packer.html#aa5f96dceae0a01376ab1001f038abf9f',1,'samchon::example::packer::Packer::optimize()'],['../d4/dfe/classsamchon_1_1example_1_1packer_1_1WrapperArray.html#aa5f96dceae0a01376ab1001f038abf9f',1,'samchon::example::packer::WrapperArray::optimize()'],['../df/d27/classsamchon_1_1example_1_1tsp_1_1Scheduler.html#afa67811337024fa45a38cdea6c6bd988',1,'samchon::example::tsp::Scheduler::optimize()']]]
+  ['n',['n',['../de/ddf/classsamchon_1_1library_1_1CaseGenerator.html#ab8427e46d80ec1381947be098cb391c0',1,'samchon::library::CaseGenerator']]],
+  ['n_5f',['n_',['../de/ddf/classsamchon_1_1library_1_1CaseGenerator.html#a27fd4ef0d3621da512b437dbe4210464',1,'samchon::library::CaseGenerator']]],
+  ['name',['name',['../d7/d41/classsamchon_1_1example_1_1chat__service_1_1ChatRoom.html#a9b45b3e13bd9167aab02e17e08916231',1,'samchon::example::chat_service::ChatRoom::name()'],['../dc/d54/classsamchon_1_1example_1_1packer_1_1Instance.html#a9b45b3e13bd9167aab02e17e08916231',1,'samchon::example::packer::Instance::name()'],['../d7/d0a/classsamchon_1_1library_1_1FTInstance.html#a9b45b3e13bd9167aab02e17e08916231',1,'samchon::library::FTInstance::name()'],['../d0/d1a/classsamchon_1_1protocol_1_1InvokeParameter.html#a9b45b3e13bd9167aab02e17e08916231',1,'samchon::protocol::InvokeParameter::name()'],['../d5/de8/classsamchon_1_1protocol_1_1SystemRole.html#a9b45b3e13bd9167aab02e17e08916231',1,'samchon::protocol::SystemRole::name()']]],
+  ['next',['next',['../de/def/classsamchon_1_1library_1_1SQLStatement.html#a4aa958951f386e1c6754cb166772e456',1,'samchon::library::SQLStatement']]],
+  ['no',['no',['../df/d31/classsamchon_1_1protocol_1_1service_1_1Client.html#afc7a5728675a38332c4894273492ea22',1,'samchon::protocol::service::Client']]],
+  ['notify',['notify',['../d2/d9a/classsamchon_1_1example_1_1chat__service_1_1ChatRoomArray.html#a7ff19734eb024bd6f3e2ad95647b1b27',1,'samchon::example::chat_service::ChatRoomArray']]],
+  ['npos',['npos',['../d8/de4/classsamchon_1_1WeakString.html#a03aff983f503a71029aecb707175b2ed',1,'samchon::WeakString']]],
+  ['ntcriteria',['NTCriteria',['../de/dfd/classsamchon_1_1namtree_1_1NTCriteria.html',1,'samchon::namtree']]],
+  ['ntentitygroup',['NTEntityGroup',['../dd/d26/classsamchon_1_1namtree_1_1NTEntityGroup.html',1,'samchon::namtree']]],
+  ['ntfactory',['NTFactory',['../d0/d7b/classsamchon_1_1namtree_1_1NTFactory.html#a99d5af29b66baf3db54544cbef71db01',1,'samchon::namtree::NTFactory']]],
+  ['ntfactory',['NTFactory',['../d0/d7b/classsamchon_1_1namtree_1_1NTFactory.html',1,'samchon::namtree']]],
+  ['ntfile',['NTFile',['../d2/da2/classsamchon_1_1namtree_1_1NTFile.html',1,'samchon::namtree']]],
+  ['ntiterator',['NTIterator',['../d4/dd2/classsamchon_1_1namtree_1_1NTIterator.html',1,'samchon::namtree']]],
+  ['ntparameter',['NTParameter',['../db/d29/classsamchon_1_1namtree_1_1NTParameter.html',1,'samchon::namtree']]],
+  ['ntparameterarray',['NTParameterArray',['../de/d08/classsamchon_1_1namtree_1_1NTParameterArray.html',1,'samchon::namtree']]],
+  ['ntparameterdetermined',['NTParameterDetermined',['../d4/dff/classsamchon_1_1namtree_1_1NTParameterDetermined.html',1,'samchon::namtree']]],
+  ['ntside',['NTSide',['../d4/df0/classsamchon_1_1namtree_1_1NTSide.html',1,'samchon::namtree']]],
+  ['numberformat',['numberFormat',['../d2/d53/classsamchon_1_1library_1_1StringUtil.html#aa8019302923383f3f9504a1098d481f1',1,'samchon::library::StringUtil']]],
+  ['numerator',['numerator',['../de/d4a/classsamchon_1_1library_1_1ProgressEvent.html#a0fb23c363b4ef072d304861f31f2e869',1,'samchon::library::ProgressEvent']]]
 ];

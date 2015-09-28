@@ -13,6 +13,9 @@ namespace samchon
 		 * @brief A chat server
 		 * @details A simple chat server operates on a console.
 		 *
+		 * @image html cpp/example_console_chat.png
+		 * @image latex cpp/example_console_chat.png
+		 *
 		 * @author Jeongho Nam
 		 */
 		namespace console_chat_server

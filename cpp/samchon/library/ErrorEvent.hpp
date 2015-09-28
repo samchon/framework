@@ -12,8 +12,9 @@ namespace samchon
 		/**
 		 * @brief Event representing an error
 		 *
-		 * @details [Inherited]
-		 * @copydoc Event
+		 * @details
+		 * \par Inherited
+		 * @copydoc library::Event
 		 */
 		class SAMCHON_FRAMEWORK_API ErrorEvent 
 			: public Event

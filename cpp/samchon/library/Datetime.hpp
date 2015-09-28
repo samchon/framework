@@ -11,9 +11,10 @@ namespace samchon
 		* @brief Date and time
 		*
 		* @details
-		* \par Datetime is a Date having hours, minutes and seconds addictionally.
+		* <p> Datetime is a Date having hours, minutes and seconds addictionally. </p>
 		*
-		* \par [Inherited] @copydoc library::Date
+		* \par Inherited
+		* @copydoc library::Date
 		*/
 		class SAMCHON_FRAMEWORK_API Datetime
 			: public Date
@@ -62,7 +63,7 @@ namespace samchon
 			 * @param str A string expressing the date. (1991-01-01 09:27:03)
 			 * @throw invalid_argument parameter is out of its own range.
 			 */
-			Datetime(const std::string &);
+			Datetime(const WeakString &);
 			
 			/**
 			 * @brief Construct from WeakString
@@ -86,7 +87,7 @@ namespace samchon
 			 * @param wstr A weak_string expressing the date. (1991-01-01 09:27:03)
 			 * @throw invalid_argument parameter is out of its own range.
 			 */
-			virtual void set(const WeakString &);
+			virtual void set(const WeakString &) override;
 			
 			/**
 			 * @throw invalid_argument parameter is out of range (ex: month -> 13)
@@ -142,34 +143,33 @@ namespace samchon
 
 			//ADDERS
 			/**
-			 * @inheritDoc
+			 * @copydoc Date::addYear()
 			 */
-			virtual void addYear(int);
+			virtual void addYear(int) override;
 
 			/**
-			 * @inheritDoc
+			 * @copydoc Date::addMonth()
 			 */
-			virtual void addMonth(int);
+			virtual void addMonth(int) override;
 			
 			/**
-			 * @inheritDoc
+			 * @copydoc Date::addWeek()
 			 */
-			virtual void addWeek(int);
+			virtual void addWeek(int) override;
 			
 			/**
-			 * @inheritDoc
+			 * @copydoc Date::addDate()
 			 */
-			virtual void addDate(int);
+			virtual void addDate(int) override;
 			
 			/**
 			 * @biref Add hours
 			 *
 			 * @details 
-			 * \par It's same with operator+=(chrono::hours(val))
+			 * <p> It's same with operator+=(chrono::hours(val)) </p>
 			 * 
-			 * \par
-			 * Do not worry about the out of range of the hour(val)
-			 * Parent items like date, month and years will be adjusted automatically.
+			 * <p> Do not worry about the out of range of the hour(val)
+			 * Parent items like date, month and years will be adjusted automatically. </p>
 			 * 
 			 * @param val hours to add
 			 */
@@ -231,7 +231,7 @@ namespace samchon
 			* 
 			* @return std::string expressing the Datetime
 			*/
-			virtual auto toString() const -> std::string;
+			virtual auto toString() const -> std::string override;
 		};
 	};
 };

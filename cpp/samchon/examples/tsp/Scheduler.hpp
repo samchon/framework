@@ -13,6 +13,10 @@ namespace samchon
 			/**
 			 * @brief Parameters for Genetic-Algorithm
 			 *
+			 * @details
+			 * <p> @image html cpp/example_tsp.png
+			 * @image latex cpp/example_tsp.png </p>
+			 *
 			 * @see samchon::library::GeneticAlgorithm
 			 * @author Jeongho Nam
 			 */

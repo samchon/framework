@@ -10,6 +10,15 @@ namespace samchon
 			class ChatRoomArray;
 			class ChatRoom;
 
+			/**
+			 * @brief A chat server
+			 *
+			 * @details
+			 * <p> @image html cpp/example_chat_service.png
+			 * @image latex cpp/example_chat_service.png </p>
+			 *
+			 * @author Jeongho Nam
+			 */
 			class ChatServer
 				: public protocol::service::Server
 			{
@@ -22,9 +31,15 @@ namespace samchon
 				};
 
 			private:
+				/**
+				 * @brief A manager of chat rooms
+				 */
 				ChatRoomArray *roomArray;
 
 			public:
+				/**
+				 * @brief Default Constructor.
+				 */
 				ChatServer();
 				virtual ~ChatServer();
 
@@ -32,6 +47,9 @@ namespace samchon
 				virtual auto createUser() -> protocol::service::User* override;
 
 			public:
+				/**
+				 * @brief Get chat room list.
+				 */
 				auto getChatRoomArray() const -> ChatRoomArray*;
 			};
 		};

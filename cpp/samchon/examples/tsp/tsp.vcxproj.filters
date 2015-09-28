@@ -24,6 +24,9 @@
     <ClInclude Include="GeometryPoint.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="namespace_tsp.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeometryPoint.cpp">

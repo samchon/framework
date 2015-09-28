@@ -8,36 +8,34 @@ namespace samchon
 		class Semaphore;
 
 		/**
-		 * @brief Unique acquire from a semaphore
+		 * @brief Unique acquire from a Semaphore.
 		 *
 		 * @details
-		 * \par
-		 * A UniqueAcquire is an object manages a Semaphore
-		 * with unique ownership in both states: acquired and released.
+		 * <p> A UniqueAcquire is an object manages a Semaphore with unique ownership in both states. </p>
+		 *	\li acquired
+		 *	\li released
 		 *
-		 * \par
-		 * On construction (or by move-assigning to it), the object acquires
-		 * a semaphore object, for whose acquiring and releasing operations becomes 
-		 * responsible.
+		 * <p> On construction (or by move-assigning to it), the object acquires a semaphore object, 
+		 * for whose acquiring and releasing operations becomes responsible. </p>
 		 *
-		 * \par
-		 * The object supports both states: acquired and released.
+		 * <p> This class guarantees a released status on destruction (even if not called explicitly). 
+		 * Therefore it is especially useful as an object with automatic duration, as it guarantees 
+		 * the semaphore object is properly released in case an exception is thrown. </p>
 		 *
-		 * \par
-		 * This class guarantees a released status on destruction
-		 * (even if not called explicitly). Therefore it is especially useful as an object
-		 * with automatic duration, as it guarantees the semaphore object is properly 
-		 * released in case an exception is thrown.
-		 *
-		 * \par
-		 * Referenced comments of std::unique_lock
+		 * <p> Referenced comments of std::unique_lock </p>
 		 *	\li http://www.cplusplus.com/reference/mutex/unique_lock/
 		 *
-		 * @warning
-		 * Though, that the UniqueAcquire object does not manage the lifetime of the semaphore
-		 * object in any way: the duration of the semaphore object shall extend at least until
-		 * the destruction of the UniqueAcquire that manages it.
+		 * @image html cpp/library_critical_section.png
+		 * @image latex cpp/library_critical_section.png
 		 *
+		 * @note
+		 * <p> Though, that the UniqueAcquire object does not manage the lifetime of the semaphore
+		 * object in any way: the duration of the semaphore object shall extend at least until
+		 * the destruction of the UniqueAcquire that manages it. </p>
+		 *
+		 * <p> The UniqueAcquire is movable, but not copyable. </p>
+		 *
+		 * @see UniqueAcquire
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API UniqueAcquire
@@ -49,14 +47,14 @@ namespace samchon
 			Semaphore *semaphore;
 
 			/**
-			 * @brief Whether the mutex was locked by UniqueLock
+			 * @brief Whether the semaphore was acquired by the UniqueLock
 			 */
 			bool isLocked;
 
 		public:
-			/* ===================================================
+			/* -----------------------------------------------------------
 				CONSTRUCTORS
-			=================================================== */
+			----------------------------------------------------------- */
 			/**
 			 * @brief Construct from semaphore
 			 *
@@ -66,16 +64,33 @@ namespace samchon
 			UniqueAcquire(Semaphore &, bool = true);
 
 			/**
-			 * @brief Destructor
+			 * @brief Prohibited Copy Constructor
 			 *
-			 * @details
-			 * If read lock has done by the UniqueLock, unlock it
+			 * @details 
+			 * <p> UniqueAcquire can't be copied. Use pointer, reference instead. </p>
+			 * <p> If what you want is UniqueAcquire(s) references each other and unlock when all related
+			 * UniqueAcquire objects are destructed, SharedAcquire is the best way. </p>
+			 *
+			 * @param obj Tried object to copy.
+			 */
+			UniqueAcquire(const UniqueAcquire &) = delete;
+
+			/**
+			 * @brief Move Constructor
+			 *
+			 * @param An object to move
+			 */
+			UniqueAcquire(UniqueAcquire&&);
+
+			/**
+			 * @brief Default Destructor
+			 * @details If read lock has done by the UniqueLock, unlock it
 			 */
 			~UniqueAcquire();
 
-			/* ===================================================
+			/* -----------------------------------------------------------
 				LOCKERS
-			=================================================== */
+			----------------------------------------------------------- */
 			/**
 			 * @copydoc Semaphore::acquire()
 			 */
@@ -89,7 +104,7 @@ namespace samchon
 			/**
 			 * @copydoc Semaphore::tryAcquire()
 			 */
-			//auto tryAcquire() const -> bool;
+			//auto tryAcquire() -> bool;
 		};
 	};
 };

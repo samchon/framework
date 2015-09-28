@@ -9,7 +9,12 @@ namespace samchon
 		{
 			/**
 			 * @brief A physical instance
-			 * @details A physical instance having its own name, price, volume and weight
+			 *
+			 * @details 
+			 * <p> A physical instance having its own name, price, volume and weight. </p>
+			 *
+			 * <p> @image html cpp/example_packer.png
+			 * @image latex cpp/example_packer.png </p>
 			 *
 			 * @author Jeongho Nam
 			 */

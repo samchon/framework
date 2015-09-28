@@ -12,7 +12,12 @@ namespace samchon
 
 		/**
 		 * @brief A http, web-page loader
+		 * @details
 		 *
+		 * @image html cpp/subset/library_http.png
+		 * @image latex cpp/subset/library_http.png
+		 *
+		 * @note Depreciated
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API HTTPLoader

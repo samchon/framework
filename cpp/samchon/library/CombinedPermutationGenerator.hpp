@@ -8,7 +8,12 @@ namespace samchon
 	namespace library
 	{
 		/**
-		 * @brief A combined-permutation case generator; <sub>n</sub>TT<sub>r</sub>
+		 * @brief A combined-permutation case generator
+		 * @details
+		 * <p> <sub>n</sub>TT<sub>r</sub> </p>
+		 *
+		 * @image html cpp/subset/library_case_generator.png
+		 * @image latex cpp/subset/library_case_generator.png
 		 */
 		class SAMCHON_FRAMEWORK_API CombinedPermutationGenerator
 			: public CaseGenerator
@@ -18,7 +23,7 @@ namespace samchon
 
 		public:
 			/**
-			 * @brief Construct from n, r
+			 * @brief Construct from size of N and R
 			 *
 			 * @copydoc CaseGenerator::CaseGenerator()
 			 */

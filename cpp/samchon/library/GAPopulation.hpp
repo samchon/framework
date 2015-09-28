@@ -21,7 +21,7 @@ namespace samchon
 		 * and fitting test. (GeneArray and Compare.) </p>
 		 *
 		 * <p> @image html cpp/subset/library_genetic_algorithm.png
-		 * @image latex cpp/subset/library_genetic_algorithm.png width=12cm </p>
+		 * @image latex cpp/subset/library_genetic_algorithm.png </p>
 		 *
 		 * @tparam GeneArray
 		 * <p> An array(std::vector) containing genes as elments; sequnce listing </p>
@@ -33,11 +33,11 @@ namespace samchon
 		 *	Default template parameter of Compare is <i>std::less<GeneArray></i>. It means to compare
 		 *	two std::vector (GeneArray must be a std::vector). Thus, you've to keep follwing rules.\n\n
 		 *
+		 *	If you don't want to follow the rules or want a custom comparison class, you have to
+		 *	realize a comparison class. The following code is an example realizing the comparison class.
+		 *
 		 *		- GeneArray is inherited from <i>std::vector</i>
 		 *		- GeneArray has custom <i>auto operator<(const GeneArray &) const -> bool</i>
-		 *
-		 * If you don't want to follow the rules or want a custom comparison class, you have to
-		 * realize a comparison class. The following code is an example realizing the comparison class.
 		 *
 		 * @code
 		 template <typename _Ty>

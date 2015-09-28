@@ -163,6 +163,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Instance.hpp" />
+    <ClInclude Include="namespace_packer.hpp" />
     <ClInclude Include="Packer.hpp" />
     <ClInclude Include="Wrapper.hpp" />
     <ClInclude Include="Product.hpp" />

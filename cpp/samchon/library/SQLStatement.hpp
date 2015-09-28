@@ -15,12 +15,28 @@ namespace samchon
 		class XML;
 		
 		/**
-		 * @brief The sql statement
+		 * @brief A sql statement
 		 *
 		 * @details
-		 * <p> A SQLStatement instance is used to executing a SQL statement and returning
-		 * the results it produces against a SQL database that is opened through a SQLi 
-		 * instance. </p>
+		 * <p> A SQLStatement instance is used to executing a SQL statement and returning the results 
+		 * it produces against a SQL database that is opened through a SQLi instance. </p>
+		 *
+		 * <p> Through the SQLi, it's the reason why a principle of DBMS, DBMS system
+		 * doesn't allow simultaneous query from a session (connection). Only a query (process) is allowed
+		 * at a time. If you try to simultaneous query from a SQLi, ODBC throws error. To avoid the error,
+		 * an execute of query from SQLStatement will lock a mutex of SQLi to ensure exclusiveness. </p>
+		 *
+		 * @image html cpp/subset/library_sql.png
+		 * @image latex cpp/subset/library_sql.png
+		 *
+		 * @note
+		 * <p> To ensure the exclusiveness, you've to make SQLStatement from SQLi. Do not make SQLStatement 
+		 * by yourself. call SQLi::createSQLStatement() instead. Even you make a derived class from
+		 * SQLStatement, don't make its constructor to have public accessor. </p>
+		 *
+		 * <p> Becuase execution of a sql statement causes lock on mutex in SQLi, you've to destruct the
+		 * SQLStatement or call SQLStatement::free() method(). If you don't, the mutex will not be unlocked,
+		 * thus you can't do anything by the SQLi. </p>
 		 *
 		 * @author Jeongho Nam
 		 */
@@ -55,14 +71,20 @@ namespace samchon
 			 * @brief Count of binded parameters\n
 			 */
 			size_t bindParameterCount;
+
+			/**
+			 * @brief A map for binary size
+			 *
+			 * @details 
+			 * When calls ByteArray::size(), the returned size_t value can't be kept until 
+			 */
 			Map<size_t, SQL_SIZE_T> bindParameterBASizeMap;
 
 		protected:
 			/**
 			 * @brief Protected Constructor 
 			 *
-			 * @details
-			 * SQLStatement's constructor have to created by SQLi::createStatement().
+			 * @details SQLStatement's constructor have to created by SQLi::createStatement().
 			 * 
 			 * @note
 			 * <p> Don't create SQLStatement by yourself. </p>

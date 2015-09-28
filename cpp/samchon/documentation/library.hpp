@@ -18,14 +18,14 @@ namespace samchon
 	 *		<p> Common containers with utility methods. </p>
 	 *
 	 *		@image html cpp/library_common.png 
-	 *		@image latex cpp/library_common.png width=12cm
+	 *		@image latex cpp/library_common.png
 	 *	
 	 *	<li><h3> Mathmatical libaries. </h3></li>
 	 *		<p> Utilty classes for mathmatical methods, or libraries of case generator 
 	 *		and genetic algorithm. In those mathmatical part, lots of examples are supported. </p>
 	 *
 	 *		@image html cpp/library_math.png 
-	 *		@image latex cpp/library_math.png width=12cm
+	 *		@image latex cpp/library_math.png
 	 *
 	 *	<li><h3> Critical section libraries. </h3></li>
 	 *		<p> Classes handling critical section, like RWMutex and Semaphore which are not supported 
@@ -39,7 +39,7 @@ namespace samchon
 	 *		locking and unlocking, and critical allocator are provided. </p>
 	 *
 	 *		@image html cpp/library_critical_section.png 
-	 *		@image latex cpp/library_critical_section.png width=12cm
+	 *		@image latex cpp/library_critical_section.png
 	 *	
 	 *	<li><h3> Data I/O libraries. </h3></li>
 	 *		<p> Provides libraries about data I/O.
@@ -48,7 +48,7 @@ namespace samchon
 	 *		by adapter pattern. XML class is designed to follow composite relationship. </p>
 	 * 
 	 *		@image html cpp/library_data.png 
-	 *		@image latex cpp/library_data.png width=12cm
+	 *		@image latex cpp/library_data.png
 	 *	
 	 *	<li><h3> Event libraries. </h3></li>
 	 *		<p> Libraries representing events and dispatching those events, which are running on background, 
@@ -60,7 +60,22 @@ namespace samchon
 	 *		depreciated in next generation of Samchon Framework. </p>
 	 *
 	 *		@image html cpp/library_event.png 
-	 *		@image latex cpp/library_event.png width=12cm
+	 *		@image latex cpp/library_event.png
+	 *
+	 *	<li><h3> File-tree libraries. </h3></li>
+	 *		<p> A module for expressing folder and file instances. The objects in file-tree module are 
+	 *		realized by protocol::Entity. 
+	 *		
+	 *		<p> They have recursive and hierarchical relationship and created by Factory class (FTFactory, 
+	 *		factory pattern). Those objects can be archived in and loaded from Database. Using the 
+	 *		pre-defined methods interaction with Databse, you can not only express real file and folder 
+	 *		instances but also realize virtual file system. </p>
+	 *
+	 *		<p> Classes in the Module of file-tree are all abstract, but package nam-tree can be an 
+	 *		example inheriting and having real model from those abstract classes. </p>
+	 *
+	 *		@image html cpp/library_file_tree.png 
+	 *		@image latex cpp/library_file_tree.png
 	 *
 	 * </ul>
 	 *

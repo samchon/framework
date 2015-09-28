@@ -11,10 +11,17 @@ namespace samchon
 		 * @brief Case generator
 		 *
 		 * @details
+		 * <p> An abstract case generator using like a matrix </p>
+		 *	\li nTTr(n^r) -> CombinedPermutationGenerator
+		 *	\li nPr -> PermutationGenerator
+		 *	\li n! -> FactorialGenerator
 		 *
 		 * <h3>Example source</h3>
 		 * <p> Packer - Find the best packaging solution </p>
-		 * 
+		 *
+		 * @image html cpp/example_packer.png
+		 * @image latex cpp/example_packer.png
+		 *
 		 * \par examples/packer/Packer.hpp
 		 *		@includelineno examples/packer/Packer.hpp
 		 * \par examples/packer/WrapperArray.hpp
@@ -85,7 +92,7 @@ namespace samchon
 			auto size() const -> size_t;
 
 			/**
-			 * @brief Get x'th row
+			 * @brief Get x'th case
 			 *
 			 * @return The row of the x'th in combined permuation case
 			 */
@@ -111,7 +118,10 @@ namespace samchon
 				TO_MATRIX
 			---------------------------------------------------- */
 			/**
-			 * @return A matrix containing all cases
+			 * @brief Create a matrix containing all cases.
+			 * @warning Size of n or r is enourmouse, then stack overflow can be occured.
+			 *
+			 * @return A matrix containing all cases.
 			 */
 			auto toMatrix() const -> std::vector<std::vector<size_t>>;
 		};

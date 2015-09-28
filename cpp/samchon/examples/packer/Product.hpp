@@ -9,7 +9,12 @@ namespace samchon
 		{
 			/**
 			 * @brief A product, merchandise
-			 * @details A merchandise with its price, volume and weight
+			 *
+			 * @details 
+			 * <p> A merchandise with its price, volume and weight. </p>
+			 *
+			 * <p> @image html cpp/example_packer.png
+			 * @image latex cpp/example_packer.png </p>
 			 *
 			 * @author Jeongho Nam
 			 */

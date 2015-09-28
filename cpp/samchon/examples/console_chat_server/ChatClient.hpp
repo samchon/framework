@@ -13,6 +13,9 @@ namespace samchon
 			 * @brief A chat client
 			 * @details A simple chat client belonged to a chat server
 			 *
+			 * @image html cpp/example_console_chat.png
+			 * @image latex cpp/example_console_chat.png
+			 *
 			 * @author Jeongho Nam
 			 */
 			class ChatClient

@@ -9,32 +9,28 @@ namespace samchon
 
 		/**
 		 * @brief Unique lock for reading
-		 * 
+		 *
 		 * @details
-		 * \par 
-		 * A UniqueReadLock is an object manages a RWMutex object on reading
-		 * with unique ownership in both states: locked and unlocked.
-		 * 
-		 * \par 
-		 * On construction (or by move-assigning to it), the object acquires 
-		 * a mutex object, for whose locking and unlocking operations becomes responsible.
+		 * <p> A UniqueAcquire is an object manages a RWMutex with unique ownership in both states. </p>
+		 *	\li locked
+		 *	\li unlocked
 		 *
-		 * \par
-		 * The object supports both states: locked and unlocked.
+		 * <p> On construction (or by move-assigning to it), the object locks a RWMutex object on reading 
+		 * side, for whose locking and unlocking operations becomes responsible. </p>
 		 *
-		 * \par
-		 * This class guarantees an unlocked status on destruction 
-		 * (even if not called explicitly). Therefore it is especially useful as an object 
-		 * with automatic duration, as it guarantees the mutex object is properly unlocked 
-		 * in case an exception is thrown.
+		 * <p> This class guarantees a unlocked status on destruction (even if not called explicitly). 
+		 * Therefore it is especially useful as an object with automatic duration, as it guarantees 
+		 * the RWMutex object is properly unlocked in case an exception is thrown. </p>
 		 *
-		 * \par
-		 * Referenced comments of std::unique_lock
+		 * <p> Referenced comments of std::unique_lock </p>
 		 *	\li http://www.cplusplus.com/reference/mutex/unique_lock/
 		 *
-		 * @warning
-		 * Though, that the UniqueReadLock object does not manage the lifetime of the mutex 
-		 * object in any way: the duration of the mutex object shall extend at least until 
+		 * @image html cpp/library_critical_section.png
+		 * @image latex cpp/library_critical_section.png
+		 *
+		 * @note
+		 * Though, that the UniqueReadLock object does not manage the lifetime of the RWMutex
+		 * object in any way: the duration of the RWMutex object shall extend at least until
 		 * the destruction of the UniqueReadLock that manages it.
 		 *
 		 * @author Jeongho Nam
@@ -53,9 +49,9 @@ namespace samchon
 			bool isLocked;
 
 		public:
-			/* ===================================================
+			/* -----------------------------------------------------------
 				CONSTRUCTORS
-			=================================================== */
+			----------------------------------------------------------- */
 			/**
 			 * @brief Construct from mutex
 			 * 
@@ -65,16 +61,33 @@ namespace samchon
 			UniqueReadLock(const RWMutex &, bool = true);
 
 			/**
-			 * @brief Destructor
+			 * @brief Prohibited Copy Constructor
 			 *
-			 * @details
-			 * If read lock has done by the UniqueLock, unlock it
+			 * @details 
+			 * <p> UniqueAcquire can't be copied. Use pointer, reference instead. </p>
+			 * <p> If what you want is UniqueAcquire(s) references each other and unlock when all related
+			 * UniqueAcquire objects are destructed, SharedAcquire is the best way. </p>
+			 *
+			 * @param obj Tried object to copy.
+			 */
+			UniqueReadLock(const UniqueReadLock &) = delete;
+
+			/**
+			 * @brief Move Constructor
+			 *
+			 * @param An object to move
+			 */
+			UniqueReadLock(UniqueReadLock&&);
+
+			/**
+			 * @brief Default Destructor
+			 * @details If read lock has done by the UniqueLock, unlock it
 			 */
 			~UniqueReadLock();
 
-			/* ===================================================
+			/* -----------------------------------------------------------
 				LOCKERS
-			=================================================== */
+			----------------------------------------------------------- */
 			/**
 			 * @copydoc RWMutex::readLock()
 			 */

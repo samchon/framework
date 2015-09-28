@@ -3,9 +3,13 @@ var hierarchy =
     [ "Base64", "df/d1b/classsamchon_1_1library_1_1Base64.html", null ],
     [ "ByteArray", "dc/d37/classsamchon_1_1ByteArray.html", null ],
     [ "CaseGenerator", "de/ddf/classsamchon_1_1library_1_1CaseGenerator.html", [
-      [ "CombinedPermutationGenerator", "dc/db2/classsamchon_1_1library_1_1CombinedPermutationGenerator.html", null ]
+      [ "CombinedPermutationGenerator", "dc/db2/classsamchon_1_1library_1_1CombinedPermutationGenerator.html", null ],
+      [ "PermutationGenerator", "d4/d31/classsamchon_1_1library_1_1PermutationGenerator.html", [
+        [ "FactorialGenerator", "dd/d7b/classsamchon_1_1library_1_1FactorialGenerator.html", null ]
+      ] ]
     ] ],
     [ "Charset", "da/d99/classsamchon_1_1library_1_1Charset.html", null ],
+    [ "ChatRoomArray", "d2/d9a/classsamchon_1_1example_1_1chat__service_1_1ChatRoomArray.html", null ],
     [ "CriticalAllocator< _Ty >", "d6/d32/classsamchon_1_1library_1_1CriticalAllocator.html", null ],
     [ "Date", "da/d6b/classsamchon_1_1library_1_1Date.html", [
       [ "Datetime", "dd/de3/classsamchon_1_1library_1_1Datetime.html", null ]
@@ -16,6 +20,8 @@ var hierarchy =
       ] ],
       [ "EntityGroup< _Container, std::shared_ptr< Entity > >", "d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html", null ],
       [ "EntityGroup< _Container, std::unique_ptr< Entity > >", "d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html", null ],
+      [ "ChatMessage", "df/d7b/classsamchon_1_1example_1_1chat__service_1_1ChatMessage.html", null ],
+      [ "ChatRoom", "d7/d41/classsamchon_1_1example_1_1chat__service_1_1ChatRoom.html", null ],
       [ "FTInstance", "d7/d0a/classsamchon_1_1library_1_1FTInstance.html", [
         [ "FTFile", "d2/d27/classsamchon_1_1library_1_1FTFile.html", [
           [ "FTByteFile", "dd/d68/classsamchon_1_1library_1_1FTByteFile.html", null ],
@@ -53,7 +59,6 @@ var hierarchy =
       [ "ProgressEvent", "de/d4a/classsamchon_1_1library_1_1ProgressEvent.html", null ]
     ] ],
     [ "EventDispatcher", "d3/d9b/classsamchon_1_1library_1_1EventDispatcher.html", null ],
-    [ "FactorialGenerator", "dd/d7b/classsamchon_1_1library_1_1FactorialGenerator.html", null ],
     [ "FlashPolicyServer", "d2/d55/classsamchon_1_1protocol_1_1FlashPolicyServer.html", null ],
     [ "FTFactory", "d6/d60/classsamchon_1_1library_1_1FTFactory.html", [
       [ "NTFactory", "d0/d7b/classsamchon_1_1namtree_1_1NTFactory.html", null ]
@@ -70,25 +75,43 @@ var hierarchy =
     ] ],
     [ "Invoke", "d8/d82/classsamchon_1_1protocol_1_1Invoke.html", null ],
     [ "InvokeParameter", "d0/d1a/classsamchon_1_1protocol_1_1InvokeParameter.html", null ],
-    [ "IOperator", "dd/d2e/classsamchon_1_1library_1_1IOperator.html", [
+    [ "IOperator< _Ty >", "dd/d2e/classsamchon_1_1library_1_1IOperator.html", null ],
+    [ "IOperator< NTIterator >", "dd/d2e/classsamchon_1_1library_1_1IOperator.html", [
       [ "NTIterator", "d4/dd2/classsamchon_1_1namtree_1_1NTIterator.html", null ]
     ] ],
     [ "IProtocol", "d4/dcf/classsamchon_1_1protocol_1_1IProtocol.html", [
+      [ "ChatRoom", "d7/d41/classsamchon_1_1example_1_1chat__service_1_1ChatRoom.html", null ],
       [ "ChatServer", "dd/dc0/classsamchon_1_1example_1_1console__chat__server_1_1ChatServer.html", null ],
       [ "IClient", "d3/dc8/classsamchon_1_1protocol_1_1IClient.html", [
         [ "ChatClient", "d2/d3b/classsamchon_1_1example_1_1console__chat__server_1_1ChatClient.html", null ],
-        [ "ServerConnector", "db/d72/classsamchon_1_1protocol_1_1ServerConnector.html", null ],
-        [ "Client", "df/d31/classsamchon_1_1protocol_1_1service_1_1Client.html", null ]
+        [ "IWebClient", "d7/d51/classsamchon_1_1protocol_1_1IWebClient.html", [
+          [ "WebServerConnector", "d8/dc2/classsamchon_1_1protocol_1_1WebServerConnector.html", null ]
+        ] ],
+        [ "ServerConnector", "db/d72/classsamchon_1_1protocol_1_1ServerConnector.html", [
+          [ "WebServerConnector", "d8/dc2/classsamchon_1_1protocol_1_1WebServerConnector.html", null ]
+        ] ],
+        [ "Client", "df/d31/classsamchon_1_1protocol_1_1service_1_1Client.html", [
+          [ "ChatClient", "d4/dba/classsamchon_1_1example_1_1chat__service_1_1ChatClient.html", null ]
+        ] ]
       ] ],
       [ "ExternalSystem", "d0/d74/classsamchon_1_1protocol_1_1master_1_1ExternalSystem.html", null ],
       [ "ExternalSystemArray", "de/d6b/classsamchon_1_1protocol_1_1master_1_1ExternalSystemArray.html", null ],
-      [ "Service", "d6/df3/classsamchon_1_1protocol_1_1service_1_1Service.html", null ],
-      [ "User", "df/d87/classsamchon_1_1protocol_1_1service_1_1User.html", null ]
+      [ "Service", "d6/df3/classsamchon_1_1protocol_1_1service_1_1Service.html", [
+        [ "ChatService", "df/de2/classsamchon_1_1example_1_1chat__service_1_1ChatService.html", null ],
+        [ "ListService", "dd/de9/classsamchon_1_1example_1_1chat__service_1_1ListService.html", null ]
+      ] ],
+      [ "User", "df/d87/classsamchon_1_1protocol_1_1service_1_1User.html", [
+        [ "ChatUser", "d7/df1/classsamchon_1_1example_1_1chat__service_1_1ChatUser.html", null ]
+      ] ],
+      [ "SystemRole", "d5/de8/classsamchon_1_1protocol_1_1SystemRole.html", null ]
     ] ],
     [ "IPUserPair", "df/dc6/classsamchon_1_1protocol_1_1service_1_1IPUserPair.html", null ],
     [ "IServer", "d4/de8/classsamchon_1_1protocol_1_1IServer.html", [
       [ "ChatServer", "dd/dc0/classsamchon_1_1example_1_1console__chat__server_1_1ChatServer.html", null ],
-      [ "Server", "d9/d35/classsamchon_1_1protocol_1_1service_1_1Server.html", null ]
+      [ "IWebServer", "d5/d23/classsamchon_1_1protocol_1_1IWebServer.html", null ],
+      [ "Server", "d9/d35/classsamchon_1_1protocol_1_1service_1_1Server.html", [
+        [ "ChatServer", "da/d56/classsamchon_1_1example_1_1chat__service_1_1ChatServer.html", null ]
+      ] ]
     ] ],
     [ "ISQLEntity", "d7/d56/classsamchon_1_1protocol_1_1ISQLEntity.html", null ],
     [ "Map< _Kty, _Ty, _Pr, _Alloc >", "d1/d4e/classsamchon_1_1Map.html", [
@@ -114,11 +137,19 @@ var hierarchy =
     [ "Scheduler", "df/d27/classsamchon_1_1example_1_1tsp_1_1Scheduler.html", null ],
     [ "Semaphore", "d9/d88/classsamchon_1_1library_1_1Semaphore.html", null ],
     [ "ServiceKeeper", "d0/d04/classsamchon_1_1protocol_1_1service_1_1ServiceKeeper.html", null ],
+    [ "SharedAcquire", "d7/d8e/classsamchon_1_1library_1_1SharedAcquire.html", null ],
+    [ "SharedReadLock", "d7/de5/classsamchon_1_1library_1_1SharedReadLock.html", null ],
+    [ "SharedWriteLock", "da/d5f/classsamchon_1_1library_1_1SharedWriteLock.html", null ],
     [ "SmartPointer< _Ty >", "d9/d2d/classsamchon_1_1SmartPointer.html", null ],
     [ "SmartPointer< samchon::protocol::service::Client >", "d9/d2d/classsamchon_1_1SmartPointer.html", null ],
     [ "SmartPointer< samchon::protocol::service::User >", "d9/d2d/classsamchon_1_1SmartPointer.html", null ],
-    [ "SQLi", "d9/d2f/classsamchon_1_1library_1_1SQLi.html", null ],
-    [ "SQLStatement", "de/def/classsamchon_1_1library_1_1SQLStatement.html", null ],
+    [ "SQLi", "d9/d2f/classsamchon_1_1library_1_1SQLi.html", [
+      [ "MySQLi", "d6/dcc/classsamchon_1_1library_1_1MySQLi.html", null ],
+      [ "TSQLi", "da/dfd/classsamchon_1_1library_1_1TSQLi.html", null ]
+    ] ],
+    [ "SQLStatement", "de/def/classsamchon_1_1library_1_1SQLStatement.html", [
+      [ "TSQLStatement", "d3/d69/classsamchon_1_1library_1_1TSQLStatement.html", null ]
+    ] ],
     [ "StringUtil", "d2/d53/classsamchon_1_1library_1_1StringUtil.html", null ],
     [ "Travel", "db/dd4/classsamchon_1_1example_1_1tsp_1_1Travel.html", null ],
     [ "UniqueAcquire", "d1/df7/classsamchon_1_1library_1_1UniqueAcquire.html", null ],

@@ -7,7 +7,13 @@ namespace samchon
 {
 	namespace library
 	{
+		/**
+		 * @brief A std::list ensures concurrency.
+		 *
+		 * @see CriticalAllocator
+		 * @author Jeongho Nam
+		 */
 		template <typename _Ty>
-		using CriticalVector = std::list<_Ty, CriticalAllocator<_Ty>>;
+		using CriticalList = std::list<_Ty, CriticalAllocator<_Ty>>;
 	};
 };

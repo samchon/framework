@@ -41,14 +41,12 @@
  *	</ul>
  *	<li> Another API Documents </li>
  *	<ul>
- *		<li> <a href="https://samchon.github.io/framework/api/cpp/" target="_blank">
- *			 C++ </li>
+ *		<li> <a href="https://samchon.github.io/framework/api/cpp/samchon_framework_cpp_api.pdf" target="_blank">
+ *			 C++ as PDF file</a> </li>
  *		<li> <a href="https://samchon.github.io/framework/api/flex/" target="_blank">
  *			 Flex</a> </li>
- *		<li> <a href="https://samchon.github.io/framework/api/js/" target="_blank">
- *			 JavaScript</a> </li>
- *		<li> <a href="https://samchon.github.io/framework/api/t-sql/" target="_blank">
- *			 T-SQL</a> </li>
+ *		<li> <a href="https://samchon.github.io/framework/api/ts/" target="_blank">
+ *			 TypeScript</a> </li>
  *	</ul>
  * </ul>
  *

@@ -10,6 +10,10 @@ namespace samchon
 			/**
 			 * @brief A geometry coordinates (point)
 			 *
+			 * @details
+			 * <p> @image html cpp/example_tsp.png
+			 * @image latex cpp/example_tsp.png </p>
+			 *
 			 * @author Jeongho Nam
 			 */
 			class GeometryPoint

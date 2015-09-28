@@ -1,6 +1,9 @@
 #include <samchon/library/RWMutex.hpp>
 using namespace samchon::library;
 
+/* -----------------------------------------------------------
+	CONSTRUCTORS
+----------------------------------------------------------- */
 UniqueWriteLock::UniqueWriteLock(RWMutex &mtx, bool doLock)
 {
 	if(doLock == true)
@@ -9,12 +12,25 @@ UniqueWriteLock::UniqueWriteLock(RWMutex &mtx, bool doLock)
 	this->mtx = &mtx;
 	this->isLocked = doLock;
 }
+UniqueWriteLock::UniqueWriteLock(UniqueWriteLock &&obj)
+{
+	//MOVE
+	this->mtx = obj.mtx;
+	this->isLocked = obj.isLocked;
+
+	//TRUNCATE
+	obj.mtx = nullptr;
+	obj.isLocked = nullptr;
+}
 UniqueWriteLock::~UniqueWriteLock()
 {
 	if(isLocked == true)
 		mtx->readUnlock();
 }
 
+/* -----------------------------------------------------------
+	LOCKERS
+----------------------------------------------------------- */
 void UniqueWriteLock::lock()
 {
 	if(isLocked == true)

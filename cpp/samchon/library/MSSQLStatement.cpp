@@ -1,4 +1,4 @@
-#include <samchon/library/MSSQLStatement.hpp>
+#include <samchon/library/TSQLStatement.hpp>
 
 #include <samchon/library/SQLi.hpp>
 #include <samchon/library/XML.hpp>
@@ -7,11 +7,11 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 
-MSSQLStatement::MSSQLStatement(SQLi *sqli)
+TSQLStatement::TSQLStatement(SQLi *sqli)
 	: SQLStatement(sqli) {}
-MSSQLStatement::~MSSQLStatement() {}
+TSQLStatement::~TSQLStatement() {}
 
-auto MSSQLStatement::toXML() const -> shared_ptr<XML>
+auto TSQLStatement::toXML() const -> shared_ptr<XML>
 {
 	fetch();
 	string &str = super::at<std::string>(0);

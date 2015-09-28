@@ -11,9 +11,41 @@ namespace samchon
 	namespace library
 	{
 		/**
-		 * @brief Semaphore
+		 * @brief A semaphore
 		 *
-		 * 
+		 * @details
+		 * <p> In computer science, particularly in operating systems, a semaphore is a variable or abstract 
+		 * data type that is used for controlling access, by multiple processes, to a common resource in a 
+		 * concurrent system such as a multiprogramming operating system. </p>
+		 *
+		 * <p> A trivial semaphore is a plain variable that is changed (for example, incremented or 
+		 * decremented, or toggled) depending on programmer-defined conditions. The variable is then
+		 * used as a condition to control access to some system resource. </p>
+		 *
+		 * <p> A useful way to think of a semaphore as used in the real-world systems is as a record of 
+		 * how many units of a particular resource are available, coupled with operations to safely 
+		 * (i.e., without race conditions) adjust that record as units are required or become free, and, 
+		 * if necessary, wait until a unit of the resource becomes available. Semaphores are a useful tool 
+		 * in the prevention of race conditions; however, their use is by no means a guarantee that a 
+		 * program is free from these problems. Semaphores which allow an arbitrary resource count are 
+		 * called counting semaphores, while semaphores which are restricted to the values 0 and 1 
+		 * (or locked/unlocked, unavailable/available) are called binary semaphores </p>
+		 *	\li Categorized in binary semaphore
+		 *
+		 * <p> Referenced Wediapedia </p>
+		 *	\li https://en.wikipedia.org/wiki/Semaphore_(programming)
+		 *
+		 * @image html cpp/library_critical_section.png
+		 * @image latex cpp/library_critical_section.png
+		 *
+		 * @note
+		 * <p> Of course, semaphore is already defined in linux C and MFC in Window. But it is dependent on
+		 * each operating system, so that cannot be compiled in another OS with those semaphores. There's not
+		 * a class like semaphore in STL yet. It's the reason why Semaphore is provided. </p>
+		 *
+		 * <p> As that reason, if STL supports the semaphore in near future, the Semaphore can be depreciated. </p>
+		 *
+		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Semaphore
 		{
@@ -101,3 +133,4 @@ namespace samchon
 };
 
 #include <samchon/library/UniqueAcquire.hpp>
+#include <samchon/library/SharedAcquire.hpp>

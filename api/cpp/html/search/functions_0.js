@@ -1,19 +1,4 @@
 var searchData=
 [
-  ['accept',['accept',['../d2/d55/classsamchon_1_1protocol_1_1FlashPolicyServer.html#a798de4418853ab14e0c9d72068e56f69',1,'samchon::protocol::FlashPolicyServer']]],
-  ['acquire',['acquire',['../d9/d88/classsamchon_1_1library_1_1Semaphore.html#af9f5b35a212d21af601a8213ed325871',1,'samchon::library::Semaphore::acquire()'],['../d1/df7/classsamchon_1_1library_1_1UniqueAcquire.html#af9f5b35a212d21af601a8213ed325871',1,'samchon::library::UniqueAcquire::acquire()']]],
-  ['addallproperty',['addAllProperty',['../d5/d37/classsamchon_1_1library_1_1XML.html#ae5c2af770b47c64100b41aa5beaa1593',1,'samchon::library::XML']]],
-  ['addclient',['addClient',['../dd/dc0/classsamchon_1_1example_1_1console__chat__server_1_1ChatServer.html#aafb1dd6d4582bcc50a40a6fe17e85c80',1,'samchon::example::console_chat_server::ChatServer::addClient()'],['../d4/de8/classsamchon_1_1protocol_1_1IServer.html#a89a707ebf106e0e2cecfee911c45cd6a',1,'samchon::protocol::IServer::addClient()'],['../d9/d35/classsamchon_1_1protocol_1_1service_1_1Server.html#a9cbdd988cd4a917f6b47162103bfd550',1,'samchon::protocol::service::Server::addClient()'],['../df/d87/classsamchon_1_1protocol_1_1service_1_1User.html#a3e0e75b8a2360d78ddda3bd1d3d29ce6',1,'samchon::protocol::service::User::addClient()']]],
-  ['adddate',['addDate',['../da/d6b/classsamchon_1_1library_1_1Date.html#ab50deee6a88d183e79e8f2c22be0d7d2',1,'samchon::library::Date::addDate()'],['../dd/de3/classsamchon_1_1library_1_1Datetime.html#ab50deee6a88d183e79e8f2c22be0d7d2',1,'samchon::library::Datetime::addDate()']]],
-  ['addeventlistener',['addEventListener',['../d3/d9b/classsamchon_1_1library_1_1EventDispatcher.html#a4292aad80ae244ecf810b8ffb32ba5c9',1,'samchon::library::EventDispatcher']]],
-  ['addhour',['addHour',['../dd/de3/classsamchon_1_1library_1_1Datetime.html#abd3df60cfa3c0eb3bd4998875ea439b7',1,'samchon::library::Datetime']]],
-  ['addminute',['addMinute',['../dd/de3/classsamchon_1_1library_1_1Datetime.html#a1a7d009a370b59c72d63a2bd22d16f2b',1,'samchon::library::Datetime']]],
-  ['addmonth',['addMonth',['../da/d6b/classsamchon_1_1library_1_1Date.html#aeb04c87f6ffb3f9b01d3921bfce5fd46',1,'samchon::library::Date::addMonth()'],['../dd/de3/classsamchon_1_1library_1_1Datetime.html#aeb04c87f6ffb3f9b01d3921bfce5fd46',1,'samchon::library::Datetime::addMonth()']]],
-  ['addsecond',['addSecond',['../dd/de3/classsamchon_1_1library_1_1Datetime.html#ab987d41a3dcfb6ecd11b186dd764227f',1,'samchon::library::Datetime']]],
-  ['addtab',['addTab',['../d2/d53/classsamchon_1_1library_1_1StringUtil.html#a1c3b69aa2041d6b68723e25ca016c423',1,'samchon::library::StringUtil']]],
-  ['addweek',['addWeek',['../da/d6b/classsamchon_1_1library_1_1Date.html#a206fc0cf9fd399c0293c2c039e126a75',1,'samchon::library::Date::addWeek()'],['../dd/de3/classsamchon_1_1library_1_1Datetime.html#a206fc0cf9fd399c0293c2c039e126a75',1,'samchon::library::Datetime::addWeek()']]],
-  ['addyear',['addYear',['../da/d6b/classsamchon_1_1library_1_1Date.html#a6fa2825b92b4e719e363d4bd7ec21c02',1,'samchon::library::Date::addYear()'],['../dd/de3/classsamchon_1_1library_1_1Datetime.html#a6fa2825b92b4e719e363d4bd7ec21c02',1,'samchon::library::Datetime::addYear()']]],
-  ['allocate',['allocate',['../d6/d32/classsamchon_1_1library_1_1CriticalAllocator.html#a5d37941dfd941c7802c6c44e23112865',1,'samchon::library::CriticalAllocator']]],
-  ['archive',['archive',['../d7/d56/classsamchon_1_1protocol_1_1ISQLEntity.html#a968d53428a668e3d1e1c3fceee83a0e4',1,'samchon::protocol::ISQLEntity']]],
-  ['at',['at',['../de/ddf/classsamchon_1_1library_1_1CaseGenerator.html#aa7f0e8cc01f8893b78cb289552c4c8e0',1,'samchon::library::CaseGenerator::at()'],['../de/def/classsamchon_1_1library_1_1SQLStatement.html#a21b63a97abd0ea41486084ceca92c867',1,'samchon::library::SQLStatement::at()'],['../d8/de4/classsamchon_1_1WeakString.html#a469fa5c6c4355c98637ebc1d4b174f87',1,'samchon::WeakString::at()']]]
+  ['_5freplydata',['_replyData',['../d3/dc8/classsamchon_1_1protocol_1_1IClient.html#af5140c600cabed729aaead64b702e9f8',1,'samchon::protocol::IClient']]]
 ];

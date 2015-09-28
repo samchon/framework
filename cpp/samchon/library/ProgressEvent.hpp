@@ -9,9 +9,10 @@ namespace samchon
 	{
 		/** 
 		 * @brief Event representing a progress
-		 * @details 
 		 *
-		 * @author Jeongho Nam
+		 * @details
+		 * \par Inherited
+		 * @copydoc library::Even
 		 */
 		class SAMCHON_FRAMEWORK_API ProgressEvent
 			: public Event

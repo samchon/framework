@@ -7,6 +7,12 @@ namespace samchon
 {
 	namespace library
 	{
+		/**
+		 * @brief A Set ensures concurrency.
+		 *
+		 * @see CriticalAllocator
+		* @author Jeongho Nam
+		 */
 		template <typename _Ty, typename _Pr = std::less<_Ty>>
 		using CriticalSet = Set<_Ty, _Pr, CriticalAllocator<_Ty>>;
 	};

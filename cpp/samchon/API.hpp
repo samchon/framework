@@ -12,3 +12,5 @@
 #	define SAMCHON_FRAMEWORK_API
 #	define SAMCHON_FRAMEWORK_EXTERN 
 #endif
+
+#pragma warning(disable: 4251)

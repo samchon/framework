@@ -9,9 +9,20 @@ namespace samchon
 	namespace protocol
 	{
 		/**
-		 * @brief An interface of a server
+		 * @brief An interface of a physical server
 		 * 
-		 * @details Provides methods for opening a server.
+		 * @details 
+		 * <p> IServer provides methods for opening a server. </p>
+		 *
+		 * <p> IServer is one of the basic 3 + 1 components that can make any type of network system in
+		 * Samchon Framework with IProtocol and IClient. Looking around classes in Samchon Framework, 
+		 * you can see all servers are implemented from the IServer. </p>
+		 *
+		 * <p> When a client connects to the server, the abstract method IServer::addClient() is called
+		 * with a new thread. If you want to accept only a client at a time, use OneToOneServer instead. </p>
+		 *
+		 * @image html cpp/protocol_interface.png
+		 * @image latex cpp/protocol_interface.png
 		 *
 		 * <h3>Example source</h3>
 		 * <p> A simple chat server running on console </p>
@@ -56,6 +67,8 @@ namespace samchon
 
 			/**
 			 * @brief Open the server
+			 *
+			 * @note It holds (monopolies) a thread.
 			 */
 			virtual void open();
 
@@ -66,7 +79,7 @@ namespace samchon
 
 		protected:
 			/**
-			 * @brief Handling connection of a client
+			 * @brief Handling connection of a physical client
 			 */
 			virtual void addClient(Socket*) = 0; //ADD_CLIENT
 		};

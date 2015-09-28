@@ -15,19 +15,21 @@ namespace samchon
 		 * @brief Date (year, month, day in month)
 		 * 
 		 * @details
-		 * \par Date class is a chrono::time_point\<std::chrono::system_clock\>.
-		 * \par Date represents the date with year, month and day in month.
-		 * \par The basic date (local time) is from your operating system
+		 * <p> Date class is a chrono::time_point\<std::chrono::system_clock\>. </p>
+		 * <p> Date represents the date with year, month and day in month.
+		 * The basic date (local time) is from your operating system. </p>
 		 *
-		 * \par [Inherited]
-		 * A time_point object expresses a point in time relative to a clock's epoch.
+		 * \par Inherited
+		 * <p> A time_point object expresses a point in time relative to a clock's epoch. </p>
 		 *
-		 * \par
-		 * Internally, the object stores an object of a duration type, and uses the Clock 
-		 * type as a reference for its epoch.
+		 * <p> Internally, the object stores an object of a duration type, and uses the Clock 
+		 * type as a reference for its epoch. </p>
 		 *
 		 * Referenced comments of std::chrono::time_point
 		 *	\li http://www.cplusplus.com/reference/chrono/time_point/
+		 *
+		 * @image html cpp/subset/date.png
+		 * @image latex cpp/subset/date.png
 		 *
 		 * @author Jeongho Nam
 		 */
@@ -94,14 +96,6 @@ namespace samchon
 			 */
 			Date(int year, int month, int date);
 			
-			/**
-			 * @brief Construct from std::string
-			 * 
-			 * @param str A string expressing the date. (1991-01-01)
-			 * @throw invalid_argument month or date is invalid.
-			 */
-			Date(const std::string &);
-
 			/**
 			* @brief Constructor by std::string
 			* 
@@ -271,7 +265,7 @@ namespace samchon
 			 * 
 			 * @return struct tm representing the Date
 			 */
-			virtual auto toTM() const -> struct ::tm;
+			auto toTM() const -> struct ::tm;
 
 		public:
 			/**
@@ -279,7 +273,7 @@ namespace samchon
 			 * 
 			 * @return linux_time of the Date
 			 */
-			virtual auto toLinuxTime() const -> long long;
+			auto toLinuxTime() const -> long long;
 
 			/**
 			 * @brief Converts the Date to std::string

@@ -9,6 +9,15 @@ namespace samchon
 		{
 			class ListService;
 
+			/**
+			 * @brief A list service of chat rooms.
+			 *
+			 * @details
+			 * <p> @image html cpp/example_chat_service.png
+			 * @image latex cpp/example_chat_service.png </p>
+			 *
+			 * @author Jeongho Nam
+			 */
 			class ListService
 				: public protocol::service::Service
 			{
@@ -16,12 +25,20 @@ namespace samchon
 				typedef protocol::service::Service super;
 
 			public:
+				/**
+				 * @brief Construct from a client.
+				 */
 				ListService(protocol::service::Client*);
 				virtual ~ListService() = default;
 
 				virtual void replyData(std::shared_ptr<protocol::Invoke>) override;
 
 			private:
+				/**
+				 * @brief Create a chat room.
+				 *
+				 * @param name Name of the candidate room to create.
+				 */
 				void createRoom(const std::string &);
 			};
 		};

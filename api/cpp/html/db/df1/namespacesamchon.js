@@ -1,6 +1,7 @@
 var namespacesamchon =
 [
     [ "example", null, [
+      [ "chat_service", "de/d34/namespacesamchon_1_1example_1_1chat__service.html", "de/d34/namespacesamchon_1_1example_1_1chat__service" ],
       [ "console_chat_server", "dc/dc4/namespacesamchon_1_1example_1_1console__chat__server.html", "dc/dc4/namespacesamchon_1_1example_1_1console__chat__server" ],
       [ "packer", null, [
         [ "Instance", "dc/d54/classsamchon_1_1example_1_1packer_1_1Instance.html", "dc/d54/classsamchon_1_1example_1_1packer_1_1Instance" ],
@@ -9,12 +10,7 @@ var namespacesamchon =
         [ "Wrapper", "dc/d06/classsamchon_1_1example_1_1packer_1_1Wrapper.html", "dc/d06/classsamchon_1_1example_1_1packer_1_1Wrapper" ],
         [ "WrapperArray", "d4/dfe/classsamchon_1_1example_1_1packer_1_1WrapperArray.html", "d4/dfe/classsamchon_1_1example_1_1packer_1_1WrapperArray" ]
       ] ],
-      [ "tsp", null, [
-        [ "GAParameters", "d9/d92/structsamchon_1_1example_1_1tsp_1_1GAParameters.html", null ],
-        [ "GeometryPoint", "d3/da4/classsamchon_1_1example_1_1tsp_1_1GeometryPoint.html", "d3/da4/classsamchon_1_1example_1_1tsp_1_1GeometryPoint" ],
-        [ "Scheduler", "df/d27/classsamchon_1_1example_1_1tsp_1_1Scheduler.html", "df/d27/classsamchon_1_1example_1_1tsp_1_1Scheduler" ],
-        [ "Travel", "db/dd4/classsamchon_1_1example_1_1tsp_1_1Travel.html", "db/dd4/classsamchon_1_1example_1_1tsp_1_1Travel" ]
-      ] ]
+      [ "tsp", "d0/d6a/namespacesamchon_1_1example_1_1tsp.html", "d0/d6a/namespacesamchon_1_1example_1_1tsp" ]
     ] ],
     [ "library", "d8/dd4/namespacesamchon_1_1library.html", "d8/dd4/namespacesamchon_1_1library" ],
     [ "namtree", "d4/d05/namespacesamchon_1_1namtree.html", "d4/d05/namespacesamchon_1_1namtree" ],

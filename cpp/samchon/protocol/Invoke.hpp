@@ -14,7 +14,12 @@ namespace samchon
 	namespace protocol
 	{
 		/**
-		 * @brief Standard message for network I/O
+		 * @brief Standard message of network I/O
+		 *
+		 * @details
+		 *
+		 * @image html  cpp/protocol_invoke.png
+		 * @image latex cpp/protocol_invoke.png
 		 *
 		 * @includelineno invoke/main.cpp
 		 * @author Jeongho Nam

@@ -11,6 +11,12 @@ namespace samchon
 		/**
 		 * @brief Utility of Math
 		 *
+		 * @details
+		 * <p> Provides some static values and mathmatical methods. </p>
+		 *
+		 * @image html cpp/library_math.png
+		 * @image latex cpp/library_math.png
+		 *
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Math

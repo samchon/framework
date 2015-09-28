@@ -18,6 +18,9 @@ namespace samchon
 			 * <p> WrapperArray reserves Product(s) and generates enough number of Wrapper(s). </p>
 			 * <p> WrapperArray will retrieve the best arrange and packaging method for reserved Product(s). </p> 
 			 *
+			 * <p> @image html cpp/example_packer.png
+			 * @image latex cpp/example_packer.png </p>
+			 *
 			 * @author Jeongho Nam
 			 */
 			class WrapperArray

@@ -22,23 +22,23 @@ namespace samchon
 		 *
 		 *	\li Referenced Wikipedia: https://en.wikipedia.org/wiki/Genetic_algorithm
 		 *
+		 * <p> @image html cpp/subset/library_genetic_algorithm.png
+		 * @image latex cpp/subset/library_genetic_algorithm.png </p>
+		 *
 		 * @tparam GeneArray An array(std::vector) containing genes as elments; sequnce listing.\n\n
 		 * The GeneArray must be a type of <i>std::vector</i>.
 		 *
 		 * @tparam Compare 
-		 * A comparison class (or struct) returns whether left gene is more optimal.\n\n
+		 *	A comparison class (or struct) returns whether left gene is more optimal.\n\n
 		 *
-		 * Default template parameter of Compare is <i>std::less<GeneArray></i>. It means to compare
-		 * two std::vector (GeneArray must be a std::vector). Thus, you've to keep follwing rules.\n\n
+		 *	Default template parameter of Compare is <i>std::less<GeneArray></i>. It means to compare
+		 *	two std::vector (GeneArray must be a std::vector). Thus, you've to keep follwing rules.\n\n
 		 *
-		 *	- GeneArray is inherited from <i>std::vector</i>
-		 *	- GeneArray has custom <i>auto operator<(const GeneArray &) const -> bool</i>
+		 *	If you don't want to follow the rules or want a custom comparison class, you have to
+		 *	realize a comparison class. The following code is an example realizing the comparison class.
 		 *
-		 * If you don't want to follow the rules or want a custom comparison class, you have to
-		 * realize a comparison class. The following code is an example realizing the comparison class.
-		 *
-		 * <p> @image html cpp/subset/library_genetic_algorithm.png
-		 * @image latex cpp/subset/library_genetic_algorithm.png width=12cm </p>
+		 *		- GeneArray is inherited from <i>std::vector</i>
+		 *		- GeneArray has custom <i>auto operator<(const GeneArray &) const -> bool</i>
 		 *
 		 * @code
 		 template <typename _Ty>

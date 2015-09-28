@@ -10,7 +10,11 @@ namespace samchon
 		class FTFolder;
 
 		/**
-		 * @brief Interface of virtual folder and file
+		 * @brief An interface of file-tree.
+		 * @details An interface for folder and file instances.
+		 *
+		 * @image html cpp/library_file_tree.png
+		 * @image latex cpp/library_file_tree.png
 		 *
 		 * @author Jeongho Nam
 		 */

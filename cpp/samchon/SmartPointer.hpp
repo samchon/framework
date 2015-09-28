@@ -116,13 +116,11 @@ namespace samchon
 		 * @brief Reset pointer
 		 *
 		 * @details
-		 * \par
-		 * Reset pointer to manage and shrink use count of previous pointer.
+		 * <p> Reset pointer to manage and shrink use count of previous pointer. </p>
 		 *
-		 * \par
-		 * Additionally, a call to this function has the same side effects as if 
+		 * <p> Additionally, a call to this function has the same side effects as if 
 		 * SmartPointer's destructor was called before its value changed 
-		 * (including the deletion of the managed object if this SmartPointer was unique).
+		 * (including the deletion of the managed object if this SmartPointer was unique). </p>
 		 *
 		 * @param Pointer whose ownership is taken over by the object.
 		 *		  Unlike std::shared_ptr, ptr being managed by another SmartPointer does not cause any problem
@@ -146,12 +144,10 @@ namespace samchon
 		 * @brief Get pointer
 		 *
 		 * @details
-		 * \par
-		 * Returns the stored pointer.
+		 * <p> Returns the stored pointer. </p>
 		 *
-		 * \par
-		 * The stored pointer points to the object the shared_ptr object dereferences to, 
-		 * which is generally the same as its owned pointer.
+		 * <p> The stored pointer points to the object the shared_ptr object dereferences to, 
+		 * which is generally the same as its owned pointer. </p>
 		 *
 		 * @return The stored pointer
 		 */
@@ -164,12 +160,11 @@ namespace samchon
 		 * @brief Dereference object membr
 		 * 
 		 * @details
-		 * \par
-		 * Returns a pointer to the object pointed by the stored pointer in order to access one of its members.
-		 * This member function shall not be called if the stored pointer is a null pointer.
+		 * <p> Returns a pointer to the object pointed by the stored pointer in order to access one of its members.
+		 * This member function shall not be called if the stored pointer is a null pointer. </p>
 		 * 
-		 * \par
-		 * It returns the same value as get()
+		 * <p> It returns the same value as get(). </p>
+		 *
 		 * @return A pointer to be managed by SmartPointer
 		 */
 		auto operator->() const -> _Ty*
@@ -181,7 +176,6 @@ namespace samchon
 		 * @brief Dereference object
 		 *
 		 * @details
-		 * \par
 		 * Returns a reference to the object pointerd by pointer.
 		 * It is equivalent to: *get()
 		 *

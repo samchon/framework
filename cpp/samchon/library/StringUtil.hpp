@@ -26,6 +26,10 @@ namespace samchon
 		 * principle of Object-Oriented Design. For the present, I've made the StringUtil class, but if you 
 		 * have a good opinion about the issue, please write your opinion on my github. </p>
 		 *
+		 * @image html cpp/subset/string.png
+		 * @image latex cpp/subset/string.png
+		 *
+		 * @see WeakString
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API StringUtil

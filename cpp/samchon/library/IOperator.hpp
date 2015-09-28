@@ -70,6 +70,8 @@ auto operator>=(const _Ty &obj) const -> bool;
  *
  * @param _Class The class operator methods are belonged to
  * @param _Ty Type of parameter, what to compare
+ *
+ * @author Jeongho Nam
  */
 #define OPERATOR_METHODS_BODY(_Class, _Ty) \
 auto _Class::operator!=(const _Ty &obj) const -> bool \
@@ -114,6 +116,7 @@ namespace samchon
 		 *	\li OPERATOR_METHODS_HEADER(_Ty)
 		 *	\li OPERATOR_METHODS_BODY(_Class, _Ty)
 		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		template <typename _Ty>

@@ -22,21 +22,35 @@ namespace samchon
 	 *
 	 *	<li><h3> Invoke - standard network I/O message </h3></li>
 	 *		<p> Invoke is a standard message structure using network I/O in Samchon Framework. </p>
-	 *		<p> Group invoke not only provides parsing and converting from/to invoke mssage, but also
-	 *		history classes can be used to archiving log or estimating performance of a system. The
-	 *		purpose of estimating performance a system, especially, used in module of distributed
-	 *		processing and parallel processing systems. </p>
+	 *
+	 *		<p> The Invoke message has a XML structure like the piacture in below. 
+	 *		We can enjoy lots of benefits by the normalized and standardized message structure used in
+	 *		network I/O.\n
+	 *
+	 *		<p> The greatest advantage is that we can make any type of network system, even how the system 
+	 *		is enourmously complicated. As network communication message is standardized, we only need to
+	 *		concentrate on logical relationships between network systems. We can handle each network system 
+	 *		like a object (class) in OOD. And those relationships can be easily designed by using design
+	 *		pattern. </p>
+	 * 
+	 *		<p> Furthermore, The module invoke not only provides parsing and converting from/to Invoke 
+	 *		message, but also history classes can be used to archiving log or estimating performance of 
+	 *		a system. The purpose of estimating performance a system, especially, used in module of 
+	 *		distributed processing and parallel processing systems. </p>
 	 *
 	 *		@image html cpp/protocol_invoke.png
 	 *		@image latex cpp/protocol_invoke.png
 	 *
 	 *	<li><h3> Intefaces </h3></li>
-	 *		<p> You can make any type of network system with only three interfaces;
-	 *		IProtocol, IServer an IClient which are called basic 3 components. </p>
+	 *		<p> You can make any type of network system with only three + one interfaces;
+	 *		IProtocol, IServer and IClient + ServerConnector which are called basic 3 + 1 components.
+	 *		As I've mentiond in previous invoke module, because of standardization of message of network 
+	 *		I/O, we only need to concentrate on logical relationship like handling OOD objects </p>
 	 *
-	 *		<p> When you see protocol libraries from a different view, out of framework,
-	 *		all the modules in protocol are examples combinationing and utilizing those
-	 *		three basic components (interaces). </p>
+	 *		<p> The basic 3 + 1 components are top level abstract interfaces for designing network system
+	 *		like handling OOD objects. When you see the protocol module from a different view, out of framework, you can find that
+	 *		all the other classes in protocol are another examples combinationing and utilizing those
+	 *		basic 3 + 1 components (interaces). </p>
 	 *
 	 *		<p> @image html cpp/protocol_interface.png
 	 *		@image latex cpp/protocol_interface.png </p>

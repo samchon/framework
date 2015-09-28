@@ -35,7 +35,7 @@ namespace samchon
 		 *
 		 * <p> The UniqueAcquire is movable, but not copyable. </p>
 		 *
-		 * @see UniqueAcquire
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API UniqueAcquire

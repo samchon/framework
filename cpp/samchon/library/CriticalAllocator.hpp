@@ -42,6 +42,8 @@ namespace samchon
 		 * @image latex cpp/library_critical_section.png
 		 *
 		 * @tparam _Ty Type of the elements allocated by the object (aliased as member type value_type).
+		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		template <class _Ty>

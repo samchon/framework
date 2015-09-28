@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['begin',['begin',['../d9/d35/classsamchon_1_1protocol_1_1service_1_1Server.html#ac9869f6f345741227eeb648e0bb9f84d',1,'samchon::protocol::service::Server']]],
   ['between',['between',['../d2/d53/classsamchon_1_1library_1_1StringUtil.html#adbeabc0c8c0c9412bade4c2883745f11',1,'samchon::library::StringUtil::between()'],['../d8/de4/classsamchon_1_1WeakString.html#add086e67e45d8f9c4aa5adfa2b093c2a',1,'samchon::WeakString::between()']]],
   ['betweens',['betweens',['../d2/d53/classsamchon_1_1library_1_1StringUtil.html#aacd7d4c198c61e8e8113bb4c5e0eeb76',1,'samchon::library::StringUtil::betweens()'],['../d8/de4/classsamchon_1_1WeakString.html#a09e212a8700b90abfeb4de79ef1e80fe',1,'samchon::WeakString::betweens()']]],
   ['buffer_5fsize',['BUFFER_SIZE',['../d3/dc8/classsamchon_1_1protocol_1_1IClient.html#a68ee198dd9bae714dab92bb6374f8d95',1,'samchon::protocol::IClient']]],

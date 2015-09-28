@@ -21,7 +21,7 @@ namespace samchon
 		 * <p> When a client connects to the server, the abstract method IServer::addClient() is called
 		 * with a new thread. If you want to accept only a client at a time, use OneToOneServer instead. </p>
 		 *
-		 * @image html cpp/protocol_interface.png
+		 * @image html  cpp/protocol_interface.png
 		 * @image latex cpp/protocol_interface.png
 		 *
 		 * <h3>Example source</h3>

@@ -45,7 +45,8 @@ namespace samchon
 		* object in any way: the duration of the RWMutex object shall extend at least until
 		* the destruction of the SharedWriteLock that manages it. </p>
 		*
-		* @see UniqueAcquire
+		* @see library::UniqueAcquire
+		* @see samchon::library
 		* @author Jeongho Nam
 		*/
 		class SAMCHON_FRAMEWORK_API SharedWriteLock

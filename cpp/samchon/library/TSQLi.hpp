@@ -12,6 +12,7 @@ namespace samchon
 		/**
 		 * @brief A SQL interface for T-SQL
 		 *
+		 * @details
 		 * \par Inherited
 		 * @copydoc library::SQLi
 		 */

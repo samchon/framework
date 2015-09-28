@@ -28,9 +28,10 @@ namespace samchon
 		 * Referenced comments of std::chrono::time_point
 		 *	\li http://www.cplusplus.com/reference/chrono/time_point/
 		 *
-		 * @image html cpp/subset/date.png
-		 * @image latex cpp/subset/date.png
+		 * @image html cpp/subset/library_date.png
+		 * @image latex cpp/subset/library_date.png
 		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Date

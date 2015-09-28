@@ -45,6 +45,7 @@ namespace samchon
 		 *
 		 * <p> As that reason, if STL supports the semaphore in near future, the Semaphore can be depreciated. </p>
 		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Semaphore

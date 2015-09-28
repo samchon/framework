@@ -2,6 +2,7 @@ var namespacesamchon_1_1protocol =
 [
     [ "master", "de/dc0/namespacesamchon_1_1protocol_1_1master.html", "de/dc0/namespacesamchon_1_1protocol_1_1master" ],
     [ "service", "d8/d70/namespacesamchon_1_1protocol_1_1service.html", "d8/d70/namespacesamchon_1_1protocol_1_1service" ],
+    [ "slave", "db/d33/namespacesamchon_1_1protocol_1_1slave.html", "db/d33/namespacesamchon_1_1protocol_1_1slave" ],
     [ "Entity", "d0/d3e/classsamchon_1_1protocol_1_1Entity.html", "d0/d3e/classsamchon_1_1protocol_1_1Entity" ],
     [ "EntityArray", "dc/d8d/classsamchon_1_1protocol_1_1EntityArray.html", "dc/d8d/classsamchon_1_1protocol_1_1EntityArray" ],
     [ "EntityGroup", "d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html", "d4/deb/classsamchon_1_1protocol_1_1EntityGroup" ],

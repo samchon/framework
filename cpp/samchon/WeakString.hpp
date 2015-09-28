@@ -17,8 +17,8 @@ namespace samchon
 	 * Thus, you can have greater advantages than std::string on the side of performance and memory,
 	 * but of course, you can't modify the characeters at all. </p>
 	 *
-	 * @image html cpp/subset/string.png
-	 * @image latex cpp/subset/string.png
+	 * @image html cpp/subset/library_string.png
+	 * @image latex cpp/subset/library_string.png
 	 *
 	 * @warning
 	 * \li WeakString not copy(strcpy) characeters but only references characeters.
@@ -26,6 +26,7 @@ namespace samchon
 	 * \li WeakString will be used for basic data type in most case.
 	 *	   Avoid to use WeakString by pre-definition in header (*.hpp)
 	 *
+	 * @see samchon::library
 	 * @author Jeongho Nam
 	 */
 	class SAMCHON_FRAMEWORK_API WeakString

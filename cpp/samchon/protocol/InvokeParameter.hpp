@@ -14,12 +14,16 @@ namespace samchon
 	namespace protocol
 	{
 		/**
-		 * @brief A parameter of an Invoke message
+		 * @brief A parameter of an Invoke.
 		 *
 		 * @details
+		 * A parameter with its name, type and value in an Invoke message.
+		 *
 		 * @image html  cpp/protocol_invoke.png
 		 * @image latex cpp/protocol_invoke.png
 		 *
+		 * @see protocol::Invoke
+		 * @see samchon::protocol
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API InvokeParameter
@@ -42,7 +46,6 @@ namespace samchon
 			 *	\li string
 			 *	\li XML
 			 *	\li ByteArray
-			 *	\li Pre-ByteArray
 			 */
 			std::string type;
 
@@ -200,11 +203,18 @@ namespace samchon
 			auto reservedByteArraySize() const -> size_t;
 			void setByteArray(ByteArray &&);
 			
-		public:
+		private:
 			/* ----------------------------------------------------------
 				EXPORTERS
 			---------------------------------------------------------- */
+			/**
+			 * @brief Get a XML instance representing the InvokeParameter
+			 */
 			auto toXML() const -> std::shared_ptr<library::XML>;
+
+			/**
+			 * @brief Get a string of sql statement used to archive history log
+			 */
 			auto toSQL() const -> std::string;
 		};
 	};

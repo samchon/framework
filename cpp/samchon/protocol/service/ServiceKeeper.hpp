@@ -13,19 +13,23 @@ namespace samchon
 			class Client;
 
 			/**
-			 * @brief 
+			 * @brief A keeper blocking destrunction of User and Client
 			 *
 			 * @details
-			 * <p>  </p>
+			 * <p> Keeps User, Client and Service objects until termination of a stack. </p>
 			 * <p> You can prevent the object to be destructed until the method is in a process. 
-			 * ServerUser, ServerClient and ServerService provides a macro instruction for it. </p>
+			 * User, Client and Service provides a macro instruction for it. </p>
+			 * 
+			 * @image html  cpp/protocol_service.png
+			 * @image latex cpp/protocol_service.png
 			 *
 			 * @note Defined macros
 			 *	\li KEEP_USER_ALIVE
 			 *	\li KEEP_CLIENT_ALIVE
 			 *	\li KEEP_SERVICE_ALIVE
 			 *
-			 * @see SmartPointer
+			 * @see samchon::protocol
+			 * @see samchon::protocol::service
 			 * @author Jeongho Nam
 			 */
 			class SAMCHON_FRAMEWORK_API ServiceKeeper
@@ -44,6 +48,9 @@ namespace samchon
 			public:
 				/**
 				 * @brief Construct from User and Client
+				 *
+				 * @brief user An User to keep
+				 * @brief client A Client to keep
 				 */
 				ServiceKeeper(const User *user, const Client *client);
 				

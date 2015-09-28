@@ -46,6 +46,7 @@ namespace samchon
 		 * \par examples/packer/Instance.cpp
 		 *		@includelineno examples/packer/Instance.cpp
 		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API CaseGenerator

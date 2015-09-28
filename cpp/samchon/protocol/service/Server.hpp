@@ -1,6 +1,7 @@
 #pragma once
 #include <samchon/API.hpp>
 #include <samchon/protocol/IServer.hpp>
+#include <samchon/protocol/IProtocol.hpp>
 
 #include <samchon/Dictionary.hpp>
 #include <samchon/SmartPointer.hpp>
@@ -22,18 +23,25 @@ namespace samchon
 			class Client;
 
 			/**
-			 * @brief Server for (cloud) service
+			 * @brief A server for (cloud) service
 			 *
 			 * @details
-			 * 
-			 * 
-			 * @note Override those methods.
-			 *  \li NAME()
-			 * 	\li PORT()
-			 * 	\li createUser()
+			 * <p> A server class representing the real physical server of a cloud. </p>
 			 *
-			 * @tparam key_Kty std::string := Session id of User
-			 * @tparam _Ty SmartPointer<User>
+			 * <p> The Server is very good for development of a cloud server. You can use web or flex as 
+			 * (physical) client. The usage is very simple. In the class Server, what you need to do are 
+			 * overriding getter of port number and factory method creating an User. </p>
+			 *
+			 * @image html  cpp/protocol_service.png
+			 * @image latex cpp/protocol_service.png
+			 *
+			 * @note Override those methods.
+			 *  \li Server::NAME()
+			 * 	\li Server::PORT()
+			 * 	\li Server::createUser()
+			 *
+			 * @see samchon::protocol
+			 * @see samchon::protocol::service
 			 * @author Jeongho Nam
 			 */
 			class SAMCHON_FRAMEWORK_API Server
@@ -47,6 +55,9 @@ namespace samchon
 				typedef Dictionary<SmartPointer<User>> super;
 			
 			protected:
+				/**
+				 * @brief A name can be an identifier of a cloud server.
+				 */
 				virtual auto NAME() const -> std::string = 0;
 
 				/**
@@ -58,7 +69,7 @@ namespace samchon
 				library::RWMutex mtx;
 				
 				/**
-				 * @brief Map of issuer of session ID of each ip
+				 * @brief Dictionary of issuer of session ID of each ip
 				 */
 				Dictionary<std::shared_ptr<IPUserPair>> ipMap;
 
@@ -82,8 +93,23 @@ namespace samchon
 				/* =========================================================
 					ACCESSORS OF MAP
 				========================================================= */
+				/**
+				 * @brief Size of User(s).
+				 */
 				auto size() const -> size_t;
+
+				/**
+				 * @brief A const iterator of begin
+				 *
+				 * @note Be careful about concurrency
+				 */
 				auto begin() const -> const_iterator;
+
+				/**
+				 * @brief A const iterator of end
+				 *
+				 * @note Be careful about concurrency
+				 */
 				auto end() const -> const_iterator;
 
 			protected:

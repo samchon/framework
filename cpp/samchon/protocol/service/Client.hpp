@@ -7,6 +7,9 @@
 #include <mutex>
 #include <string>
 
+/**
+ * @brief A macro keeps the Client object until termination of a stack.
+ */
 #define KEEP_CLIENT_ALIVE auto &ucPair = __keepAlive();
 
 namespace samchon
@@ -25,14 +28,18 @@ namespace samchon
 			 * @details
 			 * <p> Client is an object interacting with physical client by socket. </p>
 			 * 
-			 * 
-			 * <p> Client is correspond with Window in UI 1:1 </p>
+			 * <p> The Client is correspond with a Window in JS (UI) 1:1 </p>
 			 *	\li A Window, the object in UI
 			 *	\li A Window, matching with window of a internet browser
+			 *
+			 * @image html  cpp/protocol_service.png
+			 * @image latex cpp/protocol_service.png
 			 *
 			 * @note Method to override
 			 *	\li createUser()
 			 *
+			 * @see samchon::protocol
+			 * @see samchon::protocol::service
 			 * @author Jeongho Nam
 			 */
 			class SAMCHON_FRAMEWORK_API Client

@@ -18,6 +18,8 @@ namespace samchon
 		 * @image latex cpp/subset/library_http.png
 		 *
 		 * @note Depreciated
+		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API HTTPLoader

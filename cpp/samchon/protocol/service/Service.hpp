@@ -6,6 +6,9 @@
 #include <string>
 #include <samchon/protocol/service/ServiceKeeper.hpp>
 
+/**
+ * @brief A macro keeps the Service object to alive until termination of a stack.
+ */
 #define KEEP_SERVICE_ALIVE auto &ucPair = __keepAlive();
 
 namespace samchon
@@ -22,7 +25,21 @@ namespace samchon
 			class Client;
 
 			/**
-			 * @brief Service
+			 * @brief A service
+			 *
+			 * @details
+			 * <p> A service represents an unique functions of a web page </p>
+			 *
+			 * <p> Most of functinos are realized in here. The Service is correspondent with a 'a service 
+			 * of a web page'. For a cloud Server, there can be enormous Service classes. Create Services 
+			 * for each functions and Define the functions detail in here. </p>
+			 *
+			 * @image html  cpp/protocol_service.png
+			 * @image latex cpp/protocol_service.png
+			 *
+			 * @see samchon::protocol
+			 * @see samchon::protocol::service
+			 * @author Jeongho Nam
 			 */
 			class SAMCHON_FRAMEWORK_API Service
 				: public IProtocol
@@ -44,6 +61,9 @@ namespace samchon
 				 */
 				Client *client;
 
+				/**
+				 * @brief A name represents a Service
+				 */
 				std::string name;
 
 			public:

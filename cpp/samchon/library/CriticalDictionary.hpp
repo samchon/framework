@@ -8,7 +8,8 @@ namespace samchon
 		/**
 		 * @brief A Dictionary ensures concurrency.
 		 *
-		 * @see CriticalAllocator
+		 * @see library::CriticalAllocator
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		template <typename _Ty, typename _Pr = std::less<std::string>>

@@ -10,14 +10,16 @@ namespace samchon
 	{
 		/**
 		 * @brief Utility class for base64 format's en-decoding
+		 *
 		 * @details
 		 * Base64 supports
 		 *	\li Encoding from binary data to base64-string 
 		 *	\li Decoding from base64-string to binary data
 		 * 
-		 * @image html cpp/subset/string.png
-		 * @image latex cpp/subset/string.png
+		 * @image html cpp/subset/library_string.png
+		 * @image latex cpp/subset/library_string.png
 		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Base64

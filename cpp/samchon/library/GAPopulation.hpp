@@ -51,6 +51,8 @@ namespace samchon
 		 * <p> Be careful for the mistakes of direction or position of Compare. </p>
 		 * <p> Most of logical errors failed to access optimal solution are occured by those mistakens. </p>
 		 * 
+		 * @see library::GeneticAlgorithm
+		 * @see samchon::library
 		 * @author Jeonghoh Nam
 		 */
 		template <typename GeneArray, typename Compare = std::less<GeneArray>>

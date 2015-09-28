@@ -22,8 +22,11 @@ namespace samchon
 			 * <p> IPUserPair is a class representing 1:N relationship between IP address and User. </p>
 			 * <p> The key role of IPUserPair is to issuing session ID, that is published to User(s), 
 			 * within a critical section of an IP address. </p>
+			 *
+			 * @image html  cpp/protocol_service.png
+			 * @image latex cpp/protocol_service.png
 			 * 
-			 * @notice
+			 * @note
 			 * <p> Samchon Framework is for Cloud Server basically, so I've adopted Session ID to
 			 * discriminate unique User to follow standard. But I think there can be another good strategies 
 			 * something like a using MAC address instead of publishing Session-ID to discriminate 
@@ -40,6 +43,8 @@ namespace samchon
 			 *	\li In client side and view of browser, IE allows to get MAC address by javascript with ActiveX,
 			 *		but other browsers do not allow.
 			 *
+			 * @see samchon::protocol
+			 * @see samchon::protocol::service
 			 * @author Jeongho Nam
 			 */
 			class SAMCHON_FRAMEWORK_API IPUserPair

@@ -27,6 +27,7 @@ namespace samchon
 		 *
 		 * <p> As that reason, if STL supports the rw_mutex in near future, the RWMutex can be depreciated. </p>
 		 * 
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API RWMutex

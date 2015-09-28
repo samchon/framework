@@ -24,6 +24,7 @@ namespace samchon
 	 * <p> If you're not trying to use ByteArray as the reason of what I've mentioned
 	 * but only for representing entity data, I recomment you to use Entity instead. </p>
 	 * 
+	 * @see samchon::library
 	 * @author Jeongho Nam
 	 */
 	class SAMCHON_FRAMEWORK_API ByteArray

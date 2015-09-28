@@ -19,10 +19,12 @@ namespace samchon
 		 *	\li UTF-8
 		 *	\li Unicode (UTF-16)
 		 *
-		 * @image html cpp/subset/string.png
-		 * @image latex cpp/subset/string.png
+		 * @image html cpp/subset/library_string.png
+		 * @image latex cpp/subset/library_string.png
 		 *
-		 * @warning In some system, std::wstring is not for unicode(utf-16) but for utf-8
+		 * @warning In some system, std::wstring is not for utf-8 but for unicode (utf-16).
+		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Charset

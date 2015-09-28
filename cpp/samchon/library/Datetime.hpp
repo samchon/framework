@@ -56,15 +56,7 @@ namespace samchon
 			 * @throw invalid_argument parameter is out of its own range.
 			 */
 			Datetime(int year, int month, int date, int hour = 0, int min = 0, int sec = 0);
-			
-			/**
-			 * @brief Construct from std::string
-			 * 
-			 * @param str A string expressing the date. (1991-01-01 09:27:03)
-			 * @throw invalid_argument parameter is out of its own range.
-			 */
-			Datetime(const WeakString &);
-			
+
 			/**
 			 * @brief Construct from WeakString
 			 * 

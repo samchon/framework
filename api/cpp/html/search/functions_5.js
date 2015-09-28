@@ -2,6 +2,7 @@ var searchData=
 [
   ['empty',['empty',['../d8/de4/classsamchon_1_1WeakString.html#ab470b2ad7999f03109171a7416d12e3e',1,'samchon::WeakString']]],
   ['encode',['encode',['../df/d1b/classsamchon_1_1library_1_1Base64.html#a65947b31faaeffc25c2062e6659600c9',1,'samchon::library::Base64::encode()'],['../dc/d30/classsamchon_1_1library_1_1URLVariables.html#a51106818ad86d6677e421e457bcc0e17',1,'samchon::library::URLVariables::encode()']]],
+  ['end',['end',['../d9/d35/classsamchon_1_1protocol_1_1service_1_1Server.html#a39dd3ec2d538d962ba4bc4af6c0ef2f6',1,'samchon::protocol::service::Server']]],
   ['entity',['Entity',['../d0/d3e/classsamchon_1_1protocol_1_1Entity.html#afb4718a8ca5b822cf88129ae04240489',1,'samchon::protocol::Entity']]],
   ['entityarray',['EntityArray',['../dc/d8d/classsamchon_1_1protocol_1_1EntityArray.html#aa0169b1052bab38f0625fb771b7e78f9',1,'samchon::protocol::EntityArray']]],
   ['entitygroup',['EntityGroup',['../d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html#a14f6ca078bbeb51a6f6bc153f7384a7c',1,'samchon::protocol::EntityGroup']]],
@@ -14,8 +15,5 @@ var searchData=
   ['evolvegenearray',['evolveGeneArray',['../d5/d28/classsamchon_1_1library_1_1GeneticAlgorithm.html#a554aa9c0214973bcd5c4f9d5bc52aac7',1,'samchon::library::GeneticAlgorithm']]],
   ['evolvepopulation',['evolvePopulation',['../d5/d28/classsamchon_1_1library_1_1GeneticAlgorithm.html#a00d34b0d124e697c61d1d6c496088fb9',1,'samchon::library::GeneticAlgorithm']]],
   ['execute',['execute',['../de/def/classsamchon_1_1library_1_1SQLStatement.html#a61af3e60b94ae3e748f6fbac1e794af7',1,'samchon::library::SQLStatement']]],
-  ['executedirectly',['executeDirectly',['../de/def/classsamchon_1_1library_1_1SQLStatement.html#a0e0f8524084b9e6a17a3d6b53d5c0c21',1,'samchon::library::SQLStatement']]],
-  ['externalsystem',['ExternalSystem',['../d0/d74/classsamchon_1_1protocol_1_1master_1_1ExternalSystem.html#a491764b7e8bf489cce24a336b523617d',1,'samchon::protocol::master::ExternalSystem']]],
-  ['externalsystemarray',['ExternalSystemArray',['../de/d6b/classsamchon_1_1protocol_1_1master_1_1ExternalSystemArray.html#a52d24ac8e5f3d82192bf81f2f3d1f1cb',1,'samchon::protocol::master::ExternalSystemArray']]],
-  ['externalsystemrole',['ExternalSystemRole',['../da/dec/classsamchon_1_1protocol_1_1master_1_1ExternalSystemRole.html#a7e1f2be21fa801f6ef6ea5b0f2bba6de',1,'samchon::protocol::master::ExternalSystemRole']]]
+  ['executedirectly',['executeDirectly',['../de/def/classsamchon_1_1library_1_1SQLStatement.html#a0e0f8524084b9e6a17a3d6b53d5c0c21',1,'samchon::library::SQLStatement']]]
 ];

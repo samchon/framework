@@ -56,15 +56,9 @@ void IClient::listen()
 
 			shared_ptr<XML> xml(new XML(message));
 			shared_ptr<Invoke> invoke(new Invoke(xml));
-
-			try
-			{
-				replyData(invoke);
-			}
-			catch (const int errorID)
-			{
-				//sendError(errorID);
-			}
+			
+			_replyData(invoke);
+			
 		}
 		data = move(data.substr(data.rfind("</invoke>") + std::string("</invoke>").size()));
 	}
@@ -77,4 +71,8 @@ void IClient::sendData(shared_ptr<Invoke> invoke)
 
 	unique_lock<mutex> uk(*sendMtx);
 	socket->write_some(boost::asio::buffer(data), error);
+}
+void IClient::_replyData(shared_ptr<Invoke> invoke)
+{
+	replyData(invoke);
 }

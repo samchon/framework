@@ -38,6 +38,7 @@ namespace samchon
 		 * SQLStatement or call SQLStatement::free() method(). If you don't, the mutex will not be unlocked,
 		 * thus you can't do anything by the SQLi. </p>
 		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API SQLStatement

@@ -15,7 +15,8 @@ var searchData=
   ['sqli',['sqli',['../de/def/classsamchon_1_1library_1_1SQLStatement.html#a13714007d02c778c7993d06a1010be95',1,'samchon::library::SQLStatement::sqli()'],['../d9/d35/classsamchon_1_1protocol_1_1service_1_1Server.html#aef91d516b10c0ca60928add7de598a2c',1,'samchon::protocol::service::Server::sqli()']]],
   ['sqrt1_5f2',['SQRT1_2',['../de/d8f/classsamchon_1_1library_1_1Math.html#a50b83913dc7bb4f2daee3bef1e928d08',1,'samchon::library::Math']]],
   ['sqrt2',['SQRT2',['../de/d8f/classsamchon_1_1library_1_1Math.html#a0dac55511b8235578f5364bcd618056f',1,'samchon::library::Math']]],
+  ['starttime',['startTime',['../d8/d64/classsamchon_1_1protocol_1_1slave_1_1InvokeHistory.html#a36080028289ec04d10c8f7456b3c9885',1,'samchon::protocol::slave::InvokeHistory']]],
   ['stmt',['stmt',['../d9/d2f/classsamchon_1_1library_1_1SQLi.html#ac85c4f6d5fdfe7668ae126b40d0912d4',1,'samchon::library::SQLi']]],
   ['stmtmutex',['stmtMutex',['../d9/d2f/classsamchon_1_1library_1_1SQLi.html#a88ce305534aa0dde7dac0db848464ce7',1,'samchon::library::SQLi']]],
-  ['systemarray',['systemArray',['../d0/d74/classsamchon_1_1protocol_1_1master_1_1ExternalSystem.html#a036af0442a0bd024ade637cea9270068',1,'samchon::protocol::master::ExternalSystem']]]
+  ['system',['system',['../de/d14/classsamchon_1_1protocol_1_1master_1_1DSInvokeHistory.html#a5607435fcb15d317e043bddae883e789',1,'samchon::protocol::master::DSInvokeHistory::system()'],['../de/d14/classsamchon_1_1protocol_1_1master_1_1DSInvokeHistory.html#aaecc6e0bac606f41a7825d612a514d19',1,'samchon::protocol::master::DSInvokeHistory::system()']]]
 ];

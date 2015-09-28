@@ -24,6 +24,7 @@ namespace samchon
 		 * <h4> Example code </h4>
 		 * @includelineno url_variables/main.cpp
 		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API URLVariables

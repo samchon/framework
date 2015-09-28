@@ -17,11 +17,34 @@ namespace samchon
 		 * @brief Standard message of network I/O
 		 *
 		 * @details
+		 * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework.  </p>
+		 *
+		 * <p> The Invoke message has a XML structure like the result screen of provided example in below. 
+		 * We can enjoy lots of benefits by the normalized and standardized message structure used in
+		 * network I/O. </p>
+		 *
+		 * <p> The greatest advantage is that we can make any type of network system, even how the system 
+		 * is enourmously complicated. As network communication message is standardized, we only need to
+		 * concentrate on logical relationships between network systems. We can handle each network system 
+		 * like a object (class) in OOD. And those relationships can be easily designed by using design
+		 * pattern. </p>
+		 *
+		 * <p> In Samchon Framework, you can make any type of network system with basic 3 + 1 componenets
+		 * (IProtocol, IServer and IClient + ServerConnector), by implemens or inherits them, like designing
+		 * classes of S/W architecture. </p>
 		 *
 		 * @image html  cpp/protocol_invoke.png
 		 * @image latex cpp/protocol_invoke.png
 		 *
+		 * \par Example source
 		 * @includelineno invoke/main.cpp
+		 *
+		 * <h4> Result of the example </h4>
+		 * @image html  cpp/result/protocol_invoke.png
+		 * @image latex cpp/protocol_invoke.png
+		 *
+		 * @see protocol::IProtocol
+		 * @see samchon::protocol
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Invoke
@@ -32,13 +55,13 @@ namespace samchon
 
 		protected:
 			/**
-			 * @brief Represent who listens
+			 * @brief Represent who listens, often be a function name
 			 */
 			std::string listener;
 
 		public:
 			/**
-			 * @brief Construct from listener
+			 * @brief Construct from a listener
 			 *
 			 * @param listener Represents who listens the Invoke message. Almost same with Function name
 			 */
@@ -108,27 +131,6 @@ namespace samchon
 			INVOKE_CONSTRUCT_INLINE(const ByteArray &)
 			INVOKE_CONSTRUCT_INLINE(const std::shared_ptr<library::XML> &)
 
-			/*void construct(bool);
-			void construct(char);
-			void construct(short);
-			void construct(long);
-			void construct(long long);
-			void construct(int);
-			void construct(float);
-			void construct(double);
-
-			void construct(unsigned char);
-			void construct(unsigned short);
-			void construct(unsigned long);
-			void construct(unsigned long long);
-			void construct(unsigned int);
-			void construct(long double);
-
-			void construct(const char*);
-			void construct(const std::string &);
-			void construct(const ByteArray &);
-			void construct(const std::shared_ptr<library::XML> &);*/
-
 		public:
 			/* -----------------------------------------------------------------------
 				GETTERS
@@ -160,7 +162,14 @@ namespace samchon
 			/* -----------------------------------------------------------------------
 				EXPORTERS
 			----------------------------------------------------------------------- */
+			/**
+			 * @brief Get a XML instance representing the Invoke message
+			 */
 			auto toXML() const -> std::shared_ptr<library::XML>;
+
+			/**
+			 * @brief Get a string of sql statement used to archive history log
+			 */
 			auto toSQL() const -> std::string;
 		};
 	};

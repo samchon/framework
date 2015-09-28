@@ -205,54 +205,6 @@
     <Filter Include="Header Files\protocol\master">
       <UniqueIdentifier>{89185979-a14d-4da0-816c-341eadff1905}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\protocol\master\external system">
-      <UniqueIdentifier>{ee79b0cf-7cfb-476e-a649-59b417823d41}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\external system\abstract">
-      <UniqueIdentifier>{f41d437e-dc5d-4c89-8eac-6faeeaf6b76f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\external system\i am a server">
-      <UniqueIdentifier>{3b9b5d60-3e26-47d0-9a1a-0ab82c6aa2db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\external system\i am a client">
-      <UniqueIdentifier>{dfc51656-7bdf-41ed-afe6-4b93d82ea7c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\external system\mediator">
-      <UniqueIdentifier>{c25cb77c-12e0-4767-a1ba-19a0f8d7497f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\external system\mediator\socket">
-      <UniqueIdentifier>{69a919e9-22d0-407b-98aa-b5963d9ebb3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\external system\nickname">
-      <UniqueIdentifier>{50c1cced-3b64-414a-a236-2a346b22cb62}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\distributed system">
-      <UniqueIdentifier>{730bdaad-fc53-415d-84da-6dde9730ae19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\distributed system\abstract">
-      <UniqueIdentifier>{97ea2cbd-465c-4630-b605-41f904309043}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\distributed system\i am a server">
-      <UniqueIdentifier>{49be0953-a00d-44f2-b237-79548ba8082f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\distributed system\i am a client">
-      <UniqueIdentifier>{fa6aafbb-ca66-466c-a95f-fb838d868ec3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\distributed system\mediator">
-      <UniqueIdentifier>{f5407cc5-53d4-442c-8c8b-2c61fc02f0ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\parallel system">
-      <UniqueIdentifier>{d65d2b79-97b3-4014-bd5b-f4aba3c1ca5e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\parallel system\abstract">
-      <UniqueIdentifier>{1328fa56-4824-4d5b-872a-d506603a4495}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\parallel system\i am a server">
-      <UniqueIdentifier>{3afd2145-b39b-4e39-8c95-f1b1edb8a4d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\master\parallel system\i am a client">
-      <UniqueIdentifier>{8b571675-789f-407b-87b8-f6d757326c22}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\library\virtual file tree">
       <UniqueIdentifier>{20c748e4-0f25-4524-a047-a3ff98e7e3e7}</UniqueIdentifier>
     </Filter>
@@ -318,6 +270,30 @@
     </Filter>
     <Filter Include="Header Files\library\network i/o\sql driver\derived">
       <UniqueIdentifier>{431cf1e6-f948-4499-9ce1-4070368d1cb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\external system">
+      <UniqueIdentifier>{ee79b0cf-7cfb-476e-a649-59b417823d41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\external system\abstract">
+      <UniqueIdentifier>{68b9ec3c-d31d-4149-84c6-d370890cd9fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\external system\server">
+      <UniqueIdentifier>{f40e77f4-5cfc-4082-86c5-6b4b48d8ab7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\external system\client">
+      <UniqueIdentifier>{ad9edd7a-18d6-4346-ba94-5d2c47c78d4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\common\external system">
+      <UniqueIdentifier>{86916b7c-c61f-42cc-8469-8c8fa26e591d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\common\external system\abstract">
+      <UniqueIdentifier>{c26011b1-f57b-492a-a408-7cece61530ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\common\external system\server">
+      <UniqueIdentifier>{cca8a325-6b9a-477b-9b75-69a013aa2578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\common\external system\client">
+      <UniqueIdentifier>{cb804d78-47ae-46c4-ba4f-2fd599a7c388}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -414,95 +390,8 @@
     <ClInclude Include="..\samchon\library\IOperator.hpp">
       <Filter>Header Files\library\utils\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\DistributedServerArray.hpp">
-      <Filter>Header Files\protocol\master\distributed system\i am a client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\DistributedServer.hpp">
-      <Filter>Header Files\protocol\master\distributed system\i am a client</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\FlashPolicyServer.hpp">
       <Filter>Header Files\protocol\common\abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp">
-      <Filter>Header Files\protocol\master\distributed system\abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArray.hpp">
-      <Filter>Header Files\protocol\master\distributed system\abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSystem.hpp">
-      <Filter>Header Files\protocol\master\distributed system\abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedServer.hpp">
-      <Filter>Header Files\protocol\master\distributed system\i am a client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedServerArray.hpp">
-      <Filter>Header Files\protocol\master\distributed system\i am a client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedClient.hpp">
-      <Filter>Header Files\protocol\master\distributed system\i am a server</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedClientArray.hpp">
-      <Filter>Header Files\protocol\master\distributed system\i am a server</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArrayMediator.hpp">
-      <Filter>Header Files\protocol\master\distributed system\mediator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ExternalSystem.hpp">
-      <Filter>Header Files\protocol\master\external system\abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ExternalSystemArray.hpp">
-      <Filter>Header Files\protocol\master\external system\abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ExternalSystemRole.hpp">
-      <Filter>Header Files\protocol\master\external system\abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ExternalClient.hpp">
-      <Filter>Header Files\protocol\master\external system\i am a server</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ExternalClientArray.hpp">
-      <Filter>Header Files\protocol\master\external system\i am a server</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ExternalServer.hpp">
-      <Filter>Header Files\protocol\master\external system\i am a client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ExternalServerArray.hpp">
-      <Filter>Header Files\protocol\master\external system\i am a client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ExternalSystemArrayMediator.hpp">
-      <Filter>Header Files\protocol\master\external system\mediator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ExternalServerArrayMediator.hpp">
-      <Filter>Header Files\protocol\master\external system\mediator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ExternalClientArrayMediator.hpp">
-      <Filter>Header Files\protocol\master\external system\mediator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelSystemArray.hpp">
-      <Filter>Header Files\protocol\master\parallel system\abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelSystem.hpp">
-      <Filter>Header Files\protocol\master\parallel system\abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelClient.hpp">
-      <Filter>Header Files\protocol\master\parallel system\i am a server</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelClientArray.hpp">
-      <Filter>Header Files\protocol\master\parallel system\i am a server</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelServer.hpp">
-      <Filter>Header Files\protocol\master\parallel system\i am a client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelServerArray.hpp">
-      <Filter>Header Files\protocol\master\parallel system\i am a client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\MediatorClientSocket.hpp">
-      <Filter>Header Files\protocol\master\external system\mediator\socket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\MediatorServerSocket.hpp">
-      <Filter>Header Files\protocol\master\external system\mediator\socket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\MediatorSocket.hpp">
-      <Filter>Header Files\protocol\master\external system\mediator\socket</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\namtree\NTCriteria.hpp">
       <Filter>Header Files\nam-tree\criteria</Filter>
@@ -584,9 +473,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\service\IPUserPair.hpp">
       <Filter>Header Files\protocol\service\logical objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\WeakString.hpp">
-      <Filter>Header Files\common\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\EntityArray.hpp">
       <Filter>Header Files\protocol\common\entity</Filter>
@@ -672,15 +558,6 @@
     <ClInclude Include="..\samchon\protocol\Socket.hpp">
       <Filter>Header Files\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp">
-      <Filter>Header Files\protocol\common\invoke\history</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\DSInvokeHistory.hpp">
-      <Filter>Header Files\protocol\common\invoke\history</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\PRInvokeHistory.hpp">
-      <Filter>Header Files\protocol\common\invoke\history</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\documentation\mainpage.hpp">
       <Filter>Documentation</Filter>
     </ClInclude>
@@ -722,6 +599,39 @@
     </ClInclude>
     <ClInclude Include="..\samchon\library\TSQLStatement.hpp">
       <Filter>Header Files\library\network i/o\sql driver\derived</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\WeakString.hpp">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp">
+      <Filter>Header Files\protocol\common\invoke\history</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\PRInvokeHistory.hpp">
+      <Filter>Header Files\protocol\common\invoke\history</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\slave\InvokeHistory.hpp">
+      <Filter>Header Files\protocol\common\invoke\history</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalSystemArray.hpp">
+      <Filter>Header Files\protocol\common\external system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalSystem.hpp">
+      <Filter>Header Files\protocol\common\external system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalSystemRole.hpp">
+      <Filter>Header Files\protocol\common\external system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalServerArray.hpp">
+      <Filter>Header Files\protocol\common\external system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalServer.hpp">
+      <Filter>Header Files\protocol\common\external system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalClient.hpp">
+      <Filter>Header Files\protocol\common\external system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalClientArray.hpp">
+      <Filter>Header Files\protocol\common\external system\client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -916,6 +826,27 @@
     </ClCompile>
     <ClCompile Include="..\samchon\library\SharedWriteLock.cpp">
       <Filter>Source Files\library\critical section\shared_lock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\ExternalSystemRole.cpp">
+      <Filter>Source Files\protocol\common\external system\abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\ExternalSystem.cpp">
+      <Filter>Source Files\protocol\common\external system\abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\ExternalSystemArray.cpp">
+      <Filter>Source Files\protocol\common\external system\abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalServerArray.cpp">
+      <Filter>Source Files\protocol\common\external system\server</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalServer.cpp">
+      <Filter>Source Files\protocol\common\external system\server</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalClientArray.cpp">
+      <Filter>Source Files\protocol\common\external system\client</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalClient.cpp">
+      <Filter>Source Files\protocol\common\external system\client</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -45,7 +45,8 @@ namespace samchon
 		 * object in any way: the duration of the Semaphore object shall extend at least until
 		 * the destruction of the SharedAcquire that manages it. </p>
 		 *
-		 * @see UniqueAcquire
+		 * @see library::UniqueAcquire
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API SharedAcquire

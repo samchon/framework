@@ -36,10 +36,15 @@ namespace samchon
 			class IPUserPair;
 
 			/**
-			 * @brief User containing Client(s)
+			 * @brief User containing Client(s) with session-id.
 			 *
-			 * @tparam _Kty size_t := Sequence number of each Client
-			 * @tparam _Ty SmartPointer<Client> := Client object
+			 * @details
+			 * <p> The User does not have any network I/O and its own special work something to do. It's a 
+			 * container for groupping clients by their session id. Thus, the User corresponds with an 
+			 * user (Computer) and Client corresponds with a client (A browser window) </p>
+			 *
+			 * @image html  cpp/protocol_service.png
+			 * @image latex cpp/protocol_service.png
 			 *
 			 * @notice Override those methods
 			 *	\li createClient()

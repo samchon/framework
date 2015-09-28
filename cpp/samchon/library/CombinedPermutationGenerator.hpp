@@ -14,6 +14,9 @@ namespace samchon
 		 *
 		 * @image html cpp/subset/library_case_generator.png
 		 * @image latex cpp/subset/library_case_generator.png
+		 *
+		 * @see samchon::library
+		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API CombinedPermutationGenerator
 			: public CaseGenerator

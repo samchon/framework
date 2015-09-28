@@ -10,7 +10,8 @@ namespace samchon
 		/**
 		 * @brief A Map ensures concurrency.
 		 *
-		 * @see CriticalAllocator
+		 * @see library::CriticalAllocator
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		template <typename _Kty, typename _Ty, typename _Pr = std::less<_Kty>>

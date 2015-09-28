@@ -38,7 +38,7 @@ namespace samchon
 		 * standard Invoke message from parsing the replied data and shift the Invoke message to 
 		 * IProtocol::replyData(). </p>
 		 *
-		 * @image html cpp/protocol_interface.png
+		 * @image html  cpp/protocol_interface.png
 		 * @image latex cpp/protocol_interface.png
 		 *
 		 * @author Jeongho Nam

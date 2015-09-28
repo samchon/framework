@@ -2,7 +2,6 @@ var searchData=
 [
   ['map',['Map',['../d1/d4e/classsamchon_1_1Map.html',1,'samchon']]],
   ['map_3c_20int_2c_20samchon_3a_3alibrary_3a_3aftinstance_20_2a_20_3e',['Map&lt; int, samchon::library::FTInstance * &gt;',['../d1/d4e/classsamchon_1_1Map.html',1,'samchon']]],
-  ['map_3c_20k_2c_20ptr_20_3e',['Map&lt; K, PTR &gt;',['../d1/d4e/classsamchon_1_1Map.html',1,'samchon']]],
   ['map_3c_20size_5ft_2c_20smartpointer_3c_20client_20_3e_20_3e',['Map&lt; size_t, SmartPointer&lt; Client &gt; &gt;',['../d1/d4e/classsamchon_1_1Map.html',1,'samchon']]],
   ['map_3c_20size_5ft_2c_20sql_5fsize_5ft_20_3e',['Map&lt; size_t, SQL_SIZE_T &gt;',['../d1/d4e/classsamchon_1_1Map.html',1,'samchon']]],
   ['map_3c_20std_3a_3ashared_5fptr_3c_20samchon_3a_3aprotocol_3a_3aservice_3a_3aipuserpair_20_3e_20_3e',['Map&lt; std::shared_ptr&lt; samchon::protocol::service::IPUserPair &gt; &gt;',['../d1/d4e/classsamchon_1_1Map.html',1,'samchon']]],
@@ -21,6 +20,6 @@ var searchData=
   ['mutate',['mutate',['../d5/d28/classsamchon_1_1library_1_1GeneticAlgorithm.html#a1a484961adb26a59f5689ed43526f54a',1,'samchon::library::GeneticAlgorithm']]],
   ['mutationrate',['mutationRate',['../d5/d28/classsamchon_1_1library_1_1GeneticAlgorithm.html#a6a96858958208e182fa72edf689b603e',1,'samchon::library::GeneticAlgorithm']]],
   ['my_5fip',['MY_IP',['../d4/de8/classsamchon_1_1protocol_1_1IServer.html#a4f40efeae64b5ccb29406a0f8f9e0ce6',1,'samchon::protocol::IServer']]],
-  ['mysqli',['MySQLi',['../d6/dcc/classsamchon_1_1library_1_1MySQLi.html',1,'samchon::library']]],
-  ['mysqli',['MySQLi',['../d6/dcc/classsamchon_1_1library_1_1MySQLi.html#a56bf21a773ac6c380710b8b2e72c129d',1,'samchon::library::MySQLi']]]
+  ['mysqli',['MySQLi',['../d6/dcc/classsamchon_1_1library_1_1MySQLi.html#a56bf21a773ac6c380710b8b2e72c129d',1,'samchon::library::MySQLi']]],
+  ['mysqli',['MySQLi',['../d6/dcc/classsamchon_1_1library_1_1MySQLi.html',1,'samchon::library']]]
 ];

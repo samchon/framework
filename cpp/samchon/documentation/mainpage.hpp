@@ -26,26 +26,26 @@
  *
  * @par Related Documents
  * <ul>
- *	<li> <a href="https://samchon.github.io/framework/docs/guidance.pdf" target="_blank">
+ *	<li> <a href="../../docs/guidance.pdf" target="_blank">
  *		 Guidance for Developers</a> </li>
  *	<li> Architecture Designs </li>
  *	<ul>
- *		<li> <a href="https://samchon.github.io/framework/design/CPP_Class_Diagram.pdf" target="_blank">
+ *		<li> <a href="../../design/CPP_Class_Diagram.pdf" target="_blank">
  *			 Class Diagram of CPP</a> </li>
- *		<li> <a href="https://samchon.github.io/framework/design/JS_Class_Diagram.pdf" target="_blank">
+ *		<li> <a href="../../design/JS_Class_Diagram.pdf" target="_blank">
  *			 Class Diagram of JS(TypeScript and Flex(JS))</a> </li>
- *		<li> <a href="https://samchon.github.io/framework/design/Sequence_Diagram.pdf" target="_blank"> 
+ *		<li> <a href="../../design/Sequence_Diagram.pdf" target="_blank"> 
  *			 Sequence Diagram</a> </li>
- *		<li> <a href="https://samchon.github.io/framework/design/Entity_Relationship_Diagram.pdf" target="_blank">
+ *		<li> <a href="../../Entity_Relationship_Diagram.pdf" target="_blank">
  *			 Entity Relationship Diagram</a> </li>
  *	</ul>
  *	<li> Another API Documents </li>
  *	<ul>
- *		<li> <a href="https://samchon.github.io/framework/api/cpp/samchon_framework_cpp_api.pdf" target="_blank">
+ *		<li> <a href="api.pdf" target="_blank">
  *			 C++ as PDF file</a> </li>
- *		<li> <a href="https://samchon.github.io/framework/api/flex/" target="_blank">
+ *		<li> <a href="../flex/" target="_blank">
  *			 Flex</a> </li>
- *		<li> <a href="https://samchon.github.io/framework/api/ts/" target="_blank">
+ *		<li> <a href="../ts/" target="_blank">
  *			 TypeScript</a> </li>
  *	</ul>
  * </ul>

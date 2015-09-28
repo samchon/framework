@@ -16,7 +16,8 @@ chrono::system_clock::time_point Date::TP_1970 = chrono::system_clock::from_time
 -------------------------------------------------------------------------- */
 //CONSTRUCTORS
 Date::Date()
-	: super(chrono::system_clock::now())
+	: super()
+	//: super(chrono::system_clock::now())
 {
 }
 Date::Date(const Date &date)

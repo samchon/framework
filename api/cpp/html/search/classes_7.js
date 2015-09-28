@@ -6,6 +6,7 @@ var searchData=
   ['instance',['Instance',['../dc/d54/classsamchon_1_1example_1_1packer_1_1Instance.html',1,'samchon::example::packer']]],
   ['intexplore',['INTExplore',['../d5/d98/classsamchon_1_1namtree_1_1INTExplore.html',1,'samchon::namtree']]],
   ['invoke',['Invoke',['../d8/d82/classsamchon_1_1protocol_1_1Invoke.html',1,'samchon::protocol']]],
+  ['invokehistory',['InvokeHistory',['../d8/d64/classsamchon_1_1protocol_1_1slave_1_1InvokeHistory.html',1,'samchon::protocol::slave']]],
   ['invokeparameter',['InvokeParameter',['../d0/d1a/classsamchon_1_1protocol_1_1InvokeParameter.html',1,'samchon::protocol']]],
   ['ioperator',['IOperator',['../dd/d2e/classsamchon_1_1library_1_1IOperator.html',1,'samchon::library']]],
   ['ioperator_3c_20ntiterator_20_3e',['IOperator&lt; NTIterator &gt;',['../dd/d2e/classsamchon_1_1library_1_1IOperator.html',1,'samchon::library']]],

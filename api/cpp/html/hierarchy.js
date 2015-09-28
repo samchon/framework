@@ -41,18 +41,14 @@ var hierarchy =
         [ "FTFolder", "d2/db1/classsamchon_1_1library_1_1FTFolder.html", null ],
         [ "NTCriteria", "de/dfd/classsamchon_1_1namtree_1_1NTCriteria.html", null ],
         [ "NTParameter", "db/d29/classsamchon_1_1namtree_1_1NTParameter.html", null ],
-        [ "NTParameterArray", "de/d08/classsamchon_1_1namtree_1_1NTParameterArray.html", null ],
-        [ "ExternalSystem", "d0/d74/classsamchon_1_1protocol_1_1master_1_1ExternalSystem.html", [
-          [ "DistributedSystem", "db/d2d/classsamchon_1_1protocol_1_1master_1_1DistributedSystem.html", null ]
-        ] ],
-        [ "ExternalSystemArray", "de/d6b/classsamchon_1_1protocol_1_1master_1_1ExternalSystemArray.html", [
-          [ "DistributedSystemArray", "d3/d88/classsamchon_1_1protocol_1_1master_1_1DistributedSystemArray.html", null ]
-        ] ]
+        [ "NTParameterArray", "de/d08/classsamchon_1_1namtree_1_1NTParameterArray.html", null ]
       ] ],
       [ "EntityList< _Ty >", "d6/d5a/classsamchon_1_1protocol_1_1EntityList.html", null ],
-      [ "ExternalSystemRole", "da/dec/classsamchon_1_1protocol_1_1master_1_1ExternalSystemRole.html", [
-        [ "DistributedSystemRole", "d1/d16/classsamchon_1_1protocol_1_1master_1_1DistributedSystemRole.html", null ]
-      ] ]
+      [ "InvokeHistory", "d8/d64/classsamchon_1_1protocol_1_1slave_1_1InvokeHistory.html", [
+        [ "DSInvokeHistory", "de/d14/classsamchon_1_1protocol_1_1master_1_1DSInvokeHistory.html", null ],
+        [ "DSInvokeHistory", "de/d14/classsamchon_1_1protocol_1_1master_1_1DSInvokeHistory.html", null ]
+      ] ],
+      [ "SystemRole", "d5/de8/classsamchon_1_1protocol_1_1SystemRole.html", null ]
     ] ],
     [ "Event", "d2/d56/classsamchon_1_1library_1_1Event.html", [
       [ "ErrorEvent", "d4/de5/classsamchon_1_1library_1_1ErrorEvent.html", null ],
@@ -94,8 +90,6 @@ var hierarchy =
           [ "ChatClient", "d4/dba/classsamchon_1_1example_1_1chat__service_1_1ChatClient.html", null ]
         ] ]
       ] ],
-      [ "ExternalSystem", "d0/d74/classsamchon_1_1protocol_1_1master_1_1ExternalSystem.html", null ],
-      [ "ExternalSystemArray", "de/d6b/classsamchon_1_1protocol_1_1master_1_1ExternalSystemArray.html", null ],
       [ "Service", "d6/df3/classsamchon_1_1protocol_1_1service_1_1Service.html", [
         [ "ChatService", "df/de2/classsamchon_1_1example_1_1chat__service_1_1ChatService.html", null ],
         [ "ListService", "dd/de9/classsamchon_1_1example_1_1chat__service_1_1ListService.html", null ]
@@ -118,7 +112,6 @@ var hierarchy =
       [ "Server", "d9/d35/classsamchon_1_1protocol_1_1service_1_1Server.html", null ]
     ] ],
     [ "Map< int, samchon::library::FTInstance * >", "d1/d4e/classsamchon_1_1Map.html", null ],
-    [ "Map< K, PTR >", "d1/d4e/classsamchon_1_1Map.html", null ],
     [ "Map< size_t, SmartPointer< Client > >", "d1/d4e/classsamchon_1_1Map.html", [
       [ "User", "df/d87/classsamchon_1_1protocol_1_1service_1_1User.html", null ]
     ] ],

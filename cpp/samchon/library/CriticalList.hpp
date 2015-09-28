@@ -10,7 +10,8 @@ namespace samchon
 		/**
 		 * @brief A std::list ensures concurrency.
 		 *
-		 * @see CriticalAllocator
+		 * @see library::CriticalAllocator
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		template <typename _Ty>

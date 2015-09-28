@@ -17,6 +17,7 @@ namespace samchon
 		 * @image html cpp/library_math.png
 		 * @image latex cpp/library_math.png
 		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Math

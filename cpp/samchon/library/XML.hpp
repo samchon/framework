@@ -32,8 +32,8 @@ namespace samchon
 		 *  \li XMLList contains XML from vector of shared pointer<XML>
 		 *  \li Even if user creates a XML object directly, it's the basic principle to use shared pointer
 		 * 
-		 * @image html cpp/subset/xml.png
-		 * @image latex cpp/subset/xml.png
+		 * @image html cpp/subset/library_xml.png
+		 * @image latex cpp/subset/library_xml.png
 		 *
 		 * @note 
 		 * <p> Parsing comment is not supported yet. </p>
@@ -66,6 +66,7 @@ namespace samchon
 		 * 
 		 * @includelineno xml/main.cpp
 		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API XML 

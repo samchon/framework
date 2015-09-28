@@ -49,6 +49,4 @@ void ServerConnector::connect()
 	}
 
 	super::socket->connect(*endPoint);
-	super::listen();
-	//thread(&ServerConnector::listen, this).detach();
 }

@@ -15,9 +15,7 @@ NTParameterArray::NTParameterArray()
 	: super()
 {
 }
-auto NTParameterArray::createChild(shared_ptr<XML> xml) -> Entity*
+auto NTParameterArray::createChild(shared_ptr<XML>) -> NTParameter*
 {
 	return new NTParameter();
 }
-
-SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(NTParameterArray, NTParameter)

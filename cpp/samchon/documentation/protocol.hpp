@@ -48,9 +48,9 @@ namespace samchon
 	 *		I/O, we only need to concentrate on logical relationship like handling OOD objects </p>
 	 *
 	 *		<p> The basic 3 + 1 components are top level abstract interfaces for designing network system
-	 *		like handling OOD objects. When you see the protocol module from a different view, out of framework, you can find that
-	 *		all the other classes in protocol are another examples combinationing and utilizing those
-	 *		basic 3 + 1 components (interaces). </p>
+	 *		like handling OOD objects. When you see the protocol module from a different view, out of framework, 
+	 *		you can find that all the other classes in protocol are another examples combinationing and utilizing 
+	 *		those basic 3 + 1 components (interaces). </p>
 	 *
 	 *		<p> @image html cpp/protocol_interface.png
 	 *		@image latex cpp/protocol_interface.png </p>
@@ -65,11 +65,14 @@ namespace samchon
 	 *		consider about relationship and role of each <i>external network systems</i>. </p>
 	 *		
 	 *		<p> ExternalSystem objects are managed by ExternalSystemArray and the ExternalSystemArray can
-	 *		access to a role belongs to a system directly. When you send an Invoke message to 
-	 *		ExternalSystemArray, the ExternalSystemArray finds matched ExternalSystemRole and the 
-	 *		ExternalSystemRole shifts the network I/O responsibility to belonged ExternalSystem. 
-	 *		This relationship called "Proxy Pattern". By the pattern, "Proxy", you can concentrate 
-	 *		on roles irrespective of where each role is belonged to. </p>
+	 *		access to an ExternalSystemRole belongs to an ExternalSystem directly. When you send an Invoke 
+	 *		message to ExternalSystemArray, the ExternalSystemArray finds matched ExternalSystemRole and the 
+	 *		ExternalSystemRole shifts the network I/O responsibility to belonged ExternalSystem. </p>
+	 *
+	 *		<p> The relationship called as "Proxy Pattern". With the pattern, "Proxy", you can concentrate 
+	 *		on roles irrespective of where each role is belonged to (you can only concentrate on ExternalSystemRole 
+	 *		itself, what to do with Invoke message, irrespective of the ExternalSystemRole is belonged to which 
+	 *		ExternalSystem). </p>
 	 *
 	 *		<ul>
 	 *			<li> ExternalSystemArray::sendData() -> ExternalSystemRole(Proxy)::sendData() -> ExternalSystem::sendData() </li>
@@ -80,8 +83,8 @@ namespace samchon
 	 *		"Proxy pattern" is recommend to use in <i>external_system</i> module, but not forced. 
 	 *		However, since <i>parallel_processing_system</i> module, you've to follow the pattern.
 	 *
-	 *		@image html cpp/protocol_entity.png
-	 *		@image latex cpp/protocol_entity.png
+	 *		@image html  cpp/protocol_external_system.png
+	 *		@image latex cpp/protocol_external_system.png
 	 *
 	 *	<li><h3> Packages in protocol </h3></li>
 	 *	<ul>

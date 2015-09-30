@@ -58,9 +58,6 @@
     <Filter Include="Header Files\protocol\slave">
       <UniqueIdentifier>{7668fb65-c3c4-4f38-8d8d-a844707d5eac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\protocol\slave\external system">
-      <UniqueIdentifier>{8fdade9b-d0d1-450a-aba4-d7184392cc9d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\library\utils">
       <UniqueIdentifier>{91bcfbe4-61b2-474e-9850-a9ec7c7d73cf}</UniqueIdentifier>
     </Filter>
@@ -205,32 +202,8 @@
     <Filter Include="Header Files\protocol\master">
       <UniqueIdentifier>{89185979-a14d-4da0-816c-341eadff1905}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\library\virtual file tree">
-      <UniqueIdentifier>{20c748e4-0f25-4524-a047-a3ff98e7e3e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\library\virtual file tree\factory">
-      <UniqueIdentifier>{72efc4ad-375d-410e-a29b-b8e78df79523}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\library\virtual file tree\instances">
-      <UniqueIdentifier>{f4ff56d6-7e42-4d35-88eb-644ad9ad4c99}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\library\virtual file tree\instances">
       <UniqueIdentifier>{0cfa09c2-3323-47c1-8b12-c5b27ae3fde3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\nam-tree">
-      <UniqueIdentifier>{947275ff-6445-428f-aef0-1bf025b38353}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\nam-tree\criteria">
-      <UniqueIdentifier>{7ffafa77-1340-4f56-9a4c-59b242f64525}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\nam-tree\factory">
-      <UniqueIdentifier>{84a1e915-f3b0-4a62-b895-848d2d294375}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\nam-tree\history data">
-      <UniqueIdentifier>{23648358-26cd-4654-8553-833e629d0c3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\nam-tree\nt-files">
-      <UniqueIdentifier>{9819591a-dee4-467e-8463-981ab84a7eb0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\protocol\master">
       <UniqueIdentifier>{c560f956-4169-424e-90b1-104a9618b7c5}</UniqueIdentifier>
@@ -289,11 +262,29 @@
     <Filter Include="Source Files\protocol\common\external system\abstract">
       <UniqueIdentifier>{c26011b1-f57b-492a-a408-7cece61530ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\protocol\common\invoke\history">
+      <UniqueIdentifier>{4f9ab726-801f-4e33-bae5-d3b200fbf5e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\distributed processing system">
+      <UniqueIdentifier>{e6ca2274-2210-4e81-b431-9f2cb655a8ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\parallel processing system">
+      <UniqueIdentifier>{e3d640e3-ec05-4c84-8085-f13b0ca50fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\distributed processing system\abstract">
+      <UniqueIdentifier>{9bcd06e8-5933-4638-8deb-8235dc28a9de}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\protocol\common\external system\server">
-      <UniqueIdentifier>{cca8a325-6b9a-477b-9b75-69a013aa2578}</UniqueIdentifier>
+      <UniqueIdentifier>{a0eec34a-b640-4f97-9da1-1773aac1f5ae}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\protocol\common\external system\client">
-      <UniqueIdentifier>{cb804d78-47ae-46c4-ba4f-2fd599a7c388}</UniqueIdentifier>
+      <UniqueIdentifier>{8df6c6d6-7da6-4923-a891-7d7dafd23a64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\nam-tree">
+      <UniqueIdentifier>{a77a720f-e2af-457c-bbd4-ba3b21e80100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\library\virtual file tree">
+      <UniqueIdentifier>{f42d5090-35a7-4e61-912d-541ae5e3768c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -474,9 +465,6 @@
     <ClInclude Include="..\samchon\protocol\service\IPUserPair.hpp">
       <Filter>Header Files\protocol\service\logical objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\EntityArray.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp">
       <Filter>Header Files\protocol\common\entity</Filter>
     </ClInclude>
@@ -633,6 +621,18 @@
     <ClInclude Include="..\samchon\protocol\ExternalClientArray.hpp">
       <Filter>Header Files\protocol\common\external system\client</Filter>
     </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArray.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystem.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\EntityArray.hpp">
+      <Filter>Header Files\protocol\common\entity\determined group</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\abstract</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samchon\library\Date.cpp">
@@ -701,9 +701,6 @@
     <ClCompile Include="..\samchon\protocol\Entity.cpp">
       <Filter>Source Files\protocol\common\entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\EntityGroup.cpp">
-      <Filter>Source Files\protocol\common\entity</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\protocol\IEntityChain.cpp">
       <Filter>Source Files\protocol\common\entity</Filter>
     </ClCompile>
@@ -758,48 +755,6 @@
     <ClCompile Include="..\samchon\protocol\service\ServiceRole.cpp">
       <Filter>Source Files\protocol\service\logical objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\library\FTFactory.cpp">
-      <Filter>Source Files\library\virtual file tree\factory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\FTFile.cpp">
-      <Filter>Source Files\library\virtual file tree\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\FTFolder.cpp">
-      <Filter>Source Files\library\virtual file tree\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\FTInstance.cpp">
-      <Filter>Source Files\library\virtual file tree\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\namtree\NTCriteria.cpp">
-      <Filter>Source Files\nam-tree\criteria</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\namtree\NTSide.cpp">
-      <Filter>Source Files\nam-tree\criteria</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\namtree\INTExplore.cpp">
-      <Filter>Source Files\nam-tree\nt-files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\namtree\NTFile.cpp">
-      <Filter>Source Files\nam-tree\nt-files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\namtree\NTParameter.cpp">
-      <Filter>Source Files\nam-tree\nt-files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\namtree\NTParameterArray.cpp">
-      <Filter>Source Files\nam-tree\nt-files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\namtree\NTParameterDetermined.cpp">
-      <Filter>Source Files\nam-tree\nt-files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\namtree\NTFactory.cpp">
-      <Filter>Source Files\nam-tree\factory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\namtree\NTEntityGroup.cpp">
-      <Filter>Source Files\nam-tree\history data</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\namtree\NTIterator.cpp">
-      <Filter>Source Files\nam-tree\history data</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\protocol\IEntityGroup.cpp">
       <Filter>Source Files\protocol\common\entity</Filter>
     </ClCompile>
@@ -833,20 +788,65 @@
     <ClCompile Include="..\samchon\protocol\ExternalSystem.cpp">
       <Filter>Source Files\protocol\common\external system\abstract</Filter>
     </ClCompile>
+    <ClCompile Include="..\samchon\protocol\slave\InvokeHistory.cpp">
+      <Filter>Source Files\protocol\common\invoke\history</Filter>
+    </ClCompile>
     <ClCompile Include="..\samchon\protocol\ExternalSystemArray.cpp">
       <Filter>Source Files\protocol\common\external system\abstract</Filter>
     </ClCompile>
-    <ClCompile Include="ExternalServerArray.cpp">
+    <ClCompile Include="..\samchon\protocol\ExternalServer.cpp">
       <Filter>Source Files\protocol\common\external system\server</Filter>
     </ClCompile>
-    <ClCompile Include="ExternalServer.cpp">
+    <ClCompile Include="..\samchon\protocol\ExternalServerArray.cpp">
       <Filter>Source Files\protocol\common\external system\server</Filter>
     </ClCompile>
-    <ClCompile Include="ExternalClientArray.cpp">
+    <ClCompile Include="..\samchon\protocol\ExternalClient.cpp">
       <Filter>Source Files\protocol\common\external system\client</Filter>
     </ClCompile>
-    <ClCompile Include="ExternalClient.cpp">
+    <ClCompile Include="..\samchon\protocol\ExternalClientArray.cpp">
       <Filter>Source Files\protocol\common\external system\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\namtree\INTExplore.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\namtree\NTCriteria.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\namtree\NTEntityGroup.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\namtree\NTFactory.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\namtree\NTFile.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\namtree\NTIterator.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\namtree\NTParameter.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\namtree\NTParameterArray.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\namtree\NTParameterDetermined.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\namtree\NTSide.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\FTInstance.cpp">
+      <Filter>Source Files\library\virtual file tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\FTFolder.cpp">
+      <Filter>Source Files\library\virtual file tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\FTFile.cpp">
+      <Filter>Source Files\library\virtual file tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\FTFactory.cpp">
+      <Filter>Source Files\library\virtual file tree</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

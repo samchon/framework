@@ -20,11 +20,11 @@ Date::Date()
 	//: super(chrono::system_clock::now())
 {
 }
-Date::Date(const Date &date)
+Date::Date(const super &date)
 	: super(date)
 {
 }
-Date::Date(Date &&date)
+Date::Date(super &&date)
 	: super(move(date))
 {
 }

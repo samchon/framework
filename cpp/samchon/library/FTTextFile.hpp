@@ -35,14 +35,10 @@ namespace samchon
 			FTTextFile(FTFolder*);
 			virtual ~FTTextFile() = default;
 
-			virtual void construct(std::shared_ptr<library::XML> xml);
-
 			/**
 			 * @brief Get string content.
 			 */
 			auto getData() const -> std::string;
-
-			virtual auto toXML() const->std::shared_ptr<library::XML>;
 		};
 	};
 };

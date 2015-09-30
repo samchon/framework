@@ -7,6 +7,12 @@ namespace samchon
 {
 	namespace protocol
 	{
-		typedef EntityGroup<std::list<std::shared_ptr<Entity>>> SharedEntityList;
+		template <typename _Ty = Entity>
+		using SharedEntityList = 
+			EntityGroup
+			<
+				std::list<std::shared_ptr<_Ty>>, 
+				_Ty, std::shared_ptr<_Ty>
+			>;
 	};
 };

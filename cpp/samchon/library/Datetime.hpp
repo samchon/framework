@@ -34,14 +34,14 @@ namespace samchon
 			Datetime();
 
 			/**
-			 * @copydoc Date::Date(const Date&)
+			 * @copydoc Date::Date(const super&)
 			 */
-			Datetime(const Date&);
+			Datetime(const super::super&);
 
 			/**
-			 * @copydoc Date::Date(Date&&)
+			 * @copydoc Date::Date(super&&)
 			 */
-			Datetime(Date&&);
+			Datetime(super::super&&);
 
 			/**
 			 * @brief Construct from datetime elements
@@ -155,7 +155,7 @@ namespace samchon
 			virtual void addDate(int) override;
 			
 			/**
-			 * @biref Add hours
+			 * @brief Add hours
 			 *
 			 * @details 
 			 * <p> It's same with operator+=(chrono::hours(val)) </p>

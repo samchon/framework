@@ -45,8 +45,10 @@ auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> std::string
 		std::string str((char*)piece.data());
 		shared_ptr<XML> xml(new XML(str));
 
-		shared_ptr<Invoke> invoke(new Invoke(xml));
-		sessionID = invoke->at(0)->getValueAsString();
+		shared_ptr<Invoke> invoke(new Invoke());
+		invoke->construct(xml);
+
+		sessionID = invoke->at(0)->getValue<string>();
 	}
 	
 	UniqueReadLock uk(server->mtx);

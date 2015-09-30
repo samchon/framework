@@ -1,24 +1,23 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/namtree/INTExplore.hpp>
 #include <samchon/protocol/SharedEntityArray.hpp>
+#include <samchon/namtree/NTParameterDetermined.hpp>
+#include <samchon/namtree/INTExplore.hpp>
 
 namespace samchon
 {
 	namespace namtree
 	{
-		class NTParameterDetermined;
-
 		/**
 		 * @brief A metadat of a parameter in a function
 		 */
 		class SAMCHON_FRAMEWORK_API NTParameter
-			: public virtual protocol::SharedEntityArray,
+			: public virtual protocol::SharedEntityArray<NTParameterDetermined>,
 			public INTExplore
 		{
 		private:
-			typedef protocol::SharedEntityArray super;
+			typedef protocol::SharedEntityArray<NTParameterDetermined> super;
 
 		protected:
 			virtual auto TAG() const -> std::string override;
@@ -34,11 +33,9 @@ namespace samchon
 			virtual void construct(std::shared_ptr<library::XML>) override;
 
 		protected:
-			virtual auto createChild(std::shared_ptr<library::XML>) -> protocol::Entity* override;
+			virtual auto createChild(std::shared_ptr<library::XML>) -> NTParameterDetermined* override;
 
 		public:
-			SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(NTParameterDetermined);
-
 			virtual auto key() const -> std::string override;
 			auto getName() const -> std::string;
 			auto getInitialValue() const -> double;

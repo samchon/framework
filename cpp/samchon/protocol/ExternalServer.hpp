@@ -8,6 +8,15 @@ namespace samchon
 {
 	namespace protocol
 	{
+		/**
+		 * @brief A network driver for an external server.
+		 *
+		 * @details 
+		 * <p> ExternalServer is an ExternalSystem specialized in server driver. </p>
+		 *
+		 * \par Inherited
+		 *		@copydoc protocol::ExternalSystem
+		 */
 		class SAMCHON_FRAMEWORK_API ExternalServer
 			: public virtual ExternalSystem,
 			private virtual ServerConnector
@@ -16,12 +25,18 @@ namespace samchon
 			typedef ExternalSystem super;
 
 		protected:
+			/**
+			 * @brief A custom ip address of my system to bind
+			 */
 			std::string myIP;
 
 		public:
 			/* ------------------------------------------------------------------
 				CONSTRUCTORS
 			------------------------------------------------------------------ */
+			/**
+			 * @brief Default Constructor.
+			 */
 			ExternalServer();
 			virtual ~ExternalServer() = default;
 

@@ -72,20 +72,22 @@ namespace samchon
 			 * @detail The date will be now (Now's date from operating system)
 			 */
 			Date();
+
 			/**
 			 * @brief Copy Constructor
 			 * @details Copy the date from another Date
 			 * 
 			 * @param date Target to be copied
 			 */
-			Date(const Date&);
+			Date(const super&);
+
 			/**
 			 * @briref Move Constructor
 			 * @details Gets the date from other and truncate the other
 			 * 
 			 * @param date Target to be moved
 			 */
-			Date(Date&&);
+			Date(super&&);
 
 			/**
 			 * @brief Construct from date elements

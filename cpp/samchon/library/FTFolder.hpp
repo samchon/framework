@@ -1,8 +1,8 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/library/FTInstance.hpp>
 #include <samchon/protocol/SharedEntityArray.hpp>
+#include <samchon/library/FTInstance.hpp>
 
 namespace samchon
 {
@@ -20,14 +20,13 @@ namespace samchon
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API FTFolder
-			: public FTInstance,
-			public virtual protocol::SharedEntityArray
+			: public protocol::SharedEntityArray<FTInstance>,
+			public FTInstance
 		{
 		private:
-			typedef FTInstance super;
+			typedef protocol::SharedEntityArray<FTInstance> super;
 
 		protected:
-			virtual auto TAG() const -> std::string override;
 			virtual auto CHILD_TAG() const -> std::string override;
 			
 			/**
@@ -48,11 +47,9 @@ namespace samchon
 			virtual void construct(std::shared_ptr<library::XML> xml) override;
 
 		protected:
-			virtual auto createChild(std::shared_ptr<library::XML>) -> protocol::Entity* override;
+			virtual auto createChild(std::shared_ptr<library::XML>) -> FTInstance* override;
 
 		public:
-			SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(FTInstance)
-
 			virtual auto toXML() const -> std::shared_ptr<library::XML> override;
 		};
 	};

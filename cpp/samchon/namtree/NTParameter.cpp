@@ -29,12 +29,11 @@ void NTParameter::construct(shared_ptr<XML> xml)
 	else
 		initialValue = INT_MIN;
 }
-auto NTParameter::createChild(shared_ptr<XML>) -> Entity*
+auto NTParameter::createChild(shared_ptr<XML>) -> NTParameterDetermined*
 {
 	return new NTParameterDetermined();
 }
 
-SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(NTParameter, NTParameterDetermined)
 auto NTParameter::key() const -> string
 {
 	return name;

@@ -55,7 +55,8 @@ void IClient::listen()
 			std::string &message = "<invoke" + invokeArray[i] + "</invoke>";
 
 			shared_ptr<XML> xml(new XML(message));
-			shared_ptr<Invoke> invoke(new Invoke(xml));
+			shared_ptr<Invoke> invoke(new Invoke());
+			invoke->construct(xml);
 			
 			_replyData(invoke);
 			

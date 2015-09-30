@@ -54,6 +54,8 @@ auto StringUtil::isNumeric(const string &str) -> bool
 	}
 	catch (exception &e)
 	{
+		e;
+
 		return false;
 	}
 	return true;

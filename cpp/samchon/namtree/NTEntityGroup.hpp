@@ -18,8 +18,8 @@ namespace samchon
 			NTEntityGroup();
 			virtual ~NTEntityGroup() = default;
 
-			virtual auto begin() const -> std::shared_ptr<NTIterator> = NULL;
-			virtual auto end() const -> std::shared_ptr<NTIterator> = NULL;
+			virtual auto begin() const -> std::shared_ptr<NTIterator> = 0;
+			virtual auto end() const -> std::shared_ptr<NTIterator> = 0;
 		};
 	};
 };

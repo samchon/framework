@@ -39,9 +39,7 @@ namespace samchon
 			{
 			protected:
 				typedef Entity super;
-
-				virtual auto TAG() const -> std::string override;
-
+				
 				/**
 				 * @brief A listener of the Invoke message
 				 *
@@ -79,7 +77,7 @@ namespace samchon
 				 *
 				 * <p> The precise end time will be used to calculate elapsed time with start time. </p>
 				 */
-				library::Datetime startTime;
+				library::Datetime endTime;
 
 			public:
 				/* -----------------------------------------------------------------
@@ -148,6 +146,8 @@ namespace samchon
 					EXPORTERS
 				----------------------------------------------------------------- */
 			public:
+				virtual auto TAG() const -> std::string override;
+
 				virtual auto toXML() const -> std::shared_ptr<library::XML> override;
 
 				/**

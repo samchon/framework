@@ -130,10 +130,10 @@ template<> auto SQLStatement::at(size_t index) const -> std::string
 	std::string str(1, NULL);
 	SQLLEN size = 0;
 	
-	if (::SQLGetData(hstmt, index, SQL_C_CHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
+	if (::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_CHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
 	{
 		str.assign((size_t)size, NULL);
-		::SQLGetData(hstmt, index, SQL_C_CHAR, &str[0], sizeof(char)*size, NULL);
+		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_CHAR, &str[0], sizeof(char)*size, NULL);
 	}
 	return move(str);
 }
@@ -144,10 +144,10 @@ template<> auto SQLStatement::at(size_t index) const -> std::wstring
 	std::wstring str(1, NULL);
 	SQLLEN size = 0;
 
-	if (::SQLGetData(hstmt, index, SQL_C_WCHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
+	if (::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_WCHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
 	{
 		str.assign((size_t)size, NULL);
-		::SQLGetData(hstmt, index, SQL_C_WCHAR, &str[0], sizeof(wchar_t)*size, NULL);
+		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_WCHAR, &str[0], sizeof(wchar_t)*size, NULL);
 	}
 	return move(str);
 }
@@ -158,10 +158,10 @@ template<> auto SQLStatement::at(size_t index) const -> ByteArray
 	ByteArray data;
 	SQLLEN size = 0;
 
-	if (::SQLGetData(hstmt, index, SQL_C_BINARY, &data[0], 0, &size) != SQL_SUCCESS && size != 0)
+	if (::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_BINARY, &data[0], 0, &size) != SQL_SUCCESS && size != 0)
 	{
 		data.assign(size, NULL);
-		::SQLGetData(hstmt, index, SQL_C_BINARY, &data[0], data.size(), NULL);
+		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_BINARY, &data[0], data.size(), NULL);
 	}
 	return move(data);
 }
@@ -180,17 +180,17 @@ auto SQLStatement::toXML() const -> shared_ptr<XML>
 -------------------------------------------------------------------------------------- */
 template<> void SQLStatement::bindParameter(const std::string &val)
 {
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_TCHAR, SQL_VARCHAR, val.size(), 0, (char*)&val[0], 0, NULL);
+	::SQLBindParameter(hstmt, (SQLUSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_TCHAR, SQL_VARCHAR, val.size(), 0, (char*)&val[0], 0, NULL);
 }
 template<> void SQLStatement::bindParameter(const std::wstring &val)
 {
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_WCHAR, SQL_WVARCHAR, val.size(), 0, (wchar_t*)&val[0], 0, NULL);
+	::SQLBindParameter(hstmt, (SQLUSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_WCHAR, SQL_WVARCHAR, val.size(), 0, (wchar_t*)&val[0], 0, NULL);
 }
 template<> void SQLStatement::bindParameter(const ByteArray &val)
 {
 	bindParameterBASizeMap.set(++bindParameterCount, (SQL_SIZE_T)val.size());
 
-	::SQLBindParameter(hstmt, (SQLSMALLINT)bindParameterCount, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_LONGVARBINARY, val.size(), 0, (unsigned char*)&val[0], 0, &bindParameterBASizeMap.get(bindParameterCount));
+	::SQLBindParameter(hstmt, (SQLUSMALLINT)bindParameterCount, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_LONGVARBINARY, val.size(), 0, (unsigned char*)&val[0], 0, &bindParameterBASizeMap.get(bindParameterCount));
 }
 
 /* -------------------------------------------------------------------
@@ -199,12 +199,12 @@ template<> void SQLStatement::bindParameter(const ByteArray &val)
 void SQLStatement::sql_get_data(size_t index, short type, void *listener) const
 {
 	//SQLGetData(hstmt, index, SQL_C_FLOAT, &value, 0, NULL);
-	::SQLGetData(hstmt, index, type, listener, 0, nullptr);
+	::SQLGetData(hstmt, (SQLUSMALLINT)index, type, listener, 0, nullptr);
 }
 void SQLStatement::sql_bind_parameter(short cppType, short sqlType, void *val)
 {
 	//::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_BIT, SQL_BIT, 0, 0, (bool*)&val, 0, NULL);
-	::SQLBindParameter(hstmt, (SQLSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, cppType, sqlType, 0, 0, val, 0, nullptr);
+	::SQLBindParameter(hstmt, (SQLUSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, cppType, sqlType, 0, 0, val, 0, nullptr);
 }
 
 /* -------------------------------------------------------------------

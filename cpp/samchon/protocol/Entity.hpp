@@ -28,7 +28,7 @@ namespace samchon
 			 *
 			 * @details 
 			 */
-			virtual auto TAG() const -> std::string = NULL;
+			virtual auto TAG() const -> std::string = 0;
 			
 			/**
 			 * @brief Identifier of the Entity
@@ -51,7 +51,7 @@ namespace samchon
 			 *
 			 * @param xml A xml used to construct data of entity
 			 */
-			virtual void construct(std::shared_ptr<library::XML>);
+			virtual void construct(std::shared_ptr<library::XML>) = 0;
 
 			/**
 			 * @brief Entity -> XML

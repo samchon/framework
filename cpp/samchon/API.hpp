@@ -13,4 +13,20 @@
 #	define SAMCHON_FRAMEWORK_EXTERN 
 #endif
 
-#pragma warning(disable: 4251)
+/* -------------------------------------------------------------------------
+	DISABLE WARNINGS
+------------------------------------------------------------------------- */
+//MACRO RE-DEFINITION
+#pragma warning(disable:4005)
+
+//PRE-DEFINED POINTER'S DELETION
+#pragma warning(disable:4150)
+
+//DIAMOND INHERITANCE
+#pragma warning(disable:4250)
+
+//TEMPLATE DLL
+#pragma warning(disable:4251)
+
+//TYPEDEF TEMPLATE'S DEFAULT PARAMETER
+#pragma warning(disable:4348)

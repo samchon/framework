@@ -18,11 +18,11 @@ Datetime::Datetime()
 	: super()
 {
 }
-Datetime::Datetime(const Date &date)
+Datetime::Datetime(const super::super &date)
 	: super(date)
 {
 }
-Datetime::Datetime(Date &&date)
+Datetime::Datetime(super::super &&date)
 	: super(move(date))
 {
 }

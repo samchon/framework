@@ -65,10 +65,10 @@ namespace samchon
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API NTCriteria
-			: public virtual protocol::SharedEntityArray
+			: public virtual protocol::SharedEntityArray<NTCriteria>
 		{
 		private:
-			typedef protocol::SharedEntityArray super;
+			typedef protocol::SharedEntityArray<NTCriteria> super;
 
 		public:
 			virtual auto TAG() const -> std::string override;
@@ -98,10 +98,9 @@ namespace samchon
 			virtual ~NTCriteria();
 
 			virtual void construct(std::shared_ptr<library::XML>) override;
-			SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(NTCriteria)
 
 		protected:
-			virtual auto createChild(std::shared_ptr<library::XML>) -> protocol::Entity* override;
+			virtual auto createChild(std::shared_ptr<library::XML>) -> NTCriteria* override;
 
 		public:
 			virtual void initRetrieve();

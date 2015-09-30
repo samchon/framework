@@ -97,7 +97,7 @@ void Client::replyData(shared_ptr<Invoke> invoke)
 
 	if (listener == "notifyService")
 	{
-		std::string &name = invoke->at(0)->getValueAsString();
+		std::string &name = invoke->at(0)->getValue<string>();
 
 		constructService(name);
 	}

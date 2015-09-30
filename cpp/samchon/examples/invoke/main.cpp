@@ -40,10 +40,10 @@ void main()
 	cout << "-------------------------------------------------------------" << endl;
 	cout << "	Parameters" << endl;
 	cout << "-------------------------------------------------------------" << endl;
-	cout << "1st param: " << invoke->at(0)->getValueAsString() << endl;
-	cout << "2nd param: " << invoke->at(1)->getValueAsNumber() << endl;
-	cout << "3rd param: " << invoke->at(2)->getValueAsNumber() << endl;
-	cout << "4th param: " << endl << invoke->at(3)->getValueAsXML()->toString() << endl;
+	cout << "1st param: " << invoke->at(0)->getValue<string>() << endl;
+	cout << "2nd param: " << invoke->at(1)->getValue<string>() << endl;
+	cout << "3rd param: " << invoke->at(2)->getValue<string>() << endl;
+	cout << "4th param: " << endl << invoke->at(3)->getValue<shared_ptr<XML>>()->toString() << endl;
 
 	system("pause");
 }

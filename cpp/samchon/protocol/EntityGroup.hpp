@@ -12,9 +12,9 @@ namespace samchon
 		 * @brief Entity, Container of Entity
 		 *
 		 * @details
-		 * <p> EntityGroup is a container of Entity, and also another type of Entity, too. </p>
-		 * Thus, there's a composite relationship between EntityGroup and Entity</br>
-		 * \n
+		 * <p> EntityGroup is a container of Entity, and also another type of Entity, too.
+		 * Thus, there's a composite relationship between EntityGroup and Entity </p>
+		 * 
 		 * @note
 		 * <ul>
 		 *	<li> When data-set has a "Hierarchical Relationship": </li>
@@ -26,11 +26,16 @@ namespace samchon
 		 * 
 		 * @author Jeongho Nam
 		 */
-		template <typename _Container, typename _Ty = _Container::value_type>
+		template <typename _Container, typename _ETy = Entity, typename _Ty = _Container::value_type>
 		class EntityGroup
 			: public _Container, public virtual Entity, //CLASS
 			public virtual IEntityGroup	//INTERFACE
 		{
+		protected:
+			typedef _Container container_type;
+			typedef _Ty value_type;
+			typedef _ETy entity_type;
+
 		public:
 			/**
 			 * Constructor
@@ -63,13 +68,13 @@ namespace samchon
 			* @param key the identifier of the element wants to access
 			* @return The element having the key, or throw exception if there is none.
 			*/
-			auto get(const std::string &key) -> _Ty&
+			auto get(const std::string &key) -> value_type&
 			{
 				for (auto it = begin(); it != end(); it++)
 				if ((*it)->key() == key)
 					return *it;
 
-				throw "out of range";
+				throw std::exception("out of range");
 			};
 
 			/**
@@ -78,13 +83,13 @@ namespace samchon
 			* @param key the identifier of the element wants to access
 			* @return The const element having the key, or throw exception if there is none.
 			*/
-			auto get(const std::string &key) const -> const _Ty&
+			auto get(const std::string &key) const -> const value_type&
 			{
 				for (auto it = begin(); it != end(); it++)
 					if ((*it)->key() == key)
 						return *it;
 
-				throw "out of range";
+				throw std::exception("out of range");
 			};
 
 			/**
@@ -110,11 +115,11 @@ namespace samchon
 				{
 					std::shared_ptr<library::XML> &xmlElement = xmlList->at(i);
 
-					Entity *entity = createChild(xmlElement);
+					entity_type *entity = createChild(xmlElement);
 					if (entity != nullptr)
 					{
 						entity->construct(xmlList->at(i));
-						emplace_back(entity);	
+						emplace_back(entity);
 					}
  				}
 			};
@@ -147,7 +152,7 @@ namespace samchon
 			* \n
 			* @return A new child Entity belongs to EntityGroup
 			*/
-			virtual auto createChild(std::shared_ptr<library::XML>) -> Entity* = 0;
+			virtual auto createChild(std::shared_ptr<library::XML>) -> entity_type* = 0;
 		};
 	};
 };

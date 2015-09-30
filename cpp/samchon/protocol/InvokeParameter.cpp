@@ -5,6 +5,8 @@
 #include <samchon/library/Base64.hpp>
 #include <samchon/library/StringUtil.hpp>
 
+#include <iostream>
+
 using namespace std;
 using namespace samchon;
 using namespace samchon::library;
@@ -13,62 +15,100 @@ using namespace samchon::protocol;
 /* ----------------------------------------------------------
 	CONSTRUCTORS
 ---------------------------------------------------------- */
-InvokeParameter::InvokeParameter(const string &name, const double &val)
+//CUSTOM CONSTRUCTOR
+InvokeParameter::InvokeParameter(const string &name, const string &type, const string &val)
+	: super()
 {
 	this->name = name;
-	this->type = "number";
-
-	this->value = new double(val);
-}
-InvokeParameter::InvokeParameter(const string &name, const string &str)
-{
-	this->name = name;
-	this->type = "string";
-	
-	this->value = new string(str);
-}
-InvokeParameter::InvokeParameter(const string &name, const shared_ptr<XML> &xml)
-{
-	this->name = name;
-	this->type = "XML";
-
-	this->value = new shared_ptr<XML>(xml);
-}
-InvokeParameter::InvokeParameter(const string &name, const ByteArray &byteArray)
-{
-	this->name = name;
-	this->type = "ByteArray";
-	this->value = new ByteArray(byteArray);
+	this->type = type;
+	this->str = val;
 }
 
+//MOVE CONSTRUCTORS
 InvokeParameter::InvokeParameter(const string &name, string &&str)
+	: super()
 {
 	this->name = name;
 	this->type = "string";
 
-	this->value = new string(move(str));
+	this->str = move(str);
 }
 InvokeParameter::InvokeParameter(const string &name, ByteArray &&byteArray)
+	: super()
 {
 	this->name = name;
 	this->type = "ByteArray";
 
-	this->value = new ByteArray(move(byteArray));
+	this->byteArray.reset( new ByteArray(move(byteArray)) );
 }
 
-InvokeParameter::~InvokeParameter()
+/* ----------------------------------------------------------
+	PROTECTED CONSTRUCTORS
+---------------------------------------------------------- */
+InvokeParameter::InvokeParameter()
+	: super()
 {
-	if(type == "number")
-		delete (double*)value;
-	else if(type == "string")
-		delete (string*)value;
-	else if(type == "XML")
-		delete (shared_ptr<XML>*)value;
+}
+
+void InvokeParameter::construct(shared_ptr<XML> xml)
+{
+	if(xml->hasProperty("name") == true)
+		this->name = xml->getProperty("name");
+	else
+		this->name = "";
+
+	this->type = xml->getProperty("type");
+
+	if(type == "XML")
+		this->xml = xml->begin()->second->at(0);
+	else
+		this->str = xml->getValue();
+}
+
+auto InvokeParameter::reservedByteArraySize() const -> size_t
+{
+	return (size_t)stoull(StringUtil::between(this->str, "size: #"));
+}
+void InvokeParameter::setByteArray(ByteArray &&byteArray)
+{
+	this->byteArray.reset(new ByteArray(move(byteArray)));
+}
+
+template<> void InvokeParameter::construct_by_varadic_template(const string &str)
+{
+	this->type = "string";
+	this->str = str;
+}
+template<> void InvokeParameter::construct_by_varadic_template(const WeakString &str)
+{
+	this->type = "string";
+	this->str = str.str();
+}
+template<> void InvokeParameter::construct_by_varadic_template(const ByteArray &byteArray)
+{
+	this->type = "ByteArray";
+	this->byteArray.reset(new ByteArray(byteArray));
+}
+
+template<> void InvokeParameter::construct_by_varadic_template(const shared_ptr<XML> &xml)
+{
+	this->type = "XML";
+	this->xml = xml;
+}
+template<> void InvokeParameter::construct_by_varadic_template(const Entity &entity)
+{
+	this->type = "XML";
+	this->xml = entity.toXML();
 }
 
 /* ----------------------------------------------------------
 	GETTERS
 ---------------------------------------------------------- */
+auto InvokeParameter::key() const -> string
+{
+	return name;
+}
+
 auto InvokeParameter::getName() const -> std::string
 {
 	return name;
@@ -78,117 +118,57 @@ auto InvokeParameter::getType() const -> std::string
 	return type;
 }
 
-auto InvokeParameter::getValueAsNumber() const -> double
+template<> auto InvokeParameter::getValue() const -> WeakString
 {
-	if(type == "number")
-		return *(double*)value;
-	else if(type == "string")
-		return stod(*(string*)value);
-	else
-		throw invalid_argument("invalid type specification");
+	return str;
 }
-auto InvokeParameter::getValueAsString() const -> string
+template<> auto InvokeParameter::getValue() const -> shared_ptr<XML>
 {
-	if(type == "number")
-		return to_string(*(double*)value);
-	else if(type == "string")
-		return *(string*)value;
-	else if(type == "XML")
-		return ((shared_ptr<XML>*)value)->get()->toString();
-	else
-		throw invalid_argument("invalid type specification");
+	return xml;
 }
-auto InvokeParameter::getValueAsXML() const -> shared_ptr<XML>
+template<> auto InvokeParameter::getValue() const -> ByteArray
 {
-	if(type == "XML")
-		return *(shared_ptr<XML>*)value;
-	else
-		throw invalid_argument("invalid type specification");
-}
-auto InvokeParameter::getValueAsByteArray() const -> ByteArray
-{
-	if(type == "ByteArray")
-		return *(ByteArray*)value;
-	else
-		throw invalid_argument("invalid type specification");
+	return *byteArray;
 }
 
-auto InvokeParameter::moveValueAsString() -> string
+template<> auto InvokeParameter::moveValue() -> string
 {
-	if(type != "string")
-		throw invalid_argument("invalid type specification");
-
-	return move(*(string*)value);
+	return move(str);
 }
-auto InvokeParameter::moveValueAsByteArray() -> ByteArray
+template<> auto InvokeParameter::moveValue() -> ByteArray
 {
-	if(type != "ByteArray")
-		throw invalid_argument("invalid type specification");
-
-	return move(*(ByteArray*)value);
-}
-
-/* ----------------------------------------------------------
-	HIDDEN METHODS
----------------------------------------------------------- */
-InvokeParameter::InvokeParameter(shared_ptr<XML> xml)
-{
-	if(xml->hasProperty("name") == true)
-		this->name = xml->getProperty("name");
-	this->type = xml->getProperty("type");
-
-	if(type == "double")
-		this->value = new double(xml->getValue<double>());
-	else if(type == "string")
-		this->value = new string(xml->getValue());
-	else if (type == "XML")
-		this->value = new shared_ptr<XML>(xml->begin()->second->at(0));
-	else if (type == "ByteArray")
-	{
-		if (xml->getValue().find("size: #") == string::npos)
-		{
-			ByteArray &byteArray = Base64::decode(xml->getValue());
-			
-			this->value = new ByteArray(move(byteArray));
-		}
-		else
-		{
-			unsigned long long size = stoull(StringUtil::between(xml->getValue(), "size: #"));
-
-			this->type = "Pre-ByteArray";
-			this->value = (void*)size;
-		}
-	}
-}
-auto InvokeParameter::reservedByteArraySize() const -> size_t
-{
-	return (size_t)value;
+	return move(*byteArray);
 }
 
 /* ----------------------------------------------------------
 	EXPORTS
 ---------------------------------------------------------- */
+auto InvokeParameter::TAG() const -> string
+{
+	return "parameter";
+}
+
 auto InvokeParameter::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> xml(new XML());
-	xml->setTag("parameter");
+	shared_ptr<XML> &xml = super::toXML();
 
 	if(name.empty() == false)
 		xml->setProperty("name", name);
 	xml->setProperty("type", type);
 
 	if (type == "XML")
-		xml->push_back(this->getValueAsXML());
+	{
+		xml->push_back(this->xml);
+	}
 	else if (type == "ByteArray")
 	{
-		ByteArray *byteArray = (ByteArray*)this->value;
-
 		xml->setValue("size: #" + to_string(byteArray->size()));
 	}
 	else
 	{
-		xml->setValue(getValueAsString());
+		xml->setValue(str);
 	}
+
 	return xml;
 }
 auto InvokeParameter::toSQL() const -> std::string

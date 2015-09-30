@@ -14,7 +14,7 @@ namespace samchon
 		 * <p> IWebServer is a IServer following web-socket protocol. </p>
 		 *
 		 * \par Inherited
-		 * @copydoc protocol::IServer
+		 *		@copydoc protocol::IServer
 		 */
 		class SAMCHON_FRAMEWORK_API IWebServer
 			: public virtual IServer

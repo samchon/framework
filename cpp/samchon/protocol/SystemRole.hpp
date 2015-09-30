@@ -14,6 +14,10 @@ namespace samchon
 		/**
 		 * @brief A role belongs to a system.
 		 *
+		 * @details
+		 * <p> SystemRole is an abstract and a 'control' class groupping methods, handling Invoke messages 
+		 * interacting with an system that the SystemRole is belonged to, by a subject or unit of a module. <p>
+		 *
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API SystemRole
@@ -51,7 +55,7 @@ namespace samchon
 			virtual auto key() const -> std::string override;
 
 			/**
-			 * @brief Test whether have a listener in the role
+			 * @brief Test whether has a listener in the role
 			 */
 			auto hasListener(const std::string &) const -> bool;
 

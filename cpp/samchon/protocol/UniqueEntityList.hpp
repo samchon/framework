@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon/protocol/SamchonProtocol.hpp>
+#include <samchon/API.hpp>
 
 #include <samchon/protocol/IEntityUniquePtrGroup.hpp>
 #include <list>
@@ -8,9 +8,18 @@ namespace samchon
 {
 	namespace protocol
 	{
-		 template class
-			 IEntityUniquePtrGroup<std::list<std::unique_ptr<Entity>>>;
-
-		typedef IEntityUniquePtrGroup<std::list<std::unique_ptr<Entity>>> UniqueEntityList;
+		/**
+		 * @brief An list of Entity(s) of std::unique_ptr
+		 *
+		 * @note UniqueEntityList is depreciated
+		 * @author Jeongho Nam
+		 */
+		template <typename _Ty = Entity>
+		using UniqueEntityList = 
+			EntityGroup
+			<
+				std::list<std::unique_ptr<_Ty>>, 
+				_Ty, std::unique_ptr<_Ty>
+			>;
 	};
 };

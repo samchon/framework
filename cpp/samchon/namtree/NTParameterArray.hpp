@@ -2,21 +2,20 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/SharedEntityArray.hpp>
+#include <samchon/namtree/NTParameter.hpp>
 
 namespace samchon
 {
 	namespace namtree
 	{
-		class NTParameter;
-
 		/**
 		 * @brief An Array of NTParameter
 		 */
 		class SAMCHON_FRAMEWORK_API NTParameterArray
-			: public virtual protocol::SharedEntityArray
+			: public virtual protocol::SharedEntityArray<NTParameter>
 		{
 		private:
-			typedef protocol::SharedEntityArray super;
+			typedef protocol::SharedEntityArray<NTParameter> super;
 
 		public:
 			virtual auto TAG() const -> std::string override;
@@ -26,10 +25,7 @@ namespace samchon
 			virtual ~NTParameterArray() = default;
 
 		protected:
-			virtual auto createChild(std::shared_ptr<library::XML>) -> protocol::Entity* override;
-
-		public:
-			SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(NTParameter)
+			virtual auto createChild(std::shared_ptr<library::XML>) -> NTParameter* override;
 		};
 	};
 };

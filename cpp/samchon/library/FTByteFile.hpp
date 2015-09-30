@@ -37,14 +37,10 @@ namespace samchon
 			FTByteFile(FTFolder*);
 			virtual ~FTByteFile() = default;
 
-			virtual void construct(std::shared_ptr<library::XML> xml);
-
 			/**
 			 * @brief Get binaray data of the file.
 			 */
 			auto getData() -> ByteArray;
-
-			virtual auto toXML() const -> std::shared_ptr<library::XML>;
 		};
 	};
 };

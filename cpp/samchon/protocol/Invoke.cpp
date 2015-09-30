@@ -11,20 +11,25 @@ using namespace samchon::protocol;
 /* -----------------------------------------------------------------------
 	CONSTRUCTORS
 ----------------------------------------------------------------------- */
+Invoke::Invoke()
+	: super()
+{
+}
 Invoke::Invoke(const std::string &listener)
 	: super()
 {
 	this->listener = listener;
 }
-Invoke::Invoke(shared_ptr<XML> xml)
-	: Invoke(xml->getProperty("listener"))
-{
-	if (xml->has("parameter") == false)
-		return;
 
-	std::shared_ptr<XMLList> xmlList = xml->get("parameter");
-	for (size_t i = 0; i < xmlList->size(); i++)
-		emplace_back(new InvokeParameter( xmlList->at(i) ));
+void Invoke::construct(shared_ptr<XML> xml)
+{
+	this->listener = xml->getProperty("listener");
+
+	super::construct(xml);
+}
+auto Invoke::createChild(shared_ptr<XML>) -> InvokeParameter*
+{
+	return new InvokeParameter();
 }
 
 /*#define INVOKE_CONSTRUCT_BODY($TYPE) \
@@ -62,22 +67,29 @@ auto Invoke::getListener() const -> std::string
 	return listener;
 }
 
+void Invoke::setListener(const string &listener)
+{
+	this->listener = listener;
+}
+
 /* -----------------------------------------------------------------------
 	EXPORTERS
 ----------------------------------------------------------------------- */
+auto Invoke::TAG() const -> string
+{
+	return "invoke";
+}
+auto Invoke::CHILD_TAG() const -> string
+{
+	return "parameter";
+}
+
 auto Invoke::toXML() const -> shared_ptr<XML>
 {
-	std::shared_ptr<XML> xml(new XML());
-	xml->setTag("invoke");
+	std::shared_ptr<XML> &xml = super::toXML();
+
 	xml->setProperty("listener", listener);
 
-	std::shared_ptr<XMLList> xmlList(new XMLList());
-	xmlList->reserve(size());
-
-	for (auto it = begin(); it != end(); it++)
-		xmlList->push_back((*it)->toXML());
-
-	xml->set("parameter", xmlList);
 	return xml;
 }
 auto Invoke::toSQL() const -> std::string

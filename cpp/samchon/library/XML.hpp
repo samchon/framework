@@ -228,7 +228,7 @@ namespace samchon
 			template <typename _Ty>
 			void setValue(const _Ty &val)
 			{
-				stringstream sstream;
+				std::stringstream sstream;
 				sstream << val;
 
 				this->value = move(sstream.str());
@@ -240,7 +240,7 @@ namespace samchon
 			template<typename _Ty> 
 			void setProperty(const std::string &name, const _Ty &val)
 			{
-				stringstream sstream;
+				std::stringstream sstream;
 				sstream << val;
 
 				propertyMap.set(name, sstream.str());
@@ -276,7 +276,7 @@ namespace samchon
 			 */
 			template<class _Ty = std::string> auto getValue() const -> _Ty
 			{
-				stringstream sstream;
+				std::stringstream sstream;
 				sstream << this->value;
 
 				_Ty val;
@@ -290,7 +290,7 @@ namespace samchon
 			 */
 			template<class _Ty = std::string> auto getProperty(const std::string &key) const -> _Ty
 			{
-				stringstream sstream;
+				std::stringstream sstream;
 				sstream << propertyMap.get(key);
 
 				_Ty val;

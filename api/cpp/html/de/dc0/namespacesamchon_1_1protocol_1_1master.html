@@ -117,6 +117,11 @@ $(document).ready(function(){initNavTree('de/dc0/namespacesamchon_1_1protocol_1_
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d88/classsamchon_1_1protocol_1_1master_1_1DistributedSystemArray.html">DistributedSystemArray</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/classsamchon_1_1protocol_1_1master_1_1DistributedSystemRole.html">DistributedSystemRole</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A role of distributed processing system.  <a href="../../d1/d16/classsamchon_1_1protocol_1_1master_1_1DistributedSystemRole.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d14/classsamchon_1_1protocol_1_1master_1_1DSInvokeHistory.html">DSInvokeHistory</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reported history of an <a class="el" href="../../d8/d82/classsamchon_1_1protocol_1_1Invoke.html" title="Standard message of network I/O. ">Invoke</a> message.  <a href="../../de/d14/classsamchon_1_1protocol_1_1master_1_1DSInvokeHistory.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,21 +133,21 @@ Classes</h2></td></tr>
 </div>
  <p>In master package, provides distributed and parallel processing system modules which are in framework of master. With classes in master package, you can realize any type of distributed or parallel processing system in master side, even how enormouse scale those have. </p>
 <h5>Distributed Processing System </h5>
-<p>A distributed processing system of master, a master (master::DistributedSystemArray) allocates roles (master::DistributedSystemRole) to systems (master::DistributedSystem). User does not consider about which roles are allocated to which systems. User just accesses to a <em>role</em> and send or reply message from those roles.</p>
+<p>A distributed processing system of master, a master (<a class="el" href="../../d3/d88/classsamchon_1_1protocol_1_1master_1_1DistributedSystemArray.html">master::DistributedSystemArray</a>) allocates roles (<a class="el" href="../../d1/d16/classsamchon_1_1protocol_1_1master_1_1DistributedSystemRole.html" title="A role of distributed processing system. ">master::DistributedSystemRole</a>) to systems (master::DistributedSystem). User does not consider about which roles are allocated to which systems. User just accesses to a <em>role</em> and send or reply message from those roles.</p>
 <ul>
 <li>
 <p class="startli">It's the proxy pattern have mentioned in external system </p>
-<p>ExternalSystem objects are managed by ExternalSystemArray and the ExternalSystemArray can access to a role belongs to a system directly. When you send an <a class="el" href="../../d8/d82/classsamchon_1_1protocol_1_1Invoke.html" title="Standard message of network I/O. ">Invoke</a> message to ExternalSystemArray, the ExternalSystemArray finds matched ExternalSystemRole and the ExternalSystemRole shifts the network I/O responsibility to belonged ExternalSystem. This relationship called "Proxy Pattern". By the pattern, "Proxy", you can concentrate on roles irrespective of where each role is belonged to. </p>
+<p><a class="el" href="../../df/d42/classsamchon_1_1protocol_1_1ExternalSystem.html" title="A network driver for an external system. ">ExternalSystem</a> objects are managed by <a class="el" href="../../d9/dc6/classsamchon_1_1protocol_1_1ExternalSystemArray.html" title="An array of ExternalSystem(s). ">ExternalSystemArray</a> and the <a class="el" href="../../d9/dc6/classsamchon_1_1protocol_1_1ExternalSystemArray.html" title="An array of ExternalSystem(s). ">ExternalSystemArray</a> can access to a role belongs to a system directly. When you send an <a class="el" href="../../d8/d82/classsamchon_1_1protocol_1_1Invoke.html" title="Standard message of network I/O. ">Invoke</a> message to <a class="el" href="../../d9/dc6/classsamchon_1_1protocol_1_1ExternalSystemArray.html" title="An array of ExternalSystem(s). ">ExternalSystemArray</a>, the <a class="el" href="../../d9/dc6/classsamchon_1_1protocol_1_1ExternalSystemArray.html" title="An array of ExternalSystem(s). ">ExternalSystemArray</a> finds matched <a class="el" href="../../d4/db7/classsamchon_1_1protocol_1_1ExternalSystemRole.html" title="A role belongs to an external system. ">ExternalSystemRole</a> and the <a class="el" href="../../d4/db7/classsamchon_1_1protocol_1_1ExternalSystemRole.html" title="A role belongs to an external system. ">ExternalSystemRole</a> shifts the network I/O responsibility to belonged <a class="el" href="../../df/d42/classsamchon_1_1protocol_1_1ExternalSystem.html" title="A network driver for an external system. ">ExternalSystem</a>. This relationship called "Proxy Pattern". By the pattern, "Proxy", you can concentrate on roles irrespective of where each role is belonged to. </p>
 <p></p>
 <ul>
 <li>
-ExternalSystemArray::sendData() -&gt; ExternalSystemRole(Proxy)::sendData() -&gt; ExternalSystem::sendData()  </li>
+<a class="el" href="../../d9/dc6/classsamchon_1_1protocol_1_1ExternalSystemArray.html#ae0f466a169b2d23786a2f94ac908672c" title="Sends an Invoke message to related ExternalSystem(s). ">ExternalSystemArray::sendData()</a> -&gt; ExternalSystemRole(Proxy)::sendData() -&gt; <a class="el" href="../../d4/dcf/classsamchon_1_1protocol_1_1IProtocol.html#ac531693224b79ece2762da1e52bec0b6" title="Sending message. ">ExternalSystem::sendData()</a>  </li>
 <li>
-ExternalSystem::replyData() -&gt; ExternalSystemRole(Proxy)::replyData()  </li>
+<a class="el" href="../../df/d42/classsamchon_1_1protocol_1_1ExternalSystem.html#a5b0e5be870f2d6a26004a8e637a1ce6c" title="Handling replied message from an external system. ">ExternalSystem::replyData()</a> -&gt; ExternalSystemRole(Proxy)::replyData()  </li>
 </ul>
 </li>
 </ul>
-<p>However, unlike the case of managing roles from ExternalSystemArray, in DistributedSystemArray, roles can be allocated in multiple systems duplicately. And the roles can be moved to another systems. Those management and allocation of roles are determined by estimation of performance of each system, and required performance of each role. </p>
+<p>However, unlike the case of managing roles from <a class="el" href="../../d9/dc6/classsamchon_1_1protocol_1_1ExternalSystemArray.html" title="An array of ExternalSystem(s). ">ExternalSystemArray</a>, in <a class="el" href="../../d3/d88/classsamchon_1_1protocol_1_1master_1_1DistributedSystemArray.html">DistributedSystemArray</a>, roles can be allocated in multiple systems duplicately. And the roles can be moved to another systems. Those management and allocation of roles are determined by estimation of performance of each system, and required performance of each role. </p>
 <div class="image">
 <img src="../../protocol_master_distributed_system.png" alt="protocol_master_distributed_system.png"/>
 </div>

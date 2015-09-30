@@ -29,10 +29,10 @@ namespace samchon
 			NTIterator(const NTEntityGroup* = nullptr);
 			virtual ~NTIterator() = default;
 
-			virtual auto operator++() const -> std::shared_ptr<NTIterator> = NULL;
-			virtual auto operator--() const -> std::shared_ptr<NTIterator> = NULL;
-			virtual auto operator==(const NTIterator&) const -> bool = NULL;
-			virtual auto operator<(const NTIterator&) const -> bool = NULL;
+			virtual auto operator++() const -> std::shared_ptr<NTIterator> = 0;
+			virtual auto operator--() const -> std::shared_ptr<NTIterator> = 0;
+			virtual auto operator==(const NTIterator&) const -> bool = 0;
+			virtual auto operator<(const NTIterator&) const -> bool = 0;
 		};
 	};
 };

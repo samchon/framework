@@ -6,6 +6,15 @@
 
 namespace samchon
 {
+	/**
+	 * @brief A network driver for an external client.
+	 *
+	 * @details 
+	 * <p> ExternalClient is an ExternalSystem specialized in client driver. </p>
+	 *
+	 * \par Inherited
+	 *		@copydoc protocol::ExternalSystem
+	 */
 	namespace protocol
 	{
 		class ExternalClientArray;
@@ -20,6 +29,9 @@ namespace samchon
 			typedef ExternalSystem super;
 
 		public:
+			/**
+			 * @brief Default Constructor.
+			 */
 			ExternalClient();
 			virtual ~ExternalClient() = default;
 

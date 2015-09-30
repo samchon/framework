@@ -41,12 +41,10 @@ void NTCriteria::construct(shared_ptr<XML> xml)
 	operator_ = xml->getProperty<int>("operator");
 	weight = xml->getProperty<int>("weight");
 }
-auto NTCriteria::createChild(shared_ptr<XML> xml) -> Entity*
+auto NTCriteria::createChild(shared_ptr<XML> xml) -> NTCriteria*
 {
 	return factory->createCriteria(this, xml);
 }
-
-SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(NTCriteria, NTCriteria)
 
 void NTCriteria::initRetrieve()
 {

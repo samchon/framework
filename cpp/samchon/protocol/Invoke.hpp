@@ -1,16 +1,11 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <vector>
-#include <memory>
+#include <samchon/protocol/SharedEntityArray.hpp>
 #include <samchon/protocol/InvokeParameter.hpp>
 
 namespace samchon
 {
-	namespace library
-	{
-		class XML;
-	};
 	namespace protocol
 	{
 		/**
@@ -48,10 +43,10 @@ namespace samchon
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Invoke
-			: public std::vector<std::shared_ptr<InvokeParameter>>
+			: public SharedEntityArray<InvokeParameter>
 		{
 		private:
-			typedef std::vector<std::shared_ptr<InvokeParameter>> super;
+			typedef SharedEntityArray<InvokeParameter> super;
 
 		protected:
 			/**
@@ -60,6 +55,15 @@ namespace samchon
 			std::string listener;
 
 		public:
+			/* --------------------------------------------------------------------
+				CONSTRUCTORS
+			-------------------------------------------------------------------- */
+			/**
+			 * @brief Default Constructor
+			 */
+			Invoke();
+			virtual ~Invoke() = default;
+
 			/**
 			 * @brief Construct from a listener
 			 *
@@ -67,13 +71,28 @@ namespace samchon
 			 */
 			Invoke(const std::string &listener);
 
-			/**
-			 * @brief Construct from XML
-			 */
-			Invoke(std::shared_ptr<library::XML> xml);
+			virtual void construct(std::shared_ptr<library::XML>) override;
 
+		protected:
+			virtual auto createChild(std::shared_ptr<library::XML>) -> InvokeParameter* override;
+
+			/* --------------------------------------------------------------------
+				VARIADIC CONSTRUCTORS
+			-------------------------------------------------------------------- */
+		public:
 			/**
 			 * @brief Construct from arguments
+			 *
+			 * @details 
+			 * <p> Creates Invoke and InvokeParameter(s) at the same time by varadic template method. </p>
+			 * <p> By the varadic template constructor, you can't specify name of each InvokeParameter, but
+			 * specify type and value of each InvokeParameter. If you try to record the Invoke to Database,
+			 * the name of InvokeParameter will be <i>NULL</i>.</p>
+			 *
+			 * @note
+			 * <p> By the varadic template constructor, name of InovkeParameter(s) will be omitted. Because
+			 * of name, an identifier of an InvokeParameter, is omitted, you can't access to InvokeParameter
+			 * by Invoke::has() or Invoke::get(). </p>
 			 *
 			 * @param listener A string represents who listens the Invoke message. Almost same with name of a function.
 			 * @param val A value to be a parameter of Invoke
@@ -86,50 +105,30 @@ namespace samchon
 			Invoke(const std::string &listener, const _Ty &val, const _Args& ... args)
 				: Invoke(listener)
 			{
-				construct(val);
-				construct(args...);
+				construct_by_vardic_template(val);
+				construct_by_vardic_template(args...);
 			};
 
 			template <typename _Ty>
 			Invoke(const std::string &listener, const _Ty &val)
 				: Invoke(listener)
 			{
-				construct(val);
+				construct_by_vardic_template(val);
 			};
 
 		private:
 			template <typename _Ty, typename ... _Args>
-			void construct(const _Ty &val, const _Args& ... args)
+			void construct_by_vardic_template(const _Ty &val, const _Args& ... args)
 			{
-				construct(val);
-				construct(args...);
-			};
-			
-			#define INVOKE_CONSTRUCT_INLINE($TYPE) \
-			inline void construct($TYPE val) \
-			{ \
-				emplace_back(new InvokeParameter("", val)); \
+				construct_by_vardic_template(val);
+				construct_by_vardic_template(args...);
 			};
 
-			//INVOKE_CONSTRUCT_INLINE(char)
-			INVOKE_CONSTRUCT_INLINE(short)
-			INVOKE_CONSTRUCT_INLINE(long)
-			INVOKE_CONSTRUCT_INLINE(long long)
-			INVOKE_CONSTRUCT_INLINE(int)
-			INVOKE_CONSTRUCT_INLINE(float)
-			INVOKE_CONSTRUCT_INLINE(double)
-
-			//INVOKE_CONSTRUCT_INLINE(unsigned char)
-			INVOKE_CONSTRUCT_INLINE(unsigned short)
-			INVOKE_CONSTRUCT_INLINE(unsigned long)
-			INVOKE_CONSTRUCT_INLINE(unsigned long long)
-			INVOKE_CONSTRUCT_INLINE(unsigned int)
-			INVOKE_CONSTRUCT_INLINE(long double)
-
-			INVOKE_CONSTRUCT_INLINE(const char *)
-			INVOKE_CONSTRUCT_INLINE(const std::string &)
-			INVOKE_CONSTRUCT_INLINE(const ByteArray &)
-			INVOKE_CONSTRUCT_INLINE(const std::shared_ptr<library::XML> &)
+			template <typename _Ty>
+			void construct_by_vardic_template(const _Ty &val)
+			{
+				emplace_back(new InvokeParameter("", val));
+			};
 
 		public:
 			/* -----------------------------------------------------------------------
@@ -141,31 +140,17 @@ namespace samchon
 			auto getListener() const -> std::string;
 
 			/**
-			 * @brief Whether have the item or not
-			 *
-			 * @param key Key value of the element whose mapped value is accessed.
-			 * @return Whether the map has an item having the specified identifier
+			 * @brief Set listener
 			 */
-			auto has(const std::string &) const -> bool;
-
-			/**
-			 * @brief Get element by key
-			 * @details Returns a reference to the mapped value of the element identified with key.
-			 *
-			 * @param key Key value of the element whose mapped value is accessed.
-			 * @throw exception out of range.
-			 *
-			 * @return A reference object of the mapped value (_Ty)
-			 */
-			auto get(const std::string &) const -> std::shared_ptr<InvokeParameter>;
-
+			void setListener(const std::string &);
+			
 			/* -----------------------------------------------------------------------
 				EXPORTERS
 			----------------------------------------------------------------------- */
-			/**
-			 * @brief Get a XML instance representing the Invoke message
-			 */
-			auto toXML() const -> std::shared_ptr<library::XML>;
+			virtual auto TAG() const -> std::string override;
+			virtual auto CHILD_TAG() const -> std::string override;
+
+			virtual auto toXML() const -> std::shared_ptr<library::XML> override;
 
 			/**
 			 * @brief Get a string of sql statement used to archive history log

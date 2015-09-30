@@ -245,6 +245,9 @@
     <ClInclude Include="..\samchon\protocol\IServer.hpp" />
     <ClInclude Include="..\samchon\protocol\IWebClient.hpp" />
     <ClInclude Include="..\samchon\protocol\IWebServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystem.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\master\PRInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\InvokeHistory.hpp" />
@@ -310,7 +313,10 @@
     <ClCompile Include="..\samchon\namtree\NTParameterDetermined.cpp" />
     <ClCompile Include="..\samchon\namtree\NTSide.cpp" />
     <ClCompile Include="..\samchon\protocol\Entity.cpp" />
-    <ClCompile Include="..\samchon\protocol\EntityGroup.cpp" />
+    <ClCompile Include="..\samchon\protocol\ExternalClient.cpp" />
+    <ClCompile Include="..\samchon\protocol\ExternalClientArray.cpp" />
+    <ClCompile Include="..\samchon\protocol\ExternalServer.cpp" />
+    <ClCompile Include="..\samchon\protocol\ExternalServerArray.cpp" />
     <ClCompile Include="..\samchon\protocol\ExternalSystem.cpp" />
     <ClCompile Include="..\samchon\protocol\ExternalSystemArray.cpp" />
     <ClCompile Include="..\samchon\protocol\ExternalSystemRole.cpp" />
@@ -332,13 +338,10 @@
     <ClCompile Include="..\samchon\protocol\service\ServiceKeeper.cpp" />
     <ClCompile Include="..\samchon\protocol\service\ServiceRole.cpp" />
     <ClCompile Include="..\samchon\protocol\service\User.cpp" />
+    <ClCompile Include="..\samchon\protocol\slave\InvokeHistory.cpp" />
     <ClCompile Include="..\samchon\protocol\SystemRole.cpp" />
     <ClCompile Include="..\samchon\protocol\UniqueAcquire.cpp" />
     <ClCompile Include="..\samchon\WeakString.cpp" />
-    <ClCompile Include="ExternalClient.cpp" />
-    <ClCompile Include="ExternalClientArray.cpp" />
-    <ClCompile Include="ExternalServer.cpp" />
-    <ClCompile Include="ExternalServerArray.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

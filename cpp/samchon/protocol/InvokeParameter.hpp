@@ -1,39 +1,70 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <string>
-#include <memory>
+#include <samchon/protocol/Entity.hpp>
+
+#include <sstream>
 #include <samchon/ByteArray.hpp>
+#include <samchon/WeakString.hpp>
 
 namespace samchon
 {
-	namespace library
-	{
-		class XML;
-	};
 	namespace protocol
 	{
+		class Invoke;
+
+		class IClient;
+		class Entity;
+
+		template <typename _Container, typename _ETy = Entity, typename _Ty = _Container::value_type>
+		class EntityGroup;
+
 		/**
 		 * @brief A parameter of an Invoke.
 		 *
 		 * @details
-		 * A parameter with its name, type and value in an Invoke message.
+		 * <p> A parameter with its name, type and value in an Invoke message. </p>
+		 *
+		 * <p> InvokeParameter supports 4 types pre-defined. </p>
+		 *	\li number
+		 *	\li string
+		 *	\li XML
+		 *	\li ByteArray
+		 *
+		 * <p> You can specify InvokeParameter to have some type which is not one of the basic 4 types, but 
+		 * values of the custom type must be enable to expressed by one of those types; number, string, XML 
+		 * and ByteArray. </p>
 		 *
 		 * @image html  cpp/protocol_invoke.png
 		 * @image latex cpp/protocol_invoke.png
+		 *
+		 * @note
+		 * <p> A member variable void* representing any type of value is depreciated. </p>
+		 *
+		 * <p> Since C++11, method of void pointer (Declare a variable as void pointer whose type can
+		 * not specified. And convert the pointer type to specified one for each case) is recommended 
+		 * to avoid. </p>
+		 *
+		 * <p> As that reason, the <i>void *value</i> was a candidate to be depreciated or to be
+		 * replaced to <i>boost::any</i>. And the <i>void* value</i> is really depreciated since 
+		 * version v1.0. </p>
 		 *
 		 * @see protocol::Invoke
 		 * @see samchon::protocol
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API InvokeParameter
+			: public virtual Entity
 		{
+			friend class EntityGroup<std::vector<std::shared_ptr<InvokeParameter>>, InvokeParameter>;
 			friend class Invoke;
 			friend class IClient;
 
 		protected:
+			typedef Entity super;
+
 			/**
-			 * @brief A name of the parameter
+			 * @brief A name can represent the parameter
 			 */
 			std::string name;
 
@@ -41,59 +72,90 @@ namespace samchon
 			 * @brief Type of the parameter
 			 *
 			 * @details
-			 * <p> List of types </p>
+			 * <p> List of pre-defined types </p>
 			 *	\li number
 			 *	\li string
 			 *	\li XML
 			 *	\li ByteArray
 			 */
-			std::string type;
+			std::string type;	
 
 			/**
-			 * @brief Dynamic pointer of the value
-			 *
-			 * @details
-			 * <p> List of pointer types </p>
-			 *	\li double*
-			 *	\li std::string*
-			 *	\li std::shared_ptr<library::XML>*
-			 *	\li ByteArray*
-			 *
-			 * @note
-			 * <p> Since C++11, method of void pointer (Declare a variable as void pointer whose type can
-			 * not specified. And convert the pointer type to specified one for each case) is recommended 
-			 * to avoid. </p>
-			 * <p> As that reason, the <i>void *value</i> is a candidate to be depreciated. 
-			 * May be replaced to <i>boost::any</i> in next generation of Samchon Framework. </p>
-			 *
-			 *	\li In Flex and TypeScript(JavaScript), the value is replaced to any's type since v1.0.
+			 * @brief A string value if the type is "string" or "number"
 			 */
-			void *value;
+			std::string str;
+
+			/**
+			 * @brief A XML object if the type is "XML"
+			 */
+			std::shared_ptr<library::XML> xml;
+
+			/**
+			 * @brief A binary value if the type is "ByteArray"
+			 */
+			std::unique_ptr<ByteArray> byteArray;
 
 		public:
 			/* ----------------------------------------------------------
 				CONSTRUCTORS
 			---------------------------------------------------------- */
 			/**
-			 * @brief Construct from the name and a number
+			 * @brief Construct from arguments
+			 *
+			 * @details
+			 * <p> Specifies all arguments of an InvokeParameter. You can specify a custom type, that is not 
+			 * one of number or string, but value of the type must be enable to expressed by a string. </p>
+			 *
+			 * <p> If you want to express an object or container group, use XML instead; 
+			 * <i>Invoke::InvokeParameter(string, XML)</i>. </p>
+			 *
+			 * @param name A name can represent the InvokeParameter
+			 * @param type Type of value in the InvokeParameter
+			 * @param value A value capsuled by a string
 			 */
-			InvokeParameter(const std::string &, const double &);
+			InvokeParameter(const std::string &, const std::string &, const std::string &);
 
 			/**
-			 * @brief Construct from the name and a string
+			 * @brief Construct with its name and a value
+			 *
+			 * @details
+			 * <p> Type of the InvokeParameter will be determined automatically. </p>
+			 *
+			 * <p> Type supported in the template constructor: </p>
+			 * <ul>
+			 *	<li> number </li>
+			 *	<ul>
+			 *		<li> (unsigned) short </li>
+			 *		<li> (unsigned) long </li>
+			 *		<li> (unsigned) long long </li>
+			 *		<li> (unsigned) int </li>
+			 *		<li> float </li>
+			 *		<li> double </li>
+			 *		<li> long double </li>
+			 *	</ul>
+			 *	<li> string </li>
+			 *		<li> std::string </li>
+			 *		<li> WeakString </li>
+			 * 	<li> XML </li>
+			 *	<ul>
+			 *		<li> std::shared_ptr<library::XML> </li>
+			 *		<li> Entity; protocol::Entity::toXML() </li>
+			 *	</ul>
+			 *  <li> ByteArray </li>
+			 * </ul>
+			 *
+			 * @tparam _Ty Type of value
 			 */
-			InvokeParameter(const std::string &, const std::string &);
+			template <typename _Ty>
+			InvokeParameter(const std::string &name, const _Ty &val)
+				: super()
+			{
+				this->name = name;
 
-			/**
-			 * @brief Construct from the name and a XML object
-			 */
-			InvokeParameter(const std::string &, const std::shared_ptr<library::XML> &);
-
-			/**
-			 * @brief Construct from the name and a ByteArray
-			 */
-			InvokeParameter(const std::string &, const ByteArray &);
-
+				construct_by_varadic_template(val);
+			};
+			
+			//MOVE CONSTRUCTORS
 			/**
 			 * @brief Construct from the name and a moved string
 			 */
@@ -104,37 +166,44 @@ namespace samchon
 			 */
 			InvokeParameter(const std::string &, ByteArray &&);
 
-			/* ----------------------------------------------------------
-				ADDICTINAL CONSTRUCTORS FOR VARADIC TEMPLATE
-			---------------------------------------------------------- */
-			/*#define INVOKE_PARAMETER_CONSTRUCTOR_INLINE(_Ty, _Conv) \
-			inline InvokeParameter(const std::string &listener, _Ty val) \
-				: InvokeParameter(listener, _Conv(val)) \
-			{ \
+			virtual ~InvokeParameter() = default;
+
+		protected:
+			template <typename _Ty>
+			void construct_by_varadic_template(const _Ty &val)
+			{
+				this->type = "number";
+
+				std::stringstream sstream;
+				sstream << val;
+
+				this->str = move(sstream.str());
 			};
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const bool &, double)
-			//INVOKE_PARAMETER_CONSTRUCTOR_INLINE(char, double)
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const short &, double)
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const long &, double)
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(long long &, double)
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const int &, double)
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const float &, double)
-			
-			//INVOKE_PARAMETER_CONSTRUCTOR_INLINE(unsigned char, double)
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned short &, double)
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned long &, double)
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned long long &, double)
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const unsigned int &, double)
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const long double &, double)
+			template<> void construct_by_varadic_template(const std::string &);
+			template<> void construct_by_varadic_template(const WeakString &);
+			template<> void construct_by_varadic_template(const ByteArray &);
 
-			INVOKE_PARAMETER_CONSTRUCTOR_INLINE(const char *, std::string)*/
+			template<> void construct_by_varadic_template(const std::shared_ptr<library::XML> &);
+			template<> void construct_by_varadic_template(const Entity &);
 
-			~InvokeParameter();
+			/* ----------------------------------------------------------
+				PROTECTED CONSTRUCTORS
+			---------------------------------------------------------- */
+			/**
+			 * @brief Default Constructor
+			 */
+			InvokeParameter();
+			virtual void construct(std::shared_ptr<library::XML>) override;
+
+			auto reservedByteArraySize() const -> size_t;
+			void setByteArray(ByteArray &&);
 
 		public:
 			/* ----------------------------------------------------------
 				GETTERS
 			---------------------------------------------------------- */
+			virtual auto key() const -> std::string override;
+
 			/**
 			 * @brief Get name
 			 */
@@ -146,71 +215,40 @@ namespace samchon
 			auto getType() const -> std::string;
 
 			/**
-			 * @brief Get value as a number
+			 * @brief Get value
 			 *
-			 * @throw invalid argument; invalid type specification
+			 * @tparam _Ty Type of value to get
 			 */
-			auto getValueAsNumber() const -> double;
+			template<typename _Ty> auto getValue() const -> _Ty
+			{
+				std::stringstream sstream;
+				sstream << this->str;
+
+				_Ty val;
+				sstream >> val;
+
+				return move(val);
+			};
+			template<> auto getValue() const -> WeakString;
+			template<> auto getValue() const -> std::shared_ptr<library::XML>;
+			template<> auto getValue() const -> ByteArray;
 
 			/**
-			 * @brief Get value as a string
+			 * @brief Move value
 			 *
-			 * @throw invalid argument; invalid type specification
+			 * @tparam _Ty Type of value to move
 			 */
-			auto getValueAsString() const -> std::string;
-
-			/**
-			 * @brief Get value as a XML object
-			 *
-			 * @throw invalid argument; invalid type specification
-			 */
-			auto getValueAsXML() const -> std::shared_ptr<library::XML>;
-
-			/**
-			 * @brief Get value as a ByteArray instance
-			 *
-			 * @throw invalid argument; invalid type specification
-			 */
-			auto getValueAsByteArray() const -> ByteArray;
-
-			/**
-			 * @brief Move value as a string
-			 *
-			 * @note 
-			 * This method calls move constructor(operator). 
-			 * Thus, value in the InvokeParameter will be <i>nullptr</i> and you can't get the value no more.
-			 */
-			auto moveValueAsString() -> std::string;
-
-			/**
-			 * @brief Move value as ByteArray instance
-			 *
-			 * @note 
-			 * This method calls move constructor(operator). 
-			 * Thus, value in the InvokeParameter will be <i>nullptr</i> and you can't get the value no more.
-			 */
-			auto moveValueAsByteArray() -> ByteArray;
-
-		private:
-			/* ----------------------------------------------------------
-				HIDDEN METHODS
-			---------------------------------------------------------- */
-			/**
-			 * @brief Construct from XML
-			 */
-			InvokeParameter(std::shared_ptr<library::XML>);
-
-			auto reservedByteArraySize() const -> size_t;
-			void setByteArray(ByteArray &&);
+			template <typename _Ty> auto moveValue() -> _Ty;
+			template<> auto moveValue() -> std::string;
+			template<> auto moveValue() -> ByteArray;
 			
-		private:
+		protected:
 			/* ----------------------------------------------------------
 				EXPORTERS
 			---------------------------------------------------------- */
-			/**
-			 * @brief Get a XML instance representing the InvokeParameter
-			 */
-			auto toXML() const -> std::shared_ptr<library::XML>;
+			virtual auto TAG() const -> std::string override;
+			
+			virtual auto toXML() const -> std::shared_ptr<library::XML> override;
 
 			/**
 			 * @brief Get a string of sql statement used to archive history log

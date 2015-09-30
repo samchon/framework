@@ -10,21 +10,21 @@ using namespace samchon;
 using namespace samchon::library;
 using namespace samchon::protocol;
 
-auto FTFolder::TAG() const -> string { return super::TAG(); }
-auto FTFolder::CHILD_TAG() const -> string { return super::TAG(); }
+auto FTFolder::CHILD_TAG() const -> string { return FTInstance::TAG(); }
 
 FTFolder::FTFolder(FTFactory *factory, FTFolder *parent)
-	: super(parent), SharedEntityArray()
+	: super(), 
+	FTInstance(parent)
 {
 	this->factory = factory;
 }
 void FTFolder::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
-	SharedEntityArray::construct(xml);
+	FTInstance::construct(xml);
 }
 
-auto FTFolder::createChild(shared_ptr<XML> xml) -> Entity*
+auto FTFolder::createChild(shared_ptr<XML> xml) -> FTInstance*
 {
 	FTInstance *file = nullptr;
 	if (xml->hasProperty("extension") == false)
@@ -36,12 +36,10 @@ auto FTFolder::createChild(shared_ptr<XML> xml) -> Entity*
 	return file;
 }
 
-SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(FTFolder, FTInstance)
-
 auto FTFolder::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = SharedEntityArray::toXML();
-	xml->addAllProperty(super::toXML());
+	shared_ptr<XML> &xml = super::toXML();
+	xml->addAllProperty(FTInstance::toXML());
 
 	return xml;
 }

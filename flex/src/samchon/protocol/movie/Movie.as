@@ -3,7 +3,6 @@ package samchon.protocol.movie
 	import mx.events.FlexEvent;
 	
 	import samchon.library.ui.VGroup;
-	import samchon.protocol.entity.IHTMLEntity;
 	import samchon.protocol.invoke.Invoke;
 	
 	/**
@@ -15,7 +14,7 @@ package samchon.protocol.movie
 	 */
 	public class Movie
 		extends VGroup
-		implements IMovie, IHTMLEntity
+		implements IMovie
 	{
 		/**
 		 * Parent Window containning this Movie

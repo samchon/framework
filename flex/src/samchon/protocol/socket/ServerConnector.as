@@ -13,12 +13,15 @@ package samchon.protocol.socket
 	import samchon.protocol.invoke.IProtocol;
 	import samchon.protocol.invoke.Invoke;
 	import samchon.protocol.invoke.InvokeParameter;
+	import samchon.protocol.movie.Window;
 
 	/**
-	 * ServerConnector is a socket for client side following the <u>Invoke Protocol</u><br/>
-	 * <br/>
+	 * <p> A cloud server connector built by Samchon Framework. </p>
+	 * 
 	 * @see IProtocol
 	 * @see Invoke
+	 * 
+	 * @see Jeongho Nam
 	 */ 
 	public class ServerConnector 
 		extends EventDispatcher
@@ -26,12 +29,16 @@ package samchon.protocol.socket
 	{
 		//BASIC MEMBERS
 		/**
-		 * An IProtocol Object who will receive the replied message from server<br/>
-		 * ServerConnector.replyData -> parent.replyData
+		 * <p> A Window object who listens and sends Invoke message. </p>
+		 * 
+		 * <ul>
+		 * 	<li> ServerConnector.replyData(Invoke) -> parent.replyData(Invoke) </li>
+		 * </ul>
 		 */
-		private var parent:IProtocol;
+		private var window:Window;
+		
 		/**
-		 * @private
+		 * <p> A socket for network I/O. </p>
 		 */
 		private var socket:Socket;
 		
@@ -39,6 +46,7 @@ package samchon.protocol.socket
 		 * @private
 		 */ 
 		private var str:String;
+		
 		/**
 		 * @private
 		 */
@@ -48,15 +56,19 @@ package samchon.protocol.socket
 			CONSTRUCTORS
 		--------------------------------------------------------------------- */
 		/**
+		 * <p> Construct from a window. </p>
+		 * 
+		 * 
+		 * @param listener A IProtocol object to get replied Invoke message
 		 * Create a new InvokeSocket Object<br/>
 		 * The replied data(<u>Invoke</u>) from Server will sent to parent; <i>virtual IProtocol::replyData(Invoke)</i><br/>
 		 * <br/>
 		 * @param parent A target object who will receive replied data from server<br/>
 		 * ----this.replyData -> parent.replyData
 		 */
-		public function ServerConnector(parent:IProtocol)
+		public function ServerConnector(window:Window)
 		{
-			this.parent = parent;
+			this.window = window;
 			
 			socket = new Socket();
 			str = "";
@@ -69,13 +81,13 @@ package samchon.protocol.socket
 		}
 		
 		/**
-		 * Connects the socket to the specified host and port.<br/>
-		 * <br/>
-		 * If the connection fails immediately, either an event is dispatched or an exception is thrown: 
+		 * <p> Connects to a cloud server with specified host and port. </p>
+		 * 
+		 * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown: 
 		 * an error event is dispatched if a host was specified, and an exception is thrown if no host 
 		 * was specified. Otherwise, the status of the connection is reported by an event. 
-		 * If the socket is already connected, the existing connection is closed first.<br/>
-		 * <br/>
+		 * If the socket is already connected, the existing connection is closed first. </p>
+		 * 
 		 * @param host
 		 * 		The name or IP address of the host to connect to. 
 		 * 		If no host is specified, the host that is contacted is the host where the calling 
@@ -106,38 +118,27 @@ package samchon.protocol.socket
 		 */
 		public function sendData(invoke:Invoke):void
 		{
-			if(invoke.length > 0 && invoke.at(invoke.length - 1).getType() == "ByteArray")
-			{
-				var byteArray:ByteArray = invoke.at(invoke.length - 1).getValue();
-				invoke.removeItemAt(invoke.length - 1);
-				
-				/*
-				---------------------------------------------------------------------
-					PROMISED STRUCTURE FOR BYTE-ARRAY
-				---------------------------------------------------------------------
-					<invoke listener="something">
-						<!-- {... some parameters ...} -->
-						<parameter name="byteArray" type="ByteArray" />
-						<parameter name="size" type="int||{size_t}">100</parameter>
-					</invoke>
-				---------------------------------------------------------------------
-				*/
-				invoke.addItem(new InvokeParameter("byteArray", "ByteArray", ""));
-				invoke.addItem(new InvokeParameter("size", byteArray.length));
-				
-				socket.writeUTFBytes(invoke.toXML().toXMLString());
-				socket.flush();
-				
-				socket.writeBytes(byteArray);
-			}
-			else
-				socket.writeUTFBytes(invoke.toXML().toXMLString());
+			/*
+			---------------------------------------------------------------------
+				PROMISED STRUCTURE FOR BYTE-ARRAY
+			---------------------------------------------------------------------
+				<invoke listener="something">
+					<!-- {... some parameters ...} -->
+					<parameter name="byteArray" type="ByteArray">#size: 100</parameter>
+				</invoke>
+			---------------------------------------------------------------------
+			*/
+			socket.writeUTFBytes(invoke.toXML().toXMLString());
+			
+			for(var i:int = 0; i < invoke.length; i++)
+				if( invoke.at(i).getType() == "ByteArray")
+					socket.writeBytes( invoke.at(i).getValue() );
 			
 			socket.flush();
 		}
 		public function replyData(invoke:Invoke):void
 		{
-			parent.replyData(invoke);
+			window.replyData(invoke);
 		}
 		
 		/* ---------------------------------------------------------------------
@@ -248,7 +249,7 @@ package samchon.protocol.socket
 					//CLEAR CURRENT INDEX PAIR
 					indexPair = null;
 				}
-				trace()
+				
 				//ADJUST INDEX
 				index = (iPair.end == -1) 
 					? (iPair.start + 1) : (iPair.end + 1);

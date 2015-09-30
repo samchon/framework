@@ -1,12 +1,11 @@
 package samchon.library.filetree.file
 {
 	import samchon.protocol.entity.Entity;
-	import samchon.protocol.entity.IInvokeEntity;
 	import samchon.protocol.invoke.Invoke;
 	import samchon.protocol.invoke.InvokeParameter;
 	
 	public class FTFile extends Entity 
-		implements IFTFile, IInvokeEntity
+		implements IFTFile
 	{
 		/* ------------------------------------------------------------
 			TAGS

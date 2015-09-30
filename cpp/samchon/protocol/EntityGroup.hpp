@@ -9,22 +9,41 @@ namespace samchon
 	namespace protocol
 	{
 		/**
-		 * @brief Entity, Container of Entity
+		 * @brief An Entity and a container of children Entity objects.
+		 *
+		 * @tparam _Container A type of container containing children entity objects.
+		 * @tparam _Ety A type of children entity. It must be a class derived from an Entity class, or Entity class itself.
+		 * @tparam _Ty A type of children element of _Container. Using default template parameter is recommended.
 		 *
 		 * @details
-		 * <p> EntityGroup is a container of Entity, and also another type of Entity, too.
-		 * Thus, there's a composite relationship between EntityGroup and Entity </p>
-		 * 
-		 * @note
-		 * <ul>
-		 *	<li> When data-set has a "Hierarchical Relationship": </li>
-		 *		<p> Compose the data class(entity) having children by inheriting EntityGroup and 
-		 *		terminate the leaf node by inheriting Entity </p>
+		 * <p> EntityGroup is a template class for containinig children Entity objects, and also another type 
+		 * of an Entity, too. You can realize hierarchical relationship. Although some entities have complicated
+		 * hierarchical relationship, you can deduct a optimal solution easily with EntityGroup and Entity. </p>
 		 *
-		 *	<li> Not only hierarchical, but also recursive </li>
-		 *		<p> 
+		 * <p> If an entity has some subordinate entities of same type, they are in "Composite relationship". 
+		 * Make the entity to be EmntityGroup and subordinate entities to be children of the entity. When
+		 * those relationships are continued, continue to create classes dervied from EntityGroup. When those
+		 * relationshiop meets a terminal node, then make the terminal node to be an Entity. </p>
+		 *
+		 * <p> @image html  cpp/example_inspect.png
+		 * @image latex cpp/example_inspect.png </p>
 		 * 
-		 * @author Jeongho Nam
+		 * <p> EntityGroup is an Entity, and a container of children Entity objects at the same time. If
+		 * children type, of a class derived from an EntityGroup, is itself, you can realize hierarchical
+		 * and recursive relationship. The relationship is called as "Composite pattern". </p>
+		 *
+		 *	\li FTFolder extends FTInstance and SharedEntityArray<FTInstance>
+		 *	\li NTCriteria extends SharedEntityArray<NTCriteria>
+		 *
+		 * @note
+		 * <p> As a freelancer developer and architect I am, I even design DB I/O to follow the format 
+		 * representing Entity and EntityGroup by XML. Below T-SQL script also follows the standard format 
+		 * of expressing Entity with XML by procedure and "FOR XML AUTO" statement. </p>
+		 * 
+		 * @includelineno entity/goCandidateInspectList.sql
+		 *
+		 * \par Inherited
+		 *		@copydoc protocol::Entity
 		 */
 		template <typename _Container, typename _ETy = Entity, typename _Ty = _Container::value_type>
 		class EntityGroup
@@ -37,8 +56,11 @@ namespace samchon
 			typedef _ETy entity_type;
 
 		public:
+			/* ------------------------------------------------------------------------------------
+				CONSTRUCTORS
+			------------------------------------------------------------------------------------ */
 			/**
-			 * Constructor
+			 * @brief Default Constructor.
 			 */
 			EntityGroup()
 				: _Container(), Entity(), 
@@ -46,56 +68,21 @@ namespace samchon
 			{
 			};
 			virtual ~EntityGroup() = default;
-			
-			/**
-			* Indicates whether a container has an object having the specified identifier.</br>
-			* </br>
-			* @param key The identifier wants to check
-			* @return If there's the object then true, otherwise false
-			*/
-			auto has(const std::string &key) const -> bool
-			{
-				for (auto it = begin(); it != end(); it++)
-					if ((*it)->key() == key)
-						return true;
-
-				return false;
-			};
 
 			/**
-			* Access the element by specified identifier(key)\n
-			* \n
-			* @param key the identifier of the element wants to access
-			* @return The element having the key, or throw exception if there is none.
-			*/
-			auto get(const std::string &key) -> value_type&
-			{
-				for (auto it = begin(); it != end(); it++)
-				if ((*it)->key() == key)
-					return *it;
-
-				throw std::exception("out of range");
-			};
-
-			/**
-			* Access the const element by specified identifier(key)\n
-			* \n
-			* @param key the identifier of the element wants to access
-			* @return The const element having the key, or throw exception if there is none.
-			*/
-			auto get(const std::string &key) const -> const value_type&
-			{
-				for (auto it = begin(); it != end(); it++)
-					if ((*it)->key() == key)
-						return *it;
-
-				throw std::exception("out of range");
-			};
-
-			/**
-			* You don't need to consider the children Entities' members\n
-			* Just concentrate on this EntityArray's own members\n
-			*/
+			 * @brief Construct data of the Entity from a XML object
+			 *
+			 * <p> Constructs the EntityGroup's own member variables only from the input XML object. </p>
+			 *
+			 * <p> Do not consider about constructing children Entity objects' data in EntityGroup::construct(). 
+			 * Those children Entity objects' data will constructed by their own construct() method. Even insertion of XML objects
+			 * representing children are done by abstract method of EntityGroup::toXML(). </p>
+			 *
+			 * <p> Constructs only data of EntityGroup's own. </p>
+			 *
+			 * \par Inherited
+			 *		@copydoc Entity::construct()
+			 */
 			virtual void construct(std::shared_ptr<library::XML> xml)
 			{
 				clear();
@@ -124,16 +111,86 @@ namespace samchon
  				}
 			};
 
+		protected:
 			/**
-			 * You don't need to consider the children Entities' members\n
-			 * Just concentrate on this EntityArray's own members\n
+			 * @brief Factory method of a child Entity.
 			 *
-			 * @inheritDoc
+			 * @details
+			 * <p> EntityGroup::createChild() is a factory method creating a new child Entity which is belonged 
+			 * to the EntityGroup. This method is called by EntityGroup::construct(). The children construction
+			 * methods Entity::construct() will be called by abstract method of the EntityGroup::construct(). </p>
+			 *
+			 * @return A new child Entity belongs to EntityGroup.
+			 */
+			virtual auto createChild(std::shared_ptr<library::XML>) -> entity_type* = 0;
+			
+			/* ------------------------------------------------------------------------------------
+				GETTERS
+			------------------------------------------------------------------------------------ */
+		public:
+			/**
+			* @brief Indicates whether a container has an object having the specified identifier. </p>
+			* 
+			* @param key An identifier of an Entity
+			* @return If there's the object then true, otherwise false
+			*/
+			auto has(const std::string &key) const -> bool
+			{
+				for (auto it = begin(); it != end(); it++)
+					if ((*it)->key() == key)
+						return true;
+
+				return false;
+			};
+
+			/**
+			* @brief Access the element by specified identifier(key).
+			* 
+			* @param key the identifier of the element wants to access
+			* @return The element having the key, or throw exception if there is none.
+			*/
+			auto get(const std::string &key) -> value_type&
+			{
+				for (auto it = begin(); it != end(); it++)
+				if ((*it)->key() == key)
+					return *it;
+
+				throw std::exception("out of range");
+			};
+
+			/**
+			* @brief Access the const element by specified identifier(key).
+			* 
+			* @param key the identifier of the element wants to access
+			* @return The const element having the key, or throw exception if there is none.
+			*/
+			auto get(const std::string &key) const -> const value_type&
+			{
+				for (auto it = begin(); it != end(); it++)
+					if ((*it)->key() == key)
+						return *it;
+
+				throw std::exception("out of range");
+			};
+
+			/**
+			 * @brief Get a XML object represents the EntityGroup
+			 *
+			 * <p> Archives the EntityGroup's own member variables only to the returned XML object. </p>
+			 *
+			 * <p> Do not consider about archiving children Entity objects' data in EntityGroup::toXML(). 
+			 * Those children Entity objects will converted to XML object by their own toXML() method. The 
+			 * insertion of XML objects representing children are done by abstract method of 
+			 * EntityGroup::toXML(). </p>
+			 *
+			 * <p> Archives only data of EntityGroup's own. </p>
+			 *
+			 * \par Inherited
+			 *		@copydoc Entity::toXML()
 			 */
 			virtual auto toXML() const -> std::shared_ptr<library::XML>
 			{
-				std::shared_ptr<library::XML> xml(new library::XML());
-				xml->setTag(TAG());
+				std::shared_ptr<library::XML> &xml = Entity::toXML();
 				
 				std::shared_ptr<library::XMLList> xmlList(new library::XMLList());
 				xmlList->reserve(this->size());
@@ -144,15 +201,6 @@ namespace samchon
 				xml->set(CHILD_TAG(), xmlList);
  				return xml;
 			};
-
-		protected:
-			/**
-			* Factory method for creating a new child <code>Entity</code> which is belonged to the <code>EntityArray</code>\n
-			* This method will be called by construct method (<code>EntityArray::construct(XML)</code>)\n
-			* \n
-			* @return A new child Entity belongs to EntityGroup
-			*/
-			virtual auto createChild(std::shared_ptr<library::XML>) -> entity_type* = 0;
 		};
 	};
 };

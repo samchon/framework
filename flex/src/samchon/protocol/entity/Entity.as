@@ -1,10 +1,8 @@
 package samchon.protocol.entity
 {
 	/**
-	 * <p>Entity provides methods for converting between Entity and XML</p>
+	 * @copy IEntity
 	 * 
-	 * @see XML
-	 * @see Invoke
 	 * @author Jeongho Nam
 	 */
 	public class Entity implements IEntity
@@ -12,6 +10,9 @@ package samchon.protocol.entity
 		public function get TAG():String {return "";}
 		public function get key():* { return null; }
 		
+		/**
+		 * Default Constructor.
+		 */
 		public function Entity() {}
 		public function construct(xml:XML):void {}
 		

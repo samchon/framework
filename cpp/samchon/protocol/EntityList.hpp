@@ -11,16 +11,19 @@ namespace samchon
 	namespace protocol
 	{
 		/**
-		* @brief A static array of Entity
-		*
-		* @tparam _Ty Type of children Entity. Must be derived class from the Entity class.
-		*/
+		 * @brief A static list of Entity
+		 *
+		 * @tparam _Ty A type of children Entity. Must be a class derived from an Entity.
+		 *
+		 * @see samchon::protocol
+		 * @author Jeongho Nam
+		 */
 		template <typename _Ty>
 		class EntityList
 			: public virtual Entity, public std::list<_Ty>, //CLASSES
 			public virtual IEntityGroup //INTERFACE
 		{
-		private:
+		protected:
 			typedef Entity super;
 
 		public:

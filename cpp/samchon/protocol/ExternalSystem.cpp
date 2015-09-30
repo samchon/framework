@@ -30,8 +30,6 @@ void ExternalSystem::construct(shared_ptr<XML> xml)
 /* ------------------------------------------------------------------
 	GETTERS
 ------------------------------------------------------------------ */
-SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(ExternalSystem, ExternalSystemRole)
-
 auto ExternalSystem::key() const -> string
 {
 	return name;
@@ -45,7 +43,7 @@ void ExternalSystem::replyData(shared_ptr<Invoke> invoke)
 	string &listener = invoke->getListener();
 
 	for(size_t i = 0; i < size(); i++)
-		if(at(i)->hasListener(listener) == true)
+		if(at(i)->hasReplyListener(listener) == true)
 			at(i)->replyData(invoke);
 }
 

@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"dc/d8d/classsamchon_1_1protocol_1_1EntityArray.html#aa0169b1052bab38f0625fb771b7e78f9":[2,0,1,3,4,0],
 "dc/d8d/classsamchon_1_1protocol_1_1EntityArray.html#aad9fbd4de53a3243bd213e7158ed2e48":[2,0,1,3,4,2],
 "dc/d8f/master_8hpp_source.html":[3,0,0,0,0,2],
 "dc/d9b/console__chat__server_2ChatClient_8hpp_source.html":[3,0,0,0,1,1,0],
@@ -127,8 +128,8 @@ var NAVTREEINDEX3 =
 "de/da6/Entity_8hpp_source.html":[3,0,0,0,4,4],
 "de/da9/protocol_2service_2service_8hpp_source.html":[3,0,0,0,4,1,3],
 "de/dac/TSQLi_8hpp_source.html":[3,0,0,0,2,40],
-"de/dc0/namespacesamchon_1_1protocol_1_1master.html":[1,0,1,3,0],
 "de/dc0/namespacesamchon_1_1protocol_1_1master.html":[2,0,1,3,0],
+"de/dc0/namespacesamchon_1_1protocol_1_1master.html":[1,0,1,3,0],
 "de/dc5/DistributedSystemRole_8hpp_source.html":[3,0,0,0,4,0,2],
 "de/dd8/documentation_2service_8hpp_source.html":[3,0,0,0,0,6],
 "de/ddf/classsamchon_1_1library_1_1CaseGenerator.html":[2,0,1,1,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "df/d87/classsamchon_1_1protocol_1_1service_1_1User.html#ae0f466a169b2d23786a2f94ac908672c":[2,0,1,3,1,5,13],
 "df/d87/classsamchon_1_1protocol_1_1service_1_1User.html#af44a65768f84f03834675ae3a9be9978":[2,0,1,3,1,5,4],
 "df/d87/classsamchon_1_1protocol_1_1service_1_1User.html#afa7adf2500939650b598fe1f50203274":[2,0,1,3,1,5,16],
-"df/d87/classsamchon_1_1protocol_1_1service_1_1User.html#afd0d68c6d31ff249f3ae8662162663c3":[2,0,1,3,1,5,19],
-"df/dc6/classsamchon_1_1protocol_1_1service_1_1IPUserPair.html":[2,0,1,3,1,1]
+"df/d87/classsamchon_1_1protocol_1_1service_1_1User.html#afd0d68c6d31ff249f3ae8662162663c3":[2,0,1,3,1,5,19]
 };

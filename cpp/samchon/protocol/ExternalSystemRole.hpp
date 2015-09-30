@@ -49,6 +49,7 @@ namespace samchon
 			 */
 			ExternalSystem *system;
 
+		protected:
 			/**
 			 * @brief A name representing the role.
 			 */
@@ -65,6 +66,9 @@ namespace samchon
 			std::set<std::string> sendListeners;
 
 		public:
+			/* ------------------------------------------------------------------
+				CONSTRUCTORS
+			------------------------------------------------------------------ */
 			/**
 			 * @brief Construct from external system driver
 			 *
@@ -74,24 +78,28 @@ namespace samchon
 			virtual ~ExternalSystemRole() = default;
 
 			virtual void construct(std::shared_ptr<library::XML>) override;
-			
+
+		private:
+			void constructListeners(std::set<std::string> &, const std::shared_ptr<library::XML>);
+		
+		public:
 			/* ------------------------------------------------------------------
 				GETTERS
 			------------------------------------------------------------------ */
 			/**
-			 * @brief Get an external system driver
+			 * @brief Get an external system driver.
 			 */
 			auto getSystem() const -> ExternalSystem*;
 
 			virtual auto key() const -> std::string override;
 
 			/**
-			 * @brief Test whether have a listener for send in the role
+			 * @brief Test whether has a listener for send in the role.
 			 */
 			auto hasSendListener(const std::string &) const -> bool;
 
 			/**
-			 * @brief Test whether have a listener for reply in the role
+			 * @brief Test whether has a listener for reply in the role.
 			 */
 			auto hasReplyListener(const std::string &) const -> bool;
 
@@ -100,12 +108,16 @@ namespace samchon
 			------------------------------------------------------------------ */
 			virtual void sendData(std::shared_ptr<Invoke>) override;
 
+		public:
 			/* ------------------------------------------------------------------
 				EXPORTERS
 			------------------------------------------------------------------ */
 			virtual auto TAG() const -> std::string override;
 
 			virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+
+		private:
+			auto toListenersXML(const std::set<std::string> &, const std::string &) const -> std::shared_ptr<library::XML>;
 		};
 	};
 };

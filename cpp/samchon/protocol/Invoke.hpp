@@ -35,11 +35,11 @@ namespace samchon
 		 * @includelineno invoke/main.cpp
 		 *
 		 * <h4> Result of the example </h4>
-		 * @image html  cpp/result/protocol_invoke.png
-		 * @image latex cpp/protocol_invoke.png
+		 * @image html  cpp/result/example_invoke.png
+		 * @image latex cpp/result/example_invoke.png
 		 *
-		 * @see protocol::IProtocol
 		 * @see samchon::protocol
+		 * @see protocol::IProtocol
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Invoke

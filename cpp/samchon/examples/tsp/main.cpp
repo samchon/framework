@@ -28,7 +28,7 @@ void main()
 {
 	//GEOMETRY COORPORATES
 	shared_ptr<Travel> travel(new Travel());
-	for(int i = 0; i < 15; i++)
+	for(int i = 0; i < 20; i++)
 		travel->push_back(new GeometryPoint(i + 1));
 
 	//OPTIMIZING

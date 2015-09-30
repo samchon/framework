@@ -8,9 +8,11 @@ namespace samchon
 	namespace protocol
 	{
 		/**
-		 * @brief An array of Entity(s) of std::unique_ptr
+		 * @brief An EntityGroup with vector container and children capsuled in unique pointers.
 		 *
-		 * @note UniqueEntityArray is depreciated
+		 * @tparam _Ty A type of children Entity. Must be a class derived from an Entity or Entity itself.
+		 *
+		 * @see samchon::protocol
 		 * @author Jeongho Nam
 		 */
 		template <typename _Ty = Entity>

@@ -2,14 +2,13 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/SharedEntityArray.hpp>
+#	include <samchon/protocol/ExternalSystemRole.hpp>
 #include <samchon/protocol/IProtocol.hpp>
 
 namespace samchon
 {
 	namespace protocol
 	{
-		class ExternalSystemRole;
-
 		/**
 		 * @brief A network driver for an external system.
 		 *
@@ -49,7 +48,7 @@ namespace samchon
 			public virtual IProtocol
 		{
 		protected:
-			typedef SharedEntityArray<> super;
+			typedef SharedEntityArray<ExternalSystemRole> super;
 			
 			/**
 			 * @brief A name can identify an external system.
@@ -73,9 +72,7 @@ namespace samchon
 				CONSTRUCTORS
 			------------------------------------------------------------------ */
 			/**
-			* @brief Construct from parent
-			*
-			* @param systemArray Parent manager
+			* @brief Default Constructor
 			*/
 			ExternalSystem();
 			virtual ~ExternalSystem() = default;

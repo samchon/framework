@@ -3,19 +3,38 @@ package samchon.protocol.invoke
 	import mx.utils.StringUtil;
 
 	/**
-	 * <code>InvokeParameter</code> is contained in <code>Invoke</code> and expresses a <i>parameter</i> in a <i>Invoke Message</i><br/>
-	 * <br/>
-	 * <b>Example message:</b><br/>
-	 * &lt;invoke listener="{$FUNC_NAME}"&gt;<br/>
-	 * ---- &lt;parameter name="{$PARAM_NAME}" type="{$PARAM_TYPE}"&gt;{$VALUE}&lt;/parameter&gt;<br/>
-	 * ---- &lt;parameter name="{$PARAM_NAME}" type="{$PARAM_TYPE}"&gt;{$VALUE}&lt;/parameter&gt;<br/>
-	 * ---- ...<br/>
-	 * &lt;/invoke&gt;<br/>
-	 * <br/>
-	 * &lt;invoke /&gt; -&gt; class <code>Invoke</code><br/>
-	 * &lt;parameter /&gt; -&gt; class <code>InvokeParameter</code><br/>
-	 * <br/>
-	 * @see Invoke
+	 * @brief Standard message of network I/O
+	 *
+	 * @details
+	 * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework.  </p>
+	 *
+	 * <p> The Invoke message has a XML structure like the result screen of provided example in below. 
+	 * We can enjoy lots of benefits by the normalized and standardized message structure used in
+	 * network I/O. </p>
+	 *
+	 * <p> The greatest advantage is that we can make any type of network system, even how the system 
+	 * is enourmously complicated. As network communication message is standardized, we only need to
+	 * concentrate on logical relationships between network systems. We can handle each network system 
+	 * like a object (class) in OOD. And those relationships can be easily designed by using design
+	 * pattern. </p>
+	 *
+	 * <p> In Samchon Framework, you can make any type of network system with basic 3 + 1 componenets
+	 * (IProtocol, IServer and IClient + ServerConnector), by implemens or inherits them, like designing
+	 * classes of S/W architecture. </p>
+	 *
+	 * @image html  cpp/protocol_invoke.png
+	 * @image latex cpp/protocol_invoke.png
+	 *
+	 * \par Example source
+	 * @includelineno invoke/main.cpp
+	 *
+	 * <h4> Result of the example </h4>
+	 * @image html  cpp/result/example_invoke.png
+	 * @image latex cpp/result/example_invoke.png
+	 *
+	 * @see protocol::IProtocol
+	 * @see samchon::protocol
+	 * @author Jeongho Nam
 	 */
 	public class InvokeParameter
 	{

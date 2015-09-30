@@ -133,8 +133,8 @@ package samchon.protocol.entity
 			EXPORTERS
 		--------------------------------------------------------------------- */
 		/**
-		 * You don't need to consider the children Entities' members<br/>
-		 * Just concentrate on this EntityArray's own members<br/>
+		 * <p> You don't need to consider the children Entities' members
+		 * Just concentrate on this EntityArray's own member </p>
 		 * 
 		 * @inheritDoc
 		 */ 

@@ -11,9 +11,16 @@ namespace samchon
 	namespace protocol
 	{
 		/**
-		 * @brief A static array of Entity
+		 * @brief An Entity and a static array containing Entity objects
 		 *
-		 * @tparam _Ty Type of children Entity. Must be derived class from the Entity class.
+		 * @details
+		 * 
+		 *
+		 * @tparam _Ty A type of children Entity. Must be a class derived from an Entity.
+		 *
+		 * @see protocol
+		 * @see protocol::EntityGroup
+		 * @author Jeongho Nam
 		 */
 		template <typename _Ty>
 		class EntityArray
@@ -30,6 +37,9 @@ namespace samchon
 			EntityArray();
 			virtual ~EntityArray() = default;
 
+			/**
+			 * @brief 
+			 */
 			virtual void construct(std::shared_ptr<library::XML> xml) override
 			{
 				clear();

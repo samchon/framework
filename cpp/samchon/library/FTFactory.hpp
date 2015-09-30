@@ -23,6 +23,7 @@ namespace samchon
 		 * @image html cpp/library_file_tree.png
 		 * @image latex cpp/library_file_tree.png
 		 *
+		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API FTFactory
@@ -30,15 +31,24 @@ namespace samchon
 		protected:
 			/**
 			 * @brief An application id
+			 *
 			 * @details An enumeration code of an application that managed FTInstance(s) are belonged to.
 			 */
 			int application;
 
 			/**
 			 * @brief A categori id
+			 *
 			 * @details An enumeration code of a category that managed FTInstance(s) are belonged to.
 			 */
 			int category;
+
+			/**
+			 * @brief Account id of a member
+			 *
+			 * @details 
+			 */
+			std::string member;
 
 			/**
 			 * @brief Map of files
@@ -57,7 +67,7 @@ namespace samchon
 			virtual ~FTFactory() = default;
 
 			/**
-			 * @brief Factory method of file
+			 * @brief Factory method of a file
 			 */
 			virtual auto createFile(FTFolder*, std::shared_ptr<XML>) -> FTFile* = 0;
 		

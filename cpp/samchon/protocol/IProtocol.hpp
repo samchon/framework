@@ -38,18 +38,18 @@ namespace samchon
 			virtual ~IProtocol() = default;
 
 			/**
-			 * @brief Replying message
+			 * @brief Reply a message
 			 *
-			 * @details Handles replied message or shifts the responsibility to chain.
-			 * @param invoke Invoke message from other network system
+			 * @details Handles a replied Invoke message or shifts the responsibility to related chain.
+			 * @param invoke An Invoke message gotten from a network system
 			 */
 			virtual void replyData(std::shared_ptr<Invoke>) = NULL;
 
 			/**
-			 * @brief Sending message
+			 * @brief Send a message
 			 *
-			 * @details Sends message to related system or shifts the responsibility to chain.
-			 * @param invoke Invoke message to send
+			 * @details Sends Invoke message to a network system or shifts the responsibility to related chain.
+			 * @param invoke An Invoke message to send to a network system
 			 */
 			virtual void sendData(std::shared_ptr<Invoke>) = NULL;
 		};

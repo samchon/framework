@@ -11,35 +11,30 @@
 					if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("ServerConnector"); titleBar_setSubNav(false,false,false,false,false,false,false,false,true,false,false	,false,false,false,false,false);}	
 				-->
 			</script><div xmlns:fn="http://www.w3.org/2005/xpath-functions" class="MainContent"><table class="classHeaderTable" cellpadding="0" cellspacing="0"><tr><td class="classHeaderTableLabel">Package</td><td><a href="package-detail.html" onclick="javascript:loadClassListFrame('class-list.html')">samchon.protocol.socket</a></td></tr><tr><td class="classHeaderTableLabel">Class</td><td class="classSignature">public  class  ServerConnector</td></tr><tr><td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">ServerConnector  <img src="../../../images/inherit-arrow.gif" title="Inheritance" alt="Inheritance" class="inheritArrow"> flash.events.EventDispatcher</td></tr><tr><td class="classHeaderTableLabel">Implements</td><td> <a href="../../../samchon/protocol/invoke/IProtocol.html">IProtocol</a></td></tr></table><p></p><p></p><p></p>
-	 ServerConnector is a socket for client side following the 
+	              <p> A cloud server connector built by Samchon Framework. </p>
 	 
-	           <p></p><p><span class="classHeaderTableLabel">See also</span></p><div class="seeAlso">IProtocol<br/>Invoke</div><br/><hr></div><a name="methodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Methods </div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#ServerConnector()" class="signatureLink">ServerConnector</a>(parent:<a href="../../../samchon/protocol/invoke/IProtocol.html">IProtocol</a>)</div><div class="summaryTableDescription">
-		 Create a new InvokeSocket Object
-		 The replied data(Invoke) from Server will sent to parent; virtual IProtocol::replyData(Invoke)
-		 
-		 </div></td><td class="summaryTableOwnerCol">ServerConnector</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#connect()" class="signatureLink">connect</a>(ip:String, port:int):void</div><div class="summaryTableDescription">
-		 Connects the socket to the specified host and port.
-		 
-		 If the connection fails immediately, either an event is dispatched or an exception is thrown: 
-		 an error event is dispatched if a host was specified, and an exception is thrown if no host 
-		 was specified.</div></td><td class="summaryTableOwnerCol">ServerConnector</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#replyData()" class="signatureLink">replyData</a>(invoke:<a href="../../../samchon/protocol/invoke/Invoke.html">Invoke</a>):void</div><div class="summaryTableDescription"></div></td><td class="summaryTableOwnerCol">ServerConnector</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#sendData()" class="signatureLink">sendData</a>(invoke:<a href="../../../samchon/protocol/invoke/Invoke.html">Invoke</a>):void</div><div class="summaryTableDescription">
+	           <p></p><p><span class="classHeaderTableLabel">See also</span></p><div class="seeAlso">IProtocol<br/>Invoke<br/>Nam</div><br/><hr></div><a name="methodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Methods </div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#ServerConnector()" class="signatureLink">ServerConnector</a>(window:<a href="../../../samchon/protocol/movie/Window.html">Window</a>)</div><div class="summaryTableDescription">
+		  Construct from a window.</div></td><td class="summaryTableOwnerCol">ServerConnector</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#connect()" class="signatureLink">connect</a>(ip:String, port:int):void</div><div class="summaryTableDescription">
+		  Connects to a cloud server with specified host and port.</div></td><td class="summaryTableOwnerCol">ServerConnector</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#replyData()" class="signatureLink">replyData</a>(invoke:<a href="../../../samchon/protocol/invoke/Invoke.html">Invoke</a>):void</div><div class="summaryTableDescription"></div></td><td class="summaryTableOwnerCol">ServerConnector</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#sendData()" class="signatureLink">sendData</a>(invoke:<a href="../../../samchon/protocol/invoke/Invoke.html">Invoke</a>):void</div><div class="summaryTableDescription">
 		 Send Invoke message to the Server
 		 
 		 </div></td><td class="summaryTableOwnerCol">ServerConnector</td></tr></table></div><script language="javascript" type="text/javascript"><!--
 										showHideInherited();
-										--></script><div class="MainContent"><a name="constructorDetail"></a><div class="detailSectionHeader">Constructor Detail</div><a name="ServerConnector()"></a><a name="ServerConnector(samchon.protocol.invoke.IProtocol)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">ServerConnector</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">Constructor</td></tr></table><div class="detailBody"><code>public function ServerConnector(parent:<a href="../../../samchon/protocol/invoke/IProtocol.html">IProtocol</a>)</code><p></p><p>
+										--></script><div class="MainContent"><a name="constructorDetail"></a><div class="detailSectionHeader">Constructor Detail</div><a name="ServerConnector()"></a><a name="ServerConnector(samchon.protocol.movie.Window)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">ServerConnector</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">Constructor</td></tr></table><div class="detailBody"><code>public function ServerConnector(window:<a href="../../../samchon/protocol/movie/Window.html">Window</a>)</code><p></p><p>
+		 <p> Construct from a window. </p>
+		 
+		 
+		 </p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">window</span>:<a href="../../../samchon/protocol/movie/Window.html">Window</a></code> &mdash; A IProtocol object to get replied Invoke message
 		 Create a new InvokeSocket Object
 		 The replied data() from Server will sent to parent; <i>virtual IProtocol::replyData(Invoke)</i>
 		 
-		 </p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">parent</span>:<a href="../../../samchon/protocol/invoke/IProtocol.html">IProtocol</a></code> &mdash; A target object who will receive replied data from server
-		 ----this.replyData -> parent.replyData
 		 </td></tr></table></div><a name="methodDetail"></a><div class="detailSectionHeader">Method Detail</div><a name="connect()"></a><a name="connect(String,int)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">connect</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td></tr></table><div class="detailBody"><code> public function connect(ip:String, port:int):void</code><p></p><p></p><p>
-		 Connects the socket to the specified host and port.
+		 <p> Connects to a cloud server with specified host and port. </p>
 		 
-		 If the connection fails immediately, either an event is dispatched or an exception is thrown: 
+		 <p> If the connection fails immediately, either an event is dispatched or an exception is thrown: 
 		 an error event is dispatched if a host was specified, and an exception is thrown if no host 
 		 was specified. Otherwise, the status of the connection is reported by an event. 
-		 If the socket is already connected, the existing connection is closed first.
+		 If the socket is already connected, the existing connection is closed first. </p>
 		 
 		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">ip</span>:String</code> &mdash; 	 		The name or IP address of the host to connect to. 
 		 		If no host is specified, the host that is contacted is the host where the calling 
@@ -58,4 +53,4 @@
 		 Send <code>Invoke</code> message to the Server
 		 
 		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">invoke</span>:<a href="../../../samchon/protocol/invoke/Invoke.html">Invoke</a></code> &mdash; An <code>Invoke</code> message wants to send server
-		 </td></tr></table></p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Thu Aug 27 2015, 06:16 PM +09:00  </center></div></body></html><!--<br/>Thu Aug 27 2015, 06:16 PM +09:00  -->
+		 </td></tr></table></p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Thu Oct 1 2015, 01:54 AM +09:00  </center></div></body></html><!--<br/>Thu Oct 1 2015, 01:54 AM +09:00  -->

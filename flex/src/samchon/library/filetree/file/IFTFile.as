@@ -1,14 +1,13 @@
 package samchon.library.filetree.file
 {
 	import samchon.protocol.entity.IEntity;
-	import samchon.protocol.entity.IInvokeEntity;
 	import samchon.protocol.invoke.Invoke;
 
 	/**
 	 * IFTFile is an interface for expressing tree-structure file and folders
 	 */
 	public interface IFTFile 
-		extends IEntity, IInvokeEntity
+		extends IEntity
 	{
 		/* -----------------------------------------------
 			VARIABLES

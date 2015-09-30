@@ -46,6 +46,10 @@ namespace samchon
 		 * \par examples/packer/Instance.cpp
 		 *		@includelineno examples/packer/Instance.cpp
 		 *
+		 * <h4> Result of the example </h4>
+		 * @image html  cpp/result/example_packer.png
+		 * @image latex cpp/result/example_packer.png
+		 *
 		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */

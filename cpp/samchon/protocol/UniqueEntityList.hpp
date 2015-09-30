@@ -9,9 +9,11 @@ namespace samchon
 	namespace protocol
 	{
 		/**
-		 * @brief An list of Entity(s) of std::unique_ptr
+		 * @brief An EntityGroup with list container and children capsuled in unique pointers.
 		 *
-		 * @note UniqueEntityList is depreciated
+		 * @tparam _Ty A type of children Entity. Must be a class derived from an Entity or Entity itself.
+		 *
+		 * @see samchon::protocol
 		 * @author Jeongho Nam
 		 */
 		template <typename _Ty = Entity>

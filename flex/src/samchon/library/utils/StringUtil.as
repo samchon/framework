@@ -2,7 +2,8 @@ package samchon.library.utils
 {
 	import mx.utils.StringUtil;
 	
-	public class StringUtil extends mx.utils.StringUtil
+	public class StringUtil 
+		extends mx.utils.StringUtil
 	{
 		/**
 		 * @private

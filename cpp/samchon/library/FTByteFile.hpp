@@ -16,6 +16,7 @@ namespace samchon
 		  * @image html cpp/library_file_tree.png
 		  * @image latex cpp/library_file_tree.png
 		  *
+		  * @see samchon::library
 		  * @author Jeongho Nam
 		  */
 		class SAMCHON_FRAMEWORK_API FTByteFile

@@ -61,6 +61,13 @@ void InvokeParameter::construct(shared_ptr<XML> xml)
 
 	if(type == "XML")
 		this->xml = xml->begin()->second->at(0);
+	else if (type == "ByteArray")
+	{
+		size_t size = xml->getValue<size_t>();
+
+		byteArray.reset(new ByteArray());
+		byteArray->reserve(size);
+	}
 	else
 		this->str = xml->getValue();
 }
@@ -131,6 +138,20 @@ template<> auto InvokeParameter::getValue() const -> ByteArray
 	return *byteArray;
 }
 
+auto InvokeParameter::getvalueAsXML() const -> shared_ptr<XML>
+{
+	return xml;
+}
+
+template<> auto InvokeParameter::referValue() const -> const string&
+{
+	return str;
+}
+template<> auto InvokeParameter::referValue() const -> const ByteArray&
+{
+	return *byteArray;
+}
+
 template<> auto InvokeParameter::moveValue() -> string
 {
 	return move(str);
@@ -162,7 +183,7 @@ auto InvokeParameter::toXML() const -> shared_ptr<XML>
 	}
 	else if (type == "ByteArray")
 	{
-		xml->setValue("size: #" + to_string(byteArray->size()));
+		xml->setValue(byteArray->size());
 	}
 	else
 	{

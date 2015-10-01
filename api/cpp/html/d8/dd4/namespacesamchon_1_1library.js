@@ -17,6 +17,7 @@ var namespacesamchon_1_1library =
     [ "FTFolder", "d2/db1/classsamchon_1_1library_1_1FTFolder.html", "d2/db1/classsamchon_1_1library_1_1FTFolder" ],
     [ "FTInstance", "d7/d0a/classsamchon_1_1library_1_1FTInstance.html", "d7/d0a/classsamchon_1_1library_1_1FTInstance" ],
     [ "FTTextFile", "d7/d24/classsamchon_1_1library_1_1FTTextFile.html", "d7/d24/classsamchon_1_1library_1_1FTTextFile" ],
+    [ "GAParameters", "d3/dcb/structsamchon_1_1library_1_1GAParameters.html", "d3/dcb/structsamchon_1_1library_1_1GAParameters" ],
     [ "GAPopulation", "d8/dcd/classsamchon_1_1library_1_1GAPopulation.html", "d8/dcd/classsamchon_1_1library_1_1GAPopulation" ],
     [ "GeneticAlgorithm", "d5/d28/classsamchon_1_1library_1_1GeneticAlgorithm.html", "d5/d28/classsamchon_1_1library_1_1GeneticAlgorithm" ],
     [ "HTTPLoader", "d7/d67/classsamchon_1_1library_1_1HTTPLoader.html", null ],

@@ -82,11 +82,6 @@ namespace samchon
 				 */
 				auto getSystem() const -> ExternalSystem* = delete;
 
-				/* ------------------------------------------------------------------
-					CHAIN OF INVOKE MESSAGE
-				------------------------------------------------------------------ */
-				virtual void sendData(std::shared_ptr<Invoke>) override;
-
 				/**
 				 * @brief Get performance
 				 */
@@ -101,6 +96,11 @@ namespace samchon
 				 * @brief Get invoke histories
 				 */
 				auto getInvokeHistoryList() const -> DSInvokeHistoryList*;
+
+				/* ------------------------------------------------------------------
+					CHAIN OF INVOKE MESSAGE
+				------------------------------------------------------------------ */
+				virtual void sendData(std::shared_ptr<Invoke>) override;
 
 				/* ------------------------------------------------------------------
 					EXPORTERS

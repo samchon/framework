@@ -234,6 +234,21 @@ namespace samchon
 			template<> auto getValue() const -> ByteArray;
 
 			/**
+			 * @brief Get value as XML object
+			 * @details Same with getValue< std::shared_ptr<library::XML> >();
+			 */
+			auto getvalueAsXML() const -> std::shared_ptr<library::XML>;
+
+			/**
+			 * @brief Reference value
+			 *
+			 * @tparam _Ty Type of value to reference
+			 */
+			template <typename _Ty> auto referValue() const -> const _Ty&;
+			template<> auto referValue() const -> const std::string&;
+			template<> auto referValue() const -> const ByteArray&;
+
+			/**
 			 * @brief Move value
 			 *
 			 * @tparam _Ty Type of value to move

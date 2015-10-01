@@ -13,16 +13,16 @@ using namespace samchon::protocol;
 	CONSTRUCTORS
 ------------------------------------------------------------------ */
 ExternalSystem::ExternalSystem()
-	: super()
+	: super(),
+	IClient()
 {
 }
-
 void ExternalSystem::construct(shared_ptr<XML> xml)
 {
 	this->name = xml->getProperty("name");
 
-	if(xml->hasProperty("ip"))		this->ip = xml->getProperty("ip");
-	if(xml->hasProperty("port"))	this->port = xml->getProperty<int>("port");
+	this->ip = xml->getProperty("ip");
+	this->port = xml->getProperty<int>("port");
 
 	super::construct(xml);
 }
@@ -63,12 +63,8 @@ auto ExternalSystem::toXML() const -> shared_ptr<XML>
 {
 	shared_ptr<XML> &xml = super::toXML();
 	xml->setProperty("name", name);
-
-	if (ip.empty() == false)
-	{
-		xml->setProperty("ip", ip);
-		xml->setProperty("port", port);
-	}
+	xml->setProperty("ip", ip);
+	xml->setProperty("port", port);
 
 	return xml;
 }

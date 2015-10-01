@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\common">
-      <UniqueIdentifier>{d84fac38-508d-4ab8-9768-79befab528fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\library">
       <UniqueIdentifier>{0a200a0b-d52b-4b36-9846-d425b391c61a}</UniqueIdentifier>
     </Filter>
@@ -138,9 +135,6 @@
     </Filter>
     <Filter Include="Header Files\protocol\service\logical objects">
       <UniqueIdentifier>{22b1b7c6-51d0-4372-a5f2-df279950f8a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\common\container">
-      <UniqueIdentifier>{bf04985c-1da1-4568-b53a-d024be7a677c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\library\network i/o\sql driver\basic">
       <UniqueIdentifier>{c75a3423-a228-49ef-911a-81d0eef82856}</UniqueIdentifier>
@@ -286,10 +280,25 @@
     <Filter Include="Source Files\library\virtual file tree">
       <UniqueIdentifier>{f42d5090-35a7-4e61-912d-541ae5e3768c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\protocol\master\distributed processing system">
+      <UniqueIdentifier>{b9d4b15a-2c61-4fd1-a90a-00198e5921ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\distributed processing system\server">
+      <UniqueIdentifier>{8c85ec7b-8e30-4bfe-9427-e39c868de4c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\distributed processing system\client">
+      <UniqueIdentifier>{cde3a14c-4d13-4795-b7fd-7ccf33a5b329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\slave\common">
+      <UniqueIdentifier>{d84fac38-508d-4ab8-9768-79befab528fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\slave\common\container">
+      <UniqueIdentifier>{bf04985c-1da1-4568-b53a-d024be7a677c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\SmartPointer.hpp">
-      <Filter>Header Files\common</Filter>
+      <Filter>Header Files\protocol\slave\common</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\ErrorEvent.hpp">
       <Filter>Header Files\library\event</Filter>
@@ -394,7 +403,7 @@
       <Filter>Header Files\protocol\common\invoke</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\Map.hpp">
-      <Filter>Header Files\common\container</Filter>
+      <Filter>Header Files\protocol\slave\common\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\Base64.hpp">
       <Filter>Header Files\library\utils\string</Filter>
@@ -406,7 +415,7 @@
       <Filter>Header Files\library\utils\string</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\ByteArray.hpp">
-      <Filter>Header Files\common</Filter>
+      <Filter>Header Files\protocol\slave\common</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\HTTPLoader.hpp">
       <Filter>Header Files\library\network i/o\http service</Filter>
@@ -478,7 +487,7 @@
       <Filter>Header Files\protocol\common\entity\determined group</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\IndexPair.hpp">
-      <Filter>Header Files\common</Filter>
+      <Filter>Header Files\protocol\slave\common</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\SystemRole.hpp">
       <Filter>Header Files\protocol\common\abstract</Filter>
@@ -517,7 +526,7 @@
       <Filter>Header Files\library\critical section\unique_lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\Dictionary.hpp">
-      <Filter>Header Files\common\container</Filter>
+      <Filter>Header Files\protocol\slave\common\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalVector.hpp">
       <Filter>Header Files\library\critical section\container</Filter>
@@ -589,7 +598,7 @@
       <Filter>Header Files\library\network i/o\sql driver\derived</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\WeakString.hpp">
-      <Filter>Header Files\common</Filter>
+      <Filter>Header Files\protocol\slave\common</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp">
       <Filter>Header Files\protocol\common\invoke\history</Filter>
@@ -632,6 +641,15 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp">
       <Filter>Header Files\protocol\master\distributed processing system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\GAParameters.hpp">
+      <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedServer.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedClient.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

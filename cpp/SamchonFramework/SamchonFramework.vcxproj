@@ -187,6 +187,7 @@
     <ClInclude Include="..\samchon\library\FTFile.hpp" />
     <ClInclude Include="..\samchon\library\FTFolder.hpp" />
     <ClInclude Include="..\samchon\library\FTTextFile.hpp" />
+    <ClInclude Include="..\samchon\library\GAParameters.hpp" />
     <ClInclude Include="..\samchon\library\GAPopulation.hpp" />
     <ClInclude Include="..\samchon\library\GeneticAlgorithm.hpp" />
     <ClInclude Include="..\samchon\library\HTTPLoader.hpp" />
@@ -245,6 +246,8 @@
     <ClInclude Include="..\samchon\protocol\IServer.hpp" />
     <ClInclude Include="..\samchon\protocol\IWebClient.hpp" />
     <ClInclude Include="..\samchon\protocol\IWebServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedClient.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedServer.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedSystem.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedSystemArray.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp" />

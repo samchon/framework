@@ -10,6 +10,15 @@ namespace samchon
 
 	namespace protocol
 	{
+		/**
+		 * @brief An array of ExternalClient(s)
+		 *
+		 * @details
+		 * <p> ExternalClientArray is an ExternalSystemArray specialized in clients' driver. </p>
+		 *
+		 * \par Inherited
+		 *		@copydoc protocol::ExternalSystemArray
+		 */
 		class SAMCHON_FRAMEWORK_API ExternalClientArray
 			: public virtual ExternalSystemArray,
 			private virtual IServer
@@ -17,13 +26,23 @@ namespace samchon
 		protected:
 			typedef ExternalSystemArray super;
 			
+			/**
+			 * @brief A custom ip address of my system to bind
+			 */
 			std::string myIP;
+
+			/**
+			 * @brief A port number for accepting external clients.
+			 */
 			int port;
 
 		public:
 			/* ------------------------------------------------------------------
 				CONSTRUCTORS
 			------------------------------------------------------------------ */
+			/**
+			 * @brief Default Constructor.
+			 */
 			ExternalClientArray();
 			virtual ~ExternalClientArray() = default;
 

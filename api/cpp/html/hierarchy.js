@@ -43,11 +43,28 @@ var hierarchy =
         [ "NTParameter", "db/d29/classsamchon_1_1namtree_1_1NTParameter.html", null ],
         [ "NTParameterArray", "de/d08/classsamchon_1_1namtree_1_1NTParameterArray.html", null ],
         [ "ExternalSystem", "df/d42/classsamchon_1_1protocol_1_1ExternalSystem.html", [
-          [ "ExternalServer", "df/d4a/classsamchon_1_1protocol_1_1ExternalServer.html", null ]
+          [ "ExternalClient", "dc/dfd/classsamchon_1_1protocol_1_1ExternalClient.html", [
+            [ "DistributedClient", "d2/d26/classsamchon_1_1protocol_1_1master_1_1DistributedClient.html", null ]
+          ] ],
+          [ "ExternalServer", "df/d4a/classsamchon_1_1protocol_1_1ExternalServer.html", [
+            [ "DistributedServer", "d7/da8/classsamchon_1_1protocol_1_1master_1_1DistributedServer.html", null ]
+          ] ],
+          [ "DistributedSystem", "db/d2d/classsamchon_1_1protocol_1_1master_1_1DistributedSystem.html", [
+            [ "DistributedClient", "d2/d26/classsamchon_1_1protocol_1_1master_1_1DistributedClient.html", null ],
+            [ "DistributedServer", "d7/da8/classsamchon_1_1protocol_1_1master_1_1DistributedServer.html", null ]
+          ] ]
         ] ],
         [ "ExternalSystemArray", "d9/dc6/classsamchon_1_1protocol_1_1ExternalSystemArray.html", [
-          [ "ExternalServerArray", "d1/de5/classsamchon_1_1protocol_1_1ExternalServerArray.html", null ],
-          [ "DistributedSystemArray", "d3/d88/classsamchon_1_1protocol_1_1master_1_1DistributedSystemArray.html", null ]
+          [ "ExternalClientArray", "d8/d47/classsamchon_1_1protocol_1_1ExternalClientArray.html", [
+            [ "DistributedClientArray", "d3/db6/classsamchon_1_1protocol_1_1master_1_1DistributedClientArray.html", null ]
+          ] ],
+          [ "ExternalServerArray", "d1/de5/classsamchon_1_1protocol_1_1ExternalServerArray.html", [
+            [ "DistributedServerArray", "d0/d26/classsamchon_1_1protocol_1_1master_1_1DistributedServerArray.html", null ]
+          ] ],
+          [ "DistributedSystemArray", "d3/d88/classsamchon_1_1protocol_1_1master_1_1DistributedSystemArray.html", [
+            [ "DistributedClientArray", "d3/db6/classsamchon_1_1protocol_1_1master_1_1DistributedClientArray.html", null ],
+            [ "DistributedServerArray", "d0/d26/classsamchon_1_1protocol_1_1master_1_1DistributedServerArray.html", null ]
+          ] ]
         ] ],
         [ "Invoke", "d8/d82/classsamchon_1_1protocol_1_1Invoke.html", null ]
       ] ],
@@ -72,6 +89,7 @@ var hierarchy =
       [ "NTFactory", "d0/d7b/classsamchon_1_1namtree_1_1NTFactory.html", null ]
     ] ],
     [ "GAParameters", "d9/d92/structsamchon_1_1example_1_1tsp_1_1GAParameters.html", null ],
+    [ "GAParameters", "d3/dcb/structsamchon_1_1library_1_1GAParameters.html", null ],
     [ "GAPopulation< GeneArray, Compare >", "d8/dcd/classsamchon_1_1library_1_1GAPopulation.html", null ],
     [ "GeneticAlgorithm< GeneArray, Compare >", "d5/d28/classsamchon_1_1library_1_1GeneticAlgorithm.html", null ],
     [ "GeometryPoint", "d3/da4/classsamchon_1_1example_1_1tsp_1_1GeometryPoint.html", null ],
@@ -88,11 +106,11 @@ var hierarchy =
     [ "IProtocol", "d4/dcf/classsamchon_1_1protocol_1_1IProtocol.html", [
       [ "ChatRoom", "d7/d41/classsamchon_1_1example_1_1chat__service_1_1ChatRoom.html", null ],
       [ "ChatServer", "dd/dc0/classsamchon_1_1example_1_1console__chat__server_1_1ChatServer.html", null ],
-      [ "ExternalSystem", "df/d42/classsamchon_1_1protocol_1_1ExternalSystem.html", null ],
       [ "ExternalSystemArray", "d9/dc6/classsamchon_1_1protocol_1_1ExternalSystemArray.html", null ],
       [ "ExternalSystemRole", "d4/db7/classsamchon_1_1protocol_1_1ExternalSystemRole.html", null ],
       [ "IClient", "d3/dc8/classsamchon_1_1protocol_1_1IClient.html", [
         [ "ChatClient", "d2/d3b/classsamchon_1_1example_1_1console__chat__server_1_1ChatClient.html", null ],
+        [ "ExternalSystem", "df/d42/classsamchon_1_1protocol_1_1ExternalSystem.html", null ],
         [ "IWebClient", "d7/d51/classsamchon_1_1protocol_1_1IWebClient.html", [
           [ "WebServerConnector", "d8/dc2/classsamchon_1_1protocol_1_1WebServerConnector.html", null ]
         ] ],
@@ -116,6 +134,7 @@ var hierarchy =
     [ "IPUserPair", "df/dc6/classsamchon_1_1protocol_1_1service_1_1IPUserPair.html", null ],
     [ "IServer", "d4/de8/classsamchon_1_1protocol_1_1IServer.html", [
       [ "ChatServer", "dd/dc0/classsamchon_1_1example_1_1console__chat__server_1_1ChatServer.html", null ],
+      [ "ExternalClientArray", "d8/d47/classsamchon_1_1protocol_1_1ExternalClientArray.html", null ],
       [ "IWebServer", "d5/d23/classsamchon_1_1protocol_1_1IWebServer.html", null ],
       [ "Server", "d9/d35/classsamchon_1_1protocol_1_1service_1_1Server.html", [
         [ "ChatServer", "da/d56/classsamchon_1_1example_1_1chat__service_1_1ChatServer.html", null ]

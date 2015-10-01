@@ -3,7 +3,7 @@
 
 #include <samchon/protocol/SharedEntityArray.hpp>
 #	include <samchon/protocol/ExternalSystemRole.hpp>
-#include <samchon/protocol/IProtocol.hpp>
+#include <samchon/protocol/IClient.hpp>
 
 namespace samchon
 {
@@ -45,7 +45,7 @@ namespace samchon
 		 */
 		class SAMCHON_FRAMEWORK_API ExternalSystem
 			: public virtual SharedEntityArray<ExternalSystemRole>,
-			public virtual IProtocol
+			public virtual IClient
 		{
 		protected:
 			typedef SharedEntityArray<ExternalSystemRole> super;
@@ -101,11 +101,11 @@ namespace samchon
 				CHAIN OF INVOKE MESSAGE
 			------------------------------------------------------------------ */
 			/**
-			* @brief Handling replied message from an external system
-			* @details If there's a related ExternalSystemRole, shifts responsibility to the ExternalSystemRole.
-			*
-			* @param invoke Replied Invoke message
-			*/
+			 * @brief Handling replied message from an external system
+			 * @details If there's a related ExternalSystemRole, shifts responsibility to the ExternalSystemRole.
+			 *
+			 * @param invoke Replied Invoke message
+			 */
 			virtual void replyData(std::shared_ptr<Invoke>) override;
 			
 		public:

@@ -5,6 +5,7 @@ var searchData=
   ['replylisteners',['replyListeners',['../d4/db7/classsamchon_1_1protocol_1_1ExternalSystemRole.html#af3c2461bcb9b0141617d2b86af19527b',1,'samchon::protocol::ExternalSystemRole']]],
   ['reserved',['reserved',['../d4/dfe/classsamchon_1_1example_1_1packer_1_1WrapperArray.html#a7c8f40e2d129fded5d08eae1741e8840',1,'samchon::example::packer::WrapperArray']]],
   ['role',['role',['../de/d14/classsamchon_1_1protocol_1_1master_1_1DSInvokeHistory.html#a76bb58e084bdf47da201122e2325cec2',1,'samchon::protocol::master::DSInvokeHistory']]],
+  ['roledictionary',['roleDictionary',['../d3/d88/classsamchon_1_1protocol_1_1master_1_1DistributedSystemArray.html#aed4a3591c1be729cd5640a5145d1eeed',1,'samchon::protocol::master::DistributedSystemArray']]],
   ['room',['room',['../df/de2/classsamchon_1_1example_1_1chat__service_1_1ChatService.html#aff90f77d22931691e83d07d2366c3c79',1,'samchon::example::chat_service::ChatService']]],
   ['roomarray',['roomArray',['../d7/d41/classsamchon_1_1example_1_1chat__service_1_1ChatRoom.html#a9112a855a9abf508f56452d7470ef9bb',1,'samchon::example::chat_service::ChatRoom::roomArray()'],['../da/d56/classsamchon_1_1example_1_1chat__service_1_1ChatServer.html#a9112a855a9abf508f56452d7470ef9bb',1,'samchon::example::chat_service::ChatServer::roomArray()']]],
   ['rwmutex',['rwMutex',['../dd/dc0/classsamchon_1_1example_1_1console__chat__server_1_1ChatServer.html#aa47a1e0fb698e176c911886c4be8db5c',1,'samchon::example::console_chat_server::ChatServer']]]

@@ -83,7 +83,7 @@ namespace samchon
 			 * @brief Get a role
 			 *
 			 * @param name Name of an ExternalSystemRole
-			 * @return A shared pointeer of specialized role
+			 * @return A shared pointer of specialized role
 			 */
 			auto getRole(const std::string&) const -> std::shared_ptr<ExternalSystemRole>;
 

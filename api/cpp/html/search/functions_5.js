@@ -16,6 +16,8 @@ var searchData=
   ['evolvepopulation',['evolvePopulation',['../d5/d28/classsamchon_1_1library_1_1GeneticAlgorithm.html#a00d34b0d124e697c61d1d6c496088fb9',1,'samchon::library::GeneticAlgorithm']]],
   ['execute',['execute',['../de/def/classsamchon_1_1library_1_1SQLStatement.html#a61af3e60b94ae3e748f6fbac1e794af7',1,'samchon::library::SQLStatement']]],
   ['executedirectly',['executeDirectly',['../de/def/classsamchon_1_1library_1_1SQLStatement.html#a0e0f8524084b9e6a17a3d6b53d5c0c21',1,'samchon::library::SQLStatement']]],
+  ['externalclient',['ExternalClient',['../dc/dfd/classsamchon_1_1protocol_1_1ExternalClient.html#acb81fb277f3cb494324ba2a384828c81',1,'samchon::protocol::ExternalClient']]],
+  ['externalclientarray',['ExternalClientArray',['../d8/d47/classsamchon_1_1protocol_1_1ExternalClientArray.html#a8b7d27bbe8a9078d63f7b81e99e1684a',1,'samchon::protocol::ExternalClientArray']]],
   ['externalserver',['ExternalServer',['../df/d4a/classsamchon_1_1protocol_1_1ExternalServer.html#acda7eac740491b5ff33693a3ef2e1537',1,'samchon::protocol::ExternalServer']]],
   ['externalsystem',['ExternalSystem',['../df/d42/classsamchon_1_1protocol_1_1ExternalSystem.html#a6e60022a9f417171874972fda77f6b42',1,'samchon::protocol::ExternalSystem']]],
   ['externalsystemarray',['ExternalSystemArray',['../d9/dc6/classsamchon_1_1protocol_1_1ExternalSystemArray.html#a52d24ac8e5f3d82192bf81f2f3d1f1cb',1,'samchon::protocol::ExternalSystemArray']]],

@@ -7,6 +7,8 @@ var namespacesamchon_1_1protocol =
     [ "EntityArray", "dc/d8d/classsamchon_1_1protocol_1_1EntityArray.html", "dc/d8d/classsamchon_1_1protocol_1_1EntityArray" ],
     [ "EntityGroup", "d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html", "d4/deb/classsamchon_1_1protocol_1_1EntityGroup" ],
     [ "EntityList", "d6/d5a/classsamchon_1_1protocol_1_1EntityList.html", "d6/d5a/classsamchon_1_1protocol_1_1EntityList" ],
+    [ "ExternalClient", "dc/dfd/classsamchon_1_1protocol_1_1ExternalClient.html", "dc/dfd/classsamchon_1_1protocol_1_1ExternalClient" ],
+    [ "ExternalClientArray", "d8/d47/classsamchon_1_1protocol_1_1ExternalClientArray.html", "d8/d47/classsamchon_1_1protocol_1_1ExternalClientArray" ],
     [ "ExternalServer", "df/d4a/classsamchon_1_1protocol_1_1ExternalServer.html", "df/d4a/classsamchon_1_1protocol_1_1ExternalServer" ],
     [ "ExternalServerArray", "d1/de5/classsamchon_1_1protocol_1_1ExternalServerArray.html", "d1/de5/classsamchon_1_1protocol_1_1ExternalServerArray" ],
     [ "ExternalSystem", "df/d42/classsamchon_1_1protocol_1_1ExternalSystem.html", "df/d42/classsamchon_1_1protocol_1_1ExternalSystem" ],

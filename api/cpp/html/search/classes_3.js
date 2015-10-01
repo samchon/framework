@@ -10,6 +10,8 @@ var searchData=
   ['errorevent',['ErrorEvent',['../d4/de5/classsamchon_1_1library_1_1ErrorEvent.html',1,'samchon::library']]],
   ['event',['Event',['../d2/d56/classsamchon_1_1library_1_1Event.html',1,'samchon::library']]],
   ['eventdispatcher',['EventDispatcher',['../d3/d9b/classsamchon_1_1library_1_1EventDispatcher.html',1,'samchon::library']]],
+  ['externalclient',['ExternalClient',['../dc/dfd/classsamchon_1_1protocol_1_1ExternalClient.html',1,'samchon::protocol']]],
+  ['externalclientarray',['ExternalClientArray',['../d8/d47/classsamchon_1_1protocol_1_1ExternalClientArray.html',1,'samchon::protocol']]],
   ['externalserver',['ExternalServer',['../df/d4a/classsamchon_1_1protocol_1_1ExternalServer.html',1,'samchon::protocol']]],
   ['externalserverarray',['ExternalServerArray',['../d1/de5/classsamchon_1_1protocol_1_1ExternalServerArray.html',1,'samchon::protocol']]],
   ['externalsystem',['ExternalSystem',['../df/d42/classsamchon_1_1protocol_1_1ExternalSystem.html',1,'samchon::protocol']]],

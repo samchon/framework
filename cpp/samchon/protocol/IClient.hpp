@@ -2,7 +2,9 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/IProtocol.hpp>
+
 #include <samchon/protocol/Socket.hpp>
+#include <string>
 
 namespace std
 {
@@ -10,6 +12,8 @@ namespace std
 };
 namespace samchon
 {
+	class ByteArray;
+
 	namespace protocol
 	{
 		class Invoke;
@@ -62,6 +66,9 @@ namespace samchon
 			 */
 			virtual auto BUFFER_SIZE() const -> size_t;
 
+		private:
+
+
 		public:
 			/**
 			 * @brief Default Constructor
@@ -100,6 +107,10 @@ namespace samchon
 			 * @param invoke An invoke message to be pre-processed and shifted to IProtocol::replyData().
 			 */
 			virtual void _replyData(std::shared_ptr<Invoke>);
+
+		private:
+			void handleString(ByteArray &, std::string &, std::shared_ptr<Invoke> &);
+			void handleBinary(ByteArray &, std::string &, std::shared_ptr<Invoke> &);
 		};
 	};
 };

@@ -11,11 +11,6 @@ using namespace samchon::protocol;
 	CONSTRUCTORS
 ------------------------------------------------------------------ */
 ExternalClient::ExternalClient()
-	: super(),
-	IClient()
+	: super()
 {
-}
-void ExternalClient::start()
-{
-	this->listen();
 }

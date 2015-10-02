@@ -16,6 +16,17 @@ namespace samchon
 		/**
 		 * @brief A side of a conditional expresson
 		 *
+		 * @details
+		 * <p> @image html  cpp/result/namtree_nt_side.png
+		 *	   @image latex cpp/result/namtree_nt_side.png </p>
+		 *
+		 * <p> Two NTSide classes are belonged to a NTCriteria as left and right side. The NTSide class has
+		 * a NTFile representing a function and parameters to adjust to the function. </p>
+		 *
+		 * <p> @image html  cpp/namtree_criteria.png
+		 *	   @image latex cpp/namtree_criteria.png </p>
+		 *
+		 * @see samchon::namtree
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API NTSide

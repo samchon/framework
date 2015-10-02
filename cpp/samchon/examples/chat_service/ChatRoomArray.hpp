@@ -68,7 +68,7 @@ namespace samchon
 					EXPORTERS
 				----------------------------------------------------------------- */
 				/**
-				 * @brief Get a XML object representing the ChatRoomArray
+				 * @brief Get an XML object representing the ChatRoomArray
 				 */
 				auto toXML() const -> std::shared_ptr<library::XML>;
 

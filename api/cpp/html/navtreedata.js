@@ -28,10 +28,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d4/d1a/GAPopulation_8hpp_source.html",
-"d8/d53/SharedWriteLock_8hpp_source.html",
-"db/da9/DistributedServerArray_8hpp_source.html",
-"df/d42/classsamchon_1_1protocol_1_1ExternalSystem.html#a9b45b3e13bd9167aab02e17e08916231"
+"d3/dcb/structsamchon_1_1library_1_1GAParameters.html#a6a96858958208e182fa72edf689b603e",
+"d7/de5/classsamchon_1_1library_1_1SharedReadLock.html#a53af62bbaad3403865c223da5c6b1992",
+"db/d2d/classsamchon_1_1protocol_1_1master_1_1DistributedSystem.html",
+"de/dfd/classsamchon_1_1namtree_1_1NTCriteria.html#a4c4b7d9441b10a734e8ce75e67d0375c"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

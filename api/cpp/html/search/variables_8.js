@@ -1,6 +1,7 @@
 var searchData=
 [
   ['id',['id',['../df/d87/classsamchon_1_1protocol_1_1service_1_1User.html#afd0d68c6d31ff249f3ae8662162663c3',1,'samchon::protocol::service::User']]],
+  ['initialvalue',['initialValue',['../db/d29/classsamchon_1_1namtree_1_1NTParameter.html#ac2719a20aaa94647525d07cbb5ef4930',1,'samchon::namtree::NTParameter']]],
   ['inprogress',['inProgress',['../db/d2d/classsamchon_1_1protocol_1_1master_1_1DistributedSystem.html#ab3b5e145a4095f2a4e41580cd82e5579',1,'samchon::protocol::master::DistributedSystem']]],
   ['instancemap',['instanceMap',['../d6/d60/classsamchon_1_1library_1_1FTFactory.html#a53022ce00f2685046ff953221ebcc0f6',1,'samchon::library::FTFactory']]],
   ['invokehistorylist',['invokeHistoryList',['../db/d2d/classsamchon_1_1protocol_1_1master_1_1DistributedSystem.html#a76fa1b64beb1b003a59dda47293dadd2',1,'samchon::protocol::master::DistributedSystem::invokeHistoryList()'],['../d1/d16/classsamchon_1_1protocol_1_1master_1_1DistributedSystemRole.html#a76fa1b64beb1b003a59dda47293dadd2',1,'samchon::protocol::master::DistributedSystemRole::invokeHistoryList()']]],

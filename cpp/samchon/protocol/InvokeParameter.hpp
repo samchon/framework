@@ -86,7 +86,7 @@ namespace samchon
 			std::string str;
 
 			/**
-			 * @brief A XML object if the type is "XML"
+			 * @brief An XML object if the type is "XML"
 			 */
 			std::shared_ptr<library::XML> xml;
 

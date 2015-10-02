@@ -295,6 +295,9 @@
     <Filter Include="Header Files\protocol\slave\common\container">
       <UniqueIdentifier>{bf04985c-1da1-4568-b53a-d024be7a677c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\protocol\master\distributed processing system\mediator">
+      <UniqueIdentifier>{1efeff50-1686-41e1-b472-b779a7af513a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\SmartPointer.hpp">
@@ -650,6 +653,21 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\DistributedClient.hpp">
       <Filter>Header Files\protocol\master\distributed processing system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedClientArray.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedServerArray.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedServerArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedClientArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\mediator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -247,9 +247,14 @@
     <ClInclude Include="..\samchon\protocol\IWebClient.hpp" />
     <ClInclude Include="..\samchon\protocol\IWebServer.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedClient.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedClientArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedClientArrayMediator.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedServerArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedServerArrayMediator.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedSystem.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedSystemArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArrayMediator.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\master\PRInvokeHistory.hpp" />

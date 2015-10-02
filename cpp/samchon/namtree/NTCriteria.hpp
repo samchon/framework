@@ -16,7 +16,7 @@ namespace samchon
 		 * @brief Criteria, a conditional expression with weight
 		 *
 		 * @details
-		 * <p> NTCriteria is an object to realize ANN(Artificial Neural Network). </p>
+		 * <p> NTCriteria is an object realizing ANN(Artificial Neural Network). </p>
 		 * <p> You can make the ANN model having weight and bias. </p>
 		 *
 		 * <ol>
@@ -27,14 +27,17 @@ namespace samchon
 		 *			<li> When the expression is true, returns 1 * weight </li>
 		 *			<li> When the expression is false, returns 0 </li>
 		 *		</ul>
-		 *
 		 *	<li> Hierarchical relationship </li>
 		 *		<ul>
 		 *			<li> In vertical relationship: multiply (X) </li>
 		 *			<li> In horizontal relationship: plus (+) </li>
 		 *		</ul>
+		 *
 		 *		<p> With that rule, you can make enormous conditions. I can sure 
 		 *		there's not any condition can'be be expressed by the model. </p>
+		 *
+		 *		<p> @image html  cpp/result/namtree_nt_criteria.png
+		 *			@image latex cpp/result/namtree_nt_criteria.png </p>
 		 *
 		 *	<li> Making bias </li>
 		 *		<p> Just make a NTCriteria returns only true. </p>
@@ -51,6 +54,9 @@ namespace samchon
 		 *			<p> If you set the parameterMNap to be empty, Nam-Tree will explore the best parameter 
 		 *			until reach to the precision in INTExploreParameter from minimum to maximum. </p>
 		 *
+		 *			<p> @image html  cpp/result/namtree_grid_method.png
+		 *			    @image latex cpp/result/namtree_grid_method.png </p>
+		 *
 		 *		<li> Exploring by creating NTCriteria </li>
 		 *			<p> (Creates lots of hierarchical conditions and tests them) </p>
 		 *			<p> If all the side (left and right) in a NTCriteria are nullptr, the NTCriteria
@@ -62,6 +68,10 @@ namespace samchon
 		 *	</ol>
 		 * </ol>
 		 *
+		 * <p> @image html  cpp/namtree_criteria.png
+		 *	   @image latex cpp/namtree_criteria.png </p>
+		 *
+		 * @see samchon::namtree
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API NTCriteria

@@ -34,10 +34,10 @@ namespace samchon
 
 			//virtual auto getDataAsByteArray(short) -> vector<unsigned char>;
 			/**
-			 * @brief Return a XML representing records.
+			 * @brief Return an XML representing records.
 			 *
 			 * @details
-			 * Get a XML object generated from a sql statement containing 'FOR XML'
+			 * Get an XML object generated from a sql statement containing 'FOR XML'
 			 *
 			 * @return XML represents records
 			 */

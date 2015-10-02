@@ -145,6 +145,7 @@ var hierarchy =
       [ "Server", "d9/d35/classsamchon_1_1protocol_1_1service_1_1Server.html", null ]
     ] ],
     [ "Map< int, samchon::library::FTInstance * >", "d1/d4e/classsamchon_1_1Map.html", null ],
+    [ "Map< SideFunction >", "d1/d4e/classsamchon_1_1Map.html", null ],
     [ "Map< size_t, SmartPointer< Client > >", "d1/d4e/classsamchon_1_1Map.html", [
       [ "User", "df/d87/classsamchon_1_1protocol_1_1service_1_1User.html", null ]
     ] ],

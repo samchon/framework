@@ -43,7 +43,7 @@ struct Member
 
 void main()
 {
-	//DECLARE A XML WITH MEMBER_ARRAY TAG
+	//DECLARE An XML WITH MEMBER_ARRAY TAG
 	shared_ptr<XML> xml(new XML());
 	xml->setTag("memberArray");
 	

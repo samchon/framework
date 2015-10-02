@@ -70,7 +70,7 @@ namespace samchon
 			virtual ~EntityGroup() = default;
 
 			/**
-			 * @brief Construct data of the Entity from a XML object
+			 * @brief Construct data of the Entity from an XML object
 			 *
 			 * <p> Constructs the EntityGroup's own member variables only from the input XML object. </p>
 			 *
@@ -174,7 +174,7 @@ namespace samchon
 			};
 
 			/**
-			 * @brief Get a XML object represents the EntityGroup
+			 * @brief Get an XML object represents the EntityGroup
 			 *
 			 * <p> Archives the EntityGroup's own member variables only to the returned XML object. </p>
 			 *

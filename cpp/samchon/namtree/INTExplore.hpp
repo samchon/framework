@@ -8,12 +8,24 @@ namespace samchon
 	namespace namtree
 	{
 		/**
-		 * @brief Interface for exploration
+		 * @brief An interface for exploration
+		 *
+		 * @details
+		 * <p> @image html  cpp/result/namtree_i_nt_explore.png
+		 *	   @image latex cpp/result/namtree_i_nt_explore.png </p>
+		 *
+		 * <p> INTExplore is an interface containing some parameters for grid optimization method. </p>
+		 *
+		 * <p> @image html  cpp/namtree_file.png
+		 *	   @image latex cpp/namtree_file.png </p>
+		 *
+		 * @see samchon::namtree
+		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API INTExplore
 			: public virtual protocol::Entity
 		{
-		private:
+		protected:
 			typedef protocol::Entity super;
 
 		protected:
@@ -38,6 +50,9 @@ namespace samchon
 			int precision;
 
 		public:
+			/* -------------------------------------------------------------------
+				CONSTRUCTORS
+			------------------------------------------------------------------- */
 			/**
 			 * @brief Default Constructor
 			 */
@@ -46,6 +61,9 @@ namespace samchon
 
 			virtual void construct(std::shared_ptr<library::XML>);
 
+			/* -------------------------------------------------------------------
+				GETTERS
+			------------------------------------------------------------------- */
 			/**
 			 * @brief Get minimum
 			 */
@@ -66,6 +84,9 @@ namespace samchon
 			 */
 			auto getPrecision() const -> int;
 
+			/* -------------------------------------------------------------------
+				EXPORTERS
+			------------------------------------------------------------------- */
 			virtual auto toXML() const -> std::shared_ptr<library::XML>;
 		};
 	};

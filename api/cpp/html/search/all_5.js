@@ -3,7 +3,7 @@ var searchData=
   ['e',['E',['../de/d8f/classsamchon_1_1library_1_1Math.html#ab587ba72a9c23f238cb4fd70e2fdb545',1,'samchon::library::Math']]],
   ['empty',['empty',['../d8/de4/classsamchon_1_1WeakString.html#ab470b2ad7999f03109171a7416d12e3e',1,'samchon::WeakString']]],
   ['encode',['encode',['../df/d1b/classsamchon_1_1library_1_1Base64.html#a65947b31faaeffc25c2062e6659600c9',1,'samchon::library::Base64::encode()'],['../dc/d30/classsamchon_1_1library_1_1URLVariables.html#a51106818ad86d6677e421e457bcc0e17',1,'samchon::library::URLVariables::encode()']]],
-  ['end',['end',['../d9/d35/classsamchon_1_1protocol_1_1service_1_1Server.html#a39dd3ec2d538d962ba4bc4af6c0ef2f6',1,'samchon::protocol::service::Server']]],
+  ['end',['end',['../dd/d26/classsamchon_1_1namtree_1_1NTEntityGroup.html#a550f33fdf4fb2c72d96f325b4b5dafe8',1,'samchon::namtree::NTEntityGroup::end()'],['../d9/d35/classsamchon_1_1protocol_1_1service_1_1Server.html#a39dd3ec2d538d962ba4bc4af6c0ef2f6',1,'samchon::protocol::service::Server::end()']]],
   ['endpoint',['endPoint',['../db/d72/classsamchon_1_1protocol_1_1ServerConnector.html#a2c8a123bd79b1b0b8cf8c39821d061a9',1,'samchon::protocol::ServerConnector']]],
   ['endtime',['endTime',['../d8/d64/classsamchon_1_1protocol_1_1slave_1_1InvokeHistory.html#a6d4942703bfc693e9b0500d806c74833',1,'samchon::protocol::slave::InvokeHistory']]],
   ['entity',['Entity',['../d0/d3e/classsamchon_1_1protocol_1_1Entity.html',1,'samchon::protocol']]],

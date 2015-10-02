@@ -30,14 +30,14 @@ namespace samchon
 		 * <p> All XML objects're managed by shared_ptr. </p>
 		 *	\li XML contains XMLList from dictionary of shared pointer<XMLList>
 		 *  \li XMLList contains XML from vector of shared pointer<XML>
-		 *  \li Even if user creates a XML object directly, it's the basic principle to use shared pointer
+		 *  \li Even if user creates an XML object directly, it's the basic principle to use shared pointer
 		 * 
 		 * @image html cpp/subset/library_xml.png
 		 * @image latex cpp/subset/library_xml.png
 		 *
 		 * @note 
 		 * <p> Parsing comment is not supported yet. </p>
-		 * <p> It's not recommeded to creating a XML object which is not being managed by shared pointer. </p>
+		 * <p> It's not recommeded to creating an XML object which is not being managed by shared pointer. </p>
 		 * 
 		 * @warning 
 		 * <p> Do not abuse values for expressing member variables. </p>
@@ -134,7 +134,7 @@ namespace samchon
 			 * @brief Constructor by string
 			 *
 			 * @details
-			 * Parses a string so that constructs a XML object
+			 * Parses a string so that constructs an XML object
 			 *
 			 * @param str A string representing xml object
 			 * @warning Declare XML to managed by shared pointer
@@ -146,7 +146,7 @@ namespace samchon
 			 * @brief Protected Constructor by string for child
 			 *
 			 * @details
-			 * Parses a string so that creates a XML object
+			 * Parses a string so that creates an XML object
 			 * It is called for creating children XML objects from parent XML object.
 			 *
 			 * @param parent Parent object who will contains this XML object
@@ -171,7 +171,7 @@ namespace samchon
 			/**
 			 * @brief Add children xml
 			 *
-			 * @param xml A xml object you want to add
+			 * @param xml An xml object you want to add
 			 */
 			void push_back(const std::shared_ptr<XML>);
 

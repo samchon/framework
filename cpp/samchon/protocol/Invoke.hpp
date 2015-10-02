@@ -14,7 +14,7 @@ namespace samchon
 		 * @details
 		 * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework.  </p>
 		 *
-		 * <p> The Invoke message has a XML structure like the result screen of provided example in below. 
+		 * <p> The Invoke message has an XML structure like the result screen of provided example in below. 
 		 * We can enjoy lots of benefits by the normalized and standardized message structure used in
 		 * network I/O. </p>
 		 *

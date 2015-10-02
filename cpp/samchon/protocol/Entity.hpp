@@ -69,7 +69,7 @@ namespace samchon
 			virtual ~Entity() = default;
 			
 			/**
-			 * @brief Construct data of the Entity from a XML object
+			 * @brief Construct data of the Entity from an XML object
 			 *
 			 * @details 
 			 * <p> Overrides the construct() method and fetch data of member variables from the XML. </p>
@@ -77,7 +77,7 @@ namespace samchon
 			 * <p> By recommended guidance, data representing member variables are contained in properties 
 			 * of the put XML object. </p>
 			 *
-			 * @param xml A xml used to construct data of entity
+			 * @param xml An xml used to construct data of entity
 			 */
 			virtual void construct(std::shared_ptr<library::XML>) = 0;
 
@@ -94,18 +94,18 @@ namespace samchon
 			virtual auto key() const -> std::string;
 
 			/**
-			 * @brief Get a XML object represents the Entity.
+			 * @brief Get an XML object represents the Entity.
 			 *
 			 * @details
-			 * <p> Returns a XML object that can represents the Entity containing member variables into properties. </p>
+			 * <p> Returns an XML object that can represents the Entity containing member variables into properties. </p>
 			 *
 			 * <p> A member variable (not object, but atomic value like number, string or date) is categorized
 			 * as a property within the framework of entity side. Thus, when overriding a toXML() method and 
 			 * archiving member variables to an XML object to return, puts each variable to be a property 
-			 * belongs to only a XML object. </p>
+			 * belongs to only an XML object. </p>
 			 *
 			 * <p> Don't archive the member variable of atomic value to XML::value causing enormouse creation 
-			 * of XML objects to number of member variables. An Entity must be represented by only a XML
+			 * of XML objects to number of member variables. An Entity must be represented by only an XML
 			 * instance (tag). </p>
 			 *
 			 * <table>

@@ -23,7 +23,7 @@ namespace samchon
 	 *	<li><h3> Invoke - standard network I/O message </h3></li>
 	 *		<p> Invoke is a standard message structure using network I/O in Samchon Framework. </p>
 	 *
-	 *		<p> The Invoke message has a XML structure like the piacture in below. 
+	 *		<p> The Invoke message has an XML structure like the piacture in below. 
 	 *		We can enjoy lots of benefits by the normalized and standardized message structure used in
 	 *		network I/O.\n
 	 *

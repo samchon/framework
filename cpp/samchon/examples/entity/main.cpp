@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include <samchon/protocol/Entity.hpp>
+#include <samchon/protocol/IHTMLEntity.hpp>
 #include <samchon/protocol/SharedEntityArray.hpp>
 
 #include <samchon/library/XML.hpp>
@@ -24,7 +25,7 @@ using namespace samchon::library;
 using namespace samchon::protocol;
 
 class Member 
-	: public Entity
+	: public Entity, public virtual IHTMLEntity
 {
 protected:
 	typedef Entity super;
@@ -39,10 +40,11 @@ public:
 		CONSTRUCTORS
 	--------------------------------------------------------------------- */
 	Member() 
-		: super()
+		: super(), IHTMLEntity()
 	{
 	};
 	Member(const string &id, const string &name, int age, int grade)
+		: super(), IHTMLEntity()
 	{
 		this->id = id;
 		this->name = name;
@@ -84,10 +86,15 @@ public:
 		
 		return move(xml);
 	};
+	virtual auto toHTML() const -> string
+	{
+		return toTR(id, name, age, grade);
+	};
 };
 
 class MemberArray
-	: public SharedEntityArray<Member>
+	: public SharedEntityArray<Member>,
+	public virtual IHTMLEntity
 {
 protected:
 	typedef SharedEntityArray<Member> super;
@@ -101,6 +108,7 @@ public:
 		CONSTRUCTORS
 	--------------------------------------------------------------------- */
 	MemberArray()
+		: super(), IHTMLEntity()
 	{
 		this->chief = nullptr;
 	};
@@ -152,16 +160,27 @@ public:
 
 		return move(xml);
 	};
+	virtual auto toHTML() const -> string
+	{
+		string html = "<table>\n";
+		html += toTH("ID", "Name", "Age", "Grade") + "\n";
+
+		for (size_t i = 0; i < 2; i++)
+			html += at(i)->toHTML() + "\n";
+
+		html += "</table>";
+		return move(html);
+	};
 };
 
 void main()
 {
 	string str = string("") +
 		"<memberArray application='framework' department='7' cheif='samchon'>\n" +
-		"	<member id='samchon' name='Jeongho+Nam' age='27' grade='5' />" +
-		"	<member id='submaster' name='No+Name' age='100' grade='4' />" +
-		"	<member id='john' name='John+Doe' age='33' grade='2' />" +
-		"	<member id='bad_man' name='Bad+Man' age='44' grade='-1' />" +
+		"	<member id='samchon' name='Jeongho Nam' age='27' grade='5' />" +
+		"	<member id='submaster' name='No Name' age='100' grade='4' />" +
+		"	<member id='john' name='John Doe' age='33' grade='2' />" +
+		"	<member id='bad_man' name='Bad Man' age='44' grade='-1' />" +
 		"	<member id='guest' name='Guest' age='0' grade='0' />" +
 		"</memberArray>";
 	shared_ptr<XML> xml(new XML(str));
@@ -169,9 +188,10 @@ void main()
 	MemberArray memberArray;
 	memberArray.construct(xml);
 
-	memberArray.emplace_back(new Member("freshman", "A+fresh+man", 20, 2));
-	memberArray.emplace_back(new Member("senior", "A+senior", 70, 2));
+	memberArray.emplace_back(new Member("freshman", "A fresh man", 20, 2));
+	memberArray.emplace_back(new Member("senior", "A senior", 70, 2));
 
-	cout << memberArray.toXML()->toString() << endl;
+	cout << memberArray.toXML()->toString() << endl << endl;
+	cout << memberArray.toHTML() << endl;
 	system("pause");
 }

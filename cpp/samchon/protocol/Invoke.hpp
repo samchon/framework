@@ -83,6 +83,9 @@ namespace samchon
 			/**
 			 * @brief Construct from arguments
 			 *
+			 * @tparam _Ty Type of an argument which represents a parameter
+			 * @tparam _Args Left varadic template arguments' types
+			 *
 			 * @details 
 			 * <p> Creates Invoke and InvokeParameter(s) at the same time by varadic template method. </p>
 			 * <p> By the varadic template constructor, you can't specify name of each InvokeParameter, but
@@ -98,8 +101,6 @@ namespace samchon
 			 * @param val A value to be a parameter of Invoke
 			 * @param args Left arguments to be parameters of Invoke
 			 *
-			 * @tparam _Ty Type of an argument which represents a parameter
-			 * @tparam _Args Left varadic template arguments' types
 			 */
 			template <typename _Ty, typename ... _Args>
 			Invoke(const std::string &listener, const _Ty &val, const _Args& ... args)

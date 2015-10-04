@@ -9,6 +9,7 @@ var searchData=
   ['sharedacquire',['SharedAcquire',['../d7/d8e/classsamchon_1_1library_1_1SharedAcquire.html',1,'samchon::library']]],
   ['sharedreadlock',['SharedReadLock',['../d7/de5/classsamchon_1_1library_1_1SharedReadLock.html',1,'samchon::library']]],
   ['sharedwritelock',['SharedWriteLock',['../da/d5f/classsamchon_1_1library_1_1SharedWriteLock.html',1,'samchon::library']]],
+  ['slavesystem',['SlaveSystem',['../d1/d4a/classsamchon_1_1protocol_1_1slave_1_1SlaveSystem.html',1,'samchon::protocol::slave']]],
   ['smartpointer',['SmartPointer',['../d9/d2d/classsamchon_1_1SmartPointer.html',1,'samchon']]],
   ['smartpointer_3c_20samchon_3a_3aprotocol_3a_3aservice_3a_3aclient_20_3e',['SmartPointer&lt; samchon::protocol::service::Client &gt;',['../d9/d2d/classsamchon_1_1SmartPointer.html',1,'samchon']]],
   ['smartpointer_3c_20samchon_3a_3aprotocol_3a_3aservice_3a_3auser_20_3e',['SmartPointer&lt; samchon::protocol::service::User &gt;',['../d9/d2d/classsamchon_1_1SmartPointer.html',1,'samchon']]],

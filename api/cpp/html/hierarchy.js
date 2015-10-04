@@ -9,7 +9,6 @@ var hierarchy =
       ] ]
     ] ],
     [ "Charset", "da/d99/classsamchon_1_1library_1_1Charset.html", null ],
-    [ "ChatRoomArray", "d2/d9a/classsamchon_1_1example_1_1chat__service_1_1ChatRoomArray.html", null ],
     [ "CriticalAllocator< _Ty >", "d6/d32/classsamchon_1_1library_1_1CriticalAllocator.html", null ],
     [ "Date", "da/d6b/classsamchon_1_1library_1_1Date.html", [
       [ "Datetime", "dd/de3/classsamchon_1_1library_1_1Datetime.html", null ]
@@ -52,7 +51,8 @@ var hierarchy =
           [ "DistributedSystem", "db/d2d/classsamchon_1_1protocol_1_1master_1_1DistributedSystem.html", [
             [ "DistributedClient", "d2/d26/classsamchon_1_1protocol_1_1master_1_1DistributedClient.html", null ],
             [ "DistributedServer", "d7/da8/classsamchon_1_1protocol_1_1master_1_1DistributedServer.html", null ]
-          ] ]
+          ] ],
+          [ "SlaveSystem", "d1/d4a/classsamchon_1_1protocol_1_1slave_1_1SlaveSystem.html", null ]
         ] ],
         [ "ExternalSystemArray", "d9/dc6/classsamchon_1_1protocol_1_1ExternalSystemArray.html", [
           [ "ExternalClientArray", "d8/d47/classsamchon_1_1protocol_1_1ExternalClientArray.html", [
@@ -94,6 +94,17 @@ var hierarchy =
     [ "GeneticAlgorithm< GeneArray, Compare >", "d5/d28/classsamchon_1_1library_1_1GeneticAlgorithm.html", null ],
     [ "GeometryPoint", "d3/da4/classsamchon_1_1example_1_1tsp_1_1GeometryPoint.html", null ],
     [ "HTTPLoader", "d7/d67/classsamchon_1_1library_1_1HTTPLoader.html", null ],
+    [ "IEntityChain", "d3/d66/classsamchon_1_1protocol_1_1IEntityChain.html", null ],
+    [ "IEntityGroup", "d9/d4c/classsamchon_1_1protocol_1_1IEntityGroup.html", [
+      [ "EntityGroup< _Container, Entity * >", "d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html", null ],
+      [ "EntityGroup< _Container, std::shared_ptr< Entity > >", "d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html", null ],
+      [ "EntityGroup< _Container, std::unique_ptr< Entity > >", "d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html", null ],
+      [ "ChatRoomArray", "d2/d9a/classsamchon_1_1example_1_1chat__service_1_1ChatRoomArray.html", null ],
+      [ "EntityArray< _Ty >", "dc/d8d/classsamchon_1_1protocol_1_1EntityArray.html", null ],
+      [ "EntityGroup< _Container, _ETy, _Ty >", "d4/deb/classsamchon_1_1protocol_1_1EntityGroup.html", null ],
+      [ "EntityList< _Ty >", "d6/d5a/classsamchon_1_1protocol_1_1EntityList.html", null ]
+    ] ],
+    [ "IHTMLEntity", "db/dae/classsamchon_1_1protocol_1_1IHTMLEntity.html", null ],
     [ "IndexPair< _Ty >", "d2/dc0/classsamchon_1_1IndexPair.html", null ],
     [ "Instance", "dc/d54/classsamchon_1_1example_1_1packer_1_1Instance.html", [
       [ "Product", "df/d73/classsamchon_1_1example_1_1packer_1_1Product.html", null ],

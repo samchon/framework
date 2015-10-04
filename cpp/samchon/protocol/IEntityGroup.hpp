@@ -7,6 +7,28 @@ namespace samchon
 {
 	namespace protocol
 	{
+		/**
+		 * @brief An iternface for entity group
+		 *
+		 * @details
+		 * <p> IEntityGroup is an interface for a container of entity. It does not have any special role or 
+		 * function. The IEntityGorup is only for discriminate an entity is single instance or gorup of
+		 * entity. </p>
+		 *
+		 * <ul>
+		 *	<li> Group of entity is divided into EntityArray and EntityGroup. </li>
+		 *	<ul>
+		 *		<li> Even they are template classes so that cannot be discriminated globally. </li>
+		 *	</ul>
+		 *	<li> dynamic_cast<IEntityGroup>(<i>some entity instance</i>) </li>
+		 *	<ul>
+		 *		<li> If true then, it's not single entity instance, but group of entity. </li>
+		 *		<li> False then, it's a single instance. </li>
+		 *	</ul>
+		 * </ul>
+		 *
+		 * @author Jeongho Nam
+		 */
 		class SAMCHON_FRAMEWORK_API IEntityGroup
 		{
 		protected:

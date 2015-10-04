@@ -1,6 +1,9 @@
 var searchData=
 [
   ['iclient',['IClient',['../d3/dc8/classsamchon_1_1protocol_1_1IClient.html#a7d9b7003a224b6050168eede30b914a4',1,'samchon::protocol::IClient']]],
+  ['ientitychain',['IEntityChain',['../d3/d66/classsamchon_1_1protocol_1_1IEntityChain.html#a914f10755b6cbf435542607e73c30296',1,'samchon::protocol::IEntityChain']]],
+  ['ientitygroup',['IEntityGroup',['../d9/d4c/classsamchon_1_1protocol_1_1IEntityGroup.html#a613d2b691653c86d5f900c8ba33ba30b',1,'samchon::protocol::IEntityGroup']]],
+  ['ihtmlentity',['IHTMLEntity',['../db/dae/classsamchon_1_1protocol_1_1IHTMLEntity.html#a636a076ebade80d57d98312872151f5f',1,'samchon::protocol::IHTMLEntity']]],
   ['instance',['Instance',['../dc/d54/classsamchon_1_1example_1_1packer_1_1Instance.html#a0e9af68a1050d724665af89918b617dd',1,'samchon::example::packer::Instance']]],
   ['intexplore',['INTExplore',['../d5/d98/classsamchon_1_1namtree_1_1INTExplore.html#af21216df146a3a38f21753dd6a517745',1,'samchon::namtree::INTExplore']]],
   ['invoke',['Invoke',['../d8/d82/classsamchon_1_1protocol_1_1Invoke.html#aadec0db92e0fe11ac13230c5c65baa0a',1,'samchon::protocol::Invoke::Invoke()'],['../d8/d82/classsamchon_1_1protocol_1_1Invoke.html#ad495627b7090449e9a1af49e3271cdd5',1,'samchon::protocol::Invoke::Invoke(const std::string &amp;listener)'],['../d8/d82/classsamchon_1_1protocol_1_1Invoke.html#abab56acc91715d02705bcf4b042b755b',1,'samchon::protocol::Invoke::Invoke(const std::string &amp;listener, const _Ty &amp;val, const _Args &amp;...args)']]],
@@ -11,6 +14,7 @@ var searchData=
   ['ipuserpair',['IPUserPair',['../df/dc6/classsamchon_1_1protocol_1_1service_1_1IPUserPair.html#ab70003abfdc70e45a55e066d5ac1fceb',1,'samchon::protocol::service::IPUserPair']]],
   ['iserver',['IServer',['../d4/de8/classsamchon_1_1protocol_1_1IServer.html#acb43fd3ca9cd70ea120b70772668410e',1,'samchon::protocol::IServer']]],
   ['isnumeric',['isNumeric',['../d2/d53/classsamchon_1_1library_1_1StringUtil.html#a72e440cb0a94eccf67e587f1f9b69e01',1,'samchon::library::StringUtil']]],
+  ['isqlentity',['ISQLEntity',['../d7/d56/classsamchon_1_1protocol_1_1ISQLEntity.html#a17581642f721818e4d16ff8edc597e05',1,'samchon::protocol::ISQLEntity']]],
   ['issuesessionid',['issueSessionID',['../df/dc6/classsamchon_1_1protocol_1_1service_1_1IPUserPair.html#a2539aae28f1eca512df21da618f62eba',1,'samchon::protocol::service::IPUserPair']]],
   ['iwebclient',['IWebClient',['../d7/d51/classsamchon_1_1protocol_1_1IWebClient.html#a2dc334d0bccca202809b9215a6390533',1,'samchon::protocol::IWebClient']]],
   ['iwebserver',['IWebServer',['../d5/d23/classsamchon_1_1protocol_1_1IWebServer.html#a7d4a50668f59866a814e39655921c7fd',1,'samchon::protocol::IWebServer']]]

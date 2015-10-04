@@ -15,6 +15,11 @@ using namespace samchon::protocol;
 /* ----------------------------------------------------------
 	CONSTRUCTORS
 ---------------------------------------------------------- */
+InvokeParameter::InvokeParameter(const string &name, const char *pChar)
+	: InvokeParameter(name, string(pChar))
+{
+}
+
 //CUSTOM CONSTRUCTOR
 InvokeParameter::InvokeParameter(const string &name, const string &type, const string &val)
 	: super()

@@ -289,19 +289,19 @@
     <Filter Include="Header Files\protocol\master\distributed processing system\client">
       <UniqueIdentifier>{cde3a14c-4d13-4795-b7fd-7ccf33a5b329}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\protocol\slave\common">
-      <UniqueIdentifier>{d84fac38-508d-4ab8-9768-79befab528fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\protocol\slave\common\container">
-      <UniqueIdentifier>{bf04985c-1da1-4568-b53a-d024be7a677c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\protocol\master\distributed processing system\mediator">
       <UniqueIdentifier>{1efeff50-1686-41e1-b472-b779a7af513a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common">
+      <UniqueIdentifier>{d84fac38-508d-4ab8-9768-79befab528fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\container">
+      <UniqueIdentifier>{bf04985c-1da1-4568-b53a-d024be7a677c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\SmartPointer.hpp">
-      <Filter>Header Files\protocol\slave\common</Filter>
+      <Filter>Header Files\common</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\ErrorEvent.hpp">
       <Filter>Header Files\library\event</Filter>
@@ -369,9 +369,6 @@
     <ClInclude Include="..\samchon\namtree\NTIterator.hpp">
       <Filter>Header Files\nam-tree\history data</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\EntityList.hpp">
-      <Filter>Header Files\protocol\common\entity\determined group</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\SharedEntityArray.hpp">
       <Filter>Header Files\protocol\common\entity\determined group</Filter>
     </ClInclude>
@@ -406,7 +403,7 @@
       <Filter>Header Files\protocol\common\invoke</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\Map.hpp">
-      <Filter>Header Files\protocol\slave\common\container</Filter>
+      <Filter>Header Files\common\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\Base64.hpp">
       <Filter>Header Files\library\utils\string</Filter>
@@ -418,7 +415,7 @@
       <Filter>Header Files\library\utils\string</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\ByteArray.hpp">
-      <Filter>Header Files\protocol\slave\common</Filter>
+      <Filter>Header Files\common</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\HTTPLoader.hpp">
       <Filter>Header Files\library\network i/o\http service</Filter>
@@ -490,7 +487,7 @@
       <Filter>Header Files\protocol\common\entity\determined group</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\IndexPair.hpp">
-      <Filter>Header Files\protocol\slave\common</Filter>
+      <Filter>Header Files\common</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\SystemRole.hpp">
       <Filter>Header Files\protocol\common\abstract</Filter>
@@ -529,7 +526,7 @@
       <Filter>Header Files\library\critical section\unique_lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\Dictionary.hpp">
-      <Filter>Header Files\protocol\slave\common\container</Filter>
+      <Filter>Header Files\common\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalVector.hpp">
       <Filter>Header Files\library\critical section\container</Filter>
@@ -601,7 +598,7 @@
       <Filter>Header Files\library\network i/o\sql driver\derived</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\WeakString.hpp">
-      <Filter>Header Files\protocol\slave\common</Filter>
+      <Filter>Header Files\common</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp">
       <Filter>Header Files\protocol\common\invoke\history</Filter>
@@ -639,9 +636,6 @@
     <ClInclude Include="..\samchon\protocol\master\DistributedSystem.hpp">
       <Filter>Header Files\protocol\master\distributed processing system\abstract</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\EntityArray.hpp">
-      <Filter>Header Files\protocol\common\entity\determined group</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp">
       <Filter>Header Files\protocol\master\distributed processing system\abstract</Filter>
     </ClInclude>
@@ -668,6 +662,15 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\DistributedClientArrayMediator.hpp">
       <Filter>Header Files\protocol\master\distributed processing system\mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\EntityArray.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\EntityList.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\slave\SlaveSystemp.hpp">
+      <Filter>Header Files\protocol\slave</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

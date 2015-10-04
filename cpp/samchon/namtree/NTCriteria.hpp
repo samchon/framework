@@ -81,9 +81,6 @@ namespace samchon
 			typedef protocol::SharedEntityArray<NTCriteria> super;
 
 		public:
-			virtual auto TAG() const -> std::string override;
-			virtual auto CHILD_TAG() const -> std::string override;
-
 			enum
 			{
 				LESS = -2,
@@ -104,6 +101,9 @@ namespace samchon
 			double weight;
 
 		public:
+			/* ------------------------------------------------------------------------------------
+				CONSTRUCTORS
+			------------------------------------------------------------------------------------ */
 			NTCriteria(NTFactory*, NTCriteria*);
 			virtual ~NTCriteria();
 
@@ -113,8 +113,18 @@ namespace samchon
 			virtual auto createChild(std::shared_ptr<library::XML>) -> NTCriteria* override;
 
 		public:
+			/* ------------------------------------------------------------------------------------
+				CALCULATORS
+			------------------------------------------------------------------------------------ */
 			virtual void initRetrieve();
 			auto calcRetrieved(NTIterator&) const -> double;
+
+
+			/* ------------------------------------------------------------------------------------
+				EXPORTERS
+			------------------------------------------------------------------------------------ */
+			virtual auto TAG() const -> std::string override;
+			virtual auto CHILD_TAG() const -> std::string override;
 			
 			virtual auto toXML() const -> std::shared_ptr<library::XML> override;
 		};

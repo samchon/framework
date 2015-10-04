@@ -134,8 +134,10 @@ namespace samchon
 			 *		<li> long double </li>
 			 *	</ul>
 			 *	<li> string </li>
+			 *	<ul>
 			 *		<li> std::string </li>
 			 *		<li> WeakString </li>
+			 *	</ul>
 			 * 	<li> XML </li>
 			 *	<ul>
 			 *		<li> std::shared_ptr<library::XML> </li>
@@ -154,6 +156,8 @@ namespace samchon
 
 				construct_by_varadic_template(val);
 			};
+
+			InvokeParameter(const std::string &, const char*);
 			
 			//MOVE CONSTRUCTORS
 			/**

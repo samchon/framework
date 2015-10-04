@@ -42,12 +42,18 @@ namespace samchon
 		 * 
 		 * @includelineno entity/goCandidateInspectList.sql
 		 *
+		 * @warning
+		 * <p> EntityGroup contains children entity elements as type of pointer. Because children entity
+		 * objects are not serialized and referenced by pointer, its iteration and accessment is not fast.
+		 * If it needs higher performance, then use EntityArray (static array for children entity) instead. </p> 
+		 *
 		 * \par Inherited
 		 *		@copydoc protocol::Entity
 		 */
 		template <typename _Container, typename _ETy = Entity, typename _Ty = _Container::value_type>
 		class EntityGroup
-			: public _Container, public virtual Entity, //CLASS
+			: public _Container, 
+			public virtual Entity, //CLASS
 			public virtual IEntityGroup	//INTERFACE
 		{
 		protected:
@@ -75,8 +81,8 @@ namespace samchon
 			 * <p> Constructs the EntityGroup's own member variables only from the input XML object. </p>
 			 *
 			 * <p> Do not consider about constructing children Entity objects' data in EntityGroup::construct(). 
-			 * Those children Entity objects' data will constructed by their own construct() method. Even insertion of XML objects
-			 * representing children are done by abstract method of EntityGroup::toXML(). </p>
+			 * Those children Entity objects' data will constructed by their own construct() method. Even insertion 
+			 * of XML objects representing children are done by abstract method of EntityGroup::toXML(). </p>
 			 *
 			 * <p> Constructs only data of EntityGroup's own. </p>
 			 *

@@ -259,6 +259,7 @@
     <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\master\PRInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\InvokeHistory.hpp" />
+    <ClInclude Include="..\samchon\protocol\slave\SlaveSystemp.hpp" />
     <ClInclude Include="..\samchon\protocol\SystemRole.hpp" />
     <ClInclude Include="..\samchon\protocol\ServerConnector.hpp" />
     <ClInclude Include="..\samchon\protocol\ISQLEntity.hpp" />

@@ -55,8 +55,6 @@ namespace samchon
 			/**
 			 * @brief A tag name when represented by XML
 			 *
-			 * @details 
-			 *
 			 * @return A tag name
 			 */
 			virtual auto TAG() const -> std::string = 0;

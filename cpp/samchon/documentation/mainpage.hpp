@@ -30,22 +30,22 @@
  *		 Guidance for Developers</a> </li>
  *	<li> Architecture Designs </li>
  *	<ul>
- *		<li> <a href="../../design/CPP_Class_Diagram.pdf" target="_blank">
+ *		<li> <a href="http://samchon.github.io/framework/design/cpp_class_diagram.pdf" target="_blank">
  *			 Class Diagram of CPP</a> </li>
- *		<li> <a href="../../design/JS_Class_Diagram.pdf" target="_blank">
+ *		<li> <a href="http://samchon.github.io/framework/design/js_class_diagram.pdf" target="_blank">
  *			 Class Diagram of JS(TypeScript and Flex(JS))</a> </li>
- *		<li> <a href="../../design/Sequence_Diagram.pdf" target="_blank"> 
+ *		<li> <a href="http://samchon.github.io/framework/design/sequence_diagram.pdf" target="_blank"> 
  *			 Sequence Diagram</a> </li>
- *		<li> <a href="../../Entity_Relationship_Diagram.pdf" target="_blank">
+ *		<li> <a href="http://samchon.github.io/framework/design/entity_relationship_diagram.pdf" target="_blank">
  *			 Entity Relationship Diagram</a> </li>
  *	</ul>
  *	<li> Another API Documents </li>
  *	<ul>
- *		<li> <a href="api.pdf" target="_blank">
+ *		<li> <a href="http://samchon.github.io/framework/api/cpp/api.pdf" target="_blank">
  *			 C++ as PDF file</a> </li>
- *		<li> <a href="../flex/" target="_blank">
+ *		<li> <a href="http://samchon.github.io/framework/api/flex" target="_blank">
  *			 Flex</a> </li>
- *		<li> <a href="../ts/" target="_blank">
+ *		<li> <a href="http://samchon.github.io/framework/api/ts" target="_blank">
  *			 TypeScript</a> </li>
  *	</ul>
  * </ul>

@@ -89,7 +89,8 @@ cloc.cmd
 
 # 	API DOCUMENTS
 # ------------------------------------------------------
-api/cpp/
+api/cpp/html/
+api/cpp/latex/
 api/flex/
 api/js/
 

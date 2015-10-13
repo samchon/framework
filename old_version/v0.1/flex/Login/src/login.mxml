@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   
+			   creationComplete="main(event)">
+	<fx:Declarations>
+		<mx:StringValidator id="idValidator" property="text" required="true" source="{login_id}"
+							trigger="{loginButton}" triggerEvent="click"/>
+		<mx:StringValidator id="passValidator" property="text" required="true" source="{login_pass}"
+							trigger="{loginButton}" triggerEvent="click"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			import org.samchon.utils.StringUtil;
+			
+			protected var loginSharedObject:SharedObject;
+			protected var core:String;
+			
+			protected function main(event:FlexEvent):void {
+				event.target.removeEventListener(FlexEvent.CREATION_COMPLETE, main);
+				
+				
+				loginSharedObject = SharedObject.getLocal("org.samchon.simulation", "/");
+				if(loginSharedObject.data.id != null) {
+					login_id.text = loginSharedObject.data.id;
+					//login_pass.text = loginSharedObject.data.pass;
+					loginCookie.selected = true;
+					//goLogin();
+				}
+			}
+			public function goLogin():void {
+				if(login_id.text == "" || login_pass.text == "")
+					return;
+				
+				var httpService:HTTPService = new HTTPService();
+				httpService.url = URL.MEMBER_LOGIN;
+				
+				httpService.method = "POST";
+				httpService.resultFormat = HTTPService.RESULT_FORMAT_E4X;
+				httpService.addEventListener(ResultEvent.RESULT, handleLogin);
+				
+				httpService.send({id:login_id.text, pass:login_pass.text, application:1});
+			}
+			protected function handleLogin(event:ResultEvent):void {
+				var xml:XML = new XML(event.result);
+				
+				if(xml.result == 0)
+					Alert.show("Incorrect " + xml.reason, "Login Error");
+				else {
+					if(loginCookie.selected)
+						loginSharedObject.data.id = login_id.text;
+					else
+						loginSharedObject.data.id = null;
+					loginSharedObject.flush();
+					
+					ExternalInterface.call("handleLogin", true);
+				}
+			}
+			protected function goJoin(event:MouseEvent):void {
+				var aboutWindow:JoinWindow = PopUpManager.createPopUp(parent, JoinWindow, true) as JoinWindow;
+				aboutWindow.loginWindow = this;
+				PopUpManager.centerPopUp(aboutWindow);
+			}
+		]]>
+	</fx:Script>
+	<s:BorderContainer width="100%" height="100%"
+					   backgroundImage="@Embed('assets/background.gif')"
+					   backgroundImageFillMode="repeat" />
+	
+	<s:Image source="assets/images/title.png" 
+			 width="551" height="84" 
+			 horizontalCenter="0" verticalCenter="-150"/>
+	
+	<s:Panel title="Log-in" 
+			 horizontalCenter="0" verticalCenter="0">
+		<s:VGroup>
+			<s:Form defaultButton="{loginButton}">
+				<s:FormItem height="25" label="ID">
+					<s:TextInput id="login_id"/>
+				</s:FormItem>
+				<s:FormItem height="25" label="Pass">
+					<s:TextInput id="login_pass"
+								 displayAsPassword="true"/>
+				</s:FormItem>
+			</s:Form>
+			<s:HGroup width="100%" paddingBottom="10" paddingLeft="20">
+				<s:CheckBox id="loginCookie" label="Save ID"/>
+			</s:HGroup>
+		</s:VGroup>
+		<s:controlBarContent>
+			<s:HGroup width="100%" horizontalAlign="right">
+				<s:Button label="Join us" click="goJoin(event)"
+						  icon="assets/icons/twopeople16.png"/>
+				<s:Button id="loginButton" label="Log-in" click="goLogin()"
+						  icon="assets/icons/key16.png"/>
+			</s:HGroup>
+		</s:controlBarContent>
+	</s:Panel>
+</s:Application>

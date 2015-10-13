@@ -1,0 +1,43 @@
+﻿SET 
+  ANSI_NULLS, 
+  QUOTED_IDENTIFIER, 
+  CONCAT_NULL_YIELDS_NULL, 
+  ANSI_WARNINGS, 
+  ANSI_PADDING 
+ON;
+
+USE OraQ;
+
+IF (OBJECT_ID('updateAuthority') IS NOT NULL)	DROP PROCEDURE updateAuthority;
+IF (TYPE_ID('MEMBER_ID_TABLE') IS NOT NULL)		DROP TYPE MEMBER_ID_TABLE;
+GO
+
+CREATE TYPE MEMBER_ID_TABLE AS TABLE
+(
+	id NVARCHAR(100)
+)
+GO
+CREATE PROCEDURE updateAuthority
+	@memberTable MEMBER_ID_TABLE READONLY,
+	@approver NVARCHAR(100),
+	@authority INT
+AS
+	-- FIRST, UPDATE AUTHORITY IN MEMBER TABLE
+	UPDATE Hospital.member
+	SET authority = @authority
+	WHERE id IN (SELECT id FROM @memberTable);
+
+	--INSERT INTO HISTORY AND GET IDENTITY VALUES
+	DECLARE @authorityTable TABLE
+	(
+		uid INT
+	);
+	INSERT INTO History.history
+		OUTPUT INSERTED.uid
+			INTO @authorityTable
+		SELECT id, GETDATE() FROM @memberTable;
+
+	--INSERT INTO AUTHORITY
+	INSERT INTO History.authority
+	SELECT uid, @approver, @authority FROM @authorityTable;
+GO

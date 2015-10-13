@@ -26,7 +26,7 @@
  *
  * @par Related Documents
  * <ul>
- *	<li> <a href="../../docs/guidance.pdf" target="_blank">
+ *	<li> <a href="http://samchon.github.io/framework/doc/development_guide.pdf" target="_blank">
  *		 Guidance for Developers</a> </li>
  *	<li> Architecture Designs </li>
  *	<ul>
@@ -53,4 +53,6 @@
  * @author Jeongho Nam
  *	\li E-mail: <a href="mailto:samchon@samchon.org">samchon@samchon.org</a>
  *	\li Mobile: 82-10-3627-0016
+ *
+ * @copyright BSD license
  */

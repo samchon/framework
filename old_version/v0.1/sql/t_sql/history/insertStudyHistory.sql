@@ -1,0 +1,26 @@
+﻿SET 
+  ANSI_NULLS, 
+  QUOTED_IDENTIFIER, 
+  CONCAT_NULL_YIELDS_NULL, 
+  ANSI_WARNINGS, 
+  ANSI_PADDING 
+ON;
+
+USE OraQ;
+IF OBJECT_ID('insertStudyHistory') IS NOT NULL
+	DROP PROCEDURE insertStudyHistory
+GO
+
+CREATE PROCEDURE insertStudyHistory
+	@studyUID NVARCHAR(100),
+	@status INT,
+	@memberID NVARCHAR(100)
+AS
+	--ACHIEVE HISTORY
+	INSERT INTO History.history VALUES (@memberID, GETDATE());
+	DECLARE @historyUID INT = SCOPE_IDENTITY()
+
+	INSERT INTO History.study VALUES (@historyUID, @studyUID, @status);
+
+	--INSERT INTO HISTORY_STUDY_STATUS
+GO

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	$File: //a3t/argon/branches/v1/prerelease/labs1/dev/textLayout_conversion/flashx/textLayout/Classes.as $
+	$DateTime: 2008/10/22 11:45:59 $
+	$Revision: #1 $
+	$Change: 657340 $
+  
+	ADOBE CONFIDENTIAL
+  
+	Copyright 2007-08 Adobe Systems Incorporated. All rights reserved.
+  
+	NOTICE:  All information contained herein is, and remains
+	the property of Adobe Systems Incorporated and its suppliers,
+	if any.  The intellectual and technical concepts contained
+	herein are proprietary to Adobe Systems Incorporated and its
+	suppliers and may be covered by U.S. and Foreign Patents,
+	patents in process, and are protected by trade secret or copyright law.
+	Dissemination of this information or reproduction of this material
+	is strictly forbidden unless prior written permission is obtained
+	from Adobe Systems Incorporated.
+-->
+
+<!--This widget allows the user to enter a file name and when the "ReadFile" button is pressed, it 
+reads the file, and passes through the file contents as a ContentEvent. It expects an XML file in
+TextLayout format.-->
+
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" creationComplete="handleCreationComplete()" >
+	<mx:Metadata>
+	[Event(name="fileChoose", type="org.samchon.board.textEditBar.FileEvent")]
+	[Event(name="textLayoutExport", type="flash.events.Event")]
+	[Event(name="htmlExport", type="flash.events.Event")]
+ 	</mx:Metadata>
+
+  <mx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.system.Capabilities;
+			import flashx.textLayout.elements.TextFlow;
+			import mx.events.MenuEvent;
+			import mx.controls.Alert;
+			import flashx.textLayout.edit.EditingMode;
+			import flashx.textLayout.edit.ElementRange;
+			import flashx.textLayout.edit.ISelectionManager;
+			import flashx.textLayout.edit.IEditManager;
+			import flashx.textLayout.BuildInfo;
+			
+			public var activeFlow:TextFlow;
+			
+			[Bindable]
+			public var buildString:String = "Build: " + BuildInfo.kBuildNumber + "(" + Capabilities.version + ")";
+
+			internal function handleCreationComplete():void
+			{
+				buildLabel.left = (this.x + this.width - 20) - buildLabel.width;
+			}
+			// Update UI panel in response to change in selection
+			public function update(range:ElementRange):void
+			{
+				if (!activeFlow)
+					return;
+					
+			}
+			
+			private var fileReference:FileReference;
+			
+			public function currentFileName():String
+			{
+				return fileReference != null ? fileReference.name : null;
+			}
+			
+			public function openDialog():void
+			{
+	  			var markupFilter:FileFilter = new FileFilter("Documents","*.xml;*.fxg;*.html");
+	  			fileReference = new FileReference();
+  				fileReference.browse([markupFilter]);
+  				fileReference.addEventListener(Event.SELECT,onFileSelect);
+			}
+			
+			private function onFileSelect(event:Event):void 
+			{
+	  			try {
+	  				dispatchEvent(new FileEvent(fileReference));
+		  			//fileReference.load();
+		  		} catch (err:Event) {
+		  			Alert.show(err.toString());
+		  		}
+	  		}
+		   
+           ]]>
+    </mx:Script>
+
+   	<mx:Button label="Open..." click="openDialog()"/>
+   		
+	<mx:Button id="textLayoutExportButton" label="Markup..." click="dispatchEvent(new Event('textLayoutExport'));"/>
+	<mx:Button id="htmlExportButton" label="HTML Markup..." click="dispatchEvent(new Event('htmlExport'));"/>
+
+	<mx:Label id="buildLabel" text="{buildString}" fontWeight="bold" paddingTop="3" paddingBottom="1"/>
+</mx:HBox>

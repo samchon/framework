@@ -1,7 +1,7 @@
 package org.samchon.protocol.entity
 {
 	/**
-	 * <p> An enitty, a standard data class. </p>
+	 * <p> An entity, a standard data class. </p>
 	 * 
 	 * <h3> [Inherited] </h3>
 	 * @copy IEntity

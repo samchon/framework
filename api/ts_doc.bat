@@ -1,0 +1,1 @@
+typedoc --target ES5 --out ts/ ../js/SamchonFramework.ts

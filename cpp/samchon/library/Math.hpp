@@ -275,6 +275,7 @@ namespace samchon
 			/**
 			 * @brief Square root of a variance_p
 			 *
+			 * <p> \f$\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}\f$ </p>
 			 * @copydoc variance_p()
 			 */
 			template <typename _Cont, typename _Ty = _Cont::value_type>

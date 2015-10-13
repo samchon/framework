@@ -30,16 +30,14 @@ function handleMessage(event: MessageEvent): void
 }
 
 /**
- * @brief Trace arguments on screen
- *
- * @details
+ * <p> Trace arguments on screen. </p>
  * <p> Displays arguments on screen by <i>document.write</i>. </p>
  * 
  * <p> If any argument in a trace statement includes a data type other than a string, the trace function 
  * invokes the associated toString() method for that data type. If the argument which is not a string 
  * doesn't have <i>toString()</i> method, only "[object Object]" words will be traced. </p>
  *
- * @warning trace prints words in web page direclty. It can harm ordinary layout of the page.
+ * <p> Trace prints words in web page direclty. It can harm ordinary layout of the page. </p>
  *
  * @param args One or more (comma separated) expressions to evaluate. 
  *			   For multiple expressions, a space is inserted between each expression in the output.
@@ -71,32 +69,34 @@ function trace(...args: any[]): void
 		- XML_LIST
 ================================================================================= */
 /**
- * @brief A pair of values
+ * <p> A pair of values. </p>
+ * <ul>
+ *  <li> _Ty1: Type of member fisrt. </li>
+ *  <li> _Ty2 Type of member second. </li>
+ * </ul>
  *
- * @details
- * This class couples together a pair of values, which may be of different types (_Ty1 and _Ty2). 
- * The individual values can be accessed through its public members first and second.
+ * <p> This class couples together a pair of values, which may be of different types 
+ * (_Ty1 and _Ty2). The individual values can be accessed through its public members 
+ * first and second. </p>
  *
- * @tparam _Ty1 Type of member fisrt
- * @tparam _Ty2 Type of member second
+ * <p> Same with std::pair (http://www.cplusplus.com/reference/utility/pair/) </p>
  *
- * @note Same with std::pair (http://www.cplusplus.com/reference/utility/pair/)
  * @author Jeongho Nam
  */
 class Pair<_Ty1, _Ty2>
 {
 	/**
-	 * @brief The first value in the Pair
+	 * <p> A first value in the Pair. </p>
 	 */
 	public first: _Ty1;
 
 	/**
-	 * @brief The second value in the Pair
+	 * <p> A second value in the Pair. </p>
 	 */
 	public second: _Ty2;
 
 	/**
-	 * @brief Construct from pair values
+	 * <p> Construct from pair values. </p>
 	 *
 	 * @param first The first value of the Pair
 	 * @param second The second value of the Pair
@@ -108,9 +108,7 @@ class Pair<_Ty1, _Ty2>
 	}
 	
 	/**
-	 * @brief Whether a Pair is equal with the Pair.
-	 * 
-	 * @details 
+	 * <p> Whether a Pair is equal with the Pair. <p>
 	 * <p> Compare each first and second value of two Pair(s) and returns whether they are equal or not. </p>
 	 * 
 	 * <p> If stored key and value in a Pair are not number or string but an object like a class or struct, 
@@ -139,11 +137,12 @@ class Pair<_Ty1, _Ty2>
 	}
 
 	/**
-	 * @brief Returns a string representation of the Map.
+	 * <p> Returns a string representation of the Map. </p>
 	 *
-	 * @details
 	 * <p> The returned string will follow the form of JSonObject </p>
-	 *	\li {"first": "???", "second": ???}
+     * <ul>
+	 *	<li> {"first": "???", "second": ???} </li>
+     * </ul>
 	 */
 	public toString(): string
 	{
@@ -152,9 +151,11 @@ class Pair<_Ty1, _Ty2>
 }
 
 /**
- * @brief Vector, the dynamic array
- *
- * @details 
+ * <p> Vector, the dynamic array. </p>
+ * <ul>
+ *  <li> _Ty: Type of elements. </li>
+ * </ul>
+ * 
  * <p> Vector is an Array. It's not the customary expression that means inheritance but 
  * dictionary meaning of the Array, which means that Vector is the Array, itself. </p>
  *
@@ -165,8 +166,6 @@ class Pair<_Ty1, _Ty2>
  * <p> Vector implements the Array and filled the methods of Array and other classes 
  * can inherit array extending Vector instead of Array. </p>
  *
- * @tparam _Ty Type of elements
- *
  * @author Jeongho Nam
  */
 class Vector<_Ty> 
@@ -175,7 +174,7 @@ class Vector<_Ty>
 	[n: number]: _Ty;
 
 	/**
-	 * @brief Default Constructor
+	 * Default Constructor.
 	 */
 	constructor() {}
 
@@ -183,84 +182,83 @@ class Vector<_Ty>
 		ACCESSORS
 	------------------------------------------------------------------------ */
 	/**
-	 * @brief Gets or sets the length of the array. 
-	 * @details This is a number one higher than the highest element defined in an array.
-	 */
+     * Gets or sets the length of the array. This is a number one higher than the highest element defined in an array.
+     */
 	length: number;
 	
 	/* ------------------------------------------------------------------------
 		MODIFIERS
 	------------------------------------------------------------------------ */
 	/**
-	 * @brief Appends new elements to an array, and returns the new length of the array.
-	 *
-	 * @param items New elements of the Array.
+     * Appends new elements to an array, and returns the new length of the array.
+     *
+     * @param items New elements of the Array.
 	 * @return New length of the array.
 	 */
 	public push(...items: _Ty[]): number { return 0; }
 	
 	/**
-	 * @brief Removes the last element from an array and returns it.
-	 */
+     * Removes the last element from an array and returns it.
+     */
 	public pop(): _Ty { return null; }
 	
 	/**
-	 * @biref Combines two or more arrays.
-	 *
-	 * @param items Additional items to add to the end of array1.
-	 */
+     * Combines two or more arrays.
+     *
+     * @param items Additional items to add to the end of array1.
+     */
 	public concat(...items: _Ty[]): _Ty[] { return []; }
 
 	/**
-	 * @brief Adds all the elements of an array separated by the specified separator string.
-	 *
-	 * @param separator A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma.
-	 */
+     * Adds all the elements of an array separated by the specified separator string.
+     *
+     * @param separator A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma.
+     */
 	public join(separator?: string): string { return ""; }
 	
 	/**
-	 * @brief Reverses the elements in an Array. 
-	 */
+     * Reverses the elements in an Array. 
+     */
 	public reverse(): _Ty[] { return []; }
 
 	/**
-	 * @brief Removes the first element from an array and returns it.
+	 * Removes the first element from an array and returns it.
 	 */
 	public shift(): _Ty { return null; }
 
 	/** 
-	 * @brief Returns a section of an array.
+	 * Returns a section of an array.
 	 *
 	 * @param start The beginning of the specified portion of the array.
 	 * @param end The end of the specified portion of the array.
 	 */
 	public slice(start?: number, end?: number): _Ty[] { return []; }
 
-	/**
-	 * @brief Sorts an array.
-	 *
-	 * @param compareFn The name of the function used to determine the order of the elements. If omitted, the elements are sorted in ascending, ASCII character order.
-	 */
+    /** 
+     * Returns a section of an array.
+     * @param start The beginning of the specified portion of the array.
+     * @param end The end of the specified portion of the array.
+     */
 	public sort(compareFn?: (a: _Ty, b: _Ty) => number): _Ty[] { return []; }
 	
 	/**
-	 * @brief Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
-	 *
-	 * @param start The zero-based location in the array from which to start removing elements.
-	 * @param deleteCount The number of elements to remove.
-	 * @param items Elements to insert into the array in place of the deleted elements.
-	 */
+     * Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
+     *
+     * @param start The zero-based location in the array from which to start removing elements.
+     * @param deleteCount The number of elements to remove.
+     * @param items Elements to insert into the array in place of the deleted elements.
+     */
 	public splice(start: number, deleteCount: number = 1, ...items: _Ty[]): _Ty[] { return []; }
 
 	/**
-	 * @briefInserts new elements at the start of an array.
+	 * Inserts new elements at the start of an array.
 	 *
 	 * @param items Elements to insert at the start of the Array.
 	 */
 	public unshift(...items: _Ty[]): number { return 0; }
 
 	/**
-	 * @brief Returns the index of the first occurrence of a value in an array.
+	 * Returns the index of the first occurrence of a value in an array.
 	 *
 	 * @param searchElement The value to locate in the array.
 	 * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0.
@@ -268,7 +266,7 @@ class Vector<_Ty>
 	public indexOf(searchElement: _Ty, fromIndex?: number): number { return 0; }
 
 	/**
-	 * @brief Returns the index of the last occurrence of a specified value in an array.
+	 * Returns the index of the last occurrence of a specified value in an array.
 	 *
 	 * @param searchElement The value to locate in the array.
 	 * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the search starts at the last index in the array.
@@ -276,7 +274,7 @@ class Vector<_Ty>
 	public lastIndexOf(searchElement: _Ty, fromIndex?: number): number { return 0; }
 
 	/**
-	 * @brief Determines whether all the members of an array satisfy the specified test.
+	 * Determines whether all the members of an array satisfy the specified test.
 	 *
 	 * @param callbackfn A function that accepts up to three arguments. The every method calls the callbackfn function for each element in array1 until the callbackfn returns false, or until the end of the array.
 	 * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
@@ -284,7 +282,7 @@ class Vector<_Ty>
 	public every(callbackfn: (value: _Ty, index: number, array: _Ty[]) => boolean, thisArg?: any): boolean { return false; }
 
 	/**
-	 * @brief Determines whether the specified callback function returns true for any element of an array.
+	 * Determines whether the specified callback function returns true for any element of an array.
 	 *
 	 * @param callbackfn A function that accepts up to three arguments. The some method calls the callbackfn function for each element in array1 until the callbackfn returns true, or until the end of the array.
 	 * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
@@ -292,7 +290,7 @@ class Vector<_Ty>
 	public some(callbackfn: (value: _Ty, index: number, array: _Ty[]) => boolean, thisArg?: any): boolean { return false; }
 
 	/**
-	 * @brief Performs the specified action for each element in an array.
+	 * Performs the specified action for each element in an array.
 	 *
 	 * @param callbackfn A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array. 
 	 * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
@@ -300,7 +298,7 @@ class Vector<_Ty>
 	public forEach(callbackfn: (value: _Ty, index: number, array: _Ty[]) => void, thisArg?: any): void { }
 
 	/**
-	 * @brief Calls a defined callback function on each element of an array, and returns an array that contains the results.
+	 * Calls a defined callback function on each element of an array, and returns an array that contains the results.
 	 *
 	 * @param callbackfn A function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array. 
 	 * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
@@ -308,7 +306,7 @@ class Vector<_Ty>
 	public map<U>(callbackfn: (value: _Ty, index: number, array: _Ty[]) => U, thisArg?: any): U[] { return []; }
 
 	/**
-	 * @brief Returns the elements of an array that meet the condition specified in a callback function.
+	 * Returns the elements of an array that meet the condition specified in a callback function.
 	 * 
 	 * @param callbackfn A function that accepts up to three arguments. The filter method calls the callbackfn function one time for each element in the array. 
 	 * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
@@ -316,7 +314,7 @@ class Vector<_Ty>
 	public filter(callbackfn: (value: _Ty, index: number, array: _Ty[]) => boolean, thisArg?: any): _Ty[] { return []; }
 
 	/**
-	 * @brief Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+	 * Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
      *
 	 * @param callbackfn A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array.
 	 * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
@@ -324,7 +322,7 @@ class Vector<_Ty>
 	public reduce(callbackfn: (previousValue: _Ty, currentValue: _Ty, currentIndex: number, array: _Ty[]) => _Ty, initialValue?: _Ty): _Ty { return null; }
 
 	/** 
-	 * @brief Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+	 * Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
 	 *
      * @param callbackfn A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array. 
 	 * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
@@ -335,7 +333,7 @@ class Vector<_Ty>
 		EXPORTERS
 	------------------------------------------------------------------------ */
 	/**
-	 * @brief Returns a string representation of an array.
+	 * Returns a string representation of an array.
 	 */
 	public toString(): string { return ""; }
 	public toLocaleString(): string { return ""; }
@@ -343,18 +341,18 @@ class Vector<_Ty>
 Vector.prototype = new Array();
 
 /**
- * @brief An interface of a map
+ * <p> An interface of a map. </p
+ * <ul>
+ *  <li> _Kty: Type of the keys. Each element in a map is uniquely identified by its key value. </li>
+ *  <li> _Ty: Type of the mapped value. Each element in a map stores some data as its mapped value. </li>
+ * </ul>
  *
- * @tparam _Kty Type of the keys. Each element in a map is uniquely identified by its key value.
- * @tparam _Ty Type of the mapped value. Each element in a map stores some data as its mapped value.
- *
- * @see Map
  * @author Jeongho Nam
  */
 interface IMap<_Kty, _Ty>
 {
 	/**
-	 * @brief Whether have the item or not
+	 * <p> Whether have the item or not. </p>
 	 *
 	 * @param key Key value of the element whose mapped value is accessed.
 	 * @return Whether the map has an item having the specified identifier
@@ -362,7 +360,7 @@ interface IMap<_Kty, _Ty>
 	has(key: _Kty): boolean;
 
 	/**
-	 * @brief Get element by key
+	 * <p> Get element by key. </p>
 	 * 
 	 * @param key Key value of the element whose mapped value is accessed.
 	 * @return A reference object of the mapped value (_Ty)
@@ -370,7 +368,7 @@ interface IMap<_Kty, _Ty>
 	get(key: _Kty): _Ty;
 
 	/**
-	 * @brief Set element
+	 * <p> Set element. </p>
 	 *
 	 * @param key Key value of the element whose mapped value is accessed.
 	 * @param val Value, the item.
@@ -379,11 +377,11 @@ interface IMap<_Kty, _Ty>
 }
 
 /**
- * @brief An interface of a dictionary
- *
- * @tparam _Ty Type of the mapped value. Each element in a map stores some data as its mapped value.
- *
- * @see Dictionary
+ * <p> An interface of a dictionary. </p>
+ * <ul>
+ *  <li> _Ty: Type of the mapped value. Each element in a map stores some data as its mapped value. </li>
+ * </ul>
+ * 
  * @author Jeongho Nam
  */
 interface IDictionary<_Ty>
@@ -392,13 +390,17 @@ interface IDictionary<_Ty>
 }
 
 /**
- * @brief A map containing pairs of key and value
+ * <p> A map containing pairs of key and value. </p>
+ * <ul>
+ *  <li> _Kty: Type of the keys. Each element in a map is uniquely identified by its key value. </li>
+ *  <li> _Ty: Type of the mapped value. Each element in a map stores some data as its mapped value. </li>
+ * </ul>
  *
- * @details
- * <p> Map is designed to pursuing formality in JavaScript. </p>
- * 
- * \par Definition of std::unordered_map
- *	\li Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/
+ * <p> Map is designed to pursuing formality in JavaScript. </p> 
+ * <h4> Definition of std::unordered_map. </h4>
+ * <ul>
+ *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
+ * </ul>
  *
  * <p> Unordered maps are associative containers that store elements formed by the combination of 
  * a key value and a mapped value, and which allows for fast retrieval of individual elements 
@@ -421,7 +423,7 @@ interface IDictionary<_Ty>
  *
  * <p> Iterators in the container are at least forward iterators. </p>
  *
- * \par Differences between std::unordered_map
+ * <h4> Differences between std::unordered_map. </h4>
  * <ul>
  *	<li> Addicted Methods </li>
  *	<ul>
@@ -436,13 +438,10 @@ interface IDictionary<_Ty>
  *	</ul>
  * </ul>
  *
- * @note 
+ * <h4> Note </h4>
  * <p> Do not use operator[] and hasOwnProperty(). Use get() and has() instead. </p>
  * <p> Do not iterate by <i>for statement</i> used for dynamic object of JavaScript; <i>for(var key in Map)</i> </p>. 
  * <p> Use <i>iterator</i> with begin() and end() instaed. </p>
- *
- * @tparam _Kty Type of the keys. Each element in a map is uniquely identified by its key value.
- * @tparam _Ty Type of the mapped value. Each element in a map stores some data as its mapped value.
  *
  * @author Jeongho Nam
  */
@@ -450,13 +449,13 @@ class Map<_Kty, _Ty>
 	implements IMap<_Kty, _Ty>
 {
 	/**
-	 * @brief A data storing elements
-	 * @details Map::data_ is a list container of elements(pairs) in Map.
+	 * <p> A data storing elements. </p>
+	 * <p> Map::data_ is a list container of elements(pairs) in Map. </p>
 	 */
 	private data_: Vector<Pair<_Kty, _Ty>>;
 	
 	/**
-	 * @brief Default Constructor
+	 * <p> Default Constructor. </p>
 	 */
 	public constructor()
 	{
@@ -467,10 +466,11 @@ class Map<_Kty, _Ty>
 		ACCESSORS
 	--------------------------------------------------------- */
 	/**
-	 * @brief Get data
-	 * @details Returns the source container of the Map.
+	 * <p> Get data. </p>
+	 * <p> Returns the source container of the Map. </p>
 	 *
-	 * @note Changes on the returned container influences the source Map.
+	 * <h4> Note </h4>
+     * <p> Changes on the returned container influences the source Map. </p>
 	 */
 	public data(): Vector<Pair<_Kty, _Ty>>
 	{
@@ -478,8 +478,8 @@ class Map<_Kty, _Ty>
 	}
 	
 	/**
-	 * @brief Return container size
-	 * @details Returns the number of elements in Map container.
+	 * <p> Return container size. </p>
+	 * <p> Returns the number of elements in Map container. </p>
 	 *
 	 * @return The number of elements in the container.
 	 */
@@ -489,7 +489,7 @@ class Map<_Kty, _Ty>
 	}
 
     /**
-     * @brief Get iterator to element
+     * <p> Get iterator to element. </p>
      * 
      * <p> Searches the container for an element with a identifier equivalent to <i>key</i> and 
      * returns an iterator to it if found, otherwise it returns an iterator to Map::end(). </p>
@@ -516,8 +516,8 @@ class Map<_Kty, _Ty>
 		GETTERS
 	--------------------------------------------------------- */
 	/**
-	 * @brief Whether have the item or not
-	 * @details Indicates whether a map has an item having the specified identifier.
+	 * <p> Whether have the item or not. </p>
+	 * <p> Indicates whether a map has an item having the specified identifier. </p>
 	 *
 	 * @param key Key value of the element whose mapped value is accessed.
 	 * @return Whether the map has an item having the specified identifier
@@ -532,8 +532,8 @@ class Map<_Kty, _Ty>
 	}
 
 	/**
-	 * @brief Get element by key
-	 * @details Returns a reference to the mapped value of the element identified with key.
+	 * <p> Get element by key. </p>
+	 * <p> Returns a reference to the mapped value of the element identified with key. </p>
 	 *
 	 * @param key Key value of the element whose mapped value is accessed.
 	 * @throw exception out of range.
@@ -553,14 +553,14 @@ class Map<_Kty, _Ty>
 		ITERATORS
 	--------------------------------------------------------- */
 	/**
-	 * @brief Return iterator to beginning
+	 * <p> Return iterator to beginning. </p>
+	 * <p> Returns an iterator referring the first element in the Map container. </p>
+     *
+     * <h4> Note </h4>
+	 * <p> If the container is empty, the returned iterator is same with end(). </p>
 	 *
-	 * @details Returns an iterator referring the first element in the Map container.
-	 * @note If the container is empty, the returned iterator is same with end().
-	 *
-	 * @return 
-	 * <p> An iterator to the first element in the container. </p>
-	 * <p> The iterator containes the first element's pair; key and value. </p>
+	 * @return An iterator to the first element in the container.
+	 *         The iterator containes the first element's pair; key and value.
 	 */
 	public begin(): MapIterator<_Kty, _Ty>
 	{
@@ -571,9 +571,7 @@ class Map<_Kty, _Ty>
 	}
 
 	/**
-	 * @brief Return iterator to end
-	 *
-	 * @details
+	 * <p> Return iterator to end. </p>
 	 * <p> Returns an iterator referring to the past-the-end element in the Map container. </p>
 	 *
 	 * <p> The past-the-end element is the theoretical element that would follow the last element in 
@@ -583,7 +581,7 @@ class Map<_Kty, _Ty>
 	 * by their closing iterator, this function is often used in combination with Map::begin() to specify 
 	 * a range including all the elements in the container. </p>
 	 *
-	 * @note
+	 * <h4> Note </h4>
 	 * <p> Returned iterator from Map.end() does not refer any element. Trying to accessing 
 	 * element by the iterator will cause throwing exception (out of range). </p>
 	 * <p> If the container is empty, this function returns the same as Map::begin(). </p>
@@ -597,9 +595,7 @@ class Map<_Kty, _Ty>
 		MODIFIERS
 	--------------------------------------------------------- */
 	/**
-	 * @brief Set element
-	 *
-	 * @details
+	 * <p> Set element. </p>
 	 * <p> Set an item as the specified identifier. </p>
 	 * 
 	 * <p> If the identifier is already in map, change value of the identifier.
@@ -620,8 +616,8 @@ class Map<_Kty, _Ty>
 	}
 
 	/**
-	 * @brief Erase an element.
-	 * @details Removes an element by its key(identifier) from the Map container.
+	 * <p> Erase an element. </p>
+	 * <p> Removes an element by its key(identifier) from the Map container. </p>
 	 *
 	 * @param key Key of the element to be removed from the Map.
 	 * @throw exception out of range.
@@ -639,9 +635,8 @@ class Map<_Kty, _Ty>
 	}
 
 	/**
-	 * @brief Clear content.
+	 * <p> Clear content. </p>
 	 *
-	 * @details
 	 * <p> Removes all elements from the map container (which are destroyed), 
 	 * leaving the container with a size of 0. </p>
 	 */
@@ -654,9 +649,8 @@ class Map<_Kty, _Ty>
 		COMPARE
 	--------------------------------------------------------- */
 	/**
-	 * @brief Whether a Map is equal with the Map.
+	 * <p> Whether a Map is equal with the Map. </p>
 	 *
-	 * @details
 	 * <p> Map::equals() does not compare reference(address of pointer) of Maps or elements 
 	 * in the two Maps. The target of comparison are the key and value in all children elements(pairs). 
 	 * It's not a matter that order sequence of children are different between two Maps. </p>
@@ -684,11 +678,12 @@ class Map<_Kty, _Ty>
 		EXPORT
 	--------------------------------------------------------- */
 	/**
-	 * @brief Returns a string representation of the Map.
+	 * <p> Returns a string representation of the Map. </p>
 	 *
-	 * @details
 	 * <p> The returned string will follow the form of JSonObject </p>
-	 *	\li {{"key": "???", "value": ???}, {"key": "?", "value": ?}, ...}
+     * <ul>
+	 *	<li> {{"key": "???", "value": ???}, {"key": "?", "value": ?}, ...} </li>
+     * </ul>
 	 */
 	public toString(): string
 	{
@@ -711,29 +706,30 @@ class Map<_Kty, _Ty>
 }
 
 /**
- * @brief A bi-directional iterator
- *
- * @tparam _Kty Type of the keys. Each element in a map is uniquely identified by its key value.
- * @tparam _Ty Type of the mapped value. Each element in a map stores some data as its mapped value.
- *
+ * <p> A bi-directional iterator. </p>
+ * <ul>
+ *  <li> _Kty: Type of the keys. Each element in a map is uniquely identified by its key value. </li>
+ *  <li> _Ty: Type of the mapped value. Each element in a map stores some data as its mapped value. </li>
+ * </ul>
+ * 
  * @author Jeongho Nam
  */
 class MapIterator<_Kty, _Ty>
 {
 	/**
-	 * @brief The source map being referenced.
+	 * <p> The source map being referenced. </p>
 	 */
 	private map: Map<_Kty, _Ty>;
 
 	/**
-	 * @brief Sequence number of iterator in the source map.
+	 * <p> Sequence number of iterator in the source map. </p>
 	 */
 	private index: number;
 
     /**
-     * @brief Construct from source and index number
+     * <p> Construct from source and index number. </p>
      *
-     * @note
+     * <h4> Note </h4>
      * <p> Do not create iterator directly. </p>
      * <p> Use begin(), find() or end() in Map instead. </p> 
      *
@@ -754,7 +750,7 @@ class MapIterator<_Kty, _Ty>
 		GETTERS AND SETTERS
 	--------------------------------------------------------- */
 	/**
-	 * @brief Get first element (key)
+	 * <p> Get first element (key). </p>
 	 */
 	public get first(): _Kty
 	{
@@ -762,7 +758,7 @@ class MapIterator<_Kty, _Ty>
 	}
 
 	/**
-	 * @brief Get second element (mapped value)
+	 * <p> Get second element (mapped value). </p>
 	 */
 	public get second(): _Ty
 	{
@@ -770,7 +766,7 @@ class MapIterator<_Kty, _Ty>
 	}
 
 	/**
-	 * @brief Set first element (key)
+	 * <p> Set first element (key). </p>
 	 */
 	public set first(key: _Kty)
 	{
@@ -778,7 +774,7 @@ class MapIterator<_Kty, _Ty>
 	}
 
 	/**
-	 * @brief Set second element (mapped value)
+	 * <p> Set second element (mapped value). </p>
 	 */
 	public set second(val: _Ty)
 	{
@@ -789,10 +785,10 @@ class MapIterator<_Kty, _Ty>
 		COMPARISON
 	--------------------------------------------------------- */
 	/**
-	 * @brief Whether an iterator is equal with the iterator.
-	 * @details Compare two iterators and returns whether they are equal or not.
+	 * <p> Whether an iterator is equal with the iterator. </p>
+	 * <p> Compare two iterators and returns whether they are equal or not. </p>
 	 * 
-	 * @note 
+	 * <h4> Note </h4> 
      * <p> Iterator's equals() only compare souce map and index number. </p>
      * <p> Although elements in a pair, key and value are equals, if the source map or
      * index number is different, then the equals() will return false. If you want to
@@ -810,8 +806,8 @@ class MapIterator<_Kty, _Ty>
 		MOVERS
 	--------------------------------------------------------- */
 	/**
-	 * @brief Get iterator to previous element
-     * @details If current iterator is the first item(equal with <i>begin()</i>), returns end().
+	 * <p> Get iterator to previous element. </p>
+     * <p> If current iterator is the first item(equal with <i>begin()</i>), returns end(). </p>
      *
      * @return An iterator of the previous item. 
 	 */
@@ -824,8 +820,8 @@ class MapIterator<_Kty, _Ty>
 	}
 
 	/**
-	 * @brief Get iterator to next element
-     * @details If current iterator is the last item, returns end().
+	 * <p> Get iterator to next element. </p>
+     * <p> If current iterator is the last item, returns end(). </p>
      *
      * @return An iterator of the next item.
 	 */
@@ -839,8 +835,9 @@ class MapIterator<_Kty, _Ty>
 }
 
 /**
- * @brief A dictionary
+ * <p> A dictionary, Map<string, _Ty>. </p>
  *
+ * @inheritDoc
  * @author Jeongho Nam
  */
 class Dictionary<_Ty>
@@ -848,7 +845,7 @@ class Dictionary<_Ty>
 	implements IDictionary<_Ty>
 {
 	/**
-	 * @brief Default Constructor
+	 * <p> Default Constructor. </p>
 	 */
 	constructor()
 	{
@@ -857,14 +854,14 @@ class Dictionary<_Ty>
 }
 
 /**
- * @brief A utility class supporting static methods of string
+ * <p> A utility class supporting static methods of string. </p>
  *
  * @author Jeongho Nam
  */
 class StringUtil
 {
 	/**
-	 * @brief Get a tabbed string by specified size
+	 * <p> Get a tabbed string by specified size. </p>
 	 */
 	public static tab(size: number): string
 	{
@@ -876,7 +873,7 @@ class StringUtil
 	}
 
 	/**
-	 * @brief Replace all patterns of a string
+	 * <p> Replace all patterns of a string. </p>
 	 */
 	public static replaceAll(str: string, pairs: Array<Pair<string, string>>): string
 	{
@@ -929,9 +926,7 @@ class StringUtil
 }
 
 /**
- * @brief XML is a class representing a tree structued xml objects
- *
- * @details 
+ * <p> XML is a class representing a tree structued xml objects. </p>
  * <p> The XML class provides methods and properties for working with XML objects. </p>
  * 
  * <p> The XML class (along with the XMLList and Namespace) implements 
@@ -940,10 +935,12 @@ class StringUtil
  * <p> XML class has a recursive, hierarchical relationship. </p>
  * 
  * <p> Relationships between XML and XMLList </p>
- *	\li XML contains XMLList from dictionary of XMLList
- *  \li XMLList contains XML from vector of XML
- * 
- * @note 
+ * <ul>
+ *	<li> XML contains XMLList from dictionary of XMLList. </li>
+ *  <li> XMLList contains XML from vector of XML. </li>
+ * </ul> 
+ *
+ * <h4> Note </h4>
  * <p> Do not abuse values for expressing member variables. </p>
  *
  * <table>
@@ -953,17 +950,17 @@ class StringUtil
  *	</tr>
  *	<tr>
  *		<td>
- *			\<memberList\>\n
- *			&nbsp;&nbsp;&nbsp;&nbsp; \<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
- *			&nbsp;&nbsp;&nbsp;&nbsp; \<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
- *			\</memberList\>
+ *			&lt;memberList&gt;<br/>
+ *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt;<br/>
+ *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt;<br/>
+ *			&lt;/memberList&gt;
  *		</td>
  *		<td>
- *			\<member\>\n
- *			&nbsp;&nbsp;&nbsp;&nbsp; \<id\>jhnam88\</id\>\n
- *			&nbsp;&nbsp;&nbsp;&nbsp; \<name\>Jeongho+Nam\</name\>\n
- *			&nbsp;&nbsp;&nbsp;&nbsp; \<birthdate\>1988-03-11\</birthdate\>\n
- *			\</member\>
+ *			&lt;member&gt;<br/>
+ *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;id&gt;jhnam88&lt;/id&gt;<br/>
+ *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;name&gt;Jeongho+Nam&lt;/name&gt;<br/>
+ *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;<br/>
+ *			&lt;/member&gt;
  *		</td>
  *	</tr>
  * </table>
@@ -975,33 +972,36 @@ class XML
 	implements IDictionary<XMLList>
 {
 	/**
-	 * @brief Tag name of the XML
+	 * <p> Tag name of the XML. </p>
      *
-	 * @details 
-	 *	\li \<<b>tag</b> label='property' /\>: tag => \"tag\"
-	 *  \li \<<b>price</b> high='1500' low='1300' open='1450' close='1320' /\>: tag => \"price\"
+     * <ul>
+	 *	<li> \<<b>tag</b> label='property' /\>: tag => \"tag\" </li>
+	 *  <li> \<<b>price</b> high='1500' low='1300' open='1450' close='1320' /\>: tag => \"price\" </li>
+     * </ul>
 	 */
 	private tag: string;
 
 	/**
-	 * @brief Value of the XML
+	 * <p> Value of the XML. </p>
      * 
-	 * @details  
-	 *  \li \<parameter name='age' type='int'\><b>26</b>\</parameter\>: value => 26
-	 *	\li \<price high='1500' low='1300' open='1450' close='1320' /\>: value => null
+	 * <ul>
+	 *  <li> \<parameter name='age' type='int'\><b>26</b>\</parameter\>: value => 26 </li>
+	 *	<li> \<price high='1500' low='1300' open='1450' close='1320' /\>: value => null </li>
+     * </ul>
 	 */
 	private value: string;
 
 	/**
-	 * @brief Properties belongs to the XML
+	 * <p> Properties belongs to the XML. </p>
+     * <p> A Dictionary of properties accessing each property by its key. </p>
      *
-     * @details
-     * A Dictionary of properties accessing each property by its key.
-     *
-     *	\li \<price <b>high='1500' low='1300' open='1450' close='1320'</b> /\>: 
-	 *		propertyMap => {{\"high\": 1500}, {\"low\": 1300}, {\"open\": 1450}, {\"close\", 1320}}
-	 *	\li \<member <b>id='jhnam88' name='Jeongho+Nam' comment='Hello.+My+name+is+Jeongho+Nam'</b> \>: 
-	 *		propertyMap => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam\"}, {\"comment\", \"Hello. My name is Jeongho Nam\"}}
+     * <ul>
+     *	<li> \<price <b>high='1500' low='1300' open='1450' close='1320'</b> /\>: 
+	 *		propertyMap => {{\"high\": 1500}, {\"low\": 1300}, {\"open\": 1450}, {\"close\", 1320}} </li>
+	 *	<li> \<member <b>id='jhnam88' name='Jeongho+Nam' comment='Hello.+My+name+is+Jeongho+Nam'</b> \>: 
+	 *		propertyMap => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam\"}, 
+     *                     {\"comment\", \"Hello. My name is Jeongho Nam\"}} </li>
+     * </ul>
 	 */
 	private properties: Dictionary<string>;
 	
@@ -1009,14 +1009,13 @@ class XML
 		CONSTRUCTORS
 	------------------------------------------------------------- */
 	/**
-	 * @brief Default Constructor.
+	 * <p> Default Constructor. </p>
      *
-     * @details
      * <p> If the string parameter is not omitted, constructs its tag, value and 
      * properties by parsing the string. If there's children, then construct the 
      * children XML, XMLList objects, too. </p>
      *
-     * @warning
+     * <h4> Note </h4>
      * <p> Throwing exceptions on parsing are not defined yet. If there's some problem on
      * the string representing the XML object, error will be occured. </p>
      *
@@ -1058,7 +1057,7 @@ class XML
 	}
 
 	/**
-	 * @brief Construct XML objects by parsing a string
+	 * <p> Construct XML objects by parsing a string. </p>
 	 */
 	private construct(str: string): void
 	{
@@ -1071,7 +1070,7 @@ class XML
 	}
 
     /**
-     * @brief Parse and fetch a tag
+     * <p> Parse and fetch a tag. </p>
      */
 	private parseTag(str: string): void
 	{
@@ -1093,7 +1092,7 @@ class XML
 	}
 
     /**
-     * @brief Parse and fetch properties
+     * <p> Parse and fetch properties. </p>
      */
 	private parseProperty(str: string): void
 	{
@@ -1166,7 +1165,7 @@ class XML
 	}
 
     /**
-     * @brief Parse and fetch a value
+     * <p> Parse and fetch a value. </p>
      */
 	private parseValue(str: string): Pair<string, boolean>
 	{
@@ -1195,7 +1194,7 @@ class XML
 	}
 
     /**
-     * @brief Parse and construct children XML objects
+     * <p> Parse and construct children XML objects. </p>
      */
 	private parseChildren(str: string): void
 	{
@@ -1246,14 +1245,14 @@ class XML
 		ACCESSORS
 	------------------------------------------------------------- */
     /**
-     * @brief Get tag
+     * <p> Get tag. </p>
      */
 	public getTag(): string
 	{
 		return this.tag;
 	}
     /** 
-     * @brief Get value
+     * <p> Get value. </p>
      */
 	public getValue(): string
 	{
@@ -1261,7 +1260,7 @@ class XML
 	}
 
     /**
-	 * @brief Test wheter a property exists or not
+	 * <p> Test wheter a property exists or not. </p>
 	 */
 	public hasProperty(key: string): boolean
 	{
@@ -1269,7 +1268,7 @@ class XML
 	}
 
     /**
-     * @brief Get property by its key
+     * <p> Get property by its key. </p>
      */
 	public getProperty(key: string): string
 	{
@@ -1280,9 +1279,7 @@ class XML
 		SETTERS
 	------------------------------------------------------------- */
     /**
-	 * @brief Set tag (identifier) of the XML
-	 *
-	 * @see XML::tag
+	 * <p> Set tag (identifier) of the XML. </p>
 	 */
 	public setTag(str: string): void
 	{
@@ -1290,11 +1287,11 @@ class XML
 	}
 
     /**
-	 * @brief Set value of the XML
+	 * <p> Set value of the XML. </p>
 	 *
 	 * @param val The value to set
 	 *
-	 * @warning Do not abuse values for expressing member variables
+	 * <p> Do not abuse values for expressing member variables. </p>
 	 * <table>
 	 *	<tr>
 	 *		<th>Standard Usage</th>
@@ -1316,6 +1313,8 @@ class XML
 	 *		</td>
 	 *	</tr>
 	 * </table>
+     *
+     * @param val A value to set
 	 */
 	public setValue(str: string): void
 	{
@@ -1323,7 +1322,7 @@ class XML
 	}
 
     /**
-     * @brief Set a property with its key
+     * <p> Set a property with its key. </p>
      */
 	public setProperty(key: string, value: string): void
 	{
@@ -1331,7 +1330,7 @@ class XML
 	}
 
     /**
-	 * @brief Erase a property by its key
+	 * <p> Erase a property by its key. </p>
 	 *
 	 * @param key The key of the property to erase
 	 * @throw exception out of range
@@ -1363,9 +1362,8 @@ class XML
 	}
 
 	/**
-	 * @brief Decode a value
+	 * <p> Decode a value. </p>
 	 *
-	 * @details
 	 * <table>
 	 *	<tr>
 	 *		<th>Encoded</th>
@@ -1399,9 +1397,8 @@ class XML
 	}
 
     /**
-	 * @brief Encode a value
+	 * <p> Encode a value. </p>
 	 *
-	 * @brief
 	 * <table>
 	 *	<tr>
 	 *		<th>Original</th>
@@ -1435,9 +1432,8 @@ class XML
 	}
 
    /**
-	 * @brief Decode a property
+	 * <p> Decode a property. </p>
 	 *
-	 * @details
 	 * <table>
 	 *	<tr>
 	 *		<th>Encoded</th>
@@ -1500,9 +1496,8 @@ class XML
 	}
 
     /**
-	 * @brief Decode a property
+	 * <p> Decode a property. </p>
 	 *
-	 * @details
 	 * <table>
 	 *	<tr>
 	 *		<th>Original</th>
@@ -1568,7 +1563,7 @@ class XML
 		EXPORTS
 	------------------------------------------------------------- */
 	/**
-	 * @brief Convert the XML to a String
+	 * <p> Convert the XML to a string. </p>
 	 */
 	public toString(level: number = 0): string
 	{
@@ -1600,7 +1595,7 @@ class XML
 }
 
 /**
- * @brief List of XML(s) having same tag
+ * <p> List of XML(s) having same tag. </p>
  *
  * @author Jeongho Nam
  */
@@ -1608,7 +1603,7 @@ class XMLList
 	extends Vector<XML>
 {
 	/**
-	 * @brief Default Constructor.
+	 * <p> Default Constructor. </p>
 	 */
 	constructor() 
     {
@@ -1616,7 +1611,7 @@ class XMLList
 	}
 
 	/**
-	 * @brief Convert XMLList to String
+	 * <p> Convert XMLList to string. </p>
 	 *
 	 * @param level Level(depth) of the XMLList 
 	 */
@@ -1652,33 +1647,54 @@ class XMLList
 		- SUB_MOVIE
 ================================================================================= */
 /**
- * @brief An interface of message chain.
- * @details IProtocol is an interface of Invoke chain.
+ * <p> An interface for Invoke message chain. </p>
+ * 
+ * <p> IProtocol is an interface for Invoke message, which is standard message of network I/O 
+ * in Samchon Framework, chain. The IProtocol interface is used to network drivers and some 
+ * classes which are in a relationship of chain of responsibility with those network drivers. </p>
+ * 
+ * <p> In Samchon Framework, server side, IProtocol is one of the basic 3 + 1 components that 
+ * can make any type of network system in Samchon Framework with IServer and IClient. Following 
+ * the "chain of responsibility" pa1ttern, looking around classes in Samchon Framework, you 
+ * can see all related classes with network I/O are implemented from the IProtocol. </p>
  *
+ * @see Invoke 
  * @author Jeongho Nam
- * @see Invoke
- */
+ */ 
 interface IProtocol
 {
     /**
-	 * @brief Handling replied message
-	 *
-	 * @details Handles replied message or shifts the responsibility to chain.
+	 * <p> Handling replied message. </p>
+	 * <p> Handles replied message or shifts the responsibility to chain. </p>
+     *
 	 * @param invoke Replied invoke message 
 	 */
 	sendData(invoke: Invoke): void;
 
     /**
-	 * @brief Sending message
-	 *
-	 * @details Sends message to related system or shifts the responsibility to chain.
+	 * <p> Sending message. </p>
+	 * <p> Sends message to related system or shifts the responsibility to chain. </p>
+     *
 	 * @param invoke Invoke message to send
 	 */
 	replyData(invoke: Invoke): void;
 }
 
 /**
- * @brief A server connector
+ * <p> A server connector for a physical client. </p>
+ *
+ * <p> ServerConnector is a class for a physical client connecting a server. If you want to connect 
+ * to a server,  then implements this ServerConnector and just override some methods like 
+ * getIP(), getPort() and replyData(). That's all. </p>
+ *
+ * <p> In Samchon Framework, package protocol, There are basic 3 + 1 components that can make any 
+ * type of network system in Samchon Framework. The basic 3 components are IProtocol, IServer and
+ * IClient. The last, surplus one is the ServerConnector. Looking around classes in 
+ * Samchon Framework, especially module master and slave which are designed for realizing 
+ * distributed processing systems and parallel processing systems, physical client classes are all 
+ * derived from this ServerConnector. </p>
+ *
+ * <img src="interface.png" />
  *
  * @author Jeongho Nam
  */
@@ -1686,27 +1702,31 @@ class ServerConnector
 	implements IProtocol
 {
     /**
-     * @brief A parent to get message.
-     */
+	 * <p> A parent object who listens and sends Invoke message. </p>
+	 * 
+	 * <ul>
+	 * 	<li> ServerConnector.replyData(Invoke) -> parent.replyData(Invoke) </li>
+	 * </ul>
+	 */
 	private parent: IProtocol;
 
     /**
-     * @brief A web-socket handler.
-     */
+	 * <p> A socket for network I/O. </p>
+	 */
 	private socket: WebSocket;
 
     /**
-     * @brief Unused string from a server.
+     * <p> Unused string from a server. </p>
      */
 	private str: string;
 
     /**
-     * @brief An open-event listener.
+     * <p> An open-event listener. </p>
      */
 	public onopen: Function;
 
     /**
-     * @brief Constructor with parent
+     * <p> Constructor with parent. </p>
      */
 	constructor(parent: IProtocol) 
     {
@@ -1715,12 +1735,29 @@ class ServerConnector
 		this.str = "";
 	}
 
-    /**
-     * @brief Connect to a server
-     *
-     * @param ip IP address of the web-socket server
-     * @param port Port number of the server
-     */
+	/**
+	 * <p> Connects to a cloud server with specified host and port. </p>
+	 * 
+	 * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown: 
+	 * an error event is dispatched if a host was specified, and an exception is thrown if no host 
+	 * was specified. Otherwise, the status of the connection is reported by an event. 
+	 * If the socket is already connected, the existing connection is closed first. </p>
+	 * 
+	 * @param ip
+	 * 		The name or IP address of the host to connect to. 
+	 * 		If no host is specified, the host that is contacted is the host where the calling 
+	 * 		file resides. If you do not specify a host, use an event listener to determine whether 
+	 * 		the connection was successful.
+	 * @param port 
+	 * 		The port number to connect to.
+	 * 
+	 * @throws IOError
+	 * 		No host was specified and the connection failed.
+	 * @throws SecurityError
+	 * 		This error occurs in SWF content for the following reasons: 
+	 * 		Local untrusted SWF files may not communicate with the Internet. You can work around 
+	 * 		this limitation by reclassifying the file as local-with-networking or as trusted.
+	 */
 	public connect(ip: string, port: number): void 
     {
         if(ip.indexOf("ws://") == -1)
@@ -1740,7 +1777,7 @@ class ServerConnector
 		IPROTOCOL'S METHOD
 	---------------------------------------------------- */
     /**
-     * @brief Send data to the server.
+     * <p> Send data to the server. </p>
      */
 	public sendData(invoke: Invoke): void 
     {
@@ -1751,7 +1788,7 @@ class ServerConnector
 	}
 
     /**
-     * @brief Shift responsiblity of handling message to parent.
+     * <p> Shift responsiblity of handling message to parent. </p>
      */
 	public replyData(invoke: Invoke): void 
     {
@@ -1770,7 +1807,7 @@ class ServerConnector
 	}
 
     /**
-     * @brief Handling replied message.
+     * <p> Handling replied message. </p>
      */
 	private handleReply(event: MessageEvent): void
 	{
@@ -1835,7 +1872,22 @@ class ServerConnector
 }
 
 /**
- * @brief Standard message of network I/O
+ * <p> Standard message of network I/O. </p>
+ * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework.  </p>
+ *
+ * <p> The Invoke message has an XML structure like the result screen of provided example in below. 
+ * We can enjoy lots of benefits by the normalized and standardized message structure used in
+ * network I/O. </p>
+ *
+ * <p> The greatest advantage is that we can make any type of network system, even how the system 
+ * is enourmously complicated. As network communication message is standardized, we only need to
+ * concentrate on logical relationships between network systems. We can handle each network system 
+ * like a object (class) in OOD. And those relationships can be easily designed by using design
+ * pattern. </p>
+ *
+ * <p> In Samchon Framework, you can make any type of network system with basic 3 + 1 componenets
+ * (IProtocol, IServer and IClient + ServerConnector), by implemens or inherits them, like designing
+ * classes of S/W architecture. </p>
  *
  * @author Jeongho Nam
  */
@@ -1843,26 +1895,46 @@ class Invoke
 	extends Vector<InvokeParameter>
 {
     /**
-     * @brief Listener, represent function's name
+     * <p> Listener, represent function's name. </p>
      */
 	private listener: string;
 
 	/**
-	 * @brief Multiple Constructors
+	 * <p> Multiple Constructors. </p>
+	 * 
+	 * <h4> Construct from a lisetenr </h4>
+     * <p> Construct an Invoke only with its listener. </p>
+     *
+     * <ul>
+	 *  <li> listener := Represents who listens the Invoke message. Almost same with Function name. </li>
+     * </ul>
 	 *
-	 * \par Invoke(string)
-     * <p> Construct from listener. </p>
-	 *	\li listener: string => A string represents name of a function.
-	 *
-	 * \par Invoke(XML)
-     * <p> Construct from XML. </p>
-	 *	\li xml:XML => A XML instance representing an Invoke and InvokeParameter(s).
-	 *
-	 * \par template<_Ty, ... _Types> Invoke(String, _Ty, ... _Types)
-     * <p> Construct from arguments </p>
-	 *	\li listener: string => A string represents name of a Function.
-	 *	\li value: _Ty => A value to be a parameter
-	 *	\li arguments: ... Types => Arguments to be the parameters
+	 * <hr /> 
+	 * 
+	 * <h4> Construct from arguments </h4>
+	 * <p> Creates Invoke and InvokeParameter(s) at the same time by varadic template method. </p>
+	 * 
+	 * <p> By the varadic template constructor, you can't specify name of each InvokeParameter, but
+	 * specify type and value of each InvokeParameter. If you try to record the Invoke to Database,
+	 * the name of InvokeParameter will be <i>NULL</i>.</p>
+	 * 
+	 * <p> By the varadic template constructor, name of InovkeParameter(s) will be omitted. Because
+	 * of name, an identifier of an InvokeParameter, is omitted, you can't access to InvokeParameter
+	 * by Invoke::has() or Invoke::get(). </p>
+	 * 
+     * <ul>
+	 *  <li> listener := Represents who listens the Invoke message. Almost same with Function name. </li>
+	 *  <li> arguments := Arguments to be parameters of Invoke. </li>
+     * </ul>
+	 * 
+	 * <hr />
+	 * 
+	 * <h4> Construct from an XML object </h4>
+	 * <p> Constructs Invoke and InvokeParameter objects by an XML object. </p>
+     *
+     * <ul>
+	 *  <li>xml := An xml object representing Invoke object. </li>
+     * </ul>
 	 */
 	constructor(...args: any[])
 	{
@@ -1905,7 +1977,7 @@ class Invoke
 		GETTERS
 	------------------------------------------------------------------- */
     /**
-     * @brief Get listener
+     * <p> Get listener. </p>
      */
 	public getListener(): string
 	{
@@ -1913,7 +1985,7 @@ class Invoke
 	}
 
     /**
-	 * @brief Whether have the item or not
+	 * <p> Whether have the item or not. </p>
 	 *
 	 * @param key Key value of the element whose mapped value is accessed.
 	 * @return Whether the map has an item having the specified identifier
@@ -1928,8 +2000,8 @@ class Invoke
     }
 
     /**
-	 * @brief Get element by key
-	 * @details Returns a reference to the mapped value of the element identified with key.
+	 * <p> Get element by key. </p>
+	 * <p> Returns a reference to the mapped value of the element identified with key. </p>
 	 *
 	 * @param key Key value of the element whose mapped value is accessed.
 	 * @throw exception out of range.
@@ -1946,7 +2018,7 @@ class Invoke
 	}
 
     /**
-     * @brief Get arguments for Function.apply()
+     * <p> Get arguments for Function.apply(). </p>
      *
      * @return An array containing values of the parameters.
      */
@@ -1963,7 +2035,7 @@ class Invoke
 		APPLY BY FUNCTION POINTER
 	------------------------------------------------------------------- */
     /**
-     * @brief Apply to a matched function
+     * <p> Apply to a matched function. </p>
      */
 	public apply(obj: IProtocol): boolean
 	{
@@ -1981,9 +2053,6 @@ class Invoke
 	 /* -------------------------------------------------------------------
 		EXPORTER
 	------------------------------------------------------------------- */
-    /**
-     * @brief Convert to an XML object.
-     */
 	public toXML(): XML
 	{
 		var xml: XML = new XML();
@@ -2001,44 +2070,69 @@ class Invoke
 }
 
 /**
- * @brief A parameter of an Invoke
+ * <p> Standard message of network I/O. </p>
+ * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework.  </p>
+ *
+ * <p> The Invoke message has a XML structure like the result screen of provided example in below. 
+ * We can enjoy lots of benefits by the normalized and standardized message structure used in
+ * network I/O. </p>
+ *
+ * <p> The greatest advantage is that we can make any type of network system, even how the system 
+ * is enourmously complicated. As network communication message is standardized, we only need to
+ * concentrate on logical relationships between network systems. We can handle each network system 
+ * like a object (class) in OOD. And those relationships can be easily designed by using design
+ * pattern. </p>
+ *
+ * <p> In Samchon Framework, you can make any type of network system with basic 3 + 1 componenets
+ * (IProtocol, IServer and IClient + ServerConnector), by implemens or inherits them, like designing
+ * classes of S/W architecture. </p>
  *
  * @author Jeongho Nam
  */
 class InvokeParameter
 {
 	/**
-	 * @brief Name of the parameter.
+	 * <p> Name of the parameter. </p>
 	 *
 	 * @details Optional property, can be omitted.
 	 */
 	private name: string;
 
 	/**
-	 * @brief Type of the parameter.
+	 * <p> Type of the parameter. </p>
 	 */
 	private type: string;
 
 	/** 
-	 * @brief Value of the parameter.
+	 * <p> Value of the parameter. </p>
 	 */
 	private value: any;
 	
 	/**
-	 * @brief Multiple Constructors
+	 * <p> Multiple Constructors. </p>
 	 *
-	 * \par InvokeParameter(XML)
+	 * <h4> InvokeParameter(XML) </h4>
      * <p> Construct from XML. </p>
-	 *	\li xml: XML => A XML instance representing InvokeParameter.
+     * <ul>
+	 *	<li> xml := A XML instance representing InvokeParameter. </li>
+     * </ul>
+     *
+     * <hr/>
 	 *
-	 * \par template <typename _Ty> InvokeParameter(_Ty)
+	 * <h4> template <typename _Ty> InvokeParameter(_Ty) </h4>
      * <p> Construct from a value. </p>
-	 *	\li value: _Ty => Value belonged to the parameter.
+	 * <ul>
+     *  <li> value := Value belonged to the parameter. </li>
+     * </ul>
 	 *
-	 * \par template <typename _Ty> InvokeParameter(string, _Ty)
+     * <hr/>
+     *
+	 * <h5> template <typename _Ty> InvokeParameter(string, _Ty) </h5>
      * <p> Construct from specified type and value. </p>
-	 *	\li type: String => Type of the parameter. 
-	 *	\li value: _Ty => A value belongs to the parameter.
+     * <ul>
+	 *	<li> type := Type of the parameter. </li>
+	 *	<li> value := A value belongs to the parameter. </li>
+     * </ul>
 	 */
 	constructor(...args: any[])
 	{
@@ -2089,7 +2183,7 @@ class InvokeParameter
 	}
 
 	/**
-	 * @brief Get name
+	 * <p> Get name. </p>
 	 */
 	public getName(): string
 	{
@@ -2097,14 +2191,14 @@ class InvokeParameter
 	}
 
 	/**
-	 * @brief Get type
+	 * <p> Get type. </p>
 	 */
 	public getType(): string
 	{
 		return this.type;
 	}
 	/**
-	 * @brief Get value
+	 * <p> Get value. </p>
 	 */
 	public getValue(): any
 	{
@@ -2112,9 +2206,9 @@ class InvokeParameter
 	}
 
 	/**
-	 * @brief Convert the parameter to XML.
+	 * <p> Convert the parameter to XML. </p>
 	 *
-	 * @return A XML object represents the parameter.
+	 * @return An XML object represents the parameter.
 	 */
 	public toXML(): XML
 	{
@@ -2140,9 +2234,22 @@ class InvokeParameter
 }
 
 /**
- * @brief An application
- *
- * THE CONSTRUCTION ROUTINE
+ * <p> Window is an Application, the top class in Flex-UI. </p>
+ * 
+ * <p> The Window is separated to three part, TopMenu, Movie and ServerConnector. </p>
+ * <ul>
+ * 	<li> <code>TopMenu</code>: Menu on the top. It's not an essential component. </li>
+ * 	<li> <code>Movie</code>: Correspond with Service in Server. Movie has domain UI components(Movie) for the matched Service. </li>
+ * 	<li> <code>ServerConnector</code>: The socket connecting to the Server. </li>
+ * </ul>
+ * 
+ * <p> The Window and its UI-layout is not fixed, essential component for Samchon Framework in Flex, 
+ * so it's okay to do not use the provided Window and make your custom Window.
+ * But the custom Window, your own, has to contain the Movie and keep the construction routine. </p>
+ * 
+ * <p> <img src="movie.png" /> </p>
+ * 
+ * <h4> THE CONSTRUCTION ROUTINE </h4>
  * <ul>
  * 	<li>Socket Connection</li>
  * 	<ul>
@@ -2160,22 +2267,27 @@ class InvokeParameter
  * 	<li>All the routines are done</li>
  * </ul>
  * 
+ * @author Jeongho Nam
  */
 class Application
 	implements IProtocol
 {
     /**
-     * @brief Invoke Socket
+     * <p> Invoke Socket. </p>
      */
 	protected socket: ServerConnector;
 
     /**
-     * @brief A movie
+     * <p> A movie. </p>
      */
 	protected movie: Movie;
 
     /**
-     * @brief Construct from arguments
+     * <p> Construct from arguments. </p>
+     *
+     * @param movie A movie represents a service.
+     * @param ip An ip address of cloud server to connect.
+     * @param port A port number of cloud server to connect.
      */
 	constructor(movie:Movie, ip: string, port: number)
 	{
@@ -2185,16 +2297,13 @@ class Application
 
 		this.socket.connect(ip, port);
 	}
-
-    /**
-     * 
-     */
+    
 	private handleConnect(event: Event): void
 	{
 	}
 
     /**
-     * @brief Handle replied message or shift the responsibility
+     * <p> Handle replied message or shift the responsibility. </p>
      */
 	public replyData(invoke: Invoke): void 
     {
@@ -2203,7 +2312,7 @@ class Application
 	}
 
     /**
-     * @brief Send a data to server.
+     * <p> Send a data to server. </p>
      */
 	public sendData(invoke: Invoke): void 
     {
@@ -2211,28 +2320,19 @@ class Application
 	}
 }
 
-class ChatApplication
-    extends Application
-{
-    constructor(movie: Movie, ip: string, port: number)
-    {
-        super(movie, ip, port);
-    }
-}
-
 /**
- * @brief A movie belonged to an Application
+ * <p> A movie belonged to an Application
  */
 class Movie
 	implements IProtocol
 {
     /**
-     * @brief An application the movie is belonged to
+     * <p> An application the movie is belonged to
      */
 	protected application: Application;
 
     /**
-     * @brief Handle replied data
+     * <p> Handle replied data
      */
 	public replyData(invoke: Invoke): void
 	{
@@ -2240,7 +2340,7 @@ class Movie
 	}
 
     /**
-     * @brief Send data to server
+     * <p> Send data to server
      */
 	public sendData(invoke: Invoke): void
 	{
@@ -2249,13 +2349,13 @@ class Movie
 }
 
 /**
- * @brief A sub-movie
+ * <p> A sub-movie
  */
 class SubMovie
 	implements IProtocol 
 {
     /**
-     * @brief A parent object the SubMovie is belonged to
+     * <p> A parent object the SubMovie is belonged to
      */
 	protected parent: IProtocol;
 
@@ -2270,24 +2370,131 @@ class SubMovie
 }
 
 /**
- * @brief An interface of Entity
+ * <p> An interface of entity. </p>
+ * 
+ * <p> Entity is a class for standardization of expression method using on network I/O by XML. If 
+ * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a 
+ * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+ * Entity is not imposed but encouraged. </p>
+ *
+ * <p> As we could get advantages from standardization of message for network I/O with Invoke, 
+ * we can get additional advantage from standardizing expression method of data class with Entity. 
+ * We do not need to know a part of network communication. Thus, with the Entity, we can only 
+ * concentrate on entity's own logics and relationships between another entities. Entity does not
+ * need to how network communications are being done. </p>
+ *  
+ * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+ * protocol for network I/O but not a essential protocol must be kept. The expression method of
+ * Entity, using on network I/O, is expressed by XML string. </p>
+ *
+ * <p> If your own network system has a critical performance issue on communication data class, 
+ * it would be better to using binary communication (with ByteArray).
+ * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+ * 
+ * @author Jeongho Nam
  */
 interface IEntity
 {
+    /**
+	 * <p> Construct data of the Entity from a XML object. </p>
+	 * 
+	 * <p> Overrides the construct() method and fetch data of member variables from the XML. </p>
+	 *
+	 * <p> By recommended guidance, data representing member variables are contained in properties 
+	 * of the put XML object. </p>
+	 * 
+	 * @param xml An xml used to contruct data of entity.
+	 */ 
 	construct(xml: XML): void;
 
-	TAG(): string;
+   	/**
+	 * <p> Get a key that can identify the Entity uniquely. </p>
+	 * 
+	 * <p> If identifier of the Entity is not atomic value, returns a string or paired object
+	 * that can represents the composite identifier. </p>
+	 */
 	key(): any;
 
+    /**
+	 * <p> A tag name when represented by XML. </p>
+	 *
+	 * <ul>
+	 * 	<li> &lt;TAG {...properties} /&gt; </li>
+	 * </ul>
+	 */
+    TAG(): string;
+
+    /**
+	 * <p> Get a XML object represents the Entity. </p>
+	 *
+	 * <p> A member variable (not object, but atomic value like number, string or date) is categorized
+	 * as a property within the framework of entity side. Thus, when overriding a toXML() method and 
+	 * archiving member variables to an XML object to return, puts each variable to be a property 
+	 * belongs to only a XML object. </p>
+	 *
+	 * <p> Don't archive the member variable of atomic value to XML::value causing enormouse creation 
+	 * of XML objects to number of member variables. An Entity must be represented by only a XML
+	 * instance (tag). </p>
+	 *
+	 * <table>
+	 *	<tr>
+	 *		<th> Standard Usage </th>
+	 *		<th> Non-standard usage abusing value </th>
+	 *	</tr>
+	 *	<tr>
+	 *		<td>
+	 * 			<pre>
+&lt;memberList&gt;
+	&lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt;
+	&lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt;
+&lt;/memberList\&gt;</pre>
+	 *		</td>
+	 *		<td>
+	 * 			<pre>
+&lt;member&gt;
+	&lt;id&gt;jhnam88&lt;/id&gt;
+	&lt;name&gt;Jeongho+Nam&lt;name&gt;
+	&lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;
+&lt;/member&gt;</pre>
+	 *		</td>
+	 *	</tr>
+	 * </table>
+	 *
+	 * @return An XML object representing the Entity.
+	 */
 	toXML(): XML;
 }
 
 /**
- * @brief A standard entity class
+ * <p> An entity, a standard data class. </p>
+ *
+ * <p> Entity is a class for standardization of expression method using on network I/O by XML. If 
+ * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a 
+ * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+ * Entity is not imposed but encouraged. </p>
+ *
+ * <p> As we could get advantages from standardization of message for network I/O with Invoke, 
+ * we can get additional advantage from standardizing expression method of data class with Entity. 
+ * We do not need to know a part of network communication. Thus, with the Entity, we can only 
+ * concentrate on entity's own logics and relationships between another entities. Entity does not
+ * need to how network communications are being done. </p>
+ *  
+ * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+ * protocol for network I/O but not a essential protocol must be kept. The expression method of
+ * Entity, using on network I/O, is expressed by XML string. </p>
+ *
+ * <p> If your own network system has a critical performance issue on communication data class, 
+ * it would be better to using binary communication (with ByteArray).
+ * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+ *
+ * @author Jeongho Nam
  */
 class Entity
 	implements IEntity
 {
+    /**
+     * <p> Default Constructor. </p>
+     */
 	constructor()
 	{
 		//NOTHING
@@ -2310,15 +2517,59 @@ class Entity
 }
 
 /**
- * @brief A standard entity and entity container
+ * <p> An Entity and an Array of children Entity objects. </p>
+ * 
+ * <p> EntityArray is a template class for containinig children Entity objects, and also another type 
+ * of an Entity, too. You can realize hierarchical relationship. Although some entities have complicated
+ * hierarchical relationship, you can deduct a optimal solution easily with EntityArray and Entity. </p>
+ *
+ * <p> If an entity has some subordinate entities of same type, they are in "Composite relationship". 
+ * Make the entity to be EmntityGroup and subordinate entities to be children of the entity. When
+ * those relationships are continued, continue to create classes dervied from EntityArray. When those
+ * relationshiop meets a terminal node, then make the terminal node to be an Entity. </p>
+ *
+ * <p> <img src="inspect.png" /> </p>
+ * 
+ * <p> EntityArray is an Entity, and a container of children Entity objects at the same time. If
+ * children type, of a class derived from an EntityArray, is itself, you can realize hierarchical
+ * and recursive relationship. The relationship is called as "Composite pattern". </p>
+ *
+ * <ul>
+ *	<li> FTFolder extends FTInstance and EntityArray&lt;FTInstance&gt;. </li>
+ *	<li> NTCriteria extends EntityArray&lt;NTCriteria&gt;. </li>
+ * </ul>
+ *
+ * <h4> Inherited </h4>
+ * @copy Entity
+ * 
+ * @see Entity
+ * @author Jeongho Nam
  */
 class EntityArray 
     extends Vector<IEntity>
+    implements IEntity
 {
+    /**
+     * <p> Default Constructor. </p>
+     */
 	constructor() 
     {
 		super();
 	}
+
+    /**
+	 * <p> Construct data of the Entity from an XML object. </p>
+	 *
+	 * <p> Constructs the EntityArray's own member variables only from the input XML object. </p>
+	 *
+	 * <p> Do not consider about constructing children Entity objects' data in EntityArray::construct(). 
+	 * Those children Entity objects' data will constructed by their own construct() method. Even insertion 
+	 * of XML objects representing children are done by abstract method of EntityArray::toXML(). </p>
+	 *
+	 * <p> Constructs only data of EntityArray's own. </p>
+	 * 
+	 * @inheritDoc
+	 */
 	public construct(xml: XML): void 
     {
 		this.splice(0, this.length);
@@ -2338,18 +2589,43 @@ class EntityArray
 		}
 	}
 
-    /**
-     * @brief Factory method of creating a child.
-     */
+   /**
+	* <p> Factory method of a child Entity. </p>
+	*
+	* <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
+	* to the EntityArray. This method is called by EntityArray::construct(). The children construction
+	* methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
+	*
+	* @return A new child Entity belongs to EntityArray.
+	*/
 	protected createChild(xml: XML): IEntity 
     {
 		return null;
 	}
 
 	public TAG(): string { return ""; }
+
+    /**
+	 * <p> A tag name of children objects. </p>
+	 */ 
 	public CHILD_TAG(): string { return ""; }
-	public key(): any { return ""; }
-    
+	
+    public key(): any { return ""; }
+ 
+    /**
+	 * <p> Get an XML object represents the EntityArray. </p>
+	 *
+	 * <p> Archives the EntityArray's own member variables only to the returned XML object. </p>
+	 *
+	 * <p> Do not consider about archiving children Entity objects' data in EntityArray::toXML(). 
+	 * Those children Entity objects will converted to XML object by their own toXML() method. The 
+	 * insertion of XML objects representing children are done by abstract method of 
+	 * EntityArray::toXML(). </p>
+	 *
+	 * <p> Archives only data of EntityArray's own. </p>
+	 *
+	 * @inheritDoc
+	 */   
 	public toXML(): XML
 	{
 		var xml: XML = new XML();

@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chat_service", "samchon\exa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "web_socket", "samchon\examples\web_socket\web_socket.vcxproj", "{CF1C30C2-7A87-4A09-BF3E-38FB85AD6F3F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dummy", "Dummy\Dummy.vcxproj", "{2D3ECD0F-F2CE-4630-A792-F24486E7006B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -103,6 +105,14 @@ Global
 		{CF1C30C2-7A87-4A09-BF3E-38FB85AD6F3F}.Release|x64.Build.0 = Release|x64
 		{CF1C30C2-7A87-4A09-BF3E-38FB85AD6F3F}.Release|x86.ActiveCfg = Release|Win32
 		{CF1C30C2-7A87-4A09-BF3E-38FB85AD6F3F}.Release|x86.Build.0 = Release|Win32
+		{2D3ECD0F-F2CE-4630-A792-F24486E7006B}.Debug|x64.ActiveCfg = Debug|x64
+		{2D3ECD0F-F2CE-4630-A792-F24486E7006B}.Debug|x64.Build.0 = Debug|x64
+		{2D3ECD0F-F2CE-4630-A792-F24486E7006B}.Debug|x86.ActiveCfg = Debug|Win32
+		{2D3ECD0F-F2CE-4630-A792-F24486E7006B}.Debug|x86.Build.0 = Debug|Win32
+		{2D3ECD0F-F2CE-4630-A792-F24486E7006B}.Release|x64.ActiveCfg = Release|x64
+		{2D3ECD0F-F2CE-4630-A792-F24486E7006B}.Release|x64.Build.0 = Release|x64
+		{2D3ECD0F-F2CE-4630-A792-F24486E7006B}.Release|x86.ActiveCfg = Release|Win32
+		{2D3ECD0F-F2CE-4630-A792-F24486E7006B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   xmlns:mx="library://ns.adobe.com/flex/mx" 
+				   xmlns:criteria="org.samchon.namtree.criteria.*" 
+				   xmlns:ui="org.samchon.ui.*" 
+				   
+				   creationComplete="creationCompleted(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.samchon.fileTree.window.explorer.ExplorerOpenWindow;
+			import org.samchon.fileTree.window.explorer.ExplorerSaveWindow;
+			import org.samchon.namtree.criteria.NTCriteria;
+			import org.samchon.namtree.criteria.NTItem;
+			import org.samchon.namtree.criteria.data.NTAggregation;
+			import org.samchon.namtree.criteria.data.NTOperator;
+			import org.samchon.namtree.filetree.file.NTFileList;
+			import org.samchon.namtree.filetree.window.explorer.NTExplorerOpenWindow;
+			
+			[Bindable]protected var criteriaList:ArrayCollection = new ArrayCollection();
+			protected function get topCriteria():NTCriteria	{	return criteriaList.getItemAt(0) as NTCriteria;	}
+			
+			public var fileList:NTFileList;
+			public var change:Function = null;
+			
+			/* ------------------------------------------------
+				CONSTRUCTOR
+			------------------------------------------------ */
+			protected function creationCompleted(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				this.removeEventListener(FlexEvent.CREATION_COMPLETE, creationCompleted);
+				
+				//ALREADY CONSTRUCTED BY FILE_OPEN
+				if(criteriaList.length == 0)
+					criteriaList.addItem( getNewCriteria() );
+				else
+					advDg.expandAll();
+				
+				if(change != null)
+					advDg.addEventListener(ListEvent.CHANGE, change);
+			}
+			
+			/* ------------------------------------------------
+				METHODS OF ADV_DG
+			------------------------------------------------ */
+			public function get selectedCriteria():NTCriteria
+			{
+				return advDg.selectedCriteria;
+			}
+			public function refresh():void
+			{
+				advDg.refresh();
+			}
+			public function expandAll():void
+			{
+				advDg.expandAll();
+			}
+			public function expandItem(item:Object, open:Boolean, animate:Boolean = false, dispatchEvent:Boolean = false, cause:Event = null):void
+			{
+				advDg.expandItem(item, open, animate, dispatchEvent, cause);
+			}
+			public function expandChildrenOf(item:Object, open:Boolean):void
+			{
+				advDg.expandChildrenOf(item, open);
+			}
+			
+			override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
+			{
+				if(type == ListEvent.CHANGE)
+					advDg.addEventListener(type, listener, useCapture, priority, useWeakReference);
+				else
+					super.addEventListener(type, listener, useCapture, priority, useWeakReference);
+			}
+			
+			/* ------------------------------------------------
+				GET METHOD
+			------------------------------------------------ */
+			public function getTopCriteria():NTCriteria
+			{
+				return topCriteria;
+			}
+			
+			/* ------------------------------------------------
+				FOR OVERRIDING
+			------------------------------------------------ */
+			protected function getNewCriteria():NTCriteria
+			{
+				return new NTCriteria();
+			}
+			
+			/* ------------------------------------------------
+				EXPLORER MANAGER
+			------------------------------------------------ */
+			public static const XML_OPEN:int = 1;
+			public static const XML_IMPORT:int = 2;
+			
+			protected function goNewExplorer():void
+			{
+				criteriaList.removeAll();
+				criteriaList.addItem( getNewCriteria() );
+			}
+			protected function goOpenExplorer(openType:int):void
+			{
+				var openWindow:NTExplorerOpenWindow = PopUpManager.createPopUp(Root.window, NTExplorerOpenWindow, true) as NTExplorerOpenWindow;
+				
+				openWindow.parentObject = this;
+				openWindow.application = fileList.getApplication();
+				openWindow.category = fileList.getCategory() + 100;
+				openWindow.openType = openType;
+				
+				PopUpManager.centerPopUp(openWindow);
+			}
+			protected function goSaveExplorer(parentCriteria:NTCriteria):void
+			{
+				var saveWindow:ExplorerSaveWindow = PopUpManager.createPopUp(Root.window, ExplorerSaveWindow, true) as ExplorerSaveWindow;
+				saveWindow.application = fileList.getApplication();
+				saveWindow.category = fileList.getCategory() + 100;
+				saveWindow.content = parentCriteria.toXML();
+				
+				PopUpManager.centerPopUp(saveWindow);
+			}
+			
+			protected function goImportExplorer(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if(selectedCriteria != null)
+					goOpenExplorer(XML_IMPORT);
+			}
+			protected function goExportExplorer(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if(selectedCriteria != null)
+					goSaveExplorer(selectedCriteria);
+			}
+			
+			public function constructXML(xml:XML, type:int = XML_OPEN):void
+			{
+				var criteria:NTCriteria = getNewCriteria();
+				criteria.constructXML(xml, fileList);
+				
+				if(type == XML_OPEN)
+				{
+					criteriaList.removeAll();
+					criteriaList.addItem( criteria );
+					criteriaList.refresh();
+					
+					advDg.expandAll();
+				}
+				else
+				{
+					this.selectedCriteria.addItem( criteria );
+					advDg.expandChildrenOf(this.selectedCriteria, true);
+				}
+			}
+			
+			
+			/* ------------------------------------------------
+				CRITERIA MANAGER
+			------------------------------------------------ */
+			protected function addFilter(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var selectedItem:NTCriteria = advDg.selectedCriteria;
+				if(selectedItem == null)
+					return;
+				
+				var criteria:NTCriteria = getNewCriteria();
+				criteria.getLeftItem().setType("Filter");
+				criteria.getLeftItem().setValue("");
+				
+				selectedItem.addItem( criteria );
+				
+				//OPEN SELECTED_ITEM
+				advDg.expandItem( advDg.selectedItem, true );
+				this.refresh();
+			}
+			protected function addCriteria(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var selectedCriteria:NTCriteria = advDg.selectedCriteria;
+				if(selectedCriteria == null)
+					return;
+				
+				//ADD
+				selectedCriteria.addItem( getNewCriteria() );
+				
+				//OPEN SELECTED_ITEM
+				advDg.expandItem( advDg.selectedItem, true );
+				this.refresh();
+			}
+			protected function removeCriteria(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var selectedCriteria:NTCriteria = advDg.selectedCriteria;
+				if(selectedCriteria == criteriaList.getItemAt(0))
+					return;
+				
+				selectedCriteria.getParentItem().removeItem( selectedCriteria );
+				this.refresh();
+			}
+			
+			
+			
+		]]>
+	</fx:Script>
+	
+	<ui:VGroup width="100%" height="100%" 
+			   padding="5">
+		<!-- TOP-MENU -->
+		<s:HGroup width="100%">
+			<s:Button icon="assets/icons/reply16.png" 
+					  label="New Filter" 
+					  click="addFilter(event)" />
+			<s:Button icon="assets/icons/ntr16.gif" 
+					  label="New Criteria" 
+					  click="addCriteria(event)" />
+			<s:Spacer width="100%" />
+			<s:Button icon="assets/icons/trash16.png" 
+					  label="Delete Criteria" 
+					  click="removeCriteria(event)" />
+		</s:HGroup>
+		
+		<!-- CRITERIA GRID -->
+		<criteria:NTCriteriaAdvDg id="advDg" 
+								  hierarchicalData="{criteriaList}" 
+								  width="100%" height="100%" />
+		
+		<!-- BOTTOM-MENU -->
+		<s:HGroup width="100%">
+			<s:Button icon="assets/icons/ntr16.gif" 
+					  label="New Nam-Tree" 
+					  click="goNewExplorer()" />
+			<s:Button icon="assets/icons/folder16.png"
+					  label="Open Nam-Tree" 
+					  click="goOpenExplorer(XML_OPEN)" />
+			<s:Button icon="assets/icons/save16.png"
+					  label="Save Nam-Tree" 
+					  click="goSaveExplorer(getTopCriteria())" />
+			
+			<s:Spacer width="100%" />
+			
+			<s:Button icon="assets/icons/folder16.png"
+					  label="Import Nam-Tree" 
+					  click="goImportExplorer(event)" />
+			<s:Button icon="assets/icons/save16.png"
+					  label="Export Nam-Tree" 
+					  click="goExportExplorer(event)" />
+		</s:HGroup>
+	</ui:VGroup>
+</s:BorderContainer>

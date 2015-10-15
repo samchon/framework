@@ -909,11 +909,7 @@ EXAMPLE_RECURSIVE      = NO
 # that contain images that are to be included in the documentation (see the
 # \image command).
 
-<<<<<<< HEAD
 IMAGE_PATH             = cpp/images
-=======
-IMAGE_PATH             = images
->>>>>>> a5b44eaa483feddbb179edb227a2d35677d30fb3
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program

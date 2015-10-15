@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VDividedBox xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				
+				creationComplete="main(event)" xmlns:axis="org.samchon.ui.axis.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.charts.chartClasses.Series;
+			import mx.charts.series.LineSeries;
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.collections.XMLListCollection;
+			import mx.controls.List;
+			import mx.events.DividerEvent;
+			import mx.events.FlexEvent;
+			import mx.events.SliderEvent;
+			
+			//DATA
+			[Bindable]protected var totalData:ListCollectionView = new ListCollectionView();
+			[Bindable]protected var abstractedData:ListCollectionView = new ListCollectionView();
+			
+			//KEEPING CONFIGURATIONS
+			protected var completionFlag:Boolean = false;
+			protected var _mainSeries:Array = null;
+			protected var _minimapSeries:Array = null;
+			protected var _categoryField:String = null;
+			protected var _dataTipFunction:Function = null;
+			protected var _dataTipMode:String = null;
+			protected var _axisFormatType:int = Global.NULL;
+			
+			protected function main(event:FlexEvent):void {
+				event.target.removeEventListener(FlexEvent.CREATION_COMPLETE, main);
+				completionFlag = true;
+				
+				if(_mainSeries)			mainSeries		=	_mainSeries;
+				if(_minimapSeries)		minimapSeries	=	_minimapSeries;
+				if(_categoryField)		categoryField	=	_categoryField;
+				
+				if(_dataTipFunction != null)	dataTipFunction	=	_dataTipFunction;
+				if(_dataTipMode != null)		dataTipMode		=	_dataTipMode;
+				
+				if(_axisFormatType != Global.NULL)	axisFormatType = _axisFormatType;
+			}
+			
+			//SETTINGS
+			public function set dataProvider(listCollection:ListCollectionView):void {
+				totalData = listCollection;
+				
+				//INITIATE POINT
+				startIndex = endIndex = -1;
+				
+				//DETERMINE TYPE OF ABSTRACTED DATA(MAIN CHART'S DATAPROVIDER)
+				if(listCollection is XMLListCollection)
+					abstractedData = new XMLListCollection();
+				else
+					abstractedData = new ArrayCollection();
+				subChartDataProvider = abstractedData;
+				
+				var start:int;
+				var end:int;
+				
+				if(totalData.length >= SIZE)
+					start = totalData.length - SIZE;
+				else
+					start = 0;
+				end = totalData.length - 1;
+				
+				//ADJUST TO MAIN CHART
+				abstract(start, end);
+			}
+			public function set dataTipFunction(procedure:Function):void {
+				if( completionFlag == true ) {
+					mainChart.showDataTips = minimapChart.showDataTips = true;
+					mainChart.dataTipFunction = minimapChart.dataTipFunction = procedure;
+				}
+				_dataTipFunction = procedure;
+			}
+			public function set dataTipMode(value:String):void {
+				if( completionFlag == true ) {
+					mainChart.dataTipMode = value;
+					minimapChart.dataTipMode = value;
+				}
+				_dataTipMode = value;
+			}
+			public function set mainSeries(series:Array):void {
+				if( completionFlag == true )	mainChart.series = series;
+				else							_mainSeries = series;
+			}
+			public function set minimapSeries(series:Array):void {
+				if( completionFlag == true )	minimapChart.series = series;
+				else							_minimapSeries = series;
+			}
+			public function set categoryField(value:String):void {
+				if( completionFlag == true ) 
+				{
+					mainCategoryAxis.categoryField = value;
+					minimapCategoryAxis.categoryField = value;
+				}
+				_categoryField = value;
+			}
+			public function set axisFormatType(value:int):void {
+				if(completionFlag == true) {
+					mainWidthAxisRenderer.labelFormat = value;
+					minimapWidthAxisRenderer.labelFormat = value;
+				}else
+					_axisFormatType = value;
+			}
+			
+			public function get mainSeries():Array		{	return _mainSeries;		}
+			public function get minimapSeries():Array	{	return _minimapSeries;	}
+			
+			/*
+			==============================================
+			FROM SUB-CHART
+			==============================================
+			*/
+			public function get length():int {
+				return this.getChildren().length - 2;
+			}
+			public function addSubChart(subChart:MinimapSubChart):void {
+				this.addSubChartAt(subChart, length);
+			}
+			public function addSubChartAt(subChart:MinimapSubChart, x:int):void {
+				subChart.parentMovie = this;
+				subChart.dataProvider = abstractedData;
+				subChart.annotationGroup.addEventListener(MouseEvent.MOUSE_DOWN, chartDowned);
+				
+				if(_dataTipFunction != null)	subChart.dataTipFunction	=	_dataTipFunction;
+				if(_dataTipMode != null)		subChart.dataTipMode		=	_dataTipMode;
+				
+				this.addChildAt(subChart, x + 1);
+			}
+			public function getSubChartAt(x:int):MinimapSubChart {
+				return this.getChildAt(x + 1) as MinimapSubChart;
+			}
+			public function swapSubChart(subChart:MinimapSubChart, direction:int):void {
+				var i:int = this.getChildIndex( subChart );
+				
+				if(direction == -1 && i - 1 >= 1)
+					this.swapChildrenAt(i, i-1);
+				else if(direction == 1 && i + 1 < this.getChildren().length - 1)
+					this.swapChildrenAt(i, i+1);
+				
+				this.childrenCreated();
+			}
+			public function setSubChartAt(subChart:MinimapSubChart, x:int):void {
+				this.getChildren()[x + 1] = subChart;
+			}
+			public function removeSubChart(subChart:MinimapSubChart):void {
+				this.removeChild( subChart );
+			}
+			public function removeSubChartAt(x:int):void {
+				this.removeChildAt(x + 1);
+			}
+			
+			protected function set subChartDataProvider(listCollection:ListCollectionView):void {
+				for(var i:int = 0; i < length; i++)
+					this.getSubChartAt(i).dataProvider = listCollection;
+			}
+			
+			/*
+			==============================================
+			SCROLLING, ZOOMING IN-OUT
+			==============================================
+			*/
+			//INDEX
+			[Bindable]protected var startIndex:int = -1;
+			protected var startIndexBefore:int; //a point of pressed when dragging
+			protected var startIndexTo:int; //Enterframe
+			[Bindable]protected var endIndex:int = -1;
+			protected var endIndexBefore:int;
+			protected var mouseXBefore:Number;
+			protected var mouseMultiplier:int;
+			protected static const SIZE:int = 200;
+			
+			//SKIN
+			[Embed(source="assets/images/blank.png")]
+			[Bindable]protected var blankSkin:Class;
+			
+			/*
+			SPLICING
+			*/
+			protected function removeAll():void {
+				//abstractedData.removeAll();
+				//startIndex = endIndex = -1;
+			}
+			protected function abstract($start:int, $end:int):void {
+				if(totalData == null || totalData.length == 0)
+					return;
+
+				var i:int;
+				
+				if(startIndex == -1 || $end < startIndex || $start > endIndex) {
+					//Add All
+					abstractedData.removeAll();
+					for(i = $start; i <= $end; i++) {
+						abstractedData.addItem( totalData.getItemAt(i) );
+					}
+				}else{
+					//Front-side Merging
+					if(startIndex > $start)
+						for(i = startIndex-1; i >= $start; i--)
+							abstractedData.addItemAt( totalData.getItemAt(i), 0 );
+					else if(startIndex < $start)
+						for(i = 0; i < $start - startIndex; i++)
+							abstractedData.removeItemAt( 0 );
+					
+					//Back-side Merging
+					if(endIndex < $end)
+						for(i = endIndex+1; i <= $end; i++)
+							abstractedData.addItem( totalData.getItemAt(i) );
+					else if(endIndex > $end)
+						for(i = 0; i < endIndex - $end; i++)
+							abstractedData.removeItemAt( abstractedData.length - 1 );
+				}
+				startIndex = $start;
+				endIndex = $end;
+			}
+			/*
+			DRAGGING & RESIZING
+			*/
+			protected function minimapHSliderChanged(event:SliderEvent):void {
+				var hSlider:HSlider = event.currentTarget as HSlider;
+				
+				var start:int;
+				var end:int;
+				
+				start = hSlider.values[0];
+				end = hSlider.values[1];
+				
+				abstract(start, end);
+			}
+			public function chartDowned(event:MouseEvent):void {
+				var object:Object = event.target;
+				mouseMultiplier = (object == minimapDragger) ? -1 : 1;
+				
+				startIndexBefore = startIndex;
+				endIndexBefore = endIndex;
+				mouseXBefore = this.mouseX;
+				
+				this.addEventListener(MouseEvent.MOUSE_MOVE, chartMoved);
+				this.addEventListener(MouseEvent.MOUSE_UP, chartUped);
+			}
+			protected function chartMoved(event:MouseEvent):void {
+				var start:int = startIndexBefore + mouseMultiplier*(mouseXBefore - this.mouseX) / (mainChart.width / totalData.length);
+				var end:int = endIndexBefore + mouseMultiplier*(mouseXBefore - this.mouseX) / (mainChart.width / totalData.length);
+				
+				var gap:int = endIndex - startIndex
+				if(start < 0) {
+					start = 0;
+					end = start + gap;
+				}else if(end >= totalData.length) {
+					end = totalData.length - 1;
+					start = end - gap;
+				}
+				
+				abstract(start, end);
+			}
+			protected function chartUped(event:MouseEvent):void {
+				this.removeEventListener(MouseEvent.MOUSE_MOVE, chartMoved);
+				this.removeEventListener(MouseEvent.MOUSE_UP, chartUped);
+			}
+			protected function minimapDividerDragged(event:DividerEvent):void {
+				var divideBox:HDividedBox = event.target as HDividedBox;
+				
+				var start:int = divideBox.getChildAt(0).width / (divideBox.width / totalData.length);
+				var end:int = (divideBox.getChildAt(2).x - divideBox.x) / (divideBox.width / totalData.length);
+				
+				abstract(start, end);
+			}
+			protected function minimapClicked(event:MouseEvent):void {
+				var gap:int = endIndex - startIndex;
+				var leftBoxWidthBefore:Number = minimapLeftBox.width;
+				var leftBoxWidth:Number = (this.mouseX - minimapDragger.width / 2) - minimapBox.x;
+				var rightBoxWidth:Number = minimapRightBox.width + (leftBoxWidthBefore - leftBoxWidth);
+				
+				var divideBox:HDividedBox = minimapBox;
+				var start:int = leftBoxWidth / (divideBox.width / totalData.length);
+				var end:int = start + gap;
+				
+				if(start < 0) {
+					start = 0;
+					end = start + gap;
+				} else if(end > totalData.length - 1) {
+					end = totalData.length - 1;
+					start = end - gap;
+				}
+				abstractTo(start);
+			}
+			protected function abstractTo(start:int):void {
+				startIndexTo = start;
+				if( this.hasEventListener(Event.ENTER_FRAME) == false )
+					this.addEventListener(Event.ENTER_FRAME, handleMinimapMoving);
+			}
+			protected function handleMinimapMoving(event:Event):void {
+				var start:int = startIndex + (startIndexTo - startIndex) / 2;
+				if(Math.abs(start - startIndexTo) <= 1) {
+					this.removeEventListener(Event.ENTER_FRAME, handleMinimapMoving);
+					start = startIndex;
+				}
+				var end:int = (endIndex - startIndex) + start;
+				
+				abstract(start, end);
+			}
+			
+			/*
+				FORMAT
+			*/
+			protected function sliderTip(x:int):String {
+				return totalData[x][_categoryField];
+			}
+		]]>
+	</fx:Script>
+	
+	<!--
+	========================
+	CANDLE CHART
+	========================
+	-->
+	<s:VGroup width="100%" height="100%">
+		<mx:ColumnChart id="mainChart" dataProvider="{abstractedData}"
+						width="100%" height="100%">
+			<!-- REMOVE (SHADOW) EFFECTS -->
+			<mx:seriesFilters>
+				<fx:Array/>
+			</mx:seriesFilters>
+			
+			<!-- AXIS -->
+			<mx:horizontalAxis>
+				<mx:CategoryAxis id="mainCategoryAxis" />
+			</mx:horizontalAxis>
+			<mx:verticalAxis>
+				<mx:LinearAxis id="mainLinearAxis" baseAtZero="false" />
+			</mx:verticalAxis>
+			
+			<!-- RENDERER -->
+			<mx:horizontalAxisRenderers>
+				<mx:AxisRenderer axis="{mainCategoryAxis}" canDropLabels="true" labelAlign="right" />
+			</mx:horizontalAxisRenderers>
+			<mx:verticalAxisRenderers>
+				<axis:WidthAxisRenderer axis="{mainLinearAxis}" 
+										id="mainWidthAxisRenderer"
+										placement="right"/>
+			</mx:verticalAxisRenderers>
+			
+			<!-- ANNOTATION -->
+			<mx:annotationElements>
+				<s:Group mouseDown="chartDowned(event)" />
+			</mx:annotationElements>
+		</mx:ColumnChart>
+		<mx:HRule width="100%" />
+	</s:VGroup>
+	
+	<!--
+	========================
+	MINI MAP
+	========================
+	-->
+	<s:VGroup width="100%" height="150">
+		<mx:HRule width="100%" />
+		<mx:ColumnChart id="minimapChart" dataProvider="{totalData}"
+						width="100%" height="100%">
+			<!-- 
+			SERIES IS EMPTY. INSERT IT DIRECTLY 
+			-->
+			<!-- REMOVE (SHADOW) EFFECTS -->
+			<mx:seriesFilters>
+				<fx:Array/>
+			</mx:seriesFilters>
+			
+			<!-- AXIS -->
+			<mx:horizontalAxis>
+				<mx:CategoryAxis id="minimapCategoryAxis" />
+			</mx:horizontalAxis>
+			<mx:verticalAxis>
+				<mx:LinearAxis id="minimapLinearAxis" />
+			</mx:verticalAxis>
+			
+			<!-- RENDERER -->
+			<mx:horizontalAxisRenderers>
+				<mx:AxisRenderer axis="{minimapCategoryAxis}" canDropLabels="true" labelAlign="right" />
+			</mx:horizontalAxisRenderers>
+			<mx:verticalAxisRenderers>
+				<axis:WidthAxisRenderer axis="{minimapLinearAxis}"
+										id="minimapWidthAxisRenderer"
+										placement="right"/>
+			</mx:verticalAxisRenderers>
+			
+			<!-- MINIMAP ANNOTATION -> SITE RECTANGLE -->
+			<mx:annotationElements>
+				<mx:HDividedBox id="minimapBox"
+								dividerDrag="minimapDividerDragged(event)" 
+								dividerRelease="minimapDividerDragged(event)"
+								liveDragging="true"
+								horizontalScrollPolicy="off"
+								width="100%" height="100%" 
+								borderVisible="true" borderColor="#999999" borderStyle="solid">
+					<s:BorderContainer id="minimapLeftBox"
+									   click="minimapClicked(event)" 
+									   width="{(minimapBox.width / totalData.length) * startIndex}" height="100%"
+									   color="white" alpha=".6" />
+					<!-- 반전: blendMode="invert" -->
+					<!-- ALPHA: backgroundAlpha="0.65" backgroundColor="#EEEEEE" borderColor="#999999" borderStyle="solid" -->
+					<s:Group id="minimapDragger"
+							 mouseDown="chartDowned(event)"
+							 width="100%" height="100%" />
+					<s:BorderContainer id="minimapRightBox" 
+									   click="minimapClicked(event)"
+									   width="{(minimapBox.width / totalData.length) * (totalData.length - endIndex)}" height="100%"
+									   color="white" alpha=".6" />
+				</mx:HDividedBox>
+				<s:VGroup width="100%" height="100%" verticalAlign="bottom">
+					<mx:HSlider	change="minimapHSliderChanged(event)"
+								values="{[startIndex, endIndex]}"
+								
+								dataTipFormatFunction="sliderTip"
+								trackSkin="{blankSkin}"
+								allowTrackClick="true" allowThumbOverlap="false" 
+								showTrackHighlight="true"
+								thumbCount="2" snapInterval="1"
+								minimum="0" maximum="{totalData.length - 1}"
+								
+								width="100%"/>
+				</s:VGroup> 
+			</mx:annotationElements>
+		</mx:ColumnChart>
+	</s:VGroup>
+</mx:VDividedBox>

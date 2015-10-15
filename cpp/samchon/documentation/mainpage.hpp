@@ -26,8 +26,13 @@
  *
  * @par Related Documents
  * <ul>
- *	<li> <a href="http://samchon.github.io/framework/doc/development_guide.pdf" target="_blank">
- *		 Guidance for Developers</a> </li>
+ *	<li> Guidance for Developers </li>
+ *	<ul>
+ *		<li> <a href="http://samchon.github.io/framework/doc/development_guide_en.pdf" target="_blank">
+ *			 English</a> </li>
+ *		<li> <a href="http://samchon.github.io/framework/doc/development_guide_kr.pdf" target="_blank">
+ *			 Korean</a> </li>
+ *	</ul>
  *	<li> Architecture Designs </li>
  *	<ul>
  *		<li> <a href="http://samchon.github.io/framework/design/cpp_class_diagram.pdf" target="_blank">

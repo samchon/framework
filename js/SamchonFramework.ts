@@ -1,20 +1,34 @@
 ﻿function test()
 {
-    var ws: WebSocket = new WebSocket("ws://127.0.0.1:11071");
+    /*var ws: WebSocket = new WebSocket("ws://127.0.0.1:11071");
     ws.onopen = handleOpen;
     ws.onerror = handleError;
-    ws.onmessage = handleMessage;
+    ws.onmessage = handleMessage;*/
 
-	/*var str: string =
-		"<memberList>\n" +
-		"	<member id='jhnam88' pass='1231' />\n" +
-		"	<member id='samchon' pass='1231'>Administrator</member>\n" +
-		"	<group>3</group>\n" +
-		"</memberList>";
-	var xml: XML = new XML(str);
-	
-	var invoke: Invoke = new Invoke("login", "jhnam88", 4, xml);
-	alert(invoke.toXML());*/
+    var str: string =
+    "<invoke listener='setDepartment'>\
+		<parameter type='string'>samchon</parameter>\
+		<parameter type='XML'>\
+			<memberList department='programmer'>\
+				<member id='john' name='John Doe' authority='3' />\
+				<member id='samchon' name='Jeongho Nam' authority='5' />\
+			</memberList>\
+		</parameter>\
+    </invoke>";
+
+    var xml: XML = new XML(str);
+
+    var parameterList: XMLList = xml.get("parameter");
+    var parameter: XML = parameterList[0];
+
+    trace( parameter.getValue() );
+
+    trace
+    (
+        xml.get("parameter")[1]
+           .get("memberList")[0].get("member")[1]
+                .getProperty("id")
+    );
 }
 function handleOpen(event: Event): void
 {
@@ -2803,6 +2817,10 @@ class ListMovie
         this.sendData(new Invoke("joinRoom", name));
     }
 
+    public replyData(invoke: Invoke): void
+    {
+        invoke.apply(this);
+    }
     private handleRoomArray(xml: XML): void
     {
         this.roomArray.construct(xml);
@@ -2812,22 +2830,22 @@ class ListMovie
     {
         if(success == true)
         {
-            //해당 방으로 이동
+            //MOVE TO THE ROOM
         }
         else
         {
-            //동일한 이름의 방이 존재합니다.
+            //DUPLICATED ROOM EXISTS
         }
     }
     private handleJoinRoom(success: boolean): void
     {
         if (success == true) 
         {
-            //해당 방으로 이동
+            //MOVE TO THE ROOM
         }
         else 
         {
-            //해당 방이 존재하지 않습니다.
+            //CANNOT FIND THE ROOM
         }
     }
 }

@@ -25,7 +25,7 @@ UniqueWriteLock::UniqueWriteLock(UniqueWriteLock &&obj)
 UniqueWriteLock::~UniqueWriteLock()
 {
 	if(isLocked == true)
-		mtx->readUnlock();
+		mtx->writeUnlock();
 }
 
 /* -----------------------------------------------------------

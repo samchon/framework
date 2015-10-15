@@ -5,7 +5,7 @@ using namespace samchon;
 using namespace samchon::library;
 
 ErrorEvent::ErrorEvent(EventDispatcher *source, const string &message)
-	: Event(source, type)
+	: Event(source, ErrorEvent::ERROR)
 {
 	this->message = message;
 }

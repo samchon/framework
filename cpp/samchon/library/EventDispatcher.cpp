@@ -64,8 +64,14 @@ auto EventDispatcher::dispatchEvent(shared_ptr<Event> event) -> bool
 
 	auto &eventSet = eventSetMap[type];
 	for (auto it = eventSet.begin(); it != eventSet.end(); it++)
-		thread(*it, event).detach();
+	{
+		thread([it, event, this]
+		{
+			UniqueAcquire u_ac(this->semaphore);
 
+			(*it)(event);
+		}).detach();
+	}
 	return true;
 }
 auto EventDispatcher::dispatchProgressEvent(size_t x, size_t size) -> bool

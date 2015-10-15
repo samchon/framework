@@ -5,20 +5,26 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = new __();
 };
 function test() {
-    var ws = new WebSocket("ws://127.0.0.1:11071");
+    /*var ws: WebSocket = new WebSocket("ws://127.0.0.1:11071");
     ws.onopen = handleOpen;
     ws.onerror = handleError;
-    ws.onmessage = handleMessage;
-    /*var str: string =
-        "<memberList>\n" +
-        "	<member id='jhnam88' pass='1231' />\n" +
-        "	<member id='samchon' pass='1231'>Administrator</member>\n" +
-        "	<group>3</group>\n" +
-        "</memberList>";
-    var xml: XML = new XML(str);
-    
-    var invoke: Invoke = new Invoke("login", "jhnam88", 4, xml);
-    alert(invoke.toXML());*/
+    ws.onmessage = handleMessage;*/
+    var str = "<invoke listener='setDepartment'>\
+		<parameter type='string'>samchon</parameter>\
+		<parameter type='XML'>\
+			<memberList department='programmer'>\
+				<member id='john' name='John Doe' authority='3' />\
+				<member id='samchon' name='Jeongho Nam' authority='5' />\
+			</memberList>\
+		</parameter>\
+    </invoke>";
+    var xml = new XML(str);
+    var parameterList = xml.get("parameter");
+    var parameter = parameterList[0];
+    trace(parameter.getValue());
+    trace(xml.get("parameter")[1]
+        .get("memberList")[0].get("member")[1]
+        .getProperty("id"));
 }
 function handleOpen(event) {
     alert("handleOpen");
@@ -2110,6 +2116,9 @@ var ListMovie = (function (_super) {
     };
     ListMovie.prototype.joinRoom = function (name) {
         this.sendData(new Invoke("joinRoom", name));
+    };
+    ListMovie.prototype.replyData = function (invoke) {
+        invoke.apply(this);
     };
     ListMovie.prototype.handleRoomArray = function (xml) {
         this.roomArray.construct(xml);

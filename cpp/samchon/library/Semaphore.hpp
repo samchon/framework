@@ -78,8 +78,14 @@ namespace samchon
 			 *
 			 * @param size The size of the semaphore to permit
 			 */
-			Semaphore(size_t = 1);
+			Semaphore(size_t = 2);
 			~Semaphore();
+
+			/**
+			 * @brief Set size
+			 * @details Set permitted size of the semaphore.
+			 */
+			void setSize(size_t);
 
 			/* ====================================================
 				GETTERS
@@ -91,6 +97,10 @@ namespace samchon
 			 * @return The size of semaphore
 			 */
 			auto size() const -> size_t;
+
+			/**
+			 * @brief Get acquired size.
+			 */
 			auto acquiredSize() const -> size_t;
 
 			/* ====================================================

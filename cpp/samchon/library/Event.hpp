@@ -8,8 +8,6 @@ namespace samchon
 		class EventDispatcher;
 
 		/**
-		 * @ingroup event
-		 *
 		 * @brief Represent an event running on background.
 		 *
 		 * @details
@@ -22,7 +20,13 @@ namespace samchon
 		 * <p> For many events, such as the events represented by the Event class constants, 
 		 * this basic information is sufficient. Other events, however, may require more detailed 
 		 * information. </p>
-		 * 
+		 *
+		 * @image html  cpp/library_event.png
+		 * @image latex cpp/library_event.png
+		 *
+		 * \par Example source
+		 * @includelineno event/main.cpp
+		 *
 		 * @note 
 		 * <p> Event is a candidate to be depreciated. </p>
 		 * <p> Since C++11, calling member method of a class by a new thread passing by static 
@@ -38,7 +42,7 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API Event
 		{
 		public:
-			enum TYPES : int
+			enum : int
 			{
 				ACTIVATE = 1,
 				COMPLETE = 2,

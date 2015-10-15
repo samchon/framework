@@ -31,7 +31,7 @@ namespace samchon
 				ListService(protocol::service::Client*);
 				virtual ~ListService() = default;
 
-				virtual void replyData(std::shared_ptr<protocol::Invoke>) override;
+				virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override;
 
 			private:
 				/**
@@ -40,6 +40,10 @@ namespace samchon
 				 * @param name Name of the candidate room to create.
 				 */
 				void createRoom(const std::string &);
+
+				void handleRoomArray(std::shared_ptr<library::XML>);
+				void handleMakeRoom(bool);
+				void handleRoomArray(bool);
 			};
 		};
 	};

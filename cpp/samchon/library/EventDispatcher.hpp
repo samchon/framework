@@ -26,7 +26,13 @@ namespace samchon
 		 * dispatching events, all event sending processes will acuiqre a semaphore. The default permitted
 		 * size of the semaphore is 2. </p>
 		 *	\li Number of thread pools used to sending events is 2.
-		 * 
+		 *
+		 * @image html  cpp/library_event.png
+		 * @image latex cpp/library_event.png
+		 *
+		 * \par Example source
+		 * @includelineno event/main.cpp
+		 *
 		 * @note 
 		 * <p> EventDispatcher is a candidate to be depreciated. </p>
 		 * <p> Since C++11, calling member method of a class by a new thread passing by static 
@@ -59,7 +65,9 @@ namespace samchon
 			Semaphore semaphore;
 
 		public:
-			//CONSTRUCTORS
+			/* ----------------------------------------------------------
+				CONSTRUCTORS
+			---------------------------------------------------------- */
 			/**
 			 * @brief Default Constructor
 			 */
@@ -128,8 +136,8 @@ namespace samchon
 			 * @brief Dispatches an event to all listeners
 			 *
 			 * @details
-			 * Dispatches an event into the event flow in the background.
-			 * The Event::source is the EventDispatcher object upon which the dispatchEvent
+			 * <p> Dispatches an event into the event flow in the background.
+			 * The Event::source is the EventDispatcher object upon which the dispatchEvent. </p>
 			 *
 			 * @param event The Event object that is dispatched into the event flow.
 			 * @return Whether there's some listener to listen the event

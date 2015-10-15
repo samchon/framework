@@ -23,6 +23,13 @@ Semaphore::~Semaphore()
 	delete countMtx;
 }
 
+void Semaphore::setSize(size_t val)
+{
+	unique_lock<mutex> uk(*countMtx);
+
+	this->size_ = val;
+}
+
 /* ====================================================
 	GETTERS
 ==================================================== */
@@ -69,6 +76,6 @@ void Semaphore::release()
 {
 	unique_lock<mutex> uk(*countMtx);
 
-	if (acquired != 0 && --acquired == size_)
+	if (acquired != 0 && --acquired == size_ - 1)
 		mtx->unlock();
 }

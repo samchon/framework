@@ -18,9 +18,17 @@ namespace samchon
 			: public Event
 		{
 		public:
-			enum TYPES : int
+			enum : int 
 			{
 				PROGRESS = 11
+			};
+
+		private:
+			enum : int
+			{
+				ACTIVATE = 1,
+				COMPLETE = 2,
+				REMOVED = -1
 			};
 
 		protected:

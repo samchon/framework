@@ -19,7 +19,7 @@ namespace samchon
 		 * <p> Date represents the date with year, month and day in month.
 		 * The basic date (local time) is from your operating system. </p>
 		 *
-		 * \par Inherited
+		 * \par [Inherited]
 		 * <p> A time_point object expresses a point in time relative to a clock's epoch. </p>
 		 *
 		 * <p> Internally, the object stores an object of a duration type, and uses the Clock 

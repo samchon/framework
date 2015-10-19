@@ -28,7 +28,7 @@ namespace samchon
 			 * <p> @image html  cpp/protocol_master_distributed_system.png
 			 * @image latex cpp/protocol_master_distributed_system.png </p>
 			 *
-			 * \par Inherited
+			 * \par [Inherited]
 			 *		@copydetails protocol::ExternalSystemRole
 			 */
 			class SAMCHON_FRAMEWORK_API DistributedSystemRole

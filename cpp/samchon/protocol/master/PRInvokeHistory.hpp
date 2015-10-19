@@ -15,8 +15,8 @@ namespace samchon
 			 * @brief A reported history of an Invoke message
 			 *
 			 * @details
-			 * \par Inherited
-			 *		@copydoc protocol::InvokeHistory
+			 * \par [Inherited]
+			 *		@copydetails protocol::InvokeHistory
 			 */
 			class SAMCHON_FRAMEWORK_API DSInvokeHistory
 				: public slave::InvokeHistory

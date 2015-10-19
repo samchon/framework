@@ -28,8 +28,8 @@ namespace samchon
 		 *		but only memory size of Animal is allocated, so that derived member variables and methods are all
 		 *		truncated.
 		 *
-		 * \par Inherited
-		 *		@copydoc protocol::Entity
+		 * \par [Inherited]
+		 *		@copydetails protocol::Entity
 		 *
 		 * @warning
 		 * <p> If a data structure has recursive and hierarchical relationship, never use the EntityList.
@@ -75,7 +75,7 @@ namespace samchon
 			 *
 			 * <p> Constructs only data of EntityList's own. </p>
 			 *
-			 * \par Inherited
+			 * \par [Inherited]
 			 *		@copydoc Entity::construct()
 			 */
 			virtual void construct(std::shared_ptr<library::XML> xml) override
@@ -103,7 +103,7 @@ namespace samchon
 			 *
 			 * <p> Archives only data of EntityList's own. </p>
 			 *
-			 * \par Inherited
+			 * \par [Inherited]
 			 *		@copydoc Entity::toXML()
 			 */
 			virtual auto toXML() const -> std::shared_ptr<library::XML> override

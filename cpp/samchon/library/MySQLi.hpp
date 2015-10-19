@@ -12,7 +12,7 @@ namespace samchon
 		/**
 		 * @brief A SQL interface for My-SQL
 		 *
-		 * @copydoc library::SQLi
+		 * @copydetails library::SQLi
 		 */
 		class SAMCHON_FRAMEWORK_API MySQLi
 			: public SQLi

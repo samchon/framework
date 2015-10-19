@@ -16,8 +16,8 @@ namespace samchon
 		 * @details
 		 * <p> ExternalClientArray is an ExternalSystemArray specialized in clients' driver. </p>
 		 *
-		 * \par Inherited
-		 *		@copydoc protocol::ExternalSystemArray
+		 * \par [Inherited]
+		 *		@copydetails protocol::ExternalSystemArray
 		 */
 		class SAMCHON_FRAMEWORK_API ExternalClientArray
 			: public virtual ExternalSystemArray,

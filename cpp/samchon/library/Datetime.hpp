@@ -13,8 +13,8 @@ namespace samchon
 		* @details
 		* <p> Datetime is a Date having hours, minutes and seconds addictionally. </p>
 		*
-		* \par Inherited
-		* @copydoc library::Date
+		* \par [Inherited]
+		* @copydetails library::Date
 		*/
 		class SAMCHON_FRAMEWORK_API Datetime
 			: public Date

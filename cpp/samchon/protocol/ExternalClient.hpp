@@ -16,8 +16,8 @@ namespace samchon
 		 * @details 
 		 * <p> ExternalClient is an ExternalSystem specialized in client driver. </p>
 		 *
-		 * \par Inherited
-		 *		@copydoc protocol::ExternalSystem
+		 * \par [Inherited]
+		 *		@copydetails protocol::ExternalSystem
 		 */
 		class SAMCHON_FRAMEWORK_API ExternalClient
 			: public virtual ExternalSystem

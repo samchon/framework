@@ -11,8 +11,8 @@ namespace samchon
 		 * @brief Event representing a progress
 		 *
 		 * @details
-		 * \par Inherited
-		 * @copydoc library::Even
+		 * \par [Inherited]
+		 * @copydetails library::Even
 		 */
 		class SAMCHON_FRAMEWORK_API ProgressEvent
 			: public Event

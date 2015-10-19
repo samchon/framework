@@ -15,8 +15,8 @@ namespace samchon
 		 * @details 
 		 * <p> TSQLStatement is a SQLStatement for adjusting domain function f T-SQL, 'FOR XML' statement. </p>
 		 *
-		 * \par Inherited
-		 * @copydoc library::SQLStatement
+		 * \par [Inherited]
+		 * @copydetails library::SQLStatement
 		 */
 		class SAMCHON_FRAMEWORK_API TSQLStatement
 			: public SQLStatement

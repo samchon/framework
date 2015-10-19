@@ -20,7 +20,7 @@ namespace samchon
 			 *
 			 * @details
 			 * <p> DistributedSystemArray class is an ExternalSystemArray and an abstract class containing
-			 * and managing distributed system drivers in framework of master. The DistributedSystemArray 
+			 * and managing distributed system drivers within framework of master. The DistributedSystemArray 
 			 * class allocates DistributedSystemRole objects to DistributedSystem objects for optimization. </p>
 			 *
 			 * <p> Unlike the ExternalSystemRole class which is dependent on an ExternalSystem, DistributedSystemRole 
@@ -34,7 +34,7 @@ namespace samchon
 			 *	   @image latex cpp/protocol_master_distributed_system.png </p>
 			 *
 			 * \par [Inherited]
-			 *		@copydoc protocol::ExternalSystemArray
+			 *		@copydetails protocol::ExternalSystemArray
 			 */
 			class SAMCHON_FRAMEWORK_API DistributedSystemArray
 				: public virtual ExternalSystemArray
@@ -44,16 +44,11 @@ namespace samchon
 
 				/**
 				 * @brief A dictionary of role objects.
-				 *
-				 * @details 
 				 */
 				Dictionary<std::shared_ptr<DistributedSystemRole>> roleDictionary;
 
 				/**
 				 * @brief A structure of parameters for genetic algorithm
-				 *
-				 * @details
-				 * <p> . </p>
 				 */
 				struct library::GAParameters gaParameters;
 
@@ -72,9 +67,6 @@ namespace samchon
 			protected:
 				/**
 				 * @brief Factory method of a DistributedSystemRole.
-				 *
-				 * @details
-				 * <p> . </p>
 				 *
 				 * @param An XML object represents the role.
 				 * @return A new DistributedSystemRole.

@@ -31,8 +31,8 @@ namespace samchon
 		 * <p> Thus, it's suitable for when fast accessment and iteration like an entity class containing
 		 * mathmatical or statistical data and methods which doesn't seemed to be inherited. </p>
 		 *
-		 * \par Inherited
-		 *		@copydoc protocol::Entity
+		 * \par [Inherited]
+		 *		@copydetails protocol::Entity
 		 *
 		 * @warning
 		 * <p> If a data structure has recursive and hierarchical relationship, never use the EntityArray.
@@ -70,7 +70,7 @@ namespace samchon
 			 *
 			 * <p> Constructs only data of EntityArray's own. </p>
 			 *
-			 * \par Inherited
+			 * \par [Inherited]
 			 *		@copydoc Entity::construct()
 			 */
 			virtual void construct(std::shared_ptr<library::XML> xml) override
@@ -98,7 +98,7 @@ namespace samchon
 			 *
 			 * <p> Archives only data of EntityArray's own. </p>
 			 *
-			 * \par Inherited
+			 * \par [Inherited]
 			 *		@copydoc Entity::toXML()
 			 */
 			virtual auto toXML() const -> std::shared_ptr<library::XML> override

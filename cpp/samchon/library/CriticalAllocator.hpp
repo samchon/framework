@@ -15,7 +15,7 @@ namespace samchon
 		 * only safety. If a logic needs a mutual exclusion not only level of the container, it'd better 
 		 * to avoid using the CriticalAllocator and use RWMutex by yourself. </p>
 		 *
-		 * \par Inherited]
+		 * \par [Inherited]]
 		 * <p> Allocators are classes that define memory models to be used by 
 		 * some parts of the Standard Library, and most specifically, by STL containers. </p>
 		 *
@@ -92,7 +92,7 @@ namespace samchon
 			 * \par 
 			 * Locks a mutex for concurrency when an elmented is constructed.
 			 *
-			 * \par Inherited 
+			 * \par [Inherited] 
 			 * <p> Constructs an element object on the location pointed by p. </p>
 			 *
 			 * <p> Notice that this does not allocate space for the element. 
@@ -121,7 +121,7 @@ namespace samchon
 			 * \par 
 			 * Locks a mutex for concurrency when an child is destroyed
 			 *
-			 * \par Inherited 
+			 * \par [Inherited] 
 			 * <p> Destroys in-place the object pointed by p. </p>
 			 *
 			 * <p> Notice that this does not deallocate the storage for the element 
@@ -148,7 +148,7 @@ namespace samchon
 			 * @details
 			 * <p> Locks a mutex for concurrency when children elements are deallocated. </p>
 			 *
-			 * \par Inherited
+			 * \par [Inherited]
 			 * <p> Attempts to allocate a block of storage with a size large enough to contain n elements 
 			 * of member type value_type (an alias of the allocator's template parameter), 
 			 * and returns a pointer to the first element. </p>
@@ -184,7 +184,7 @@ namespace samchon
 			 * @details
 			 * <p> Locks a mutex for concurrency when children elements are deallocated. </p>
 			 *
-			 * \par Inherited
+			 * \par [Inherited]
 			 * <p> Releases a block of storage previously allocated with member allocate and not yet released. </p>
 			 *
 			 * <p> The elements in the array are not destroyed by a call to this member function. </p>

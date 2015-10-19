@@ -47,8 +47,8 @@ namespace samchon
 		 * objects are not serialized and referenced by pointer, its iteration and accessment is not fast.
 		 * If it needs higher performance, then use EntityArray (static array for children entity) instead. </p> 
 		 *
-		 * \par Inherited
-		 *		@copydoc protocol::Entity
+		 * \par [Inherited]
+		 *		@copydetails protocol::Entity
 		 */
 		template <typename _Container, typename _ETy = Entity, typename _Ty = _Container::value_type>
 		class EntityGroup
@@ -86,7 +86,7 @@ namespace samchon
 			 *
 			 * <p> Constructs only data of EntityGroup's own. </p>
 			 *
-			 * \par Inherited
+			 * \par [Inherited]
 			 *		@copydoc Entity::construct()
 			 */
 			virtual void construct(std::shared_ptr<library::XML> xml)
@@ -191,7 +191,7 @@ namespace samchon
 			 *
 			 * <p> Archives only data of EntityGroup's own. </p>
 			 *
-			 * \par Inherited
+			 * \par [Inherited]
 			 *		@copydoc Entity::toXML()
 			 */
 			virtual auto toXML() const -> std::shared_ptr<library::XML>

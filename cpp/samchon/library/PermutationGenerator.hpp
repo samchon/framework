@@ -28,7 +28,7 @@ namespace samchon
 			/**
 			 * @brief Construct from size of N and R
 			 *
-			 * @copydoc CaseGenerator::CaseGenerator()
+			 * @copydetails CaseGenerator::CaseGenerator()
 			 */
 			PermutationGenerator(size_t n, size_t r);
 			virtual ~PermutationGenerator() = default;

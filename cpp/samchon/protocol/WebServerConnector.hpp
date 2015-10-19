@@ -14,8 +14,8 @@ namespace samchon
 		 * @details  
 		 * <p> WebServerConnector is a ServerConnector following web-socket protocol. </p>
 		 *
-		 * \par Inherited
-		 * @copydoc protocol::ServerConnector
+		 * \par [Inherited]
+		 * @copydetails protocol::ServerConnector
 		 */
 		class SAMCHON_FRAMEWORK_API WebServerConnector
 			: public ServerConnector,

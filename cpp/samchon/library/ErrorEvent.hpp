@@ -13,8 +13,8 @@ namespace samchon
 		 * @brief Event representing an error
 		 *
 		 * @details
-		 * \par Inherited
-		 * @copydoc library::Event
+		 * \par [Inherited]
+		 * @copydetails library::Event
 		 */
 		class SAMCHON_FRAMEWORK_API ErrorEvent 
 			: public Event

@@ -15,8 +15,8 @@ namespace samchon
 		 * @details
 		 * <p> ExternalServerArray is an ExternalSystemArray specialized in servers' driver. </p>
 		 *
-		 * \par Inherited
-		 *		@copydoc protocol::ExternalSystemArray
+		 * \par [Inherited]
+		 *		@copydetails protocol::ExternalSystemArray
 		 */
 		class SAMCHON_FRAMEWORK_API ExternalServerArray
 			: public virtual ExternalSystemArray

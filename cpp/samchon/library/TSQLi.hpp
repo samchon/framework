@@ -13,8 +13,8 @@ namespace samchon
 		 * @brief A SQL interface for T-SQL
 		 *
 		 * @details
-		 * \par Inherited
-		 * @copydoc library::SQLi
+		 * \par [Inherited]
+		 * @copydetails library::SQLi
 		 */
 		class SAMCHON_FRAMEWORK_API TSQLi
 			: public SQLi
@@ -34,7 +34,7 @@ namespace samchon
 			 * @details
 			 * <p> To realize domain function in T-SQL, 'FOR XML' statement. </p>
 			 *
-			 * \par Inherited
+			 * \par [Inherited]
 			 * @coypdoc SQLi::createStatement()
 			 * 
 			 * @return A T-SQL statement

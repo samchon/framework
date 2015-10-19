@@ -13,7 +13,7 @@ namespace samchon
 	 * <p> IndexPair expresses index and value. It's useful for expressing finding literals,
 	 * specified object, calculating mininum or maximum with its position. </p>
 	 *
-	 * \par Inherited 
+	 * \par [Inherited] 
 	 * <p> This class couples together a pair of values, which may be of different 
 	 * types (T1 and T2). The individual values can be accessed through its public members 
 	 * first and second. </p>

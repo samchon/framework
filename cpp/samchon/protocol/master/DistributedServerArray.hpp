@@ -16,15 +16,16 @@ namespace samchon
 			 * @details
 			 * <p> DistributedServerArray is an DistributedSystemArray specialized in servers' driver. </p>
 			 *
-			 * \par Inherited
-			 *		@copydoc master::DistributedSystemArray
+			 * \par [Inherited]
+			 *		@copydetails master::DistributedSystemArray
 			 */
 			class SAMCHON_FRAMEWORK_API DistributedServerArray
 				: public virtual DistributedSystemArray,
 				public virtual ExternalServerArray
 			{
 			protected:
-				typedef ExternalSystemArray super;
+				typedef DistributedSystemArray super;
+				typedef ExternalServerArray network_super;
 
 			public:
 				/**

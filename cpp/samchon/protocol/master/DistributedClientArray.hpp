@@ -16,15 +16,16 @@ namespace samchon
 			 * @details
 			 * <p> DistributedClientArray is an DistributedSystemArray specialized in clients' driver. </p>
 			 *
-			 * \par Inherited
-			 *		@copydoc master::DistributedSystemArray
+			 * \par [Inherited]
+			 *		@copydetails master::DistributedSystemArray
 			 */
 			class SAMCHON_FRAMEWORK_API DistributedClientArray
 				: public virtual DistributedSystemArray,
 				public virtual ExternalClientArray
 			{
 			protected:
-				typedef ExternalSystemArray super;
+				typedef DistributedSystemArray super;
+				typedef ExternalClientArray network_super;
 
 			public:
 				/**

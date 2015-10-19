@@ -16,8 +16,8 @@ namespace samchon
 			 * @details 
 			 * <p> DistributedServer is an DistributedSystem specialized in server driver. </p>
 			 *
-			 * \par Inherited
-			 *		@copydoc master::DistributedSystem
+			 * \par [Inherited]
+			 *		@copydetails master::DistributedSystem
 			 */
 			class SAMCHON_FRAMEWORK_API DistributedServer
 				: public virtual DistributedSystem,

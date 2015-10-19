@@ -35,11 +35,11 @@ namespace samchon
 			 * <p> @image html  cpp/protocol_master_distributed_system.png
 			 *	   @image latex cpp/protocol_master_distributed_system.png </p>
 			 *
-			 * \par [Inherited\
-			 *		@copydoc protocol::ExternalSystem
+			 * \par [Inherited]
+			 *		@copydetails protocol::ExternalSystem
 			 */
 			class SAMCHON_FRAMEWORK_API DistributedSystem
-				: protected virtual ExternalSystem
+				: public virtual ExternalSystem
 			{
 				friend class DistributedSystemArray;
 
@@ -101,7 +101,7 @@ namespace samchon
 				/**
 				 * @brief A list of history log for role allocations.
 				 */
-				DSRoleHistoryList *historyList;
+				DSRoleHistoryList *roleHistoryList;
 
 				/**
 				 * @brief A list of history log for reported Invoke messages.

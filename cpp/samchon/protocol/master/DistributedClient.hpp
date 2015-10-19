@@ -14,10 +14,10 @@ namespace samchon
 			 * @brief A network driver for a distributed client.
 			 *
 			 * @details 
-			 * <p> DistributedClient is an DistributedSystem specialized in server driver. </p>
+			 * <p> DistributedClient is an DistributedSystem specialized in client driver. </p>
 			 *
-			 * \par Inherited
-			 *		@copydoc master::DistributedSystem
+			 * \par [Inherited]
+			 *		@copydetails master::DistributedSystem
 			 */
 			class SAMCHON_FRAMEWORK_API DistributedClient
 				: public virtual DistributedSystem,

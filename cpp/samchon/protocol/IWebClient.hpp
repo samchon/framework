@@ -13,8 +13,8 @@ namespace samchon
 		 * @details
 		 * <p> IWebClient is a IClient following web-socket protocol. </p>
 		 *
-		 * \par Inherited
-		 *		@copydoc protocol::IClient
+		 * \par [Inherited]
+		 *		@copydetails protocol::IClient
 		 */
 		class SAMCHON_FRAMEWORK_API IWebClient
 			: public virtual IClient

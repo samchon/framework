@@ -1910,18 +1910,18 @@ var EntityArray = (function (_super) {
     PROTOCOL - APPLICATION MODULE
 ================================================================================= */
 /**
- * <p> Window is an Application, the top class in Flex-UI. </p>
+ * <p> An application, the top class in JS-UI. </p>
  *
- * <p> The Window is separated to three part, TopMenu, Movie and ServerConnector. </p>
+ * <p> The Application is separated to three part, TopMenu, Movie and ServerConnector. </p>
  * <ul>
  * 	<li> <code>TopMenu</code>: Menu on the top. It's not an essential component. </li>
  * 	<li> <code>Movie</code>: Correspond with Service in Server. Movie has domain UI components(Movie) for the matched Service. </li>
  * 	<li> <code>ServerConnector</code>: The socket connecting to the Server. </li>
  * </ul>
  *
- * <p> The Window and its UI-layout is not fixed, essential component for Samchon Framework in Flex,
- * so it's okay to do not use the provided Window and make your custom Window.
- * But the custom Window, your own, has to contain the Movie and keep the construction routine. </p>
+ * <p> The Application and its UI-layout is not fixed, essential component for Samchon Framework in Flex,
+ * so it's okay to do not use the provided Application and make your custom Application.
+ * But the custom Application, your own, has to contain the Movie and keep the construction routine. </p>
  *
  * <p> <img src="movie.png" /> </p>
  *
@@ -2013,6 +2013,11 @@ var SubMovie = (function () {
 /* =================================================================================
     PROTOCOL - SLAVE SYSTEM MODULE
 ================================================================================= */
+/**
+ * A slave system.
+ *
+ * @author Jeongho Nam
+ */
 var SlaveSystem = (function (_super) {
     __extends(SlaveSystem, _super);
     function SlaveSystem() {
@@ -2028,7 +2033,11 @@ var SlaveSystem = (function (_super) {
     };
     return SlaveSystem;
 })(EntityArray);
-;
+/**
+ * A role of belongs to a slave system.
+ *
+ * @author Jeongho Nam
+ */
 var SlaveSystemRole = (function (_super) {
     __extends(SlaveSystemRole, _super);
     function SlaveSystemRole() {
@@ -2042,8 +2051,44 @@ var SlaveSystemRole = (function (_super) {
     };
     return SlaveSystemRole;
 })(Entity);
-;
+var InvokeHistory = (function (_super) {
+    __extends(InvokeHistory, _super);
+    function InvokeHistory(uid, listener) {
+        _super.call(this);
+        this.uid = uid;
+        this.listener = listener;
+        this.startTime = new Date();
+    }
+    InvokeHistory.prototype.notifyEnd = function () {
+        this.endTime = new Date();
+    };
+    InvokeHistory.prototype.TAG = function () { return "invokeHistory"; };
+    InvokeHistory.prototype.toXML = function () {
+        var xml = _super.prototype.toXML.call(this);
+        xml.setProperty("uid", this.uid);
+        xml.setProperty("listener", this.listener);
+        xml.setProperty("startTime", this.startTime);
+        xml.setProperty("endTime", this.endTime);
+        return xml;
+    };
+    return InvokeHistory;
+})(Entity);
 /* =================================================================================
     PROTOCOL - PARALLEL SYSTEM MOUDLE
-================================================================================= */ 
+================================================================================= */
+var PRInvokeHistory = (function (_super) {
+    __extends(PRInvokeHistory, _super);
+    function PRInvokeHistory(uid, listener, index, size) {
+        _super.call(this, uid, listener);
+        this.index = index;
+        this.size = size;
+    }
+    PRInvokeHistory.prototype.toXML = function () {
+        var xml = _super.prototype.toXML.call(this);
+        xml.setProperty("index", this.index);
+        xml.setProperty("size", this.size);
+        return xml;
+    };
+    return PRInvokeHistory;
+})(InvokeHistory);
 //# sourceMappingURL=SamchonFramework.js.map

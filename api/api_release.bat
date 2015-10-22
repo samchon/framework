@@ -1,14 +1,17 @@
 SET RELEASE_DIR=D:\Homepage\samchon.github.io\framework\api\
 
 :: ----------------------------------------------------------------
+::    CLEAR ORDINARY API DOCUMENTS
+:: ----------------------------------------------------------------
+IF EXIST "%RELEASE_DIR%" rd "%RELEASE_DIR%"
+mkdir "%RELEASE_DIR%"
+
+:: ----------------------------------------------------------------
 ::    C++ API DOCUMENT
 :: ----------------------------------------------------------------
 ::PATH
 SET DOXYGEN_DIR=C:\Program Files\doxygen\bin\
 SET CHM_DIR=C:\Program Files (x86)\HTML Help Workshop\
-
-::CLEAR
-IF EXIST "%RELEASE_DIR%cpp" rd "%RELEASE_DIR%cpp" /S /Q
 
 ::DOCUMENTATE
 "%DOXYGEN_DIR%doxygen" cpp.doxygen
@@ -30,9 +33,6 @@ rd "%RELEASE_DIR%_cpp" /S /Q
 SET ASDOC_DIR=E:\Downloads\Programming\Flex\sdks\4.6.0\bin\
 SET FLEX_SRC_DIR=..\flex\src\
 
-::CLEAR
-IF EXIST "%RELEASE_DIR%flex" rd "%RELEASE_DIR%flex" /S /Q
-
 ::DOCUMENTATE
 "%ASDOC_DIR%asdoc" -source-path %FLEX_SRC_DIR% -doc-sources %FLEX_SRC_DIR% -output "%RELEASE_DIR%flex"
 
@@ -42,9 +42,6 @@ IF EXIST "%RELEASE_DIR%flex" rd "%RELEASE_DIR%flex" /S /Q
 ::PATH
 SET NPM_DIR=C:\Users\samch\AppData\Roaming\npm\
 SET TS_SRC_DIR=../js/
-
-::CLEAR
-IF EXIST "%RELEASE_DIR%ts" rd "%RELEASE_DIR%ts" /S /Q
 
 ::DOCUMENTATE
 "%NPM_DIR%typedoc" --target ES5 --out "%RELEASE_DIR%ts" "%TS_SRC_DIR%SamchonFramework.ts"

@@ -1268,7 +1268,7 @@ class XML
     /** 
      * <p> Get value. </p>
      */
-	public getValue(): string
+	public getValue(): any
 	{
 		return this.value;
 	}
@@ -1284,7 +1284,7 @@ class XML
     /**
      * <p> Get property by its key. </p>
      */
-	public getProperty(key: string): string
+	public getProperty(key: string): any
 	{
 		return this.properties.get(key);
 	}
@@ -1330,7 +1330,7 @@ class XML
      *
      * @param val A value to set
 	 */
-	public setValue(str: string): void
+	public setValue(str: any): void
 	{
 		this.value = str;
 	}
@@ -1338,7 +1338,7 @@ class XML
     /**
      * <p> Set a property with its key. </p>
      */
-	public setProperty(key: string, value: string): void
+	public setProperty(key: string, value: any): void
 	{
 		this.properties.set(key, value);
 	}
@@ -2533,18 +2533,18 @@ class EntityArray
     PROTOCOL - APPLICATION MODULE
 ================================================================================= */
 /**
- * <p> Window is an Application, the top class in Flex-UI. </p>
+ * <p> An application, the top class in JS-UI. </p>
  * 
- * <p> The Window is separated to three part, TopMenu, Movie and ServerConnector. </p>
+ * <p> The Application is separated to three part, TopMenu, Movie and ServerConnector. </p>
  * <ul>
  * 	<li> <code>TopMenu</code>: Menu on the top. It's not an essential component. </li>
  * 	<li> <code>Movie</code>: Correspond with Service in Server. Movie has domain UI components(Movie) for the matched Service. </li>
  * 	<li> <code>ServerConnector</code>: The socket connecting to the Server. </li>
  * </ul>
  * 
- * <p> The Window and its UI-layout is not fixed, essential component for Samchon Framework in Flex, 
- * so it's okay to do not use the provided Window and make your custom Window.
- * But the custom Window, your own, has to contain the Movie and keep the construction routine. </p>
+ * <p> The Application and its UI-layout is not fixed, essential component for Samchon Framework in Flex, 
+ * so it's okay to do not use the provided Application and make your custom Application.
+ * But the custom Application, your own, has to contain the Movie and keep the construction routine. </p>
  * 
  * <p> <img src="movie.png" /> </p>
  * 
@@ -2671,6 +2671,11 @@ class SubMovie
 /* =================================================================================
     PROTOCOL - SLAVE SYSTEM MODULE
 ================================================================================= */
+/**
+ * A slave system.
+ *
+ * @author Jeongho Nam
+ */
 class SlaveSystem
     extends EntityArray
     implements IProtocol
@@ -2688,7 +2693,13 @@ class SlaveSystem
         for (var i: number = 0; i < this.length; i++)
             invoke.apply(<SlaveSystemRole>this[i]);
     }
-};
+}
+
+/**
+ * A role of belongs to a slave system.
+ *
+ * @author Jeongho Nam
+ */
 class SlaveSystemRole
     extends Entity
     implements IProtocol
@@ -2703,8 +2714,67 @@ class SlaveSystemRole
     {
         invoke.apply(this);
     }
-};
+}
+
+class InvokeHistory
+    extends Entity
+{
+    protected uid: number;
+    protected listener: string;
+    protected startTime: Date;
+    protected endTime: Date;
+    
+    constructor(uid: number, listener: string)
+    {
+        super();
+
+        this.uid = uid;
+        this.listener = listener;
+        this.startTime = new Date();
+    }
+    public notifyEnd(): void
+    {
+        this.endTime = new Date();
+    }
+
+    public TAG(): string { return "invokeHistory"; }
+
+    public toXML(): XML
+    {
+        var xml: XML = super.toXML();
+        xml.setProperty("uid", this.uid);
+        xml.setProperty("listener", this.listener);
+        xml.setProperty("startTime", this.startTime);
+        xml.setProperty("endTime", this.endTime);
+
+        return xml;
+    }
+}
+
 
 /* =================================================================================
     PROTOCOL - PARALLEL SYSTEM MOUDLE
 ================================================================================= */
+class PRInvokeHistory
+    extends InvokeHistory
+{
+    protected index: number;
+    protected size: number;
+
+    constructor(uid: number, listener: string, index: number, size: number)
+    {
+        super(uid, listener);
+
+        this.index = index;
+        this.size = size;
+    }
+
+    public toXML(): XML
+    {
+        var xml: XML = super.toXML();
+        xml.setProperty("index", this.index);
+        xml.setProperty("size", this.size);
+
+        return xml;
+    }
+}

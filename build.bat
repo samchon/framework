@@ -15,5 +15,3 @@ call "%VS140COMNTOOLS%\VsDevCmd.bat"
 git add .
 git commit -m "%date% %time%"
 git push origin master
-
-pause

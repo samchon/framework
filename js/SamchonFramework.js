@@ -1461,6 +1461,9 @@ var ServerConnector = (function () {
     };
     return ServerConnector;
 })();
+/* =================================================================================
+    PROTOCOL - INVOKE MESSAGE MODULE
+================================================================================= */
 /**
  * <p> Standard message of network I/O. </p>
  * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework.  </p>
@@ -1753,107 +1756,6 @@ var InvokeParameter = (function () {
     return InvokeParameter;
 })();
 /**
- * <p> Window is an Application, the top class in Flex-UI. </p>
- *
- * <p> The Window is separated to three part, TopMenu, Movie and ServerConnector. </p>
- * <ul>
- * 	<li> <code>TopMenu</code>: Menu on the top. It's not an essential component. </li>
- * 	<li> <code>Movie</code>: Correspond with Service in Server. Movie has domain UI components(Movie) for the matched Service. </li>
- * 	<li> <code>ServerConnector</code>: The socket connecting to the Server. </li>
- * </ul>
- *
- * <p> The Window and its UI-layout is not fixed, essential component for Samchon Framework in Flex,
- * so it's okay to do not use the provided Window and make your custom Window.
- * But the custom Window, your own, has to contain the Movie and keep the construction routine. </p>
- *
- * <p> <img src="movie.png" /> </p>
- *
- * <h4> THE CONSTRUCTION ROUTINE </h4>
- * <ul>
- * 	<li>Socket Connection</li>
- * 	<ul>
- * 		<li>Connect to the CPP-Server</li>
- * 	</ul>
- * 	<li>Fetch authority</li>
- * 	<ul>
- * 		<li>Send a request to fetching authority</li>
- * 		<li>The window can be navigated to other page by the authority</li>
- * 	</ul>
- * 	<li>Construct Movie</li>
- * 	<ul>
- * 		<li>Determine a Movie by URLVariables::movie and construct it</li>
- * 	</ul>
- * 	<li>All the routines are done</li>
- * </ul>
- *
- * @author Jeongho Nam
- */
-var Application = (function () {
-    /**
-     * <p> Construct from arguments. </p>
-     *
-     * @param movie A movie represents a service.
-     * @param ip An ip address of cloud server to connect.
-     * @param port A port number of cloud server to connect.
-     */
-    function Application(movie, ip, port) {
-        this.movie = movie;
-        this.socket = new ServerConnector(this);
-        this.socket.onopen = this.handleConnect;
-        this.socket.connect(ip, port);
-    }
-    Application.prototype.handleConnect = function (event) {
-    };
-    /**
-     * <p> Handle replied message or shift the responsibility. </p>
-     */
-    Application.prototype.replyData = function (invoke) {
-        if (invoke.apply(this) == false)
-            this.movie.sendData(invoke);
-    };
-    /**
-     * <p> Send a data to server. </p>
-     */
-    Application.prototype.sendData = function (invoke) {
-        this.socket.sendData(invoke);
-    };
-    return Application;
-})();
-/**
- * <p> A movie belonged to an Application
- */
-var Movie = (function () {
-    function Movie() {
-    }
-    /**
-     * <p> Handle replied data
-     */
-    Movie.prototype.replyData = function (invoke) {
-        invoke.apply(this) == false;
-    };
-    /**
-     * <p> Send data to server
-     */
-    Movie.prototype.sendData = function (invoke) {
-        this.application.sendData(invoke);
-    };
-    return Movie;
-})();
-/**
- * <p> A sub-movie
- */
-var SubMovie = (function () {
-    function SubMovie() {
-    }
-    SubMovie.prototype.replyData = function (invoke) {
-        invoke.apply(this);
-    };
-    SubMovie.prototype.sendData = function (invoke) {
-        this.parent.sendData(invoke);
-    };
-    return SubMovie;
-})();
-/**
  * <p> An entity, a standard data class. </p>
  *
  * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
@@ -2005,157 +1907,143 @@ var EntityArray = (function (_super) {
     return EntityArray;
 })(Vector);
 /* =================================================================================
-    EXAMPLE - CHAT_SERVICE
+    PROTOCOL - APPLICATION MODULE
 ================================================================================= */
-var RoomArray = (function (_super) {
-    __extends(RoomArray, _super);
-    function RoomArray() {
-        _super.call(this);
+/**
+ * <p> Window is an Application, the top class in Flex-UI. </p>
+ *
+ * <p> The Window is separated to three part, TopMenu, Movie and ServerConnector. </p>
+ * <ul>
+ * 	<li> <code>TopMenu</code>: Menu on the top. It's not an essential component. </li>
+ * 	<li> <code>Movie</code>: Correspond with Service in Server. Movie has domain UI components(Movie) for the matched Service. </li>
+ * 	<li> <code>ServerConnector</code>: The socket connecting to the Server. </li>
+ * </ul>
+ *
+ * <p> The Window and its UI-layout is not fixed, essential component for Samchon Framework in Flex,
+ * so it's okay to do not use the provided Window and make your custom Window.
+ * But the custom Window, your own, has to contain the Movie and keep the construction routine. </p>
+ *
+ * <p> <img src="movie.png" /> </p>
+ *
+ * <h4> THE CONSTRUCTION ROUTINE </h4>
+ * <ul>
+ * 	<li>Socket Connection</li>
+ * 	<ul>
+ * 		<li>Connect to the CPP-Server</li>
+ * 	</ul>
+ * 	<li>Fetch authority</li>
+ * 	<ul>
+ * 		<li>Send a request to fetching authority</li>
+ * 		<li>The window can be navigated to other page by the authority</li>
+ * 	</ul>
+ * 	<li>Construct Movie</li>
+ * 	<ul>
+ * 		<li>Determine a Movie by URLVariables::movie and construct it</li>
+ * 	</ul>
+ * 	<li>All the routines are done</li>
+ * </ul>
+ *
+ * @author Jeongho Nam
+ */
+var Application = (function () {
+    /**
+     * <p> Construct from arguments. </p>
+     *
+     * @param movie A movie represents a service.
+     * @param ip An ip address of cloud server to connect.
+     * @param port A port number of cloud server to connect.
+     */
+    function Application(movie, ip, port) {
+        this.movie = movie;
+        this.socket = new ServerConnector(this);
+        this.socket.onopen = this.handleConnect;
+        this.socket.connect(ip, port);
     }
-    RoomArray.prototype.TAG = function () { return "roomArray"; };
-    RoomArray.prototype.CHILD_TAG = function () { return "room"; };
-    RoomArray.prototype.createChild = function (xml) {
-        return new Room();
+    Application.prototype.handleConnect = function (event) {
     };
-    RoomArray.prototype.print = function () {
-        //기존 방 목록을 지우고
-        for (var i = 0; i < this.length; i++) {
-            this[i].print();
-        }
+    /**
+     * <p> Handle replied message or shift the responsibility. </p>
+     */
+    Application.prototype.replyData = function (invoke) {
+        if (invoke.apply(this) == false)
+            this.movie.sendData(invoke);
     };
-    return RoomArray;
-})(EntityArray);
-var Room = (function (_super) {
-    __extends(Room, _super);
-    function Room() {
-        _super.call(this);
-        this.participants = new Vector();
+    /**
+     * <p> Send a data to server. </p>
+     */
+    Application.prototype.sendData = function (invoke) {
+        this.socket.sendData(invoke);
+    };
+    return Application;
+})();
+/**
+ * <p> A movie belonged to an Application
+ */
+var Movie = (function () {
+    function Movie() {
     }
-    Room.prototype.TAG = function () { return "room"; };
-    Room.prototype.construct = function (xml) {
-        this.name = xml.getProperty("name");
-        this.host = xml.getProperty("host");
-        this.participants = new Vector();
-        var xmlList = xml.get("participant");
-        for (var i = 0; i < xmlList.length; i++)
-            this.participants.push(xmlList[i].getValue());
+    /**
+     * <p> Handle replied data
+     */
+    Movie.prototype.replyData = function (invoke) {
+        invoke.apply(this) == false;
     };
-    Room.prototype.print = function () {
-        //화면에 출력할 것들
+    /**
+     * <p> Send data to server
+     */
+    Movie.prototype.sendData = function (invoke) {
+        this.application.sendData(invoke);
     };
-    return Room;
-})(Entity);
-var ChatMessage = (function (_super) {
-    __extends(ChatMessage, _super);
-    function ChatMessage() {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
-        }
-        _super.call(this);
-        if (args.length == 0)
-            return;
-        else if (args.length == 2) {
-            this.orator = args[0];
-            this.listener = "";
-            this.content = args[1];
-        }
-        else if (args.length == 3) {
-            this.orator = args[0];
-            this.listener = args[1];
-            this.content = args[2];
-        }
+    return Movie;
+})();
+/**
+ * <p> A sub-movie
+ */
+var SubMovie = (function () {
+    function SubMovie() {
     }
-    ChatMessage.prototype.TAG = function () { return "message"; };
-    ChatMessage.prototype.construct = function (xml) {
-        this.orator = xml.getProperty("orator");
-        if (xml.hasProperty("listener") == true)
-            this.listener = xml.getProperty("listener");
-        else
-            this.listener = "";
-        this.content = xml.getProperty("content");
-    };
-    ChatMessage.prototype.toXML = function () {
-        var xml = _super.prototype.toXML.call(this);
-        xml.setProperty("orator", this.orator);
-        xml.setProperty("content", this.content);
-        if (this.listener.length > 0)
-            xml.setProperty("listener", this.listener);
-        return xml;
-    };
-    ChatMessage.prototype.print = function () {
-        //메시지를 화면에 출력
-    };
-    return ChatMessage;
-})(Entity);
-var LoginMovie = (function (_super) {
-    __extends(LoginMovie, _super);
-    function LoginMovie() {
-        _super.call(this);
-    }
-    LoginMovie.prototype.goLogin = function (id) {
-        this.sendData(new Invoke("goLogin", id));
-    };
-    LoginMovie.prototype.handleLogin = function (success) {
-        if (success == true) {
-        }
-        else {
-            alert("동일한 아이디가 존재합니다.");
-        }
-    };
-    return LoginMovie;
-})(Movie);
-var ListMovie = (function (_super) {
-    __extends(ListMovie, _super);
-    function ListMovie() {
-        _super.call(this);
-        this.roomArray = new RoomArray();
-    }
-    ListMovie.prototype.makeRoom = function (name) {
-        this.sendData(new Invoke("makeRoom", name));
-    };
-    ListMovie.prototype.joinRoom = function (name) {
-        this.sendData(new Invoke("joinRoom", name));
-    };
-    ListMovie.prototype.replyData = function (invoke) {
+    SubMovie.prototype.replyData = function (invoke) {
         invoke.apply(this);
     };
-    ListMovie.prototype.handleRoomArray = function (xml) {
-        this.roomArray.construct(xml);
-        this.roomArray.print();
+    SubMovie.prototype.sendData = function (invoke) {
+        this.parent.sendData(invoke);
     };
-    ListMovie.prototype.handleMakeRoom = function (success) {
-        if (success == true) {
-        }
-        else {
-        }
-    };
-    ListMovie.prototype.handleJoinRoom = function (success) {
-        if (success == true) {
-        }
-        else {
-        }
-    };
-    return ListMovie;
-})(Movie);
-var ChatMovie = (function (_super) {
-    __extends(ChatMovie, _super);
-    function ChatMovie() {
-        _super.call(this);
+    return SubMovie;
+})();
+/* =================================================================================
+    PROTOCOL - SLAVE SYSTEM MODULE
+================================================================================= */
+var SlaveSystem = (function (_super) {
+    __extends(SlaveSystem, _super);
+    function SlaveSystem() {
+        _super.apply(this, arguments);
     }
-    ChatMovie.prototype.sendMessage = function (message) {
-        this.sendData(new Invoke("sendMessgae", message));
+    SlaveSystem.prototype.sendData = function (invoke) {
+        this.driver.sendData(invoke);
     };
-    ChatMovie.prototype.handleRoom = function (xml) {
-        var room = new Room();
-        room.construct(xml);
-        room.print();
+    SlaveSystem.prototype.replyData = function (invoke) {
+        invoke.apply(this);
+        for (var i = 0; i < this.length; i++)
+            invoke.apply(this[i]);
     };
-    ChatMovie.prototype.handleMessage = function (xml) {
-        var message = new ChatMessage();
-        message.construct(xml);
-        message.print();
+    return SlaveSystem;
+})(EntityArray);
+;
+var SlaveSystemRole = (function (_super) {
+    __extends(SlaveSystemRole, _super);
+    function SlaveSystemRole() {
+        _super.apply(this, arguments);
+    }
+    SlaveSystemRole.prototype.sendData = function (invoke) {
+        this.system.sendData(invoke);
     };
-    return ChatMovie;
-})(Movie);
+    SlaveSystemRole.prototype.replyData = function (invoke) {
+        invoke.apply(this);
+    };
+    return SlaveSystemRole;
+})(Entity);
+;
+/* =================================================================================
+    PROTOCOL - PARALLEL SYSTEM MOUDLE
+================================================================================= */ 
 //# sourceMappingURL=SamchonFramework.js.map

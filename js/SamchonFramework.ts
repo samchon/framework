@@ -1659,6 +1659,19 @@ class XMLList
 		- WINDOW
 		- MOVIE
 		- SUB_MOVIE
+
+    * SLAVE SYSTEM
+        - SLAVE_SYSTEM
+        - SLAVE_SYSTEM_ROLE
+        - INVOKE_HISTORY
+
+    * PARALLEL SYSTEM
+        - PARALLEL_SYSTEM
+        - PR_INVOKE_HISTORY
+================================================================================= */
+
+/* =================================================================================
+    PROTOCOL - NETWORK I/O MODULE
 ================================================================================= */
 /**
  * <p> An interface for Invoke message chain. </p>
@@ -1885,6 +1898,9 @@ class ServerConnector
 	}
 }
 
+/* =================================================================================
+    PROTOCOL - INVOKE MESSAGE MODULE
+================================================================================= */
 /**
  * <p> Standard message of network I/O. </p>
  * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework.  </p>
@@ -2247,6 +2263,275 @@ class InvokeParameter
 	}
 }
 
+/* =================================================================================
+    PROTOCOL - ENTITY MODULE
+================================================================================= */
+/**
+ * <p> An interface of entity. </p>
+ * 
+ * <p> Entity is a class for standardization of expression method using on network I/O by XML. If 
+ * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a 
+ * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+ * Entity is not imposed but encouraged. </p>
+ *
+ * <p> As we could get advantages from standardization of message for network I/O with Invoke, 
+ * we can get additional advantage from standardizing expression method of data class with Entity. 
+ * We do not need to know a part of network communication. Thus, with the Entity, we can only 
+ * concentrate on entity's own logics and relationships between another entities. Entity does not
+ * need to how network communications are being done. </p>
+ *  
+ * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+ * protocol for network I/O but not a essential protocol must be kept. The expression method of
+ * Entity, using on network I/O, is expressed by XML string. </p>
+ *
+ * <p> If your own network system has a critical performance issue on communication data class, 
+ * it would be better to using binary communication (with ByteArray).
+ * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+ * 
+ * @author Jeongho Nam
+ */
+interface IEntity {
+    /**
+	 * <p> Construct data of the Entity from a XML object. </p>
+	 * 
+	 * <p> Overrides the construct() method and fetch data of member variables from the XML. </p>
+	 *
+	 * <p> By recommended guidance, data representing member variables are contained in properties 
+	 * of the put XML object. </p>
+	 * 
+	 * @param xml An xml used to contruct data of entity.
+	 */
+    construct(xml: XML): void;
+
+    /**
+* <p> Get a key that can identify the Entity uniquely. </p>
+* 
+* <p> If identifier of the Entity is not atomic value, returns a string or paired object
+* that can represents the composite identifier. </p>
+*/
+    key(): any;
+
+    /**
+	 * <p> A tag name when represented by XML. </p>
+	 *
+	 * <ul>
+	 * 	<li> &lt;TAG {...properties} /&gt; </li>
+	 * </ul>
+	 */
+    TAG(): string;
+
+    /**
+	 * <p> Get a XML object represents the Entity. </p>
+	 *
+	 * <p> A member variable (not object, but atomic value like number, string or date) is categorized
+	 * as a property within the framework of entity side. Thus, when overriding a toXML() method and 
+	 * archiving member variables to an XML object to return, puts each variable to be a property 
+	 * belongs to only a XML object. </p>
+	 *
+	 * <p> Don't archive the member variable of atomic value to XML::value causing enormouse creation 
+	 * of XML objects to number of member variables. An Entity must be represented by only a XML
+	 * instance (tag). </p>
+	 *
+	 * <table>
+	 *	<tr>
+	 *		<th> Standard Usage </th>
+	 *		<th> Non-standard usage abusing value </th>
+	 *	</tr>
+	 *	<tr>
+	 *		<td>
+	 * 			<pre>
+&lt;memberList&gt;
+	&lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt;
+	&lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt;
+&lt;/memberList\&gt;</pre>
+	 *		</td>
+	 *		<td>
+	 * 			<pre>
+&lt;member&gt;
+	&lt;id&gt;jhnam88&lt;/id&gt;
+	&lt;name&gt;Jeongho+Nam&lt;name&gt;
+	&lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;
+&lt;/member&gt;</pre>
+	 *		</td>
+	 *	</tr>
+	 * </table>
+	 *
+	 * @return An XML object representing the Entity.
+	 */
+    toXML(): XML;
+}
+
+/**
+ * <p> An entity, a standard data class. </p>
+ *
+ * <p> Entity is a class for standardization of expression method using on network I/O by XML. If 
+ * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a 
+ * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+ * Entity is not imposed but encouraged. </p>
+ *
+ * <p> As we could get advantages from standardization of message for network I/O with Invoke, 
+ * we can get additional advantage from standardizing expression method of data class with Entity. 
+ * We do not need to know a part of network communication. Thus, with the Entity, we can only 
+ * concentrate on entity's own logics and relationships between another entities. Entity does not
+ * need to how network communications are being done. </p>
+ *  
+ * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+ * protocol for network I/O but not a essential protocol must be kept. The expression method of
+ * Entity, using on network I/O, is expressed by XML string. </p>
+ *
+ * <p> If your own network system has a critical performance issue on communication data class, 
+ * it would be better to using binary communication (with ByteArray).
+ * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+ *
+ * @author Jeongho Nam
+ */
+class Entity
+    implements IEntity {
+    /**
+     * <p> Default Constructor. </p>
+     */
+    constructor() {
+        //NOTHING
+    }
+    public construct(xml: XML): void {
+        //SOMETHING TO COMPOSE MEMBER DATA
+    }
+
+    public TAG(): string { return ""; }
+    public key(): any { return ""; }
+
+    public toXML(): XML {
+        var xml: XML = new XML();
+        xml.setTag(this.TAG());
+
+        return xml;
+    }
+}
+
+/**
+ * <p> An Entity and an Array of children Entity objects. </p>
+ * 
+ * <p> EntityArray is a template class for containinig children Entity objects, and also another type 
+ * of an Entity, too. You can realize hierarchical relationship. Although some entities have complicated
+ * hierarchical relationship, you can deduct a optimal solution easily with EntityArray and Entity. </p>
+ *
+ * <p> If an entity has some subordinate entities of same type, they are in "Composite relationship". 
+ * Make the entity to be EmntityGroup and subordinate entities to be children of the entity. When
+ * those relationships are continued, continue to create classes dervied from EntityArray. When those
+ * relationshiop meets a terminal node, then make the terminal node to be an Entity. </p>
+ *
+ * <p> <img src="inspect.png" /> </p>
+ * 
+ * <p> EntityArray is an Entity, and a container of children Entity objects at the same time. If
+ * children type, of a class derived from an EntityArray, is itself, you can realize hierarchical
+ * and recursive relationship. The relationship is called as "Composite pattern". </p>
+ *
+ * <ul>
+ *	<li> FTFolder extends FTInstance and EntityArray&lt;FTInstance&gt;. </li>
+ *	<li> NTCriteria extends EntityArray&lt;NTCriteria&gt;. </li>
+ * </ul>
+ *
+ * <h4> Inherited </h4>
+ * @copy Entity
+ * 
+ * @see Entity
+ * @author Jeongho Nam
+ */
+class EntityArray
+    extends Vector<IEntity>
+    implements IEntity {
+    /**
+     * <p> Default Constructor. </p>
+     */
+    constructor() {
+        super();
+    }
+
+    /**
+	 * <p> Construct data of the Entity from an XML object. </p>
+	 *
+	 * <p> Constructs the EntityArray's own member variables only from the input XML object. </p>
+	 *
+	 * <p> Do not consider about constructing children Entity objects' data in EntityArray::construct(). 
+	 * Those children Entity objects' data will constructed by their own construct() method. Even insertion 
+	 * of XML objects representing children are done by abstract method of EntityArray::toXML(). </p>
+	 *
+	 * <p> Constructs only data of EntityArray's own. </p>
+	 * 
+	 * @inheritDoc
+	 */
+    public construct(xml: XML): void {
+        this.splice(0, this.length);
+
+        if (xml.hasOwnProperty(this.CHILD_TAG()) == false)
+            return;
+
+        var xmlList: XMLList = xml[this.CHILD_TAG()];
+        for (var i: number = 0; i < xmlList.length; i++) {
+            var child: IEntity = this.createChild(xmlList[i]);
+            if (child != null) {
+                child.construct(xmlList[i]);
+                this.push(child);
+            }
+        }
+    }
+
+    /**
+     * <p> Factory method of a child Entity. </p>
+     *
+     * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
+     * to the EntityArray. This method is called by EntityArray::construct(). The children construction
+     * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
+     *
+     * @return A new child Entity belongs to EntityArray.
+     */
+    protected createChild(xml: XML): IEntity {
+        return null;
+    }
+
+    public TAG(): string { return ""; }
+
+    /**
+	 * <p> A tag name of children objects. </p>
+	 */
+    public CHILD_TAG(): string { return ""; }
+
+    public key(): any { return ""; }
+ 
+    /**
+	 * <p> Get an XML object represents the EntityArray. </p>
+	 *
+	 * <p> Archives the EntityArray's own member variables only to the returned XML object. </p>
+	 *
+	 * <p> Do not consider about archiving children Entity objects' data in EntityArray::toXML(). 
+	 * Those children Entity objects will converted to XML object by their own toXML() method. The 
+	 * insertion of XML objects representing children are done by abstract method of 
+	 * EntityArray::toXML(). </p>
+	 *
+	 * <p> Archives only data of EntityArray's own. </p>
+	 *
+	 * @inheritDoc
+	 */
+    public toXML(): XML {
+        var xml: XML = new XML();
+        xml.setTag(this.TAG());
+
+        if (this.length == 0)
+            return xml;
+
+        var xmlList: XMLList = new XMLList();
+        for (var i: number = 0; i < this.length; i++)
+            xmlList.push(this[i].toXML());
+
+        xml.set(this.CHILD_TAG(), xmlList);
+
+        return xml;
+    }
+}
+
+/* =================================================================================
+    PROTOCOL - APPLICATION MODULE
+================================================================================= */
 /**
  * <p> Window is an Application, the top class in Flex-UI. </p>
  * 
@@ -2383,500 +2668,43 @@ class SubMovie
 	}
 }
 
-/**
- * <p> An interface of entity. </p>
- * 
- * <p> Entity is a class for standardization of expression method using on network I/O by XML. If 
- * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a 
- * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
- * Entity is not imposed but encouraged. </p>
- *
- * <p> As we could get advantages from standardization of message for network I/O with Invoke, 
- * we can get additional advantage from standardizing expression method of data class with Entity. 
- * We do not need to know a part of network communication. Thus, with the Entity, we can only 
- * concentrate on entity's own logics and relationships between another entities. Entity does not
- * need to how network communications are being done. </p>
- *  
- * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
- * protocol for network I/O but not a essential protocol must be kept. The expression method of
- * Entity, using on network I/O, is expressed by XML string. </p>
- *
- * <p> If your own network system has a critical performance issue on communication data class, 
- * it would be better to using binary communication (with ByteArray).
- * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
- * 
- * @author Jeongho Nam
- */
-interface IEntity
-{
-    /**
-	 * <p> Construct data of the Entity from a XML object. </p>
-	 * 
-	 * <p> Overrides the construct() method and fetch data of member variables from the XML. </p>
-	 *
-	 * <p> By recommended guidance, data representing member variables are contained in properties 
-	 * of the put XML object. </p>
-	 * 
-	 * @param xml An xml used to contruct data of entity.
-	 */ 
-	construct(xml: XML): void;
-
-   	/**
-	 * <p> Get a key that can identify the Entity uniquely. </p>
-	 * 
-	 * <p> If identifier of the Entity is not atomic value, returns a string or paired object
-	 * that can represents the composite identifier. </p>
-	 */
-	key(): any;
-
-    /**
-	 * <p> A tag name when represented by XML. </p>
-	 *
-	 * <ul>
-	 * 	<li> &lt;TAG {...properties} /&gt; </li>
-	 * </ul>
-	 */
-    TAG(): string;
-
-    /**
-	 * <p> Get a XML object represents the Entity. </p>
-	 *
-	 * <p> A member variable (not object, but atomic value like number, string or date) is categorized
-	 * as a property within the framework of entity side. Thus, when overriding a toXML() method and 
-	 * archiving member variables to an XML object to return, puts each variable to be a property 
-	 * belongs to only a XML object. </p>
-	 *
-	 * <p> Don't archive the member variable of atomic value to XML::value causing enormouse creation 
-	 * of XML objects to number of member variables. An Entity must be represented by only a XML
-	 * instance (tag). </p>
-	 *
-	 * <table>
-	 *	<tr>
-	 *		<th> Standard Usage </th>
-	 *		<th> Non-standard usage abusing value </th>
-	 *	</tr>
-	 *	<tr>
-	 *		<td>
-	 * 			<pre>
-&lt;memberList&gt;
-	&lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt;
-	&lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt;
-&lt;/memberList\&gt;</pre>
-	 *		</td>
-	 *		<td>
-	 * 			<pre>
-&lt;member&gt;
-	&lt;id&gt;jhnam88&lt;/id&gt;
-	&lt;name&gt;Jeongho+Nam&lt;name&gt;
-	&lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;
-&lt;/member&gt;</pre>
-	 *		</td>
-	 *	</tr>
-	 * </table>
-	 *
-	 * @return An XML object representing the Entity.
-	 */
-	toXML(): XML;
-}
-
-/**
- * <p> An entity, a standard data class. </p>
- *
- * <p> Entity is a class for standardization of expression method using on network I/O by XML. If 
- * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a 
- * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
- * Entity is not imposed but encouraged. </p>
- *
- * <p> As we could get advantages from standardization of message for network I/O with Invoke, 
- * we can get additional advantage from standardizing expression method of data class with Entity. 
- * We do not need to know a part of network communication. Thus, with the Entity, we can only 
- * concentrate on entity's own logics and relationships between another entities. Entity does not
- * need to how network communications are being done. </p>
- *  
- * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
- * protocol for network I/O but not a essential protocol must be kept. The expression method of
- * Entity, using on network I/O, is expressed by XML string. </p>
- *
- * <p> If your own network system has a critical performance issue on communication data class, 
- * it would be better to using binary communication (with ByteArray).
- * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
- *
- * @author Jeongho Nam
- */
-class Entity
-	implements IEntity
-{
-    /**
-     * <p> Default Constructor. </p>
-     */
-	constructor()
-	{
-		//NOTHING
-	}
-	public construct(xml: XML): void
-	{
-		//SOMETHING TO COMPOSE MEMBER DATA
-	}
-
-	public TAG(): string { return ""; }
-	public key(): any { return ""; }
-
-	public toXML(): XML 
-    {
-		var xml: XML = new XML();
-		xml.setTag(this.TAG());
-
-		return xml;
-	}
-}
-
-/**
- * <p> An Entity and an Array of children Entity objects. </p>
- * 
- * <p> EntityArray is a template class for containinig children Entity objects, and also another type 
- * of an Entity, too. You can realize hierarchical relationship. Although some entities have complicated
- * hierarchical relationship, you can deduct a optimal solution easily with EntityArray and Entity. </p>
- *
- * <p> If an entity has some subordinate entities of same type, they are in "Composite relationship". 
- * Make the entity to be EmntityGroup and subordinate entities to be children of the entity. When
- * those relationships are continued, continue to create classes dervied from EntityArray. When those
- * relationshiop meets a terminal node, then make the terminal node to be an Entity. </p>
- *
- * <p> <img src="inspect.png" /> </p>
- * 
- * <p> EntityArray is an Entity, and a container of children Entity objects at the same time. If
- * children type, of a class derived from an EntityArray, is itself, you can realize hierarchical
- * and recursive relationship. The relationship is called as "Composite pattern". </p>
- *
- * <ul>
- *	<li> FTFolder extends FTInstance and EntityArray&lt;FTInstance&gt;. </li>
- *	<li> NTCriteria extends EntityArray&lt;NTCriteria&gt;. </li>
- * </ul>
- *
- * <h4> Inherited </h4>
- * @copy Entity
- * 
- * @see Entity
- * @author Jeongho Nam
- */
-class EntityArray 
-    extends Vector<IEntity>
-    implements IEntity
-{
-    /**
-     * <p> Default Constructor. </p>
-     */
-	constructor() 
-    {
-		super();
-	}
-
-    /**
-	 * <p> Construct data of the Entity from an XML object. </p>
-	 *
-	 * <p> Constructs the EntityArray's own member variables only from the input XML object. </p>
-	 *
-	 * <p> Do not consider about constructing children Entity objects' data in EntityArray::construct(). 
-	 * Those children Entity objects' data will constructed by their own construct() method. Even insertion 
-	 * of XML objects representing children are done by abstract method of EntityArray::toXML(). </p>
-	 *
-	 * <p> Constructs only data of EntityArray's own. </p>
-	 * 
-	 * @inheritDoc
-	 */
-	public construct(xml: XML): void 
-    {
-		this.splice(0, this.length);
-
-		if (xml.hasOwnProperty(this.CHILD_TAG()) == false)
-			return;
-
-		var xmlList: XMLList = xml[this.CHILD_TAG()];
-		for (var i: number = 0; i < xmlList.length; i++) 
-        {
-			var child: IEntity = this.createChild(xmlList[i]);
-			if (child != null)
-            {
-                child.construct(xmlList[i]);
-				this.push(child);
-            }
-		}
-	}
-
-   /**
-	* <p> Factory method of a child Entity. </p>
-	*
-	* <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
-	* to the EntityArray. This method is called by EntityArray::construct(). The children construction
-	* methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-	*
-	* @return A new child Entity belongs to EntityArray.
-	*/
-	protected createChild(xml: XML): IEntity 
-    {
-		return null;
-	}
-
-	public TAG(): string { return ""; }
-
-    /**
-	 * <p> A tag name of children objects. </p>
-	 */ 
-	public CHILD_TAG(): string { return ""; }
-	
-    public key(): any { return ""; }
- 
-    /**
-	 * <p> Get an XML object represents the EntityArray. </p>
-	 *
-	 * <p> Archives the EntityArray's own member variables only to the returned XML object. </p>
-	 *
-	 * <p> Do not consider about archiving children Entity objects' data in EntityArray::toXML(). 
-	 * Those children Entity objects will converted to XML object by their own toXML() method. The 
-	 * insertion of XML objects representing children are done by abstract method of 
-	 * EntityArray::toXML(). </p>
-	 *
-	 * <p> Archives only data of EntityArray's own. </p>
-	 *
-	 * @inheritDoc
-	 */   
-	public toXML(): XML
-	{
-		var xml: XML = new XML();
-		xml.setTag(this.TAG());
-
-		if (this.length == 0)
-			return xml;
-
-		var xmlList: XMLList = new XMLList();
-		for (var i: number = 0; i < this.length; i++)
-			xmlList.push(this[i].toXML());
-
-		xml.set(this.CHILD_TAG(), xmlList);
-
-		return xml;
-	}
-}
-
 /* =================================================================================
-	EXAMPLE - CHAT_SERVICE
-================================================================================= */ 
-class RoomArray
+    PROTOCOL - SLAVE SYSTEM MODULE
+================================================================================= */
+class SlaveSystem
     extends EntityArray
+    implements IProtocol
 {
-    public TAG(): string { return "roomArray"; }
-    public CHILD_TAG(): string { return "room"; }
+    private driver: ServerConnector;
 
-    constructor()
+    public sendData(invoke: Invoke): void
     {
-        super();
+        this.driver.sendData(invoke);
     }
-    protected createChild(xml: XML): IEntity
+    public replyData(invoke: Invoke): void
     {
-        return new Room();
-    }
+        invoke.apply(this);
 
-    public print(): void
-    {
-        //기존 방 목록을 지우고
-
-        for(var i: number = 0; i < this.length; i++)
-        {
-            (<Room>this[i]).print();
-        }
+        for (var i: number = 0; i < this.length; i++)
+            invoke.apply(<SlaveSystemRole>this[i]);
     }
-}
-class Room
+};
+class SlaveSystemRole
     extends Entity
+    implements IProtocol
 {
-    public TAG(): string { return "room"; }
+    protected system: SlaveSystem;
 
-    private name: string;
-    private host: string;
-    private participants: Vector<string>;
-
-    constructor()
+    public sendData(invoke: Invoke): void
     {
-        super();
-
-        this.participants = new Vector<string>();
+        this.system.sendData(invoke);
     }
-    public construct(xml: XML): void
-    {
-        this.name = xml.getProperty("name");
-        this.host = xml.getProperty("host");
-        this.participants = new Vector<string>();
-        
-        var xmlList: XMLList = xml.get("participant");
-        for(var i: number = 0; i < xmlList.length; i++)
-            this.participants.push( xmlList[i].getValue() );
-    }
-
-    public print(): void
-    {
-        //화면에 출력할 것들
-    }
-}
-class ChatMessage
-    extends Entity
-{
-    public TAG(): string { return "message"; }
-
-    private orator: string;
-    private listener: string;
-    private content: string;
-
-    constructor(... args: string[])
-    {
-        super();
-
-        if(args.length == 0)
-            return;
-        else if(args.length == 2)
-        {
-            this.orator = args[0];
-            this.listener = "";
-            this.content = args[1];
-        }
-        else if(args.length == 3)
-        {
-            this.orator = args[0];
-            this.listener = args[1];
-            this.content = args[2];
-        }
-    }
-    public construct(xml: XML): void
-    {
-        this.orator = xml.getProperty("orator");
-        if( xml.hasProperty("listener") == true )
-            this.listener = xml.getProperty("listener");
-        else
-            this.listener = "";
-
-        this.content = xml.getProperty("content");
-    }
-
-    public toXML(): XML
-    {
-        var xml: XML = super.toXML();
-        xml.setProperty("orator", this.orator);
-        xml.setProperty("content", this.content);
-
-        if (this.listener.length > 0)
-            xml.setProperty("listener", this.listener);
-        
-        return xml;
-    }
-    public print(): void
-    {
-        //메시지를 화면에 출력
-    }
-}
-
-class LoginMovie
-    extends Movie
-{
-    constructor()
-    {
-         super();
-    }
-    public goLogin(id: string): void
-    {
-        this.sendData( new Invoke("goLogin", id) );
-    }
-    private handleLogin(success: boolean): void
-    {
-        if(success == true)
-        {
-            //페이지 이동
-        }
-        else
-        {
-            alert("동일한 아이디가 존재합니다.");
-        }
-    }
-}
-
-class ListMovie
-    extends Movie
-{
-    private roomArray: RoomArray;
-
-    constructor()
-    {
-        super();
-
-        this.roomArray = new RoomArray();
-    }
-    public makeRoom(name: string): void
-    {
-        this.sendData(new Invoke("makeRoom", name));
-    }
-    public joinRoom(name: string): void
-    {
-        this.sendData(new Invoke("joinRoom", name));
-    }
-
     public replyData(invoke: Invoke): void
     {
         invoke.apply(this);
     }
-    private handleRoomArray(xml: XML): void
-    {
-        this.roomArray.construct(xml);
-        this.roomArray.print();
-    }
-    private handleMakeRoom(success: boolean): void
-    {
-        if(success == true)
-        {
-            //MOVE TO THE ROOM
-        }
-        else
-        {
-            //DUPLICATED ROOM EXISTS
-        }
-    }
-    private handleJoinRoom(success: boolean): void
-    {
-        if (success == true) 
-        {
-            //MOVE TO THE ROOM
-        }
-        else 
-        {
-            //CANNOT FIND THE ROOM
-        }
-    }
-}
+};
 
-class ChatMovie
-    extends Movie
-{
-    private room: Room;
-
-    constructor()
-    {
-        super();
-    }
-    public sendMessage(message: ChatMessage): void
-    {
-        this.sendData(new Invoke("sendMessgae", message));
-    }
-
-    private handleRoom(xml: XML): void
-    {
-        var room: Room = new Room();
-        room.construct(xml);
-
-        room.print();
-    }
-    private handleMessage(xml: XML): void
-    {
-        var message: ChatMessage = new ChatMessage();
-        message.construct(xml);
-
-        message.print();
-    }
-}
-
+/* =================================================================================
+    PROTOCOL - PARALLEL SYSTEM MOUDLE
+================================================================================= */

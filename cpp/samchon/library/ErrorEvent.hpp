@@ -14,7 +14,7 @@ namespace samchon
 		 *
 		 * @details
 		 * \par [Inherited]
-		 * @copydetails library::Event
+		 *		@copydetails library::Event
 		 */
 		class SAMCHON_FRAMEWORK_API ErrorEvent 
 			: public Event

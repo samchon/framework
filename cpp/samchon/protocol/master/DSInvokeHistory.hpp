@@ -1,7 +1,7 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/protocol/slave/InvokeHistory.hpp>
+#include <samchon/protocol/InvokeHistory.hpp>
 
 namespace samchon
 {
@@ -20,20 +20,20 @@ namespace samchon
 			 *		@copydetails protocol::InvokeHistory
 			 */
 			class SAMCHON_FRAMEWORK_API DSInvokeHistory
-				: public slave::InvokeHistory
+				: public InvokeHistory
 			{
 			protected:
-				typedef slave::InvokeHistory super;
+				typedef InvokeHistory super;
 
 				/**
 				 * @brief Source system
 				 */
-				master::DistributedSystem *system;
+				DistributedSystem *system;
 
 				/**
 				 * @brief Source role
 				 */
-				master::DistributedSystemRole *role;
+				DistributedSystemRole *role;
 
 			public:
 				/**
@@ -42,9 +42,17 @@ namespace samchon
 				 * @param system a source system
 				 * @param role a source role
 				 */
-				DSInvokeHistory(master::DistributedSystem*, master::DistributedSystemRole*);
+				DSInvokeHistory(DistributedSystem*, DistributedSystemRole*);
 
-				virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+				/**
+				 * @brief Get source system.
+				 */
+				auto getSystem() const -> DistributedSystem*;
+
+				/**
+				 * @brief Gets source role.
+				 */
+				auto getRole() const -> DistributedSystemRole*;
 			};
 		};
 	};

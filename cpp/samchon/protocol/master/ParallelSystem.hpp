@@ -9,7 +9,8 @@ namespace samchon
 	{
 		namespace master
 		{
-			class PRInvokeHitoryList;
+			class ParallelSystemArray;
+			class PRInvokeHistoryArray;
 
 			/**
 			 * @brief A network driver for a parallel system.
@@ -37,19 +38,23 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API ParallelSystem
 				: public virtual ExternalSystem
 			{
+				friend class ParallelSystemArray;
+
 			protected:
 				typedef ExternalSystem super;
+
+				ParallelSystemArray *systemArray;
 
 				/**
 				 * @brief A list of history log for reported Invoke messages.
 				 */
-				PRInvokeHitoryList *invokeHistoryList;
+				PRInvokeHistoryArray *historyArray;
 
 				/**
 				 * @brief A performance index.
 				 *
-				 * @details
 				 * <p> A performance index z is calculated by normalization calculating reverse number of 
+				 * @details
 				 * whole parallel system's average elapsed times and its z value between the normal 
 				 * distribution. </p>
 				 *
@@ -69,16 +74,17 @@ namespace samchon
 				 * @brief Default Constructor.
 				 */
 				ParallelSystem();
-				virtual ~ParallelSystem() = default;
+				virtual ~ParallelSystem();
 
 				virtual void construct(std::shared_ptr<library::XML>) override;
 
 				/* ------------------------------------------------------------------
 					CHAIN OF INVOKE MESSAGE
 				------------------------------------------------------------------ */
-				using super::sendData;
-				virtual void replyData(std::shared_ptr<Invoke>) override;
+			protected:
+				virtual void _replyData(std::shared_ptr<Invoke>) override;
 
+			private:
 				/**
 				 * @brief Send a message with segmentation index.
 				 *
@@ -86,11 +92,12 @@ namespace samchon
 				 * @param startIndex Starting index number of segmentation.
 				 * @param size Size of segmentation.
 				 */
-				virtual void sendData(std::shared_ptr<Invoke>, size_t, size_t);
+				void sendSegmentData(std::shared_ptr<Invoke>, size_t, size_t);
 
 				/* ------------------------------------------------------------------
 					EXPORTERS
 				------------------------------------------------------------------ */
+			public:
 				virtual auto toXML() const -> std::shared_ptr<library::XML> override;
 			};
 		};

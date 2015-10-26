@@ -3,6 +3,8 @@
 
 #include <samchon/protocol/ExternalSystemArray.hpp>
 
+#include <atomic>
+
 namespace samchon
 {
 	namespace protocol
@@ -45,8 +47,15 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API ParallelSystemArray
 				: public virtual ExternalSystemArray
 			{
+				friend class ParallelSystem;
+
 			protected:
 				typedef ExternalSystemArray super;
+
+			private:
+				std::atomic<size_t> historySequence;
+
+				std::map<size_t, size_t> progressMap;
 
 			public:
 				/* ------------------------------------------------------------------
@@ -74,7 +83,10 @@ namespace samchon
 				 * @param invoke An invoke message requesting a process.
 				 * @param size Size of segmentation.
 				 */
-				virtual void sendData(std::shared_ptr<Invoke>, size_t);
+				virtual void sendSegmentData(std::shared_ptr<Invoke>, size_t);
+
+			private:
+				void notifyEnd(size_t);
 			};
 		};
 	};

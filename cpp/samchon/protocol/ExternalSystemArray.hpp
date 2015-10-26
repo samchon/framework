@@ -2,13 +2,13 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/SharedEntityArray.hpp>
+#	include <samchon/protocol/ExternalSystem.hpp>
 #include <samchon/protocol/IProtocol.hpp>
 
 namespace samchon
 {
 	namespace protocol
 	{
-		class ExternalSystem;
 		class ExternalSystemRole;
 		
 		/**

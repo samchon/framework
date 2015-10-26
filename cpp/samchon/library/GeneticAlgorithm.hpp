@@ -117,8 +117,6 @@ namespace samchon
 			 * @param tournament Size of tournament in selection
 			 * @param elitism Whether to keep the elitest GeneArray
 			 */
-
-			/**
 			GeneticAlgorithm(bool unique, double mutationRate = 0.015, size_t tournament = 10)
 			{
 				this->unique = unique;

@@ -1,0 +1,17 @@
+#include <samchon/protocol/master/PRInvokeHistoryArray.hpp>
+
+using namespace std;
+using namespace samchon::library;
+using namespace samchon::protocol;
+using namespace samchon::protocol::master;
+
+PRInvokeHistoryArray::PRInvokeHistoryArray()
+	: super()
+{
+}
+auto PRInvokeHistoryArray::createChild(shared_ptr<XML>) -> InvokeHistory*
+{
+	return new PRInvokeHistory();
+}
+
+SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(PRInvokeHistoryArray, PRInvokeHistory)

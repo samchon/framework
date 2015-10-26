@@ -2051,6 +2051,19 @@ var SlaveSystemRole = (function (_super) {
     };
     return SlaveSystemRole;
 })(Entity);
+/**
+ * <p> A history of an Invoke message. </p>
+ *
+ * <p> InvokeHistory is a class for reporting history log of an Invoke message with elapsed time
+ * from a slave to its master.</p>
+ *
+ * <p> With the elapsed time, consumed time for a process of handling the Invoke message,
+ * InvokeHistory is reported to the master. The master utilizies the elapsed time to estimating
+ * performances of each slave system. With the estimated performan index, master retrives the
+ * optimal solution of distributing processes. </p>
+ *
+ * @author Jeongho Nam
+ */
 var InvokeHistory = (function (_super) {
     __extends(InvokeHistory, _super);
     function InvokeHistory(uid, listener) {

@@ -19,7 +19,7 @@ call "%RELEASE_DIR%_cpp/latex/make.bat"
 "%CHM_DIR%hhc.exe" "%RELEASE_DIR%_cpp\html\index.hhp"
 
 ::MOVE
-move "%RELEASE_DIR%_cpp\html\index.chm" "%RELEASE_DIR%_cpp\html\api.chm"
+move "%RELEASE_DIR%_cpp\html\index.chm" "%RELEASE_DIR%_cpp\html]api.chm"
 move "%RELEASE_DIR%_cpp\latex\refman.pdf" "%RELEASE_DIR%_cpp\html\api.pdf"
 move "%RELEASE_DIR%_cpp\html" "%RELEASE_DIR%cpp"
 

@@ -8,7 +8,6 @@ namespace samchon
 {
 	namespace library
 	{
-
 		/**
 		 * @brief A population of a generation in G.A.
 		 *

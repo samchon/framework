@@ -328,6 +328,30 @@
     <Filter Include="Header Files\protocol\master\parallel processing system\mediator\slave">
       <UniqueIdentifier>{86c404c2-f16a-4687-8579-e7311a645706}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\protocol\master\parallel processing system">
+      <UniqueIdentifier>{f0da8b2c-132b-46c8-bd55-13a402c700b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\master\parallel processing system\abstract">
+      <UniqueIdentifier>{b39db20e-86b8-4dba-a6b8-58faab4a4a97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\master\distributed processing system\history">
+      <UniqueIdentifier>{f4ea9b17-5c1e-4592-b164-17085d599895}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\distributed processing system\history">
+      <UniqueIdentifier>{d554213e-69b9-4e42-8a9f-c26c28147ce8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\parallel processing system\history">
+      <UniqueIdentifier>{bca77c9c-1411-4c8b-a17e-7ab9f0c80ca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\master\parallel processing system\history">
+      <UniqueIdentifier>{1da5a26f-0470-46fa-833c-c173ebda92d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\master\parallel processing system\server">
+      <UniqueIdentifier>{eea29c3e-a316-4410-a7c8-1d00bd802b5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\master\parallel processing system\client">
+      <UniqueIdentifier>{e887442c-aba6-4280-b372-588a57c7db33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\SmartPointer.hpp">
@@ -630,15 +654,6 @@
     <ClInclude Include="..\samchon\WeakString.hpp">
       <Filter>Header Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp">
-      <Filter>Header Files\protocol\common\invoke\history</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\PRInvokeHistory.hpp">
-      <Filter>Header Files\protocol\common\invoke\history</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\slave\InvokeHistory.hpp">
-      <Filter>Header Files\protocol\common\invoke\history</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\ExternalSystemArray.hpp">
       <Filter>Header Files\protocol\common\external system\abstract</Filter>
     </ClInclude>
@@ -761,6 +776,27 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\slave\ParallelSlaveClientMediator.hpp">
       <Filter>Header Files\protocol\master\parallel processing system\mediator\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\history</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp">
+      <Filter>Header Files\protocol\common\invoke\history</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistoryList.hpp">
+      <Filter>Header Files\protocol\master\distributed processing system\history</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\InvokeHistoryArray.hpp">
+      <Filter>Header Files\protocol\common\invoke\history</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\PRInvokeHistoryArray.hpp">
+      <Filter>Header Files\protocol\master\parallel processing system\history</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\PRInvokeHistory.hpp">
+      <Filter>Header Files\protocol\common\invoke\history</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\PRMasterHistory.hpp">
+      <Filter>Header Files\protocol\master\parallel processing system\history</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -917,9 +953,6 @@
     <ClCompile Include="..\samchon\protocol\ExternalSystem.cpp">
       <Filter>Source Files\protocol\common\external system\abstract</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\slave\InvokeHistory.cpp">
-      <Filter>Source Files\protocol\common\invoke\history</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\protocol\ExternalSystemArray.cpp">
       <Filter>Source Files\protocol\common\external system\abstract</Filter>
     </ClCompile>
@@ -976,6 +1009,33 @@
     </ClCompile>
     <ClCompile Include="..\samchon\library\FTFactory.cpp">
       <Filter>Source Files\library\virtual file tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\ParallelSystem.cpp">
+      <Filter>Source Files\protocol\master\parallel processing system\abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\PRInvokeHistory.cpp">
+      <Filter>Source Files\protocol\common\invoke\history</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\DSInvokeHistory.cpp">
+      <Filter>Source Files\protocol\master\distributed processing system\history</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\InvokeHistory.cpp">
+      <Filter>Source Files\protocol\common\invoke\history</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\PRInvokeHistoryList.cpp">
+      <Filter>Source Files\protocol\master\parallel processing system\history</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\InvokeHistoryArray.cpp">
+      <Filter>Source Files\protocol\common\invoke\history</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\ParallelSystemArray.cpp">
+      <Filter>Source Files\protocol\master\parallel processing system\abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\ParallelServerArray.cpp">
+      <Filter>Source Files\protocol\master\parallel processing system\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\ParallelClientArray.cpp">
+      <Filter>Source Files\protocol\master\parallel processing system\client</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

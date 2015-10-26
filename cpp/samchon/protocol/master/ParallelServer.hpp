@@ -23,6 +23,10 @@ namespace samchon
 				: public virtual ParallelSystem,
 				public virtual ExternalServer
 			{
+			protected:
+				typedef ParallelSystem super;
+				typedef ExternalServer network_super;
+
 			public:
 				/**
 				* @brief Default Constructor.

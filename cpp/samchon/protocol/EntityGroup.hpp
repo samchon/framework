@@ -130,10 +130,24 @@ namespace samchon
 			 */
 			virtual auto createChild(std::shared_ptr<library::XML>) -> entity_type* = 0;
 			
+		public:
+			/* ------------------------------------------------------------------------------------
+				MODIFIERS
+			------------------------------------------------------------------------------------ */
+			using _Container::erase;
+
+			void erase(const std::string &key)
+			{
+				for (_Container::iterator it = begin(); it != end();)
+					if ((*it)->key() == key)
+						it = erase(it);
+					else
+						it++;
+			};
+
 			/* ------------------------------------------------------------------------------------
 				GETTERS
 			------------------------------------------------------------------------------------ */
-		public:
 			/**
 			* @brief Indicates whether a container has an object having the specified identifier. </p>
 			* 
@@ -179,6 +193,9 @@ namespace samchon
 				throw std::exception("out of range");
 			};
 
+			/* ------------------------------------------------------------------------------------
+				EXPORTERS
+			------------------------------------------------------------------------------------ */
 			/**
 			 * @brief Get an XML object represents the EntityGroup
 			 *

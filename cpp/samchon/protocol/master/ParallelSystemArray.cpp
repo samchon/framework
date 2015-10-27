@@ -1,7 +1,8 @@
 #include <samchon/protocol/master/ParallelSystemArray.hpp>
 
 #include <samchon/protocol/master/ParallelSystem.hpp>
-#include <samchon/protocol/master/PRInvokeHistoryArray.hpp>
+#include <samchon/protocol/master/PRMasterHistoryArray.hpp>
+#include <samchon/protocol/master/PRMasterHistory.hpp>
 
 #include <thread>
 #include <samchon/protocol/Invoke.hpp>
@@ -16,7 +17,13 @@ using namespace samchon::protocol::master;
 ------------------------------------------------------------------ */
 ParallelSystemArray::ParallelSystemArray()
 {
-	historySequence = 0;
+	historyArray = new PRMasterHistoryArray(this);
+	progressArray = new PRMasterHistoryArray(this);
+}
+ParallelSystemArray::~ParallelSystemArray()
+{
+	delete historyArray;
+	delete progressArray;
 }
 
 /* ------------------------------------------------------------------
@@ -29,13 +36,17 @@ SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(ParallelSystemArray, ParallelSystem)
 ------------------------------------------------------------------ */
 void ParallelSystemArray::sendSegmentData(shared_ptr<Invoke> invoke, size_t totalSize)
 {
+	sendSegmentData(invoke, 0, totalSize);
+}
+void ParallelSystemArray::sendSegmentData(shared_ptr<Invoke> invoke, size_t index, size_t totalSize)
+{
+	if (invoke->has("invoke_history_uid") == false)
+		invoke->emplace_back(new InvokeParameter("invoke_history_uid", ++uid));
+
 	vector<thread> threadArray(size());
-	size_t uid = ++historySequence;
-	size_t index = 0;
 
-	progressMap[uid] = size();
-
-	invoke->emplace_back( new InvokeParameter("invoke_history_uid", uid) );
+	PRMasterHistory *history = new PRMasterHistory(historyArray, invoke, index, totalSize);
+	historyArray->emplace_back(history);
 
 	for (size_t i = 0; i < size(); i++)
 	{
@@ -44,7 +55,7 @@ void ParallelSystemArray::sendSegmentData(shared_ptr<Invoke> invoke, size_t tota
 		if (i == size() - 1)
 			pieceSize = (index < totalSize - 1) ? totalSize - index : 0;
 		else
-			pieceSize = (size_t)(totalSize / (double)size() * at(i)->performance);
+			pieceSize = (size_t)((totalSize - index) / (double)size() * at(i)->performance);
 
 		//LINKAGE
 		if (at(i)->systemArray == nullptr)
@@ -55,7 +66,7 @@ void ParallelSystemArray::sendSegmentData(shared_ptr<Invoke> invoke, size_t tota
 			thread
 			(
 				&ParallelSystem::sendSegmentData, at(i).get(), 
-				invoke, index, pieceSize
+				history, invoke, index, pieceSize
 			);
 
 		index += pieceSize;
@@ -63,7 +74,19 @@ void ParallelSystemArray::sendSegmentData(shared_ptr<Invoke> invoke, size_t tota
 	for (size_t i = 0; i < threadArray.size(); i++)
 		threadArray[i].join();
 }
-void ParallelSystemArray::notifyEnd(size_t uid)
+
+void ParallelSystemArray::estimatePerformances()
+{
+	//NORMALIZE ALL PERFORMANCE INDEX
+	double avgPerformance = 0.0;
+	for (size_t i = 0; i < size(); i++)
+		avgPerformance += at(i)->performance / (double)size();
+
+	for (size_t i = 0; i < size(); i++)
+		at(i)->performance /= avgPerformance;
+}
+
+/*void ParallelSystemArray::notifyEnd(size_t uid)
 {
 	//DE-COUNT
 	if (--progressMap[uid] == 0)
@@ -108,4 +131,4 @@ void ParallelSystemArray::notifyEnd(size_t uid)
 	
 	for (i = 0; i < size(); i++)
 		at(i)->performance /= avgPerformance;
-}
+}*/

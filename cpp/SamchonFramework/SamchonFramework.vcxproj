@@ -273,9 +273,10 @@
     <ClInclude Include="..\samchon\protocol\master\ParallelSystem.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelSystemArray.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelSlaveSystemMediator.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\PRInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\master\PRInvokeHistoryArray.hpp" />
     <ClInclude Include="..\samchon\protocol\master\PRMasterHistory.hpp" />
-    <ClInclude Include="..\samchon\protocol\PRInvokeHistory.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\PRMasterHistoryArray.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\ParallelClient.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\ParallelServer.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\ParallelSlaveClientMediator.hpp" />
@@ -370,8 +371,10 @@
     <ClCompile Include="..\samchon\protocol\master\ParallelServerArray.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelSystem.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelSystemArray.cpp" />
-    <ClCompile Include="..\samchon\protocol\master\PRInvokeHistoryList.cpp" />
-    <ClCompile Include="..\samchon\protocol\PRInvokeHistory.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\PRInvokeHistory.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\PRInvokeHistoryArray.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\PRMasterHistory.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\PRMasterHistoryArray.cpp" />
     <ClCompile Include="..\samchon\protocol\ServerConnector.cpp" />
     <ClCompile Include="..\samchon\protocol\service\Client.cpp" />
     <ClCompile Include="..\samchon\protocol\service\IPUserPair.cpp" />
@@ -380,6 +383,9 @@
     <ClCompile Include="..\samchon\protocol\service\ServiceKeeper.cpp" />
     <ClCompile Include="..\samchon\protocol\service\ServiceRole.cpp" />
     <ClCompile Include="..\samchon\protocol\service\User.cpp" />
+    <ClCompile Include="..\samchon\protocol\slave\SlaveClient.cpp" />
+    <ClCompile Include="..\samchon\protocol\slave\SlaveServer.cpp" />
+    <ClCompile Include="..\samchon\protocol\slave\SlaveSystem.cpp" />
     <ClCompile Include="..\samchon\protocol\SystemRole.cpp" />
     <ClCompile Include="..\samchon\protocol\UniqueAcquire.cpp" />
     <ClCompile Include="..\samchon\WeakString.cpp" />

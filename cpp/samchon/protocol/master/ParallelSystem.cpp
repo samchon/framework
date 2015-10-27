@@ -24,6 +24,7 @@ ParallelSystem::ParallelSystem()
 ParallelSystem::~ParallelSystem()
 {
 	delete historyArray;
+	delete progressArray;
 }
 
 void ParallelSystem::construct(shared_ptr<XML> xml)
@@ -44,24 +45,45 @@ void ParallelSystem::_replyData(shared_ptr<Invoke> invoke)
 {
 	if (invoke->getListener() == "reportInvokeHistory")
 	{
-		PRInvokeHistory *history = new PRInvokeHistory();
-		history->construct(invoke->at(0)->getvalueAsXML());
+		InvokeHistory invokeHistory;
+		invokeHistory.construct(invoke->at(0)->getvalueAsXML());
 
-		historyArray->emplace_back(history);
-		
-		size_t uid = history->getUID();
-		if (systemArray != nullptr)
-			systemArray->notifyEnd(uid);
+		string uid = to_string(invokeHistory.getUID());
+		if (progressArray->has(uid) == false)
+			return;
+
+		//ERASE FROM PROGRESS AND REGISTER TO HISTORY
+		shared_ptr<PRInvokeHistory> history = progressArray->get(uid);
+		progressArray->erase(uid);
+		historyArray->push_back(history);
+
+		//NOTIFY END
+		history->construct(invoke->at(0)->getvalueAsXML());
+		history->notifyEnd();
 	}
 	else
 		replyData(invoke);
 }
-void ParallelSystem::sendSegmentData(shared_ptr<Invoke> invoke, size_t index, size_t size)
+void ParallelSystem::sendSegmentData
+	(
+		PRMasterHistory *masterHistory, 
+		shared_ptr<Invoke> invoke, size_t index, size_t size
+	)
 {
 	invoke->emplace_back(new InvokeParameter("invoke_history_index", index));
 	invoke->emplace_back(new InvokeParameter("invoke_history_size", size));
 
-	sendData(invoke);
+	try
+	{
+		sendData(invoke);
+	}
+	catch (exception &e)
+	{
+		throw e;
+	}
+
+	PRInvokeHistory *history = new PRInvokeHistory(masterHistory, this, invoke);
+	progressArray->emplace_back(history);
 }
 
 /* ------------------------------------------------------------------

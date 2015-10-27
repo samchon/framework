@@ -13,6 +13,9 @@ namespace samchon
 		{
 			class ParallelSystem;
 
+			class PRMasterHistoryArray;
+			class PRMasterHistory;
+
 			/**
 			 * @brief An array of parallel system drivers.
 			 *
@@ -48,14 +51,15 @@ namespace samchon
 				: public virtual ExternalSystemArray
 			{
 				friend class ParallelSystem;
+				friend class PRMasterHistory;
 
 			protected:
 				typedef ExternalSystemArray super;
 
 			private:
-				std::atomic<size_t> historySequence;
-
-				std::map<size_t, size_t> progressMap;
+				std::atomic<size_t> uid;
+				PRMasterHistoryArray *historyArray;
+				PRMasterHistoryArray *progressArray;
 
 			public:
 				/* ------------------------------------------------------------------
@@ -65,7 +69,7 @@ namespace samchon
 				 * @brief Default Constructor.
 				 */
 				ParallelSystemArray();
-				virtual ~ParallelSystemArray() = default;
+				virtual ~ParallelSystemArray();
 
 				/* ------------------------------------------------------------------
 					GETTERS
@@ -86,7 +90,9 @@ namespace samchon
 				virtual void sendSegmentData(std::shared_ptr<Invoke>, size_t);
 
 			private:
-				void notifyEnd(size_t);
+				void sendSegmentData(std::shared_ptr<Invoke>, size_t, size_t);
+				
+				void estimatePerformances();
 			};
 		};
 	};

@@ -2,7 +2,7 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/InvokeHistoryArray.hpp>
-#include <samchon/protocol/PRInvokeHistory.hpp>
+#include <samchon/protocol/master/PRInvokeHistory.hpp>
 
 namespace samchon
 {

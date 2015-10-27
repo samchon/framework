@@ -10,7 +10,9 @@ namespace samchon
 		namespace master
 		{
 			class ParallelSystemArray;
+
 			class PRInvokeHistoryArray;
+			class PRMasterHistory;
 
 			/**
 			 * @brief A network driver for a parallel system.
@@ -39,16 +41,25 @@ namespace samchon
 				: public virtual ExternalSystem
 			{
 				friend class ParallelSystemArray;
+				friend class PRMasterHistory;
 
 			protected:
 				typedef ExternalSystem super;
 
+				/**
+				 * @brief A master that the system is belonged to.
+				 */
 				ParallelSystemArray *systemArray;
 
 				/**
 				 * @brief A list of history log for reported Invoke messages.
 				 */
 				PRInvokeHistoryArray *historyArray;
+
+				/**
+				 * @brief A list of invoke messages on progress.
+				 */
+				PRInvokeHistoryArray *progressArray;
 
 				/**
 				 * @brief A performance index.
@@ -92,7 +103,7 @@ namespace samchon
 				 * @param startIndex Starting index number of segmentation.
 				 * @param size Size of segmentation.
 				 */
-				void sendSegmentData(std::shared_ptr<Invoke>, size_t, size_t);
+				void sendSegmentData(PRMasterHistory*, std::shared_ptr<Invoke>, size_t, size_t);
 
 				/* ------------------------------------------------------------------
 					EXPORTERS

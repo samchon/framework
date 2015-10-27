@@ -111,7 +111,7 @@ namespace samchon
 			 * <p> Notifies end of a process handling the matched Invoke message to InvokeHistory. </p>
 			 * <p> InvokeHistory archives the end datetime and calculates elapsed time as nanoseconds. </p>
 			 */
-			void notifyEnd();
+			virtual void notifyEnd();
 
 			/* -----------------------------------------------------------------
 			GETTERS

@@ -3,7 +3,7 @@ SET RELEASE_DIR=D:\Homepage\samchon.github.io\framework\api\
 :: ----------------------------------------------------------------
 ::    CLEAR ORDINARY API DOCUMENTS
 :: ----------------------------------------------------------------
-IF EXIST "%RELEASE_DIR%" rd "%RELEASE_DIR%"
+IF EXIST "%RELEASE_DIR%" rd "%RELEASE_DIR%" /S /Q
 mkdir "%RELEASE_DIR%"
 
 :: ----------------------------------------------------------------
@@ -16,10 +16,10 @@ SET CHM_DIR=C:\Program Files (x86)\HTML Help Workshop\
 ::DOCUMENTATE
 "%DOXYGEN_DIR%doxygen" cpp.doxygen
 call "%RELEASE_DIR%_cpp/latex/make.bat"
-"%CHM_DIR%hhc.exe" "%RELEASE_DIR%_cpp\html\index.hhp"
+::"%CHM_DIR%hhc.exe" "%RELEASE_DIR%_cpp\html\index.hhp"
 
 ::MOVE
-move "%RELEASE_DIR%_cpp\html\index.chm" "%RELEASE_DIR%_cpp\html]api.chm"
+::move "%RELEASE_DIR%_cpp\html\index.chm" "%RELEASE_DIR%_cpp\html\api.chm"
 move "%RELEASE_DIR%_cpp\latex\refman.pdf" "%RELEASE_DIR%_cpp\html\api.pdf"
 move "%RELEASE_DIR%_cpp\html" "%RELEASE_DIR%cpp"
 
@@ -49,5 +49,5 @@ SET TS_SRC_DIR=../js/
 :: ----------------------------------------------------------------
 ::    COMMIT TO GITHUB (SAMCHON.GITHUB.IO)
 :: ----------------------------------------------------------------
-cd "%RELEASE_DIR%..\.."
-call release.bat
+::cd "%RELEASE_DIR%..\.."
+::call release.bat

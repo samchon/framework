@@ -1,5 +1,6 @@
-#include <samchon/protocol/PRInvokeHistory.hpp>
+#include <samchon/protocol/master/PRInvokeHistory.hpp>
 
+#include <samchon/protocol/master/PRMasterHistory.hpp>
 #include <samchon/protocol/master/ParallelSystem.hpp>
 
 #include <samchon/library/XML.hpp>
@@ -17,9 +18,12 @@ PRInvokeHistory::PRInvokeHistory()
 	: super()
 {
 }
-PRInvokeHistory::PRInvokeHistory(shared_ptr<Invoke> invoke)
+PRInvokeHistory::PRInvokeHistory(PRMasterHistory *masterHistory, ParallelSystem *system, shared_ptr<Invoke> invoke)
 	: super(invoke)
 {
+	this->masterHistory = masterHistory;
+	this->system = system;
+
 	index = invoke->get("invoke_history_index")->getValue<size_t>();
 	size = invoke->get("invoke_history_size")->getValue<size_t>();
 }
@@ -29,6 +33,11 @@ void PRInvokeHistory::construct(shared_ptr<XML> xml)
 
 	index = xml->getProperty<size_t>("index");
 	size = xml->getProperty<size_t>("size");
+}
+
+void PRInvokeHistory::notifyEnd()
+{
+	masterHistory->notifyEnd();
 }
 
 /* --------------------------------------------------------------------

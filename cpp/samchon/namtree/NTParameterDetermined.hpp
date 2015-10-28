@@ -30,9 +30,10 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API NTParameterDetermined
 			: public virtual protocol::Entity
 		{
-		protected:
+		private:
 			typedef protocol::Entity super;
 
+		protected:
 			/**
 			 * @brief A label will be printed in a combo-box.
 			 * @details The string label is identifier of a NTParameterDetermined. It must be unique.

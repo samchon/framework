@@ -36,9 +36,9 @@ SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(ParallelSystemArray, ParallelSystem)
 ------------------------------------------------------------------ */
 void ParallelSystemArray::sendSegmentData(shared_ptr<Invoke> invoke, size_t totalSize)
 {
-	sendSegmentData(invoke, 0, totalSize);
+	sendPieceData(invoke, 0, totalSize);
 }
-void ParallelSystemArray::sendSegmentData(shared_ptr<Invoke> invoke, size_t index, size_t totalSize)
+void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t index, size_t totalSize)
 {
 	if (invoke->has("invoke_history_uid") == false)
 		invoke->emplace_back(new InvokeParameter("invoke_history_uid", ++uid));
@@ -65,7 +65,7 @@ void ParallelSystemArray::sendSegmentData(shared_ptr<Invoke> invoke, size_t inde
 		threadArray[i] = 
 			thread
 			(
-				&ParallelSystem::sendSegmentData, at(i).get(), 
+				&ParallelSystem::sendPieceData, at(i).get(), 
 				history, invoke, index, pieceSize
 			);
 

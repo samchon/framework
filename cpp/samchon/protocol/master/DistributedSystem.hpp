@@ -45,9 +45,10 @@ namespace samchon
 			{
 				friend class DistributedSystemArray;
 
-			protected:
+			private:
 				typedef ExternalSystem super;
 				
+			protected:
 				/* --------------------------------------------------------------------------------
 					VARIABLES FOR ESTIMATING PERFORMANCE
 				-------------------------------------------------------------------------------- */

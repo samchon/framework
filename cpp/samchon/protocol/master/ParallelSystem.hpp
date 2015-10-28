@@ -43,7 +43,7 @@ namespace samchon
 				friend class ParallelSystemArray;
 				friend class PRMasterHistory;
 
-			protected:
+			private:
 				typedef ExternalSystem super;
 
 				/**
@@ -89,10 +89,13 @@ namespace samchon
 
 				virtual void construct(std::shared_ptr<library::XML>) override;
 
+				
+			protected:
+				virtual auto createChild(std::shared_ptr<library::XML>) -> ExternalSystemRole* override;
+
 				/* ------------------------------------------------------------------
 					CHAIN OF INVOKE MESSAGE
 				------------------------------------------------------------------ */
-			protected:
 				virtual void _replyData(std::shared_ptr<Invoke>) override;
 
 			private:
@@ -103,7 +106,7 @@ namespace samchon
 				 * @param startIndex Starting index number of segmentation.
 				 * @param size Size of segmentation.
 				 */
-				void sendSegmentData(PRMasterHistory*, std::shared_ptr<Invoke>, size_t, size_t);
+				void sendPieceData(PRMasterHistory*, std::shared_ptr<Invoke>, size_t, size_t);
 
 				/* ------------------------------------------------------------------
 					EXPORTERS

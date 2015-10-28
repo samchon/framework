@@ -39,9 +39,10 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API DistributedSystemArray
 				: public virtual ExternalSystemArray
 			{
-			protected:
+			private:
 				typedef ExternalSystemArray super;
 
+			protected:
 				/**
 				 * @brief A dictionary of role objects.
 				 */

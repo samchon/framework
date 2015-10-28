@@ -52,11 +52,12 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API NTFactory
 			: public library::FTFactory
 		{
-		protected:
+		private:
 			typedef library::FTFactory super;
-			typedef std::function<double(const NTIterator&, const std::vector<double> &)> SideFunction;
 
 		protected:
+			typedef std::function<double(const NTIterator&, const std::vector<double> &)> SideFunction;
+
 			/**
 			 * @brief A entity gorup containing historical data.
 			 */

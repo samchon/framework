@@ -33,9 +33,10 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API DistributedSystemArrayMediator
 				: public virtual DistributedSystemArray
 			{
-			protected:
+			private:
 				typedef DistributedSystemArray super;
 
+			protected:
 				/**
 				 * @brief A slave system for mediation.
 				 */

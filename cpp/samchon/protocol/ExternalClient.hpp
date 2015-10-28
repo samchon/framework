@@ -33,6 +33,8 @@ namespace samchon
 			 */
 			ExternalClient();
 			virtual ~ExternalClient() = default;
+
+			virtual void start() override;
 		};
 	};
 };

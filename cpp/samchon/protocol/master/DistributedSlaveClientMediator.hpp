@@ -24,7 +24,7 @@ namespace samchon
 				: public virtual DistributedSlaveSystemMediator,
 				public virtual slave::SlaveClient
 			{
-			protected:
+			private:
 				typedef DistributedSlaveSystemMediator super;
 				typedef slave::SlaveClient network_supr;
 

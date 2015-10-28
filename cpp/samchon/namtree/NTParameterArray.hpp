@@ -25,7 +25,7 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API NTParameterArray
 			: public virtual protocol::SharedEntityArray<NTParameter>
 		{
-		protected:
+		private:
 			typedef protocol::SharedEntityArray<NTParameter> super;
 
 		public:

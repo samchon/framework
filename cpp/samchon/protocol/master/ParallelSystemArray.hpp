@@ -53,10 +53,9 @@ namespace samchon
 				friend class ParallelSystem;
 				friend class PRMasterHistory;
 
-			protected:
+			private:
 				typedef ExternalSystemArray super;
 
-			private:
 				/**
 				 * @brief Sequence of uid allocating for history.
 				 */
@@ -100,16 +99,16 @@ namespace samchon
 				 */
 				virtual void sendSegmentData(std::shared_ptr<Invoke>, size_t);
 
-			private:
 				/**
-				 * @brief Send a message with segmentation index and size.
+				 * @brief Send a message with piece index and size.
 				 * 		  
 				 * @param invoke An invoke message requesting a process.
 				 * @param index Starting index number of segmentation.
 				 * @param size Size of segmentation.
 				 */
-				void sendSegmentData(std::shared_ptr<Invoke>, size_t, size_t);
+				void sendPieceData(std::shared_ptr<Invoke>, size_t, size_t);
 				
+			private:
 				/**
 				 * @brief Estimate performance of each system.
 				 * 

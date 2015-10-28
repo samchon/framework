@@ -24,9 +24,9 @@ namespace samchon
 				: public virtual ParallelSlaveSystemMediator,
 				public virtual slave::ParallelServer
 			{
-			protected:
+			private:
 				typedef ParallelSlaveSystemMediator super;
-				typedef slave::ParallelServer network_supr;
+				typedef slave::ParallelServer network_super;
 
 			public:
 				/**

@@ -25,7 +25,7 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API INTExplore
 			: public virtual protocol::Entity
 		{
-		protected:
+		private:
 			typedef protocol::Entity super;
 
 		protected:

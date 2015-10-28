@@ -51,11 +51,12 @@ namespace samchon
 			: public library::FTFile,
 			public INTExplore
 		{
-		protected:
+		private:
 			typedef library::FTFile super;
-			typedef std::function<double(const NTIterator&, const std::vector<double> &)> SideFunction;
 
 		protected:
+			typedef std::function<double(const NTIterator&, const std::vector<double> &)> SideFunction;
+
 			/**
 			 * @brief A factory and manager class for nam-tree.
 			 *

@@ -77,7 +77,7 @@ namespace samchon
 				/**
 				 * @brief Get index.
 				 */
-				auto getIndex() const -> size_t;
+				inline auto getIndex() const -> size_t;
 
 				/**
 				 * @brief Get size.

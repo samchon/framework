@@ -44,7 +44,7 @@ namespace samchon
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API ExternalSystem
-			: public virtual SharedEntityArray<ExternalSystemRole>,
+			: public SharedEntityArray<ExternalSystemRole>,
 			public virtual IClient
 		{
 		protected:

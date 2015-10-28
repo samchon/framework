@@ -23,6 +23,10 @@ namespace samchon
 				: public virtual DistributedSystem,
 				public virtual ExternalClient
 			{
+			private:
+				typedef DistributedSystem super;
+				typedef ExternalClient network_super;
+
 			public:
 				/**
 				 * @brief Default Constructor.

@@ -37,9 +37,10 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API Date
 			: public std::chrono::system_clock::time_point
 		{
-		protected:
+		private:
 			typedef std::chrono::system_clock::time_point super;
 
+		protected:
 			/**
 			 * @brief time_point for 1970-01-01 09:00:00
 			 * @details It's the zero(0) in linux_time

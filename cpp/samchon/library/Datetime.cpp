@@ -8,8 +8,6 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 
-typedef chrono::system_clock::time_point TimePoint;
-
 /* ----------------------------------------------------------
 	CONSTRUCTORS
 ---------------------------------------------------------- */
@@ -18,11 +16,11 @@ Datetime::Datetime()
 	: super()
 {
 }
-Datetime::Datetime(const super::super &date)
+Datetime::Datetime(const chrono::system_clock::time_point &date)
 	: super(date)
 {
 }
-Datetime::Datetime(super::super &&date)
+Datetime::Datetime(chrono::system_clock::time_point &&date)
 	: super(move(date))
 {
 }

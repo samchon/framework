@@ -17,13 +17,9 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API ProgressEvent
 			: public Event
 		{
-		public:
-			enum : int 
-			{
-				PROGRESS = 11
-			};
-
 		private:
+			typedef Event super;
+
 			enum : int
 			{
 				ACTIVATE = 1,
@@ -44,6 +40,11 @@ namespace samchon
 			size_t denominator;
 
 		public:
+			enum : int 
+			{
+				PROGRESS = 11
+			};
+
 			/**
 			 * @brief Construct from source and progress
 			 *

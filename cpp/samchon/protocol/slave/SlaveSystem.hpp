@@ -25,6 +25,9 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API SlaveSystem
 				: public virtual ExternalSystem
 			{
+			protected:
+				typedef ExternalSystem super;
+
 			public:
 				/**
 				 * @brief Default Constructor.

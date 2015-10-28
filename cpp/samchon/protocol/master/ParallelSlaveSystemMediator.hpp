@@ -35,7 +35,9 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API ParallelSlaveSystemMediator
 				: public virtual slave::ParallelSystem
 			{
-			protected:
+				friend class ParallelSystemArrayMediator;
+
+			private:
 				typedef slave::ParallelSystem super;
 
 				/**
@@ -50,7 +52,7 @@ namespace samchon
 				ParallelSlaveSystemMediator();
 				virtual ~ParallelSlaveSystemMediator() = default;
 
-				virtual void replyData(std::shared_ptr<Invoke>) override;
+				virtual void replyPieceData(std::shared_ptr<Invoke>, size_t, size_t) override;
 
 			public:
 				virtual auto TAG() const -> std::string override;

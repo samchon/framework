@@ -32,6 +32,8 @@ namespace samchon
 				virtual ~ParallelSystem() = default;
 
 			protected:
+				virtual auto createChild(std::shared_ptr<library::XML>) -> ExternalSystemRole* override;
+
 				/**
 				* @brief Pre-processor for segmented processes and reporting elapsed time.
 				*
@@ -40,9 +42,7 @@ namespace samchon
 				*/
 				virtual void _replyData(std::shared_ptr<Invoke>) override;
 
-				// Don't discard original replyData().
-				using super::replyData;
-
+			public:
 				/**
 				 * @brief Handle requested processes which are segmented.
 				 *
@@ -50,7 +50,7 @@ namespace samchon
 				 * @param startIndex Starting index number of segmentation.
 				 * @param size Size of segmentation.
 				 */
-				virtual void replyData(std::shared_ptr<Invoke>, size_t, size_t) = 0;
+				virtual void replyPieceData(std::shared_ptr<Invoke>, size_t, size_t) = 0;
 			};
 		};
 	};

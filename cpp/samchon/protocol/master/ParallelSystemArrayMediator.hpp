@@ -33,17 +33,18 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API ParallelSystemArrayMediator
 				: public virtual ParallelSystemArray
 			{
-			protected:
+			private:
 				typedef ParallelSystemArray super;
 
+			protected:
 				/**
-				* @brief A slave system for mediation.
-				*/
+				 * @brief A slave system for mediation.
+				 */
 				ParallelSlaveSystemMediator *slave;
 
 			public:
 				/* ------------------------------------------------------------------
-				CONSTRUCTORS
+					CONSTRUCTORS
 				------------------------------------------------------------------ */
 				/**
 				 * @brief Default Constructor.
@@ -53,21 +54,14 @@ namespace samchon
 
 				virtual void construct(std::shared_ptr<library::XML>) override;
 
-			protected:
-				/**
-				 * @brief Factory method of slave system for mediation.
-				 *
-				 * @throw invalid_parameter If ParallelServerArrayMediator, slave must be a type of 
-				 *							ParallelSlaveServerMediator
-				 */
-				virtual auto createSlave() const -> ParallelSlaveSystemMediator* = 0;
-
 				/* ------------------------------------------------------------------
-				PROCESS
+					PROCESS
 				------------------------------------------------------------------ */
-			public:
 				virtual void start() override;
 
+				/* ------------------------------------------------------------------
+					EXPORTERS
+				------------------------------------------------------------------ */
 				virtual auto toXML() const -> std::shared_ptr<library::XML> override;
 			};
 		};

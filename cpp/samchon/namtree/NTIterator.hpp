@@ -26,9 +26,10 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API NTIterator
 			: public library::IOperator<NTIterator>
 		{
-		protected:
+		private:
 			typedef library::IOperator<NTIterator> super;
 
+		protected:
 			/**
 			 * @brief A historical data, source of the iterator.
 			 */

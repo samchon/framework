@@ -19,13 +19,9 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API ErrorEvent 
 			: public Event
 		{
-		public:
-			enum : int
-			{
-				ERROR = 0
-			};
-
 		private:
+			typedef Event super;
+
 			enum : int
 			{
 				ACTIVATE = 1,
@@ -40,6 +36,11 @@ namespace samchon
 			std::string message;
 
 		public:
+			enum : int
+			{
+				ERROR = 0
+			};
+
 			/**
 			 * @brief Construct from source and error-id
 			 * @details The event object owns its source and type

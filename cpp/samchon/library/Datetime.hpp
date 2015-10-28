@@ -19,7 +19,7 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API Datetime
 			: public Date
 		{
-		protected:
+		private:
 			typedef Date super;
 
 		public:
@@ -36,12 +36,12 @@ namespace samchon
 			/**
 			 * @copydoc Date::Date(const super&)
 			 */
-			Datetime(const super::super&);
+			Datetime(const std::chrono::system_clock::time_point&);
 
 			/**
 			 * @copydoc Date::Date(super&&)
 			 */
-			Datetime(super::super&&);
+			Datetime(std::chrono::system_clock::time_point&&);
 
 			/**
 			 * @brief Construct from datetime elements

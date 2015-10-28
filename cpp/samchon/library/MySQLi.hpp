@@ -17,6 +17,9 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API MySQLi
 			: public SQLi
 		{
+		private:
+			typedef SQLi super;
+
 		public:
 			/**
 			 * @brief Construct from port

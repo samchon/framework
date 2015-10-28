@@ -269,6 +269,8 @@
     <ClInclude Include="..\samchon\protocol\master\ParallelServer.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelServerArray.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelServerArrayMediator.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ParallelSlaveClientMediator.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ParallelSlaveServerMediator.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelSystemArrayMediator.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelSystem.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelSystemArray.hpp" />
@@ -279,8 +281,6 @@
     <ClInclude Include="..\samchon\protocol\master\PRMasterHistoryArray.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\ParallelClient.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\ParallelServer.hpp" />
-    <ClInclude Include="..\samchon\protocol\slave\ParallelSlaveClientMediator.hpp" />
-    <ClInclude Include="..\samchon\protocol\slave\ParallelSlaveServerMediator.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\ParallelSystem.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\SlaveClient.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\SlaveServer.hpp" />
@@ -368,9 +368,15 @@
     <ClCompile Include="..\samchon\protocol\ISQLEntity.cpp" />
     <ClCompile Include="..\samchon\protocol\master\DSInvokeHistory.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelClientArray.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ParallelClientArrayMediator.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelServerArray.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ParallelServerArrayMediator.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ParallelSlaveClientMediator.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ParallelSlaveServerMediator.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ParallelSlaveSystemMediator.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelSystem.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelSystemArray.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ParallelSystemArrayMediator.cpp" />
     <ClCompile Include="..\samchon\protocol\master\PRInvokeHistory.cpp" />
     <ClCompile Include="..\samchon\protocol\master\PRInvokeHistoryArray.cpp" />
     <ClCompile Include="..\samchon\protocol\master\PRMasterHistory.cpp" />

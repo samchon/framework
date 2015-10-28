@@ -37,7 +37,7 @@ namespace samchon
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API ExternalSystemArray
-			: public virtual SharedEntityArray<ExternalSystem>,
+			: public SharedEntityArray<ExternalSystem>,
 			public virtual IProtocol
 		{
 		protected:

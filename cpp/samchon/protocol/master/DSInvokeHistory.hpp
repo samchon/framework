@@ -22,9 +22,10 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API DSInvokeHistory
 				: public InvokeHistory
 			{
-			protected:
+			private:
 				typedef InvokeHistory super;
 
+			protected:
 				/**
 				 * @brief Source system
 				 */

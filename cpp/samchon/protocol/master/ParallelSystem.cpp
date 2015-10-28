@@ -3,6 +3,7 @@
 #include <samchon/protocol/master/ParallelSystemArray.hpp>
 #include <samchon/protocol/master/PRInvokeHistoryArray.hpp>
 
+#include <samchon/library/XML.hpp>
 #include <samchon/protocol/Invoke.hpp>
 
 using namespace std;
@@ -37,6 +38,10 @@ void ParallelSystem::construct(shared_ptr<XML> xml)
 	if (xml->has(historyArray->TAG()) == true)
 		historyArray->construct(xml->get(historyArray->TAG())->at(0));
 }
+auto ParallelSystem::createChild(shared_ptr<XML> xml) -> ExternalSystemRole*
+{
+	return nullptr;
+}
 
 /* ------------------------------------------------------------------
 	CHAIN OF INVOKE MESSAGE
@@ -64,7 +69,7 @@ void ParallelSystem::_replyData(shared_ptr<Invoke> invoke)
 	else
 		replyData(invoke);
 }
-void ParallelSystem::sendSegmentData
+void ParallelSystem::sendPieceData
 	(
 		PRMasterHistory *masterHistory, 
 		shared_ptr<Invoke> invoke, size_t index, size_t size

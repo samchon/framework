@@ -18,7 +18,7 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API DSInvokeHistoryList
 				: public SharedEntityList<DSInvokeHistory>
 			{
-			protected:
+			private:
 				typedef SharedEntityList<DSInvokeHistory> super;
 
 			public:

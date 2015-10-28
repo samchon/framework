@@ -35,9 +35,10 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API DistributedSlaveSystemMediator
 				: public virtual slave::SlaveSystem
 			{
-			protected:
+			private:
 				typedef slave::SlaveSystem super;
 
+			protected:
 				/**
 				 * @brief A master system for mediation
 				 */

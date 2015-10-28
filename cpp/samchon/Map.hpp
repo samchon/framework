@@ -92,14 +92,8 @@ namespace samchon
 		typedef std::map<_Kty, _Ty, _Pr, _Alloc> super;
 
 		//PROHIBIT ACCESS TO AT
-		inline auto at(const _Kty &key) const -> const _Ty&
-		{
-			return super::at(key);
-		};
-		inline auto at(const _Kty &key) -> _Ty&
-		{
-			return super::at(key);
-		};
+		auto at(const _Kty &) -> _Ty& = delete;
+		auto at(const _Kty &) const -> const _Ty& = delete;
 
 	public:
 		using super::super;

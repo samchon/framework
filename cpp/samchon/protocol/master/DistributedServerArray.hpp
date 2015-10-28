@@ -23,7 +23,7 @@ namespace samchon
 				: public virtual DistributedSystemArray,
 				public virtual ExternalServerArray
 			{
-			protected:
+			private:
 				typedef DistributedSystemArray super;
 				typedef ExternalServerArray network_super;
 

@@ -23,7 +23,7 @@ namespace samchon
 				: public virtual ParallelSystem,
 				public virtual SlaveServer
 			{
-			protected:
+			private:
 				typedef ParallelSystem super;
 				typedef SlaveServer network_super;
 

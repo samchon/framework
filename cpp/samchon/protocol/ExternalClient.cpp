@@ -14,3 +14,7 @@ ExternalClient::ExternalClient()
 	: super()
 {
 }
+void ExternalClient::start()
+{
+	listen();
+}

@@ -26,9 +26,10 @@ namespace samchon
 			: public virtual protocol::SharedEntityArray<NTParameterDetermined>,
 			public INTExplore
 		{
-		protected:
+		private:
 			typedef protocol::SharedEntityArray<NTParameterDetermined> super;
 
+		protected:
 			/**
 			 * @brief Name of a paremeter.
 			 * @details The string label is identifier of a NTParameter. It must be unique.

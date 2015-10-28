@@ -13,11 +13,17 @@ ParallelSystem::ParallelSystem()
 	: super()
 {
 }
+auto ParallelSystem::createChild(shared_ptr<XML>) -> ExternalSystemRole*
+{
+	return nullptr;
+}
+
 void ParallelSystem::_replyData(shared_ptr<Invoke> invoke)
 {
 	if (invoke->has("invoke_history_uid") == true)
 	{
-		thread(
+		thread
+		(
 			[this, invoke]
 			{
 				InvokeHistory history(invoke);
@@ -25,7 +31,7 @@ void ParallelSystem::_replyData(shared_ptr<Invoke> invoke)
 				size_t index = invoke->get("invoke_history_index")->getValue<size_t>();
 				size_t size = invoke->get("invoke_history_size")->getValue<size_t>();
 
-				replyData(invoke, index, size);
+				replyPieceData(invoke, index, size);
 
 				history.notifyEnd();
 				this->sendData(history.toInvoke());

@@ -36,9 +36,10 @@ namespace samchon
 			{
 				friend class DistributedSystemArray;
 
-			protected:
+			private:
 				typedef ExternalSystemRole super;
 
+			protected:
 				/**
 				 * @brief Allocated systems of about the role, at now.
 				 */

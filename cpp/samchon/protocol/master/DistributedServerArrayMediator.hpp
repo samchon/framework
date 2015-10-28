@@ -25,7 +25,7 @@ namespace samchon
 				: public virtual DistributedSystemArrayMediator,
 				public virtual DistributedServerArray
 			{
-			protected:
+			private:
 				typedef DistributedSystemArrayMediator super;
 				typedef DistributedServerArray network_super;
 

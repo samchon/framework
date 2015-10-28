@@ -10,6 +10,7 @@ namespace samchon
 		namespace master
 		{
 			class PRMasterHistory;
+			class ParallelSystemArray;
 			class ParallelSystem;
 
 			/**
@@ -22,11 +23,13 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API PRInvokeHistory
 				: public InvokeHistory
 			{
+				friend class ParallelSystemArray;
 				friend class PRMasterHistory;
 
-			protected:
+			private:
 				typedef InvokeHistory super;
 
+			public:
 				/**
 				 * @brief A history of master.
 				 */

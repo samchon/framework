@@ -23,6 +23,9 @@ namespace samchon
 			 * of slaves systems (slave::ParallelSystem objects) and also can be a slave system 
 			 * (slave::ParallelSystem) within framework of its master(ParallelSystemArray) by having
 			 * ParallelSlaveSystemMediator. </p>
+			 * 
+			 * @todo
+			 * Sends PRMasterHistory to its origin master.
 			 *
 			 * <p> @image html  conception/distributed_system_array_mediator.png
 			 * 	   @image latex conception/distributed_system_array_mediator.png </p>
@@ -59,6 +62,10 @@ namespace samchon
 				------------------------------------------------------------------ */
 				virtual void start() override;
 
+			protected:
+				virtual void notifyEnd(PRMasterHistory*);
+
+			public:
 				/* ------------------------------------------------------------------
 					EXPORTERS
 				------------------------------------------------------------------ */

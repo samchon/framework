@@ -62,12 +62,7 @@ namespace samchon
 			/**
 			 * @brief Inherits all constructors.
 			 */
-			using super::allocator;
-
-			template <typename U> struct rebind
-			{
-				typedef CriticalAllocator<U> other;
-			};
+			using super::super;
 
 			/**
 			 * @brief Get rw_mutex

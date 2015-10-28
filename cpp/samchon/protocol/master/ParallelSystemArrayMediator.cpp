@@ -1,6 +1,7 @@
 #include <samchon/protocol/master/ParallelSystemArrayMediator.hpp>
 
 #include <samchon/protocol/master/ParallelSlaveSystemMediator.hpp>
+#include <samchon/protocol/master/PRMasterHistory.hpp>
 
 #include <array>
 #include <thread>
@@ -54,6 +55,14 @@ void ParallelSystemArrayMediator::start()
 	//HOWEVER, THIS START IS SYNCHRONOUS
 	for (size_t i = 0; i < threadArray.size(); i++)
 		threadArray[i].join();*/
+}
+void ParallelSystemArrayMediator::notifyEnd(PRMasterHistory *masterHistory)
+{
+	//RE-CALCULATE PERFORMANCE INDEX
+	super::notifyEnd(masterHistory);
+
+	//REPORT TO ITS ORIGIN MASTER
+	slave->sendData(masterHistory->toInvoke());
 }
 
 /* ------------------------------------------------------------------

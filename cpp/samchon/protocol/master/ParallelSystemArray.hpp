@@ -106,17 +106,19 @@ namespace samchon
 				 * @param index Starting index number of segmentation.
 				 * @param size Size of segmentation.
 				 */
-				void sendPieceData(std::shared_ptr<Invoke>, size_t, size_t);
+				virtual void sendPieceData(std::shared_ptr<Invoke>, size_t, size_t);
 				
-			private:
+			protected:
 				/**
-				 * @brief Estimate performance of each system.
+				 * @brief Notify end of a master history.
 				 * 
 				 * @details
-				 * Normalize performances of children systems. The estimation of performance is standard
-				 * by averagae elapsed time of each segmentation.
+				 * <p> Estimates performance of each system by a master history containing their elapsed times. </p>
+				 *
+				 * <p> The estimation is done by normalizing performances of children systems. The estimation of 
+				 * performance is divided by averagae elapsed time of each segmentation.
 				 */
-				void estimatePerformances();
+				virtual void notifyEnd(PRMasterHistory*);
 			};
 		};
 	};

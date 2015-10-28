@@ -34,20 +34,6 @@ void PRMasterHistory::notifyEnd()
 	if (++completed < historyArray.size())
 		return;
 
-	// ESTIMATE LOCAL PERFORMANCE INDEX
-	double avgElapsedTime = 0.0;
-	for (size_t i = 0; i < historyArray.size(); i++)
-		avgElapsedTime += historyArray[i]->calcAverageElapsedTime();
-	
-	for (size_t i = 0; i < historyArray.size(); i++)
-	{
-		PRInvokeHistory *history = historyArray[i];
-		ParallelSystem *system = history->system;
-
-		double historyPerformance = avgElapsedTime / history->calcAverageElapsedTime();
-		system->performance = system->performance * .7 + historyPerformance * .3;
-	}
-
-	// ESTIMATE PERFORMANCE
-	master->estimatePerformances();
+	super::notifyEnd();
+	master->notifyEnd(this);
 }

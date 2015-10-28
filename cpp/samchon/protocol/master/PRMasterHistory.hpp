@@ -5,6 +5,7 @@
 
 #include <atomic>
 #include <vector>
+#include <samchon/library/CriticalVector.hpp>
 
 namespace samchon
 {
@@ -27,6 +28,8 @@ namespace samchon
 			class SAMCHON_FRAMEWORK_API PRMasterHistory
 				: public PRInvokeHistory
 			{
+				friend class ParallelSystemArray;
+
 			protected:
 				typedef PRInvokeHistory super;
 				
@@ -38,7 +41,7 @@ namespace samchon
 				/**
 				 * @brief An array of histories which are generated in each system. 
 				 */
-				std::vector<PRInvokeHistory*> historyArray;
+				library::CriticalVector<PRInvokeHistory*> historyArray;
 
 				/**
 				 * @brief Completed count.

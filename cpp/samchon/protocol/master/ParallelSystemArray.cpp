@@ -75,10 +75,27 @@ void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t index,
 		threadArray[i].join();
 }
 
-void ParallelSystemArray::estimatePerformances()
+void ParallelSystemArray::notifyEnd(PRMasterHistory *masterHistory)
 {
+	// ESTIMATE LOCAL PERFORMANCE INDEX
+	auto &historyArray = masterHistory->historyArray;
+	double avgElapsedTime = 0.0;
+
+	for (size_t i = 0; i < historyArray.size(); i++)
+		avgElapsedTime += historyArray[i]->calcAverageElapsedTime();
+
+	for (size_t i = 0; i < historyArray.size(); i++)
+	{
+		PRInvokeHistory *history = historyArray[i];
+		ParallelSystem *system = history->system;
+
+		double historyPerformance = avgElapsedTime / history->calcAverageElapsedTime();
+		system->performance = system->performance * .7 + historyPerformance * .3;
+	}
+
 	//NORMALIZE ALL PERFORMANCE INDEX
 	double avgPerformance = 0.0;
+
 	for (size_t i = 0; i < size(); i++)
 		avgPerformance += at(i)->performance / (double)size();
 

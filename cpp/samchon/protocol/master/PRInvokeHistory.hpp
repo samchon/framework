@@ -27,6 +27,9 @@ namespace samchon
 			protected:
 				typedef InvokeHistory super;
 
+				/**
+				 * @brief A history of master.
+				 */
 				PRMasterHistory *masterHistory;
 
 				/**
@@ -81,6 +84,9 @@ namespace samchon
 				 */
 				auto getSize() const -> size_t;
 
+				/**
+				 * @brief Calculate average of elapsed time for each segmentation.
+				 */
 				auto calcAverageElapsedTime() const -> double;
 
 				/* --------------------------------------------------------------------

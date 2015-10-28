@@ -17,6 +17,10 @@ namespace samchon
 
 			/**
 			 * @brief A history log of an Invoke message on a master.
+			 * 		  
+			 * @details
+			 * \par [Inherited]
+			 *		@copydetails protocol::InvokeHistory
 			 * 
 			 * @author Jeongho Nam
 			 */
@@ -36,14 +40,17 @@ namespace samchon
 				 */
 				std::vector<PRInvokeHistory*> historyArray;
 
+				/**
+				 * @brief Completed count.
+				 */
 				std::atomic<size_t> completed;
 
 			public:
 				/**
 				 * @brief Construct from master and invoke message.
 				 * 		  
-				 * @param master master
-				 * @param invoke An invoke message to send
+				 * @param master An array of master history.
+				 * @param invoke An invoke message to send.
 				 */
 				PRMasterHistory(PRMasterHistoryArray*, std::shared_ptr<Invoke>, size_t, size_t);
 				virtual ~PRMasterHistory() = default;

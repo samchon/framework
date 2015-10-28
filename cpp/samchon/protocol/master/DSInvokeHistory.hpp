@@ -37,10 +37,10 @@ namespace samchon
 
 			public:
 				/**
-				 * @brief Construct from a system and role
+				 * @brief Construct from a system and role.
 				 *
-				 * @param system a source system
-				 * @param role a source role
+				 * @param system a source system.
+				 * @param role a source role.
 				 */
 				DSInvokeHistory(DistributedSystem*, DistributedSystemRole*);
 

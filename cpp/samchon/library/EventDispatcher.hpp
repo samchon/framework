@@ -33,14 +33,25 @@ namespace samchon
 		 * \par Example source
 		 * @includelineno event/main.cpp
 		 *
-		 * @note 
-		 * <p> EventDispatcher is a candidate to be depreciated. </p>
+		 * @deprecated 
+		 * <p> EventDispatcher is a candidate to be deprecated. </p>
 		 * <p> Since C++11, calling member method of a class by a new thread passing by static 
 		 * method and using void pointer are recommeded to avoid. As the reason, using <i>std::thread</i> 
 		 * and <i>std::bind</i> will be better. </p>
 		 *
 		 *	\li std::thread: http://www.cplusplus.com/reference/thread/thread/
 		 *	\li std::bind: http://www.cplusplus.com/reference/functional/bind/
+		 *
+		 * @todo
+		 * <p> Adjust new optimal size of semaphore representing size of backgrounds' thread.
+		 * <p> Find another way to adding listeners of member method without using void pointer. 
+		 * About the problem, pull request from a forked repository is planned to come. </p>
+		 * 
+		 * @test
+		 * <p> Change listeners (function pointer) to have a new parameter, void pointer. </p>
+		 * 
+		 * @bug
+		 * <p> When EventDispatcher is deleted, error on sending events are occured. </p>
 		 *
 		 * @see samchon::library
 		 * @author Jeongho Nam

@@ -20,7 +20,7 @@ namespace samchon
 	 *	</ul>
 	 *	<li>Modified methods</li>
 	 *	<ul>
-	 *		<li> at was depreciated (get is different with at) </li>
+	 *		<li> at was deprecated (get is different with at) </li>
 	 *	</ul>
 	 * </ul>
 	 *

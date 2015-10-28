@@ -39,14 +39,14 @@ namespace samchon
 		 * @image latex cpp/protocol_invoke.png
 		 *
 		 * @note
-		 * <p> A member variable void* representing any type of value is depreciated. </p>
+		 * <p> A member variable void* representing any type of value is deprecated. </p>
 		 *
 		 * <p> Since C++11, method of void pointer (Declare a variable as void pointer whose type can
 		 * not specified. And convert the pointer type to specified one for each case) is recommended 
 		 * to avoid. </p>
 		 *
-		 * <p> As that reason, the <i>void *value</i> was a candidate to be depreciated or to be
-		 * replaced to <i>boost::any</i>. And the <i>void* value</i> is really depreciated since 
+		 * <p> As that reason, the <i>void *value</i> was a candidate to be deprecated or to be
+		 * replaced to <i>boost::any</i>. And the <i>void* value</i> is really deprecated since 
 		 * version v1.0. </p>
 		 *
 		 * @see protocol::Invoke

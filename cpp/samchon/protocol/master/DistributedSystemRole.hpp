@@ -73,12 +73,12 @@ namespace samchon
 					GETTERS
 				------------------------------------------------------------------ */
 				/**
-				 * @brief Get an external system -> depreciated
+				 * @brief Get an external system -> deprecated
 				 *
 				 * @details
 				 * <p> Unlike ExternalSysemRole, DistributedSystemRole can be belonged to multiple 
 				 * DistributedSystem(s). By that reason, the getSystem(), a getter of a single ExternalSystem
-				 * is depreciated. </p>
+				 * is deprecated. </p>
 				 */
 				auto getSystem() const -> ExternalSystem* = delete;
 

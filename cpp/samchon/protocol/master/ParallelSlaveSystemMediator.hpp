@@ -39,8 +39,8 @@ namespace samchon
 				typedef slave::ParallelSystem super;
 
 				/**
-				* @brief A master system for mediation
-				*/
+				 * @brief A master system for mediation
+				 */
 				ParallelSystemArrayMediator *master;
 
 			public:

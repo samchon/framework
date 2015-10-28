@@ -383,6 +383,9 @@
     <ClCompile Include="..\samchon\protocol\service\ServiceKeeper.cpp" />
     <ClCompile Include="..\samchon\protocol\service\ServiceRole.cpp" />
     <ClCompile Include="..\samchon\protocol\service\User.cpp" />
+    <ClCompile Include="..\samchon\protocol\slave\ParallelClient_slave.cpp" />
+    <ClCompile Include="..\samchon\protocol\slave\ParallelServer_slave.cpp" />
+    <ClCompile Include="..\samchon\protocol\slave\ParallelSystem_slave.cpp" />
     <ClCompile Include="..\samchon\protocol\slave\SlaveClient.cpp" />
     <ClCompile Include="..\samchon\protocol\slave\SlaveServer.cpp" />
     <ClCompile Include="..\samchon\protocol\slave\SlaveSystem.cpp" />

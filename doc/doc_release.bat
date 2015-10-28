@@ -10,5 +10,5 @@ xcopy *.pdf "%RELEASE_DIR%" /s /Y
 :: ----------------------------------------------------------------
 ::    COMMIT TO GITHUB (SAMCHON.GITHUB.IO)
 :: ----------------------------------------------------------------
-cd "%RELEASE_DIR%..\.."
-call release.bat
+::cd "%RELEASE_DIR%..\.."
+::call release.bat

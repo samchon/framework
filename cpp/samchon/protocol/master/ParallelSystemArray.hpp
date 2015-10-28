@@ -57,8 +57,19 @@ namespace samchon
 				typedef ExternalSystemArray super;
 
 			private:
+				/**
+				 * @brief Sequence of uid allocating for history.
+				 */
 				std::atomic<size_t> uid;
+
+				/**
+				 * @brief An array of history have occured.
+				 */
 				PRMasterHistoryArray *historyArray;
+
+				/**
+				 * @brief An array of history on progress.
+				 */
 				PRMasterHistoryArray *progressArray;
 
 			public:
@@ -90,8 +101,22 @@ namespace samchon
 				virtual void sendSegmentData(std::shared_ptr<Invoke>, size_t);
 
 			private:
+				/**
+				 * @brief Send a message with segmentation index and size.
+				 * 		  
+				 * @param invoke An invoke message requesting a process.
+				 * @param index Starting index number of segmentation.
+				 * @param size Size of segmentation.
+				 */
 				void sendSegmentData(std::shared_ptr<Invoke>, size_t, size_t);
 				
+				/**
+				 * @brief Estimate performance of each system.
+				 * 
+				 * @details
+				 * Normalize performances of children systems. The estimation of performance is standard
+				 * by averagae elapsed time of each segmentation.
+				 */
 				void estimatePerformances();
 			};
 		};

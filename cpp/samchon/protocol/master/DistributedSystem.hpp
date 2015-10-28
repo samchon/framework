@@ -35,6 +35,8 @@ namespace samchon
 			 * <p> @image html  cpp/protocol_master_distributed_system.png
 			 *	   @image latex cpp/protocol_master_distributed_system.png </p>
 			 *
+			 * @todo  
+			 *
 			 * \par [Inherited]
 			 *		@copydetails protocol::ExternalSystem
 			 */

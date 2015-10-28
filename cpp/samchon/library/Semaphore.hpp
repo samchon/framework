@@ -43,7 +43,7 @@ namespace samchon
 		 * each operating system, so that cannot be compiled in another OS with those semaphores. There's not
 		 * a class like semaphore in STL yet. It's the reason why Semaphore is provided. </p>
 		 *
-		 * <p> As that reason, if STL supports the semaphore in near future, the Semaphore can be depreciated. </p>
+		 * <p> As that reason, if STL supports the semaphore in near future, the Semaphore can be deprecated. </p>
 		 *
 		 * @see samchon::library
 		 * @author Jeongho Nam

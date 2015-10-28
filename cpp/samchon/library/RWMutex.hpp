@@ -25,7 +25,7 @@ namespace samchon
 		 * the linux OS, so that cannot be compiled in Window having the rw_mutex. There's not
 		 * a class like rw_mutex in STL yet. It's the reason why RWMutex is provided. </p>
 		 *
-		 * <p> As that reason, if STL supports the rw_mutex in near future, the RWMutex can be depreciated. </p>
+		 * <p> As that reason, if STL supports the rw_mutex in near future, the RWMutex can be deprecated. </p>
 		 * 
 		 * @see samchon::library
 		 * @author Jeongho Nam

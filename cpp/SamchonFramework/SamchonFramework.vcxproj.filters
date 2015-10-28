@@ -355,6 +355,12 @@
     <Filter Include="Source Files\protocol\slave">
       <UniqueIdentifier>{bb4bf172-41c1-4228-bd37-8d92662c0116}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\protocol\slave\abstract">
+      <UniqueIdentifier>{09cba39a-124a-49ac-9c51-e9711dabdbd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\slave\parallel">
+      <UniqueIdentifier>{8e08a5d7-103c-4e6a-a438-3612d2be9e58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\SmartPointer.hpp">
@@ -1050,13 +1056,22 @@
       <Filter>Source Files\protocol\master\parallel processing system\history</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\slave\SlaveSystem.cpp">
-      <Filter>Source Files\protocol\slave</Filter>
+      <Filter>Source Files\protocol\slave\abstract</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\slave\SlaveClient.cpp">
-      <Filter>Source Files\protocol\slave</Filter>
+      <Filter>Source Files\protocol\slave\abstract</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\slave\SlaveServer.cpp">
-      <Filter>Source Files\protocol\slave</Filter>
+      <Filter>Source Files\protocol\slave\abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\slave\ParallelSystem_slave.cpp">
+      <Filter>Source Files\protocol\slave\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\slave\ParallelClient_slave.cpp">
+      <Filter>Source Files\protocol\slave\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\slave\ParallelServer_slave.cpp">
+      <Filter>Source Files\protocol\slave\parallel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

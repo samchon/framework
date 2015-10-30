@@ -82,9 +82,10 @@ namespace samchon
 		template <typename GeneArray, typename Compare = std::less<GeneArray>>
 		class GeneticAlgorithm
 		{
-		private:
-			typedef GAPopulation<GeneArray, Compare> MyPopulation;
+		public:
+			typedef GAPopulation<GeneArray, Compare> Population;
 
+		private:
 			/**
 			 * @brief Whether each element (Gene) is unique in their GeneArray
 			 */
@@ -137,7 +138,7 @@ namespace samchon
 			 */
 			inline auto evolveGeneArray(std::shared_ptr<GeneArray> geneArray, size_t population, size_t generation) const -> std::shared_ptr<GeneArray>
 			{
-				std::shared_ptr<MyPopulation> myPopulation(new MyPopulation(geneArray, population));
+				std::shared_ptr<Population> myPopulation(new Population(geneArray, population));
 
 				for (size_t i = 0; i < generation; i++)
 					myPopulation = evolvePopulation(myPopulation);
@@ -151,10 +152,10 @@ namespace samchon
 			 * @param population An initial population
 			 */
 
-			auto evolvePopulation(std::shared_ptr<MyPopulation> population) const -> std::shared_ptr<MyPopulation>
+			auto evolvePopulation(std::shared_ptr<Population> population) const -> std::shared_ptr<Population>
 			{
 				size_t size = population->children.size();
-				std::shared_ptr<MyPopulation> evolved(new MyPopulation(size));
+				std::shared_ptr<Population> evolved(new Population(size));
 
 				//ELITICISM
 				evolved->children[0] = population->fitTest();
@@ -208,10 +209,10 @@ namespace samchon
 			 * @param population The target of tournament
 			 * @return The best genes derived by the tournament
 			 */
-			auto selection(std::shared_ptr<MyPopulation> population) const -> std::shared_ptr<GeneArray>
+			auto selection(std::shared_ptr<Population> population) const -> std::shared_ptr<GeneArray>
 			{
 				size_t size = population->children.size();
-				MyPopulation tornament(size);
+				Population tornament(size);
 
 				for (size_t i = 0; i < size; i++)
 				{

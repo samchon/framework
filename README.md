@@ -94,3 +94,6 @@ A framework for realizing **cloud** and **distributed processing** system with *
   Anyone can modify and redistribute (However, when re-distribute, please note the origin author, samchon). Even there's not any restriction on using Samchon Framework for commercial reason. Furthermore, there's no disclosure obligation of source on projects using or modifying the Samchon Framework.
   
   - https://en.wikipedia.org/wiki/BSD_licenses
+
+![Image of Usage Diagram]
+(https://samchon.github.io/framework/images/readme/usage_diagram.png)

@@ -4,7 +4,9 @@ A framework for realizing **cloud** and **distributed processing** system with *
 *JavaScript (TypeScript & Flex(JS))* 's library is provided for connection to the C++ server.
   - Formal homepage: http://samchon.org/framework
 
-#### With Samchon Framework, you can ~
+<hr>
+
+### With Samchon Framework, you can ~
   1. Build a cloud system
     - A new cloud system which has
       - A medium to large scale
@@ -24,8 +26,9 @@ A framework for realizing **cloud** and **distributed processing** system with *
   4. Uiltize libraries independent on operating systems
     - enable to corss-compile.
 
+<hr>
 
-#### Samchon Framework has developd by
+### Samchon Framework has developd by
   Samchon Framework is a framework for realizing cloud and distributed processing system with C++.
 
   C++, literally, is the main language of Samchon Framework for building cloud and distributed processing system. Other languages categorized in JavaScript like TypeScript and Flex(JS) are used to build web-client connecting to the C++ cloud server.
@@ -47,8 +50,9 @@ A framework for realizing **cloud** and **distributed processing** system with *
     - Boost.Asio
     - ODBC
 
+<hr>
 
-#### Samchon Framework provides
+### Samchon Framework provides
   Samchon Framework provides thosand pages documents to be helpul for users' comprehension. The user not only means programmers who are using Samchon Framework, but also some people who want to participate in Samchon Framework, the open source project.
   
   Documetns are divided into Architecture Designs & API Documents. They each present macroscopic and microscopic point of view. Architecture Designs are suitable for architects and (network) system engineers and API Documents are suitable for programmers.
@@ -64,8 +68,9 @@ A framework for realizing **cloud** and **distributed processing** system with *
     - Sequence Diagram: http://samchon.github.io/framework/design/js_class_diagram.pdf
     - Entity Relationship Diagram: http://samchon.github.io/framework/design/entity_relationship_diagram.pdf
 
+<hr>
 
-#### License of the Samchon Framework
+### License of the Samchon Framework
   Samchon Framework follows BSD license.
   
   Anyone can modify and redistribute (However, when re-distribute, please note the origin author, samchon). Even there's not any restriction on using Samchon Framework for commercial reason. Furthermore, there's no disclosure obligation of source on projects using or modifying the Samchon Framework.

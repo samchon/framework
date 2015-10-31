@@ -61,7 +61,7 @@ A framework for realizing **cloud** and **distributed processing** system with *
       </ul>
   </td>
   <td>
-    <img src="https://samchon.github.io/framework/images/readme/languages.png" />
+    <img src="https://samchon.github.io/framework/images/read_me/languages.png" />
   </td></tr>
 </table>
 
@@ -84,7 +84,7 @@ A framework for realizing **cloud** and **distributed processing** system with *
     - Entity Relationship Diagram: http://samchon.github.io/framework/design/entity_relationship_diagram.pdf
 
 ![Image of Designs]
-(https://samchon.github.io/framework/images/readme/designs.png)
+(https://samchon.github.io/framework/images/read_me/designs.png)
 
 <hr>
 
@@ -96,4 +96,4 @@ A framework for realizing **cloud** and **distributed processing** system with *
   - https://en.wikipedia.org/wiki/BSD_licenses
 
 ![Image of Usage Diagram]
-(https://samchon.github.io/framework/images/readme/usage_diagram.png)
+(https://samchon.github.io/framework/images/read_me/usage_diagram.png)

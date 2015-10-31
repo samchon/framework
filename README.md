@@ -36,19 +36,34 @@ A framework for realizing **cloud** and **distributed processing** system with *
   
   Supported Database script files and those designs are for archiving history log from cloud services or distributed processing systems which are built from C++ with Samchon Framework.
   
-  - Programming Languages
-    - C++
-    - TypeScript
-    - Flex(JS)
-  - Principle Patterns
-    - Composite
-    - Factory
-    - Chain of Responsibility
-    - Proxy
-  - Used Libraries
-    - STL
-    - Boost.Asio
-    - ODBC
+<table border="0">
+  <tr><td>
+      <ul>
+        <li> Programming Languages </li>
+        <ul>
+          <li> C++ </li>
+          <li> TypeScript </li>
+          <li> Flex(JS) </li>
+        </ul>
+        <li> Principle Patterns </li>
+        <ul>
+          <li> Composite </li>
+          <li> Factory </li>
+          <li> Chain of Responsibility </li>
+          <li> Proxy </li>
+        </ul>
+        <li> Used Libraries </li>
+        <ul>
+          <li> STL </li>
+          <li> Boost.Asio </li>
+          <li> ODBC </li>
+        </ul>
+      </ul>
+  </td>
+  <td>
+    <img src="https://samchon.github.io/framework/images/readme/languages.png" width="300" height="280">
+  </td></tr>
+</table>
 
 <hr>
 
@@ -67,6 +82,9 @@ A framework for realizing **cloud** and **distributed processing** system with *
     - JS Class Diagram: http://samchon.github.io/framework/design/js_class_diagram.pdf
     - Sequence Diagram: http://samchon.github.io/framework/design/js_class_diagram.pdf
     - Entity Relationship Diagram: http://samchon.github.io/framework/design/entity_relationship_diagram.pdf
+
+![Image of Designs]
+(https://samchon.github.io/framework/images/readme/designs.png)
 
 <hr>
 

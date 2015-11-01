@@ -26,7 +26,6 @@ void main()
 {
 	vector<Product> productArray =
 	{
-		
 		Product("Eraser", 500, 10, 70),
 		Product("Pencil", 400, 30, 35),
 		Product("Pencil", 400, 30, 35),

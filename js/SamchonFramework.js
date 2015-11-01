@@ -5,35 +5,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = new __();
 };
 function test() {
-    /*var ws: WebSocket = new WebSocket("ws://127.0.0.1:11071");
-    ws.onopen = handleOpen;
-    ws.onerror = handleError;
-    ws.onmessage = handleMessage;*/
-    var str = "<invoke listener='setDepartment'>\
-		<parameter type='string'>samchon</parameter>\
-		<parameter type='XML'>\
-			<memberList department='programmer'>\
-				<member id='john' name='John Doe' authority='3' />\
-				<member id='samchon' name='Jeongho Nam' authority='5' />\
-			</memberList>\
-		</parameter>\
-    </invoke>";
-    var xml = new XML(str);
-    var parameterList = xml.get("parameter");
-    var parameter = parameterList[0];
-    trace(parameter.getValue());
-    trace(xml.get("parameter")[1]
-        .get("memberList")[0].get("member")[1]
-        .getProperty("id"));
-}
-function handleOpen(event) {
-    alert("handleOpen");
-}
-function handleError(event) {
-    alert("handleError");
-}
-function handleMessage(event) {
-    alert("handleMessage: " + event.data);
+    var productArray = new Wrapper();
+    productArray.push(new Product("Eraser", 500, 10, 70), new Product("Pencil", 400, 30, 35), new Product("Pencil", 400, 30, 35), new Product("Pencil", 400, 30, 35), new Product("Book", 8000, 150, 300), new Product("Book", 8000, 150, 300));
+    var packer = new Packer(productArray);
+    packer.push(new WrapperArray(new Wrapper("Large", 100, 200, 1000)), new WrapperArray(new Wrapper("Medium", 70, 150, 500)), new WrapperArray(new Wrapper("Small", 50, 100, 250)));
+    packer.optimize();
+    //alert(productArray.toXML().toString());
+    alert(packer.toXML().toString());
 }
 /**
  * <p> Trace arguments on screen. </p>
@@ -74,6 +52,15 @@ function trace() {
         - STRING_UTIL
         - XML
         - XML_LIST
+
+    * CASE_GENERATOR
+        * CASE_GENERATOR
+        * COMBINED_PERMUTATION_GENERATOR
+        * PERMUTATION_GENERATOR
+        * FACTORIAL_GENERATOR
+================================================================================= */
+/* =================================================================================
+    LIBRARY - CONTAINERS
 ================================================================================= */
 /**
  * <p> A pair of values. </p>
@@ -323,6 +310,258 @@ var Vector = (function () {
 })();
 Vector.prototype = new Array();
 /**
+ * <p> A set containing key values. </p>
+ * <ul>
+ *  <li> _Ty: Type of the elements. Each element in a Set is also uniquely identified by this value.
+ *            Aliased as member types unordered_set::key_type and unordered_set::value_type. </li>
+ * </ul>
+ *
+ * <p> Set is designed to pursuing formality in JavaScript. </p>
+ * <h4> Definition of std::unordered_set. </h4>
+ * <ul>
+ *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
+ * </ul>
+ *
+ * <p> Unordered sets are containers that store unique elements in no particular order, and which allow
+ * for fast retrieval of individual elements based on their value. </p>
+ *
+ * <p> In an unordered_set, the value of an element is at the same time its key, that identifies it uniquely.
+ * Keys are immutable, therefore, the elements in an unordered_set cannot be modified once in the container -
+ * they can be inserted and removed, though. </p>
+ *
+ * <p> Internally, the elements in the unordered_set are not sorted in any particular order, but organized into
+ * buckets depending on their hash values to allow for fast access to individual elements directly by their values
+ * (with a constant average time complexity on average). </p>
+ *
+ * <p> unordered_set containers are faster than set containers to access individual elements by their key,
+ * although they are generally less efficient for range iteration through a subset of their elements. </p>
+ *
+ * <p> Iterators in the container are at least forward iterators. </p>
+ *
+ * @author Jeongho Nam
+ */
+var Set = (function () {
+    /* ---------------------------------------------------------
+        CONSTRUCTORS
+    --------------------------------------------------------- */
+    /**
+     * <p> Default Constructor. </p>
+     */
+    function Set() {
+        this.data_ = new Vector();
+    }
+    /**
+     * <p> Insert element. </p>
+     * <p> Inserts a new element in the Set. </p>
+     *
+     * <p> Each element is inserted only if it is not equivalent to any other element already
+     * in the container (elements in an unordered_set have unique values). </p>
+     *
+     * <p> This effectively increases the container size by the number of elements inserted. </p>
+     */
+    Set.prototype.insert = function (key) {
+        if (this.has(key) == true)
+            return;
+        this.data_.push(key);
+    };
+    /**
+     * <p> Erase an element. </p>
+     * <p> Removes an element by its key(identifier) from the Set container. </p>
+     *
+     * @param key Key of the element to be removed from the Set.
+     * @throw exception out of range.
+     */
+    Set.prototype.erase = function (key) {
+        for (var i = 0; i < this.data_.length; i++)
+            if (this.data_[i] == key) {
+                this.data_.splice(i, 1);
+                return;
+            }
+        throw "out of range";
+    };
+    /**
+     * <p> Clear content. </p>
+     *
+     * <p> Removes all elements from the map container (which are destroyed),
+     * leaving the container with a size of 0. </p>
+     */
+    Set.prototype.clear = function () {
+        this.data_ = new Vector();
+    };
+    /* ---------------------------------------------------------
+        ACCESSORS
+    --------------------------------------------------------- */
+    /**
+     * <p> Get data. </p>
+     * <p> Returns the source container of the Set. </p>
+     *
+     * <h4> Note </h4>
+     * <p> Changes on the returned container influences the source Set. </p>
+     */
+    Set.prototype.data = function () {
+        return this.data_;
+    };
+    /**
+     * <p> Return container size. </p>
+     * <p> Returns the number of elements in Set container. </p>
+     *
+     * @return The number of elements in the container.
+     */
+    Set.prototype.size = function () {
+        return this.data.length;
+    };
+    /**
+     * <p> Whether have the item or not. </p>
+     * <p> Indicates whether a map has an item having the specified identifier. </p>
+     *
+     * @param key Key value of the element whose mapped value is accessed.
+     * @return Whether the map has an item having the specified identifier
+     */
+    Set.prototype.has = function (key) {
+        for (var i = 0; i < this.data_.length; i++)
+            if (this.data_[i] == key)
+                return true;
+        return false;
+    };
+    /* ---------------------------------------------------------
+        COMPARE
+    --------------------------------------------------------- */
+    /**
+     * <p> Whether a Set is equal with the Set. </p>
+     *
+     * @param obj A Set to compare
+     * @return Indicates whether equal or not.
+     */
+    Set.prototype.equals = function (obj) {
+        if (this.size() != obj.size())
+            return false;
+        for (var i = 0; i < this.data_.length; i++)
+            if (this.data_[i] != obj.data_[i])
+                return false;
+        return true;
+    };
+    /* ---------------------------------------------------------
+        ITERATORS
+    --------------------------------------------------------- */
+    /**
+     * <p> Return iterator to beginning. </p>
+     * <p> Returns an iterator referring the first element in the Set container. </p>
+     *
+     * <h4> Note </h4>
+     * <p> If the container is empty, the returned iterator is same with end(). </p>
+     *
+     * @return An iterator to the key element in the container.
+     */
+    Set.prototype.begin = function () {
+        if (this.data_.length == 0)
+            return this.end();
+        else
+            return new SetIterator(this, 0);
+    };
+    /**
+     * <p> Return iterator to end. </p>
+     * <p> Returns an iterator referring to the past-the-end element in the Map container. </p>
+     *
+     * <p> The past-the-end element is the theoretical element that would follow the last element in
+     * the Map container. It does not point to any element, and thus shall not be dereferenced. </p>
+     *
+     * <p> Because the ranges used by functions of the Map do not include the element reference
+     * by their closing iterator, this function is often used in combination with Map::begin() to specify
+     * a range including all the elements in the container. </p>
+     *
+     * <h4> Note </h4>
+     * <p> Returned iterator from Map.end() does not refer any element. Trying to accessing
+     * element by the iterator will cause throwing exception (out of range). </p>
+     * <p> If the container is empty, this function returns the same as Map::begin(). </p>
+     *
+     * @return An iterator to the end element in the container.
+     */
+    Set.prototype.end = function () {
+        return new SetIterator(this, -1);
+    };
+    return Set;
+})();
+/**
+ * <p> An iterator of a Set. </p>
+ * <ul>
+ *  <li> _Ty: Type of the elements. Each element in a Set is also uniquely identified by this value.
+ *            Aliased as member types unordered_set::key_type and unordered_set::value_type. </li>
+ * </ul>
+ *
+ * @author Jeongho Nam
+ */
+var SetIterator = (function () {
+    /**
+     * <p> Construct from source and index number. </p>
+     *
+     * <h4> Note </h4>
+     * <p> Do not create iterator directly. </p>
+     * <p> Use begin(), find() or end() in Map instead. </p>
+     *
+     * @param map The source Set to reference.
+     * @param index Sequence number of the element in the source Set.
+     */
+    function SetIterator(set_, index) {
+        this.set_ = set_;
+        this.index = index;
+    }
+    /* ---------------------------------------------------------
+        GETTERS
+    --------------------------------------------------------- */
+    /**
+     * <p> Get key value of the iterator is pointing. </p>
+     *
+     * @return A key value of the iterator.
+     */
+    SetIterator.prototype.value = function () {
+        return this.set_.data()[this.index];
+    };
+    /**
+     * <p> Whether an iterator is equal with the iterator. </p>
+     * <p> Compare two iterators and returns whether they are equal or not. </p>
+     *
+     * <h4> Note </h4>
+     * <p> Iterator's equals() only compare souce map and index number. </p>
+     * <p> Although elements, key values are equals, if the source set or
+     * index number is different, then the equals() will return false. If you want to
+     * compare the key values, compare them directly by yourself. </p>
+     *
+     * @param obj An iterator to compare
+     * @return Indicates whether equal or not.
+     */
+    SetIterator.prototype.equals = function (obj) {
+        return (this.set_ == obj.set_ && this.index == obj.index);
+    };
+    /* ---------------------------------------------------------
+        MOVERS
+    --------------------------------------------------------- */
+    /**
+     * <p> Get iterator to previous element. </p>
+     * <p> If current iterator is the first item(equal with <i>begin()</i>), returns end(). </p>
+     *
+     * @return An iterator of the previous item.
+     */
+    SetIterator.prototype.prev = function () {
+        if (this.index == 0)
+            return this.set_.end();
+        else
+            return new SetIterator(this.set_, this.index - 1);
+    };
+    /**
+     * <p> Get iterator to next element. </p>
+     * <p> If current iterator is the last item, returns end(). </p>
+     *
+     * @return An iterator of the next item.
+     */
+    SetIterator.prototype.next = function () {
+        if (this.index >= this.set_.size())
+            return this.set_.end();
+        else
+            return new SetIterator(this.set_, this.index + 1);
+    };
+    return SetIterator;
+})();
+/**
  * <p> A map containing pairs of key and value. </p>
  * <ul>
  *  <li> _Kty: Type of the keys. Each element in a map is uniquely identified by its key value. </li>
@@ -492,6 +731,8 @@ var Map = (function () {
      * <p> Returned iterator from Map.end() does not refer any element. Trying to accessing
      * element by the iterator will cause throwing exception (out of range). </p>
      * <p> If the container is empty, this function returns the same as Map::begin(). </p>
+     *
+     * @return An iterator to the end element in the container.
      */
     Map.prototype.end = function () {
         return new MapIterator(this, -1);
@@ -718,6 +959,9 @@ var Dictionary = (function (_super) {
     }
     return Dictionary;
 })(Map);
+/* =================================================================================
+    LIBRARY - UTILITIES
+================================================================================= */
 /**
  * <p> A utility class supporting static methods of string. </p>
  *
@@ -1331,6 +1575,153 @@ var XMLList = (function (_super) {
     };
     return XMLList;
 })(Vector);
+/* =================================================================================
+    LIBRARY - CASE GENERATOR
+================================================================================= */
+/**
+ * <p> Case generator. </p>
+ *
+ * <p> CaseGenerator is an abstract case generator using like a matrix. </p>
+ * <ul>
+ *  <li> nTTr(n^r) -> CombinedPermutationGenerator </li>
+ *  <li> nPr -> PermutationGenerator </li>
+ *  <li> n! -> FactorialGenerator </li>
+ * </ul>
+ *
+ * @author Jeongho Nam
+ */
+var CaseGenerator = (function () {
+    /* ---------------------------------------------------------------
+        CONSTRUCTORS
+    --------------------------------------------------------------- */
+    /**
+     * <p> Construct from size of N and R. </p>
+     *
+     * @param n Size of candidates.
+     * @param r Size of elements of each case.
+     */
+    function CaseGenerator(n, r) {
+        this.n_ = n;
+        this.r_ = r;
+    }
+    /* ---------------------------------------------------------------
+        ACCESSORS
+    --------------------------------------------------------------- */
+    /**
+     * <p> Get size of all cases. </p>
+     *
+     * @return Get a number of the all cases.
+     */
+    CaseGenerator.prototype.size = function () {
+        return this.size_;
+    };
+    /**
+     * <p> Get size of the N. </p>
+     */
+    CaseGenerator.prototype.n = function () {
+        return this.n_;
+    };
+    /**
+     * <p> Get size of the R. </p>
+     */
+    CaseGenerator.prototype.r = function () {
+        return this.r_;
+    };
+    /**
+     * <p> Get index'th case. </p>
+     *
+     * @param index Index number
+     * @return The row of the index'th in combined permuation case
+     */
+    CaseGenerator.prototype.at = function (index) {
+        return null;
+    };
+    return CaseGenerator;
+})();
+/**
+ * <p> A combined-permutation case generator. </p>
+ * <p> <sub>n</sub>TT<sub>r</sub> </p>
+ *
+ * @inheritDoc
+ * @author Jeongho Nam
+ */
+var CombinedPermutationGenerator = (function (_super) {
+    __extends(CombinedPermutationGenerator, _super);
+    /* ---------------------------------------------------------------
+        CONSTRUCTORS
+    --------------------------------------------------------------- */
+    /**
+     * <p> Construct from size of N and R. </p>
+     *
+     * @param n Size of candidates.
+     * @param r Size of elements of each case.
+     */
+    function CombinedPermutationGenerator(n, r) {
+        _super.call(this, n, r);
+        this.size_ = Math.pow(n, r);
+        this.dividerArray = new Vector();
+        for (var i = 0; i < r; i++) {
+            var x = r - (i + 1);
+            var val = Math.pow(n, x);
+            this.dividerArray.push(val);
+        }
+    }
+    CombinedPermutationGenerator.prototype.at = function (index) {
+        var row = new Vector();
+        for (var i = 0; i < this.r_; i++) {
+            var val = (index / this.dividerArray[i]) % this.n_;
+            row.push(val);
+        }
+        return row;
+    };
+    return CombinedPermutationGenerator;
+})(CaseGenerator);
+/**
+ * <p> A permutation case generator. </p>
+ * <p> nPr </p>
+ *
+ * @inheritDoc
+ * @author Jeongho Nam
+ */
+var PermuationGenerator = (function (_super) {
+    __extends(PermuationGenerator, _super);
+    /* ---------------------------------------------------------------
+        CONSTRUCTORS
+    --------------------------------------------------------------- */
+    /**
+     * <p> Construct from size of N and R. </p>
+     *
+     * @param n Size of candidates.
+     * @param r Size of elements of each case.
+     */
+    function PermuationGenerator(n, r) {
+        _super.call(this, n, r);
+        this.size_ = n;
+        for (var i = n - 1; i > n - r; i--)
+            this.size_ *= i;
+    }
+    PermuationGenerator.prototype.at = function (index) {
+        var atoms = new Vector();
+        for (var i = 0; i < this.n_; i++)
+            atoms.push(i);
+        var row = new Vector();
+        for (var i = 0; i < this.r_; i++) {
+            var item = index % atoms.length;
+            index = Math.floor(index / atoms.length);
+            row.push(atoms[item]);
+            atoms.splice(item, 1);
+        }
+        return row;
+    };
+    return PermuationGenerator;
+})(CaseGenerator);
+var FactorialGenerator = (function (_super) {
+    __extends(FactorialGenerator, _super);
+    function FactorialGenerator(n) {
+        _super.call(this, n, n);
+    }
+    return FactorialGenerator;
+})(PermuationGenerator);
 /**
  * <p> A server connector for a physical client. </p>
  *
@@ -1829,6 +2220,9 @@ var Entity = (function () {
  */
 var EntityArray = (function (_super) {
     __extends(EntityArray, _super);
+    /* ------------------------------------------------------------------
+        CONSTRUCTORS
+    ------------------------------------------------------------------ */
     /**
      * <p> Default Constructor. </p>
      */
@@ -1873,12 +2267,35 @@ var EntityArray = (function (_super) {
     EntityArray.prototype.createChild = function (xml) {
         return null;
     };
+    EntityArray.prototype.set = function (key, entity) {
+        this.push(entity);
+    };
+    /* ------------------------------------------------------------------
+        GETTERS
+    ------------------------------------------------------------------ */
+    EntityArray.prototype.key = function () {
+        return "";
+    };
+    EntityArray.prototype.has = function (key) {
+        for (var i = 0; i < this.length; i++)
+            if (this[i].key() == key)
+                return true;
+        return false;
+    };
+    EntityArray.prototype.get = function (key) {
+        for (var i = 0; i < this.length; i++)
+            if (this[i].key() == key)
+                return this[i];
+        throw "out of range";
+    };
+    /* ------------------------------------------------------------------
+        EXPORTERS
+    ------------------------------------------------------------------ */
     EntityArray.prototype.TAG = function () { return ""; };
     /**
      * <p> A tag name of children objects. </p>
      */
     EntityArray.prototype.CHILD_TAG = function () { return ""; };
-    EntityArray.prototype.key = function () { return ""; };
     /**
      * <p> Get an XML object represents the EntityArray. </p>
      *
@@ -2011,46 +2428,320 @@ var SubMovie = (function () {
     return SubMovie;
 })();
 /* =================================================================================
+    PROTOCOL - EXTERNAL SYSTEM MODULE
+================================================================================= */
+/**
+ * <p> An array of ExternalSystem(s). </p>
+ *
+ * <p> ExternalSystemArray is an abstract class containing and managing external system drivers. </p>
+ *
+ * <p> Also, ExternalSystemArray can access to ExternalSystemRole(s) directly. With the method, you
+ * can use an ExternalSystemRole as "logical proxy" of an ExternalSystem. Of course, the
+ * ExternalSystemRole is belonged to an ExternalSystem. However, if you access an ExternalSystemRole
+ * from an ExternalSystemArray directly, not passing by a belonged ExternalSystem, and send an Invoke
+ * message even you're not knowing which ExternalSystem is related in, the ExternalSystemRole acted
+ * a role of proxy. </p>
+ *
+ * <p> It's called as "Proxy pattern". With the pattern, you can only concentrate on
+ * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole
+ * is belonged to which ExternalSystem. </p>
+ *
+ * <ul>
+ *  <li> ExternalSystemArray::getRole("something")->sendData(invoke); </li>
+ * </ul>
+ *
+ * @author Jeongho Nam
+ */
+var ExternalSystemArray = (function (_super) {
+    __extends(ExternalSystemArray, _super);
+    /* ------------------------------------------------------------------
+        CONSTRUCTORS
+    ------------------------------------------------------------------ */
+    /**
+     * <p> Default Constructor. </p>
+     */
+    function ExternalSystemArray() {
+        _super.call(this);
+    }
+    /**
+     * <p> Start interaction. </p>
+     * <p> An abstract method starting interaction with external systems. </p>
+     *
+     * <p> If external systems are servers, starts connection to them, else clients, opens a server
+     * and accepts the external systems. You can addict your own procudures of starting drivers, but
+     * if you directly override method of abstract ExternalSystemArray, be careful about virtual
+     * inheritance. </p>
+     */
+    ExternalSystemArray.prototype.start = function () {
+        for (var i = 0; i < this.length; i++)
+            this[i].start();
+    };
+    /* ------------------------------------------------------------------
+        GETTERS
+    ------------------------------------------------------------------ */
+    /**
+     * <p> Test whether has a role. </p>
+     *
+     * @param name Name of an ExternalSystemRole.
+     * @return Whether has or not.
+     */
+    ExternalSystemArray.prototype.hasRole = function (key) {
+        for (var i = 0; i < this.length; i++)
+            if (this[i].has(key) == true)
+                return true;
+        return false;
+    };
+    /**
+     * <p> Get a role. </p>
+     *
+     * @param name Name of an ExternalSystemRole
+     * @return A shared pointer of specialized role
+     */
+    ExternalSystemArray.prototype.getRole = function (key) {
+        for (var i = 0; i < this.length; i++)
+            if (this[i].has(key) == true)
+                return this[i].get(key);
+        throw "out of range";
+    };
+    /* ------------------------------------------------------------------
+        CHAIN OF INVOKE MESSAGE
+    ------------------------------------------------------------------ */
+    ExternalSystemArray.prototype.sendData = function (invoke) {
+        var listener = invoke.getListener();
+        for (var i = 0; i < this.length; i++)
+            for (var j = 0; j < this[i].length; j++)
+                if (this[i][j].hasSendListener(listener) == true)
+                    this[i].sendData(invoke);
+    };
+    ExternalSystemArray.prototype.replyData = function (invoke) {
+        invoke.apply(this);
+    };
+    /* ------------------------------------------------------------------
+        EXPORTERS
+    ------------------------------------------------------------------ */
+    ExternalSystemArray.prototype.TAG = function () {
+        return "systemArray";
+    };
+    ExternalSystemArray.prototype.CHILD_TAG = function () {
+        return "system";
+    };
+    return ExternalSystemArray;
+})(EntityArray);
+/**
+ * <p> A network driver for an external system. </p>
+ *
+ * <p> ExternalSystem is a boundary class interacting with an external system by network communication.
+ * Also, ExternalSystem is an abstract class that a network role, which one is server and which one is
+ * client, is not determined yet. </p>
+ *
+ * <p> The ExternalSystem has ExternalSystemRole(s) groupped methods, handling Invoke message
+ * interacting with the external system, by subject or unit of a moudle. The ExternalSystemRole is
+ * categorized in a 'control'. </p>
+ *
+ * <h4> Note </h4>
+ * <p> The ExternalSystem class takes a role of interaction with external system in network level.
+ * However, within a framework of Samchon Framework, a boundary class like the ExternalSystem is
+ * not such important. You can find some evidence in a relationship between ExternalSystemArray,
+ * ExternalSystem and ExternalSystemRole. </p>
+ *
+ * <p> Of course, the ExternalSystemRole is belonged to an ExternalSystem. However, if you
+ * access an ExternalSystemRole from an ExternalSystemArray directly, not passing by a belonged
+ * ExternalSystem, and send an Invoke message even you're not knowing which ExternalSystem is
+ * related in, it's called "Proxy pattern".
+ *
+ * <p> Like the explanation of "Proxy pattern", you can utilize an ExternalSystemRole as a proxy
+ * of an ExternalSystem. With the pattern, you can only concentrate on ExternalSystemRole itself,
+ * what to do with Invoke message, irrespective of the ExternalSystemRole is belonged to which
+ * ExternalSystem. </p>
+ *
+ * @author Jeongho Nam
+ */
+var ExternalSystem = (function (_super) {
+    __extends(ExternalSystem, _super);
+    /* ------------------------------------------------------------------
+        CONSTRUCTORS
+    ------------------------------------------------------------------ */
+    /**
+     * <p> Default Constructor. </p>
+     */
+    function ExternalSystem() {
+        _super.call(this);
+        this.driver = null;
+    }
+    ExternalSystem.prototype.construct = function (xml) {
+        _super.prototype.construct.call(this, xml);
+        this.name = xml.getProperty("name");
+        this.ip = xml.getProperty("ip");
+        this.port = xml.getProperty("port");
+    };
+    /**
+     * <p> Start interaction. </p>
+     * <p> An abstract method starting interaction with an external system. </p>
+     *
+     * <p> If an external systems are a server, starts connection and listening Inovoke message,
+     * else clients, just starts listening only. You also can addict your own procudures of starting
+     * the driver, but if you directly override method of abstract ExternalSystem, be careful about
+     * virtual inheritance. </p>
+     */
+    ExternalSystem.prototype.start = function () {
+        if (this.driver != null)
+            return;
+        this.driver = new ServerConnector(this);
+        this.driver.connect(this.ip, this.port);
+    };
+    /* ------------------------------------------------------------------
+        GETTERS
+    ------------------------------------------------------------------ */
+    ExternalSystem.prototype.key = function () {
+        return this.name;
+    };
+    /**
+     * <p> Get name. </p>
+     */
+    ExternalSystem.prototype.getName = function () {
+        return this.name;
+    };
+    /**
+     * <p> Get ip address of the external system. </p>
+     */
+    ExternalSystem.prototype.getIP = function () {
+        return this.ip;
+    };
+    /**
+     * <p> Get port number of the external system. </p>
+     */
+    ExternalSystem.prototype.getPort = function () {
+        return this.port;
+    };
+    /* ------------------------------------------------------------------
+        CHAIN OF INVOKE MESSAGE
+    ------------------------------------------------------------------ */
+    ExternalSystem.prototype.sendData = function (invoke) {
+        this.driver.sendData(invoke);
+    };
+    ExternalSystem.prototype.replyData = function (invoke) {
+        invoke.apply(this);
+        for (var i = 0; i < this.length; i++)
+            this[i].replyData(invoke);
+    };
+    /* ------------------------------------------------------------------
+       EXPORTERS
+   ------------------------------------------------------------------ */
+    ExternalSystem.prototype.TAG = function () {
+        return "system";
+    };
+    ExternalSystem.prototype.CHILD_TAG = function () {
+        return "role";
+    };
+    ExternalSystem.prototype.toXML = function () {
+        var xml = _super.prototype.toXML.call(this);
+        xml.setProperty("name", this.name);
+        xml.setProperty("ip", this.ip);
+        xml.setProperty("port", this.port);
+        return xml;
+    };
+    return ExternalSystem;
+})(EntityArray);
+/**
+ * <p> A role belongs to an external system. </p>
+ *
+ * <p> ExternalSystemRole is a 'control' class groupping methods, handling Invoke messages
+ * interacting with an external system that the ExternalSystemRole is belonged to, by a subject or
+ * unit of a module. <p>
+ *
+ * <p> ExternalSystemRole can be a "logical proxy" for an ExternalSystem which is containing the
+ * ExternalSystemRole. Of course, the ExternalSystemRole is belonged to an ExternalSystem. However,
+ * if you access an ExternalSystemRole from an ExternalSystemArray directly, not passing by a
+ * belonged ExternalSystem, and send an Invoke message even you're not knowing which ExternalSystem
+ * is related in, the ExternalSystemRole acted a role of proxy. </p>
+ *
+ * <p> It's called as "Proxy pattern". With the pattern, you can only concentrate on
+ * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole
+ * is belonged to which ExternalSystem. </p>
+ *
+ * @author Jeongho Nam
+ */
+var ExternalSystemRole = (function (_super) {
+    __extends(ExternalSystemRole, _super);
+    /* ------------------------------------------------------------------
+        CONSTRUCTORS
+    ------------------------------------------------------------------ */
+    /**
+     * <p> Construct from external system driver. </p>
+     *
+     * @param system A driver of external system the ExternalSystemRole is belonged to.
+     */
+    function ExternalSystemRole(system) {
+        _super.call(this);
+        this.system = system;
+        this.sendListeners = new Set();
+    }
+    ExternalSystemRole.prototype.construct = function (xml) {
+        this.name = xml.getProperty("name");
+    };
+    /* ------------------------------------------------------------------
+        GETTERS
+    ------------------------------------------------------------------ */
+    ExternalSystemRole.prototype.getName = function () {
+        return this.name;
+    };
+    ExternalSystemRole.prototype.hasSendListener = function (key) {
+        return this.sendListeners.has(key);
+    };
+    /* ------------------------------------------------------------------
+        CHAIN OF INVOKE MESSAGE
+    ------------------------------------------------------------------ */
+    ExternalSystemRole.prototype.sendData = function (invoke) {
+        this.system.sendData(invoke);
+    };
+    ExternalSystemRole.prototype.replyData = function (invoke) {
+        invoke.apply(this);
+    };
+    /* ------------------------------------------------------------------
+        EXPORTERS
+    ------------------------------------------------------------------ */
+    ExternalSystemRole.prototype.TAG = function () {
+        return "role";
+    };
+    ExternalSystemRole.prototype.toXML = function () {
+        var xml = _super.prototype.toXML.call(this);
+        xml.setProperty("name", this.name);
+        return xml;
+    };
+    return ExternalSystemRole;
+})(Entity);
+/* =================================================================================
     PROTOCOL - SLAVE SYSTEM MODULE
 ================================================================================= */
 /**
- * A slave system.
+ * @brief A slave system.
  *
+ * @details
+ * <p> SlaveSystem, literally, means a slave system belongs to a maste system. </p>
+ *
+ * <p> The SlaveSystem class is used in opposite side system of master::DistributedSystem
+ * and master::ParallelSystem and reports elapsed time of each commmand (by Invoke message)
+ * for estimation of its performance. </p>
+ *
+ * @inheritDoc
  * @author Jeongho Nam
  */
 var SlaveSystem = (function (_super) {
     __extends(SlaveSystem, _super);
+    /**
+     * <p> Default Constructor. </p>
+     */
     function SlaveSystem() {
-        _super.apply(this, arguments);
+        _super.call(this);
     }
-    SlaveSystem.prototype.sendData = function (invoke) {
-        this.driver.sendData(invoke);
-    };
     SlaveSystem.prototype.replyData = function (invoke) {
-        invoke.apply(this);
-        for (var i = 0; i < this.length; i++)
-            invoke.apply(this[i]);
+        var history = new InvokeHistory(invoke);
+        _super.prototype.replyData.call(this, invoke);
+        history.notifyEnd();
+        this.sendData(history.toInvoke());
     };
     return SlaveSystem;
-})(EntityArray);
-/**
- * A role of belongs to a slave system.
- *
- * @author Jeongho Nam
- */
-var SlaveSystemRole = (function (_super) {
-    __extends(SlaveSystemRole, _super);
-    function SlaveSystemRole() {
-        _super.apply(this, arguments);
-    }
-    SlaveSystemRole.prototype.sendData = function (invoke) {
-        this.system.sendData(invoke);
-    };
-    SlaveSystemRole.prototype.replyData = function (invoke) {
-        invoke.apply(this);
-    };
-    return SlaveSystemRole;
-})(Entity);
+})(ExternalSystem);
 /**
  * <p> A history of an Invoke message. </p>
  *
@@ -2066,42 +2757,420 @@ var SlaveSystemRole = (function (_super) {
  */
 var InvokeHistory = (function (_super) {
     __extends(InvokeHistory, _super);
-    function InvokeHistory(uid, listener) {
+    /* -----------------------------------------------------------------
+        CONSTRUCTORS
+    ----------------------------------------------------------------- */
+    /**
+     * <p> Construct from an Invoke message. </p>
+     *
+     * <p> InvokeHistory does not archive entire Invoke message, only archives its listener. </p>
+     *
+     * @param invoke A message to archive its history log
+     */
+    function InvokeHistory(invoke) {
         _super.call(this);
-        this.uid = uid;
-        this.listener = listener;
+        this.uid = invoke.get("invoke_history_uid").getValue();
+        this.listener = invoke.getListener();
         this.startTime = new Date();
     }
+    /**
+     * <p> Notify end of the process. </p>
+     *
+     * <p> Notifies end of a process handling the matched Invoke message to InvokeHistory. </p>
+     * <p> InvokeHistory archives the end datetime and calculates elapsed time as nanoseconds. </p>
+     */
     InvokeHistory.prototype.notifyEnd = function () {
         this.endTime = new Date();
     };
+    /* -----------------------------------------------------------------
+        EXPORTERS
+    ----------------------------------------------------------------- */
     InvokeHistory.prototype.TAG = function () { return "invokeHistory"; };
     InvokeHistory.prototype.toXML = function () {
         var xml = _super.prototype.toXML.call(this);
         xml.setProperty("uid", this.uid);
         xml.setProperty("listener", this.listener);
-        xml.setProperty("startTime", this.startTime);
-        xml.setProperty("endTime", this.endTime);
+        xml.setProperty("startTime", this.startTime.getTime() * Math.pow(10.0, 6));
+        xml.setProperty("endTime", this.endTime.getTime() * Math.pow(10.0, 6));
         return xml;
+    };
+    /**
+     * <p> Get an Invoke message. </p>
+     *
+     * <p> Returns an Invoke message to report to a master that how much time was elapsed on a
+     * process handling the Invoke message. In master, those reports are used to estimate
+     * performance of each slave system. </p>
+     *
+     * @return An Invoke message to report master.
+     */
+    InvokeHistory.prototype.toInvoke = function () {
+        return new Invoke("reportInvokeHistory", this.toXML());
     };
     return InvokeHistory;
 })(Entity);
-/* =================================================================================
-    PROTOCOL - PARALLEL SYSTEM MOUDLE
-================================================================================= */
-var PRInvokeHistory = (function (_super) {
-    __extends(PRInvokeHistory, _super);
-    function PRInvokeHistory(uid, listener, index, size) {
-        _super.call(this, uid, listener);
-        this.index = index;
-        this.size = size;
+var Product = (function (_super) {
+    __extends(Product, _super);
+    /* --------------------------------------------------------------------
+        CONSTRUCTORS
+    -------------------------------------------------------------------- */
+    function Product(name, price, volume, weight) {
+        if (name === void 0) { name = ""; }
+        if (price === void 0) { price = 0; }
+        if (volume === void 0) { volume = 0; }
+        if (weight === void 0) { weight = 0; }
+        _super.call(this);
+        this.name = name;
+        this.price = price;
+        this.volume = volume;
+        this.weight = weight;
     }
-    PRInvokeHistory.prototype.toXML = function () {
+    Product.prototype.construct = function (xml) {
+        this.name = xml.getProperty("name");
+        this.price = xml.getProperty("price");
+        this.volume = xml.getProperty("volume");
+        this.weight = xml.getProperty("weight");
+    };
+    /* --------------------------------------------------------------------
+        GETTERS
+    -------------------------------------------------------------------- */
+    Product.prototype.getName = function () {
+        return this.name;
+    };
+    Product.prototype.getPrice = function () {
+        return this.price;
+    };
+    Product.prototype.getVolume = function () {
+        return this.volume;
+    };
+    Product.prototype.getWeight = function () {
+        return this.weight;
+    };
+    /* --------------------------------------------------------------------
+        EXPORTERS
+    -------------------------------------------------------------------- */
+    Product.prototype.TAG = function () {
+        return "product";
+    };
+    Product.prototype.toXML = function () {
         var xml = _super.prototype.toXML.call(this);
-        xml.setProperty("index", this.index);
-        xml.setProperty("size", this.size);
+        xml.setProperty("name", this.name);
+        xml.setProperty("price", this.price);
+        xml.setProperty("volume", this.volume);
+        xml.setProperty("weight", this.weight);
         return xml;
     };
-    return PRInvokeHistory;
-})(InvokeHistory);
+    return Product;
+})(Entity);
+var Wrapper = (function (_super) {
+    __extends(Wrapper, _super);
+    /* --------------------------------------------------------------------
+        CONSTRUCTORS
+    -------------------------------------------------------------------- */
+    /**
+     * <p> Construct from arguments. </p>
+     */
+    function Wrapper() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        _super.call(this);
+        if (args.length == 1 && args[0] instanceof Wrapper) {
+            var wrapper = args[0];
+            this.name = wrapper.name;
+            this.price = wrapper.price;
+            this.volume = wrapper.volume;
+            this.weight = wrapper.weight;
+        }
+        else if (args.length == 4) {
+            this.name = args[0];
+            this.price = args[1];
+            this.volume = args[2];
+            this.weight = args[3];
+        }
+    }
+    Wrapper.prototype.construct = function (xml) {
+        _super.prototype.construct.call(this, xml);
+        this.name = xml.getProperty("name");
+        this.price = xml.getProperty("price");
+        this.volume = xml.getProperty("volume");
+        this.weight = xml.getProperty("weight");
+    };
+    Wrapper.prototype.createChild = function (xml) {
+        return new Product();
+    };
+    /* --------------------------------------------------------------------
+        OPERATORS
+    -------------------------------------------------------------------- */
+    Wrapper.prototype.tryInsert = function (product) {
+        var volume = 0;
+        var weight = 0;
+        for (var i = 0; i < this.length; i++) {
+            volume += this[i].getVolume();
+            weight += this[i].getWeight();
+        }
+        if (product.getVolume() + volume > this.volume ||
+            product.getWeight() + weight > this.weight) {
+            return false;
+        }
+        this.push(product);
+        return true;
+    };
+    /* --------------------------------------------------------------------
+        GETTERS
+    -------------------------------------------------------------------- */
+    Wrapper.prototype.getName = function () {
+        return this.name;
+    };
+    Wrapper.prototype.getPrice = function () {
+        return this.price;
+    };
+    Wrapper.prototype.getVolume = function () {
+        return this.volume;
+    };
+    Wrapper.prototype.getWeight = function () {
+        return this.weight;
+    };
+    /* --------------------------------------------------------------------
+        EXPORTERS
+    -------------------------------------------------------------------- */
+    Wrapper.prototype.TAG = function () {
+        return "wrapper";
+    };
+    Wrapper.prototype.CHILD_TAG = function () {
+        return "product";
+    };
+    Wrapper.prototype.toXML = function () {
+        var xml = _super.prototype.toXML.call(this);
+        xml.setProperty("name", this.name);
+        xml.setProperty("price", this.price);
+        xml.setProperty("volume", this.volume);
+        xml.setProperty("weight", this.weight);
+        return xml;
+    };
+    return Wrapper;
+})(EntityArray);
+var WrapperArray = (function (_super) {
+    __extends(WrapperArray, _super);
+    /* --------------------------------------------------------------------
+        CONSTRUCTORS
+    -------------------------------------------------------------------- */
+    /**
+     * <p> Construct from a sample wrapper. </p>
+     *
+     * @param sample A sample wrapper used to copy wrappers.
+     */
+    function WrapperArray(sample) {
+        if (sample === void 0) { sample = null; }
+        _super.call(this);
+        this.sample = sample;
+        this.reserved = new Vector();
+    }
+    WrapperArray.prototype.construct = function (xml) {
+        _super.prototype.construct.call(this, xml);
+        this.sample = new Wrapper();
+        this.sample.construct(xml.get("sample")[0]);
+    };
+    WrapperArray.prototype.createChild = function (xml) {
+        return new Wrapper();
+    };
+    /* --------------------------------------------------------------------
+        OPERATORS
+    -------------------------------------------------------------------- */
+    /**
+     * <p> Try to insert a product into reserved list. </p>
+     *
+     * <p> If the Product's volume and weight is equal or less than the Wrapper categorized so that enable to
+     * insert in a Wrapper, reserve the Product and returns <i>true</i>. If not, does not reserve and just
+     * return <i>false</i>. </p>
+     *
+     * @return Whether the Product's volume and weight is equal or less than the Wrapper.
+     */
+    WrapperArray.prototype.tryInsert = function (product) {
+        if (product.getVolume() > this.sample.getVolume() ||
+            product.getWeight() > this.sample.getWeight()) {
+            return false;
+        }
+        this.reserved.push(product);
+        return true;
+    };
+    /**
+     * <p> Optimize to retrieve the best solution. </p>
+     *
+     * <p> Retrieves the best solution of packaging in level of WrapperArray. </p>
+     * <p> Shuffles sequence of reserved Product(s) by samchon::library::FactorialGenerator and insert the reserved
+     * Products(s) following the sequence creating Wrapper(s) as needed. Between the sequences from FactorialGenerator,
+     * retrieve and determine the best solution. </p>
+     *
+     * <h4> Note. </h4>
+     * <p> Sequence of inserting Product can affeact to numbers of Wrapper(s) to be used. </p>
+     * <p> It's the reason why even WrapperArray has the optimize() method. </p>
+     */
+    WrapperArray.prototype.optimize = function () {
+        if (this.reserved.length == 0)
+            return;
+        var factorial = new FactorialGenerator(this.reserved.length);
+        var minWrapperArray;
+        for (var i = 0; i < factorial.size(); i++) {
+            var wrapperArray = new WrapperArray(this.sample);
+            var row = factorial.at(i);
+            for (var j = 0; j < row.length; j++) {
+                var product = this.reserved[row[j]];
+                if (wrapperArray.length == 0 ||
+                    wrapperArray[wrapperArray.length - 1].tryInsert(product) == false) {
+                    var wrapper = new Wrapper(this.sample);
+                    wrapper.tryInsert(product);
+                    wrapperArray.push(wrapper);
+                }
+            }
+            if (minWrapperArray == null ||
+                wrapperArray.calcPrice() < minWrapperArray.calcPrice()) {
+                minWrapperArray = wrapperArray;
+            }
+        }
+        //REPLACE TO MIN_WRAPPER_ARRAY
+        this.splice(0, this.length);
+        for (var i = 0; i < minWrapperArray.length; i++)
+            this.push(minWrapperArray[i]);
+    };
+    /* --------------------------------------------------------------------
+        GETTERS
+    -------------------------------------------------------------------- */
+    /**
+     * <p> Calculate price of the Wrapper(s). </p>
+     *
+     * <p> Calculates price of all wrappers'. The price does not contain inserted products'. </p>
+     */
+    WrapperArray.prototype.calcPrice = function () {
+        return this.sample.getPrice() * this.length;
+    };
+    /**
+     * <p> Get sample. </p>
+     */
+    WrapperArray.prototype.getSample = function () {
+        return this.sample;
+    };
+    /* --------------------------------------------------------------------
+        EXPORTERS
+    -------------------------------------------------------------------- */
+    WrapperArray.prototype.TAG = function () {
+        return "wrapperArray";
+    };
+    WrapperArray.prototype.CHILD_TAG = function () {
+        return "wrapper";
+    };
+    WrapperArray.prototype.toXML = function () {
+        var xml = _super.prototype.toXML.call(this);
+        var xmlList = new XMLList();
+        var sample = this.sample.toXML();
+        sample.setTag("sample");
+        xml.set("sample", xmlList);
+        return xml;
+    };
+    return WrapperArray;
+})(EntityArray);
+/**
+ * <p> A packer planning the best packaging. </p>
+ * <p> Retrieves the solution of packaging by combination permuation and factorial case. </p>
+ *
+ * <h4> Warning. </h4>
+ * <p> Be careful about number of products and wrappers. </p>
+ * <p> The time complexity of Packer overs O(m^n). Elapsed time of calculation increases enourmously.
+ * Do not use Packer if the digits of number of products or wrappers overs 2. </p>
+ *
+ * @author Jeongho Nam
+ */
+var Packer = (function (_super) {
+    __extends(Packer, _super);
+    /* --------------------------------------------------------------------
+        CONSTRUCTORS
+    -------------------------------------------------------------------- */
+    /**
+     * <p> Construct from an argument. </p>
+     */
+    function Packer(obj) {
+        if (obj === void 0) { obj = null; }
+        _super.call(this);
+        if (obj == null)
+            return;
+        if (obj instanceof Wrapper) {
+            this.productArray = obj;
+        }
+        else if (obj instanceof Packer) {
+            var packer = obj;
+            this.productArray = packer.productArray;
+            for (var i = 0; i < packer.length; i++)
+                this.push(new WrapperArray(packer[i].getSample()));
+        }
+    }
+    Packer.prototype.construct = function (xml) {
+        _super.prototype.construct.call(this, xml);
+        this.productArray.construct(xml.get(this.productArray.TAG())[0]);
+    };
+    Packer.prototype.createChild = function (xml) {
+        return new WrapperArray();
+    };
+    /* --------------------------------------------------------------------
+        CALCULATORS
+    -------------------------------------------------------------------- */
+    /**
+     * <p> Find the best packaging method. </p>
+     */
+    Packer.prototype.optimize = function () {
+        if (this.length == 0 || this.productArray.length == 0)
+            return;
+        var caseGenerator = new CombinedPermutationGenerator(this.length, this.productArray.length);
+        var minPacker = null;
+        for (var i = 0; i < caseGenerator.size(); i++) {
+            var packer = new Packer(this);
+            var row = caseGenerator.at(i);
+            var validity = true;
+            for (var j = 0; j < row.length; j++) {
+                var product = this.productArray[j];
+                var wrapperArray = packer[row[j]];
+                if (wrapperArray.tryInsert(product) == false) {
+                    validity = false;
+                    break;
+                }
+            }
+            if (validity == false)
+                continue;
+            //OPTIMIZE ALL WRAPPERS IN A PACKER
+            for (var j = 0; j < packer.length; j++)
+                packer[j].optimize();
+            if (minPacker == null || packer.calcPrice() < minPacker.calcPrice())
+                minPacker = packer;
+        }
+        //REPLACE TO MIN_PACKER
+        this.splice(0, this.length);
+        for (var i = 0; i < minPacker.length; i++)
+            this.push(minPacker[i]);
+    };
+    /**
+     * <p> Calculate price of the wrappers. </p>
+     */
+    Packer.prototype.calcPrice = function () {
+        var price = 0;
+        for (var i = 0; i < this.length; i++)
+            price += this[i].calcPrice();
+        return price;
+    };
+    /* --------------------------------------------------------------------
+        EXPORTERS
+    -------------------------------------------------------------------- */
+    Packer.prototype.TAG = function () {
+        return "packer";
+    };
+    Packer.prototype.CHILD_TAG = function () {
+        return "wrapperArray";
+    };
+    Packer.prototype.toXML = function () {
+        var xml = _super.prototype.toXML.call(this);
+        var xmlList = new XMLList();
+        xmlList.push(this.productArray.toXML());
+        xml.set(this.productArray.TAG(), xmlList);
+        return xml;
+    };
+    return Packer;
+})(EntityArray);
 //# sourceMappingURL=SamchonFramework.js.map

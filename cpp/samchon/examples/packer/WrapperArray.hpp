@@ -84,7 +84,7 @@ namespace samchon
 
 				/**
 				 * @brief Calculate price of the Wrapper(s)
-				 * @details Calculate price of all wrapppers'. The price does not contain inserted products'
+				 * @details Calculates price of all wrapppers'. The price does not contain inserted products'
 				 */
 				auto calcPrice() const -> int;
 

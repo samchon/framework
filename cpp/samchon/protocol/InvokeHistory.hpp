@@ -84,7 +84,7 @@ namespace samchon
 
 		public:
 			/* -----------------------------------------------------------------
-			CONSTRUCTORS
+				CONSTRUCTORS
 			----------------------------------------------------------------- */
 			/**
 			 * @brief Default Constructor.
@@ -114,7 +114,7 @@ namespace samchon
 			virtual void notifyEnd();
 
 			/* -----------------------------------------------------------------
-			GETTERS
+				GETTERS
 			----------------------------------------------------------------- */
 		public:
 			virtual auto key() const -> std::string override;
@@ -153,7 +153,7 @@ namespace samchon
 			auto calcElapsedTime() const -> long long;
 
 			/* -----------------------------------------------------------------
-			EXPORTERS
+				EXPORTERS
 			----------------------------------------------------------------- */
 		public:
 			virtual auto TAG() const -> std::string override;

@@ -1,46 +1,32 @@
 ﻿function test()
 {
-    /*var ws: WebSocket = new WebSocket("ws://127.0.0.1:11071");
-    ws.onopen = handleOpen;
-    ws.onerror = handleError;
-    ws.onmessage = handleMessage;*/
-
-    var str: string =
-    "<invoke listener='setDepartment'>\
-		<parameter type='string'>samchon</parameter>\
-		<parameter type='XML'>\
-			<memberList department='programmer'>\
-				<member id='john' name='John Doe' authority='3' />\
-				<member id='samchon' name='Jeongho Nam' authority='5' />\
-			</memberList>\
-		</parameter>\
-    </invoke>";
-
-    var xml: XML = new XML(str);
-
-    var parameterList: XMLList = xml.get("parameter");
-    var parameter: XML = parameterList[0];
-
-    trace( parameter.getValue() );
-
-    trace
+    var productArray: Wrapper = new Wrapper();
+    productArray.push
     (
-        xml.get("parameter")[1]
-           .get("memberList")[0].get("member")[1]
-                .getProperty("id")
+        new Product("Eraser", 500, 10, 70),
+        new Product("Pencil", 400, 30, 35),
+        new Product("Pencil", 400, 30, 35),
+        new Product("Pencil", 400, 30, 35),
+        new Product("Book", 8000, 150, 300),
+        new Product("Book", 8000, 150, 300),
+        /*new Product("Drink", 1000, 75, 250),
+        new Product("Umbrella", 4000, 200, 1000),
+        new Product("Notebook-PC", 800000, 150, 850),
+        new Product("Tablet-PC", 600000, 120, 450)*/
     );
-}
-function handleOpen(event: Event): void
-{
-    alert("handleOpen");
-}
-function handleError(event: Event): void
-{
-    alert("handleError");
-}
-function handleMessage(event: MessageEvent): void
-{
-    alert("handleMessage: " + event.data);
+
+    var packer: Packer = new Packer(productArray);
+    packer.push
+    (
+        new WrapperArray(new Wrapper("Large", 100, 200, 1000)),
+        new WrapperArray(new Wrapper("Medium", 70, 150, 500)),
+        new WrapperArray(new Wrapper("Small", 50, 100, 250))
+    );
+
+    packer.optimize();
+
+    //alert(productArray.toXML().toString());
+    alert(packer.toXML().toString());
 }
 
 /**
@@ -81,6 +67,16 @@ function trace(...args: any[]): void
 		- STRING_UTIL
 		- XML
 		- XML_LIST
+
+    * CASE_GENERATOR
+        * CASE_GENERATOR
+        * COMBINED_PERMUTATION_GENERATOR
+        * PERMUTATION_GENERATOR
+        * FACTORIAL_GENERATOR
+================================================================================= */
+
+/* =================================================================================
+    LIBRARY - CONTAINERS
 ================================================================================= */
 /**
  * <p> A pair of values. </p>
@@ -404,6 +400,313 @@ interface IDictionary<_Ty>
 }
 
 /**
+ * <p> A set containing key values. </p>
+ * <ul>
+ *  <li> _Ty: Type of the elements. Each element in a Set is also uniquely identified by this value.
+ *            Aliased as member types unordered_set::key_type and unordered_set::value_type. </li>
+ * </ul>
+ *
+ * <p> Set is designed to pursuing formality in JavaScript. </p> 
+ * <h4> Definition of std::unordered_set. </h4>
+ * <ul>
+ *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
+ * </ul>
+ * 
+ * <p> Unordered sets are containers that store unique elements in no particular order, and which allow 
+ * for fast retrieval of individual elements based on their value. </p>
+ *
+ * <p> In an unordered_set, the value of an element is at the same time its key, that identifies it uniquely. 
+ * Keys are immutable, therefore, the elements in an unordered_set cannot be modified once in the container - 
+ * they can be inserted and removed, though. </p>
+ * 
+ * <p> Internally, the elements in the unordered_set are not sorted in any particular order, but organized into 
+ * buckets depending on their hash values to allow for fast access to individual elements directly by their values 
+ * (with a constant average time complexity on average). </p>
+ * 
+ * <p> unordered_set containers are faster than set containers to access individual elements by their key, 
+ * although they are generally less efficient for range iteration through a subset of their elements. </p> 
+ *
+ * <p> Iterators in the container are at least forward iterators. </p>
+ * 
+ * @author Jeongho Nam
+ */
+class Set<_Ty>
+{
+    /**
+	 * <p> A data storing elements. </p>
+	 * <p> Set::data_ is a list container of elements(pairs) in Set. </p>
+	 */
+    private data_: Vector<_Ty>;
+
+    /* ---------------------------------------------------------
+		CONSTRUCTORS
+	--------------------------------------------------------- */
+    /**
+     * <p> Default Constructor. </p>
+     */
+    public constructor()
+    {
+        this.data_ = new Vector<_Ty>();
+    }
+
+    /**
+     * <p> Insert element. </p>
+     * <p> Inserts a new element in the Set. </p>
+     *
+     * <p> Each element is inserted only if it is not equivalent to any other element already 
+     * in the container (elements in an unordered_set have unique values). </p>
+     * 
+     * <p> This effectively increases the container size by the number of elements inserted. </p>
+     */
+    public insert(key: _Ty): void
+    {
+        if (this.has(key) == true)
+            return;
+
+        this.data_.push(key);
+    }
+
+    /**
+	 * <p> Erase an element. </p>
+	 * <p> Removes an element by its key(identifier) from the Set container. </p>
+	 *
+	 * @param key Key of the element to be removed from the Set.
+	 * @throw exception out of range.
+	 */
+    public erase(key: _Ty): void 
+    {
+        for (var i: number = 0; i < this.data_.length; i++)
+            if (this.data_[i] == key) 
+            {
+                this.data_.splice(i, 1);
+                return;
+            }
+
+        throw "out of range";
+    }
+
+	/**
+	 * <p> Clear content. </p>
+	 *
+	 * <p> Removes all elements from the map container (which are destroyed), 
+	 * leaving the container with a size of 0. </p>
+	 */
+    public clear(): void 
+    {
+        this.data_ = new Vector<_Ty>();
+    }
+    
+    /* ---------------------------------------------------------
+		ACCESSORS
+	--------------------------------------------------------- */
+    /**
+	 * <p> Get data. </p>
+	 * <p> Returns the source container of the Set. </p>
+	 *
+	 * <h4> Note </h4>
+     * <p> Changes on the returned container influences the source Set. </p>
+	 */
+    public data(): Vector<_Ty>
+    {
+        return this.data_;
+    }
+
+    /**
+	 * <p> Return container size. </p>
+	 * <p> Returns the number of elements in Set container. </p>
+	 *
+	 * @return The number of elements in the container.
+	 */
+    public size(): number
+    {
+        return this.data.length;
+    }
+
+    /**
+	 * <p> Whether have the item or not. </p>
+	 * <p> Indicates whether a map has an item having the specified identifier. </p>
+	 *
+	 * @param key Key value of the element whose mapped value is accessed.
+	 * @return Whether the map has an item having the specified identifier
+	 */
+    public has(key: _Ty): boolean
+    {
+        for (var i: number = 0; i < this.data_.length; i++)
+            if (this.data_[i] == key)
+                return true;
+
+        return false;
+    }
+
+    
+
+	/* ---------------------------------------------------------
+		COMPARE
+	--------------------------------------------------------- */
+	/**
+	 * <p> Whether a Set is equal with the Set. </p>
+	 *
+	 * @param obj A Set to compare
+	 * @return Indicates whether equal or not.
+	 */
+    public equals(obj: Set<_Ty>): boolean {
+        if (this.size() != obj.size())
+            return false;
+
+        for (var i: number = 0; i < this.data_.length; i++)
+            if (this.data_[i] != obj.data_[i])
+                return false;
+
+        return true;
+    }
+
+    /* ---------------------------------------------------------
+		ITERATORS
+	--------------------------------------------------------- */
+    /**
+	 * <p> Return iterator to beginning. </p>
+	 * <p> Returns an iterator referring the first element in the Set container. </p>
+     *
+     * <h4> Note </h4>
+	 * <p> If the container is empty, the returned iterator is same with end(). </p>
+	 *
+	 * @return An iterator to the key element in the container.
+	 */
+    public begin(): SetIterator<_Ty>
+    {
+        if (this.data_.length == 0)
+            return this.end();
+        else
+            return new SetIterator<_Ty>(this, 0);
+    }
+
+    /**
+	 * <p> Return iterator to end. </p>
+	 * <p> Returns an iterator referring to the past-the-end element in the Map container. </p>
+	 *
+	 * <p> The past-the-end element is the theoretical element that would follow the last element in 
+	 * the Map container. It does not point to any element, and thus shall not be dereferenced. </p>
+	 *
+	 * <p> Because the ranges used by functions of the Map do not include the element reference 
+	 * by their closing iterator, this function is often used in combination with Map::begin() to specify 
+	 * a range including all the elements in the container. </p>
+	 *
+	 * <h4> Note </h4>
+	 * <p> Returned iterator from Map.end() does not refer any element. Trying to accessing 
+	 * element by the iterator will cause throwing exception (out of range). </p>
+	 * <p> If the container is empty, this function returns the same as Map::begin(). </p>
+     * 
+     * @return An iterator to the end element in the container.
+	 */
+    public end(): SetIterator<_Ty>
+    {
+        return new SetIterator<_Ty>(this, -1);
+    }
+}
+
+/**
+ * <p> An iterator of a Set. </p>
+ * <ul>
+ *  <li> _Ty: Type of the elements. Each element in a Set is also uniquely identified by this value.
+ *            Aliased as member types unordered_set::key_type and unordered_set::value_type. </li>
+ * </ul>
+ * 
+ * @author Jeongho Nam
+ */
+class SetIterator<_Ty>
+{
+    /**
+	 * <p> The source Set being referenced. </p>
+	 */
+    private set_: Set<_Ty>;
+
+    /**
+	 * <p> Sequence number of iterator in the source Set. </p>
+	 */
+    private index: number;
+
+    /**
+     * <p> Construct from source and index number. </p>
+     *
+     * <h4> Note </h4>
+     * <p> Do not create iterator directly. </p>
+     * <p> Use begin(), find() or end() in Map instead. </p> 
+     *
+     * @param map The source Set to reference.
+     * @param index Sequence number of the element in the source Set.
+     */
+    public constructor(set_: Set<_Ty>, index: number)
+    {
+        this.set_ = set_;
+        this.index = index;
+    }
+
+    /* ---------------------------------------------------------
+		GETTERS
+	--------------------------------------------------------- */
+    /**
+     * <p> Get key value of the iterator is pointing. </p>
+     * 
+     * @return A key value of the iterator.
+     */
+    public value(): _Ty 
+    {
+        return this.set_.data()[this.index];
+    }
+
+    /**
+	 * <p> Whether an iterator is equal with the iterator. </p>
+	 * <p> Compare two iterators and returns whether they are equal or not. </p>
+	 * 
+	 * <h4> Note </h4> 
+     * <p> Iterator's equals() only compare souce map and index number. </p>
+     * <p> Although elements, key values are equals, if the source set or
+     * index number is different, then the equals() will return false. If you want to
+     * compare the key values, compare them directly by yourself. </p>
+	 *
+	 * @param obj An iterator to compare
+	 * @return Indicates whether equal or not.
+	 */
+    public equals(obj: SetIterator<_Ty>): boolean 
+    {
+        return (this.set_ == obj.set_ && this.index == obj.index);
+    }
+
+    /* ---------------------------------------------------------
+		MOVERS
+	--------------------------------------------------------- */
+	/**
+	 * <p> Get iterator to previous element. </p>
+     * <p> If current iterator is the first item(equal with <i>begin()</i>), returns end(). </p>
+     *
+     * @return An iterator of the previous item. 
+	 */
+    public prev(): SetIterator<_Ty>
+    {
+        if (this.index == 0)
+            return this.set_.end();
+        else
+            return new SetIterator<_Ty>(this.set_, this.index - 1);
+    }
+
+    /**
+	 * <p> Get iterator to next element. </p>
+     * <p> If current iterator is the last item, returns end(). </p>
+     *
+     * @return An iterator of the next item.
+	 */
+    public next(): SetIterator<_Ty> 
+    {
+        if (this.index >= this.set_.size())
+            return this.set_.end();
+        else
+            return new SetIterator<_Ty>(this.set_, this.index + 1);
+    }
+
+    
+}
+
+/**
  * <p> A map containing pairs of key and value. </p>
  * <ul>
  *  <li> _Kty: Type of the keys. Each element in a map is uniquely identified by its key value. </li>
@@ -599,6 +902,8 @@ class Map<_Kty, _Ty>
 	 * <p> Returned iterator from Map.end() does not refer any element. Trying to accessing 
 	 * element by the iterator will cause throwing exception (out of range). </p>
 	 * <p> If the container is empty, this function returns the same as Map::begin(). </p>
+     * 
+     * @return An iterator to the end element in the container.
 	 */
 	public end(): MapIterator<_Kty, _Ty>
 	{
@@ -731,12 +1036,12 @@ class Map<_Kty, _Ty>
 class MapIterator<_Kty, _Ty>
 {
 	/**
-	 * <p> The source map being referenced. </p>
+	 * <p> The source Map being referenced. </p>
 	 */
 	private map: Map<_Kty, _Ty>;
 
 	/**
-	 * <p> Sequence number of iterator in the source map. </p>
+	 * <p> Sequence number of iterator in the source Map. </p>
 	 */
 	private index: number;
 
@@ -867,6 +1172,9 @@ class Dictionary<_Ty>
 	}
 }
 
+/* =================================================================================
+    LIBRARY - UTILITIES
+================================================================================= */
 /**
  * <p> A utility class supporting static methods of string. </p>
  *
@@ -1640,6 +1948,204 @@ class XMLList
 }
 
 /* =================================================================================
+    LIBRARY - CASE GENERATOR
+================================================================================= */
+/**
+ * <p> Case generator. </p>
+ * 
+ * <p> CaseGenerator is an abstract case generator using like a matrix. </p>
+ * <ul>
+ *  <li> nTTr(n^r) -> CombinedPermutationGenerator </li>
+ *  <li> nPr -> PermutationGenerator </li>
+ *  <li> n! -> FactorialGenerator </li>
+ * </ul>
+ * 
+ * @author Jeongho Nam
+ */
+class CaseGenerator
+{
+    /**
+     * <p> Size, the number of all cases. </p>
+     */
+    protected size_: number;
+
+    /**
+     * <p> N, size of the candidates. </p>
+     */
+    protected n_: number;
+
+    /**
+     * <p> R, size of elements of each case. </p>
+     */
+    protected r_: number;
+
+    /* ---------------------------------------------------------------
+        CONSTRUCTORS
+    --------------------------------------------------------------- */
+    /**
+     * <p> Construct from size of N and R. </p>
+     * 
+     * @param n Size of candidates.
+     * @param r Size of elements of each case.
+     */
+    constructor(n: number, r: number)
+    {
+        this.n_ = n;
+        this.r_ = r;
+    }
+
+    /* ---------------------------------------------------------------
+        ACCESSORS
+    --------------------------------------------------------------- */
+    /**
+     * <p> Get size of all cases. </p>
+     *
+     * @return Get a number of the all cases.
+     */
+    public size(): number
+    {
+        return this.size_;
+    }
+
+    /**
+     * <p> Get size of the N. </p>
+     */
+    public n(): number
+    {
+        return this.n_;
+    }
+
+    /**
+     * <p> Get size of the R. </p>
+     */
+    public r(): number
+    {
+        return this.r_;
+    }
+
+    /**
+	 * <p> Get index'th case. </p>
+	 *
+     * @param index Index number
+	 * @return The row of the index'th in combined permuation case
+	 */
+    public at(index: number): Vector<number>
+    {
+        return null;
+    }
+}
+
+/**
+ * <p> A combined-permutation case generator. </p>
+ * <p> <sub>n</sub>TT<sub>r</sub> </p>
+ * 
+ * @inheritDoc
+ * @author Jeongho Nam
+ */
+class CombinedPermutationGenerator
+    extends CaseGenerator
+{
+    /**
+     * <p> An array using for dividing each element index. </p>
+     */
+    private dividerArray: Vector<number>;
+
+    /* ---------------------------------------------------------------
+        CONSTRUCTORS
+    --------------------------------------------------------------- */
+    /**
+     * <p> Construct from size of N and R. </p>
+     * 
+     * @param n Size of candidates.
+     * @param r Size of elements of each case.
+     */
+    public constructor(n: number, r: number)
+    {
+        super(n, r);
+
+        this.size_ = Math.pow(n, r);
+        this.dividerArray = new Vector<number>();
+
+        for (var i: number = 0; i < r; i++)
+        {
+            var x: number = r - (i + 1);
+            var val: number = Math.pow(n, x);
+
+            this.dividerArray.push(val);
+        }
+    }
+
+    public at(index: number): Vector<number>
+    {
+        var row: Vector<number> = new Vector<number>();
+        for (var i: number = 0; i < this.r_; i++)
+        {
+            var val: number = (index / this.dividerArray[i]) % this.n_;
+
+            row.push(val);
+        }
+        return row;
+    }
+}
+
+/**
+ * <p> A permutation case generator. </p>
+ * <p> nPr </p>
+ * 
+ * @inheritDoc
+ * @author Jeongho Nam
+ */
+class PermuationGenerator
+    extends CaseGenerator
+{
+    /* ---------------------------------------------------------------
+        CONSTRUCTORS
+    --------------------------------------------------------------- */
+    /**
+     * <p> Construct from size of N and R. </p>
+     * 
+     * @param n Size of candidates.
+     * @param r Size of elements of each case.
+     */
+    public constructor(n: number, r: number) 
+    {
+        super(n, r);
+
+        this.size_ = n;
+        for (var i: number = n - 1; i > n - r; i--)
+            this.size_ *= i;
+    }
+
+    public at(index: number): Vector<number>
+    {
+        var atoms: Vector<number> = new Vector<number>();
+        for (var i: number = 0; i < this.n_; i++)
+            atoms.push(i);
+
+        var row: Vector<number> = new Vector<number>();
+
+        for (var i: number = 0; i < this.r_; i++)
+        {
+            var item: number = index % atoms.length;
+            index = Math.floor(index / atoms.length);
+
+            row.push( atoms[item] );
+            atoms.splice(item, 1);
+        }
+        return row;
+    }
+}
+
+class FactorialGenerator
+    extends PermuationGenerator
+{
+    public constructor(n: number)
+    {
+        super(n, n);
+    }
+}
+
+/* =================================================================================
 	PROTOCOLS
 ==================================================================================== 
 	* MESSAGE
@@ -1660,14 +2166,14 @@ class XMLList
 		- MOVIE
 		- SUB_MOVIE
 
-    * SLAVE SYSTEM
-        - SLAVE_SYSTEM
-        - SLAVE_SYSTEM_ROLE
-        - INVOKE_HISTORY
+    * EXTERNAL SYSTEM
+        - EXTERNAL_SYSTEM_ARRAY
+        - EXTERNAL_SYSTEM
+        - EXTERNAL_SYSTEM_ROLE
 
-    * PARALLEL SYSTEM
-        - PARALLEL_SYSTEM
-        - PR_INVOKE_HISTORY
+    * SLAVE
+        - SLAVE_SYSTEM
+        - INVOKE_HISTORY
 ================================================================================= */
 
 /* =================================================================================
@@ -2437,13 +2943,19 @@ class Entity
  * @see Entity
  * @author Jeongho Nam
  */
-class EntityArray
-    extends Vector<IEntity>
-    implements IEntity {
+class EntityArray<_Ty extends IEntity>
+    extends Vector<_Ty>
+    implements IEntity, IDictionary<_Ty>
+{
+
+    /* ------------------------------------------------------------------
+		CONSTRUCTORS
+	------------------------------------------------------------------ */
     /**
      * <p> Default Constructor. </p>
      */
-    constructor() {
+    constructor() 
+    {
         super();
     }
 
@@ -2460,16 +2972,19 @@ class EntityArray
 	 * 
 	 * @inheritDoc
 	 */
-    public construct(xml: XML): void {
+    public construct(xml: XML): void 
+    {
         this.splice(0, this.length);
 
         if (xml.hasOwnProperty(this.CHILD_TAG()) == false)
             return;
 
         var xmlList: XMLList = xml[this.CHILD_TAG()];
-        for (var i: number = 0; i < xmlList.length; i++) {
-            var child: IEntity = this.createChild(xmlList[i]);
-            if (child != null) {
+        for (var i: number = 0; i < xmlList.length; i++) 
+        {
+            var child: _Ty = this.createChild(xmlList[i]);
+            if (child != null) 
+            {
                 child.construct(xmlList[i]);
                 this.push(child);
             }
@@ -2485,18 +3000,50 @@ class EntityArray
      *
      * @return A new child Entity belongs to EntityArray.
      */
-    protected createChild(xml: XML): IEntity {
+    protected createChild(xml: XML): _Ty 
+    {
         return null;
     }
 
+    public set(key: string, entity: _Ty): void
+    {
+        this.push(entity);
+    }
+
+    /* ------------------------------------------------------------------
+		GETTERS
+	------------------------------------------------------------------ */
+    public key(): any 
+    { 
+        return ""; 
+    }
+
+    public has(key: string): boolean
+    {
+        for (var i: number = 0; i < this.length; i++)
+            if (this[i].key() == key)
+                return true;
+
+        return false;
+    }
+    public get(key: string): _Ty
+    {
+        for (var i: number = 0; i < this.length; i++)
+            if (this[i].key() == key)
+                return this[i];
+
+        throw "out of range";
+    }
+
+    /* ------------------------------------------------------------------
+		EXPORTERS
+	------------------------------------------------------------------ */
     public TAG(): string { return ""; }
 
     /**
 	 * <p> A tag name of children objects. </p>
 	 */
     public CHILD_TAG(): string { return ""; }
-
-    public key(): any { return ""; }
  
     /**
 	 * <p> Get an XML object represents the EntityArray. </p>
@@ -2512,7 +3059,8 @@ class EntityArray
 	 *
 	 * @inheritDoc
 	 */
-    public toXML(): XML {
+    public toXML(): XML 
+    {
         var xml: XML = new XML();
         xml.setTag(this.TAG());
 
@@ -2669,19 +3217,251 @@ class SubMovie
 }
 
 /* =================================================================================
-    PROTOCOL - SLAVE SYSTEM MODULE
+    PROTOCOL - EXTERNAL SYSTEM MODULE
 ================================================================================= */
 /**
- * A slave system.
+ * <p> An array of ExternalSystem(s). </p>
+ *
+ * <p> ExternalSystemArray is an abstract class containing and managing external system drivers. </p>
+ *
+ * <p> Also, ExternalSystemArray can access to ExternalSystemRole(s) directly. With the method, you
+ * can use an ExternalSystemRole as "logical proxy" of an ExternalSystem. Of course, the 
+ * ExternalSystemRole is belonged to an ExternalSystem. However, if you access an ExternalSystemRole 
+ * from an ExternalSystemArray directly, not passing by a belonged ExternalSystem, and send an Invoke 
+ * message even you're not knowing which ExternalSystem is related in, the ExternalSystemRole acted 
+ * a role of proxy. </p>
+ *
+ * <p> It's called as "Proxy pattern". With the pattern, you can only concentrate on 
+ * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole 
+ * is belonged to which ExternalSystem. </p>
+ *
+ * <ul>
+ *  <li> ExternalSystemArray::getRole("something")->sendData(invoke); </li>
+ * </ul>
  *
  * @author Jeongho Nam
  */
-class SlaveSystem
-    extends EntityArray
+class ExternalSystemArray
+    extends EntityArray<ExternalSystem>
+{
+    /* ------------------------------------------------------------------
+		CONSTRUCTORS
+	------------------------------------------------------------------ */
+    /**
+     * <p> Default Constructor. </p>
+     */
+    public constructor()
+    {
+        super();
+    }
+
+    /**
+	 * <p> Start interaction. </p> 
+	 * <p> An abstract method starting interaction with external systems. </p>
+	 *
+	 * <p> If external systems are servers, starts connection to them, else clients, opens a server
+	 * and accepts the external systems. You can addict your own procudures of starting drivers, but
+	 * if you directly override method of abstract ExternalSystemArray, be careful about virtual 
+	 * inheritance. </p>
+	 */
+    public start(): void
+    {
+        for (var i: number = 0; i < this.length; i++)
+            this[i].start();
+    }
+
+    /* ------------------------------------------------------------------
+	    GETTERS
+    ------------------------------------------------------------------ */
+    /**
+	 * <p> Test whether has a role. </p>
+	 *
+	 * @param name Name of an ExternalSystemRole.
+	 * @return Whether has or not.
+	 */
+    public hasRole(key: string): boolean
+    {
+        for (var i: number = 0; i < this.length; i++)
+            if (this[i].has(key) == true)
+                return true;
+
+        return false;
+    }
+    
+    /**
+	 * <p> Get a role. </p>
+	 *
+	 * @param name Name of an ExternalSystemRole
+	 * @return A shared pointer of specialized role
+	 */
+    public getRole(key: string): ExternalSystemRole
+    {
+        for (var i: number = 0; i < this.length; i++)
+            if (this[i].has(key) == true)
+                return this[i].get(key);
+
+        throw "out of range";
+    }
+
+    /* ------------------------------------------------------------------
+	    CHAIN OF INVOKE MESSAGE
+    ------------------------------------------------------------------ */
+    public sendData(invoke: Invoke): void
+    {
+        var listener: string = invoke.getListener();
+
+        for (var i: number = 0; i < this.length; i++)
+            for (var j: number = 0; j < this[i].length; j++)
+                if (this[i][j].hasSendListener(listener) == true)
+                    this[i].sendData(invoke);
+    }
+    public replyData(invoke: Invoke): void
+    {
+        invoke.apply(this);
+    }
+
+    /* ------------------------------------------------------------------
+		EXPORTERS
+	------------------------------------------------------------------ */
+    public TAG(): string
+    {
+        return "systemArray";
+    }
+    public CHILD_TAG(): string
+    {
+        return "system";
+    }
+}
+
+/**
+ * <p> A network driver for an external system. </p>
+ *
+ * <p> ExternalSystem is a boundary class interacting with an external system by network communication.
+ * Also, ExternalSystem is an abstract class that a network role, which one is server and which one is 
+ * client, is not determined yet. </p>
+ *
+ * <p> The ExternalSystem has ExternalSystemRole(s) groupped methods, handling Invoke message
+ * interacting with the external system, by subject or unit of a moudle. The ExternalSystemRole is 
+ * categorized in a 'control'. </p>
+ *
+ * <h4> Note </h4>
+ * <p> The ExternalSystem class takes a role of interaction with external system in network level.
+ * However, within a framework of Samchon Framework, a boundary class like the ExternalSystem is
+ * not such important. You can find some evidence in a relationship between ExternalSystemArray,
+ * ExternalSystem and ExternalSystemRole. </p>
+ *
+ * <p> Of course, the ExternalSystemRole is belonged to an ExternalSystem. However, if you 
+ * access an ExternalSystemRole from an ExternalSystemArray directly, not passing by a belonged
+ * ExternalSystem, and send an Invoke message even you're not knowing which ExternalSystem is
+ * related in, it's called "Proxy pattern".
+ *
+ * <p> Like the explanation of "Proxy pattern", you can utilize an ExternalSystemRole as a proxy
+ * of an ExternalSystem. With the pattern, you can only concentrate on ExternalSystemRole itself, 
+ * what to do with Invoke message, irrespective of the ExternalSystemRole is belonged to which 
+ * ExternalSystem. </p>
+ *
+ * @author Jeongho Nam
+ */
+class ExternalSystem
+    extends EntityArray<ExternalSystemRole>
     implements IProtocol
 {
-    private driver: ServerConnector;
+    /**
+     * <p> A driver for interacting with (real, physical) external system. </p>
+     */
+    protected driver: ServerConnector;
 
+    /**
+	 * <p> A name can identify an external system. </p>
+	 *
+	 * <p> The name must be unique in ExternalSystemArray. </p>
+	 */
+    protected name: string;
+
+    /**
+     * <p> An ip address of an external system. </p>
+     */
+    protected ip: string;
+
+    /**
+     * <p> A port number of an external system. </p>
+     */
+    protected port: number;
+
+    /* ------------------------------------------------------------------
+		CONSTRUCTORS
+	------------------------------------------------------------------ */
+    /**
+     * <p> Default Constructor. </p>
+     */
+    public constructor()
+    {
+        super();
+
+        this.driver = null;
+    }
+    public construct(xml: XML): void
+    {
+        super.construct(xml);
+
+        this.name = xml.getProperty("name");
+        this.ip = xml.getProperty("ip");
+        this.port = xml.getProperty("port");
+    }
+
+    /**
+	 * <p> Start interaction. </p>
+	 * <p> An abstract method starting interaction with an external system. </p>
+	 *
+	 * <p> If an external systems are a server, starts connection and listening Inovoke message, 
+	 * else clients, just starts listening only. You also can addict your own procudures of starting 
+	 * the driver, but if you directly override method of abstract ExternalSystem, be careful about 
+	 * virtual inheritance. </p>
+	 */
+    public start(): void
+    {
+        if (this.driver != null)
+            return;
+
+        this.driver = new ServerConnector(this);
+        this.driver.connect(this.ip, this.port);
+    }
+
+    /* ------------------------------------------------------------------
+		GETTERS
+	------------------------------------------------------------------ */
+    public key(): any
+    {
+        return this.name;
+    }
+
+    /**
+     * <p> Get name. </p>
+     */
+    public getName(): string
+    {
+        return this.name;
+    }
+
+    /**
+     * <p> Get ip address of the external system. </p>
+     */
+    public getIP(): string
+    {
+        return this.ip;
+    }
+
+    /**
+     * <p> Get port number of the external system. </p>
+     */
+    public getPort(): number
+    {
+        return this.port;
+    }
+
+    /* ------------------------------------------------------------------
+		CHAIN OF INVOKE MESSAGE
+	------------------------------------------------------------------ */
     public sendData(invoke: Invoke): void
     {
         this.driver.sendData(invoke);
@@ -2691,21 +3471,102 @@ class SlaveSystem
         invoke.apply(this);
 
         for (var i: number = 0; i < this.length; i++)
-            invoke.apply(<SlaveSystemRole>this[i]);
+            this[i].replyData(invoke);
+    }
+
+     /* ------------------------------------------------------------------
+		EXPORTERS
+	------------------------------------------------------------------ */
+    public TAG(): string
+    {
+        return "system";
+    }
+    public CHILD_TAG(): string
+    {
+        return "role";
+    }
+
+    public toXML(): XML
+    {
+        var xml: XML = super.toXML();
+        xml.setProperty("name", this.name);
+        xml.setProperty("ip", this.ip);
+        xml.setProperty("port", this.port);
+
+        return xml;
     }
 }
 
 /**
- * A role of belongs to a slave system.
+ * <p> A role belongs to an external system. </p>
+ *
+ * <p> ExternalSystemRole is a 'control' class groupping methods, handling Invoke messages 
+ * interacting with an external system that the ExternalSystemRole is belonged to, by a subject or 
+ * unit of a module. <p>
+ *
+ * <p> ExternalSystemRole can be a "logical proxy" for an ExternalSystem which is containing the 
+ * ExternalSystemRole. Of course, the ExternalSystemRole is belonged to an ExternalSystem. However, 
+ * if you access an ExternalSystemRole from an ExternalSystemArray directly, not passing by a 
+ * belonged ExternalSystem, and send an Invoke message even you're not knowing which ExternalSystem 
+ * is related in, the ExternalSystemRole acted a role of proxy. </p>
+ *
+ * <p> It's called as "Proxy pattern". With the pattern, you can only concentrate on 
+ * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole 
+ * is belonged to which ExternalSystem. </p>
  *
  * @author Jeongho Nam
  */
-class SlaveSystemRole
+class ExternalSystemRole
     extends Entity
     implements IProtocol
 {
-    protected system: SlaveSystem;
+    /**
+	 * <p> A driver of external system containing the ExternalSystemRole. </p>
+	 */
+    protected system: ExternalSystem;
 
+    /**
+	 * <p> A name representing the role. </p>
+     */
+    protected name: string;
+
+    protected sendListeners: Set<string>;
+
+    /* ------------------------------------------------------------------
+		CONSTRUCTORS
+	------------------------------------------------------------------ */
+    /**
+	 * <p> Construct from external system driver. </p>
+	 *
+	 * @param system A driver of external system the ExternalSystemRole is belonged to.
+	 */
+    public constructor(system: ExternalSystem)
+    {
+        super();
+
+        this.system = system;
+        this.sendListeners = new Set<string>();
+    }
+    public construct(xml: XML): void
+    {
+        this.name = xml.getProperty("name");
+    }
+
+    /* ------------------------------------------------------------------
+		GETTERS
+	------------------------------------------------------------------ */
+    public getName(): string
+    {
+        return this.name;
+    }
+    public hasSendListener(key: string): boolean
+    {
+        return this.sendListeners.has(key);
+    }
+
+    /* ------------------------------------------------------------------
+		CHAIN OF INVOKE MESSAGE
+	------------------------------------------------------------------ */
     public sendData(invoke: Invoke): void
     {
         this.system.sendData(invoke);
@@ -2713,6 +3574,59 @@ class SlaveSystemRole
     public replyData(invoke: Invoke): void
     {
         invoke.apply(this);
+    }
+
+    /* ------------------------------------------------------------------
+		EXPORTERS
+	------------------------------------------------------------------ */
+    public TAG(): string
+    {
+        return "role";
+    }
+    public toXML(): XML
+    {
+        var xml: XML = super.toXML();
+        xml.setProperty("name", this.name);
+
+        return xml;
+    }
+}
+
+/* =================================================================================
+    PROTOCOL - SLAVE SYSTEM MODULE
+================================================================================= */
+/**
+ * @brief A slave system.
+ *
+ * @details
+ * <p> SlaveSystem, literally, means a slave system belongs to a maste system. </p>
+ *
+ * <p> The SlaveSystem class is used in opposite side system of master::DistributedSystem
+ * and master::ParallelSystem and reports elapsed time of each commmand (by Invoke message)
+ * for estimation of its performance. </p>
+ * 
+ * @inheritDoc
+ * @author Jeongho Nam
+ */
+class SlaveSystem
+    extends ExternalSystem
+{
+    /**
+     * <p> Default Constructor. </p>
+     */
+    public constructor()
+    {
+        super();
+    }
+
+    public replyData(invoke: Invoke): void
+    {
+        var history: InvokeHistory = new InvokeHistory(invoke);
+
+        super.replyData(invoke);
+        
+        history.notifyEnd();
+        this.sendData(history.toInvoke());
     }
 }
 
@@ -2732,24 +3646,82 @@ class SlaveSystemRole
 class InvokeHistory
     extends Entity
 {
+    /**
+     * <p> An identifier. </p>
+     */
     protected uid: number;
+
+    /**
+	 * <p> A listener of the Invoke message. </p>
+	 *
+	 * <p> InvokeHistory does not archive entire data of an Invoke message. InvokeHistory only
+	 * archives its listener. The first, formal reason is to save space, avoid wasting spaces. </p>
+	 * 
+	 * <p> The second, complicate reason is on an aspect of which systems are using the 
+	 * InvokeHistory class. InvokeHistory is designed to let slave reports to master elapsed time 
+	 * of a process used to handling the Invoke message. If you want to archive entire history log 
+	 * of Invoke messages, then the subject should be master, not the slave using InvokeHistory 
+	 * classes. </p>
+	 */
     protected listener: string;
+
+ 	/**
+	 * <p> Start time of the history. </p>
+	 *
+	 * <p> Means start time of a process handling the Invoke message. The start time not only
+	 * has ordinary arguments represented Datetime (year to seconds), but also has very precise 
+	 * values under seconds, which is expressed as nano seconds (10^-9). </p>
+	 *
+	 * <p> The precise start time will be used to calculate elapsed time with end time. </p>
+	 */
     protected startTime: Date;
+
+  	/**
+	 * <p> End time of the history. </p>
+	 *
+	 * @details
+	 * <p> Means end time of a process handling the Invoke message. The end time not only
+	 * has ordinary arguments represented Datetime (year to seconds), but also has very precise 
+	 * values under seconds, which is expressed as nano seconds (10^-9). </p>
+	 *
+	 * <p> The precise end time will be used to calculate elapsed time with start time. </p>
+	 */
     protected endTime: Date;
     
-    constructor(uid: number, listener: string)
+    /* -----------------------------------------------------------------
+		CONSTRUCTORS
+	----------------------------------------------------------------- */
+    /**
+	 * <p> Construct from an Invoke message. </p>
+     * 
+	 * <p> InvokeHistory does not archive entire Invoke message, only archives its listener. </p>
+	 *
+	 * @param invoke A message to archive its history log
+	 */
+    constructor(invoke: Invoke)
     {
         super();
 
-        this.uid = uid;
-        this.listener = listener;
+        this.uid = invoke.get("invoke_history_uid").getValue();
+        this.listener = invoke.getListener();
+
         this.startTime = new Date();
     }
+
+    /**
+	 * <p> Notify end of the process. </p>
+	 *
+	 * <p> Notifies end of a process handling the matched Invoke message to InvokeHistory. </p>
+	 * <p> InvokeHistory archives the end datetime and calculates elapsed time as nanoseconds. </p>
+	 */
     public notifyEnd(): void
     {
         this.endTime = new Date();
     }
 
+    /* -----------------------------------------------------------------
+		EXPORTERS
+	----------------------------------------------------------------- */
     public TAG(): string { return "invokeHistory"; }
 
     public toXML(): XML
@@ -2757,37 +3729,562 @@ class InvokeHistory
         var xml: XML = super.toXML();
         xml.setProperty("uid", this.uid);
         xml.setProperty("listener", this.listener);
-        xml.setProperty("startTime", this.startTime);
-        xml.setProperty("endTime", this.endTime);
+
+        xml.setProperty("startTime", this.startTime.getTime() * Math.pow(10.0, 6));
+        xml.setProperty("endTime", this.endTime.getTime() * Math.pow(10.0, 6));
+
+        return xml;
+    }
+
+    /**
+	 * <p> Get an Invoke message. </p>
+	 *
+	 * <p> Returns an Invoke message to report to a master that how much time was elapsed on a 
+	 * process handling the Invoke message. In master, those reports are used to estimate 
+	 * performance of each slave system. </p>
+	 *
+	 * @return An Invoke message to report master.
+	 */
+    public toInvoke(): Invoke
+    {
+        return new Invoke("reportInvokeHistory", this.toXML());
+    }
+}
+
+/* =================================================================================
+	EXAMPLES
+==================================================================================== 
+	* PACKER
+		- PACKER
+		- WRAPPER_ARRAY
+        - WRAPPER
+        - PRODUCT
+
+    * PACKER_SLAVE_SYSTEM
+        - PACKER_SLAVE_SYSTEM
+================================================================================= */
+interface Instance
+    extends IEntity
+{
+    getName(): string;
+    getPrice(): number;
+    getVolume(): number;
+    getWeight(): number;
+}
+
+class Product
+    extends Entity
+    implements Instance
+{
+    protected name: string;
+    protected price: number;
+    protected volume: number;
+    protected weight: number;
+
+    /* --------------------------------------------------------------------
+        CONSTRUCTORS
+    -------------------------------------------------------------------- */
+    public constructor
+        (
+            name: string = "", 
+            price: number = 0, volume: number = 0, weight: number = 0
+        )
+    {
+        super();
+
+        this.name = name;
+        this.price = price;
+        this.volume = volume;
+        this.weight = weight;
+    }
+    public construct(xml: XML): void
+    {
+        this.name = xml.getProperty("name");
+        this.price = xml.getProperty("price");
+        this.volume = xml.getProperty("volume");
+        this.weight = xml.getProperty("weight");
+    }
+
+    /* --------------------------------------------------------------------
+        GETTERS
+    -------------------------------------------------------------------- */
+    public getName(): string
+    {
+        return this.name;
+    }
+    public getPrice(): number
+    {
+        return this.price;
+    }
+    public getVolume(): number {
+        return this.volume;
+    }
+    public getWeight(): number {
+        return this.weight;
+    }
+
+    /* --------------------------------------------------------------------
+        EXPORTERS
+    -------------------------------------------------------------------- */
+    public TAG(): string
+    {
+        return "product";
+    }
+    public toXML(): XML
+    {
+        var xml: XML = super.toXML();
+        xml.setProperty("name", this.name);
+        xml.setProperty("price", this.price);
+        xml.setProperty("volume", this.volume);
+        xml.setProperty("weight", this.weight);
 
         return xml;
     }
 }
 
-
-/* =================================================================================
-    PROTOCOL - PARALLEL SYSTEM MOUDLE
-================================================================================= */
-class PRInvokeHistory
-    extends InvokeHistory
+class Wrapper
+    extends EntityArray<Product>
+    implements Instance
 {
-    protected index: number;
-    protected size: number;
+    protected name: string;
+    protected price: number;
+    protected volume: number;
+    protected weight: number;
 
-    constructor(uid: number, listener: string, index: number, size: number)
+    /* --------------------------------------------------------------------
+        CONSTRUCTORS
+    -------------------------------------------------------------------- */
+    /**
+     * <p> Construct from arguments. </p>
+     */
+    public constructor(...args: any[]) 
     {
-        super(uid, listener);
+        super();
 
-        this.index = index;
-        this.size = size;
+        if (args.length == 1 && args[0] instanceof Wrapper)
+        {
+            var wrapper: Wrapper = args[0];
+
+            this.name = wrapper.name;
+            this.price = wrapper.price;
+            this.volume = wrapper.volume;
+            this.weight = wrapper.weight;
+        }
+        else if (args.length == 4)
+        {
+            this.name = args[0];
+            this.price = args[1];
+            this.volume = args[2];
+            this.weight = args[3];
+        }
+    }
+    public construct(xml: XML): void 
+    {
+        super.construct(xml);
+
+        this.name = xml.getProperty("name");
+        this.price = xml.getProperty("price");
+        this.volume = xml.getProperty("volume");
+        this.weight = xml.getProperty("weight");
+    }
+
+    protected createChild(xml: XML): Product
+    {
+        return new Product(); 
+    }
+
+    /* --------------------------------------------------------------------
+        OPERATORS
+    -------------------------------------------------------------------- */
+    public tryInsert(product: Product): boolean
+    {
+        var volume: number = 0;
+        var weight: number = 0;
+
+        for (var i: number = 0; i < this.length; i++)
+        {
+            volume += this[i].getVolume();
+            weight += this[i].getWeight();
+        }
+
+        if (product.getVolume() + volume > this.volume || 
+            product.getWeight() + weight > this.weight) 
+        {
+            return false;
+        }
+
+        this.push(product);
+        return true;
+    }
+
+    /* --------------------------------------------------------------------
+        GETTERS
+    -------------------------------------------------------------------- */
+    public getName(): string 
+    {
+        return this.name;
+    }
+    public getPrice(): number 
+    {
+        return this.price;
+    }
+    public getVolume(): number 
+    {
+        return this.volume;
+    }
+    public getWeight(): number 
+    {
+        return this.weight;
+    }
+
+    /* --------------------------------------------------------------------
+        EXPORTERS
+    -------------------------------------------------------------------- */
+    public TAG(): string
+    {
+        return "wrapper";
+    }
+    public CHILD_TAG(): string
+    {
+        return "product";
     }
 
     public toXML(): XML
     {
         var xml: XML = super.toXML();
-        xml.setProperty("index", this.index);
-        xml.setProperty("size", this.size);
+        xml.setProperty("name", this.name);
+        xml.setProperty("price", this.price);
+        xml.setProperty("volume", this.volume);
+        xml.setProperty("weight", this.weight);
 
         return xml;
     }
 }
+
+class WrapperArray
+    extends EntityArray<Wrapper>
+{
+    /**
+     * <p> A list for reserved Product(s). </p>
+     */
+    private reserved: Vector<Product>;
+
+    /**
+     * <p> A sample wrapper used to copy. </p>
+     */
+    private sample: Wrapper;
+    
+    /* --------------------------------------------------------------------
+        CONSTRUCTORS
+    -------------------------------------------------------------------- */
+    /**
+	 * <p> Construct from a sample wrapper. </p>
+	 *
+	 * @param sample A sample wrapper used to copy wrappers.
+	 */
+    public constructor(sample: Wrapper = null)
+    {
+        super();
+
+        this.sample = sample;
+        this.reserved = new Vector<Product>();
+    }
+    public construct(xml: XML): void
+    {
+        super.construct(xml);
+
+        this.sample = new Wrapper();
+        this.sample.construct
+        (
+            xml.get("sample")[0]
+        );
+    }
+
+    protected createChild(xml: XML): Wrapper
+    {
+        return new Wrapper();
+    }
+
+    /* --------------------------------------------------------------------
+        OPERATORS
+    -------------------------------------------------------------------- */
+    /**
+	 * <p> Try to insert a product into reserved list. </p>
+	 *
+	 * <p> If the Product's volume and weight is equal or less than the Wrapper categorized so that enable to
+	 * insert in a Wrapper, reserve the Product and returns <i>true</i>. If not, does not reserve and just
+	 * return <i>false</i>. </p>
+	 *
+	 * @return Whether the Product's volume and weight is equal or less than the Wrapper.
+	 */
+    public tryInsert(product: Product): boolean
+    {
+        if (product.getVolume() > this.sample.getVolume() ||
+            product.getWeight() > this.sample.getWeight())
+        {
+            return false;
+        }
+
+        this.reserved.push(product);
+        return true;
+    }
+
+    /**
+	 * <p> Optimize to retrieve the best solution. </p>
+	 *
+	 * <p> Retrieves the best solution of packaging in level of WrapperArray. </p>
+	 * <p> Shuffles sequence of reserved Product(s) by samchon::library::FactorialGenerator and insert the reserved
+	 * Products(s) following the sequence creating Wrapper(s) as needed. Between the sequences from FactorialGenerator,
+	 * retrieve and determine the best solution. </p>
+	 *
+	 * <h4> Note. </h4>
+	 * <p> Sequence of inserting Product can affeact to numbers of Wrapper(s) to be used. </p>
+	 * <p> It's the reason why even WrapperArray has the optimize() method. </p>
+	 */
+    public optimize(): void
+    {
+        if (this.reserved.length == 0)
+            return;
+
+        var factorial: FactorialGenerator = new FactorialGenerator(this.reserved.length);
+        var minWrapperArray: WrapperArray;
+
+        for (var i: number = 0; i < factorial.size(); i++)
+        {
+            var wrapperArray: WrapperArray = new WrapperArray(this.sample);
+            var row: Vector<number> = factorial.at(i);
+
+            for (var j: number = 0; j < row.length; j++)
+            {
+                var product: Product = this.reserved[row[j]];
+
+                if (wrapperArray.length == 0 ||
+                    wrapperArray[wrapperArray.length - 1].tryInsert(product) == false)
+                {
+                    var wrapper: Wrapper = new Wrapper(this.sample);
+                    wrapper.tryInsert(product);
+
+                    wrapperArray.push(wrapper);
+                }
+            }
+
+            if (minWrapperArray == null ||
+                wrapperArray.calcPrice() < minWrapperArray.calcPrice())
+            {
+                minWrapperArray = wrapperArray;
+            }
+        }
+
+        //REPLACE TO MIN_WRAPPER_ARRAY
+        this.splice(0, this.length);
+
+        for (var i: number = 0; i < minWrapperArray.length; i++)
+            this.push( minWrapperArray[i] );
+    }
+
+    /* --------------------------------------------------------------------
+        GETTERS
+    -------------------------------------------------------------------- */
+    /**
+     * <p> Calculate price of the Wrapper(s). </p>
+     * 
+     * <p> Calculates price of all wrappers'. The price does not contain inserted products'. </p>
+     */
+    public calcPrice(): number
+    {
+        return this.sample.getPrice() * this.length;
+    }
+
+    /**
+     * <p> Get sample. </p>
+     */
+    public getSample(): Wrapper
+    {
+        return this.sample;
+    }
+
+    /* --------------------------------------------------------------------
+        EXPORTERS
+    -------------------------------------------------------------------- */
+    public TAG(): string 
+    {
+        return "wrapperArray";
+    }
+    public CHILD_TAG(): string 
+    {
+        return "wrapper";
+    }
+
+    public toXML(): XML
+    {
+        var xml: XML = super.toXML();
+
+        var xmlList:XMLList = new XMLList();
+        var sample: XML = this.sample.toXML();
+        sample.setTag("sample");
+
+        xml.set("sample", xmlList);
+
+        return xml;
+    }
+}
+
+/**
+ * <p> A packer planning the best packaging. </p>
+ * <p> Retrieves the solution of packaging by combination permuation and factorial case. </p>
+ *
+ * <h4> Warning. </h4>
+ * <p> Be careful about number of products and wrappers. </p> 
+ * <p> The time complexity of Packer overs O(m^n). Elapsed time of calculation increases enourmously. 
+ * Do not use Packer if the digits of number of products or wrappers overs 2. </p>
+ *
+ * @author Jeongho Nam
+ */
+class Packer
+    extends EntityArray<WrapperArray>
+{
+    /**
+     * <p> Product(s) to package in some Wrapper(s). </p>
+     */
+    protected productArray: Wrapper;
+    
+    /* --------------------------------------------------------------------
+        CONSTRUCTORS
+    -------------------------------------------------------------------- */
+    /**
+     * <p> Construct from an argument. </p>
+     */
+    public constructor(obj: any = null)
+    {
+        super();
+
+        if (obj == null)
+            return;
+
+        if (obj instanceof Wrapper)
+        {
+            this.productArray = obj;
+        }
+        else if (obj instanceof Packer)
+        {
+            var packer: Packer = obj;
+     
+            this.productArray = packer.productArray;
+
+            for (var i: number = 0; i < packer.length; i++)
+                this.push
+                (
+                    new WrapperArray
+                    (
+                        packer[i].getSample()
+                    )
+                );
+        }
+    }
+    public construct(xml: XML): void
+    {
+        super.construct(xml);
+
+        this.productArray.construct
+        (
+            xml.get
+            (
+                this.productArray.TAG()
+            )[0]
+        );
+    }
+
+    protected createChild(xml: XML): WrapperArray
+    {
+        return new WrapperArray();
+    }
+
+    /* --------------------------------------------------------------------
+        CALCULATORS
+    -------------------------------------------------------------------- */
+    /**
+     * <p> Find the best packaging method. </p>
+     */
+    public optimize(): void
+    {
+        if (this.length == 0 || this.productArray.length == 0)
+            return;
+
+        var caseGenerator: CombinedPermutationGenerator =
+            new CombinedPermutationGenerator(this.length, this.productArray.length);
+        var minPacker: Packer = null;
+
+        for (var i: number = 0; i < caseGenerator.size(); i++) //ROW
+        {
+            var packer: Packer = new Packer(this);
+            var row: Vector<number> = caseGenerator.at(i);
+
+            var validity: boolean = true;
+
+            for (var j: number = 0; j < row.length; j++) //EACH ELEMENT
+            {
+                var product: Product = this.productArray[j];
+                var wrapperArray: WrapperArray = packer[ row[j] ];
+
+                if (wrapperArray.tryInsert(product) == false)
+                {
+                    validity = false;
+                    break;
+                }
+            }
+
+            if (validity == false)
+                continue;
+
+            //OPTIMIZE ALL WRAPPERS IN A PACKER
+            for (var j: number = 0; j < packer.length; j++)
+                packer[j].optimize();
+
+            if (minPacker == null || packer.calcPrice() < minPacker.calcPrice())
+                minPacker = packer;
+        }
+
+        //REPLACE TO MIN_PACKER
+        this.splice(0, this.length);
+
+        for (var i: number = 0; i < minPacker.length; i++)
+            this.push(minPacker[i]);
+    }
+
+    /**
+     * <p> Calculate price of the wrappers. </p>
+     */
+    public calcPrice(): number
+    {
+        var price: number = 0;
+        for (var i: number = 0; i < this.length; i++)
+            price += this[i].calcPrice();
+
+        return price;
+    }
+
+    /* --------------------------------------------------------------------
+        EXPORTERS
+    -------------------------------------------------------------------- */
+    public TAG(): string
+    {
+        return "packer";
+    }
+    public CHILD_TAG(): string
+    {
+        return "wrapperArray";
+    }
+
+    public toXML(): XML
+    {
+        var xml: XML = super.toXML();
+
+        var xmlList:XMLList = new XMLList();
+        xmlList.push(this.productArray.toXML());
+
+        xml.set(this.productArray.TAG(), xmlList);
+
+        return xml;
+    }
+}
+

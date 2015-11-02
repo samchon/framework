@@ -83,13 +83,8 @@ html-template/
 .DS_Store
 
 # ======================================================
-#	CUSTOM IGNORES
+#	TYPESCRIPT - SOURCE FILE ONLY
 # ======================================================
-cloc.cmd
-commit.bat
-
-# 	TYPESCRIPT
-# ------------------------------------------------------
 js/
 !/js/SamchonFramework.ts
 !/js/SamchonFramework.js

@@ -45,6 +45,9 @@
     <ClInclude Include="namespace_packer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProductArray.hpp">
+      <Filter>Header Files\instance</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="WrapperArray.cpp">
       <Filter>Source Files\optimizer</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductArray.cpp">
+      <Filter>Source Files\instance</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

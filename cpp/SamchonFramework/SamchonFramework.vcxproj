@@ -366,6 +366,7 @@
     <ClCompile Include="..\samchon\protocol\IProtocol.cpp" />
     <ClCompile Include="..\samchon\protocol\IServer.cpp" />
     <ClCompile Include="..\samchon\protocol\ISQLEntity.cpp" />
+    <ClCompile Include="..\samchon\protocol\IWebClient.cpp" />
     <ClCompile Include="..\samchon\protocol\master\DSInvokeHistory.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelClientArray.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelClientArrayMediator.cpp" />

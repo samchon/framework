@@ -370,6 +370,9 @@
     <Filter Include="Source Files\protocol\master\parallel processing system\mediator\master">
       <UniqueIdentifier>{84b1806f-f67e-4fa9-aac4-df35bd69a154}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\protocol\common\interface\web-socket">
+      <UniqueIdentifier>{8be68123-628b-4337-b36a-43b0cdeb6328}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\SmartPointer.hpp">
@@ -1099,6 +1102,9 @@
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\master\ParallelSlaveClientMediator.cpp">
       <Filter>Source Files\protocol\master\parallel processing system\mediator\slave</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\IWebClient.cpp">
+      <Filter>Source Files\protocol\common\interface\web-socket</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

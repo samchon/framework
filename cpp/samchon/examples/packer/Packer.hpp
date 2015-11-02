@@ -1,7 +1,6 @@
 #pragma once
-#include <vector>
-#include <memory>
-#include <string>
+#include <samchon/protocol/SharedEntityArray.hpp>
+#include <samchon/examples/packer/WrapperArray.hpp>
 
 namespace samchon
 {
@@ -9,18 +8,14 @@ namespace samchon
 	{
 		namespace packer
 		{
-			class WrapperArray;
-			class Wrapper;
-			class Product;
-
 			/**
 			 * @brief A packer planning the best packaging.
 			 *
-			 * @details
-			 * <p> Retrieves the solution of packaging by combination permuation and factorial case. </p>
-			 *
 			 * <p> @image html cpp/example_packer.png
 			 * @image latex cpp/example_packer.png </p>
+			 *
+			 * @details
+			 * <p> Retrieves the solution of packaging by combination permuation and factorial case. </p>
 			 *
 			 * @warning 
 			 * <p> Be careful about number of products and wrappers. </p> 
@@ -30,32 +25,32 @@ namespace samchon
 			 * @author Jeongho Nam
 			 */
 			class Packer
-				: public std::vector<std::shared_ptr<WrapperArray>>
+				: public protocol::SharedEntityArray<WrapperArray>
 			{
 			private:
-				typedef std::vector<std::shared_ptr<WrapperArray>> super;
+				typedef protocol::SharedEntityArray<WrapperArray> super;
 
 				/**
 				 * @brief Prodcut(s) to package in some Wrapper(s)
 				 */
-				std::vector<Product> *productArray;
-
-				/**
-				 * @brief Type of Wrapper(s) to be used for packaging.
-				 */
-				std::vector<Wrapper> *wrapperArray;
+				std::shared_ptr<ProductArray> productArray;
 
 			public:
 				/* ---------------------------------------------------------
 					CONSTRUCTORS
 				--------------------------------------------------------- */
 				/**
+				 * @brief Default Constructor
+				 */
+				Packer();
+
+				/**
 				 * @brief Construct from products and wrapper
 				 *
 				 * @param productArray Product(s) to input some Wrapper
 				 * @param wrapperArray Type of Wrapper(s) to be used
 				 */
-				Packer(std::vector<Product> *, std::vector<Wrapper> *);
+				Packer(std::shared_ptr<ProductArray>);
 				
 				/**
 				 * @brief Copy Constructor
@@ -66,13 +61,19 @@ namespace samchon
 				 */
 				Packer(const Packer &);
 
+				virtual void construct(std::shared_ptr<library::XML>) override;
+
+			protected:
+				virtual auto createChild(std::shared_ptr<library::XML>) -> WrapperArray* override;
+
 				/* ---------------------------------------------------------
-					CALCULATE AND OPTIMIZE
+					OPERATORS
 				--------------------------------------------------------- */
+			public:
 				/**
 				 * @brief Find the best packaging method.
 				 */
-				void optimize();
+				void optimize(size_t = 0, size_t = -1);
 
 				/**
 				 * @brief Calculate price of the wrappers.
@@ -82,6 +83,11 @@ namespace samchon
 				/* ---------------------------------------------------------
 					EXPORT
 				--------------------------------------------------------- */
+				virtual auto TAG() const -> std::string override;
+				virtual auto CHILD_TAG() const -> std::string override;
+
+				virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+
 				/**
 				 * @brief Return a string represents an packaging method.
 				 */

@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
-#include "Instance.hpp"
+#include <samchon/examples/packer/ProductArray.hpp>
+#include <samchon/examples/packer/Instance.hpp>
 
 namespace samchon
 {
@@ -22,16 +22,21 @@ namespace samchon
 			 * @author Jeongho Nam
 			 */
 			class Wrapper
-				: public Instance,
-				private std::vector<Product*>
+				: public ProductArray,
+				public Instance
 			{
 			private:
-				typedef Instance super;
+				typedef ProductArray super;
 
 			public:
 				/* ---------------------------------------------------------
 					CONSTRUCTORS
 				--------------------------------------------------------- */
+				/**
+				 * @brief Default Constructor
+				 */
+				Wrapper();
+
 				/**
 				 * @brief Construct from argument of a wrapper
 				 *
@@ -49,6 +54,9 @@ namespace samchon
 				Wrapper(const Wrapper &wrapper);
 				virtual ~Wrapper() = default;
 				
+				virtual void construct(std::shared_ptr<library::XML>) override;
+
+			public:
 				/**
 				 * @brief Try to insert a product into the wrapper.
 				 *
@@ -59,11 +67,15 @@ namespace samchon
 				 * @param product A product try to insert in.
 				 * @return Whether to success put in
 				 */
-				auto tryInsert(Product *) -> bool;
+				auto tryInsert(std::shared_ptr<Product>) -> bool;
 
 				/* ---------------------------------------------------------
-					EXPORT
+					EXPORTERS
 				--------------------------------------------------------- */
+				virtual auto TAG() const -> std::string override;
+
+				virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+
 				/**
 				 * @brief Return a string represent the wrapper.
 				 * @details Returns a string of the Wrapper and Product(s) packaged in.

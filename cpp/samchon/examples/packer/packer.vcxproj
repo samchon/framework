@@ -165,6 +165,7 @@
     <ClInclude Include="Instance.hpp" />
     <ClInclude Include="namespace_packer.hpp" />
     <ClInclude Include="Packer.hpp" />
+    <ClInclude Include="ProductArray.hpp" />
     <ClInclude Include="Wrapper.hpp" />
     <ClInclude Include="Product.hpp" />
     <ClInclude Include="WrapperArray.hpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Packer.cpp" />
     <ClCompile Include="Product.cpp" />
+    <ClCompile Include="ProductArray.cpp" />
     <ClCompile Include="Wrapper.cpp" />
     <ClCompile Include="WrapperArray.cpp" />
   </ItemGroup>

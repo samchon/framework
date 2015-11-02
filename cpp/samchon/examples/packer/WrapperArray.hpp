@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
-#include <memory>
+#include <samchon/protocol/SharedEntityArray.hpp>
+#include <samchon/examples/packer/Wrapper.hpp>
 
 namespace samchon
 {
@@ -8,9 +8,6 @@ namespace samchon
 	{
 		namespace packer
 		{
-			class Wrapper;
-			class Product;
-
 			/**
 			 * @brief An array of wrapper with same category (name).
 			 *
@@ -24,32 +21,57 @@ namespace samchon
 			 * @author Jeongho Nam
 			 */
 			class WrapperArray
-				: private std::vector<std::shared_ptr<Wrapper>>
+				: public protocol::SharedEntityArray<Wrapper>
 			{
 			private:
-				typedef std::vector<std::shared_ptr<Wrapper>> super;
+				typedef protocol::SharedEntityArray<Wrapper> super;
 
 				/**
 				 * @brief A list for reserved Product(s).
 				 */
-				std::vector<Product*> reserved;
+				std::shared_ptr<ProductArray> reserved;
 
 				/**
 				 * @brief A sample wrapper used to copy
 				 */
-				Wrapper *sample;
+				std::shared_ptr<Wrapper> sample;
 
 			public:
 				/* ---------------------------------------------------------
 					CONSTRUCTORS
 				--------------------------------------------------------- */
 				/**
-				 * @brief Construct from a sample wrapper.
-				 *
-				 * @param sample A sample wrapper used to copy wrappers.
+				 * @brief Default Constructor
 				 */
-				WrapperArray(Wrapper *);
+				WrapperArray();
 
+				/**
+				 * @brief Construct from arguments of sample.
+				 * 
+				 * @param name Category name of a wrapper, can be identified
+				 * @param price Price of a wrapper
+				 * @param volume Limited volume of a wrapper can put in.
+				 * @param weight Limited weight of a wrapper can put in.
+				 */
+				WrapperArray(const std::string &name, int price, int volume, int weight);
+
+				/**
+				* @brief Copy Constructor
+				*
+				* @details 
+				* <p> Copy constructor of WrapperArray does not copy children items. </p> 
+				* <p> Only copies sample. </p>
+				*/
+				WrapperArray(const WrapperArray &);
+
+				virtual ~WrapperArray() = default;
+
+				virtual void construct(std::shared_ptr<library::XML>) override;
+
+			protected:
+				virtual auto createChild(std::shared_ptr<library::XML>) -> Wrapper* override;
+
+			public:
 				/**
 				 * @brief Try to insert a product into reserved list.
 				 *
@@ -60,10 +82,10 @@ namespace samchon
 				 *
 				 * @return Whether the Product's volume and weight is equal or less than the Wrapper.
 				 */
-				auto tryInsert(Product*) -> bool;
+				auto tryInsert(std::shared_ptr<Product>) -> bool;
 
 				/* ---------------------------------------------------------
-					CALCULATE AND OPTIMIZE
+					OPERATORS
 				--------------------------------------------------------- */
 				/**
 				 * @brief Optimize to retrieve the best solution.
@@ -91,6 +113,11 @@ namespace samchon
 				/* ---------------------------------------------------------
 					EXPORT
 				--------------------------------------------------------- */
+				virtual auto TAG() const -> std::string override;
+				virtual auto CHILD_TAG() const -> std::string override;
+
+				virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+
 				/**
 				 * @brief Return a string represents Wrapper(s) of same type
 				 */

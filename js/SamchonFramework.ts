@@ -8,8 +8,8 @@
         /*new Product("Pencil", 400, 30, 35),
         new Product("Pencil", 400, 30, 35),
         new Product("Book", 8000, 150, 300),
-        new Product("Book", 8000, 150, 300),
-        new Product("Drink", 1000, 75, 250),*/
+        new Product("Book", 8000, 150, 300),*/
+        new Product("Drink", 1000, 75, 250),
         new Product("Umbrella", 4000, 200, 1000),
         new Product("Notebook-PC", 800000, 150, 850),
         new Product("Tablet-PC", 600000, 120, 450)
@@ -25,7 +25,7 @@
 
     var packerSystem: PackerSlaveSystem = new PackerSlaveSystem("127.0.0.1", 0);
 
-    var invoke: Invoke = new Invoke("optimize", packer.toXML(), 1, 20);
+    var invoke: Invoke = new Invoke("optimize", packer.toXML(), 1, 400);
     invoke.apply(packerSystem);
 }
 
@@ -4293,7 +4293,7 @@ class Packer
     /**
      * <p> Find the best packaging method. </p>
      */
-    public optimize(start: number = 0, end: number = -1): void
+    public optimize(start: number = 0, size: number = -1): void
     {
         if (this.length == 0 || this.productArray.length == 0)
             return;
@@ -4302,10 +4302,12 @@ class Packer
             new CombinedPermutationGenerator(this.length, this.productArray.length);
         var minPacker: Packer = null;
 
-        if (end == -1)
-            end = caseGenerator.size();
-
-        for (var i: number = start; i < end; i++) //ROW
+        //ADJUST END INDEX
+        if (size == -1 || start + size > caseGenerator.size())
+            size = caseGenerator.size() - start;
+        
+        //FIND THE BEST SOLUTION
+        for (var i: number = start; i < start + size; i++) //ROW
         {
             var packer: Packer = new Packer(this);
             var row: Vector<number> = caseGenerator.at(i);
@@ -4379,9 +4381,18 @@ class Packer
     }
 }
 
+/**
+ * <p> A slave system for solving packer. </p>
+ * 
+ * @inheritDoc
+ * @author Jeongho Nam
+ */
 class PackerSlaveSystem
     extends SlaveSystem
 {
+    /**
+     * <p> Construct from ip and port of the master. </p>
+     */
     constructor(ip: string, port: number)
     {
         super();
@@ -4389,15 +4400,23 @@ class PackerSlaveSystem
         this.ip = ip;
         this.port = port;
     }
-    public optimize(xml: XML, start: number, end: number): void
+
+    /**
+     * <p> Optimize for find packing solution with segmentation index. </p>
+     * 
+     * @param xml XML object represents metadata of products and wrappers.
+     * @param start Start index of cases.
+     * @param size Size of cases to retrieve.
+     */
+    public optimize(xml: XML, start: number, size: number): void
     {
         var packer: Packer = new Packer();
         packer.construct(xml);
-        packer.optimize(start, end);
+        packer.optimize(start, size);
 
-        document.write("optimize from " + start + " to " + end);
-        document.write(packer.toXML().toHTML());
+        trace("optimize number of " + size + " cases from #" + start);
+        trace(packer.toXML().toHTML());
 
-        //this.sendData(new Invoke("replyOptimization", this.packer.toXML()));
+        this.sendData(new Invoke("replyOptimization", packer));
     }
 }

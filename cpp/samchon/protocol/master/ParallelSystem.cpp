@@ -75,19 +75,20 @@ void ParallelSystem::sendPieceData
 		shared_ptr<Invoke> invoke, size_t index, size_t size
 	)
 {
-	invoke->emplace_back(new InvokeParameter("invoke_history_index", index));
-	invoke->emplace_back(new InvokeParameter("invoke_history_size", size));
+	shared_ptr<Invoke> myInvoke(new Invoke(*invoke));
+	myInvoke->emplace_back(new InvokeParameter("invoke_history_index", index));
+	myInvoke->emplace_back(new InvokeParameter("invoke_history_size", size));
 
 	try
 	{
-		sendData(invoke);
+		sendData(myInvoke);
 	}
 	catch (exception &e)
 	{
 		throw e;
 	}
 
-	PRInvokeHistory *history = new PRInvokeHistory(masterHistory, this, invoke);
+	PRInvokeHistory *history = new PRInvokeHistory(masterHistory, this, myInvoke);
 	progressArray->emplace_back(history);
 }
 

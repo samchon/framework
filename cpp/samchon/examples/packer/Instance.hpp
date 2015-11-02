@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+#include <samchon/protocol/Entity.hpp>
+
 namespace samchon
 {
 	namespace example
@@ -19,7 +21,11 @@ namespace samchon
 			 * @author Jeongho Nam
 			 */
 			class Instance
+				: public virtual protocol::Entity
 			{
+			private:
+				typedef protocol::Entity super;
+
 			protected:
 				/**
 				 * @brief Name represent the Instance
@@ -46,6 +52,11 @@ namespace samchon
 					CONSTRUCTORS
 				--------------------------------------------------------- */
 				/**
+				 * @brief Default Constructor.
+				 */
+				Instance();
+
+				/**
 				 * @brief Construct from instance
 				 *
 				 * @param name Name of the instance
@@ -55,6 +66,8 @@ namespace samchon
 				 */
 				Instance(const std::string &name, int price, int volume, int weight);
 				virtual ~Instance() = default;
+
+				virtual void construct(std::shared_ptr<library::XML>) override;
 
 				/* ---------------------------------------------------------
 					GETTERS
@@ -82,6 +95,8 @@ namespace samchon
 				/* ---------------------------------------------------------
 					EXPORT
 				--------------------------------------------------------- */
+				virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+
 				/**
 				 * @brief Return a string represents the Instance
 				 */

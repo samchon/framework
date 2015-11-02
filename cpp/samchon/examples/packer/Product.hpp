@@ -29,6 +29,11 @@ namespace samchon
 					CONSTRUCTOR
 				--------------------------------------------------------- */
 				/**
+				 * @brief Defualt Constructor
+				 */
+				Product();
+
+				/**
 				 * @brief Construct from arguments
 				 *
 				 * @param name Name of a product can be an identifier
@@ -42,6 +47,8 @@ namespace samchon
 				/* ---------------------------------------------------------
 					EXPORT
 				--------------------------------------------------------- */
+				virtual auto TAG() const -> std::string override;
+
 				/**
 				* @brief Return a string represents the Instance
 				*/

@@ -10,13 +10,12 @@ function test() {
     /*new Product("Pencil", 400, 30, 35),
     new Product("Pencil", 400, 30, 35),
     new Product("Book", 8000, 150, 300),
-    new Product("Book", 8000, 150, 300),
-    new Product("Drink", 1000, 75, 250),*/
-    new Product("Umbrella", 4000, 200, 1000), new Product("Notebook-PC", 800000, 150, 850), new Product("Tablet-PC", 600000, 120, 450));
+    new Product("Book", 8000, 150, 300),*/
+    new Product("Drink", 1000, 75, 250), new Product("Umbrella", 4000, 200, 1000), new Product("Notebook-PC", 800000, 150, 850), new Product("Tablet-PC", 600000, 120, 450));
     var packer = new Packer(productArray);
     packer.push(new WrapperArray(new Wrapper("Large", 100, 200, 1000)), new WrapperArray(new Wrapper("Medium", 70, 150, 500)), new WrapperArray(new Wrapper("Small", 50, 100, 250)));
     var packerSystem = new PackerSlaveSystem("127.0.0.1", 0);
-    var invoke = new Invoke("optimize", packer.toXML(), 1, 20);
+    var invoke = new Invoke("optimize", packer.toXML(), 1, 400);
     invoke.apply(packerSystem);
 }
 /**
@@ -3182,16 +3181,18 @@ var Packer = (function (_super) {
     /**
      * <p> Find the best packaging method. </p>
      */
-    Packer.prototype.optimize = function (start, end) {
+    Packer.prototype.optimize = function (start, size) {
         if (start === void 0) { start = 0; }
-        if (end === void 0) { end = -1; }
+        if (size === void 0) { size = -1; }
         if (this.length == 0 || this.productArray.length == 0)
             return;
         var caseGenerator = new CombinedPermutationGenerator(this.length, this.productArray.length);
         var minPacker = null;
-        if (end == -1)
-            end = caseGenerator.size();
-        for (var i = start; i < end; i++) {
+        //ADJUST END INDEX
+        if (size == -1 || start + size > caseGenerator.size())
+            size = caseGenerator.size() - start;
+        //FIND THE BEST SOLUTION
+        for (var i = start; i < start + size; i++) {
             var packer = new Packer(this);
             var row = caseGenerator.at(i);
             var validity = true;
@@ -3244,20 +3245,36 @@ var Packer = (function (_super) {
     };
     return Packer;
 })(EntityArray);
+/**
+ * <p> A slave system for solving packer. </p>
+ *
+ * @inheritDoc
+ * @author Jeongho Nam
+ */
 var PackerSlaveSystem = (function (_super) {
     __extends(PackerSlaveSystem, _super);
+    /**
+     * <p> Construct from ip and port of the master. </p>
+     */
     function PackerSlaveSystem(ip, port) {
         _super.call(this);
         this.ip = ip;
         this.port = port;
     }
-    PackerSlaveSystem.prototype.optimize = function (xml, start, end) {
+    /**
+     * <p> Optimize for find packing solution with segmentation index. </p>
+     *
+     * @param xml XML object represents metadata of products and wrappers.
+     * @param start Start index of cases.
+     * @param size Size of cases to retrieve.
+     */
+    PackerSlaveSystem.prototype.optimize = function (xml, start, size) {
         var packer = new Packer();
         packer.construct(xml);
-        packer.optimize(start, end);
-        document.write("optimize from " + start + " to " + end);
-        document.write(packer.toXML().toHTML());
-        //this.sendData(new Invoke("replyOptimization", this.packer.toXML()));
+        packer.optimize(start, size);
+        trace("optimize number of " + size + " cases from #" + start);
+        trace(packer.toXML().toHTML());
+        this.sendData(new Invoke("replyOptimization", packer));
     };
     return PackerSlaveSystem;
 })(SlaveSystem);

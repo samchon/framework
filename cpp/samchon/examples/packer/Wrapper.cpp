@@ -1,24 +1,35 @@
-#include "Wrapper.hpp"
-#	include "Product.hpp"
+#include <samchon/examples/packer/Wrapper.hpp>
 
 using namespace std;
+using namespace samchon::library;
 using namespace samchon::example::packer;
 
 /* ---------------------------------------------------------
 	CONSTRUCTORS
 --------------------------------------------------------- */
+Wrapper::Wrapper()
+	: super(),
+	Instance()
+{
+}
 Wrapper::Wrapper(const string &name, int price, int volume, int weight)
-	: super(name, price, volume, weight),
-	vector<Product*>()
+	: super(),
+	Instance(name, price, volume, weight)
 {
 }
 Wrapper::Wrapper(const Wrapper &wrapper)
-	: super(wrapper),
-	vector<Product*>()
+	: super(), //DO NOT COPY CHILDREN
+	Instance(wrapper) //BUT INSTANCE'S ARGUMENTS
 {
 }
 
-auto Wrapper::tryInsert(Product *product) -> bool
+void Wrapper::construct(shared_ptr<XML> xml)
+{
+	super::construct(xml);
+	Instance::construct(xml);
+}
+
+auto Wrapper::tryInsert(shared_ptr<Product> product) -> bool
 {
 	int volume = 0;
 	int weight = 0;
@@ -42,9 +53,21 @@ auto Wrapper::tryInsert(Product *product) -> bool
 /* ---------------------------------------------------------
 	EXPORT
 --------------------------------------------------------- */
+auto Wrapper::TAG() const -> string
+{
+	return "wrapper";
+}
+auto Wrapper::toXML() const -> shared_ptr<XML>
+{
+	shared_ptr<XML> &xml = super::toXML();
+	xml->addAllProperty(Instance::toXML());
+
+	return xml;
+}
+
 auto Wrapper::toString() const -> string
 {
-	string str = "\tWrapper " + super::toString() + "\n";
+	string str = "\tWrapper " + Instance::toString() + "\n";
 	for (size_t i = 0; i < size(); i++)
 		str += "\t\t" + at(i)->toString() + ((i == size() - 1) ? "" : "\n");
 

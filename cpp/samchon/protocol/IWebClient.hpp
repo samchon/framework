@@ -3,6 +3,13 @@
 
 #include <samchon/protocol/IClient.hpp>
 
+namespace boost
+{
+	namespace system
+	{
+		class error_code;
+	};
+};
 namespace samchon
 {
 	namespace protocol
@@ -37,6 +44,13 @@ namespace samchon
 			 * @param invoke Invoke message to send associated network system.
 			 */
 			virtual void sendData(std::shared_ptr<Invoke>) override;
+
+		private:
+			auto listenString(ByteArray&) -> std::shared_ptr<Invoke>;
+			void listenBinary(ByteArray&, std::shared_ptr<Invoke>);
+
+			void sendString(const std::string &, boost::system::error_code &);
+			void sendBinary(const ByteArray &, boost::system::error_code &);
 		};
 	};
 };

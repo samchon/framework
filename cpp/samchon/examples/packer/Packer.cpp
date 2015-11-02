@@ -1,8 +1,4 @@
-#include "Packer.hpp"
-
-#include "WrapperArray.hpp"
-#include "Wrapper.hpp"
-#include "Product.hpp"
+#include <samchon/examples/packer/Packer.hpp>
 
 #include <samchon/library/CombinedPermutationGenerator.hpp>
 
@@ -10,32 +6,52 @@ using namespace std;
 using namespace samchon::library;
 using namespace samchon::example::packer;
 
-Packer::Packer(vector<Product> *productArray, vector<Wrapper> *wrapperArray)
+Packer::Packer()
+	: super()
+{
+	this->productArray = make_shared<ProductArray>();
+}
+Packer::Packer(std::shared_ptr<ProductArray> productArray)
 	: super()
 {
 	this->productArray = productArray;
-	this->wrapperArray = wrapperArray;
-
-	for(size_t i = 0; i < wrapperArray->size(); i++)
-		emplace_back(new WrapperArray(&wrapperArray->at(i)));
 }
 Packer::Packer(const Packer &packer)
-	: Packer(packer.productArray, packer.wrapperArray)
+	: Packer(packer.productArray)
 {
+	this->reserve(packer.size());
+
+	for (size_t i = 0; i < packer.size(); i++)
+		this->emplace_back(new WrapperArray(*packer[i]));
+}
+
+void Packer::construct(shared_ptr<XML> xml)
+{
+	super::construct(xml);
+
+	productArray->construct(xml->get(productArray->TAG())->at(0));
+}
+
+auto Packer::createChild(shared_ptr<XML>) -> WrapperArray*
+{
+	return new WrapperArray();
 }
 
 /* ---------------------------------------------------------
 	CALCULATE AND OPTIMIZE
 --------------------------------------------------------- */
-void Packer::optimize()
+void Packer::optimize(size_t start, size_t size)
 {
 	if(empty() == true || productArray->empty() == true)
 		return;
 
-	CombinedPermutationGenerator caseGenerator(size(), productArray->size());
+	CombinedPermutationGenerator caseGenerator(this->size(), productArray->size());
 	shared_ptr<Packer> minPacker = nullptr;
 	
-	for (size_t i = 0; i < caseGenerator.size(); i++)
+	if (size == -1 || start + size > caseGenerator.size())
+		size = caseGenerator.size() - start;
+
+	for (size_t i = start; i < start + size; i++)
 	{
 		vector<size_t> &row = caseGenerator[i];
 		shared_ptr<Packer> packer(new Packer(*this));
@@ -43,7 +59,7 @@ void Packer::optimize()
 
 		for (size_t j = 0; j < row.size(); j++)
 		{
-			Product *product = &productArray->at(j);
+			shared_ptr<Product> &product = productArray->at(j);
 			shared_ptr<WrapperArray> &wrapperArray = packer->at( row[j] );
 
 			if (wrapperArray->tryInsert(product) == false)
@@ -82,6 +98,22 @@ auto Packer::calcPrice() const -> int
 /* ---------------------------------------------------------
 	EXPORT
 --------------------------------------------------------- */
+auto Packer::TAG() const -> string
+{
+	return "packer";
+}
+auto Packer::CHILD_TAG() const -> string
+{
+	return "wrapperArray";
+}
+
+auto Packer::toXML() const -> shared_ptr<XML>
+{
+	shared_ptr<XML> &xml = super::toXML();
+	xml->push_back(productArray->toXML());
+
+	return xml;
+}
 auto Packer::toString() const -> string
 {
 	string str = "$" + to_string(calcPrice()) + "\n";

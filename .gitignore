@@ -88,3 +88,8 @@ html-template/
 js/
 !/js/SamchonFramework.ts
 !/js/SamchonFramework.js
+
+# ======================================================
+#	CUSTOM IGNORE
+# ======================================================
+cloc.bat

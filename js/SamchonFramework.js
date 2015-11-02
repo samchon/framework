@@ -9,15 +9,15 @@ function test() {
     productArray.push(new Product("Eraser", 500, 10, 70), new Product("Pencil", 400, 30, 35), 
     /*new Product("Pencil", 400, 30, 35),
     new Product("Pencil", 400, 30, 35),
-    new Product("Book", 8000, 150, 300),*/
-    new Product("Book", 8000, 150, 300), new Product("Drink", 1000, 75, 250), new Product("Umbrella", 4000, 200, 1000), new Product("Notebook-PC", 800000, 150, 850), new Product("Tablet-PC", 600000, 120, 450));
+    new Product("Book", 8000, 150, 300),
+    new Product("Book", 8000, 150, 300),
+    new Product("Drink", 1000, 75, 250),*/
+    new Product("Umbrella", 4000, 200, 1000), new Product("Notebook-PC", 800000, 150, 850), new Product("Tablet-PC", 600000, 120, 450));
     var packer = new Packer(productArray);
     packer.push(new WrapperArray(new Wrapper("Large", 100, 200, 1000)), new WrapperArray(new Wrapper("Medium", 70, 150, 500)), new WrapperArray(new Wrapper("Small", 50, 100, 250)));
-    var packer2 = new Packer();
-    packer2.construct(packer.toXML());
-    packer2.optimize();
-    //alert(productArray.toXML().toString());
-    document.write(packer2.toXML().toHTML());
+    var packerSystem = new PackerSlaveSystem("127.0.0.1", 0);
+    var invoke = new Invoke("optimize", packer.toXML(), 1, 20);
+    invoke.apply(packerSystem);
 }
 /**
  * <p> Trace arguments on screen. </p>
@@ -39,10 +39,10 @@ function trace() {
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i - 0] = arguments[_i];
     }
-    var str = "";
-    for (var i = 0; i < args.length; i++)
-        str += args[i] + (i < args.length - 1) ? ", " : "";
-    document.write(str);
+    var str = args[0];
+    for (var i = 1; i < args.length; i++)
+        str += ", " + args[i];
+    document.write("<p>" + str + "</p>");
 }
 /* =================================================================================
     LIBRARIES
@@ -1911,300 +1911,6 @@ var ServerConnector = (function () {
     };
     return ServerConnector;
 })();
-/* =================================================================================
-    PROTOCOL - INVOKE MESSAGE MODULE
-================================================================================= */
-/**
- * <p> Standard message of network I/O. </p>
- * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework.  </p>
- *
- * <p> The Invoke message has an XML structure like the result screen of provided example in below.
- * We can enjoy lots of benefits by the normalized and standardized message structure used in
- * network I/O. </p>
- *
- * <p> The greatest advantage is that we can make any type of network system, even how the system
- * is enourmously complicated. As network communication message is standardized, we only need to
- * concentrate on logical relationships between network systems. We can handle each network system
- * like a object (class) in OOD. And those relationships can be easily designed by using design
- * pattern. </p>
- *
- * <p> In Samchon Framework, you can make any type of network system with basic 3 + 1 componenets
- * (IProtocol, IServer and IClient + ServerConnector), by implemens or inherits them, like designing
- * classes of S/W architecture. </p>
- *
- * @author Jeongho Nam
- */
-var Invoke = (function (_super) {
-    __extends(Invoke, _super);
-    /**
-     * <p> Multiple Constructors. </p>
-     *
-     * <h4> Construct from a lisetenr </h4>
-     * <p> Construct an Invoke only with its listener. </p>
-     *
-     * <ul>
-     *  <li> listener := Represents who listens the Invoke message. Almost same with Function name. </li>
-     * </ul>
-     *
-     * <hr />
-     *
-     * <h4> Construct from arguments </h4>
-     * <p> Creates Invoke and InvokeParameter(s) at the same time by varadic template method. </p>
-     *
-     * <p> By the varadic template constructor, you can't specify name of each InvokeParameter, but
-     * specify type and value of each InvokeParameter. If you try to record the Invoke to Database,
-     * the name of InvokeParameter will be <i>NULL</i>.</p>
-     *
-     * <p> By the varadic template constructor, name of InovkeParameter(s) will be omitted. Because
-     * of name, an identifier of an InvokeParameter, is omitted, you can't access to InvokeParameter
-     * by Invoke::has() or Invoke::get(). </p>
-     *
-     * <ul>
-     *  <li> listener := Represents who listens the Invoke message. Almost same with Function name. </li>
-     *  <li> arguments := Arguments to be parameters of Invoke. </li>
-     * </ul>
-     *
-     * <hr />
-     *
-     * <h4> Construct from an XML object </h4>
-     * <p> Constructs Invoke and InvokeParameter objects by an XML object. </p>
-     *
-     * <ul>
-     *  <li>xml := An xml object representing Invoke object. </li>
-     * </ul>
-     */
-    function Invoke() {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
-        }
-        _super.call(this);
-        if (args.length == 1) {
-            var val = args[0];
-            if (typeof val == "string")
-                this.listener = val;
-            else if (val instanceof XML) {
-                var xml = val;
-                this.listener = xml.getProperty("listener");
-                if (xml.has("parameter") == false)
-                    return;
-                var xmlList = xml.get("parameter");
-                for (var i = 0; i < xmlList.length; i++)
-                    this.push(new InvokeParameter(xmlList[i]));
-            }
-        }
-        else {
-            this.listener = args[0];
-            for (var i = 1; i < args.length; i++) {
-                var value = args[i];
-                var parameter = new InvokeParameter("", value);
-                this.push(parameter);
-            }
-        }
-    }
-    /* -------------------------------------------------------------------
-        GETTERS
-    ------------------------------------------------------------------- */
-    /**
-     * <p> Get listener. </p>
-     */
-    Invoke.prototype.getListener = function () {
-        return this.listener;
-    };
-    /**
-     * <p> Whether have the item or not. </p>
-     *
-     * @param key Key value of the element whose mapped value is accessed.
-     * @return Whether the map has an item having the specified identifier
-     */
-    Invoke.prototype.has = function (key) {
-        for (var i = 0; i < this.length; i++)
-            if (this[i].getName() == key)
-                return true;
-        return false;
-    };
-    /**
-     * <p> Get element by key. </p>
-     * <p> Returns a reference to the mapped value of the element identified with key. </p>
-     *
-     * @param key Key value of the element whose mapped value is accessed.
-     * @throw exception out of range.
-     *
-     * @return A reference object of the mapped value (_Ty)
-     */
-    Invoke.prototype.get = function (key) {
-        for (var i = 0; i < this.length; i++)
-            if (this[i].getName() == key)
-                return this[i];
-        throw "out of range";
-    };
-    /**
-     * <p> Get arguments for Function.apply(). </p>
-     *
-     * @return An array containing values of the parameters.
-     */
-    Invoke.prototype.getArguments = function () {
-        var args = [];
-        for (var i = 0; i < this.length; i++)
-            args.push(this[i].getValue());
-        return args;
-    };
-    /* -------------------------------------------------------------------
-       APPLY BY FUNCTION POINTER
-   ------------------------------------------------------------------- */
-    /**
-     * <p> Apply to a matched function. </p>
-     */
-    Invoke.prototype.apply = function (obj) {
-        if (!(obj.hasOwnProperty(this.listener) == true && obj[this.listener] instanceof Function))
-            return false;
-        var func = obj[this.listener];
-        var args = this.getArguments();
-        func.apply(null, args);
-        return true;
-    };
-    /* -------------------------------------------------------------------
-       EXPORTER
-   ------------------------------------------------------------------- */
-    Invoke.prototype.toXML = function () {
-        var xml = new XML();
-        xml.setTag("invoke");
-        xml.setProperty("listener", this.listener);
-        var xmlList = new XMLList();
-        for (var i = 0; i < this.length; i++)
-            xmlList.push(this[i].toXML());
-        xml.set("parameter", xmlList);
-        return xml;
-    };
-    return Invoke;
-})(Vector);
-/**
- * <p> Standard message of network I/O. </p>
- * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework.  </p>
- *
- * <p> The Invoke message has a XML structure like the result screen of provided example in below.
- * We can enjoy lots of benefits by the normalized and standardized message structure used in
- * network I/O. </p>
- *
- * <p> The greatest advantage is that we can make any type of network system, even how the system
- * is enourmously complicated. As network communication message is standardized, we only need to
- * concentrate on logical relationships between network systems. We can handle each network system
- * like a object (class) in OOD. And those relationships can be easily designed by using design
- * pattern. </p>
- *
- * <p> In Samchon Framework, you can make any type of network system with basic 3 + 1 componenets
- * (IProtocol, IServer and IClient + ServerConnector), by implemens or inherits them, like designing
- * classes of S/W architecture. </p>
- *
- * @author Jeongho Nam
- */
-var InvokeParameter = (function () {
-    /**
-     * <p> Multiple Constructors. </p>
-     *
-     * <h4> InvokeParameter(XML) </h4>
-     * <p> Construct from XML. </p>
-     * <ul>
-     *	<li> xml := A XML instance representing InvokeParameter. </li>
-     * </ul>
-     *
-     * <hr/>
-     *
-     * <h4> template <typename _Ty> InvokeParameter(_Ty) </h4>
-     * <p> Construct from a value. </p>
-     * <ul>
-     *  <li> value := Value belonged to the parameter. </li>
-     * </ul>
-     *
-     * <hr/>
-     *
-     * <h5> template <typename _Ty> InvokeParameter(string, _Ty) </h5>
-     * <p> Construct from specified type and value. </p>
-     * <ul>
-     *	<li> type := Type of the parameter. </li>
-     *	<li> value := A value belongs to the parameter. </li>
-     * </ul>
-     */
-    function InvokeParameter() {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
-        }
-        if (args.length == 1 && args[0] instanceof XML) {
-            var xml = args[0];
-            this.name = xml.hasProperty("name") ? xml.getProperty("name") : "";
-            this.type = xml.getProperty("type");
-            if (this.type == "XML")
-                this.value = xml.begin().second[0];
-            else
-                this.value = xml.getValue();
-        }
-        else if (args.length == 2) {
-            this.name = args[0];
-            var value = args[1];
-            if (value instanceof Entity || value instanceof EntityArray) {
-                this.type = "XML";
-                this.value = value.toXML();
-            }
-            else if (value instanceof XML) {
-                this.type = "XML";
-                this.value = value;
-            }
-            else if (typeof value == "number" || typeof value == "string") {
-                this.type = typeof value;
-                this.value = value;
-            }
-            else {
-                this.type = "unknown";
-                this.value = value;
-            }
-        }
-        else if (args.length == 3) {
-            this.name = args[0];
-            this.type = args[1];
-            this.value = args[2];
-        }
-    }
-    /**
-     * <p> Get name. </p>
-     */
-    InvokeParameter.prototype.getName = function () {
-        return this.name;
-    };
-    /**
-     * <p> Get type. </p>
-     */
-    InvokeParameter.prototype.getType = function () {
-        return this.type;
-    };
-    /**
-     * <p> Get value. </p>
-     */
-    InvokeParameter.prototype.getValue = function () {
-        return this.value;
-    };
-    /**
-     * <p> Convert the parameter to XML. </p>
-     *
-     * @return An XML object represents the parameter.
-     */
-    InvokeParameter.prototype.toXML = function () {
-        var xml = new XML();
-        xml.setTag("parameter");
-        if (this.name != "")
-            xml.setProperty("name", this.name);
-        xml.setProperty("type", this.type);
-        if (this.type == "XML") {
-            var xmlList = new XMLList();
-            xmlList.push(this.value);
-            xml.set(this.value.tag, xmlList);
-        }
-        else
-            xml.setValue(this.value);
-        return xml;
-    };
-    return InvokeParameter;
-})();
 /**
  * <p> An entity, a standard data class. </p>
  *
@@ -2329,6 +2035,11 @@ var EntityArray = (function (_super) {
     EntityArray.prototype.set = function (key, entity) {
         this.push(entity);
     };
+    EntityArray.prototype.erase = function (key) {
+        for (var i = this.length - 1; i >= 0; i--)
+            if (this[i].key() == key)
+                this.splice(i, 1);
+    };
     /* ------------------------------------------------------------------
         GETTERS
     ------------------------------------------------------------------ */
@@ -2382,6 +2093,286 @@ var EntityArray = (function (_super) {
     };
     return EntityArray;
 })(Vector);
+/* =================================================================================
+    PROTOCOL - INVOKE MESSAGE MODULE
+================================================================================= */
+/**
+ * <p> Standard message of network I/O. </p>
+ * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework.  </p>
+ *
+ * <p> The Invoke message has an XML structure like the result screen of provided example in below.
+ * We can enjoy lots of benefits by the normalized and standardized message structure used in
+ * network I/O. </p>
+ *
+ * <p> The greatest advantage is that we can make any type of network system, even how the system
+ * is enourmously complicated. As network communication message is standardized, we only need to
+ * concentrate on logical relationships between network systems. We can handle each network system
+ * like a object (class) in OOD. And those relationships can be easily designed by using design
+ * pattern. </p>
+ *
+ * <p> In Samchon Framework, you can make any type of network system with basic 3 + 1 componenets
+ * (IProtocol, IServer and IClient + ServerConnector), by implemens or inherits them, like designing
+ * classes of S/W architecture. </p>
+ *
+ * @author Jeongho Nam
+ */
+var Invoke = (function (_super) {
+    __extends(Invoke, _super);
+    /**
+     * <p> Multiple Constructors. </p>
+     *
+     * <h4> Construct from a lisetenr </h4>
+     * <p> Construct an Invoke only with its listener. </p>
+     *
+     * <ul>
+     *  <li> listener := Represents who listens the Invoke message. Almost same with Function name. </li>
+     * </ul>
+     *
+     * <hr />
+     *
+     * <h4> Construct from arguments </h4>
+     * <p> Creates Invoke and InvokeParameter(s) at the same time by varadic template method. </p>
+     *
+     * <p> By the varadic template constructor, you can't specify name of each InvokeParameter, but
+     * specify type and value of each InvokeParameter. If you try to record the Invoke to Database,
+     * the name of InvokeParameter will be <i>NULL</i>.</p>
+     *
+     * <p> By the varadic template constructor, name of InovkeParameter(s) will be omitted. Because
+     * of name, an identifier of an InvokeParameter, is omitted, you can't access to InvokeParameter
+     * by Invoke::has() or Invoke::get(). </p>
+     *
+     * <ul>
+     *  <li> listener := Represents who listens the Invoke message. Almost same with Function name. </li>
+     *  <li> arguments := Arguments to be parameters of Invoke. </li>
+     * </ul>
+     *
+     * <hr />
+     *
+     * <h4> Construct from an XML object </h4>
+     * <p> Constructs Invoke and InvokeParameter objects by an XML object. </p>
+     *
+     * <ul>
+     *  <li>xml := An xml object representing Invoke object. </li>
+     * </ul>
+     */
+    function Invoke() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        _super.call(this);
+        if (args.length == 1) {
+            var val = args[0];
+            if (typeof val == "string")
+                this.listener = val;
+            else if (val instanceof XML) {
+                var xml = val;
+                this.construct(xml);
+            }
+        }
+        else {
+            this.listener = args[0];
+            for (var i = 1; i < args.length; i++) {
+                var value = args[i];
+                var parameter = new InvokeParameter("", value);
+                this.push(parameter);
+            }
+        }
+    }
+    Invoke.prototype.construct = function (xml) {
+        _super.prototype.construct.call(this, xml);
+        this.listener = xml.getProperty("listener");
+    };
+    /* -------------------------------------------------------------------
+        GETTERS
+    ------------------------------------------------------------------- */
+    /**
+     * <p> Get listener. </p>
+     */
+    Invoke.prototype.getListener = function () {
+        return this.listener;
+    };
+    /**
+     * <p> Get arguments for Function.apply(). </p>
+     *
+     * @return An array containing values of the parameters.
+     */
+    Invoke.prototype.getArguments = function () {
+        var args = [];
+        for (var i = 0; i < this.length; i++)
+            args.push(this[i].getValue());
+        return args;
+    };
+    /* -------------------------------------------------------------------
+       APPLY BY FUNCTION POINTER
+   ------------------------------------------------------------------- */
+    /**
+     * <p> Apply to a matched function. </p>
+     */
+    Invoke.prototype.apply = function (obj) {
+        if (!(this.listener in obj && obj[this.listener] instanceof Function))
+            return false;
+        var func = obj[this.listener];
+        var args = this.getArguments();
+        func.apply(obj, args);
+        return true;
+    };
+    /* -------------------------------------------------------------------
+        EXPORTER
+    ------------------------------------------------------------------- */
+    Invoke.prototype.TAG = function () {
+        return "invoke";
+    };
+    Invoke.prototype.CHILD_TAG = function () {
+        return "parameter";
+    };
+    Invoke.prototype.toXML = function () {
+        var xml = _super.prototype.toXML.call(this);
+        xml.setProperty("listener", this.listener);
+        return xml;
+    };
+    return Invoke;
+})(EntityArray);
+/**
+ * <p> Standard message of network I/O. </p>
+ * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework.  </p>
+ *
+ * <p> The Invoke message has a XML structure like the result screen of provided example in below.
+ * We can enjoy lots of benefits by the normalized and standardized message structure used in
+ * network I/O. </p>
+ *
+ * <p> The greatest advantage is that we can make any type of network system, even how the system
+ * is enourmously complicated. As network communication message is standardized, we only need to
+ * concentrate on logical relationships between network systems. We can handle each network system
+ * like a object (class) in OOD. And those relationships can be easily designed by using design
+ * pattern. </p>
+ *
+ * <p> In Samchon Framework, you can make any type of network system with basic 3 + 1 componenets
+ * (IProtocol, IServer and IClient + ServerConnector), by implemens or inherits them, like designing
+ * classes of S/W architecture. </p>
+ *
+ * @author Jeongho Nam
+ */
+var InvokeParameter = (function (_super) {
+    __extends(InvokeParameter, _super);
+    /* -------------------------------------------------------------------
+        CONSTRUCTORS
+    ------------------------------------------------------------------- */
+    /**
+     * <p> Multiple Constructors. </p>
+     *
+     * <h4> InvokeParameter(XML) </h4>
+     * <p> Construct from XML. </p>
+     * <ul>
+     *	<li> xml := A XML instance representing InvokeParameter. </li>
+     * </ul>
+     *
+     * <hr/>
+     *
+     * <h4> template <typename _Ty> InvokeParameter(_Ty) </h4>
+     * <p> Construct from a value. </p>
+     * <ul>
+     *  <li> value := Value belonged to the parameter. </li>
+     * </ul>
+     *
+     * <hr/>
+     *
+     * <h5> template <typename _Ty> InvokeParameter(string, _Ty) </h5>
+     * <p> Construct from specified type and value. </p>
+     * <ul>
+     *	<li> type := Type of the parameter. </li>
+     *	<li> value := A value belongs to the parameter. </li>
+     * </ul>
+     */
+    function InvokeParameter() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        _super.call(this);
+        if (args.length == 1 && args[0] instanceof XML) {
+            this.construct(args[0]);
+        }
+        else if (args.length == 2) {
+            this.name = args[0];
+            var value = args[1];
+            if (value instanceof Entity || value instanceof EntityArray) {
+                this.type = "XML";
+                this.value = value.toXML();
+            }
+            else if (value instanceof XML) {
+                this.type = "XML";
+                this.value = value;
+            }
+            else if (typeof value == "number" || typeof value == "string") {
+                this.type = typeof value;
+                this.value = value;
+            }
+            else {
+                this.type = "unknown";
+                this.value = value;
+            }
+        }
+        else if (args.length == 3) {
+            this.name = args[0];
+            this.type = args[1];
+            this.value = args[2];
+        }
+    }
+    InvokeParameter.prototype.construct = function (xml) {
+        this.name = xml.hasProperty("name") ? xml.getProperty("name") : "";
+        this.type = xml.getProperty("type");
+        if (this.type == "XML")
+            this.value = xml.begin().second[0];
+        else
+            this.value = xml.getValue();
+    };
+    /* -------------------------------------------------------------------
+        GETTERS
+    ------------------------------------------------------------------- */
+    InvokeParameter.prototype.key = function () {
+        return this.name;
+    };
+    /**
+     * <p> Get name. </p>
+     */
+    InvokeParameter.prototype.getName = function () {
+        return this.name;
+    };
+    /**
+     * <p> Get type. </p>
+     */
+    InvokeParameter.prototype.getType = function () {
+        return this.type;
+    };
+    /**
+     * <p> Get value. </p>
+     */
+    InvokeParameter.prototype.getValue = function () {
+        return this.value;
+    };
+    /* -------------------------------------------------------------------
+        EXPORTER
+    ------------------------------------------------------------------- */
+    InvokeParameter.prototype.TAG = function () {
+        return "parameter";
+    };
+    InvokeParameter.prototype.toXML = function () {
+        var xml = _super.prototype.toXML.call(this);
+        if (this.name != "")
+            xml.setProperty("name", this.name);
+        xml.setProperty("type", this.type);
+        if (this.type == "XML") {
+            var xmlList = new XMLList();
+            xmlList.push(this.value);
+            xml.set(this.value.tag, xmlList);
+        }
+        else
+            xml.setValue(this.value);
+        return xml;
+    };
+    return InvokeParameter;
+})(Entity);
 /* =================================================================================
     PROTOCOL - APPLICATION MODULE
 ================================================================================= */
@@ -2831,6 +2822,8 @@ var InvokeHistory = (function (_super) {
         this.uid = invoke.get("invoke_history_uid").getValue();
         this.listener = invoke.getListener();
         this.startTime = new Date();
+        //DELETE UID IN INVOKE
+        invoke.erase("invoke_history_uid");
     }
     /**
      * <p> Notify end of the process. </p>
@@ -3251,4 +3244,21 @@ var Packer = (function (_super) {
     };
     return Packer;
 })(EntityArray);
+var PackerSlaveSystem = (function (_super) {
+    __extends(PackerSlaveSystem, _super);
+    function PackerSlaveSystem(ip, port) {
+        _super.call(this);
+        this.ip = ip;
+        this.port = port;
+    }
+    PackerSlaveSystem.prototype.optimize = function (xml, start, end) {
+        var packer = new Packer();
+        packer.construct(xml);
+        packer.optimize(start, end);
+        document.write("optimize from " + start + " to " + end);
+        document.write(packer.toXML().toHTML());
+        //this.sendData(new Invoke("replyOptimization", this.packer.toXML()));
+    };
+    return PackerSlaveSystem;
+})(SlaveSystem);
 //# sourceMappingURL=SamchonFramework.js.map

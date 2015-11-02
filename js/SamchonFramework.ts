@@ -22,17 +22,10 @@
         new WrapperArray(new Wrapper("Medium", 70, 150, 500)),
         new WrapperArray(new Wrapper("Small", 50, 100, 250))
     );
-
-    packer.optimize();
-    document.write(packer.toXML().toHTML() + "<hr/>\n");
-
+    
     var packer2: Packer = new Packer();
     packer2.construct(packer.toXML());
-
-    //packer2.optimize();
-    /*packer.optimize();
-
-    packer = */
+    packer2.optimize();
 
     //alert(productArray.toXML().toString());
     document.write(packer2.toXML().toHTML());
@@ -4297,7 +4290,7 @@ class Packer
     /**
      * <p> Find the best packaging method. </p>
      */
-    public optimize(): void
+    public optimize(start: number = 0, end: number = -1): void
     {
         if (this.length == 0 || this.productArray.length == 0)
             return;
@@ -4306,7 +4299,10 @@ class Packer
             new CombinedPermutationGenerator(this.length, this.productArray.length);
         var minPacker: Packer = null;
 
-        for (var i: number = 0; i < caseGenerator.size(); i++) //ROW
+        if (end == -1)
+            end = caseGenerator.size();
+
+        for (var i: number = start; i < end; i++) //ROW
         {
             var packer: Packer = new Packer(this);
             var row: Vector<number> = caseGenerator.at(i);

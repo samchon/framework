@@ -13,14 +13,9 @@ function test() {
     new Product("Book", 8000, 150, 300), new Product("Drink", 1000, 75, 250), new Product("Umbrella", 4000, 200, 1000), new Product("Notebook-PC", 800000, 150, 850), new Product("Tablet-PC", 600000, 120, 450));
     var packer = new Packer(productArray);
     packer.push(new WrapperArray(new Wrapper("Large", 100, 200, 1000)), new WrapperArray(new Wrapper("Medium", 70, 150, 500)), new WrapperArray(new Wrapper("Small", 50, 100, 250)));
-    packer.optimize();
-    document.write(packer.toXML().toHTML() + "<hr/>\n");
     var packer2 = new Packer();
     packer2.construct(packer.toXML());
-    //packer2.optimize();
-    /*packer.optimize();
-
-    packer = */
+    packer2.optimize();
     //alert(productArray.toXML().toString());
     document.write(packer2.toXML().toHTML());
 }
@@ -3194,12 +3189,16 @@ var Packer = (function (_super) {
     /**
      * <p> Find the best packaging method. </p>
      */
-    Packer.prototype.optimize = function () {
+    Packer.prototype.optimize = function (start, end) {
+        if (start === void 0) { start = 0; }
+        if (end === void 0) { end = -1; }
         if (this.length == 0 || this.productArray.length == 0)
             return;
         var caseGenerator = new CombinedPermutationGenerator(this.length, this.productArray.length);
         var minPacker = null;
-        for (var i = 0; i < caseGenerator.size(); i++) {
+        if (end == -1)
+            end = caseGenerator.size();
+        for (var i = start; i < end; i++) {
             var packer = new Packer(this);
             var row = caseGenerator.at(i);
             var validity = true;

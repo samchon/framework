@@ -88,11 +88,6 @@ html-template/
 cloc.cmd
 commit.bat
 
-# 	API DOCUMENTS
-# ------------------------------------------------------
-api/cpp/html
-api/cpp/latex
-
 # 	TYPESCRIPT
 # ------------------------------------------------------
 js/

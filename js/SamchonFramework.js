@@ -5,13 +5,24 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = new __();
 };
 function test() {
-    var productArray = new Wrapper();
-    productArray.push(new Product("Eraser", 500, 10, 70), new Product("Pencil", 400, 30, 35), new Product("Pencil", 400, 30, 35), new Product("Pencil", 400, 30, 35), new Product("Book", 8000, 150, 300), new Product("Book", 8000, 150, 300));
+    var productArray = new ProductArray();
+    productArray.push(new Product("Eraser", 500, 10, 70), new Product("Pencil", 400, 30, 35), 
+    /*new Product("Pencil", 400, 30, 35),
+    new Product("Pencil", 400, 30, 35),
+    new Product("Book", 8000, 150, 300),*/
+    new Product("Book", 8000, 150, 300), new Product("Drink", 1000, 75, 250), new Product("Umbrella", 4000, 200, 1000), new Product("Notebook-PC", 800000, 150, 850), new Product("Tablet-PC", 600000, 120, 450));
     var packer = new Packer(productArray);
     packer.push(new WrapperArray(new Wrapper("Large", 100, 200, 1000)), new WrapperArray(new Wrapper("Medium", 70, 150, 500)), new WrapperArray(new Wrapper("Small", 50, 100, 250)));
     packer.optimize();
+    document.write(packer.toXML().toHTML() + "<hr/>\n");
+    var packer2 = new Packer();
+    packer2.construct(packer.toXML());
+    //packer2.optimize();
+    /*packer.optimize();
+
+    packer = */
     //alert(productArray.toXML().toString());
-    alert(packer.toXML().toString());
+    document.write(packer2.toXML().toHTML());
 }
 /**
  * <p> Trace arguments on screen. </p>
@@ -980,6 +991,15 @@ var StringUtil = (function () {
         return str;
     };
     /**
+     * <p> Get a tabbed HTLM string by specified size. </p>
+     */
+    StringUtil.htmlTab = function (size) {
+        var str = "";
+        for (var i = 0; i < size; i++)
+            str += "&nbsp;&nbsp;&nbsp;&nbsp;";
+        return str;
+    };
+    /**
      * <p> Replace all patterns of a string. </p>
      */
     StringUtil.replaceAll = function (str, pairs) {
@@ -1081,6 +1101,7 @@ var XML = (function (_super) {
         if (str === void 0) { str = ""; }
         _super.call(this);
         this.properties = new Dictionary();
+        this.value = "";
         if (str.indexOf("<") == -1)
             return;
         var start;
@@ -1316,6 +1337,13 @@ var XML = (function (_super) {
         else
             this.properties.erase(key);
     };
+    XML.prototype.addAllProperties = function (xml) {
+        for (var it = xml.properties.begin(); it.equals(xml.properties.end()) == false; it = it.next())
+            this.setProperty(it.first, it.second);
+    };
+    XML.prototype.clearProperties = function () {
+        this.properties = new Dictionary();
+    };
     /* -------------------------------------------------------------
         FILTERS
     ------------------------------------------------------------- */
@@ -1546,6 +1574,30 @@ var XML = (function (_super) {
         }
         return str;
     };
+    /**
+     * <p> Convert the XML to HTML string. </p>
+     */
+    XML.prototype.toHTML = function (level) {
+        if (level === void 0) { level = 0; }
+        var str = StringUtil.htmlTab(level) + "&lt;" + this.tag;
+        var childrenString = "";
+        //PROPERTIES
+        for (var p_it = this.properties.begin(); p_it.equals(this.properties.end()) == false; p_it = p_it.next())
+            str += " " + p_it.first + "=&quot;" + XML.encodeProperty(String(p_it.second)) + "&quot;";
+        if (this.size() == 0) {
+            if (this.value != "")
+                str += "&gt;" + XML.encodeValue(String(this.value)) + "</" + this.tag + ">";
+            else
+                str += " /&gt;";
+        }
+        else {
+            str += "&gt;<br>\n";
+            for (var x_it = this.begin(); x_it.equals(this.end()) == false; x_it = x_it.next())
+                str += x_it.second.toHTML(level + 1);
+            str += StringUtil.htmlTab(level) + "&lt;/" + this.tag + "&gt;";
+        }
+        return str;
+    };
     return XML;
 })(Dictionary);
 /**
@@ -1564,13 +1616,25 @@ var XMLList = (function (_super) {
     /**
      * <p> Convert XMLList to string. </p>
      *
-     * @param level Level(depth) of the XMLList
+     * @param level Level(depth) of the XMLList.
      */
     XMLList.prototype.toString = function (level) {
         if (level === void 0) { level = 0; }
         var str = "";
         for (var i = 0; i < this.length; i++)
             str += this[i].toString(level) + "\n";
+        return str;
+    };
+    /**
+     * <p> Convert XMLList to HTML string. </p>
+     *
+     * @param level Level(depth) of the XMLList.
+     */
+    XMLList.prototype.toHTML = function (level) {
+        if (level === void 0) { level = 0; }
+        var str = "";
+        for (var i = 0; i < this.length; i++)
+            str += this[i].toHTML(level) + "<br>\n";
         return str;
     };
     return XMLList;
@@ -1669,7 +1733,7 @@ var CombinedPermutationGenerator = (function (_super) {
     CombinedPermutationGenerator.prototype.at = function (index) {
         var row = new Vector();
         for (var i = 0; i < this.r_; i++) {
-            var val = (index / this.dividerArray[i]) % this.n_;
+            var val = Math.floor(index / this.dividerArray[i]) % this.n_;
             row.push(val);
         }
         return row;
@@ -2244,9 +2308,9 @@ var EntityArray = (function (_super) {
      */
     EntityArray.prototype.construct = function (xml) {
         this.splice(0, this.length);
-        if (xml.hasOwnProperty(this.CHILD_TAG()) == false)
+        if (xml.has(this.CHILD_TAG()) == false)
             return;
-        var xmlList = xml[this.CHILD_TAG()];
+        var xmlList = xml.get(this.CHILD_TAG());
         for (var i = 0; i < xmlList.length; i++) {
             var child = this.createChild(xmlList[i]);
             if (child != null) {
@@ -2861,6 +2925,22 @@ var Product = (function (_super) {
     };
     return Product;
 })(Entity);
+var ProductArray = (function (_super) {
+    __extends(ProductArray, _super);
+    function ProductArray() {
+        _super.call(this);
+    }
+    ProductArray.prototype.createChild = function (xml) {
+        return new Product();
+    };
+    ProductArray.prototype.TAG = function () {
+        return "productArray";
+    };
+    ProductArray.prototype.CHILD_TAG = function () {
+        return "product";
+    };
+    return ProductArray;
+})(EntityArray);
 var Wrapper = (function (_super) {
     __extends(Wrapper, _super);
     /* --------------------------------------------------------------------
@@ -2937,9 +3017,6 @@ var Wrapper = (function (_super) {
     Wrapper.prototype.TAG = function () {
         return "wrapper";
     };
-    Wrapper.prototype.CHILD_TAG = function () {
-        return "product";
-    };
     Wrapper.prototype.toXML = function () {
         var xml = _super.prototype.toXML.call(this);
         xml.setProperty("name", this.name);
@@ -2949,7 +3026,7 @@ var Wrapper = (function (_super) {
         return xml;
     };
     return Wrapper;
-})(EntityArray);
+})(ProductArray);
 var WrapperArray = (function (_super) {
     __extends(WrapperArray, _super);
     /* --------------------------------------------------------------------
@@ -2969,7 +3046,7 @@ var WrapperArray = (function (_super) {
     WrapperArray.prototype.construct = function (xml) {
         _super.prototype.construct.call(this, xml);
         this.sample = new Wrapper();
-        this.sample.construct(xml.get("sample")[0]);
+        this.sample.construct(xml);
     };
     WrapperArray.prototype.createChild = function (xml) {
         return new Wrapper();
@@ -3061,10 +3138,7 @@ var WrapperArray = (function (_super) {
     };
     WrapperArray.prototype.toXML = function () {
         var xml = _super.prototype.toXML.call(this);
-        var xmlList = new XMLList();
-        var sample = this.sample.toXML();
-        sample.setTag("sample");
-        xml.set("sample", xmlList);
+        xml.addAllProperties(this.sample.toXML());
         return xml;
     };
     return WrapperArray;
@@ -3091,9 +3165,11 @@ var Packer = (function (_super) {
     function Packer(obj) {
         if (obj === void 0) { obj = null; }
         _super.call(this);
-        if (obj == null)
+        if (obj == null) {
+            this.productArray = new ProductArray();
             return;
-        if (obj instanceof Wrapper) {
+        }
+        if (obj instanceof ProductArray) {
             this.productArray = obj;
         }
         else if (obj instanceof Packer) {
@@ -3102,6 +3178,8 @@ var Packer = (function (_super) {
             for (var i = 0; i < packer.length; i++)
                 this.push(new WrapperArray(packer[i].getSample()));
         }
+        else
+            throw "invalid argument";
     }
     Packer.prototype.construct = function (xml) {
         _super.prototype.construct.call(this, xml);
@@ -3166,6 +3244,7 @@ var Packer = (function (_super) {
     };
     Packer.prototype.toXML = function () {
         var xml = _super.prototype.toXML.call(this);
+        xml.setProperty("price", this.calcPrice());
         var xmlList = new XMLList();
         xmlList.push(this.productArray.toXML());
         xml.set(this.productArray.TAG(), xmlList);

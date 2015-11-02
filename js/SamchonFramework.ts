@@ -1,18 +1,18 @@
 ﻿function test()
 {
-    var productArray: Wrapper = new Wrapper();
+    var productArray: ProductArray = new ProductArray();
     productArray.push
     (
         new Product("Eraser", 500, 10, 70),
         new Product("Pencil", 400, 30, 35),
+        /*new Product("Pencil", 400, 30, 35),
         new Product("Pencil", 400, 30, 35),
-        new Product("Pencil", 400, 30, 35),
+        new Product("Book", 8000, 150, 300),*/
         new Product("Book", 8000, 150, 300),
-        new Product("Book", 8000, 150, 300),
-        /*new Product("Drink", 1000, 75, 250),
+        new Product("Drink", 1000, 75, 250),
         new Product("Umbrella", 4000, 200, 1000),
         new Product("Notebook-PC", 800000, 150, 850),
-        new Product("Tablet-PC", 600000, 120, 450)*/
+        new Product("Tablet-PC", 600000, 120, 450)
     );
 
     var packer: Packer = new Packer(productArray);
@@ -24,9 +24,18 @@
     );
 
     packer.optimize();
+    document.write(packer.toXML().toHTML() + "<hr/>\n");
+
+    var packer2: Packer = new Packer();
+    packer2.construct(packer.toXML());
+
+    //packer2.optimize();
+    /*packer.optimize();
+
+    packer = */
 
     //alert(productArray.toXML().toString());
-    alert(packer.toXML().toString());
+    document.write(packer2.toXML().toHTML());
 }
 
 /**
@@ -1193,6 +1202,18 @@ class StringUtil
 
 		return str;
 	}
+    
+    /**
+	 * <p> Get a tabbed HTLM string by specified size. </p>
+	 */
+    public static htmlTab(size: number): string
+    {
+        var str: string = "";
+        for (var i: number = 0; i < size; i++)
+            str += "&nbsp;&nbsp;&nbsp;&nbsp;";
+
+        return str;
+    }
 
 	/**
 	 * <p> Replace all patterns of a string. </p>
@@ -1348,6 +1369,7 @@ class XML
 		super();
 
 		this.properties = new Dictionary<string>();
+        this.value = "";
 
 		if (str.indexOf("<") == -1)
 			return;
@@ -1665,6 +1687,17 @@ class XML
             this.properties.erase(key);
 	}
 
+    public addAllProperties(xml: XML): void
+    {
+        for (var it = xml.properties.begin(); it.equals(xml.properties.end()) == false; it = it.next())
+            this.setProperty(it.first, it.second);
+    }
+
+    public clearProperties(): void
+    {
+        this.properties = new Dictionary<string>();
+    }
+
 	/* -------------------------------------------------------------
 		FILTERS
 	------------------------------------------------------------- */
@@ -1914,6 +1947,35 @@ class XML
 		}
 		return str;
 	}
+
+    /**
+     * <p> Convert the XML to HTML string. </p>
+     */
+    public toHTML(level: number = 0): string
+    {
+        var str: string = StringUtil.htmlTab(level) + "&lt;" + this.tag;
+        var childrenString: string = "";
+
+        //PROPERTIES
+        for (var p_it = this.properties.begin(); p_it.equals(this.properties.end()) == false; p_it = p_it.next())
+            str += " " + p_it.first + "=&quot;" + XML.encodeProperty(String(p_it.second)) + "&quot;";
+
+        if (this.size() == 0) {
+            if (this.value != "")
+                str += "&gt;" + XML.encodeValue(String(this.value)) + "</" + this.tag + ">";
+            else
+                str += " /&gt;";
+        }
+        else {
+            str += "&gt;<br>\n";
+
+            for (var x_it = this.begin(); x_it.equals(this.end()) == false; x_it = x_it.next())
+                str += x_it.second.toHTML(level + 1);
+
+            str += StringUtil.htmlTab(level) + "&lt;/" + this.tag + "&gt;";
+        }
+        return str;
+    }
 }
 
 /**
@@ -1935,7 +1997,7 @@ class XMLList
 	/**
 	 * <p> Convert XMLList to string. </p>
 	 *
-	 * @param level Level(depth) of the XMLList 
+	 * @param level Level(depth) of the XMLList.
 	 */
 	public toString(level: number = 0): string 
     {
@@ -1945,6 +2007,20 @@ class XMLList
 
 		return str;
 	}
+
+    /**
+     * <p> Convert XMLList to HTML string. </p>
+     * 
+     * @param level Level(depth) of the XMLList.
+     */
+    public toHTML(level: number = 0): string
+    {
+        var str: string = "";
+        for (var i: number = 0; i < this.length; i++)
+            str += this[i].toHTML(level) + "<br>\n";
+
+        return str;
+    }
 }
 
 /* =================================================================================
@@ -2080,7 +2156,7 @@ class CombinedPermutationGenerator
         var row: Vector<number> = new Vector<number>();
         for (var i: number = 0; i < this.r_; i++)
         {
-            var val: number = (index / this.dividerArray[i]) % this.n_;
+            var val: number = Math.floor(index / this.dividerArray[i]) % this.n_;
 
             row.push(val);
         }
@@ -2976,10 +3052,10 @@ class EntityArray<_Ty extends IEntity>
     {
         this.splice(0, this.length);
 
-        if (xml.hasOwnProperty(this.CHILD_TAG()) == false)
+        if (xml.has(this.CHILD_TAG()) == false)
             return;
 
-        var xmlList: XMLList = xml[this.CHILD_TAG()];
+        var xmlList: XMLList = xml.get(this.CHILD_TAG());
         for (var i: number = 0; i < xmlList.length; i++) 
         {
             var child: _Ty = this.createChild(xmlList[i]);
@@ -3842,8 +3918,31 @@ class Product
     }
 }
 
-class Wrapper
+class ProductArray
     extends EntityArray<Product>
+{
+    public constructor()
+    {
+        super();
+    }
+
+    protected createChild(xml: XML): Product
+    {
+        return new Product();
+    }
+
+    public TAG(): string
+    {
+        return "productArray";
+    }
+    public CHILD_TAG(): string
+    {
+        return "product";
+    }
+}
+
+class Wrapper
+    extends ProductArray
     implements Instance
 {
     protected name: string;
@@ -3944,10 +4043,6 @@ class Wrapper
     {
         return "wrapper";
     }
-    public CHILD_TAG(): string
-    {
-        return "product";
-    }
 
     public toXML(): XML
     {
@@ -3994,10 +4089,7 @@ class WrapperArray
         super.construct(xml);
 
         this.sample = new Wrapper();
-        this.sample.construct
-        (
-            xml.get("sample")[0]
-        );
+        this.sample.construct(xml);
     }
 
     protected createChild(xml: XML): Wrapper
@@ -4118,12 +4210,7 @@ class WrapperArray
     public toXML(): XML
     {
         var xml: XML = super.toXML();
-
-        var xmlList:XMLList = new XMLList();
-        var sample: XML = this.sample.toXML();
-        sample.setTag("sample");
-
-        xml.set("sample", xmlList);
+        xml.addAllProperties(this.sample.toXML());
 
         return xml;
     }
@@ -4146,7 +4233,7 @@ class Packer
     /**
      * <p> Product(s) to package in some Wrapper(s). </p>
      */
-    protected productArray: Wrapper;
+    protected productArray: ProductArray;
     
     /* --------------------------------------------------------------------
         CONSTRUCTORS
@@ -4159,9 +4246,12 @@ class Packer
         super();
 
         if (obj == null)
+        {
+            this.productArray = new ProductArray();
             return;
+        }
 
-        if (obj instanceof Wrapper)
+        if (obj instanceof ProductArray)
         {
             this.productArray = obj;
         }
@@ -4180,11 +4270,13 @@ class Packer
                     )
                 );
         }
+        else
+            throw "invalid argument";
     }
     public construct(xml: XML): void
     {
         super.construct(xml);
-
+        
         this.productArray.construct
         (
             xml.get
@@ -4278,10 +4370,10 @@ class Packer
     public toXML(): XML
     {
         var xml: XML = super.toXML();
-
-        var xmlList:XMLList = new XMLList();
+        xml.setProperty("price", this.calcPrice());
+        
+        var xmlList: XMLList = new XMLList();
         xmlList.push(this.productArray.toXML());
-
         xml.set(this.productArray.TAG(), xmlList);
 
         return xml;

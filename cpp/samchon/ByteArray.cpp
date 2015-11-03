@@ -35,13 +35,18 @@ void ByteArray::setPosition(size_t val)
 	this->position = val;
 }
 
+auto ByteArray::leftSize() const -> size_t
+{
+	return size() - position;
+}
+
 /* --------------------------------------------------------------
 	READ BYTES
 -------------------------------------------------------------- */
 template<> auto ByteArray::read() const -> string
 {
 	string str = (char*)(data() + position);
-	((ByteArray*)this)->position += str.size();
+	((ByteArray*)this)->position += str.size() + 1;
 
 	return move(str);
 }
@@ -69,5 +74,5 @@ auto ByteArray::compress() const -> ByteArray
 }
 auto ByteArray::decompress() const -> ByteArray
 {
-	return{};
+	return {};
 }

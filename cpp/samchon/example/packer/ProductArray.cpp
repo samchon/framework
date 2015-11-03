@@ -1,4 +1,4 @@
-#include <samchon/examples/packer/ProductArray.hpp>
+#include <samchon/example/packer/ProductArray.hpp>
 
 using namespace std;
 using namespace samchon::library;

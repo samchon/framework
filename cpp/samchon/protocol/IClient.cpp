@@ -45,13 +45,13 @@ void IClient::listen()
 	//BASIC DATA
 	string str = "";
 	std::shared_ptr<Invoke> ba_invoke(nullptr);
-	boost::system::error_code error;
 
 	while (true)
 	{
 		ByteArray piece;
-		piece.assign(BUFFER_SIZE(), NULL);
+		boost::system::error_code error;
 
+		piece.assign(BUFFER_SIZE(), NULL);
 		socket->read_some(boost::asio::buffer(piece), error);
 		
 		if (error)

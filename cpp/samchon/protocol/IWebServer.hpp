@@ -23,6 +23,9 @@ namespace samchon
 			typedef IServer super;
 
 		public:
+			/* -----------------------------------------------------------------------
+				CONSTRUCTORS
+			----------------------------------------------------------------------- */
 			/**
 			 * @brief Default Constructor.
 			 */
@@ -36,6 +39,14 @@ namespace samchon
 			 * @note It monopolies a thread.
 			 */
 			virtual void open() override;
+
+		private:
+			/* -----------------------------------------------------------------------
+				HANDSHAKE OF WEB-SOCKET
+			----------------------------------------------------------------------- */
+			auto handshake(Socket *socket) const -> bool;
+
+			auto calculateCertificationKey(const std::string &) const -> std::string;
 		};
 	};
 };

@@ -22,29 +22,29 @@ namespace samchon
 		 * @image html cpp/example_packer.png
 		 * @image latex cpp/example_packer.png
 		 *
-		 * \par examples/packer/Packer.hpp
-		 *		@includelineno examples/packer/Packer.hpp
-		 * \par examples/packer/WrapperArray.hpp
-		 *		@includelineno examples/packer/WrapperArray.hpp
-		 * \par examples/packer/Wrapper.hpp
-		 *		@includelineno examples/packer/Wrapper.hpp
-		 * \par examples/packer/Product.hpp
-		 *		@includelineno examples/packer/Product.hpp
-		 * \par examples/packer/Instance.hpp
-		 *		@includelineno examples/packer/Instance.hpp
+		 * \par example/packer/Packer.hpp
+		 *		@includelineno example/packer/Packer.hpp
+		 * \par example/packer/WrapperArray.hpp
+		 *		@includelineno example/packer/WrapperArray.hpp
+		 * \par example/packer/Wrapper.hpp
+		 *		@includelineno example/packer/Wrapper.hpp
+		 * \par example/packer/Product.hpp
+		 *		@includelineno example/packer/Product.hpp
+		 * \par example/packer/Instance.hpp
+		 *		@includelineno example/packer/Instance.hpp
 		 *
-		 * \par examples/packer/main.cpp
-		 *		@includelineno examples/packer/main.cpp
-		 * \par examples/packer/Packer.cpp
-		 *		@includelineno examples/packer/Packer.cpp
-		 * \par examples/packer/WrapperArray.cpp
-		 *		@includelineno examples/packer/WrapperArray.cpp
-		 * \par examples/packer/Wrapper.cpp
-		 *		@includelineno examples/packer/Wrapper.cpp
-		 * \par examples/packer/Product.cpp
-		 *		@includelineno examples/packer/Product.cpp
-		 * \par examples/packer/Instance.cpp
-		 *		@includelineno examples/packer/Instance.cpp
+		 * \par example/packer/main.cpp
+		 *		@includelineno example/packer/main.cpp
+		 * \par example/packer/Packer.cpp
+		 *		@includelineno example/packer/Packer.cpp
+		 * \par example/packer/WrapperArray.cpp
+		 *		@includelineno example/packer/WrapperArray.cpp
+		 * \par example/packer/Wrapper.cpp
+		 *		@includelineno example/packer/Wrapper.cpp
+		 * \par example/packer/Product.cpp
+		 *		@includelineno example/packer/Product.cpp
+		 * \par example/packer/Instance.cpp
+		 *		@includelineno example/packer/Instance.cpp
 		 *
 		 * <h4> Result of the example </h4>
 		 * @image html  cpp/result/example_packer.png

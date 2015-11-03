@@ -1,6 +1,6 @@
 #pragma once
-#include <samchon/examples/packer/ProductArray.hpp>
-#include <samchon/examples/packer/Instance.hpp>
+#include <samchon/example/packer/ProductArray.hpp>
+#include <samchon/example/packer/Instance.hpp>
 
 namespace samchon
 {

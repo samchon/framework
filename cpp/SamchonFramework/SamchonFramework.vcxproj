@@ -247,6 +247,7 @@
     <ClInclude Include="..\samchon\protocol\IProtocol.hpp" />
     <ClInclude Include="..\samchon\protocol\IServer.hpp" />
     <ClInclude Include="..\samchon\protocol\IWebClient.hpp" />
+    <ClInclude Include="..\samchon\protocol\IWebClientBase.hpp" />
     <ClInclude Include="..\samchon\protocol\IWebServer.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedClient.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedClientArray.hpp" />
@@ -366,7 +367,8 @@
     <ClCompile Include="..\samchon\protocol\IProtocol.cpp" />
     <ClCompile Include="..\samchon\protocol\IServer.cpp" />
     <ClCompile Include="..\samchon\protocol\ISQLEntity.cpp" />
-    <ClCompile Include="..\samchon\protocol\IWebClient.cpp" />
+    <ClCompile Include="..\samchon\protocol\IWebClientBase.cpp" />
+    <ClCompile Include="..\samchon\protocol\IWebServer.cpp" />
     <ClCompile Include="..\samchon\protocol\master\DSInvokeHistory.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelClientArray.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelClientArrayMediator.cpp" />

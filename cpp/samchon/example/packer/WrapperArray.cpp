@@ -1,4 +1,4 @@
-#include <samchon/examples/packer/WrapperArray.hpp>
+#include <samchon/example/packer/WrapperArray.hpp>
 
 #include <samchon/library/FactorialGenerator.hpp>
 

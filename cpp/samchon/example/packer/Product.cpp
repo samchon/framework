@@ -1,4 +1,4 @@
-#include <samchon/examples/packer/Product.hpp>
+#include <samchon/example/packer/Product.hpp>
 
 using namespace std;
 using namespace samchon::example::packer;

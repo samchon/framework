@@ -1,6 +1,6 @@
 #pragma once
 #include <samchon/protocol/SharedEntityArray.hpp>
-#include <samchon/examples/packer/Wrapper.hpp>
+#include <samchon/example/packer/Wrapper.hpp>
 
 namespace samchon
 {

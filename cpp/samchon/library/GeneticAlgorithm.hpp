@@ -51,21 +51,21 @@ namespace samchon
 		 * <h3>Example source</h3>
 		 * <p> TSP - Traveling Salesman Problem </p>
 		 * 
-		 * \par examples/tsp/Scheduler.hpp
-		 *		@includelineno examples/tsp/Scheduler.hpp
-		 * \par examples/tsp/Travel.hpp
-		 *		@includelineno examples/tsp/Travel.hpp
-		 * \par examples/tsp/GeometryPoint.hpp
-		 *		@includelineno examples/tsp/GeometryPoint.hpp
+		 * \par example/tsp/Scheduler.hpp
+		 *		@includelineno example/tsp/Scheduler.hpp
+		 * \par example/tsp/Travel.hpp
+		 *		@includelineno example/tsp/Travel.hpp
+		 * \par example/tsp/GeometryPoint.hpp
+		 *		@includelineno example/tsp/GeometryPoint.hpp
 		 *
-		 * \par examples/tsp/main.cpp
-		 *		@includelineno examples/tsp/main.cpp
-		 * \par examples/tsp/Scheduler.cpp
-		 *		@includelineno examples/tsp/Scheduler.cpp
-		 * \par examples/tsp/Travel.cpp
-		 *		@includelineno examples/tsp/Travel.cpp
-		 * \par examples/tsp/GeometryPoint.cpp
-		 *		@includelineno examples/tsp/GeometryPoint.cpp
+		 * \par example/tsp/main.cpp
+		 *		@includelineno example/tsp/main.cpp
+		 * \par example/tsp/Scheduler.cpp
+		 *		@includelineno example/tsp/Scheduler.cpp
+		 * \par example/tsp/Travel.cpp
+		 *		@includelineno example/tsp/Travel.cpp
+		 * \par example/tsp/GeometryPoint.cpp
+		 *		@includelineno example/tsp/GeometryPoint.cpp
 		 *
 		 * <h4> Result of the example </h4>
 		 * @image html  cpp/result/example_tsp.png

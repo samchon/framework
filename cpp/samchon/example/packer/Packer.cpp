@@ -1,4 +1,4 @@
-#include <samchon/examples/packer/Packer.hpp>
+#include <samchon/example/packer/Packer.hpp>
 
 #include <samchon/library/CombinedPermutationGenerator.hpp>
 

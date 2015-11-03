@@ -76,6 +76,8 @@ namespace samchon
 		 */
 		void setPosition(size_t);
 
+		auto leftSize() const -> size_t;
+
 		/**
 		 * @brief Reverse byte ordering
 		 *
@@ -133,7 +135,7 @@ namespace samchon
 		template <typename _Ty> auto readReversely() const -> _Ty
 		{
 			_Ty val = read<_Ty>();
-			return reserve(val);
+			return reverse(val);
 		}
 
 		/* --------------------------------------------------------------

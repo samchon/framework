@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon/examples/packer/Product.hpp>
+#include <samchon/example/packer/Product.hpp>
 
 #include <samchon/protocol/SharedEntityArray.hpp>
 

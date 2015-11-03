@@ -36,41 +36,41 @@ namespace samchon
 		 * @image latex sequence/service_communication.png </p>
 		 *
 		 * <h4> Simple example - Chat service </h4>
-		 * \par examples/chat_service/ChatServer.hpp
-		 *		@includelineno examples/chat_service/ChatServer.hpp
-		 * \par examples/chat_service/ChatUser.hpp
-		 *		@includelineno examples/chat_service/ChatUser.hpp
-		 * \par examples/chat_service/ChatClient.hpp
-		 *		@includelineno examples/chat_service/ChatClient.hpp
-		 * \par examples/chat_service/ChatService.hpp
-		 *		@includelineno examples/chat_service/ChatService.hpp
-		 * \par examples/chat_service/ListService.hpp
-		 *		@includelineno examples/chat_service/ListService.hpp
+		 * \par example/chat_service/ChatServer.hpp
+		 *		@includelineno example/chat_service/ChatServer.hpp
+		 * \par example/chat_service/ChatUser.hpp
+		 *		@includelineno example/chat_service/ChatUser.hpp
+		 * \par example/chat_service/ChatClient.hpp
+		 *		@includelineno example/chat_service/ChatClient.hpp
+		 * \par example/chat_service/ChatService.hpp
+		 *		@includelineno example/chat_service/ChatService.hpp
+		 * \par example/chat_service/ListService.hpp
+		 *		@includelineno example/chat_service/ListService.hpp
 		 *
-		 * \par examples/chat_service/ChatRoomArray.hpp
-		 *		@includelineno examples/chat_service/ChatRoomArray.hpp
-		 * \par examples/chat_service/ChatRoom.hpp
-		 *		@includelineno examples/chat_service/ChatRoom.hpp
-		 * \par examples/chat_service/ChatMessage.hpp
-		 *		@includelineno examples/chat_service/ChatMessage.hpp
+		 * \par example/chat_service/ChatRoomArray.hpp
+		 *		@includelineno example/chat_service/ChatRoomArray.hpp
+		 * \par example/chat_service/ChatRoom.hpp
+		 *		@includelineno example/chat_service/ChatRoom.hpp
+		 * \par example/chat_service/ChatMessage.hpp
+		 *		@includelineno example/chat_service/ChatMessage.hpp
 		 *
-		 * \par examples/chat_service/ChatServer.cpp
-		 *		@includelineno examples/chat_service/ChatServer.cpp
-		 * \par examples/chat_service/ChatUser.cpp
-		 *		@includelineno examples/chat_service/ChatUser.cpp
-		 * \par examples/chat_service/ChatClient.cpp
-		 *		@includelineno examples/chat_service/ChatClient.cpp
-		 * \par examples/chat_service/ChatService.cpp
-		 *		@includelineno examples/chat_service/ChatService.cpp
-		 * \par examples/chat_service/ListService.cpp
-		 *		@includelineno examples/chat_service/ListService.cpp
+		 * \par example/chat_service/ChatServer.cpp
+		 *		@includelineno example/chat_service/ChatServer.cpp
+		 * \par example/chat_service/ChatUser.cpp
+		 *		@includelineno example/chat_service/ChatUser.cpp
+		 * \par example/chat_service/ChatClient.cpp
+		 *		@includelineno example/chat_service/ChatClient.cpp
+		 * \par example/chat_service/ChatService.cpp
+		 *		@includelineno example/chat_service/ChatService.cpp
+		 * \par example/chat_service/ListService.cpp
+		 *		@includelineno example/chat_service/ListService.cpp
 		 *
-		 * \par examples/chat_service/ChatRoomArray.cpp
-		 *		@includelineno examples/chat_service/ChatRoomArray.cpp
-		 * \par examples/chat_service/ChatRoom.cpp
-		 *		@includelineno examples/chat_service/ChatRoom.cpp
-		 * \par examples/chat_service/ChatMessage.cpp
-		 *		@includelineno examples/chat_service/ChatMessage.cpp
+		 * \par example/chat_service/ChatRoomArray.cpp
+		 *		@includelineno example/chat_service/ChatRoomArray.cpp
+		 * \par example/chat_service/ChatRoom.cpp
+		 *		@includelineno example/chat_service/ChatRoom.cpp
+		 * \par example/chat_service/ChatMessage.cpp
+		 *		@includelineno example/chat_service/ChatMessage.cpp
 		 *
 		 * @author Jeongho Nam
 		 */

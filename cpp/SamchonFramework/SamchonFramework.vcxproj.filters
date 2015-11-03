@@ -624,9 +624,6 @@
     <ClInclude Include="..\samchon\protocol\IWebServer.hpp">
       <Filter>Header Files\protocol\common\interface\web-socket</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IWebClient.hpp">
-      <Filter>Header Files\protocol\common\interface\web-socket</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\Socket.hpp">
       <Filter>Header Files\protocol</Filter>
     </ClInclude>
@@ -821,6 +818,12 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\ParallelSlaveServerMediator.hpp">
       <Filter>Header Files\protocol\master\parallel processing system\mediator\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IWebClientBase.hpp">
+      <Filter>Header Files\protocol\common\interface\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IWebClient.hpp">
+      <Filter>Header Files\protocol\common\interface\web-socket</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1103,7 +1106,10 @@
     <ClCompile Include="..\samchon\protocol\master\ParallelSlaveClientMediator.cpp">
       <Filter>Source Files\protocol\master\parallel processing system\mediator\slave</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\IWebClient.cpp">
+    <ClCompile Include="..\samchon\protocol\IWebClientBase.cpp">
+      <Filter>Source Files\protocol\common\interface\web-socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\IWebServer.cpp">
       <Filter>Source Files\protocol\common\interface\web-socket</Filter>
     </ClCompile>
   </ItemGroup>

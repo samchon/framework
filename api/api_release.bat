@@ -1,4 +1,5 @@
 SET RELEASE_DIR=D:\Homepage\samchon.github.io\framework\api\
+SET PORTFOLIO_DIR=D:\OneDrive\Portfolio\Samchon_Framework\
 
 :: ----------------------------------------------------------------
 ::    CLEAR ORDINARY API DOCUMENTS
@@ -22,6 +23,9 @@ call "%RELEASE_DIR%_cpp/latex/make.bat"
 ::move "%RELEASE_DIR%_cpp\html\index.chm" "%RELEASE_DIR%_cpp\html\api.chm"
 move "%RELEASE_DIR%_cpp\latex\refman.pdf" "%RELEASE_DIR%_cpp\html\api.pdf"
 move "%RELEASE_DIR%_cpp\html" "%RELEASE_DIR%cpp"
+
+::COPY TO PORTFOLIO
+xcopy "%RELEASE_DIR%_cpp\html\*.pdf" "%PORTFOLIO_DIR%" /s /Y
 
 ::TRUNCATE DREGS
 rd "%RELEASE_DIR%_cpp" /S /Q

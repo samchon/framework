@@ -1,4 +1,4 @@
-#include <samchon/examples/packer/Instance.hpp>
+#include <samchon/example/packer/Instance.hpp>
 
 #include <samchon/library/StringUtil.hpp>
 #include <samchon/library/XML.hpp>

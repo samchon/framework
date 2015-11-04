@@ -25,9 +25,9 @@ void main()
 	shared_ptr<ProductArray> productArray(new ProductArray());
 	productArray->emplace_back(new Product("Eraser", 500, 10, 70));
 	productArray->emplace_back(new Product("Pencil", 400, 30, 35));
+	/*productArray->emplace_back(new Product("Pencil", 400, 30, 35));
 	productArray->emplace_back(new Product("Pencil", 400, 30, 35));
-	productArray->emplace_back(new Product("Pencil", 400, 30, 35));
-	productArray->emplace_back(new Product("Book", 8000, 150, 300));
+	productArray->emplace_back(new Product("Book", 8000, 150, 300));*/
 	productArray->emplace_back(new Product("Book", 8000, 150, 300));
 	productArray->emplace_back(new Product("Drink", 1000, 75, 250));
 	productArray->emplace_back(new Product("Umbrella", 4000, 200, 1000));
@@ -39,8 +39,11 @@ void main()
 	packer.emplace_back(new WrapperArray("Medium", 70, 150, 500));
 	packer.emplace_back(new WrapperArray("Small", 50, 100, 250));
 
-	packer.optimize();
+	Packer packer2;
+	packer2.construct(packer.toXML());
 
-	cout << packer.toString() << endl;
+	packer2.optimize();
+
+	cout << packer2.toString() << endl;
 	system("pause");
 }

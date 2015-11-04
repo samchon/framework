@@ -19,8 +19,12 @@ namespace samchon
 		 */
 		class SAMCHON_FRAMEWORK_API WebServerConnector
 			: public ServerConnector,
-			public virtual IWebClient
+			public virtual IWebClient<CLIENT>
 		{
+		private:
+			typedef ServerConnector super;
+			typedef IWebClient<CLIENT> web_super;
+
 		public:
 			/**
 			 * @brief Default Constructor.

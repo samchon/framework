@@ -71,23 +71,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);C:\Program Files\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x86;E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x86;E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);C:\Program Files\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x86;E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir);C:\Program Files\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x86;E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;E:\Downloads\Programming\C++\boost_1_58_0\stage\lib_x64;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir);C:\Program Files\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_58_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -370,8 +370,10 @@
     <ClCompile Include="..\samchon\protocol\IWebClientBase.cpp" />
     <ClCompile Include="..\samchon\protocol\IWebServer.cpp" />
     <ClCompile Include="..\samchon\protocol\master\DSInvokeHistory.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ParallelClient.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelClientArray.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelClientArrayMediator.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ParallelServer.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelServerArray.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelServerArrayMediator.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelSlaveClientMediator.cpp" />
@@ -400,6 +402,7 @@
     <ClCompile Include="..\samchon\protocol\slave\SlaveSystem.cpp" />
     <ClCompile Include="..\samchon\protocol\SystemRole.cpp" />
     <ClCompile Include="..\samchon\protocol\UniqueAcquire.cpp" />
+    <ClCompile Include="..\samchon\protocol\WebServerConnector.cpp" />
     <ClCompile Include="..\samchon\WeakString.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

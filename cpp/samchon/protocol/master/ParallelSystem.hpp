@@ -2,6 +2,7 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/ExternalSystem.hpp>
+#include <mutex>
 
 namespace samchon
 {
@@ -43,7 +44,7 @@ namespace samchon
 				friend class ParallelSystemArray;
 				friend class PRMasterHistory;
 
-			private:
+			protected:
 				typedef ExternalSystem super;
 
 				/**

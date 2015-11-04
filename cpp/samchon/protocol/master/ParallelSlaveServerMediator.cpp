@@ -10,3 +10,8 @@ ParallelSlaveServerMediator::ParallelSlaveServerMediator()
 	network_super()
 {
 }
+
+void ParallelSlaveServerMediator::setAddress(int port)
+{
+	this->port = port;
+}

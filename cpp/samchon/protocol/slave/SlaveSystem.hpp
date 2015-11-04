@@ -35,7 +35,7 @@ namespace samchon
 				SlaveSystem();
 				virtual ~SlaveSystem() = default;
 
-				virtual void sendData(std::shared_ptr<Invoke>) override;
+				//virtual void sendData(std::shared_ptr<Invoke>) override;
 
 			protected:
 				/**

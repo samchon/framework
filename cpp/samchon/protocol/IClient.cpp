@@ -20,7 +20,7 @@ using namespace boost::asio::ip;
 /* -----------------------------------------------------------------------------------
 	SEMI STATIC GETTER
 ----------------------------------------------------------------------------------- */
-auto IClient::BUFFER_SIZE() const -> size_t { return 1000; }
+auto IClient::BUFFER_SIZE() const -> size_t { return 10000; }
 
 /* -----------------------------------------------------------------------------------
 	CONSTRUCTORS
@@ -68,8 +68,77 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 	//READ STRING
 	str.append( piece.read<string>());
 
-	//BASIC DATA
 	list<shared_ptr<Invoke>> invokeList;
+
+	WeakString wstr = str;
+	vector<WeakString> &wstrArray = wstr.betweens("<invoke ", "</invoke>");
+
+	for (size_t i = 0; i < wstrArray.size(); i++)
+	{
+		string &message = "<invoke " + wstrArray[i].str() + "</invoke>";
+
+		Invoke *invoke = new Invoke();
+		invoke->construct(make_shared<XML>(message));
+
+		invokeList.emplace_back(invoke);
+	}
+
+	/*list<shared_ptr<Invoke>> invokeList;
+	pair<size_t, size_t> posPair = {-1, -1};
+	pair<size_t, size_t> sizePair = {0, 0};
+	pair<size_t, size_t> indexPair = {0, 0};
+
+	size_t endIndex = -1;
+
+	while (true)
+	{
+		// FIND WORDS
+		pair<size_t, size_t> myPair = 
+		{
+			str.find("<invoke ", indexPair.first),
+			str.find("</invoke>", indexPair.second)
+		};
+
+		// COUNTS
+		if (myPair.first != -1)
+		{
+			sizePair.first++;
+			indexPair.first = myPair.first + string("<invoke ").size();
+		}
+		if (myPair.second != -1)
+		{
+			sizePair.second++;
+			indexPair.second = myPair.second + string("</invoke>").size();
+		}
+		
+		// IF AN INVOKE MESSAGE HAS FOUND
+		if (sizePair.first == sizePair.second && sizePair.first != 0)
+		{
+			if (posPair.first == -1 && posPair.second == -1)
+				posPair = myPair;
+			else
+				posPair.second = myPair.second;
+
+			endIndex = posPair.second + string("</invoke>").size();
+
+			WeakString wstr(str.data() + posPair.first, str.data() + endIndex);
+			shared_ptr<XML> xml(new XML(wstr));
+			shared_ptr<Invoke> invoke(new Invoke());
+
+			invoke->construct(xml);
+
+			cout << invoke->toXML()->toString() << endl;
+
+			invokeList.push_back(invoke);
+
+			posPair = { -1, -1 };
+		}
+		else if (myPair.first != -1 && posPair.first == -1)
+			posPair.first = myPair.first;
+	}*/
+
+	//BASIC DATA
+	/*list<shared_ptr<Invoke>> invokeList;
 	unique_ptr<pair<size_t, size_t>> indexPair(nullptr);
 	pair<size_t, size_t> sizePair = {0, 0};
 	size_t startIndex = 0;
@@ -80,7 +149,7 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 		//FIND WORDS
 		pair<size_t, size_t> iPair = 
 		{
-			str.find("<invoke", startIndex),
+			str.find("<invoke ", startIndex),
 			str.find("</invoke>", endIndex)
 		};
 
@@ -125,7 +194,15 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 
 	//ERASE USED CHARACTERS
 	if (endIndex != string::npos)
-		str = str.substr(endIndex);
+		str = str.substr(endIndex);*/
+
+	if (invokeList.empty() == true)
+		return;
+
+	/*str = str.substr(endIndex);
+	cout << "#" << invokeList.size() << endl;*/
+
+	str = move(str.substr(str.rfind("</invoke>") + string("</invoke>").size()));
 
 	//CALL REPLY_DATA
 	auto last_it = --invokeList.end();
@@ -223,7 +300,7 @@ void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &in
 ----------------------------------------------------------------------------------- */
 void IClient::sendData(shared_ptr<Invoke> invoke)
 {
-	std::string &data = invoke->toXML()->toString();
+	string &data = invoke->toXML()->toString();
 	boost::system::error_code error;
 
 	unique_lock<mutex> uk(*sendMtx);

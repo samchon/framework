@@ -34,6 +34,8 @@ namespace samchon
 				 */
 				ParallelSlaveClientMediator();
 				virtual ~ParallelSlaveClientMediator() = default;
+
+				void setAddress(const std::string &, int, const std::string & = "");
 			};
 		};
 	};

@@ -1,7 +1,5 @@
 #include <samchon/library/EventDispatcher.hpp>
 
-#include <iostream>
-
 #include <atomic>
 #include <condition_variable>
 #include <memory>

@@ -33,8 +33,3 @@ void SlaveSystem::_replyData(shared_ptr<Invoke> invoke)
 	else
 		replyData(invoke);
 }
-
-void SlaveSystem::sendData(shared_ptr<Invoke> invoke)
-{
-	thread(&SlaveSystem::sendData, this, invoke).detach();
-}

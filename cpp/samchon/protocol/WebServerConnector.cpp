@@ -1,5 +1,6 @@
 #include <samchon/protocol/WebServerConnector.hpp>
 
+#include <boost/asio.hpp>
 #include <samchon/library/StringUtil.hpp>
 
 using namespace std;
@@ -13,5 +14,9 @@ WebServerConnector::WebServerConnector()
 }
 void WebServerConnector::connect()
 {
+	//CONNECT
+	super::connect();
 
+	//HANDSHAKE
+	
 }

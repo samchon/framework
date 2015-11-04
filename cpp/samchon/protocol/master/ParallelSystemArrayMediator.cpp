@@ -45,6 +45,7 @@ void ParallelSystemArrayMediator::start()
 	if (slave == nullptr)
 		return;
 
+	slave->master = this;
 	slave->start();
 
 	//STARTS EACH SYSTEM ASYNCHRONOUSLY
@@ -56,6 +57,10 @@ void ParallelSystemArrayMediator::start()
 	for (size_t i = 0; i < threadArray.size(); i++)
 		threadArray[i].join();*/
 }
+
+/* ------------------------------------------------------------------
+	CHAIN OF INVOKE MESSAGE
+------------------------------------------------------------------ */
 void ParallelSystemArrayMediator::notifyEnd(PRMasterHistory *masterHistory)
 {
 	//RE-CALCULATE PERFORMANCE INDEX

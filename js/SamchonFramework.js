@@ -6,12 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 function test() {
     var productArray = new ProductArray();
-    productArray.push(new Product("Eraser", 500, 10, 70), new Product("Pencil", 400, 30, 35), 
-    /*new Product("Pencil", 400, 30, 35),
-    new Product("Pencil", 400, 30, 35),
-    new Product("Book", 8000, 150, 300),
-    new Product("Book", 8000, 150, 300),*/
-    new Product("Drink", 1000, 75, 250), new Product("Umbrella", 4000, 200, 1000), new Product("Notebook-PC", 800000, 150, 850), new Product("Tablet-PC", 600000, 120, 450));
+    productArray.push(new Product("Eraser", 500, 10, 70), new Product("Pencil", 400, 30, 35), new Product("Pencil", 400, 30, 35), new Product("Pencil", 400, 30, 35), new Product("Book", 8000, 150, 300), new Product("Book", 8000, 150, 300), new Product("Drink", 1000, 75, 250), new Product("Umbrella", 4000, 200, 1000), new Product("Notebook-PC", 800000, 150, 850), new Product("Tablet-PC", 600000, 120, 450));
     var packer = new Packer(productArray);
     packer.push(new WrapperArray(new Wrapper("Large", 100, 200, 1000)), new WrapperArray(new Wrapper("Medium", 70, 150, 500)), new WrapperArray(new Wrapper("Small", 50, 100, 250)));
     var packerSystem = new PackerSlaveSystem("127.0.0.1", 0);

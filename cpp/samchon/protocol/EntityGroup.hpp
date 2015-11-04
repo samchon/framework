@@ -56,7 +56,7 @@ namespace samchon
 			public virtual Entity, //CLASS
 			public virtual IEntityGroup	//INTERFACE
 		{
-		protected:
+		public:
 			typedef _Container container_type;
 			typedef _Ty value_type;
 			typedef _ETy entity_type;

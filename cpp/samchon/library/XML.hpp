@@ -231,7 +231,7 @@ namespace samchon
 				std::stringstream sstream;
 				sstream << val;
 
-				this->value = move(sstream.str());
+				this->value = std::move(sstream.str());
 			};
 
 			/**
@@ -282,7 +282,7 @@ namespace samchon
 				_Ty val;
 				sstream >> val;
 
-				return move(val);
+				return std::move(val);
 			};
 			
 			/**
@@ -296,7 +296,7 @@ namespace samchon
 				_Ty val;
 				sstream >> val;
 
-				return move(val);
+				return std::move(val);
 			};
 
 			/**

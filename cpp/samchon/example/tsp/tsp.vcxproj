@@ -164,10 +164,7 @@
     <ClInclude Include="Travel.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeometryPoint.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Scheduler.cpp" />
-    <ClCompile Include="Travel.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

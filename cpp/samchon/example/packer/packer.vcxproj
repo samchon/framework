@@ -171,13 +171,7 @@
     <ClInclude Include="WrapperArray.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Instance.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Packer.cpp" />
-    <ClCompile Include="Product.cpp" />
-    <ClCompile Include="ProductArray.cpp" />
-    <ClCompile Include="Wrapper.cpp" />
-    <ClCompile Include="WrapperArray.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

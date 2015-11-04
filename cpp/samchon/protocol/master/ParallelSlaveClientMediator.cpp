@@ -10,3 +10,10 @@ ParallelSlaveClientMediator::ParallelSlaveClientMediator()
 	network_super()
 {
 }
+
+void ParallelSlaveClientMediator::setAddress(const string &ip, int port, const string &myIP)
+{
+	this->ip = ip;
+	this->port = port;
+	this->myIP = myIP;
+}

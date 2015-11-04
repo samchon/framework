@@ -97,7 +97,7 @@ namespace samchon
 				 * @param invoke An invoke message requesting a process.
 				 * @param size Size of segmentation.
 				 */
-				virtual void sendSegmentData(std::shared_ptr<Invoke>, size_t);
+				void sendSegmentData(std::shared_ptr<Invoke>, size_t);
 
 				/**
 				 * @brief Send a message with piece index and size.

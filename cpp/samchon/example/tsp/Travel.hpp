@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
-#include <string>
+#include <samchon/protocol/SharedEntityArray.hpp>
+#include <samchon/example/tsp/GeometryPoint.hpp>
 
 namespace samchon
 {
@@ -8,8 +8,6 @@ namespace samchon
 	{
 		namespace tsp
 		{
-			class GeometryPoint;
-
 			/**
 			 * @brief Represent a travel containning Point(s)
 			 *
@@ -22,11 +20,12 @@ namespace samchon
 			 * @author Jeongho Nam
 			 */
 			class Travel
-				: public std::vector<GeometryPoint*>
+				: public protocol::SharedEntityArray<GeometryPoint>
 			{
 			private:
-				typedef std::vector<GeometryPoint*> super;
+				typedef protocol::SharedEntityArray<GeometryPoint> super;
 
+			protected:
 				/**
 				 * @brief Estimated hours to move
 				 *
@@ -42,7 +41,11 @@ namespace samchon
 				/**
 				 * @brief Default Constructor
 				 */
-				Travel();
+				Travel()
+					: super()
+				{
+					distance = INT_MIN;
+				};
 
 				/**
 				 * @brief Copy Constructor
@@ -52,21 +55,58 @@ namespace samchon
 				 * member variables which are related to G.A. because the sequence of gene(Point)s can be shuffled
 				 * by process of evolution of genetic algorithm. </p>
 				 */
-				Travel(const Travel&);
+				Travel(const Travel &travel)
+					: super(travel)
+				{
+					distance = INT_MIN;
+				};
 
 				/**
 				 * @brief Move Constructor
 				 */
-				Travel(Travel&&);
+				Travel(Travel &&travel)
+					: super(std::move(travel))
+				{
+					distance = travel.distance;
+				};
+
+				virtual ~Travel() = default;
+
+				virtual void construct(std::shared_ptr<library::XML> xml) override
+				{
+					super::construct(xml);
+
+					if (xml->hasProperty("distance") == true)
+						distance = xml->getProperty<double>("distance");
+					else
+						distance = INT_MIN;
+				};
 	
-			private:
+			protected:
+				virtual auto createChild(std::shared_ptr<library::XML>) -> GeometryPoint*
+				{
+					return new GeometryPoint();
+				};
+
 				/* -----------------------------------------------------------
 					CALCULATORS
 				----------------------------------------------------------- */
+			public:
 				/**
 				 * @brief Calculate distance to move
 				 */
-				auto calcDistance() const -> double;
+				auto calcDistance() const -> double
+				{
+					if(this->distance != INT_MIN)
+						return this->distance;
+
+					double distance = 0.0;
+					for(size_t i = 1; i < size(); i++)
+						distance += at(i-1)->calcDistance(*at(i));
+
+					((Travel*)this)->distance = distance;
+					return distance;
+				};
 
 			public:
 				/**
@@ -76,11 +116,32 @@ namespace samchon
 				 * @param Target object to compare
 				 * @return Whether this object is less than target
 				 */
-				auto operator<(const Travel &) const -> bool;
+				auto operator<(const Travel &travel) const -> bool
+				{
+					return this->calcDistance() < travel.calcDistance();
+				};
 
 				/* -----------------------------------------------------------
 					EXPORTER
 				----------------------------------------------------------- */
+				virtual auto TAG() const -> std::string override
+				{
+					return "travel";
+				};
+				virtual auto CHILD_TAG() const -> std::string override
+				{
+					return "point";
+				};
+
+				virtual auto toXML() const -> std::shared_ptr<library::XML> override
+				{
+					std::shared_ptr<library::XML> &xml = super::toXML();
+					if (distance != INT_MIN)
+						xml->setProperty("distance", distance);
+
+					return xml;
+				};
+
 				/**
 				 * @brief Convert the Travel to String
 				 *
@@ -93,7 +154,17 @@ namespace samchon
 				 *
 				 * @return A string can represent the Travel
 				 */
-				auto toString() const -> std::string;
+				auto toString() const -> std::string
+				{
+					std::string str =
+						"Distance: " + library::StringUtil::numberFormat(calcDistance()) + " km\n" + 
+						"uid	longitude	latitude\n";
+
+					for(size_t i = 0; i < size(); i++)
+						str += at(i)->toString() + "\n";
+
+					return std::move(str);
+				};
 			};
 		};
 	};

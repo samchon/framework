@@ -2,6 +2,10 @@
 #include <samchon/protocol/SharedEntityArray.hpp>
 #include <samchon/example/packer/Wrapper.hpp>
 
+#include <samchon/library/FactorialGenerator.hpp>
+
+#include <iostream>
+
 namespace samchon
 {
 	namespace example
@@ -26,6 +30,7 @@ namespace samchon
 			private:
 				typedef protocol::SharedEntityArray<Wrapper> super;
 
+			protected:
 				/**
 				 * @brief A list for reserved Product(s).
 				 */
@@ -43,7 +48,12 @@ namespace samchon
 				/**
 				 * @brief Default Constructor
 				 */
-				WrapperArray();
+				WrapperArray()
+					: super()
+				{
+					this->reserved = std::make_shared<ProductArray>();
+					this->sample = std::make_shared<Wrapper>();
+				};
 
 				/**
 				 * @brief Construct from arguments of sample.
@@ -53,7 +63,13 @@ namespace samchon
 				 * @param volume Limited volume of a wrapper can put in.
 				 * @param weight Limited weight of a wrapper can put in.
 				 */
-				WrapperArray(const std::string &name, int price, int volume, int weight);
+				WrapperArray(const std::string &name, int price, int volume, int weight)
+					: super()
+				{
+					this->reserved = std::make_shared<ProductArray>();
+					this->sample = std::make_shared<Wrapper>(name, price, volume, weight);
+				};
+
 
 				/**
 				* @brief Copy Constructor
@@ -62,14 +78,27 @@ namespace samchon
 				* <p> Copy constructor of WrapperArray does not copy children items. </p> 
 				* <p> Only copies sample. </p>
 				*/
-				WrapperArray(const WrapperArray &);
+				WrapperArray(const WrapperArray &wrapperArray)
+					: super()
+				{
+					this->reserved = std::make_shared<ProductArray>();
+					this->sample = wrapperArray.sample;
+				};
 
 				virtual ~WrapperArray() = default;
 
-				virtual void construct(std::shared_ptr<library::XML>) override;
+				virtual void construct(std::shared_ptr<library::XML> xml) override
+				{
+					super::construct(xml);
+
+					sample->construct(xml);
+				};
 
 			protected:
-				virtual auto createChild(std::shared_ptr<library::XML>) -> Wrapper* override;
+				virtual auto createChild(std::shared_ptr<library::XML>) -> Wrapper* override
+				{
+					return new Wrapper();
+				};
 
 			public:
 				/**
@@ -82,7 +111,17 @@ namespace samchon
 				 *
 				 * @return Whether the Product's volume and weight is equal or less than the Wrapper.
 				 */
-				auto tryInsert(std::shared_ptr<Product>) -> bool;
+				auto tryInsert(std::shared_ptr<Product> product) -> bool
+				{
+					if (product->getVolume() > sample->getVolume() ||
+						product->getWeight() > sample->getWeight())
+					{
+						return false;
+					}
+
+					reserved->push_back(product);
+					return true;
+				};
 
 				/* ---------------------------------------------------------
 					OPERATORS
@@ -102,26 +141,84 @@ namespace samchon
 				 *
 				 * @see samchon::library::FactorialGenerator
 				 */
-				void optimize();
+				void optimize()
+				{
+					if(reserved->empty() == true)
+						return;
+
+					library::FactorialGenerator factorial(reserved->size());
+					std::shared_ptr<WrapperArray> minWrapperArray = nullptr;
+
+					for (size_t i = 0; i < factorial.size(); i++)
+					{
+						std::shared_ptr<WrapperArray> wrapperArray(new WrapperArray(*this));
+						std::vector<size_t> &row = factorial[i];
+
+						for (size_t j = 0; j < row.size(); j++)
+						{
+							std::shared_ptr<Product> &product = this->reserved->at(row[j]);
+
+							if (wrapperArray->empty() == true ||
+								wrapperArray->at(wrapperArray->size() - 1)->tryInsert(product) == false)
+							{
+								Wrapper *wrapper = new Wrapper(*this->sample);
+								wrapper->tryInsert(product);
+
+								wrapperArray->emplace_back(wrapper);
+							}
+						}
+
+						//unique_lock<mutex> uk(mtx);
+						if (minWrapperArray == nullptr ||
+							wrapperArray->size() < minWrapperArray->size())
+						{
+							minWrapperArray = wrapperArray;
+						}
+					}
+
+					assign(minWrapperArray->begin(), minWrapperArray->end());
+				};
 
 				/**
 				 * @brief Calculate price of the Wrapper(s)
 				 * @details Calculates price of all wrapppers'. The price does not contain inserted products'
 				 */
-				auto calcPrice() const -> int;
+				auto calcPrice() const -> int
+				{
+					return sample->getPrice() * (int)size();
+				};
 
 				/* ---------------------------------------------------------
 					EXPORT
 				--------------------------------------------------------- */
-				virtual auto TAG() const -> std::string override;
-				virtual auto CHILD_TAG() const -> std::string override;
+				virtual auto TAG() const -> std::string override
+				{
+					return "wrapperArray";
+				}
+				virtual auto CHILD_TAG() const -> std::string override
+				{
+					return "wrapper";
+				};
 
-				virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+				virtual auto toXML() const -> std::shared_ptr<library::XML> override
+				{
+					std::shared_ptr<library::XML> &xml = super::toXML();
+					xml->addAllProperty(sample->toXML());
+
+					return xml;
+				};
 
 				/**
 				 * @brief Return a string represents Wrapper(s) of same type
 				 */
-				auto toString() const -> std::string;
+				auto toString() const -> std::string
+				{
+					std::string str = "Category - " + sample->getName() + "\n";
+					for (size_t i = 0; i < size(); i++)
+						str += at(i)->toString() + "\n";
+
+					return move(str);
+				};
 			};
 		};
 	};

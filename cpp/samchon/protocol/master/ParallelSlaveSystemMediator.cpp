@@ -19,6 +19,8 @@ void ParallelSlaveSystemMediator::replyPieceData(shared_ptr<Invoke> invoke, size
 	if (master == nullptr)
 		return;
 
+	invoke->erase("invoke_history_index");
+	invoke->erase("invoke_history_size");
 	master->sendPieceData(invoke, index, size);
 }
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "Instance.hpp"
+#include <samchon/example/packer/Instance.hpp>
 
 namespace samchon
 {
@@ -31,7 +31,10 @@ namespace samchon
 				/**
 				 * @brief Defualt Constructor
 				 */
-				Product();
+				Product()
+					: super()
+				{
+				};
 
 				/**
 				 * @brief Construct from arguments
@@ -41,18 +44,28 @@ namespace samchon
 				 * @param volume Volume of the product
 				 * @param weight Weight of the product
 				 */
-				Product(const std::string &name, int price, int volume, int weight);
+				Product(const std::string &name, int price, int volume, int weight)
+					: super(name, price, volume, weight)
+				{
+				};
+				
 				virtual ~Product() = default;
 
 				/* ---------------------------------------------------------
 					EXPORT
 				--------------------------------------------------------- */
-				virtual auto TAG() const -> std::string override;
+				virtual auto TAG() const -> std::string override
+				{
+					return "product";
+				};
 
 				/**
 				* @brief Return a string represents the Instance
 				*/
-				virtual auto toString() const -> std::string override;
+				virtual auto toString() const -> std::string override
+				{
+					return "Product " + super::toString();
+				};
 			};
 		};
 	};

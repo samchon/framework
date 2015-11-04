@@ -1,7 +1,8 @@
 #pragma once
-#include <string>
-
 #include <samchon/protocol/Entity.hpp>
+
+#include <samchon/library/StringUtil.hpp>
+#include <samchon/library/XML.hpp>
 
 namespace samchon
 {
@@ -54,7 +55,10 @@ namespace samchon
 				/**
 				 * @brief Default Constructor.
 				 */
-				Instance();
+				Instance()
+					: super()
+				{
+				};
 
 				/**
 				 * @brief Construct from instance
@@ -64,10 +68,24 @@ namespace samchon
 				 * @param volume Volume of the instance
 				 * @param weight Weight of the instance
 				 */
-				Instance(const std::string &name, int price, int volume, int weight);
+				Instance(const std::string &name, int price, int volume, int weight)
+					: super()
+				{
+					this->name = name;
+					this->price = price;
+					this->volume = volume;
+					this->weight = weight;
+				};
+
 				virtual ~Instance() = default;
 
-				virtual void construct(std::shared_ptr<library::XML>) override;
+				virtual void construct(std::shared_ptr<library::XML> xml) override
+				{
+					this->name = xml->getProperty("name");
+					this->price = xml->getProperty<int>("price");
+					this->volume = xml->getProperty<int>("volume");
+					this->weight = xml->getProperty<int>("weight");
+				};
 
 				/* ---------------------------------------------------------
 					GETTERS
@@ -75,32 +93,60 @@ namespace samchon
 				/**
 				 * @brief Get name
 				 */
-				auto getName() const -> std::string;
+				auto getName() const -> std::string
+				{
+					return name;
+				};
 
 				/**
 				 * @brief Get price
 				 */
-				auto getPrice() const -> int;
+				auto getPrice() const -> int
+				{
+					return price;
+				};
 
 				/**
 				 * @brief Get volume
 				 */
-				auto getVolume() const -> int;
+				auto getVolume() const -> int
+				{
+					return volume;
+				};
 
 				/**
 				 * @brief Get weight
 				 */
-				auto getWeight() const -> int;
+				auto getWeight() const -> int
+				{
+					return weight;
+				};
 
 				/* ---------------------------------------------------------
 					EXPORT
 				--------------------------------------------------------- */
-				virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+				virtual auto toXML() const -> std::shared_ptr<library::XML> override
+				{
+					std::shared_ptr<library::XML> &xml = super::toXML();
+					xml->setProperty("name", name);
+					xml->setProperty("price", price);
+					xml->setProperty("volume", volume);
+					xml->setProperty("weight", weight);
+
+					return xml;
+				};
 
 				/**
 				 * @brief Return a string represents the Instance
 				 */
-				virtual auto toString() const -> std::string;
+				virtual auto toString() const -> std::string
+				{
+					return library::StringUtil::substitute
+					(
+						"{1}: ${2}, {3}cm^3, {4}g",
+						name, price, volume, weight
+					);
+				};
 			};
 		};
 	};

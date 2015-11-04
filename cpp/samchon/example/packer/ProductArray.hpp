@@ -28,14 +28,23 @@ namespace samchon
 				virtual ~ProductArray() = default;
 
 			protected:
-				virtual auto createChild(std::shared_ptr<library::XML>) -> Product* override;
+				virtual auto createChild(std::shared_ptr<library::XML>) -> Product* override
+				{
+					return new Product();
+				};
 
 			public:
 				/* ---------------------------------------------------------
 					EXPORTERS
 				--------------------------------------------------------- */
-				virtual auto TAG() const -> std::string override;
-				virtual auto CHILD_TAG() const -> std::string override;
+				virtual auto TAG() const -> std::string override
+				{
+					return "productArray";
+				};
+				virtual auto CHILD_TAG() const -> std::string override
+				{
+					return "product";
+				};
 			};
 		};
 	};

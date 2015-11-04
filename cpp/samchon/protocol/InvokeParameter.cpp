@@ -5,8 +5,6 @@
 #include <samchon/library/Base64.hpp>
 #include <samchon/library/StringUtil.hpp>
 
-#include <iostream>
-
 using namespace std;
 using namespace samchon;
 using namespace samchon::library;

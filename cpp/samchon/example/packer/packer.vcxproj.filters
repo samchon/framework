@@ -19,12 +19,6 @@
     <Filter Include="Header Files\optimizer">
       <UniqueIdentifier>{262ef86c-5542-4c22-bfd7-9bc0001ef6dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\instance">
-      <UniqueIdentifier>{186faa4f-eefd-4c8e-a46e-e19aa39913f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\optimizer">
-      <UniqueIdentifier>{22fedf5a-bca3-450e-821d-685a29f3a18f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Instance.hpp">
@@ -52,24 +46,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Instance.cpp">
-      <Filter>Source Files\instance</Filter>
-    </ClCompile>
-    <ClCompile Include="Product.cpp">
-      <Filter>Source Files\instance</Filter>
-    </ClCompile>
-    <ClCompile Include="Wrapper.cpp">
-      <Filter>Source Files\instance</Filter>
-    </ClCompile>
-    <ClCompile Include="Packer.cpp">
-      <Filter>Source Files\optimizer</Filter>
-    </ClCompile>
-    <ClCompile Include="WrapperArray.cpp">
-      <Filter>Source Files\optimizer</Filter>
-    </ClCompile>
-    <ClCompile Include="ProductArray.cpp">
-      <Filter>Source Files\instance</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

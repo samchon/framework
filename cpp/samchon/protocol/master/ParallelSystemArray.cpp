@@ -38,6 +38,7 @@ void ParallelSystemArray::sendSegmentData(shared_ptr<Invoke> invoke, size_t tota
 {
 	sendPieceData(invoke, 0, totalSize);
 }
+
 void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t index, size_t totalSize)
 {
 	if (invoke->has("invoke_history_uid") == false)
@@ -48,14 +49,15 @@ void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t index,
 	PRMasterHistory *history = new PRMasterHistory(historyArray, invoke, index, totalSize);
 	historyArray->emplace_back(history);
 
+	size_t pieceIndex = index;
+	
 	for (size_t i = 0; i < size(); i++)
 	{
 		//DETERMINE PIECE SIZE
-		size_t pieceSize;
-		if (i == size() - 1)
-			pieceSize = (index < totalSize - 1) ? totalSize - index : 0;
-		else
-			pieceSize = (size_t)((totalSize - index) / (double)size() * at(i)->performance);
+		size_t pieceSize = (size_t)(totalSize / (double)size() * at(i)->performance);
+		
+		if (i == size() - 1 && pieceIndex + pieceSize < totalSize)
+			pieceSize = totalSize - pieceIndex;
 
 		//LINKAGE
 		if (at(i)->systemArray == nullptr)
@@ -66,10 +68,10 @@ void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t index,
 			thread
 			(
 				&ParallelSystem::sendPieceData, at(i).get(), 
-				history, invoke, index, pieceSize
+				history, invoke, pieceIndex, pieceSize
 			);
 
-		index += pieceSize;
+		pieceIndex += pieceSize;
 	}
 	for (size_t i = 0; i < threadArray.size(); i++)
 		threadArray[i].join();

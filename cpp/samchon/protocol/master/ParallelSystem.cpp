@@ -19,6 +19,7 @@ ParallelSystem::ParallelSystem()
 {
 	systemArray = nullptr;
 	historyArray = new PRInvokeHistoryArray();
+	progressArray = new PRInvokeHistoryArray();
 
 	this->performance = 1.0;
 }
@@ -88,8 +89,8 @@ void ParallelSystem::sendPieceData
 		throw e;
 	}
 
-	PRInvokeHistory *history = new PRInvokeHistory(masterHistory, this, myInvoke);
-	progressArray->emplace_back(history);
+	//error on set/map iterator ???
+	//progressArray->emplace_back(new PRInvokeHistory(masterHistory, this, myInvoke));
 }
 
 /* ------------------------------------------------------------------

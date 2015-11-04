@@ -2,7 +2,7 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/slave/SlaveSystem.hpp>
-#include <samchon/protocol/ExternalClient.hpp>
+#include <samchon/protocol/ExternalServer.hpp>
 
 namespace samchon
 {
@@ -21,11 +21,11 @@ namespace samchon
 			 */
 			class SAMCHON_FRAMEWORK_API SlaveClient
 				: public virtual SlaveSystem,
-				public virtual ExternalClient
+				public virtual ExternalServer
 			{
 			protected:
 				typedef SlaveSystem super;
-				typedef ExternalClient network_super;
+				typedef ExternalServer network_super;
 
 			public:
 				/**

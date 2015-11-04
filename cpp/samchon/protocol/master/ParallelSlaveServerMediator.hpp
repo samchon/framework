@@ -34,6 +34,8 @@ namespace samchon
 				 */
 				ParallelSlaveServerMediator();
 				virtual ~ParallelSlaveServerMediator() = default;
+
+				void setAddress(int);
 			};
 		};
 	};

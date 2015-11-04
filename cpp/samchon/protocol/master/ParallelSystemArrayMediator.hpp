@@ -62,6 +62,11 @@ namespace samchon
 				------------------------------------------------------------------ */
 				virtual void start() override;
 
+				/* ------------------------------------------------------------------
+					CHAIN OF INVOKE MESSAGE
+				------------------------------------------------------------------ */
+				//virtual void sendPieceData(std::shared_ptr<Invoke>, size_t, size_t);
+
 			protected:
 				virtual void notifyEnd(PRMasterHistory*);
 

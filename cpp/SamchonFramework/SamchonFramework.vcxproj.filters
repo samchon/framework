@@ -1112,5 +1112,14 @@
     <ClCompile Include="..\samchon\protocol\IWebServer.cpp">
       <Filter>Source Files\protocol\common\interface\web-socket</Filter>
     </ClCompile>
+    <ClCompile Include="..\samchon\protocol\WebServerConnector.cpp">
+      <Filter>Source Files\protocol\common\abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\ParallelClient.cpp">
+      <Filter>Source Files\protocol\master\parallel processing system\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\ParallelServer.cpp">
+      <Filter>Source Files\protocol\master\parallel processing system\server</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

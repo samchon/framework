@@ -28,8 +28,7 @@ void ExternalServer::construct(shared_ptr<XML> xml)
 void ExternalServer::start()
 {
 	this->connect();
-
-	thread(&IClient::listen, dynamic_cast<IClient*>(this)).detach();
+	this->listen();
 }
 
 /* ------------------------------------------------------------------

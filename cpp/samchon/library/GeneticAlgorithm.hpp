@@ -2,6 +2,7 @@
 #include "GAPopulation.hpp"
 
 #include <set>
+#include <random>
 #include <samchon/library/Math.hpp>
 
 namespace samchon
@@ -159,21 +160,22 @@ namespace samchon
 
 				//ELITICISM
 				evolved->children[0] = population->fitTest();
-				int start = 1;
 
 				#pragma omp parallel for
-				for (int i = start; i < size; i++)
+				for (int i = 1; i < size; i++)
 				{
 					std::shared_ptr<GeneArray> &gene1 = selection(population);
 					std::shared_ptr<GeneArray> &gene2 = selection(population);
 
 					std::shared_ptr<GeneArray> &child = crossover(gene1, gene2);
+					mutate(child);
+
 					evolved->children[i] = child;
 				}
 
-				#pragma omp parallel for
-				for (int i = start; i < size; i++)
-					mutate(evolved->children[i]);
+				/*#pragma omp parallel for
+				for (int i = 1; i < size; i++)
+					mutate(evolved->children[i]);*/
 
 				return evolved;
 			};
@@ -217,6 +219,9 @@ namespace samchon
 				for (size_t i = 0; i < size; i++)
 				{
 					size_t randomIndex = (size_t)(Math::random() * size);
+					if (randomIndex == size)
+						randomIndex--;
+
 					tornament.children[i] = population->children[randomIndex];
 				}
 				return tornament.fitTest();
@@ -262,9 +267,7 @@ namespace samchon
 						if (start < i && i < end)
 							ptrSet.insert(parent1->at(i));
 						else
-						{
 							indexSet.insert(i);
-						}
 
 					//INSERT PARENT_2
 					for (size_t i = 0; i < size; i++)
@@ -280,6 +283,7 @@ namespace samchon
 				return geneArray;
 			};
 
+		protected:
 			/**
 			 * @brief Cause a mutation on the GeneArray
 			 *
@@ -310,7 +314,7 @@ namespace samchon
 			 * @param geneArray A container of genes to mutate
 			 * @see mutationRate;
 			 */
-			void mutate(std::shared_ptr<GeneArray> geneArray) const
+			virtual void mutate(std::shared_ptr<GeneArray> geneArray) const
 			{
 				for (size_t i = 0; i < geneArray->size(); i++)
 				{

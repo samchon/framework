@@ -51,7 +51,7 @@ namespace samchon
 					void optimize(std::shared_ptr<library::XML> xml, size_t index, size_t size)
 					{
 						std::cout << "----------------------------------------------------------------------------" << std::endl;
-						std::cout << "	OPTIMIZE FROM " << index << " TO " << size << std::endl;
+						std::cout << "	OPTIMIZE FROM " << index << ", SIZE: " << size << std::endl;
 						std::cout << "----------------------------------------------------------------------------" << std::endl;
 
 						std::shared_ptr<tsp::Scheduler> scheduler(new tsp::Scheduler());
@@ -72,7 +72,7 @@ namespace samchon
 						int port;
 
 						std::cout << "----------------------------------------------------------------------------" << std::endl;
-						std::cout << "	PACKER SLAVE" << std::endl;
+						std::cout << "	TSP SOLVER SLAVE" << std::endl;
 						std::cout << "----------------------------------------------------------------------------" << std::endl;
 						std::cout << "	ip: ";		std::cin >> ip;
 						std::cout << std::endl;

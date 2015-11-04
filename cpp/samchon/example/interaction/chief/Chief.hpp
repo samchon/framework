@@ -70,7 +70,7 @@ namespace samchon
 					--------------------------------------------------------------------------------- */
 					virtual void replyData(std::shared_ptr<protocol::Invoke> invoke)
 					{
-						get("Reporter")->sendData(invoke);
+						get("Reporter")->replyData(invoke);
 					};
 
 				private:
@@ -110,7 +110,7 @@ namespace samchon
 
 						// SEND
 						tsp::Scheduler scheduler(travel, gaParameters);
-						get("Packer")->sendData(std::make_shared<protocol::Invoke>("optimize", scheduler.toXML()));
+						get("TSP")->sendData(std::make_shared<protocol::Invoke>("optimize", scheduler.toXML()));
 					};
 
 				public:
@@ -122,7 +122,7 @@ namespace samchon
 						std::string ip;
 
 						std::cout << "----------------------------------------------------------------------------" << std::endl;
-						std::cout << "	PACKER MASTER" << std::endl;
+						std::cout << "	CHIEF" << std::endl;
 						std::cout << "----------------------------------------------------------------------------" << std::endl;
 						std::cout << "	ip: ";	std::cin >> ip;
 

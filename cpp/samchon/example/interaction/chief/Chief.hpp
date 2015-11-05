@@ -70,7 +70,7 @@ namespace samchon
 					--------------------------------------------------------------------------------- */
 					virtual void replyData(std::shared_ptr<protocol::Invoke> invoke)
 					{
-						get("Reporter")->replyData(invoke);
+						get("Reporter")->sendData(invoke);
 					};
 
 				private:
@@ -106,7 +106,7 @@ namespace samchon
 							travel->emplace_back(new tsp::GeometryPoint(i + 1));
 
 						// GENETIC ALGORITHM
-						struct tsp::GAParameters gaParameters = {.03, 50, 100, 300};
+						struct tsp::GAParameters gaParameters = {.03, 30, 400, 400};
 
 						// SEND
 						tsp::Scheduler scheduler(travel, gaParameters);

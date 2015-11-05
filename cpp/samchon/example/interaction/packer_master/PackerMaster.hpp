@@ -128,6 +128,8 @@ namespace samchon
 
 						std::cout << "Parallel optimization has completed." << std::endl;
 						std::cout << packer->toString() << std::endl << std::endl;
+
+						chiefDriver->sendData(std::make_shared<protocol::Invoke>("replyOptimization", packer->toXML()));
 					};
 
 					/* ---------------------------------------------------------------------------------

@@ -34,9 +34,18 @@ namespace samchon
 					};
 					virtual ~Reporter() = default;
 
+				protected:
+					virtual void addClient(protocol::Socket *socket) override
+					{
+						std::cout << "The chief has connected." << std::endl;
+
+						super::addClient(socket);
+					};
+
 					/* ---------------------------------------------------------------------------------
 						INVOKE MESSAGE CHAIN
 					--------------------------------------------------------------------------------- */
+				public:
 					virtual void replyData(std::shared_ptr<protocol::Invoke> invoke)
 					{
 						//PRINT

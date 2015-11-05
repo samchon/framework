@@ -127,6 +127,8 @@ namespace samchon
 						std::cout << std::endl;
 						std::cout << "Parallel optimization has completed." << std::endl;
 						std::cout << scheduler->toString() << std::endl << std::endl;
+
+						chiefDriver->sendData(std::make_shared<protocol::Invoke>("replyOptimization", scheduler->toXML()));
 					};
 
 				public:

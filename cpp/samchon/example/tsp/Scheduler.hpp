@@ -156,11 +156,11 @@ namespace samchon
 				static void main()
 				{
 					std::shared_ptr<Travel> travel = std::make_shared<Travel>();
-					for(int i = 0; i < 20; i++)
+					for(int i = 0; i < 30; i++)
 						travel->emplace_back(new GeometryPoint(i + 1));
 
 					// OPTIMIZING
-					struct GAParameters gaParameters = {.03, 50, 100, 300};
+					struct GAParameters gaParameters = {.03, 30, 400, 400};
 
 					Scheduler scheduler(travel, gaParameters);
 					travel = scheduler.optimize();

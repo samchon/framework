@@ -50,10 +50,12 @@ namespace samchon
 		 * @brief Default Constructor
 		 */
 		ByteArray();
+
 		/**
 		 * @brief Copy Constructor
 		 */
 		ByteArray(const ByteArray &);
+
 		/**
 		 * @brief Move Constructor
 		 */

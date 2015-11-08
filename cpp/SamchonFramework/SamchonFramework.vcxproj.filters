@@ -1121,5 +1121,8 @@
     <ClCompile Include="..\samchon\protocol\master\ParallelServer.cpp">
       <Filter>Source Files\protocol\master\parallel processing system\server</Filter>
     </ClCompile>
+    <ClCompile Include="..\samchon\library\HTTPLoader.cpp">
+      <Filter>Source Files\library\network i/o\http service</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

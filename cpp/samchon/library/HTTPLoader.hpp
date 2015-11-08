@@ -28,9 +28,6 @@ namespace samchon
 			std::string url;
 			int method;
 
-			Map<std::string, std::string> sendHeaderMap;
-			Map<std::string, std::string> receivedHeaderMap;
-
 		public:
 			enum METHOD : int
 			{
@@ -42,10 +39,9 @@ namespace samchon
 			/* ------------------------------------------------------------
 				CONSTRUCTORS
 			------------------------------------------------------------ */
-			HTTPLoader();
-			HTTPLoader(int method);
+			HTTPLoader(int method = POST);
 			HTTPLoader(const std::string &, int method);
-			virtual ~HTTPLoader();
+			virtual ~HTTPLoader() = default;
 
 			/* ------------------------------------------------------------
 				SETTERS & GETTERS
@@ -60,9 +56,6 @@ namespace samchon
 				LOADERS
 			------------------------------------------------------------ */
 			auto load(const URLVariables &) const -> ByteArray;
-
-		private:
-			static auto decodeGZip(const ByteArray&) -> ByteArray;
 		};
 	};
 };

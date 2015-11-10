@@ -49,7 +49,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 		host = host.between("://");
 	if (host.find("/") != string::npos)
 	{
-		path = host.between("/").str();
+		path = "/" + host.between("/").str();
 		host = host.between("", "/");
 	}
 
@@ -73,42 +73,62 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 		header = StringUtil::substitute
 		(
 			string("") +
-			"Host {1}\n" +
 			"POST {2} HTTP/1.0\n" +
 			"Accept: */*\n" +
-			"Connection: Keep-Alive\n" + 
-			"Content-Length: {3}\n\n" +
-			"" +
+
+			/*"User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko\n" +
+			"Accept-Language: en-US\n" +
+			"Accept-Encoding: gzip, deflate\n" +
+			"Content-Type: application/x-www-form-urlencoded\n" +*/
+
+			"Connection: Keep-Alive\n" +
+			"Host: {1}\r\n" +
+			"Content-Length: {3}\n" +
+			"\n" +
 			"{4}\n",
 
 			host, path, 
-			parameters.size(), parameters.toString() 
+			parameters.size(), 
+			parameters.toString() 
 		);
 	}
 
+	cout << header << endl;
+
 	// SOCKET - CONNECT
 	boost::asio::io_service ioService;
-	boost::asio::ip::tcp::endpoint endPoint(boost::asio::ip::address::from_string(host), 80);
+	boost::asio::ip::tcp::endpoint endPoint(boost::asio::ip::address::from_string(host.str()), 80);
 
 	boost::asio::ip::tcp::socket socket(ioService, boost::asio::ip::tcp::v4());
 	socket.connect(endPoint);
-
 	socket.write_some(boost::asio::buffer(header));
+
+	header.clear();
 
 	// LISTEN HEADER
 	Map<string, string> headerMap;
-
-	header.clear();
 	array<unsigned char, 1> byte;
-
+	
 	while (true)
 	{
 		socket.read_some(boost::asio::buffer(byte));
-		header += (char)byte[0];
 
-		if (byte[0] == NULL)
-			break;
+		if (header.empty() == false && header.back() == '\n')
+			if (byte[0] == '\r' || byte[0] == '\n')
+			{
+				if (byte[0] == '\r')
+				{
+					socket.read_some(boost::asio::buffer(byte));
+					header += '\r';
+				}
+				header += '\n';
+				break;
+			}
+
+		header += (char)byte[0];
 	}
+
+	cout << header.substr(0, 1000) << endl;
 
 	vector<WeakString> &items = WeakString(header).split("\n");
 	for (size_t i = 0; i < items.size(); i++)
@@ -119,7 +139,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 		if (index == string::npos)
 			continue;
 
-		headerMap.insert({item.substr(0, index), item.substr(index).trim().str()});
+		headerMap.insert({item.substr(0, index), item.substr(index + 1).trim().str()});
 	}
 
 	// GET DATA
@@ -130,7 +150,9 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 
 	if (headerMap.has("Content-Length") == true)
 	{
-		data.reserve((size_t)stoull(headerMap["Content-Length"]));
+		cout << headerMap.get("Content-Length") << endl;
+
+		data.reserve((size_t)stoull(headerMap.get("Content-Length")));
 		reserved = true;
 	}
 	else
@@ -155,8 +177,8 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 	}
 
 	// (COMPRESS? &) RETURN
-	if (headerMap.has("Content-Length") == true)
-		return move(data.decompress());
-	else
+	//if (headerMap.has("Content-Length") == true)
 		return move(data);
+	//else
+		//return move(data);
 }

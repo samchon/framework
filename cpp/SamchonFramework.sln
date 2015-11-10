@@ -38,6 +38,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "reporter", "samchon\example
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chief", "samchon\example\interaction\chief\chief.vcxproj", "{9836931B-0D90-46CD-899E-9D3042312DFA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "http", "samchon\example\http\http.vcxproj", "{D6C8A589-B378-4FEA-BEB3-47AA21F8437A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -158,6 +160,14 @@ Global
 		{9836931B-0D90-46CD-899E-9D3042312DFA}.Release|x64.Build.0 = Release|x64
 		{9836931B-0D90-46CD-899E-9D3042312DFA}.Release|x86.ActiveCfg = Release|Win32
 		{9836931B-0D90-46CD-899E-9D3042312DFA}.Release|x86.Build.0 = Release|Win32
+		{D6C8A589-B378-4FEA-BEB3-47AA21F8437A}.Debug|x64.ActiveCfg = Debug|x64
+		{D6C8A589-B378-4FEA-BEB3-47AA21F8437A}.Debug|x64.Build.0 = Debug|x64
+		{D6C8A589-B378-4FEA-BEB3-47AA21F8437A}.Debug|x86.ActiveCfg = Debug|Win32
+		{D6C8A589-B378-4FEA-BEB3-47AA21F8437A}.Debug|x86.Build.0 = Debug|Win32
+		{D6C8A589-B378-4FEA-BEB3-47AA21F8437A}.Release|x64.ActiveCfg = Release|x64
+		{D6C8A589-B378-4FEA-BEB3-47AA21F8437A}.Release|x64.Build.0 = Release|x64
+		{D6C8A589-B378-4FEA-BEB3-47AA21F8437A}.Release|x86.ActiveCfg = Release|Win32
+		{D6C8A589-B378-4FEA-BEB3-47AA21F8437A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -177,5 +187,6 @@ Global
 		{DF2D1ECB-C08B-420A-92A4-A4DE31107E48} = {EEF9802A-A31F-49D1-95C2-5268F3BDFE69}
 		{6F1ADAA3-F05E-4DE9-878E-BD1EE5B6E38A} = {EEF9802A-A31F-49D1-95C2-5268F3BDFE69}
 		{9836931B-0D90-46CD-899E-9D3042312DFA} = {EEF9802A-A31F-49D1-95C2-5268F3BDFE69}
+		{D6C8A589-B378-4FEA-BEB3-47AA21F8437A} = {C96E2760-D66C-485E-BAD7-C67C0998E7DB}
 	EndGlobalSection
 EndGlobal

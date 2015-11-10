@@ -40,12 +40,14 @@ namespace samchon
 		 * If you call read, starting pointer will be the position
 		 * \li (_Ty *ptr = (_Ty*)data() + position)
 		 */
-		size_t position;
+		size_t position;//{0};
 
 	public:
 		/* --------------------------------------------------------------
 			CONSTRUCTROS
 		-------------------------------------------------------------- */
+		//using super::super;
+
 		/**
 		 * @brief Default Constructor
 		 */

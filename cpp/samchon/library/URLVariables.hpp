@@ -37,8 +37,6 @@ namespace samchon
 			/* ------------------------------------------------------------
 				CONSTRUCTORS
 			 ------------------------------------------------------------ */
-			//using super::super;
-
 			/**
 			 * @brief Default Constructor
 			 */

@@ -322,20 +322,22 @@ namespace samchon
 				size_t startIndex, size_t endIndex = SIZE_MAX) -> std::string;
 			
 			/**
-			 * @brief Generates a substring
+			 * @brief Generate a substring.
 			 * 
 			 * @details 
-			 * Extracts a substring consisting of the characters from specified start to end
-			 * It's same with str.substring( ? = (str.find(start) + start.size()), str.find(end, ?) )\n
-			 * &nbsp;&nbsp;&nbsp;&nbsp; ex) between("ABCD[EFGH]IJK", "[", "]") => "EFGH"\n
-			 * \n
-			 * If start is not specified, extracts from begin of the string to end\n
-			 * If end is not specified, extracts from start to end of the string\n
-			 * If start and end are all omitted, returns str, itself.
+			 * <p> Extracts a substring consisting of the characters from specified start to end
+			 * It's same with str.substring( ? = (str.find(start) + start.size()), str.find(end, ?) ) </p>
+			 * 
+			 * <p> ex) between("ABCD[EFGH]IJK", "[", "]") => "EFGH" </p>
+			 * 
+			 * \li If start is not specified, extracts from begin of the string to end.
+			 * \li If end is not specified, extracts from start to end of the string.
+			 * \li If start and end are all omitted, returns str, itself.
 			 *
 			 * @param str Target string to be applied between
 			 * @param start A string for separating substring at the front
 			 * @param end A string for separating substring at the end
+			 * 			  
 			 * @return substring by specified terms
 			 */
 			static auto between(const std::string &str,
@@ -366,17 +368,17 @@ namespace samchon
 			 * @brief Generates substrings
 			 *
 			 * @details
-			 * Splits a string into an array of substrings dividing by specified delimeters of start and end\n
-			 * It's the array of substrings adjusted the between\n
-			 * \n
-			 * If startStr is omitted, it's same with the split by endStr not having last item\n
-			 * If endStr is omitted, it's same with the split by startStr not having first item\n
-			 * If startStr and endStar are all omitted, returns {str}
+			 * <p> Splits a string into an array of substrings dividing by specified delimeters of start and end.
+			 * It's the array of substrings adjusted the between. </p>
+			 * 
+			 *	\li If startStr is omitted, it's same with the split by endStr not having last item
+			 *	\li If endStr is omitted, it's same with the split by startStr not having first item
+			 *	\li If startStr and endStar are all omitted, returns {str}
 			 *
 			 * @param str Target string to split by between
-			 * @param start A string for separating substring at the front\n
+			 * @param start A string for separating substring at the front.
 			 *				If omitted, it's same with split(end) not having last item
-			 * @param end A string for separating substring at the end\n
+			 * @param end A string for separating substring at the end.
 			 *			  If omitted, it's same with split(start) not having first item
 			 * @return An array of substrings
 			 */
@@ -388,7 +390,8 @@ namespace samchon
 			---------------------------------------------------------------------- */
 			//ALPHABET-CONVERSION
 			/**
-			 * @brief Returns a string that all uppercase characters are converted to lowercase\n
+			 * @brief Returns a string that all uppercase characters are converted to lowercase.
+			 * 
 			 * @param str Target string to convert uppercase to lowercase
 			 * @return A string converted to lowercase
 			 */
@@ -422,6 +425,13 @@ namespace samchon
 			 */
 			static auto replaceAll(const std::string &str,
 				const std::vector<std::pair<std::string, std::string>> &pairs) -> std::string;
+
+			/**
+			 * @brief Replace all HTML spaces to a literal space.
+			 * 		  
+			 * @param str Target string to replace.
+			 */
+			static auto removeHTMLSpaces(const std::string &) -> std::string;
 		};
 	};
 };

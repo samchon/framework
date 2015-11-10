@@ -280,3 +280,13 @@ auto StringUtil::replaceAll(const string &str,
 {
 	return move(WeakString(str).replaceAll(pairs));
 }
+auto StringUtil::removeHTMLSpaces(const string &str) -> string
+{
+	vector<pair<string, string>> pairs =
+	{
+		{"&nbsp;", " "}, 
+		{"\t", " "},
+		{"  ", " "}
+	};
+	return move(replaceAll(str, pairs));
+}

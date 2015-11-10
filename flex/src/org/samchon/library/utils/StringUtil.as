@@ -10,9 +10,29 @@ package org.samchon.library.utils
 		 */
 		private static const trimTargets:Array = ["\r", "\n", "\t", " "];
 		
+		/**
+		 * @private
+		 */
+		private static const HTML_SPACE_ARRAY:Array = ["&nbsp;", "\t","  "];
+		
+		/**
+		 * 
+		 */
 		public static function replaceAll(value:String, org:*, repl:String):String 
 		{
 			return value.split(org).join(repl);
+		}
+		
+		/**
+		 * 
+		 */
+		public static function removeHTMLSpaces(str:String):String
+		{
+			var res:String = str;
+			for (var i:int = 0; i < HTML_SPACE_ARRAY.length; i++)
+				res = replaceAll(res, HTML_SPACE_ARRAY[i], " ");
+			
+			return res;
 		}
 		
 		/*
@@ -31,8 +51,9 @@ package org.samchon.library.utils
 		{
 			return ltrim( rtrim(str, target), target );
 		}
+		
 		/**
-		 * <p>Removes all designated characters from the beginning of the specified string</p>
+		 * <p>Removes all designated characters from the beginning of the specified string.</p>
 		 * 
 		 * @param str The String should be trimmed
 		 * @param target Designated character(s)
@@ -60,8 +81,9 @@ package org.samchon.library.utils
 				}
 			return value;
 		}
+		
 		/**
-		 * <p>Removes all designated characters from end of the specified string</p>
+		 * <p>Removes all designated characters from end of the specified string.</p>
 		 * 
 		 * @param str The String should be trimmed
 		 * @param target Designated character(s)
@@ -95,8 +117,26 @@ package org.samchon.library.utils
 			BETWEEN - BETWEEN, BETWEENS
 		====================================================
 		*/
+		
 		/**
+		 * <p> Generate a substring. </p>
 		 * 
+		 * <p> Extracts a substring consisting of the characters from specified start to end
+		 * It's same with str.substring( ? = (str.find(start) + start.size()), str.find(end, ?) ) </p>
+		 * 
+		 * <p> ex) between("ABCD[EFGH]IJK", "[", "]") => "EFGH" </p>
+		 * 
+		 * <ul>
+		 * 	<li> If start is not specified, extracts from begin of the string to end. </li>
+		 * 	<li> If end is not specified, extracts from start to end of the string. </li>
+		 * 	<li> If start and end are all omitted, returns str, itself. </li>
+		 * </ul>
+		 *
+		 * @param str Target string to be applied between
+		 * @param start A string for separating substring at the front
+		 * @param end A string for separating substring at the end
+		 * 			  
+		 * @return substring by specified terms
 		 */
 		public static function between(value:String, begin:String = null, end:String = null):String 
 		{
@@ -118,7 +158,23 @@ package org.samchon.library.utils
 		}
 		
 		/**
+		 * <p> Generate substrings from A to B. </p>
 		 * 
+		 * <p> Splits a string into an array of substrings dividing by specified delimeters of start and end.
+		 * It's the array of substrings adjusted the between. </p>
+		 *
+		 * <ul> 
+		 *	<li> If startStr is omitted, it's same with the split by endStr not having last item. </li>
+		 *	<li> If endStr is omitted, it's same with the split by startStr not having first item. </li>
+		 *	<li> If startStr and endStar are all omitted, returns {str}. </li>
+		 * </ul>
+		 * 
+		 * @param str Target string to split by between
+		 * @param start A string for separating substring at the front.
+		 *				If omitted, it's same with split(end) not having last item.
+		 * @param end A string for separating substring at the end.
+		 *			  If omitted, it's same with split(start) not having first item.
+		 * @return An array of substrings
 		 */
 		public static function betweens(value:String, begin:String, end:String = null):Array 
 		{
@@ -146,10 +202,15 @@ package org.samchon.library.utils
 		{
 			return int(stod(value));
 		}
+		
+		/**
+		 * 
+		 */
 		public static function stod(value:String):Number 
 		{
 			return Number(eraseComma(value));
 		}
+		
 		/**
 		 * @private
 		 */
@@ -163,7 +224,7 @@ package org.samchon.library.utils
 		
 		/*
 		====================================================
-		SUBSTITUDE
+			SUBSTITUDE
 		====================================================
 		*/
 		/**

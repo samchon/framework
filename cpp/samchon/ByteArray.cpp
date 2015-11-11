@@ -48,7 +48,7 @@ template<> auto ByteArray::read() const -> string
 	string str = (char*)(data() + position);
 	((ByteArray*)this)->position += str.size() + 1;
 
-	return move(str);
+	return str;
 }
 
 /* --------------------------------------------------------------
@@ -58,7 +58,7 @@ template<> void ByteArray::write(const string &str)
 {
 	unsigned char *begin = (unsigned char*)str.data();
 
-	insert(end(), begin, begin + str.size());
+	insert(end(), begin, begin + str.size() + 1);
 }
 template<> void ByteArray::write(const ByteArray &byteArray)
 {

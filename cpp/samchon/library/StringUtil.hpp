@@ -4,6 +4,7 @@
 #include <string>
 #include <samchon/WeakString.hpp>
 
+#include <iostream>
 #include <sstream>
 #include <samchon/IndexPair.hpp>
 #include <samchon/library/Math.hpp>
@@ -55,6 +56,7 @@ namespace samchon
 				const _Ty& val, const _Args& ... args) -> std::string
 			{
 				std::string &res = _substitute(format, val);
+
 				return StringUtil::substitute(res, args...);
 			};
 			template <typename _Ty> static auto substitute(const std::string &format, const _Ty& val) -> std::string

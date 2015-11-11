@@ -84,7 +84,7 @@ auto IPUserPair::issueSessionID(size_t sequence) const -> std::string
 	int port = server->PORT();
 	long long linuxTime = Datetime().toLinuxTime();
 
-	basic_stringstream<TCHAR> sstream;
+	stringstream sstream;
 	sstream << name << "::"
 		<< hex << port << "::"
 		<< hex << sequence << "::"

@@ -75,8 +75,8 @@ namespace samchon
 			/* ------------------------------------------------------------
 				URI ENCODING & DECONDING
 			------------------------------------------------------------ */
-			static auto toHex(const char ch) -> char;
-			static auto fromHex(const char ch) -> char;
+			static auto toHex(unsigned char ch) -> char;
+			static auto fromHex(unsigned char ch) -> char;
 
 		public:
 			/* ------------------------------------------------------------

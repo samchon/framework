@@ -1,9 +1,14 @@
 #include <samchon/library/HTTPLoader.hpp>
 
-#include <array>
 #include <iostream>
+#include <array>
+#include <random>
+
+#include <chrono>
+#include <thread>
 #include <boost/asio.hpp>
 
+#include <samchon/library/Datetime.hpp>
 #include <samchon/library/URLVariables.hpp>
 #include <samchon/library/StringUtil.hpp>
 
@@ -11,6 +16,13 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 
+Map<string, string> HTTPLoader::cookieMap;
+
+void toClipboard(const string &);
+
+/* ------------------------------------------------------------
+	CONSTRUCTORS
+------------------------------------------------------------ */
 HTTPLoader::HTTPLoader(int method)
 {
 	this->method = method;
@@ -21,6 +33,9 @@ HTTPLoader::HTTPLoader(const string &url, int method)
 	this->url = url;
 }
 
+/* ------------------------------------------------------------
+	SETTERS & GETTERS
+------------------------------------------------------------ */
 void HTTPLoader::setURL(const string &url)
 {
 	this->url = url;
@@ -39,6 +54,49 @@ auto HTTPLoader::getMethod() const -> int
 	return method;
 }
 
+auto HTTPLoader::getCookie(const string &host) const -> string
+{
+	auto it = cookieMap.find(host);
+
+	if (it == cookieMap.end())
+		return "";
+	else
+		return it->second;
+
+	/*static string session;
+	if (session.empty() == false)
+		return session;
+
+	static vector<char> ALPHA_CHAR_CODES = {48, 49, 50, 51, 52, 53, 54, 
+		55, 56, 57, 65, 66, 67, 68, 69, 70};
+
+	static random_device device;
+	static uniform_int_distribution<size_t> distribution(0, ALPHA_CHAR_CODES.size() - 1);
+	
+	string val;
+	size_t i, j;
+	Datetime now;
+
+	for (i = 0; i < 8; i++)
+		val.push_back(ALPHA_CHAR_CODES[distribution(device)]);
+
+	for (i = 0; i < 3; i++)
+	{
+		val.push_back('-');
+
+		for (j = 0; j < 4; j++)
+			val.push_back(ALPHA_CHAR_CODES[distribution(device)]);
+	}
+	val.push_back('-');
+	val.append(to_string(now.toLinuxTime()));
+
+	session = "s_pers=" + URLVariables::encode(" s_fid=" + val + ";");
+	return session;*/
+}
+
+/* ------------------------------------------------------------
+	LOADERS
+------------------------------------------------------------ */
 auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 {
 	// FOR HEADER
@@ -53,65 +111,96 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 		host = host.between("", "/");
 	}
 
+	// ENCODIG PATH
+	/*{
+		size_t idx = path.find('?');
+		if (idx == string::npos)
+			path = URLVariables::encode(path);
+		else
+		{
+			string &front = path.substr(0, idx);
+			string &back = path.substr(idx + 1, 0);
+
+			path = URLVariables::encode(front) + "?" + back;
+		}
+	}*/
+
 	string header;
 	if (method == GET)
 	{
 		header = StringUtil::substitute
 		(
 			string("") +
+			"GET {2}{3} HTTP/1.1\n" +
 			"Host: {1}\n" +
-			"GET {2}{3} HTTP/1.0\n" +
 			"Accept: */*\n" +
-			"Connection: Keep-Alive\n",
+			"Accept-Encoding: gzip, deflate\n"
 
-			host, path, 
-			((parameters.empty() == true) ? "" : "?" + parameters.toString())
+			"Connection: Keep-Alive\n" +
+			"Cookie: {4}\n"
+			"\n",
+
+			host.str(), path,
+			((parameters.empty() == true) 
+				? string("") 
+				: "?" + parameters.toString()),
+			getCookie(host)
 		);
 	}
 	else
 	{
+		std::string &parameterStr = parameters.toString();
+
 		header = StringUtil::substitute
 		(
 			string("") +
-			"POST {2} HTTP/1.0\n" +
+			"POST {2} HTTP/1.1\n" +
+			"Host: {1}\n" +
+			//"Connection: Keep-Alive\n" +
 			"Accept: */*\n" +
-
-			/*"User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko\n" +
-			"Accept-Language: en-US\n" +
-			"Accept-Encoding: gzip, deflate\n" +
-			"Content-Type: application/x-www-form-urlencoded\n" +*/
-
 			"Connection: Keep-Alive\n" +
-			"Host: {1}\r\n" +
-			"Content-Length: {3}\n" +
-			"\n" +
-			"{4}\n",
 
-			host, path, 
-			parameters.size(), 
-			parameters.toString() 
+			/*"Accept-Language: en-US\n" +
+			"Accept-Encoding: gzip, deflate\n" +
+			"User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko\n" +*/
+			
+			"Content-Type: application/x-www-form-urlencoded\n" +
+			"Content-Length: {3}\n" +
+			"Cookie: {5}\n"
+			"\n" +
+			"{4}",
+
+			host.str(), path, 
+			parameterStr.size(), parameterStr,
+			getCookie(host)
 		);
 	}
+	/*cout << "Sent Header: " << endl
+		<< header << endl << endl;*/
 
-	cout << header << endl;
+	// PREPARE & GET IP ADDRESS
+	boost::asio::io_service ioService;
+
+	boost::asio::ip::tcp::resolver resolver(ioService);
+	boost::asio::ip::tcp::resolver::query query(host, "http");
+	boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
 
 	// SOCKET - CONNECT
-	boost::asio::io_service ioService;
-	boost::asio::ip::tcp::endpoint endPoint(boost::asio::ip::address::from_string(host.str()), 80);
-
-	boost::asio::ip::tcp::socket socket(ioService, boost::asio::ip::tcp::v4());
-	socket.connect(endPoint);
+	boost::asio::ip::tcp::socket socket(ioService);
+	socket.connect(*endpoint_iterator);
 	socket.write_some(boost::asio::buffer(header));
 
 	header.clear();
 
 	// LISTEN HEADER
 	Map<string, string> headerMap;
-	array<unsigned char, 1> byte;
+	vector<unsigned char> byte(1, 0);
 	
 	while (true)
 	{
-		socket.read_some(boost::asio::buffer(byte));
+		boost::system::error_code error;
+
+		size_t size = socket.read_some(boost::asio::buffer(byte), error);
 
 		if (header.empty() == false && header.back() == '\n')
 			if (byte[0] == '\r' || byte[0] == '\n')
@@ -125,11 +214,12 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 				break;
 			}
 
+		if (error)
+			break;
+
 		header += (char)byte[0];
 	}
-
-	cout << header.substr(0, 1000) << endl;
-
+	
 	vector<WeakString> &items = WeakString(header).split("\n");
 	for (size_t i = 0; i < items.size(); i++)
 	{
@@ -142,43 +232,63 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 		headerMap.insert({item.substr(0, index), item.substr(index + 1).trim().str()});
 	}
 
+	// REGISTER COOKIE
+	if (headerMap.has("Set-Cookie") == true)
+	{
+		string &cookie = headerMap.get("Set-Cookie");
+		
+		((Map<string, string>*)&cookieMap)->set(host, cookie);
+	}
+
 	// GET DATA
 	ByteArray data;
-	boost::system::error_code error;
+	bool reserved = headerMap.has("Content-Length");
 
-	bool reserved;
-
-	if (headerMap.has("Content-Length") == true)
-	{
-		cout << headerMap.get("Content-Length") << endl;
-
+	if (reserved == true)
 		data.reserve((size_t)stoull(headerMap.get("Content-Length")));
-		reserved = true;
-	}
-	else
-		reserved = false;
 
 	while (true)
 	{
-		array<unsigned char, 1000> piece;
-		socket.read_some(boost::asio::buffer(piece), error);
+		vector<unsigned char> piece(1000, 0);
+		boost::system::error_code error;
 
-		if (error)
+		size_t size = socket.read_some(boost::asio::buffer(piece), error);
+
+		if (size == 0 || error)
 			break;
 
-		if (reserved == true)
-			data.insert
-			(
-				data.end(), piece.begin(), 
-				piece.begin() + std::min(data.capacity() - data.size(), piece.size())
-			);
-		else
-			data.insert(data.end(), piece.begin(), piece.end());
+		data.insert
+		(
+			data.end(), piece.begin(),
+			piece.begin() + size
+		);
+		cout << size << ", " << data.size() << endl;
+
+		if (reserved == true && data.size() == data.capacity())
+			break;
 	}
 
-	// (COMPRESS? &) RETURN
-	//if (headerMap.has("Content-Length") == true)
-		return move(data);
-	//else
-		//return move(data);
+	// RETURN
+	return move(data);
+}
+
+#include <Windows.h>
+
+void toClipboard(const string &str)
+{
+	OpenClipboard(0);
+	EmptyClipboard();
+	HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, str.size());
+
+	if (!hg)
+	{
+		CloseClipboard();
+		return;
+	}
+	memcpy(GlobalLock(hg), str.c_str(), str.size());
+
+	GlobalUnlock(hg);
+	SetClipboardData(CF_TEXT, hg);
+	CloseClipboard();
+	GlobalFree(hg);
 }

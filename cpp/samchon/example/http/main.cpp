@@ -1,9 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <thread>
 
 #include <samchon/library/HTTPLoader.hpp>
 #include <samchon/library/URLVariables.hpp>
+
+#include <Windows.h>
 
 using namespace std;
 using namespace samchon;
@@ -23,16 +26,64 @@ using namespace samchon::library;
 #	endif
 #endif
 
+void login();
+void loadPage();
+
+void toClipboard(const std::string &);
+
 void main()
 {
-	HTTPLoader loader("http://125.141.234.148/ad", HTTPLoader::POST);
-	URLVariables data;
-	data["dummy"] = "1";
-	
-	auto &binary = loader.load(data);
-
-	string &str = binary.read<string>();
-	cout << str << endl;
+	login();
+	loadPage();
 
 	system("pause");
+}
+
+void login()
+{
+	HTTPLoader loader("http://www.bomtvbiz.com/ad/?c=login", HTTPLoader::POST);
+	URLVariables data;
+	{
+		data["m_id"] = "rprt01";
+		data["password"] = "1234";
+	}
+
+	auto &ba = loader.load(data);
+	//cout << str << endl << endl;
+	//cout << loader.load(data).read<string>() << endl << endl;
+}
+void loadPage()
+{
+	//http://www.bomtvbiz.com/ad/
+	//http://samchon.org/simulation/php/corporate/list.php
+	HTTPLoader loader("http://www.bomtvbiz.com/ad/", HTTPLoader::GET);
+	URLVariables data;
+	{
+		data["c"] = "order";
+		data["a"] = "outsourcing";
+		data["page"] = "2";
+	}
+
+	string &str = loader.load(data).read<string>();
+	toClipboard(str);
+	//cout << str << endl << endl;
+}
+
+void toClipboard(const string &str)
+{
+	OpenClipboard(0);
+	EmptyClipboard();
+	HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, str.size());
+
+	if (!hg)
+	{
+		CloseClipboard();
+		return;
+	}
+	memcpy(GlobalLock(hg), str.c_str(), str.size());
+
+	GlobalUnlock(hg);
+	SetClipboardData(CF_TEXT, hg);
+	CloseClipboard();
+	GlobalFree(hg);
 }

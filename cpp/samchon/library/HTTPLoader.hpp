@@ -2,14 +2,12 @@
 #include <samchon/API.hpp>
 
 #include <samchon/ByteArray.hpp>
-#include <samchon/Map.hpp>
+#include <samchon/library/URLVariables.hpp>
 
 namespace samchon
 {
 	namespace library
 	{
-		class URLVariables;
-
 		/**
 		 * @brief A http, web-page loader
 		 * @details
@@ -27,6 +25,8 @@ namespace samchon
 		private:
 			std::string url;
 			int method;
+
+			static Map<std::string, std::string> cookieMap;
 
 		public:
 			enum METHOD : int
@@ -51,11 +51,12 @@ namespace samchon
 
 			auto getURL() const -> std::string;
 			auto getMethod() const -> int;
+			auto getCookie(const std::string &) const -> std::string;
 
 			/* ------------------------------------------------------------
 				LOADERS
 			------------------------------------------------------------ */
-			auto load(const URLVariables &) const -> ByteArray;
+			auto load(const URLVariables & = {}) const->ByteArray;
 		};
 	};
 };

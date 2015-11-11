@@ -112,18 +112,18 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 	}
 
 	// ENCODIG PATH
-	/*{
+	{
 		size_t idx = path.find('?');
 		if (idx == string::npos)
 			path = URLVariables::encode(path);
 		else
 		{
 			string &front = path.substr(0, idx);
-			string &back = path.substr(idx + 1, 0);
+			string &back = path.substr(idx + 1);
 
 			path = URLVariables::encode(front) + "?" + back;
 		}
-	}*/
+	}
 
 	string header;
 	if (method == GET)
@@ -156,7 +156,6 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 			string("") +
 			"POST {2} HTTP/1.1\n" +
 			"Host: {1}\n" +
-			//"Connection: Keep-Alive\n" +
 			"Accept: */*\n" +
 			"Connection: Keep-Alive\n" +
 
@@ -175,8 +174,6 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 			getCookie(host)
 		);
 	}
-	/*cout << "Sent Header: " << endl
-		<< header << endl << endl;*/
 
 	// PREPARE & GET IP ADDRESS
 	boost::asio::io_service ioService;
@@ -185,51 +182,34 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 	boost::asio::ip::tcp::resolver::query query(host, "http");
 	boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
 
-	// SOCKET - CONNECT
+	// SOCKET - CONNECT AND SEND HEADER
 	boost::asio::ip::tcp::socket socket(ioService);
 	socket.connect(*endpoint_iterator);
+
 	socket.write_some(boost::asio::buffer(header));
 
-	header.clear();
-
-	// LISTEN HEADER
+	// LISTEN RECEIVED-HEADER
 	Map<string, string> headerMap;
-	vector<unsigned char> byte(1, 0);
+
+	boost::asio::streambuf response;
+	boost::asio::read_until(socket, response, "\r\n\r\n");
 	
-	while (true)
-	{
-		boost::system::error_code error;
-
-		size_t size = socket.read_some(boost::asio::buffer(byte), error);
-
-		if (header.empty() == false && header.back() == '\n')
-			if (byte[0] == '\r' || byte[0] == '\n')
-			{
-				if (byte[0] == '\r')
-				{
-					socket.read_some(boost::asio::buffer(byte));
-					header += '\r';
-				}
-				header += '\n';
-				break;
-			}
-
-		if (error)
-			break;
-
-		header += (char)byte[0];
-	}
+	std::istream response_stream(&response);
+	string item;
 	
-	vector<WeakString> &items = WeakString(header).split("\n");
-	for (size_t i = 0; i < items.size(); i++)
+	while (std::getline(response_stream, item) && item != "\r")
 	{
-		WeakString &item = items[i];
 		size_t index = item.find(":");
-
 		if (index == string::npos)
 			continue;
 
-		headerMap.insert({item.substr(0, index), item.substr(index + 1).trim().str()});
+		string &key = item.substr(0, index);
+		string &value = item.substr(index + 2);
+
+		if (value.back() == '\r')
+			value.pop_back();
+
+		headerMap.insert({key, value});
 	}
 
 	// REGISTER COOKIE
@@ -253,7 +233,6 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 		boost::system::error_code error;
 
 		size_t size = socket.read_some(boost::asio::buffer(piece), error);
-
 		if (size == 0 || error)
 			break;
 
@@ -262,8 +241,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 			data.end(), piece.begin(),
 			piece.begin() + size
 		);
-		cout << size << ", " << data.size() << endl;
-
+		
 		if (reserved == true && data.size() == data.capacity())
 			break;
 	}

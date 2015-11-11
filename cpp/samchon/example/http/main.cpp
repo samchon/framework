@@ -48,8 +48,8 @@ void login()
 		data["password"] = "1234";
 	}
 
-	auto &ba = loader.load(data);
-	//cout << str << endl << endl;
+	string &str = loader.load(data).read<string>();
+	cout << str << endl << endl;
 	//cout << loader.load(data).read<string>() << endl << endl;
 }
 void loadPage()

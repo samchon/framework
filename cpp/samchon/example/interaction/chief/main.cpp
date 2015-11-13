@@ -1,6 +1,6 @@
-#include <samchon/example/interaction/chief/Chief.hpp>
+#include <samchon/example/interaction/Chief.hpp>
 
-using namespace samchon::example::interaction::chief;
+using namespace samchon::example::interaction;
 
 #ifdef _WIN64
 #	ifdef _DEBUG

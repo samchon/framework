@@ -220,16 +220,30 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 		((Map<string, string>*)&cookieMap)->set(host, cookie);
 	}
 
-	// GET DATA
+	//////////////////////////////////////////////////
+	//	GET DATA
+	//////////////////////////////////////////////////
 	ByteArray data;
+
 	bool reserved = headerMap.has("Content-Length");
+	bool chunked = headerMap.has("Transfer-Encoding") && headerMap.get("Transfer-Encoding") == "chunked";
 
 	if (reserved == true)
 		data.reserve((size_t)stoull(headerMap.get("Content-Length")));
 
+	if (response.size() > 0)
+	{
+		size_t size = response.size();
+		const unsigned char *left = boost::asio::buffer_cast<const unsigned char*>(response.data());
+
+		data.assign(left, left + size);
+	}
+
+	int isLast = 0;
+
 	while (true)
 	{
-		vector<unsigned char> piece(1000, 0);
+		array<unsigned char, 1000> piece;
 		boost::system::error_code error;
 
 		size_t size = socket.read_some(boost::asio::buffer(piece), error);
@@ -238,12 +252,23 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 
 		data.insert
 		(
-			data.end(), piece.begin(),
-			piece.begin() + size
+			data.end(), 
+			piece.begin(), piece.begin() + size
 		);
 		
 		if (reserved == true && data.size() == data.capacity())
 			break;
+		else if (chunked == true && size >= 7)
+		{
+			// 정크 리스트를 제거해야 함
+			// 우선은 임시로 마지막 글자만 날림
+
+			vector<unsigned char> lastArray(piece.begin() + size - 7, piece.begin() + size);
+			vector<unsigned char> endArray = { '\r', '\n', '0', '\r', '\n', '\r', '\n'};
+
+			if (lastArray == endArray)
+				break;
+		}
 	}
 
 	// RETURN

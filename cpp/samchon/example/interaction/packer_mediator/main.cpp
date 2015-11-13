@@ -1,6 +1,6 @@
-#include <samchon/example/interaction/packer_mediator/PackerMediator.hpp>
+#include <samchon/example/interaction/PackerMediator.hpp>
 
-using namespace samchon::example::interaction::packer_mediator;
+using namespace samchon::example::interaction;
 
 #ifdef _WIN64
 #	ifdef _DEBUG

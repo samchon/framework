@@ -50,7 +50,12 @@ void Datetime::set(const WeakString &wStr)
 	vector<WeakString> &vec = wStr.between(" ").split(":");
 	int hour = stoi(vec[0].str());
 	int min = stoi(vec[1].str());
-	int sec = stoi(vec[2].str());
+	int sec;
+
+	if (vec.size() == 3)
+		sec = stoi(vec[2].str());
+	else
+		sec = 0;
 
 	set(getYear(), getMinute(), getSecond(), hour, min, sec);
 }

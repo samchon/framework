@@ -1,6 +1,6 @@
-#include <samchon/example/interaction/packer_master/PackerMaster.hpp>
+#include <samchon/example/interaction/PackerMaster.hpp>
 
-using namespace samchon::example::interaction::packer_master;
+using namespace samchon::example::interaction;
 
 #ifdef _WIN64
 #	ifdef _DEBUG

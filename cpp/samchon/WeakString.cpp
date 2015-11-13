@@ -1,5 +1,7 @@
 #include <samchon/WeakString.hpp>
 
+#include <iostream>
+
 #include <list>
 #include <queue>
 #include <utility>
@@ -172,9 +174,9 @@ auto WeakString::rfinds(const std::vector<WeakString> &delims, size_t endIndex) 
 -------------------------------------------------------------------- */
 auto WeakString::substr(size_t startIndex, size_t size) const -> WeakString
 {
-	if (startIndex + size > size_)
+	if (size > size_ || startIndex + size > size_)
 		size = size_ - startIndex;
-
+	
 	return WeakString(data_ + startIndex, size);
 }
 auto WeakString::substring(size_t startIndex, size_t endIndex) const -> WeakString
@@ -195,16 +197,18 @@ auto WeakString::between(const WeakString &start, const WeakString &end) const -
 	if (start.empty() == true && end.empty() == true)
 		return *this;
 	else if (start.empty() == true)
-		return substring(0, find(end));
+		return substr(0, find(end));
 	else if (end.empty() == true)
 		return substr(find(start) + start.size());
-
-	size_t startIndex = find(start);
-	return substring
-		(
-			startIndex + start.size(),
-			find(end, startIndex + start.size())
+	else
+	{
+		size_t startIndex = find(start);
+		return substring
+			(
+				startIndex + start.size(),
+				find(end, startIndex + start.size())
 			);
+	}
 }
 auto WeakString::split(const WeakString &delim) const -> std::vector<WeakString>
 {

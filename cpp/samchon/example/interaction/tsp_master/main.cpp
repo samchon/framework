@@ -1,6 +1,6 @@
-#include <samchon/example/interaction/tsp_master/TSPMaster.hpp>
+#include <samchon/example/interaction/TSPMaster.hpp>
 
-using namespace samchon::example::interaction::tsp_master;
+using namespace samchon::example::interaction;
 
 #ifdef _WIN64
 #	ifdef _DEBUG

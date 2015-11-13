@@ -1,6 +1,6 @@
-#include <samchon/example/interaction/packer_slave/PackerSlave.hpp>
+#include <samchon/example/interaction/PackerSlave.hpp>
 
-using namespace samchon::example::interaction::packer_slave;
+using namespace samchon::example::interaction;
 
 #ifdef _WIN64
 #	ifdef _DEBUG

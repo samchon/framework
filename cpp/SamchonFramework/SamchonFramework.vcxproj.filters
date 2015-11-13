@@ -813,7 +813,7 @@
       <Filter>Source Files\nam-tree</Filter>
     </ClCompile>
     <ClCompile Include="test.cpp">
-      <Filter>Header Files\base</Filter>
+      <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

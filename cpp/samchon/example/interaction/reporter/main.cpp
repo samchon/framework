@@ -1,6 +1,6 @@
-#include <samchon/example/interaction/reporter/Reporter.hpp>
+#include <samchon/example/interaction/Reporter.hpp>
 
-using namespace samchon::example::interaction::reporter;
+using namespace samchon::example::interaction;
 
 #ifdef _WIN64
 #	ifdef _DEBUG

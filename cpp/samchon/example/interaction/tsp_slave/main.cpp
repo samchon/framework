@@ -1,6 +1,6 @@
-#include <samchon/example/interaction/tsp_slave/TSPSlave.hpp>
+#include <samchon/example/interaction/TSPSlave.hpp>
 
-using namespace samchon::example::interaction::tsp_slave;
+using namespace samchon::example::interaction;
 
 #ifdef _WIN64
 #	ifdef _DEBUG

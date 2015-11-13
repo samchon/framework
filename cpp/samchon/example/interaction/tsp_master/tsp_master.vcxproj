@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{BA5A7C2E-B22F-4446-B683-D327CC18A943}</ProjectGuid>
+    <ProjectGuid>{F63F413C-ED32-49F6-8F8A-A261AAAAB060}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>http</RootNamespace>
+    <RootNamespace>tsp_master</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -154,7 +154,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="http_main.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Master.hpp" />
+    <ClInclude Include="..\SlaveDriver.hpp" />
+    <ClInclude Include="..\TSPMaster.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

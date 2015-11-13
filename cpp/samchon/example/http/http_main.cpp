@@ -56,7 +56,7 @@ void loadPage()
 {
 	//http://www.bomtvbiz.com/ad/
 	//http://samchon.org/simulation/php/corporate/list.php
-	HTTPLoader loader("http://www.bomtvbiz.com/ad/", HTTPLoader::GET);
+	HTTPLoader loader("http://samchon.org/simulation/php/corporate/list.php", HTTPLoader::GET);
 	URLVariables data;
 	{
 		data["c"] = "order";
@@ -66,7 +66,6 @@ void loadPage()
 
 	string &str = loader.load(data).read<string>();
 	toClipboard(str);
-	//cout << str << endl << endl;
 }
 
 void toClipboard(const string &str)

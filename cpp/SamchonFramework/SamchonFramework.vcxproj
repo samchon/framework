@@ -233,9 +233,6 @@
     <ClInclude Include="..\samchon\protocol\IClient.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityChain.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp" />
-    <ClInclude Include="..\samchon\protocol\IEntityPtrGroup.hpp" />
-    <ClInclude Include="..\samchon\protocol\IEntitySharedPtrGroup.hpp" />
-    <ClInclude Include="..\samchon\protocol\IEntityUniquePtrGroup.hpp" />
     <ClInclude Include="..\samchon\protocol\IHTMLEntity.hpp" />
     <ClInclude Include="..\samchon\protocol\Invoke.hpp" />
     <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp" />

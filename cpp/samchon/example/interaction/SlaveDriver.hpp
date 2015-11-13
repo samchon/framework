@@ -10,6 +10,8 @@ namespace samchon
 {
 	namespace example
 	{
+		namespace interaction
+		{
 		/**
 		 * @brief A slave system's driver for optimization.
 		 * 
@@ -21,33 +23,34 @@ namespace samchon
 		 * <p> @image html  cpp/example_interaction.png
 		 *	   @image latex cpp/example_interaction.png </p>
 		 * 
-		 * <p> @image html  conception/example_interaction.png
-		 *	   @image latex conception/example_interaction.png </p>
+		 * <p> @image html  conception/example_interaction_network_diagram.png
+		 *	   @image latex conception/example_interaction_network_diagram.png </p>
 		 *	   		  
 		 * \par [Inherited]
 		 *		@copydoc master::ParallelClient
 		 * 
 		 * @author Jeongho Nam
 		 */
-		class SlaveDriver
-			: public virtual protocol::master::ParallelClient
-		{
-		private:
-			typedef protocol::master::ParallelClient super;
-
-		public:
-			/**
-			 * @brief Default Constructor.
-			 */
-			SlaveDriver()
-				: super()
+			class SlaveDriver
+				: public virtual protocol::master::ParallelClient
 			{
-			};
-			virtual ~SlaveDriver() = default;
+			private:
+				typedef protocol::master::ParallelClient super;
 
-			virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override
-			{
-				systemArray->replyData(invoke);
+			public:
+				/**
+				 * @brief Default Constructor.
+				 */
+				SlaveDriver()
+					: super()
+				{
+				};
+				virtual ~SlaveDriver() = default;
+
+				virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override
+				{
+					systemArray->replyData(invoke);
+				};
 			};
 		};
 	};

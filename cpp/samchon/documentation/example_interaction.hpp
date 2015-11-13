@@ -27,41 +27,41 @@ namespace samchon
 		 * <p> @image html  cpp/example_interaction.png
 		 *	   @image latex cpp/example_interaction.png </p>
 		 * 
-		 * <p> @image html  conception/example_interaction.png
-		 *	   @image latex conception/example_interaction.png </p>  
+		 * <p> @image html  conception/example_interaction_network_diagram.png
+		 *	   @image latex conception/example_interaction_network_diagram.png </p>  
 		 *					   
 		 * <h3> Example Sources - Abstract & Basic classes </h3>
-		 * \par example/interaction/Master.hpp
+		 * \par Master.hpp
 		 *		@includelineno example/interaction/Master.hpp
-		 * \par example/interaction/Slave.hpp
+		 * \par Slave.hpp
 		 *		@includelineno example/interaction/Slave.hpp
-		 * \par example/interaction/SlaveDriver.hpp
+		 * \par SlaveDriver.hpp
 		 *		@includelineno example/interaction/SlaveDriver.hpp
-		 * \par example/interaction/ChiefDriver.hpp
+		 * \par ChiefDriver.hpp
 		 *		@includelineno example/interaction/ChiefDriver.hpp
 		 *					   
 		 * <h3> Example Sources - Chief System </h3>
-		 * \par example/interaction/Chief.hpp
+		 * \par Chief.hpp
 		 *		@includelineno example/interaction/Chief.hpp
-		 * \par example/interaction/MasterDriver.hpp
+		 * \par MasterDriver.hpp
 		 *		@includelineno example/interaction/MasterDriver.hpp
 		 *					   
 		 * <h3> Example Source - Monitor System </h3>
-		 * \par example/interaction/Monitor.hpp
+		 * \par Monitor.hpp
 		 *		@includelineno example/interaction/Monitor.hpp
 		 *					   
 		 * <h3> Example Sources - Packer Systems </h3>
-		 * \par example/interaction/PackerMaster.hpp
+		 * \par PackerMaster.hpp
 		 *		@includelineno example/interaction/PackerMaster.hpp
-		 * \par example/interaction/PackerMediator.hpp
+		 * \par PackerMediator.hpp
 		 *		@includelineno example/interaction/PackerMediator.hpp
-		 * \par example/interaction/PackerSlave.hpp
+		 * \par PackerSlave.hpp
 		 *		@includelineno example/interaction/PackerSlave.hpp
 		 *					   
 		 * <h3> Example Sources - TSP Systems </h3>
-		 * \par example/interaction/TSPMaster.hpp
+		 * \par TSPMaster.hpp
 		 *		@includelineno example/interaction/TSPMaster.hpp
-		 * \par example/interaction/TSPSlave.hpp
+		 * \par TSPSlave.hpp
 		 *		@includelineno example/interaction/TSPSlave.hpp
 		 * 
 		 * @see protocol

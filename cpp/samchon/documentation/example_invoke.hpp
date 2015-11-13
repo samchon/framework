@@ -12,8 +12,8 @@ namespace samchon
 		 *		@includelineno example/invoke/main.cpp	  
 		 *					   
 		 * \par Result of the example
-		 *		@image html  cpp/result/example_invoke.png
-		 *		@image latex cpp/result/example_invoke.png
+		 *		@image html  cpp/result/example_invoke_result.png
+		 *		@image latex cpp/result/example_invoke_result.png
 		 *
 		 * @author Jeongho Nam
 		 */

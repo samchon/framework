@@ -19,8 +19,8 @@ namespace samchon
 			 * <p> @image html  cpp/example_interaction.png
 			 *	   @image latex cpp/example_interaction.png </p>
 			 * 
-			 * <p> @image html  conception/example_interaction.png
-			 *	   @image latex conception/example_interaction.png </p>  
+			 * <p> @image html  conception/example_interaction_network_diagram.png
+			 *	   @image latex conception/example_interaction_network_diagram.png </p>  
 			 * 
 			 * \par [Inherited]
 			 *		@copydoc protocol::ExternalServer 

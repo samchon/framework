@@ -16,27 +16,27 @@ namespace samchon
 		 * <p> @image html cpp/example_packer.png
 		 * @image latex cpp/example_packer.png </p>
 		 *
-		 * <h3> Example Sources </p>
-		 * \par example/packer/Packer.hpp
+		 * <h3> Example Sources </h3>
+		 * \par Packer.hpp
 		 *		@includelineno example/packer/Packer.hpp
-		 * \par example/packer/WrapperArray.hpp
+		 * \par WrapperArray.hpp
 		 *		@includelineno example/packer/WrapperArray.hpp
-		 * \par example/packer/Wrapper.hpp
+		 * \par Wrapper.hpp
 		 *		@includelineno example/packer/Wrapper.hpp
-		 * \par example/packer/Product.hpp
+		 * \par Product.hpp
 		 *		@includelineno example/packer/Product.hpp
-		 * \par example/packer/Instance.hpp
+		 * \par Instance.hpp
 		 *		@includelineno example/packer/Instance.hpp
 		 *
 		 * <h3> Result of the example </h3>
-		 * <p> @image html cpp/result/example_packer.png
-		 * @image latex cpp/result/example_packer.png </p>
+		 * <p> @image html cpp/result/example_packer_result.png
+		 * @image latex cpp/result/example_packer_result.png </p>
 		 *
 		 * @see protocol::Entity
 		 * @see library::CaseGenerator
 		 * @author Jeongho Nam
 		 */
-		namespace tsp
+		namespace packer
 		{
 			//THIS HEADER FILE IS ONLY FOR DOCUMENTATION
 		};

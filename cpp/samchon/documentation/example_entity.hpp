@@ -12,8 +12,8 @@ namespace samchon
 		 *		@includelineno example/entity/main.cpp
 		 *
 		 * \par Result of the example
-		 *		@image html  cpp/result/example_entity.png
-		 *		@image latex cpp/result/example_entity.png
+		 *		@image html  cpp/result/example_entity_result.png
+		 *		@image latex cpp/result/example_entity_result.png
 		 * 
 		 * @author Jeongho Nam
 		 */

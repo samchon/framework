@@ -157,6 +157,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Slave.hpp" />
     <ClInclude Include="..\TSPSlave.hpp" />
     <ClInclude Include="TSPSlave.hpp" />
   </ItemGroup>

@@ -19,6 +19,20 @@ namespace samchon
 			/**
 			 * @brief A reporter printing optimization result on screen.
 			 * 
+			 * @details
+			 * <p> A reporter system prints optimization results on screen which are gotten from cheif
+			 * system. </p>
+			 * 
+			 * <p> Of course, the optimizatino results came from the Chief system are came from Master
+			 * systems and even the Master systems also got those optimization results from those own
+			 * Slave systems. </p>
+			 *  
+			 * <p> The ReportSystem class is built for be helpful for users to comprehend using chain of
+			 * responsibility pattern in network level. </p>
+			 *
+			 * \par [Inherited]
+			 *		@copydetails ChiefDriver 
+			 *
 			 * @author Jeongho Nam
 			 */
 			class Reporter

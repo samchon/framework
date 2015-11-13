@@ -8,10 +8,6 @@
 #include <samchon/example/packer/Packer.hpp>
 #include <samchon/library/CombinedPermutationGenerator.hpp>
 
-#include <array>
-#include <iostream>
-#include <mutex>
-
 namespace samchon
 {
 	namespace example
@@ -20,10 +16,8 @@ namespace samchon
 		{
 			/**
 			 * @brief A master of parallel system solving packaging problem.
-			 * 		  
-			 * @details
-			 * <p> . </p> 		   
 			 *
+			 * @details
 			 * \par [Inherited]
 			 *		@copydetails interaction::Master
 			 *
@@ -36,6 +30,9 @@ namespace samchon
 				typedef Master super;
 
 			protected:
+				/**
+				 * @brief A packer solver.
+				 */
 				std::shared_ptr<packer::Packer> packer;
 				
 			public:
@@ -56,7 +53,7 @@ namespace samchon
 				/* ---------------------------------------------------------------------------------
 					INVOKE MESSATE CHAIN
 				--------------------------------------------------------------------------------- */
-				void optimize(std::shared_ptr<library::XML> xml)
+				virtual void optimize(std::shared_ptr<library::XML> xml) override
 				{
 					super::optimize(nullptr);
 
@@ -70,7 +67,7 @@ namespace samchon
 						caseGen.size()
 					);
 				};
-				void replyOptimization(std::shared_ptr<library::XML> xml)
+				virtual void replyOptimization(std::shared_ptr<library::XML> xml) override
 				{
 					std::unique_lock<std::mutex> uk(mtx);
 

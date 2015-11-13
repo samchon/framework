@@ -158,7 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Chief.hpp" />
-    <ClInclude Include="..\SystemDriver.hpp" />
+    <ClInclude Include="..\MasterDriver.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

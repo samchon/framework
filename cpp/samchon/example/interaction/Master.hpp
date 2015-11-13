@@ -29,8 +29,11 @@ namespace samchon
 			 * slave systems report optimization result, the master system aggregates those results and reports the
 			 * aggregated results to chief system. </p>
 			 * 
-			 * <p> @image html  conception/interaction.png
-			 *	   @image latex conception/interaction.png </p>
+			 * <p> @image html  cpp/example_interaction.png
+			 *	   @image latex cpp/example_interaction.png </p>
+			 * 
+			 * <p> @image html  conception/example_interaction.png
+			 *	   @image latex conception/example_interaction.png </p>
 			 * 
 			 * \par [Inherited]
 			 *		@copydetails master::ParallelClientArray

@@ -20,10 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\SystemDriver.hpp">
+    <ClInclude Include="..\Chief.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Chief.hpp">
+    <ClInclude Include="..\MasterDriver.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

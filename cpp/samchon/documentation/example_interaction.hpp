@@ -5,17 +5,73 @@ namespace samchon
 	namespace example
 	{
 		/**
-		 * @brief A package containing examples of distributed system.
+		 * @brief An example of complicate network system.
 		 * 
 		 * @details
-		 *  
+		 * <p> The interaction module is an example solving some problems like TSP and Packer not only in
+		 * a computer in a computer but in a network level, with parallel processing system. </p>	   
+		 * 		   
+		 * <p> Principle purpose of protocol module in Samchon Framework is to constructing complicate network
+		 * system interacting with another external network systems and using master, slave modules that can
+		 * realize (tree-structured) parallel (or distributed) processing system.
+		 * 
+		 * <p> The example interaction has built for providing guidance for those things. The interaction 
+		 * demonstrates howto build complicate netwrok system eailsy by considering each system as a class
+		 * of a S/W, within framework of Object-Oriented Design. Of course, interaction module provides a
+		 * guidance for using external system and parallel processing system modules, too. </p>
+		 * 
+		 * <p> You can learn how to construct a network system interacting with external network system and
+		 * build (tree-structured) parallel processing systems which are distributing tasks (processes) by
+		 * segmentation size by following the example, interaction module.
 		 *
+		 * <p> @image html  cpp/example_interaction.png
+		 *	   @image latex cpp/example_interaction.png </p>
+		 * 
+		 * <p> @image html  conception/example_interaction.png
+		 *	   @image latex conception/example_interaction.png </p>  
+		 *					   
+		 * <h3> Example Sources - Abstract & Basic classes </h3>
+		 * \par example/interaction/Master.hpp
+		 *		@includelineno example/interaction/Master.hpp
+		 * \par example/interaction/Slave.hpp
+		 *		@includelineno example/interaction/Slave.hpp
+		 * \par example/interaction/SlaveDriver.hpp
+		 *		@includelineno example/interaction/SlaveDriver.hpp
+		 * \par example/interaction/ChiefDriver.hpp
+		 *		@includelineno example/interaction/ChiefDriver.hpp
+		 *					   
+		 * <h3> Example Sources - Chief System </h3>
+		 * \par example/interaction/Chief.hpp
+		 *		@includelineno example/interaction/Chief.hpp
+		 * \par example/interaction/MasterDriver.hpp
+		 *		@includelineno example/interaction/MasterDriver.hpp
+		 *					   
+		 * <h3> Example Source - Monitor System </h3>
+		 * \par example/interaction/Monitor.hpp
+		 *		@includelineno example/interaction/Monitor.hpp
+		 *					   
+		 * <h3> Example Sources - Packer Systems </h3>
+		 * \par example/interaction/PackerMaster.hpp
+		 *		@includelineno example/interaction/PackerMaster.hpp
+		 * \par example/interaction/PackerMediator.hpp
+		 *		@includelineno example/interaction/PackerMediator.hpp
+		 * \par example/interaction/PackerSlave.hpp
+		 *		@includelineno example/interaction/PackerSlave.hpp
+		 *					   
+		 * <h3> Example Sources - TSP Systems </h3>
+		 * \par example/interaction/TSPMaster.hpp
+		 *		@includelineno example/interaction/TSPMaster.hpp
+		 * \par example/interaction/TSPSlave.hpp
+		 *		@includelineno example/interaction/TSPSlave.hpp
+		 * 
 		 * @see protocol
+		 * @see protocol::master
+		 * @see protocol::slave
+		 * 
 		 * @author Jeongho Nam
 		 */
 		namespace interaction
 		{
-
 		};
 	};
 };

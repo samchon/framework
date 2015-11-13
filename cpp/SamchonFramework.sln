@@ -40,12 +40,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "namespace_documentation", "
 		samchon\documentation\example_interaction.hpp = samchon\documentation\example_interaction.hpp
 		samchon\documentation\library.hpp = samchon\documentation\library.hpp
 		samchon\documentation\mainpage.hpp = samchon\documentation\mainpage.hpp
-		samchon\documentation\master.hpp = samchon\documentation\master.hpp
 		samchon\documentation\namtree.hpp = samchon\documentation\namtree.hpp
 		samchon\documentation\protocol.hpp = samchon\documentation\protocol.hpp
+		samchon\documentation\protocol_master.hpp = samchon\documentation\protocol_master.hpp
+		samchon\documentation\protocol_service.hpp = samchon\documentation\protocol_service.hpp
+		samchon\documentation\protocol_slave.hpp = samchon\documentation\protocol_slave.hpp
 		samchon\documentation\samchon.hpp = samchon\documentation\samchon.hpp
-		samchon\documentation\service.hpp = samchon\documentation\service.hpp
-		samchon\documentation\slave.hpp = samchon\documentation\slave.hpp
 	EndProjectSection
 EndProject
 Global

@@ -52,11 +52,9 @@ namespace samchon
 				 * @param index Starting index of a segmentation allocated to the Slave.
 				 * @param size Size of the segmentation.
 				 */
-				void optimize(std::shared_ptr<library::XML> xml, size_t index, size_t size)
+				virtual void optimize(std::shared_ptr<library::XML> xml, size_t index, size_t size) override
 				{
-					std::cout << "----------------------------------------------------------------------------" << std::endl;
-					std::cout << "	OPTIMIZE FROM " << index << ", SIZE: " << size << std::endl;
-					std::cout << "----------------------------------------------------------------------------" << std::endl;
+					super::optimize(xml, index, size);
 
 					packer::Packer packer;
 					packer.construct(xml);

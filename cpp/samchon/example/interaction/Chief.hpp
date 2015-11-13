@@ -16,8 +16,22 @@ namespace samchon
 		namespace interaction
 		{
 			/**
-			 * @brief A chief system.
+			 * @brief A chief system managing master systems.
 			 * 		  
+			 * @details
+			 * <p> A chief system manages master systems. The chief system orders optimization processes
+			 * to each master system and get reports of the optimization results from those master systems. </p>
+			 * 		  
+			 * <p> The chief system and Chief class is built for providing a guidance for external system
+			 * module. You can study how to intergrate a system with external network system following the
+			 * example, the chief system and Chief class. </p>
+			 *
+			 * <p> @image html  cpp/example_interaction.png
+			 *	   @image latex cpp/example_interaction.png </p>
+			 * 
+			 * <p> @image html  conception/example_interaction.png
+			 *	   @image latex conception/example_interaction.png </p>  
+			 *	   		  
 			 * @details
 			 * \par [Inherited]
 			 *		@copydoc protocol::ExternalServerArray
@@ -86,6 +100,14 @@ namespace samchon
 				};
 
 			private:
+				/**
+				 * @brief Call packer master system.
+				 * 		  
+				 * @details 
+				 * <p> Sends a message to packer system for ordering find the best solution of packaging 
+				 * with its basic data. The packer system who got the ordering message will find and reply 
+				 * the best optimization result about the basic data. </p>
+				 */
 				void callPacker()
 				{
 					// CONSTRUCT PRODUCTS
@@ -111,6 +133,14 @@ namespace samchon
 					get("Packer")->sendData(std::make_shared<protocol::Invoke>("optimize", packer.toXML()));
 				};
 
+				/**
+				 * @brief Call tsp master system.
+				 * 		  
+				 * @details 
+				 * <p> Sends a message to tsp system for ordering find the best solution of tsp 
+				 * with its basic data. The tsp system who got the ordering message will find and reply 
+				 * the best optimization result about the basic data. </p>
+				 */
 				void callTSP()
 				{
 					std::shared_ptr<tsp::Travel> travel = std::make_shared<tsp::Travel>();
@@ -129,6 +159,9 @@ namespace samchon
 				/* ---------------------------------------------------------------------------------
 					MAIN
 				--------------------------------------------------------------------------------- */
+				/**
+				 * @brief Main function.
+				 */
 				static void main()
 				{
 					std::string ip;

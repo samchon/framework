@@ -18,6 +18,29 @@ namespace samchon
 	{
 		namespace interaction
 		{
+			/**
+			 * @brief A mediator of parallel system solving packaging problem.
+			 *
+			 * @details
+			 * <p> PackerMediator is a class representing mediator class of tree-structured parallel
+			 * processing system solving packaging problem. </p>
+			 * 
+			 * <p> Packer mediator system is placed on between master and slave systems. It can be a slave
+			 * system for its master, and also can be a master system for its own slave systems. Mediator 
+			 * is a class representing mediator class of parallel processing system. </p>
+			 * 
+			 * <p> The PackerMediator is built for providing a guidance of building a mediator system in 
+			 * a tree-structured parallel processing system. You can also learn how to utilize master module
+			 * in protocol by following the example. </p>
+			 *
+			 * \par [Inherited] PackerMaster
+			 *		@copydetails interaction::PackerMaster
+			 * 
+			 * \par [Inherited] ParallelClientArrayMediator
+			 *		@copydetails master::ParallelClientArrayMediator
+			 * 
+			 * @author Jeongho Nam
+			 */
 			class PackerMediator
 				: public protocol::master::ParallelClientArrayMediator
 			{
@@ -25,15 +48,31 @@ namespace samchon
 				typedef protocol::master::ParallelClientArrayMediator super;
 
 			protected:
+				/**
+				 * @brief A packer solver.
+				 */
 				std::shared_ptr<packer::Packer> packer;
-				size_t optimized;
 
+				/**
+				 * @brief A mutex for optimization.
+				 * 		  
+				 * @details 
+				 * The mutex exists for ensuring concurrency of aggregation of optimization reported from slave systems.
+				 */
 				std::mutex mtx;
+
+				/**
+				 * @brief Number of slaves who'd completed an optimization.
+				 */
+				size_t optimized;
 
 			public:
 				/* ---------------------------------------------------------------------------------
 					CONSTRUCTORS
 				--------------------------------------------------------------------------------- */
+				/**
+				 * @brief Default Constructor.
+				 */
 				PackerMediator()
 					: super()
 				{
@@ -81,6 +120,15 @@ namespace samchon
 				};
 
 			protected:
+				/**
+				 * @brief Handle (replied) optimized value from a slave system.
+				 * 		  
+				 * @details
+				 * <p> When gets optimization result from Slave systems, Master aggregates them and derives the best
+				 * solution between those results and reports the best solution to the Cheif system. </p>
+				 * 		  
+				 * @param xml XML object representing the optimized value.
+				 */
 				void replyOptimization(std::shared_ptr<library::XML> xml)
 				{
 					std::unique_lock<std::mutex> uk(mtx);
@@ -108,6 +156,9 @@ namespace samchon
 				/* ---------------------------------------------------------------------------------
 					MAIN
 				--------------------------------------------------------------------------------- */
+				/**
+				 * @brief Main functino.
+				 */
 				static void main()
 				{
 					std::string ip;

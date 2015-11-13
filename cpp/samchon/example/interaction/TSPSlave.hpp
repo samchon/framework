@@ -1,7 +1,5 @@
 #pragma once
-#include <samchon/protocol/slave/ParallelClient.hpp>
-
-#include <samchon/protocol/Invoke.hpp>
+#include <samchon/example/interaction/Slave.hpp>
 
 #include <samchon/example/tsp/Scheduler.hpp>
 
@@ -14,15 +12,19 @@ namespace samchon
 		namespace interaction
 		{
 			/**
-			 * @brief A slave system for solving TSP.
+			 * @brief A slave system solving TSP.
 			 * 
+			 * @details
+			 * \par [Inherited]
+			 *		@copydetails slave::ParallelClient 
+			 *
 			 * @author Jeongho Nam
 			 */
 			class TSPSlave
-				: public protocol::slave::ParallelClient
+				: public Slave
 			{
 			private:
-				typedef protocol::slave::ParallelClient super;
+				typedef Slave super;
 
 			public:
 				/* ---------------------------------------------------------------------------------
@@ -34,40 +36,18 @@ namespace samchon
 				 * @param ip IP address of the master.
 				 */
 				TSPSlave(const std::string &ip)
-					: super()
+					: super(ip, 37100)
 				{
-					this->ip = ip;
-					this->port = 37100;
 				};
 				virtual ~TSPSlave() = default;
 
+			protected:
 				/* ---------------------------------------------------------------------------------
 					INVOKE MESSAGE CHAIN
 				--------------------------------------------------------------------------------- */
-				virtual void replyPieceData(std::shared_ptr<protocol::Invoke> invoke, size_t index, size_t size) override
+				virtual void optimize(std::shared_ptr<library::XML> xml, size_t index, size_t size) override
 				{
-					if (invoke->getListener() == "optimize")
-						optimize
-						(
-							invoke->at(0)->getvalueAsXML(),
-							index,
-							size
-							);
-				};
-
-			protected:
-				/**
-				 * @brief Optimize TSP and report the result.
-				 * 
-				 * @param xml XML object representing a Travel.
-				 * @param index Starting index of a segmentation allocated to the Slave.
-				 * @param size Size of the segmentation.
-				 */
-				void optimize(std::shared_ptr<library::XML> xml, size_t index, size_t size)
-				{
-					std::cout << "----------------------------------------------------------------------------" << std::endl;
-					std::cout << "	OPTIMIZE FROM " << index << ", SIZE: " << size << std::endl;
-					std::cout << "----------------------------------------------------------------------------" << std::endl;
+					super::optimize(xml, index, size);
 
 					tsp::Scheduler scheduler;
 					scheduler.construct(xml);

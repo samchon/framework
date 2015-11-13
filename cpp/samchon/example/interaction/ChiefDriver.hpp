@@ -16,16 +16,25 @@ namespace samchon
 			 * @brief A boundary class interacting with a Chief system.
 			 * 
 			 * @details
-			 * <p> ChiefDriver is a boundary class interacting with a Chief system as a server. It is used in master 
-			 * system with the Master class. The ChiefDriver is designed to providing guidance of realizing network
-			 * system within framework of OOD, handling a network system like a software class. </p>
+			 * <p> ChiefDriver is a boundary class interacting with a chief system as a server. However, the
+			 * ChiefDriver represents a weird server that accepts only a client, the chief system. </p>
+			 * 
+			 * <p> The ChiefDriver is built for providing a guidance for designing a boundary class which is
+			 * representing an unusual system within framework of OOD, handling a network system like a
+			 * software class of Object-Oriented Design. </p>
 			 *
-			 * <p> ChiefDriver opens a server for real Chief system. ChiefDriver accepts only a client (Chief system)
-			 * at once. It has same role with the OneToOneSystem in protocol module. </p>
+			 * <p> @image html  cpp/example_interaction.png
+			 *	   @image latex cpp/example_interaction.png </p>
+			 * 
+			 * <p> @image html  conception/example_interaction.png
+			 *	   @image latex conception/example_interaction.png </p>
 			 *
-			 * <p> @image html  conception/interaction.png
-			 *	   @image latex conception/interaction.png </p>
-			 *
+			 * \par [Inherited] IServer
+			 *		@copydetails protocol::IServer
+			 *					 
+			 * \par [Inherited] IClient
+			 *		@copydetails protocol::IClient
+			 * 
 			 * @see protocol
 			 * @author Jeongho Nam
 			 */
@@ -49,8 +58,6 @@ namespace samchon
 
 				/**
 				 * @brief A mutex for realizing 1:1 server.
-				 * 		  
-				 * @see protocol::OneToOneServer
 				 */
 				std::mutex mtx;
 

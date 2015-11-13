@@ -14,6 +14,16 @@ namespace samchon
 		 * @brief A slave system's driver for optimization.
 		 * 
 		 * @details
+		 * <p> SlaveDriver is a boundary class interacting with a slave system by inheriting 
+		 * master::ParallelClient. The SlaveDriver is built for providing a guidance of utilizing slave
+		 * driver in master module of protocol. </p>
+		 * 		   
+		 * <p> @image html  cpp/example_interaction.png
+		 *	   @image latex cpp/example_interaction.png </p>
+		 * 
+		 * <p> @image html  conception/example_interaction.png
+		 *	   @image latex conception/example_interaction.png </p>
+		 *	   		  
 		 * \par [Inherited]
 		 *		@copydoc master::ParallelClient
 		 * 

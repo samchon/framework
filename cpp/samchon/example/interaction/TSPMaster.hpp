@@ -7,11 +7,6 @@
 
 #include <samchon/example/tsp/Scheduler.hpp>
 
-#include <array>
-#include <iostream>
-#include <mutex>
-#include <thread>
-
 namespace samchon
 {
 	namespace example

@@ -8,12 +8,19 @@ namespace samchon
 		namespace interaction
 		{
 			/**
-			 * @brief A driver for each system.
+			 * @brief A driver for each system, master.
 			 * 		  
 			 * @details
-			 * <p> SystemDriver is a boundary class interacting with a system which is one of them; PackerMaster, 
-			 * TSPMaster and Reporter. The SystemDriver classes are belonged to a Chief logically and real systems
-			 * associated with the SystemDriver classes are belonged to a Cheif physically. </p>
+			 * <p> MasterDriver is a boundary class interacting with a master system which is one of them; 
+			 * PackerMaster, TSPMaster and Reporter. The MasterDriver classes are belonged to a Chief 
+			 * logically and real systems associated with the MasterDriver classes are belonged to 
+			 * a Cheif physically. </p>
+			 * 
+			 * <p> @image html  cpp/example_interaction.png
+			 *	   @image latex cpp/example_interaction.png </p>
+			 * 
+			 * <p> @image html  conception/example_interaction.png
+			 *	   @image latex conception/example_interaction.png </p>  
 			 * 
 			 * \par [Inherited]
 			 *		@copydoc protocol::ExternalServer 
@@ -27,26 +34,25 @@ namespace samchon
 				typedef protocol::ExternalServer super;
 
 				/**
-				 * @brief A parent, master object.
+				 * @brief A chief, containing the driver object.
 				 * 		  
-				 * @details A parent object representing a master, which means a Chief.
-				 * 			The system interacting with the SystemDriver class is belonged to the parent.
+				 * @details A Chief instance belonging the MasterDriver object.
 				 */
-				protocol::IProtocol *parent;
+				protocol::IProtocol *chief;
 
 			public:
 				/**
 				 * @brief Construct from parent(master), name, ip and port.
 				 * 
-				 * @param parent Parent object means a Cheif.
+				 * @param chief A Chief object that the MasterDriver is belonged to.
 				 * @param name Name of the system the driver is connected to.
 				 * @param ip IP address of the slave system.
 				 * @param port Port number of the slave system.
 				 */
-				MasterDriver(protocol::IProtocol *parent, const std::string &name, const std::string &ip, int port)
+				MasterDriver(protocol::IProtocol *chief, const std::string &name, const std::string &ip, int port)
 					: super()
 				{
-					this->parent = parent;
+					this->chief = chief;
 					this->name = name;
 
 					this->ip = ip;
@@ -63,7 +69,7 @@ namespace samchon
 			public:
 				virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override
 				{
-					parent->replyData(invoke);
+					chief->replyData(invoke);
 				};
 			};
 		};

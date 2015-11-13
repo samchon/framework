@@ -28,15 +28,15 @@ namespace samchon
 		 * <p> A simple chat server running on console </p>
 		 *
 		 *	\par example/console_chat_server/ChatServer.hpp
-		 *		@includelineno console_chat_server/ChatServer.hpp
+		 *		@includelineno example/console_chat_server/ChatServer.hpp
 		 *	\par example/console_chat_server/ChatServer.cpp
-		 *		@includelineno console_chat_server/ChatServer.cpp
+		 *		@includelineno example/console_chat_server/ChatServer.cpp
 		 *	\par example/console_chat_server/ChatClient.hpp
-		 *		@includelineno console_chat_server/ChatClient.hpp
+		 *		@includelineno example/console_chat_server/ChatClient.hpp
 		 *	\par example/console_chat_server/ChatClient.cpp
-		 *		@includelineno console_chat_server/ChatClient.cpp
+		 *		@includelineno example/console_chat_server/ChatClient.cpp
 		 *	\par example/console_chat_server/main.cpp
-		 *		@includelineno console_chat_server/main.cpp
+		 *		@includelineno example/console_chat_server/main.cpp
 		 *
 		 * @author Jeongho Nam
 		 */

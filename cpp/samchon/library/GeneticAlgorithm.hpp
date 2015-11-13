@@ -11,21 +11,7 @@ namespace samchon
 	{
 		/**
 		 * @brief A genetic algorithm class
-		 *
-		 * @details
-		 * <p> In the field of artificial intelligence, a genetic algorithm (GA) is a search heuristic 
-		 * that mimics the process of natural selection. This heuristic (also sometimes called a metaheuristic) 
-		 * is routinely used to generate useful solutions to optimization and search problems. </p>
-		 * 
-		 * <p> Genetic algorithms belong to the larger class of evolutionary algorithms (EA), which generate 
-		 * solutions to optimization problems using techniques inspired by natural evolution, such as 
-		 * inheritance, mutation, selection, and crossover. </p>
-		 *
-		 *	\li Referenced Wikipedia: https://en.wikipedia.org/wiki/Genetic_algorithm
-		 *
-		 * <p> @image html cpp/subset/library_genetic_algorithm.png
-		 * @image latex cpp/subset/library_genetic_algorithm.png </p>
-		 *
+		 * 		  
 		 * @tparam GeneArray An array(std::vector) containing genes as elments; sequnce listing.\n\n
 		 * The GeneArray must be a type of <i>std::vector</i>.
 		 *
@@ -48,29 +34,23 @@ namespace samchon
 		 auto operator()(const _Ty &newObj, const _Ty &prevObj) const -> bool;
 		 };
 		 * @endcode
-		 *
-		 * <h3>Example source</h3>
-		 * <p> TSP - Traveling Salesman Problem </p>
 		 * 
-		 * \par example/tsp/Scheduler.hpp
-		 *		@includelineno example/tsp/Scheduler.hpp
-		 * \par example/tsp/Travel.hpp
-		 *		@includelineno example/tsp/Travel.hpp
-		 * \par example/tsp/GeometryPoint.hpp
-		 *		@includelineno example/tsp/GeometryPoint.hpp
+		 * @details
+		 * <p> In the field of artificial intelligence, a genetic algorithm (GA) is a search heuristic 
+		 * that mimics the process of natural selection. This heuristic (also sometimes called a metaheuristic) 
+		 * is routinely used to generate useful solutions to optimization and search problems. </p>
+		 * 
+		 * <p> Genetic algorithms belong to the larger class of evolutionary algorithms (EA), which generate 
+		 * solutions to optimization problems using techniques inspired by natural evolution, such as 
+		 * inheritance, mutation, selection, and crossover. </p>
 		 *
-		 * \par example/tsp/main.cpp
-		 *		@includelineno example/tsp/main.cpp
-		 * \par example/tsp/Scheduler.cpp
-		 *		@includelineno example/tsp/Scheduler.cpp
-		 * \par example/tsp/Travel.cpp
-		 *		@includelineno example/tsp/Travel.cpp
-		 * \par example/tsp/GeometryPoint.cpp
-		 *		@includelineno example/tsp/GeometryPoint.cpp
+		 *	\li Referenced Wikipedia: https://en.wikipedia.org/wiki/Genetic_algorithm
 		 *
-		 * <h4> Result of the example </h4>
-		 * @image html  cpp/result/example_tsp.png
-		 * @image latex cpp/result/example_tsp.png
+		 * <p> @image html cpp/subset/library_genetic_algorithm.png
+		 * @image latex cpp/subset/library_genetic_algorithm.png </p>
+		 *
+		 * \par Example Sources
+		 *	\li example::tsp
 		 *
 		 * @warning
 		 * <p> Be careful for the mistakes of direction or position of Compare. </p>
@@ -78,6 +58,7 @@ namespace samchon
 		 *
 		 * @see library::GAPopulation
 		 * @see samchon::library
+		 * @see example::tsp
 		 * @author Jeongho Nam
 		 */
 		template <typename GeneArray, typename Compare = std::less<GeneArray>>

@@ -11,9 +11,9 @@ namespace samchon
 		 * <p> The interaction module is an example solving some problems like TSP and Packer not only in
 		 * a computer in a computer but in a network level, with parallel processing system. </p>	   
 		 * 		   
-		 * <p> Principle purpose of protocol module in Samchon Framework is to constructing complicate network
-		 * system interacting with another external network systems and using master, slave modules that can
-		 * realize (tree-structured) parallel (or distributed) processing system.
+		 * <p> Principle purpose of protocol module in Samchon Framework is to constructing complicate 
+		 * network system interacting with another external network systems and using master, slave modules 
+		 * that can realize (tree-structured) parallel (or distributed) processing system. </p>
 		 * 
 		 * <p> The example interaction has built for providing guidance for those things. The interaction 
 		 * demonstrates howto build complicate netwrok system eailsy by considering each system as a class
@@ -22,7 +22,7 @@ namespace samchon
 		 * 
 		 * <p> You can learn how to construct a network system interacting with external network system and
 		 * build (tree-structured) parallel processing systems which are distributing tasks (processes) by
-		 * segmentation size by following the example, interaction module.
+		 * segmentation size by following the example, interaction module. </p>
 		 *
 		 * <p> @image html  cpp/example_interaction.png
 		 *	   @image latex cpp/example_interaction.png </p>
@@ -72,6 +72,7 @@ namespace samchon
 		 */
 		namespace interaction
 		{
+			//THIS HEADER FILE IS ONLY FOR DOCUMENTATION
 		};
 	};
 };

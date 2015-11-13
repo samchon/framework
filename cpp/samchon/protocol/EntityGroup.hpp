@@ -26,7 +26,7 @@ namespace samchon
 		 * relationshiop meets a terminal node, then make the terminal node to be an Entity. </p>
 		 *
 		 * <p> @image html  cpp/example_inspect.png
-		 * @image latex cpp/example_inspect.png </p>
+		 *	   @image latex cpp/example_inspect.png </p>
 		 * 
 		 * <p> EntityGroup is an Entity, and a container of children Entity objects at the same time. If
 		 * children type, of a class derived from an EntityGroup, is itself, you can realize hierarchical
@@ -40,7 +40,7 @@ namespace samchon
 		 * representing Entity and EntityGroup by XML. Below T-SQL script also follows the standard format 
 		 * of expressing Entity with XML by procedure and "FOR XML AUTO" statement. </p>
 		 * 
-		 * @includelineno entity/goCandidateInspectList.sql
+		 * @includelineno example/entity/goCandidateInspectList.sql
 		 *
 		 * @warning
 		 * <p> EntityGroup contains children entity elements as type of pointer. Because children entity

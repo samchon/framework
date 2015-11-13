@@ -812,8 +812,5 @@
     <ClCompile Include="..\samchon\namtree\NTSide.cpp">
       <Filter>Source Files\nam-tree</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

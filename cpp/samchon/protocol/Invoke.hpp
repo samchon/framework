@@ -28,18 +28,20 @@ namespace samchon
 		 * (IProtocol, IServer and IClient + ServerConnector), by implemens or inherits them, like designing
 		 * classes of S/W architecture. </p>
 		 *
-		 * @image html  cpp/protocol_invoke.png
-		 * @image latex cpp/protocol_invoke.png
+		 * <p> @image html  cpp/protocol_invoke.png
+		 *	   @image latex cpp/protocol_invoke.png </p>
+		 * 
+		 * \par Example Sources
+		 *	\li example::invoke
+		 *	\li example::interaction
 		 *
-		 * \par Example source
-		 * @includelineno invoke/main.cpp
-		 *
-		 * <h4> Result of the example </h4>
-		 * @image html  cpp/result/example_invoke.png
-		 * @image latex cpp/result/example_invoke.png
-		 *
-		 * @see samchon::protocol
+		 * \par [Inherited]
+		 *		@copydetails protocol::EntityGroup
+		 * 
 		 * @see protocol::IProtocol
+		 * @see protocol::InvokeParameter
+		 * @see samchon::protocol
+		 * 		
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API Invoke

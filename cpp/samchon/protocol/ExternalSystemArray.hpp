@@ -28,11 +28,16 @@ namespace samchon
 		 * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole 
 		 * is belonged to which ExternalSystem. </p>
 		 *
-		 *	\li ExternalSystemArray::getRole("something")->sendData(invoke);
+		 * @code
+		 ExternalSystemArray::getRole("something")->sendData(invoke);
+		 * @endcode
 		 * 
-		 * @image html  cpp/protocol_external_system.png
-		 * @image latex cpp/protocol_external_system.png
+		 * <p> @image html  cpp/protocol_external_system.png
+		 *	   @image latex cpp/protocol_external_system.png </p>
 		 *
+		 * \par Example Sources
+		 *	\li example::interaction
+		 * 
 		 * @see samchon::protocol
 		 * @author Jeongho Nam
 		 */

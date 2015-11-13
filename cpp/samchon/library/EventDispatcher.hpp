@@ -25,13 +25,14 @@ namespace samchon
 		 * <p> All the events are sent asynchronously. To avoid from creating tooo enourmouse threads
 		 * dispatching events, all event sending processes will acuiqre a semaphore. The default permitted
 		 * size of the semaphore is 2. </p>
+		 * 
 		 *	\li Number of thread pools used to sending events is 2.
 		 *
-		 * @image html  cpp/library_event.png
-		 * @image latex cpp/library_event.png
+		 * <p> @image html  cpp/library_event.png
+		 *	   @image latex cpp/library_event.png </p>
 		 *
-		 * \par Example source
-		 * @includelineno event/main.cpp
+		 * \par Example Source
+		 *		@includelineno example/event/main.cpp
 		 *
 		 * @deprecated 
 		 * <p> EventDispatcher is a candidate to be deprecated. </p>

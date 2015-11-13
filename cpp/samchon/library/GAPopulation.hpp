@@ -11,17 +11,6 @@ namespace samchon
 		/**
 		 * @brief A population of a generation in G.A.
 		 *
-		 * @details
-		 * <p> GAPopulation is a class representing population of candidate genes(sequence listing) 
-		 * having an array of GeneArray as a member. GAPopulation also manages initial set of genes and
-		 * handles fitting test direclty by the method <i>fitTest</i>. </p>
-		 *
-		 * <p> The success of evolution of genetic alogirhtm is depend on the GAPopulation's initial set 
-		 * and fitting test. (GeneArray and Compare.) </p>
-		 *
-		 * <p> @image html cpp/subset/library_genetic_algorithm.png
-		 * @image latex cpp/subset/library_genetic_algorithm.png </p>
-		 *
 		 * @tparam GeneArray
 		 * <p> An array(std::vector) containing genes as elments; sequnce listing </p>
 		 * <p> The GeneArray must be a type of <i>std::vector</i>. </p>
@@ -45,13 +34,28 @@ namespace samchon
 		 auto operator()(const _Ty &newObj, const _Ty &prevObj) const -> bool;
 		 };
 		 * @endcode
+		 * 
+		 * @details
+		 * <p> GAPopulation is a class representing population of candidate genes(sequence listing) 
+		 * having an array of GeneArray as a member. GAPopulation also manages initial set of genes and
+		 * handles fitting test direclty by the method <i>fitTest</i>. </p>
 		 *
+		 * <p> The success of evolution of genetic alogirhtm is depend on the GAPopulation's initial set 
+		 * and fitting test. (GeneArray and Compare.) </p>
+		 *
+		 * <p> @image html cpp/subset/library_genetic_algorithm.png
+		 * @image latex cpp/subset/library_genetic_algorithm.png </p>
+		 *
+		 * \par Example Sources
+		 *	\li example::tsp
+		 * 
 		 * @warning
 		 * <p> Be careful for the mistakes of direction or position of Compare. </p>
 		 * <p> Most of logical errors failed to access optimal solution are occured by those mistakens. </p>
 		 * 
 		 * @see library::GeneticAlgorithm
 		 * @see samchon::library
+		 * @see example::tsp
 		 * @author Jeonghoh Nam
 		 */
 		template <typename GeneArray, typename Compare = std::less<GeneArray>>

@@ -21,11 +21,11 @@ namespace samchon
 		 * this basic information is sufficient. Other events, however, may require more detailed 
 		 * information. </p>
 		 *
-		 * @image html  cpp/library_event.png
-		 * @image latex cpp/library_event.png
+		 * <p> @image html  cpp/library_event.png
+		 *	   @image latex cpp/library_event.png </p>
 		 *
-		 * \par Example source
-		 * @includelineno event/main.cpp
+		 * \par Example Source
+		 *		@includelineno example/event/main.cpp
 		 *
 		 * @deprecated 
 		 * <p> Event is a candidate to be deprecated. </p>

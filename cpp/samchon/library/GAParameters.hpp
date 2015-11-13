@@ -11,8 +11,12 @@ namespace samchon
 		 * @details
 		 * <p> The number and rate parameters in the structure affects success of evolution of genetic algorithm. </p> 
 		 *
+		 * \par Example Sources
+		 *	\li example::tsp
+		 *
 		 * @see library::GeneticAlgorithm
 		 * @see library::GAPopulation
+		 * @see example::tsp
 		 * @author Jeongho Nam
 		 */
 		struct GAParameters

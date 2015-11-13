@@ -27,15 +27,13 @@ namespace samchon
 		 * concentrate on entity's own logics and relationships between another entities. Entity does not
 		 * need to how network communications are being done. </p>
 		 *
-		 * @image html  cpp/protocol_entity.png
-		 * @image latex cpp/protocol_entity.png
-		 *
-		 * \par Example source
-		 * @includelineno entity/main.cpp
-		 *
-		 * <h4> Result of the example </h4>
-		 * @image html  cpp/result/example_entity.png
-		 * @image latex cpp/result/example_entity.png
+		 * <p> @image html  cpp/protocol_entity.png
+		 *	   @image latex cpp/protocol_entity.png </p>
+		 * 
+		 * \par Example Sources
+		 *	\li example::entity
+		 *	\li example::packer
+		 *	\li example::tsp
 		 * 
 		 * @note
 		 * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi

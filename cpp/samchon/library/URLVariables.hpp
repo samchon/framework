@@ -22,7 +22,7 @@ namespace samchon
 		 * @image latex cpp/subset/library_http.png
 		 *
 		 * <h4> Example code </h4>
-		 * @includelineno url_variables/main.cpp
+		 * @includelineno example/url_variables/main.cpp
 		 *
 		 * @see samchon::library
 		 * @author Jeongho Nam

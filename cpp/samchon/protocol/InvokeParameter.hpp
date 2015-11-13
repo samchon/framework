@@ -35,8 +35,12 @@ namespace samchon
 		 * values of the custom type must be enable to expressed by one of those types; number, string, XML 
 		 * and ByteArray. </p>
 		 *
-		 * @image html  cpp/protocol_invoke.png
-		 * @image latex cpp/protocol_invoke.png
+		 * <p> @image html  cpp/protocol_invoke.png
+		 *	   @image latex cpp/protocol_invoke.png </p>
+		 * 		  
+		 * \par Example Sources
+		 *	\li example::invoke
+		 *	\li example::interaction
 		 *
 		 * @note
 		 * <p> A member variable void* representing any type of value is deprecated. </p>
@@ -49,6 +53,9 @@ namespace samchon
 		 * replaced to <i>boost::any</i>. And the <i>void* value</i> is really deprecated since 
 		 * version v1.0. </p>
 		 *
+		 * \par [Inherited]
+		 *		@copydetails protocol::Entity
+		 * 
 		 * @see protocol::Invoke
 		 * @see samchon::protocol
 		 * @author Jeongho Nam

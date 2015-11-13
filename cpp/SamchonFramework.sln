@@ -7,8 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamchonFramework", "Samchon
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "http", "samchon\example\http\http.vcxproj", "{BA5A7C2E-B22F-4446-B683-D327CC18A943}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "interaction", "interaction", "{18117241-9642-46A1-9C04-003C165FFA72}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chief", "samchon\example\interaction\chief\chief.vcxproj", "{B7C1CBAD-70A0-4707-9515-E505DD66A943}"
@@ -33,11 +31,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{975815
 		samchon\example\interaction\SlaveDriver.hpp = samchon\example\interaction\SlaveDriver.hpp
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "samchon\example\test\test.vcxproj", "{58F5FE1D-48E7-4CD8-8D50-8A2FEF7C8038}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "namespace_documentation", "namespace_documentation", "{BCD16A47-DF7C-4B5E-BE61-7DBD24870D2E}"
 	ProjectSection(SolutionItems) = preProject
+		samchon\documentation\example.hpp = samchon\documentation\example.hpp
 		samchon\documentation\example_interaction.hpp = samchon\documentation\example_interaction.hpp
+		samchon\documentation\example_packer.hpp = samchon\documentation\example_packer.hpp
+		samchon\documentation\example_tsp.hpp = samchon\documentation\example_tsp.hpp
 		samchon\documentation\library.hpp = samchon\documentation\library.hpp
 		samchon\documentation\mainpage.hpp = samchon\documentation\mainpage.hpp
 		samchon\documentation\namtree.hpp = samchon\documentation\namtree.hpp
@@ -46,6 +45,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "namespace_documentation", "
 		samchon\documentation\protocol_service.hpp = samchon\documentation\protocol_service.hpp
 		samchon\documentation\protocol_slave.hpp = samchon\documentation\protocol_slave.hpp
 		samchon\documentation\samchon.hpp = samchon\documentation\samchon.hpp
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "packer", "example\packer\packer.vcxproj", "{9B435D36-1937-43C0-8B91-14B37241DFAB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tsp", "example\tsp\tsp.vcxproj", "{E6339412-89BB-40F0-9CC4-2A7325E910E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{186F8973-0E74-439B-82B2-A991806A8717}"
+	ProjectSection(SolutionItems) = preProject
+		samchon\documentation\example.hpp = samchon\documentation\example.hpp
+		samchon\documentation\example_entity.hpp = samchon\documentation\example_entity.hpp
+		samchon\documentation\example_event.hpp = samchon\documentation\example_event.hpp
+		samchon\documentation\example_interaction.hpp = samchon\documentation\example_interaction.hpp
+		samchon\documentation\example_invoke.hpp = samchon\documentation\example_invoke.hpp
+		samchon\documentation\example_packer.hpp = samchon\documentation\example_packer.hpp
+		samchon\documentation\example_tsp.hpp = samchon\documentation\example_tsp.hpp
 	EndProjectSection
 EndProject
 Global
@@ -64,14 +78,6 @@ Global
 		{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}.Release|x64.Build.0 = Release|x64
 		{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}.Release|x86.ActiveCfg = Release|Win32
 		{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}.Release|x86.Build.0 = Release|Win32
-		{BA5A7C2E-B22F-4446-B683-D327CC18A943}.Debug|x64.ActiveCfg = Debug|x64
-		{BA5A7C2E-B22F-4446-B683-D327CC18A943}.Debug|x64.Build.0 = Debug|x64
-		{BA5A7C2E-B22F-4446-B683-D327CC18A943}.Debug|x86.ActiveCfg = Debug|Win32
-		{BA5A7C2E-B22F-4446-B683-D327CC18A943}.Debug|x86.Build.0 = Debug|Win32
-		{BA5A7C2E-B22F-4446-B683-D327CC18A943}.Release|x64.ActiveCfg = Release|x64
-		{BA5A7C2E-B22F-4446-B683-D327CC18A943}.Release|x64.Build.0 = Release|x64
-		{BA5A7C2E-B22F-4446-B683-D327CC18A943}.Release|x86.ActiveCfg = Release|Win32
-		{BA5A7C2E-B22F-4446-B683-D327CC18A943}.Release|x86.Build.0 = Release|Win32
 		{B7C1CBAD-70A0-4707-9515-E505DD66A943}.Debug|x64.ActiveCfg = Debug|x64
 		{B7C1CBAD-70A0-4707-9515-E505DD66A943}.Debug|x64.Build.0 = Debug|x64
 		{B7C1CBAD-70A0-4707-9515-E505DD66A943}.Debug|x86.ActiveCfg = Debug|Win32
@@ -128,20 +134,27 @@ Global
 		{F389126B-B6BA-47E5-90F0-03717DDFB153}.Release|x64.Build.0 = Release|x64
 		{F389126B-B6BA-47E5-90F0-03717DDFB153}.Release|x86.ActiveCfg = Release|Win32
 		{F389126B-B6BA-47E5-90F0-03717DDFB153}.Release|x86.Build.0 = Release|Win32
-		{58F5FE1D-48E7-4CD8-8D50-8A2FEF7C8038}.Debug|x64.ActiveCfg = Debug|x64
-		{58F5FE1D-48E7-4CD8-8D50-8A2FEF7C8038}.Debug|x64.Build.0 = Debug|x64
-		{58F5FE1D-48E7-4CD8-8D50-8A2FEF7C8038}.Debug|x86.ActiveCfg = Debug|Win32
-		{58F5FE1D-48E7-4CD8-8D50-8A2FEF7C8038}.Debug|x86.Build.0 = Debug|Win32
-		{58F5FE1D-48E7-4CD8-8D50-8A2FEF7C8038}.Release|x64.ActiveCfg = Release|x64
-		{58F5FE1D-48E7-4CD8-8D50-8A2FEF7C8038}.Release|x64.Build.0 = Release|x64
-		{58F5FE1D-48E7-4CD8-8D50-8A2FEF7C8038}.Release|x86.ActiveCfg = Release|Win32
-		{58F5FE1D-48E7-4CD8-8D50-8A2FEF7C8038}.Release|x86.Build.0 = Release|Win32
+		{9B435D36-1937-43C0-8B91-14B37241DFAB}.Debug|x64.ActiveCfg = Debug|x64
+		{9B435D36-1937-43C0-8B91-14B37241DFAB}.Debug|x64.Build.0 = Debug|x64
+		{9B435D36-1937-43C0-8B91-14B37241DFAB}.Debug|x86.ActiveCfg = Debug|Win32
+		{9B435D36-1937-43C0-8B91-14B37241DFAB}.Debug|x86.Build.0 = Debug|Win32
+		{9B435D36-1937-43C0-8B91-14B37241DFAB}.Release|x64.ActiveCfg = Release|x64
+		{9B435D36-1937-43C0-8B91-14B37241DFAB}.Release|x64.Build.0 = Release|x64
+		{9B435D36-1937-43C0-8B91-14B37241DFAB}.Release|x86.ActiveCfg = Release|Win32
+		{9B435D36-1937-43C0-8B91-14B37241DFAB}.Release|x86.Build.0 = Release|Win32
+		{E6339412-89BB-40F0-9CC4-2A7325E910E3}.Debug|x64.ActiveCfg = Debug|x64
+		{E6339412-89BB-40F0-9CC4-2A7325E910E3}.Debug|x64.Build.0 = Debug|x64
+		{E6339412-89BB-40F0-9CC4-2A7325E910E3}.Debug|x86.ActiveCfg = Debug|Win32
+		{E6339412-89BB-40F0-9CC4-2A7325E910E3}.Debug|x86.Build.0 = Debug|Win32
+		{E6339412-89BB-40F0-9CC4-2A7325E910E3}.Release|x64.ActiveCfg = Release|x64
+		{E6339412-89BB-40F0-9CC4-2A7325E910E3}.Release|x64.Build.0 = Release|x64
+		{E6339412-89BB-40F0-9CC4-2A7325E910E3}.Release|x86.ActiveCfg = Release|Win32
+		{E6339412-89BB-40F0-9CC4-2A7325E910E3}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{BA5A7C2E-B22F-4446-B683-D327CC18A943} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
 		{18117241-9642-46A1-9C04-003C165FFA72} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
 		{B7C1CBAD-70A0-4707-9515-E505DD66A943} = {18117241-9642-46A1-9C04-003C165FFA72}
 		{1B716C24-832D-443A-997B-5F4E1C5A5548} = {18117241-9642-46A1-9C04-003C165FFA72}
@@ -151,6 +164,8 @@ Global
 		{DBD79330-4A1A-4FFE-B318-D7939A1005B9} = {18117241-9642-46A1-9C04-003C165FFA72}
 		{F389126B-B6BA-47E5-90F0-03717DDFB153} = {18117241-9642-46A1-9C04-003C165FFA72}
 		{9758159C-9F5F-4E38-BC8C-DBED1864D8B0} = {18117241-9642-46A1-9C04-003C165FFA72}
-		{58F5FE1D-48E7-4CD8-8D50-8A2FEF7C8038} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
+		{9B435D36-1937-43C0-8B91-14B37241DFAB} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
+		{E6339412-89BB-40F0-9CC4-2A7325E910E3} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
+		{186F8973-0E74-439B-82B2-A991806A8717} = {BCD16A47-DF7C-4B5E-BE61-7DBD24870D2E}
 	EndGlobalSection
 EndGlobal

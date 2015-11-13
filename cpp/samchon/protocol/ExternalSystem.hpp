@@ -21,8 +21,11 @@ namespace samchon
 		 * interacting with the external system, by subject or unit of a moudle. The ExternalSystemRole is 
 		 * categorized in a 'control'. </p>
 		 *
-		 * @image html  cpp/protocol_external_system.png
-		 * @image latex cpp/protocol_external_system.png
+		 * <p> @image html  cpp/protocol_external_system.png
+		 *	   @image latex cpp/protocol_external_system.png </p>
+		 *	   		  
+		 * \par Example Sources
+		 *	\li example::interaction
 		 *
 		 * @note
 		 * <p> The ExternalSystem class takes a role of interaction with external system in network level.

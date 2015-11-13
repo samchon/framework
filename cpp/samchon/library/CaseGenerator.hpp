@@ -16,39 +16,8 @@ namespace samchon
 		 *	\li nPr -> PermutationGenerator
 		 *	\li n! -> FactorialGenerator
 		 *
-		 * <h3>Example source</h3>
-		 * <p> Packer - Find the best packaging solution </p>
-		 *
-		 * @image html cpp/example_packer.png
-		 * @image latex cpp/example_packer.png
-		 *
-		 * \par example/packer/Packer.hpp
-		 *		@includelineno example/packer/Packer.hpp
-		 * \par example/packer/WrapperArray.hpp
-		 *		@includelineno example/packer/WrapperArray.hpp
-		 * \par example/packer/Wrapper.hpp
-		 *		@includelineno example/packer/Wrapper.hpp
-		 * \par example/packer/Product.hpp
-		 *		@includelineno example/packer/Product.hpp
-		 * \par example/packer/Instance.hpp
-		 *		@includelineno example/packer/Instance.hpp
-		 *
-		 * \par example/packer/main.cpp
-		 *		@includelineno example/packer/main.cpp
-		 * \par example/packer/Packer.cpp
-		 *		@includelineno example/packer/Packer.cpp
-		 * \par example/packer/WrapperArray.cpp
-		 *		@includelineno example/packer/WrapperArray.cpp
-		 * \par example/packer/Wrapper.cpp
-		 *		@includelineno example/packer/Wrapper.cpp
-		 * \par example/packer/Product.cpp
-		 *		@includelineno example/packer/Product.cpp
-		 * \par example/packer/Instance.cpp
-		 *		@includelineno example/packer/Instance.cpp
-		 *
-		 * <h4> Result of the example </h4>
-		 * @image html  cpp/result/example_packer.png
-		 * @image latex cpp/result/example_packer.png
+		 * \par Example Sources
+		 *	\li example::packer
 		 *
 		 * @see samchon::library
 		 * @author Jeongho Nam

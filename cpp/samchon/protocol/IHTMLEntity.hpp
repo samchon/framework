@@ -27,7 +27,7 @@ namespace samchon
 		 * @image latex cpp/protocol_entity.png
 		 *
 		 * \par Example source
-		 * @includelineno entity/main.cpp
+		 * @includelineno example/entity/main.cpp
 		 *
 		 * <h4> Result of the example </h4>
 		 * @image html  cpp/result/example_entity.png

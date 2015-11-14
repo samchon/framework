@@ -2,6 +2,7 @@
 
 #include <samchon/protocol/master/ParallelSystemArray.hpp>
 #include <samchon/protocol/master/PRInvokeHistoryArray.hpp>
+#include <samchon/protocol/master/PRInvokeHistory.hpp>
 
 #include <samchon/library/XML.hpp>
 #include <samchon/protocol/Invoke.hpp>

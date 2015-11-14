@@ -90,7 +90,7 @@ namespace samchon
 				 *	\li Ordinary distributed system is disconnected.
 				 *	\li Deviation of elapsed time of whole DistributedSystem overs limited value.
 				 *
-				 * <p>
+				 * @todo Design new allocation plan.
 				 */
 				virtual void allocateRoles();
 
@@ -98,6 +98,14 @@ namespace samchon
 					GETTERS
 				------------------------------------------------------------------ */
 				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(DistributedSystem)
+
+				/**
+				 * @brief Test whether has a role
+				 * 		  
+				 * @param name An identifier of an DistributedSystemRole
+				 * @return Whether has a role or not.
+				 */
+				auto hasRole(const std::string &) const -> bool;
 
 				/**
 				 * @brief Get a role

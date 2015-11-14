@@ -43,7 +43,7 @@ namespace samchon
 				 * @param system a source system.
 				 * @param role a source role.
 				 */
-				DSInvokeHistory(DistributedSystem*, DistributedSystemRole*);
+				DSInvokeHistory(DistributedSystem*, DistributedSystemRole*, std::shared_ptr<Invoke>);
 
 				/**
 				 * @brief Get source system.

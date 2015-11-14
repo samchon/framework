@@ -9,14 +9,14 @@ namespace samchon
 	{
 		namespace master
 		{
-			class PRInvokeHistory;
+			class DSInvokeHistory;
 
 			/**
-			 * @brief An array of PRInvokeHistory.
-			 *
-			 * @author Jeongho Nam
-			 */
-			class SAMCHON_FRAMEWORK_API PRInvokeHistoryArray
+			* @brief An array of PRInvokeHistory.
+			*
+			* @author Jeongho Nam
+			*/
+			class SAMCHON_FRAMEWORK_API DSInvokeHistoryArray
 				: public InvokeHistoryArray
 			{
 			protected:
@@ -24,16 +24,16 @@ namespace samchon
 
 			public:
 				/**
-				 * @brief Default Constructor.
-				 */
-				PRInvokeHistoryArray();
-				virtual ~PRInvokeHistoryArray() = default;
+				* @brief Default Constructor.
+				*/
+				DSInvokeHistoryArray();
+				virtual ~DSInvokeHistoryArray() = default;
 
 			protected:
 				virtual auto createChild(std::shared_ptr<library::XML>) -> InvokeHistory* override;
 
 			public:
-				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(PRInvokeHistory)
+				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(DSInvokeHistory)
 			};
 		};
 	};

@@ -474,12 +474,6 @@
     <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp">
       <Filter>Header Files\protocol\master\distributed</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory-DESKTOP-3MP6UH0.hpp">
-      <Filter>Header Files\protocol\master\distributed</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistoryList.hpp">
-      <Filter>Header Files\protocol\master\distributed</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\PRMasterHistoryArray.hpp">
       <Filter>Header Files\protocol\master\parallel</Filter>
     </ClInclude>
@@ -527,6 +521,9 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\PRMasterHistory.hpp">
       <Filter>Header Files\protocol\master\parallel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistoryArray.hpp">
+      <Filter>Header Files\protocol\master\distributed</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -829,6 +826,18 @@
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\master\PRMasterHistoryArray.cpp">
       <Filter>Source Files\protocol\master\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\DistributedSystemArray.cpp">
+      <Filter>Source Files\protocol\master\distributed</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\DistributedSystem.cpp">
+      <Filter>Source Files\protocol\master\distributed</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\DistributedSystemRole.cpp">
+      <Filter>Source Files\protocol\master\distributed</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\DSInvokeHistoryArray.cpp">
+      <Filter>Source Files\protocol\master\distributed</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

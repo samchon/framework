@@ -257,9 +257,8 @@
     <ClInclude Include="..\samchon\protocol\master\DistributedSystemArray.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedSystemArrayMediator.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp" />
-    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory-DESKTOP-3MP6UH0.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp" />
-    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistoryList.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistoryArray.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelClient.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelClientArray.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelClientArrayMediator.hpp" />
@@ -367,7 +366,11 @@
     <ClCompile Include="..\samchon\protocol\ISQLEntity.cpp" />
     <ClCompile Include="..\samchon\protocol\IWebClientBase.cpp" />
     <ClCompile Include="..\samchon\protocol\IWebServer.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\DistributedSystem.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\DistributedSystemArray.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\DistributedSystemRole.cpp" />
     <ClCompile Include="..\samchon\protocol\master\DSInvokeHistory.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\DSInvokeHistoryArray.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelClient.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelClientArray.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelClientArrayMediator.cpp" />

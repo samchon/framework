@@ -14,7 +14,7 @@ namespace samchon
 			class DistributedSystemArray;
 			class DistributedSystem;
 
-			class DSInvokeHistoryList;
+			class DSInvokeHistoryArray;
 			class DSRoleHistoryList;
 
 			/**
@@ -35,6 +35,7 @@ namespace samchon
 				: public ExternalSystemRole
 			{
 				friend class DistributedSystemArray;
+				friend class DistributedSystem;
 
 			private:
 				typedef ExternalSystemRole super;
@@ -58,7 +59,7 @@ namespace samchon
 				/**
 				 * @brief A history log for archiving elapsed time for each process.
 				 */
-				DSInvokeHistoryList *invokeHistoryList;
+				DSInvokeHistoryArray *invokeHistoryArray;
 
 			public:
 				/* ------------------------------------------------------------------
@@ -68,7 +69,9 @@ namespace samchon
 				 * @brief Default Constructor.
 				 */
 				DistributedSystemRole();
-				virtual ~DistributedSystemRole() = default;
+				virtual ~DistributedSystemRole();
+
+				virtual void construct(std::shared_ptr<library::XML>) override;
 
 				/* ------------------------------------------------------------------
 					GETTERS
@@ -96,11 +99,16 @@ namespace samchon
 				/**
 				 * @brief Get invoke histories
 				 */
-				auto getInvokeHistoryList() const -> DSInvokeHistoryList*;
+				auto getInvokeHistoryArray() const -> DSInvokeHistoryArray*;
 
 				/* ------------------------------------------------------------------
 					CHAIN OF INVOKE MESSAGE
 				------------------------------------------------------------------ */
+				/**
+				 * @copydoc IProtocol::sendData
+				 * 			
+				 * @todo Not defined yet.
+				 */
 				virtual void sendData(std::shared_ptr<Invoke>) override;
 
 				/* ------------------------------------------------------------------

@@ -1,5 +1,7 @@
 #include <samchon/protocol/master/PRInvokeHistoryArray.hpp>
 
+#include <samchon/protocol/master/PRInvokeHistory.hpp>
+
 using namespace std;
 using namespace samchon::library;
 using namespace samchon::protocol;

@@ -10,8 +10,9 @@ namespace samchon
 		namespace master
 		{
 			class DistributedSystemArray;
+			class DistributedSystemRole;
 
-			class DSInvokeHistoryList;
+			class DSInvokeHistoryArray;
 			class DSRoleHistoryList;
 
 			/**
@@ -109,7 +110,7 @@ namespace samchon
 				/**
 				 * @brief A list of history log for reported Invoke messages.
 				 */
-				DSInvokeHistoryList *invokeHistoryList;
+				DSInvokeHistoryArray *invokeHistoryArray;
 
 			public:
 				/* ------------------------------------------------------------------
@@ -119,9 +120,16 @@ namespace samchon
 				 * @brief Default Constructor.
 				 */
 				DistributedSystem();
-				virtual ~DistributedSystem() = default;
+				virtual ~DistributedSystem();
 
 				virtual void construct(std::shared_ptr<library::XML>) override;
+
+			protected:
+				virtual auto createChild(std::shared_ptr<library::XML>) -> ExternalSystemRole* override;
+
+			public:
+				// GETTER
+				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(DistributedSystemRole)
 
 				/* ------------------------------------------------------------------
 					CHAIN OF INVOKE MESSAGE

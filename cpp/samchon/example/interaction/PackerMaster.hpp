@@ -104,36 +104,7 @@ namespace samchon
 					std::cout << "----------------------------------------------------------------------------" << std::endl;
 
 					PackerMaster master;
-					//master.start();
-
-					std::thread(&PackerMaster::start, &master).detach();
-					while (true)
-					{
-						int key;
-						std::cin >> key;
-
-						// CONSTRUCT PRODUCTS
-						std::shared_ptr<packer::ProductArray> productArray(new packer::ProductArray());
-						productArray->emplace_back(new packer::Product("Eraser", 500, 10, 70));
-						productArray->emplace_back(new packer::Product("Pencil", 400, 30, 35));
-						productArray->emplace_back(new packer::Product("Pencil", 400, 30, 35));
-						productArray->emplace_back(new packer::Product("Pencil", 400, 30, 35));
-						productArray->emplace_back(new packer::Product("Book", 8000, 150, 300));
-						productArray->emplace_back(new packer::Product("Book", 8000, 150, 300));
-						productArray->emplace_back(new packer::Product("Drink", 1000, 75, 250));
-						productArray->emplace_back(new packer::Product("Umbrella", 4000, 200, 1000));
-						productArray->emplace_back(new packer::Product("Notebook-PC", 800000, 150, 850));
-						productArray->emplace_back(new packer::Product("Tablet-PC", 600000, 120, 450));
-
-						// CONSTRUCT PACKER
-						packer::Packer packer(productArray);
-						packer.emplace_back(new packer::WrapperArray("Large", 100, 200, 1000));
-						packer.emplace_back(new packer::WrapperArray("Medium", 70, 150, 500));
-						packer.emplace_back(new packer::WrapperArray("Small", 50, 100, 250));
-
-						// FAKE SEND
-						master.replyData(std::make_shared<protocol::Invoke>("optimize", packer.toXML()));
-					}
+					master.start();
 				};
 			};
 		};

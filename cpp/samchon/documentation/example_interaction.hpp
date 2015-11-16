@@ -46,9 +46,9 @@ namespace samchon
 		 * \par MasterDriver.hpp
 		 *		@includelineno example/interaction/MasterDriver.hpp
 		 *					   
-		 * <h3> Example Source - Monitor System </h3>
-		 * \par Monitor.hpp
-		 *		@includelineno example/interaction/Monitor.hpp
+		 * <h3> Example Source - Reporter System </h3>
+		 * \par Reporter.hpp
+		 *		@includelineno example/interaction/Reporter.hpp
 		 *					   
 		 * <h3> Example Sources - Packer Systems </h3>
 		 * \par PackerMaster.hpp

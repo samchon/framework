@@ -29,6 +29,10 @@ Datetime::Datetime(int year, int month, int date, int hour, int min, int sec)
 {
 	set(year, month, date, hour, min, sec);
 }
+Datetime::Datetime(const string &str)
+	: Datetime(WeakString(str))
+{
+}
 Datetime::Datetime(const WeakString &wStr)
 	: Datetime()
 {
@@ -41,6 +45,10 @@ Datetime::Datetime(long long linuxTime)
 }
 
 //SEMI-CONSTRUCTORS
+void Datetime::set(const string &str)
+{
+	set(WeakString(str));
+}
 void Datetime::set(const WeakString &wStr)
 {
 	super::set(wStr);

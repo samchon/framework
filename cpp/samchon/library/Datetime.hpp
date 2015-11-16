@@ -58,6 +58,14 @@ namespace samchon
 			Datetime(int year, int month, int date, int hour = 0, int min = 0, int sec = 0);
 
 			/**
+			 * @brief Construct from string
+			 * 
+			 * @param str A string representing the date. (1991-01-01 09:27:03)
+			 * @throw invalid_argument parameter is out of its own range.
+			 */
+			Datetime(const std::string &);
+
+			/**
 			 * @brief Construct from WeakString
 			 * 
 			 * @param wstr A weak_string expressing the date. (1991-01-01 09:27:03)
@@ -73,6 +81,14 @@ namespace samchon
 			Datetime(long long linuxTime);
 			virtual ~Datetime() = default;
 			
+			/**
+			* @brief Setter by string
+			* 
+			* @param str wstr A string expressing the date. (1991-01-01 09:27:03)
+			* @throw invalid_argument parameter is out of its own range.
+			*/
+			void set(const std::string &);
+
 			/**
 			 * @brief Set by weak_string
 			 * 

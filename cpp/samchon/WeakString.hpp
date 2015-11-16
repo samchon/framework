@@ -200,7 +200,7 @@ namespace samchon
 		auto operator[](size_t index) const -> const char&;
 
 		/* --------------------------------------------------------------------
-		FINDERS
+			FINDERS
 		-------------------------------------------------------------------- */
 		/**
 		 * @brief Finds first occurence in string

@@ -33,6 +33,10 @@ Date::Date(int year, int month, int date)
 {
 	set(year, month, date);
 }
+Date::Date(const string &str)
+	: Date(WeakString(str))
+{
+}
 Date::Date(const WeakString &wStr)
 {
 	set(wStr);
@@ -43,6 +47,10 @@ Date::Date(long long linuxTime)
 }
 
 //SEMI-CONSTRUCTORS
+void Date::set(const string &str)
+{
+	set(WeakString(str));
+}
 void Date::set(const WeakString &wStr)
 {
 	WeakString val = wStr.trim();

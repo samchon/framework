@@ -101,7 +101,15 @@ namespace samchon
 			Date(int year, int month, int date);
 			
 			/**
-			* @brief Constructor by std::string
+			 * @brief Construct from string
+			 * 
+			 * @param str A string represents the date. (1991-01-01)
+			 * @throw invalid_argument month or date is invalid.  
+			 */
+			Date(const std::string &);
+
+			/**
+			* @brief Construct from WeakString
 			* 
 			* @param str A weak_string expressing the date. (1991-01-01)
 			* @throw invalid_argument month or date is invalid.

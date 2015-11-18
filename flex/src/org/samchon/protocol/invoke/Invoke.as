@@ -69,20 +69,30 @@ package org.samchon.protocol.invoke
 		 * <p> Constructs Invoke and InvokeParameter objects by an XML object. </p>
 		 * <p><i> <b>xml</b> := An xml object representing Invoke object. </i></p>
 		 */ 
-		public function Invoke(val:*)
+		public function Invoke(... args)
 		{
 			super();
 			
-			if(val is String)
-				this.listener = val;
+			if (args.length == 0)
+				return;
+			else if (args.length == 1)
+				if(args[0] is String)
+					this.listener = args[0];
+				else
+					construct(args[1]);
 			else
-				construct(val);
+			{
+				this.listener = args[0];
+				
+				for (var i:int = 1; i < args.length; i++)
+					addItem(new InvokeParameter("", args[i]));
+			}
 		}
 		
 		/**
 		 * @copy IEntity.construct()
 		 */ 
-		private function construct(xml:XML):void
+		public function construct(xml:XML):void
 		{
 			this.listener = xml.@listener;
 			if(xml.hasOwnProperty("parameter") == false)
@@ -162,8 +172,21 @@ package org.samchon.protocol.invoke
 			return false;
 		}
 		
+		/**
+		 * Get arguments.
+		 */
+		public function getArguments():Array
+		{
+			var args:Array = [];
+			
+			for (var i:int = 0; i < this.length; i++)
+				args.push(at(i).getValue());
+			
+			return args;
+		}
+		
 		/* ---------------------------------------------------------------------
-		EXPORTS
+			EXPORTS
 		--------------------------------------------------------------------- */
 		/**
 		 * @copy IEntity.toXML()

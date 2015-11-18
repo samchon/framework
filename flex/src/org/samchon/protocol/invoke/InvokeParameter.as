@@ -1,5 +1,7 @@
 package org.samchon.protocol.invoke
 {
+	import flash.utils.ByteArray;
+	
 	import mx.utils.StringUtil;
 
 	/**
@@ -28,17 +30,22 @@ package org.samchon.protocol.invoke
 	public class InvokeParameter
 	{
 		/**
-		 * parameter's name
+		 * parameter's name.
+		 * 
 		 * @default Can't be null
 		 */
 		private var name:String;
+		
 		/**
-		 * parameter's type (like int, Number, String, XML)
+		 * parameter's type (like number, string, XML).
+		 * 
 		 * @default Can't be null
 		 */
 		private var type:String;
+		
 		/**
-		 * value of a parameter
+		 * value of a parameter.
+		 * 
 		 * @default null || int.MIN_VALUE
 		 */
 		private var value:*;
@@ -47,7 +54,7 @@ package org.samchon.protocol.invoke
 			CONSTRUCTORS
 		--------------------------------------------------------------------- */
 		/**
-		 * <b>Constructors</b><br/>
+		 * <p> Constructors. </p>
 		 * ---- InvokeParameter(xml:XML)<br/>
 		 * ---- InvokeParameter(name:String, value:_Ty)<br/>
 		 * ---- InvokeParameter(name:String, type:String, value:String)
@@ -58,12 +65,18 @@ package org.samchon.protocol.invoke
 				constructByXML(args[0]);
 			else if(args[0] is String && args.length == 2)
 			{
+				this.name = args[0];
+				
 				if(args[1] is String)
-					constructByString(args[0], "String", args[1]);
-				else if(args[1] is Number)
-					constructByString(args[0], "double", args[1]);
-				else if(args[1] is int)
-					constructByString(args[0], "int", args[1]);
+					type = "string";
+				else if(args[1] is Number || args[1] is int)
+					type = "number";
+				else if (args[1] is ByteArray)
+					type = "ByteArray";
+				else
+					type = "unknown";
+				
+				this.value = args[1];
 			}				
 			else if(args[0] is String && args.length == 3)
 				constructByString(args[0], args[1], args[2]);

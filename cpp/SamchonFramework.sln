@@ -62,6 +62,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "protocol", "protocol", "{E2
 		samchon\documentation\protocol_slave.hpp = samchon\documentation\protocol_slave.hpp
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "string_util", "samchon\example\string_util\string_util.vcxproj", "{38D55213-2161-4FC5-A56B-EDF8551E25FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -150,6 +152,14 @@ Global
 		{E6339412-89BB-40F0-9CC4-2A7325E910E3}.Release|x64.Build.0 = Release|x64
 		{E6339412-89BB-40F0-9CC4-2A7325E910E3}.Release|x86.ActiveCfg = Release|Win32
 		{E6339412-89BB-40F0-9CC4-2A7325E910E3}.Release|x86.Build.0 = Release|Win32
+		{38D55213-2161-4FC5-A56B-EDF8551E25FD}.Debug|x64.ActiveCfg = Debug|x64
+		{38D55213-2161-4FC5-A56B-EDF8551E25FD}.Debug|x64.Build.0 = Debug|x64
+		{38D55213-2161-4FC5-A56B-EDF8551E25FD}.Debug|x86.ActiveCfg = Debug|Win32
+		{38D55213-2161-4FC5-A56B-EDF8551E25FD}.Debug|x86.Build.0 = Debug|Win32
+		{38D55213-2161-4FC5-A56B-EDF8551E25FD}.Release|x64.ActiveCfg = Release|x64
+		{38D55213-2161-4FC5-A56B-EDF8551E25FD}.Release|x64.Build.0 = Release|x64
+		{38D55213-2161-4FC5-A56B-EDF8551E25FD}.Release|x86.ActiveCfg = Release|Win32
+		{38D55213-2161-4FC5-A56B-EDF8551E25FD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,5 +178,6 @@ Global
 		{E6339412-89BB-40F0-9CC4-2A7325E910E3} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
 		{186F8973-0E74-439B-82B2-A991806A8717} = {BCD16A47-DF7C-4B5E-BE61-7DBD24870D2E}
 		{E2B5B627-FD70-49B1-B7DE-CC125F91F754} = {BCD16A47-DF7C-4B5E-BE61-7DBD24870D2E}
+		{38D55213-2161-4FC5-A56B-EDF8551E25FD} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
 	EndGlobalSection
 EndGlobal

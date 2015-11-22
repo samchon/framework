@@ -56,7 +56,8 @@ void loadPage()
 {
 	//http://www.bomtvbiz.com/ad/
 	//http://samchon.org/simulation/php/corporate/list.php
-	HTTPLoader loader("http://samchon.org/simulation/php/corporate/list.php", HTTPLoader::GET);
+	//http://www.bomtvbiz.com/dt/order_print/1447203311304/20151111_1447203311304_³ªÁ¤½É.pdf
+	HTTPLoader loader("http://www.bomtvbiz.com/ad/", HTTPLoader::GET);
 	URLVariables data;
 	{
 		data["c"] = "order";
@@ -64,6 +65,7 @@ void loadPage()
 		data["page"] = "2";
 	}
 
+	//cout << "#size: " << loader.load(data).size() << endl;
 	string &str = loader.load(data).read<string>();
 	toClipboard(str);
 }

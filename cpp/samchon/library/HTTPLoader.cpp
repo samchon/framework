@@ -99,6 +99,9 @@ auto HTTPLoader::getCookie(const string &host) const -> string
 ------------------------------------------------------------ */
 auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 {
+	//////////////////////////////////////////////////
+	//	SENDING REQUEST HEADER
+	//////////////////////////////////////////////////
 	// FOR HEADER
 	WeakString host = url;
 	string path;
@@ -188,86 +191,236 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 
 	socket.write_some(boost::asio::buffer(header));
 
-	// LISTEN RECEIVED-HEADER
+	//////////////////////////////////////////////////
+	//	LISTEN HEADER FROM SERVER
+	//////////////////////////////////////////////////
 	Map<string, string> headerMap;
-
-	boost::asio::streambuf response;
-	boost::asio::read_until(socket, response, "\r\n\r\n");
-	
-	std::istream response_stream(&response);
-	string item;
-	
-	while (std::getline(response_stream, item) && item != "\r")
 	{
-		size_t index = item.find(":");
-		if (index == string::npos)
-			continue;
+		header.clear();
 
-		string &key = item.substr(0, index);
-		string &value = item.substr(index + 2);
+		while (true)
+		{
+			array<char, 1> buffer;
 
-		if (value.back() == '\r')
-			value.pop_back();
+			socket.read_some(boost::asio::buffer(buffer));
+			header += buffer[0];
 
-		headerMap.insert({key, value});
+			if (header.size() > 4 && header.substr(header.size() - 4) == "\r\n\r\n")
+				break;
+		}
+
+		WeakString wstr = header;
+		vector<WeakString> wstrArray = wstr.split("\r\n");
+
+		for (size_t i = 0; i < wstrArray.size(); i++)
+		{
+			WeakString wstr = wstrArray[i];
+			size_t index = wstr.find(":");
+
+			if (index == string::npos)
+				continue;
+
+			headerMap.set(wstr.substr(0, index), wstr.substr(index + 1).trim());
+		}
 	}
 
 	// REGISTER COOKIE
 	if (headerMap.has("Set-Cookie") == true)
 	{
 		string &cookie = headerMap.get("Set-Cookie");
-		
+
 		((Map<string, string>*)&cookieMap)->set(host, cookie);
 	}
+
+	// CONTENT-LENGTH
+	bool reserved = headerMap.has("Content-Length");
+	bool chunked = headerMap.has("Transfer-Encoding") && headerMap.get("Transfer-Encoding") == "chunked";
+
+	/*boost::asio::streambuf response;
+	{
+		boost::asio::read_until(socket, response, "\r\n\r\n");
+
+		std::istream response_stream(&response);
+		string item;
+
+		while (std::getline(response_stream, item) && item != "\r")
+		{
+			size_t index = item.find(":");
+			if (index == string::npos)
+				continue;
+
+			string &key = item.substr(0, index);
+			string &value = item.substr(index + 2);
+
+			if (value.back() == '\r')
+				value.pop_back();
+
+			headerMap.insert({ key, value });
+		}
+
+		// REGISTER COOKIE
+		if (headerMap.has("Set-Cookie") == true)
+		{
+			string &cookie = headerMap.get("Set-Cookie");
+
+			((Map<string, string>*)&cookieMap)->set(host, cookie);
+		}
+	}*/
 
 	//////////////////////////////////////////////////
 	//	GET DATA
 	//////////////////////////////////////////////////
 	ByteArray data;
 
-	bool reserved = headerMap.has("Content-Length");
-	bool chunked = headerMap.has("Transfer-Encoding") && headerMap.get("Transfer-Encoding") == "chunked";
-
-	if (reserved == true)
+	if (reserved == true) 
+	{
+		// CONTENT-LENGTH
 		data.reserve((size_t)stoull(headerMap.get("Content-Length")));
 
-	if (response.size() > 0)
-	{
-		size_t size = response.size();
-		const unsigned char *left = boost::asio::buffer_cast<const unsigned char*>(response.data());
+		while (true)
+		{
+			array<unsigned char, 1000> piece;
+			boost::system::error_code error;
 
-		data.assign(left, left + size);
+			size_t size = socket.read_some(boost::asio::buffer(piece), error);
+			if (size == 0 || error)
+				break;
+
+			data.insert
+				(
+					data.end(),
+					piece.begin(), piece.begin() + size
+				);
+
+			if (data.size() == data.capacity())
+				break;
+		}
 	}
 
-	int isLast = 0;
-
-	while (true)
+	/*else if (chunked == true)
 	{
-		array<unsigned char, 1000> piece;
-		boost::system::error_code error;
-
-		size_t size = socket.read_some(boost::asio::buffer(piece), error);
-		if (size == 0 || error)
-			break;
-
-		data.insert
-		(
-			data.end(), 
-			piece.begin(), piece.begin() + size
-		);
-		
-		if (reserved == true && data.size() == data.capacity())
-			break;
-		else if (chunked == true && size >= 7)
+		while (true)
 		{
-			// 정크 리스트를 제거해야 함
-			// 우선은 임시로 마지막 글자만 날림
+			string chunk;
+			boost::system::error_code error;
 
-			vector<unsigned char> lastArray(piece.begin() + size - 7, piece.begin() + size);
-			vector<unsigned char> endArray = { '\r', '\n', '0', '\r', '\n', '\r', '\n'};
+			while (true)
+			{
+				array<char, 1> chunkPiece;
+				socket.read_some(boost::asio::buffer(chunkPiece), error);
 
-			if (lastArray == endArray)
+				if (error)
+					return move(data);
+
+				chunk += chunkPiece[0];
+				if (chunk.size() > 2 && chunk.substr(chunk.size() - 2) == "\r\n")
+					break;
+			}
+			
+			size_t size = (size_t)stoull(chunk.substr(0, chunk.size() - 1), 0, 16);
+			if (size == 0)
 				break;
+
+			vector<unsigned char> piece(size + 2, NULL);
+			socket.read_some(boost::asio::buffer(piece), error);
+
+			if (error)
+				break;
+
+			data.insert(data.end(), piece.begin(), piece.begin() + size);
+		}
+	}*/
+
+	else if (chunked == true)
+	{
+		vector<unsigned char> prevData;
+
+		while (true)
+		{
+			array<char, 1000> piece;
+			boost::system::error_code error;
+
+			size_t size = socket.read_some(boost::asio::buffer(piece), error);
+			if (size == 0 || error)
+				break;
+
+			prevData.insert(prevData.end(), piece.begin(), piece.begin() + size);
+
+			// HANDLING LAST
+			WeakString wstr((const char*)&prevData[0], (const char*)&prevData[0] + prevData.size());
+			
+			if (wstr.substring(wstr.size() - 7, wstr.size()) == "\r\n0\r\n\r\n")
+			{
+				// FINDS ALL \R\N
+				/*vector<WeakString> wstrArray = wstr.split("\r\n");
+
+				for (size_t i = 0; i < wstrArray.size(); i++)
+				{
+					WeakString wstr = wstrArray[i];
+					bool isChunkLine = true;
+
+					for (size_t j = 0; j < wstr.size(); j++)
+					{
+						char ch = wstr[j];
+
+						if (!(('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'f')))
+						{
+							isChunkLine = false;
+							break;
+						}
+					}
+
+					if (isChunkLine == false)
+						postStr += wstr.str() + "\r\n";
+					else
+						cout << wstr.str() << endl;
+				}*/
+
+				size_t startIndex = 0;
+				size_t endIndex;
+
+				while (true)
+				{
+					size_t pos = wstr.find("\r\n", startIndex);
+					if (pos == string::npos)
+						break;
+
+					WeakString piece = wstr.substr(startIndex, pos);
+					
+					size_t size = stoull(piece, 0, 16);
+
+					startIndex = pos + 2;
+					endIndex = std::min(startIndex + size, prevData.size());
+
+					data.insert(data.end(), prevData.begin() + startIndex, prevData.begin() + endIndex);
+					startIndex = endIndex;
+				}
+				
+				break;
+			}
+		}
+
+		/*ByteArray data;
+		data.write(postStr);
+
+		return move(data);*/
+	}
+	else
+	{
+		while (true)
+		{
+			array<unsigned char, 1000> piece;
+			boost::system::error_code error;
+
+			size_t size = socket.read_some(boost::asio::buffer(piece), error);
+			if (size == 0 || error)
+				break;
+
+			data.insert
+				(
+					data.end(),
+					piece.begin(), piece.begin() + size
+				);
 		}
 	}
 

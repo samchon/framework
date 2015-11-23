@@ -149,6 +149,7 @@ namespace samchon
 			template<> static auto toSQL(const char &val) -> std::string;
 			template<> static auto toSQL(const std::string &str) -> std::string;
 			template<> static auto toSQL(const WeakString &str) -> std::string;
+			static auto toSQL(const char *) -> std::string;
 
 		public:
 			/* ----------------------------------------------------------------------

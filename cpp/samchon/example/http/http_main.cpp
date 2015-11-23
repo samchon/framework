@@ -1,10 +1,13 @@
 #include <iostream>
+#include <fstream>
+
 #include <vector>
 #include <string>
 #include <thread>
 
 #include <samchon/library/HTTPLoader.hpp>
 #include <samchon/library/URLVariables.hpp>
+#include <samchon/library/Charset.hpp>
 
 #include <Windows.h>
 
@@ -28,13 +31,17 @@ using namespace samchon::library;
 
 void login();
 void loadPage();
+void loadFile();
 
 void toClipboard(const std::string &);
 
 void main()
 {
+	setlocale(LC_ALL, "korean");
+
 	login();
 	loadPage();
+	loadFile();
 
 	system("pause");
 }
@@ -56,8 +63,7 @@ void loadPage()
 {
 	//http://www.bomtvbiz.com/ad/
 	//http://samchon.org/simulation/php/corporate/list.php
-	//http://www.bomtvbiz.com/dt/order_print/1447203311304/20151111_1447203311304_³ªÁ¤½É.pdf
-	HTTPLoader loader("http://www.bomtvbiz.com/ad/", HTTPLoader::GET);
+	HTTPLoader loader("http://samchon.org/simulation/php/corporate/list.php", HTTPLoader::GET);
 	URLVariables data;
 	{
 		data["c"] = "order";
@@ -69,19 +75,30 @@ void loadPage()
 	string &str = loader.load(data).read<string>();
 	toClipboard(str);
 }
+void loadFile()
+{
+	HTTPLoader loader(Charset::toUTF8("http://www.bomtvbiz.com/dt/order_print/1448241706869/20151123_1448241706869_±èÇö¿ì_2¸í_±è ½Â ÁÖ.pdf"), HTTPLoader::GET);
+	ByteArray &data = loader.load({});
+
+	// ÆÄÀÏ ÀúÀå
+	ofstream file("E:\\test.pdf", ios::out | ios::binary);
+	file.write((const char*)&data[0], data.size());
+
+	file.close();
+}
 
 void toClipboard(const string &str)
 {
 	OpenClipboard(0);
 	EmptyClipboard();
-	HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, str.size());
+	HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, str.size() + 1);
 
 	if (!hg)
 	{
 		CloseClipboard();
 		return;
 	}
-	memcpy(GlobalLock(hg), str.c_str(), str.size());
+	memcpy(GlobalLock(hg), str.c_str(), str.size() + 1);
 
 	GlobalUnlock(hg);
 	SetClipboardData(CF_TEXT, hg);

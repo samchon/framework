@@ -52,18 +52,18 @@ void IClient::listen()
 		boost::system::error_code error;
 
 		piece.assign(BUFFER_SIZE(), NULL);
-		socket->read_some(boost::asio::buffer(piece), error);
+		size_t size = socket->read_some(boost::asio::buffer(piece), error);
 		
 		if (error)
 			break;
 
 		if(ba_invoke == nullptr)
-			handleString(piece, str, ba_invoke);
+			handleString(piece, str, ba_invoke, size);
 		else
-			handleBinary(piece, str, ba_invoke);
+			handleBinary(piece, str, ba_invoke, size);
 	}
 }
-void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &baInvoke)
+void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &baInvoke, size_t size)
 {
 	//READ STRING
 	str.append( piece.read<string>());
@@ -219,7 +219,7 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 			baInvoke = lastInvoke;
 
 			//HANDLING LEFT BINARY PIECE
-			handleBinary(piece, str, baInvoke);
+			handleBinary(piece, str, baInvoke, size);
 			return;
 		}
 	}
@@ -227,7 +227,7 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 	//ELSE, DOES NOT HAVE, CALL REPLY_DATA
 	_replyData(lastInvoke);
 }
-void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &invoke)
+void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &invoke, size_t size)
 {
 	ByteArray *byteArray = nullptr;
 	size_t position = piece.getPosition();
@@ -238,7 +238,7 @@ void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &in
 	{
 		bool isEmpty = true;
 
-		for (size_t i = position; i < piece.size(); i++)
+		for (size_t i = position; i < size; i++)
 			if (piece[i] != 0)
 			{
 				isEmpty = false;
@@ -291,8 +291,8 @@ void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &in
 	invoke = nullptr;
 
 	//IF BYTES ARE LEFT, CALL HANDLE_STRING
-	if(piece.getPosition() < piece.size())
-		handleString(piece, str, invoke);
+	if(piece.getPosition() < size)
+		handleString(piece, str, invoke, size);
 }
 
 /* -----------------------------------------------------------------------------------

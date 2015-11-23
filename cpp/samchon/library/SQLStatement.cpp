@@ -78,12 +78,14 @@ void SQLStatement::execute()
 }
 void SQLStatement::executeDirectly(const std::string &sql)
 {
-	sqli->stmtMutex.lock();
+	prepare(sql);
+	execute();
+	/*sqli->stmtMutex.lock();
 	sqli->stmt = this;
 
 	SQLRETURN res = SQLExecDirectA(sqli->hdbc, (SQLCHAR*)sql.c_str(), (SQLINTEGER)sql.size());
 	if (res == SQL_ERROR)
-		throw exception(sqli->getErrorMessage(SQL_HANDLE_STMT).c_str());
+		throw exception(sqli->getErrorMessage(SQL_HANDLE_STMT).c_str());*/
 }
 
 /* --------------------------------------------------------------------------------------

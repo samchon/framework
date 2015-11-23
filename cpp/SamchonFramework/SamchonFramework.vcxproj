@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}</ProjectGuid>
+    <ProjectGuid>{C5FC4A1B-A644-475F-B8EA-A63633F64F2C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SamchonFramework</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -29,27 +29,27 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -71,23 +71,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);C:\Program Files (x86)\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_59_0;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);C:\Program Files (x86)\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_59_0;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);C:\Program Files (x86)\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_59_0;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);C:\Program Files (x86)\Microsoft SQL Server\110\SDK\Include;E:\Downloads\Programming\C++\boost_1_59_0;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -233,6 +233,9 @@
     <ClInclude Include="..\samchon\protocol\IClient.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityChain.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp" />
+    <ClInclude Include="..\samchon\protocol\IEntityPtrGroup.hpp" />
+    <ClInclude Include="..\samchon\protocol\IEntitySharedPtrGroup.hpp" />
+    <ClInclude Include="..\samchon\protocol\IEntityUniquePtrGroup.hpp" />
     <ClInclude Include="..\samchon\protocol\IHTMLEntity.hpp" />
     <ClInclude Include="..\samchon\protocol\Invoke.hpp" />
     <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp" />
@@ -304,6 +307,7 @@
     <ClCompile Include="..\samchon\ByteArray.cpp" />
     <ClCompile Include="..\samchon\library\Base64.cpp" />
     <ClCompile Include="..\samchon\library\CaseGenerator.cpp" />
+    <ClCompile Include="..\samchon\library\Charset.cpp" />
     <ClCompile Include="..\samchon\library\CombinedPermutationGenerator.cpp" />
     <ClCompile Include="..\samchon\library\Date.cpp" />
     <ClCompile Include="..\samchon\library\Datetime.cpp" />
@@ -317,8 +321,8 @@
     <ClCompile Include="..\samchon\library\FTInstance.cpp" />
     <ClCompile Include="..\samchon\library\HTTPLoader.cpp" />
     <ClCompile Include="..\samchon\library\Math.cpp" />
-    <ClCompile Include="..\samchon\library\MSSQLi.cpp" />
-    <ClCompile Include="..\samchon\library\MSSQLStatement.cpp" />
+    <ClCompile Include="..\samchon\library\TSQLi.cpp" />
+    <ClCompile Include="..\samchon\library\TSQLStatement.cpp" />
     <ClCompile Include="..\samchon\library\PermutationGenerator.cpp" />
     <ClCompile Include="..\samchon\library\ProgressEvent.cpp" />
     <ClCompile Include="..\samchon\library\RWMutex.cpp" />

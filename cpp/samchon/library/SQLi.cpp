@@ -1,13 +1,15 @@
 #include <samchon/library/SQLi.hpp>
 
 #ifndef WIN32_LEAN_AND_MEAN 
-#define WIN32_LEAN_AND_MEAN 
-#endif 
+#	define WIN32_LEAN_AND_MEAN 
+#endif
+
 #include <Windows.h>
 #include <sqltypes.h>
 #include <sql.h>
 #include <sqlext.h>
 
+#include <iostream>
 #include <memory>
 #include <mutex>
 
@@ -40,21 +42,23 @@ void SQLi::connect(const std::string &ip, const std::string &db, const std::stri
 	unique_lock<mutex> uk(stmtMutex);
 	SQLRETURN res;
 	SQLHANDLE environment;
-	
+
 	if ((res = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &environment)) == SQL_SUCCESS)
 		if ((res = SQLSetEnvAttr(environment, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0)) == SQL_SUCCESS)
 			if ((res = SQLAllocHandle(SQL_HANDLE_DBC, environment, &hdbc)) == SQL_SUCCESS)
+			{
 				res =
-				SQLDriverConnectA
-				(
-					hdbc, NULL,
-					(SQLCHAR *)&StringUtil::substitute
+					SQLDriverConnectA
 					(
-						"DRIVER={0};SERVER={1}, {2};DATABASE={3};UID={4};PWD={5};",
-						driver, ip, port, db, id, pwd
-					)[0],
-					SQL_NTS, NULL, 1024, NULL, SQL_DRIVER_NOPROMPT
-				);
+						hdbc, NULL,
+						(SQLCHAR*)&StringUtil::substitute
+						(
+							"DRIVER={0};SERVER={1}, {2};DATABASE={3};UID={4};PWD={5};",
+							driver, ip, port, db, id, pwd
+						)[0],
+						SQL_NTS, NULL, 1024, NULL, SQL_DRIVER_NOPROMPT
+					);
+			}
 
 	SQLFreeHandle(SQL_HANDLE_DBC, environment);
 	

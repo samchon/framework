@@ -1,6 +1,7 @@
 #include <samchon/library/StringUtil.hpp>
 
 #include <iostream>
+#include <stdexcept>
 
 using namespace std;
 using namespace samchon;
@@ -22,21 +23,28 @@ template<> auto StringUtil::toSQL(const bool &flag) -> string
 }
 template<> auto StringUtil::toSQL(const char &val) -> string
 {
-	return {'\'', val, '\'' };
+	return toSQL(string({val}));
 }
+auto StringUtil::toSQL(const char *ptr) -> string
+{
+	return toSQL(string(ptr));
+}
+
 template<> auto StringUtil::toSQL(const string &str) -> string
 {
-	if (str.empty() == true)
-		return "NULL";
-	else
-		return "'" + str + "'";
+	return toSQL(WeakString(str));
 }
-template<> auto StringUtil::toSQL(const WeakString &str) -> string
+template<> auto StringUtil::toSQL(const WeakString &wstr) -> string
 {
-	if (str.empty() == true)
+	if (wstr.empty() == true)
 		return "NULL";
 	else
-		return "'" + str.str() + "'";
+	{
+		if (wstr.find("'") != string::npos)
+			return "'" + wstr.replaceAll("'", "''") + "'";
+		else
+			return "'" + wstr.str() + "'";
+	}
 }
 
 /* ----------------------------------------------------------------------
@@ -52,14 +60,18 @@ auto StringUtil::isNumeric(const string &str) -> bool
 {
 	try
 	{
-		stod( replaceAll(str, ",", "") );
+		stoi(str);
+		//stod( replaceAll(str, ",", "") );
 	}
-	catch (exception &e)
+	catch (const std::exception &)
 	{
-		e;
-
 		return false;
 	}
+	catch (...)
+	{
+		return false;
+	}
+
 	return true;
 }
 auto StringUtil::toNumber(const string &str) -> double

@@ -109,8 +109,8 @@ namespace samchon
 			virtual void _replyData(std::shared_ptr<Invoke>);
 
 		private:
-			void handleString(ByteArray &, std::string &, std::shared_ptr<Invoke> &);
-			void handleBinary(ByteArray &, std::string &, std::shared_ptr<Invoke> &);
+			void handleString(ByteArray &, std::string &, std::shared_ptr<Invoke> &, size_t);
+			void handleBinary(ByteArray &, std::string &, std::shared_ptr<Invoke> &, size_t);
 		};
 	};
 };

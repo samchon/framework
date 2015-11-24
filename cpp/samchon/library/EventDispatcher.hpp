@@ -2,7 +2,9 @@
 #include <samchon/API.hpp>
 
 #include <memory>
-#include <map>
+#include <queue>
+#include <list>
+
 #include <samchon/Set.hpp>
 
 #include <samchon/library/RWMutex.hpp>
@@ -14,7 +16,9 @@ namespace samchon
 	{
 		class Event;
 		class ErrorEvent;
-		class ProgressEvent;
+		class EventListener;
+
+		const unsigned char bThreads = 2;
 
 		/**
 		 * @brief Abstract class for dispatching Event
@@ -60,21 +64,19 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API EventDispatcher
 		{
 		private:
+
 			//EVENT-LISTENER CONTAINERS
 			/**
 			 * @brief A container storing listeners
 			 */
-			std::map<int, std::set<void(*)(std::shared_ptr<Event>)>> eventSetMap; //EVENT
+
+			std::list<EventListener*> listeners;
 
 			/**
 			 * @brief A rw_mutex for concurrency
 			 */
 			RWMutex mtx;
 
-			/**
-			 * @brief A semaphore for restricting thread size
-			 */
-			Semaphore semaphore;
 
 		public:
 			/* ----------------------------------------------------------
@@ -125,7 +127,7 @@ namespace samchon
 			 * @param type The type of event.
 			 * @param listener The listener function processes the event.
 			 */
-			void addEventListener(int, void(*listener)(std::shared_ptr<Event>));
+			void addEventListener(int type, EventListener *listener);
 			
 			/**
 			 * @brief Remove a registered event listener
@@ -137,7 +139,7 @@ namespace samchon
 			 * @param type The type of event.
 			 * @param listener The listener function to remove.
 			 */
-			void removeEventListener(int, void(*listener)(std::shared_ptr<Event>));
+			void removeEventListener(int type, EventListener *listener);
 			
 		protected:
 			/* ----------------------------------------------------------
@@ -154,23 +156,7 @@ namespace samchon
 			 * @param event The Event object that is dispatched into the event flow.
 			 * @return Whether there's some listener to listen the event
 			 */
-			auto dispatchEvent(std::shared_ptr<Event>) -> bool;
-
-			/**
-			 * @brief Convenient method of dispatching a progress event
-			 *
-			 * @details
-			 * Dispatches a progress event into the event flow in the background
-			 * The Event::source is the EventDispatcher object upon with the dispatchProgressEvent
-			 *
-			 * @param x The number of current progress
-			 * @param size The number of total progress
-			 * @return Whether there's some listener to listen the progress event
-			 *
-			 * @see ProgressEvent
-			 * @see EventDispatcher::dispatchEvent
-			 */
-			auto dispatchProgressEvent(size_t x, size_t size) -> bool;
+			auto dispatchEvent(Event *) -> bool;
 		};
 	};
 };

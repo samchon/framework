@@ -1,11 +1,10 @@
 #include <samchon/library/EventDispatcher.hpp>
+#include <samchon\/library/EventListener.hpp>
 
-#include <atomic>
 #include <condition_variable>
 #include <memory>
 #include <mutex>
 #include <thread>
-#include <vector>
 
 #include <samchon/library/CriticalMap.hpp>
 #include <samchon/library/CriticalSet.hpp>
@@ -34,52 +33,77 @@ EventDispatcher::EventDispatcher(EventDispatcher &&eventDispatcher)
 /* -------------------------------------------------------------
 	EVENT LISTENER IN & OUT
 ------------------------------------------------------------- */
-void EventDispatcher::addEventListener(int type, void(*listener)(std::shared_ptr<Event>))
+void EventDispatcher::addEventListener(int type, EventListener *listener)
 {
 	UniqueWriteLock uk(mtx);
 
-	auto &set = eventSetMap[type];
-	set.insert(listener);
+	this->listeners.push_back(listener);
+
+	return;
+
 }
-void EventDispatcher::removeEventListener(int type, void(*listener)(std::shared_ptr<Event>))
+
+void EventDispatcher::removeEventListener(int type, EventListener *listener)
 {
 	UniqueWriteLock uk(mtx);
 
-	if (eventSetMap.count(type) > 0 && eventSetMap[type].count(listener) > 0)
-		eventSetMap[type].erase(listener);
+	for (auto it = this->listeners.begin(); it != this->listeners.end(); it++)
+	{
+		if (listener != (*it))  continue;
+		listeners.erase(it);
+	}
+
+	return;
 }
 
 /* -------------------------------------------------------------
 	SEND EVENT
 ------------------------------------------------------------- */
-auto EventDispatcher::dispatchEvent(shared_ptr<Event> event) -> bool
+auto EventDispatcher::dispatchEvent(Event *event) -> bool
 {
 	UniqueReadLock uk(mtx);
+	UniqueReadLock itk(RWMutex(), false);
 
-	int type = event->getType();
-	if (eventSetMap.count(type) == 0 || eventSetMap[type].empty() == true)
-		return false;
+	thread *pThreads[bThreads];
+	queue<EventListener*> queue_listener;
 
-	auto &eventSet = eventSetMap[type];
-	for (auto it = eventSet.begin(); it != eventSet.end(); it++)
+	for (auto it = this->listeners.begin(); it != this->listeners.end(); it++)
 	{
-		thread([it, event, this]
-		{
-			UniqueAcquire u_ac(this->semaphore);
+		if (!(*it)->isActivated()) continue;
 
-			(*it)(event);
-		}).detach();
+		queue_listener.push((*it));
 	}
+
+	uk.unlock();
+
+	for (unsigned char it = 0; it != bThreads; it++)
+	{
+		pThreads[it] = new thread([](
+			Event *event, 
+			UniqueReadLock *it_mutex,
+			queue<EventListener*> *queue)
+		{
+			EventListener *Listener = nullptr;
+
+			while (!queue->empty())
+			{
+				it_mutex->lock();
+				Listener = queue->front();
+				queue->pop();
+				it_mutex->unlock();
+
+				Listener->Dispatch(event);
+			}
+
+		}, event, &itk, &queue_listener);
+	}
+
+
 	return true;
 }
-auto EventDispatcher::dispatchProgressEvent(size_t x, size_t size) -> bool
-{
-	shared_ptr<ProgressEvent> event(new ProgressEvent(this, x, size));
 
-	return dispatchEvent(event);
-}
-
-/*void EventDispatcher::eventActivated()
+#ifdef LEGACY
+void EventDispatcher::eventActivated()
 {
 	sendEvent(Event::ACTIVATE);
 }
@@ -136,4 +160,5 @@ void EventDispatcher::sendProgress(unsigned long long x, unsigned long long size
 	for (auto it = progressSet.begin(); it != progressSet.end(); it++)
 		thread(*it, event).detach();
 	progressSet.readUnlock();
-}*/
+}
+#endif

@@ -525,6 +525,9 @@
     <ClInclude Include="..\samchon\protocol\master\DSInvokeHistoryArray.hpp">
       <Filter>Header Files\protocol\master\distributed</Filter>
     </ClInclude>
+    <ClInclude Include="..\samchon\library\EventListener.hpp">
+      <Filter>Header Files\library</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samchon\ByteArray.cpp">
@@ -838,6 +841,9 @@
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\master\DSInvokeHistoryArray.cpp">
       <Filter>Source Files\protocol\master\distributed</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\EventListener.cpp">
+      <Filter>Source Files\library</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

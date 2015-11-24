@@ -174,6 +174,7 @@
     <ClInclude Include="..\samchon\library\ErrorEvent.hpp" />
     <ClInclude Include="..\samchon\library\Event.hpp" />
     <ClInclude Include="..\samchon\library\EventDispatcher.hpp" />
+    <ClInclude Include="..\samchon\library\EventListener.hpp" />
     <ClInclude Include="..\samchon\library\FactorialGenerator.hpp" />
     <ClInclude Include="..\samchon\library\FTByteFile.hpp" />
     <ClInclude Include="..\samchon\library\FTFactory.hpp" />
@@ -310,6 +311,7 @@
     <ClCompile Include="..\samchon\library\ErrorEvent.cpp" />
     <ClCompile Include="..\samchon\library\Event.cpp" />
     <ClCompile Include="..\samchon\library\EventDispatcher.cpp" />
+    <ClCompile Include="..\samchon\library\EventListener.cpp" />
     <ClCompile Include="..\samchon\library\FactorialGenerator.cpp" />
     <ClCompile Include="..\samchon\library\FTFactory.cpp" />
     <ClCompile Include="..\samchon\library\FTFile.cpp" />

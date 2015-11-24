@@ -78,8 +78,7 @@ auto EventDispatcher::dispatchEvent(Event *event) -> bool
 
 	for (unsigned char it = 0; it != bThreads; it++)
 	{
-		pThreads[it] = new thread([](
-			Event *event, 
+		pThreads[it] = new thread([this, event](
 			UniqueReadLock *it_mutex,
 			queue<EventListener*> *queue)
 		{
@@ -95,7 +94,12 @@ auto EventDispatcher::dispatchEvent(Event *event) -> bool
 				Listener->Dispatch(event);
 			}
 
-		}, event, &itk, &queue_listener);
+		}, &itk, &queue_listener);
+	}
+
+	for (unsigned char it = 0; it != bThreads; it++)
+	{
+		delete[] pThreads;
 	}
 
 

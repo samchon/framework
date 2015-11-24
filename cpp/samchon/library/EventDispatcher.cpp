@@ -1,5 +1,6 @@
 #include <samchon/library/EventDispatcher.hpp>
-#include <samchon\/library/EventListener.hpp>
+#include <samchon/library/EventListener.hpp>
+#include <samchon/library/SignalSyncObject.hpp>
 
 #include <condition_variable>
 #include <memory>
@@ -62,40 +63,43 @@ void EventDispatcher::removeEventListener(int type, EventListener *listener)
 auto EventDispatcher::dispatchEvent(Event *event) -> bool
 {
 	UniqueReadLock uk(mtx);
-	UniqueReadLock itk(RWMutex(), false);
+
+	std::shared_ptr<UniqueReadLock> itk(new UniqueReadLock(RWMutex(), false));
+	std::shared_ptr<SignalSyncObject> Invoker;
+	std::shared_ptr<queue<EventListener*>> queue_listener;
 
 	thread *pThreads[bThreads];
-	queue<EventListener*> queue_listener;
 
 	for (auto it = this->listeners.begin(); it != this->listeners.end(); it++)
 	{
 		if (!(*it)->isActivated()) continue;
 
-		queue_listener.push((*it));
+		queue_listener->push((*it));
 	}
 
 	uk.unlock();
 
 	for (unsigned char it = 0; it != bThreads; it++)
 	{
-		pThreads[it] = new thread([this, event](
-			UniqueReadLock *it_mutex,
-			queue<EventListener*> *queue)
+		pThreads[it] = new thread([this, event, itk, Invoker, queue_listener]()
 		{
 			EventListener *Listener = nullptr;
 
-			while (!queue->empty())
+			while (!queue_listener->empty())
 			{
-				it_mutex->lock();
-				Listener = queue->front();
-				queue->pop();
-				it_mutex->unlock();
+				itk->lock();
+				Listener = queue_listener->front();
+				queue_listener->pop();
+				itk->unlock();
 
 				Listener->Dispatch(event);
 			}
 
-		}, &itk, &queue_listener);
+			Invoker->Signal();
+		});
 	}
+
+	Invoker->WaitForSignal();
 
 	for (unsigned char it = 0; it != bThreads; it++)
 	{

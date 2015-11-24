@@ -382,18 +382,17 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 				while (true)
 				{
 					size_t pos = wstr.find("\r\n", startIndex);
-					if (pos == string::npos)
-						break;
-
 					WeakString piece = wstr.substr(startIndex, pos);
 					
 					size_t size = stoull(piece, 0, 16);
-
+					if (size == 0)
+						break;
+					
 					startIndex = pos + 2;
 					endIndex = std::min(startIndex + size, prevData.size());
 
 					data.insert(data.end(), prevData.begin() + startIndex, prevData.begin() + endIndex);
-					startIndex = endIndex;
+					startIndex = endIndex + 2;
 				}
 				
 				break;
@@ -428,7 +427,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 	return move(data);
 }
 
-#include <Windows.h>
+/*#include <Windows.h>
 
 void toClipboard(const string &str)
 {
@@ -447,4 +446,4 @@ void toClipboard(const string &str)
 	SetClipboardData(CF_TEXT, hg);
 	CloseClipboard();
 	GlobalFree(hg);
-}
+}*/

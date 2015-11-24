@@ -45,7 +45,7 @@ package org.samchon.protocol.socket
 		 * 	<li> ServerConnector.replyData(Invoke) -> parent.replyData(Invoke) </li>
 		 * </ul>
 		 */
-		private var window:Window;
+		private var parent:IProtocol;
 		
 		/**
 		 * <p> A socket for network I/O. </p>
@@ -70,9 +70,9 @@ package org.samchon.protocol.socket
 		 * 
 		 * @param parent A target object who will receive replied data from server
 		 */
-		public function ServerConnector(window:Window)
+		public function ServerConnector(parent:IProtocol)
 		{
-			this.window = window;
+			this.parent = parent;
 			
 			socket = new Socket();
 			str = "";
@@ -142,7 +142,7 @@ package org.samchon.protocol.socket
 		}
 		public function replyData(invoke:Invoke):void
 		{
-			window.replyData(invoke);
+			parent.replyData(invoke);
 		}
 		
 		/* ---------------------------------------------------------------------
@@ -154,7 +154,7 @@ package org.samchon.protocol.socket
 		private function handleConnect(event:Event):void
 		{
 			//IDENTIFIER OF CLIENT: PAIR<IP, SO.DATA.ID>
-			var id:String; 
+			/*var id:String; 
 			
 			var so:SharedObject = SharedObject.getLocal("org.samchon.framework.socket.identifier", "/");
 			if(so.data.id == null)
@@ -167,7 +167,7 @@ package org.samchon.protocol.socket
 				id = so.data.id;
 			
 			socket.writeUTFBytes(id);
-			socket.flush();
+			socket.flush();*/
 			
 			dispatchEvent(event);
 		}

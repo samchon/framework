@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamchonFramework", "SamchonFramework\SamchonFramework.vcxproj", "{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "interaction", "interaction", "{18117241-9642-46A1-9C04-003C165FFA72}"
@@ -62,6 +60,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "string_util", "samchon\exam
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "http", "samchon\example\http\http.vcxproj", "{BA5A7C2E-B22F-4446-B683-D327CC18A943}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sql", "samchon\example\sql\sql.vcxproj", "{B4561D8A-2013-4170-A38A-0D356107CF38}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamchonFramework", "SamchonFramework\SamchonFramework.vcxproj", "{C5FC4A1B-A644-475F-B8EA-A63633F64F2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -70,14 +72,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}.Debug|x64.ActiveCfg = Debug|x64
-		{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}.Debug|x64.Build.0 = Debug|x64
-		{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}.Debug|x86.ActiveCfg = Debug|Win32
-		{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}.Debug|x86.Build.0 = Debug|Win32
-		{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}.Release|x64.ActiveCfg = Release|x64
-		{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}.Release|x64.Build.0 = Release|x64
-		{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}.Release|x86.ActiveCfg = Release|Win32
-		{5FF3EF26-3099-4B71-AEAA-B8BF4AD96518}.Release|x86.Build.0 = Release|Win32
 		{B7C1CBAD-70A0-4707-9515-E505DD66A943}.Debug|x64.ActiveCfg = Debug|x64
 		{B7C1CBAD-70A0-4707-9515-E505DD66A943}.Debug|x64.Build.0 = Debug|x64
 		{B7C1CBAD-70A0-4707-9515-E505DD66A943}.Debug|x86.ActiveCfg = Debug|Win32
@@ -150,6 +144,22 @@ Global
 		{BA5A7C2E-B22F-4446-B683-D327CC18A943}.Release|x64.Build.0 = Release|x64
 		{BA5A7C2E-B22F-4446-B683-D327CC18A943}.Release|x86.ActiveCfg = Release|Win32
 		{BA5A7C2E-B22F-4446-B683-D327CC18A943}.Release|x86.Build.0 = Release|Win32
+		{B4561D8A-2013-4170-A38A-0D356107CF38}.Debug|x64.ActiveCfg = Debug|x64
+		{B4561D8A-2013-4170-A38A-0D356107CF38}.Debug|x64.Build.0 = Debug|x64
+		{B4561D8A-2013-4170-A38A-0D356107CF38}.Debug|x86.ActiveCfg = Debug|Win32
+		{B4561D8A-2013-4170-A38A-0D356107CF38}.Debug|x86.Build.0 = Debug|Win32
+		{B4561D8A-2013-4170-A38A-0D356107CF38}.Release|x64.ActiveCfg = Release|x64
+		{B4561D8A-2013-4170-A38A-0D356107CF38}.Release|x64.Build.0 = Release|x64
+		{B4561D8A-2013-4170-A38A-0D356107CF38}.Release|x86.ActiveCfg = Release|Win32
+		{B4561D8A-2013-4170-A38A-0D356107CF38}.Release|x86.Build.0 = Release|Win32
+		{C5FC4A1B-A644-475F-B8EA-A63633F64F2C}.Debug|x64.ActiveCfg = Debug|x64
+		{C5FC4A1B-A644-475F-B8EA-A63633F64F2C}.Debug|x64.Build.0 = Debug|x64
+		{C5FC4A1B-A644-475F-B8EA-A63633F64F2C}.Debug|x86.ActiveCfg = Debug|Win32
+		{C5FC4A1B-A644-475F-B8EA-A63633F64F2C}.Debug|x86.Build.0 = Debug|Win32
+		{C5FC4A1B-A644-475F-B8EA-A63633F64F2C}.Release|x64.ActiveCfg = Release|x64
+		{C5FC4A1B-A644-475F-B8EA-A63633F64F2C}.Release|x64.Build.0 = Release|x64
+		{C5FC4A1B-A644-475F-B8EA-A63633F64F2C}.Release|x86.ActiveCfg = Release|Win32
+		{C5FC4A1B-A644-475F-B8EA-A63633F64F2C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,5 +178,6 @@ Global
 		{E2B5B627-FD70-49B1-B7DE-CC125F91F754} = {BCD16A47-DF7C-4B5E-BE61-7DBD24870D2E}
 		{38D55213-2161-4FC5-A56B-EDF8551E25FD} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
 		{BA5A7C2E-B22F-4446-B683-D327CC18A943} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
+		{B4561D8A-2013-4170-A38A-0D356107CF38} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
 	EndGlobalSection
 EndGlobal

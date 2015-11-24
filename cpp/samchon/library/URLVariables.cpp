@@ -58,7 +58,7 @@ auto URLVariables::encode(const WeakString &wstr) -> string
 			)
 			res.push_back(ch);
 		else if (ch == ' ')
-			res.append("+");
+			res.append("%20");
 		else
 			res.append
 			({
@@ -78,11 +78,12 @@ auto URLVariables::decode(const WeakString &wstr) -> string
 	{
 		const char ch = wstr[i];
 
-		if (ch == '+')
+		/*if (ch == '+')
 		{
 			res.append({' '});
 		}
-		else if (ch == '%' && wstr.size() > i + 2)
+		else */
+		if (ch == '%' && wstr.size() > i + 2)
 		{
 			char ch1 = fromHex(wstr[i + 1]);
 			char ch2 = fromHex(wstr[i + 2]);

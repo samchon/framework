@@ -120,7 +120,6 @@ namespace samchon
 				static void main()
 				{
 					std::string ip;
-					int port;
 
 					std::cout << "----------------------------------------------------------------------------" << std::endl;
 					std::cout << "	REPOTER" << std::endl;

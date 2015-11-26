@@ -93,3 +93,4 @@ js/
 #	CUSTOM IGNORE
 # ======================================================
 cloc.bat
+cpp/SamchonFramework/SamchonFramework.vcxproj

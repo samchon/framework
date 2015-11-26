@@ -18,141 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <ProjectGuid>{C5FC4A1B-A644-475F-B8EA-A63633F64F2C}</ProjectGuid>
-    <Keyword>Win32Proj</Keyword>
-    <RootNamespace>SamchonFramework</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x86;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x86;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SAMCHON_FRAMEWORK_EXPORT;WIN32;_DEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SAMCHON_FRAMEWORK_EXPORT;_DEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>SAMCHON_FRAMEWORK_EXPORT;WIN32;NDEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>SAMCHON_FRAMEWORK_EXPORT;NDEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\API.hpp" />
     <ClInclude Include="..\samchon\ByteArray.hpp" />
@@ -160,6 +25,7 @@
     <ClInclude Include="..\samchon\IndexPair.hpp" />
     <ClInclude Include="..\samchon\library\Base64.hpp" />
     <ClInclude Include="..\samchon\library\CaseGenerator.hpp" />
+    <ClInclude Include="..\samchon\library\CaseTree.hpp" />
     <ClInclude Include="..\samchon\library\Charset.hpp" />
     <ClInclude Include="..\samchon\library\CombinedPermutationGenerator.hpp" />
     <ClInclude Include="..\samchon\library\CriticalAllocator.hpp" />
@@ -172,7 +38,8 @@
     <ClInclude Include="..\samchon\library\Datetime.hpp" />
     <ClInclude Include="..\samchon\library\ErrorEvent.hpp" />
     <ClInclude Include="..\samchon\library\Event.hpp" />
-    <ClInclude Include="..\samchon\library\StaticEventDispatcher.hpp" />
+    <ClInclude Include="..\samchon\library\EventDispatcher.hpp" />
+    <ClInclude Include="..\samchon\library\EventListener.hpp" />
     <ClInclude Include="..\samchon\library\FactorialGenerator.hpp" />
     <ClInclude Include="..\samchon\library\FTByteFile.hpp" />
     <ClInclude Include="..\samchon\library\FTFactory.hpp" />
@@ -194,9 +61,11 @@
     <ClInclude Include="..\samchon\library\SharedAcquire.hpp" />
     <ClInclude Include="..\samchon\library\SharedReadLock.hpp" />
     <ClInclude Include="..\samchon\library\SharedWriteLock.hpp" />
+    <ClInclude Include="..\samchon\library\SignalSyncObject.hpp" />
     <ClInclude Include="..\samchon\library\SQLi.hpp" />
     <ClInclude Include="..\samchon\library\SQLLiteConnector.hpp" />
     <ClInclude Include="..\samchon\library\SQLStatement.hpp" />
+    <ClInclude Include="..\samchon\library\StaticEventDispatcher.hpp" />
     <ClInclude Include="..\samchon\library\StringUtil.hpp" />
     <ClInclude Include="..\samchon\library\TSQLi.hpp" />
     <ClInclude Include="..\samchon\library\TSQLStatement.hpp" />
@@ -310,6 +179,7 @@
     <ClCompile Include="..\samchon\library\ErrorEvent.cpp" />
     <ClCompile Include="..\samchon\library\Event.cpp" />
     <ClCompile Include="..\samchon\library\EventDispatcher.cpp" />
+    <ClCompile Include="..\samchon\library\EventListener.cpp" />
     <ClCompile Include="..\samchon\library\FactorialGenerator.cpp" />
     <ClCompile Include="..\samchon\library\FTFactory.cpp" />
     <ClCompile Include="..\samchon\library\FTFile.cpp" />
@@ -317,8 +187,6 @@
     <ClCompile Include="..\samchon\library\FTInstance.cpp" />
     <ClCompile Include="..\samchon\library\HTTPLoader.cpp" />
     <ClCompile Include="..\samchon\library\Math.cpp" />
-    <ClCompile Include="..\samchon\library\TSQLi.cpp" />
-    <ClCompile Include="..\samchon\library\TSQLStatement.cpp" />
     <ClCompile Include="..\samchon\library\PermutationGenerator.cpp" />
     <ClCompile Include="..\samchon\library\ProgressEvent.cpp" />
     <ClCompile Include="..\samchon\library\RWMutex.cpp" />
@@ -326,9 +194,13 @@
     <ClCompile Include="..\samchon\library\SharedAcquire.cpp" />
     <ClCompile Include="..\samchon\library\SharedReadLock.cpp" />
     <ClCompile Include="..\samchon\library\SharedWriteLock.cpp" />
+    <ClCompile Include="..\samchon\library\SignalSyncObject.cpp" />
     <ClCompile Include="..\samchon\library\SQLi.cpp" />
     <ClCompile Include="..\samchon\library\SQLStatement.cpp" />
+    <ClCompile Include="..\samchon\library\StaticEventDispatcher.cpp" />
     <ClCompile Include="..\samchon\library\StringUtil.cpp" />
+    <ClCompile Include="..\samchon\library\TSQLi.cpp" />
+    <ClCompile Include="..\samchon\library\TSQLStatement.cpp" />
     <ClCompile Include="..\samchon\library\UniqueReadLock.cpp" />
     <ClCompile Include="..\samchon\library\UniqueWriteLock.cpp" />
     <ClCompile Include="..\samchon\library\URLVariables.cpp" />
@@ -406,6 +278,141 @@
     <ClCompile Include="..\samchon\protocol\WebServerConnector.cpp" />
     <ClCompile Include="..\samchon\WeakString.cpp" />
   </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{546D9E83-296C-4FB6-9C76-2BBFEC92326F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>SamchonFramework</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SAMCHON_FRAMEWORK_EXPORT;WIN32;_DEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SAMCHON_FRAMEWORK_EXPORT;_DEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>SAMCHON_FRAMEWORK_EXPORT;WIN32;NDEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>SAMCHON_FRAMEWORK_EXPORT;NDEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -46,7 +46,11 @@ auto ByteArray::leftSize() const -> size_t
 template<> auto ByteArray::read() const -> string
 {
 	string str = (char*)(data() + position);
-	((ByteArray*)this)->position += str.size() + 1;
+
+	/*if (position + str.size() + 1 < this->size() && operator[](position + str.size() + 1) == NULL)
+		((ByteArray*)this)->position += str.size() + 1;
+	else*/
+		((ByteArray*)this)->position += str.size();
 
 	return str;
 }

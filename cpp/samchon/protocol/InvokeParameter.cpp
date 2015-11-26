@@ -128,6 +128,10 @@ auto InvokeParameter::getType() const -> std::string
 	return type;
 }
 
+template<> auto InvokeParameter::getValue() const -> string
+{
+	return str;
+}
 template<> auto InvokeParameter::getValue() const -> WeakString
 {
 	return str;

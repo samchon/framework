@@ -263,9 +263,9 @@ void XML::constructChildren(WeakString &wStr)
 	size_t endX = wStr.rfind('>') + 1;
 	wStr = wStr.substring(startX, endX);
 
-	map<std::string, queue<XML *>> xmlQueueMap;
+	/*map<std::string, queue<XML *>> xmlQueueMap;
 	queue<XML*> *xmlQueue;
-	XML *xml;
+	XML *xml;*/
 
 	int blockStartCount = 0;
 	int blockEndCount = 0;
@@ -286,8 +286,11 @@ void XML::constructChildren(WeakString &wStr)
 			//NO PROBLEM TO AVOID COMMENT
 			end = wStr.find('>', i);
 
-			xml = new XML(this, wStr.substring(start, end + 1));
-			xmlQueueMap[xml->tag].push(xml);
+			/*xml = new XML(this, wStr.substring(start, end + 1));
+			xmlQueueMap[xml->tag].push(xml);*/
+
+			shared_ptr<XML> xml(new XML(this, wStr.substring(start, end + 1)));
+			push_back(xml);
 
 			i = end; //WHY NOT END+1? 
 			start = end + 1;
@@ -297,7 +300,7 @@ void XML::constructChildren(WeakString &wStr)
 	}
 
 	//RESERVE
-	for (auto it = xmlQueueMap.begin(); it != xmlQueueMap.end(); it++)
+	/*for (auto it = xmlQueueMap.begin(); it != xmlQueueMap.end(); it++)
 	{
 		std::string tag = move(it->first); //GET KEY
 		shared_ptr<XMLList> xmlList(new XMLList());
@@ -315,7 +318,7 @@ void XML::constructChildren(WeakString &wStr)
 		}
 		//INSERT IN MAP BY KEY
 		insert({ tag, xmlList });
-	}
+	}*/
 
 	if (size() > 0)
 		value.clear();
@@ -327,6 +330,15 @@ void XML::constructChildren(WeakString &wStr)
 auto XML::getTag() const -> std::string
 {
 	return this->tag;
+}
+
+template<> auto XML::getValue() const -> string
+{
+	return value;
+}
+template<> auto XML::getValue() const -> WeakString
+{
+	return value;
 }
 
 /*template<> auto XML::getValue() const -> int
@@ -381,6 +393,15 @@ template<> auto XML::getValue() const -> std::string
 void XML::setTag(const std::string &tag)
 {
 	this->tag = tag;
+}
+
+template<> void XML::setValue(const string &value)
+{
+	this->value = value;
+}
+template<> void XML::setValue(const WeakString &value)
+{
+	this->value = value.str();
 }
 
 /*template<> void XML::setValue(const int &value)
@@ -490,6 +511,15 @@ auto XML::hasProperty(const std::string &tag) const -> bool
 	return propertyMap.has(tag);
 }
 
+template<> auto XML::getProperty(const string &key) const -> string
+{
+	return propertyMap.get(key);
+}
+template<> auto XML::getProperty(const string &key) const -> WeakString
+{
+	return propertyMap.get(key);
+}
+
 /*template<> auto XML::getProperty(const std::string &tag) const -> int
 {
 	return stoi( propertyMap.get(tag) );
@@ -532,6 +562,15 @@ template<> auto XML::getProperty(const std::string &tag) const -> std::string
 }*/
 
 //SETTERS
+template<> void XML::setProperty(const std::string &tag, const std::string &val)
+{
+	propertyMap.set(tag, val);
+}
+template<> void XML::setProperty(const std::string &tag, const WeakString &val)
+{
+	propertyMap.set(tag, val.str());
+}
+
 /*template<> void XML::setProperty(const std::string &tag, const int &val)
 {
 	propertyMap.set(tag, std::to_string(val));

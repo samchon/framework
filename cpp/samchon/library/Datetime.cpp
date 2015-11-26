@@ -65,7 +65,7 @@ void Datetime::set(const WeakString &wStr)
 	else
 		sec = 0;
 
-	set(getYear(), getMinute(), getSecond(), hour, min, sec);
+	set(getYear(), getMonth(), getDate(), hour, min, sec);
 }
 void Datetime::set(int year, int month, int date, int hour, int minutes, int seconds)
 {

@@ -1,4 +1,4 @@
-#pragma once
+pragma once
 #include <samchon/API.hpp>
 
 #include <vector>

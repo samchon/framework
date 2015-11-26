@@ -1,7 +1,5 @@
 #include <samchon/WeakString.hpp>
 
-#include <iostream>
-
 #include <list>
 #include <queue>
 #include <utility>
@@ -25,7 +23,8 @@ WeakString::WeakString()
 WeakString::WeakString(const char *data, size_t size)
 {
 	this->data_ = data;
-	this->size_ = std::min<size_t>(std::char_traits<char>::length(data), size);
+	this->size_ = size;
+	// this->size_ = std::min<size_t>(std::char_traits<char>::length(data), size);
 }
 WeakString::WeakString(const char *begin, const char *end)
 	: WeakString(begin, end - begin)
@@ -438,16 +437,13 @@ auto WeakString::replaceAll(const std::vector<std::pair<WeakString, WeakString>>
 	//1ST IS STR-INDEX FROM FIND
 	//2ND IS PAIR-INDEX
 
-	size_t strSize = size();
+	size_t size = this->size();
 	size_t index;
 	size_t i;
 
 	//FIND POSITION-INDEX IN ORIGINAL STRING
 	for (i = 0; i < pairs.size(); i++)
 	{
-		strSize -= pairs[i].first.size();
-		strSize += pairs[i].second.size();
-
 		index = 0;
 
 		while (true)
@@ -455,6 +451,9 @@ auto WeakString::replaceAll(const std::vector<std::pair<WeakString, WeakString>>
 			index = find(pairs[i].first, index);
 			if (index == npos)
 				break;
+
+			size -= pairs[i].first.size();
+			size += pairs[i].second.size();
 
 			foundPairList.push_back({ index++, i });
 		}
@@ -467,7 +466,7 @@ auto WeakString::replaceAll(const std::vector<std::pair<WeakString, WeakString>>
 
 	//REPLACE
 	std::string str;
-	str.reserve(strSize);
+	str.reserve((size_t)size);
 
 	index = 0;
 
@@ -483,7 +482,7 @@ auto WeakString::replaceAll(const std::vector<std::pair<WeakString, WeakString>>
 		index = it->first + before.size();
 		foundPairList.pop_front();
 	}
-	if (index <= size() - 1)
+	if (index <= this->size() - 1)
 		str.append(substr(index).str());
 
 	return str;

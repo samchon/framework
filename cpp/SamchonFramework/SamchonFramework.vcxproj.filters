@@ -61,6 +61,63 @@
     <Filter Include="Header Files\protocol\slave">
       <UniqueIdentifier>{42383a42-db0d-4eee-ac9b-83595b9c0579}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\library\virtual file tree">
+      <UniqueIdentifier>{ce951ea8-8aab-47c3-a987-de2bef00535f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\event">
+      <UniqueIdentifier>{5753934f-2509-4057-a625-fe705c9c4ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\case generator">
+      <UniqueIdentifier>{9426bedb-aee6-44dc-a1fe-d91b0b9b8cf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\critical section">
+      <UniqueIdentifier>{2e4a7c85-1664-43ef-8c10-4fefceb18699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\critical section\container">
+      <UniqueIdentifier>{52bd8709-58e4-4091-a7b6-8210e467b7e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\critical section\unique lock">
+      <UniqueIdentifier>{dd9ec149-a922-439f-9d03-397e20c5f0d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\utils">
+      <UniqueIdentifier>{a123ee42-27ec-4695-851a-418e9b0c83ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\date">
+      <UniqueIdentifier>{c7ceb99f-995d-4bda-91b4-17d7354d6d82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\genetic algorithm">
+      <UniqueIdentifier>{19b6fb1f-a161-4f4e-8478-10522d37dbee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\sql driver">
+      <UniqueIdentifier>{2fca3b8f-5d5d-4d60-b44b-6fd83c155a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\http loader">
+      <UniqueIdentifier>{935eeb50-7169-43d3-8f09-6c09d155ae1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\xml">
+      <UniqueIdentifier>{82c78f5c-22cb-4af9-9e05-0647d639d6a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\entity">
+      <UniqueIdentifier>{355eadf0-9bed-4510-8f5f-e1fd19d580dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\invoke">
+      <UniqueIdentifier>{a85ff372-259e-48b7-8f87-16113b2bb9be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\basic components">
+      <UniqueIdentifier>{a2cc15cc-fb1b-4d01-ba8c-c221244303d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\web-socket">
+      <UniqueIdentifier>{990bc181-9d5a-4fe7-9eac-877df132707a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\external system">
+      <UniqueIdentifier>{e9a2b869-cdce-4a1e-860d-9b8bce8833a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\distributed system">
+      <UniqueIdentifier>{f1f1abd4-7293-410e-93da-c0e46a61a1d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\parallel system">
+      <UniqueIdentifier>{fc7863c4-0e75-44ff-a5cd-a465b375f11d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\API.hpp">
@@ -86,153 +143,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\WeakString.hpp">
       <Filter>Header Files\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\XMLList.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\XML.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\URLVariables.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\UniqueWriteLock.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\UniqueReadLock.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\UniqueAcquire.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\TSQLStatement.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\TSQLi.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\StringUtil.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SQLStatement.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SQLLiteConnector.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SQLi.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SharedWriteLock.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SharedReadLock.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SharedAcquire.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\Semaphore.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\RWMutex.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\ProgressEvent.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\PermutationGenerator.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\MySQLi.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\Math.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\IOperator.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\HTTPLoader.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\GeneticAlgorithm.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\GAPopulation.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\GAParameters.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTTextFile.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTInstance.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTFolder.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTFile.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTFactory.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTByteFile.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FactorialGenerator.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\EventDispatcher.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\Event.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\ErrorEvent.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\Datetime.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\Date.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalVector.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalSet.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalMap.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalList.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalDictionary.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalAllocator.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CombinedPermutationGenerator.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\Charset.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CaseTree.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CaseGenerator.hpp">
-      <Filter>Header Files\library</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\Base64.hpp">
-      <Filter>Header Files\library</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\namtree\INTExplore.hpp">
       <Filter>Header Files\namtree</Filter>
@@ -264,209 +174,8 @@
     <ClInclude Include="..\samchon\namtree\NTSide.hpp">
       <Filter>Header Files\namtree</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\Entity.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\EntityArray.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\EntityGroup.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\EntityList.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\ExternalClient.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\ExternalClientArray.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\ExternalServer.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\ExternalServerArray.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\ExternalSystem.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\ExternalSystemArray.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\ExternalSystemRole.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\FlashPolicyServer.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IClient.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntityChain.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntityPtrGroup.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntitySharedPtrGroup.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntityUniquePtrGroup.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IHTMLEntity.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\Invoke.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\InvokeHistoryArray.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\InvokeParameter.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IProtocol.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IServer.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\ISQLEntity.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IWebClient.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IWebClientBase.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IWebServer.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\ServerConnector.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\SharedEntityArray.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\SharedEntityList.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\Socket.hpp">
       <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\SystemRole.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\UniqueEntityArray.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\UniqueEntityList.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\WebServerConnector.hpp">
-      <Filter>Header Files\protocol\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedClient.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedClientArray.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedClientArrayMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedServer.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedServerArray.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedServerArrayMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSlaveClientMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSlaveServerMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSlaveSystemMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSystem.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArray.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArrayMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistoryArray.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelClient.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelClientArray.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelClientArrayMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelServer.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelServerArray.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelServerArrayMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelSlaveClientMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelSlaveServerMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelSlaveSystemMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelSystem.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelSystemArray.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelSystemArrayMediator.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\PRInvokeHistory.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\PRInvokeHistoryArray.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\PRMasterHistory.hpp">
-      <Filter>Header Files\protocol\master</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\PRMasterHistoryArray.hpp">
-      <Filter>Header Files\protocol\master</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\slave\ParallelClient.hpp">
       <Filter>Header Files\protocol\slave</Filter>
@@ -506,6 +215,342 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\service\User.hpp">
       <Filter>Header Files\protocol\service</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\FTByteFile.hpp">
+      <Filter>Header Files\library\virtual file tree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\FTFactory.hpp">
+      <Filter>Header Files\library\virtual file tree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\FTFile.hpp">
+      <Filter>Header Files\library\virtual file tree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\FTFolder.hpp">
+      <Filter>Header Files\library\virtual file tree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\FTInstance.hpp">
+      <Filter>Header Files\library\virtual file tree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\FTTextFile.hpp">
+      <Filter>Header Files\library\virtual file tree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\ErrorEvent.hpp">
+      <Filter>Header Files\library\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\Event.hpp">
+      <Filter>Header Files\library\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\ProgressEvent.hpp">
+      <Filter>Header Files\library\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CaseGenerator.hpp">
+      <Filter>Header Files\library\case generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CombinedPermutationGenerator.hpp">
+      <Filter>Header Files\library\case generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\PermutationGenerator.hpp">
+      <Filter>Header Files\library\case generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\FactorialGenerator.hpp">
+      <Filter>Header Files\library\case generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalAllocator.hpp">
+      <Filter>Header Files\library\critical section</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalDictionary.hpp">
+      <Filter>Header Files\library\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalList.hpp">
+      <Filter>Header Files\library\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalMap.hpp">
+      <Filter>Header Files\library\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalSet.hpp">
+      <Filter>Header Files\library\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalVector.hpp">
+      <Filter>Header Files\library\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\UniqueAcquire.hpp">
+      <Filter>Header Files\library\critical section\unique lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\UniqueReadLock.hpp">
+      <Filter>Header Files\library\critical section\unique lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\UniqueWriteLock.hpp">
+      <Filter>Header Files\library\critical section\unique lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SharedAcquire.hpp">
+      <Filter>Header Files\library\critical section\unique lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SharedReadLock.hpp">
+      <Filter>Header Files\library\critical section\unique lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SharedWriteLock.hpp">
+      <Filter>Header Files\library\critical section\unique lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\Semaphore.hpp">
+      <Filter>Header Files\library\critical section</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\RWMutex.hpp">
+      <Filter>Header Files\library\critical section</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\StringUtil.hpp">
+      <Filter>Header Files\library\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\Math.hpp">
+      <Filter>Header Files\library\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\Date.hpp">
+      <Filter>Header Files\library\date</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\Datetime.hpp">
+      <Filter>Header Files\library\date</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\Base64.hpp">
+      <Filter>Header Files\library\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\Charset.hpp">
+      <Filter>Header Files\library\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\GAParameters.hpp">
+      <Filter>Header Files\library\genetic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\GAPopulation.hpp">
+      <Filter>Header Files\library\genetic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\GeneticAlgorithm.hpp">
+      <Filter>Header Files\library\genetic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SQLi.hpp">
+      <Filter>Header Files\library\sql driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SQLLiteConnector.hpp">
+      <Filter>Header Files\library\sql driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\SQLStatement.hpp">
+      <Filter>Header Files\library\sql driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\MySQLi.hpp">
+      <Filter>Header Files\library\sql driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\TSQLi.hpp">
+      <Filter>Header Files\library\sql driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\TSQLStatement.hpp">
+      <Filter>Header Files\library\sql driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\HTTPLoader.hpp">
+      <Filter>Header Files\library\http loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\URLVariables.hpp">
+      <Filter>Header Files\library\http loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\XML.hpp">
+      <Filter>Header Files\library\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\XMLList.hpp">
+      <Filter>Header Files\library\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\IOperator.hpp">
+      <Filter>Header Files\library\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\StaticEventDispatcher.hpp">
+      <Filter>Header Files\library\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\Entity.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\EntityArray.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\EntityGroup.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\EntityList.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\SharedEntityArray.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\SharedEntityList.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\UniqueEntityArray.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\UniqueEntityList.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ISQLEntity.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IHTMLEntity.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IEntityChain.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\Invoke.hpp">
+      <Filter>Header Files\protocol\common\invoke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp">
+      <Filter>Header Files\protocol\common\invoke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\InvokeHistoryArray.hpp">
+      <Filter>Header Files\protocol\common\invoke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\InvokeParameter.hpp">
+      <Filter>Header Files\protocol\common\invoke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IClient.hpp">
+      <Filter>Header Files\protocol\common\basic components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IProtocol.hpp">
+      <Filter>Header Files\protocol\common\basic components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IServer.hpp">
+      <Filter>Header Files\protocol\common\basic components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ServerConnector.hpp">
+      <Filter>Header Files\protocol\common\basic components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IWebServer.hpp">
+      <Filter>Header Files\protocol\common\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IWebClient.hpp">
+      <Filter>Header Files\protocol\common\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IWebClientBase.hpp">
+      <Filter>Header Files\protocol\common\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\FlashPolicyServer.hpp">
+      <Filter>Header Files\protocol\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\SystemRole.hpp">
+      <Filter>Header Files\protocol\common\external system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\WebServerConnector.hpp">
+      <Filter>Header Files\protocol\common\external system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalSystemRole.hpp">
+      <Filter>Header Files\protocol\common\external system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalSystemArray.hpp">
+      <Filter>Header Files\protocol\common\external system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalSystem.hpp">
+      <Filter>Header Files\protocol\common\external system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalServerArray.hpp">
+      <Filter>Header Files\protocol\common\external system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalServer.hpp">
+      <Filter>Header Files\protocol\common\external system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalClientArray.hpp">
+      <Filter>Header Files\protocol\common\external system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalClient.hpp">
+      <Filter>Header Files\protocol\common\external system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedClient.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedClientArray.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedClientArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedServer.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedServerArray.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedServerArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedSlaveClientMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedSlaveServerMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedSlaveSystemMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystem.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArray.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistory.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\DSInvokeHistoryArray.hpp">
+      <Filter>Header Files\protocol\master\distributed system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelClient.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelClientArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelClientArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelServer.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelServerArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelServerArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelSlaveClientMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelSlaveServerMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelSlaveSystemMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelSystem.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelSystemArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelSystemArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\PRInvokeHistory.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\PRInvokeHistoryArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\PRMasterHistory.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\PRMasterHistoryArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

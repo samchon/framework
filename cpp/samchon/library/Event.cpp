@@ -1,14 +1,14 @@
 #include <samchon/library/Event.hpp>
-#include <samchon/library/EventDispatcher.hpp>
+#include <samchon/library/StaticEventDispatcher.hpp>
 using namespace samchon::library;
 
-Event::Event(EventDispatcher *source, int type)
+Event::Event(StaticEventDispatcher *source, int type)
 {
 	this->source = source;
 	this->type = type;
 }
 
-auto Event::getSource() const -> EventDispatcher*
+auto Event::getSource() const -> StaticEventDispatcher*
 {
 	return source;
 }

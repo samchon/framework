@@ -233,6 +233,8 @@ namespace samchon
 
 				this->value = std::move(sstream.str());
 			};
+			template<> void setValue(const std::string &);
+			template<> void setValue(const WeakString &);
 
 			/**
 			 * @brief Set a property with its key
@@ -245,6 +247,8 @@ namespace samchon
 
 				propertyMap.set(name, sstream.str());
 			};
+			template<> void setProperty(const std::string &, const std::string &);
+			template<> void setProperty(const std::string &, const WeakString &);
 
 			/**
 			 * @brief Erase a property by its key
@@ -284,6 +288,8 @@ namespace samchon
 
 				return std::move(val);
 			};
+
+			template<> auto getValue() const -> std::string;
 			
 			/**
 			 * @brief Get property
@@ -298,6 +304,9 @@ namespace samchon
 
 				return std::move(val);
 			};
+
+			template<> auto getProperty(const std::string &) const -> std::string;
+			template<> auto getProperty(const std::string &) const -> WeakString;
 
 			/**
 			 * @brief Test wheter a property exists or not

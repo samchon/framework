@@ -1,11 +1,11 @@
-#include <samchon/library/EventDispatcher.hpp>
-#include <samchon/library/EventListener.hpp>
-#include <samchon/library/SignalSyncObject.hpp>
+#include <samchon/library/StaticEventDispatcher.hpp>
 
+#include <atomic>
 #include <condition_variable>
 #include <memory>
 #include <mutex>
 #include <thread>
+#include <vector>
 
 #include <samchon/library/CriticalMap.hpp>
 #include <samchon/library/CriticalSet.hpp>
@@ -19,14 +19,14 @@ using namespace samchon::library;
 /* -------------------------------------------------------------
 	CONSTRUCTORS
 ------------------------------------------------------------- */
-EventDispatcher::EventDispatcher() 
+StaticEventDispatcher::StaticEventDispatcher() 
 {
 }
-EventDispatcher::EventDispatcher(const EventDispatcher &eventDispatcher)
+StaticEventDispatcher::StaticEventDispatcher(const StaticEventDispatcher &eventDispatcher)
 {
 	//DO NOT COPY EVENTS
 }
-EventDispatcher::EventDispatcher(EventDispatcher &&eventDispatcher)
+StaticEventDispatcher::StaticEventDispatcher(StaticEventDispatcher &&eventDispatcher)
 {
 	//COPY EVENTS
 }
@@ -34,92 +34,60 @@ EventDispatcher::EventDispatcher(EventDispatcher &&eventDispatcher)
 /* -------------------------------------------------------------
 	EVENT LISTENER IN & OUT
 ------------------------------------------------------------- */
-void EventDispatcher::addEventListener(int type, EventListener *listener)
+void StaticEventDispatcher::addEventListener(int type, void(*listener)(std::shared_ptr<Event>))
 {
 	UniqueWriteLock uk(mtx);
 
-	this->listeners.push_back(listener);
-
-	return;
-
+	auto &set = eventSetMap[type];
+	set.insert(listener);
 }
-
-void EventDispatcher::removeEventListener(int type, EventListener *listener)
+void StaticEventDispatcher::removeEventListener(int type, void(*listener)(std::shared_ptr<Event>))
 {
 	UniqueWriteLock uk(mtx);
 
-	for (auto it = this->listeners.begin(); it != this->listeners.end(); it++)
-	{
-		if (listener != (*it))  continue;
-		listeners.erase(it);
-	}
-
-	return;
+	if (eventSetMap.count(type) > 0 && eventSetMap[type].count(listener) > 0)
+		eventSetMap[type].erase(listener);
 }
 
 /* -------------------------------------------------------------
 	SEND EVENT
 ------------------------------------------------------------- */
-auto EventDispatcher::dispatchEvent(Event *event) -> bool
+auto StaticEventDispatcher::dispatchEvent(shared_ptr<Event> event) -> bool
 {
 	UniqueReadLock uk(mtx);
 
-	std::shared_ptr<UniqueReadLock> itk(new UniqueReadLock(RWMutex(), false));
-	std::shared_ptr<SignalSyncObject> Invoker;
-	std::shared_ptr<queue<EventListener*>> queue_listener;
+	int type = event->getType();
+	if (eventSetMap.count(type) == 0 || eventSetMap[type].empty() == true)
+		return false;
 
-	thread *pThreads[bThreads];
-
-	for (auto it = this->listeners.begin(); it != this->listeners.end(); it++)
+	auto &eventSet = eventSetMap[type];
+	for (auto it = eventSet.begin(); it != eventSet.end(); it++)
 	{
-		if (!(*it)->isActivated()) continue;
-
-		queue_listener->push((*it));
-	}
-
-	uk.unlock();
-
-	for (unsigned char it = 0; it != bThreads; it++)
-	{
-		pThreads[it] = new thread([this, event, itk, Invoker, queue_listener]()
+		thread([it, event, this]
 		{
-			EventListener *Listener = nullptr;
+			UniqueAcquire u_ac(this->semaphore);
 
-			while (!queue_listener->empty())
-			{
-				itk->lock();
-				Listener = queue_listener->front();
-				queue_listener->pop();
-				itk->unlock();
-
-				Listener->Dispatch(event);
-			}
-
-			Invoker->Signal();
-		});
+			(*it)(event);
+		}).detach();
 	}
-
-	Invoker->WaitForSignal();
-
-	for (unsigned char it = 0; it != bThreads; it++)
-	{
-		delete[] pThreads;
-	}
-
-
 	return true;
 }
+auto StaticEventDispatcher::dispatchProgressEvent(size_t x, size_t size) -> bool
+{
+	shared_ptr<ProgressEvent> event(new ProgressEvent(this, x, size));
 
-#ifdef LEGACY
-void EventDispatcher::eventActivated()
+	return dispatchEvent(event);
+}
+
+/*void StaticEventDispatcher::eventActivated()
 {
 	sendEvent(Event::ACTIVATE);
 }
-void EventDispatcher::eventCompleted()
+void StaticEventDispatcher::eventCompleted()
 {
 	sendEvent(Event::COMPLETE);
 }
-void EventDispatcher::sendRemoved()
+void StaticEventDispatcher::sendRemoved()
 {
 	if (eventSetMap.has(Event::REMOVED) == false)
 		return;
@@ -133,7 +101,7 @@ void EventDispatcher::sendRemoved()
 	eventSet->readUnlock();
 }
 
-void EventDispatcher::sendEvent(long type)
+void StaticEventDispatcher::sendEvent(long type)
 {
 	if (type == Event::REMOVED)
 	{
@@ -151,7 +119,7 @@ void EventDispatcher::sendEvent(long type)
 		thread(*it, event).detach();
 	eventSet->readUnlock();
 }
-void EventDispatcher::sendError(long id)
+void StaticEventDispatcher::sendError(long id)
 {
 	shared_ptr<ErrorEvent> event(new ErrorEvent(this, ErrorEvent::ERROR_OCCURED, id));
 
@@ -160,7 +128,7 @@ void EventDispatcher::sendError(long id)
 		thread(*it, event).detach();
 	errorSet.readUnlock();
 }
-void EventDispatcher::sendProgress(unsigned long long x, unsigned long long size)
+void StaticEventDispatcher::sendProgress(unsigned long long x, unsigned long long size)
 {
 	shared_ptr<ProgressEvent> event(new ProgressEvent(this, x, size));
 
@@ -168,5 +136,4 @@ void EventDispatcher::sendProgress(unsigned long long x, unsigned long long size
 	for (auto it = progressSet.begin(); it != progressSet.end(); it++)
 		thread(*it, event).detach();
 	progressSet.readUnlock();
-}
-#endif
+}*/

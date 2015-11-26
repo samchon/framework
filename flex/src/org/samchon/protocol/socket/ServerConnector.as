@@ -7,7 +7,10 @@ package org.samchon.protocol.socket
 	import flash.events.SecurityErrorEvent;
 	import flash.net.SharedObject;
 	import flash.net.Socket;
+	import flash.system.System;
 	import flash.utils.ByteArray;
+	
+	import mx.controls.Alert;
 	
 	import org.samchon.library.utils.StringUtil;
 	import org.samchon.protocol.invoke.IProtocol;
@@ -50,7 +53,12 @@ package org.samchon.protocol.socket
 		/**
 		 * <p> A socket for network I/O. </p>
 		 */
-		private var socket:Socket;
+		protected var socket:Socket;
+		
+		/**
+		 * @private
+		 */
+		//private var bufferQueue:Vector.<ByteArray>;
 		
 		/**
 		 * @private
@@ -60,7 +68,14 @@ package org.samchon.protocol.socket
 		/**
 		 * @private
 		 */
-		private var binaryInvoke:Invoke;
+		private var binaryInvoke:Invoke = null;
+		
+		/**
+		 * @private
+		 */
+		private var binaryData:ByteArray = null;
+		
+		protected static const CLOSED_PARENTHESIS_SIZE:int = String("</invoke>").length;
 		
 		/* ---------------------------------------------------------------------
 			CONSTRUCTORS
@@ -75,6 +90,8 @@ package org.samchon.protocol.socket
 			this.parent = parent;
 			
 			socket = new Socket();
+			
+			//bufferQueue = new Vector.<ByteArray>();
 			str = "";
 			binaryInvoke = null;
 			
@@ -132,9 +149,12 @@ package org.samchon.protocol.socket
 				</invoke>
 			---------------------------------------------------------------------
 			*/
-			socket.writeUTFBytes(invoke.toXML().toXMLString());
+			if (invoke.length == 0)
+				writeString("<invoke listener=\"" + invoke.getListener() + "\"></invoke>");
+			else
+				writeString(invoke.toXML().toXMLString());
 			
-			for(var i:int = 0; i < invoke.length; i++)
+			for (var i:int = 0; i < invoke.length; i++)
 				if( invoke.at(i).getType() == "ByteArray")
 					socket.writeBytes( invoke.at(i).getValue() );
 			
@@ -143,6 +163,18 @@ package org.samchon.protocol.socket
 		public function replyData(invoke:Invoke):void
 		{
 			parent.replyData(invoke);
+		}
+		
+		protected function readString(byteArray:ByteArray):String
+		{
+			if (System.useCodePage == true)
+				return byteArray.readUTFBytes(byteArray.bytesAvailable);
+			else
+				return byteArray.toString();
+		}
+		protected function writeString(str:String):void
+		{
+			socket.writeUTFBytes(str);
 		}
 		
 		/* ---------------------------------------------------------------------
@@ -196,160 +228,152 @@ package org.samchon.protocol.socket
 		 */
 		private function handleReply(event:ProgressEvent):void
 		{
-			var byteArray:ByteArray = new ByteArray();
-			socket.readBytes(byteArray);
+			var buffer:ByteArray = new ByteArray();
+			socket.readBytes(buffer);
 			
-			if(binaryInvoke == null)
-				handleString(byteArray);
+			if (binaryInvoke == null)
+				handleString(buffer);
 			else
-				handleBinary(byteArray);
+				handleBinary(buffer);
+			
+			/*if (bufferQueue.length == 0)
+				handleBuffer(buffer);
+			else
+				bufferQueue.push(buffer);*/
 		}
+		/*private function handleBuffer(_buffer:ByteArray):void
+		{
+			bufferQueue.push(_buffer);
+			
+			while (bufferQueue.length > 0)
+			{
+				var buffer:ByteArray = bufferQueue.splice(0, 1)[0];
+				
+				if (binaryInvoke == null)
+					handleString(buffer);
+				else
+					handleBinary(buffer);
+			}
+		}*/
 		
 		//ONLY INVOKE
 		/**
 		 * @private
 		 */
-		private function handleString(byteArray:ByteArray):void
+		protected function handleString(buffer:ByteArray):void
 		{
-			var invokeArray:Vector.<Invoke> = new Vector.<Invoke>();
-			var buffer:String = byteArray.toString();
-			str += buffer;
-			
-			var indexPair:IndexPair = null;
-			var sizePair:SizePair = new SizePair(0, 0);
-			var index:int = 0;
-			
-			while (true)
-			{
-				var iPair:IndexPair =
-					new IndexPair
-					(
-						str.indexOf("<invoke", index),
-						str.indexOf("</invoke>", index)
-					); //FIND WORDS
-				if(iPair.start != -1) sizePair.start++;
-				if(iPair.end != -1) sizePair.end++; //AND COUNTS
-					
-				if(indexPair == null && sizePair.start == 1) //IF IT MEANS THE START,
-					indexPair = new IndexPair( iPair.start, -1 ); //DETERMINE THE STARTING INDEX
-				
-				if(iPair.isOutOfRange() == true) //FAILED TO FIND ANYTHING
-					break;
-				
-				/* FOUND SOMETHING FROM NOW ON */
-				
-				//AN INVOKE HAS FOUND
-				if(indexPair != null && sizePair.start == sizePair.end)
-				{
-					var start:int = indexPair.start;
-					var end:int = indexPair.end + String("</invoke>").length;
-					
-					var xml:XML = new XML(str.substring(start, end));
-					var invoke:Invoke = new Invoke(xml);
-					
-					if(invoke.length > 2 && invoke.at(invoke.length - 2).getType() == "ByteArray")
-						reserveBinary(invoke);
-					else
-						invokeArray.push(invoke);
-					
-					//CLEAR CURRENT INDEX PAIR
-					indexPair = null;
-				}
-				
-				//ADJUST INDEX
-				index = (iPair.end == -1) 
-					? (iPair.start + 1) : (iPair.end + 1);
-			}
-			for(var i:int = 0; i < invokeArray.length; i++)
-				replyData( invokeArray[i] );
-			
-			if(binaryInvoke == null)
+			if (buffer.bytesAvailable == 0)
 				return;
 			
-			/* ------------------------------------
-				HANDLING BINARY DATA
-			------------------------------------ */
-			index = buffer.lastIndexOf("</invoke>") + String("</invoke>").length;
+			// LIST OF INVOKE MESSAGES
+			var invokeArray:Array = [];
+			var i:int;
 			
-			//FIND END OF THE STRING
-			for(; index < byteArray.length; index++)
-				if(byteArray[i] == 0)
-					break;
+			// PREV INDEXES
+			var prevStrSize:int = str.length;
+			var prevPosition:int = buffer.position;
 			
-			if(index + 1 < byteArray.length)
+			// READ STRING
+			var pieceString:String = readString(buffer);
+			str += pieceString;
+
+			var strArray:Array = StringUtil.betweens(str, "<invoke ", "</invoke>");
+			
+			for (i = 0; i < strArray.length; i++)
 			{
-				var ba:ByteArray = new ByteArray();
-				ba.writeBytes(byteArray, index + 1);
+				// CONSTRUCTS INVOKE MESSAGES
+				var message:String = "<invoke " + strArray[i] + "</invoke>";	
+				var xml:XML = new XML(message);
 				
-				handleBinary(ba);
+				invokeArray.push(new Invoke(xml));
 			}
+			
+			if (invokeArray.length == 0)
+				return;
+				
+			var lastIndex:int = str.lastIndexOf("</invoke>") + CLOSED_PARENTHESIS_SIZE;
+			
+			// CUT USED STRING
+			buffer.position = lastIndex - prevStrSize;
+			str = str.substr(lastIndex);
+			
+			// CALL REPLY_DATA
+			for (i = 0; i < invokeArray.length - 1; i++)
+				replyData(invokeArray[i]);
+			
+			// TEST WHETHER THE LAST CONTAINS BINARY DATA
+			var lastInvoke:Invoke = invokeArray[invokeArray.length - 1];
+			
+			for (i = 0; i < lastInvoke.length; i++)
+			{
+				if (lastInvoke.at(i).getType() == "ByteArray")
+				{
+					this.binaryInvoke = lastInvoke;
+					this.binaryData = null;
+							
+					handleBinary(buffer);
+					return;
+				}
+			}
+			
+			// IF DOES NOT CONTAIN BINARY DATA, CALL DIRECTLY
+			replyData(lastInvoke);
 		}
 		
 		//INVOKE WITH BINARY DATA
-		/**
-		 * @private
-		 */
-		private function reserveBinary(invoke:Invoke):void
-		{
-			invoke.setItemAt( new InvokeParameter("byteArray", new ByteArray()), invoke.length - 2);
-			invoke.addItem( new InvokeParameter("pieceSize", 0) );
-			
-			this.binaryInvoke = invoke;
-		}
 		
 		/**
 		 * @private
 		 */
-		private function handleBinary(byteArray:ByteArray):void
+		private function handleBinary(buffer:ByteArray):void
 		{
-			var binary:ByteArray = binaryInvoke.get("byteArray").getValue();
-			var size:int = binaryInvoke.get("size").getValue();
-			var pieceSize:int = Math.min(size - binary.length, byteArray.length)
-			
-			//WRITE ON BINARY
-			binary.writeBytes(byteArray, 0, pieceSize);
-			if(binary.length != size)
+			if (buffer.bytesAvailable == 0)
 				return;
 			
-			binaryInvoke.erase("size");
+			var binaryIndex:int = -1;
+			var binarySize:int = -1;
+			var i:int;
+			
+			// FIND MATCHED BYTE-ARRAY
+			for (i = 0; i < binaryInvoke.length; i++)
+				if (binaryInvoke.at(i).getType() == "ByteArray" && !(binaryInvoke.at(i).getValue() is ByteArray))
+				{
+					if (binaryData == null)
+					{
+						binaryData = new ByteArray();
+					}
+						
+					binaryIndex = i;
+					binarySize = binaryInvoke.at(i).getValue();
+					
+					break;
+				}
+			
+			// READ BYTE-ARRAY
+			buffer.readBytes
+			(
+				binaryData,
+				binaryData.length,
+				Math.min(buffer.bytesAvailable, binarySize - binaryData.length)
+			);
+			
+			if (binaryData.length < binarySize)
+				return;
+			
+			// DETERMINE
+			binaryInvoke.at(binaryIndex).setValue(binaryData);
+			
+			// IF NOT LAST BINARY
+			for (i = binaryIndex + 1; i < binaryInvoke.length; i++)
+				if (binaryInvoke.at(i).getType() == "ByteArray")
+					return;
+			
 			replyData(binaryInvoke);
 			
-			/* ------------------------------------
-				HANDLING STRING DATA
-			------------------------------------ */
-			if(pieceSize == byteArray.length)
-				return;
+			binaryInvoke = null;
+			binaryData = null;
 			
-			var strBA:ByteArray = new ByteArray();
-			strBA.writeBytes(byteArray, pieceSize);
-			
-			handleString(strBA);
+			handleString(buffer);
 		}
-	}
-}
-
-/* ----------------------------------------------------------
-	INNER(PRIVATE) CLASSES
----------------------------------------------------------- */
-class SizePair
-{
-	public var start:int;
-	public var end:int;
-	
-	public function SizePair(start:int, end:int)
-	{
-		this.start = start;
-		this.end = end;
-	}
-}
-class IndexPair extends SizePair
-{
-	public function IndexPair(start:int, end:int)
-	{
-		super(start, end);
-	}
-	public function isOutOfRange():Boolean
-	{
-		return start == -1 && end == -1;
 	}
 }

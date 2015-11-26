@@ -2,9 +2,7 @@
 #include <samchon/API.hpp>
 
 #include <memory>
-#include <queue>
-#include <list>
-
+#include <map>
 #include <samchon/Set.hpp>
 
 #include <samchon/library/RWMutex.hpp>
@@ -16,15 +14,13 @@ namespace samchon
 	{
 		class Event;
 		class ErrorEvent;
-		class EventListener;
-
-		const unsigned char bThreads = 2;
+		class ProgressEvent;
 
 		/**
 		 * @brief Abstract class for dispatching Event
 		 *
 		 * @details
-		 * <p> EventDispatcher is the base class for all classes that dispatch events. </p>
+		 * <p> StaticEventDispatcher is the base class for all classes that dispatch events. </p>
 		 *
 		 * <p> All the events are sent asynchronously. To avoid from creating tooo enourmouse threads
 		 * dispatching events, all event sending processes will acuiqre a semaphore. The default permitted
@@ -39,7 +35,7 @@ namespace samchon
 		 *		@includelineno example/event/main.cpp
 		 *
 		 * @deprecated 
-		 * <p> EventDispatcher is a candidate to be deprecated. </p>
+		 * <p> StaticEventDispatcher is a candidate to be deprecated. </p>
 		 * <p> Since C++11, calling member method of a class by a new thread passing by static 
 		 * method and using void pointer are recommeded to avoid. As the reason, using <i>std::thread</i> 
 		 * and <i>std::bind</i> will be better. </p>
@@ -56,27 +52,29 @@ namespace samchon
 		 * <p> Change listeners (function pointer) to have a new parameter, void pointer. </p>
 		 * 
 		 * @bug
-		 * <p> When EventDispatcher is deleted, error on sending events are occured. </p>
+		 * <p> When StaticEventDispatcher is deleted, error on sending events are occured. </p>
 		 *
 		 * @see samchon::library
-		 * @author Jun Ryung Ju, Jeongho Nam
+		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API EventDispatcher
+		class SAMCHON_FRAMEWORK_API StaticEventDispatcher
 		{
 		private:
-
 			//EVENT-LISTENER CONTAINERS
 			/**
 			 * @brief A container storing listeners
 			 */
-
-			std::list<EventListener*> listeners;
+			std::map<int, std::set<void(*)(std::shared_ptr<Event>)>> eventSetMap; //EVENT
 
 			/**
 			 * @brief A rw_mutex for concurrency
 			 */
 			RWMutex mtx;
 
+			/**
+			 * @brief A semaphore for restricting thread size
+			 */
+			Semaphore semaphore;
 
 		public:
 			/* ----------------------------------------------------------
@@ -85,26 +83,26 @@ namespace samchon
 			/**
 			 * @brief Default Constructor
 			 */
-			EventDispatcher();
+			StaticEventDispatcher();
 
 			/**
 			 * @brief Copy Constructor
 			 *
 			 * @details
-			 * Copying an EventDispatcher instance does not copy the event listeners attached to it. 
+			 * Copying an StaticEventDispatcher instance does not copy the event listeners attached to it. 
 			 * (If your newly created node needs an event listener, you must attach the listener after creating the node.)
 			 *
 			 * @param eventDispatcher The object to copy
 			 */
-			EventDispatcher(const EventDispatcher &eventDispatcher);
+			StaticEventDispatcher(const StaticEventDispatcher &eventDispatcher);
 
 			/**
 			 * @brief Move Constructor
 			 *
 			 * @param eventDispatcher The object to move
 			 */
-			EventDispatcher(EventDispatcher &&eventDispatcher);
-			virtual ~EventDispatcher() = default;
+			StaticEventDispatcher(StaticEventDispatcher &&eventDispatcher);
+			virtual ~StaticEventDispatcher() = default;
 
 			/* ----------------------------------------------------------
 				ADD-REMOVE EVENT LISTENERS
@@ -113,33 +111,33 @@ namespace samchon
 			 * @brief Register an event listener
 			 *
 			 * @details 
-			 * Registers an event listener object with an EventDispatcher object 
+			 * Registers an event listener object with an StaticEventDispatcher object 
 			 * so that the listener receives notification of an event.
 			 *
-			 * @warning Copying an EventDispatcher instance does not copy the event listeners attached to it.
+			 * @warning Copying an StaticEventDispatcher instance does not copy the event listeners attached to it.
 			 *			(If your newly created node needs an event listener, you must attach the listener after creating the node.) 
-			 *			However, if you move an EventDispatcher instance, the event listeners attached to it move along with it.
+			 *			However, if you move an StaticEventDispatcher instance, the event listeners attached to it move along with it.
 			 *
 			 * @warning If you no longer need an event listener, remove it by calling removeEventListener,
-			 *			or EventDispatcher already try to send events to the no longer needed listener and
+			 *			or StaticEventDispatcher already try to send events to the no longer needed listener and
 			 *			it can cause some confliction.
 			 *
 			 * @param type The type of event.
 			 * @param listener The listener function processes the event.
 			 */
-			void addEventListener(int type, EventListener *listener);
+			void addEventListener(int, void(*listener)(std::shared_ptr<Event>));
 			
 			/**
 			 * @brief Remove a registered event listener
 			 *
 			 * @details
-			 * Removes a listener from the EventDispatcher object. 
-			 * If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect
+			 * Removes a listener from the StaticEventDispatcher object. 
+			 * If there is no matching listener registered with the StaticEventDispatcher object, a call to this method has no effect
 			 *
 			 * @param type The type of event.
 			 * @param listener The listener function to remove.
 			 */
-			void removeEventListener(int type, EventListener *listener);
+			void removeEventListener(int, void(*listener)(std::shared_ptr<Event>));
 			
 		protected:
 			/* ----------------------------------------------------------
@@ -151,12 +149,28 @@ namespace samchon
 			 *
 			 * @details
 			 * <p> Dispatches an event into the event flow in the background.
-			 * The Event::source is the EventDispatcher object upon which the dispatchEvent. </p>
+			 * The Event::source is the StaticEventDispatcher object upon which the dispatchEvent. </p>
 			 *
 			 * @param event The Event object that is dispatched into the event flow.
 			 * @return Whether there's some listener to listen the event
 			 */
-			auto dispatchEvent(Event *) -> bool;
+			auto dispatchEvent(std::shared_ptr<Event>) -> bool;
+
+			/**
+			 * @brief Convenient method of dispatching a progress event
+			 *
+			 * @details
+			 * Dispatches a progress event into the event flow in the background
+			 * The Event::source is the StaticEventDispatcher object upon with the dispatchProgressEvent
+			 *
+			 * @param x The number of current progress
+			 * @param size The number of total progress
+			 * @return Whether there's some listener to listen the progress event
+			 *
+			 * @see ProgressEvent
+			 * @see StaticEventDispatcher::dispatchEvent
+			 */
+			auto dispatchProgressEvent(size_t x, size_t size) -> bool;
 		};
 	};
 };

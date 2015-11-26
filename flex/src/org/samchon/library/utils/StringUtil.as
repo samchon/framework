@@ -138,22 +138,26 @@ package org.samchon.library.utils
 		 * 			  
 		 * @return substring by specified terms
 		 */
-		public static function between(value:String, begin:String = null, end:String = null):String 
+		public static function between(value:String, start:String = null, end:String = null):String 
 		{
-			if(begin == "")	begin = null;	if(end == "")	end = null;
-			if(begin == null && end == null)
+			if (start == "")	start = null;
+			if (end == "")		end = null;
+			
+			if (start == null && end == null)
 				return value;
-			else if(begin == null)
+			else if (start == null)
 				return value.substr(0, value.indexOf(end));
-			else if(end == null)
-				return value.substr(value.indexOf(begin) + begin.length);
-			else {
-				var startPoint:int = value.indexOf(begin) + begin.length;
-				if(startPoint == -1)	return null;
-				var endPoint:int = value.indexOf(end, startPoint);
-				if(endPoint == -1)		return null;
+			else if (end == null)
+				return value.substr(value.indexOf(start) + start.length);
+			else
+			{
+				var startIndex:int = value.indexOf(start);
 				
-				return value.substring(startPoint, endPoint);
+				return value.substring
+					(
+						startIndex + start.length,
+						value.indexOf(end + startIndex + start.length)
+					);
 			}
 		}
 		
@@ -176,17 +180,62 @@ package org.samchon.library.utils
 		 *			  If omitted, it's same with split(start) not having first item.
 		 * @return An array of substrings
 		 */
-		public static function betweens(value:String, begin:String, end:String = null):Array 
+		public static function betweens(value:String, start:String = null, end:String = null):Array 
 		{
-			var array:Array = value.split(begin);
-			array.splice(0, 1);
+			if (start == "")	start = null;
+			if (end == "")		end = null;
 			
-			if(end != null)
-				for(var i:int = array.length - 1; i >= 0; i--) {
-					array[i] = between(array[i], null, end);
-					if( array[i] == null)
-						array.splice(i, 1);
+			var array:Array = [];
+			var i:int;
+			
+			if (start == null && end == null)
+				return array;
+			else if (start == end)
+			{
+				// NOT EMPTY, BUT EQUALS
+				var indexPairArray:Vector.<IndexPair> = new Vector.<IndexPair>();
+				
+				var index:int = 0;
+				var prev:int = -1;
+				var n:int = 0;
+				
+				while((index = value.indexOf(start, prev + 1)) != -1)
+				{
+					if (++n % 2 == 0)
+						indexPairArray.push(new IndexPair(prev, index));
+					
+					prev = index;
 				}
+				
+				if (indexPairArray.length == 0)
+					return array;
+				else
+				{
+					for (i = 0; i < indexPairArray.length; i++)
+					{
+						var indexPair:IndexPair = indexPairArray[i];
+						
+						array.push(value.substr(indexPair.start, indexPair.end));
+					}
+				}
+			}
+			else
+			{
+				// DIFFERENT
+				array = value.split(start);
+				array.splice(0, 1);
+				
+				if (end != null)
+				{
+					for (i = array.length - 1; i >= 0; i--)
+					{
+						if (array[i].indexOf(end) == -1)
+							array.splice(i, 1);
+						else
+							array[i] = between(array[i], null, end);
+					}
+				}
+			}
 			return array;
 		}
 		
@@ -281,5 +330,17 @@ package org.samchon.library.utils
 			}
 			return value;
 		}
+	}
+}
+
+class IndexPair
+{
+	public var start:int;
+	public var end:int;
+	
+	public function IndexPair(start:int, end:int)
+	{
+		this.start = start;
+		this.end = end;
 	}
 }

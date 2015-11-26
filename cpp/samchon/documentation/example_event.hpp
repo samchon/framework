@@ -12,7 +12,7 @@ namespace samchon
 		 *		@includelineno example/event/main.cpp
 		 *
 		 * @see library::Event
-		 * @see library::EventDispatcher
+		 * @see library::StaticEventDispatcher
 		 * @author Jeongho Nam
 		 */
 		namespace event

@@ -177,7 +177,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 			getCookie(host)
 		);
 	}
-
+	
 	// PREPARE & GET IP ADDRESS
 	boost::asio::io_service ioService;
 

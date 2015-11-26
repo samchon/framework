@@ -160,7 +160,6 @@
     <ClInclude Include="..\samchon\IndexPair.hpp" />
     <ClInclude Include="..\samchon\library\Base64.hpp" />
     <ClInclude Include="..\samchon\library\CaseGenerator.hpp" />
-    <ClInclude Include="..\samchon\library\CaseTree.hpp" />
     <ClInclude Include="..\samchon\library\Charset.hpp" />
     <ClInclude Include="..\samchon\library\CombinedPermutationGenerator.hpp" />
     <ClInclude Include="..\samchon\library\CriticalAllocator.hpp" />
@@ -173,7 +172,7 @@
     <ClInclude Include="..\samchon\library\Datetime.hpp" />
     <ClInclude Include="..\samchon\library\ErrorEvent.hpp" />
     <ClInclude Include="..\samchon\library\Event.hpp" />
-    <ClInclude Include="..\samchon\library\EventDispatcher.hpp" />
+    <ClInclude Include="..\samchon\library\StaticEventDispatcher.hpp" />
     <ClInclude Include="..\samchon\library\FactorialGenerator.hpp" />
     <ClInclude Include="..\samchon\library\FTByteFile.hpp" />
     <ClInclude Include="..\samchon\library\FTFactory.hpp" />
@@ -233,9 +232,6 @@
     <ClInclude Include="..\samchon\protocol\IClient.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityChain.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp" />
-    <ClInclude Include="..\samchon\protocol\IEntityPtrGroup.hpp" />
-    <ClInclude Include="..\samchon\protocol\IEntitySharedPtrGroup.hpp" />
-    <ClInclude Include="..\samchon\protocol\IEntityUniquePtrGroup.hpp" />
     <ClInclude Include="..\samchon\protocol\IHTMLEntity.hpp" />
     <ClInclude Include="..\samchon\protocol\Invoke.hpp" />
     <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp" />

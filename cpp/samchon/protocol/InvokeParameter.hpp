@@ -240,6 +240,7 @@ namespace samchon
 
 				return move(val);
 			};
+			template<> auto getValue() const -> std::string;
 			template<> auto getValue() const -> WeakString;
 			template<> auto getValue() const -> std::shared_ptr<library::XML>;
 			template<> auto getValue() const -> ByteArray;

@@ -73,6 +73,8 @@ package org.samchon.protocol.invoke
 					type = "number";
 				else if (args[1] is ByteArray)
 					type = "ByteArray";
+				else if (args[1] is XML)
+					type = "XML";
 				else
 					type = "unknown";
 				
@@ -87,9 +89,18 @@ package org.samchon.protocol.invoke
 		 */
 		private function constructByXML(xml:XML):void
 		{
+			if (xml.hasOwnProperty("@name") == false)
+				xml.@name = "";
+			
 			//BY SERVER (C++ -> FLEX)
-			if(xml.@type == "xml")
-				constructByString( xml.@name, xml.@type, xml.children() );
+			if (xml.@type == "XML")
+			{
+				constructByString(xml.@name, xml.@type, xml.children()[0]);
+			}
+			/*else if (xml.@type == "ByteArray")
+			{
+				constructByString( xml.@name, xml.@type, xml.toString() );
+			}*/
 			else
 				constructByString( xml.@name, xml.@type, xml.toString() );
 		}
@@ -111,6 +122,11 @@ package org.samchon.protocol.invoke
 		public function getType():String	{	return type;	}
 		public function getValue():*		{	return value;	}
 		
+		public function setValue(value:*):void
+		{
+			this.value = value;
+		}
+		
 		/* ---------------------------------------------------------------------
 			EXPORTS
 		--------------------------------------------------------------------- */
@@ -121,9 +137,16 @@ package org.samchon.protocol.invoke
 		public function toXML():XML
 		{
 			var xml:XML = new XML("<parameter />");
-			xml.@name = name;
+			
+			if (name != "")
+				xml.@name = name;
+			
 			xml.@type = type;
-			xml.setChildren(value);
+			
+			if (this.type == "ByteArray")
+				xml.setChildren(value.length);
+			else
+				xml.setChildren(value);
 			
 			return xml;
 		}

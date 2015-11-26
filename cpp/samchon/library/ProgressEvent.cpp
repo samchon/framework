@@ -1,7 +1,7 @@
 #include <samchon/library/ProgressEvent.hpp>
 using namespace samchon::library;
 
-ProgressEvent::ProgressEvent(EventDispatcher *source, size_t numerator, size_t denominator)
+ProgressEvent::ProgressEvent(StaticEventDispatcher *source, size_t numerator, size_t denominator)
 	: Event(source, ProgressEvent::PROGRESS)
 {
 	this->numerator = numerator;

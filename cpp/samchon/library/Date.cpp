@@ -78,13 +78,17 @@ void Date::set(int year, int month, int date) //날짜, 시간 설정
 	if (date > monthArray[month - 1])
 		throw invalid_argument("date is over expiration date");
 
-	long long linuxTime = calcSeconds(year, month, date);
+	long long linuxTime = calcSeconds(year, month, date) - (calcSeconds(1970, 1, 1) + 9 * 60 * 60);
 	set(linuxTime);
 };
 void Date::set(long long linuxTime)
 {
-	this->operator-=(chrono::seconds(toLinuxTime()));
+	*this = chrono::system_clock::from_time_t(linuxTime);
+
+	/*long long prevTime = toLinuxTime();
+
 	this->operator+=(chrono::seconds(linuxTime));
+	this->operator-=(chrono::seconds(prevTime));*/
 }
 
 /* --------------------------------------------------------------------------

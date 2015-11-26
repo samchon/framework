@@ -5,7 +5,7 @@ namespace samchon
 {
 	namespace library
 	{
-		class EventDispatcher;
+		class StaticEventDispatcher;
 
 		/**
 		 * @brief Represent an event running on background.
@@ -53,7 +53,7 @@ namespace samchon
 			/**
 			 * @brief Source of the event
 			 */
-			EventDispatcher *source;
+			StaticEventDispatcher *source;
 
 			/**
 			 * @brief Type of the event
@@ -68,13 +68,13 @@ namespace samchon
 			 * @param source Source of the event; who made the event
 			 * @param type Type of the event
 			 */
-			Event(EventDispatcher*, int);
+			Event(StaticEventDispatcher*, int);
 			virtual ~Event() = default;
 			
 			/**
 			 * @brief Get source of the Event
 			 */
-			auto getSource() const -> EventDispatcher*;
+			auto getSource() const -> StaticEventDispatcher*;
 
 			/**
 			 * @brief Get type of the Event

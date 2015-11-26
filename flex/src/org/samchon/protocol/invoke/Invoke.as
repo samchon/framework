@@ -79,7 +79,7 @@ package org.samchon.protocol.invoke
 				if(args[0] is String)
 					this.listener = args[0];
 				else
-					construct(args[1]);
+					construct(args[0]);
 			else
 			{
 				this.listener = args[0];

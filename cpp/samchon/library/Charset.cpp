@@ -57,6 +57,9 @@ auto Charset::toUTF8(const string &source) -> string
 	wstring &wstr = toUnicode(source, MULTIBYTE);
 	string &dest = toUTF8(wstr);
 
+	if (dest.back() == NULL)
+		dest.pop_back();
+
 	return move(dest);
 }
 

@@ -1,7 +1,9 @@
 #include <samchon/protocol/IClient.hpp>
 
+#include <iostream>
 #include <mutex>
 #include <list>
+
 #include <boost/asio.hpp>
 #include <samchon/ByteArray.hpp>
 #include <samchon/WeakString.hpp>
@@ -65,10 +67,17 @@ void IClient::listen()
 }
 void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &baInvoke, size_t size)
 {
-	//READ STRING
-	str.append( piece.read<string>());
+	static size_t CLOSED_PARENTHESIS = string("</invoke>").size();
 
+	if (piece.getPosition() >= size)
+		return;
+
+	// LIST OF INVOKE MESSAGES
 	list<shared_ptr<Invoke>> invokeList;
+
+	// READ STRING
+	string &pieceString = piece.read<string>();
+	str.append(pieceString);
 
 	WeakString wstr = str;
 	vector<WeakString> &wstrArray = wstr.betweens("<invoke ", "</invoke>");
@@ -77,10 +86,10 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 	{
 		string &message = "<invoke " + wstrArray[i].str() + "</invoke>";
 
-		Invoke *invoke = new Invoke();
+		shared_ptr<Invoke> invoke( new Invoke() );
 		invoke->construct(make_shared<XML>(message));
 
-		invokeList.emplace_back(invoke);
+		invokeList.push_back(invoke);
 	}
 
 	/*list<shared_ptr<Invoke>> invokeList;
@@ -202,14 +211,15 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 	/*str = str.substr(endIndex);
 	cout << "#" << invokeList.size() << endl;*/
 
-	str = move(str.substr(str.rfind("</invoke>") + string("</invoke>").size()));
+	// CUT USED STRING
+	str = move(str.substr(str.rfind("</invoke>") + CLOSED_PARENTHESIS));
 
 	//CALL REPLY_DATA
 	auto last_it = --invokeList.end();
 	for (auto it = invokeList.begin(); it != last_it; it++)
 		_replyData(*it);
 	
-	//TEST WHETHER HAS BINARY DATA
+	//TEST WHETHER THE LAST CONTAINS BINARY DATA
 	shared_ptr<Invoke> &lastInvoke = *last_it;
 	for (size_t i = 0; i < lastInvoke->size(); i++)
 	{
@@ -217,6 +227,12 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 		if (lastInvoke->at(i)->getType() == "ByteArray")
 		{
 			baInvoke = lastInvoke;
+
+			piece.setPosition
+			(
+				piece.getPosition() - 
+				(pieceString.size() - (pieceString.rfind("</invoke>") + CLOSED_PARENTHESIS))
+			);
 
 			//HANDLING LEFT BINARY PIECE
 			handleBinary(piece, str, baInvoke, size);
@@ -229,26 +245,12 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 }
 void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &invoke, size_t size)
 {
+	if (piece.getPosition() >= size)
+		return;
+
 	ByteArray *byteArray = nullptr;
 	size_t position = piece.getPosition();
 	size_t param_index = 0;
-
-	//IF CALLED BY HANDLE_STRING, TEST WHETHER THE PIECE IS EMPTY
-	if (position != 0)
-	{
-		bool isEmpty = true;
-
-		for (size_t i = position; i < size; i++)
-			if (piece[i] != 0)
-			{
-				isEmpty = false;
-				break;
-			}
-
-		//IF EMPTY, TERMINATE
-		if (isEmpty == true)
-			return;
-	}
 
 	//FIND WHICH PARAMETER IS BINARY
 	for (size_t i = 0; i < invoke->size(); i++)
@@ -272,7 +274,7 @@ void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &in
 	//CALCULATE SIZE
 	size_t totalSize = byteArray->capacity();
 	size_t leftSize = totalSize - byteArray->size();
-	size_t writeSize = std::min(piece.size() - position, leftSize);
+	size_t writeSize = std::min(size - position, leftSize);
 
 	//AND WRITES
 	byteArray->insert
@@ -282,17 +284,23 @@ void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &in
 	);
 	piece.setPosition( position + writeSize );
 
+	// IF NOT FULFILLED, RETURNS
+	if (byteArray->size() < byteArray->capacity())
+		return;
+
 	//IF LAST BINARY
 	for(size_t i = param_index + 1; i < invoke->size(); i++)
 		if(invoke->at(i)->getType() == "ByteArray")
 			return;
 
+	// SHIFTS
+	_replyData(invoke);
+
 	//IS LAST BINARY, THEN CLEAR
-	invoke = nullptr;
+	invoke.reset();
 
 	//IF BYTES ARE LEFT, CALL HANDLE_STRING
-	if(piece.getPosition() < size)
-		handleString(piece, str, invoke, size);
+	handleString(piece, str, invoke, size);
 }
 
 /* -----------------------------------------------------------------------------------
@@ -307,7 +315,10 @@ void IClient::sendData(shared_ptr<Invoke> invoke)
 	socket->write_some(boost::asio::buffer(data), error);
 
 	if (error)
+	{
+		cout << error.message() << endl;
 		return;
+	}
 
 	for (size_t i = 0; i < invoke->size(); i++)
 		if (invoke->at(i)->getType() == "ByteArray")

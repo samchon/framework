@@ -56,7 +56,7 @@ namespace samchon
 	 *
 	 *		<p> But there's something to notice. Since C++11, calling member method of a class by new thread 
 	 *		passing by static method and void pointer is recommended to avoid. By guidance of the STL, using 
-	 *		std::thread and std::bind will be better. As that reason, Event and EventDispatcher can be 
+	 *		std::thread and std::bind will be better. As that reason, Event and StaticEventDispatcher can be 
 	 *		deprecated in next generation of Samchon Framework. </p>
 	 *
 	 *		@image html cpp/library_event.png 

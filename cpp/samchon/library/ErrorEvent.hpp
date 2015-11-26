@@ -48,7 +48,7 @@ namespace samchon
 			 * @param source Source of the event; who made the event
 			 * @param id An error-id
 			 */
-			ErrorEvent(EventDispatcher *, const std::string &);
+			ErrorEvent(StaticEventDispatcher *, const std::string &);
 			virtual ~ErrorEvent() = default;
 
 			/**

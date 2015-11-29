@@ -1,172 +1,170 @@
 #include <samchon/library/EventDispatcher.hpp>
-#include <samchon/library/EventListener.hpp>
-#include <samchon/library/SignalSyncObject.hpp>
 
-#include <condition_variable>
-#include <memory>
-#include <mutex>
-#include <thread>
-
-#include <samchon/library/CriticalMap.hpp>
-#include <samchon/library/CriticalSet.hpp>
 #include <samchon/library/Event.hpp>
-#include <samchon/library/ErrorEvent.hpp>
-#include <samchon/library/ProgressEvent.hpp>
 
 using namespace std;
+using namespace samchon;
 using namespace samchon::library;
 
-/* -------------------------------------------------------------
+/* ----------------------------------------------------------
 	CONSTRUCTORS
-------------------------------------------------------------- */
-EventDispatcher::EventDispatcher() 
+---------------------------------------------------------- */
+EventDispatcher::EventDispatcher()
 {
 }
-EventDispatcher::EventDispatcher(const EventDispatcher &eventDispatcher)
+EventDispatcher::EventDispatcher(const EventDispatcher &obj)
 {
-	//DO NOT COPY EVENTS
+	// DO NOT COPY LISTENERS
 }
-EventDispatcher::EventDispatcher(EventDispatcher &&eventDispatcher)
+EventDispatcher::EventDispatcher(EventDispatcher &&obj)
 {
-	//COPY EVENTS
+	UniqueWriteLock obj_uk(obj.mtx);
+	{
+		listeners = move(obj.listeners);
+	}
+	obj_uk.unlock();
+	
+	unique_lock<mutex> s_uk(sMtx);
+
+	for (auto it = eventMap.begin(); it != eventMap.end(); it++)
+		if (it->first == &obj)
+		{
+			auto event = it->second;
+
+			it = eventMap.erase(it);
+			eventMap.insert(it, { this, event });
+		}
 }
 
-/* -------------------------------------------------------------
-	EVENT LISTENER IN & OUT
-------------------------------------------------------------- */
-void EventDispatcher::addEventListener(int type, EventListener *listener)
+EventDispatcher::~EventDispatcher()
+{
+	UniqueWriteLock my_uk(mtx);
+	unique_lock<mutex> s_uk(sMtx);
+
+	for (auto it = eventMap.begin(); it != eventMap.end();)
+		if (it->first == this)
+			eventMap.erase(it++);
+		else
+			it++;
+}
+
+/* ----------------------------------------------------------
+	ADD-REMOVE EVENT LISTENERS
+---------------------------------------------------------- */
+void EventDispatcher::addEventListener(int type, Listener listener, void *addiction)
 {
 	UniqueWriteLock uk(mtx);
 
-	this->listeners.push_back(listener);
-
-	return;
-
+	listeners[type][listener].insert(addiction);
 }
-
-void EventDispatcher::removeEventListener(int type, EventListener *listener)
+void EventDispatcher::removeEventListener(int type, Listener listener, void *addiction)
 {
 	UniqueWriteLock uk(mtx);
+	if (listeners.count(type) == 0)
+		return;
 
-	for (auto it = this->listeners.begin(); it != this->listeners.end(); it++)
-	{
-		if (listener != (*it))  continue;
-		listeners.erase(it);
-	}
+	// TEST WHETHER HAS THE LISTENER
+	if (listeners.count(type) == 0 || 
+		listeners[type].count(listener) == 0 || 
+		listeners[type][listener].count(addiction) == 0)
+		return;
 
-	return;
+	listeners[type][listener].erase(addiction);
+
+	if (listeners[type][listener].empty() == true)
+		listeners[type].erase(listener);
+	
+	if (listeners[type].empty() == true)
+		listeners.erase(type);
+
+	// NEED TO DELETE FROM EVENT MAP
 }
 
-/* -------------------------------------------------------------
-	SEND EVENT
-------------------------------------------------------------- */
-auto EventDispatcher::dispatchEvent(Event *event) -> bool
+void EventDispatcher::dispatch(std::shared_ptr<Event> event)
 {
-	UniqueReadLock uk(mtx);
+	// STARTS BACK-GROUND PROCESS IF NOT STARTED
+	start();
 
-	std::shared_ptr<UniqueReadLock> itk(new UniqueReadLock(RWMutex(), false));
-	std::shared_ptr<SignalSyncObject> Invoker;
-	std::shared_ptr<queue<EventListener*>> queue_listener;
+	UniqueReadLock my_uk(mtx);
+	if (listeners.count(event->getType()) == 0)
+		return;
 
-	thread *pThreads[bThreads];
+	my_uk.unlock();
 
-	for (auto it = this->listeners.begin(); it != this->listeners.end(); it++)
+	unique_lock<mutex> s_uk(sMtx);
+	eventMap.insert({this, event});
+	
+	cv.notify_all();
+}
+void EventDispatcher::deliver(shared_ptr<Event> event)
+{
+	UniqueReadLock my_uk(mtx);
+	if (listeners.count(event->getType()) == 0)
+		return;
+
+	auto listenerMap = listeners[event->getType()];
+	my_uk.unlock();
+
+	for (auto it = listenerMap.begin(); it != listenerMap.end(); it++)
 	{
-		if (!(*it)->isActivated()) continue;
+		Listener listener = it->first;
+		
+		for (auto s_it = it->second.begin(); s_it != it->second.end(); s_it++)
+		{
+			void *addiction = *s_it;
 
-		queue_listener->push((*it));
+			listener(event, addiction);
+		}
 	}
+}
 
+/* ----------------------------------------------------------
+	MEMBERS OF STATIC
+---------------------------------------------------------- */
+size_t EventDispatcher::THREAD_SIZE = 2;
+
+bool EventDispatcher::started = false;
+condition_variable EventDispatcher::cv;
+mutex EventDispatcher::cv_mtx;
+
+unordered_multimap<EventDispatcher*, shared_ptr<Event>> EventDispatcher::eventMap;
+mutex EventDispatcher::sMtx;
+
+void EventDispatcher::start()
+{
+	unique_lock<mutex> uk(sMtx);
+	if (started == true)
+		return;
+
+	started = true;
 	uk.unlock();
 
-	for (unsigned char it = 0; it != bThreads; it++)
+	for (size_t i = 0; i < THREAD_SIZE; i++)
 	{
-		pThreads[it] = new thread([this, event, itk, Invoker, queue_listener]()
+		thread([]()
 		{
-			EventListener *Listener = nullptr;
-
-			while (!queue_listener->empty())
+			while (true)
 			{
-				itk->lock();
-				Listener = queue_listener->front();
-				queue_listener->pop();
-				itk->unlock();
+				while (true)
+				{
+					unique_lock<mutex> uk(sMtx);
+					if (eventMap.empty() == true)
+						break;
 
-				Listener->Dispatch(event);
+					auto pair = *eventMap.begin();
+					eventMap.erase(eventMap.begin());
+					
+					uk.unlock();
+
+					EventDispatcher *obj = pair.first;
+					shared_ptr<Event> &event = pair.second;
+
+					obj->deliver(event);
+				}
+				
+				unique_lock<mutex> cv_uk(cv_mtx);
+				cv.wait(cv_uk);
 			}
-
-			Invoker->Signal();
-		});
+		}).detach();
 	}
-
-	Invoker->WaitForSignal();
-
-	for (unsigned char it = 0; it != bThreads; it++)
-	{
-		delete[] pThreads;
-	}
-
-
-	return true;
 }
-
-#ifdef LEGACY
-void EventDispatcher::eventActivated()
-{
-	sendEvent(Event::ACTIVATE);
-}
-void EventDispatcher::eventCompleted()
-{
-	sendEvent(Event::COMPLETE);
-}
-void EventDispatcher::sendRemoved()
-{
-	if (eventSetMap.has(Event::REMOVED) == false)
-		return;
-
-	shared_ptr<Event> event(new Event(this, Event::REMOVED));
-	auto eventSet = eventSetMap.get(event->getType());
-
-	eventSet->readLock();
-	for (auto it = eventSet->begin(); it != eventSet->end(); it++)
-		(*it)(event);
-	eventSet->readUnlock();
-}
-
-void EventDispatcher::sendEvent(long type)
-{
-	if (type == Event::REMOVED)
-	{
-		sendRemoved();
-		return;
-	}
-	else if (eventSetMap.has(type) == false)
-		return;
-
-	shared_ptr<Event> event(new Event(this, type));
-	auto eventSet = eventSetMap.get(event->getType());
-
-	eventSet->readLock();
-	for (auto it = eventSet->begin(); it != eventSet->end(); it++)
-		thread(*it, event).detach();
-	eventSet->readUnlock();
-}
-void EventDispatcher::sendError(long id)
-{
-	shared_ptr<ErrorEvent> event(new ErrorEvent(this, ErrorEvent::ERROR_OCCURED, id));
-
-	errorSet.readLock();
-	for (auto it = errorSet.begin(); it != errorSet.end(); it++)
-		thread(*it, event).detach();
-	errorSet.readUnlock();
-}
-void EventDispatcher::sendProgress(unsigned long long x, unsigned long long size)
-{
-	shared_ptr<ProgressEvent> event(new ProgressEvent(this, x, size));
-
-	progressSet.readLock();
-	for (auto it = progressSet.begin(); it != progressSet.end(); it++)
-		thread(*it, event).detach();
-	progressSet.readUnlock();
-}
-#endif

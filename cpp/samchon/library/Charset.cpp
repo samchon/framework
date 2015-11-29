@@ -31,7 +31,7 @@ auto Charset::toMultibyte(const wstring &source) -> string
 
 	codecvt_t const& codecvt = use_facet<codecvt_t>(loc);
 	mbstate_t state = mbstate_t();
-	vector<char> buf((source.size() + 1) * codecvt.max_length());
+	vector<char> buf(source.size() * codecvt.max_length());
 	wchar_t const* in_next = source.c_str();
 	char* out_next = &buf[0];
 
@@ -84,17 +84,17 @@ auto Charset::toUnicode(const string &source, int charset) -> wstring
 	if (charset == MULTIBYTE)
 	{
 		int nLen = MultiByteToWideChar(CP_ACP, 0, &source[0], (int)source.size(), NULL, NULL);
-		std::wstring wste(nLen, 0);
-		MultiByteToWideChar(CP_ACP, 0, &source[0], (int)source.size(), &wste[0], nLen);
+		std::wstring wstr(nLen, 0);
+		MultiByteToWideChar(CP_ACP, 0, &source[0], (int)source.size(), &wstr[0], nLen);
 
-		return move(wste);
+		return move(wstr);
 
 		/*locale &loc = locale("");
 
 		typedef codecvt<wchar_t, char, mbstate_t> codecvt_t;
 		codecvt_t const& codecvt = use_facet<codecvt_t>(loc);
 		mbstate_t state = mbstate_t();
-		vector<wchar_t> buf(source.size() + 1);
+		vector<wchar_t> buf(source.size());
 		char const* in_next = source.c_str();
 		wchar_t* out_next = &buf[0];
 		

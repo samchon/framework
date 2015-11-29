@@ -1,24 +1,23 @@
 #pragma once
 #include <samchon/API.hpp>
 
+#include <functional>
+#include <set>
+
+#include <map>
+#include <unordered_map>
 #include <memory>
 #include <queue>
-#include <list>
 
-#include <samchon/Set.hpp>
-
+#include <condition_variable>
+#include <mutex>
 #include <samchon/library/RWMutex.hpp>
-#include <samchon/library/Semaphore.hpp>
 
 namespace samchon
 {
 	namespace library
 	{
 		class Event;
-		class ErrorEvent;
-		class EventListener;
-
-		const unsigned char bThreads = 2;
 
 		/**
 		 * @brief Abstract class for dispatching Event
@@ -47,36 +46,25 @@ namespace samchon
 		 *	\li std::thread: http://www.cplusplus.com/reference/thread/thread/
 		 *	\li std::bind: http://www.cplusplus.com/reference/functional/bind/
 		 *
-		 * @todo
-		 * <p> Adjust new optimal size of semaphore representing size of backgrounds' thread.
-		 * <p> Find another way to adding listeners of member method without using void pointer. 
-		 * About the problem, pull request from a forked repository is planned to come. </p>
-		 * 
-		 * @test
-		 * <p> Change listeners (function pointer) to have a new parameter, void pointer. </p>
-		 * 
-		 * @bug
-		 * <p> When EventDispatcher is deleted, error on sending events are occured. </p>
-		 *
 		 * @see samchon::library
-		 * @author Jun Ryung Ju, Jeongho Nam
+		 * @author Jeongho Nam, Ju Jun Ryung
 		 */
 		class SAMCHON_FRAMEWORK_API EventDispatcher
 		{
-		private:
+		public:
+			typedef void(*Listener)(std::shared_ptr<Event>, void*);
+			// typedef std::function<void(std::shared_ptr<Event>, void*)> Listener;
 
-			//EVENT-LISTENER CONTAINERS
+		private:
 			/**
 			 * @brief A container storing listeners
 			 */
-
-			std::list<EventListener*> listeners;
+			std::map<int, std::map<Listener, std::set<void*>>> listeners;
 
 			/**
 			 * @brief A rw_mutex for concurrency
 			 */
 			RWMutex mtx;
-
 
 		public:
 			/* ----------------------------------------------------------
@@ -96,15 +84,19 @@ namespace samchon
 			 *
 			 * @param eventDispatcher The object to copy
 			 */
-			EventDispatcher(const EventDispatcher &eventDispatcher);
-
+			EventDispatcher(const EventDispatcher &);
+			
 			/**
 			 * @brief Move Constructor
 			 *
 			 * @param eventDispatcher The object to move
 			 */
-			EventDispatcher(EventDispatcher &&eventDispatcher);
-			virtual ~EventDispatcher() = default;
+			EventDispatcher(EventDispatcher &&);
+			
+			/**
+			 * @brief Default Destructor
+			 */
+			virtual ~EventDispatcher();
 
 			/* ----------------------------------------------------------
 				ADD-REMOVE EVENT LISTENERS
@@ -126,9 +118,10 @@ namespace samchon
 			 *
 			 * @param type The type of event.
 			 * @param listener The listener function processes the event.
+			 * @param addiction Something to be addicted following the listener.
 			 */
-			void addEventListener(int type, EventListener *listener);
-			
+			void addEventListener(int, Listener, void* = nullptr);
+
 			/**
 			 * @brief Remove a registered event listener
 			 *
@@ -138,14 +131,10 @@ namespace samchon
 			 *
 			 * @param type The type of event.
 			 * @param listener The listener function to remove.
+			 * @param addiction Somethhing to be addicted following the listener.
 			 */
-			void removeEventListener(int type, EventListener *listener);
-			
-		protected:
-			/* ----------------------------------------------------------
-				DISPATCH EVENT
-			---------------------------------------------------------- */
-			//SEND EVENT
+			void removeEventListener(int, Listener, void* = nullptr);
+
 			/**
 			 * @brief Dispatches an event to all listeners
 			 *
@@ -156,7 +145,28 @@ namespace samchon
 			 * @param event The Event object that is dispatched into the event flow.
 			 * @return Whether there's some listener to listen the event
 			 */
-			auto dispatchEvent(Event *) -> bool;
+			void dispatch(std::shared_ptr<Event>);
+
+		private:
+			void deliver(std::shared_ptr<Event>);
+
+			/* ----------------------------------------------------------
+				MEMBERS OF STATIC
+			---------------------------------------------------------- */
+			static bool started;
+			static std::condition_variable cv;
+			static std::mutex cv_mtx;
+
+			static std::unordered_multimap<EventDispatcher*, std::shared_ptr<Event>> eventMap;
+			static std::mutex sMtx;
+
+			static void start();
+
+		public:
+			/**
+			 * @brief Numer of threads for background.
+			 */
+			static size_t THREAD_SIZE;
 		};
 	};
 };

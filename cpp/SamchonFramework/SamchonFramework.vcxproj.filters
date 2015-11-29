@@ -204,18 +204,6 @@
     <ClInclude Include="..\samchon\library\Event.hpp">
       <Filter>Header Files\library\common\event</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\library\EventDispatcher.hpp">
-      <Filter>Header Files\library\common\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\EventListener.hpp">
-      <Filter>Header Files\library\common\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SignalSyncObject.hpp">
-      <Filter>Header Files\library\common\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\StaticEventDispatcher.hpp">
-      <Filter>Header Files\library\common\event</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\library\ProgressEvent.hpp">
       <Filter>Header Files\library\common\event</Filter>
     </ClInclude>
@@ -609,6 +597,9 @@
     <ClInclude Include="..\samchon\protocol\ExternalClientArray.hpp">
       <Filter>Header Files\protocol\common\external system\client</Filter>
     </ClInclude>
+    <ClInclude Include="..\samchon\library\EventDispatcher.hpp">
+      <Filter>Header Files\library\common\event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samchon\namtree\INTExplore.cpp">
@@ -668,16 +659,10 @@
     <ClCompile Include="..\samchon\library\StringUtil.cpp">
       <Filter>Source Files\library</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\library\StaticEventDispatcher.cpp">
-      <Filter>Source Files\library</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\library\SQLStatement.cpp">
       <Filter>Source Files\library</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\library\SQLi.cpp">
-      <Filter>Source Files\library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\SignalSyncObject.cpp">
       <Filter>Source Files\library</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\library\SharedWriteLock.cpp">
@@ -720,12 +705,6 @@
       <Filter>Source Files\library</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\library\FactorialGenerator.cpp">
-      <Filter>Source Files\library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\EventListener.cpp">
-      <Filter>Source Files\library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\EventDispatcher.cpp">
       <Filter>Source Files\library</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\library\Event.cpp">
@@ -934,6 +913,9 @@
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\service\User.cpp">
       <Filter>Source Files\protocol\service</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\library\EventDispatcher.cpp">
+      <Filter>Source Files\library</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

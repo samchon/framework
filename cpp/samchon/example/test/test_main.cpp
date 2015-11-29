@@ -1,10 +1,5 @@
 #include <iostream>
-#include <fstream>
-#include <iterator>
-#include <string>
-
-#include <samchon/library/XML.hpp>
-#include <Windows.h>
+#include <samchon/library/Charset.hpp>
 
 #ifdef _WIN64
 #	ifdef _DEBUG
@@ -24,17 +19,18 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 
-#include <samchon/library/HTTPLoader.hpp>
-#include <samchon/library/Charset.hpp>
-#include <samchon/library/StringUtil.hpp>
-
 void main()
 {
-	string url = Charset::toUTF8("http://www.bomtvbiz.com/dt/order_print/1441261881391/20150903_1441261881391_±ËπŒ¡§_4∏Ì_¡§ ø¨ »Ò.pdf");
-	//url = StringUtil::replaceAll(url, "±ËπŒ¡§_4∏Ì_¡§ ø¨ »Ò", Charset::toUTF8("±ËπŒ¡§_4∏Ì_¡§ ø¨ »Ò"));
+	string s1 = "æ»≥Á«œººø‰";
+	s1 = Charset::toUTF8(s1);
 
-	cout << HTTPLoader(url, HTTPLoader::GET).load().size() << endl;
-	cout << HTTPLoader(u8"http://www.bomtvbiz.com/dt/order_print/1441261881391/20150903_1441261881391_±ËπŒ¡§_4∏Ì_¡§ ø¨ »Ò.pdf", HTTPLoader::GET).load().size() << endl;
+	string s2 = u8"æ»≥Á«œººø‰";
+
+	cout << s1 << endl;
+	cout << s2 << endl;
+	cout << (s1 == s2) << endl;
+
+	cout << Charset::toMultibyte(s2) << endl;
 
 	system("pause");
 }

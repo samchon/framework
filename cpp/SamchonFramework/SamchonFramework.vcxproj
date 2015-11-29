@@ -38,8 +38,6 @@
     <ClInclude Include="..\samchon\library\Datetime.hpp" />
     <ClInclude Include="..\samchon\library\ErrorEvent.hpp" />
     <ClInclude Include="..\samchon\library\Event.hpp" />
-    <ClInclude Include="..\samchon\library\EventDispatcher.hpp" />
-    <ClInclude Include="..\samchon\library\EventListener.hpp" />
     <ClInclude Include="..\samchon\library\FactorialGenerator.hpp" />
     <ClInclude Include="..\samchon\library\FTByteFile.hpp" />
     <ClInclude Include="..\samchon\library\FTFactory.hpp" />
@@ -54,6 +52,7 @@
     <ClInclude Include="..\samchon\library\IOperator.hpp" />
     <ClInclude Include="..\samchon\library\Math.hpp" />
     <ClInclude Include="..\samchon\library\MySQLi.hpp" />
+    <ClInclude Include="..\samchon\library\EventDispatcher.hpp" />
     <ClInclude Include="..\samchon\library\PermutationGenerator.hpp" />
     <ClInclude Include="..\samchon\library\ProgressEvent.hpp" />
     <ClInclude Include="..\samchon\library\RWMutex.hpp" />
@@ -61,11 +60,9 @@
     <ClInclude Include="..\samchon\library\SharedAcquire.hpp" />
     <ClInclude Include="..\samchon\library\SharedReadLock.hpp" />
     <ClInclude Include="..\samchon\library\SharedWriteLock.hpp" />
-    <ClInclude Include="..\samchon\library\SignalSyncObject.hpp" />
     <ClInclude Include="..\samchon\library\SQLi.hpp" />
     <ClInclude Include="..\samchon\library\SQLLiteConnector.hpp" />
     <ClInclude Include="..\samchon\library\SQLStatement.hpp" />
-    <ClInclude Include="..\samchon\library\StaticEventDispatcher.hpp" />
     <ClInclude Include="..\samchon\library\StringUtil.hpp" />
     <ClInclude Include="..\samchon\library\TSQLi.hpp" />
     <ClInclude Include="..\samchon\library\TSQLStatement.hpp" />
@@ -178,8 +175,6 @@
     <ClCompile Include="..\samchon\library\Datetime.cpp" />
     <ClCompile Include="..\samchon\library\ErrorEvent.cpp" />
     <ClCompile Include="..\samchon\library\Event.cpp" />
-    <ClCompile Include="..\samchon\library\EventDispatcher.cpp" />
-    <ClCompile Include="..\samchon\library\EventListener.cpp" />
     <ClCompile Include="..\samchon\library\FactorialGenerator.cpp" />
     <ClCompile Include="..\samchon\library\FTFactory.cpp" />
     <ClCompile Include="..\samchon\library\FTFile.cpp" />
@@ -187,6 +182,7 @@
     <ClCompile Include="..\samchon\library\FTInstance.cpp" />
     <ClCompile Include="..\samchon\library\HTTPLoader.cpp" />
     <ClCompile Include="..\samchon\library\Math.cpp" />
+    <ClCompile Include="..\samchon\library\EventDispatcher.cpp" />
     <ClCompile Include="..\samchon\library\PermutationGenerator.cpp" />
     <ClCompile Include="..\samchon\library\ProgressEvent.cpp" />
     <ClCompile Include="..\samchon\library\RWMutex.cpp" />
@@ -194,10 +190,8 @@
     <ClCompile Include="..\samchon\library\SharedAcquire.cpp" />
     <ClCompile Include="..\samchon\library\SharedReadLock.cpp" />
     <ClCompile Include="..\samchon\library\SharedWriteLock.cpp" />
-    <ClCompile Include="..\samchon\library\SignalSyncObject.cpp" />
     <ClCompile Include="..\samchon\library\SQLi.cpp" />
     <ClCompile Include="..\samchon\library\SQLStatement.cpp" />
-    <ClCompile Include="..\samchon\library\StaticEventDispatcher.cpp" />
     <ClCompile Include="..\samchon\library\StringUtil.cpp" />
     <ClCompile Include="..\samchon\library\TSQLi.cpp" />
     <ClCompile Include="..\samchon\library\TSQLStatement.cpp" />

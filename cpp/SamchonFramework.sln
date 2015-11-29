@@ -68,6 +68,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "samchon\example\tes
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamchonFramework", "SamchonFramework\SamchonFramework.vcxproj", "{546D9E83-296C-4FB6-9C76-2BBFEC92326F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "event", "samchon\example\event\event.vcxproj", "{482287CA-995E-4A81-9B95-A4D5CFA1B4F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -180,6 +182,14 @@ Global
 		{546D9E83-296C-4FB6-9C76-2BBFEC92326F}.Release|x64.Build.0 = Release|x64
 		{546D9E83-296C-4FB6-9C76-2BBFEC92326F}.Release|x86.ActiveCfg = Release|Win32
 		{546D9E83-296C-4FB6-9C76-2BBFEC92326F}.Release|x86.Build.0 = Release|Win32
+		{482287CA-995E-4A81-9B95-A4D5CFA1B4F9}.Debug|x64.ActiveCfg = Debug|x64
+		{482287CA-995E-4A81-9B95-A4D5CFA1B4F9}.Debug|x64.Build.0 = Debug|x64
+		{482287CA-995E-4A81-9B95-A4D5CFA1B4F9}.Debug|x86.ActiveCfg = Debug|Win32
+		{482287CA-995E-4A81-9B95-A4D5CFA1B4F9}.Debug|x86.Build.0 = Debug|Win32
+		{482287CA-995E-4A81-9B95-A4D5CFA1B4F9}.Release|x64.ActiveCfg = Release|x64
+		{482287CA-995E-4A81-9B95-A4D5CFA1B4F9}.Release|x64.Build.0 = Release|x64
+		{482287CA-995E-4A81-9B95-A4D5CFA1B4F9}.Release|x86.ActiveCfg = Release|Win32
+		{482287CA-995E-4A81-9B95-A4D5CFA1B4F9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -201,5 +211,6 @@ Global
 		{B4561D8A-2013-4170-A38A-0D356107CF38} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
 		{9F87A1A9-8482-4D61-8067-B219CECD4BB4} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
 		{8CD4CD1D-D0E4-4F0D-8E50-EE8AB647ABAA} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
+		{482287CA-995E-4A81-9B95-A4D5CFA1B4F9} = {6BC4B18A-BB76-478E-B1FA-D6DFAA571D81}
 	EndGlobalSection
 EndGlobal

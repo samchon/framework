@@ -54,7 +54,7 @@ namespace samchon
 			 *
 			 * @throw exception denominator is zero
 			 */
-			ProgressEvent(StaticEventDispatcher *, size_t, size_t);
+			ProgressEvent(EventDispatcher *, size_t, size_t);
 			virtual ~ProgressEvent() = default;
 
 			/**

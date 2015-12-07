@@ -9,7 +9,8 @@
 #		define SAMCHON_FRAMEWORK_EXTERN extern
 #	endif
 #else
-#	error (NON_WINDOWS_PLATFORM_FOUND)
+#	define SAMCHON_FRAMEWORK_API
+#	define SAMCHON_FRAMEWORK_EXTERN
 #endif
 
 /* -------------------------------------------------------------------------

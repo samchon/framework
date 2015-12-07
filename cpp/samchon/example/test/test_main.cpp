@@ -1,5 +1,5 @@
 #include <iostream>
-#include <samchon/library/Charset.hpp>
+#include <unordered_map>
 
 #ifdef _WIN64
 #	ifdef _DEBUG
@@ -16,21 +16,26 @@
 #endif
 
 using namespace std;
-using namespace samchon;
-using namespace samchon::library;
 
 void main()
 {
-	string s1 = "æ»≥Á«œººø‰";
-	s1 = Charset::toUTF8(s1);
+	unordered_map<int, int> intMap;
+	for (int i = 1; i <= 10; i++)
+		intMap[i] = i;
 
-	string s2 = u8"æ»≥Á«œººø‰";
+	for (unordered_map<int, int>::iterator it = intMap.begin(); it != intMap.end(); it++)
+	{
+		if (it->first == 3)
+		{
+			int val = it->second;
 
-	cout << s1 << endl;
-	cout << s2 << endl;
-	cout << (s1 == s2) << endl;
+			it = intMap.erase(it);
+			intMap.insert(it, {33, val});
+		}
+	}
 
-	cout << Charset::toMultibyte(s2) << endl;
+	for (auto it = intMap.begin(); it != intMap.end(); it++)
+		cout << it->first << ", " << it->second << endl;
 
 	system("pause");
 }

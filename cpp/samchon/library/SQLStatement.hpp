@@ -137,6 +137,22 @@ namespace samchon
 				bindParameter(val);
 			};
 			void prepare(const std::string &);
+			void prepare(const std::wstring &);
+
+			template <typename _Ty, typename ... _Args> 
+			void prepare(const std::wstring &sql, const _Ty& val, const _Args& ... args)
+			{
+				prepare(sql);
+
+				bindParameter(val);
+				bindParameter(args...);
+			};
+			template <typename _Ty> void prepare(const std::wstring &str, const _Ty& val)
+			{
+				prepare(str);
+
+				bindParameter(val);
+			};
 
 			/**
 			 * @brief Execute the prepared sql statement
@@ -162,6 +178,7 @@ namespace samchon
 			 * @throw exception Method prepare is already called
 			 */
 			void executeDirectly(const std::string&);
+			void executeDirectly(const std::wstring&);
 
 			/* -----------------------------------------------------------------------
 				CURSOR

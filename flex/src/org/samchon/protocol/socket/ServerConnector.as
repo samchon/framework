@@ -167,10 +167,10 @@ package org.samchon.protocol.socket
 		
 		protected function readString(byteArray:ByteArray):String
 		{
-			if (System.useCodePage == true)
+			//if (System.useCodePage == true)
 				return byteArray.readUTFBytes(byteArray.bytesAvailable);
-			else
-				return byteArray.toString();
+			//else
+				//return byteArray.toString();
 		}
 		protected function writeString(str:String):void
 		{

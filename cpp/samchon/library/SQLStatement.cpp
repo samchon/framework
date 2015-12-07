@@ -70,6 +70,16 @@ void SQLStatement::prepare(const std::string &sql)
 
 	SQLPrepareA(hstmt, (SQLCHAR*)&sql[0], SQL_NTS);
 }
+void SQLStatement::prepare(const std::wstring &sql)
+{
+	refresh();
+
+	sqli->stmtMutex.lock();
+	sqli->stmt = this;
+
+	SQLPrepareW(hstmt, (SQLWCHAR*)&sql[0], SQL_NTS);
+}
+
 void SQLStatement::execute()
 {
 	SQLRETURN res = SQLExecute(hstmt);
@@ -80,12 +90,11 @@ void SQLStatement::executeDirectly(const std::string &sql)
 {
 	prepare(sql);
 	execute();
-	/*sqli->stmtMutex.lock();
-	sqli->stmt = this;
-
-	SQLRETURN res = SQLExecDirectA(sqli->hdbc, (SQLCHAR*)sql.c_str(), (SQLINTEGER)sql.size());
-	if (res == SQL_ERROR)
-		throw exception(sqli->getErrorMessage(SQL_HANDLE_STMT).c_str());*/
+}
+void SQLStatement::executeDirectly(const std::wstring &sql)
+{
+	prepare(sql);
+	execute();
 }
 
 /* --------------------------------------------------------------------------------------

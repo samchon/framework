@@ -1,6 +1,7 @@
 package org.samchon.namtree.file
 {
 	import org.samchon.protocol.entity.EntityArray;
+	import org.samchon.protocol.entity.IEntity;
 	
 	public class NTParameter extends EntityArray
 	{
@@ -48,6 +49,11 @@ package org.samchon.namtree.file
 				exploreParameter = null;
 		}
 		
+		override protected function createChild(xml:XML):IEntity
+		{
+			return new NTParameterDetermined();
+		}
+		
 		/* -----------------------------------------------------
 			ACCESSORS
 		----------------------------------------------------- */
@@ -55,6 +61,15 @@ package org.samchon.namtree.file
 		override public function get key():*
 		{
 			return name;
+		}
+		
+		public function at(index:int):NTParameterDetermined
+		{
+			return super._at(index) as NTParameterDetermined;
+		}
+		public function get(key:*):NTParameterDetermined
+		{
+			return super._get(key) as NTParameterDetermined;
 		}
 		
 		//GETTERS

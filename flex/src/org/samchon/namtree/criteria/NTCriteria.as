@@ -118,6 +118,15 @@ package org.samchon.namtree.criteria
 			return uid;
 		}
 		
+		public function at(index:int):NTSide
+		{
+			return super._at(index) as NTSide;
+		}
+		public function get(key:*):NTSide
+		{
+			return super._get(key) as NTSide;
+		}
+		
 		//GRID GETTERS - BASIC
 		public function get $operator():int
 		{
@@ -143,9 +152,9 @@ package org.samchon.namtree.criteria
 			if(parameterArray.length == 0)
 				return "";
 			
-			var str:String = (parameterArray.at(0) as NTSideParameter).$value.toString();
+			var str:String = parameterArray.at(0).$value.toString();
 			for(var i:int = 1; i < parameterArray.length; i++)
-				str += ", " + (parameterArray.at(0) as NTSideParameter).$value;
+				str += ", " + parameterArray.at(0).$value;
 			
 			return str;
 		}
@@ -165,9 +174,9 @@ package org.samchon.namtree.criteria
 			if(parameterArray.length == 0)
 				return "";
 			
-			var str:String = (parameterArray.at(0) as NTSideParameter).$value.toString();
+			var str:String = parameterArray.at(0).$value.toString();
 			for(var i:int = 1; i < parameterArray.length; i++)
-				str += ", " + (parameterArray.at(0) as NTSideParameter).$value;
+				str += ", " + parameterArray.at(0).$value;
 			
 			return str;
 		}

@@ -47,6 +47,15 @@ package org.samchon.namtree.criteria
 		/* ---------------------------------------------------------------------
 			GETTERS
 		--------------------------------------------------------------------- */
+		public function at(index:int):NTSideParameter
+		{
+			return super._at(index) as NTSideParameter;
+		}
+		public function get(key:*):NTSideParameter
+		{
+			return super._get(key) as NTSideParameter;
+		}
+		
 		public function getSide():NTSide
 		{
 			return side;

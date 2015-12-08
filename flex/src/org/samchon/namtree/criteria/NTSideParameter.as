@@ -42,7 +42,7 @@ package org.samchon.namtree.criteria
 			var file:NTFile = sideParameterArray.getSide().getFile();
 			var parameterArray:NTParameterArray = file.getParameterArray();
 			
-			this.parameter = parameterArray.get(name) as NTParameter;
+			this.parameter = parameterArray.get(name);
 			this.value = xml.@value;
 		}
 		

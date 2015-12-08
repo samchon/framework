@@ -119,14 +119,14 @@ package org.samchon.protocol.entity
 		public function has(key:*):Boolean
 		{
 			for(var i:int = 0; i < this.length; i++)
-				if(at(i).key == key)
+				if(_at(i).key == key)
 					return true;
 			return false;
 		}
 		public function erase(key:*):Boolean
 		{
 			for(var i:int = length - 1; i >= 0; i--)
-				if(at(i).key == key)
+				if(_at(i).key == key)
 				{
 					removeItemAt(i);
 					return true;
@@ -140,7 +140,7 @@ package org.samchon.protocol.entity
 		 * @param index The index in the list from which to retrieve the item.
 		 * @return The item(Entity) at that index. or null if there is none.
 		 */
-		public function at(index:int):IEntity
+		protected function _at(index:int):IEntity
 		{
 			return getItemAt(index) as IEntity;
 		}
@@ -151,11 +151,11 @@ package org.samchon.protocol.entity
 		 * @param key the identifier of the <code>Entity</code> wants to access 
 		 * @return The <code>Entity</code> having the key, or null if there is none.
 		 */
-		public function get(key:*):IEntity
+		protected function _get(key:*):IEntity
 		{
 			for(var i:int = 0; i < this.length; i++)
-				if(at(i).key == key)
-					return at(i);
+				if(_at(i).key == key)
+					return _at(i);
 			return null;
 		}
 		
@@ -182,7 +182,7 @@ package org.samchon.protocol.entity
 			
 			var xmlList:XMLList = new XMLList();
 			for(var i:int = 0; i < length; i++)
-				xmlList[i] = at(i).toXML();
+				xmlList[i] = _at(i).toXML();
 			
 			xml.setChildren(xmlList);
 			return xml;

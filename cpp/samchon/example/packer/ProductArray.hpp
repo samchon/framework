@@ -5,47 +5,52 @@
 
 namespace samchon
 {
-	namespace example
+namespace example
+{
+namespace packer
+{
+	using namespace std;
+
+	using namespace library;
+	using namespace protocol;
+
+	/**
+	 * @brief An array of Product objects.
+	 *
+	 * @author Jeongho Nam
+	 */
+	class ProductArray
+		: public SharedEntityArray<Product>
 	{
-		namespace packer
+	private:
+		typedef SharedEntityArray<Product> super;
+
+	public:
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
+		using super::super;
+		virtual ~ProductArray() = default;
+
+	protected:
+		virtual auto createChild(shared_ptr<XML>) -> Product* override
 		{
-			/**
-			* @brief An array of Product objects.
-			*
-			* @author Jeongho Nam
-			*/
-			class ProductArray
-				: public protocol::SharedEntityArray<Product>
-			{
-			private:
-				typedef protocol::SharedEntityArray<Product> super;
-
-			public:
-				/* ---------------------------------------------------------
-					CONSTRUCTORS
-				--------------------------------------------------------- */
-				using super::super;
-				virtual ~ProductArray() = default;
-
-			protected:
-				virtual auto createChild(std::shared_ptr<library::XML>) -> Product* override
-				{
-					return new Product();
-				};
-
-			public:
-				/* ---------------------------------------------------------
-					EXPORTERS
-				--------------------------------------------------------- */
-				virtual auto TAG() const -> std::string override
-				{
-					return "productArray";
-				};
-				virtual auto CHILD_TAG() const -> std::string override
-				{
-					return "product";
-				};
-			};
+			return new Product();
 		};
-	};
+
+	public:
+		/* ---------------------------------------------------------
+			EXPORTERS
+		--------------------------------------------------------- */
+		virtual auto TAG() const -> string override
+		{
+			return "productArray";
+		};
+		virtual auto CHILD_TAG() const -> string override
+		{
+			return "product";
+		};
+	};			
+};
+};
 };

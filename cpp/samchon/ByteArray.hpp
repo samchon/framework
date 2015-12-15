@@ -63,6 +63,10 @@ namespace samchon
 		 */
 		ByteArray(ByteArray &&);
 
+		auto operator=(const ByteArray &) -> ByteArray&;
+
+		auto operator=(ByteArray &&) -> ByteArray&;
+
 		/* --------------------------------------------------------------
 			POSITION
 		-------------------------------------------------------------- */
@@ -121,7 +125,13 @@ namespace samchon
 
 			return *ptr;
 		};
-		template<> auto read() const -> std::string;
+		template<> auto read() const -> std::string
+		{
+			std::string str = (char*)(data() + position);
+			((ByteArray*)this)->position = str.size();
+
+			return move(str);
+		};
 
 		/**
 		 * @brief Read a reversed data
@@ -157,8 +167,15 @@ namespace samchon
 			unsigned char *ptr = (unsigned char*)&val;
 			insert(end(), ptr, ptr + sizeof(_Ty));
 		};
-		template<> void write(const std::string &str);
-		template<> void write(const ByteArray &byteArray);
+		template<> void write(const std::string &str)
+		{
+			unsigned char *begin = (unsigned char*)str.data();
+			insert(end(), begin, begin + str.size());
+		};
+		template<> void write(const ByteArray &byteArray)
+		{
+			insert(end(), byteArray.begin(), byteArray.end());
+		};
 
 		/**
 		 * @brief Write a data

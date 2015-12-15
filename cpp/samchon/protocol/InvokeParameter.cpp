@@ -42,7 +42,7 @@ InvokeParameter::InvokeParameter(const string &name, ByteArray &&byteArray)
 	this->name = name;
 	this->type = "ByteArray";
 
-	this->byteArray.reset( new ByteArray(move(byteArray)) );
+	this->byteArray = move(byteArray);
 }
 
 /* ----------------------------------------------------------
@@ -67,9 +67,8 @@ void InvokeParameter::construct(shared_ptr<XML> xml)
 	else if (type == "ByteArray")
 	{
 		size_t size = xml->getValue<size_t>();
-
-		byteArray.reset(new ByteArray());
-		byteArray->reserve(size);
+		
+		byteArray.reserve(size);
 	}
 	else
 		this->str = xml->getValue();
@@ -81,34 +80,7 @@ auto InvokeParameter::reservedByteArraySize() const -> size_t
 }
 void InvokeParameter::setByteArray(ByteArray &&byteArray)
 {
-	this->byteArray.reset(new ByteArray(move(byteArray)));
-}
-
-template<> void InvokeParameter::construct_by_varadic_template(const string &str)
-{
-	this->type = "string";
-	this->str = str;
-}
-template<> void InvokeParameter::construct_by_varadic_template(const WeakString &str)
-{
-	this->type = "string";
-	this->str = str.str();
-}
-template<> void InvokeParameter::construct_by_varadic_template(const ByteArray &byteArray)
-{
-	this->type = "ByteArray";
-	this->byteArray.reset(new ByteArray(byteArray));
-}
-
-template<> void InvokeParameter::construct_by_varadic_template(const shared_ptr<XML> &xml)
-{
-	this->type = "XML";
-	this->xml = xml;
-}
-template<> void InvokeParameter::construct_by_varadic_template(const Entity &entity)
-{
-	this->type = "XML";
-	this->xml = entity.toXML();
+	this->byteArray = move(byteArray);
 }
 
 /* ----------------------------------------------------------
@@ -128,44 +100,9 @@ auto InvokeParameter::getType() const -> std::string
 	return type;
 }
 
-template<> auto InvokeParameter::getValue() const -> string
-{
-	return str;
-}
-template<> auto InvokeParameter::getValue() const -> WeakString
-{
-	return str;
-}
-template<> auto InvokeParameter::getValue() const -> shared_ptr<XML>
-{
-	return xml;
-}
-template<> auto InvokeParameter::getValue() const -> ByteArray
-{
-	return *byteArray;
-}
-
 auto InvokeParameter::getvalueAsXML() const -> shared_ptr<XML>
 {
 	return xml;
-}
-
-template<> auto InvokeParameter::referValue() const -> const string&
-{
-	return str;
-}
-template<> auto InvokeParameter::referValue() const -> const ByteArray&
-{
-	return *byteArray;
-}
-
-template<> auto InvokeParameter::moveValue() -> string
-{
-	return move(str);
-}
-template<> auto InvokeParameter::moveValue() -> ByteArray
-{
-	return move(*byteArray);
 }
 
 /* ----------------------------------------------------------
@@ -190,7 +127,7 @@ auto InvokeParameter::toXML() const -> shared_ptr<XML>
 	}
 	else if (type == "ByteArray")
 	{
-		xml->setValue(byteArray->size());
+		xml->setValue(byteArray.size());
 	}
 	else
 	{

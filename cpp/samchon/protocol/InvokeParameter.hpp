@@ -13,12 +13,6 @@ namespace samchon
 	{
 		class Invoke;
 
-		class IClient;
-		class Entity;
-
-		template <typename _Container, typename _ETy = Entity, typename _Ty = _Container::value_type>
-		class EntityGroup;
-
 		/**
 		 * @brief A parameter of an Invoke.
 		 *
@@ -63,9 +57,7 @@ namespace samchon
 		class SAMCHON_FRAMEWORK_API InvokeParameter
 			: public virtual Entity
 		{
-			friend class EntityGroup<std::vector<std::shared_ptr<InvokeParameter>>, InvokeParameter>;
 			friend class Invoke;
-			friend class IClient;
 
 		protected:
 			typedef Entity super;
@@ -100,12 +92,17 @@ namespace samchon
 			/**
 			 * @brief A binary value if the type is "ByteArray"
 			 */
-			std::unique_ptr<ByteArray> byteArray;
+			ByteArray byteArray;
 
 		public:
 			/* ----------------------------------------------------------
 				CONSTRUCTORS
 			---------------------------------------------------------- */
+			/**
+			 * @brief Default Constructor
+			 */
+			InvokeParameter();
+			
 			/**
 			 * @brief Construct from arguments
 			 *
@@ -179,6 +176,11 @@ namespace samchon
 
 			virtual ~InvokeParameter() = default;
 
+			virtual void construct(std::shared_ptr<library::XML>) override;
+
+			auto reservedByteArraySize() const -> size_t;
+			void setByteArray(ByteArray &&);
+
 		protected:
 			template <typename _Ty>
 			void construct_by_varadic_template(const _Ty &val)
@@ -190,24 +192,27 @@ namespace samchon
 
 				this->str = move(sstream.str());
 			};
-			template<> void construct_by_varadic_template(const std::string &);
-			template<> void construct_by_varadic_template(const WeakString &);
-			template<> void construct_by_varadic_template(const ByteArray &);
+			template<> void construct_by_varadic_template(const std::string &str)
+			{
+				this->type = "string";
+				this->str = str;
+			};
+			template<> void construct_by_varadic_template(const WeakString &wstr)
+			{
+				this->type = "string";
+				this->str = wstr.str();
+			};
+			template<> void construct_by_varadic_template(const ByteArray &byteArray)
+			{
+				this->type = "ByteArray";
+				this->byteArray = byteArray;
+			};
 
-			template<> void construct_by_varadic_template(const std::shared_ptr<library::XML> &);
-			template<> void construct_by_varadic_template(const Entity &);
-
-			/* ----------------------------------------------------------
-				PROTECTED CONSTRUCTORS
-			---------------------------------------------------------- */
-			/**
-			 * @brief Default Constructor
-			 */
-			InvokeParameter();
-			virtual void construct(std::shared_ptr<library::XML>) override;
-
-			auto reservedByteArraySize() const -> size_t;
-			void setByteArray(ByteArray &&);
+			template<> void construct_by_varadic_template(const std::shared_ptr<library::XML> &xml)
+			{
+				this->type = "XML";
+				this->xml = xml;
+			};
 
 		public:
 			/* ----------------------------------------------------------
@@ -240,10 +245,22 @@ namespace samchon
 
 				return move(val);
 			};
-			template<> auto getValue() const -> std::string;
-			template<> auto getValue() const -> WeakString;
-			template<> auto getValue() const -> std::shared_ptr<library::XML>;
-			template<> auto getValue() const -> ByteArray;
+			template<> auto getValue() const -> std::string
+			{
+				return str;
+			};
+			template<> auto getValue() const -> WeakString
+			{
+				return str;
+			};
+			template<> auto getValue() const -> std::shared_ptr<library::XML>
+			{
+				return xml;
+			};
+			template<> auto getValue() const -> ByteArray
+			{
+				return byteArray;
+			};
 
 			/**
 			 * @brief Get value as XML object
@@ -257,8 +274,14 @@ namespace samchon
 			 * @tparam _Ty Type of value to reference
 			 */
 			template <typename _Ty> auto referValue() const -> const _Ty&;
-			template<> auto referValue() const -> const std::string&;
-			template<> auto referValue() const -> const ByteArray&;
+			template<> auto referValue() const -> const std::string&
+			{
+				return str;
+			};
+			template<> auto referValue() const -> const ByteArray&
+			{
+				return byteArray;
+			};
 
 			/**
 			 * @brief Move value
@@ -266,10 +289,16 @@ namespace samchon
 			 * @tparam _Ty Type of value to move
 			 */
 			template <typename _Ty> auto moveValue() -> _Ty;
-			template<> auto moveValue() -> std::string;
-			template<> auto moveValue() -> ByteArray;
+			template<> auto moveValue() -> std::string
+			{
+				return move(str);
+			};
+			template<> auto moveValue() -> ByteArray
+			{
+				return move(byteArray);
+			};
 			
-		protected:
+		public:
 			/* ----------------------------------------------------------
 				EXPORTERS
 			---------------------------------------------------------- */

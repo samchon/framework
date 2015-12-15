@@ -332,15 +332,6 @@ auto XML::getTag() const -> std::string
 	return this->tag;
 }
 
-template<> auto XML::getValue() const -> string
-{
-	return value;
-}
-template<> auto XML::getValue() const -> WeakString
-{
-	return value;
-}
-
 /*template<> auto XML::getValue() const -> int
 {
 	return stoi(value);
@@ -393,15 +384,6 @@ template<> auto XML::getValue() const -> std::string
 void XML::setTag(const std::string &tag)
 {
 	this->tag = tag;
-}
-
-template<> void XML::setValue(const string &value)
-{
-	this->value = value;
-}
-template<> void XML::setValue(const WeakString &value)
-{
-	this->value = value.str();
 }
 
 /*template<> void XML::setValue(const int &value)
@@ -511,15 +493,6 @@ auto XML::hasProperty(const std::string &tag) const -> bool
 	return propertyMap.has(tag);
 }
 
-template<> auto XML::getProperty(const string &key) const -> string
-{
-	return propertyMap.get(key);
-}
-template<> auto XML::getProperty(const string &key) const -> WeakString
-{
-	return propertyMap.get(key);
-}
-
 /*template<> auto XML::getProperty(const std::string &tag) const -> int
 {
 	return stoi( propertyMap.get(tag) );
@@ -562,15 +535,6 @@ template<> auto XML::getProperty(const std::string &tag) const -> std::string
 }*/
 
 //SETTERS
-template<> void XML::setProperty(const std::string &tag, const std::string &val)
-{
-	propertyMap.set(tag, val);
-}
-template<> void XML::setProperty(const std::string &tag, const WeakString &val)
-{
-	propertyMap.set(tag, val.str());
-}
-
 /*template<> void XML::setProperty(const std::string &tag, const int &val)
 {
 	propertyMap.set(tag, std::to_string(val));

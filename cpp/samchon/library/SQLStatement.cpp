@@ -120,61 +120,12 @@ auto SQLStatement::fetch() const -> bool
 	return (SQLFetch(hstmt) == SQL_SUCCESS);
 }
 
-/* --------------------------------------------------------------------------------------
-	GET DATA
-		- SIZE
-		- AT
-		- GET
--------------------------------------------------------------------------------------- */
 auto SQLStatement::size() const -> size_t
 {
 	SQLSMALLINT val = 0;
 
 	SQLNumResultCols(hstmt, &val);
 	return (size_t)val;
-}
-
-template<> auto SQLStatement::at(size_t index) const -> std::string
-{
-	index++;
-
-	std::string str(1, NULL);
-	SQLLEN size = 0;
-	
-	if (::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_CHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
-	{
-		str.assign((size_t)size, NULL);
-		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_CHAR, &str[0], sizeof(char)*size, NULL);
-	}
-	return move(str);
-}
-template<> auto SQLStatement::at(size_t index) const -> std::wstring
-{
-	index++;
-
-	std::wstring str(1, NULL);
-	SQLLEN size = 0;
-
-	if (::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_WCHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
-	{
-		str.assign((size_t)size, NULL);
-		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_WCHAR, &str[0], sizeof(wchar_t)*size, NULL);
-	}
-	return move(str);
-}
-template<> auto SQLStatement::at(size_t index) const -> ByteArray
-{
-	index++;
-
-	ByteArray data;
-	SQLLEN size = 0;
-
-	if (::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_BINARY, &data[0], 0, &size) != SQL_SUCCESS && size != 0)
-	{
-		data.assign(size, NULL);
-		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_BINARY, &data[0], data.size(), NULL);
-	}
-	return move(data);
 }
 
 /* -------------------------------------------------------------------
@@ -364,4 +315,50 @@ template<> auto SQLStatement::SQL_TYPE(const wstring &) const -> short
 template<> auto SQLStatement::SQL_TYPE(const ByteArray &) const -> short
 {
 	return SQL_BINARY;
+}
+
+/* -------------------------------------------------------------------
+	HIDDEN TEMPLATE HELPERS
+------------------------------------------------------------------- */
+auto SQLStatement::_atAsString(size_t index) const -> std::string
+{
+	index++;
+
+	std::string str(1, NULL);
+	SQLLEN size = 0;
+
+	if (::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_CHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
+	{
+		str.assign((size_t)size, NULL);
+		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_CHAR, &str[0], sizeof(char)*size, NULL);
+	}
+	return move(str);
+}
+auto SQLStatement::_atAsWString(size_t index) const -> std::wstring
+{
+	index++;
+
+	std::wstring str(1, NULL);
+	SQLLEN size = 0;
+
+	if (::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_WCHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
+	{
+		str.assign((size_t)size, NULL);
+		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_WCHAR, &str[0], sizeof(wchar_t)*size, NULL);
+	}
+	return move(str);
+}
+auto SQLStatement::_atAsByteArray(size_t index) const -> ByteArray
+{
+	index++;
+
+	ByteArray data;
+	SQLLEN size = 0;
+
+	if (::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_BINARY, &data[0], 0, &size) != SQL_SUCCESS && size != 0)
+	{
+		data.assign(size, NULL);
+		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_BINARY, &data[0], data.size(), NULL);
+	}
+	return move(data);
 }

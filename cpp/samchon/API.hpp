@@ -1,6 +1,6 @@
 #pragma once
 
-#if defined(_WINDOWS)
+#if defined(_WINDOWS) || defined(_WIN32) || defined(_WIN64)
 #	ifdef SAMCHON_FRAMEWORK_EXPORT
 #		define SAMCHON_FRAMEWORK_API __declspec(dllexport)
 #		define SAMCHON_FRAMEWORK_EXTERN

@@ -23,6 +23,23 @@ ByteArray::ByteArray(ByteArray &&byteArray)
 	byteArray.position = 0;
 }
 
+// SEMI-CONSTRUCTORS
+auto ByteArray::operator=(const ByteArray &byteArray) -> ByteArray&
+{
+	assign(byteArray.begin(), byteArray.end());
+	position = byteArray.position;
+
+	return *this;
+}
+
+auto ByteArray::operator=(ByteArray &&byteArray) -> ByteArray&
+{
+	super::operator=(move(byteArray));
+	position = byteArray.position;
+
+	return *this;
+}
+
 /* --------------------------------------------------------------
 	POSITION
 -------------------------------------------------------------- */
@@ -38,35 +55,6 @@ void ByteArray::setPosition(size_t val)
 auto ByteArray::leftSize() const -> size_t
 {
 	return size() - position;
-}
-
-/* --------------------------------------------------------------
-	READ BYTES
--------------------------------------------------------------- */
-template<> auto ByteArray::read() const -> string
-{
-	string str = (char*)(data() + position);
-
-	/*if (position + str.size() + 1 < this->size() && operator[](position + str.size() + 1) == NULL)
-		((ByteArray*)this)->position += str.size() + 1;
-	else*/
-		((ByteArray*)this)->position += str.size();
-
-	return str;
-}
-
-/* --------------------------------------------------------------
-	WRITE BYTES
--------------------------------------------------------------- */
-template<> void ByteArray::write(const string &str)
-{
-	unsigned char *begin = (unsigned char*)str.data();
-
-	insert(end(), begin, begin + str.size() + 1);
-}
-template<> void ByteArray::write(const ByteArray &byteArray)
-{
-	insert(end(), byteArray.begin(), byteArray.end());
 }
 
 /* --------------------------------------------------------------

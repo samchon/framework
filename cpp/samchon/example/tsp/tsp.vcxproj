@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5C48CC69-7C4E-4789-B1C3-393F9CE70E9E}</ProjectGuid>
+    <ProjectGuid>{3B464740-6C08-4923-B833-750BDE480124}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>tsp_slave</RootNamespace>
+    <RootNamespace>tsp</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -154,11 +154,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClInclude Include="GeometryPoint.hpp" />
+    <ClInclude Include="Scheduler.hpp" />
+    <ClInclude Include="Travel.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Slave.hpp" />
-    <ClInclude Include="..\TSPSlave.hpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

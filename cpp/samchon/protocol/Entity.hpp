@@ -4,12 +4,14 @@
 #include <string>
 #include <memory>
 
+#include <samchon/library/XML.hpp>
+
 namespace samchon
 {
-	namespace library
+	/*namespace library
 	{
 		class XML;
-	};
+	};*/
 	namespace protocol
 	{
 		/**

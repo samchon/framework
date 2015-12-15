@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5C48CC69-7C4E-4789-B1C3-393F9CE70E9E}</ProjectGuid>
+    <ProjectGuid>{0D51D397-A00A-47A9-8F03-38E710FC8734}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>tsp_slave</RootNamespace>
+    <RootNamespace>packer</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -154,11 +154,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClInclude Include="Instance.hpp" />
+    <ClInclude Include="Packer.hpp" />
+    <ClInclude Include="Product.hpp" />
+    <ClInclude Include="ProductArray.hpp" />
+    <ClInclude Include="Wrapper.hpp" />
+    <ClInclude Include="WrapperArray.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Slave.hpp" />
-    <ClInclude Include="..\TSPSlave.hpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

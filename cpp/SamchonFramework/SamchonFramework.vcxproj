@@ -271,6 +271,7 @@
     <ClCompile Include="..\samchon\protocol\UniqueAcquire.cpp" />
     <ClCompile Include="..\samchon\protocol\WebServerConnector.cpp" />
     <ClCompile Include="..\samchon\WeakString.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{546D9E83-296C-4FB6-9C76-2BBFEC92326F}</ProjectGuid>

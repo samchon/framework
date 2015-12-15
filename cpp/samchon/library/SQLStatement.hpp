@@ -224,16 +224,22 @@ namespace samchon
 				
 				return val;
 			};
-			template<> auto at(size_t) const -> std::string;
-			template<> auto at(size_t) const -> std::wstring;
-			template<> auto at(size_t) const -> ByteArray;
+			template<> auto at(size_t index) const -> std::string
+			{
+				return move(_atAsString(index));
+			}
+			template<> auto at(size_t index) const -> std::wstring
+			{
+				return move(_atAsWString(index));
+			};
+			template<> auto at(size_t index) const -> ByteArray
+			{
+				return move(_atAsByteArray(index));
+			};
 
 			/**
 			 * @brief Get a column data by its name
 			 * @details Returns column's data from fetchched-recrod by specified column name 
-			 *
-			 * @details
-			 * Get data from fetched-record by specified column name
 			 * 
 			 * @param name Name of a column wants to get
 			 * @return Data stored in the record at the position of specifield column
@@ -319,6 +325,15 @@ namespace samchon
 				template<> auto SQL_TYPE(const std::string &) const -> short;
 				template<> auto SQL_TYPE(const std::wstring &) const -> short;
 				template<> auto SQL_TYPE(const ByteArray &) const -> short;
+
+		private:
+			/* -------------------------------------------------------------------
+				HIDDEN TEMPLATE HELPERS
+			------------------------------------------------------------------- */
+			auto _atAsString(size_t index) const -> std::string;
+			auto _atAsWString(size_t index) const -> std::wstring;
+
+			auto _atAsByteArray(size_t index) const -> ByteArray;
 		};
 	};
 };

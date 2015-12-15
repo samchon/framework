@@ -98,7 +98,7 @@ auto IWebClientBase::listenString(size_t size, ByteArray &piece, boost::system::
 	//LISTEN UNTIL TO MEET THE CAPACITY
 	while (data.size() < size)
 	{
-		piece.assign(BUFFER_SIZE(), 1000);
+		piece.assign(BUFFER_SIZE(), NULL);
 		socket->read_some(boost::asio::buffer(piece), error);
 		
 		data.append(piece.read<string>());
@@ -151,7 +151,7 @@ void IWebClientBase::listenBinary(size_t size, ByteArray &piece, shared_ptr<Invo
 
 	while (data->size() < size)
 	{
-		piece.assign(BUFFER_SIZE(), 1000);
+		piece.assign(BUFFER_SIZE(), NULL);
 		socket->read_some(boost::asio::buffer(piece), error);
 
 		data->insert

@@ -233,22 +233,34 @@ namespace samchon
 
 				this->value = std::move(sstream.str());
 			};
-			template<> void setValue(const std::string &);
-			template<> void setValue(const WeakString &);
+			template<> void setValue(const std::string &val)
+			{
+				this->value = val;
+			};
+			template<> void setValue(const WeakString &val)
+			{
+				this->value = val.str();
+			};
 
 			/**
 			 * @brief Set a property with its key
 			 */
 			template<typename _Ty> 
-			void setProperty(const std::string &name, const _Ty &val)
+			void setProperty(const std::string &key, const _Ty &val)
 			{
 				std::stringstream sstream;
 				sstream << val;
 
-				propertyMap.set(name, sstream.str());
+				propertyMap.set(key, sstream.str());
 			};
-			template<> void setProperty(const std::string &, const std::string &);
-			template<> void setProperty(const std::string &, const WeakString &);
+			template<> void setProperty(const std::string &key, const std::string &val)
+			{
+				propertyMap.set(key, val);
+			};
+			template<> void setProperty(const std::string &key, const WeakString &val)
+			{
+				propertyMap.set(key, val.str());
+			};
 
 			/**
 			 * @brief Erase a property by its key
@@ -289,7 +301,14 @@ namespace samchon
 				return std::move(val);
 			};
 
-			template<> auto getValue() const -> std::string;
+			template<> auto getValue() const -> std::string
+			{
+				return value;
+			};
+			template<> auto getValue() const -> WeakString
+			{
+				return value;
+			};
 			
 			/**
 			 * @brief Get property
@@ -305,8 +324,14 @@ namespace samchon
 				return std::move(val);
 			};
 
-			template<> auto getProperty(const std::string &) const -> std::string;
-			template<> auto getProperty(const std::string &) const -> WeakString;
+			template<> auto getProperty(const std::string &key) const -> std::string
+			{
+				return propertyMap.get(key);
+			};
+			template<> auto getProperty(const std::string &key) const -> WeakString
+			{
+				return propertyMap.get(key);
+			};
 
 			/**
 			 * @brief Test wheter a property exists or not

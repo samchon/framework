@@ -2,8 +2,6 @@
 #include <samchon/protocol/Entity.hpp>
 #include <samchon/protocol/IEntityGroup.hpp>
 
-#include <samchon/library/XML.hpp>
-
 namespace samchon
 {
 	namespace protocol

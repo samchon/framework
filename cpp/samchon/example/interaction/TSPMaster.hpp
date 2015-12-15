@@ -9,100 +9,116 @@
 
 namespace samchon
 {
-	namespace example
+namespace example
+{
+namespace interaction
+{
+	using namespace std;
+
+	using namespace library;
+	using namespace protocol;
+
+	/**
+	 * @brief A master for parallel system solving TSP problem.
+	 * 
+	 * @details
+	 * \par [Inherited]
+	 *		@copydetails interaction::Master
+	 * 		  
+	 * @author Jeongho Nam
+	 */
+	class TSPMaster
+		: public Master
 	{
-		namespace interaction
+	private:
+		typedef Master super;
+
+	protected:
+		shared_ptr<tsp::Scheduler> scheduler;
+
+	public:
+		/* ---------------------------------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------------------------------- */
+		/**
+		 * @brief Default Constructor.
+		 */
+		TSPMaster()
+			: super(37100)
 		{
-			/**
-			 * @brief A master for parallel system solving TSP problem.
-			 * 
-			 * @details
-			 * \par [Inherited]
-			 *		@copydetails interaction::Master
-			 * 		  
-			 * @author Jeongho Nam
-			 */
-			class TSPMaster
-				: public Master
-			{
-			private:
-				typedef Master super;
-
-			protected:
-				std::shared_ptr<tsp::Scheduler> scheduler;
-				
-			public:
-				/* ---------------------------------------------------------------------------------
-					CONSTRUCTORS
-				--------------------------------------------------------------------------------- */
-				/**
-				 * @brief Default Constructor.
-				 */
-				TSPMaster()
-					: super(37100)
-				{
-					scheduler = std::make_shared<tsp::Scheduler>();
-				};
-				virtual ~TSPMaster() = default;
-
-			protected:
-				/* ---------------------------------------------------------------------------------
-					INVOKE MESSATE CHAIN
-				--------------------------------------------------------------------------------- */
-				virtual void optimize(std::shared_ptr<library::XML> xml) override
-				{
-					super::optimize(nullptr);
-
-					scheduler->construct(xml);
-
-					sendSegmentData
-					(
-						std::make_shared<protocol::Invoke>("optimize", scheduler->toXML()), 
-						this->size()
-					);
-				};
-
-				virtual void replyOptimization(std::shared_ptr<library::XML> xml) override
-				{
-					std::unique_lock<std::mutex> uk(mtx);
-
-					std::shared_ptr<tsp::Scheduler> scheduler(new tsp::Scheduler());
-					scheduler->construct(xml);
-
-					std::cout << "An optimization process from a slave system has completed" << std::endl;
-					std::cout << "\tOrdinary minimum distance: " << this->scheduler->calcDistance()
-						<< ", New Price from the slave: " << scheduler->calcDistance() << std::endl;
-
-					if (scheduler->calcDistance() < this->scheduler->calcDistance())
-						this->scheduler = scheduler;
-
-					if (++optimized < this->size())
-						return;
-
-					std::cout << std::endl;
-					std::cout << "Parallel optimization has completed." << std::endl;
-					std::cout << scheduler->toString() << std::endl << std::endl;
-
-					chiefDriver->sendData(std::make_shared<protocol::Invoke>("replyOptimization", scheduler->toXML()));
-				};
-
-			public:
-				/* ---------------------------------------------------------------------------------
-					MAIN
-				--------------------------------------------------------------------------------- */
-				/**
-				 * @brief Main function
-				 */
-				static void main()
-				{
-					std::cout << "----------------------------------------------------------------------------" << std::endl;
-					std::cout << "	TSP SOLVER MASTER" << std::endl;
-					std::cout << "----------------------------------------------------------------------------" << std::endl;
-
-					TSPMaster master;
-					master.start();
-				};
-			};
+			scheduler = make_shared<tsp::Scheduler>();
 		};
-	};
+		virtual ~TSPMaster() = default;
+
+	protected:
+		/* ---------------------------------------------------------------------------------
+			INVOKE MESSATE CHAIN
+		--------------------------------------------------------------------------------- */
+		virtual void optimize(shared_ptr<XML> xml) override
+		{
+			super::optimize(nullptr);
+
+			scheduler->construct(xml);
+
+			sendSegmentData
+			(
+				make_shared<Invoke>
+				(
+					"optimize", 
+					scheduler->toXML()
+				), 
+				this->size()
+			);
+		};
+
+		virtual void replyOptimization(shared_ptr<XML> xml) override
+		{
+			unique_lock<mutex> uk(mtx);
+
+			shared_ptr<tsp::Scheduler> scheduler(new tsp::Scheduler());
+			scheduler->construct(xml);
+
+			cout << "An optimization process from a slave system has completed" << endl;
+			cout << "\tOrdinary minimum distance: " << this->scheduler->calcDistance()
+				<< ", New Price from the slave: " << scheduler->calcDistance() << endl;
+
+			if (scheduler->calcDistance() < this->scheduler->calcDistance())
+				this->scheduler = scheduler;
+
+			if (++optimized < this->size())
+				return;
+
+			cout << endl;
+			cout << "Parallel optimization has completed." << endl;
+			cout << scheduler->toString() << endl << endl;
+
+			chiefDriver->sendData
+			(
+				make_shared<Invoke>
+				(
+					"replyOptimization", 
+					scheduler->toXML()
+				)
+			);
+		};
+
+	public:
+		/* ---------------------------------------------------------------------------------
+			MAIN
+		--------------------------------------------------------------------------------- */
+		/**
+		 * @brief Main function
+		 */
+		static void main()
+		{
+			cout << "----------------------------------------------------------------------------" << endl;
+			cout << "	TSP SOLVER MASTER" << endl;
+			cout << "----------------------------------------------------------------------------" << endl;
+
+			TSPMaster master;
+			master.start();
+		};
+	};			
+};
+};
 };

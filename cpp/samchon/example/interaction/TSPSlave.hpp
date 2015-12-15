@@ -7,78 +7,83 @@
 
 namespace samchon
 {
-	namespace example
+namespace example
+{
+namespace interaction
+{
+	using namespace std;
+
+	using namespace library;
+	using namespace protocol;
+
+	/**
+	 * @brief A slave system solving TSP.
+	 * 
+	 * @details
+	 * \par [Inherited]
+	 *		@copydetails slave::ParallelClient 
+	 *
+	 * @author Jeongho Nam
+	 */
+	class TSPSlave
+		: public Slave
 	{
-		namespace interaction
+	private:
+		typedef Slave super;
+
+	public:
+		/* ---------------------------------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------------------------------- */
+		/**
+		 * @brief Construct from ip address of the master.
+		 * 		  
+		 * @param ip IP address of the master.
+		 */
+		TSPSlave(const string &ip)
+			: super(ip, 37100)
 		{
-			/**
-			 * @brief A slave system solving TSP.
-			 * 
-			 * @details
-			 * \par [Inherited]
-			 *		@copydetails slave::ParallelClient 
-			 *
-			 * @author Jeongho Nam
-			 */
-			class TSPSlave
-				: public Slave
-			{
-			private:
-				typedef Slave super;
+		};
+		virtual ~TSPSlave() = default;
 
-			public:
-				/* ---------------------------------------------------------------------------------
-					CONSTRUCTORS
-				--------------------------------------------------------------------------------- */
-				/**
-				 * @brief Construct from ip address of the master.
-				 * 		  
-				 * @param ip IP address of the master.
-				 */
-				TSPSlave(const std::string &ip)
-					: super(ip, 37100)
-				{
-				};
-				virtual ~TSPSlave() = default;
+	protected:
+		/* ---------------------------------------------------------------------------------
+			INVOKE MESSAGE CHAIN
+		--------------------------------------------------------------------------------- */
+		virtual void optimize(shared_ptr<XML> xml, size_t index, size_t size) override
+		{
+			super::optimize(xml, index, size);
 
-			protected:
-				/* ---------------------------------------------------------------------------------
-					INVOKE MESSAGE CHAIN
-				--------------------------------------------------------------------------------- */
-				virtual void optimize(std::shared_ptr<library::XML> xml, size_t index, size_t size) override
-				{
-					super::optimize(xml, index, size);
+			tsp::Scheduler scheduler;
+			scheduler.construct(xml);
+			scheduler.optimize();
 
-					tsp::Scheduler scheduler;
-					scheduler.construct(xml);
-					scheduler.optimize();
+			cout << scheduler.toString() << endl << endl;
+			sendData( make_shared<Invoke>("replyOptimization", scheduler.toXML()) );
+		};
 
-					std::cout << scheduler.toString() << std::endl << std::endl;
-					sendData(std::make_shared<protocol::Invoke>("replyOptimization", scheduler.toXML()));
-				};
+	public:
+		/* ---------------------------------------------------------------------------------
+			MAIN
+		--------------------------------------------------------------------------------- */
+		/**
+		 * @brief Main function.
+		 */
+		static void main()
+		{
+			string ip;
+			int port;
 
-			public:
-				/* ---------------------------------------------------------------------------------
-					MAIN
-				--------------------------------------------------------------------------------- */
-				/**
-				 * @brief Main function.
-				 */
-				static void main()
-				{
-					std::string ip;
-					int port;
+			cout << "----------------------------------------------------------------------------" << endl;
+			cout << "	TSP SOLVER SLAVE" << endl;
+			cout << "----------------------------------------------------------------------------" << endl;
+			cout << "	ip: ";		cin >> ip;
+			cout << endl;
 
-					std::cout << "----------------------------------------------------------------------------" << std::endl;
-					std::cout << "	TSP SOLVER SLAVE" << std::endl;
-					std::cout << "----------------------------------------------------------------------------" << std::endl;
-					std::cout << "	ip: ";		std::cin >> ip;
-					std::cout << std::endl;
-
-					TSPSlave slave(ip);
-					slave.start();
-				};
-			};
+			TSPSlave slave(ip);
+			slave.start();
 		};
 	};
+};
+};
 };

@@ -1,5 +1,5 @@
 #pragma once
-#include "GAPopulation.hpp"
+#include <samchon/library/GeneticAlgorithm.hpp>
 
 #include <set>
 #include <random>

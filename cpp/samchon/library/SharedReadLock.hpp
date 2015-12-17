@@ -1,8 +1,6 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <atomic>
-
 namespace std
 {
 	template <typename _Ty>

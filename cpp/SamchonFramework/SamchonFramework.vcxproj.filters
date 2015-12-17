@@ -282,9 +282,6 @@
     <ClInclude Include="..\samchon\library\CaseGenerator.hpp">
       <Filter>Header Files\library\utils\math\case generator</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\library\CaseTree.hpp">
-      <Filter>Header Files\library\utils\math\case generator</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\library\CombinedPermutationGenerator.hpp">
       <Filter>Header Files\library\utils\math\case generator</Filter>
     </ClInclude>
@@ -599,6 +596,24 @@
     </ClInclude>
     <ClInclude Include="..\samchon\library\EventDispatcher.hpp">
       <Filter>Header Files\library\common\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\namtree.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\service.hpp">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master.hpp">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\slave.hpp">
+      <Filter>Header Files\protocol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

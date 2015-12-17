@@ -7,7 +7,8 @@ package org.samchon.library.ui
 	import spark.components.ButtonBar;
 	import spark.components.IItemRenderer;
 	
-	public class ButtonBar extends spark.components.ButtonBar {
+	public class ButtonBar extends spark.components.ButtonBar 
+	{
 		protected var creationFlag:Boolean = false;
 		protected var _setSelectedIndex:int = -1;
 		
@@ -19,10 +20,13 @@ package org.samchon.library.ui
 		public function ButtonBar()
 		{
 			super();
+		
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, main);
 		}
-		protected function main(event:FlexEvent):void {
+		protected function main(event:FlexEvent):void 
+		{
 			creationFlag = true;
+			
 			if(_setSelectedIndex != -1)
 				selectedIndex = _setSelectedIndex;
 		}
@@ -32,23 +36,28 @@ package org.samchon.library.ui
 		GET METHOD
 		==================================================
 		*/
-		public override function get selectedIndex():int {
+		public override function get selectedIndex():int 
+		{
 			return _selectedIndex;
 		}
-		public function get selectedItems():Array {
+		public function get selectedItems():Array 
+		{
 			var items:Array = [];
 			for(var i:int = 0; i < _selectedIndices.length; i++)
 				items.push( dataProvider.getItemAt(_selectedIndices[i]) );
 			
 			return items;
 		}
-		public function get selectedIndices():Array {
+		public function get selectedIndices():Array 
+		{
 			return _selectedIndices;
 		}
-		public function get removedIndex():int {
+		public function get removedIndex():int 
+		{
 			return _removedIndex;
 		}
-		public function get removedItem():Object {
+		public function get removedItem():Object 
+		{
 			if(_removedIndex == -1)
 				return null;
 			else
@@ -60,24 +69,42 @@ package org.samchon.library.ui
 		SET METHOD
 		==================================================
 		*/
-		public override function set selectedIndex(value:int):void {
-			if(creationFlag) {
+		public override function set selectedIndex(value:int):void 
+		{
+			if(creationFlag) 
+			{
 				getItemRenderer(value).selected = true;
 				_selectedIndices = [value];
 			}
-			else _setSelectedIndex = value;
+			else 
+				_setSelectedIndex = value;
 		}
 		
-		public function set allowMultipleSelection(value:Boolean):void {
+		public function set allowMultipleSelection(value:Boolean):void 
+		{
 			_allowMultipleSelection = value;
 		}
-		public function removeSelectionAt(x:int, manual:Boolean = true):void {
+		public function set selectedIndices(args:Array):void
+		{
+			this._selectedIndices = args;
+			
+			var i:int;
+			for(i = 0; i < this.dataProvider.length; i++)
+				getItemRenderer(i).selected = false;
+			
+			for(i = 0; i < args.length; i++)
+				getItemRenderer(args[i]).selected = true;
+		}
+		
+		public function removeSelectionAt(x:int, manual:Boolean = true):void 
+		{
 			if(manual)
 				getItemRenderer(x).selected = false;
 			
 			for(var i:int = 0; i < _selectedIndices.length; i++)
 				if( x == _selectedIndices[i] )
 					break;
+			
 			_selectedIndices.splice(i, 1);
 			_removedIndex = x;
 			_selectedIndex = -1;
@@ -85,20 +112,25 @@ package org.samchon.library.ui
 		
 		/*
 		==================================================
-		ABOUT MULTIPLE-SELECTION
+			ABOUT MULTIPLE-SELECTION
 		==================================================
 		*/
-		protected override function itemSelected(index:int, selected:Boolean):void {
-			if( _allowMultipleSelection == false ) {
+		protected override function itemSelected(index:int, selected:Boolean):void 
+		{
+			if( _allowMultipleSelection == false ) 
+			{
 				super.itemSelected(index, selected);
 				_removedIndex = -1;
+				
 				return;
 			}
+			
 			var itemRenderer:IItemRenderer = getItemRenderer(index);
 			if(itemRenderer)
 				selected = itemRenderer.selected;
 			
-			if(selected == true) {
+			if(selected == true) 
+			{
 				for(var i:int = 0; i < _selectedIndices.length; i++)
 					if(index == _selectedIndices[i])
 						return;
@@ -107,10 +139,12 @@ package org.samchon.library.ui
 				_selectedIndex = index;
 				_selectedIndices.sort();
 				_removedIndex = -1;
-			}else //false
+			}
+			else //false
 				removeSelectionAt(index, false);
 		}
-		protected function getItemRenderer(index:int):IItemRenderer {
+		protected function getItemRenderer(index:int):IItemRenderer 
+		{
 			if (!dataGroup || (index < 0) || (index >= dataGroup.numElements))
 				return null;
 			

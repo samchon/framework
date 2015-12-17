@@ -242,6 +242,14 @@ namespace samchon
 				this->value = val.str();
 			};
 
+			template <typename _Ty>
+			void insertValue(const std::string &tag, const _Ty &val)
+			{
+				std::shared_ptr<XML> xml(new XML());
+				xml->setTag("tag");
+				xml->setValue(val);
+			};
+
 			/**
 			 * @brief Set a property with its key
 			 */

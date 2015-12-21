@@ -246,8 +246,10 @@ namespace samchon
 			void insertValue(const std::string &tag, const _Ty &val)
 			{
 				std::shared_ptr<XML> xml(new XML());
-				xml->setTag("tag");
+				xml->setTag(tag);
 				xml->setValue(val);
+
+				push_back(xml);
 			};
 
 			/**

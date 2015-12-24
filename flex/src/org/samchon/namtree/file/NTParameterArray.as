@@ -9,7 +9,7 @@ package org.samchon.namtree.file
 		{
 			super();
 		}
-		override protected function createChild(xml:XML):IEntity
+		override public function createChild(xml:XML):IEntity
 		{
 			return new NTParameter();
 		}

@@ -49,7 +49,7 @@ package org.samchon.namtree.file
 				exploreParameter = null;
 		}
 		
-		override protected function createChild(xml:XML):IEntity
+		override public function createChild(xml:XML):IEntity
 		{
 			return new NTParameterDetermined();
 		}

@@ -104,7 +104,7 @@ package org.samchon.namtree.criteria
 			operator = xml.@operator;
 			weight = xml.@weight;
 		}
-		override protected function createChild(xml:XML):IEntity
+		override public function createChild(xml:XML):IEntity
 		{
 			return factory.createCriteria(this, xml);
 		}

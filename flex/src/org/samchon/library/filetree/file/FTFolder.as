@@ -73,7 +73,7 @@ package org.samchon.library.filetree.file
 			comment = xml.@comment;
 		}
 		
-		override protected function createChild(xml:XML):IEntity
+		override public function createChild(xml:XML):IEntity
 		{
 			if(xml.hasOwnProperty("@extension") == false)
 				return new FTFolder(factory, this);

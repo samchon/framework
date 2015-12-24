@@ -36,7 +36,7 @@ package org.samchon.namtree.criteria
 			
 			this.side = side;
 		}
-		override protected function createChild(xml:XML):IEntity
+		override public function createChild(xml:XML):IEntity
 		{
 			if(parameterArray.has(xml.@name) == false)
 				return null;

@@ -106,7 +106,7 @@ package org.samchon.protocol.entity
 		 *
 		 * @return A new child Entity belongs to EntityArray.
 		 */
-		protected function createChild(xml:XML):IEntity
+		public function createChild(xml:XML):IEntity
 		{
 			return null;
 		}

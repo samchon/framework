@@ -3,6 +3,8 @@ package org.samchon.protocol.invoke
 	import flash.utils.ByteArray;
 	
 	import mx.utils.StringUtil;
+	
+	import org.samchon.protocol.entity.Entity;
 
 	/**
 	 * <p> Standard message of network I/O. </p>
@@ -28,6 +30,7 @@ package org.samchon.protocol.invoke
 	 * @author Jeongho Nam
 	 */
 	public class InvokeParameter
+		extends Entity
 	{
 		/**
 		 * parameter's name.
@@ -62,7 +65,7 @@ package org.samchon.protocol.invoke
 		public function InvokeParameter(... args)
 		{
 			if(args.length == 1)
-				constructByXML(args[0]);
+				construct(args[0]);
 			else if(args[0] is String && args.length == 2)
 			{
 				this.name = args[0];
@@ -87,7 +90,7 @@ package org.samchon.protocol.invoke
 		/**
 		 * @private
 		 */
-		private function constructByXML(xml:XML):void
+		override public function construct(xml:XML):void
 		{
 			if (xml.hasOwnProperty("@name") == false)
 				xml.@name = "";
@@ -130,13 +133,14 @@ package org.samchon.protocol.invoke
 		/* ---------------------------------------------------------------------
 			EXPORTS
 		--------------------------------------------------------------------- */
-		/**
-		 * Convert current InvokeParameter to XML
-		 * @return XML expressing parameter
-		 */
-		public function toXML():XML
+		override public function get TAG():String
 		{
-			var xml:XML = new XML("<parameter />");
+			return "parameter";
+		}
+		
+		override public function toXML():XML
+		{
+			var xml:XML = super.toXML();
 			
 			if (name != "")
 				xml.@name = name;

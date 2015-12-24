@@ -29,8 +29,7 @@ package org.samchon.protocol.invoke
 	 * @author Jeongho Nam
 	 */
 	public class Invoke
-		extends ArrayList//ArrayList<InvokeParameter>
-		implements IDictionary
+		extends EntityArray
 	{
 		/**
 		 * <p> Represent who listens, often be a function name. </p>
@@ -79,7 +78,7 @@ package org.samchon.protocol.invoke
 				if(args[0] is String)
 					this.listener = args[0];
 				else
-					construct(args[0]);
+					construct(args[0]); //XML
 			else
 			{
 				this.listener = args[0];
@@ -89,18 +88,16 @@ package org.samchon.protocol.invoke
 			}
 		}
 		
-		/**
-		 * @copy IEntity.construct()
-		 */ 
-		public function construct(xml:XML):void
+		override public function construct(xml:XML):void
 		{
-			this.listener = xml.@listener;
-			if(xml.hasOwnProperty("parameter") == false)
-				return;
+			super.construct(xml);
 			
-			var xmlList:XMLList = xml.parameter;
-			for(var i:int = 0; i < xmlList.length(); i++)
-				addItem( new InvokeParameter(xmlList[i] as XML) );
+			this.listener = xml.@listener;
+		}
+		
+		override public function createChild(xml:XML):IEntity
+		{
+			return new InvokeParameter();
 		}
 		
 		/* ---------------------------------------------------------------------
@@ -132,7 +129,7 @@ package org.samchon.protocol.invoke
 		 */
 		public function at(index:int):InvokeParameter
 		{
-			return getItemAt(index) as InvokeParameter;
+			return _at(index) as InvokeParameter;
 		}
 		
 		/**
@@ -141,35 +138,9 @@ package org.samchon.protocol.invoke
 		 * @param key the identifier of the <code>InvokeParameter</code> wants to access 
 		 * @return The <code>InvokeParameter</code> having the key, or null if there is none.
 		 */
-		public function get(key:*):InvokeParameter
+		public function get(key:String):InvokeParameter
 		{
-			for(var i:int = 0; i < length; i++)
-				if(at(i).getName() == key)
-					return at(i);
-			
-			return null;
-		}
-		
-		//CHECKERS
-		public function has(key:*):Boolean
-		{
-			for(var i:int = 0; i < length; i++)
-				if(at(i).getName() == key)
-					return true;
-			
-			return false;
-		}
-		
-		//MODIFIERS
-		public function erase(key:*):Boolean
-		{
-			for(var i:int = length - 1; i >= 0; i--)
-				if(at(i).getName() == key)
-				{
-					removeItemAt(i);
-					return true;
-				}
-			return false;
+			return _get(key) as InvokeParameter;
 		}
 		
 		/**
@@ -188,19 +159,20 @@ package org.samchon.protocol.invoke
 		/* ---------------------------------------------------------------------
 			EXPORTS
 		--------------------------------------------------------------------- */
-		/**
-		 * @copy IEntity.toXML()
-		 */
-		public function toXML():XML
+		override public function get TAG():String
 		{
-			var xml:XML = new XML("<invoke />");
+			return "invoke";
+		}
+		override public function get CHILD_TAG():String
+		{
+			return "parameter";
+		}
+		
+		override public function toXML():XML
+		{
+			var xml:XML = super.toXML();
 			xml.@listener = listener;
 			
-			var xmlList:XMLList = new XMLList();
-			for(var i:int = 0; i < length; i++)
-				xmlList[i] = at(i).toXML();
-			
-			xml.setChildren(xmlList);
 			return xml;
 		}
 	}

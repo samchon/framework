@@ -283,6 +283,7 @@ package org.samchon.protocol.socket
 			{
 				// CONSTRUCTS INVOKE MESSAGES
 				var message:String = "<invoke " + strArray[i] + "</invoke>";	
+				//trace(message);
 				var xml:XML = new XML(message);
 				
 				invokeArray.push(new Invoke(xml));

@@ -2,6 +2,7 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="org.samchon.protocol.socket.KRServerConnector"/>
+    <classEntry path="org.samchon.library.utils.DateUtil"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

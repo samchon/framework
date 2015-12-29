@@ -1687,6 +1687,19 @@ class XML
             this.properties.erase(key);
 	}
 
+    public push(xml: XML): void
+    {
+        if (this.has(xml.tag) == true)
+            this.get(xml.tag).push(xml);
+        else
+        {
+            var xmlList:XMLList = new XMLList();
+            xmlList.push(xml);
+
+            this.set(xml.tag, xmlList);
+        }
+    }
+
     public addAllProperties(xml: XML): void
     {
         for (var it = xml.properties.begin(); it.equals(xml.properties.end()) == false; it = it.next())

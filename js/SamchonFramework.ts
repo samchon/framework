@@ -1,4 +1,4 @@
-﻿function test()
+﻿/*function test()
 {
     var productArray: ProductArray = new ProductArray();
     productArray.push
@@ -27,7 +27,7 @@
 
     var invoke: Invoke = new Invoke("optimize", packer.toXML(), 1, 400);
     invoke.apply(packerSystem);
-}
+}*/
 
 /**
  * <p> Trace arguments on screen. </p>
@@ -46,9 +46,30 @@
  */
 function trace(...args: any[]): void
 {
-	var str: string = args[0];
-	for (var i: number = 1; i < args.length; i++)
-		str += ", " + args[i];
+	var str: string = "";
+    
+    var replacerArray: Array<Pair<string, string>> =
+    [
+        //new Pair<string, string>("'", "&apos;"),
+        //new Pair<string, string>('"', "&quot;"),
+        new Pair<string, string>("&", "&amp;"),
+        new Pair<string, string>("<", "&lt;"),
+        new Pair<string, string>(">", "&gt;"),
+        new Pair<string, string>("\n", "<br>"),
+        new Pair<string, string>("\t", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+        //new Pair<string, string>("\t", "____")
+    ];
+
+    for (var i: number = 0; i < args.length; i++)
+    {
+        var item: string = String(args[i]);
+        item = StringUtil.replaceAll(item, replacerArray);
+
+        if (i == 0)
+            str += item;
+        else
+            str += ", " + item;
+    }
 
 	document.write("<p>" + str + "</p>");
 }
@@ -1223,7 +1244,12 @@ class StringUtil
 		if (pairs.length == 0)
 			return str;
 
-		var foundPairList: Array<Pair<number, number>> = new Array<Pair<number, number>>();
+        for (var i: number = 0; i < pairs.length; i++)
+            str = str.split(pairs[i].first).join(pairs[i].second);
+
+        return str;
+
+		/*var foundPairList: Array<Pair<number, number>> = new Array<Pair<number, number>>();
 		
 		//FIND POSITION-INDEX IN ORIGINAL STRING
 		for (var i: number = 0; i < pairs.length; i++) 
@@ -1264,7 +1290,7 @@ class StringUtil
 		if (index <= str.length - 1)
 			res += str.substr(index);
 
-		return res;
+		return res;*/
 	}
 }
 
@@ -1346,7 +1372,7 @@ class XML
      *                     {\"comment\", \"Hello. My name is Jeongho Nam\"}} </li>
      * </ul>
 	 */
-	private properties: Dictionary<string>;
+	private properties: Dictionary<any>;
 	
 	/* -------------------------------------------------------------
 		CONSTRUCTORS
@@ -1368,7 +1394,7 @@ class XML
 	{
 		super();
 
-		this.properties = new Dictionary<string>();
+        this.properties = new Dictionary<any>();
         this.value = "";
 
 		if (str.indexOf("<") == -1)
@@ -1619,6 +1645,11 @@ class XML
 		return this.properties.get(key);
 	}
 
+    public getPropertyMap(): Dictionary<any>
+    {
+        return this.properties;
+    }
+
 	/* -------------------------------------------------------------
 		SETTERS
 	------------------------------------------------------------- */
@@ -1687,16 +1718,21 @@ class XML
             this.properties.erase(key);
 	}
 
-    public push(xml: XML): void
+    public push(... xmlArray: XML[]): void
     {
-        if (this.has(xml.tag) == true)
-            this.get(xml.tag).push(xml);
-        else
+        for (var i: number = 0; i < xmlArray.length; i++)
         {
-            var xmlList:XMLList = new XMLList();
-            xmlList.push(xml);
+            var xml: XML = xmlArray[i];
 
-            this.set(xml.tag, xmlList);
+            if (this.has(xml.tag) == true)
+                this.get(xml.tag).push(xml);
+            else 
+            {
+                var xmlList: XMLList = new XMLList();
+                xmlList.push(xml);
+
+                this.set(xml.tag, xmlList);
+            }
         }
     }
 
@@ -2520,7 +2556,8 @@ class ServerConnector
  * 
  * @author Jeongho Nam
  */
-interface IEntity {
+interface IEntity 
+{
     /**
 	 * <p> Construct data of the Entity from a XML object. </p>
 	 * 
@@ -2616,23 +2653,58 @@ interface IEntity {
  * @author Jeongho Nam
  */
 class Entity
-    implements IEntity {
+    implements IEntity 
+{
     /**
      * <p> Default Constructor. </p>
      */
-    constructor() {
+    constructor() 
+    {
         //NOTHING
     }
-    public construct(xml: XML): void {
-        //SOMETHING TO COMPOSE MEMBER DATA
+    public construct(xml: XML): void 
+    {
+        // MEMBER VARIABLES; ATOMIC
+        var propertyMap: Dictionary<any> = xml.getPropertyMap();
+
+        for (var v_it = propertyMap.begin(); v_it.equals(propertyMap.end()) != true; v_it = v_it.next())
+            if (this.hasOwnProperty(v_it.first) == true && (typeof this[v_it.first] == "number" || typeof this[v_it.first] == "string"))
+                this[v_it.first] = v_it.second;
+
+        // MEMBER ENTITIES
+        for (var e_it = xml.begin(); e_it.equals(xml.end()) != true; e_it = e_it.next())
+        {
+            if (this.hasOwnProperty(e_it.first) == true 
+                && e_it.second.length == 1 
+                && (this[e_it.first] instanceof Entity || this[e_it.first] instanceof EntityArray)
+                && this[e_it.first] != null)
+            {
+                var entity:IEntity = this[e_it.first];
+                var e_xml: XML = e_it.second[0];
+
+                if (entity == null)
+                    continue;
+                
+                entity.construct(e_xml);
+            }
+        }
     }
 
     public TAG(): string { return ""; }
     public key(): any { return ""; }
 
-    public toXML(): XML {
+    public toXML(): XML 
+    {
         var xml: XML = new XML();
         xml.setTag(this.TAG());
+
+        // MEMBERS
+        for (var key in this) 
+            if (typeof key == "string" && // NOT STRING, THEN IT MEANS CHILDREN (INT, INDEX)
+                (typeof this[key] == "string" || typeof this[key] == "number") )
+            {
+                xml.setProperty(key, this[key]);
+            }
 
         return xml;
     }
@@ -2700,18 +2772,52 @@ class EntityArray<_Ty extends IEntity>
     {
         this.splice(0, this.length);
 
+        // MEMBER VARIABLES; ATOMIC
+        var propertyMap: Dictionary<any> = xml.getPropertyMap();
+
+        for (var v_it = propertyMap.begin(); v_it.equals(propertyMap.end()) != true; v_it = v_it.next())
+            if (this.hasOwnProperty(v_it.first) == true 
+                && (typeof this[v_it.first] == "number" || typeof this[v_it.first] == "string") 
+                && v_it.first != "length")
+            {
+                trace(v_it.first);
+
+                this[v_it.first] = v_it.second;
+            }
+
+        // MEMBER ENTITIES
+        for (var e_it = xml.begin(); e_it.equals(xml.end()) != true; e_it = e_it.next()) 
+        {
+            if (this.hasOwnProperty(e_it.first) == true
+                && e_it.first != this.CHILD_TAG()
+                && e_it.second.length == 1
+                && (this[e_it.first] instanceof Entity || this[e_it.first] instanceof EntityArray)
+                && this[e_it.first] != null) 
+            {
+                var entity: IEntity = this[e_it.first];
+                var e_xml: XML = e_it.second[0];
+
+                if (entity == null)
+                    continue;
+                
+                entity.construct(e_xml);
+            }
+        }
+
+        //CHILDREN
         if (xml.has(this.CHILD_TAG()) == false)
             return;
 
         var xmlList: XMLList = xml.get(this.CHILD_TAG());
+
         for (var i: number = 0; i < xmlList.length; i++) 
         {
             var child: _Ty = this.createChild(xmlList[i]);
-            if (child != null) 
-            {
-                child.construct(xmlList[i]);
-                this.push(child);
-            }
+            if (child == null)
+                continue; 
+            
+            child.construct(xmlList[i]);
+            this.push(child);
         }
     }
 
@@ -2790,20 +2896,24 @@ class EntityArray<_Ty extends IEntity>
 	 *
 	 * @inheritDoc
 	 */
-    public toXML(): XML 
+    public toXML(): XML
     {
         var xml: XML = new XML();
         xml.setTag(this.TAG());
 
-        if (this.length == 0)
-            return xml;
-
-        var xmlList: XMLList = new XMLList();
+        // MEMBERS
+        for (var key in this)
+            if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
+                && (typeof this[key] == "string" || typeof this[key] == "number"))
+            {
+                // ATOMIC
+                xml.setProperty(key, this[key]);
+            }
+        
+        // CHILDREN
         for (var i: number = 0; i < this.length; i++)
-            xmlList.push(this[i].toXML());
-
-        xml.set(this.CHILD_TAG(), xmlList);
-
+            xml.push(this[i].toXML());
+        
         return xml;
     }
 }
@@ -3088,6 +3198,7 @@ class InvokeParameter
 			this.value = args[2];
 		}
 	}
+
     public construct(xml: XML): void
     {
         this.name = xml.hasProperty("name") ? xml.getProperty("name") : "";
@@ -3882,13 +3993,6 @@ class Product
         this.volume = volume;
         this.weight = weight;
     }
-    public construct(xml: XML): void
-    {
-        this.name = xml.getProperty("name");
-        this.price = xml.getProperty("price");
-        this.volume = xml.getProperty("volume");
-        this.weight = xml.getProperty("weight");
-    }
 
     /* --------------------------------------------------------------------
         GETTERS
@@ -3914,16 +4018,6 @@ class Product
     public TAG(): string
     {
         return "product";
-    }
-    public toXML(): XML
-    {
-        var xml: XML = super.toXML();
-        xml.setProperty("name", this.name);
-        xml.setProperty("price", this.price);
-        xml.setProperty("volume", this.volume);
-        xml.setProperty("weight", this.weight);
-
-        return xml;
     }
 }
 
@@ -3986,15 +4080,6 @@ class Wrapper
             this.weight = args[3];
         }
     }
-    public construct(xml: XML): void 
-    {
-        super.construct(xml);
-
-        this.name = xml.getProperty("name");
-        this.price = xml.getProperty("price");
-        this.volume = xml.getProperty("volume");
-        this.weight = xml.getProperty("weight");
-    }
 
     protected createChild(xml: XML): Product
     {
@@ -4051,17 +4136,6 @@ class Wrapper
     public TAG(): string
     {
         return "wrapper";
-    }
-
-    public toXML(): XML
-    {
-        var xml: XML = super.toXML();
-        xml.setProperty("name", this.name);
-        xml.setProperty("price", this.price);
-        xml.setProperty("volume", this.volume);
-        xml.setProperty("weight", this.weight);
-
-        return xml;
     }
 }
 
@@ -4282,18 +4356,6 @@ class Packer
         else
             throw "invalid argument";
     }
-    public construct(xml: XML): void
-    {
-        super.construct(xml);
-        
-        this.productArray.construct
-        (
-            xml.get
-            (
-                this.productArray.TAG()
-            )[0]
-        );
-    }
 
     protected createChild(xml: XML): WrapperArray
     {
@@ -4379,18 +4441,6 @@ class Packer
     public CHILD_TAG(): string
     {
         return "wrapperArray";
-    }
-
-    public toXML(): XML
-    {
-        var xml: XML = super.toXML();
-        xml.setProperty("price", this.calcPrice());
-        
-        var xmlList: XMLList = new XMLList();
-        xmlList.push(this.productArray.toXML());
-        xml.set(this.productArray.TAG(), xmlList);
-
-        return xml;
     }
 }
 

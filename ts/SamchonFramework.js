@@ -47,18 +47,101 @@ var samchon;
 (function (samchon) {
     var library;
     (function (library) {
+        /**
+         * <p> Registers an event listener object with an EventDispatcher object so that the listener
+         * receives notification of an event. You can register event listeners on all nodes in the display
+         * list for a specific type of event, phase, and priority. </p>
+         *
+         * <p> After you successfully register an event listener, you cannot change its priority through
+         * additional calls to addEventListener(). To change a listener's priority, you must first call
+         * removeListener(). Then you can register the listener again with the new priority level. </p>
+         *
+         * Keep in mind that after the listener is registered, subsequent calls to <code>addEventListener()</code>
+         * with a different type or useCapture value result in the creation of a separate listener registration.
+         * For example, if you first register a listener with useCapture set to true, it listens only during the
+         * capture phase. If you call addEventListener() again using the same listener object, but with
+         * useCapture set to false, you have two separate listeners: one that listens during the capture
+         * phase and another that listens during the target and bubbling phases.
+         *
+         * <p> You cannot register an event listener for only the target phase or the bubbling phase. Those
+         * phases are coupled during registration because bubbling applies only to the ancestors of the
+         * target node. </p>
+         *
+         * <p> If you no longer need an event listener, remove it by calling <code>removeEventListener()</code>,
+         * or memory problems could result. Event listeners are not automatically removed from memory
+         * because the garbage collector does not remove the listener as long as the dispatching object
+         * exists (unless the useWeakReference parameter is set to true). </p>
+         *
+         * <p> Copying an EventDispatcher instance does not copy the event listeners attached to it. (If your
+         * newly created node needs an event listener, you must attach the listener after creating the
+         * node.) However, if you move an EventDispatcher instance, the event listeners attached to it move
+         * along with it. </p>
+         *
+         * <p> If the event listener is being registered on a node while an event is being processed on
+         * this node, the event listener is not triggered during the current phase but can be triggered
+         * during a later phase in the event flow, such as the bubbling phase. </p>
+         *
+         * <p> If an event listener is removed from a node while an event is being processed on the node, it is
+         * still triggered by the current actions. After it is removed, the event listener is never invoked
+         * again (unless registered again for future processing). </p>
+         *
+         * <ul>
+         *  <li> Made by AS3 - http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/events/EventDispatcher.html
+         * </ul>
+         *
+         * @author Migrated by Jeongho Nam
+         */
         var EventDispatcher = (function () {
-            function EventDispatcher() {
+            function EventDispatcher(target) {
+                if (target === void 0) { target = null; }
+                if (target == null)
+                    this.target = this;
+                else
+                    this.target = target;
             }
-            EventDispatcher.prototype.dispatch = function (event) {
-            };
-            EventDispatcher.prototype.addEventListener = function (type, listener) {
-            };
-            EventDispatcher.prototype.removeEventListener = function (type) {
-                return false;
-            };
+            /**
+             * @inheritdoc
+             */
             EventDispatcher.prototype.hasEventListener = function (type) {
-                return false;
+                return this.listeners.has(type);
+            };
+            /**
+             * @inheritdoc
+             */
+            EventDispatcher.prototype.dispatchEvent = function (event) {
+                event.target = this.target;
+                if (this.listeners.has(event.type) == false)
+                    return false;
+                var listenerSet = this.listeners.get(event.type);
+                for (var it = listenerSet.begin(); it.equals(listenerSet.end()) == false; it = it.next())
+                    it.value(event);
+                return true;
+            };
+            /**
+             * @inheritdoc
+             */
+            EventDispatcher.prototype.addEventListener = function (type, listener) {
+                var listenerSet;
+                if (this.listeners.has(type) == false) {
+                    listenerSet = new samchon.std.UnorderedSet();
+                    this.listeners.set(type, listenerSet);
+                }
+                else
+                    listenerSet = this.listeners.get(type);
+                listenerSet.insert(listener);
+            };
+            /**
+             * @inheritdoc
+             */
+            EventDispatcher.prototype.removeEventListener = function (type, listener) {
+                if (this.listeners.has(type) == false)
+                    return;
+                var listenerSet = this.listeners.get(type);
+                if (listenerSet.has(listener) == false)
+                    return;
+                listenerSet.erase(listener);
+                if (listenerSet.empty() == true)
+                    this.listeners.erase(type);
             };
             return EventDispatcher;
         })();
@@ -211,6 +294,167 @@ var samchon;
         std.SystemError = SystemError;
     })(std = samchon.std || (samchon.std = {}));
 })(samchon || (samchon = {}));
+/// <reference path="../library/EventDispatcher.ts" />
+/// <reference path="Iterator.ts" />
+/// <reference path="Exception.ts" />
+var samchon;
+(function (samchon) {
+    var std;
+    (function (std) {
+        var Container = (function () {
+            /* ---------------------------------------------------------------
+                CONSTRUCTORS
+            --------------------------------------------------------------- */
+            /**
+             * Default Constructor
+             */
+            function Container() {
+                //super();
+            }
+            /**
+             * <p> Assign Container content. </p>
+             *
+             * <p> Assigns new contents to the Container, replacing its current contents,
+             * and modifying its size accordingly. </p>
+             *
+             * @param begin Input interator of the initial position in a sequence.
+             * @param end Input interator of the final position in a sequence.
+             */
+            Container.prototype.assign = function (begin, end) {
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            /**
+             * <p> Clear content. </p>
+             *
+             * <p> Removes all elements from the map container (which are destroyed),
+             * leaving the container with a size of 0. </p>
+             */
+            Container.prototype.clear = function () {
+                this.erase(this.begin(), this.end());
+            };
+            /* ---------------------------------------------------------------
+                ELEMENTS I/O
+            --------------------------------------------------------------- */
+            Container.prototype.push = function () {
+                var items = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    items[_i - 0] = arguments[_i];
+                }
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            Container.prototype.erase = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            /* ---------------------------------------------------------------
+                GETTERS
+            --------------------------------------------------------------- */
+            /**
+             * <p> Return iterator to beginning. </p>
+             * <p> Returns an iterator referring the first element in the Container. </p>
+             *
+             * <h4> Note </h4>
+             * <p> If the container is empty, the returned iterator is same with end(). </p>
+             *
+             * @return An iterator to the first element in the container.
+             *         The iterator containes the first element's value.
+             */
+            Container.prototype.begin = function () {
+                if (this.size() == 0)
+                    return this.end();
+                else
+                    throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            /**
+             * <p> Return iterator to end. </p>
+             * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
+             *
+             * <p> The past-the-end element is the theoretical element that would follow the last element in
+             * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
+             *
+             * <p> Because the ranges used by functions of the Container do not include the element reference
+             * by their closing iterator, this function is often used in combination with Container::begin() to specify
+             * a range including all the elements in the container. </p>
+             *
+             * <h4> Note </h4>
+             * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
+             * element by the iterator will cause throwing exception (out of range). </p>
+             * <p> If the container is empty, this function returns the same as Container::begin(). </p>
+             *
+             * @return An iterator to the end element in the container.
+             */
+            Container.prototype.end = function () {
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            Container.prototype.size = function () {
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            Container.prototype.empty = function () {
+                return this.size() == 0;
+            };
+            return Container;
+        })();
+        std.Container = Container;
+        var PairContainer = (function (_super) {
+            __extends(PairContainer, _super);
+            /* ---------------------------------------------------------
+                CONSTRUCTORS
+            --------------------------------------------------------- */
+            /**
+             * Default Constructor
+             */
+            function PairContainer() {
+                _super.call(this);
+            }
+            PairContainer.prototype.assign = function (begin, end) {
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            PairContainer.prototype.clear = function () {
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
+            PairContainer.prototype.size = function () {
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            Object.defineProperty(PairContainer.prototype, "length", {
+                get: function () {
+                    return this.size();
+                },
+                enumerable: true,
+                configurable: true
+            });
+            PairContainer.prototype.begin = function () {
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            PairContainer.prototype.end = function () {
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            PairContainer.prototype.find = function (key) {
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            PairContainer.prototype.has = function (key) {
+                return !this.find(key).equals(this.end());
+            };
+            PairContainer.prototype.get = function (key) {
+                return this.find(key).second;
+            };
+            PairContainer.prototype.erase = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                throw new std.AbstractMethodError("Have to be overriden.");
+            };
+            return PairContainer;
+        })(Container);
+        std.PairContainer = PairContainer;
+    })(std = samchon.std || (samchon.std = {}));
+})(samchon || (samchon = {}));
 /// <reference path="Container.ts" />
 /// <reference path="Exception.ts" />
 var samchon;
@@ -298,175 +542,6 @@ var samchon;
             return PairIterator;
         })(Iterator);
         std.PairIterator = PairIterator;
-    })(std = samchon.std || (samchon.std = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../library/EventDispatcher.ts" />
-/// <reference path="Iterator.ts" />
-/// <reference path="Exception.ts" />
-var samchon;
-(function (samchon) {
-    var std;
-    (function (std) {
-        var Container = (function (_super) {
-            __extends(Container, _super);
-            /* ---------------------------------------------------------------
-                CONSTRUCTORS
-            --------------------------------------------------------------- */
-            /**
-             * Default Constructor
-             */
-            function Container() {
-                _super.call(this);
-            }
-            /**
-             * <p> Assign Container content. </p>
-             *
-             * <p> Assigns new contents to the Container, replacing its current contents,
-             * and modifying its size accordingly. </p>
-             *
-             * @param begin Input interator of the initial position in a sequence.
-             * @param end Input interator of the final position in a sequence.
-             */
-            Container.prototype.assign = function (begin, end) {
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            /**
-             * <p> Clear content. </p>
-             *
-             * <p> Removes all elements from the map container (which are destroyed),
-             * leaving the container with a size of 0. </p>
-             */
-            Container.prototype.clear = function () {
-                this.erase(this.begin(), this.end());
-            };
-            /* ---------------------------------------------------------------
-                ELEMENTS I/O
-            --------------------------------------------------------------- */
-            Container.prototype.push = function () {
-                var items = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    items[_i - 0] = arguments[_i];
-                }
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            Container.prototype.erase = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            /* ---------------------------------------------------------------
-                GETTERS
-            --------------------------------------------------------------- */
-            /**
-             * <p> Return iterator to beginning. </p>
-             * <p> Returns an iterator referring the first element in the Container. </p>
-             *
-             * <h4> Note </h4>
-             * <p> If the container is empty, the returned iterator is same with end(). </p>
-             *
-             * @return An iterator to the first element in the container.
-             *         The iterator containes the first element's value.
-             */
-            Container.prototype.begin = function () {
-                if (this.size() == 0)
-                    return this.end();
-                else
-                    throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            /**
-             * <p> Return iterator to end. </p>
-             * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
-             *
-             * <p> The past-the-end element is the theoretical element that would follow the last element in
-             * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
-             *
-             * <p> Because the ranges used by functions of the Container do not include the element reference
-             * by their closing iterator, this function is often used in combination with Container::begin() to specify
-             * a range including all the elements in the container. </p>
-             *
-             * <h4> Note </h4>
-             * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
-             * element by the iterator will cause throwing exception (out of range). </p>
-             * <p> If the container is empty, this function returns the same as Container::begin(). </p>
-             *
-             * @return An iterator to the end element in the container.
-             */
-            Container.prototype.end = function () {
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            Container.prototype.size = function () {
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            Object.defineProperty(Container.prototype, "length", {
-                get: function () {
-                    return this.size();
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Container.prototype.empty = function () {
-                return this.size() == 0;
-            };
-            return Container;
-        })(samchon.library.EventDispatcher);
-        std.Container = Container;
-        var PairContainer = (function (_super) {
-            __extends(PairContainer, _super);
-            /* ---------------------------------------------------------
-                CONSTRUCTORS
-            --------------------------------------------------------- */
-            /**
-             * Default Constructor
-             */
-            function PairContainer() {
-                _super.call(this);
-            }
-            PairContainer.prototype.assign = function (begin, end) {
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            PairContainer.prototype.clear = function () {
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            PairContainer.prototype.size = function () {
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            Object.defineProperty(PairContainer.prototype, "length", {
-                get: function () {
-                    return this.size();
-                },
-                enumerable: true,
-                configurable: true
-            });
-            PairContainer.prototype.begin = function () {
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            PairContainer.prototype.end = function () {
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            PairContainer.prototype.find = function (key) {
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            PairContainer.prototype.has = function (key) {
-                return !this.find(key).equals(this.end());
-            };
-            PairContainer.prototype.get = function (key) {
-                return this.find(key).second;
-            };
-            PairContainer.prototype.erase = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                throw new std.AbstractMethodError("Have to be overriden.");
-            };
-            return PairContainer;
-        })(Container);
-        std.PairContainer = PairContainer;
     })(std = samchon.std || (samchon.std = {}));
 })(samchon || (samchon = {}));
 /// <reference path="Container.ts" />
@@ -590,6 +665,19 @@ var samchon;
             Vector.prototype.pushBack = function (element) {
                 this.data_.push(element);
             };
+            /**
+             * Replaces the element at the specified position in this list with the specified element.
+             *
+             * @param index A specified position of the value to replace.
+             * @param val A value to be stored at the specified position.
+             *
+             * @return The previous element had stored at the specified position.
+             */
+            Vector.prototype.set = function (index, val) {
+                var prev = this.data_[index];
+                this.data_[index] = val;
+                return prev;
+            };
             Vector.prototype.popBack = function () {
                 this.data_.splice(this.data_.length - 1, 1);
             };
@@ -676,17 +764,24 @@ var samchon;
                 _super.call(this, source);
                 this.index = index;
             }
-            Object.defineProperty(VectorIterator.prototype, "value", {
+            Object.defineProperty(VectorIterator.prototype, "vector", {
                 /* ---------------------------------------------------------
                     ACCESSORS
                 --------------------------------------------------------- */
+                get: function () {
+                    return this.source;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(VectorIterator.prototype, "value", {
                 /**
                  * <p> Get value of the iterator is pointing. </p>
                  *
                  * @return A value of the iterator.
                  */
                 get: function () {
-                    return this.source[this.index];
+                    return this.vector.at(this.index);
                 },
                 /**
                  * <p> Set value of the iterator is pointing. </p>
@@ -694,7 +789,7 @@ var samchon;
                  * @param val A new value of the iterator.
                  */
                 set: function (val) {
-                    this.source[this.index] = val;
+                    this.vector.set(this.index, val);
                 },
                 enumerable: true,
                 configurable: true
@@ -920,7 +1015,7 @@ var samchon;
              * @return The number of elements in the container.
              */
             UnorderedMap.prototype.size = function () {
-                return this.data_.length;
+                return this.data_.size();
             };
             /**
              * <p> Get iterator to element. </p>
@@ -938,8 +1033,8 @@ var samchon;
              * @return An iterator to the element, if an element with specified key is found, or Map::end() otherwise.
              */
             UnorderedMap.prototype.find = function (key) {
-                for (var i = 0; i < this.data_.length; i++)
-                    if (this.data_[i].first == key)
+                for (var i = 0; i < this.data_.size(); i++)
+                    if (this.data_.at(i).first == key)
                         return new UnorderedMapIterator(this, i);
                 return this.end();
             };
@@ -954,8 +1049,8 @@ var samchon;
              * @return Whether the map has an item having the specified identifier
              */
             UnorderedMap.prototype.has = function (key) {
-                for (var i = 0; i < this.data_.length; i++)
-                    if (this.data_[i].first == key)
+                for (var i = 0; i < this.data_.size(); i++)
+                    if (this.data_.at(i).first == key)
                         return true;
                 return false;
             };
@@ -969,9 +1064,9 @@ var samchon;
              * @return A reference object of the mapped value (_Ty)
              */
             UnorderedMap.prototype.get = function (key) {
-                for (var i = 0; i < this.data_.length; i++)
-                    if (this.data_[i].first == key)
-                        return this.data_[i].second;
+                for (var i = 0; i < this.data_.size(); i++)
+                    if (this.data_.at(i).first == key)
+                        return this.data_.at(i).second;
                 throw Error("out of range");
             };
             /* ---------------------------------------------------------
@@ -1038,9 +1133,9 @@ var samchon;
              * @param val Value, the item.
              */
             UnorderedMap.prototype.set = function (key, value) {
-                for (var i = 0; i < this.data_.length; i++)
-                    if (this.data_[i].first == key) {
-                        this.data_[i].second = value;
+                for (var i = 0; i < this.data_.size(); i++)
+                    if (this.data_.at(i).first == key) {
+                        this.data_.at(i).second = value;
                         return;
                     }
                 this.data_.push(new std.Pair(key, value));
@@ -1053,8 +1148,8 @@ var samchon;
              * @throw exception out of range.
              */
             UnorderedMap.prototype.pop = function (key) {
-                for (var i = 0; i < this.data_.length; i++)
-                    if (this.data_[i].first == key)
+                for (var i = 0; i < this.data_.size(); i++)
+                    if (this.data_.at(i).first == key)
                         return this.data_.splice(i, 1)[0].second;
                 throw Error("out of range");
             };
@@ -1078,8 +1173,8 @@ var samchon;
             UnorderedMap.prototype.equals = function (obj) {
                 if (this.size() != obj.size())
                     return false;
-                for (var i = 0; i < this.data_.length; i++)
-                    if (this.data_[i].equals(obj.data_[i]) == false)
+                for (var i = 0; i < this.data_.size(); i++)
+                    if (this.data_.at(i).equals(obj.data_.at(i)) == false)
                         return false;
                 return true;
             };
@@ -1096,8 +1191,8 @@ var samchon;
              */
             UnorderedMap.prototype.toString = function () {
                 var str = "{";
-                for (var i = 0; i < this.data_.length; i++) {
-                    var pair = this.data_[i];
+                for (var i = 0; i < this.data_.size(); i++) {
+                    var pair = this.data_.at(i);
                     var key = "\"" + pair.first + "\"";
                     var value = (typeof pair.second == "string")
                         ? "\"" + pair.second + "\""
@@ -1153,13 +1248,13 @@ var samchon;
                  * <p> Get first element (key). </p>
                  */
                 get: function () {
-                    return this.map.data()[this.index].first;
+                    return this.map.data().at(this.index).first;
                 },
                 /**
                  * <p> Set first element (key). </p>
                  */
                 set: function (key) {
-                    this.map.data()[this.index].first = key;
+                    this.map.data().at(this.index).first = key;
                 },
                 enumerable: true,
                 configurable: true
@@ -1169,13 +1264,13 @@ var samchon;
                  * <p> Get second element (mapped value). </p>
                  */
                 get: function () {
-                    return this.map.data()[this.index].second;
+                    return this.map.data().at(this.index).second;
                 },
                 /**
                  * <p> Set second element (mapped value). </p>
                  */
                 set: function (val) {
-                    this.map.data()[this.index].second = val;
+                    this.map.data().at(this.index).second = val;
                 },
                 enumerable: true,
                 configurable: true
@@ -1230,54 +1325,6 @@ var samchon;
         })(std.PairIterator);
         std.UnorderedMapIterator = UnorderedMapIterator;
     })(std = samchon.std || (samchon.std = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../std/Vector.ts" />
-///     <reference path="XML.ts" />
-var samchon;
-(function (samchon) {
-    var library;
-    (function (library) {
-        /**
-         * <p> List of XML(s) having same tag. </p>
-         *
-         * @author Jeongho Nam
-         */
-        var XMLList = (function (_super) {
-            __extends(XMLList, _super);
-            /**
-             * <p> Default Constructor. </p>
-             */
-            function XMLList() {
-                _super.call(this);
-            }
-            /**
-             * <p> Convert XMLList to string. </p>
-             *
-             * @param level Level(depth) of the XMLList.
-             */
-            XMLList.prototype.toString = function (level) {
-                if (level === void 0) { level = 0; }
-                var str = "";
-                for (var i = 0; i < this.size(); i++)
-                    str += this.at(i).toString(level) + "\n";
-                return str;
-            };
-            /**
-             * <p> Convert XMLList to HTML string. </p>
-             *
-             * @param level Level(depth) of the XMLList.
-             */
-            XMLList.prototype.toHTML = function (level) {
-                if (level === void 0) { level = 0; }
-                var str = "";
-                for (var i = 0; i < this.length; i++)
-                    str += this.at(i).toHTML(level) + "<br>\n";
-                return str;
-            };
-            return XMLList;
-        })(samchon.std.Vector);
-        library.XMLList = XMLList;
-    })(library = samchon.library || (samchon.library = {}));
 })(samchon || (samchon = {}));
 var samchon;
 (function (samchon) {
@@ -1926,9 +1973,55 @@ var samchon;
         library.XML = XML;
     })(library = samchon.library || (samchon.library = {}));
 })(samchon || (samchon = {}));
+/// <reference path="../std/Vector.ts" />
+///     <reference path="XML.ts" />
+var samchon;
+(function (samchon) {
+    var library;
+    (function (library) {
+        /**
+         * <p> List of XML(s) having same tag. </p>
+         *
+         * @author Jeongho Nam
+         */
+        var XMLList = (function (_super) {
+            __extends(XMLList, _super);
+            /**
+             * <p> Default Constructor. </p>
+             */
+            function XMLList() {
+                _super.call(this);
+            }
+            /**
+             * <p> Convert XMLList to string. </p>
+             *
+             * @param level Level(depth) of the XMLList.
+             */
+            XMLList.prototype.toString = function (level) {
+                if (level === void 0) { level = 0; }
+                var str = "";
+                for (var i = 0; i < this.size(); i++)
+                    str += this.at(i).toString(level) + "\n";
+                return str;
+            };
+            /**
+             * <p> Convert XMLList to HTML string. </p>
+             *
+             * @param level Level(depth) of the XMLList.
+             */
+            XMLList.prototype.toHTML = function (level) {
+                if (level === void 0) { level = 0; }
+                var str = "";
+                for (var i = 0; i < this.size(); i++)
+                    str += this.at(i).toHTML(level) + "<br>\n";
+                return str;
+            };
+            return XMLList;
+        })(samchon.std.Vector);
+        library.XMLList = XMLList;
+    })(library = samchon.library || (samchon.library = {}));
+})(samchon || (samchon = {}));
 /// <reference path="../library/XML.ts" />
-/// <reference path="../../API.ts" />
-/// <reference path="../../protocol/IEntity.ts" />
 /// <reference path="../std/Vector.ts" />
 ///     <reference path="IEntity.ts" />
 /// <reference path="../std/IMap.ts" />
@@ -1972,7 +2065,7 @@ var samchon;
                 for (var e_it = xml.begin(); e_it.equals(xml.end()) != true; e_it = e_it.next()) {
                     if (this.hasOwnProperty(e_it.first) == true
                         && e_it.first != this.CHILD_TAG()
-                        && e_it.second.length == 1
+                        && e_it.second.size() == 1
                         && (this[e_it.first] instanceof protocol.Entity || this[e_it.first] instanceof EntityArray)
                         && this[e_it.first] != null) {
                         var entity = this[e_it.first];
@@ -1986,7 +2079,7 @@ var samchon;
                 if (xml.has(this.CHILD_TAG()) == false)
                     return;
                 var xmlList = xml.get(this.CHILD_TAG());
-                for (var i = 0; i < xmlList.length; i++) {
+                for (var i = 0; i < xmlList.size(); i++) {
                     var child = this.createChild(xmlList.at(i));
                     if (child == null)
                         continue;
@@ -2015,19 +2108,19 @@ var samchon;
             EntityArray.prototype.has = function (key) {
                 var i;
                 if (key instanceof protocol.Entity || key instanceof EntityArray) {
-                    for (i = 0; i < this.length; i++)
+                    for (i = 0; i < this.size(); i++)
                         if (this.at(i) == key)
                             return true;
                 }
                 else {
-                    for (var i = 0; i < this.length; i++)
+                    for (var i = 0; i < this.size(); i++)
                         if (this.at(i).key() == key)
                             return true;
                 }
                 return false;
             };
             EntityArray.prototype.get = function (key) {
-                for (var i = 0; i < this.length; i++)
+                for (var i = 0; i < this.size(); i++)
                     if (this.at(i).key() == key)
                         return this.at(i);
                 throw Error("out of range");
@@ -2069,7 +2162,7 @@ var samchon;
              *
              * <p> Archives only data of EntityArray's own. </p>
              *
-             * @inheritDoc
+             * @inheritdoc
              */
             EntityArray.prototype.toXML = function () {
                 var xml = new samchon.library.XML();
@@ -2082,7 +2175,7 @@ var samchon;
                         xml.setProperty(key, this[key]);
                     }
                 // CHILDREN
-                for (var i = 0; i < this.length; i++)
+                for (var i = 0; i < this.size(); i++)
                     xml.push(this.at(i).toXML());
                 return xml;
             };
@@ -2091,6 +2184,103 @@ var samchon;
         protocol.EntityArray = EntityArray;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * <p> An entity, a standard data class. </p>
+         *
+         * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
+         * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
+         * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+         * Entity is not imposed but encouraged. </p>
+         *
+         * <p> As we could get advantages from standardization of message for network I/O with Invoke,
+         * we can get additional advantage from standardizing expression method of data class with Entity.
+         * We do not need to know a part of network communication. Thus, with the Entity, we can only
+         * concentrate on entity's own logics and relationships between another entities. Entity does not
+         * need to how network communications are being done. </p>
+         *
+         * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+         * protocol for network I/O but not a essential protocol must be kept. The expression method of
+         * Entity, using on network I/O, is expressed by XML string. </p>
+         *
+         * <p> If your own network system has a critical performance issue on communication data class,
+         * it would be better to using binary communication (with ByteArray).
+         * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+         *
+         * @author Jeongho Nam
+         */
+        var Entity = (function () {
+            /**
+             * <p> Default Constructor. </p>
+             */
+            function Entity() {
+                //NOTHING
+            }
+            Entity.prototype.construct = function (xml) {
+                // MEMBER VARIABLES; ATOMIC
+                var propertyMap = xml.getPropertyMap();
+                for (var v_it = propertyMap.begin(); v_it.equals(propertyMap.end()) != true; v_it = v_it.next())
+                    if (this.hasOwnProperty(v_it.first) == true && (typeof this[v_it.first] == "number" || typeof this[v_it.first] == "string"))
+                        this[v_it.first] = v_it.second;
+                // MEMBER ENTITIES
+                for (var e_it = xml.begin(); e_it.equals(xml.end()) != true; e_it = e_it.next()) {
+                    if (this.hasOwnProperty(e_it.first) == true
+                        && e_it.second.size() == 1
+                        && (this[e_it.first] instanceof Entity || this[e_it.first] instanceof protocol.EntityArray)
+                        && this[e_it.first] != null) {
+                        var entity = this[e_it.first];
+                        var e_xml = e_it.second.at(0);
+                        if (entity == null)
+                            continue;
+                        entity.construct(e_xml);
+                    }
+                }
+            };
+            Entity.prototype.TAG = function () { return ""; };
+            Entity.prototype.key = function () { return ""; };
+            Entity.prototype.toXML = function () {
+                var xml = new samchon.library.XML();
+                xml.setTag(this.TAG());
+                // MEMBERS
+                for (var key in this)
+                    if (typeof key == "string" &&
+                        (typeof this[key] == "string" || typeof this[key] == "number")) {
+                        xml.setProperty(key, this[key]);
+                    }
+                return xml;
+            };
+            return Entity;
+        })();
+        protocol.Entity = Entity;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="../../protocol/EntityArray.ts" />
+/// <reference path="../../protocol/Entity.ts" />
+var samchon;
+(function (samchon) {
+    var example;
+    (function (example) {
+        var entity;
+        (function (entity) {
+            function main() {
+                var str = "<memberList>\n" +
+                    "   <member id='abcd' name='ABCD' />\n" +
+                    "   <member id='efgh' name='EFGH' />\n" +
+                    "</memberList>";
+                var xml = new samchon.library.XML(str);
+                samchon.trace(xml.toString());
+                samchon.trace(new samchon.library.XML(xml.toString()).toString());
+            }
+            entity.main = main;
+        })(entity = example.entity || (example.entity = {}));
+    })(example = samchon.example || (samchon.example = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="../../protocol/IEntity.ts" />
 /// <reference path="../../API.ts" />
 /// <reference path="../../protocol/EntityArray.ts" />
 ///     <referecen path="Product.ts" />
@@ -2169,7 +2359,7 @@ var samchon;
                 Wrapper.prototype.tryInsert = function (product) {
                     var volume = 0;
                     var weight = 0;
-                    for (var i = 0; i < this.length; i++) {
+                    for (var i = 0; i < this.size(); i++) {
                         volume += this.at(i).getVolume();
                         weight += this.at(i).getWeight();
                     }
@@ -2282,8 +2472,8 @@ var samchon;
                         var row = factorial.at(i);
                         for (var j = 0; j < row.length; j++) {
                             var product = this.reserved[row[j]];
-                            if (wrapperArray.length == 0 ||
-                                wrapperArray.at(wrapperArray.length - 1).tryInsert(product) == false) {
+                            if (wrapperArray.size() == 0 ||
+                                wrapperArray.at(wrapperArray.size() - 1).tryInsert(product) == false) {
                                 var wrapper = new packer.Wrapper(this.sample);
                                 wrapper.tryInsert(product);
                                 wrapperArray.push(wrapper);
@@ -2463,79 +2653,6 @@ var samchon;
         })(packer = example.packer || (example.packer = {}));
     })(example = samchon.example || (samchon.example = {}));
 })(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * <p> An entity, a standard data class. </p>
-         *
-         * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
-         * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
-         * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
-         * Entity is not imposed but encouraged. </p>
-         *
-         * <p> As we could get advantages from standardization of message for network I/O with Invoke,
-         * we can get additional advantage from standardizing expression method of data class with Entity.
-         * We do not need to know a part of network communication. Thus, with the Entity, we can only
-         * concentrate on entity's own logics and relationships between another entities. Entity does not
-         * need to how network communications are being done. </p>
-         *
-         * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
-         * protocol for network I/O but not a essential protocol must be kept. The expression method of
-         * Entity, using on network I/O, is expressed by XML string. </p>
-         *
-         * <p> If your own network system has a critical performance issue on communication data class,
-         * it would be better to using binary communication (with ByteArray).
-         * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
-         *
-         * @author Jeongho Nam
-         */
-        var Entity = (function () {
-            /**
-             * <p> Default Constructor. </p>
-             */
-            function Entity() {
-                //NOTHING
-            }
-            Entity.prototype.construct = function (xml) {
-                // MEMBER VARIABLES; ATOMIC
-                var propertyMap = xml.getPropertyMap();
-                for (var v_it = propertyMap.begin(); v_it.equals(propertyMap.end()) != true; v_it = v_it.next())
-                    if (this.hasOwnProperty(v_it.first) == true && (typeof this[v_it.first] == "number" || typeof this[v_it.first] == "string"))
-                        this[v_it.first] = v_it.second;
-                // MEMBER ENTITIES
-                for (var e_it = xml.begin(); e_it.equals(xml.end()) != true; e_it = e_it.next()) {
-                    if (this.hasOwnProperty(e_it.first) == true
-                        && e_it.second.length == 1
-                        && (this[e_it.first] instanceof Entity || this[e_it.first] instanceof protocol.EntityArray)
-                        && this[e_it.first] != null) {
-                        var entity = this[e_it.first];
-                        var e_xml = e_it.second.at(0);
-                        if (entity == null)
-                            continue;
-                        entity.construct(e_xml);
-                    }
-                }
-            };
-            Entity.prototype.TAG = function () { return ""; };
-            Entity.prototype.key = function () { return ""; };
-            Entity.prototype.toXML = function () {
-                var xml = new samchon.library.XML();
-                xml.setTag(this.TAG());
-                // MEMBERS
-                for (var key in this)
-                    if (typeof key == "string" &&
-                        (typeof this[key] == "string" || typeof this[key] == "number")) {
-                        xml.setProperty(key, this[key]);
-                    }
-                return xml;
-            };
-            return Entity;
-        })();
-        protocol.Entity = Entity;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
 /// <reference path="../../protocol/Entity.ts" />
 var samchon;
@@ -2683,7 +2800,7 @@ var samchon;
          * <p> A combined-permutation case generator. </p>
          * <p> <sub>n</sub>TT<sub>r</sub> </p>
          *
-         * @inheritDoc
+         * @inheritdoc
          * @author Jeongho Nam
          */
         var CombinedPermutationGenerator = (function (_super) {
@@ -2731,7 +2848,7 @@ var samchon;
          * <p> nPr </p>
          *
          * @author Jeongho Nam
-         * @inheritDoc
+         * @inheritdoc
          */
         var PermuationGenerator = (function (_super) {
             __extends(PermuationGenerator, _super);
@@ -2750,6 +2867,9 @@ var samchon;
                 for (var i = n - 1; i > n - r; i--)
                     this.size_ *= i;
             }
+            /**
+             * @inheritdoc
+             */
             PermuationGenerator.prototype.at = function (index) {
                 var atoms = new Array();
                 for (var i = 0; i < this.n_; i++)
@@ -2789,6 +2909,7 @@ var samchon;
         library.FactorialGenerator = FactorialGenerator;
     })(library = samchon.library || (samchon.library = {}));
 })(samchon || (samchon = {}));
+/// <reference path="API.ts" />
 /// <reference path="Entity.ts" />
 var samchon;
 (function (samchon) {
@@ -2894,10 +3015,16 @@ var samchon;
                 }
                 _super.call(this);
             }
+            /**
+             * @inheritdoc
+             */
             Invoke.prototype.construct = function (xml) {
                 this.listener = xml.getProperty("listener");
                 _super.prototype.construct.call(this, xml);
             };
+            /**
+             * @inheritdoc
+             */
             Invoke.prototype.createChild = function (xml) {
                 return new protocol.InvokeParameter();
             };
@@ -2917,7 +3044,7 @@ var samchon;
              */
             Invoke.prototype.getArguments = function () {
                 var args = [];
-                for (var i = 0; i < this.length; i++)
+                for (var i = 0; i < this.size(); i++)
                     args.push(this[i].getValue());
                 return args;
             };
@@ -3047,7 +3174,7 @@ var samchon;
                 ACCESSORS
             --------------------------------------------------------- */
             UnorderedSet.prototype.begin = function () {
-                if (this.data_.length == 0)
+                if (this.data_.size() == 0)
                     return this.end();
                 else
                     return new UnorderedSetIterator(this, 0);
@@ -3056,7 +3183,7 @@ var samchon;
                 return new UnorderedSetIterator(this, -1);
             };
             UnorderedSet.prototype.find = function (key) {
-                for (var i = 0; i < this.data_.length; i++)
+                for (var i = 0; i < this.data_.size(); i++)
                     if (this.data_.at(i) == key)
                         return new UnorderedSetIterator(this, i);
                 return this.end();
@@ -3102,7 +3229,7 @@ var samchon;
             UnorderedSet.prototype.equals = function (obj) {
                 if (this.size() != obj.size())
                     return false;
-                for (var i = 0; i < this.data_.length; i++)
+                for (var i = 0; i < this.data_.size(); i++)
                     if (this.data_.at(i) != obj.data_.at(i))
                         return false;
                 return true;
@@ -3135,16 +3262,6 @@ var samchon;
                 _super.call(this, source);
                 this.index = index;
             }
-            Object.defineProperty(UnorderedSetIterator.prototype, "set", {
-                /* ---------------------------------------------------------
-                    GETTERS
-                --------------------------------------------------------- */
-                get: function () {
-                    return this.source;
-                },
-                enumerable: true,
-                configurable: true
-            });
             Object.defineProperty(UnorderedSetIterator.prototype, "value", {
                 /**
                  * <p> Get key value of the iterator is pointing. </p>
@@ -3152,7 +3269,20 @@ var samchon;
                  * @return A key value of the iterator.
                  */
                 get: function () {
-                    return this.set.data()[this.index];
+                    return this.set.data().at(this.index);
+                },
+                set: function (key) {
+                    this.set.data().set(this.index, key);
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(UnorderedSetIterator.prototype, "set", {
+                /* ---------------------------------------------------------
+                    GETTERS
+                --------------------------------------------------------- */
+                get: function () {
+                    return this.source;
                 },
                 enumerable: true,
                 configurable: true
@@ -3207,84 +3337,6 @@ var samchon;
         })(std.Iterator);
         std.UnorderedSetIterator = UnorderedSetIterator;
     })(std = samchon.std || (samchon.std = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="IProtocol.ts" />
-/// <reference path="ExternalSystem.ts" />
-/// <reference path="../std/UnorderedSet.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * <p> A role belongs to an external system. </p>
-         *
-         * <p> ExternalSystemRole is a 'control' class groupping methods, handling Invoke messages
-         * interacting with an external system that the ExternalSystemRole is belonged to, by a subject or
-         * unit of a module. <p>
-         *
-         * <p> ExternalSystemRole can be a "logical proxy" for an ExternalSystem which is containing the
-         * ExternalSystemRole. Of course, the ExternalSystemRole is belonged to an ExternalSystem. However,
-         * if you access an ExternalSystemRole from an ExternalSystemArray directly, not passing by a
-         * belonged ExternalSystem, and send an Invoke message even you're not knowing which ExternalSystem
-         * is related in, the ExternalSystemRole acted a role of proxy. </p>
-         *
-         * <p> It's called as "Proxy pattern". With the pattern, you can only concentrate on
-         * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole
-         * is belonged to which ExternalSystem. </p>
-         *
-         * @author Jeongho Nam
-         */
-        var ExternalSystemRole = (function (_super) {
-            __extends(ExternalSystemRole, _super);
-            /* ------------------------------------------------------------------
-                CONSTRUCTORS
-            ------------------------------------------------------------------ */
-            /**
-             * <p> Construct from external system driver. </p>
-             *
-             * @param system A driver of external system the ExternalSystemRole is belonged to.
-             */
-            function ExternalSystemRole(system) {
-                _super.call(this);
-                this.system = system;
-                this.sendListeners = new samchon.std.UnorderedSet();
-            }
-            ExternalSystemRole.prototype.construct = function (xml) {
-                _super.prototype.construct.call(this, xml);
-            };
-            /* ------------------------------------------------------------------
-                GETTERS
-            ------------------------------------------------------------------ */
-            ExternalSystemRole.prototype.getName = function () {
-                return this.name;
-            };
-            ExternalSystemRole.prototype.hasSendListener = function (key) {
-                return this.sendListeners.has(key);
-            };
-            /* ------------------------------------------------------------------
-                CHAIN OF INVOKE MESSAGE
-            ------------------------------------------------------------------ */
-            ExternalSystemRole.prototype.sendData = function (invoke) {
-                this.system.sendData(invoke);
-            };
-            ExternalSystemRole.prototype.replyData = function (invoke) {
-                invoke.apply(this);
-            };
-            /* ------------------------------------------------------------------
-                EXPORTERS
-            ------------------------------------------------------------------ */
-            ExternalSystemRole.prototype.TAG = function () {
-                return "role";
-            };
-            ExternalSystemRole.prototype.toXML = function () {
-                var xml = _super.prototype.toXML.call(this);
-                return xml;
-            };
-            return ExternalSystemRole;
-        })(protocol.Entity);
-        protocol.ExternalSystemRole = ExternalSystemRole;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="IProtocol.ts" />
 /// <reference path="Invoke.ts" />
@@ -3524,7 +3576,7 @@ var samchon;
             };
             ExternalSystem.prototype.replyData = function (invoke) {
                 invoke.apply(this);
-                for (var i = 0; i < this.length; i++)
+                for (var i = 0; i < this.size(); i++)
                     this[i].replyData(invoke);
             };
             /* ------------------------------------------------------------------
@@ -3539,6 +3591,84 @@ var samchon;
             return ExternalSystem;
         })(protocol.EntityArray);
         protocol.ExternalSystem = ExternalSystem;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="IProtocol.ts" />
+/// <reference path="ExternalSystem.ts" />
+/// <reference path="../std/UnorderedSet.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * <p> A role belongs to an external system. </p>
+         *
+         * <p> ExternalSystemRole is a 'control' class groupping methods, handling Invoke messages
+         * interacting with an external system that the ExternalSystemRole is belonged to, by a subject or
+         * unit of a module. <p>
+         *
+         * <p> ExternalSystemRole can be a "logical proxy" for an ExternalSystem which is containing the
+         * ExternalSystemRole. Of course, the ExternalSystemRole is belonged to an ExternalSystem. However,
+         * if you access an ExternalSystemRole from an ExternalSystemArray directly, not passing by a
+         * belonged ExternalSystem, and send an Invoke message even you're not knowing which ExternalSystem
+         * is related in, the ExternalSystemRole acted a role of proxy. </p>
+         *
+         * <p> It's called as "Proxy pattern". With the pattern, you can only concentrate on
+         * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole
+         * is belonged to which ExternalSystem. </p>
+         *
+         * @author Jeongho Nam
+         */
+        var ExternalSystemRole = (function (_super) {
+            __extends(ExternalSystemRole, _super);
+            /* ------------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------------ */
+            /**
+             * <p> Construct from external system driver. </p>
+             *
+             * @param system A driver of external system the ExternalSystemRole is belonged to.
+             */
+            function ExternalSystemRole(system) {
+                _super.call(this);
+                this.system = system;
+                this.sendListeners = new samchon.std.UnorderedSet();
+            }
+            ExternalSystemRole.prototype.construct = function (xml) {
+                _super.prototype.construct.call(this, xml);
+            };
+            /* ------------------------------------------------------------------
+                GETTERS
+            ------------------------------------------------------------------ */
+            ExternalSystemRole.prototype.getName = function () {
+                return this.name;
+            };
+            ExternalSystemRole.prototype.hasSendListener = function (key) {
+                return this.sendListeners.has(key);
+            };
+            /* ------------------------------------------------------------------
+                CHAIN OF INVOKE MESSAGE
+            ------------------------------------------------------------------ */
+            ExternalSystemRole.prototype.sendData = function (invoke) {
+                this.system.sendData(invoke);
+            };
+            ExternalSystemRole.prototype.replyData = function (invoke) {
+                invoke.apply(this);
+            };
+            /* ------------------------------------------------------------------
+                EXPORTERS
+            ------------------------------------------------------------------ */
+            ExternalSystemRole.prototype.TAG = function () {
+                return "role";
+            };
+            ExternalSystemRole.prototype.toXML = function () {
+                var xml = _super.prototype.toXML.call(this);
+                return xml;
+            };
+            return ExternalSystemRole;
+        })(protocol.Entity);
+        protocol.ExternalSystemRole = ExternalSystemRole;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
@@ -3592,7 +3722,7 @@ var samchon;
              * inheritance. </p>
              */
             ExternalSystemArray.prototype.start = function () {
-                for (var i = 0; i < this.length; i++)
+                for (var i = 0; i < this.size(); i++)
                     this.at(i).start();
             };
             /* ------------------------------------------------------------------
@@ -3605,7 +3735,7 @@ var samchon;
              * @return Whether has or not.
              */
             ExternalSystemArray.prototype.hasRole = function (key) {
-                for (var i = 0; i < this.length; i++)
+                for (var i = 0; i < this.size(); i++)
                     if (this.at(i).has(key) == true)
                         return true;
                 return false;
@@ -3617,7 +3747,7 @@ var samchon;
              * @return A shared pointer of specialized role
              */
             ExternalSystemArray.prototype.getRole = function (key) {
-                for (var i = 0; i < this.length; i++)
+                for (var i = 0; i < this.size(); i++)
                     if (this.at(i).has(key) == true)
                         return this.at(i).get(key);
                 throw Error("out of range");
@@ -3627,7 +3757,7 @@ var samchon;
             ------------------------------------------------------------------ */
             ExternalSystemArray.prototype.sendData = function (invoke) {
                 var listener = invoke.getListener();
-                for (var i = 0; i < this.length; i++)
+                for (var i = 0; i < this.size(); i++)
                     for (var j = 0; j < this.at(i).size(); j++)
                         if (this.at(i).at(j).hasSendListener(listener) == true)
                             this.at(i).sendData(invoke);
@@ -3732,39 +3862,6 @@ var samchon;
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
 /// <reference path="../IProtocol.ts" />
-/// <reference path="Application.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var service;
-        (function (service) {
-            /**
-             * A movie belonged to an Application.
-             */
-            var Movie = (function () {
-                function Movie() {
-                }
-                /**
-                 * Handle replied data.
-                 */
-                Movie.prototype.replyData = function (invoke) {
-                    invoke.apply(this) == false;
-                };
-                /**
-                 * Send data to server.
-                 */
-                Movie.prototype.sendData = function (invoke) {
-                    this.application.sendData(invoke);
-                };
-                return Movie;
-            })();
-            service.Movie = Movie;
-        })(service = protocol.service || (protocol.service = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="../IProtocol.ts" />
 /// <reference path="Movie.ts" />
 /// <reference path="../ServerConnector.ts" />
 var samchon;
@@ -3846,6 +3943,39 @@ var samchon;
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
 /// <reference path="../IProtocol.ts" />
+/// <reference path="Application.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var service;
+        (function (service) {
+            /**
+             * A movie belonged to an Application.
+             */
+            var Movie = (function () {
+                function Movie() {
+                }
+                /**
+                 * Handle replied data.
+                 */
+                Movie.prototype.replyData = function (invoke) {
+                    invoke.apply(this) == false;
+                };
+                /**
+                 * Send data to server.
+                 */
+                Movie.prototype.sendData = function (invoke) {
+                    this.application.sendData(invoke);
+                };
+                return Movie;
+            })();
+            service.Movie = Movie;
+        })(service = protocol.service || (protocol.service = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="../IProtocol.ts" />
 var samchon;
 (function (samchon) {
     var protocol;
@@ -3890,7 +4020,7 @@ var samchon;
              * and master::ParallelSystem and reports elapsed time of each commmand (by Invoke message)
              * for estimation of its performance. </p>
              *
-             * @inheritDoc
+             * @inheritdoc
              * @author Jeongho Nam
              */
             var SlaveSystem = (function (_super) {
@@ -3901,6 +4031,9 @@ var samchon;
                 function SlaveSystem() {
                     _super.call(this);
                 }
+                /**
+                 * @inheritdoc
+                 */
                 SlaveSystem.prototype.replyData = function (invoke) {
                     var history = new protocol.InvokeHistory(invoke);
                     _super.prototype.replyData.call(this, invoke);
@@ -3912,6 +4045,34 @@ var samchon;
             slave.SlaveSystem = SlaveSystem;
         })(slave = protocol.slave || (protocol.slave = {}));
     })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+var samchon;
+(function (samchon) {
+    var std;
+    (function (std) {
+        var ContainerEvent = (function (_super) {
+            __extends(ContainerEvent, _super);
+            function ContainerEvent(type) {
+                _super.call(this, type);
+                var ev = this.dummy;
+            }
+            Object.defineProperty(ContainerEvent, "ADD", {
+                get: function () { return "add"; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(ContainerEvent, "REMOVE", {
+                get: function () { return "remove"; },
+                enumerable: true,
+                configurable: true
+            });
+            ContainerEvent.prototype.dummy = function (event) {
+            };
+            return ContainerEvent;
+        })(Event);
+        std.ContainerEvent = ContainerEvent;
+    })(std = samchon.std || (samchon.std = {}));
 })(samchon || (samchon = {}));
 /// <reference path="IMap.ts" />
 /// <reference path="Container.ts" />
@@ -4089,105 +4250,6 @@ var samchon;
         std.Map = Map;
     })(std = samchon.std || (samchon.std = {}));
 })(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var std;
-    (function (std) {
-        var TreeNode = (function () {
-            /* -------------------------------------------------------------------
-                CONSTRUCTORS
-            ------------------------------------------------------------------- */
-            function TreeNode(parent, value) {
-                this.parent = parent;
-                this.value = value;
-            }
-            /* -------------------------------------------------------------------
-                ACCESSORS
-            ------------------------------------------------------------------- */
-            TreeNode.prototype.getParent = function () {
-                return this.parent;
-            };
-            TreeNode.prototype.getLeftChild = function () {
-                return this.leftChild;
-            };
-            TreeNode.prototype.getRightChild = function () {
-                return this.rightChild;
-            };
-            TreeNode.prototype.getValue = function () {
-                return this.value;
-            };
-            TreeNode.prototype.size = function () {
-                var size = 1;
-                if (this.leftChild != null)
-                    size += this.leftChild.size();
-                if (this.rightChild != null)
-                    size += this.rightChild.size();
-                return size;
-            };
-            /* -------------------------------------------------------------------
-                LINKERS
-            ------------------------------------------------------------------- */
-            TreeNode.prototype.prev = function () {
-                var node = null;
-                if (this.leftChild != null)
-                    node = this.leftChild;
-                else if (this.parent != null && this.parent.leftChild != this)
-                    node = this.parent.leftChild;
-                // GO TO RIGHT, RIGHT, RIGHT AND RIGHT SIDE OF CHILDREN
-                if (node != null)
-                    while (node.rightChild != null)
-                        node = node.rightChild;
-                return node;
-            };
-            TreeNode.prototype.next = function () {
-                var node = null;
-                if (this.rightChild != null)
-                    node = this.rightChild;
-                else if (this.parent != null && this.parent.rightChild != this)
-                    node = this.parent.rightChild;
-                // GO TO LEFT, LEFT, LEFT AND LEFT SIDE OF CHILDREN
-                if (node != null)
-                    while (node.leftChild != null)
-                        node = node.leftChild;
-                return node;
-            };
-            TreeNode.prototype.front = function () {
-                var node = this;
-                // TO THE TOP
-                while (node.parent != null)
-                    node = node.parent;
-                // TO LEFT
-                while (node.leftChild != null)
-                    node = node.leftChild;
-                return node;
-            };
-            TreeNode.prototype.back = function () {
-                var node = this;
-                // TO THE TOP
-                while (node.parent != null)
-                    node = node.parent;
-                // TO RIGHT
-                while (node.rightChild != null)
-                    node = node.rightChild;
-                return node;
-            };
-            /* -------------------------------------------------------------------
-                SETTERS
-            ------------------------------------------------------------------- */
-            TreeNode.prototype.setLeft = function (node) {
-                this.leftChild = node;
-            };
-            TreeNode.prototype.setRight = function (node) {
-                this.rightChild = node;
-            };
-            TreeNode.prototype.setValue = function (value) {
-                this.value = value;
-            };
-            return TreeNode;
-        })();
-        std.TreeNode = TreeNode;
-    })(std = samchon.std || (samchon.std = {}));
-})(samchon || (samchon = {}));
 /// <reference path="Container.ts" />
 /// <reference path="Iterator.ts" />
 /// <refence path="TreeNode.ts" />
@@ -4300,4 +4362,107 @@ var samchon;
         std.SetIterator = SetIterator;
     })(std = samchon.std || (samchon.std = {}));
 })(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var std;
+    (function (std) {
+        var TreeNode = (function () {
+            /* -------------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------------- */
+            function TreeNode(parent, value) {
+                this.parent = parent;
+                this.value = value;
+            }
+            /* -------------------------------------------------------------------
+                ACCESSORS
+            ------------------------------------------------------------------- */
+            TreeNode.prototype.getParent = function () {
+                return this.parent;
+            };
+            TreeNode.prototype.getLeftChild = function () {
+                return this.leftChild;
+            };
+            TreeNode.prototype.getRightChild = function () {
+                return this.rightChild;
+            };
+            TreeNode.prototype.getValue = function () {
+                return this.value;
+            };
+            TreeNode.prototype.size = function () {
+                var size = 1;
+                if (this.leftChild != null)
+                    size += this.leftChild.size();
+                if (this.rightChild != null)
+                    size += this.rightChild.size();
+                return size;
+            };
+            /* -------------------------------------------------------------------
+                LINKERS
+            ------------------------------------------------------------------- */
+            TreeNode.prototype.prev = function () {
+                var node = null;
+                if (this.leftChild != null)
+                    node = this.leftChild;
+                else if (this.parent != null && this.parent.leftChild != this)
+                    node = this.parent.leftChild;
+                // GO TO RIGHT, RIGHT, RIGHT AND RIGHT SIDE OF CHILDREN
+                if (node != null)
+                    while (node.rightChild != null)
+                        node = node.rightChild;
+                return node;
+            };
+            TreeNode.prototype.next = function () {
+                var node = null;
+                if (this.rightChild != null)
+                    node = this.rightChild;
+                else if (this.parent != null && this.parent.rightChild != this)
+                    node = this.parent.rightChild;
+                // GO TO LEFT, LEFT, LEFT AND LEFT SIDE OF CHILDREN
+                if (node != null)
+                    while (node.leftChild != null)
+                        node = node.leftChild;
+                return node;
+            };
+            TreeNode.prototype.front = function () {
+                var node = this;
+                // TO THE TOP
+                while (node.parent != null)
+                    node = node.parent;
+                // TO LEFT
+                while (node.leftChild != null)
+                    node = node.leftChild;
+                return node;
+            };
+            TreeNode.prototype.back = function () {
+                var node = this;
+                // TO THE TOP
+                while (node.parent != null)
+                    node = node.parent;
+                // TO RIGHT
+                while (node.rightChild != null)
+                    node = node.rightChild;
+                return node;
+            };
+            /* -------------------------------------------------------------------
+                SETTERS
+            ------------------------------------------------------------------- */
+            TreeNode.prototype.setLeft = function (node) {
+                this.leftChild = node;
+            };
+            TreeNode.prototype.setRight = function (node) {
+                this.rightChild = node;
+            };
+            TreeNode.prototype.setValue = function (value) {
+                this.value = value;
+            };
+            return TreeNode;
+        })();
+        std.TreeNode = TreeNode;
+    })(std = samchon.std || (samchon.std = {}));
+})(samchon || (samchon = {}));
+/// <referecen path="samchon/API.ts" />
+/// <referecen path="samchon/std.ts" />
+/// <referecen path="samchon/library.ts" />
+/// <referecen path="samchon/protocol.ts" /> 
 //# sourceMappingURL=SamchonFramework.js.map

@@ -194,14 +194,20 @@ namespace samchon.std
         /* ---------------------------------------------------------
 		    ACCESSORS
 	    --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
         public begin(): Iterator<K>
         {
-            if (this.data_.size() == 0)
+            if (this.empty() == true)
                 return this.end();
             else
                 return new UnorderedSetIterator<K>(this, 0);
         }
         
+        /**
+         * @inheritdoc
+         */
         public end(): Iterator<K>
         {
             return new UnorderedSetIterator<K>(this, -1);
@@ -236,7 +242,7 @@ namespace samchon.std
 	     */
         public size(): number
         {
-            return this.data.length;
+            return this.data_.size();
         }
 
         /**
@@ -378,7 +384,7 @@ namespace samchon.std
 	     */
         public next(): Iterator<K> 
         {
-            if (this.index >= this.set.size())
+            if (this.index >= this.set.data().size() - 1)
                 return this.set.end();
             else
                 return new UnorderedSetIterator<K>(this.set, this.index + 1);

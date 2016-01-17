@@ -4,22 +4,40 @@
 namespace samchon.std
 {
     /**
-     * <p> Vector, the dynamic array. </p>
+     * <p> Vectors are sequence containers representing arrays that can change in size. </p>
+     *
+     * <p> Just like arrays, vectors use contiguous storage locations for their elements, which means that 
+     * their elements can also be accessed using offsets on regular pointers to its elements, and just as 
+     * efficiently as in arrays. But unlike arrays, their size can change dynamically, with their storage 
+     * being handled automatically by the container. </p>
+     *
+     * <p> Internally, Vectors use a dynamically allocated array to store their elements. This array may 
+     * need to be reallocated in order to grow in size when new elements are inserted, which implies 
+     * allocating a new array and moving all elements to it. This is a relatively expensive task in terms 
+     * of processing time, and thus, vectors do not reallocate each time an element is added to the 
+     * container. </p>
+     *
+     * <p> Instead, vector containers may allocate some extra storage to accommodate for possible growth, 
+     * and thus the container may have an actual capacity greater than the storage strictly needed to 
+     * contain its elements (i.e., its size). Libraries can implement different strategies for growth to 
+     * balance between memory usage and reallocations, but in any case, reallocations should only happen at 
+     * logarithmically growing intervals of size so that the insertion of individual elements at the end of 
+     * the vector can be provided with amortized constant time complexity. </p>
+     *
+     * <p> Therefore, compared to arrays, vectors consume more memory in exchange for the ability to manage 
+     * storage and grow dynamically in an efficient way. </p>
+     *
+     * <p> Compared to the other dynamic sequence containers (deques, lists and forward_lists), vectors are 
+     * very efficient accessing its elements (just like arrays) and relatively efficient adding or removing 
+     * elements from its end. For operations that involve inserting or removing elements at positions other 
+     * than the end, they perform worse than the others, and have less consistent iterators and references 
+     * than Lists. </p>
+     *
      * <ul>
-     *  <li> _Ty: Type of elements. </li>
+     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/vector/vector/
      * </ul>
-     * 
-     * <p> Vector is an Array. It's not the customary expression that means inheritance but 
-     * dictionary meaning of the Array, which means that Vector is the Array, itself. </p>
      *
-     * <p> The reason why using Vector instead of Array although there's any difference between
-     * Array and Vector is for TypeScript. In TypeScript, Array is considered as an <i>interface</i>.
-     * As the reason, any class can't inherit the Array in TypeScript. </p>
-     *
-     * <p> Vector implements the Array and filled the methods of Array and other classes 
-     * can inherit array extending Vector instead of Array. </p>
-     *
-     * @author Jeongho Nam
+     * @author Migrated by Jeongho Nam
      */
     export class Vector<T>
         extends Container<T>
@@ -37,18 +55,26 @@ namespace samchon.std
         /**
          * Construct from arguments. 
          *
-         * @param args
+         * @param args An array to be contained.
          */
         public constructor(items: Array<T>);
 
-        public constructor(size: number);
+        /**
+         * Consturct from capacity size.
+         *
+         * @param n Capacity number of the Vector to reserve.
+         */
+        public constructor(n: number);
 
         public constructor(size: number, val: T);
 
         /**
-         * Copy Constructor. 
+         * <p> Copy Constructor. </p>
+         * <p> Constructs a container with a copy of each of the elements in <code>container</code>, 
+         * in the same order. </p>
          *
-         * @param container
+         * @param container Another Vector object of the same type (with the same class template arguments 
+         *                  T), whose contents are either copied or acquired.
          */
         public constructor(container: Container<T>);
 
@@ -59,29 +85,35 @@ namespace samchon.std
          * @param end
          */
         public constructor(begin: Iterator<T>, end: Iterator<T>);
-
-        /**
-         * Default Constructor.
-         */
+        
         public constructor(...args: any[])
         {
-            super();
+            if (args.length == 0)
+            {
+                // DEFAULT CONSTRUCTOR
+                super();
 
-            this.data_ = new Array<T>();
-            
+                this.data_ = new Array<T>();
+            }
             if (args.length == 1 && args[0] instanceof Array)
             {
                 // CONSTRUCT FROM AN ARRAY OF ITEMS
+                super();
+
                 this.data_ = <Array<T>>args[0];
             }
             else if (args.length == 1 && typeof args[0] == "number")
             {
                 // CONSTRUCT FROM SIZE
+                super();
+                
                 this.data_.length = <number>args[0];
             }
             else if (args.length == 2 && typeof args[0] == "number")
             {
                 // CONSTRUCT FROM SIZE AND REPEATING VALUE
+                super();
+                
                 this.assign(<number>args[0], <T>args[1]);
             }
             else if (args.length == 1 && args[0] instanceof Container)
@@ -89,12 +121,12 @@ namespace samchon.std
                 // COPY CONSTRUCTOR
                 var container: Container<T> = <Container<T>>args[0];
 
-                this.assign(container.begin(), container.end());
+                super(container);
             }
             else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
             {
                 // CONSTRUCT FROM INPUT ITERATORS
-                this.assign(<Iterator<T>>args[0], <Iterator<T>>args[1]);
+                super(<Iterator<T>>args[0], <Iterator<T>>args[1]);
             }
         }
 
@@ -139,6 +171,9 @@ namespace samchon.std
             }
         }
 
+        /**
+         * @inheritdoc
+         */
         public clear(): void
         {
             this.data_ = new Array<T>();
@@ -147,6 +182,9 @@ namespace samchon.std
         /* ---------------------------------------------------------
 		    ACCESSORS
 	    --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
         public begin(): Iterator<T>
         {
             if (this.size() == 0)
@@ -154,32 +192,81 @@ namespace samchon.std
             else
                 return new VectorIterator<T>(this, 0);
         }
+
+        /**
+         * @inheritdoc
+         */
         public end(): Iterator<T>
         {
             return new VectorIterator<T>(this, -1);
         }
 
+        /**
+         * Get data.
+         */
         public data(): Array<T>
         {
             return this.data_;
         }
+
+        /**
+         * @inheritdoc
+         */
         public size(): number
         {
             return this.data_.length;
         }
 
+        /**
+         * <p> Access element. </p>
+         * <p> Returns a value to the element at position <code>index</code> in the Vector.</p>
+         *
+         * <p> The function automatically checks whether n is within the bounds of valid elements in the 
+         * Vector, throwing an OutOfRange exception if it is not (i.e., if <code>index</code> is greater or 
+         * equal than its size). This is in contrast with member operator[], that does not check against 
+         * bounds. </p>
+         *
+         * @param index Position of an element in the container.
+         *              If this is greater than or equal to the vector size, an exception of type OutOfRange 
+         *              is thrown. Notice that the first element has a position of 0 (not 1).
+         *
+         * @return The element at the specified position in the container.
+         */
         public at(index: number): T
         {
             if (index < this.size())
                 return this.data_[index];
             else
-                throw new Error("out of range");
+                throw new std.OutOfRange("Target index is greater than Vector's size.");
         }
 
+        /**
+         * <p> Access first element. </p>
+         * <p> Returns a value in the first element of the Vector. </p>
+         *
+         * <p> Unlike member <code>Vector.begin()</code>, which returns an iterator just past this element, 
+         * this function returns a direct value. </p>
+         *
+         * <p> Calling this function on an empty container causes undefined behavior. </p>
+         *
+         * @return A value in the first element of the Vector.
+         */
         public front(): T
         {
             return this.data_[0];
         }
+
+        /**
+         * <p> Access last element. </p>
+         * <p> Returns a value in the last element of the Vector. </p>
+         *
+         * <p> Unlike member <code>Vector.end()</code>, which returns an iterator just past this element, 
+         * this function returns a direct value. </p>
+         *
+         * <p> Calling this function on an empty container causes undefined behavior. </p>
+         *
+         * @return A value in the last element of the Vector.
+         */
         public back(): T
         {
             return this.data_[this.data_.length - 1];
@@ -215,6 +302,12 @@ namespace samchon.std
             return prev;
         }
 
+        /**
+         * <p> Delete last element. </p>
+         * 
+         * <p> Removes the last element in the Vector container, effectively reducing the container 
+         * <code>size</code> by one. </p>
+         */
         public popBack(): void
         {
             this.data_.splice(this.data_.length - 1, 1);

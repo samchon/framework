@@ -28,6 +28,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="samchon.ts" />
     <TypeScriptCompile Include="samchon\API.ts" />
+    <TypeScriptCompile Include="samchon\example\container\container.ts" />
     <TypeScriptCompile Include="samchon\example\entity\entity.ts" />
     <TypeScriptCompile Include="samchon\example\packer\Instance.ts" />
     <TypeScriptCompile Include="samchon\example\packer\Packer.ts" />

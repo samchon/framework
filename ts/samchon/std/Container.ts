@@ -5,6 +5,11 @@
 
 namespace samchon.std
 {
+    /**
+     * An abstract class containing elements.
+     *
+     * @author Jeongho Nam
+     */
     export class Container<T>
     {
         /* ---------------------------------------------------------------
@@ -13,11 +18,47 @@ namespace samchon.std
         /**
          * Default Constructor
          */
-        public constructor()
-        {
-            //super();
-        }
+        public constructor();
+
+        /**
+         * <p> Copy Constructor. </p>
+         *
+         * <p> Constructs a container with a copy of each of the elements in <code>container</code>, 
+         * in the same order. </p>
+         *
+         * @param container Another Container object of the same type (with the same class template 
+         *                  arguments T), whose contents are either copied or acquired.
+         */
+        public constructor(container: Container<T>);
+
+        /**
+         * <p> Construct from iterators of begin and end. </p>
+         *
+         * <p> Constructs a Container with as many elements as the range (begin, end), with each element 
+         * emplace-constructed from its corresponding element in that range, in the same order. </p>
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         */
+        public constructor(begin: Iterator<T>, end: Iterator<T>);
         
+        public constructor(...args: any[])
+        {
+            if (args.length == 1 && args[0] instanceof Container)
+            {
+                var container: Container<T> = args[0];
+
+                this.assign(container.begin(), container.end());
+            }
+            else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+            {
+                var begin: Iterator<T> = args[0];
+                var end: Iterator<T> = args[1];
+
+                this.assign(begin, end);
+            }
+        }
+
         /**
          * <p> Assign Container content. </p>
          *
@@ -34,9 +75,8 @@ namespace samchon.std
 
         /**
 	     * <p> Clear content. </p>
-	     *
-	     * <p> Removes all elements from the map container (which are destroyed), 
-	     * leaving the container with a size of 0. </p>
+         *
+	     * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
 	     */
         public clear(): void
         {
@@ -50,16 +90,30 @@ namespace samchon.std
         {
             throw new std.AbstractMethodError("Have to be overriden.");
         }
+        
+        /**
+         * <p> Erase an element. </p>
+         * <p> Remoes from the Container either as a single element. </p>
+         *
+         * <p> This effectively reduces the container size by the number of elements removed. </p>
+         *
+         * @param position Iterator pointing to a single element to be removed from the Container.
+         *
+         * @return An Iterator pointing to the new location of the element that followed the last element 
+         *         erased by the function call. This is the container end if the operation erased the last 
+         *         element in the sequence.
+         */
+        public erase(position: Iterator<T>): Iterator<T>;
 
-        /*public insert(pos: Iterator<T>, val: T): Iterator<T>;
-        public insert<U extends T>(last: Iterator<T>, begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
-
-        public insert(...args: any[]): any
-        {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        }*/
-
-        public erase(it: Iterator<T>): Iterator<T>;
+        /**
+         * <p> Erase elements. </p>
+         * <p> Removes from the Container either as a range of elements. </p>
+         *
+         * <p> This effectively reduces the container size by the number of elements removed. </p>
+         *
+         * @param begin An iterator specifying a range of beginning to erase.
+         * @param end An iterator specifying a range of end to erase.
+         */
         public erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
 
         public erase(...args: any[]): any
@@ -111,11 +165,17 @@ namespace samchon.std
             throw new std.AbstractMethodError("Have to be overriden.");
         }
 
+        /**
+         * Return the number of elements in the Container.
+         */
         public size(): number
         {
             throw new std.AbstractMethodError("Have to be overriden.");
         }
         
+        /**
+         * Test whether the Container is empty.
+         */
         public empty(): boolean
         {
             return this.size() == 0;
@@ -152,10 +212,6 @@ namespace samchon.std
         public size(): number
         {
             throw new std.AbstractMethodError("Have to be overriden.");
-        }
-        public get length(): number
-        {
-            return this.size();
         }
 
         public begin(): PairIterator<K, T>

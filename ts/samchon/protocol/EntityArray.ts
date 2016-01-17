@@ -6,6 +6,9 @@
 
 namespace samchon.protocol
 {
+    /**
+     * @inheritdoc
+     */
     export class EntityArray<Ety extends IEntity>
         extends std.Vector<Ety>
         implements std.IMap<string, Ety>
@@ -13,6 +16,9 @@ namespace samchon.protocol
         /* ------------------------------------------------------------------
 		    CONSTRUCTORS
 	    ------------------------------------------------------------------ */
+        /**
+         * Default Constructor.
+         */
         public constructor()
         {
             super();
@@ -99,11 +105,17 @@ namespace samchon.protocol
         /* ------------------------------------------------------------------
 		    GETTERS
 	    ------------------------------------------------------------------ */
+        /**
+         * @inheritdoc
+         */
         public key(): any
         {
             return "";
         }
 
+        /**
+         * @inheritdoc
+         */
         public has(key: any): boolean
         {
             var i: number;
@@ -124,6 +136,9 @@ namespace samchon.protocol
             return false;
         }
 
+        /**
+         * @inheritdoc
+         */
         public get(key: string): Ety
         {
             for (var i: number = 0; i < this.size(); i++)
@@ -157,6 +172,9 @@ namespace samchon.protocol
         /* ------------------------------------------------------------------
 		    EXPORTERS
 	    ------------------------------------------------------------------ */
+        /**
+         * @inheritdoc
+         */
         public TAG(): string { return ""; }
 
         /**
@@ -175,8 +193,8 @@ namespace samchon.protocol
 	     * EntityArray::toXML(). </p>
 	     *
 	     * <p> Archives only data of EntityArray's own. </p>
-	     *
-	     * @inheritdoc
+         *
+         * @inheritdoc
 	     */
         public toXML(): library.XML
         {

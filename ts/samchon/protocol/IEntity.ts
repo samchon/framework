@@ -76,20 +76,17 @@ namespace samchon.protocol
 	     *	</tr>
 	     *	<tr>
 	     *		<td>
-	     * 			<pre>
-&lt;memberList&gt;
-    &lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt;
-    &lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt;
-&lt;/memberList\&gt;</pre>
+         *          &lt;memberList&gt; <br>
+         *          &lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt; <br>
+    &lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt; <br>
+&lt;/memberList&gt;
 	     *		</td>
 	     *		<td>
-	     * 			<pre>
-&lt;member&gt;
-    &lt;id&gt;jhnam88&lt;/id&gt;
-    &lt;name&gt;Jeongho+Nam&lt;name&gt;
-    &lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;
-&lt;/member&gt;
-         *          </pre>
+         *          &lt;member&gt;
+         *          &lt;id&gt;jhnam88&lt;/id&gt;
+         *          &lt;name&gt;Jeongho+Nam&lt;name&gt;
+         *          &lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;
+         *          &lt;/member&gt;
 	     *		</td>
 	     *	</tr>
 	     * </table>

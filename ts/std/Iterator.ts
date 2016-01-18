@@ -2,7 +2,7 @@
 
 /// <reference path="Exception.ts" />
 
-namespace samchon.std
+namespace std
 {
     export class Iterator<T>
     {

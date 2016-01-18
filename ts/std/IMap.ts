@@ -1,4 +1,4 @@
-﻿namespace samchon.std
+﻿namespace std
 {
     /**
      * <p> An interface of a map. </p

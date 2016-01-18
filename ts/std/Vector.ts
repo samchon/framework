@@ -1,7 +1,7 @@
 ﻿/// <reference path="Container.ts" />
 /// <reference path="Iterator.ts" />
 
-namespace samchon.std
+namespace std
 {
     /**
      * <p> Vectors are sequence containers representing arrays that can change in size. </p>
@@ -40,10 +40,9 @@ namespace samchon.std
      * @author Migrated by Jeongho Nam
      */
     export class Vector<T>
-        extends Container<T>
+        extends Array<T>
+        implements IContainer<T>
     {
-        private data_: Array<T>;
-
         /* ---------------------------------------------------------
 		    CONSTRUCTORS
 	    --------------------------------------------------------- */
@@ -70,13 +69,14 @@ namespace samchon.std
 
         /**
          * <p> Copy Constructor. </p>
+         *
          * <p> Constructs a container with a copy of each of the elements in <code>container</code>, 
          * in the same order. </p>
          *
-         * @param container Another Vector object of the same type (with the same class template arguments 
-         *                  T), whose contents are either copied or acquired.
+         * @param container Another Container object of the same type (with the same class template 
+         *                  arguments T), whose contents are either copied or acquired.
          */
-        public constructor(container: Container<T>);
+        public constructor(container: IContainer<T>);
 
         /**
          * Construct from begin and end iterators. 
@@ -88,45 +88,48 @@ namespace samchon.std
         
         public constructor(...args: any[])
         {
+            super();
+
             if (args.length == 0)
             {
                 // DEFAULT CONSTRUCTOR
-                super();
-
-                this.data_ = new Array<T>();
             }
             if (args.length == 1 && args[0] instanceof Array)
             {
                 // CONSTRUCT FROM AN ARRAY OF ITEMS
-                super();
-
-                this.data_ = <Array<T>>args[0];
+                var array: Array<T> = args[0];
+                
+                this.push(...array);
             }
             else if (args.length == 1 && typeof args[0] == "number")
             {
                 // CONSTRUCT FROM SIZE
-                super();
+                var size: number = args[0];
                 
-                this.data_.length = <number>args[0];
+                this.length = size;
             }
             else if (args.length == 2 && typeof args[0] == "number")
             {
                 // CONSTRUCT FROM SIZE AND REPEATING VALUE
-                super();
+                var size: number = args[0];
+                var val: T = args[1];
                 
-                this.assign(<number>args[0], <T>args[1]);
+                this.assign(size, val);
             }
-            else if (args.length == 1 && args[0] instanceof Container)
+            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof Container))
             {
                 // COPY CONSTRUCTOR
                 var container: Container<T> = <Container<T>>args[0];
-
-                super(container);
+                
+                this.assign(container.begin(), container.end());
             }
             else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
             {
                 // CONSTRUCT FROM INPUT ITERATORS
-                super(<Iterator<T>>args[0], <Iterator<T>>args[1]);
+                var begin: Iterator<T> = args[0];
+                var end: Iterator<T> = args[1];
+
+                this.assign(begin, end);
             }
         }
 
@@ -157,17 +160,17 @@ namespace samchon.std
                 var end: Iterator<U> = second;
 
                 for (var it = begin; it.equals(end) == false; it = it.next())
-                    this.data_.push(it.value);
+                    this.push(it.value);
             }
             else if (typeof first == "number")
             {
                 var size: number = <number>first;
                 var val: T = <T>second;
 
-                this.data_.length = size;
+                this.length = size;
 
                 for (var i: number = 0; i < size; i++)
-                    this.data_[i] = val;
+                    this[i] = val;
             }
         }
 
@@ -176,7 +179,7 @@ namespace samchon.std
          */
         public clear(): void
         {
-            this.data_ = new Array<T>();
+            this.splice(0, this.length);
         }
 
         /* ---------------------------------------------------------
@@ -202,19 +205,19 @@ namespace samchon.std
         }
 
         /**
-         * Get data.
+         * @inheritdoc
          */
-        public data(): Array<T>
+        public size(): number
         {
-            return this.data_;
+            return this.length;
         }
 
         /**
          * @inheritdoc
          */
-        public size(): number
+        public empty(): boolean
         {
-            return this.data_.length;
+            return this.length != 0;
         }
 
         /**
@@ -235,7 +238,7 @@ namespace samchon.std
         public at(index: number): T
         {
             if (index < this.size())
-                return this.data_[index];
+                return this[index];
             else
                 throw new std.OutOfRange("Target index is greater than Vector's size.");
         }
@@ -253,7 +256,7 @@ namespace samchon.std
          */
         public front(): T
         {
-            return this.data_[0];
+            return this[0];
         }
 
         /**
@@ -269,7 +272,7 @@ namespace samchon.std
          */
         public back(): T
         {
-            return this.data_[this.data_.length - 1];
+            return this[this.length - 1];
         }
 
         /* ---------------------------------------------------------
@@ -277,12 +280,12 @@ namespace samchon.std
 	    --------------------------------------------------------- */
         public push<U extends T>(...items: U[]): number
         {
-            return this.data_.push(...items);
+            return this.push(...items);
         }
 
         public pushBack(element: T): void
         {
-            this.data_.push(element);
+            this.push(element);
         }
 
         /**
@@ -295,9 +298,11 @@ namespace samchon.std
          */
         public set(index: number, val: T): T
         {
-            var prev: T = this.data_[index];
-            
-            this.data_[index] = val;
+            if (index > this.length)
+                throw new std.OutOfRange("Target index is greater than Vector's size.");
+
+            var prev: T = this[index];
+            this[index] = val;
 
             return prev;
         }
@@ -310,60 +315,58 @@ namespace samchon.std
          */
         public popBack(): void
         {
-            this.data_.splice(this.data_.length - 1, 1);
+            this.splice(this.length - 1, 1);
         }
 
-        public insert(where: Iterator<T>, val: T): Iterator<T>;
-        public insert(where: Iterator<T>, size: number, val: T): Iterator<T>;
-        public insert<U extends T>(myEnd: Iterator<T>, begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+        public insert(position: Iterator<T>, val: T): Iterator<T>;
+        public insert(position: Iterator<T>, size: number, val: T): Iterator<T>;
+        public insert<U extends T>(position: Iterator<T>, begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
 
-        public insert<U extends T>
-            (
-                first: Iterator<T>, 
-                second: number | T | Iterator<U>, 
-                third: T | Iterator<U> = null
-            ): Iterator<T>
+        public insert<U extends T>(...args: any[]): any
         {
-            if (second instanceof Iterator == false && third == null)
-            {
-                return this.insert(first, 1, <T>second);
-            }
-            else if (second instanceof Iterator == false && third != null)
-            {
-                var where: VectorIterator<T> = <VectorIterator<T>>first;
-                var size: number = <number>second;
-                var val: T = <T>third;
+            var position: VectorIterator<T> = args[0];
 
-                var spliced: Array<T> = this.data_.splice(where.getIndex());
+            if (args.length == 2 && args[1] instanceof Iterator == false)
+            {
+                var val: T = args[1];
+
+                return this.insert(position, 1, val);
+            }
+            else if (args.length == 3 && typeof args[1] == "number")
+            {
+                var size: number = <number>args[1];
+                var val: T = args[2];
+
+                var spliced: Array<T> = this.splice(position.getIndex());
                 var inserts: Array<T> = [];
 
                 for (var i: number = 0; i < size; i++)
                     inserts.push(val);
 
-                this.data_.push(...spliced);
-                this.data_.push(...inserts);
+                this.push(...spliced);
+                this.push(...inserts);
 
-                return new VectorIterator(this, where.getIndex() + inserts.length);
+                return new VectorIterator(this, position.getIndex() + inserts.length);
             }
-            else if (third != null && third instanceof Iterator)
+            else if (args.length == 3 && args[1] instanceof Iterator && args[2] instanceof Iterator)
             {
-                var myEnd: VectorIterator<T> = <VectorIterator<T>>first;
-                var begin = <Iterator<U>>second;
-                var end = <Iterator<U>>third;
+                var myEnd: VectorIterator<T> = args[0];
+                var begin: Iterator<U> = args[1];
+                var end: Iterator<U> = args[2];
 
-                var spliced: Array<T> = this.data_.splice(where.getIndex());
+                var spliced: Array<T> = this.splice(position.getIndex());
                 var inserts: Array<T> = [];
 
                 for (var it = begin; it.equals(end) == false; it = it.next())
                     inserts.push(it.value);
 
-                this.data_.push(...spliced);
-                this.data_.push(...inserts);
+                this.push(...spliced);
+                this.push(...inserts);
 
                 return new VectorIterator(this, myEnd.getIndex() + inserts.length);
             }
             else
-                throw new Error("invalid arguments.");
+                throw new std.InvalidArgument("invalid parameters.");
         }
         
         public erase(it: Iterator<T>): Iterator<T>;
@@ -374,26 +377,11 @@ namespace samchon.std
             var startIndex: number = (<VectorIterator<T>>begin).getIndex();
 
             if (end == null)
-                this.data_.splice(startIndex, 1);
+                this.splice(startIndex, 1);
             else
-                this.data_.splice(startIndex, (<VectorIterator<T>>end).getIndex() - startIndex);
+                this.splice(startIndex, (<VectorIterator<T>>end).getIndex() - startIndex);
 
             return new VectorIterator<T>(this, startIndex);
-        }
-
-        public splice(start: number): Vector<T>;
-        public splice(start: number, size: number): Vector<T>;
-
-        public splice(start: number, size: number = -1): Vector<T>
-        {
-            var vector = new Vector<T>();
-
-            if (size == -1)
-                vector.data_ = this.data_.splice(start);
-            else
-                vector.data_ = this.data_.splice(start, size);
-            
-            return vector;
         }
     };
 
@@ -427,7 +415,7 @@ namespace samchon.std
          * @param vector The source vector to reference.
          * @param index Sequence number of the element in the surce vector.
          */
-        public constructor(source: Container<T>, index: number)
+        public constructor(source: Vector<T>, index: number)
         {
             super(source);
 
@@ -499,7 +487,7 @@ namespace samchon.std
             if (this.index <= 0)
                 return this.source.end();
             else
-                return new VectorIterator<T>(this.source, this.index - 1);
+                return new VectorIterator<T>(<Vector<T>>this.source, this.index - 1);
         }
 
         /**
@@ -513,7 +501,7 @@ namespace samchon.std
             if (this.index >= this.source.size() - 1)
                 return this.source.end();
             else
-                return new VectorIterator<T>(this.source, this.index + 1);
+                return new VectorIterator<T>(<Vector<T>>this.source, this.index + 1);
         }
     }
     

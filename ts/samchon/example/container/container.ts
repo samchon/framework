@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../../std/List.ts" />
+/// <reference path="../../../std/List.ts" />
 
 namespace samchon.example.container
 {

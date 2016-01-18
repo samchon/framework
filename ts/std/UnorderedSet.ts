@@ -5,7 +5,7 @@
 /// <reference path="Vector.ts" />
 /// <reference path="Pair.ts" />
 
-namespace samchon.std
+namespace std
 {
     /**
      * <p> A set containing key values. </p>
@@ -57,7 +57,7 @@ namespace samchon.std
 
         public constructor(items: Array<K>);
 
-        public constructor(container: Container<K>);
+        public constructor(container: IContainer<K>);
 
         public constructor(begin: Iterator<K>, end: Iterator<K>);
 
@@ -72,9 +72,9 @@ namespace samchon.std
                 
                 this.data_ = new Vector<K>(array);
             }
-            else if (args.length == 1 && args[0] instanceof Container)
+            else if (args.length == 1 && (args[0] instanceof Vector || args[1] instanceof Container))
             {
-                var container: Container<K> = <Container<K>>args[0];
+                var container: IContainer<K> = args[0];
 
                 this.assign(container.begin(), container.end());
             }
@@ -110,17 +110,63 @@ namespace samchon.std
          * <p> This effectively increases the container size by the number of elements inserted. </p>
          */
         public insert(key: K): Pair<Iterator<K>, boolean>;
-        public insert(where: Iterator<K>, val: K): Pair<Iterator<K>, boolean>;
-        public insert<U extends K>(myEnd: Iterator<K>, begin: Iterator<U>, end: Iterator<U>): Pair<Iterator<K>, boolean>;
+        public insert(position: Iterator<K>, val: K): Pair<Iterator<K>, boolean>;
+        public insert<U extends K>(position: Iterator<K>, begin: Iterator<U>, end: Iterator<U>): Pair<Iterator<K>, boolean>;
 
-        public insert<U extends K>
-            (
-                first: K | Iterator<K>, 
-                second: Iterator<U> | Iterator<K> | K = null, 
-                third: Iterator<U> = null
-            ): Pair<Iterator<K>, boolean>
+        public insert<U extends K>(...args: any[]): Pair<Iterator<K>, boolean>
         {
-            return null;
+            if (args.length == 1)
+            {
+                var key: K = args[0];
+
+                if (this.has(key) == true)
+                    return new Pair<Iterator<K>, boolean>(this.find(key), false);
+                else
+                {
+                    this.data_.push(key);
+                    return new Pair<Iterator<K>, boolean>(this.end().prev(), true);
+                }
+            }
+            else if (args.length == 2)
+            {
+                var position: Iterator<K> = args[0];
+                var key: K = args[1];
+
+                if (this.has(key) == true)
+                    return new Pair<Iterator<K>, boolean>(this.find(key), false);
+                else
+                {
+                    var index: number = (<UnorderedSetIterator<K>>position).getIndex();
+                    this.data_.insert(this.data_.begin().advance(index), key);
+
+                    return new Pair<Iterator<K>, boolean>(new UnorderedSetIterator<K>(this, index + 1), true);
+                }
+            }
+            else if (args.length == 3)
+            {
+                var position: Iterator<K> = args[0];
+                var begin: Iterator<U> = args[1];
+                var end: Iterator<U> = args[2];
+
+                var index: number = (<UnorderedSetIterator<K>>position).getIndex();
+                var inserted: number = 0;
+
+                for (var it = begin; it.equals(end) == false; it = it.next())
+                {
+                    if (this.has(it.value) == true)
+                        continue;
+
+                    this.data_.pushBack(it.value);
+                    inserted++;
+                }
+
+                return 
+                    new Pair<Iterator<K>, boolean>
+                    (
+                        new UnorderedSetIterator<K>(this, index + inserted),
+                        (inserted != 0)
+                    );
+            }
         };
 
         //public insert
@@ -174,13 +220,18 @@ namespace samchon.std
             {
                 var key: K = args[0];
 
-                this.erase(this.find(key));
+                if (this.has(key) == true)
+                    this.erase(this.find(key));
+
+                return this.size();
             }
             else if (args.length == 1 && args[0] instanceof Iterator)
             {
                 var it: UnorderedSetIterator<K> = args[0];
+                var index: number = it.getIndex();
 
-                this.data_.splice(it.getIndex());
+                this.data_.splice(index);
+                return new UnorderedSetIterator<K>(this, index);
             }
             else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
             {
@@ -188,6 +239,7 @@ namespace samchon.std
                 var end: UnorderedSetIterator<K> = args[1];
 
                 this.data_.splice(begin.getIndex(), end.getIndex() - begin.getIndex());
+                return new UnorderedSetIterator<K>(this, begin.getIndex());
             }
         }
     
@@ -215,10 +267,20 @@ namespace samchon.std
 
         public find(key: K): Iterator<K>
         {
-            for (var i: number = 0; i < this.data_.size(); i++)
-                if (this.data_.at(i) == key)
-                    return new UnorderedSetIterator<K>(this, i);
+            var i: number;
 
+            if (key.hasOwnProperty("equals") == true)
+            {
+                for (i = 0; i < this.data_.size(); i++)
+                    if (this.data_.at(i)["equals"](key) == true)
+                        return new UnorderedSetIterator<K>(this, i);
+            }
+            else
+            {
+                for (i = 0; i < this.data_.size(); i++)
+                    if (this.data_.at(i) == key)
+                        return new UnorderedSetIterator<K>(this, i);
+            }
             return this.end();
         }
         

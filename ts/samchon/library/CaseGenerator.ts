@@ -1,6 +1,6 @@
 ﻿/// <reference path="../API.ts" />
 
-/// <reference path="../std/Exception.ts" />
+/// <reference path="../../std/Exception.ts" />
 
 namespace samchon.library
 {

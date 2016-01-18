@@ -95,7 +95,7 @@
          *                 This function must accept an Event object as its only parameter and must return 
          *                 nothing.
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
 
         /**
          * Removes a listener from the EventDispatcher object. If there is no matching listener registered 
@@ -104,6 +104,6 @@
          * @param type The type of event.
          * @param listener The listener object to remove.
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
     }
 }

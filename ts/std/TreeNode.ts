@@ -1,4 +1,4 @@
-﻿namespace samchon.std
+﻿namespace std
 {
     export class TreeNode<T>
     {

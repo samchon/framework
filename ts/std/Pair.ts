@@ -1,4 +1,4 @@
-﻿namespace samchon.std
+﻿namespace std
 {
     /**
      * <p> A pair of values. </p>

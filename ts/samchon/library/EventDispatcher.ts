@@ -1,5 +1,7 @@
 ﻿/// <reference path="IEventDispatcher.ts" />
 
+/// <reference path="../../std/Bind.ts" />
+
 namespace samchon.library
 {
     /**
@@ -57,7 +59,7 @@ namespace samchon.library
         /**
          * Container of listeners.
          */
-        protected listeners: std.UnorderedMap<string, std.UnorderedSet<EventListener>>;
+        protected listeners: std.UnorderedMap<string, std.UnorderedSet<std.Bind<EventListener, Object>>>;
 
         /**
          * Default Constructor.
@@ -77,6 +79,8 @@ namespace samchon.library
                 this.target = this;
             else
                 this.target = target;
+
+            this.listeners = new std.UnorderedMap<string, std.UnorderedSet<std.Bind<EventListener, Object>>>();
         }
 
         /**
@@ -99,7 +103,7 @@ namespace samchon.library
 
             var listenerSet = this.listeners.get(event.type);
             for (var it = listenerSet.begin(); it.equals(listenerSet.end()) == false; it = it.next())
-                it.value(event);
+                it.value.apply();
 
             return true;
         }
@@ -107,34 +111,37 @@ namespace samchon.library
         /**
          * @inheritdoc
          */
-        public addEventListener(type: string, listener: EventListener): void
+        public addEventListener(type: string, listener: EventListener, thisArg: Object = null): void
         {
-            var listenerSet: std.UnorderedSet<EventListener>;
+            var listenerSet: std.UnorderedSet<std.Bind<EventListener, Object>>;
             
             if (this.listeners.has(type) == false)
             {
-                listenerSet = new std.UnorderedSet<EventListener>();
+                listenerSet = new std.UnorderedSet<std.Bind<EventListener, Object>>();
                 this.listeners.set(type, listenerSet);
             }
             else
                 listenerSet = this.listeners.get(type);
 
-            listenerSet.insert(listener);
+            listenerSet.insert(new std.Bind<EventListener, Object>(listener, thisArg));
         }
 
         /**
          * @inheritdoc
          */
-        public removeEventListener(type: string, listener: EventListener): void
+        public removeEventListener(type: string, listener: EventListener, thisArg: Object = null): void
         {
             if (this.listeners.has(type) == false)
                 return;
 
             var listenerSet = this.listeners.get(type);
-            if (listenerSet.has(listener) == false)
+            var bind: std.Bind<EventListener, Object> = new std.Bind<EventListener, Object>(listener, thisArg);
+            
+            if (listenerSet.has(bind) == false)
                 return;
 
-            listenerSet.erase(listener);
+            listenerSet.erase(bind);
+
             if (listenerSet.empty() == true)
                 this.listeners.erase(type);
         }

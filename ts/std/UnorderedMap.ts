@@ -6,7 +6,7 @@
 /// <reference path="Vector.ts" />
 /// <reference path="Pair.ts" />
 
-namespace samchon.std
+namespace std
 {
     /**
      * <p> A map containing pairs of key and value. </p>
@@ -81,8 +81,6 @@ namespace samchon.std
 	     */
         public constructor();
 
-        public constructor();
-
 	    public constructor(...args: any[])
 	    {
             super();
@@ -143,10 +141,20 @@ namespace samchon.std
          */
         public find(key: K): PairIterator<K, T>
         {
-            for (var i: number = 0; i < this.data_.size(); i++)
-                if (this.data_.at(i).first == key)
-                    return new UnorderedMapIterator<K, T>(this, i);
+            var i: number;
 
+            if (key.hasOwnProperty("equals") == true)
+            {
+                for (i = 0; i < this.data_.size(); i++)
+                    if (this.data_.at(i).first["equals"](key) == true)
+                        return new UnorderedMapIterator<K, T>(this, i);
+            }
+            else
+            {
+                for (i = 0; i < this.data_.size(); i++)
+                    if (this.data_.at(i).first == key)
+                        return new UnorderedMapIterator<K, T>(this, i);
+            }
             return this.end();
         }
 
@@ -162,11 +170,7 @@ namespace samchon.std
 	     */
 	    public has(key: K): boolean
 	    {
-            for (var i: number = 0; i < this.data_.size(); i++)
-			    if (this.data_.at(i).first == key)
-				    return true;
-
-		    return false;
+            return !this.find(key).equals(this.end());
 	    }
 
 	    /**
@@ -180,11 +184,7 @@ namespace samchon.std
 	     */
 	    public get(key: K): T
 	    {
-            for (var i: number = 0; i < this.data_.size(); i++)
-			    if (this.data_.at(i).first == key)
-				    return this.data_.at(i).second;
-        
-		    throw Error("out of range");
+            return this.find(key).second;
 	    }
 
 	    /* ---------------------------------------------------------

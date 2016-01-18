@@ -3,7 +3,7 @@
 
 /// <refence path="TreeNode.ts" />
 
-namespace samchon.std
+namespace std
 {
     export class Map<K, T>
         extends PairContainer<K, T>

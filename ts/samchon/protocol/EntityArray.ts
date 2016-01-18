@@ -1,6 +1,6 @@
-﻿/// <reference path="../std/Vector.ts" />
+﻿/// <reference path="../../std/Vector.ts" />
 ///     <reference path="IEntity.ts" />
-/// <reference path="../std/IMap.ts" />
+/// <reference path="../../std/IMap.ts" />
 
 /// <reference path="../library/XML.ts" />
 

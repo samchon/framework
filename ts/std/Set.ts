@@ -3,7 +3,7 @@
 
 /// <refence path="TreeNode.ts" />
 
-namespace samchon.std
+namespace std
 {
     export class Set<T>
         extends Container<T>

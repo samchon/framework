@@ -1,4 +1,4 @@
-﻿/// <reference path="../std/UnorderedMap.ts" />
+﻿/// <reference path="../../std/UnorderedMap.ts" />
 ///     <reference path="XMLList.ts" />
 
 /// <reference path="StringUtil.ts" />

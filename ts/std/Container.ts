@@ -1,16 +1,46 @@
-﻿/// <reference path="../library/EventDispatcher.ts" />
-/// <reference path="Iterator.ts" />
+﻿/// <reference path="Iterator.ts" />
 
 /// <reference path="Exception.ts" />
 
-namespace samchon.std
+namespace std
 {
+    export interface IContainer<T>
+    {
+        /* ---------------------------------------------------------------
+            SEMI-CONSTRUCTORS
+        --------------------------------------------------------------- */
+        assign(begin: Iterator<T>, end: Iterator<T>): void;
+
+        clear(): void;
+
+        /* ---------------------------------------------------------------
+            ELEMENTS I/O
+        --------------------------------------------------------------- */
+        push<U extends T>(...items: U[]): number;
+
+        erase(position: Iterator<T>): Iterator<T>;
+
+        erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+
+        /* ---------------------------------------------------------------
+            GETTERS
+        --------------------------------------------------------------- */
+        begin(): Iterator<T>;
+
+        end(): Iterator<T>;
+
+        size(): number;
+
+        empty(): boolean;
+    }
+
     /**
      * An abstract class containing elements.
      *
      * @author Jeongho Nam
      */
     export class Container<T>
+        implements IContainer<T>
     {
         /* ---------------------------------------------------------------
             CONSTRUCTORS
@@ -29,7 +59,7 @@ namespace samchon.std
          * @param container Another Container object of the same type (with the same class template 
          *                  arguments T), whose contents are either copied or acquired.
          */
-        public constructor(container: Container<T>);
+        public constructor(container: IContainer<T>);
 
         /**
          * <p> Construct from iterators of begin and end. </p>
@@ -44,9 +74,9 @@ namespace samchon.std
         
         public constructor(...args: any[])
         {
-            if (args.length == 1 && args[0] instanceof Container)
+            if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof Container))
             {
-                var container: Container<T> = args[0];
+                var container: IContainer<T> = args[0];
 
                 this.assign(container.begin(), container.end());
             }

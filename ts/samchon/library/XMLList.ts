@@ -1,4 +1,4 @@
-﻿/// <reference path="../std/Vector.ts" />
+﻿/// <reference path="../../std/Vector.ts" />
 ///     <reference path="XML.ts" />
 
 namespace samchon.library

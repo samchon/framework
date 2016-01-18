@@ -3,7 +3,7 @@
 /// <reference path="Invoke.ts" />
 /// <reference path="../library/StringUtil.ts" />
 
-/// <reference path="../std/Pair.ts" />
+/// <reference path="../../std/Pair.ts" />
 
 namespace samchon.protocol
 {

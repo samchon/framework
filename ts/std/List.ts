@@ -1,7 +1,7 @@
 ﻿/// <reference path="Container.ts" />
 /// <reference path="Iterator.ts" />
 
-namespace samchon.std
+namespace std
 {
     /**
      * <p> Lists are sequence containers that allow constant time insert and erase operations anywhere 
@@ -74,7 +74,7 @@ namespace samchon.std
          *
          * @param container
          */
-        public constructor(container: Container<T>);
+        public constructor(container: IContainer<T>);
 
         /**
          * Construct from begin and end iterators. 
@@ -99,9 +99,9 @@ namespace samchon.std
                 this.clear();
                 this.push(...array);
             }
-            else if (args.length == 1 && args[0] instanceof Container)
+            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof Container))
             {
-                var container: Container<T> = args[0];
+                var container: IContainer<T> = args[0];
 
                 this.assign(container.begin(), container.end());
             }
@@ -211,7 +211,7 @@ namespace samchon.std
         {
             return this.size_;
         }
-
+        
         /**
          * <p> Access first element. </p>
          * <p> Returns a value in the first element of the List. </p>

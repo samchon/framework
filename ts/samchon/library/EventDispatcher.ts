@@ -1,6 +1,10 @@
-﻿/// <reference path="IEventDispatcher.ts" />
+﻿/// <reference path="../API.ts" />
 
+/// <reference path="IEventDispatcher.ts" />
+
+/// <reference path="BasicEvent.ts" />
 /// <reference path="../../std/Bind.ts" />
+
 
 namespace samchon.library
 {
@@ -88,6 +92,8 @@ namespace samchon.library
          */
         public hasEventListener(type: string): boolean 
         {
+            type = type.toLowerCase();
+
             return this.listeners.has(type);
         }
         
@@ -106,7 +112,7 @@ namespace samchon.library
 
             var listenerSet = this.listeners.get(event.type);
             for (var it = listenerSet.begin(); it.equals(listenerSet.end()) == false; it = it.next())
-                it.value.apply();
+                it.value.apply(event);
 
             return true;
         }
@@ -116,6 +122,7 @@ namespace samchon.library
          */
         public addEventListener(type: string, listener: EventListener, thisArg: Object = null): void
         {
+            type = type.toLowerCase();
             var listenerSet: std.UnorderedSet<std.Bind<EventListener, Object>>;
             
             if (this.listeners.has(type) == false)
@@ -134,6 +141,7 @@ namespace samchon.library
          */
         public removeEventListener(type: string, listener: EventListener, thisArg: Object = null): void
         {
+            type = type.toLowerCase();
             if (this.listeners.has(type) == false)
                 return;
 

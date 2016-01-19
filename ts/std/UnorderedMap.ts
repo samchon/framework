@@ -234,9 +234,52 @@ namespace std
 	    /* ---------------------------------------------------------
 		    ELEMENTS I/O AND MODIFIDERS
 	    --------------------------------------------------------- */
-        public insert(myEnd: PairIterator<K, T>, begin: PairIterator<K, T>, end: PairIterator<K, T> = null): PairIterator<K, T>
+        public insert(pair: Pair<K, T>): Pair<PairIterator<K, T>, boolean>;
+        public insert(hint: PairIterator<K, T>, pair: Pair<K, T>): PairIterator<K, T>;
+        public insert<L extends K, U extends T>(begin: PairIterator<L, U>, end: PairIterator<L, U>): void;
+
+        public insert<L extends K, U extends T>(...args: any[]): any
         {
-            return null;
+            if (args.length == 1 && args[0] instanceof Pair)
+                return this.insertByKey(args[0]);
+            else if (args.length == 2 && args[1] instanceof Pair)
+                return this.insertByHint(args[0], args[1]);
+            else if (args.length == 2 && args[1] instanceof PairIterator)
+                return this.insertByRange(args[0], args[1]);
+            else
+                throw new std.InvalidArgument("Invalid parameters are passed to UnorderedMap.insert()");
+        }
+        
+        private insertByKey(pair: Pair<K, T>): Pair<PairIterator<K, T>, boolean>
+        {
+            if (this.has(pair.first) == false)
+                return new Pair<PairIterator<K, T>, boolean>(this.end(), false);
+            else 
+            {
+                this.data_.pushBack(pair);
+
+                return new Pair<PairIterator<K, T>, boolean>(this.end().prev(), true);
+            }
+        }
+        private insertByHint(hint: PairIterator<K, T>, pair: Pair<K, T>): PairIterator<K, T>
+        {
+            var index: number = (<UnorderedMapIterator<K, T>>hint).getIndex();
+            if (index == -1)
+                index = this.data_.size() - 1;
+
+            this.data_.push(pair);
+
+            return new UnorderedMapIterator<K, T>(this, index);
+        }
+        private insertByRange<L extends K, U extends T>
+            (begin: PairIterator<L, U>, end: PairIterator<L, U>): void
+        {
+            var begin: PairIterator<L, U>;
+            var end: PairIterator<L, U>;
+
+            for (var it = begin; it.equals(end) == false; it = it.next())
+                if (this.has(it.first) == false)
+                    this.data_.pushBack(new Pair<K, T>(it.first, it.second));
         }
 
         public erase(key: K): number;
@@ -245,7 +288,43 @@ namespace std
 
         public erase(...args: any[]): any 
         {
-            throw new std.AbstractMethodError("Have to be overriden.");
+            if (args.length == 1 && args[0] instanceof PairIterator == false)
+                return this.eraseByKey(args[0]);
+            else if (args.length == 1 && args[0] instanceof PairIterator)
+                return this.eraseByIterator(args[0]);
+            else if (args.length == 2 && args[0] instanceof PairIterator && args[1] instanceof PairIterator)
+                return this.eraseByRange(args[0], args[1]);
+            else
+                throw new std.InvalidArgument("Invalid parameters are passed to UnorderedMap.erase()");
+        }
+
+        private eraseByKey(key: K): number
+        {
+            if (this.has(key) == true)
+                this.erase(this.find(key));
+
+            return this.size();
+        }
+        private eraseByIterator(it: PairIterator<K, T>): PairIterator<K, T>
+        {
+            var index: number = (<UnorderedMapIterator<K, T>>it).getIndex();
+
+            this.data_.splice(index, 1);
+            if (this.empty() == true)
+                index = -1;
+
+            return new UnorderedMapIterator<K, T>(this, index);
+        }
+        private eraseByRange(begin: PairIterator<K, T>, end: PairIterator<K, T>): PairIterator<K, T>
+        {
+            var beginIndex: number = (<UnorderedMapIterator<K, T>>begin).getIndex();
+            var endIndex: number = (<UnorderedMapIterator<K, T>>end).getIndex();
+
+            this.data_.splice(beginIndex, endIndex);
+            if (this.empty() == true)
+                beginIndex = -1;
+
+            return new UnorderedMapIterator<K, T>(this, beginIndex);
         }
 
 	    /**
@@ -405,6 +484,14 @@ namespace std
 	    {
 		    return this.map.data().at(this.index).second;
 	    }
+
+        /**
+         * Get index.
+         */
+        public getIndex(): number
+        {
+            return this.index;
+        }
 
 	    /**
 	     * <p> Set first element (key). </p>

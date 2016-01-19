@@ -67,16 +67,17 @@ namespace samchon.library
         /* -------------------------------------------------------------------
 		    CONSTRUCTORS
 	    ------------------------------------------------------------------- */
-        public constructor(type: string, currentTarget: EventTarget = null, bubbles: boolean = false, cancelable: boolean = false)
+        public constructor(type: string, bubbles: boolean = false, cancelable: boolean = false)
         {
             this.type_ = type.toLowerCase();
-            this.currentTarget_ = currentTarget;
+            this.target_ = null;
+            this.currentTarget_ = null;
 
             this.trusted_ = false;
-
             this.bubbles_ = bubbles;
             this.cancelable_ = cancelable;
-            
+            this.defaultPrevented_ = false;
+            this.cancelBubble_ = false;
             this.timeStamp_ = new Date();
         }
 
@@ -85,7 +86,7 @@ namespace samchon.library
          */
         public initEvent(type: string, bubbles: boolean, cancelable: boolean): void
         {
-            this.type_ = type;
+            this.type_ = type.toLowerCase();
 
             this.bubbles_ = bubbles;
             this.cancelable_ = cancelable;

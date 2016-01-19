@@ -43,6 +43,7 @@
     <TypeScriptCompile Include="samchon\library\CombinedPermutationGenerator.ts" />
     <TypeScriptCompile Include="samchon\library\FactorialGenerator.ts" />
     <TypeScriptCompile Include="samchon\library\PermutationGenerator.ts" />
+    <TypeScriptCompile Include="samchon\library\ProgressEvent.ts" />
     <TypeScriptCompile Include="samchon\protocol.ts" />
     <TypeScriptCompile Include="samchon\protocol\ExternalSystem.ts" />
     <TypeScriptCompile Include="samchon\protocol\ExternalSystemArray.ts" />

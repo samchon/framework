@@ -1,4 +1,6 @@
-﻿namespace samchon.library
+﻿/// <refercen path="../API.ts" />
+
+namespace samchon.library
 {
     /**
      * <p> The IEventDispatcher interface defines methods for adding or removing event listeners, checks 

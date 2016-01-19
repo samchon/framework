@@ -12,5 +12,14 @@ namespace samchon.example.container
 
         for (var it = list.begin(); it.equals(list.end()) == false; it = it.next())
             trace(it.value);
+        
+        var eventDispatcher = new library.EventDispatcher();
+        eventDispatcher.addEventListener("complete", handleEvent);
+        eventDispatcher.dispatchEvent(new library.BasicEvent("complete"));
+    }
+
+    export function handleEvent(event: library.BasicEvent): void
+    {
+        trace("completed");
     }
 }

@@ -110,8 +110,8 @@ namespace std
          * <p> This effectively increases the container size by the number of elements inserted. </p>
          */
         public insert(key: K): Pair<Iterator<K>, boolean>;
-        public insert(position: Iterator<K>, val: K): Pair<Iterator<K>, boolean>;
-        public insert<U extends K>(position: Iterator<K>, begin: Iterator<U>, end: Iterator<U>): Pair<Iterator<K>, boolean>;
+        public insert(hint: Iterator<K>, val: K): Pair<Iterator<K>, boolean>;
+        public insert<U extends K>(begin: Iterator<U>, end: Iterator<U>): void;
 
         public insert<U extends K>(...args: any[]): Pair<Iterator<K>, boolean>
         {
@@ -120,14 +120,14 @@ namespace std
                 var key: K = args[0];
 
                 if (this.has(key) == true)
-                    return new Pair<Iterator<K>, boolean>(this.find(key), false);
+                    return new Pair<Iterator<K>, boolean>(this.end(), false);
                 else
                 {
                     this.data_.push(key);
                     return new Pair<Iterator<K>, boolean>(this.end().prev(), true);
                 }
             }
-            else if (args.length == 2)
+            else if (args.length == 2 && args[1] instanceof Iterator == false)
             {
                 var position: Iterator<K> = args[0];
                 var key: K = args[1];
@@ -142,11 +142,10 @@ namespace std
                     return new Pair<Iterator<K>, boolean>(new UnorderedSetIterator<K>(this, index + 1), true);
                 }
             }
-            else if (args.length == 3)
+            else if (args.length == 2 && args[1] instanceof Iterator == true)
             {
-                var position: Iterator<K> = args[0];
-                var begin: Iterator<U> = args[1];
-                var end: Iterator<U> = args[2];
+                var begin: Iterator<U> = args[0];
+                var end: Iterator<U> = args[1];
 
                 var index: number = (<UnorderedSetIterator<K>>position).getIndex();
                 var inserted: number = 0;
@@ -159,56 +158,8 @@ namespace std
                     this.data_.pushBack(it.value);
                     inserted++;
                 }
-
-                return 
-                    new Pair<Iterator<K>, boolean>
-                    (
-                        new UnorderedSetIterator<K>(this, index + inserted),
-                        (inserted != 0)
-                    );
             }
         };
-
-        //public insert
-        //    (
-        //        first: K | Iterator<K>, 
-        //        second: K | Iterator <K> = null, 
-        //        third: Iterator<K> = null): any
-        //{
-        //    if (first instanceof Iterator == false && second == null && third == null)
-        //    {
-        //        var key: K = <K>first;
-
-        //        if (this.has(key) == true)
-        //            return false;
-
-        //        this.data_.push(key);
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        if (third == null)
-        //        {
-        //            var myEndX: number = (<SetIterator<K>>first).getIndex();
-        //            var begin = <Iterator<K>>second;
-        //            var end = <Iterator<K>>third;
-
-        //            this.data_.insert(null, begin, end);
-        //        }
-        //        else
-        //        {
-        //            var where: <AtomicIterator<_Ty>>second;
-
-        //            if (third instanceof Iterator)
-        //            {
-
-        //            }
-        //            else
-        //            {
-        //            }
-        //        }
-        //    }
-        //}
 
         public erase(key: K): number;
         public erase(it: Iterator<K>): Iterator<K>;
@@ -230,7 +181,10 @@ namespace std
                 var it: UnorderedSetIterator<K> = args[0];
                 var index: number = it.getIndex();
 
-                this.data_.splice(index);
+                this.data_.splice(index, 1);
+                if (this.empty() == true)
+                    index = -1;
+
                 return new UnorderedSetIterator<K>(this, index);
             }
             else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
@@ -238,8 +192,14 @@ namespace std
                 var begin: UnorderedSetIterator<K> = args[0];
                 var end: UnorderedSetIterator<K> = args[1];
 
-                this.data_.splice(begin.getIndex(), end.getIndex() - begin.getIndex());
-                return new UnorderedSetIterator<K>(this, begin.getIndex());
+                var beginIndex: number = begin.getIndex();
+                var endIndex: number = end.getIndex();
+
+                this.data_.splice(beginIndex, endIndex);
+                if (this.empty() == true)
+                    beginIndex = -1;
+
+                return new UnorderedSetIterator<K>(this, beginIndex);
             }
         }
     

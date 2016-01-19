@@ -857,8 +857,15 @@ var samchon;
                 samchon.trace("#" + list.size());
                 for (var it = list.begin(); it.equals(list.end()) == false; it = it.next())
                     samchon.trace(it.value);
+                var eventDispatcher = new samchon.library.EventDispatcher();
+                eventDispatcher.addEventListener("complete", handleEvent);
+                eventDispatcher.dispatchEvent(new samchon.library.BasicEvent("complete"));
             }
             container.main = main;
+            function handleEvent(event) {
+                samchon.trace("completed");
+            }
+            container.handleEvent = handleEvent;
         })(container = example.container || (example.container = {}));
     })(example = samchon.example || (samchon.example = {}));
 })(samchon || (samchon = {}));
@@ -1496,19 +1503,75 @@ var std;
         UnorderedMap.prototype.end = function () {
             return new UnorderedMapIterator(this, -1);
         };
-        /* ---------------------------------------------------------
-            ELEMENTS I/O AND MODIFIDERS
-        --------------------------------------------------------- */
-        UnorderedMap.prototype.insert = function (myEnd, begin, end) {
-            if (end === void 0) { end = null; }
-            return null;
+        UnorderedMap.prototype.insert = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            if (args.length == 1 && args[0] instanceof std.Pair)
+                return this.insertByKey(args[0]);
+            else if (args.length == 2 && args[1] instanceof std.Pair)
+                return this.insertByHint(args[0], args[1]);
+            else if (args.length == 2 && args[1] instanceof std.PairIterator)
+                return this.insertByRange(args[0], args[1]);
+            else
+                throw new std.InvalidArgument("Invalid parameters are passed to UnorderedMap.insert()");
+        };
+        UnorderedMap.prototype.insertByKey = function (pair) {
+            if (this.has(pair.first) == false)
+                return new std.Pair(this.end(), false);
+            else {
+                this.data_.pushBack(pair);
+                return new std.Pair(this.end().prev(), true);
+            }
+        };
+        UnorderedMap.prototype.insertByHint = function (hint, pair) {
+            var index = hint.getIndex();
+            if (index == -1)
+                index = this.data_.size() - 1;
+            this.data_.push(pair);
+            return new UnorderedMapIterator(this, index);
+        };
+        UnorderedMap.prototype.insertByRange = function (begin, end) {
+            var begin;
+            var end;
+            for (var it = begin; it.equals(end) == false; it = it.next())
+                if (this.has(it.first) == false)
+                    this.data_.pushBack(new std.Pair(it.first, it.second));
         };
         UnorderedMap.prototype.erase = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
-            throw new std.AbstractMethodError("Have to be overriden.");
+            if (args.length == 1 && args[0] instanceof std.PairIterator == false)
+                return this.eraseByKey(args[0]);
+            else if (args.length == 1 && args[0] instanceof std.PairIterator)
+                return this.eraseByIterator(args[0]);
+            else if (args.length == 2 && args[0] instanceof std.PairIterator && args[1] instanceof std.PairIterator)
+                return this.eraseByRange(args[0], args[1]);
+            else
+                throw new std.InvalidArgument("Invalid parameters are passed to UnorderedMap.erase()");
+        };
+        UnorderedMap.prototype.eraseByKey = function (key) {
+            if (this.has(key) == true)
+                this.erase(this.find(key));
+            return this.size();
+        };
+        UnorderedMap.prototype.eraseByIterator = function (it) {
+            var index = it.getIndex();
+            this.data_.splice(index, 1);
+            if (this.empty() == true)
+                index = -1;
+            return new UnorderedMapIterator(this, index);
+        };
+        UnorderedMap.prototype.eraseByRange = function (begin, end) {
+            var beginIndex = begin.getIndex();
+            var endIndex = end.getIndex();
+            this.data_.splice(beginIndex, endIndex);
+            if (this.empty() == true)
+                beginIndex = -1;
+            return new UnorderedMapIterator(this, beginIndex);
         };
         /**
          * <p> Set element. </p>
@@ -1663,6 +1726,12 @@ var std;
             enumerable: true,
             configurable: true
         });
+        /**
+         * Get index.
+         */
+        UnorderedMapIterator.prototype.getIndex = function () {
+            return this.index;
+        };
         /* ---------------------------------------------------------
             COMPARISON
         --------------------------------------------------------- */
@@ -3145,15 +3214,17 @@ var samchon;
             /* -------------------------------------------------------------------
                 CONSTRUCTORS
             ------------------------------------------------------------------- */
-            function BasicEvent(type, currentTarget, bubbles, cancelable) {
-                if (currentTarget === void 0) { currentTarget = null; }
+            function BasicEvent(type, bubbles, cancelable) {
                 if (bubbles === void 0) { bubbles = false; }
                 if (cancelable === void 0) { cancelable = false; }
                 this.type_ = type.toLowerCase();
-                this.currentTarget_ = currentTarget;
+                this.target_ = null;
+                this.currentTarget_ = null;
                 this.trusted_ = false;
                 this.bubbles_ = bubbles;
                 this.cancelable_ = cancelable;
+                this.defaultPrevented_ = false;
+                this.cancelBubble_ = false;
                 this.timeStamp_ = new Date();
             }
             Object.defineProperty(BasicEvent.prototype, "NONE", {
@@ -3216,7 +3287,7 @@ var samchon;
              * Initializes the value of an Event created. If the event has already being dispatched, this method does nothing.
              */
             BasicEvent.prototype.initEvent = function (type, bubbles, cancelable) {
-                this.type_ = type;
+                this.type_ = type.toLowerCase();
                 this.bubbles_ = bubbles;
                 this.cancelable_ = cancelable;
             };
@@ -3490,6 +3561,7 @@ var samchon;
         library.CombinedPermutationGenerator = CombinedPermutationGenerator;
     })(library = samchon.library || (samchon.library = {}));
 })(samchon || (samchon = {}));
+/// <refercen path="../API.ts" />
 var std;
 (function (std) {
     var Bind = (function () {
@@ -3511,7 +3583,9 @@ var std;
     })();
     std.Bind = Bind;
 })(std || (std = {}));
+/// <reference path="../API.ts" />
 /// <reference path="IEventDispatcher.ts" />
+/// <reference path="BasicEvent.ts" />
 /// <reference path="../../std/Bind.ts" />
 var samchon;
 (function (samchon) {
@@ -3574,6 +3648,7 @@ var samchon;
              * @inheritdoc
              */
             EventDispatcher.prototype.hasEventListener = function (type) {
+                type = type.toLowerCase();
                 return this.listeners.has(type);
             };
             /**
@@ -3588,7 +3663,7 @@ var samchon;
                     return false;
                 var listenerSet = this.listeners.get(event.type);
                 for (var it = listenerSet.begin(); it.equals(listenerSet.end()) == false; it = it.next())
-                    it.value.apply();
+                    it.value.apply(event);
                 return true;
             };
             /**
@@ -3596,6 +3671,7 @@ var samchon;
              */
             EventDispatcher.prototype.addEventListener = function (type, listener, thisArg) {
                 if (thisArg === void 0) { thisArg = null; }
+                type = type.toLowerCase();
                 var listenerSet;
                 if (this.listeners.has(type) == false) {
                     listenerSet = new std.UnorderedSet();
@@ -3610,6 +3686,7 @@ var samchon;
              */
             EventDispatcher.prototype.removeEventListener = function (type, listener, thisArg) {
                 if (thisArg === void 0) { thisArg = null; }
+                type = type.toLowerCase();
                 if (this.listeners.has(type) == false)
                     return;
                 var listenerSet = this.listeners.get(type);
@@ -3695,6 +3772,42 @@ var samchon;
             return FactorialGenerator;
         })(library.PermuationGenerator);
         library.FactorialGenerator = FactorialGenerator;
+    })(library = samchon.library || (samchon.library = {}));
+})(samchon || (samchon = {}));
+/// <reference path="BasicEvent.ts" />
+var samchon;
+(function (samchon) {
+    var library;
+    (function (library) {
+        var ProgressEvent = (function (_super) {
+            __extends(ProgressEvent, _super);
+            function ProgressEvent(type, numerator, denominator) {
+                _super.call(this, type);
+                this.numerator_ = numerator;
+                this.denominator_ = denominator;
+            }
+            Object.defineProperty(ProgressEvent, "PROGRESS", {
+                get: function () { return "progress"; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(ProgressEvent.prototype, "numerator", {
+                get: function () {
+                    return this.numerator_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(ProgressEvent.prototype, "denominator", {
+                get: function () {
+                    return this.denominator_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return ProgressEvent;
+        })(library.BasicEvent);
+        library.ProgressEvent = ProgressEvent;
     })(library = samchon.library || (samchon.library = {}));
 })(samchon || (samchon = {}));
 /// <reference path="API.ts" />
@@ -3967,13 +4080,13 @@ var std;
             if (args.length == 1) {
                 var key = args[0];
                 if (this.has(key) == true)
-                    return new std.Pair(this.find(key), false);
+                    return new std.Pair(this.end(), false);
                 else {
                     this.data_.push(key);
                     return new std.Pair(this.end().prev(), true);
                 }
             }
-            else if (args.length == 2) {
+            else if (args.length == 2 && args[1] instanceof std.Iterator == false) {
                 var position = args[0];
                 var key = args[1];
                 if (this.has(key) == true)
@@ -3984,10 +4097,9 @@ var std;
                     return new std.Pair(new UnorderedSetIterator(this, index + 1), true);
                 }
             }
-            else if (args.length == 3) {
-                var position = args[0];
-                var begin = args[1];
-                var end = args[2];
+            else if (args.length == 2 && args[1] instanceof std.Iterator == true) {
+                var begin = args[0];
+                var end = args[1];
                 var index = position.getIndex();
                 var inserted = 0;
                 for (var it = begin; it.equals(end) == false; it = it.next()) {
@@ -3996,8 +4108,6 @@ var std;
                     this.data_.pushBack(it.value);
                     inserted++;
                 }
-                return;
-                new std.Pair(new UnorderedSetIterator(this, index + inserted), (inserted != 0));
             }
         };
         ;
@@ -4015,14 +4125,20 @@ var std;
             else if (args.length == 1 && args[0] instanceof std.Iterator) {
                 var it = args[0];
                 var index = it.getIndex();
-                this.data_.splice(index);
+                this.data_.splice(index, 1);
+                if (this.empty() == true)
+                    index = -1;
                 return new UnorderedSetIterator(this, index);
             }
             else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
                 var begin = args[0];
                 var end = args[1];
-                this.data_.splice(begin.getIndex(), end.getIndex() - begin.getIndex());
-                return new UnorderedSetIterator(this, begin.getIndex());
+                var beginIndex = begin.getIndex();
+                var endIndex = end.getIndex();
+                this.data_.splice(beginIndex, endIndex);
+                if (this.empty() == true)
+                    beginIndex = -1;
+                return new UnorderedSetIterator(this, beginIndex);
             }
         };
         /* ---------------------------------------------------------

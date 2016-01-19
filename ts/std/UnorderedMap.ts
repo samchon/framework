@@ -90,7 +90,7 @@ namespace std
         
         public assign(begin: PairIterator<K, T>, end: PairIterator<K, T>): void
         {
-
+            this.data_.assign(begin, end);
         }
 
         public clear(): void

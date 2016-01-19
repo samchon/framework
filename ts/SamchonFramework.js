@@ -432,7 +432,24 @@ var std;
          * @return An advanced Iterator.
          */
         Iterator.prototype.advance = function (n) {
-            throw new std.AbstractMethodError("Have to be overriden.");
+            var it = this;
+            var i;
+            if (n >= 0) {
+                for (i = 0; i < n; i++)
+                    if (it.equals(this.source.end()))
+                        return this.source.end();
+                    else
+                        it = it.next();
+            }
+            else {
+                n = n * -1;
+                for (i = 0; i < n; i++)
+                    if (it.equals(this.source.end()))
+                        return this.source.end();
+                    else
+                        it = it.prev();
+            }
+            return it;
         };
         /* ---------------------------------------------------------
             ACCESSORS
@@ -1027,13 +1044,6 @@ var std;
         /* ---------------------------------------------------------
             ELEMENTS I/O
         --------------------------------------------------------- */
-        Vector.prototype.push = function () {
-            var items = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                items[_i - 0] = arguments[_i];
-            }
-            return this.push.apply(this, items);
-        };
         Vector.prototype.pushBack = function (element) {
             this.push(element);
         };
@@ -1200,7 +1210,7 @@ var std;
             if (this.index <= 0)
                 return this.source.end();
             else
-                return new VectorIterator(this.source, this.index - 1);
+                return new VectorIterator(this.vector, this.index - 1);
         };
         /**
          * <p> Get iterator to next element. </p>
@@ -1212,7 +1222,14 @@ var std;
             if (this.index >= this.source.size() - 1)
                 return this.source.end();
             else
-                return new VectorIterator(this.source, this.index + 1);
+                return new VectorIterator(this.vector, this.index + 1);
+        };
+        VectorIterator.prototype.advance = function (n) {
+            var newIndex = this.index + n;
+            if (newIndex < 0 || newIndex >= this.source.size())
+                return this.source.end();
+            else
+                return new VectorIterator(this.vector, newIndex);
         };
         return VectorIterator;
     })(std.Iterator);
@@ -1359,6 +1376,7 @@ var std;
             this.data_ = new std.Vector();
         }
         UnorderedMap.prototype.assign = function (begin, end) {
+            this.data_.assign(begin, end);
         };
         UnorderedMap.prototype.clear = function () {
             this.data_.clear();
@@ -3115,6 +3133,254 @@ var samchon;
     var library;
     (function (library) {
         /**
+         * An event class.
+         *
+         * <ul>
+         *  <li> Comments from - https://developer.mozilla.org/en-US/docs/Web/API/Event/ </li>
+         * </ul>
+         *
+         * @author Jeongho Nam
+         */
+        var BasicEvent = (function () {
+            /* -------------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------------- */
+            function BasicEvent(type, currentTarget, bubbles, cancelable) {
+                if (currentTarget === void 0) { currentTarget = null; }
+                if (bubbles === void 0) { bubbles = false; }
+                if (cancelable === void 0) { cancelable = false; }
+                this.type_ = type.toLowerCase();
+                this.currentTarget_ = currentTarget;
+                this.trusted_ = false;
+                this.bubbles_ = bubbles;
+                this.cancelable_ = cancelable;
+                this.timeStamp_ = new Date();
+            }
+            Object.defineProperty(BasicEvent.prototype, "NONE", {
+                /* -------------------------------------------------------------------
+                    STATIC CONSTS
+                ------------------------------------------------------------------- */
+                /**
+                 *  No event is being processed at this time.
+                 */
+                get: function () { return 0; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent, "CAPTURING_PHASE", {
+                /**
+                 * The event is being propagated through the target's ancestor objects. This process starts with the Window,
+                 * then Document, then the HTMLHtmlElement, and so on through the elements until the target's parent is reached.
+                 * Event listeners registered for capture mode when EventTarget.addEventListener() was called are triggered
+                 * during this phase.
+                 */
+                get: function () { return Event.CAPTURING_PHASE; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "CAPTURING_PHASE", {
+                get: function () { return Event.CAPTURING_PHASE; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent, "AT_TARGET", {
+                /**
+                 * The event has arrived at the event's target. Event listeners registered for this phase are called at this
+                 * time. If Event.bubbles is false, processing the event is finished after this phase is complete.
+                 */
+                get: function () { return Event.AT_TARGET; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "AT_TARGET", {
+                get: function () { return Event.AT_TARGET; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent, "BUBBLING_PHASE", {
+                /**
+                 * The event is propagating back up through the target's ancestors in reverse order, starting with the parent,
+                 * and eventually reaching the containing Window. This is known as bubbling, and occurs only if Event.bubbles
+                 * is true. Event listeners registered for this phase are triggered during this process.
+                 */
+                get: function () { return Event.BUBBLING_PHASE; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "BUBBLING_PHASE", {
+                get: function () { return Event.BUBBLING_PHASE; },
+                enumerable: true,
+                configurable: true
+            });
+            /**
+             * Initializes the value of an Event created. If the event has already being dispatched, this method does nothing.
+             */
+            BasicEvent.prototype.initEvent = function (type, bubbles, cancelable) {
+                this.type_ = type;
+                this.bubbles_ = bubbles;
+                this.cancelable_ = cancelable;
+            };
+            /* -------------------------------------------------------------------
+                ACTIONS ON PROGRESS
+            ------------------------------------------------------------------- */
+            /**
+             * Cancels the event (if it is cancelable).
+             */
+            BasicEvent.prototype.preventDefault = function () {
+                throw new std.AbstractMethodError("BasicEvent.preventDefault() is not overriden yet.");
+            };
+            /**
+             * For this particular event, no other listener will be called. Neither those attached on the same element,
+             * nor those attached on elements which will be traversed later (in capture phase, for instance).
+             */
+            BasicEvent.prototype.stopImmediatePropagation = function () {
+                throw new std.AbstractMethodError("BasicEvent.stopImmediatePropagation() is not overriden yet.");
+            };
+            /**
+             * Stops the propagation of events further along in the DOM.
+             */
+            BasicEvent.prototype.stopPropagation = function () {
+                throw new std.AbstractMethodError("BasicEvent.stopPropagation() is not overriden yet.");
+            };
+            Object.defineProperty(BasicEvent.prototype, "type", {
+                /* -------------------------------------------------------------------
+                    GETTERS
+                ------------------------------------------------------------------- */
+                /**
+                 * The name of the event (case-insensitive).
+                 */
+                get: function () {
+                    return this.type_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "target", {
+                /**
+                 * A reference to the target to which the event was originally dispatched.
+                 */
+                get: function () {
+                    return this.target_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "currentTarget", {
+                /**
+                 * A reference to the currently registered target for the event.
+                 */
+                get: function () {
+                    return this.currentTarget_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "srcElement", {
+                /**
+                 * A proprietary alias for the standard Event.target property. It is specific to old versions of
+                 * Microsoft Internet Explorer.
+                 */
+                get: function () {
+                    return this.target_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "isTrusted", {
+                /**
+                 * Indicates whether or not the event was initiated by the browser (after a user click for instance) or
+                 * by a script (using an event creation method, like event.initEvent).
+                 */
+                get: function () {
+                    return this.isTrusted;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "bubbles", {
+                /**
+                 * A boolean indicating whether the event bubbles up through the DOM or not.
+                 */
+                get: function () {
+                    return this.bubbles_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "cancelable", {
+                /**
+                 * A boolean indicating whether the event is cancelable.
+                 */
+                get: function () {
+                    return this.cancelable_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "eventPhase", {
+                /**
+                 * Indicates which phase of the event flow is currently being evaluated.
+                 */
+                get: function () {
+                    return this.NONE;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "defaultPrevented", {
+                /**
+                 * Returns a boolean indicating whether or not event.preventDefault() was called on the event.
+                 */
+                get: function () {
+                    return this.defaultPrevented_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "cancelBubble", {
+                /**
+                 * Indicates if event bubbling for this event has been canceled or not. It is set to false by default, allowing
+                 * the event to bubble up the DOM, if it is a bubbleable event. Setting this property to true stops the event
+                 * from bubbling up the DOM. Not all events are allowed to bubble up the DOM.
+                 */
+                get: function () {
+                    return this.cancelBubble_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "timeStamp", {
+                /**
+                 * The time that the event was created.
+                 */
+                get: function () {
+                    return this.timeStamp_.getTime();
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "returnValue", {
+                /**
+                 * Don't know what it is.
+                 */
+                get: function () {
+                    return false;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return BasicEvent;
+        })();
+        library.BasicEvent = BasicEvent;
+    })(library = samchon.library || (samchon.library = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="../../std/Exception.ts" />
+var samchon;
+(function (samchon) {
+    var library;
+    (function (library) {
+        /**
          * <p> Case generator. </p>
          *
          * <p> CaseGenerator is an abstract case generator using like a matrix. </p>
@@ -3314,7 +3580,10 @@ var samchon;
              * @inheritdoc
              */
             EventDispatcher.prototype.dispatchEvent = function (event) {
-                event.target = this.target;
+                if (event instanceof library.BasicEvent)
+                    event["target_"] = this.target;
+                else
+                    event.target = this.target;
                 if (this.listeners.has(event.type) == false)
                     return false;
                 var listenerSet = this.listeners.get(event.type);
@@ -3533,14 +3802,36 @@ var samchon;
                     args[_i - 0] = arguments[_i];
                 }
                 _super.call(this);
+                if (args.length == 0) {
+                    this.listener = "";
+                }
+                else if (args.length == 1 && typeof args[0] == "string") {
+                    var listener = args[0];
+                    this.listener = listener;
+                }
+                else if (args.length == 1 && args[0] instanceof samchon.library.XML) {
+                    this.listener = "";
+                    var xml = args[0];
+                    this.construct(xml);
+                }
+                else if (args.length == 1 && args[0] instanceof Invoke) {
+                    var invoke = args[0];
+                    this.listener = invoke.listener;
+                    this.assign(invoke.begin(), invoke.end());
+                }
+                else if (args.length == 3 && args[1] instanceof std.Iterator && args[2] instanceof std.Iterator) {
+                    var listener = args[0];
+                    var begin = args[1];
+                    var end = args[2];
+                    this.listener = listener;
+                    this.assign(begin, end);
+                }
+                else if (args.length > 1) {
+                    this.listener = args[0];
+                    for (var i = 1; i < args.length; i++)
+                        this.pushBack(new protocol.InvokeParameter("", args[i]));
+                }
             }
-            /**
-             * @inheritdoc
-             */
-            Invoke.prototype.construct = function (xml) {
-                this.listener = xml.getProperty("listener");
-                _super.prototype.construct.call(this, xml);
-            };
             /**
              * @inheritdoc
              */
@@ -3584,9 +3875,15 @@ var samchon;
             /* -------------------------------------------------------------------
                 EXPORTERS
             ------------------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
             Invoke.prototype.TAG = function () {
                 return "invoke";
             };
+            /**
+             * @inheritdoc
+             */
             Invoke.prototype.CHILD_TAG = function () {
                 return "parameter";
             };

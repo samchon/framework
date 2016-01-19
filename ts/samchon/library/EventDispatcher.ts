@@ -96,7 +96,10 @@ namespace samchon.library
          */
         public dispatchEvent(event: Event): boolean
         {
-            event.target = this.target;
+            if (event instanceof BasicEvent)
+                event["target_"] = this.target;
+            else
+                event.target = this.target;
 
             if (this.listeners.has(event.type) == false)
                 return false;

@@ -278,11 +278,6 @@ namespace std
         /* ---------------------------------------------------------
 		    ELEMENTS I/O
 	    --------------------------------------------------------- */
-        public push<U extends T>(...items: U[]): number
-        {
-            return this.push(...items);
-        }
-
         public pushBack(element: T): void
         {
             this.push(element);
@@ -487,7 +482,7 @@ namespace std
             if (this.index <= 0)
                 return this.source.end();
             else
-                return new VectorIterator<T>(<Vector<T>>this.source, this.index - 1);
+                return new VectorIterator<T>(this.vector, this.index - 1);
         }
 
         /**
@@ -501,179 +496,16 @@ namespace std
             if (this.index >= this.source.size() - 1)
                 return this.source.end();
             else
-                return new VectorIterator<T>(<Vector<T>>this.source, this.index + 1);
+                return new VectorIterator<T>(this.vector, this.index + 1);
+        }
+
+        public advance(n: number): Iterator<T>
+        {
+            var newIndex: number = this.index + n;
+            if (newIndex < 0 || newIndex >= this.source.size())
+                return this.source.end();
+            else
+                return new VectorIterator<T>(this.vector, newIndex);
         }
     }
-    
-    //export class basicvector<_ty> 
-	   // implements array<_ty>
-    //{
-	   // [n: number]: _ty;
-
-	   // /**
-	   //  * default constructor.
-	   //  */
-	   // constructor() {}
-
-	   // /* ------------------------------------------------------------------------
-		  //  accessors
-	   // ------------------------------------------------------------------------ */
-	   // /**
-    //     * gets or sets the length of the array. this is a number one higher than the highest element defined in an array.
-    //     */
-	   // length: number;
-	
-	   // /* ------------------------------------------------------------------------
-		  //  modifiers
-	   // ------------------------------------------------------------------------ */
-	   // /**
-    //     * appends new elements to an array, and returns the new length of the array.
-    //     *
-    //     * @param items new elements of the array.
-	   //  * @return new length of the array.
-	   //  */
-	   // public push(...items: _ty[]): number { return 0; }
-	
-	   // /**
-    //     * removes the last element from an array and returns it.
-    //     */
-	   // public pop(): _ty { return null; }
-	
-	   // /**
-    //     * combines two or more arrays.
-    //     *
-    //     * @param items additional items to add to the end of array1.
-    //     */
-	   // public concat(...items: _ty[]): _ty[] { return []; }
-
-	   // /**
-    //     * adds all the elements of an array separated by the specified separator string.
-    //     *
-    //     * @param separator a string used to separate one element of an array from the next in the resulting string. if omitted, the array elements are separated with a comma.
-    //     */
-	   // public join(separator?: string): string { return ""; }
-	
-	   // /**
-    //     * reverses the elements in an array. 
-    //     */
-	   // public reverse(): _ty[] { return []; }
-
-	   // /**
-	   //  * removes the first element from an array and returns it.
-	   //  */
-	   // public shift(): _ty { return null; }
-
-	   // /** 
-	   //  * returns a section of an array.
-	   //  *
-	   //  * @param start the beginning of the specified portion of the array.
-	   //  * @param end the end of the specified portion of the array.
-	   //  */
-	   // public slice(start?: number, end?: number): _ty[] { return []; }
-
-    //    /** 
-    //     * returns a section of an array.
-    //     * @param start the beginning of the specified portion of the array.
-    //     * @param end the end of the specified portion of the array.
-    //     */
-	   // public sort(comparefn?: (a: _ty, b: _ty) => number): _ty[] { return []; }
-	
-	   // /**
-    //     * removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
-    //     *
-    //     * @param start the zero-based location in the array from which to start removing elements.
-    //     * @param deletecount the number of elements to remove.
-    //     * @param items elements to insert into the array in place of the deleted elements.
-    //     */
-	   // public splice(start: number, deletecount: number = 1, ...items: _ty[]): _ty[] { return []; }
-
-	   // /**
-	   //  * inserts new elements at the start of an array.
-	   //  *
-	   //  * @param items elements to insert at the start of the array.
-	   //  */
-	   // public unshift(...items: _ty[]): number { return 0; }
-
-	   // /**
-	   //  * returns the index of the first occurrence of a value in an array.
-	   //  *
-	   //  * @param searchelement the value to locate in the array.
-	   //  * @param fromindex the array index at which to begin the search. if fromindex is omitted, the search starts at index 0.
-	   //  */
-	   // public indexof(searchelement: _ty, fromindex?: number): number { return 0; }
-
-	   // /**
-	   //  * returns the index of the last occurrence of a specified value in an array.
-	   //  *
-	   //  * @param searchelement the value to locate in the array.
-	   //  * @param fromindex the array index at which to begin the search. if fromindex is omitted, the search starts at the last index in the array.
-	   //  */
-	   // public lastindexof(searchelement: _ty, fromindex?: number): number { return 0; }
-
-	   // /**
-	   //  * determines whether all the members of an array satisfy the specified test.
-	   //  *
-	   //  * @param callbackfn a function that accepts up to three arguments. the every method calls the callbackfn function for each element in array1 until the callbackfn returns false, or until the end of the array.
-	   //  * @param thisarg an object to which the this keyword can refer in the callbackfn function. if thisarg is omitted, undefined is used as the this value.
-	   //  */
-	   // public every(callbackfn: (value: _ty, index: number, array: _ty[]) => boolean, thisarg?: any): boolean { return false; }
-
-	   // /**
-	   //  * determines whether the specified callback function returns true for any element of an array.
-	   //  *
-	   //  * @param callbackfn a function that accepts up to three arguments. the some method calls the callbackfn function for each element in array1 until the callbackfn returns true, or until the end of the array.
-	   //  * @param thisarg an object to which the this keyword can refer in the callbackfn function. if thisarg is omitted, undefined is used as the this value.
-	   //  */
-	   // public some(callbackfn: (value: _ty, index: number, array: _ty[]) => boolean, thisarg?: any): boolean { return false; }
-
-	   // /**
-	   //  * performs the specified action for each element in an array.
-	   //  *
-	   //  * @param callbackfn a function that accepts up to three arguments. foreach calls the callbackfn function one time for each element in the array. 
-	   //  * @param thisarg an object to which the this keyword can refer in the callbackfn function. if thisarg is omitted, undefined is used as the this value.
-	   //  */
-	   // public foreach(callbackfn: (value: _ty, index: number, array: _ty[]) => void, thisarg?: any): void { }
-
-	   // /**
-	   //  * calls a defined callback function on each element of an array, and returns an array that contains the results.
-	   //  *
-	   //  * @param callbackfn a function that accepts up to three arguments. the map method calls the callbackfn function one time for each element in the array. 
-	   //  * @param thisarg an object to which the this keyword can refer in the callbackfn function. if thisarg is omitted, undefined is used as the this value.
-	   //  */
-	   // public map<u>(callbackfn: (value: _ty, index: number, array: _ty[]) => u, thisarg?: any): u[] { return []; }
-
-	   // /**
-	   //  * returns the elements of an array that meet the condition specified in a callback function.
-	   //  * 
-	   //  * @param callbackfn a function that accepts up to three arguments. the filter method calls the callbackfn function one time for each element in the array. 
-	   //  * @param thisarg an object to which the this keyword can refer in the callbackfn function. if thisarg is omitted, undefined is used as the this value.
-	   //  */
-	   // public filter(callbackfn: (value: _ty, index: number, array: _ty[]) => boolean, thisarg?: any): _ty[] { return []; }
-
-	   // /**
-	   //  * calls the specified callback function for all the elements in an array. the return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
-    //     *
-	   //  * @param callbackfn a function that accepts up to four arguments. the reduce method calls the callbackfn function one time for each element in the array.
-	   //  * @param initialvalue if initialvalue is specified, it is used as the initial value to start the accumulation. the first call to the callbackfn function provides this value as an argument instead of an array value.
-	   //  */
-	   // public reduce(callbackfn: (previousvalue: _ty, currentvalue: _ty, currentindex: number, array: _ty[]) => _ty, initialvalue?: _ty): _ty { return null; }
-
-	   // /** 
-	   //  * calls the specified callback function for all the elements in an array, in descending order. the return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
-	   //  *
-    //     * @param callbackfn a function that accepts up to four arguments. the reduceright method calls the callbackfn function one time for each element in the array. 
-	   //  * @param initialvalue if initialvalue is specified, it is used as the initial value to start the accumulation. the first call to the callbackfn function provides this value as an argument instead of an array value.
-	   //  */
-	   // public reduceright(callbackfn: (previousvalue: _ty, currentvalue: _ty, currentindex: number, array: _ty[]) => _ty, initialvalue?: _ty): _ty { return null; }
-
-	   // /* ------------------------------------------------------------------------
-		  //  exporters
-	   // ------------------------------------------------------------------------ */
-	   // /**
-	   //  * returns a string representation of an array.
-	   //  */
-	   // public tostring(): string { return ""; }
-	   // public tolocalestring(): string { return ""; }
-    //}
-    //basicvector.prototype = new array();
 }

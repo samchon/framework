@@ -29,8 +29,8 @@ namespace samchon.protocol
         protected value: any;
 
         public constructor();
-        public constructor(val: any);
         public constructor(name: string, val: any);
+        public constructor(name: string, type: string, val: any);
 
         /* -------------------------------------------------------------------
 		    CONSTRUCTORS

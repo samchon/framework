@@ -37,25 +37,65 @@ namespace samchon.protocol
 	    ------------------------------------------------------------------- */
         public constructor(listener: string);
 
-        public constructor(listener: string, ...parameters: InvokeParameter[]);
+        /**
+         * Copy Constructor. 
+         *
+         * @param invoke
+         */
+        public constructor(invoke: Invoke);
 
         public constructor(xml: library.XML);
+
+        public constructor(listener: string, begin: std.Iterator<InvokeParameter>, end: std.Iterator<InvokeParameter>);
+
+        public constructor(listener: string, ...parameters: any[]);
 
         public constructor(...args: any[])
         {
             super();
+
+            if (args.length == 0)
+            {
+                this.listener = "";
+            }
+            else if (args.length == 1 && typeof args[0] == "string")
+            {
+                var listener: string = args[0];
+
+                this.listener = listener;
+            }
+            else if (args.length == 1 && args[0] instanceof library.XML)
+            {
+                this.listener = "";
+                var xml: library.XML = args[0];
+
+                this.construct(xml);
+            }
+            else if (args.length == 1 && args[0] instanceof Invoke) 
+            {
+                var invoke: Invoke = args[0];
+
+                this.listener = invoke.listener;
+                this.assign(invoke.begin(), invoke.end());
+            }
+            else if (args.length == 3 && args[1] instanceof std.Iterator && args[2] instanceof std.Iterator)
+            {
+                var listener: string = args[0];
+                var begin: std.Iterator<InvokeParameter> = args[1];
+                var end: std.Iterator<InvokeParameter> = args[2];
+
+                this.listener = listener;
+                this.assign(begin, end);
+            }
+            else if (args.length > 1)
+            {
+                this.listener = args[0];
+
+                for (var i: number = 1; i < args.length; i++)
+                    this.pushBack(new InvokeParameter("", args[i]));
+            }
         }
-
-        /**
-         * @inheritdoc
-         */
-        public construct(xml: library.XML): void
-        {
-            this.listener = xml.getProperty("listener");
-
-            super.construct(xml);
-        }
-
+        
         /**
          * @inheritdoc
          */
@@ -111,11 +151,17 @@ namespace samchon.protocol
         /* -------------------------------------------------------------------
 		    EXPORTERS
 	    ------------------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
         public TAG(): string
         {
             return "invoke";
         }
 
+        /**
+         * @inheritdoc
+         */
         public CHILD_TAG(): string 
         {
             return "parameter";

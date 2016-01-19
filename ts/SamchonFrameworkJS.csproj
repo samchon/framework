@@ -38,6 +38,7 @@
     <TypeScriptCompile Include="samchon\example\packer\WrapperArray.ts" />
     <TypeScriptCompile Include="samchon\Global.ts" />
     <TypeScriptCompile Include="samchon\library.ts" />
+    <TypeScriptCompile Include="samchon\library\BasicEvent.ts" />
     <TypeScriptCompile Include="samchon\library\CaseGenerator.ts" />
     <TypeScriptCompile Include="samchon\library\CombinedPermutationGenerator.ts" />
     <TypeScriptCompile Include="samchon\library\FactorialGenerator.ts" />

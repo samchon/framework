@@ -48,7 +48,29 @@ namespace std
          */
         public advance(n: number): Iterator<T>
         {
-            throw new std.AbstractMethodError("Have to be overriden.");
+            var it: Iterator<T> = this;
+            var i: number;
+
+            if (n >= 0 )
+            {
+                for (i = 0; i < n; i++)
+                    if (it.equals(this.source.end()))
+                        return this.source.end();
+                    else
+                        it = it.next();
+            }
+            else
+            {
+                n = n * -1;
+
+                for (i = 0; i < n; i++)
+                    if (it.equals(this.source.end()))
+                        return this.source.end();
+                    else
+                        it = it.prev();
+            }
+
+            return it;
         }
 
         /* ---------------------------------------------------------

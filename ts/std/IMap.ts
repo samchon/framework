@@ -2,30 +2,33 @@
 {
     /**
      * <p> An interface of a map. </p
-     * <ul>
-     *  <li> _Kty: Type of the keys. Each element in a map is uniquely identified by its key value. </li>
-     *  <li> _Ty: Type of the mapped value. Each element in a map stores some data as its mapped value. </li>
-     * </ul>
+     * 
+     * @taram K Type of the keys. Each element in a map is uniquely identified by its key value.
+     * @tparam T Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
      * @author Jeongho Nam
      */
-    export interface IMap<_Kty, _Ty>
+    export interface IMap<K, T>
     {
 	    /**
 	     * <p> Whether have the item or not. </p>
+	     * <p> Indicates whether a map has an item having the specified identifier. </p>
 	     *
 	     * @param key Key value of the element whose mapped value is accessed.
-	     * @return Whether the map has an item having the specified identifier
+	     * @return Whether the map has an item having the specified identifier.
 	     */
-	    has(key: _Kty): boolean;
+	    has(key: K): boolean;
 
 	    /**
 	     * <p> Get element by key. </p>
-	     * 
+	     * <p> Returns a reference to the mapped value of the element identified with key. </p>
+	     *
 	     * @param key Key value of the element whose mapped value is accessed.
+	     * @throw exception out of range.
+	     *
 	     * @return A reference object of the mapped value (_Ty)
 	     */
-	    get(key: _Kty): _Ty;
+	    get(key: K): T;
 
 	    /**
 	     * <p> Set element. </p>

@@ -22,6 +22,7 @@ namespace samchon.library
         /**
          *  No event is being processed at this time. 
          */
+        public static get NONE(): number { return 0; }
         public get NONE(): number { return 0; }
 
         /**

@@ -19,6 +19,14 @@ namespace samchon.library
 		    super();
 	    }
 
+        public getTag(): string
+        {
+            if (this.size() == 0)
+                return null;
+            else
+                return this.at(0).getTag();
+        }
+
 	    /**
 	     * <p> Convert XMLList to string. </p>
 	     *

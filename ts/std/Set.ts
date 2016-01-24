@@ -15,6 +15,9 @@ namespace std
         /* ---------------------------------------------------------
 		    CONSTRUCTORS
 	    --------------------------------------------------------- */
+        /**
+         * Default Constructor
+         */
         public constructor();
 
         public constructor(array: Array<T>);

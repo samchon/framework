@@ -1,22 +1,20 @@
-﻿/// <reference path="Container.ts" />
-
-/// <reference path="Exception.ts" />
+﻿/// <reference path="PairContainer.ts" />
 
 namespace std
 {
-    export class Iterator<T>
+    export class PairIterator<K, T>
     {
-        protected source: Container<T>;
+        protected source: PairContainer<K, T>;
 
         /* ---------------------------------------------------------
 		    CONSTRUCTORS
 	    --------------------------------------------------------- */
         /**
-         * Construct from the source Container.
+         * Construct from the source PairContainer. 
          *
-         * @param source The source Container.
+         * @param source The source PairContainer.
          */
-        public constructor(source: Container<T>)
+        public constructor(source: PairContainer<K, T>)
         {
             this.source = source;
         }
@@ -27,7 +25,7 @@ namespace std
         /**
          * Get iterator to previous element.
          */
-        public prev(): Iterator<T>
+        public prev(): PairIterator<K, T>
         {
             throw new std.AbstractMethodError("Have to be overriden.");
         }
@@ -35,7 +33,7 @@ namespace std
         /**
          * Get iterator to next element.
          */
-        public next(): Iterator<T>
+        public next(): PairIterator<K, T> 
         {
             throw new std.AbstractMethodError("Have to be overriden.");
         }
@@ -46,9 +44,9 @@ namespace std
          * @param n Number of element positions to advance.
          * @return An advanced Iterator.
          */
-        public advance(n: number): Iterator<T>
+        public advance(n: number): PairIterator<K, T>
         {
-            var it: Iterator<T> = this;
+            var it: PairIterator<K, T> = this;
             var i: number;
 
             if (n >= 0 )
@@ -79,28 +77,37 @@ namespace std
         /**
          * Get source.
          */
-        public getSource(): Container<T>
+        public getSource(): PairContainer<K, T>
         {
             return this.source;
         }
-
-        public equals<U extends T>(obj: Iterator<U>): boolean
+        
+        public equals<L extends K, U extends T>(obj: PairIterator<L, U>): boolean 
         {
             return this.source == obj.source;
         }
         
         /**
-         * Get value.
+         * Get first, key element.
          */
-        public get value(): T
+        public get first(): K
         {
             throw new std.AbstractMethodError("Have to be overriden.");
         }
 
         /**
-         * Set value.
+         * Get second, value element.
          */
-        public set value(val: T)
+        public get second(): T
+        {
+            throw new std.AbstractMethodError("Have to be overriden.");
+        }
+
+        public set first(val: K)
+        {
+            throw new std.AbstractMethodError("Have to be overriden.");
+        }
+        public set second(val: T)
         {
             throw new std.AbstractMethodError("Have to be overriden.");
         }

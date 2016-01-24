@@ -94,10 +94,6 @@ namespace samchon.library
          * properties by parsing the string. If there's children, then construct the 
          * children XML, XMLList objects, too. </p>
          *
-         * <h4> Note </h4>
-         * <p> Throwing exceptions on parsing are not defined yet. If there's some problem on
-         * the string representing the XML object, error will be occured. </p>
-         *
          * @param str A string to be parsed
 	     */
 	    public constructor(str: string = "")
@@ -374,8 +370,6 @@ namespace samchon.library
         /**
 	     * <p> Set value of the XML. </p>
 	     *
-	     * @param val The value to set
-	     *
 	     * <p> Do not abuse values for expressing member variables. </p>
 	     * <table>
 	     *	<tr>
@@ -451,7 +445,19 @@ namespace samchon.library
                 }
                 else if (items[i] instanceof XMLList)
                 {
-                    super.push(items[i]);
+                    var xmlList: XMLList = items[i];
+                    
+                    if (xmlList.empty() == true)
+                        continue;
+
+                    if (this.has(xmlList.getTag()) == true)
+                    {
+                        var myXMLList: XMLList = this.get(xmlList.getTag());
+
+                        myXMLList.insert(myXMLList.end(), xmlList.begin(), xmlList.end());
+                    }
+                    else
+                        this.set(xmlList.getTag(), xmlList);
                 }
             }
 

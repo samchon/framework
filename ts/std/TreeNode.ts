@@ -8,15 +8,15 @@
 
         protected rightChild: TreeNode<T>;
 
-        protected value: T;
-
+        protected it: ListIterator<T>;
+        
         /* -------------------------------------------------------------------
 		    CONSTRUCTORS
 	    ------------------------------------------------------------------- */
-        public constructor(parent: TreeNode<T>, value: T)
+        public constructor(parent: TreeNode<T>, it: ListIterator<T>)
         {
             this.parent = parent;
-            this.value = value;
+            this.it = it;
         }
 
         /* -------------------------------------------------------------------
@@ -37,7 +37,7 @@
 
         public getValue(): T 
         {
-            return this.value;
+            return this.it.value;
         }
 
         public size(): number
@@ -131,7 +131,7 @@
         }
         public setValue(value: T): void
         {
-            this.value = value;
+            this.it.value = value;
         }
     }
 }

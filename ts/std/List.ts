@@ -29,7 +29,7 @@ namespace std
      * of small-sized elements). </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/list/list/
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/list/list/
      * </ul>
      *
      * @author Migrated by Jeongho Nam
@@ -52,9 +52,13 @@ namespace std
          */
         protected size_: number;
 
-        /* ---------------------------------------------------------
-		    CONSTRUCTORS
-	    --------------------------------------------------------- */
+        /* =========================================================
+		    CONSTRUCTORS & SEMI-CONSTRUCTORS
+                - CONSTRUCTORS
+                - ASSIGN & CLEAR
+	    ============================================================
+            CONSTURCTORS
+        --------------------------------------------------------- */
         /**
          * Default Constructor
          */
@@ -121,6 +125,9 @@ namespace std
             }
         }
 
+        /* ---------------------------------------------------------
+		    ASSIGN & CLEAR
+	    --------------------------------------------------------- */
         public assign(size: number, val: T): void;
 
         /**
@@ -173,9 +180,12 @@ namespace std
             }
         }
 
+        /**
+         * @inheritdoc
+         */
         public clear(): void
         {
-            var it = new ListIterator<T>(this, null, null, null);
+            var it = new ListIterator(this, null, null, null);
             it.setPrev(it);
             it.setNext(it);
 
@@ -244,20 +254,37 @@ namespace std
             return this.end_.prev().value;
         }
 
-        /* ---------------------------------------------------------
+        /* =========================================================
 		    ELEMENTS I/O
+                - ITERATOR FACTORY
+                - PUSH & POP
+                - INSERT
+                - ERASE
+	    ============================================================
+		    PUSH & POP
 	    --------------------------------------------------------- */
-        public push(...args: T[]): number 
+        /**
+         * @inheritdoc
+         */
+        public push(...items: T[]): number 
         {
-            for (var i: number = 0; i < args.length; i++)
-                this.pushBack(args[i]);
+            for (var i: number = 0; i < items.length; i++)
+                this.pushBack(items[i]);
             
             return this.size();
         }
         
+        /**
+         * <p> Insert element at beginning. </p>
+         *
+         * <p> Inserts a new element at the beginning of the list, right before its current first element.
+         * This effectively increases the container size by one. </p>
+         *
+         * @param val Value to be inserted as an element.
+         */
         public pushFront(val: T): void
         {
-            var item: ListIterator<T> = new ListIterator<T>(this, null, this.begin_, val);
+            var item: ListIterator<T> = new ListIterator(this, null, this.begin_, val);
 
             // CONFIGURE BEGIN AND NEXT
             this.begin_.setPrev(item);
@@ -265,7 +292,7 @@ namespace std
             if (this.size_ == 0) 
             {
                 // IT WAS EMPTY
-                this.end_ = new ListIterator<T>(this, item, item, null);
+                this.end_ = new ListIterator(this, item, item, null);
                 item.setNext(this.end_);
             }
             else
@@ -276,10 +303,18 @@ namespace std
             this.size_++;
         }
 
+        /**
+         * <p> Add element at the end. </p> 
+         *
+         * <p> Adds a new element at the lend of the <code>List</code> container, after its current last
+         * element.This effectively increases the container size by one. </p>
+         *
+         * @param val Value to be inserted as an element.
+         */
         public pushBack(val: T): void
         {
             var prev: ListIterator<T> = <ListIterator<T>>this.end_.prev();
-            var item: ListIterator<T> = new ListIterator<T>(this, <ListIterator<T>>this.end_.prev(), this.end_, val);
+            var item: ListIterator<T> = new ListIterator(this, <ListIterator<T>>this.end_.prev(), this.end_, val);
             
             prev.setNext(item);
             this.end_.setPrev(item);
@@ -314,70 +349,187 @@ namespace std
             this.erase(this.end_.prev());
         }
         
-        public insert(myEnd: Iterator<T>, it: Iterator<T>): Iterator<T>;
-        public insert(myEnd: Iterator<T>, begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
+        /* ---------------------------------------------------------
+		    INSERT
+	    --------------------------------------------------------- */
+        /**
+         * <p> Insert an element. </p>
+         *
+         * <p> The container is extended by inserting a new element before the element at the specified 
+         * <code>position</code>. This effectively increases the List size by the amount of elements inserted. </p>
+         *
+         * <p> Unlike other standard sequence containers, <code>List</code> is specifically designed to be 
+         * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+         *
+         * <p> The arguments determine how many elements are inserted and to which values they are initialized. </p>
+         *
+         * @param position Position in the container where the new element is inserted.
+         *                 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
+         *                 type that points to elements.
+         * @param val Value to be inserted as an element.
+         *
+         * @return An iterator that points to the newly inserted element <code>val</code>.
+         */
+        public insert(position: Iterator<T>, val: T): Iterator<T>;
 
-        public insert(myEnd: Iterator<T>, begin: Iterator<T>, end: Iterator<T> = null): Iterator<T>
+        /**
+         * <p> Insert elements by repeated filling. </p> 
+         *
+         * @param position Position in the container where the new elements are inserted.
+         *                 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
+         *                 type that points to elements.
+         * @param size Number of elements to insert.
+         * @param val Value to be inserted as an element.
+         *
+         * @return An iterator that points to the first of the newly inserted elements.
+         */
+        public insert(position: Iterator<T>, size: number, val: T): Iterator<T>;
+
+        /**
+         * 
+         * @param position Position in the container where the new elements are inserted.
+         *                 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
+         *                 type that points to elements.
+         * @param begin An iterator specifying range of the begining element.
+         * @param end An iterator specifying range of the ending element.
+         *
+         * @return An iterator that points to the first of the newly inserted elements.
+         */
+        public insert(position: Iterator<T>, begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
+
+        public insert(...args: any[]): Iterator<T>
         {
-            if (this != myEnd.getSource())
-                throw new InvalidArgument("Parametric Iterator is not this Container's own.");
-            else if (end != null && begin.getSource() != end.getSource())
-                throw new InvalidArgument("Parameter begin and end are not from same container.");
-            
-            if (end == null)
-                end = begin.next();
-
-            var myPrev: ListIterator<T> = <ListIterator<T>>myEnd;
-            var myLast: ListIterator<T> = <ListIterator<T>>myEnd.next();
-            var size: number = 0;
-            
-            for (var it = begin; it.equals(end) == false; it = it.next())
-            {
-                var myIt = new ListIterator<T>(this, myPrev, null, it.value);
-                myPrev.setNext(myIt);
-
-                if (it == begin && this.empty() == true)
-                    this.begin_ = myIt;
-
-                myPrev = myIt;
-                size++;
-            }
-            myPrev.setNext(myLast);
-            myLast.setPrev(myPrev);
-            
-            this.size_ += size;
-            return myPrev;
+            if (args.length = 2)
+                return this.insertByVal(args[0], args[1]);
+            else if (args.length == 3 && typeof args[1] == "number")
+                return this.insertByRepeatingVal(args[0], args[1], args[2]);
+            else
+                return this.insertByRange(args[0], args[1], args[2]);
         }
 
+        private insertByVal(position: Iterator<T>, val: T): Iterator<T>
+        {
+            // SHIFT TO INSERT OF THE REPEATING VAL
+            return this.insertByRepeatingVal(position, 1, val);
+        }
+        private insertByRepeatingVal(position: Iterator<T>, size: number, val: T): Iterator<T>
+        {
+            if (this != position.getSource())
+                throw new InvalidArgument("Parametric iterator is not this container's own.");
+            
+            var prev: ListIterator<T> = <ListIterator<T>>position.prev();
+            var first: ListIterator<T> = null;
+            
+            for (var i: number = 0; i < size; i++)
+            {
+                // CONSTRUCT ITEM, THE NEW ELEMENT
+                var item: ListIterator<T> = new ListIterator(this, prev, null, val);
+                
+                if (i == 0)         first = item;
+                if (prev != null)   prev.setNext(item);
+                
+                // SHIFT CURRENT ITEM TO PREVIOUS
+                prev = item;
+            }
+
+            // IF WAS EMPTY, VAL IS THE BEGIN
+            if (this.empty() == true)
+                this.begin_ = first;
+
+            // CONNECT BETWEEN LAST AND POSITION
+            prev.setNext(<ListIterator<T>>position);
+            (<ListIterator<T>>position).setPrev(prev);
+
+            this.size_ += size;
+            
+            return first;
+        }
+        private insertByRange(position: Iterator<T>, begin: Iterator<T>, end: Iterator<T>): Iterator<T>
+        {
+            if (this != position.getSource())
+                throw new InvalidArgument("Parametric iterator is not this container's own.");
+
+            var prev: ListIterator<T> = <ListIterator<T>>position.prev();
+            var first: ListIterator<T> = null;
+
+            var size: number = 0;
+
+            for (var it = begin; it.equals(end) == false; it = it.next())
+            {
+                // CONSTRUCT ITEM, THE NEW ELEMENT
+                var item: ListIterator<T> = new ListIterator(this, prev, null, it.value);
+
+                if (size == 0)      first = item;
+                if (prev != null)   prev.setNext(item);
+
+                // SHIFT CURRENT ITEM TO PREVIOUS
+                prev = item;
+                size++;
+            }
+
+            // IF WAS EMPTY, FIRST ELEMENT IS THE BEGIN
+            if (this.empty() == true)
+                this.begin_ = first;
+
+            // CONNECT BETWEEN LAST AND POSITION
+            prev.setNext(<ListIterator<T>>position);
+            (<ListIterator<T>>position).setPrev(prev);
+
+            this.size_ += size;
+
+            return first;
+        }
+
+        /* ---------------------------------------------------------
+		    ERASE
+	    --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
         public erase(it: Iterator<T>): Iterator<T>;
+        
+        /**
+         * @inheritdoc
+         */
         public erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
 
-        public erase(begin: Iterator<T>, end: Iterator<T> = null): Iterator<T>
+        public erase(...args: any[]): Iterator<T>
+        {
+            if (args.length == 1)
+                return this.eraseByIterator(args[0]);
+            else
+                return this.eraseByRange(args[0], args[1]);
+        }
+        private eraseByIterator(it: Iterator<T>): Iterator<T>
+        {
+            return this.eraseByRange(it, it.next());
+        }
+        private eraseByRange(begin: Iterator<T>, end: Iterator<T>): Iterator<T>
         {
             if (this != begin.getSource() || begin.getSource() != end.getSource())
-                throw new InvalidArgument("Parametric Iterator is not this Container's own.");
+                throw new InvalidArgument("Parametric iterator is not this container's own.");
 
+            // FIND PREV AND NEXT
             var prev: ListIterator<T> = <ListIterator<T>>begin.prev();
-            var next: ListIterator<T>  = (end == null) 
-                    ? <ListIterator<T>>begin.next()
-                    : <ListIterator<T>>end.next();
+            var next: ListIterator<T>;
 
-            prev.setNext(next);
-            next.setPrev(prev);
+            if (end == null)
+                next = <ListIterator<T>>begin.next();
+            else
+                next = <ListIterator<T>>end.next();
 
             // CALCULATE THE SIZE
             var size: number = 0;
 
-            if (end != null)
-            {
-                for (var it = begin; it.equals(end) == false; it = it.next())
-                    size++;
-            }
-            else
-                size = 1;
+            for (var it = begin; it.equals(end) == false; it = it.next())
+                size++;
+
+            // SHRINK
+            prev.setNext(next);
+            next.setPrev(prev);
 
             this.size_ -= size;
-            
+
             return prev;
         }
     }
@@ -412,10 +564,17 @@ namespace std
             this.value_ = value;
         }
 
+        /**
+         * @inheritdoc
+         */
         public setPrev(prev: ListIterator<T>): void
         {
             this.prev_ = prev;
         }
+
+        /**
+         * @inheritdoc
+         */
         public setNext(next: ListIterator<T>): void
         {
             this.next_ = next;
@@ -424,6 +583,9 @@ namespace std
         /* ---------------------------------------------------------------
             ACCESSORS
         --------------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
         public equals(obj: Iterator<T>): boolean
         {
             if (obj instanceof ListIterator == false)
@@ -434,19 +596,33 @@ namespace std
             return super.equals(obj) == true && this.prev_ == it.prev_ && this.next_ == it.next_;
         }
         
+        /**
+         * @inheritdoc
+         */
         public prev(): Iterator<T>
         {
             return this.prev_;
         }
+
+        /**
+         * @inheritdoc
+         */
         public next(): Iterator<T>
         {
             return this.next_;
         }
 
+        /**
+         * @inheritdoc
+         */
         public get value(): T
         {
             return this.value_;
         }
+
+        /**
+         * @inheritdoc
+         */
         public set value(val: T)
         {
             this.value_ = val;

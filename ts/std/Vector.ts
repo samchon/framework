@@ -179,7 +179,7 @@ namespace std
          */
         public clear(): void
         {
-            this.splice(0, this.length);
+            this.erase(this.begin(), this.end());
         }
 
         /* ---------------------------------------------------------
@@ -217,7 +217,7 @@ namespace std
          */
         public empty(): boolean
         {
-            return this.length != 0;
+            return this.length == 0;
         }
 
         /**
@@ -256,7 +256,7 @@ namespace std
          */
         public front(): T
         {
-            return this[0];
+            return this.at(0);
         }
 
         /**
@@ -272,7 +272,7 @@ namespace std
          */
         public back(): T
         {
-            return this[this.length - 1];
+            return this.at(this.length - 1);
         }
 
         /* ---------------------------------------------------------
@@ -310,7 +310,7 @@ namespace std
          */
         public popBack(): void
         {
-            this.splice(this.length - 1, 1);
+            this.erase(this.end().prev());
         }
 
         public insert(position: Iterator<T>, val: T): Iterator<T>;

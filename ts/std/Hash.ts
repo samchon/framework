@@ -27,7 +27,7 @@
 
         private static codeByNumber(val: number): number
         {
-            return val;
+            return Math.abs(Math.round(val));
         }
         private static codeByString(str: string): number
         {

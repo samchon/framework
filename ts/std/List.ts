@@ -1,5 +1,6 @@
 ﻿/// <reference path="Container.ts" />
-/// <reference path="Iterator.ts" />
+
+/// <reference path="ListIterator.ts" />
 
 namespace std
 {
@@ -497,7 +498,7 @@ namespace std
         {
             if (args.length == 1)
                 return this.eraseByIterator(args[0]);
-            else
+            else if (args.length == 2)
                 return this.eraseByRange(args[0], args[1]);
         }
         private eraseByIterator(it: Iterator<T>): Iterator<T>
@@ -511,12 +512,7 @@ namespace std
 
             // FIND PREV AND NEXT
             var prev: ListIterator<T> = <ListIterator<T>>begin.prev();
-            var next: ListIterator<T>;
-
-            if (end == null)
-                next = <ListIterator<T>>begin.next();
-            else
-                next = <ListIterator<T>>end.next();
+            var next: ListIterator<T> = <ListIterator<T>>end;
 
             // CALCULATE THE SIZE
             var size: number = 0;
@@ -531,101 +527,6 @@ namespace std
             this.size_ -= size;
 
             return prev;
-        }
-    }
-    
-    export class ListIterator<T>
-        extends Iterator<T>
-    {
-        protected value_: T;
-
-        protected prev_: ListIterator<T>;
-        protected next_: ListIterator<T>;
-
-        /* ---------------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------------- */
-        /**
-         * <p> Construct from source List. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Do not create iterator directly. </p>
-         * <p> Use begin(), find() or end() in List instead. </p> 
-         *
-         * @param list The source vector to reference.
-         */
-        public constructor(source: List<T>, prev: ListIterator<T>, next: ListIterator<T>, value: T)
-        {
-            super(source);
-            
-            this.prev_ = prev;
-            this.next_ = next;
-
-            this.value_ = value;
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public setPrev(prev: ListIterator<T>): void
-        {
-            this.prev_ = prev;
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public setNext(next: ListIterator<T>): void
-        {
-            this.next_ = next;
-        }
-
-        /* ---------------------------------------------------------------
-            ACCESSORS
-        --------------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        public equals(obj: Iterator<T>): boolean
-        {
-            if (obj instanceof ListIterator == false)
-                return false;
-
-            var it: ListIterator<T> = <ListIterator<T>>obj;
-
-            return super.equals(obj) == true && this.prev_ == it.prev_ && this.next_ == it.next_;
-        }
-        
-        /**
-         * @inheritdoc
-         */
-        public prev(): Iterator<T>
-        {
-            return this.prev_;
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public next(): Iterator<T>
-        {
-            return this.next_;
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public get value(): T
-        {
-            return this.value_;
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public set value(val: T)
-        {
-            this.value_ = val;
         }
     }
 }

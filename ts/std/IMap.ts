@@ -1,14 +1,14 @@
-﻿namespace std
+﻿namespace std 
 {
     /**
-     * <p> An interface of a map. </p
+     * An interface of a map.
      * 
      * @taram K Type of the keys. Each element in a map is uniquely identified by its key value.
      * @tparam T Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
      * @author Jeongho Nam
      */
-    export interface IMap<K, T>
+    export interface IMap<K, T> 
     {
 	    /**
 	     * <p> Whether have the item or not. </p>
@@ -17,7 +17,7 @@
 	     * @param key Key value of the element whose mapped value is accessed.
 	     * @return Whether the map has an item having the specified identifier.
 	     */
-	    has(key: K): boolean;
+        has(key: K): boolean;
 
 	    /**
 	     * <p> Get element by key. </p>
@@ -28,7 +28,7 @@
 	     *
 	     * @return A reference object of the mapped value (_Ty)
 	     */
-	    get(key: K): T;
+        get(key: K): T;
 
 	    /**
 	     * <p> Set element. </p>
@@ -36,7 +36,7 @@
 	     * @param key Key value of the element whose mapped value is accessed.
 	     * @param val Value, the item.
 	     */
-	    //set(key: _Kty, value: _Ty): void;
+        //set(key: _Kty, value: _Ty): void;
 
         /**
 	     * <p> Erase an element. </p>

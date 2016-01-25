@@ -1,7 +1,6 @@
-﻿/// <reference path="Container.ts" />
+﻿/// <reference path="AbstractSet.ts" />
 
-/// <reference path="PairIterator.ts" />
-/// <reference path="List.ts" />
+/// <reference path="Hash.ts" />
 
 namespace std
 {
@@ -33,11 +32,9 @@ namespace std
      * @author Migrated by Jeongho Nam
      */
     export class UnorderedSet<T>
-        extends Container<T>
+        extends AbstractSet<T>
     {
-        private data: List<T>;
-
-        private hashGroup: Vector<Vector<UnorderedSetIterator<T>>>;
+        private hashGroup: Vector<Vector<SetIterator<T>>>;
 
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -52,50 +49,44 @@ namespace std
          */
         public constructor();
 
+        /**
+         * Construct from elements.
+         */
         public constructor(items: Array<T>);
 
+        /**
+         * Copy Constructor.
+         */
         public constructor(container: IContainer<T>);
 
+        /**
+         * Construct from range iterators.
+         */
         public constructor(begin: Iterator<T>, end: Iterator<T>);
 
         public constructor(...args: any[])
         {
-            super();
-
-            this.data = new List<T>();
-            this.hashGroup = new Vector<Vector<UnorderedSetIterator<T>>>();
-
-            if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
-                this.constructByArray(args[0]);
-            else if (args.length == 1 && args[0] instanceof Container)
-                this.constructByContainer(args[0]);
-            else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
-                this.constructByRange(args[0], args[1]);
-        }
-
-        private constructOfDefault(): void
-        {
             this.constructHashGroup();
+
+            if (args.length == 0)
+            {
+                super();
+            }
+            else if (args.length == 1)
+            {
+                super(args[0]);
+            }
+            else if (args.length == 2)
+            {
+                super(args[0], args[1]);
+            }
         }
-        private constructByArray(items: Array<T>): void
+        
+        protected constructByArray(items: Array<T>): void
         {
             this.constructHashGroup(items.length * Hash.RATIO);
 
-            for (var i: number = 0; i < items.length; i++)
-            {
-                if (this.has(items[i]) == true)
-                    continue;
-
-                this.insert(items[i]);
-            }
-        }
-        private constructByContainer(container: Container<T>): void
-        {
-            this.constructByRange(container.begin(), container.end());
-        }
-        private constructByRange(begin: Iterator<T>, end: Iterator<T>): void
-        {
-            this.assign(begin, end);
+            super.constructByArray(items);
         }
 
         /* ---------------------------------------------------------
@@ -115,9 +106,8 @@ namespace std
 
             this.constructHashGroup(size * Hash.RATIO);
 
-            // INSERT
-            for (it = begin; it.equals(end) == false; it = it.next())
-                this.insert(it.value);
+            // SUPER; INSERT
+            super.assign(begin, end);
         }
 
         /**
@@ -125,7 +115,8 @@ namespace std
          */
         public clear(): void
         {
-            this.data.clear();
+            super.clear();
+
             this.constructHashGroup();
         }
 
@@ -134,15 +125,15 @@ namespace std
 	    --------------------------------------------------------- */
         private constructHashGroup(size: number = -1): void 
         {
-            if (size < 10)
-                size = 10;
+            if (size < Hash.MIN_SIZE)
+                size = Hash.MIN_SIZE;
 
             // CLEAR
-            this.hashGroup.clear();
+            this.hashGroup = new Vector<Vector<SetIterator<T>>>();
 
             // AND INSERTS WITHI CAPACITY SIZE
             for (var i: number = 0; i < size; i++)
-                this.hashGroup.pushBack(new Vector<UnorderedSetIterator<T>>());
+                this.hashGroup.pushBack(new Vector<SetIterator<T>>());
         }
 
         private reconstructHashGroup(size: number = -1): void
@@ -155,7 +146,7 @@ namespace std
 
             //RE-INSERT ELEMENTS TO HASH GROUP
             for (var it = this.begin(); it.equals(this.end()) == false; it = it.next())
-                this.handleInsert(<UnorderedSetIterator<T>>it);
+                this.handleInsert(<SetIterator<T>>it);
         }
 
         /* =========================================================
@@ -175,103 +166,15 @@ namespace std
 
             return this.end();
         }
-
-        /**
-         * @inheritdoc
-         */
-        public begin(): Iterator<T>
-        {
-            return new UnorderedSetIterator<T>(this, <ListIterator<T>>this.data.begin());
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public end(): Iterator<T>
-        {
-            return new UnorderedSetIterator<T>(this, <ListIterator<T>>this.data.end());
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public has(val: T): boolean
-        {
-            return this.count(val) != 0;
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public count(val: T): number
-        {
-            return (this.find(val).equals(this.end()) == false) ? 1 : 0;
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public size(): number
-        {
-            return this.data.size();
-        }
-
+        
         /* =========================================================
 		    ELEMENTS I/O
                 - INSERT
-                - ERASE
                 - POST-PROCESS
-                - HASH CODE
 	    ============================================================
 		    INSERT
 	    --------------------------------------------------------- */
-        public insert(val: T): Pair<Iterator<T>, boolean>;
-
-        public insert(hint: Iterator<T>, val: T): Iterator<T>;
-
-        public insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
-
-        public insert(...args: any[]): any
-        {
-            if (args.length == 1)
-                return this.insertByVal(args[0]);
-            else if (args.length == 2 && args[0] instanceof Iterator)
-            {
-                if (args[1] instanceof Iterator && args[0].getSource() != this && args[1].getSource() != this)
-                    return this.insertByRange(args[0], args[1]);
-                else
-                    return this.insertByHint(args[0], args[1]);
-            }
-        }
-
-        private insertByVal(val: T): Pair<Iterator<T>, boolean>
-        {
-            // TEST WHETHER EXISTS
-            var it = this.find(val);
-            if (it.equals(this.end()) == false)
-                return new Pair<Iterator<T>, boolean>(it, false);
-
-            // INSERT
-            this.data.pushBack(val);
-            it = it.prev();
-
-            // POST-PROCESS
-            this.handleInsert(<UnorderedSetIterator<T>>it);
-
-            return new Pair<Iterator<T>, boolean>(it, true);
-        }
-        private insertByHint(hint: UnorderedSetIterator<T>, val: T): Iterator<T>
-        {
-            // INSERT
-            var listIterator = <ListIterator<T>>this.data.insert(hint.getListIterator(), val);
-            
-            // POST-PROCESS
-            var it = new UnorderedSetIterator(this, listIterator);
-            this.handleInsert(it);
-
-            return it;
-        }
-        private insertByRange(begin: Iterator<T>, end: Iterator<T>): void
+        protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void
         {
             // CALCULATE INSERTING SIZE
             var size: number = 0;
@@ -283,80 +186,16 @@ namespace std
                 this.reconstructHashGroup((this.size() + size) * Hash.RATIO);
 
             // INSERTS
-            for (it = begin; it.equals(end) == false; it = it.next())
-                this.insertByVal(it.value);
-        }
-
-        /* ---------------------------------------------------------
-		    ERASE
-	    --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        public erase(val: T): number;
-
-        /**
-         * @inheritdoc
-         */
-        public erase(it: Iterator<T>): Iterator<T>;
-
-        /**
-         * @inheritdoc
-         */
-        public erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
-
-        public erase(...args: any[]): any
-        {
-            if (args.length == 1)
-                if (args[0] instanceof Iterator && args[0].getSource() == this)
-                    return this.eraseByIterator(args[0]);
-                else
-                    return this.eraseByKey(args[0]);
-            else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
-                return this.eraseByRange(args[0], args[1]);
-        }
-
-        private eraseByKey(val: T): number
-        {
-            var it = this.find(val);
-            if (it.equals(this.end()) == true)
-                return 0;
-
-            this.eraseByIterator(it);
-            return 1;
-        }
-        private eraseByIterator(it: Iterator<T>): Iterator<T>
-        {
-            // ERASE
-            var listIterator = <ListIterator<T>>this.data.erase((<UnorderedSetIterator<T>>it).getListIterator());
-            
-            // POST-PROCESS
-            var resIt = new UnorderedSetIterator<T>(this, listIterator);
-            this.handleErase(resIt);
-
-            return resIt;
-        }
-        private eraseByRange(begin: Iterator<T>, end: Iterator<T>): Iterator<T>
-        {
-            // ERASE
-            var listIterator = <ListIterator<T>>
-                this.data.erase
-                (
-                    (<UnorderedSetIterator<T>>begin).getListIterator(), 
-                    (<UnorderedSetIterator<T>>end).getListIterator()
-                );
-            
-            // POST-PROCESS
-            for (var it = begin; it.equals(this.end()) == false; it = it.next())
-                this.handleErase(<UnorderedSetIterator<T>>it);
-
-            return new UnorderedSetIterator<T>(this, listIterator);
+            super.insertByRange(begin, end);
         }
 
         /* ---------------------------------------------------------
 		    POST-PROCESS
 	    --------------------------------------------------------- */
-        protected handleInsert(item: UnorderedSetIterator<T>): void
+        /**
+         * @inheritdoc
+         */
+        protected handleInsert(item: SetIterator<T>): void
         {
             if (this.size() > this.hashGroup.size() * Hash.MAX_RATIO)
                 this.reconstructHashGroup();
@@ -365,7 +204,10 @@ namespace std
             this.hashGroup.at(index).push(item);
         }
 
-        protected handleErase(item: UnorderedSetIterator<T>): void
+        /**
+         * @inheritdoc
+         */
+        protected handleErase(item: SetIterator<T>): void
         {
             var index: number = this.hashIndex(item.value);
             var hashArray = this.hashGroup.at(index);
@@ -381,93 +223,6 @@ namespace std
         private hashIndex(val: any): number
         {
             return Hash.code(val) % this.hashGroup.size();
-        }
-    }
-
-    /**
-     * <p> An iterator of a UnorderedSet. </p>
-     * 
-     * @author Jeongho Nam
-     */
-    export class UnorderedSetIterator<T>
-        extends Iterator<T>
-    {
-        private it: ListIterator<T>;
-
-        /**
-         * <p> Construct from source and index number. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Do not create iterator directly. </p>
-         * <p> Use begin(), find() or end() in Map instead. </p> 
-         *
-         * @param map The source Set to reference.
-         * @param index Sequence number of the element in the source Set.
-         */
-        public constructor(source: UnorderedSet<T>, it: ListIterator<T>)
-        {
-            super(source);
-
-            this.it = it;
-        }
-
-        public getListIterator(): ListIterator<T>
-        {
-            return this.it;
-        }
-
-        /* ---------------------------------------------------------
-		    MOVERS
-	    --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        public prev(): Iterator<T>
-        {
-            return new UnorderedSetIterator<T>(<UnorderedSet<T>>this.source, <ListIterator<T>>this.prev());
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public next(): Iterator<T>
-        {
-            return new UnorderedSetIterator<T>(<UnorderedSet<T>>this.source, <ListIterator<T>>this.next());
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public advance(size: number): Iterator<T>
-        {
-            return new UnorderedSetIterator<T>(<UnorderedSet<T>>this.source, <ListIterator<T>>this.advance(size));
-        }
-
-        /* ---------------------------------------------------------
-		    ACCESSORS
-	    --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        public equals<U extends T>(obj: Iterator<U>): boolean 
-        {
-            return super.equals(obj) && this.it == (<UnorderedSetIterator<U>>obj).it;
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public get value(): T
-        {
-            return this.it.value;
-        }
-
-        /**
-         * @inheritdoc
-         */
-        public set value(val: T)
-        {
-            this.it.value = val;
         }
     }
 }

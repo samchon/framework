@@ -25,16 +25,22 @@ namespace std
 		    MOVERS
 	    --------------------------------------------------------- */
         /**
-         * Get iterator to previous element.
-         */
+	     * <p> Get iterator to previous element. </p>
+         * <p> If current iterator is the first item(equal with <code>begin()</code>), returns <code>end()</code>. </p>
+         *
+         * @return An iterator of the previous item. 
+	     */
         public prev(): Iterator<T>
         {
             throw new std.AbstractMethodError("Have to be overriden.");
         }
 
         /**
-         * Get iterator to next element.
-         */
+	     * <p> Get iterator to next element. </p>
+         * <p> If current iterator is the last item, returns <code>end()</code>. </p>
+         *
+         * @return An iterator of the next item.
+	     */
         public next(): Iterator<T>
         {
             throw new std.AbstractMethodError("Have to be overriden.");
@@ -84,13 +90,32 @@ namespace std
             return this.source;
         }
 
+        /**
+	     * <p> Whether an iterator is equal with the iterator. </p>
+         *
+	     * <p> Compare two iterators and returns whether they are equal or not. </p>
+	     *
+         * 
+	     * <h4> Note </h4> 
+         *
+         * <p> Iterator's equals() only compare souce map and index number. </p>
+         *
+         * <p> Although elements in a pair, key and value are equals, if the source map or
+         * index number is different, then the equals() will return false. If you want to
+         * compare the elements of a pair, compare them directly by yourself. </p>
+	     *
+	     * @param obj An iterator to compare
+	     * @return Indicates whether equal or not.
+	     */
         public equals<U extends T>(obj: Iterator<U>): boolean
         {
             return this.source == obj.source;
         }
         
         /**
-         * Get value.
+         * <p> Get value of the iterator is pointing. </p>
+         * 
+         * @return A value of the iterator.
          */
         public get value(): T
         {
@@ -98,7 +123,9 @@ namespace std
         }
 
         /**
-         * Set value.
+         * <p> Set value of the iterator is pointing. </p>
+         *
+         * @param val A new value of the iterator.
          */
         public set value(val: T)
         {

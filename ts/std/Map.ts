@@ -1,23 +1,90 @@
-﻿/// <reference path="Container.ts" />
-/// <reference path="Iterator.ts" />
-
-/// <refence path="TreeNode.ts" />
+﻿/// <reference path="AbstractMap.ts" />
 
 namespace std
 {
     export class Map<K, T>
-        extends PairContainer<K, T>
+        extends AbstractMap<K, T>
     {
-        protected data_: TreeNode<Pair<K, T>>;
+        /* =========================================================
+		    CONSTRUCTORS & SEMI-CONSTRUCTORS
+                - CONSTRUCTORS
+                - ASSIGN & CLEAR
+                - TREE
+	    ============================================================
+            CONSTURCTORS
+        --------------------------------------------------------- */
+        /**
+         * Default Constructor
+         */
+        public constructor();
 
-        protected size_: number;
+        public constructor(array: Array<Pair<K, T>>);
 
+        public constructor(container: PairContainer<K, T>);
+
+        public constructor(begin: PairIterator<K, T>, end: PairIterator<K, T>);
+        
         public constructor(...args: any[])
         {
             super();
+        }
 
-            this.data_ = null;
-            this.size_ = 0;
+        /* ---------------------------------------------------------
+		    ASSIGN & CLEAR
+	    --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        public assign<L extends K, U extends T>
+            (begin: PairIterator<L, U>, end: PairIterator<L, U>): void
+        {
+            super.assign(begin, end);
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public clear(): void
+        {
+            super.clear();
+        }
+
+        /* ---------------------------------------------------------
+		    TREE
+	    --------------------------------------------------------- */
+
+
+        /* =========================================================
+		    ACCESSORS
+	    ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        public find(key: K): PairIterator<K, T>
+        {
+            return this.end();
+        }
+
+        /* =========================================================
+		    ELEMENTS I/O
+                - POST-PROCESS
+	    ============================================================
+		    POST-PROCESS
+	    --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        protected handleInsert(item: PairIterator<K, T>): void
+        {
+            
+        }
+
+        /**
+         * @inheritdoc
+         */
+        protected handleErase(item: PairIterator<K, T>): void
+        {
+            
         }
     }
 }

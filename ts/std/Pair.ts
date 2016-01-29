@@ -1,4 +1,6 @@
-﻿namespace std
+/// <reference path="Object.ts" />
+
+namespace std
 {
     /**
      * <p> A pair of values. </p>
@@ -67,11 +69,6 @@
                 return std.less(this.first, pair.first);
             else
                 return std.less(this.second, pair.second);
-        }
-
-        public hashCode(): number
-        {
-            return Hash.code(this.first) + Hash.code(this.second);
         }
     }  
 }

@@ -1,4 +1,6 @@
-﻿namespace std
+/// <reference path="../Object.ts" />
+
+namespace std.base
 {
     /**
      * A static class for issuing hash code.

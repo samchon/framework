@@ -1,6 +1,9 @@
-﻿namespace std.example
+/// <reference path="../List.ts" />
+/// <reference path="../UnorderedSet.ts" />
+
+namespace std.example
 {
-    export class Container
+    export class ContainerTest
     {
         public constructor()
         {
@@ -23,7 +26,7 @@
             document.write
             (
                 "Erase of 7th element<br>\n" +
-                "Insert (-5) at 5th element<br>\n" +
+                "Insert (-5) as 5th element<br>\n" +
                 "Erase of 3rd element<br><br>\n\n"
             );
 
@@ -46,7 +49,7 @@
             document.write("<h4> UnorderedSet </h4>\n");
 
             // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-            var container = new UnorderedSet<number>();
+            var container = new UnorderedMultiSet<number>();
             for (var i: number = 0; i < 10; i++)
                 container.insert(i);
 
@@ -57,7 +60,7 @@
                 "Insert -5<br>\n" +
                 "Erase 3<br><br>\n\n"
             );
-
+            
             container.erase(7);
             container.insert(-5);
             container.insert(-5);
@@ -74,12 +77,22 @@
             for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
                 document.write("<li>" + it.value + "</li>\n");
 
+			document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
+
             document.write("</ul>\n\n");
         }
 
         public static main(): void
         {
-            new Container();
+            new ContainerTest();
+
+			var obj: Object = new Object();
+			obj["id"] = "samchon";
+			obj["name"] = "Jeongho Nam";
+
+			std.less(obj, {});
+
+			document.writeln(JSON.stringify(obj));
         }
     }
 }

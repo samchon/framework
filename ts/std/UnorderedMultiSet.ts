@@ -1,4 +1,4 @@
-﻿/// <reference path="base/UniqueSet.ts" />
+﻿/// <reference path="base/MultiSet.ts" />
 
 /// <reference path="base/Hash.ts" />
 
@@ -31,8 +31,8 @@ namespace std
      *
      * @author Migrated by Jeongho Nam
      */
-    export class UnorderedSet<T>
-        extends base.UniqueSet<T>
+    export class UnorderedMultiSet<T>
+        extends base.MultiSet<T>
     {
         private hashGroup: Vector<Vector<SetIterator<T>>>;
 
@@ -83,7 +83,7 @@ namespace std
                 this.constructByRange(args[0], args[1]);
             }
         }
-        
+
         protected constructByArray(items: Array<T>): void
         {
             this.constructHashGroup(items.length * base.Hash.RATIO);
@@ -178,20 +178,14 @@ namespace std
 	    --------------------------------------------------------- */
 		protected insertByVal(val: T): any
 		{
-            // TEST WHETHER EXIST
-            var it = this.find(val);
-            if (it.equals(this.end()) == false)
-                return new Pair<Iterator<T>, boolean>(it, false);
+            // insert
+            var listIterator = <ListIterator<T>>this.data.insert(this.data.end(), val);
 
-            // INSERT
-            this.data.pushBack(val);
-            it = it.prev();
+			var it = new SetIterator<T>(this, listIterator);
+			this.handleInsert(it);
 
-            // POST-PROCESS
-            this.handleInsert(<SetIterator<T>>it);
-
-            return new Pair<Iterator<T>, boolean>(it, true);
-        }
+			return it;
+		}
 
         protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void
         {
@@ -230,7 +224,7 @@ namespace std
         {
             var index: number = this.hashIndex(item.value);
             var hashArray = this.hashGroup.at(index);
-            
+
             for (var it = hashArray.begin(); it.equals(hashArray.end()) == false; it = it.next())
                 if (it.value == item)
                 {
@@ -238,7 +232,7 @@ namespace std
                     break;
                 }
         }
-        
+
         private hashIndex(val: any): number
         {
             return base.Hash.code(val) % this.hashGroup.size();

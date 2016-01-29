@@ -19,7 +19,7 @@ namespace samchon.protocol.slave
      * @inheritdoc
      * @author Jeongho Nam
      */
-    export class SlaveSystem
+    export abstract class SlaveSystem
         extends ExternalSystem
     {
         /**

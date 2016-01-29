@@ -24,7 +24,7 @@
      *
      * @author Jeongho Nam
      */
-    export class Entity
+    export abstract class Entity
         implements IEntity 
     {
         /**
@@ -62,9 +62,10 @@
             }
         }
 
-        public TAG(): string { return ""; }
         public key(): any { return ""; }
 
+        public abstract TAG(): string;
+        
         public toXML(): library.XML
         {
             var xml: library.XML = new library.XML();

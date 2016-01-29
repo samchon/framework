@@ -1,12 +1,12 @@
-﻿/// <reference path="Container.ts" />
+﻿/// <reference path="base/Container.ts" />
 
 /// <reference path="Exception.ts" />
 
 namespace std
 {
-    export class Iterator<T>
+    export abstract class Iterator<T>
     {
-        protected source: Container<T>;
+        protected source: base.Container<T>;
 
         /* ---------------------------------------------------------
 		    CONSTRUCTORS
@@ -16,7 +16,7 @@ namespace std
          *
          * @param source The source Container.
          */
-        public constructor(source: Container<T>)
+        public constructor(source: base.Container<T>)
         {
             this.source = source;
         }
@@ -30,10 +30,7 @@ namespace std
          *
          * @return An iterator of the previous item. 
 	     */
-        public prev(): Iterator<T>
-        {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        }
+        public abstract prev(): Iterator<T>;
 
         /**
 	     * <p> Get iterator to next element. </p>
@@ -41,10 +38,7 @@ namespace std
          *
          * @return An iterator of the next item.
 	     */
-        public next(): Iterator<T>
-        {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        }
+        public abstract next(): Iterator<T>;
 
         /**
          * Advances the Iterator by n element positions.
@@ -85,7 +79,7 @@ namespace std
         /**
          * Get source.
          */
-        public getSource(): Container<T>
+        public getSource(): base.Container<T>
         {
             return this.source;
         }
@@ -119,7 +113,7 @@ namespace std
          */
         public get value(): T
         {
-            throw new std.AbstractMethodError("Have to be overriden.");
+            throw new LogicError("Have to be overriden.");
         }
 
         /**
@@ -129,7 +123,7 @@ namespace std
          */
         public set value(val: T)
         {
-            throw new std.AbstractMethodError("Have to be overriden.");
+            throw new LogicError("Have to be overriden.");
         }
     }
 }

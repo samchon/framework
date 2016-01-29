@@ -28,7 +28,7 @@ namespace samchon.protocol
      *
      * @author Jeongho Nam
      */
-    export class ExternalSystemArray
+    export abstract class ExternalSystemArray
         extends EntityArray<ExternalSystem>
         implements IProtocol
     {

@@ -16,7 +16,7 @@ namespace samchon.library
      * 
      * @author Jeongho Nam
      */
-    export class CaseGenerator
+    export abstract class CaseGenerator
     {
         /**
          * <p> Size, the number of all cases. </p>
@@ -83,9 +83,6 @@ namespace samchon.library
          * @param index Index number
 	     * @return The row of the index'th in combined permuation case
 	     */
-        public at(index: number): Array<number>
-        {
-            throw new std.AbstractMethodError("Don't create CaseGenerator directly.");
-        }
-}
+        public abstract at(index: number): Array<number>;
+    }
 }

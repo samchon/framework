@@ -1,67 +1,69 @@
-﻿/// <reference path="Container.ts" />
+/// <reference path="Container.ts" />
 
-/// <reference path="SetIterator.ts" />
-/// <reference path="List.ts" />
+/// <reference path="../SetIterator.ts" />
+/// <reference path="../List.ts" />
 
-namespace std
+/// <reference path="../Pair.ts" />
+
+namespace std.base
 {
     /**
      * Abstract Set.
      *
      * @author Jeongho Nam
      */
-    export class AbstractSet<T>
+    export abstract class SetContainer<T>
         extends Container<T>
     {
-        private data: List<T>;
+        protected data: List<T>;
         
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS
                 - CONSTRUCTORS
-                - ASSIGN & CLEAR7
+                - ASSIGN & CLEAR
 	    ============================================================
             CONSTURCTORS
         --------------------------------------------------------- */
         /**
          * Default Constructor.
          */
-        public constructor();
+        public constructor()//;
 
-        /**
-         * Construct from elements.
-         */
-        public constructor(items: Array<T>);
+        ///**
+        // * Construct from elements.
+        // */
+        //public constructor(items: Array<T>);
 
-        /**
-         * Copy Constructor.
-         */
-        public constructor(container: IContainer<T>);
+        ///**
+        // * Copy Constructor.
+        // */
+        //public constructor(container: IContainer<T>);
 
-        /**
-         * Construct from range iterators.
-         */
-        public constructor(begin: Iterator<T>, end: Iterator<T>);
+        ///**
+        // * Construct from range iterators.
+        // */
+        //public constructor(begin: Iterator<T>, end: Iterator<T>);
 
-        public constructor(...args: any[])
+        //public constructor(...args: any[])
         {
             super();
 
             // INITIALIZATION
             this.data = new List<T>();
             
-            // OVERLOADINGS
-            if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
-            {
-                this.constructByArray(args[0]);
-            }
-            else if (args.length == 1 && args[0] instanceof Container)
-            {
-                this.constructByContainer(args[0]);
-            }
-            else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
-            {
-                this.constructByRange(args[0], args[1]);
-            }
+            //// OVERLOADINGS
+            //if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
+            //{
+            //    this.constructByArray(args[0]);
+            //}
+            //else if (args.length == 1 && args[0] instanceof Container)
+            //{
+            //    this.constructByContainer(args[0]);
+            //}
+            //else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+            //{
+            //    this.constructByRange(args[0], args[1]);
+            //}
         }
         
         protected constructByArray(items: Array<T>): void
@@ -71,14 +73,14 @@ namespace std
                 if (this.has(items[i]) == true)
                     continue;
 
-                this.insert(items[i]);
+                this.insertByVal(items[i]);
             }
         }
-        private constructByContainer(container: Container<T>): void
+        protected constructByContainer(container: Container<T>): void
         {
             this.constructByRange(container.begin(), container.end());
         }
-        private constructByRange(begin: Iterator<T>, end: Iterator<T>): void
+        protected constructByRange(begin: Iterator<T>, end: Iterator<T>): void
         {
             this.assign(begin, end);
         }
@@ -93,7 +95,7 @@ namespace std
         {
             // INSERT
             for (var it = begin; it.equals(end) == false; it = it.next())
-                this.insert(it.value);
+                this.insertByVal(it.value);
         }
 
         /**
@@ -126,10 +128,7 @@ namespace std
          * @return An iterator to the element, if the specified value is found, 
          *         or <code>end()</code> if it is not found in the container.
          */
-        public find(val: T): Iterator<T>
-        {
-            throw new AbstractMethodError("AbstractSet.find() is not overriden.");
-        }
+        public abstract find(val: T): Iterator<T>;
 
         /**
          * @inheritdoc
@@ -171,10 +170,7 @@ namespace std
          *
          * @return The number of elements in the container with a <code>key</code>.
          */
-        public count(val: T): number
-        {
-            return (this.find(val).equals(this.end()) == false) ? 1 : 0;
-        }
+        public abstract count(val: T): number;
 
         /**
          * @inheritdoc
@@ -192,8 +188,14 @@ namespace std
 	    ============================================================
 		    INSERT
 	    --------------------------------------------------------- */
-        public insert(val: T): Pair<Iterator<T>, boolean>;
+        public push<U extends T>(...args: U[]): number
+        {
+            for (var i: number = 0; i < args.length; i++)
+                this.insertByVal(args[i]);
 
+            return this.size();
+        }
+		
         /**
          * <p> Insert element with hint. </p>
          *
@@ -217,7 +219,7 @@ namespace std
          * @param begin An iterator specifying range of the begining element.
          * @param end An iterator specifying range of the ending element.
          */
-        public insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
+        public insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
 
         public insert(...args: any[]): any
         {
@@ -232,22 +234,22 @@ namespace std
             }
         }
 
-        private insertByVal(val: T): Pair<Iterator<T>, boolean>
-        {
-            // TEST WHETHER EXISTS
-            var it = this.find(val);
-            if (it.equals(this.end()) == false)
-                return new Pair<Iterator<T>, boolean>(it, false);
+        protected abstract insertByVal(val: T): any;
+        //{
+        //    // test whether exists
+        //    var it = this.find(val);
+        //    if (it.equals(this.end()) == false)
+        //        return new pair<iterator<t>, boolean>(it, false);
 
-            // INSERT
-            this.data.pushBack(val);
-            it = it.prev();
+        //    // insert
+        //    this.data.pushback(val);
+        //    it = it.prev();
 
-            // POST-PROCESS
-            this.handleInsert(<SetIterator<T>>it);
+        //    // post-process
+        //    this.handleinsert(<setiterator<t>>it);
 
-            return new Pair<Iterator<T>, boolean>(it, true);
-        }
+        //    return new pair<iterator<t>, boolean>(it, true);
+        //}
         private insertByHint(hint: SetIterator<T>, val: T): Iterator<T>
         {
             // INSERT
@@ -363,14 +365,8 @@ namespace std
         /* ---------------------------------------------------------
 		    POST-PROCESS
 	    --------------------------------------------------------- */
-        protected handleInsert(item: SetIterator<T>): void
-        {
-            throw new AbstractMethodError("AbstractSet.handleInsert() is not overriden.");
-        }
+        protected abstract handleInsert(item: SetIterator<T>): void;
 
-        protected handleErase(item: SetIterator<T>): void
-        {
-            throw new AbstractMethodError("AbstractSet.handleErase() is not overriden.");
-        }
+        protected abstract handleErase(item: SetIterator<T>): void;
     }
 }

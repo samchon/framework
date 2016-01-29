@@ -101,7 +101,6 @@ namespace samchon.library
          */
         public preventDefault(): void
         {
-            throw new std.AbstractMethodError("BasicEvent.preventDefault() is not overriden yet.");
         }
 
         /**
@@ -110,7 +109,6 @@ namespace samchon.library
          */
         public stopImmediatePropagation()
         {
-            throw new std.AbstractMethodError("BasicEvent.stopImmediatePropagation() is not overriden yet.");
         }
 
         /**
@@ -118,7 +116,6 @@ namespace samchon.library
          */
         public stopPropagation()
         {
-            throw new std.AbstractMethodError("BasicEvent.stopPropagation() is not overriden yet.");
         }
 
         /* -------------------------------------------------------------------

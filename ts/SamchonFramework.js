@@ -100,7 +100,6 @@ var std;
             - INVALID_ARGUMENT
             - LENGTH_ERROR
             - OUT_OF_RANGE
-            - ABSTRACT_METHOD_ERROR
     ========================================================= */
     /**
      * <p> Logic error exception. </p>
@@ -158,14 +157,6 @@ var std;
         return OutOfRange;
     })(LogicError);
     std.OutOfRange = OutOfRange;
-    var AbstractMethodError = (function (_super) {
-        __extends(AbstractMethodError, _super);
-        function AbstractMethodError(what) {
-            _super.call(this, what);
-        }
-        return AbstractMethodError;
-    })(LogicError);
-    std.AbstractMethodError = AbstractMethodError;
     /* =========================================================
         + RUNTIME_ERROR
             - OVERFLOW_ERROR
@@ -229,7 +220,10 @@ var std;
     std.SystemError = SystemError;
 })(std || (std = {}));
 /// <reference path="Iterator.ts" />
+/// <reference path="IContainer.ts" />
+/// <reference path="Iterator.ts" />
 /// <reference path="Exception.ts" />
+/// <referecen path="Vector.ts" />
 var std;
 (function (std) {
     /**
@@ -256,58 +250,8 @@ var std;
         /**
          * @inheritdoc
          */
-        Container.prototype.assign = function (begin, end) {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /**
-         * @inheritdoc
-         */
         Container.prototype.clear = function () {
             this.erase(this.begin(), this.end());
-        };
-        /* ---------------------------------------------------------------
-            ELEMENTS I/O
-        --------------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        Container.prototype.push = function () {
-            var items = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                items[_i - 0] = arguments[_i];
-            }
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        Container.prototype.erase = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /* ---------------------------------------------------------------
-            GETTERS
-        --------------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        Container.prototype.begin = function () {
-            if (this.size() == 0)
-                return this.end();
-            else
-                throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /**
-         * @inheritdoc
-         */
-        Container.prototype.end = function () {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /**
-         * @inheritdoc
-         */
-        Container.prototype.size = function () {
-            throw new std.AbstractMethodError("Have to be overriden.");
         };
         /**
          * @inheritdoc
@@ -335,27 +279,6 @@ var std;
         function Iterator(source) {
             this.source = source;
         }
-        /* ---------------------------------------------------------
-            MOVERS
-        --------------------------------------------------------- */
-        /**
-         * <p> Get iterator to previous element. </p>
-         * <p> If current iterator is the first item(equal with <code>begin()</code>), returns <code>end()</code>. </p>
-         *
-         * @return An iterator of the previous item.
-         */
-        Iterator.prototype.prev = function () {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /**
-         * <p> Get iterator to next element. </p>
-         * <p> If current iterator is the last item, returns <code>end()</code>. </p>
-         *
-         * @return An iterator of the next item.
-         */
-        Iterator.prototype.next = function () {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
         /**
          * Advances the Iterator by n element positions.
          *
@@ -418,7 +341,7 @@ var std;
              * @return A value of the iterator.
              */
             get: function () {
-                throw new std.AbstractMethodError("Have to be overriden.");
+                throw new std.LogicError("Have to be overriden.");
             },
             /**
              * <p> Set value of the iterator is pointing. </p>
@@ -426,7 +349,7 @@ var std;
              * @param val A new value of the iterator.
              */
             set: function (val) {
-                throw new std.AbstractMethodError("Have to be overriden.");
+                throw new std.LogicError("Have to be overriden.");
             },
             enumerable: true,
             configurable: true
@@ -435,8 +358,370 @@ var std;
     })();
     std.Iterator = Iterator;
 })(std || (std = {}));
+/// <reference path="Iterator.ts" />
+/// <reference path="Vector.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> A bi-directional iterator of a Set. </p>
+     *
+     * @tparam T Type of the elements.
+     *
+     * @author Jeongho Nam
+     */
+    var VectorIterator = (function (_super) {
+        __extends(VectorIterator, _super);
+        /* ---------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------- */
+        /**
+         * <p> Construct from source and index number. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Do not create iterator directly. </p>
+         * <p> Use begin(), find() or end() in Vector instead. </p>
+         *
+         * @param vector The source vector to reference.
+         * @param index Sequence number of the element in the surce vector.
+         */
+        function VectorIterator(source, index) {
+            _super.call(this, source);
+            this.index = index;
+        }
+        Object.defineProperty(VectorIterator.prototype, "vector", {
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
+            get: function () {
+                return this.source;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(VectorIterator.prototype, "value", {
+            /**
+             * @inheritdoc
+             */
+            get: function () {
+                return this.vector.at(this.index);
+            },
+            /**
+             * @inheritdoc
+             */
+            set: function (val) {
+                this.vector.set(this.index, val);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @inheritdoc
+         */
+        VectorIterator.prototype.equals = function (obj) {
+            return _super.prototype.equals.call(this, obj) && this.index == obj.index;
+        };
+        /**
+         * Get index.
+         */
+        VectorIterator.prototype.getIndex = function () {
+            return this.index;
+        };
+        /* ---------------------------------------------------------
+            MOVERS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        VectorIterator.prototype.prev = function () {
+            if (this.index <= 0)
+                return this.source.end();
+            else
+                return new VectorIterator(this.vector, this.index - 1);
+        };
+        /**
+         * @inheritdoc
+         */
+        VectorIterator.prototype.next = function () {
+            if (this.index >= this.source.size() - 1)
+                return this.source.end();
+            else
+                return new VectorIterator(this.vector, this.index + 1);
+        };
+        /**
+         * @inheritdoc
+         */
+        VectorIterator.prototype.advance = function (n) {
+            var newIndex = this.index + n;
+            if (newIndex < 0 || newIndex >= this.source.size())
+                return this.source.end();
+            else
+                return new VectorIterator(this.vector, newIndex);
+        };
+        return VectorIterator;
+    })(std.Iterator);
+    std.VectorIterator = VectorIterator;
+})(std || (std = {}));
+/// <reference path="IContainer.ts" />
+/// <reference path="VectorIterator.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Vectors are sequence containers representing arrays that can change in size. </p>
+     *
+     * <p> Just like arrays, vectors use contiguous storage locations for their elements, which means that
+     * their elements can also be accessed using offsets on regular pointers to its elements, and just as
+     * efficiently as in arrays. But unlike arrays, their size can change dynamically, with their storage
+     * being handled automatically by the container. </p>
+     *
+     * <p> Internally, Vectors use a dynamically allocated array to store their elements. This array may
+     * need to be reallocated in order to grow in size when new elements are inserted, which implies
+     * allocating a new array and moving all elements to it. This is a relatively expensive task in terms
+     * of processing time, and thus, vectors do not reallocate each time an element is added to the
+     * container. </p>
+     *
+     * <p> Instead, vector containers may allocate some extra storage to accommodate for possible growth,
+     * and thus the container may have an actual capacity greater than the storage strictly needed to
+     * contain its elements (i.e., its size). Libraries can implement different strategies for growth to
+     * balance between memory usage and reallocations, but in any case, reallocations should only happen at
+     * logarithmically growing intervals of size so that the insertion of individual elements at the end of
+     * the vector can be provided with amortized constant time complexity. </p>
+     *
+     * <p> Therefore, compared to arrays, vectors consume more memory in exchange for the ability to manage
+     * storage and grow dynamically in an efficient way. </p>
+     *
+     * <p> Compared to the other dynamic sequence containers (deques, lists and forward_lists), vectors are
+     * very efficient accessing its elements (just like arrays) and relatively efficient adding or removing
+     * elements from its end. For operations that involve inserting or removing elements at positions other
+     * than the end, they perform worse than the others, and have less consistent iterators and references
+     * than Lists. </p>
+     *
+     * <ul>
+     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/vector/vector/
+     * </ul>
+     *
+     * @author Migrated by Jeongho Nam
+     */
+    var Vector = (function (_super) {
+        __extends(Vector, _super);
+        function Vector() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            if (args.length == 0) {
+            }
+            if (args.length == 1 && args[0] instanceof Array) {
+                // CONSTRUCT FROM AN ARRAY OF ITEMS
+                var array = args[0];
+                this.push.apply(this, array);
+            }
+            else if (args.length == 1 && typeof args[0] == "number") {
+                // CONSTRUCT FROM SIZE
+                var size = args[0];
+                this.length = size;
+            }
+            else if (args.length == 2 && typeof args[0] == "number") {
+                // CONSTRUCT FROM SIZE AND REPEATING VALUE
+                var size = args[0];
+                var val = args[1];
+                this.assign(size, val);
+            }
+            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof std.Container)) {
+                // COPY CONSTRUCTOR
+                var container = args[0];
+                this.assign(container.begin(), container.end());
+            }
+            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
+                // CONSTRUCT FROM INPUT ITERATORS
+                var begin = args[0];
+                var end = args[1];
+                this.assign(begin, end);
+            }
+        }
+        Vector.prototype.assign = function (first, second) {
+            this.clear();
+            if (first instanceof std.Iterator && second instanceof std.Iterator) {
+                var begin = first;
+                var end = second;
+                for (var it = begin; it.equals(end) == false; it = it.next())
+                    this.push(it.value);
+            }
+            else if (typeof first == "number") {
+                var size = first;
+                var val = second;
+                this.length = size;
+                for (var i = 0; i < size; i++)
+                    this[i] = val;
+            }
+        };
+        /**
+         * @inheritdoc
+         */
+        Vector.prototype.clear = function () {
+            this.erase(this.begin(), this.end());
+        };
+        /* ---------------------------------------------------------
+            ACCESSORS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        Vector.prototype.begin = function () {
+            if (this.size() == 0)
+                return this.end();
+            else
+                return new std.VectorIterator(this, 0);
+        };
+        /**
+         * @inheritdoc
+         */
+        Vector.prototype.end = function () {
+            return new std.VectorIterator(this, -1);
+        };
+        /**
+         * @inheritdoc
+         */
+        Vector.prototype.size = function () {
+            return this.length;
+        };
+        /**
+         * @inheritdoc
+         */
+        Vector.prototype.empty = function () {
+            return this.length == 0;
+        };
+        /**
+         * <p> Access element. </p>
+         * <p> Returns a value to the element at position <code>index</code> in the Vector.</p>
+         *
+         * <p> The function automatically checks whether n is within the bounds of valid elements in the
+         * Vector, throwing an OutOfRange exception if it is not (i.e., if <code>index</code> is greater or
+         * equal than its size). This is in contrast with member operator[], that does not check against
+         * bounds. </p>
+         *
+         * @param index Position of an element in the container.
+         *              If this is greater than or equal to the vector size, an exception of type OutOfRange
+         *              is thrown. Notice that the first element has a position of 0 (not 1).
+         *
+         * @return The element at the specified position in the container.
+         */
+        Vector.prototype.at = function (index) {
+            if (index < this.size())
+                return this[index];
+            else
+                throw new std.OutOfRange("Target index is greater than Vector's size.");
+        };
+        /**
+         * <p> Access first element. </p>
+         * <p> Returns a value in the first element of the Vector. </p>
+         *
+         * <p> Unlike member <code>Vector.begin()</code>, which returns an iterator just past this element,
+         * this function returns a direct value. </p>
+         *
+         * <p> Calling this function on an empty container causes undefined behavior. </p>
+         *
+         * @return A value in the first element of the Vector.
+         */
+        Vector.prototype.front = function () {
+            return this.at(0);
+        };
+        /**
+         * <p> Access last element. </p>
+         * <p> Returns a value in the last element of the Vector. </p>
+         *
+         * <p> Unlike member <code>Vector.end()</code>, which returns an iterator just past this element,
+         * this function returns a direct value. </p>
+         *
+         * <p> Calling this function on an empty container causes undefined behavior. </p>
+         *
+         * @return A value in the last element of the Vector.
+         */
+        Vector.prototype.back = function () {
+            return this.at(this.length - 1);
+        };
+        /* ---------------------------------------------------------
+            ELEMENTS I/O
+        --------------------------------------------------------- */
+        Vector.prototype.pushBack = function (element) {
+            this.push(element);
+        };
+        /**
+         * Replaces the element at the specified position in this list with the specified element.
+         *
+         * @param index A specified position of the value to replace.
+         * @param val A value to be stored at the specified position.
+         *
+         * @return The previous element had stored at the specified position.
+         */
+        Vector.prototype.set = function (index, val) {
+            if (index > this.length)
+                throw new std.OutOfRange("Target index is greater than Vector's size.");
+            var prev = this[index];
+            this[index] = val;
+            return prev;
+        };
+        /**
+         * <p> Delete last element. </p>
+         *
+         * <p> Removes the last element in the Vector container, effectively reducing the container
+         * <code>size</code> by one. </p>
+         */
+        Vector.prototype.popBack = function () {
+            this.erase(this.end().prev());
+        };
+        Vector.prototype.insert = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            var position = args[0];
+            if (args.length == 2 && args[1] instanceof std.Iterator == false) {
+                var val = args[1];
+                return this.insert(position, 1, val);
+            }
+            else if (args.length == 3 && typeof args[1] == "number") {
+                var size = args[1];
+                var val = args[2];
+                var spliced = this.splice(position.getIndex());
+                var inserts = [];
+                for (var i = 0; i < size; i++)
+                    inserts.push(val);
+                this.push.apply(this, spliced);
+                this.push.apply(this, inserts);
+                return new std.VectorIterator(this, position.getIndex() + inserts.length);
+            }
+            else if (args.length == 3 && args[1] instanceof std.Iterator && args[2] instanceof std.Iterator) {
+                var myEnd = args[0];
+                var begin = args[1];
+                var end = args[2];
+                var spliced = this.splice(position.getIndex());
+                var inserts = [];
+                for (var it = begin; it.equals(end) == false; it = it.next())
+                    inserts.push(it.value);
+                this.push.apply(this, spliced);
+                this.push.apply(this, inserts);
+                return new std.VectorIterator(this, myEnd.getIndex() + inserts.length);
+            }
+            else
+                throw new std.InvalidArgument("invalid parameters.");
+        };
+        Vector.prototype.erase = function (begin, end) {
+            if (end === void 0) { end = null; }
+            var startIndex = begin.getIndex();
+            if (end == null)
+                this.splice(startIndex, 1);
+            else
+                this.splice(startIndex, end.getIndex() - startIndex);
+            return new std.VectorIterator(this, startIndex);
+        };
+        return Vector;
+    })(Array);
+    std.Vector = Vector;
+})(std || (std = {}));
 /// <reference path="Container.ts" />
 /// <reference path="ListIterator.ts" />
+/// <reference path="Vector.ts" />
 var std;
 (function (std) {
     /**
@@ -874,367 +1159,114 @@ var samchon;
         })(container = example.container || (example.container = {}));
     })(example = samchon.example || (samchon.example = {}));
 })(samchon || (samchon = {}));
-/// <reference path="IContainer.ts" />
-/// <reference path="VectorIterator.ts" />
 var std;
 (function (std) {
+    function equals(val1, val2) {
+        if (val1 instanceof Object)
+            return val1.equals(val2);
+        else
+            return val1 == val2;
+    }
+    std.equals = equals;
     /**
-     * <p> Vectors are sequence containers representing arrays that can change in size. </p>
+     * <p> for less-than inequality comparison. </p>
      *
-     * <p> Just like arrays, vectors use contiguous storage locations for their elements, which means that
-     * their elements can also be accessed using offsets on regular pointers to its elements, and just as
-     * efficiently as in arrays. But unlike arrays, their size can change dynamically, with their storage
-     * being handled automatically by the container. </p>
+     * <p> Binary function object class whose call returns whether the its first argument compares less than
+     * the second. </p>
      *
-     * <p> Internally, Vectors use a dynamically allocated array to store their elements. This array may
-     * need to be reallocated in order to grow in size when new elements are inserted, which implies
-     * allocating a new array and moving all elements to it. This is a relatively expensive task in terms
-     * of processing time, and thus, vectors do not reallocate each time an element is added to the
-     * container. </p>
+     * <p> Objects of this class can be used on standard algorithms such as <code>sort</code>, <code>merge</code>. </p>
      *
-     * <p> Instead, vector containers may allocate some extra storage to accommodate for possible growth,
-     * and thus the container may have an actual capacity greater than the storage strictly needed to
-     * contain its elements (i.e., its size). Libraries can implement different strategies for growth to
-     * balance between memory usage and reallocations, but in any case, reallocations should only happen at
-     * logarithmically growing intervals of size so that the insertion of individual elements at the end of
-     * the vector can be provided with amortized constant time complexity. </p>
+     * @param val1 First element, the standard of comparison.
+     * @param val2 Second element compare with the first.
      *
-     * <p> Therefore, compared to arrays, vectors consume more memory in exchange for the ability to manage
-     * storage and grow dynamically in an efficient way. </p>
-     *
-     * <p> Compared to the other dynamic sequence containers (deques, lists and forward_lists), vectors are
-     * very efficient accessing its elements (just like arrays) and relatively efficient adding or removing
-     * elements from its end. For operations that involve inserting or removing elements at positions other
-     * than the end, they perform worse than the others, and have less consistent iterators and references
-     * than Lists. </p>
-     *
-     * <ul>
-     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/vector/vector/
-     * </ul>
-     *
-     * @author Migrated by Jeongho Nam
+     * @return Whether the first parameter is less than the second.
      */
-    var Vector = (function (_super) {
-        __extends(Vector, _super);
-        function Vector() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
-            if (args.length == 0) {
-            }
-            if (args.length == 1 && args[0] instanceof Array) {
-                // CONSTRUCT FROM AN ARRAY OF ITEMS
-                var array = args[0];
-                this.push.apply(this, array);
-            }
-            else if (args.length == 1 && typeof args[0] == "number") {
-                // CONSTRUCT FROM SIZE
-                var size = args[0];
-                this.length = size;
-            }
-            else if (args.length == 2 && typeof args[0] == "number") {
-                // CONSTRUCT FROM SIZE AND REPEATING VALUE
-                var size = args[0];
-                var val = args[1];
-                this.assign(size, val);
-            }
-            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof std.Container)) {
-                // COPY CONSTRUCTOR
-                var container = args[0];
-                this.assign(container.begin(), container.end());
-            }
-            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
-                // CONSTRUCT FROM INPUT ITERATORS
-                var begin = args[0];
-                var end = args[1];
-                this.assign(begin, end);
-            }
-        }
-        Vector.prototype.assign = function (first, second) {
-            this.clear();
-            if (first instanceof std.Iterator && second instanceof std.Iterator) {
-                var begin = first;
-                var end = second;
-                for (var it = begin; it.equals(end) == false; it = it.next())
-                    this.push(it.value);
-            }
-            else if (typeof first == "number") {
-                var size = first;
-                var val = second;
-                this.length = size;
-                for (var i = 0; i < size; i++)
-                    this[i] = val;
-            }
-        };
-        /**
-         * @inheritdoc
-         */
-        Vector.prototype.clear = function () {
-            this.erase(this.begin(), this.end());
-        };
-        /* ---------------------------------------------------------
-            ACCESSORS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        Vector.prototype.begin = function () {
-            if (this.size() == 0)
-                return this.end();
-            else
-                return new std.VectorIterator(this, 0);
-        };
-        /**
-         * @inheritdoc
-         */
-        Vector.prototype.end = function () {
-            return new std.VectorIterator(this, -1);
-        };
-        /**
-         * @inheritdoc
-         */
-        Vector.prototype.size = function () {
-            return this.length;
-        };
-        /**
-         * @inheritdoc
-         */
-        Vector.prototype.empty = function () {
-            return this.length == 0;
-        };
-        /**
-         * <p> Access element. </p>
-         * <p> Returns a value to the element at position <code>index</code> in the Vector.</p>
-         *
-         * <p> The function automatically checks whether n is within the bounds of valid elements in the
-         * Vector, throwing an OutOfRange exception if it is not (i.e., if <code>index</code> is greater or
-         * equal than its size). This is in contrast with member operator[], that does not check against
-         * bounds. </p>
-         *
-         * @param index Position of an element in the container.
-         *              If this is greater than or equal to the vector size, an exception of type OutOfRange
-         *              is thrown. Notice that the first element has a position of 0 (not 1).
-         *
-         * @return The element at the specified position in the container.
-         */
-        Vector.prototype.at = function (index) {
-            if (index < this.size())
-                return this[index];
-            else
-                throw new std.OutOfRange("Target index is greater than Vector's size.");
-        };
-        /**
-         * <p> Access first element. </p>
-         * <p> Returns a value in the first element of the Vector. </p>
-         *
-         * <p> Unlike member <code>Vector.begin()</code>, which returns an iterator just past this element,
-         * this function returns a direct value. </p>
-         *
-         * <p> Calling this function on an empty container causes undefined behavior. </p>
-         *
-         * @return A value in the first element of the Vector.
-         */
-        Vector.prototype.front = function () {
-            return this.at(0);
-        };
-        /**
-         * <p> Access last element. </p>
-         * <p> Returns a value in the last element of the Vector. </p>
-         *
-         * <p> Unlike member <code>Vector.end()</code>, which returns an iterator just past this element,
-         * this function returns a direct value. </p>
-         *
-         * <p> Calling this function on an empty container causes undefined behavior. </p>
-         *
-         * @return A value in the last element of the Vector.
-         */
-        Vector.prototype.back = function () {
-            return this.at(this.length - 1);
-        };
-        /* ---------------------------------------------------------
-            ELEMENTS I/O
-        --------------------------------------------------------- */
-        Vector.prototype.pushBack = function (element) {
-            this.push(element);
-        };
-        /**
-         * Replaces the element at the specified position in this list with the specified element.
-         *
-         * @param index A specified position of the value to replace.
-         * @param val A value to be stored at the specified position.
-         *
-         * @return The previous element had stored at the specified position.
-         */
-        Vector.prototype.set = function (index, val) {
-            if (index > this.length)
-                throw new std.OutOfRange("Target index is greater than Vector's size.");
-            var prev = this[index];
-            this[index] = val;
-            return prev;
-        };
-        /**
-         * <p> Delete last element. </p>
-         *
-         * <p> Removes the last element in the Vector container, effectively reducing the container
-         * <code>size</code> by one. </p>
-         */
-        Vector.prototype.popBack = function () {
-            this.erase(this.end().prev());
-        };
-        Vector.prototype.insert = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            var position = args[0];
-            if (args.length == 2 && args[1] instanceof std.Iterator == false) {
-                var val = args[1];
-                return this.insert(position, 1, val);
-            }
-            else if (args.length == 3 && typeof args[1] == "number") {
-                var size = args[1];
-                var val = args[2];
-                var spliced = this.splice(position.getIndex());
-                var inserts = [];
-                for (var i = 0; i < size; i++)
-                    inserts.push(val);
-                this.push.apply(this, spliced);
-                this.push.apply(this, inserts);
-                return new std.VectorIterator(this, position.getIndex() + inserts.length);
-            }
-            else if (args.length == 3 && args[1] instanceof std.Iterator && args[2] instanceof std.Iterator) {
-                var myEnd = args[0];
-                var begin = args[1];
-                var end = args[2];
-                var spliced = this.splice(position.getIndex());
-                var inserts = [];
-                for (var it = begin; it.equals(end) == false; it = it.next())
-                    inserts.push(it.value);
-                this.push.apply(this, spliced);
-                this.push.apply(this, inserts);
-                return new std.VectorIterator(this, myEnd.getIndex() + inserts.length);
-            }
-            else
-                throw new std.InvalidArgument("invalid parameters.");
-        };
-        Vector.prototype.erase = function (begin, end) {
-            if (end === void 0) { end = null; }
-            var startIndex = begin.getIndex();
-            if (end == null)
-                this.splice(startIndex, 1);
-            else
-                this.splice(startIndex, end.getIndex() - startIndex);
-            return new std.VectorIterator(this, startIndex);
-        };
-        return Vector;
-    })(Array);
-    std.Vector = Vector;
+    function less(val1, val2) {
+        if (val1 instanceof Object)
+            return val1.less(val2);
+        else
+            return val1 < val2;
+    }
+    std.less = less;
 })(std || (std = {}));
-/// <reference path="Iterator.ts" />
-/// <reference path="Vector.ts" />
+var __s_uid = 0;
+//Object.prototype["__uid"] = ++__s_uid;
+Object.prototype["equals"] =
+    function (obj) {
+        return this == obj;
+    };
+Object.prototype["less"] =
+    function (obj) {
+        return this.__getUID() < obj.__getUID();
+    };
+Object.prototype["hasCode"] =
+    function () {
+        return this.__getUID();
+        //var str: string = JSON.stringify(this);
+        //var val: number = 0;
+        //for (var i: number = 0; i < str.length; i++)
+        //    val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
+        //return val;
+    };
+Object.prototype["__getUID"] =
+    function () {
+        if (this.hasOwnProperty("__uid") == false)
+            this.__uid = ++__s_uid;
+        return this.__uid;
+    };
+/// <reference path="IObject.ts" />
 var std;
 (function (std) {
     /**
-     * <p> A bi-directional iterator of a Set. </p>
-     *
-     * @tparam T Type of the elements.
+     * A static class for issuing hash code.
      *
      * @author Jeongho Nam
      */
-    var VectorIterator = (function (_super) {
-        __extends(VectorIterator, _super);
-        /* ---------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------- */
-        /**
-         * <p> Construct from source and index number. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Do not create iterator directly. </p>
-         * <p> Use begin(), find() or end() in Vector instead. </p>
-         *
-         * @param vector The source vector to reference.
-         * @param index Sequence number of the element in the surce vector.
-         */
-        function VectorIterator(source, index) {
-            _super.call(this, source);
-            this.index = index;
+    var Hash = (function () {
+        function Hash() {
         }
-        Object.defineProperty(VectorIterator.prototype, "vector", {
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            get: function () {
-                return this.source;
-            },
+        Object.defineProperty(Hash, "MIN_SIZE", {
+            get: function () { return 10; },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(VectorIterator.prototype, "value", {
-            /**
-             * @inheritdoc
-             */
-            get: function () {
-                return this.vector.at(this.index);
-            },
-            /**
-             * @inheritdoc
-             */
-            set: function (val) {
-                this.vector.set(this.index, val);
-            },
+        Object.defineProperty(Hash, "RATIO", {
+            get: function () { return 0.8; },
             enumerable: true,
             configurable: true
         });
-        /**
-         * @inheritdoc
-         */
-        VectorIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) && this.index == obj.index;
-        };
-        /**
-         * Get index.
-         */
-        VectorIterator.prototype.getIndex = function () {
-            return this.index;
-        };
-        /* ---------------------------------------------------------
-            MOVERS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        VectorIterator.prototype.prev = function () {
-            if (this.index <= 0)
-                return this.source.end();
+        Object.defineProperty(Hash, "MAX_RATIO", {
+            get: function () { return 2.0; },
+            enumerable: true,
+            configurable: true
+        });
+        Hash.code = function (val) {
+            var type = typeof val;
+            if (type == "number")
+                return Hash.codeByNumber(val);
+            else if (type == "string")
+                return Hash.codeByString(val);
             else
-                return new VectorIterator(this.vector, this.index - 1);
+                return Hash.codeByObject(val);
         };
-        /**
-         * @inheritdoc
-         */
-        VectorIterator.prototype.next = function () {
-            if (this.index >= this.source.size() - 1)
-                return this.source.end();
-            else
-                return new VectorIterator(this.vector, this.index + 1);
+        Hash.codeByNumber = function (val) {
+            return Math.abs(Math.round(val));
         };
-        /**
-         * @inheritdoc
-         */
-        VectorIterator.prototype.advance = function (n) {
-            var newIndex = this.index + n;
-            if (newIndex < 0 || newIndex >= this.source.size())
-                return this.source.end();
-            else
-                return new VectorIterator(this.vector, newIndex);
+        Hash.codeByString = function (str) {
+            var val = 0;
+            for (var i = 0; i < str.length; i++)
+                val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
+            return val;
         };
-        return VectorIterator;
-    })(std.Iterator);
-    std.VectorIterator = VectorIterator;
+        Hash.codeByObject = function (obj) {
+            return obj.hashCode();
+        };
+        return Hash;
+    })();
+    std.Hash = Hash;
 })(std || (std = {}));
+/// <reference path="IObject.ts" />
+/// <reference path="Hash.ts" />
 var std;
 (function (std) {
     /**
@@ -1313,108 +1345,10 @@ var std;
                 this.assign(args[0], args[1]);
         }
         /**
-         * <p> Assign new content to content. </p>
-         *
-         * <p> Assigns new contents to the Container, replacing its current contents,
-         * and modifying its size accordingly. </p>
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         */
-        PairContainer.prototype.assign = function (begin, end) {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /**
-         * <p> Clear content. </p>
-         *
-         * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
-         */
-        PairContainer.prototype.clear = function () {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /* ---------------------------------------------------------
-            ACCESSORS
-        --------------------------------------------------------- */
-        /**
-         * <p> Return iterator to beginning. </p>
-         * <p> Returns an iterator referring the first element in the Container. </p>
-         *
-         * <h4> Note </h4>
-         * <p> If the container is empty, the returned iterator is same with end(). </p>
-         *
-         * @return An iterator to the first element in the container.
-         *         The iterator containes the first element's value.
-         */
-        PairContainer.prototype.begin = function () {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /**
-         * <p> Return iterator to end. </p>
-         * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
-         *
-         * <p> The past-the-end element is the theoretical element that would follow the last element in
-         * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
-         *
-         * <p> Because the ranges used by functions of the Container do not include the element reference
-         * by their closing iterator, this function is often used in combination with Container::begin() to specify
-         * a range including all the elements in the container. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
-         * element by the iterator will cause throwing exception (out of range). </p>
-         * <p> If the container is empty, this function returns the same as Container::begin(). </p>
-         *
-         * @return An iterator to the end element in the container.
-         */
-        PairContainer.prototype.end = function () {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /**
-         * <p> Get iterator to element. </p>
-         *
-         * <p> Searches the container for an element with a identifier equivalent to <code>key</code> and
-         * returns an iterator to it if found, otherwise it returns an iterator to <code>end()</code>. </p>
-         *
-         * <p> Two keys are considered equivalent if the container's comparison object returns false
-         * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
-         *
-         * <p> Another member function, <code>has()</code>, can be used to just check whether
-         * a particular key exists. </p>
-         *
-         * @param key Key to be searched for
-         * @return An iterator to the element, if an element with specified key is found, or Map::end() otherwise.
-         */
-        PairContainer.prototype.find = function (key) {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /**
-         * <p> Count elements with a specific key. </p>
-         * <p> Searches the container for elements whose key is k and returns the number of elements found. </p>
-         *
-         * @param key Key value to be searched for.
-         * @return The number of elements in the container with a <code>key</code>.
-         */
-        PairContainer.prototype.count = function (key) {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /**
-         * @inheritdoc
-         */
-        PairContainer.prototype.size = function () {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /**
          * Test whether the Container is empty.
          */
         PairContainer.prototype.empty = function () {
             return this.size() == 0;
-        };
-        PairContainer.prototype.erase = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            throw new std.AbstractMethodError("Have to be overriden.");
         };
         return PairContainer;
     })();
@@ -1435,21 +1369,6 @@ var std;
         function PairIterator(source) {
             this.source = source;
         }
-        /* ---------------------------------------------------------
-            MOVERS
-        --------------------------------------------------------- */
-        /**
-         * Get iterator to previous element.
-         */
-        PairIterator.prototype.prev = function () {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
-        /**
-         * Get iterator to next element.
-         */
-        PairIterator.prototype.next = function () {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        };
         /**
          * Advances the Iterator by n element positions.
          *
@@ -1493,10 +1412,10 @@ var std;
              * Get first, key element.
              */
             get: function () {
-                throw new std.AbstractMethodError("Have to be overriden.");
+                throw new std.LogicError("Have to be overriden.");
             },
             set: function (val) {
-                throw new std.AbstractMethodError("Have to be overriden.");
+                throw new std.LogicError("Have to be overriden.");
             },
             enumerable: true,
             configurable: true
@@ -1506,10 +1425,10 @@ var std;
              * Get second, value element.
              */
             get: function () {
-                throw new std.AbstractMethodError("Have to be overriden.");
+                throw new std.LogicError("Have to be overriden.");
             },
             set: function (val) {
-                throw new std.AbstractMethodError("Have to be overriden.");
+                throw new std.LogicError("Have to be overriden.");
             },
             enumerable: true,
             configurable: true
@@ -1583,31 +1502,6 @@ var std;
          */
         AbstractMap.prototype.clear = function () {
             this.data.clear();
-        };
-        /* =========================================================
-            ACCESSORS
-                - ITERATORS
-                - ELEMENTS
-        ============================================================
-            ITERATOR
-        --------------------------------------------------------- */
-        /**
-         * <p> Get iterator to element. </p>
-         *
-         * <p> Searches the container for an element with <code>key</code> as value and returns an iterator to it
-         * if found, otherwise it returns an iterator to <code>end()</code> (the element past the end of the
-         * container). </p>
-         *
-         * <p> Another member function, <code>count()</code>, can be used to just check whether a particular
-         * element exists. </p>
-         *
-         * @param key Key to be searched for.
-         *
-         * @return An iterator to the element, if the specified pair is found,
-         *         or <code>end()</code> if it is not found in the container.
-         */
-        AbstractMap.prototype.find = function (key) {
-            throw new std.AbstractMethodError("AbstractMap.find() is not overriden.");
         };
         /**
          * @inheritdoc
@@ -1756,15 +1650,6 @@ var std;
                 this.handleErase(it);
             return new std.MapIterator(this, listIterator);
         };
-        /* ---------------------------------------------------------
-            POST-PROCESS
-        --------------------------------------------------------- */
-        AbstractMap.prototype.handleInsert = function (item) {
-            throw new std.AbstractMethodError("AbstractSet.handleInsert() is not overriden.");
-        };
-        AbstractMap.prototype.handleErase = function (item) {
-            throw new std.AbstractMethodError("AbstractSet.handleErase() is not overriden.");
-        };
         return AbstractMap;
     })(std.PairContainer);
     std.AbstractMap = AbstractMap;
@@ -1869,56 +1754,6 @@ var std;
         return MapIterator;
     })(std.PairIterator);
     std.MapIterator = MapIterator;
-})(std || (std = {}));
-var std;
-(function (std) {
-    /**
-     * A static class for issuing hash code.
-     *
-     * @author Jeongho Nam
-     */
-    var Hash = (function () {
-        function Hash() {
-        }
-        Object.defineProperty(Hash, "MIN_SIZE", {
-            get: function () { return 10; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Hash, "RATIO", {
-            get: function () { return 0.8; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Hash, "MAX_RATIO", {
-            get: function () { return 2.0; },
-            enumerable: true,
-            configurable: true
-        });
-        Hash.code = function (val) {
-            var type = typeof val;
-            if (type == "number")
-                return Hash.codeByNumber(val);
-            else if (type == "string")
-                return Hash.codeByString(val);
-            else
-                return Hash.codeByObject(val);
-        };
-        Hash.codeByNumber = function (val) {
-            return Math.abs(Math.round(val));
-        };
-        Hash.codeByString = function (str) {
-            var val = 0;
-            for (var i = 0; i < str.length; i++)
-                val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
-            return val;
-        };
-        Hash.codeByObject = function (obj) {
-            return obj.hashCode();
-        };
-        return Hash;
-    })();
-    std.Hash = Hash;
 })(std || (std = {}));
 /// <reference path="AbstractMap.ts" />
 /// <reference path="Hash.ts" />
@@ -2868,18 +2703,6 @@ var samchon;
                     this.push(child);
                 }
             };
-            /**
-             * <p> Factory method of a child Entity. </p>
-             *
-             * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged
-             * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-             * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-             *
-             * @return A new child Entity belongs to EntityArray.
-             */
-            EntityArray.prototype.createChild = function (xml) {
-                return null;
-            };
             /* ------------------------------------------------------------------
                 GETTERS
             ------------------------------------------------------------------ */
@@ -2915,34 +2738,6 @@ var samchon;
                         return this.at(i);
                 throw Error("out of range");
             };
-            /* ------------------------------------------------------------------
-                ELEMENTS I/O
-            ------------------------------------------------------------------ */
-            //public set(key: string, entity: Ety): void
-            //{
-            //    this.push(entity);
-            //}
-            //public erase(key: string): std.Iterator<Ety>
-            //{
-            //    for (var i: number = this.length - 1; i >= 0; i--)
-            //        if (this.at(i).key() == key)
-            //        {
-            //            this.splice(i, 1);
-            //            return new std.VectorIterator<Ety>(this, i);
-            //        }
-            //    return this.end();
-            //}
-            /* ------------------------------------------------------------------
-                EXPORTERS
-            ------------------------------------------------------------------ */
-            /**
-             * @inheritdoc
-             */
-            EntityArray.prototype.TAG = function () { return ""; };
-            /**
-             * <p> A tag name of children objects. </p>
-             */
-            EntityArray.prototype.CHILD_TAG = function () { return ""; };
             /**
              * <p> Get an XML object represents the EntityArray. </p>
              *
@@ -3032,7 +2827,6 @@ var samchon;
                     }
                 }
             };
-            Entity.prototype.TAG = function () { return ""; };
             Entity.prototype.key = function () { return ""; };
             Entity.prototype.toXML = function () {
                 var xml = new samchon.library.XML();
@@ -3624,20 +3418,17 @@ var samchon;
              * Cancels the event (if it is cancelable).
              */
             BasicEvent.prototype.preventDefault = function () {
-                throw new std.AbstractMethodError("BasicEvent.preventDefault() is not overriden yet.");
             };
             /**
              * For this particular event, no other listener will be called. Neither those attached on the same element,
              * nor those attached on elements which will be traversed later (in capture phase, for instance).
              */
             BasicEvent.prototype.stopImmediatePropagation = function () {
-                throw new std.AbstractMethodError("BasicEvent.stopImmediatePropagation() is not overriden yet.");
             };
             /**
              * Stops the propagation of events further along in the DOM.
              */
             BasicEvent.prototype.stopPropagation = function () {
-                throw new std.AbstractMethodError("BasicEvent.stopPropagation() is not overriden yet.");
             };
             Object.defineProperty(BasicEvent.prototype, "type", {
                 /* -------------------------------------------------------------------
@@ -3825,15 +3616,6 @@ var samchon;
              */
             CaseGenerator.prototype.r = function () {
                 return this.r_;
-            };
-            /**
-             * <p> Get index'th case. </p>
-             *
-             * @param index Index number
-             * @return The row of the index'th in combined permuation case
-             */
-            CaseGenerator.prototype.at = function (index) {
-                throw new std.AbstractMethodError("Don't create CaseGenerator directly.");
             };
             return CaseGenerator;
         })();
@@ -4335,6 +4117,7 @@ var samchon;
 /// <reference path="Container.ts" />
 /// <reference path="SetIterator.ts" />
 /// <reference path="List.ts" />
+/// <reference path="Pair.ts" />
 var std;
 (function (std) {
     /**
@@ -4393,31 +4176,6 @@ var std;
         AbstractSet.prototype.clear = function () {
             this.data.clear();
         };
-        /* =========================================================
-            ACCESSORS
-                - ITERATORS
-                - ELEMENTS
-        ============================================================
-            ITERATOR
-        --------------------------------------------------------- */
-        /**
-         * <p> Get iterator to element. </p>
-         *
-         * <p> Searches the container for an element with <code>key</code> as value and returns an iterator to it
-         * if found, otherwise it returns an iterator to <code>end()</code> (the element past the end of the
-         * container). </p>
-         *
-         * <p> Another member function, <code>count()</code>, can be used to just check whether a particular
-         * element exists. </p>
-         *
-         * @param key Key to be searched for.
-         *
-         * @return An iterator to the element, if the specified value is found,
-         *         or <code>end()</code> if it is not found in the container.
-         */
-        AbstractSet.prototype.find = function (val) {
-            throw new std.AbstractMethodError("AbstractSet.find() is not overriden.");
-        };
         /**
          * @inheritdoc
          */
@@ -4460,6 +4218,23 @@ var std;
          */
         AbstractSet.prototype.size = function () {
             return this.data.size();
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - INSERT
+                - ERASE
+                - POST-PROCESS
+        ============================================================
+            INSERT
+        --------------------------------------------------------- */
+        AbstractSet.prototype.push = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            for (var i = 0; i < args.length; i++)
+                this.insertByVal(args[i]);
+            return this.size();
         };
         AbstractSet.prototype.insert = function () {
             var args = [];
@@ -4536,15 +4311,6 @@ var std;
             for (var it = begin; it.equals(this.end()) == false; it = it.next())
                 this.handleErase(it);
             return begin.prev();
-        };
-        /* ---------------------------------------------------------
-            POST-PROCESS
-        --------------------------------------------------------- */
-        AbstractSet.prototype.handleInsert = function (item) {
-            throw new std.AbstractMethodError("AbstractSet.handleInsert() is not overriden.");
-        };
-        AbstractSet.prototype.handleErase = function (item) {
-            throw new std.AbstractMethodError("AbstractSet.handleErase() is not overriden.");
         };
         return AbstractSet;
     })(std.Container);
@@ -5521,7 +5287,7 @@ var std;
                     container.pushBack(i);
                 // ELEMENTS I/O
                 document.write("Erase of 7th element<br>\n" +
-                    "Insert (-5) at 5th element<br>\n" +
+                    "Insert (-5) as 5th element<br>\n" +
                     "Erase of 3rd element<br><br>\n\n");
                 container.erase(container.begin().advance(7));
                 container.insert(container.begin().advance(5), -5);
@@ -5567,71 +5333,8 @@ var std;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
 /// <reference path="UnorderedMap.ts" />
-var std;
-(function (std) {
-    std.HashMap = std.UnorderedMap;
-})(std || (std = {}));
 /// <reference path="UnorderedSet.ts" />
-var std;
-(function (std) {
-    std.HashSet = std.UnorderedSet;
-})(std || (std = {}));
 /// <reference path="IMap.ts" />
-var std;
-(function (std) {
-    function equals(val1, val2) {
-        if (val1 instanceof Object)
-            return val1.equals(val2);
-        else
-            return val1 == val2;
-    }
-    std.equals = equals;
-    /**
-     * <p> for less-than inequality comparison. </p>
-     *
-     * <p> Binary function object class whose call returns whether the its first argument compares less than
-     * the second. </p>
-     *
-     * <p> Objects of this class can be used on standard algorithms such as <code>sort</code>, <code>merge</code>. </p>
-     *
-     * @param val1 First element, the standard of comparison.
-     * @param val2 Second element compare with the first.
-     *
-     * @return Whether the first parameter is less than the second.
-     */
-    function less(val1, val2) {
-        if (val1 instanceof Object)
-            return val1.less(val2);
-        else
-            return val1 < val2;
-    }
-    std.less = less;
-})(std || (std = {}));
-var __s_uid = 0;
-//Object.prototype["__uid"] = ++__s_uid;
-Object.prototype["equals"] =
-    function (obj) {
-        return this == obj;
-    };
-Object.prototype["less"] =
-    function (obj) {
-        return this.__getUID() < obj.__getUID();
-    };
-Object.prototype["hasCode"] =
-    function () {
-        return this.__getUID();
-        //var str: string = JSON.stringify(this);
-        //var val: number = 0;
-        //for (var i: number = 0; i < str.length; i++)
-        //    val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
-        //return val;
-    };
-Object.prototype["__getUID"] =
-    function () {
-        if (this.hasOwnProperty("__uid") == false)
-            this.__uid = ++__s_uid;
-        return this.__uid;
-    };
 /// <reference path="AbstractMap.ts" />
 var std;
 (function (std) {
@@ -5768,101 +5471,5 @@ var std;
         return Tree;
     })();
     std.Tree = Tree;
-})(std || (std = {}));
-var std;
-(function (std) {
-    var TreeNode = (function () {
-        /* -------------------------------------------------------------------
-            CONSTRUCTORS
-        ------------------------------------------------------------------- */
-        function TreeNode(parent, it) {
-            this.parent = parent;
-            this.it = it;
-        }
-        /* -------------------------------------------------------------------
-            ACCESSORS
-        ------------------------------------------------------------------- */
-        TreeNode.prototype.getParent = function () {
-            return this.parent;
-        };
-        TreeNode.prototype.getLeftChild = function () {
-            return this.leftChild;
-        };
-        TreeNode.prototype.getRightChild = function () {
-            return this.rightChild;
-        };
-        TreeNode.prototype.getValue = function () {
-            return this.it.value;
-        };
-        TreeNode.prototype.size = function () {
-            var size = 1;
-            if (this.leftChild != null)
-                size += this.leftChild.size();
-            if (this.rightChild != null)
-                size += this.rightChild.size();
-            return size;
-        };
-        /* -------------------------------------------------------------------
-            LINKERS
-        ------------------------------------------------------------------- */
-        TreeNode.prototype.prev = function () {
-            var node = null;
-            if (this.leftChild != null)
-                node = this.leftChild;
-            else if (this.parent != null && this.parent.leftChild != this)
-                node = this.parent.leftChild;
-            // GO TO RIGHT, RIGHT, RIGHT AND RIGHT SIDE OF CHILDREN
-            if (node != null)
-                while (node.rightChild != null)
-                    node = node.rightChild;
-            return node;
-        };
-        TreeNode.prototype.next = function () {
-            var node = null;
-            if (this.rightChild != null)
-                node = this.rightChild;
-            else if (this.parent != null && this.parent.rightChild != this)
-                node = this.parent.rightChild;
-            // GO TO LEFT, LEFT, LEFT AND LEFT SIDE OF CHILDREN
-            if (node != null)
-                while (node.leftChild != null)
-                    node = node.leftChild;
-            return node;
-        };
-        TreeNode.prototype.front = function () {
-            var node = this;
-            // TO THE TOP
-            while (node.parent != null)
-                node = node.parent;
-            // TO LEFT
-            while (node.leftChild != null)
-                node = node.leftChild;
-            return node;
-        };
-        TreeNode.prototype.back = function () {
-            var node = this;
-            // TO THE TOP
-            while (node.parent != null)
-                node = node.parent;
-            // TO RIGHT
-            while (node.rightChild != null)
-                node = node.rightChild;
-            return node;
-        };
-        /* -------------------------------------------------------------------
-            SETTERS
-        ------------------------------------------------------------------- */
-        TreeNode.prototype.setLeft = function (node) {
-            this.leftChild = node;
-        };
-        TreeNode.prototype.setRight = function (node) {
-            this.rightChild = node;
-        };
-        TreeNode.prototype.setValue = function (value) {
-            this.it.value = value;
-        };
-        return TreeNode;
-    })();
-    std.TreeNode = TreeNode;
 })(std || (std = {}));
 //# sourceMappingURL=SamchonFramework.js.map

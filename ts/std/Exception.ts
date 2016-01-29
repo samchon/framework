@@ -70,7 +70,6 @@
             - INVALID_ARGUMENT
             - LENGTH_ERROR
             - OUT_OF_RANGE
-            - ABSTRACT_METHOD_ERROR
 	========================================================= */
     /**
      * <p> Logic error exception. </p>
@@ -125,15 +124,6 @@
     }
 
     export class OutOfRange
-        extends LogicError
-    {
-        public constructor(what: string)
-        {
-            super(what);
-        }
-    }
-
-    export class AbstractMethodError
         extends LogicError
     {
         public constructor(what: string)

@@ -1,9 +1,9 @@
-﻿/// <reference path="AbstractSet.ts" />
+﻿/// <reference path="base/UniqueSet.ts" />
 
 namespace std
 {
     export class Set<T>
-        extends AbstractSet<T>
+        extends base.UniqueSet<T>
     {
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -20,7 +20,7 @@ namespace std
 
         public constructor(array: Array<T>);
 
-        public constructor(container: Container<T>);
+        public constructor(container: base.Container<T>);
 
         public constructor(begin: Iterator<T>, end: Iterator<T>);
         
@@ -66,11 +66,20 @@ namespace std
 
         /* =========================================================
 		    ELEMENTS I/O
+				- INSERT
                 - POST-PROCESS
 	    ============================================================
+		    INSERT
+	    --------------------------------------------------------- */
+        protected insertByVal(val: T): any
+		{
+
+		}
+
+		/* ---------------------------------------------------------
 		    POST-PROCESS
 	    --------------------------------------------------------- */
-        /**
+		/**
          * @inheritdoc
          */
         protected handleInsert(item: SetIterator<T>): void

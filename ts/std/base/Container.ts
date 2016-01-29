@@ -1,15 +1,18 @@
-﻿/// <reference path="Iterator.ts" />
+/// <reference path="IContainer.ts" />
 
-/// <reference path="Exception.ts" />
+/// <reference path="../Iterator.ts" />
 
-namespace std
+/// <reference path="../Exception.ts" />
+/// <referecen path="../Vector.ts" />
+
+namespace std.base
 {
     /**
      * An abstract class containing elements.
      *
      * @author Jeongho Nam
      */
-    export class Container<T>
+    export abstract class Container<T>
         implements IContainer<T>
     {
         /* ---------------------------------------------------------------
@@ -62,10 +65,7 @@ namespace std
         /**
          * @inheritdoc
          */
-        public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
-        {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        }
+        public abstract assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
 
         /**
          * @inheritdoc
@@ -81,55 +81,35 @@ namespace std
         /**
          * @inheritdoc
          */
-        public push<U extends T>(...items: U[]): number
-        {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        }
+        public abstract push<U extends T>(...items: U[]): number;
         
         /**
          * @inheritdoc
          */
-        public erase(position: Iterator<T>): Iterator<T>;
+        public abstract erase(position: Iterator<T>): Iterator<T>;
 
         /**
          * @inheritdoc
          */
-        public erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
-
-        public erase(...args: any[]): any
-        {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        }
-
+        public abstract erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+        
         /* ---------------------------------------------------------------
             GETTERS
         --------------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        public begin(): Iterator<T>
-        {
-            if (this.size() == 0)
-                return this.end();
-            else
-                throw new std.AbstractMethodError("Have to be overriden.");
-        }
+        public abstract begin(): Iterator<T>;
 
         /**
          * @inheritdoc
          */
-        public end(): Iterator<T>
-        {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        }
+        public abstract end(): Iterator<T>;
 
         /**
          * @inheritdoc
          */
-        public size(): number
-        {
-            throw new std.AbstractMethodError("Have to be overriden.");
-        }
+        public abstract size(): number;
         
         /**
          * @inheritdoc

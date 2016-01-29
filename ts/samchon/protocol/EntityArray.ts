@@ -9,7 +9,7 @@ namespace samchon.protocol
     /**
      * @inheritdoc
      */
-    export class EntityArray<Ety extends IEntity>
+    export abstract class EntityArray<Ety extends IEntity>
         extends std.Vector<Ety>
         implements std.IMap<string, Ety>
     {
@@ -97,10 +97,7 @@ namespace samchon.protocol
          *
          * @return A new child Entity belongs to EntityArray.
          */
-        protected createChild(xml: library.XML): Ety
-        {
-            return null;
-        }
+        protected abstract createChild(xml: library.XML): Ety;
         
         /* ------------------------------------------------------------------
 		    GETTERS
@@ -175,12 +172,12 @@ namespace samchon.protocol
         /**
          * @inheritdoc
          */
-        public TAG(): string { return ""; }
+        public abstract TAG(): string;
 
         /**
          * <p> A tag name of children objects. </p>
          */
-        public CHILD_TAG(): string { return ""; }
+        public abstract CHILD_TAG(): string;
 
         /**
 	     * <p> Get an XML object represents the EntityArray. </p>

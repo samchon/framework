@@ -19,7 +19,7 @@ namespace samchon
 		 */
 		class SAMCHON_FRAMEWORK_API ExternalServer
 			: public virtual ExternalSystem,
-			private virtual ServerConnector
+			public virtual ServerConnector
 		{
 		private:
 			typedef ExternalSystem super;

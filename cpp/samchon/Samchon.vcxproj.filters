@@ -1,0 +1,934 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{22a5a7c3-10f3-4bb4-9c7a-b6294e33891a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library">
+      <UniqueIdentifier>{4029a38b-8e77-4086-bcee-f5c8588965f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\common">
+      <UniqueIdentifier>{033234b7-0780-4907-9e05-1c2e52285e24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\common\critical section">
+      <UniqueIdentifier>{d30e8bee-3607-4273-8481-8404f3fbdbbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\common\critical section\container">
+      <UniqueIdentifier>{38af2682-d815-4a20-ae34-541ed4d2be6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\common\critical section\unique_lock">
+      <UniqueIdentifier>{3743fe5f-c2b4-42fb-a4ee-a0c94351d106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\common\event">
+      <UniqueIdentifier>{69a1ddc9-7bdf-4632-a428-15c9a7ebb036}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\data">
+      <UniqueIdentifier>{2599af33-ce12-4135-bd8e-d13d2715d317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\data\sql">
+      <UniqueIdentifier>{7012d251-c348-4097-93b8-9ee024808d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\data\xml">
+      <UniqueIdentifier>{1965c5db-5c44-4f54-8065-3e7ff493e6de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\data\http">
+      <UniqueIdentifier>{06941101-4e7d-46cb-8c7c-7d51edc49cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\data\datetime">
+      <UniqueIdentifier>{7b0eff33-83c2-4c0d-9403-2ae1777caf0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\utils">
+      <UniqueIdentifier>{0d1747a7-68b6-4887-bed7-95801befab0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\utils\math">
+      <UniqueIdentifier>{ba18cfd4-8117-42e4-bdc6-415f2f7935b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\utils\math\genetic algorithm">
+      <UniqueIdentifier>{ec6bc2a6-6668-4b03-af03-0e5eb5fb0325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\utils\math\case generator">
+      <UniqueIdentifier>{d19d9d35-4aff-4ab7-8473-17fbd6141d6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\utils\string">
+      <UniqueIdentifier>{cf7db92b-8d90-4d10-b0c2-eee66ec715cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\file-tree">
+      <UniqueIdentifier>{acb6358a-5ad5-45a1-abae-67f0c76dd47a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol">
+      <UniqueIdentifier>{5e535240-5d07-4f72-ab0f-3da53cc77698}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\service">
+      <UniqueIdentifier>{abd28a89-995c-43b7-b38b-13a1d1b39c02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master">
+      <UniqueIdentifier>{3de590f2-2329-4110-9953-e890d77d791d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\distributed system">
+      <UniqueIdentifier>{492bfb1f-d688-4744-8ccd-3735898b95ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\distributed system\abstract">
+      <UniqueIdentifier>{f049bce6-0bbf-4d29-88cc-26a55e3bb4d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\distributed system\server">
+      <UniqueIdentifier>{356cffc4-daeb-4dca-909f-6e46e6f718b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\distributed system\client">
+      <UniqueIdentifier>{76ec6605-0edc-46d8-b1fa-ef706142d4b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\distributed system\history">
+      <UniqueIdentifier>{b33c744b-0c12-42b0-a4d8-d2626f894857}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\parallel system">
+      <UniqueIdentifier>{eae5bbcc-9de5-4cde-968d-c0eaa46c715e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\parallel system\abstract">
+      <UniqueIdentifier>{87c22dd8-592a-40d0-80ad-747f7dc58d0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\parallel system\server">
+      <UniqueIdentifier>{bde5ede9-57bb-4aca-8c45-5861fd8693bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\parallel system\client">
+      <UniqueIdentifier>{1148f35a-e587-40c5-9bab-3f60c0c7cc38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\parallel system\history">
+      <UniqueIdentifier>{cf209bef-1e4e-492a-a54f-767d3c78896e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\slave">
+      <UniqueIdentifier>{5a039164-5160-41d0-a021-19ee7a7400ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common">
+      <UniqueIdentifier>{60798561-1bee-4432-a1c0-118fecad5603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\entity">
+      <UniqueIdentifier>{1d011c5c-36a6-4297-b43c-b2587f0e3853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\invoke">
+      <UniqueIdentifier>{8f546d5d-f4cb-40d0-a38d-9f00c8bc1080}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\basic">
+      <UniqueIdentifier>{ddcc6f68-b2aa-4d9e-a741-57b7a64b9b81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\web-socket">
+      <UniqueIdentifier>{5820dc3d-4360-4b22-87bb-5cbbf724f920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\miscellaneous">
+      <UniqueIdentifier>{bb342c21-e98e-4a24-b050-4db85bc68ea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\external system">
+      <UniqueIdentifier>{756a66d2-e9ee-47f9-a72c-2126327fd96f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\external system\abstract">
+      <UniqueIdentifier>{066740c8-7a97-4c8b-bb2a-d452cae5e396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\external system\server">
+      <UniqueIdentifier>{3c6287ac-8e6f-4629-9e99-233dbafdd4ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\external system\client">
+      <UniqueIdentifier>{d9065223-26e5-4b8f-b01e-9724e89ee288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\nam-tree">
+      <UniqueIdentifier>{f6381c60-f963-4c5c-84a9-53b787fcc888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\basic">
+      <UniqueIdentifier>{1d1d4c7a-9bfa-489b-b0ea-136b0161ae6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{e2fa2b9a-ad6c-467d-8a36-d7cf72be0451}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\nam-tree">
+      <UniqueIdentifier>{9298de0f-b23f-4204-92e0-04a441c8b89c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\basic">
+      <UniqueIdentifier>{5970f2a2-1905-4087-9eaf-35f1a2912f49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\library">
+      <UniqueIdentifier>{d3152e00-42a2-42ef-bfcd-c548c864ef4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol">
+      <UniqueIdentifier>{1af00e3c-553e-4520-a0b1-b4940b5a4a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\service">
+      <UniqueIdentifier>{a6913904-9c85-4a21-a17c-2f189611ad1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\slave">
+      <UniqueIdentifier>{aee7bc6a-a317-4ac2-9a6f-4177349de18b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\master">
+      <UniqueIdentifier>{20cd0733-d433-41f2-a4f3-4362bc1c44a7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="API.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="namtree.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\IOperator.hpp">
+      <Filter>Header Files\library\common</Filter>
+    </ClInclude>
+    <ClInclude Include="library\CriticalAllocator.hpp">
+      <Filter>Header Files\library\common\critical section</Filter>
+    </ClInclude>
+    <ClInclude Include="library\RWMutex.hpp">
+      <Filter>Header Files\library\common\critical section</Filter>
+    </ClInclude>
+    <ClInclude Include="library\Semaphore.hpp">
+      <Filter>Header Files\library\common\critical section</Filter>
+    </ClInclude>
+    <ClInclude Include="library\CriticalDictionary.hpp">
+      <Filter>Header Files\library\common\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="library\CriticalList.hpp">
+      <Filter>Header Files\library\common\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="library\CriticalMap.hpp">
+      <Filter>Header Files\library\common\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="library\CriticalSet.hpp">
+      <Filter>Header Files\library\common\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="library\CriticalVector.hpp">
+      <Filter>Header Files\library\common\critical section\container</Filter>
+    </ClInclude>
+    <ClInclude Include="library\SharedAcquire.hpp">
+      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+    </ClInclude>
+    <ClInclude Include="library\SharedReadLock.hpp">
+      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+    </ClInclude>
+    <ClInclude Include="library\SharedWriteLock.hpp">
+      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+    </ClInclude>
+    <ClInclude Include="library\UniqueAcquire.hpp">
+      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+    </ClInclude>
+    <ClInclude Include="library\UniqueReadLock.hpp">
+      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+    </ClInclude>
+    <ClInclude Include="library\UniqueWriteLock.hpp">
+      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+    </ClInclude>
+    <ClInclude Include="library\ErrorEvent.hpp">
+      <Filter>Header Files\library\common\event</Filter>
+    </ClInclude>
+    <ClInclude Include="library\Event.hpp">
+      <Filter>Header Files\library\common\event</Filter>
+    </ClInclude>
+    <ClInclude Include="library\EventDispatcher.hpp">
+      <Filter>Header Files\library\common\event</Filter>
+    </ClInclude>
+    <ClInclude Include="library\ProgressEvent.hpp">
+      <Filter>Header Files\library\common\event</Filter>
+    </ClInclude>
+    <ClInclude Include="library\MySQLi.hpp">
+      <Filter>Header Files\library\data\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="library\SQLi.hpp">
+      <Filter>Header Files\library\data\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="library\SQLLiteConnector.hpp">
+      <Filter>Header Files\library\data\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="library\SQLStatement.hpp">
+      <Filter>Header Files\library\data\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="library\TSQLi.hpp">
+      <Filter>Header Files\library\data\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="library\TSQLStatement.hpp">
+      <Filter>Header Files\library\data\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="library\XML.hpp">
+      <Filter>Header Files\library\data\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="library\XMLList.hpp">
+      <Filter>Header Files\library\data\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="library\HTTPLoader.hpp">
+      <Filter>Header Files\library\data\http</Filter>
+    </ClInclude>
+    <ClInclude Include="library\URLVariables.hpp">
+      <Filter>Header Files\library\data\http</Filter>
+    </ClInclude>
+    <ClInclude Include="library\Date.hpp">
+      <Filter>Header Files\library\data\datetime</Filter>
+    </ClInclude>
+    <ClInclude Include="library\Datetime.hpp">
+      <Filter>Header Files\library\data\datetime</Filter>
+    </ClInclude>
+    <ClInclude Include="library\Math.hpp">
+      <Filter>Header Files\library\utils\math</Filter>
+    </ClInclude>
+    <ClInclude Include="library\GAParameters.hpp">
+      <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="library\GAPopulation.hpp">
+      <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="library\GeneticAlgorithm.hpp">
+      <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="library\CaseGenerator.hpp">
+      <Filter>Header Files\library\utils\math\case generator</Filter>
+    </ClInclude>
+    <ClInclude Include="library\CombinedPermutationGenerator.hpp">
+      <Filter>Header Files\library\utils\math\case generator</Filter>
+    </ClInclude>
+    <ClInclude Include="library\FactorialGenerator.hpp">
+      <Filter>Header Files\library\utils\math\case generator</Filter>
+    </ClInclude>
+    <ClInclude Include="library\PermutationGenerator.hpp">
+      <Filter>Header Files\library\utils\math\case generator</Filter>
+    </ClInclude>
+    <ClInclude Include="library\Base64.hpp">
+      <Filter>Header Files\library\utils\string</Filter>
+    </ClInclude>
+    <ClInclude Include="library\Charset.hpp">
+      <Filter>Header Files\library\utils\string</Filter>
+    </ClInclude>
+    <ClInclude Include="library\StringUtil.hpp">
+      <Filter>Header Files\library\utils\string</Filter>
+    </ClInclude>
+    <ClInclude Include="library\FTByteFile.hpp">
+      <Filter>Header Files\library\file-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="library\FTFactory.hpp">
+      <Filter>Header Files\library\file-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="library\FTFile.hpp">
+      <Filter>Header Files\library\file-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="library\FTFolder.hpp">
+      <Filter>Header Files\library\file-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="library\FTInstance.hpp">
+      <Filter>Header Files\library\file-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="library\FTTextFile.hpp">
+      <Filter>Header Files\library\file-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master.hpp">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\service.hpp">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\slave.hpp">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\service\Client.hpp">
+      <Filter>Header Files\protocol\service</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\service\IPUserPair.hpp">
+      <Filter>Header Files\protocol\service</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\service\Server.hpp">
+      <Filter>Header Files\protocol\service</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\service\Service.hpp">
+      <Filter>Header Files\protocol\service</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\service\ServiceKeeper.hpp">
+      <Filter>Header Files\protocol\service</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\service\ServiceRole.hpp">
+      <Filter>Header Files\protocol\service</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\service\User.hpp">
+      <Filter>Header Files\protocol\service</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedSlaveSystemMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedSystem.hpp">
+      <Filter>Header Files\protocol\master\distributed system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedSystemArray.hpp">
+      <Filter>Header Files\protocol\master\distributed system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedSystemArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedSystemRole.hpp">
+      <Filter>Header Files\protocol\master\distributed system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedServer.hpp">
+      <Filter>Header Files\protocol\master\distributed system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedServerArray.hpp">
+      <Filter>Header Files\protocol\master\distributed system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedServerArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedSlaveServerMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedClient.hpp">
+      <Filter>Header Files\protocol\master\distributed system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedClientArray.hpp">
+      <Filter>Header Files\protocol\master\distributed system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedClientArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DistributedSlaveClientMediator.hpp">
+      <Filter>Header Files\protocol\master\distributed system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DSInvokeHistory.hpp">
+      <Filter>Header Files\protocol\master\distributed system\history</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\DSInvokeHistoryArray.hpp">
+      <Filter>Header Files\protocol\master\distributed system\history</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelSlaveSystemMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelSystem.hpp">
+      <Filter>Header Files\protocol\master\parallel system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelSystemArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelSystemArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelServer.hpp">
+      <Filter>Header Files\protocol\master\parallel system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelServerArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelServerArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelSlaveServerMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelClient.hpp">
+      <Filter>Header Files\protocol\master\parallel system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelClientArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelClientArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\ParallelSlaveClientMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\PRInvokeHistory.hpp">
+      <Filter>Header Files\protocol\master\parallel system\history</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\PRInvokeHistoryArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system\history</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\PRMasterHistory.hpp">
+      <Filter>Header Files\protocol\master\parallel system\history</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\master\PRMasterHistoryArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system\history</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\slave\ParallelClient.hpp">
+      <Filter>Header Files\protocol\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\slave\ParallelServer.hpp">
+      <Filter>Header Files\protocol\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\slave\ParallelSystem.hpp">
+      <Filter>Header Files\protocol\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\slave\SlaveClient.hpp">
+      <Filter>Header Files\protocol\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\slave\SlaveServer.hpp">
+      <Filter>Header Files\protocol\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\slave\SlaveSystem.hpp">
+      <Filter>Header Files\protocol\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\Entity.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\EntityArray.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\EntityGroup.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\EntityList.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\IEntityChain.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\IEntityGroup.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\IHTMLEntity.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\ISQLEntity.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\SharedEntityArray.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\SharedEntityList.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\UniqueEntityArray.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\UniqueEntityList.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\Invoke.hpp">
+      <Filter>Header Files\protocol\common\invoke</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\InvokeHistory.hpp">
+      <Filter>Header Files\protocol\common\invoke</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\InvokeHistoryArray.hpp">
+      <Filter>Header Files\protocol\common\invoke</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\InvokeParameter.hpp">
+      <Filter>Header Files\protocol\common\invoke</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\IClient.hpp">
+      <Filter>Header Files\protocol\common\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\IProtocol.hpp">
+      <Filter>Header Files\protocol\common\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\IServer.hpp">
+      <Filter>Header Files\protocol\common\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\ServerConnector.hpp">
+      <Filter>Header Files\protocol\common\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\IWebClient.hpp">
+      <Filter>Header Files\protocol\common\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\IWebClientBase.hpp">
+      <Filter>Header Files\protocol\common\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\IWebServer.hpp">
+      <Filter>Header Files\protocol\common\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\WebServerConnector.hpp">
+      <Filter>Header Files\protocol\common\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\FlashPolicyServer.hpp">
+      <Filter>Header Files\protocol\common\miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\Socket.hpp">
+      <Filter>Header Files\protocol\common\miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\ExternalSystem.hpp">
+      <Filter>Header Files\protocol\common\external system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\ExternalSystemArray.hpp">
+      <Filter>Header Files\protocol\common\external system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\ExternalSystemRole.hpp">
+      <Filter>Header Files\protocol\common\external system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\SystemRole.hpp">
+      <Filter>Header Files\protocol\common\external system\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\ExternalServer.hpp">
+      <Filter>Header Files\protocol\common\external system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\ExternalServerArray.hpp">
+      <Filter>Header Files\protocol\common\external system\server</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\ExternalClient.hpp">
+      <Filter>Header Files\protocol\common\external system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\ExternalClientArray.hpp">
+      <Filter>Header Files\protocol\common\external system\client</Filter>
+    </ClInclude>
+    <ClInclude Include="namtree\INTExplore.hpp">
+      <Filter>Header Files\nam-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="namtree\NTCriteria.hpp">
+      <Filter>Header Files\nam-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="namtree\NTEntityGroup.hpp">
+      <Filter>Header Files\nam-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="namtree\NTFactory.hpp">
+      <Filter>Header Files\nam-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="namtree\NTFile.hpp">
+      <Filter>Header Files\nam-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="namtree\NTIterator.hpp">
+      <Filter>Header Files\nam-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="namtree\NTParameter.hpp">
+      <Filter>Header Files\nam-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="namtree\NTParameterArray.hpp">
+      <Filter>Header Files\nam-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="namtree\NTParameterDetermined.hpp">
+      <Filter>Header Files\nam-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="namtree\NTSide.hpp">
+      <Filter>Header Files\nam-tree</Filter>
+    </ClInclude>
+    <ClInclude Include="ByteArray.hpp">
+      <Filter>Header Files\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Dictionary.hpp">
+      <Filter>Header Files\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexPair.hpp">
+      <Filter>Header Files\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.hpp">
+      <Filter>Header Files\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Set.hpp">
+      <Filter>Header Files\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="SmartPointer.hpp">
+      <Filter>Header Files\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="WeakString.hpp">
+      <Filter>Header Files\basic</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="namtree\INTExplore.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="namtree\NTCriteria.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="namtree\NTEntityGroup.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="namtree\NTFactory.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="namtree\NTFile.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="namtree\NTIterator.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="namtree\NTParameter.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="namtree\NTParameterArray.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="namtree\NTParameterDetermined.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="namtree\NTSide.cpp">
+      <Filter>Source Files\nam-tree</Filter>
+    </ClCompile>
+    <ClCompile Include="ByteArray.cpp">
+      <Filter>Source Files\basic</Filter>
+    </ClCompile>
+    <ClCompile Include="WeakString.cpp">
+      <Filter>Source Files\basic</Filter>
+    </ClCompile>
+    <ClCompile Include="library\Base64.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\CaseGenerator.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\Charset.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\CombinedPermutationGenerator.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\Date.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\Datetime.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\ErrorEvent.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\Event.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\FactorialGenerator.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\FTFactory.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\FTFile.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\FTFolder.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\FTInstance.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\HTTPLoader.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\Math.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\EventDispatcher.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\PermutationGenerator.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\ProgressEvent.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\RWMutex.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\Semaphore.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\SharedAcquire.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\SharedReadLock.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\SharedWriteLock.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\SQLi.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\SQLStatement.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\StringUtil.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\TSQLi.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\TSQLStatement.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\UniqueReadLock.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\UniqueWriteLock.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\URLVariables.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\XML.cpp">
+      <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\Entity.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\EntityGroup.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\ExternalClient.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\ExternalClientArray.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\ExternalServer.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\ExternalServerArray.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\ExternalSystem.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\ExternalSystemArray.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\ExternalSystemRole.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\FlashPolicyServer.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\IClient.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\IEntityChain.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\IEntityGroup.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\IHTMLEntity.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\Invoke.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\InvokeHistory.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\InvokeHistoryArray.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\InvokeParameter.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\IProtocol.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\IServer.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\ISQLEntity.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\IWebClientBase.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\IWebServer.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\ServerConnector.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\SystemRole.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\UniqueAcquire.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\WebServerConnector.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\service\Client.cpp">
+      <Filter>Source Files\protocol\service</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\service\IPUserPair.cpp">
+      <Filter>Source Files\protocol\service</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\service\Server.cpp">
+      <Filter>Source Files\protocol\service</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\service\Service.cpp">
+      <Filter>Source Files\protocol\service</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\service\ServiceKeeper.cpp">
+      <Filter>Source Files\protocol\service</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\service\ServiceRole.cpp">
+      <Filter>Source Files\protocol\service</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\service\User.cpp">
+      <Filter>Source Files\protocol\service</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\slave\ParallelClient_slave.cpp">
+      <Filter>Source Files\protocol\slave</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\slave\ParallelServer_slave.cpp">
+      <Filter>Source Files\protocol\slave</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\slave\ParallelSystem_slave.cpp">
+      <Filter>Source Files\protocol\slave</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\slave\SlaveClient.cpp">
+      <Filter>Source Files\protocol\slave</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\slave\SlaveServer.cpp">
+      <Filter>Source Files\protocol\slave</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\slave\SlaveSystem.cpp">
+      <Filter>Source Files\protocol\slave</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\DistributedSystem.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\DistributedSystemArray.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\DistributedSystemRole.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\DSInvokeHistory.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\DSInvokeHistoryArray.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelClient.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelClientArray.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelClientArrayMediator.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelServer.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelServerArray.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelServerArrayMediator.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelSlaveClientMediator.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelSlaveServerMediator.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelSlaveSystemMediator.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelSystem.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelSystemArray.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\ParallelSystemArrayMediator.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\PRInvokeHistory.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\PRInvokeHistoryArray.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\PRMasterHistory.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\master\PRMasterHistoryArray.cpp">
+      <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

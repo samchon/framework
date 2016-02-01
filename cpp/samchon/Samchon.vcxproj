@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8A582E3C-29D3-4EE5-8C64-213482D27755}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Samchon</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SAMCHON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;SAMCHON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SAMCHON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;SAMCHON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="API.hpp" />
+    <ClInclude Include="ByteArray.hpp" />
+    <ClInclude Include="Dictionary.hpp" />
+    <ClInclude Include="IndexPair.hpp" />
+    <ClInclude Include="library.hpp" />
+    <ClInclude Include="library\Base64.hpp" />
+    <ClInclude Include="library\CaseGenerator.hpp" />
+    <ClInclude Include="library\Charset.hpp" />
+    <ClInclude Include="library\CombinedPermutationGenerator.hpp" />
+    <ClInclude Include="library\CriticalAllocator.hpp" />
+    <ClInclude Include="library\CriticalDictionary.hpp" />
+    <ClInclude Include="library\CriticalList.hpp" />
+    <ClInclude Include="library\CriticalMap.hpp" />
+    <ClInclude Include="library\CriticalSet.hpp" />
+    <ClInclude Include="library\CriticalVector.hpp" />
+    <ClInclude Include="library\Date.hpp" />
+    <ClInclude Include="library\Datetime.hpp" />
+    <ClInclude Include="library\ErrorEvent.hpp" />
+    <ClInclude Include="library\Event.hpp" />
+    <ClInclude Include="library\EventDispatcher.hpp" />
+    <ClInclude Include="library\FactorialGenerator.hpp" />
+    <ClInclude Include="library\FTByteFile.hpp" />
+    <ClInclude Include="library\FTFactory.hpp" />
+    <ClInclude Include="library\FTFile.hpp" />
+    <ClInclude Include="library\FTFolder.hpp" />
+    <ClInclude Include="library\FTInstance.hpp" />
+    <ClInclude Include="library\FTTextFile.hpp" />
+    <ClInclude Include="library\GAParameters.hpp" />
+    <ClInclude Include="library\GAPopulation.hpp" />
+    <ClInclude Include="library\GeneticAlgorithm.hpp" />
+    <ClInclude Include="library\HTTPLoader.hpp" />
+    <ClInclude Include="library\IOperator.hpp" />
+    <ClInclude Include="library\Math.hpp" />
+    <ClInclude Include="library\MySQLi.hpp" />
+    <ClInclude Include="library\PermutationGenerator.hpp" />
+    <ClInclude Include="library\ProgressEvent.hpp" />
+    <ClInclude Include="library\RWMutex.hpp" />
+    <ClInclude Include="library\Semaphore.hpp" />
+    <ClInclude Include="library\SharedAcquire.hpp" />
+    <ClInclude Include="library\SharedReadLock.hpp" />
+    <ClInclude Include="library\SharedWriteLock.hpp" />
+    <ClInclude Include="library\SQLi.hpp" />
+    <ClInclude Include="library\SQLLiteConnector.hpp" />
+    <ClInclude Include="library\SQLStatement.hpp" />
+    <ClInclude Include="library\StringUtil.hpp" />
+    <ClInclude Include="library\TSQLi.hpp" />
+    <ClInclude Include="library\TSQLStatement.hpp" />
+    <ClInclude Include="library\UniqueAcquire.hpp" />
+    <ClInclude Include="library\UniqueReadLock.hpp" />
+    <ClInclude Include="library\UniqueWriteLock.hpp" />
+    <ClInclude Include="library\URLVariables.hpp" />
+    <ClInclude Include="library\XML.hpp" />
+    <ClInclude Include="library\XMLList.hpp" />
+    <ClInclude Include="Map.hpp" />
+    <ClInclude Include="namtree.hpp" />
+    <ClInclude Include="namtree\INTExplore.hpp" />
+    <ClInclude Include="namtree\NTCriteria.hpp" />
+    <ClInclude Include="namtree\NTEntityGroup.hpp" />
+    <ClInclude Include="namtree\NTFactory.hpp" />
+    <ClInclude Include="namtree\NTFile.hpp" />
+    <ClInclude Include="namtree\NTIterator.hpp" />
+    <ClInclude Include="namtree\NTParameter.hpp" />
+    <ClInclude Include="namtree\NTParameterArray.hpp" />
+    <ClInclude Include="namtree\NTParameterDetermined.hpp" />
+    <ClInclude Include="namtree\NTSide.hpp" />
+    <ClInclude Include="protocol.hpp" />
+    <ClInclude Include="protocol\Entity.hpp" />
+    <ClInclude Include="protocol\EntityArray.hpp" />
+    <ClInclude Include="protocol\EntityGroup.hpp" />
+    <ClInclude Include="protocol\EntityList.hpp" />
+    <ClInclude Include="protocol\ExternalClient.hpp" />
+    <ClInclude Include="protocol\ExternalClientArray.hpp" />
+    <ClInclude Include="protocol\ExternalServer.hpp" />
+    <ClInclude Include="protocol\ExternalServerArray.hpp" />
+    <ClInclude Include="protocol\ExternalSystem.hpp" />
+    <ClInclude Include="protocol\ExternalSystemArray.hpp" />
+    <ClInclude Include="protocol\ExternalSystemRole.hpp" />
+    <ClInclude Include="protocol\FlashPolicyServer.hpp" />
+    <ClInclude Include="protocol\IClient.hpp" />
+    <ClInclude Include="protocol\IEntityChain.hpp" />
+    <ClInclude Include="protocol\IEntityGroup.hpp" />
+    <ClInclude Include="protocol\IHTMLEntity.hpp" />
+    <ClInclude Include="protocol\Invoke.hpp" />
+    <ClInclude Include="protocol\InvokeHistory.hpp" />
+    <ClInclude Include="protocol\InvokeHistoryArray.hpp" />
+    <ClInclude Include="protocol\InvokeParameter.hpp" />
+    <ClInclude Include="protocol\IProtocol.hpp" />
+    <ClInclude Include="protocol\IServer.hpp" />
+    <ClInclude Include="protocol\ISQLEntity.hpp" />
+    <ClInclude Include="protocol\IWebClient.hpp" />
+    <ClInclude Include="protocol\IWebClientBase.hpp" />
+    <ClInclude Include="protocol\IWebServer.hpp" />
+    <ClInclude Include="protocol\master.hpp" />
+    <ClInclude Include="protocol\master\DistributedClient.hpp" />
+    <ClInclude Include="protocol\master\DistributedClientArray.hpp" />
+    <ClInclude Include="protocol\master\DistributedClientArrayMediator.hpp" />
+    <ClInclude Include="protocol\master\DistributedServer.hpp" />
+    <ClInclude Include="protocol\master\DistributedServerArray.hpp" />
+    <ClInclude Include="protocol\master\DistributedServerArrayMediator.hpp" />
+    <ClInclude Include="protocol\master\DistributedSlaveClientMediator.hpp" />
+    <ClInclude Include="protocol\master\DistributedSlaveServerMediator.hpp" />
+    <ClInclude Include="protocol\master\DistributedSlaveSystemMediator.hpp" />
+    <ClInclude Include="protocol\master\DistributedSystem.hpp" />
+    <ClInclude Include="protocol\master\DistributedSystemArray.hpp" />
+    <ClInclude Include="protocol\master\DistributedSystemArrayMediator.hpp" />
+    <ClInclude Include="protocol\master\DistributedSystemRole.hpp" />
+    <ClInclude Include="protocol\master\DSInvokeHistory.hpp" />
+    <ClInclude Include="protocol\master\DSInvokeHistoryArray.hpp" />
+    <ClInclude Include="protocol\master\ParallelClient.hpp" />
+    <ClInclude Include="protocol\master\ParallelClientArray.hpp" />
+    <ClInclude Include="protocol\master\ParallelClientArrayMediator.hpp" />
+    <ClInclude Include="protocol\master\ParallelServer.hpp" />
+    <ClInclude Include="protocol\master\ParallelServerArray.hpp" />
+    <ClInclude Include="protocol\master\ParallelServerArrayMediator.hpp" />
+    <ClInclude Include="protocol\master\ParallelSlaveClientMediator.hpp" />
+    <ClInclude Include="protocol\master\ParallelSlaveServerMediator.hpp" />
+    <ClInclude Include="protocol\master\ParallelSlaveSystemMediator.hpp" />
+    <ClInclude Include="protocol\master\ParallelSystem.hpp" />
+    <ClInclude Include="protocol\master\ParallelSystemArray.hpp" />
+    <ClInclude Include="protocol\master\ParallelSystemArrayMediator.hpp" />
+    <ClInclude Include="protocol\master\PRInvokeHistory.hpp" />
+    <ClInclude Include="protocol\master\PRInvokeHistoryArray.hpp" />
+    <ClInclude Include="protocol\master\PRMasterHistory.hpp" />
+    <ClInclude Include="protocol\master\PRMasterHistoryArray.hpp" />
+    <ClInclude Include="protocol\ServerConnector.hpp" />
+    <ClInclude Include="protocol\service.hpp" />
+    <ClInclude Include="protocol\service\Client.hpp" />
+    <ClInclude Include="protocol\service\IPUserPair.hpp" />
+    <ClInclude Include="protocol\service\Server.hpp" />
+    <ClInclude Include="protocol\service\Service.hpp" />
+    <ClInclude Include="protocol\service\ServiceKeeper.hpp" />
+    <ClInclude Include="protocol\service\ServiceRole.hpp" />
+    <ClInclude Include="protocol\service\User.hpp" />
+    <ClInclude Include="protocol\SharedEntityArray.hpp" />
+    <ClInclude Include="protocol\SharedEntityList.hpp" />
+    <ClInclude Include="protocol\slave.hpp" />
+    <ClInclude Include="protocol\slave\ParallelClient.hpp" />
+    <ClInclude Include="protocol\slave\ParallelServer.hpp" />
+    <ClInclude Include="protocol\slave\ParallelSystem.hpp" />
+    <ClInclude Include="protocol\slave\SlaveClient.hpp" />
+    <ClInclude Include="protocol\slave\SlaveServer.hpp" />
+    <ClInclude Include="protocol\slave\SlaveSystem.hpp" />
+    <ClInclude Include="protocol\Socket.hpp" />
+    <ClInclude Include="protocol\SystemRole.hpp" />
+    <ClInclude Include="protocol\UniqueEntityArray.hpp" />
+    <ClInclude Include="protocol\UniqueEntityList.hpp" />
+    <ClInclude Include="protocol\WebServerConnector.hpp" />
+    <ClInclude Include="Set.hpp" />
+    <ClInclude Include="SmartPointer.hpp" />
+    <ClInclude Include="WeakString.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ByteArray.cpp" />
+    <ClCompile Include="library\Base64.cpp" />
+    <ClCompile Include="library\CaseGenerator.cpp" />
+    <ClCompile Include="library\Charset.cpp" />
+    <ClCompile Include="library\CombinedPermutationGenerator.cpp" />
+    <ClCompile Include="library\Date.cpp" />
+    <ClCompile Include="library\Datetime.cpp" />
+    <ClCompile Include="library\ErrorEvent.cpp" />
+    <ClCompile Include="library\Event.cpp" />
+    <ClCompile Include="library\EventDispatcher.cpp" />
+    <ClCompile Include="library\FactorialGenerator.cpp" />
+    <ClCompile Include="library\FTFactory.cpp" />
+    <ClCompile Include="library\FTFile.cpp" />
+    <ClCompile Include="library\FTFolder.cpp" />
+    <ClCompile Include="library\FTInstance.cpp" />
+    <ClCompile Include="library\HTTPLoader.cpp" />
+    <ClCompile Include="library\Math.cpp" />
+    <ClCompile Include="library\PermutationGenerator.cpp" />
+    <ClCompile Include="library\ProgressEvent.cpp" />
+    <ClCompile Include="library\RWMutex.cpp" />
+    <ClCompile Include="library\Semaphore.cpp" />
+    <ClCompile Include="library\SharedAcquire.cpp" />
+    <ClCompile Include="library\SharedReadLock.cpp" />
+    <ClCompile Include="library\SharedWriteLock.cpp" />
+    <ClCompile Include="library\SQLi.cpp" />
+    <ClCompile Include="library\SQLStatement.cpp" />
+    <ClCompile Include="library\StringUtil.cpp" />
+    <ClCompile Include="library\TSQLi.cpp" />
+    <ClCompile Include="library\TSQLStatement.cpp" />
+    <ClCompile Include="library\UniqueReadLock.cpp" />
+    <ClCompile Include="library\UniqueWriteLock.cpp" />
+    <ClCompile Include="library\URLVariables.cpp" />
+    <ClCompile Include="library\XML.cpp" />
+    <ClCompile Include="namtree\INTExplore.cpp" />
+    <ClCompile Include="namtree\NTCriteria.cpp" />
+    <ClCompile Include="namtree\NTEntityGroup.cpp" />
+    <ClCompile Include="namtree\NTFactory.cpp" />
+    <ClCompile Include="namtree\NTFile.cpp" />
+    <ClCompile Include="namtree\NTIterator.cpp" />
+    <ClCompile Include="namtree\NTParameter.cpp" />
+    <ClCompile Include="namtree\NTParameterArray.cpp" />
+    <ClCompile Include="namtree\NTParameterDetermined.cpp" />
+    <ClCompile Include="namtree\NTSide.cpp" />
+    <ClCompile Include="protocol\Entity.cpp" />
+    <ClCompile Include="protocol\EntityGroup.cpp" />
+    <ClCompile Include="protocol\ExternalClient.cpp" />
+    <ClCompile Include="protocol\ExternalClientArray.cpp" />
+    <ClCompile Include="protocol\ExternalServer.cpp" />
+    <ClCompile Include="protocol\ExternalServerArray.cpp" />
+    <ClCompile Include="protocol\ExternalSystem.cpp" />
+    <ClCompile Include="protocol\ExternalSystemArray.cpp" />
+    <ClCompile Include="protocol\ExternalSystemRole.cpp" />
+    <ClCompile Include="protocol\FlashPolicyServer.cpp" />
+    <ClCompile Include="protocol\IClient.cpp" />
+    <ClCompile Include="protocol\IEntityChain.cpp" />
+    <ClCompile Include="protocol\IEntityGroup.cpp" />
+    <ClCompile Include="protocol\IHTMLEntity.cpp" />
+    <ClCompile Include="protocol\Invoke.cpp" />
+    <ClCompile Include="protocol\InvokeHistory.cpp" />
+    <ClCompile Include="protocol\InvokeHistoryArray.cpp" />
+    <ClCompile Include="protocol\InvokeParameter.cpp" />
+    <ClCompile Include="protocol\IProtocol.cpp" />
+    <ClCompile Include="protocol\IServer.cpp" />
+    <ClCompile Include="protocol\ISQLEntity.cpp" />
+    <ClCompile Include="protocol\IWebClientBase.cpp" />
+    <ClCompile Include="protocol\IWebServer.cpp" />
+    <ClCompile Include="protocol\master\DistributedSystem.cpp" />
+    <ClCompile Include="protocol\master\DistributedSystemArray.cpp" />
+    <ClCompile Include="protocol\master\DistributedSystemRole.cpp" />
+    <ClCompile Include="protocol\master\DSInvokeHistory.cpp" />
+    <ClCompile Include="protocol\master\DSInvokeHistoryArray.cpp" />
+    <ClCompile Include="protocol\master\ParallelClient.cpp" />
+    <ClCompile Include="protocol\master\ParallelClientArray.cpp" />
+    <ClCompile Include="protocol\master\ParallelClientArrayMediator.cpp" />
+    <ClCompile Include="protocol\master\ParallelServer.cpp" />
+    <ClCompile Include="protocol\master\ParallelServerArray.cpp" />
+    <ClCompile Include="protocol\master\ParallelServerArrayMediator.cpp" />
+    <ClCompile Include="protocol\master\ParallelSlaveClientMediator.cpp" />
+    <ClCompile Include="protocol\master\ParallelSlaveServerMediator.cpp" />
+    <ClCompile Include="protocol\master\ParallelSlaveSystemMediator.cpp" />
+    <ClCompile Include="protocol\master\ParallelSystem.cpp" />
+    <ClCompile Include="protocol\master\ParallelSystemArray.cpp" />
+    <ClCompile Include="protocol\master\ParallelSystemArrayMediator.cpp" />
+    <ClCompile Include="protocol\master\PRInvokeHistory.cpp" />
+    <ClCompile Include="protocol\master\PRInvokeHistoryArray.cpp" />
+    <ClCompile Include="protocol\master\PRMasterHistory.cpp" />
+    <ClCompile Include="protocol\master\PRMasterHistoryArray.cpp" />
+    <ClCompile Include="protocol\ServerConnector.cpp" />
+    <ClCompile Include="protocol\service\Client.cpp" />
+    <ClCompile Include="protocol\service\IPUserPair.cpp" />
+    <ClCompile Include="protocol\service\Server.cpp" />
+    <ClCompile Include="protocol\service\Service.cpp" />
+    <ClCompile Include="protocol\service\ServiceKeeper.cpp" />
+    <ClCompile Include="protocol\service\ServiceRole.cpp" />
+    <ClCompile Include="protocol\service\User.cpp" />
+    <ClCompile Include="protocol\slave\ParallelClient_slave.cpp" />
+    <ClCompile Include="protocol\slave\ParallelServer_slave.cpp" />
+    <ClCompile Include="protocol\slave\ParallelSystem_slave.cpp" />
+    <ClCompile Include="protocol\slave\SlaveClient.cpp" />
+    <ClCompile Include="protocol\slave\SlaveServer.cpp" />
+    <ClCompile Include="protocol\slave\SlaveSystem.cpp" />
+    <ClCompile Include="protocol\SystemRole.cpp" />
+    <ClCompile Include="protocol\UniqueAcquire.cpp" />
+    <ClCompile Include="protocol\WebServerConnector.cpp" />
+    <ClCompile Include="WeakString.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

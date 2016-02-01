@@ -276,13 +276,13 @@
     <ClCompile Include="..\samchon\protocol\UniqueAcquire.cpp" />
     <ClCompile Include="..\samchon\protocol\WebServerConnector.cpp" />
     <ClCompile Include="..\samchon\WeakString.cpp" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{546D9E83-296C-4FB6-9C76-2BBFEC92326F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SamchonFramework</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>SamchonFramework</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -331,23 +331,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_60_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_60_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;E:\Downloads\Programming\C++\boost_1_60_0\stage\lib_x64;C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_60_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x86;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_59_0;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Downloads\Programming\C++\boost_1_59_0\stage\lib_x64;C:\Program Files %28x86%29\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_60_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;E:\Downloads\Programming\C++\boost_1_60_0\stage\lib_x64;C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

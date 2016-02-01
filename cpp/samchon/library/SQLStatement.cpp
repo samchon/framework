@@ -332,6 +332,16 @@ auto SQLStatement::_atAsString(size_t index) const -> std::string
 		str.assign((size_t)size, NULL);
 		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_CHAR, &str[0], sizeof(char)*size, NULL);
 	}
+
+	// ERASE ZERO-CHARS
+	long long i;
+	for (i = str.size() - 1; i >= 0; i--)
+		if (str[i] != NULL)
+			break;
+
+	if (i != str.size() - 1)
+		str.erase(str.begin() + i + 1, str.end());
+
 	return move(str);
 }
 auto SQLStatement::_atAsWString(size_t index) const -> std::wstring

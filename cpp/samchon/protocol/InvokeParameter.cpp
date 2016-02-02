@@ -138,14 +138,14 @@ auto InvokeParameter::toXML() const -> shared_ptr<XML>
 }
 auto InvokeParameter::toSQL() const -> std::string
 {
-	return "";
 	//NAME, TYPE, VALUE
-	/*std::string value;
+	std::string value;
+
 	if (xml != nullptr)
 		value = move(xml->toString());
 	else
-		value = this->value;
+		value = this->str;
 
 	std::string &sql = StringUtil::substituteSQL("({1}, {2}, {3})", name, type, value);
-	return move(sql);*/
+	return move(sql);
 }

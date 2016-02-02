@@ -94,13 +94,15 @@ auto Invoke::toXML() const -> shared_ptr<XML>
 }
 auto Invoke::toSQL() const -> std::string
 {
-	std::string sql = "DECLARE @parameterTable INVOKE_PARAMETER_INSERT_TABLE\n";
+	string sql;
+		//= StringUtil::substituteSQL("INSERT INTO @invokeTable VALUES ({1})\n", this->listener);
+
 	if (empty() == false)
 	{
 		sql += "INSERT INTO @parameterTable VALUES\n";
 		for (size_t i = 0; i < size(); i++)
 			sql += "\t" + at(i)->toSQL() + ((i == size() - 1) ? ";\n\n" : ",\n");
 	}
-	sql += "EXEC goInsertInvokeHistory ?, ?, @parameterTable, ?"; //SERVICE, MEMBER_ID
+
 	return move(sql);
 }

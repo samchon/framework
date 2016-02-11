@@ -38,17 +38,13 @@ void IServer::open()
 	
 	if (acceptor == nullptr)
 	{
-		if (MY_IP().empty() == true)
-		{
-			endPoint.reset( new tcp::endpoint(tcp::v4(), PORT()) );
-		}
-		else
-		{
-			std::string &tIP = MY_IP();
-			string ip(tIP.begin(), tIP.end());
+		string &myIP = MY_IP();
 
-			endPoint.reset( new tcp::endpoint( address::from_string(ip), PORT() ) );
-		}
+		if (myIP.empty() == true)
+			endPoint.reset( new tcp::endpoint(tcp::v4(), PORT()) );
+		else
+			endPoint.reset( new tcp::endpoint( address::from_string(myIP), PORT() ) );
+		
 		acceptor = new tcp::acceptor(ioService, *endPoint);
 	}
 

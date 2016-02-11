@@ -1,5 +1,5 @@
 #pragma once
-#include <samchon/library/GeneticAlgorithm.hpp>
+#include <samchon/library/GAPopulation.hpp>
 
 #include <set>
 #include <random>
@@ -50,7 +50,7 @@ namespace samchon
 		 * @image latex cpp/subset/library_genetic_algorithm.png </p>
 		 *
 		 * \par Example Sources
-		 *	\li example::tsp
+		 * 	\li example::tsp
 		 *
 		 * @warning
 		 * <p> Be careful for the mistakes of direction or position of Compare. </p>
@@ -59,6 +59,7 @@ namespace samchon
 		 * @see library::GAPopulation
 		 * @see samchon::library
 		 * @see example::tsp
+		 * 
 		 * @author Jeongho Nam
 		 */
 		template <typename GeneArray, typename Compare = std::less<GeneArray>>
@@ -68,6 +69,8 @@ namespace samchon
 			typedef GAPopulation<GeneArray, Compare> Population;
 
 		private:
+			std::shared_ptr<GeneArray> candidates;
+
 			/**
 			 * @brief Whether each element (Gene) is unique in their GeneArray
 			 */
@@ -95,17 +98,32 @@ namespace samchon
 			/**
 			 * @brief Construct from parameters of Genetic Algorithm
 			 *
+			 * @paream candidates Candidate genes used for mutation.
+			 * @param unique Whether each Gene is unique in their GeneArray
+			 * @param mutationRate Rate of mutation
+			 * @param tournament Size of tournament in selection
+			 * @param elitism Whether to keep the elitest GeneArray
+			 */
+			GeneticAlgorithm(std::shared_ptr<GeneArray> candidates, bool unique, double mutationRate = 0.015, size_t tournament = 10)
+			{
+				this->candidates = candidates;
+				this->unique = unique;
+				
+				this->mutationRate = mutationRate;
+				this->tournament = tournament;
+			};
+
+			/**
+			 * @brief Construct from parameters of Genetic Algorithm
+			 *
 			 * @param unique Whether each Gene is unique in their GeneArray
 			 * @param mutationRate Rate of mutation
 			 * @param tournament Size of tournament in selection
 			 * @param elitism Whether to keep the elitest GeneArray
 			 */
 			GeneticAlgorithm(bool unique, double mutationRate = 0.015, size_t tournament = 10)
+				: GeneticAlgorithm(nullptr, unique, mutationRate, tournament)
 			{
-				this->unique = unique;
-
-				this->mutationRate = mutationRate;
-				this->tournament = tournament;
 			};
 
 			/**
@@ -302,8 +320,39 @@ namespace samchon
 					if (Math::random() > mutationRate)
 						continue;
 
-					size_t j = (size_t)(Math::random() * geneArray->size());
-					std::swap(geneArray->at(i), geneArray->at(j));
+					if (candidates == nullptr)
+					{
+						// WHEN CANDIDATES ARE NOT SPECIFIED, JUST SHUFFLE SEQUENCE OF GENES
+						size_t j = (size_t)(Math::random() * geneArray->size());
+						std::swap(geneArray->at(i), geneArray->at(j));
+					}
+					else if (unique == false)
+					{
+						// PICK A CANDIDATE
+						geneArray->at(i) = candidates->at((size_t)(Math::random() * candidates->size()));
+					}
+					else // HAS CANDIDATES AND NEED TO BE UNIQUE
+					{
+						GeneArray::value_type item;
+						bool duplicated = true;
+
+						// PICK ONE
+						while (duplicated == true)
+						{
+							item = candidates->at((size_t)(Math::random() * candidates->size()));
+
+							duplicated = false;
+
+							for (size_t j = 0; j < geneArray->size(); j++)
+								if (i != j && geneArray->at(i) == geneArray->at(j))
+								{
+									duplicated = true;
+									break;
+								}
+						}
+
+						geneArray->at(i) = item;
+					}
 				}
 			};
 		};

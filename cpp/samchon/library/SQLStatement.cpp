@@ -110,7 +110,7 @@ auto SQLStatement::fetch() const -> bool
 {
 	do
 	{
-		SQLSMALLINT colSize;
+		SQLSMALLINT colSize = 0;
 		SQLNumResultCols(hstmt, &colSize);
 
 		if (colSize > 0)

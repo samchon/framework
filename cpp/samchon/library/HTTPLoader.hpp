@@ -33,7 +33,7 @@ namespace samchon
 			/**
 			 * @brief Cookies got from remote web server.
 			 */
-			static Map<std::string, std::string> cookieMap;
+			static HashMap<std::string, std::string> cookieMap;
 
 		public:
 			enum METHOD : int

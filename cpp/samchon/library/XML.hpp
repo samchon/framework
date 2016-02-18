@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/Map.hpp>
+#include <samchon/HashMap.hpp>
 #include <samchon/library/XMLList.hpp>
 
 #include <sstream>
@@ -70,10 +70,10 @@ namespace samchon
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API XML 
-			: public Map<std::string, std::shared_ptr<XMLList>>
+			: public HashMap<std::string, std::shared_ptr<XMLList>>
 		{
 		private:
-			typedef Map<std::string, std::shared_ptr<XMLList>> super;
+			typedef HashMap<std::string, std::shared_ptr<XMLList>> super;
 
 			/**
 			 * @brief Tag name
@@ -103,7 +103,7 @@ namespace samchon
 			 *	\li \<member <b>id='jhnam88' name='Jeongho+Nam' comment='Hello.+My+name+is+Jeongho+Nam'</b> \>: 
 			 *		propertyMap => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam\"}, {\"comment\", \"Hello. My name is Jeongho Nam\"}}
 			 */
-			Map<std::string, std::string> propertyMap;
+			HashMap<std::string, std::string> propertyMap;
 
 		/* -----------------------------------------------------------
 			CONSTRUCTORS
@@ -351,7 +351,7 @@ namespace samchon
 			/**
 			 * @brief Get propertyMap
 			 */
-			auto getPropertyMap() const -> const Map<std::string, std::string>&;
+			auto getPropertyMap() const -> const HashMap<std::string, std::string>&;
 			
 		/* -----------------------------------------------------------
 			FILTERS
@@ -379,5 +379,9 @@ namespace samchon
 		private:
 			void fetchString(std::list<std::string, std::allocator<std::string>> &, size_t) const;
 		};
+
+		SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API std::shared_ptr<XML>;
+		SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API HashMap<std::string, std::shared_ptr<XMLList>>;
+		SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API HashMap<std::string, std::string>;
 	};
 };

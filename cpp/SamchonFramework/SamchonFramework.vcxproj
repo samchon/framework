@@ -22,6 +22,7 @@
     <ClInclude Include="..\samchon\API.hpp" />
     <ClInclude Include="..\samchon\ByteArray.hpp" />
     <ClInclude Include="..\samchon\Dictionary.hpp" />
+    <ClInclude Include="..\samchon\HashMap.hpp" />
     <ClInclude Include="..\samchon\IndexPair.hpp" />
     <ClInclude Include="..\samchon\library.hpp" />
     <ClInclude Include="..\samchon\library\Base64.hpp" />
@@ -166,7 +167,6 @@
     <ClInclude Include="..\samchon\protocol\UniqueEntityArray.hpp" />
     <ClInclude Include="..\samchon\protocol\UniqueEntityList.hpp" />
     <ClInclude Include="..\samchon\protocol\WebServerConnector.hpp" />
-    <ClInclude Include="..\samchon\Set.hpp" />
     <ClInclude Include="..\samchon\SmartPointer.hpp" />
     <ClInclude Include="..\samchon\WeakString.hpp" />
   </ItemGroup>

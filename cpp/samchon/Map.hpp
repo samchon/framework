@@ -5,10 +5,10 @@
 namespace samchon
 {
 	/**
-	 * @brief Map
+	 * @brief Customized std::map.
 	 *
 	 * @details
-	 * <p> Map is a std::map some methods are modified </p>
+	 * <p> Map is a std::map some methods are modified. </p>
 	 *
 	 * <ul>
 	 *	<li>Addicted methods</li>
@@ -109,7 +109,7 @@ namespace samchon
 		 */
 		auto has(const _Kty &key) const -> bool
 		{
-			return find(key) != end();
+			return count(key) != 0;
 		};
 
 		/**
@@ -165,7 +165,9 @@ namespace samchon
 		auto pop(const _Kty &key) -> _Ty
 		{
 			iterator it = find(key);
-			_Ty &val = it->second;
+			_Ty val = it->second;
+
+			erase(it);
 
 			return std::move(val);
 		};

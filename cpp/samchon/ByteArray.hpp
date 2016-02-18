@@ -127,6 +127,9 @@ namespace samchon
 		};
 		template<> auto read() const -> std::string
 		{
+			if (position >= size())
+				return "";
+
 			std::string str = (char*)(data() + position);
 			((ByteArray*)this)->position = str.size();
 

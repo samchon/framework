@@ -56,7 +56,7 @@ namespace samchon
 			/**
 			 * @brief Default Constructor
 			 */
-			EntityArray();
+			EntityArray() {};
 			virtual ~EntityArray() = default;
 
 			/**

@@ -16,7 +16,7 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 
-Map<string, string> HTTPLoader::cookieMap;
+HashMap<string, string> HTTPLoader::cookieMap;
 
 void toClipboard(const string &);
 
@@ -194,7 +194,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 	//////////////////////////////////////////////////
 	//	LISTEN HEADER FROM SERVER
 	//////////////////////////////////////////////////
-	Map<string, string> headerMap;
+	HashMap<string, string> headerMap;
 	{
 		header.clear();
 
@@ -229,7 +229,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 	{
 		string &cookie = headerMap.get("Set-Cookie");
 
-		((Map<string, string>*)&cookieMap)->set(host, cookie);
+		((HashMap<string, string>*)&cookieMap)->set(host, cookie);
 	}
 
 	// CONTENT-LENGTH

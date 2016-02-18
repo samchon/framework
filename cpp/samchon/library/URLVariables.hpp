@@ -1,7 +1,7 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/Map.hpp>
+#include <samchon/HashMap.hpp>
 #include <samchon/WeakString.hpp>
 
 namespace samchon
@@ -28,10 +28,10 @@ namespace samchon
 		 * @author Jeongho Nam
 		 */
 		class SAMCHON_FRAMEWORK_API URLVariables
-			: public Map<std::string, std::string>
+			: public HashMap<std::string, std::string>
 		{
 		private:
-			typedef Map<std::string, std::string> super;
+			typedef HashMap<std::string, std::string> super;
 
 		public:
 			/* ------------------------------------------------------------
@@ -92,5 +92,7 @@ namespace samchon
 			 */
 			auto toString() const -> std::string;
 		};
+
+		SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API HashMap<std::string, std::string>;
 	};
 };

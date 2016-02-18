@@ -90,7 +90,7 @@ namespace samchon
 			void set(const std::string &);
 
 			/**
-			 * @brief Set by weak_string
+			 * @brief deque by weak_string
 			 * 
 			 * @param wstr A weak_string expressing the date. (1991-01-01 09:27:03)
 			 * @throw invalid_argument parameter is out of its own range.

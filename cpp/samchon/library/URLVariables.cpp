@@ -30,12 +30,6 @@ URLVariables::URLVariables(const WeakString &flashVars)
 		set(key, value);
 	}
 }
-/*URLVariables::URLVariables(const initializer_list<pair<string, string>> &il)
-	: super()
-{
-	for(auto it = il.begin(); it != il.end(); it++)
-		set(it->first, it->second);
-}*/
 
 /* ------------------------------------------------------------
 	URL ENCODING & DECONDING

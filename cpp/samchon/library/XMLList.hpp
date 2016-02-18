@@ -17,5 +17,7 @@ namespace samchon
 		 * @author Jeongho Nam
 		 */
 		typedef std::vector<std::shared_ptr<XML>> XMLList;
+
+		SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API std::vector<std::shared_ptr<XML>>;
 	};
 };

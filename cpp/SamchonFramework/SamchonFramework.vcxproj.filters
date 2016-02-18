@@ -177,9 +177,6 @@
     <ClInclude Include="..\samchon\Map.hpp">
       <Filter>Header Files\basic</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\Set.hpp">
-      <Filter>Header Files\basic</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\SmartPointer.hpp">
       <Filter>Header Files\basic</Filter>
     </ClInclude>
@@ -614,6 +611,9 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\slave.hpp">
       <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\HashMap.hpp">
+      <Filter>Header Files\basic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

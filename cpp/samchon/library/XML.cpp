@@ -482,7 +482,7 @@ void XML::clearProperties()
 	propertyMap.clear();
 }
 
-auto XML::getPropertyMap() const -> const Map<std::string, std::string>&
+auto XML::getPropertyMap() const -> const HashMap<std::string, std::string>&
 {
 	return propertyMap;
 }

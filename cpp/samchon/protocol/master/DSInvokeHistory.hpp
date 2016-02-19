@@ -5,56 +5,56 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+namespace master
+{
+	class DistributedSystem;
+	class DistributedSystemRole;
+
+	/**
+	 * @brief A reported history of an Invoke message
+	 *
+	 * @details
+	 * \par [Inherited]
+	 *		@copydetails protocol::InvokeHistory
+	 */
+	class SAMCHON_FRAMEWORK_API DSInvokeHistory
+		: public InvokeHistory
 	{
-		namespace master
-		{
-			class DistributedSystem;
-			class DistributedSystemRole;
+	private:
+		typedef InvokeHistory super;
 
-			/**
-			 * @brief A reported history of an Invoke message
-			 *
-			 * @details
-			 * \par [Inherited]
-			 *		@copydetails protocol::InvokeHistory
-			 */
-			class SAMCHON_FRAMEWORK_API DSInvokeHistory
-				: public InvokeHistory
-			{
-			private:
-				typedef InvokeHistory super;
+	protected:
+		/**
+		 * @brief Source system
+		 */
+		DistributedSystem *system;
 
-			protected:
-				/**
-				 * @brief Source system
-				 */
-				DistributedSystem *system;
+		/**
+		 * @brief Source role
+		 */
+		DistributedSystemRole *role;
 
-				/**
-				 * @brief Source role
-				 */
-				DistributedSystemRole *role;
+	public:
+		/**
+		 * @brief Construct from a system and role.
+		 *
+		 * @param system a source system.
+		 * @param role a source role.
+		 */
+		DSInvokeHistory(DistributedSystem*, DistributedSystemRole*, std::shared_ptr<Invoke>);
 
-			public:
-				/**
-				 * @brief Construct from a system and role.
-				 *
-				 * @param system a source system.
-				 * @param role a source role.
-				 */
-				DSInvokeHistory(DistributedSystem*, DistributedSystemRole*, std::shared_ptr<Invoke>);
+		/**
+		 * @brief Get source system.
+		 */
+		auto getSystem() const->DistributedSystem*;
 
-				/**
-				 * @brief Get source system.
-				 */
-				auto getSystem() const -> DistributedSystem*;
-
-				/**
-				 * @brief Gets source role.
-				 */
-				auto getRole() const -> DistributedSystemRole*;
-			};
-		};
+		/**
+		 * @brief Gets source role.
+		 */
+		auto getRole() const->DistributedSystemRole*;
 	};
+};
+};
 };

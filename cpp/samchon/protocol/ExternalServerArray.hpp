@@ -5,33 +5,31 @@
 
 namespace samchon
 {
-	class ExternalServer;
-
-	namespace protocol
+namespace protocol
+{
+	/**
+	 * @brief An array of ExternalServer(s)
+	 *
+	 * @details
+	 * <p> ExternalServerArray is an ExternalSystemArray specialized in servers' driver. </p>
+	 *
+	 * \par [Inherited]
+	 *		@copydetails protocol::ExternalSystemArray
+	 */
+	class SAMCHON_FRAMEWORK_API ExternalServerArray
+		: public virtual ExternalSystemArray
 	{
-		/**
-		 * @brief An array of ExternalServer(s)
-		 *
-		 * @details
-		 * <p> ExternalServerArray is an ExternalSystemArray specialized in servers' driver. </p>
-		 *
-		 * \par [Inherited]
-		 *		@copydetails protocol::ExternalSystemArray
-		 */
-		class SAMCHON_FRAMEWORK_API ExternalServerArray
-			: public virtual ExternalSystemArray
-		{
-		protected:
-			typedef ExternalSystemArray super;
+	protected:
+		typedef ExternalSystemArray super;
 
-		public:
-			/* ------------------------------------------------------------------
-				CONSTRUCTORS
-			------------------------------------------------------------------ */
-			ExternalServerArray();
-			virtual ~ExternalServerArray() = default;
+	public:
+		/* ------------------------------------------------------------------
+			CONSTRUCTORS
+		------------------------------------------------------------------ */
+		ExternalServerArray();
+		virtual ~ExternalServerArray() = default;
 
-			virtual void start() override;
-		};
+		virtual void start() override;
 	};
+};
 };

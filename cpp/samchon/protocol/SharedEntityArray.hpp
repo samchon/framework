@@ -5,32 +5,32 @@
 
 namespace samchon
 {
-	namespace protocol
-	{
-		/**
-		 * @brief An EntityGroup with vector container and children capsuled in shared pointers.
-		 *
-		 * @tparam _Ty A type of children Entity. Must be a class derived from an Entity or Entity itself.
-		 *
-		 * @details
-		 * <p> For a case of inheritance of SharedEntityArray and the inherited SharedEntityArray also
-		 * contains entity objects which are inherited from original child entity type, SharedEntityArray
-		 * supports macros changing returned type of accessor methods. </p>
-		 *
-		 *	\li SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER
-		 *	\li SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY
-		 *
-		 * @see samchon::protocol
-		 * @author Jeongho Nam
-		 */
-		template <typename _Ty = Entity>
-		using SharedEntityArray = 
-			EntityGroup
-			<
-				std::vector<std::shared_ptr<_Ty>>, 
-				_Ty, std::shared_ptr<_Ty>
-			>;
-	};
+namespace protocol
+{
+	/**
+	 * @brief An EntityGroup with vector container and children capsuled in shared pointers.
+	 *
+	 * @tparam _Ty A type of children Entity. Must be a class derived from an Entity or Entity itself.
+	 *
+	 * @details
+	 * <p> For a case of inheritance of SharedEntityArray and the inherited SharedEntityArray also
+	 * contains entity objects which are inherited from original child entity type, SharedEntityArray
+	 * supports macros changing returned type of accessor methods. </p>
+	 *
+	 *	\li SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER
+	 *	\li SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY
+	 *
+	 * @see samchon::protocol
+	 * @author Jeongho Nam
+	 */
+	template <typename _Ty = Entity>
+	using SharedEntityArray = 
+		EntityGroup
+		<
+			std::vector<std::shared_ptr<_Ty>>, 
+			_Ty, std::shared_ptr<_Ty>
+		>;
+};
 };
 
 /* ------------------------------------------------------------------------------

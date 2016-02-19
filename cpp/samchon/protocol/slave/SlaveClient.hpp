@@ -6,34 +6,34 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+namespace slave
+{
+	/**
+	 * @brief A slave client.
+	 *
+	 * @details 
+	 * <p> SlaveClient is a SlaveSystem specialized in client driver. </p>
+	 *
+	 * \par [Inherited]
+	 *		@copydetails slave::SlaveSystem
+	 */
+	class SAMCHON_FRAMEWORK_API SlaveClient
+		: public virtual SlaveSystem,
+		public virtual ExternalServer
 	{
-		namespace slave
-		{
-			/**
-			 * @brief A slave client.
-			 *
-			 * @details 
-			 * <p> SlaveClient is a SlaveSystem specialized in client driver. </p>
-			 *
-			 * \par [Inherited]
-			 *		@copydetails slave::SlaveSystem
-			 */
-			class SAMCHON_FRAMEWORK_API SlaveClient
-				: public virtual SlaveSystem,
-				public virtual ExternalServer
-			{
-			protected:
-				typedef SlaveSystem super;
-				typedef ExternalServer network_super;
+	protected:
+		typedef SlaveSystem super;
+		typedef ExternalServer network_super;
 
-			public:
-				/**
-				 * @brief Default Constructor.
-				 */
-				SlaveClient();
-				virtual ~SlaveClient() = default;
-			};
-		};
+	public:
+		/**
+		 * @brief Default Constructor.
+		 */
+		SlaveClient();
+		virtual ~SlaveClient() = default;
 	};
+};
+};
 };

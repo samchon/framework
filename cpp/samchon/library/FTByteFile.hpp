@@ -7,41 +7,41 @@
 
 namespace samchon
 {
-	namespace library
+namespace library
+{
+	/**
+	 * @brief A binary file
+	 * @details A file having data as binary.
+	 *
+	 * @image html cpp/library_file_tree.png
+	 * @image latex cpp/library_file_tree.png
+	 *
+	 * @see samchon::library
+	 * @author Jeongho Nam
+	 */
+	class SAMCHON_FRAMEWORK_API FTByteFile
+		: public FTFile
 	{
-		 /**
-		  * @brief A binary file
-		  * @details A file having data as binary.
-		  *
-		  * @image html cpp/library_file_tree.png
-		  * @image latex cpp/library_file_tree.png
-		  *
-		  * @see samchon::library
-		  * @author Jeongho Nam
-		  */
-		class SAMCHON_FRAMEWORK_API FTByteFile
-			: public FTFile
-		{
-		private:
-			typedef protocol::Entity FTFile;
+	private:
+		typedef protocol::Entity FTFile;
 
-		protected:
-			/**
-			 * @brief Binary data of the file
-			 */
-			ByteArray data;
+	protected:
+		/**
+		 * @brief Binary data of the file
+		 */
+		ByteArray data;
 
-		public:
-			/**
-			 * @copydoc FTFile::FTFile()
-			 */
-			FTByteFile(FTFolder*);
-			virtual ~FTByteFile() = default;
+	public:
+		/**
+		 * @copydoc FTFile::FTFile()
+		 */
+		FTByteFile(FTFolder*);
+		virtual ~FTByteFile() = default;
 
-			/**
-			 * @brief Get binaray data of the file.
-			 */
-			auto getData() -> ByteArray;
-		};
+		/**
+		 * @brief Get binaray data of the file.
+		 */
+		auto getData()->ByteArray;
 	};
+};
 };

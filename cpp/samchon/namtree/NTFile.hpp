@@ -9,11 +9,11 @@
 
 namespace samchon
 {
-	namespace namtree
-	{
-		class NTFactory;
-		class NTParameterArray;
-		class NTIterator;
+namespace namtree
+{
+	class NTFactory;
+	class NTParameterArray;
+	class NTIterator;
 
 		/**
 		 * @brief A file archiving metadata of a function.
@@ -47,86 +47,86 @@ namespace samchon
 		 * @see namtree::NTSide
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API NTFile
-			: public library::FTFile,
-			public INTExplore
-		{
-		private:
-			typedef library::FTFile super;
+	class SAMCHON_FRAMEWORK_API NTFile
+		: public library::FTFile,
+		public INTExplore
+	{
+	private:
+		typedef library::FTFile super;
 
-		protected:
-			typedef std::function<double(const NTIterator&, const std::vector<double> &)> SideFunction;
+	protected:
+		typedef std::function<double(const NTIterator&, const std::vector<double> &)> SideFunction;
 
-			/**
-			 * @brief A factory and manager class for nam-tree.
-			 *
-			 * @details NTFile references NTFactory to find otherside file and function pointer.
-			 */
-			NTFactory *factory; //TO FIND OTHERSIDE AND FUNCTION POINTER
-			
-			/**
-			 * @brief Metadata of parameters
-			 */
-			NTParameterArray *parameterArray;
+		/**
+		 * @brief A factory and manager class for nam-tree.
+		 *
+		 * @details NTFile references NTFactory to find otherside file and function pointer.
+		 */
+		NTFactory *factory; //TO FIND OTHERSIDE AND FUNCTION POINTER
 
-			/**
-			 * @brief A file of otherside
-			 *
-			 * @details 
-			 * <p> The variable otherside is a pair of file which is inserted to a criteria's opposite side. </p>
-			 *
-			 * <p> When the otherside is specified and you determine the NTFile to be contained in a NTSide,
-			 * the NTCriteria owning the NTSide will determine opposite side's NTSide to have the otherside
-			 * NTFile forcibly. </p>
-			 *
-			 * @note
-			 * <p> The determination will be automatic and unchangeble. Consider hardly when specifying an
-			 * otherside. </p>
-			 */
-			NTFile *otherside;
+		/**
+		 * @brief Metadata of parameters
+		 */
+		NTParameterArray *parameterArray;
 
-			/**
-			 * @brief A function pointer
-			 */
-			SideFunction function;
+		/**
+		 * @brief A file of otherside
+		 *
+		 * @details
+		 * <p> The variable otherside is a pair of file which is inserted to a criteria's opposite side. </p>
+		 *
+		 * <p> When the otherside is specified and you determine the NTFile to be contained in a NTSide,
+		 * the NTCriteria owning the NTSide will determine opposite side's NTSide to have the otherside
+		 * NTFile forcibly. </p>
+		 *
+		 * @note
+		 * <p> The determination will be automatic and unchangeble. Consider hardly when specifying an
+		 * otherside. </p>
+		 */
+		NTFile *otherside;
 
-		public:
-			/* -------------------------------------------------------------------
-				CONSTRUCTORS
-			------------------------------------------------------------------- */
-			/**
-			 * @brief Construct from factory and parent folder.
-			 *
-			 * @param factory A factory class creating nam-tree objects.
-			 * @param folder A parent folder of the NTFile.
-			 */
-			NTFile(NTFactory*, library::FTFolder*);
-			virtual ~NTFile() = default;
+		/**
+		 * @brief A function pointer
+		 */
+		SideFunction function;
 
-			virtual void construct(std::shared_ptr<library::XML>) override;
+	public:
+		/* -------------------------------------------------------------------
+			CONSTRUCTORS
+		------------------------------------------------------------------- */
+		/**
+		 * @brief Construct from factory and parent folder.
+		 *
+		 * @param factory A factory class creating nam-tree objects.
+		 * @param folder A parent folder of the NTFile.
+		 */
+		NTFile(NTFactory*, library::FTFolder*);
+		virtual ~NTFile() = default;
 
-			/* -------------------------------------------------------------------
-				GETTERS
-			------------------------------------------------------------------- */
-			/**
-			 * @brief Get metadata of parameters
-			 */
-			auto getParameterArray() const -> NTParameterArray*;
+		virtual void construct(std::shared_ptr<library::XML>) override;
 
-			/**
-			 * @brief Get otherside file
-			 */
-			auto getOtherside() const -> NTFile*;
+		/* -------------------------------------------------------------------
+			GETTERS
+		------------------------------------------------------------------- */
+		/**
+		 * @brief Get metadata of parameters
+		 */
+		auto getParameterArray() const->NTParameterArray*;
 
-			/**
-			 * @brief Get function pointer
-			 */
-			auto getFunction() const -> SideFunction;
+		/**
+		 * @brief Get otherside file
+		 */
+		auto getOtherside() const->NTFile*;
 
-			/* -------------------------------------------------------------------
-				EXPORTERS
-			------------------------------------------------------------------- */
-			virtual auto toXML() const -> std::shared_ptr<library::XML> override;
-		};
+		/**
+		 * @brief Get function pointer
+		 */
+		auto getFunction() const->SideFunction;
+
+		/* -------------------------------------------------------------------
+			EXPORTERS
+		------------------------------------------------------------------- */
+		virtual auto toXML() const->std::shared_ptr<library::XML> override;
 	};
+};
 };

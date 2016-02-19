@@ -6,32 +6,32 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+	/**
+	 * @brief An array of InvokeHistory.
+	 *
+	 * @author Jeongho Nam
+	 */
+	class SAMCHON_FRAMEWORK_API InvokeHistoryArray
+		: public SharedEntityArray<InvokeHistory>
 	{
+	protected:
+		typedef SharedEntityArray<InvokeHistory> super;
+
+	public:
 		/**
-		 * @brief An array of InvokeHistory.
-		 *
-		 * @author Jeongho Nam
+		 * @brief Default Constructor.
 		 */
-		class SAMCHON_FRAMEWORK_API InvokeHistoryArray
-			: public SharedEntityArray<InvokeHistory>
-		{
-		protected:
-			typedef SharedEntityArray<InvokeHistory> super;
+		InvokeHistoryArray();
+		virtual ~InvokeHistoryArray() = default;
 
-		public:
-			/**
-			 * @brief Default Constructor.
-			 */
-			InvokeHistoryArray();
-			virtual ~InvokeHistoryArray() = default;
+	protected:
+		virtual auto createChild(std::shared_ptr<library::XML>)->InvokeHistory* override;
 
-		protected:
-			virtual auto createChild(std::shared_ptr<library::XML>) -> InvokeHistory* override;
-
-		public:
-			virtual auto TAG() const -> std::string;
-			virtual auto CHILD_TAG() const -> std::string;
-		};
+	public:
+		virtual auto TAG() const->std::string;
+		virtual auto CHILD_TAG() const->std::string;
 	};
+};
 };

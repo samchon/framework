@@ -6,34 +6,34 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+namespace slave
+{
+	/**
+	 * @brief A slave parallel client.
+	 *
+	 * @details
+	 * <p> ParallelClient is a ParallelSystem class specialized in server driver. </p>
+	 *
+	 * \par [Inherited]
+	 *	   @copydetails slave::ParallelSystem
+	 */
+	class SAMCHON_FRAMEWORK_API ParallelClient
+		: public virtual ParallelSystem,
+		public virtual SlaveClient
 	{
-		namespace slave
-		{
-			/**
-			* @brief A slave parallel client.
-			*
-			* @details
-			* <p> ParallelClient is a ParallelSystem class specialized in server driver. </p>
-			*
-			* \par [Inherited]
-			*	   @copydetails slave::ParallelSystem
-			*/
-			class SAMCHON_FRAMEWORK_API ParallelClient
-				: public virtual ParallelSystem,
-				public virtual SlaveClient
-			{
-			protected:
-				typedef ParallelSystem super;
-				typedef SlaveClient network_super;
+	protected:
+		typedef ParallelSystem super;
+		typedef SlaveClient network_super;
 
-			public:
-				/**
-				 * @brief Default Constructor.
-				 */
-				ParallelClient();
-				virtual ~ParallelClient() = default;
-			};
-		};
+	public:
+		/**
+		 * @brief Default Constructor.
+		 */
+		ParallelClient();
+		virtual ~ParallelClient() = default;
 	};
+};
+};
 };

@@ -6,34 +6,34 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+namespace master
+{
+	/**
+	 * @brief An array of ParallelServer(s).
+	 *
+	 * @details
+	 * <p> ParallelServerArray is an ParallelSystemArray specialized in servers' driver. </p>
+	 *
+	 * \par [Inherited]
+	 *		@copydetails master::DistributedSystemArray
+	 */
+	class SAMCHON_FRAMEWORK_API ParallelServerArray
+		: public virtual ParallelSystemArray,
+		public virtual ExternalServerArray
 	{
-		namespace master
-		{
-			/**
-			 * @brief An array of ParallelServer(s).
-			 *
-			 * @details
-			 * <p> ParallelServerArray is an ParallelSystemArray specialized in servers' driver. </p>
-			 *
-			 * \par [Inherited]
-			 *		@copydetails master::DistributedSystemArray
-			 */
-			class SAMCHON_FRAMEWORK_API ParallelServerArray
-				: public virtual ParallelSystemArray,
-				public virtual ExternalServerArray
-			{
-			protected:
-				typedef ParallelSystemArray super;
-				typedef ExternalServerArray network_super;
+	protected:
+		typedef ParallelSystemArray super;
+		typedef ExternalServerArray network_super;
 
-			public:
-				/**
-				 * @brief Default Constructor.
-				 */
-				ParallelServerArray();
-				virtual ~ParallelServerArray() = default;
-			};
-		};
+	public:
+		/**
+		 * @brief Default Constructor.
+		 */
+		ParallelServerArray();
+		virtual ~ParallelServerArray() = default;
 	};
+};
+};
 };

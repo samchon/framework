@@ -13,3 +13,4 @@ MSBuild cpp\SamchonFramework.sln /property:Configuration=Release /m /property:Pl
 
 :: BUILTS
 for /d /r . %%d in (Debug Release x64) do @if exist "%%d" echo "%%d" && rd /s/q "%%d"
+del cpp\SamchonFramework.sdf

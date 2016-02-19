@@ -5,20 +5,20 @@
 
 namespace boost
 {
-	namespace system
-	{
-		class error_code;
-	};
+namespace system
+{
+	class error_code;
+};
 };
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+	enum ENUM_DIRECTION
 	{
-		enum ENUM_DIRECTION
-		{
-			SERVER = 1,
-			CLIENT = 2
-		};
+		SERVER = 1,
+		CLIENT = 2
+	};
 
 		/**
 		 * @brief An interface for a web-client.
@@ -29,52 +29,52 @@ namespace samchon
 		 * \par [Inherited]
 		 *		@copydetails protocol::IClient
 		 */
-		class SAMCHON_FRAMEWORK_API IWebClientBase
-			: public virtual IClient
-		{
-		protected:
-			typedef IClient super;
+	class SAMCHON_FRAMEWORK_API IWebClientBase
+		: public virtual IClient
+	{
+	protected:
+		typedef IClient super;
 
-			static const unsigned char TEXT_HEADER = 129;
-			static const unsigned char BINARY_HEADER = 130;
+		static const unsigned char TEXT_HEADER = 129;
+		static const unsigned char BINARY_HEADER = 130;
 
-		public:
-			/* -----------------------------------------------------------------------
-				CONSTRUCTORS
-			----------------------------------------------------------------------- */
-			/**
-			 * @brief Default Constructor.
-			 */
-			IWebClientBase();
-			virtual ~IWebClientBase() = default;
+	public:
+		/* -----------------------------------------------------------------------
+			CONSTRUCTORS
+		----------------------------------------------------------------------- */
+		/**
+		 * @brief Default Constructor.
+		 */
+		IWebClientBase();
+		virtual ~IWebClientBase() = default;
 
-		protected:
-			virtual auto DIRECTION() const -> ENUM_DIRECTION = 0;
+	protected:
+		virtual auto DIRECTION() const->ENUM_DIRECTION = 0;
 
 
-		public:
-			/* -----------------------------------------------------------------------
-				LISTEN MESSAGE
-			----------------------------------------------------------------------- */
-			virtual void listen() override;
+	public:
+		/* -----------------------------------------------------------------------
+			LISTEN MESSAGE
+		----------------------------------------------------------------------- */
+		virtual void listen() override;
 
-		private:
-			auto listenString(size_t, ByteArray&, boost::system::error_code &) -> std::shared_ptr<Invoke>;
-			void listenBinary(size_t, ByteArray&, std::shared_ptr<Invoke>, boost::system::error_code &);
+	private:
+		auto listenString(size_t, ByteArray&, boost::system::error_code &)->std::shared_ptr<Invoke>;
+		void listenBinary(size_t, ByteArray&, std::shared_ptr<Invoke>, boost::system::error_code &);
 
-			void listenMoreBytes(ByteArray&, boost::system::error_code &);
+		void listenMoreBytes(ByteArray&, boost::system::error_code &);
 
-			/* -----------------------------------------------------------------------
-				SEND MESSAGE
-			----------------------------------------------------------------------- */
-		public:
-			virtual void sendData(std::shared_ptr<Invoke>) override;
+		/* -----------------------------------------------------------------------
+			SEND MESSAGE
+		----------------------------------------------------------------------- */
+	public:
+		virtual void sendData(std::shared_ptr<Invoke>) override;
 
-		private:
-			void sendSizeHeader(unsigned char, size_t, boost::system::error_code &);
+	private:
+		void sendSizeHeader(unsigned char, size_t, boost::system::error_code &);
 
-			void sendString(const std::string &, boost::system::error_code &);
-			void sendBinary(const ByteArray &, boost::system::error_code &);
-		};
+		void sendString(const std::string &, boost::system::error_code &);
+		void sendBinary(const ByteArray &, boost::system::error_code &);
 	};
+};
 };

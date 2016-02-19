@@ -5,35 +5,35 @@
 
 namespace samchon
 {
-	namespace library
+namespace library
+{
+	/**
+	 * @brief A combined-permutation case generator
+	 * @details
+	 * <p> <sub>n</sub>TT<sub>r</sub> </p>
+	 *
+	 * @image html cpp/subset/library_case_generator.png
+	 * @image latex cpp/subset/library_case_generator.png
+	 *
+	 * @see samchon::library
+	 * @author Jeongho Nam
+	 */
+	class SAMCHON_FRAMEWORK_API CombinedPermutationGenerator
+		: public CaseGenerator
 	{
+	private:
+		typedef CaseGenerator super;
+
+	public:
 		/**
-		 * @brief A combined-permutation case generator
-		 * @details
-		 * <p> <sub>n</sub>TT<sub>r</sub> </p>
+		 * @brief Construct from size of N and R
 		 *
-		 * @image html cpp/subset/library_case_generator.png
-		 * @image latex cpp/subset/library_case_generator.png
-		 *
-		 * @see samchon::library
-		 * @author Jeongho Nam
+		 * @copydetails CaseGenerator::CaseGenerator()
 		 */
-		class SAMCHON_FRAMEWORK_API CombinedPermutationGenerator
-			: public CaseGenerator
-		{
-		private:
-			typedef CaseGenerator super;
+		CombinedPermutationGenerator(size_t n, size_t r);
+		virtual ~CombinedPermutationGenerator() = default;
 
-		public:
-			/**
-			 * @brief Construct from size of N and R
-			 *
-			 * @copydetails CaseGenerator::CaseGenerator()
-			 */
-			CombinedPermutationGenerator(size_t n, size_t r);
-			virtual ~CombinedPermutationGenerator() = default;
-
-			virtual auto operator[](size_t) const -> std::vector<size_t> override;
-		};
+		virtual auto operator[](size_t) const->std::vector<size_t> override;
 	};
+};
 };

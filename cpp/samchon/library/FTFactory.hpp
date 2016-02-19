@@ -6,75 +6,75 @@
 
 namespace samchon
 {
-	namespace library
+namespace library
+{
+	class FTInstance;
+	class FTFolder;
+	class FTFile;
+
+	/**
+	 * @brief A Factory and manager for file-tree
+	 *
+	 * @details
+	 * <p> FTFactory is a class taking a role of creating FTFile instances and managing
+	 * them by having their direct pointers. FTFactory also has a role of archiving and
+	 * loading from DB. </p>
+	 *
+	 * @image html cpp/library_file_tree.png
+	 * @image latex cpp/library_file_tree.png
+	 *
+	 * @see samchon::library
+	 * @author Jeongho Nam
+	 */
+	class SAMCHON_FRAMEWORK_API FTFactory
 	{
-		class FTInstance;
-		class FTFolder;
-		class FTFile;
+	protected:
+		/**
+		 * @brief An application id
+		 *
+		 * @details An enumeration code of an application that managed FTInstance(s) are belonged to.
+		 */
+		int application;
 
 		/**
-		 * @brief A Factory and manager for file-tree
+		 * @brief A categori id
+		 *
+		 * @details An enumeration code of a category that managed FTInstance(s) are belonged to.
+		 */
+		int category;
+
+		/**
+		 * @brief Account id of a member
 		 *
 		 * @details
-		 * <p> FTFactory is a class taking a role of creating FTFile instances and managing
-		 * them by having their direct pointers. FTFactory also has a role of archiving and
-		 * loading from DB. </p>
-		 *
-		 * @image html cpp/library_file_tree.png
-		 * @image latex cpp/library_file_tree.png
-		 *
-		 * @see samchon::library
-		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API FTFactory
-		{
-		protected:
-			/**
-			 * @brief An application id
-			 *
-			 * @details An enumeration code of an application that managed FTInstance(s) are belonged to.
-			 */
-			int application;
+		std::string member;
 
-			/**
-			 * @brief A categori id
-			 *
-			 * @details An enumeration code of a category that managed FTInstance(s) are belonged to.
-			 */
-			int category;
+		/**
+		 * @brief Map of files
+		 *
+		 * @details
+		 *	\li key: uid
+		 *	\li value: pointer of file
+		 */
+		Map<int, FTInstance*> instanceMap;
 
-			/**
-			 * @brief Account id of a member
-			 *
-			 * @details 
-			 */
-			std::string member;
+	public:
+		/**
+		 * @brief Default Constructor
+		 */
+		FTFactory();
+		virtual ~FTFactory() = default;
 
-			/**
-			 * @brief Map of files
-			 *
-			 * @details
-			 *	\li key: uid
-			 *	\li value: pointer of file
-			 */
-			Map<int, FTInstance*> instanceMap;
+		/**
+		 * @brief Factory method of a file
+		 */
+		virtual auto createFile(FTFolder*, std::shared_ptr<XML>)->FTFile* = 0;
 
-		public:
-			/**
-			 * @brief Default Constructor
-			 */
-			FTFactory();
-			virtual ~FTFactory() = default;
-
-			/**
-			 * @brief Factory method of a file
-			 */
-			virtual auto createFile(FTFolder*, std::shared_ptr<XML>) -> FTFile* = 0;
-		
-			/**
-			 * @brief Register file instance to map
-			 */
-			void registerInstance(FTInstance*);
-		};
+		/**
+		 * @brief Register file instance to map
+		 */
+		void registerInstance(FTInstance*);
 	};
+};
 };

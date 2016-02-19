@@ -5,16 +5,16 @@
 
 namespace samchon
 {
-	namespace library
-	{
-		class SQLStatement;
+namespace library
+{
+	class SQLStatement;
 
-		class SAMCHON_FRAMEWORK_API SQLLiteConnector
-			: public SQLi
-		{
-		public:
-			SQLLiteConnector();
-			virtual ~SQLLiteConnector();
-		};
+	class SAMCHON_FRAMEWORK_API SQLLiteConnector
+		: public SQLi
+	{
+	public:
+		SQLLiteConnector();
+		virtual ~SQLLiteConnector();
 	};
+};
 };

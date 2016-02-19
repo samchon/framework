@@ -5,9 +5,9 @@
 
 namespace samchon
 {
-	namespace library
-	{
-		class FTFolder;
+namespace library
+{
+	class FTFolder;
 
 		/**
 		 * @brief An interface of file-tree.
@@ -19,79 +19,79 @@ namespace samchon
 		 * @see samchon::library
 		 * @author Jeongho Nam
 		 */
-		class SAMCHON_FRAMEWORK_API FTInstance
-			: public virtual protocol::Entity
-		{
-		private:
-			typedef protocol::Entity super;
+	class SAMCHON_FRAMEWORK_API FTInstance
+		: public virtual protocol::Entity
+	{
+	private:
+		typedef protocol::Entity super;
 
-		protected:
-			virtual auto TAG() const -> std::string;
+	protected:
+		virtual auto TAG() const -> std::string;
 
-			/**
-			 * @brief Parent folder containing the instance
-			 */
-			FTFolder *parent;
+		/**
+		 * @brief Parent folder containing the instance
+		 */
+		FTFolder *parent;
 
-			/**
-			 * @brief Key, an unique id of file
-			 */
-			int uid;
-			
-			/**
-			 * @brief Name of the file
-			 */
-			std::string name;
+		/**
+		 * @brief Key, an unique id of file
+		 */
+		int uid;
 
-			/**
-			 * @brief Comment of the file
-			 */
-			std::string comment;
+		/**
+		 * @brief Name of the file
+		 */
+		std::string name;
 
-		public:
-			/* ========================================================
-				CONSTRUCTORS
-			======================================================== */
-			/**
-			 * @brief Construct from parent folder
-			 *
-			 * @param parent Parent folder that this instance is belonged to
-			 */
-			FTInstance(FTFolder*);
-			virtual ~FTInstance() = default;
+		/**
+		 * @brief Comment of the file
+		 */
+		std::string comment;
 
-			virtual void construct(std::shared_ptr<library::XML> xml);
+	public:
+		/* ========================================================
+			CONSTRUCTORS
+		======================================================== */
+		/**
+		 * @brief Construct from parent folder
+		 *
+		 * @param parent Parent folder that this instance is belonged to
+		 */
+		FTInstance(FTFolder*);
+		virtual ~FTInstance() = default;
 
-			/* ========================================================
-				GETTERS
-			======================================================== */
-			virtual auto key() const -> std::string;
+		virtual void construct(std::shared_ptr<library::XML> xml);
 
-			/**
-			 * @brief Get uid
-			 */
-			auto getUID() const -> int;
+		/* ========================================================
+			GETTERS
+		======================================================== */
+		virtual auto key() const -> std::string;
 
-			/**
-			 * @brief Get parent folder
-			 */
-			auto getParent() const -> FTFolder*;
+		/**
+		 * @brief Get uid
+		 */
+		auto getUID() const -> int;
 
-			/**
-			 * @brief Get name
-			 */
-			auto getName() const -> std::string;
+		/**
+		 * @brief Get parent folder
+		 */
+		auto getParent() const -> FTFolder*;
 
-			/**
-			 * @brief Get comment
-			 */
-			auto getComment() const -> std::string;
+		/**
+		 * @brief Get name
+		 */
+		auto getName() const -> std::string;
+
+		/**
+		 * @brief Get comment
+		 */
+		auto getComment() const -> std::string;
 
 
-			/* ========================================================
-				EXPORTER
-			======================================================== */
-			virtual auto toXML() const -> std::shared_ptr<library::XML>;
-		};
+		/* ========================================================
+			EXPORTER
+		======================================================== */
+		virtual auto toXML() const -> std::shared_ptr<library::XML>;
 	};
+};
 };

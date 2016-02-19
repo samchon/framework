@@ -5,29 +5,29 @@
 
 namespace samchon
 {
-	namespace library
+namespace library
+{
+	class SQLStatement;
+
+	/**
+	 * @brief A SQL interface for My-SQL
+	 *
+	 * @copydetails library::SQLi
+	 */
+	class SAMCHON_FRAMEWORK_API MySQLi
+		: public SQLi
 	{
-		class SQLStatement;
+	private:
+		typedef SQLi super;
 
+	public:
 		/**
-		 * @brief A SQL interface for My-SQL
+		 * @brief Construct from port
 		 *
-		 * @copydetails library::SQLi
+		 * @param port Port number of My-SQL. default is 3306.
 		 */
-		class SAMCHON_FRAMEWORK_API MySQLi
-			: public SQLi
-		{
-		private:
-			typedef SQLi super;
-
-		public:
-			/**
-			 * @brief Construct from port
-			 *
-			 * @param port Port number of My-SQL. default is 3306.
-			 */
-			MySQLi(int port = 3306);
-			virtual ~MySQLi();
-		};
+		MySQLi(int port = 3306);
+		virtual ~MySQLi();
 	};
+};
 };

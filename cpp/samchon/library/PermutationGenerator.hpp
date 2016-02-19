@@ -5,35 +5,35 @@
 
 namespace samchon
 {
-	namespace library
+namespace library
+{
+	/**
+	 * @brief A permutation case generator
+	 * @details 
+	 * <p> nPr </p>
+	 *
+	 * @image html cpp/subset/library_case_generator.png
+	 * @image latex cpp/subset/library_case_generator.png
+	 *
+	 * @see samchon::library
+	 * @author Jeongho Nam
+	 */
+	class SAMCHON_FRAMEWORK_API PermutationGenerator
+		: public CaseGenerator
 	{
+	private:
+		typedef CaseGenerator super;
+
+	public:
 		/**
-		 * @brief A permutation case generator
-		 * @details 
-		 * <p> nPr </p>
+		 * @brief Construct from size of N and R
 		 *
-		 * @image html cpp/subset/library_case_generator.png
-		 * @image latex cpp/subset/library_case_generator.png
-		 *
-		 * @see samchon::library
-		 * @author Jeongho Nam
+		 * @copydetails CaseGenerator::CaseGenerator()
 		 */
-		class SAMCHON_FRAMEWORK_API PermutationGenerator
-			: public CaseGenerator
-		{
-		private:
-			typedef CaseGenerator super;
+		PermutationGenerator(size_t n, size_t r);
+		virtual ~PermutationGenerator() = default;
 
-		public:
-			/**
-			 * @brief Construct from size of N and R
-			 *
-			 * @copydetails CaseGenerator::CaseGenerator()
-			 */
-			PermutationGenerator(size_t n, size_t r);
-			virtual ~PermutationGenerator() = default;
-
-			virtual auto operator[](size_t) const -> std::vector<size_t> override;
-		};
+		virtual auto operator[](size_t) const->std::vector<size_t> override;
 	};
+};
 };

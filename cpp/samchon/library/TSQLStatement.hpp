@@ -5,43 +5,42 @@
 
 namespace samchon
 {
-	namespace library
+namespace library
+{
+	class SQLi;
+
+	/**
+	 * @brief A t-sql statement
+	 *
+	 * @details
+	 * <p> TSQLStatement is a SQLStatement for adjusting domain function f T-SQL, 'FOR XML' statement. </p>
+	 *
+	 * \par [Inherited]
+	 * @copydetails library::SQLStatement
+	 */
+	class SAMCHON_FRAMEWORK_API TSQLStatement
+		: public SQLStatement
 	{
-		class SQLi;
+		friend class TSQLi;
+
+	private:
+		typedef SQLStatement super;
+
+	protected:
+		TSQLStatement(SQLi *sqli);
+
+	public:
+		virtual ~TSQLStatement();
 
 		/**
-		 * @brief A t-sql statement
+		 * @brief Return an XML representing records.
 		 *
-		 * @details 
-		 * <p> TSQLStatement is a SQLStatement for adjusting domain function f T-SQL, 'FOR XML' statement. </p>
+		 * @details
+		 * Get an XML object generated from a sql statement containing 'FOR XML'
 		 *
-		 * \par [Inherited]
-		 * @copydetails library::SQLStatement
+		 * @return XML represents records
 		 */
-		class SAMCHON_FRAMEWORK_API TSQLStatement
-			: public SQLStatement
-		{
-			friend class TSQLi;
-
-		private:
-			typedef SQLStatement super;
-
-		protected:
-			TSQLStatement(SQLi *sqli);
-
-		public:
-			virtual ~TSQLStatement();
-
-			//virtual auto getDataAsByteArray(short) -> vector<unsigned char>;
-			/**
-			 * @brief Return an XML representing records.
-			 *
-			 * @details
-			 * Get an XML object generated from a sql statement containing 'FOR XML'
-			 *
-			 * @return XML represents records
-			 */
-			virtual auto toXML() const -> std::shared_ptr<XML> override;
-		};
+		virtual auto toXML() const -> std::shared_ptr<XML> override;
 	};
+};
 };

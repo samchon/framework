@@ -5,41 +5,41 @@
 
 namespace samchon
 {
-	namespace library
+namespace library
+{
+	/**
+	 * @brief A text file
+	 * @details A file having data as text.
+	 *
+	 * @image html cpp/library_file_tree.png
+	 * @image latex cpp/library_file_tree.png
+	 *
+	 * @see samchon::library
+	 * @author Jeongho Nam
+	 */
+	class SAMCHON_FRAMEWORK_API FTTextFile
+		: public FTFile
 	{
+	private:
+		typedef protocol::Entity FTFile;
+
+	protected:
 		/**
-		 * @brief A text file
-		 * @details A file having data as text.
-		 *
-		 * @image html cpp/library_file_tree.png
-		 * @image latex cpp/library_file_tree.png
-		 *
-		 * @see samchon::library
-		 * @author Jeongho Nam
+		 * @brief Text recorded in the file
 		 */
-		class SAMCHON_FRAMEWORK_API FTTextFile
-			: public FTFile
-		{
-		private:
-			typedef protocol::Entity FTFile;
+		std::string data;
 
-		protected:
-			/**
-			 * @brief Text recorded in the file
-			 */
-			std::string data;
+	public:
+		/**
+		 * @copydoc FTFile::FTFile()
+		 */
+		FTTextFile(FTFolder*);
+		virtual ~FTTextFile() = default;
 
-		public:
-			/**
-			 * @copydoc FTFile::FTFile()
-			 */
-			FTTextFile(FTFolder*);
-			virtual ~FTTextFile() = default;
-
-			/**
-			 * @brief Get string content.
-			 */
-			auto getData() const -> std::string;
-		};
+		/**
+		 * @brief Get string content.
+		 */
+		auto getData() const->std::string;
 	};
+};
 };

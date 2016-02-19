@@ -5,36 +5,36 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+namespace master
+{
+	class DSInvokeHistory;
+
+	/**
+	 * @brief An array of PRInvokeHistory.
+	 *
+	 * @author Jeongho Nam
+	 */
+	class SAMCHON_FRAMEWORK_API DSInvokeHistoryArray
+		: public InvokeHistoryArray
 	{
-		namespace master
-		{
-			class DSInvokeHistory;
+	protected:
+		typedef InvokeHistoryArray super;
 
-			/**
-			* @brief An array of PRInvokeHistory.
-			*
-			* @author Jeongho Nam
-			*/
-			class SAMCHON_FRAMEWORK_API DSInvokeHistoryArray
-				: public InvokeHistoryArray
-			{
-			protected:
-				typedef InvokeHistoryArray super;
+	public:
+		/**
+		* @brief Default Constructor.
+		*/
+		DSInvokeHistoryArray();
+		virtual ~DSInvokeHistoryArray() = default;
 
-			public:
-				/**
-				* @brief Default Constructor.
-				*/
-				DSInvokeHistoryArray();
-				virtual ~DSInvokeHistoryArray() = default;
+	protected:
+		virtual auto createChild(std::shared_ptr<library::XML>)->InvokeHistory* override;
 
-			protected:
-				virtual auto createChild(std::shared_ptr<library::XML>) -> InvokeHistory* override;
-
-			public:
-				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(DSInvokeHistory)
-			};
-		};
+	public:
+		SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(DSInvokeHistory)
 	};
+};
+};
 };

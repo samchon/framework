@@ -6,37 +6,37 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+namespace master
+{
+	/**
+	 * @brief A network driver for a distributed server.
+	 *
+	 * @details 
+	 * <p> DistributedServer is an DistributedSystem specialized in server driver. </p>
+	 *
+	 * \par [Inherited]
+	 *		@copydetails master::DistributedSystem
+	 */
+	class SAMCHON_FRAMEWORK_API DistributedServer
+		: public virtual DistributedSystem,
+		public virtual ExternalServer
 	{
-		namespace master
-		{
-			/**
-			 * @brief A network driver for a distributed server.
-			 *
-			 * @details 
-			 * <p> DistributedServer is an DistributedSystem specialized in server driver. </p>
-			 *
-			 * \par [Inherited]
-			 *		@copydetails master::DistributedSystem
-			 */
-			class SAMCHON_FRAMEWORK_API DistributedServer
-				: public virtual DistributedSystem,
-				public virtual ExternalServer
-			{
-			private:
-				typedef DistributedSystem super;
-				typedef ExternalServer network_super;
+	private:
+		typedef DistributedSystem super;
+		typedef ExternalServer network_super;
 
-			public:
-				/**
-				 * @brief Default Constructor.
-				 */
-				DistributedServer();
-				virtual ~DistributedServer() = default;
+	public:
+		/**
+		 * @brief Default Constructor.
+		 */
+		DistributedServer();
+		virtual ~DistributedServer() = default;
 
-				virtual void construct(std::shared_ptr<library::XML>) override;
-				virtual auto toXML() const -> std::shared_ptr<library::XML> override;
-			};
-		};
+		virtual void construct(std::shared_ptr<library::XML>) override;
+		virtual auto toXML() const->std::shared_ptr<library::XML> override;
 	};
+};
+};
 };

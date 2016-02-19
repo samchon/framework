@@ -5,89 +5,89 @@
 
 namespace samchon
 {
-	namespace namtree
+namespace namtree
+{
+	/**
+	 * @brief An interface for exploration
+	 *
+	 * @details
+	 * <p> @image html  cpp/result/namtree_i_nt_explore.png
+	 *	   @image latex cpp/result/namtree_i_nt_explore.png </p>
+	 *
+	 * <p> INTExplore is an interface containing some parameters for grid optimization method. </p>
+	 *
+	 * <p> @image html  cpp/namtree_file.png
+	 *	   @image latex cpp/namtree_file.png </p>
+	 *
+	 * @see samchon::namtree
+	 * @author Jeongho Nam
+	 */
+	class SAMCHON_FRAMEWORK_API INTExplore
+		: public virtual protocol::Entity
 	{
+	private:
+		typedef protocol::Entity super;
+
+	protected:
 		/**
-		 * @brief An interface for exploration
-		 *
-		 * @details
-		 * <p> @image html  cpp/result/namtree_i_nt_explore.png
-		 *	   @image latex cpp/result/namtree_i_nt_explore.png </p>
-		 *
-		 * <p> INTExplore is an interface containing some parameters for grid optimization method. </p>
-		 *
-		 * <p> @image html  cpp/namtree_file.png
-		 *	   @image latex cpp/namtree_file.png </p>
-		 *
-		 * @see samchon::namtree
-		 * @author Jeongho Nam
+		 * @brief Minimum value
 		 */
-		class SAMCHON_FRAMEWORK_API INTExplore
-			: public virtual protocol::Entity
-		{
-		private:
-			typedef protocol::Entity super;
+		double minimum;
 
-		protected:
-			/**
-			 * @brief Minimum value
-			 */
-			double minimum;
+		/**
+		 * @brief Maximum value
+		 */
+		double maximum;
 
-			/**
-			 * @brief Maximum value 
-			 */
-			double maximum;
+		/**
+		 * @brief Section number of exploration
+		 */
+		unsigned int section;
 
-			/**
-			 * @brief Section number of exploration
-			 */
-			unsigned int section;
+		/**
+		 * @brief Target precision: 10<sup>precision</sup>
+		 */
+		int precision;
 
-			/**
-			 * @brief Target precision: 10<sup>precision</sup>
-			 */
-			int precision;
+	public:
+		/* -------------------------------------------------------------------
+			CONSTRUCTORS
+		------------------------------------------------------------------- */
+		/**
+		 * @brief Default Constructor
+		 */
+		INTExplore();
+		virtual ~INTExplore() = default;
 
-		public:
-			/* -------------------------------------------------------------------
-				CONSTRUCTORS
-			------------------------------------------------------------------- */
-			/**
-			 * @brief Default Constructor
-			 */
-			INTExplore();
-			virtual ~INTExplore() = default;
+		virtual void construct(std::shared_ptr<library::XML>);
 
-			virtual void construct(std::shared_ptr<library::XML>);
+		/* -------------------------------------------------------------------
+			GETTERS
+		------------------------------------------------------------------- */
+		/**
+		 * @brief Get minimum
+		 */
+		auto getMinimum() const -> double;
 
-			/* -------------------------------------------------------------------
-				GETTERS
-			------------------------------------------------------------------- */
-			/**
-			 * @brief Get minimum
-			 */
-			auto getMinimum() const -> double;
+		/**
+		 * @brief Get maximum
+		 */
+		auto getMaximum() const -> double;
 
-			/**
-			 * @brief Get maximum
-			 */
-			auto getMaximum() const -> double;
+		/**
+		 * @brief Get section
+		 */
+		auto getSection() const -> unsigned int;
 
-			/**
-			 * @brief Get section
-			 */
-			auto getSection() const -> unsigned int;
+		/**
+		 * @brief Get precision
+		 */
+		auto getPrecision() const -> int;
 
-			/**
-			 * @brief Get precision
-			 */
-			auto getPrecision() const -> int;
-
-			/* -------------------------------------------------------------------
-				EXPORTERS
-			------------------------------------------------------------------- */
-			virtual auto toXML() const -> std::shared_ptr<library::XML>;
-		};
+		/* -------------------------------------------------------------------
+			EXPORTERS
+		------------------------------------------------------------------- */
+		virtual auto toXML() const->std::shared_ptr<library::XML>;
 	};
+};
 };

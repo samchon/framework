@@ -9,126 +9,127 @@
 
 namespace samchon
 {
-	namespace library
+namespace library
+{
+	class SQLi;
+	class SQLStatement;
+};
+namespace protocol
+{
+namespace service
+{
+	class IPUserPair;
+	class User;
+	class Client;
+
+	/**
+	 * @brief A server for (cloud) service
+	 *
+	 * @details
+	 * <p> A server class representing the real physical server of a cloud. </p>
+	 *
+	 * <p> The Server is very good for development of a cloud server. You can use web or flex as
+	 * (physical) client. The usage is very simple. In the class Server, what you need to do are
+	 * overriding getter of port number and factory method creating an User. </p>
+	 *
+	 * @image html  cpp/protocol_service.png
+	 * @image latex cpp/protocol_service.png
+	 *
+	 * @note Override those methods.
+	 *  \li Server::NAME()
+	 * 	\li Server::PORT()
+	 * 	\li Server::createUser()
+	 *
+	 * @see samchon::protocol
+	 * @see samchon::protocol::service
+	 *
+	 * @author Jeongho Nam
+	 */
+	class SAMCHON_FRAMEWORK_API Server
+		: private Dictionary<SmartPointer<User>>,
+		public IServer
 	{
-		class SQLi;
-		class SQLStatement;
-	}
-	namespace protocol
-	{
-		namespace service
-		{
-			class IPUserPair;
-			class User;
-			class Client;
+		friend class IPUserPair;
+		friend class User;
 
-			/**
-			 * @brief A server for (cloud) service
-			 *
-			 * @details
-			 * <p> A server class representing the real physical server of a cloud. </p>
-			 *
-			 * <p> The Server is very good for development of a cloud server. You can use web or flex as 
-			 * (physical) client. The usage is very simple. In the class Server, what you need to do are 
-			 * overriding getter of port number and factory method creating an User. </p>
-			 *
-			 * @image html  cpp/protocol_service.png
-			 * @image latex cpp/protocol_service.png
-			 *
-			 * @note Override those methods.
-			 *  \li Server::NAME()
-			 * 	\li Server::PORT()
-			 * 	\li Server::createUser()
-			 *
-			 * @see samchon::protocol
-			 * @see samchon::protocol::service
-			 * @author Jeongho Nam
-			 */
-			class SAMCHON_FRAMEWORK_API Server
-				: private Dictionary<SmartPointer<User>>,
-				public IServer
-			{
-				friend class IPUserPair;
-				friend class User;
-				
-			private:
-				typedef Dictionary<SmartPointer<User>> super;
-			
-			protected:
-				/**
-				 * @brief A name can be an identifier of a cloud server.
-				 */
-				virtual auto NAME() const -> std::string = 0;
+	private:
+		typedef Dictionary<SmartPointer<User>> super;
 
-				/**
-				 * @brief SQLi for archiving log
-				 */
-				library::SQLi *sqli;
+	protected:
+		/**
+		 * @brief A name can be an identifier of a cloud server.
+		 */
+		virtual auto NAME() const->std::string = 0;
 
-			private:
-				library::RWMutex mtx;
-				
-				/**
-				 * @brief Dictionary of issuer of session ID of each ip
-				 */
-				Dictionary<std::shared_ptr<IPUserPair>> ipMap;
+		/**
+		 * @brief SQLi for archiving log
+		 */
+		library::SQLi *sqli;
 
-				/**
-				 * @brief Sequence for issuing session ID
-				 */
-				size_t sequence;
+	private:
+		library::RWMutex mtx;
 
-			public:
-				/**
-				 * @brief Default Constructor
-				 */
-				Server();
-				virtual ~Server();
+		/**
+		 * @brief Dictionary of issuer of session ID of each ip
+		 */
+		Dictionary<std::shared_ptr<IPUserPair>> ipMap;
 
-				/* =========================================================
-					GETTERS
-				========================================================= */
-				auto getSQLi() const -> library::SQLi*;
+		/**
+		 * @brief Sequence for issuing session ID
+		 */
+		size_t sequence;
 
-				/* =========================================================
-					ACCESSORS OF MAP
-				========================================================= */
-				/**
-				 * @brief Size of User(s).
-				 */
-				auto size() const -> size_t;
+	public:
+		/**
+		 * @brief Default Constructor
+		 */
+		Server();
+		virtual ~Server();
 
-				/**
-				 * @brief A const iterator of begin
-				 *
-				 * @note Be careful about concurrency
-				 */
-				auto begin() const -> const_iterator;
+		/* =========================================================
+			GETTERS
+		========================================================= */
+		auto getSQLi() const->library::SQLi*;
 
-				/**
-				 * @brief A const iterator of end
-				 *
-				 * @note Be careful about concurrency
-				 */
-				auto end() const -> const_iterator;
+		/* =========================================================
+			ACCESSORS OF MAP
+		========================================================= */
+		/**
+		 * @brief Size of User(s).
+		 */
+		auto size() const->size_t;
 
-			protected:
-				/* =========================================================
-					ABSTRACT METHODS
-				========================================================= */
-				/**
-				 * @brief Factory method of User
-				 */
-				virtual auto createUser() -> User* = 0;
+		/**
+		 * @brief A const iterator of begin
+		 *
+		 * @note Be careful about concurrency
+		 */
+		auto begin() const->const_iterator;
 
-				/**
-				* @brief Handling connection of a client
-				*/
-				virtual void addClient(Socket*) override;
+		/**
+		 * @brief A const iterator of end
+		 *
+		 * @note Be careful about concurrency
+		 */
+		auto end() const->const_iterator;
 
-			private:
-				void eraseUser(const std::string &);
-			};
-		};
+	protected:
+		/* =========================================================
+			ABSTRACT METHODS
+		========================================================= */
+		/**
+		 * @brief Factory method of User
+		 */
+		virtual auto createUser()->User* = 0;
+
+		/**
+		* @brief Handling connection of a client
+		*/
+		virtual void addClient(Socket*) override;
+
+	private:
+		void eraseUser(const std::string &);
 	};
+};
+};
 };

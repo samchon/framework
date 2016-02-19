@@ -93,78 +93,78 @@ auto _Class::operator>=(const _Ty &obj) const -> bool \
 
 namespace samchon
 {
-	namespace library
+namespace library
+{
+	/**
+	 * @brief Interface for comparision operator
+	 *
+	 * @details
+	 * <p> IOperator is a template class makes enalbe to realizing all compare operators by 
+	 * only overriding operator< and operator== methods. </p>
+	 *	\li [!=] -> [NOT ==]
+	 *	\li [<=] -> [< OR ==]
+	 *	\li [>] -> [NOT < AND NOT ==]
+	 *	\li [>=] -> [NOT <]
+	 *
+	 * <p> Methods operator< and operator== are abstract. Overrides them. </p>
+	 *
+	 * @note 
+	 * If you want to realize all comparison operators without inheritance and specifying
+	 * clear type of parameter, you can use following macros instead.
+	 *
+	 *	\li OPERATOR_METHODS_INLINE(_Ty)
+	 *	\li OPERATOR_METHODS_HEADER(_Ty)
+	 *	\li OPERATOR_METHODS_BODY(_Class, _Ty)
+	 *
+	 * @see samchon::library
+	 * @author Jeongho Nam
+	 */
+	template <typename _Ty>
+	class IOperator
 	{
+	public:
 		/**
-		 * @brief Interface for comparision operator
-		 *
-		 * @details
-		 * <p> IOperator is a template class makes enalbe to realizing all compare operators by 
-		 * only overriding operator< and operator== methods. </p>
-		 *	\li [!=] -> [NOT ==]
-		 *	\li [<=] -> [< OR ==]
-		 *	\li [>] -> [NOT < AND NOT ==]
-		 *	\li [>=] -> [NOT <]
-		 *
-		 * <p> Methods operator< and operator== are abstract. Overrides them. </p>
-		 *
-		 * @note 
-		 * If you want to realize all comparison operators without inheritance and specifying
-		 * clear type of parameter, you can use following macros instead.
-		 *
-		 *	\li OPERATOR_METHODS_INLINE(_Ty)
-		 *	\li OPERATOR_METHODS_HEADER(_Ty)
-		 *	\li OPERATOR_METHODS_BODY(_Class, _Ty)
-		 *
-		 * @see samchon::library
-		 * @author Jeongho Nam
+		 * @brief Default Constructor
 		 */
-		template <typename _Ty>
-		class IOperator
+		IOperator()
 		{
-		public:
-			/** 
-			 * @brief Default Constructor
-			 */
-			IOperator()
-			{
-			};
-			virtual ~IOperator() = default;
-			
-			/**
-			 * @brief Less
-			 * @details Overrides method less.
-			 *
-			 * @param obj The object to compare.
-			 * @return The object is less than this.
-			 */
-			virtual auto operator<(const IOperator&) const -> bool = 0;
-
-			/**
-			 * @brief Equal
-			 * @details Overrides methods equal.
-			 *
-			 * @param obj The object to compare.
-			 * @return The object is equal with this.
-			 */
-			virtual auto operator==(const IOperator&) const -> bool = 0;
-
-			auto operator!=(const IOperator<_Ty> &obj) const -> bool
-			{
-				return !operator==(obj);
-			};
-			auto operator<=(const IOperator<_Ty> &obj) const -> bool
-			{
-				return operator<(obj) || operator==(obj);
-			};
-			auto operator>(const IOperator<_Ty> &obj) const -> bool
-			{
-				return !operator<(obj) && !operator==(obj);
-			};
-			auto operator>=(const IOperator<_Ty> &obj) const -> bool
-			{
-				return !operator<(obj);
-			};
 		};
-	}
+		virtual ~IOperator() = default;
+
+		/**
+		 * @brief Less
+		 * @details Overrides method less.
+		 *
+		 * @param obj The object to compare.
+		 * @return The object is less than this.
+		 */
+		virtual auto operator<(const IOperator&) const -> bool = 0;
+
+		/**
+		 * @brief Equal
+		 * @details Overrides methods equal.
+		 *
+		 * @param obj The object to compare.
+		 * @return The object is equal with this.
+		 */
+		virtual auto operator==(const IOperator&) const -> bool = 0;
+
+		auto operator!=(const IOperator<_Ty> &obj) const -> bool
+		{
+			return !operator==(obj);
+		};
+		auto operator<=(const IOperator<_Ty> &obj) const -> bool
+		{
+			return operator<(obj) || operator==(obj);
+		};
+		auto operator>(const IOperator<_Ty> &obj) const -> bool
+		{
+			return !operator<(obj) && !operator==(obj);
+		};
+		auto operator>=(const IOperator<_Ty> &obj) const -> bool
+		{
+			return !operator<(obj);
+		};
+	};
+};
 };

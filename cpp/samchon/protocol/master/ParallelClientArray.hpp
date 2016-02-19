@@ -6,34 +6,34 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+namespace master
+{
+	/**
+	 * @brief An array of ParallelClient(s).
+	 *
+	 * @details
+	 * <p> ParallelClientArray is an ParallelSystemArray specialized in clients' driver. </p>
+	 *
+	 * \par [Inherited]
+	 *		@copydetails master::DistributedSystemArray
+	 */
+	class SAMCHON_FRAMEWORK_API ParallelClientArray
+		: public virtual ParallelSystemArray,
+		public virtual ExternalClientArray
 	{
-		namespace master
-		{
-			/**
-			 * @brief An array of ParallelClient(s).
-			 *
-			 * @details
-			 * <p> ParallelClientArray is an ParallelSystemArray specialized in clients' driver. </p>
-			 *
-			 * \par [Inherited]
-			 *		@copydetails master::DistributedSystemArray
-			 */
-			class SAMCHON_FRAMEWORK_API ParallelClientArray
-				: public virtual ParallelSystemArray,
-				public virtual ExternalClientArray
-			{
-			protected:
-				typedef ParallelSystemArray super;
-				typedef ExternalClientArray network_super;
+	protected:
+		typedef ParallelSystemArray super;
+		typedef ExternalClientArray network_super;
 
-			public:
-				/**
-				 * @brief Default Constructor.
-				 */
-				ParallelClientArray();
-				virtual ~ParallelClientArray() = default;
-			};
-		};
+	public:
+		/**
+		 * @brief Default Constructor.
+		 */
+		ParallelClientArray();
+		virtual ~ParallelClientArray() = default;
 	};
+};
+};
 };

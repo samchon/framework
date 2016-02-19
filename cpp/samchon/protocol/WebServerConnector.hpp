@@ -6,36 +6,36 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+	/**
+	 * @brief A web-socket server connector
+	 *
+	 * @details  
+	 * <p> WebServerConnector is a ServerConnector following web-socket protocol. </p>
+	 *
+	 * \par [Inherited]
+	 * @copydetails protocol::ServerConnector
+	 */
+	class SAMCHON_FRAMEWORK_API WebServerConnector
+		: public ServerConnector,
+		public virtual IWebClient<CLIENT>
 	{
+	private:
+		typedef ServerConnector super;
+		typedef IWebClient<CLIENT> web_super;
+
+	public:
 		/**
-		 * @brief A web-socket server connector
-		 *
-		 * @details  
-		 * <p> WebServerConnector is a ServerConnector following web-socket protocol. </p>
-		 *
-		 * \par [Inherited]
-		 * @copydetails protocol::ServerConnector
+		 * @brief Default Constructor.
 		 */
-		class SAMCHON_FRAMEWORK_API WebServerConnector
-			: public ServerConnector,
-			public virtual IWebClient<CLIENT>
-		{
-		private:
-			typedef ServerConnector super;
-			typedef IWebClient<CLIENT> web_super;
+		WebServerConnector();
+		virtual ~WebServerConnector() = default;
 
-		public:
-			/**
-			 * @brief Default Constructor.
-			 */
-			WebServerConnector();
-			virtual ~WebServerConnector() = default;
-
-			/**
-			 * @brief Connect to a server following web-socket protoocol.
-			 */
-			virtual void connect() override;
-		};
+		/**
+		 * @brief Connect to a server following web-socket protoocol.
+		 */
+		virtual void connect() override;
 	};
+};
 };

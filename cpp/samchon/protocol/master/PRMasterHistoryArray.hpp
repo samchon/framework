@@ -7,40 +7,40 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+namespace master
+{
+	class ParallelSystemArray;
+	class PRMasterHistory;
+
+	/**
+	 * @brief An array of invoke histories of master.
+	 *  
+	 * @author Jeongho Nam
+	 */
+	class SAMCHON_FRAMEWORK_API PRMasterHistoryArray
+		: public PRInvokeHistoryArray
 	{
-		namespace master
-		{
-			class ParallelSystemArray;
-			class PRMasterHistory;
+		friend class PRMasterHistory;
 
-			/**
-			 * @brief An array of invoke histories of master.
-			 *  
-			 * @author Jeongho Nam
-			 */
-			class SAMCHON_FRAMEWORK_API PRMasterHistoryArray
-				: public PRInvokeHistoryArray
-			{
-				friend class PRMasterHistory;
+	protected:
+		typedef PRInvokeHistoryArray super;
 
-			protected:
-				typedef PRInvokeHistoryArray super;
+		/**
+		 * @brief A master the array of histories is belonged to.
+		 */
+		ParallelSystemArray *master;
 
-				/**
-				 * @brief A master the array of histories is belonged to.
-				 */
-				ParallelSystemArray *master;
+	public:
+		/**
+		 * @brief Construct from a master.
+		 */
+		PRMasterHistoryArray(ParallelSystemArray*);
+		virtual ~PRMasterHistoryArray() = default;
 
-			public:
-				/**
-				 * @brief Construct from a master.
-				 */
-				PRMasterHistoryArray(ParallelSystemArray*);
-				virtual ~PRMasterHistoryArray() = default;
-
-				SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(PRMasterHistory)
-			};
-		};
+		SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(PRMasterHistory)
 	};
+};
+};
 };

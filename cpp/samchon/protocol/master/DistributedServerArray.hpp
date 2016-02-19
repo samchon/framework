@@ -6,36 +6,36 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+namespace master
+{
+	/**
+	 * @brief An array of DistributedServer(s).
+	 *
+	 * @details
+	 * <p> DistributedServerArray is an DistributedSystemArray specialized in servers' driver. </p>
+	 *
+	 * \par [Inherited]
+	 *		@copydetails master::DistributedSystemArray
+	 */
+	class SAMCHON_FRAMEWORK_API DistributedServerArray
+		: public virtual DistributedSystemArray,
+		public virtual ExternalServerArray
 	{
-		namespace master
-		{
-			/**
-			 * @brief An array of DistributedServer(s).
-			 *
-			 * @details
-			 * <p> DistributedServerArray is an DistributedSystemArray specialized in servers' driver. </p>
-			 *
-			 * \par [Inherited]
-			 *		@copydetails master::DistributedSystemArray
-			 */
-			class SAMCHON_FRAMEWORK_API DistributedServerArray
-				: public virtual DistributedSystemArray,
-				public virtual ExternalServerArray
-			{
-			private:
-				typedef DistributedSystemArray super;
-				typedef ExternalServerArray network_super;
+	private:
+		typedef DistributedSystemArray super;
+		typedef ExternalServerArray network_super;
 
-			public:
-				/**
-				 * @brief Default Constructor.
-				 */
-				DistributedServerArray();
-				virtual ~DistributedServerArray() = default;
+	public:
+		/**
+		 * @brief Default Constructor.
+		 */
+		DistributedServerArray();
+		virtual ~DistributedServerArray() = default;
 
-				virtual void start() override;
-			};
-		};
+		virtual void start() override;
 	};
+};
+};
 };

@@ -5,30 +5,30 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+	template<ENUM_DIRECTION _Direction>
+	class IWebClient
+		: public IWebClientBase
 	{
-		template<ENUM_DIRECTION _Direction>
-		class IWebClient
-			: public IWebClientBase
+	private:
+		typedef IWebClientBase super;
+
+	public:
+		IWebClient()
+			: super()
 		{
-		private:
-			typedef IWebClientBase super;
-
-		public:
-			IWebClient()
-				: super()
-			{
-			};
-			virtual ~IWebClient() = default;
-
-		protected:
-			virtual auto DIRECTION() const -> ENUM_DIRECTION final
-			{
-				return _Direction;
-			};
 		};
+		virtual ~IWebClient() = default;
 
-		SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API IWebClient<SERVER>;
-		SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API IWebClient<CLIENT>;
+	protected:
+		virtual auto DIRECTION() const -> ENUM_DIRECTION final
+		{
+			return _Direction;
+		};
 	};
+
+	SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API IWebClient<SERVER>;
+	SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API IWebClient<CLIENT>;
+};
 };

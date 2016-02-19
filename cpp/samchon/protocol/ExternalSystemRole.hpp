@@ -8,116 +8,116 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+	class ExternalSystem;
+
+	/**
+	 * @brief A role belongs to an external system.
+	 *
+	 * @details
+	 * <p> ExternalSystemRole is a 'control' class groupping methods, handling Invoke messages 
+	 * interacting with an external system that the ExternalSystemRole is belonged to, by a subject or 
+	 * unit of a module. <p>
+	 *
+	 * <p> ExternalSystemRole can be a "logical proxy" for an ExternalSystem which is containing the 
+	 * ExternalSystemRole. Of course, the ExternalSystemRole is belonged to an ExternalSystem. However, 
+	 * if you access an ExternalSystemRole from an ExternalSystemArray directly, not passing by a 
+	 * belonged ExternalSystem, and send an Invoke message even you're not knowing which ExternalSystem 
+	 * is related in, the ExternalSystemRole acted a role of proxy. </p>
+	 *
+	 * <p> It's called as "Proxy pattern". With the pattern, you can only concentrate on 
+	 * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole 
+	 * is belonged to which ExternalSystem. </p>
+	 *
+	 * @image html  cpp/protocol_external_system.png
+	 * @image latex cpp/protocol_external_system.png
+	 *
+	 * @see samchon::protocol
+	 * @author Jeongho Nam
+	 */
+	class SAMCHON_FRAMEWORK_API ExternalSystemRole
+		: public Entity,
+		public IProtocol
 	{
-		class ExternalSystem;
+	protected:
+		typedef Entity super;
+
+	private:
+		/**
+		 * @brief A driver of external system containing the ExternalSystemRole.
+		 */
+		ExternalSystem *system;
+
+	protected:
+		/**
+		 * @brief A name representing the role.
+		 */
+		std::string name;
 
 		/**
-		 * @brief A role belongs to an external system.
-		 *
-		 * @details
-		 * <p> ExternalSystemRole is a 'control' class groupping methods, handling Invoke messages 
-		 * interacting with an external system that the ExternalSystemRole is belonged to, by a subject or 
-		 * unit of a module. <p>
-		 *
-		 * <p> ExternalSystemRole can be a "logical proxy" for an ExternalSystem which is containing the 
-		 * ExternalSystemRole. Of course, the ExternalSystemRole is belonged to an ExternalSystem. However, 
-		 * if you access an ExternalSystemRole from an ExternalSystemArray directly, not passing by a 
-		 * belonged ExternalSystem, and send an Invoke message even you're not knowing which ExternalSystem 
-		 * is related in, the ExternalSystemRole acted a role of proxy. </p>
-		 *
-		 * <p> It's called as "Proxy pattern". With the pattern, you can only concentrate on 
-		 * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole 
-		 * is belonged to which ExternalSystem. </p>
-		 *
-		 * @image html  cpp/protocol_external_system.png
-		 * @image latex cpp/protocol_external_system.png
-		 *
-		 * @see samchon::protocol
-		 * @author Jeongho Nam
+		 * @brief Listeners to reply in the role.
 		 */
-		class SAMCHON_FRAMEWORK_API ExternalSystemRole
-			: public Entity,
-			public IProtocol
-		{
-		protected:
-			typedef Entity super;
+		std::set<std::string> replyListeners;
 
-		private:
-			/**
-			 * @brief A driver of external system containing the ExternalSystemRole.
-			 */
-			ExternalSystem *system;
+		/**
+		 * @brief Listeners to send in the role.
+		 */
+		std::set<std::string> sendListeners;
 
-		protected:
-			/**
-			 * @brief A name representing the role.
-			 */
-			std::string name;
+	public:
+		/* ------------------------------------------------------------------
+			CONSTRUCTORS
+		------------------------------------------------------------------ */
+		/**
+		 * @brief Construct from external system driver
+		 *
+		 * @param system A driver of external system the ExternalSystemRole is belonged to.
+		 */
+		ExternalSystemRole(ExternalSystem *);
+		virtual ~ExternalSystemRole() = default;
 
-			/**
-			 * @brief Listeners to reply in the role.
-			 */
-			std::set<std::string> replyListeners;
+		virtual void construct(std::shared_ptr<library::XML>) override;
 
-			/**
-			 * @brief Listeners to send in the role.
-			 */
-			std::set<std::string> sendListeners;
+	private:
+		void constructListeners(std::set<std::string> &, const std::shared_ptr<library::XML>);
 
-		public:
-			/* ------------------------------------------------------------------
-				CONSTRUCTORS
-			------------------------------------------------------------------ */
-			/**
-			 * @brief Construct from external system driver
-			 *
-			 * @param system A driver of external system the ExternalSystemRole is belonged to.
-			 */
-			ExternalSystemRole(ExternalSystem *);
-			virtual ~ExternalSystemRole() = default;
+	public:
+		/* ------------------------------------------------------------------
+			GETTERS
+		------------------------------------------------------------------ */
+		/**
+		 * @brief Get an external system driver.
+		 */
+		auto getSystem() const->ExternalSystem*;
 
-			virtual void construct(std::shared_ptr<library::XML>) override;
+		virtual auto key() const->std::string override;
 
-		private:
-			void constructListeners(std::set<std::string> &, const std::shared_ptr<library::XML>);
-		
-		public:
-			/* ------------------------------------------------------------------
-				GETTERS
-			------------------------------------------------------------------ */
-			/**
-			 * @brief Get an external system driver.
-			 */
-			auto getSystem() const -> ExternalSystem*;
+		/**
+		 * @brief Test whether has a listener for send in the role.
+		 */
+		auto hasSendListener(const std::string &) const -> bool;
 
-			virtual auto key() const -> std::string override;
+		/**
+		 * @brief Test whether has a listener for reply in the role.
+		 */
+		auto hasReplyListener(const std::string &) const -> bool;
 
-			/**
-			 * @brief Test whether has a listener for send in the role.
-			 */
-			auto hasSendListener(const std::string &) const -> bool;
+		/* ------------------------------------------------------------------
+			CHAIN OF INVOKE MESSAGE
+		------------------------------------------------------------------ */
+		virtual void sendData(std::shared_ptr<Invoke>) override;
 
-			/**
-			 * @brief Test whether has a listener for reply in the role.
-			 */
-			auto hasReplyListener(const std::string &) const -> bool;
+	public:
+		/* ------------------------------------------------------------------
+			EXPORTERS
+		------------------------------------------------------------------ */
+		virtual auto TAG() const->std::string override;
 
-			/* ------------------------------------------------------------------
-				CHAIN OF INVOKE MESSAGE
-			------------------------------------------------------------------ */
-			virtual void sendData(std::shared_ptr<Invoke>) override;
+		virtual auto toXML() const->std::shared_ptr<library::XML> override;
 
-		public:
-			/* ------------------------------------------------------------------
-				EXPORTERS
-			------------------------------------------------------------------ */
-			virtual auto TAG() const -> std::string override;
-
-			virtual auto toXML() const -> std::shared_ptr<library::XML> override;
-
-		private:
-			auto toListenersXML(const std::set<std::string> &, const std::string &) const -> std::shared_ptr<library::XML>;
-		};
+	private:
+		auto toListenersXML(const std::set<std::string> &, const std::string &) const->std::shared_ptr<library::XML>;
 	};
+};
 };

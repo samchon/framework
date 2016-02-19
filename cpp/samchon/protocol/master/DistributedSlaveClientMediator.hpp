@@ -6,35 +6,35 @@
 
 namespace samchon
 {
-	namespace protocol
+namespace protocol
+{
+namespace master
+{
+	/**
+	 * @brief A distributed slave client for mediation.
+	 *
+	 * @details 
+	 * <p> DistributedClientServerMediator is a DistributedSlaveSystemMediator class 
+	 * specialized in client driver. </p>
+	 *
+	 * \par [Inherited]
+	 *	   @copydetails master::DistributedSlaveSystemMediator
+	 */
+	class SAMCHON_FRAMEWORK_API DistributedClientServerMediator
+		: public virtual DistributedSlaveSystemMediator,
+		public virtual slave::SlaveClient
 	{
-		namespace master
-		{
-			/**
-			 * @brief A distributed slave client for mediation.
-			 *
-			 * @details 
-			 * <p> DistributedClientServerMediator is a DistributedSlaveSystemMediator class 
-			 * specialized in client driver. </p>
-			 *
-			 * \par [Inherited]
-			 *	   @copydetails master::DistributedSlaveSystemMediator
-			 */
-			class SAMCHON_FRAMEWORK_API DistributedClientServerMediator
-				: public virtual DistributedSlaveSystemMediator,
-				public virtual slave::SlaveClient
-			{
-			private:
-				typedef DistributedSlaveSystemMediator super;
-				typedef slave::SlaveClient network_supr;
+	private:
+		typedef DistributedSlaveSystemMediator super;
+		typedef slave::SlaveClient network_supr;
 
-			public:
-				/**
-				 * @brief Default Constructor.
-				 */
-				DistributedClientServerMediator();
-				virtual ~DistributedClientServerMediator() = default;
-			};
-		};
+	public:
+		/**
+		 * @brief Default Constructor.
+		 */
+		DistributedClientServerMediator();
+		virtual ~DistributedClientServerMediator() = default;
 	};
+};
+};
 };

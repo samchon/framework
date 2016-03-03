@@ -26,36 +26,29 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="samchon.ts" />
     <TypeScriptCompile Include="samchon\API.ts" />
-    <TypeScriptCompile Include="samchon\example\container\container.ts" />
-    <TypeScriptCompile Include="samchon\example\entity\entity.ts" />
+    <TypeScriptCompile Include="samchon\example\xml\xml.ts" />
     <TypeScriptCompile Include="samchon\example\packer\Instance.ts" />
     <TypeScriptCompile Include="samchon\example\packer\Packer.ts" />
     <TypeScriptCompile Include="samchon\example\packer\Product.ts" />
     <TypeScriptCompile Include="samchon\example\packer\ProductArray.ts" />
     <TypeScriptCompile Include="samchon\example\packer\Wrapper.ts" />
     <TypeScriptCompile Include="samchon\example\packer\WrapperArray.ts" />
-    <TypeScriptCompile Include="samchon\library.ts" />
     <TypeScriptCompile Include="samchon\library\BasicEvent.ts" />
     <TypeScriptCompile Include="samchon\library\CaseGenerator.ts" />
     <TypeScriptCompile Include="samchon\library\CombinedPermutationGenerator.ts" />
     <TypeScriptCompile Include="samchon\library\FactorialGenerator.ts" />
     <TypeScriptCompile Include="samchon\library\PermutationGenerator.ts" />
     <TypeScriptCompile Include="samchon\library\ProgressEvent.ts" />
-    <TypeScriptCompile Include="samchon\protocol.ts" />
     <TypeScriptCompile Include="samchon\protocol\ExternalSystem.ts" />
     <TypeScriptCompile Include="samchon\protocol\ExternalSystemArray.ts" />
     <TypeScriptCompile Include="samchon\protocol\ExternalSystemRole.ts" />
     <TypeScriptCompile Include="samchon\protocol\InvokeHistory.ts" />
     <TypeScriptCompile Include="samchon\protocol\ServerConnector.ts" />
-    <TypeScriptCompile Include="samchon\protocol\service.ts" />
     <TypeScriptCompile Include="samchon\protocol\service\Application.ts" />
     <TypeScriptCompile Include="samchon\protocol\service\Movie.ts" />
     <TypeScriptCompile Include="samchon\protocol\service\SubMovie.ts" />
-    <TypeScriptCompile Include="samchon\protocol\slave.ts" />
     <TypeScriptCompile Include="samchon\protocol\slave\SlaveSystem.ts" />
-    <TypeScriptCompile Include="std.ts" />
     <TypeScriptCompile Include="samchon\library\EventDispatcher.ts" />
     <TypeScriptCompile Include="samchon\library\IEventDispatcher.ts" />
     <TypeScriptCompile Include="samchon\library\StringUtil.ts" />
@@ -67,35 +60,7 @@
     <TypeScriptCompile Include="samchon\protocol\Invoke.ts" />
     <TypeScriptCompile Include="samchon\protocol\InvokeParameter.ts" />
     <TypeScriptCompile Include="samchon\protocol\IProtocol.ts" />
-    <TypeScriptCompile Include="std\AbstractMap.ts" />
-    <TypeScriptCompile Include="std\AbstractSet.ts" />
-    <TypeScriptCompile Include="std\Bind.ts" />
-    <TypeScriptCompile Include="std\Container.ts" />
-    <TypeScriptCompile Include="std\Dictionary.ts" />
-    <TypeScriptCompile Include="std\example\Container.ts" />
-    <TypeScriptCompile Include="std\Exception.ts" />
-    <TypeScriptCompile Include="std\Hash.ts" />
-    <TypeScriptCompile Include="std\HashMap.ts" />
-    <TypeScriptCompile Include="std\HashSet.ts" />
-    <TypeScriptCompile Include="std\IContainer.ts" />
-    <TypeScriptCompile Include="std\IDictionary.ts" />
-    <TypeScriptCompile Include="std\IMap.ts" />
-    <TypeScriptCompile Include="std\IObject.ts" />
-    <TypeScriptCompile Include="std\Iterator.ts" />
-    <TypeScriptCompile Include="std\List.ts" />
-    <TypeScriptCompile Include="std\ListIterator.ts" />
-    <TypeScriptCompile Include="std\Map.ts" />
-    <TypeScriptCompile Include="std\MapIterator.ts" />
-    <TypeScriptCompile Include="std\Pair.ts" />
-    <TypeScriptCompile Include="std\PairContainer.ts" />
-    <TypeScriptCompile Include="std\PairIterator.ts" />
-    <TypeScriptCompile Include="std\Set.ts" />
-    <TypeScriptCompile Include="std\SetIterator.ts" />
-    <TypeScriptCompile Include="std\Tree.ts" />
-    <TypeScriptCompile Include="std\UnorderedMap.ts" />
-    <TypeScriptCompile Include="std\UnorderedSet.ts" />
-    <TypeScriptCompile Include="std\Vector.ts" />
-    <TypeScriptCompile Include="std\VectorIterator.ts" />
+    <TypeScriptCompile Include="std.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="web.Debug.config">
@@ -142,7 +107,7 @@
     <TypeScriptModuleKind>None</TypeScriptModuleKind>
     <TypeScriptOutFile>SamchonFramework.js</TypeScriptOutFile>
     <TypeScriptOutDir />
-    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />

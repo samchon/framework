@@ -166,10 +166,18 @@ namespace samchon
 		 */
 		void set(const Key &key, const T &val)
 		{
+			iterator it = find(key);
+			if (it != end())
+				erase(it);
+
 			insert({ key, val });
 		};
 		void set(const Key &key, const T &&val)
 		{
+			iterator it = find(key);
+			if (it != end())
+				erase(it);
+
 			insert({ key, val });
 		};
 

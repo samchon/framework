@@ -2,10 +2,9 @@
 #include <samchon/API.hpp>
 
 #include <functional>
-#include <set>
-
-#include <map>
+#include <unordered_set>
 #include <unordered_map>
+
 #include <memory>
 #include <queue>
 
@@ -59,7 +58,7 @@ namespace library
 		/**
 		 * @brief A container storing listeners
 		 */
-		std::map<int, std::map<Listener, std::set<void*>>> listeners;
+		std::unordered_map<int, std::unordered_map<Listener, std::unordered_set<void*>>> listeners;
 
 		/**
 		 * @brief A rw_mutex for concurrency

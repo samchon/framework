@@ -1,16 +1,14 @@
-﻿<!DOCTYPE html>
-
-<html lang="en">
+﻿<html>
 <head>
-    <meta charset="utf-8" />
     <title>TypeScript HTML App</title>
-    <link rel="stylesheet" href="app.css" type="text/css" />
-    <script src="SamchonFramework.js">
-    </script>
+    <script src="std.js"></script>
+    <script src="SamchonFramework.js"></script>
 </head>
-<body onload="std.example.Container.main()">
+<body >
     <h1>TypeScript HTML App</h1>
 
-    <div id="content"></div>
+    <textarea id="textArea" rows="30" style="width: 95%;"></textarea>
+    <br />
+    <button onclick="samchon.example.packer.Packer.main()">Parse XML</button>
 </body>
 </html>

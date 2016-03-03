@@ -644,56 +644,34 @@ auto XML::decodeValue(const WeakString &str) const -> std::string
 	return str.replaceAll(pairArray);
 }
 
-auto XML::toString(size_t level) const -> std::string
+auto XML::toString(size_t level) const -> string
 {
-	std::string str;
-	size_t size = 0;
+	// KEY
+	string str = string(level, '\t') + "<" + tag;
 
-	list<std::string> buffer;
-	fetchString(buffer, level);
-
-	for (std::string &line : buffer)
-		size += line.size();
-	str.reserve(size);
-
-	for (std::string &line : buffer)
-		str.append(line);
-
-	return move(str);
-}
-void XML::fetchString(list<std::string> &buffer, size_t level) const
-{
-	//KEY
-	buffer.push_back( std::string(level, '\t') + "<" + tag );
-
-	//PROPERTIES
+	// PROPERTIES
 	for (auto it = propertyMap.begin(); it != propertyMap.end(); it++)
-	{
-		buffer.push_back(" " + it->first + "=\"");
-		buffer.push_back( move(encodeProperty(it->second)) );
-		buffer.push_back("\"");
-	}
+		str += " " + it->first + "=\"" + encodeProperty(it->second) + "\"";
 	
-	//CHILDREN
-	if (empty() == true) //NO CHILDREN
-		if (value.empty() == false) //BUT HAS VALUE
-		{
-			buffer.push_back(">");
-			buffer.push_back( move(encodeValue(value)) );
-			buffer.push_back("</" + tag + ">");
-		}
-		else
-			buffer.push_back(" />");
-	else //HAS CHILDREN
+	if (this->empty() == true)
 	{
-		buffer.push_back(">\n");
+		// VALUE
+		if (value.empty() == true)
+			str += " />";
+		else
+			str += ">" + encodeValue(value) + "</" + tag + ">";
+	}
+	else
+	{
+		// CHILDREN
+		str += ">\n";
 
 		for (auto it = begin(); it != end(); it++)
 			for (size_t i = 0; i < it->second->size(); i++)
-				it->second->at(i)->fetchString(buffer, level + 1);
+				str += it->second->at(i)->toString(level + 1);
 
-		buffer.push_back( std::string(level, '\t') + "</" + tag + ">" );
+		str += string(level, '\t') + "</" + tag + ">";
 	}
-	if (level >= 1)
-		buffer.push_back("\n");
+
+	return str + "\n";
 }

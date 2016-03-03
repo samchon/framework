@@ -369,15 +369,12 @@ namespace library
 		----------------------------------------------------------- */
 	public:
 		/**
-		 * @brief Get the string content
-		 * @details Returns a string representation of the XML and its all children
+		 * @brief Get the string content.
+		 * @details Returns a string representation of the XML and its all children.
 		 *
-		 * @return A string representing the xml
+		 * @return A string represents the XML.
 		 */
 		auto toString(size_t level = 0) const->std::string;
-
-	private:
-		void fetchString(std::list<std::string, std::allocator<std::string>> &, size_t) const;
 	};
 
 	SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API std::shared_ptr<XML>;

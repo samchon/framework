@@ -100,7 +100,7 @@ auto InvokeParameter::getType() const -> std::string
 	return type;
 }
 
-auto InvokeParameter::getvalueAsXML() const -> shared_ptr<XML>
+auto InvokeParameter::getValueAsXML() const -> shared_ptr<XML>
 {
 	return xml;
 }

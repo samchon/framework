@@ -116,7 +116,7 @@ namespace interaction
 		virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override
 		{
 			if (invoke->getListener() == "replyOptimization")
-				replyOptimization(invoke->at(0)->getvalueAsXML());
+				replyOptimization(invoke->at(0)->getValueAsXML());
 		};
 
 	protected:

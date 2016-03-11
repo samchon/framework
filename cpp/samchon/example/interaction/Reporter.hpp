@@ -74,7 +74,7 @@ namespace interaction
 		virtual void replyData(shared_ptr<Invoke> invoke)
 		{
 			//PRINT
-			shared_ptr<XML> &xml = invoke->at(0)->getvalueAsXML();
+			shared_ptr<XML> &xml = invoke->at(0)->getValueAsXML();
 
 			if (xml->getTag() == "scheduler")
 				printTSP(xml);

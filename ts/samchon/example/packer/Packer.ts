@@ -152,8 +152,6 @@ namespace samchon.example.packer
 		public static main(): void
 		{
 			var productArray: ProductArray = new ProductArray();
-			let xml: library.XML = productArray.toXML();
-
 			productArray.push
 			(
 				new Product("Eraser", 500, 10, 70),
@@ -167,6 +165,9 @@ namespace samchon.example.packer
 				new Product("Notebook-PC", 800000, 150, 850),
 				new Product("Tablet-PC", 600000, 120, 450)
 			);
+
+			let xml: library.XML = productArray.toXML();
+			productArray.clear();
 			productArray.construct(xml);
 
 			var packer: Packer = new Packer(productArray);

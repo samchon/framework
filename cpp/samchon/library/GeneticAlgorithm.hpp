@@ -127,7 +127,7 @@ namespace library
 		};
 
 		/**
-		 * @brief Evolve a GeneArray
+		 * @brief Evolve a GeneArray 
 		 * @details Convinient method accessing to evolvePopulation().
 		 *
 		 * @param geneArray An initial set of genes; sequence listing

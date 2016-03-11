@@ -267,7 +267,7 @@ namespace protocol
 		 * @brief Get value as XML object
 		 * @details Same with getValue< std::shared_ptr<library::XML> >();
 		 */
-		auto getvalueAsXML() const->std::shared_ptr<library::XML>;
+		auto getValueAsXML() const->std::shared_ptr<library::XML>;
 
 		/**
 		 * @brief Reference value

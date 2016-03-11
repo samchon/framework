@@ -1,6 +1,8 @@
 #pragma once
 #include <samchon/API.hpp>
 
+#include <samchon/protocol/Entity.hpp>
+
 namespace samchon
 {
 namespace library
@@ -20,8 +22,13 @@ namespace library
 	 * 
 	 * @author Jeongho Nam
 	 */
-	struct GAParameters
+	class GAParameters
+		: public protocol::Entity
 	{
+	private:
+		typedef protocol::Entity super;
+
+	protected:
 		/**
 		 * @brief A number of generation of evolution.
 		 */
@@ -50,6 +57,128 @@ namespace library
 		 *	the evolution tends to wandering outside of he optimal.
 		 */
 		double mutationRate;
+
+	public:
+		/* ===========================================================
+			CONSTRUCTORS & SETTERS
+		==============================================================
+			CONSTRUCTORS
+		----------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
+		GAParameters()
+			: GAParameters(1000, 200, 50, .05)
+		{
+		};
+
+		/**
+		 * Construct from members.
+		 */
+		GAParameters(size_t generation, size_t population, size_t tournament, double mutationRate)
+			: super()
+		{
+			this->generation = generation;
+			this->population = population;
+			this->tournament = tournament;
+			this->mutationRate = mutationRate;
+		};
+
+		virtual void construct(std::shared_ptr<XML> xml) override
+		{
+			generation = xml->getProperty<size_t>("generation");
+			population = xml->getProperty<size_t>("population");
+			tournament = xml->getProperty<size_t>("tournament");
+			mutationRate = xml->getProperty<double>("mutationRate");
+		};
+
+		/* -----------------------------------------------------------
+			SETTERS
+		----------------------------------------------------------- */
+		/**
+		 * Set generation.
+		 */
+		void setGeneration(size_t val)
+		{
+			generation = val;
+		}
+
+		/**
+		 * Set population.
+		 */
+		void setPopulation(size_t val)
+		{
+			population = val;
+		}
+
+		/**
+		 * Set tournament.
+		 */
+		void setTournament(size_t val)
+		{
+			tournament = val;
+		}
+
+		/**
+		 * Set mutation rate.
+		 */
+		void setMutationRate(double val)
+		{
+			mutationRate = val;
+		}
+
+		/* -----------------------------------------------------------
+			GETTERS
+		----------------------------------------------------------- */
+		/**
+		 * Get generation.
+		 */
+		auto getGeneration() const -> size_t
+		{
+			return generation;
+		};
+
+		/** 
+		 * Get population.
+		 */
+		auto getPopulation() const -> size_t
+		{
+			return population;
+		};
+
+		/**
+		 * Get tournament.
+		 */
+		auto getTournament() const -> size_t
+		{
+			return tournament;
+		};
+
+		/**
+		 * Get mutation rate.
+		 */
+		auto getMutationRate() const -> double
+		{
+			return mutationRate;
+		};
+
+		/* -----------------------------------------------------------
+			EXPORTERS
+		----------------------------------------------------------- */
+		virtual auto TAG() const -> std::string
+		{
+			return "gaParameters";
+		};
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override
+		{
+			std::shared_ptr<XML> &xml = super::toXML();
+			xml->setProperty("generation", generation);
+			xml->setProperty("population", population);
+			xml->setProperty("tournament", tournament);
+			xml->setProperty("mutationRate", mutationRate);
+
+			return xml;
+		};
 	};
 };
 }

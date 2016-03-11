@@ -53,7 +53,7 @@ void ParallelSystem::_replyData(shared_ptr<Invoke> invoke)
 	if (invoke->getListener() == "reportInvokeHistory")
 	{
 		InvokeHistory invokeHistory;
-		invokeHistory.construct(invoke->at(0)->getvalueAsXML());
+		invokeHistory.construct(invoke->at(0)->getValueAsXML());
 
 		string uid = to_string(invokeHistory.getUID());
 		if (progressArray->has(uid) == false)
@@ -65,7 +65,7 @@ void ParallelSystem::_replyData(shared_ptr<Invoke> invoke)
 		historyArray->push_back(history);
 
 		//NOTIFY END
-		history->construct(invoke->at(0)->getvalueAsXML());
+		history->construct(invoke->at(0)->getValueAsXML());
 		history->notifyEnd();
 	}
 	else

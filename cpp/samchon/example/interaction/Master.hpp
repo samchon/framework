@@ -121,9 +121,9 @@ namespace interaction
 		virtual void replyData(shared_ptr<Invoke> invoke) override
 		{
 			if (invoke->getListener() == "optimize")
-				optimize(invoke->at(0)->getvalueAsXML());
+				optimize(invoke->at(0)->getValueAsXML());
 			else if (invoke->getListener() == "replyOptimization")
-				replyOptimization(invoke->at(0)->getvalueAsXML());
+				replyOptimization(invoke->at(0)->getValueAsXML());
 		};
 
 	protected:

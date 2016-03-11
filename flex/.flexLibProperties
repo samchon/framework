@@ -3,6 +3,7 @@
   <includeClasses>
     <classEntry path="org.samchon.protocol.socket.KRServerConnector"/>
     <classEntry path="org.samchon.library.utils.DateUtil"/>
+    <classEntry path="org.samchon.library.utils.GAParameters"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

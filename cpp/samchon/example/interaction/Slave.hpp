@@ -72,7 +72,7 @@ namespace interaction
 			if (invoke->getListener() == "optimize")
 				optimize
 				(
-					invoke->at(0)->getvalueAsXML(),
+					invoke->at(0)->getValueAsXML(),
 					index,
 					size
 				);

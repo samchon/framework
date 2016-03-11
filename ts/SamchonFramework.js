@@ -315,7 +315,6 @@ var samchon;
                 -------------------------------------------------------------------- */
                 Packer.main = function () {
                     var productArray = new packer_1.ProductArray();
-                    var xml = productArray.toXML();
                     productArray.push(new packer_1.Product("Eraser", 500, 10, 70), new packer_1.Product("Pencil", 400, 30, 35), new packer_1.Product("Pencil", 400, 30, 35), 
                     //new Product("Pencil", 400, 30, 35),
                     //new Product("Book", 8000, 150, 300),
@@ -323,6 +322,8 @@ var samchon;
                     //new Product("Drink", 1000, 75, 250),
                     //new Product("Umbrella", 4000, 200, 1000),
                     new packer_1.Product("Notebook-PC", 800000, 150, 850), new packer_1.Product("Tablet-PC", 600000, 120, 450));
+                    var xml = productArray.toXML();
+                    productArray.clear();
                     productArray.construct(xml);
                     var packer = new Packer(productArray);
                     packer.push(new packer_1.WrapperArray(new packer_1.Wrapper("Large", 100, 200, 1000)), new packer_1.WrapperArray(new packer_1.Wrapper("Medium", 70, 150, 500)), new packer_1.WrapperArray(new packer_1.Wrapper("Small", 50, 100, 250)));

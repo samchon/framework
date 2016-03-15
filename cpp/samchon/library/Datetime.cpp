@@ -1,8 +1,4 @@
-#include <samchon/library/Datetime.hpp>
-
-#include <chrono>
-#include <samchon/WeakString.hpp>
-#include <samchon/library/StringUtil.hpp>
+#include <API.hpp>
 
 using namespace std;
 using namespace samchon;

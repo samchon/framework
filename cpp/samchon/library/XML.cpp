@@ -1,9 +1,4 @@
-#include <samchon/library/XML.hpp>
-
-#include <list>
-#include <queue>
-
-#include <samchon/library/Math.hpp>
+#include <API.hpp>
 
 using namespace std;
 using namespace samchon;

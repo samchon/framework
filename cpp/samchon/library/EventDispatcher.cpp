@@ -1,6 +1,4 @@
-#include <samchon/library/EventDispatcher.hpp>
-
-#include <samchon/library/Event.hpp>
+#include <API.hpp>
 
 using namespace std;
 using namespace samchon;

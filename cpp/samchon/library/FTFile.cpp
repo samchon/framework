@@ -1,7 +1,4 @@
-#include <samchon/library/FTFile.hpp>
-#include <samchon/library/FTFactory.hpp>
-
-#include <samchon/library/XML.hpp>
+#include <API.hpp>
 
 using namespace std;
 

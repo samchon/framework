@@ -48,6 +48,7 @@ Temporary Items
 #IN NORMAL CASE
 [Rr]elease/
 [Dd]ebug/
+cpp/packages
 x86/
 x64/
 .vs/

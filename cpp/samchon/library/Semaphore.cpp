@@ -1,7 +1,4 @@
-#include <samchon/library/Semaphore.hpp>
-
-#include <atomic>
-#include <mutex>
+#include <API.hpp>
 
 using namespace std;
 using namespace samchon::library;

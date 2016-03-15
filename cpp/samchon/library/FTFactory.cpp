@@ -1,8 +1,4 @@
-#include <samchon/library/FTFactory.hpp>
-#include <samchon/library/FTFile.hpp>
-
-#include <samchon/Map.hpp>
-#include <samchon/library/XML.hpp>
+#include <API.hpp>
 
 
 

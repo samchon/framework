@@ -1,8 +1,4 @@
-#include <samchon/library/RWMutex.hpp>
-
-#include <atomic>
-#include <mutex>
-#include <condition_variable>
+#include <API.hpp>
 
 using namespace std;
 using namespace samchon::library;

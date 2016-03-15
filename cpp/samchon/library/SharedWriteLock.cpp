@@ -1,7 +1,4 @@
-#include <samchon/library/SharedWriteLock.hpp>
-
-#include <atomic>
-#include <samchon/library/RWMutex.hpp>
+#include <API.hpp>
 
 using namespace std;
 using namespace samchon::library;

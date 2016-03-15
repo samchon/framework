@@ -1,5 +1,5 @@
-#include <samchon/library/Event.hpp>
-#include <samchon/library/EventDispatcher.hpp>
+#include <API.hpp>
+
 using namespace samchon::library;
 
 Event::Event(EventDispatcher *source, int type)

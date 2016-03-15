@@ -1,7 +1,4 @@
-#include <samchon/library/SharedAcquire.hpp>
-
-#include <atomic>
-#include <samchon/library/Semaphore.hpp>
+#include <API.hpp>
 
 using namespace std;
 using namespace samchon::library;

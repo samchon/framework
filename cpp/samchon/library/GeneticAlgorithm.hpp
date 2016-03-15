@@ -62,14 +62,14 @@ namespace library
 	 * 
 	 * @author Jeongho Nam
 	 */
-	template <typename GeneArray, typename Compare = std::less<GeneArray>>
+	template <typename GeneArray, typename Compare = std::less<GeneArray>, typename Gene = GeneArray::value_type>
 	class GeneticAlgorithm
 	{
 	public:
 		typedef GAPopulation<GeneArray, Compare> Population;
 
 	private:
-		std::shared_ptr<GeneArray> candidates;
+		std::vector<Gene> candidates;
 
 		/**
 		 * @brief Whether each element (Gene) is unique in their GeneArray
@@ -104,7 +104,7 @@ namespace library
 		 * @param tournament Size of tournament in selection
 		 * @param elitism Whether to keep the elitest GeneArray
 		 */
-		GeneticAlgorithm(std::shared_ptr<GeneArray> candidates, bool unique, double mutationRate = 0.015, size_t tournament = 10)
+		GeneticAlgorithm(const std::vector<Gene> &candidates, bool unique, double mutationRate = 0.015, size_t tournament = 10)
 		{
 			this->candidates = candidates;
 			this->unique = unique;
@@ -320,7 +320,7 @@ namespace library
 				if (Math::random() > mutationRate)
 					continue;
 
-				if (candidates == nullptr)
+				if (candidates.empty() == true)
 				{
 					// WHEN CANDIDATES ARE NOT SPECIFIED, JUST SHUFFLE SEQUENCE OF GENES
 					size_t j = (size_t)(Math::random() * geneArray->size());
@@ -329,17 +329,17 @@ namespace library
 				else if (unique == false)
 				{
 					// PICK A CANDIDATE
-					geneArray->at(i) = candidates->at((size_t)(Math::random() * candidates->size()));
+					geneArray->at(i) = candidates.at((size_t)(Math::random() * candidates.size()));
 				}
 				else // HAS CANDIDATES AND NEED TO BE UNIQUE
 				{
-					GeneArray::value_type item;
+					Gene item;
 					bool duplicated = true;
 
 					// PICK ONE
 					while (duplicated == true)
 					{
-						item = candidates->at((size_t)(Math::random() * candidates->size()));
+						item = candidates.at((size_t)(Math::random() * candidates.size()));
 
 						duplicated = false;
 

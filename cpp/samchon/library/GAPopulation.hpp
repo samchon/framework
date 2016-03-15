@@ -62,7 +62,7 @@ namespace library
 	template <typename GeneArray, typename Compare = std::less<GeneArray>>
 	class GAPopulation
 	{
-		template <typename GeneArray, typename Compare>
+		template <typename GeneArray, typename Compare, typename Gene>
 		friend class GeneticAlgorithm;
 
 	private:

@@ -1,4 +1,7 @@
-#include <API.hpp>
+#include <samchon/library/Charset.hpp>
+
+#include <codecvt>
+#include <atlstr.h>
 
 using namespace std;
 using namespace samchon::library;

@@ -1,4 +1,4 @@
-#include <API.hpp>
+#include <samchon/library/CaseGenerator.hpp>
 
 using namespace std;
 using namespace samchon::library;

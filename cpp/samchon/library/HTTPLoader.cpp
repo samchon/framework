@@ -1,5 +1,16 @@
-#include <API.hpp>
+#include <samchon/library/HTTPLoader.hpp>
 
+#include <iostream>
+#include <array>
+#include <random>
+
+#include <chrono>
+#include <thread>
+#include <boost/asio.hpp>
+
+#include <samchon/library/Datetime.hpp>
+#include <samchon/library/URLVariables.hpp>
+#include <samchon/library/StringUtil.hpp>
 
 using namespace std;
 using namespace samchon;

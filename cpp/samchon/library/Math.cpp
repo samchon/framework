@@ -1,4 +1,6 @@
-#include <API.hpp>
+#include <samchon/library/Math.hpp>
+#include <cmath>
+#include <random>
 
 using namespace std;
 using namespace samchon;

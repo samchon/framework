@@ -1,4 +1,4 @@
-#include <API.hpp>
+#include <samchon/library/FactorialGenerator.hpp>
 
 using namespace std;
 using namespace samchon::library;

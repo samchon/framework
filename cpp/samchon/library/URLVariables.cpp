@@ -1,4 +1,5 @@
-#include <API.hpp>
+#include <samchon/library/URLVariables.hpp>
+#include <initializer_list>
 
 using namespace std;
 using namespace samchon;

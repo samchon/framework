@@ -1,4 +1,6 @@
-#include <API.hpp>
+#include <samchon/library/FTInstance.hpp>
+
+#include <samchon/library/XML.hpp>
 
 using namespace std;
 

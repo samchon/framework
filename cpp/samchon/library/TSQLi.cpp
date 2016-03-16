@@ -1,4 +1,5 @@
-#include <API.hpp>
+#include <samchon/library/TSQLi.hpp>
+#include <samchon/library/TSQLStatement.hpp>
 
 using namespace std;
 using namespace samchon;

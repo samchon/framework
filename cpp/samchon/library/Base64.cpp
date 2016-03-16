@@ -1,4 +1,6 @@
-#include <API.hpp>
+#include <samchon/library/Base64.hpp>
+
+#include <array>
 
 using namespace std;
 using namespace samchon;

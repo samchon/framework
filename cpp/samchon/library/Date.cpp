@@ -1,4 +1,9 @@
-#include <API.hpp>
+#include <samchon/library/Date.hpp>
+
+#include <array>
+
+#include <samchon/WeakString.hpp>
+#include <samchon/library/StringUtil.hpp>
 
 using namespace std;
 using namespace samchon;

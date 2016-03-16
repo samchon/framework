@@ -1,4 +1,19 @@
-#include <API.hpp>
+#include <samchon/library/SQLStatement.hpp>
+
+#include <memory>
+#include <mutex>
+#include <vector>
+#include <samchon/library/SQLi.hpp>
+#include <samchon/library/CriticalSet.hpp>
+#include <samchon/library/XML.hpp>
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <sql.h>
+#include <sqlext.h>
+
+#define _SQLNCLI_ODBC_
+#include <sqlncli.h>
 
 using namespace std;
 using namespace samchon;

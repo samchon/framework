@@ -1,4 +1,20 @@
-#include <API.hpp>
+#include <samchon/library/SQLi.hpp>
+
+#ifndef WIN32_LEAN_AND_MEAN 
+#	define WIN32_LEAN_AND_MEAN 
+#endif
+
+#include <Windows.h>
+#include <sqltypes.h>
+#include <sql.h>
+#include <sqlext.h>
+
+#include <iostream>
+#include <memory>
+#include <mutex>
+
+#include <samchon/library/SQLStatement.hpp>
+#include <samchon/library/StringUtil.hpp>
 
 using namespace std;
 using namespace samchon;

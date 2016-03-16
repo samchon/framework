@@ -1,4 +1,7 @@
-#include <API.hpp>
+#include <samchon/library/StringUtil.hpp>
+
+#include <iostream>
+#include <stdexcept>
 
 using namespace std;
 using namespace samchon;

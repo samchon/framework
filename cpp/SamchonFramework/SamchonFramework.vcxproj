@@ -52,7 +52,6 @@
     <ClInclude Include="..\samchon\library\HTTPLoader.hpp" />
     <ClInclude Include="..\samchon\library\IOperator.hpp" />
     <ClInclude Include="..\samchon\library\Math.hpp" />
-    <ClInclude Include="..\samchon\library\memory.hpp" />
     <ClInclude Include="..\samchon\library\MySQLi.hpp" />
     <ClInclude Include="..\samchon\library\EventDispatcher.hpp" />
     <ClInclude Include="..\samchon\library\PermutationGenerator.hpp" />
@@ -189,7 +188,6 @@
     <ClCompile Include="..\samchon\library\HTTPLoader.cpp" />
     <ClCompile Include="..\samchon\library\Math.cpp" />
     <ClCompile Include="..\samchon\library\EventDispatcher.cpp" />
-    <ClCompile Include="..\samchon\library\memory.cpp" />
     <ClCompile Include="..\samchon\library\PermutationGenerator.cpp" />
     <ClCompile Include="..\samchon\library\ProgressEvent.cpp" />
     <ClCompile Include="..\samchon\library\RWMutex.cpp" />
@@ -279,9 +277,6 @@
     <ClCompile Include="..\samchon\protocol\WebServerConnector.cpp" />
     <ClCompile Include="..\samchon\WeakString.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{546D9E83-296C-4FB6-9C76-2BBFEC92326F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -341,9 +336,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\samchon;$(SolutionDir);C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64</LibraryPath>
-    <SourcePath>$(SolutionDir)\samchon;$(SourcePath)</SourcePath>
+    <IncludePath>$(SolutionDir);E:\Downloads\Programming\C++\boost_1_60_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;E:\Downloads\Programming\C++\boost_1_60_0\stage\lib_x64;C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -377,7 +371,6 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>SAMCHON_FRAMEWORK_EXPORT;_DEBUG;_WINDOWS;_USRDLL;SAMCHONFRAMEWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -422,12 +415,5 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\asio-cpp.1.10.2.0\build\native\asio-cpp.targets" Condition="Exists('..\packages\asio-cpp.1.10.2.0\build\native\asio-cpp.targets')" />
   </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\asio-cpp.1.10.2.0\build\native\asio-cpp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\asio-cpp.1.10.2.0\build\native\asio-cpp.targets'))" />
-  </Target>
 </Project>

@@ -615,9 +615,6 @@
     <ClInclude Include="..\samchon\HashMap.hpp">
       <Filter>Header Files\basic</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\library\memory.hpp">
-      <Filter>Header Files\library\common</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samchon\namtree\INTExplore.cpp">
@@ -935,11 +932,5 @@
     <ClCompile Include="..\samchon\library\EventDispatcher.cpp">
       <Filter>Source Files\library</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\library\memory.cpp">
-      <Filter>Source Files\library</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

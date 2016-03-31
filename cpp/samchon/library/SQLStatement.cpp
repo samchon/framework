@@ -342,7 +342,7 @@ auto SQLStatement::_atAsString(size_t index) const -> std::string
 	if (i != str.size() - 1)
 		str.erase(str.begin() + i + 1, str.end());
 
-	return move(str);
+	return str;
 }
 auto SQLStatement::_atAsWString(size_t index) const -> std::wstring
 {
@@ -356,7 +356,7 @@ auto SQLStatement::_atAsWString(size_t index) const -> std::wstring
 		str.assign((size_t)size, NULL);
 		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_WCHAR, &str[0], sizeof(wchar_t)*size, NULL);
 	}
-	return move(str);
+	return str;
 }
 auto SQLStatement::_atAsByteArray(size_t index) const -> ByteArray
 {
@@ -370,5 +370,5 @@ auto SQLStatement::_atAsByteArray(size_t index) const -> ByteArray
 		data.assign(size, NULL);
 		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_BINARY, &data[0], data.size(), NULL);
 	}
-	return move(data);
+	return data;
 }

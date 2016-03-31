@@ -22,7 +22,7 @@ namespace samchon.protocol
 	 * it would be better to using binary communication (with ByteArray).
 	 * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IEntity
 	{

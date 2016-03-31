@@ -232,14 +232,14 @@ auto WeakString::split(const WeakString &delim) const -> std::vector<WeakString>
 		vec.push_back(substring(quoteList.front().first, quoteList.front().second));
 		quoteList.pop();
 	}
-	return move(vec);
+	return vec;
 }
 auto WeakString::betweens(const WeakString &start, const WeakString &end) const -> std::vector<WeakString>
 {
 	std::vector<WeakString> vec;
 
 	if (start.empty() == true && end.empty() == true)
-		return move(vec);
+		return vec;
 	else if (start == end) //NOT EMPTY, BUT EQUALS
 	{
 		std::queue<std::pair<size_t, size_t>> quoteList;
@@ -278,7 +278,7 @@ auto WeakString::betweens(const WeakString &start, const WeakString &end) const 
 				else
 					vec[(size_t)i] = vec[(size_t)i].between("", end);
 	}
-	return move(vec);
+	return vec;
 }
 
 /* --------------------------------------------------------------------
@@ -403,7 +403,7 @@ auto WeakString::replace(const WeakString &before, const WeakString &after) cons
 {
 	size_t index = find(before);
 	if (index == npos)
-		return move(str());
+		return str();
 
 	std::string str;
 	str.reserve(size() - before.size() + after.size());
@@ -412,13 +412,13 @@ auto WeakString::replace(const WeakString &before, const WeakString &after) cons
 	str.append(after.str());
 	str.append(substr(index + before.size()).str());
 
-	return move(str);
+	return str;
 }
 
 auto WeakString::replaceAll(const WeakString &before, const WeakString &after) const -> std::string
 {
 	//to replaceAll(vector<pair<string, string>>)
-	return move(replaceAll({ { before, after } }));
+	return replaceAll({ { before, after } });
 }
 auto WeakString::replaceAll(const std::vector<std::pair<std::string, std::string>> &pairs) const -> std::string
 {
@@ -426,7 +426,7 @@ auto WeakString::replaceAll(const std::vector<std::pair<std::string, std::string
 	for (size_t i = 0; i < pairs.size(); i++)
 		wPairs[i] = { pairs[i].first, pairs[i].second };
 
-	return move(replaceAll(wPairs));
+	return replaceAll(wPairs);
 }
 auto WeakString::replaceAll(const std::vector<std::pair<WeakString, WeakString>> &pairs) const -> std::string
 {
@@ -495,7 +495,7 @@ auto WeakString::toLowerCase() const -> std::string
 		if ('A' <= str[i] && str[i] <= 'Z')
 			str[i] = tolower(str[i]);
 
-	return move(str);
+	return str;
 }
 auto WeakString::toUpperCase() const -> std::string
 {
@@ -504,7 +504,7 @@ auto WeakString::toUpperCase() const -> std::string
 		if ('a' <= str[i] && str[i] <= 'z')
 			str[i] = toupper(str[i]);
 
-	return move(str);
+	return str;
 };
 
 /* --------------------------------------------------------------------
@@ -545,9 +545,9 @@ OPERATOR_METHODS_BODY(WeakString, WeakString)
 -------------------------------------------------------------------- */
 auto WeakString::str() const -> std::string
 {
-	return move(std::string(data_, data_ + size_));
+	return std::string(data_, data_ + size_);
 };
 WeakString::operator std::string()
 {
-	return move(str());
+	return str();
 };

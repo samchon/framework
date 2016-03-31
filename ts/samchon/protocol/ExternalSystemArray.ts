@@ -22,7 +22,7 @@ namespace samchon.protocol
 	 *  <li> ExternalSystemArray::getRole("something")->sendData(invoke); </li>
 	 * </ul>
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class ExternalSystemArray
 		extends EntityArray<ExternalSystem>

@@ -14,7 +14,7 @@ auto Charset::toMultibyte(const string &source) -> string
 	wstring &wstr = toUnicode(source, UTF8);
 	string &dest = toMultibyte(wstr);
 
-	return move(dest);
+	return dest;
 }
 
 auto Charset::toMultibyte(const wstring &source) -> string
@@ -23,7 +23,7 @@ auto Charset::toMultibyte(const wstring &source) -> string
 	std::string str(len, 0);
 	WideCharToMultiByte(CP_ACP, 0, &source[0], -1, &str[0], len, NULL, NULL);
 
-	return move(str);
+	return str;
 
 	/*typedef codecvt<wchar_t, char, mbstate_t> codecvt_t;
 
@@ -46,7 +46,7 @@ auto Charset::toMultibyte(const wstring &source) -> string
 	if (r == codecvt_base::error)
 		throw runtime_error("can't convert wstring to string");
 
-	return move(string(buf.begin(), buf.end()));*/
+	return string(buf.begin(), buf.end());*/
 }
 
 /* -------------------------------------------------------------------
@@ -60,7 +60,7 @@ auto Charset::toUTF8(const string &source) -> string
 	if (dest.back() == NULL)
 		dest.pop_back();
 
-	return move(dest);
+	return dest;
 }
 
 auto Charset::toUTF8(const wstring &source) -> string
@@ -69,11 +69,11 @@ auto Charset::toUTF8(const wstring &source) -> string
 	std::string str(len, 0);
 	WideCharToMultiByte(CP_UTF8, 0, &source[0], -1, &str[0], len, NULL, NULL);
 
-	return move(str);
+	return str;
 
 	/*wstring_convert<codecvt_utf8_utf16<wchar_t>> utf8Converter;
 	
-	return move(utf8Converter.to_bytes(source));*/
+	return utf8Converter.to_bytes(source);*/
 }
 
 /* -------------------------------------------------------------------
@@ -87,7 +87,7 @@ auto Charset::toUnicode(const string &source, int charset) -> wstring
 		std::wstring wstr(nLen, 0);
 		MultiByteToWideChar(CP_ACP, 0, &source[0], (int)source.size(), &wstr[0], nLen);
 
-		return move(wstr);
+		return wstr;
 
 		/*locale &loc = locale("");
 
@@ -109,7 +109,7 @@ auto Charset::toUnicode(const string &source, int charset) -> wstring
 		if (r == codecvt_base::error)
 			throw runtime_error("can't convert string to wstring");
 
-		return move(wstring(buf.begin(), buf.end()));*/
+		return wstring(buf.begin(), buf.end());*/
 	}
 	else if (charset == UTF8)
 	{
@@ -117,12 +117,12 @@ auto Charset::toUnicode(const string &source, int charset) -> wstring
 		std::wstring wstr(nLen, 0);
 		MultiByteToWideChar(CP_UTF8, 0, &source[0], (int)source.size(), &wstr[0], nLen);
 
-		return move(wstr);
+		return wstr;
 
 		/*wstring_convert<codecvt_utf8_utf16<wchar_t>> utf8Converter;
 		wstring &wstr = move(utf8Converter.from_bytes(source));
 
-		return move(wstr);*/
+		return wstr;*/
 	}
 	else
 		return L"";

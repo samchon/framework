@@ -42,7 +42,7 @@ namespace samchon.library
 	 *  <li> Made by AS3 - http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/events/EventDispatcher.html
 	 * </ul>
 	 *
-	 * @author Migrated by Jeongho Nam
+	 * @author Migrated by Jeongho Nam <http://samchon.org>
 	 */
 	export class EventDispatcher
 		implements IEventDispatcher

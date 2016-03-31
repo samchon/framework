@@ -127,5 +127,5 @@ auto URLVariables::toString() const -> string
 		str.append("=");
 		str.append(encode(it->second));
 	}
-	return move(str);
+	return str;
 }

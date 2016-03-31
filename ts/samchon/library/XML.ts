@@ -42,7 +42,7 @@ namespace samchon.library
 	 *	</tr>
 	 * </table>
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class XML
 		extends std.HashMap<string, XMLList>
@@ -75,8 +75,8 @@ namespace samchon.library
 		 *	<li> \<price <b>high='1500' low='1300' open='1450' close='1320'</b> /\>: 
 		 *		propertyMap => {{\"high\": 1500}, {\"low\": 1300}, {\"open\": 1450}, {\"close\", 1320}} </li>
 		 *	<li> \<member <b>id='jhnam88' name='Jeongho+Nam' comment='Hello.+My+name+is+Jeongho+Nam'</b> \>: 
-		 *		propertyMap => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam\"}, 
-		 *					 {\"comment\", \"Hello. My name is Jeongho Nam\"}} </li>
+		 *		propertyMap => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam <http://samchon.org>\"}, 
+		 *					 {\"comment\", \"Hello. My name is Jeongho Nam <http://samchon.org>\"}} </li>
 		 * </ul>
 		 */
 		private properties: std.HashMap<string, any>;

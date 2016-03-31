@@ -23,7 +23,7 @@ package org.samchon.protocol.socket
 		}
 		override protected function writeString(str:String):void
 		{
-			socket.writeMultiByte(str, "euc-kr");
+			this.writeMultiByte(str, "euc-kr");
 		}
 	}
 }

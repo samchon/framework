@@ -23,7 +23,7 @@ namespace samchon.library
 	 * </ul>
 	 *
 	 * @see EventDispatcher
-	 * @author Migrated by Jeongho Nam
+	 * @author Migrated by Jeongho Nam <http://samchon.org>
 	 */
 	export interface IEventDispatcher
 	{

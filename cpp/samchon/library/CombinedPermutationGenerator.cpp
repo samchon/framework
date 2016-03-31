@@ -21,5 +21,5 @@ auto CombinedPermutationGenerator::operator[](size_t x) const -> vector<size_t>
 	for (size_t i = 0; i < row.size(); i++)
 		row[i] = (x / dividerArray[i]) % n_;
 
-	return move(row);
+	return row;
 }

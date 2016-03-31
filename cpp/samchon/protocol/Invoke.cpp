@@ -104,5 +104,5 @@ auto Invoke::toSQL() const -> std::string
 			sql += "\t" + at(i)->toSQL() + ((i == size() - 1) ? ";\n\n" : ",\n");
 	}
 
-	return move(sql);
+	return sql;
 }

@@ -7,7 +7,7 @@ namespace samchon.library
 	 * <p> <sub>n</sub>TT<sub>r</sub> </p>
 	 * 
 	 * @inheritdoc
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class CombinedPermutationGenerator
 		extends CaseGenerator

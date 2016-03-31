@@ -3,7 +3,7 @@ namespace samchon.protocol.service
 	/**
 	 * A sub-movie.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SubMovie
 		implements IProtocol 

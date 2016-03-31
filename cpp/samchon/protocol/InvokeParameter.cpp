@@ -147,5 +147,5 @@ auto InvokeParameter::toSQL() const -> std::string
 		value = this->str;
 
 	std::string &sql = StringUtil::substituteSQL("({1}, {2}, {3})", name, type, value);
-	return move(sql);
+	return sql;
 }

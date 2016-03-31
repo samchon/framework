@@ -6,7 +6,7 @@ namespace samchon.library
 	 * <p> A permutation case generator. </p>
 	 * <p> nPr </p>
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 * @inheritdoc
 	 */
 	export class PermuationGenerator

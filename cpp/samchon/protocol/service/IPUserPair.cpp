@@ -75,7 +75,7 @@ auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> std::string
 			return "";
 	}
 
-	return move(sessionID);
+	return sessionID;
 }
 
 auto IPUserPair::issueSessionID(size_t sequence) const -> std::string
@@ -90,5 +90,5 @@ auto IPUserPair::issueSessionID(size_t sequence) const -> std::string
 		<< hex << sequence << "::"
 		<< hex << linuxTime;
 
-	return move(sstream.str());
+	return sstream.str();
 }

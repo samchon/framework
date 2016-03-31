@@ -5,7 +5,7 @@ namespace samchon.library
 	/**
 	 * <p> List of XML(s) having same tag. </p>
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class XMLList
 		extends std.Vector<XML>

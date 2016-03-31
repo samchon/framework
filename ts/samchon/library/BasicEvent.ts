@@ -7,7 +7,7 @@ namespace samchon.library
 	 *  <li> Comments from - https://developer.mozilla.org/en-US/docs/Web/API/Event/ </li>
 	 * </ul>
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class BasicEvent
 		implements Event

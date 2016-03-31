@@ -27,5 +27,5 @@ auto PermutationGenerator::operator[](size_t x) const -> vector<size_t>
 		row[i] = atoms[item];
 		atoms.erase(atoms.begin() + item);
 	}
-	return move(row);
+	return row;
 }

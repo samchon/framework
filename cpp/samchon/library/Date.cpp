@@ -104,7 +104,7 @@ auto Date::calcLastDates(int year) -> array<int, 12>
 		if (!(year % 100 == 0 && year % 400 != 0))
 			monthArray[1] = 29;
 
-	return move(monthArray);
+	return monthArray;
 }
 long long Date::calcSeconds(int year, int month, int date)
 {

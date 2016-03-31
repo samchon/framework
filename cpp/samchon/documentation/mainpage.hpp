@@ -55,7 +55,7 @@
  *	</ul>
  * </ul>
  *
- * @author Jeongho Nam
+ * @author Jeongho Nam <http://samchon.org>
  *	\li E-mail: <a href="mailto:samchon@samchon.org">samchon@samchon.org</a>
  *	\li Mobile: 82-10-3627-0016
  *

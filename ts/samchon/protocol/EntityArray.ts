@@ -3,7 +3,7 @@
 namespace samchon.protocol
 {
 	/**
-	 * @inheritdoc
+	 * 
 	 */
 	export abstract class EntityArray<Ety extends IEntity>
 		extends std.Vector<Ety>

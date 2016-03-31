@@ -16,7 +16,7 @@ namespace samchon.protocol
 	 *
 	 * <img src="interface.png" />
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ServerConnector
 		implements IProtocol

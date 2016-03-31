@@ -29,7 +29,7 @@ namespace samchon.protocol
 	 * what to do with Invoke message, irrespective of the ExternalSystemRole is belonged to which 
 	 * ExternalSystem. </p>
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class ExternalSystem
 		extends EntityArray<ExternalSystemRole>

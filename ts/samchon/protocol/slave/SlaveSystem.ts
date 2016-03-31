@@ -13,7 +13,7 @@ namespace samchon.protocol.slave
 	 * for estimation of its performance. </p>
 	 * 
 	 * @inheritdoc
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class SlaveSystem
 		extends ExternalSystem

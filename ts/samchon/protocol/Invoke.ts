@@ -21,7 +21,7 @@ namespace samchon.protocol
 	 * classes of S/W architecture. </p>
 	 *
 	 * @see IProtocol
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Invoke
 		extends EntityArray<InvokeParameter>

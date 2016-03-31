@@ -60,7 +60,7 @@ namespace library
 	 * @see samchon::library
 	 * @see example::tsp
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	template <typename GeneArray, typename Compare = std::less<GeneArray>, typename Gene = GeneArray::value_type>
 	class GeneticAlgorithm
@@ -122,8 +122,10 @@ namespace library
 		 * @param elitism Whether to keep the elitest GeneArray
 		 */
 		GeneticAlgorithm(bool unique, double mutationRate = 0.015, size_t tournament = 10)
-			: GeneticAlgorithm(nullptr, unique, mutationRate, tournament)
 		{
+			this->unique = unique;
+			this->mutationRate = mutationRate;
+			this->tournament = tournament;
 		};
 
 		/**
@@ -160,7 +162,7 @@ namespace library
 			//ELITICISM
 			evolved->children[0] = population->fitTest();
 
-#pragma omp parallel for
+			#pragma omp parallel for
 			for (int i = 1; i < size; i++)
 			{
 				std::shared_ptr<GeneArray> &gene1 = selection(population);

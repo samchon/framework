@@ -67,7 +67,7 @@ auto Base64::encode(const ByteArray &byteArray) -> string
 			str += '=';
 
 	}
-	return move(str);
+	return str;
 }
 
 /* -------------------------------------------------------------------------
@@ -135,5 +135,5 @@ auto Base64::decode(const std::string &str) -> ByteArray
 			prev_d = d;
 		}
 	}
-	return move(data);
+	return data;
 }

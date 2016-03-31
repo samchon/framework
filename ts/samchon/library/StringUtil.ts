@@ -3,7 +3,7 @@ namespace samchon.library
 	/**
 	 * <p> A utility class supporting static methods of string. </p>
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class StringUtil
 	{

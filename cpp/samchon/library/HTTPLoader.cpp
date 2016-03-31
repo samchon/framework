@@ -310,7 +310,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 				socket.read_some(boost::asio::buffer(chunkPiece), error);
 
 				if (error)
-					return move(data);
+					return data;
 
 				chunk += chunkPiece[0];
 				if (chunk.size() > 2 && chunk.substr(chunk.size() - 2) == "\r\n")
@@ -402,7 +402,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 		/*ByteArray data;
 		data.write(postStr);
 
-		return move(data);*/
+		return data;*/
 	}
 	else
 	{
@@ -424,7 +424,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 	}
 
 	// RETURN
-	return move(data);
+	return data;
 }
 
 /*#include <Windows.h>

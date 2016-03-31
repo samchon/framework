@@ -13,7 +13,7 @@ namespace samchon.protocol
 	 * can see all related classes with network I/O are implemented from the IProtocol. </p>
 	 *
 	 * @see Invoke 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IProtocol
 	{

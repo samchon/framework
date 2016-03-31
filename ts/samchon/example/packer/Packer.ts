@@ -11,7 +11,7 @@ namespace samchon.example.packer
 	 * <p> The time complexity of Packer overs O(m^n). Elapsed time of calculation increases enourmously. 
 	 * Do not use Packer if the digits of number of products or wrappers overs 2. </p>
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Packer
 		extends protocol.EntityArray<WrapperArray>

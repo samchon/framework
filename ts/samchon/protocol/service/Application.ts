@@ -34,7 +34,7 @@ namespace samchon.protocol.service
 	 * 	<li>All the routines are done</li>
 	 * </ul>
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Application
 		implements IProtocol

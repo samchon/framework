@@ -127,5 +127,5 @@ auto IWebServer::calculateCertificationKey(const string &key64) const -> string
 			digest[index]
 		);
 
-	return move(Base64::encode(bytes));
+	return Base64::encode(bytes);
 }

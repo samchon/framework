@@ -13,7 +13,7 @@ namespace samchon.protocol
 	 * performances of each slave system. With the estimated performan index, master retrives the
 	 * optimal solution of distributing processes. </p>
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class InvokeHistory
 		extends Entity

@@ -10,7 +10,7 @@ namespace samchon.library
 	 *  <li> n! -> FactorialGenerator </li>
 	 * </ul>
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class CaseGenerator
 	{

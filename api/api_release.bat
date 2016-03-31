@@ -16,12 +16,12 @@ SET CHM_DIR=C:\Program Files (x86)\HTML Help Workshop\
 
 ::DOCUMENTATE
 "%DOXYGEN_DIR%doxygen" cpp.doxygen
-call "%RELEASE_DIR%_cpp/latex/make.bat"
+::call "%RELEASE_DIR%_cpp/latex/make.bat"
 ::"%CHM_DIR%hhc.exe" "%RELEASE_DIR%_cpp\html\index.hhp"
 
 ::MOVE
 ::move "%RELEASE_DIR%_cpp\html\index.chm" "%RELEASE_DIR%_cpp\html\api.chm"
-move "%RELEASE_DIR%_cpp\latex\refman.pdf" "%RELEASE_DIR%_cpp\html\api.pdf"
+::move "%RELEASE_DIR%_cpp\latex\refman.pdf" "%RELEASE_DIR%_cpp\html\api.pdf"
 move "%RELEASE_DIR%_cpp\html" "%RELEASE_DIR%cpp"
 
 ::COPY TO PORTFOLIO
@@ -34,7 +34,7 @@ rd "%RELEASE_DIR%_cpp" /S /Q
 ::    FLEX API DOCUMENT
 :: ----------------------------------------------------------------
 ::PATH
-SET ASDOC_DIR=E:\Downloads\Programming\Flex\sdks\4.6.0\bin\
+SET ASDOC_DIR=C:\Program Files (x86)\Adobe\Adobe Flash Builder 4.6\sdks\4.6.0\bin\
 SET FLEX_SRC_DIR=..\flex\src\
 
 ::DOCUMENTATE
@@ -44,11 +44,10 @@ SET FLEX_SRC_DIR=..\flex\src\
 ::    TYPE_SCRIPT API DOCUMENT
 :: ----------------------------------------------------------------
 ::PATH
-SET NPM_DIR=C:\Users\samch\AppData\Roaming\npm\
-SET TS_SRC_DIR=../ts/
+SET TS_SRC_DIR=../ts/samchon/
 
 ::DOCUMENTATE
-"%NPM_DIR%typedoc" --target ES5 --out "%RELEASE_DIR%ts" "%TS_SRC_DIR%" --mode file
+typedoc --target ES5 --out "%RELEASE_DIR%ts" "%TS_SRC_DIR%" --mode file
 
 :: ----------------------------------------------------------------
 ::    COMMIT TO GITHUB (SAMCHON.GITHUB.IO)

@@ -13,7 +13,7 @@ using namespace samchon::library;
 //TO_STRING
 template<> auto StringUtil::toString(const WeakString &str) -> string
 {
-	return move(str.str());
+	return str.str();
 }
 
 //TO_SQL
@@ -118,7 +118,7 @@ auto StringUtil::numberFormat(double val, int precision) -> string
 	if(isNegative == true)
 		str = "-" + str;
 
-	return move(str);
+	return str;
 }
 auto StringUtil::percentFormat(double val, int precision) -> string
 {
@@ -164,41 +164,41 @@ auto StringUtil::colorPercentFormat(double value, int precision, double delimite
 ---------------------------------------------------------------------- */
 auto StringUtil::trim(const string &val, const vector<string> &delims) -> string
 {
-	return move(WeakString(val).trim(delims).str());
+	return WeakString(val).trim(delims).str();
 }
 auto StringUtil::ltrim(const string &val, const vector<string> &delims) -> string
 {
-	return move(WeakString(val).ltrim(delims).str());
+	return WeakString(val).ltrim(delims).str();
 }
 auto StringUtil::rtrim(const string &val, const vector<string> &delims) -> string
 {
-	return move(WeakString(val).rtrim(delims).str());
+	return WeakString(val).rtrim(delims).str();
 }
 
 auto StringUtil::trim(const string &str) -> string
 {
-	return move(WeakString(str).trim().str());
+	return WeakString(str).trim().str();
 }
 auto StringUtil::ltrim(const string &str) -> string
 {
-	return move(WeakString(str).ltrim().str());
+	return WeakString(str).ltrim().str();
 }
 auto StringUtil::rtrim(const string &str) -> string
 {
-	return move(WeakString(str).rtrim().str());
+	return WeakString(str).rtrim().str();
 }
 
 auto StringUtil::trim(const string &str, const string &delim) -> string
 {
-	return move(WeakString(str).trim(delim).str());
+	return WeakString(str).trim(delim).str();
 }
 auto StringUtil::ltrim(const string &str, const string &delim)->string
 {
-	return move(WeakString(str).ltrim(delim).str());
+	return WeakString(str).ltrim(delim).str();
 }
 auto StringUtil::rtrim(const string &str, const string &delim)->string
 {
-	return move(WeakString(str).rtrim(delim).str());
+	return WeakString(str).rtrim(delim).str();
 }
 
 /* ----------------------------------------------------------------------
@@ -222,12 +222,12 @@ auto StringUtil::rfinds(const string &str,
 auto StringUtil::substring(const string &str,
 	size_t startIndex, size_t endIndex) -> string
 {
-	return move(WeakString(str).substring(startIndex, endIndex).str());
+	return WeakString(str).substring(startIndex, endIndex).str();
 }
 auto StringUtil::between(const string &str,
 	const string &start, const string &end) -> string
 {
-	return move(WeakString(str).between(start, end).str());
+	return WeakString(str).between(start, end).str();
 }
 auto StringUtil::addTab(const string &str, size_t n) -> string
 {
@@ -246,7 +246,7 @@ auto StringUtil::addTab(const string &str, size_t n) -> string
 	for (i = 0; i < lines.size(); i++)
 		val.append(tab + lines[i] + ((i == lines.size() - 1) ? "" : "\n"));
 
-	return move(val);
+	return val;
 }
 
 //SUBSTRINGS
@@ -258,7 +258,7 @@ auto StringUtil::split(const string &str, const string &delim) -> vector<string>
 	for (size_t i = 0; i < arr.size(); i++)
 		resArray[i] = move(arr[i].str());
 
-	return move(resArray);
+	return resArray;
 }
 auto StringUtil::betweens(const string &str,
 	const string &start, const string &end) -> vector<string>
@@ -269,7 +269,7 @@ auto StringUtil::betweens(const string &str,
 	for (size_t i = 0; i < arr.size(); i++)
 		resArray[i] = move(arr[i].str());
 
-	return move(resArray);
+	return resArray;
 }
 
 /* ----------------------------------------------------------------------
@@ -277,22 +277,22 @@ auto StringUtil::betweens(const string &str,
 ---------------------------------------------------------------------- */
 auto StringUtil::toLowerCase(const string &str) -> string
 {
-	return move(WeakString(str).toLowerCase());
+	return WeakString(str).toLowerCase();
 }
 auto StringUtil::toUpperCase(const string &str) -> string
 {
-	return move(WeakString(str).toUpperCase());
+	return WeakString(str).toUpperCase();
 }
 
 auto StringUtil::replaceAll(const string &str,
 	const string &before, const string &after) -> string
 {
-	return move(WeakString(str).replaceAll(before, after));
+	return WeakString(str).replaceAll(before, after);
 }
 auto StringUtil::replaceAll(const string &str,
 	const vector<pair<string, string>> &pairs) -> string
 {
-	return move(WeakString(str).replaceAll(pairs));
+	return WeakString(str).replaceAll(pairs);
 }
 auto StringUtil::removeHTMLSpaces(const string &str) -> string
 {
@@ -302,5 +302,5 @@ auto StringUtil::removeHTMLSpaces(const string &str) -> string
 		{"\t", " "},
 		{"  ", " "}
 	};
-	return move(replaceAll(str, pairs));
+	return replaceAll(str, pairs);
 }

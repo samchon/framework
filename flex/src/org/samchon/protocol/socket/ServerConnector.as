@@ -2,6 +2,7 @@ package org.samchon.protocol.socket
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.IEventDispatcher;
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
 	import flash.events.SecurityErrorEvent;
@@ -36,8 +37,8 @@ package org.samchon.protocol.socket
 	 *
 	 * @author Jeongho Nam
 	 */
-	public class ServerConnector 
-		extends EventDispatcher
+	public class ServerConnector
+		extends Socket
 		implements IProtocol
 	{
 		//BASIC MEMBERS
@@ -49,16 +50,6 @@ package org.samchon.protocol.socket
 		 * </ul>
 		 */
 		private var parent:IProtocol;
-		
-		/**
-		 * <p> A socket for network I/O. </p>
-		 */
-		protected var socket:Socket;
-		
-		/**
-		 * @private
-		 */
-		//private var bufferQueue:Vector.<ByteArray>;
 		
 		/**
 		 * @private
@@ -87,46 +78,14 @@ package org.samchon.protocol.socket
 		 */
 		public function ServerConnector(parent:IProtocol)
 		{
+			super();
+			
 			this.parent = parent;
-			
-			socket = new Socket();
-			
-			//bufferQueue = new Vector.<ByteArray>();
+
 			str = "";
 			binaryInvoke = null;
 			
-			socket.addEventListener(Event.CONNECT, handleConnect);
-			socket.addEventListener(IOErrorEvent.IO_ERROR, handleError);
-			socket.addEventListener(ProgressEvent.SOCKET_DATA, handleReply);
-			socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, handleSecurityError);
-		}
-		
-		/**
-		 * <p> Connects to a cloud server with specified host and port. </p>
-		 * 
-		 * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown: 
-		 * an error event is dispatched if a host was specified, and an exception is thrown if no host 
-		 * was specified. Otherwise, the status of the connection is reported by an event. 
-		 * If the socket is already connected, the existing connection is closed first. </p>
-		 * 
-		 * @param host
-		 * 		The name or IP address of the host to connect to. 
-		 * 		If no host is specified, the host that is contacted is the host where the calling 
-		 * 		file resides. If you do not specify a host, use an event listener to determine whether 
-		 * 		the connection was successful.
-		 * @param port 
-		 * 		The port number to connect to.
-		 * 
-		 * @throws IOError
-		 * 		No host was specified and the connection failed.
-		 * @throws SecurityError
-		 * 		This error occurs in SWF content for the following reasons: 
-		 * 		Local untrusted SWF files may not communicate with the Internet. You can work around 
-		 * 		this limitation by reclassifying the file as local-with-networking or as trusted.
-		 */
-		public function connect(ip:String, port:int):void
-		{
-			socket.connect(ip, port);
+			super.addEventListener(ProgressEvent.SOCKET_DATA, handleReply);
 		}
 		
 		/* ---------------------------------------------------------------------
@@ -156,10 +115,11 @@ package org.samchon.protocol.socket
 			
 			for (var i:int = 0; i < invoke.length; i++)
 				if( invoke.at(i).getType() == "ByteArray")
-					socket.writeBytes( invoke.at(i).getValue() );
+					this.writeBytes( invoke.at(i).getValue() );
 			
-			socket.flush();
+			this.flush();
 		}
+		
 		public function replyData(invoke:Invoke):void
 		{
 			parent.replyData(invoke);
@@ -167,57 +127,23 @@ package org.samchon.protocol.socket
 		
 		protected function readString(byteArray:ByteArray):String
 		{
-			//if (System.useCodePage == true)
-				return byteArray.readUTFBytes(byteArray.bytesAvailable);
-			//else
-				//return byteArray.toString();
+			return byteArray.readUTFBytes(byteArray.bytesAvailable);
 		}
+		
 		protected function writeString(str:String):void
 		{
-			socket.writeUTFBytes(str);
+			this.writeUTFBytes(str);
 		}
 		
 		/* ---------------------------------------------------------------------
-			HANDLERS
+			EVENT HANDLERS
 		--------------------------------------------------------------------- */
-		/**
-		 * @private
-		 */
-		private function handleConnect(event:Event):void
+		override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
 		{
-			//IDENTIFIER OF CLIENT: PAIR<IP, SO.DATA.ID>
-			/*var id:String; 
+			if (type == ProgressEvent.PROGRESS)
+				return;
 			
-			var so:SharedObject = SharedObject.getLocal("org.samchon.framework.socket.identifier", "/");
-			if(so.data.id == null)
-			{
-				id = new Date().time + "_" + Math.random();
-				so.data.id = id;
-				so.flush();
-			}
-			else
-				id = so.data.id;
-			
-			socket.writeUTFBytes(id);
-			socket.flush();*/
-			
-			dispatchEvent(event);
-		}
-		
-		/**
-		 * @private
-		 */
-		private function handleError(event:IOErrorEvent):void
-		{
-			dispatchEvent(event);
-		}
-		
-		/**
-		 * @private
-		 */
-		private function handleSecurityError(event:SecurityErrorEvent):void
-		{
-			dispatchEvent(event);
+			super.addEventListener(type, listener, useCapture, priority, useWeakReference);
 		}
 		
 		/* ---------------------------------------------------------------------
@@ -229,32 +155,13 @@ package org.samchon.protocol.socket
 		private function handleReply(event:ProgressEvent):void
 		{
 			var buffer:ByteArray = new ByteArray();
-			socket.readBytes(buffer);
+			this.readBytes(buffer);
 			
 			if (binaryInvoke == null)
 				handleString(buffer);
 			else
 				handleBinary(buffer);
-			
-			/*if (bufferQueue.length == 0)
-				handleBuffer(buffer);
-			else
-				bufferQueue.push(buffer);*/
 		}
-		/*private function handleBuffer(_buffer:ByteArray):void
-		{
-			bufferQueue.push(_buffer);
-			
-			while (bufferQueue.length > 0)
-			{
-				var buffer:ByteArray = bufferQueue.splice(0, 1)[0];
-				
-				if (binaryInvoke == null)
-					handleString(buffer);
-				else
-					handleBinary(buffer);
-			}
-		}*/
 		
 		//ONLY INVOKE
 		/**

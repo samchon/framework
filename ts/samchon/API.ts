@@ -13,7 +13,7 @@ namespace samchon
 	 * @param args One or more (comma separated) expressions to evaluate. 
 	 *			   For multiple expressions, a space is inserted between each expression in the output.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export function trace(...args: any[]): void 
 	{

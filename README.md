@@ -80,7 +80,7 @@ A framework for realizing **cloud** and **distributed processing** system with *
   - Architecture Designs
     - C++ Class Diagram: http://samchon.github.io/framework/design/cpp_class_diagram.pdf
     - JS Class Diagram: http://samchon.github.io/framework/design/js_class_diagram.pdf
-    - Sequence Diagram: http://samchon.github.io/framework/design/js_class_diagram.pdf
+    - Sequence Diagram: http://samchon.github.io/framework/design/sequence_diagram.pdf
     - Entity Relationship Diagram: http://samchon.github.io/framework/design/entity_relationship_diagram.pdf
 
 ![Image of Designs]

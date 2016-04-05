@@ -3,7 +3,7 @@
   <projects/>
   <src/>
   <swc>
-    <linked location="sdkPlaceHolder" path="sdkPlaceHolder" position="0" uuid="d9222355-3101-49ab-b5a2-2a179129d8f8"/>
+	<linked location="sdkPlaceHolder" path="sdkPlaceHolder" position="0" uuid="d9222355-3101-49ab-b5a2-2a179129d8f8"/>
   </swc>
   <misc/>
   <theme/>

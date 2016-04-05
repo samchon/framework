@@ -53,6 +53,7 @@ x64/
 .vs/
 *.sdf
 *.opensdf
+*.VC.db
 
 #FOR EXCEPTION CASE
 *_p.c

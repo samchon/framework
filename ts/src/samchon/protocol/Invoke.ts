@@ -91,7 +91,7 @@ namespace samchon.protocol
 				this.listener = args[0];
 
 				for (var i: number = 1; i < args.length; i++)
-					this.pushBack(new InvokeParameter("", args[i]));
+					this.push_back(new InvokeParameter("", args[i]));
 			}
 		}
 		

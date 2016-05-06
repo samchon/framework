@@ -59,29 +59,29 @@ namespace samchon.protocol
 			}
 			else if (args.length == 1 && typeof args[0] == "string")
 			{
-				var listener: string = args[0];
+				let listener: string = args[0];
 
 				this.listener = listener;
 			}
 			else if (args.length == 1 && args[0] instanceof library.XML)
 			{
 				this.listener = "";
-				var xml: library.XML = args[0];
+				let xml: library.XML = args[0];
 
 				this.construct(xml);
 			}
 			else if (args.length == 1 && args[0] instanceof Invoke) 
 			{
-				var invoke: Invoke = args[0];
+				let invoke: Invoke = args[0];
 
 				this.listener = invoke.listener;
 				this.assign(invoke.begin(), invoke.end());
 			}
 			else if (args.length == 3 && args[1] instanceof std.VectorIterator && args[2] instanceof std.VectorIterator)
 			{
-				var listener: string = args[0];
-				var begin: std.VectorIterator<InvokeParameter> = args[1];
-				var end: std.VectorIterator<InvokeParameter> = args[2];
+				let listener: string = args[0];
+				let begin: std.VectorIterator<InvokeParameter> = args[1];
+				let end: std.VectorIterator<InvokeParameter> = args[2];
 
 				this.listener = listener;
 				this.assign(begin, end);
@@ -90,7 +90,7 @@ namespace samchon.protocol
 			{
 				this.listener = args[0];
 
-				for (var i: number = 1; i < args.length; i++)
+				for (let i: number = 1; i < args.length; i++)
 					this.push_back(new InvokeParameter("", args[i]));
 			}
 		}
@@ -121,8 +121,8 @@ namespace samchon.protocol
 		 */
 		public getArguments(): Array<any>
 		{
-			var args: Array<any> = [];
-			for (var i: number = 0; i < this.size(); i++)
+			let args: Array<any> = [];
+			for (let i: number = 0; i < this.size(); i++)
 				args.push(this[i].getValue());
 
 			return args;
@@ -139,8 +139,8 @@ namespace samchon.protocol
 			if (!(this.listener in obj && obj[this.listener] instanceof Function))
 				return false;
 		
-			var func: Function = obj[this.listener];
-			var args: Array<any> = this.getArguments();
+			let func: Function = obj[this.listener];
+			let args: Array<any> = this.getArguments();
 
 			func.apply(obj, args);
 

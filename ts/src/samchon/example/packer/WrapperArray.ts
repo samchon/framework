@@ -84,22 +84,22 @@ namespace samchon.example.packer
 			if (this.reserved.length == 0)
 				return;
 
-			var factorial: library.FactorialGenerator = new library.FactorialGenerator(this.reserved.length);
-			var minWrapperArray: WrapperArray;
+			let factorial: library.FactorialGenerator = new library.FactorialGenerator(this.reserved.length);
+			let minWrapperArray: WrapperArray;
 
-			for (var i: number = 0; i < factorial.size(); i++)
+			for (let i: number = 0; i < factorial.size(); i++)
 			{
-				var wrapperArray: WrapperArray = new WrapperArray(this.sample);
-				var row: Array<number> = factorial.at(i);
+				let wrapperArray: WrapperArray = new WrapperArray(this.sample);
+				let row: Array<number> = factorial.at(i);
 
-				for (var j: number = 0; j < row.length; j++)
+				for (let j: number = 0; j < row.length; j++)
 				{
-					var product: Product = this.reserved[row[j]];
+					let product: Product = this.reserved[row[j]];
 
 					if (wrapperArray.size() == 0 ||
 						wrapperArray.at(wrapperArray.size() - 1).tryInsert(product) == false)
 					{
-						var wrapper: Wrapper = new Wrapper(this.sample);
+						let wrapper: Wrapper = new Wrapper(this.sample);
 						wrapper.tryInsert(product);
 
 						wrapperArray.push(wrapper);
@@ -116,7 +116,7 @@ namespace samchon.example.packer
 			//REPLACE TO MIN_WRAPPER_ARRAY
 			this.splice(0, this.size());
 
-			for (var i: number = 0; i < minWrapperArray.size(); i++)
+			for (let i: number = 0; i < minWrapperArray.size(); i++)
 				this.push( minWrapperArray.at(i) );
 		}
 
@@ -155,7 +155,7 @@ namespace samchon.example.packer
 
 		public toXML(): library.XML
 		{
-			var xml: library.XML = super.toXML();
+			let xml: library.XML = super.toXML();
 			xml.addAllProperties(this.sample.toXML());
 
 			return xml;

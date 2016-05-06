@@ -25,7 +25,7 @@ package org.samchon.protocol.entity
 	 * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
 	 * 
 	 * @see Invoke
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	public interface IEntity
 	{

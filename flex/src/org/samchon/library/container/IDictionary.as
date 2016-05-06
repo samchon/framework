@@ -3,7 +3,7 @@ package org.samchon.library.container
 	/**
 	 * <p> Interface for Dictionary container having key-based items. </p>
 	 * 
-	 * @author Jeongho Nam<br/>
+	 * @author Jeongho Nam <http://samchon.org><br/>
 	 */ 
 	//template <typename _Ty>
 	public interface IDictionary

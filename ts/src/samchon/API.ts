@@ -17,9 +17,9 @@ namespace samchon
 	 */
 	export function trace(...args: any[]): void 
 	{
-		var str: string = "";
+		let str: string = "";
 
-		var replacerArray: Array<std.Pair<string, string>> =
+		let replacerArray: Array<std.Pair<string, string>> =
 		[
 			//new std.Pair<string, string>("'", "&apos;"),
 			//new std.Pair<string, string>('"', "&quot;"),
@@ -31,9 +31,9 @@ namespace samchon
 			//new std.Pair<string, string>("\t", "____")
 		];
 
-		for (var i: number = 0; i < args.length; i++) 
+		for (let i: number = 0; i < args.length; i++) 
 		{
-			var item: string = String(args[i]);
+			let item: string = String(args[i]);
 			item = library.StringUtil.replaceAll(item, ...replacerArray);
 
 			if (i == 0)

@@ -12,7 +12,7 @@ package org.samchon.library.filetree.file
 	 * 
 	 * <img src="file_tree.png" />
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	public class FTFolder extends EntityArray 
 		implements IFTFile

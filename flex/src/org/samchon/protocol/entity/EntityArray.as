@@ -33,7 +33,7 @@ package org.samchon.protocol.entity
 	 * @copy IEntity
 	 * 
 	 * @see Entity
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */ 
 	public class EntityArray 
 		extends ArrayCollection

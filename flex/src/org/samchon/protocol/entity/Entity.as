@@ -6,7 +6,7 @@ package org.samchon.protocol.entity
 	 * <h3> [Inherited] </h3>
 	 * @copy IEntity
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	public class Entity implements IEntity
 	{

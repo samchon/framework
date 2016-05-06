@@ -50,7 +50,7 @@ namespace samchon.protocol
 		 */
 		public start(): void
 		{
-			for (var i: number = 0; i < this.size(); i++)
+			for (let i: number = 0; i < this.size(); i++)
 				this.at(i).start();
 		}
 
@@ -65,7 +65,7 @@ namespace samchon.protocol
 		 */
 		public hasRole(key: string): boolean
 		{
-			for (var i: number = 0; i < this.size(); i++)
+			for (let i: number = 0; i < this.size(); i++)
 				if (this.at(i).has(key) == true)
 					return true;
 
@@ -80,7 +80,7 @@ namespace samchon.protocol
 		 */
 		public getRole(key: string): ExternalSystemRole
 		{
-			for (var i: number = 0; i < this.size(); i++)
+			for (let i: number = 0; i < this.size(); i++)
 				if (this.at(i).has(key) == true)
 					return this.at(i).get(key);
 
@@ -92,10 +92,10 @@ namespace samchon.protocol
 		------------------------------------------------------------------ */
 		public sendData(invoke: Invoke): void
 		{
-			var listener: string = invoke.getListener();
+			let listener: string = invoke.getListener();
 
-			for (var i: number = 0; i < this.size(); i++)
-				for (var j: number = 0; j < this.at(i).size(); j++)
+			for (let i: number = 0; i < this.size(); i++)
+				for (let j: number = 0; j < this.at(i).size(); j++)
 					if (this.at(i).at(j).hasSendListener(listener) == true)
 						this.at(i).sendData(invoke);
 		}

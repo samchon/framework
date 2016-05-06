@@ -26,7 +26,7 @@ namespace samchon.library
 			super(n, r);
 
 			this.size_ = n;
-			for (var i: number = n - 1; i > n - r; i--)
+			for (let i: number = n - 1; i > n - r; i--)
 				this.size_ *= i;
 		}
 
@@ -35,15 +35,15 @@ namespace samchon.library
 		 */
 		public at(index: number): Array<number>
 		{
-			var atoms: Array<number> = new Array<number>();
-			for (var i: number = 0; i < this.n_; i++)
+			let atoms: Array<number> = new Array<number>();
+			for (let i: number = 0; i < this.n_; i++)
 				atoms.push(i);
 
-			var row: Array<number> = new Array<number>();
+			let row: Array<number> = new Array<number>();
 
-			for (var i: number = 0; i < this.r_; i++)
+			for (let i: number = 0; i < this.r_; i++)
 			{
-				var item: number = index % atoms.length;
+				let item: number = index % atoms.length;
 				index = Math.floor(index / atoms.length);
 
 				row.push( atoms[item] );

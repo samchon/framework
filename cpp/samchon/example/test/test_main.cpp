@@ -1,5 +1,6 @@
 #include <iostream>
-#include <unordered_map>
+#include <thread>
+#include <samchon/library/RWMutex.hpp>
 
 #ifdef _WIN64
 #	ifdef _DEBUG
@@ -16,26 +17,20 @@
 #endif
 
 using namespace std;
+using namespace samchon::library;
 
 void main()
 {
-	unordered_map<int, int> intMap;
-	for (int i = 1; i <= 10; i++)
-		intMap[i] = i;
+	RWMutex mtx;
 
-	for (unordered_map<int, int>::iterator it = intMap.begin(); it != intMap.end(); it++)
-	{
-		if (it->first == 3)
-		{
-			int val = it->second;
+	for (size_t i = 0; i < 10; i++)
+		thread([&mtx]() 
+			{
+				UniqueWriteLock uk(mtx);
 
-			it = intMap.erase(it);
-			intMap.insert(it, {33, val});
-		}
-	}
-
-	for (auto it = intMap.begin(); it != intMap.end(); it++)
-		cout << it->first << ", " << it->second << endl;
+				cout << "AAAAA" << endl;
+				this_thread::sleep_for(1s);
+			}).detach();
 
 	system("pause");
 }

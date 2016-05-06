@@ -61,7 +61,7 @@ package org.samchon.protocol.movie
 	 * @see SubMovie
 	 * @see TitleWindow
 	 * @see ServerConnector
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */ 
 	public class Window
 		extends Application 

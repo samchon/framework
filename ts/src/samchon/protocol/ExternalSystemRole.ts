@@ -90,7 +90,7 @@ namespace samchon.protocol
 		}
 		public toXML(): library.XML
 		{
-			var xml: library.XML = super.toXML();
+			let xml: library.XML = super.toXML();
 			
 			return xml;
 		}

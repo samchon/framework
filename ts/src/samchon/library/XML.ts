@@ -101,8 +101,8 @@ namespace samchon.library
 			if (str.indexOf("<") == -1)
 				return;
 
-			var start: number;
-			var end: number;
+			let start: number;
+			let end: number;
 
 			//ERASE HEADER OF XML
 			if ((start = str.indexOf("<?xml")) != -1) 
@@ -135,7 +135,7 @@ namespace samchon.library
 			this.parseTag(str);
 			this.parseProperty(str);
 
-			var res = this.parseValue(str);
+			let res = this.parseValue(str);
 			if (res.second == true)
 				this.parseChildren(res.first);
 		}
@@ -145,8 +145,8 @@ namespace samchon.library
 		 */
 		private parseTag(str: string): void
 		{
-			var start: number = str.indexOf("<") + 1;
-			var end: number =
+			let start: number = str.indexOf("<") + 1;
+			let end: number =
 				this.calcMinIndex
 					(
 						str.indexOf(" ", start),
@@ -167,27 +167,27 @@ namespace samchon.library
 		 */
 		private parseProperty(str: string): void
 		{
-			var start: number = str.indexOf("<" + this.tag) + this.tag.length + 1;
-			var end: number = this.calcMinIndex(str.lastIndexOf("/"), str.indexOf(">", start));
+			let start: number = str.indexOf("<" + this.tag) + this.tag.length + 1;
+			let end: number = this.calcMinIndex(str.lastIndexOf("/"), str.indexOf(">", start));
 
 			if (start == -1 || end == -1 || start >= end)
 				return;
 		
 			//<comp label='ABCD' /> : " label='ABCD' "
-			var line: string = str.substring(start, end);
+			let line: string = str.substring(start, end);
 			if (line.indexOf("=") == -1) 
 				return;
 		
-			var label: string;
-			var value: string;
-			var helpers: Array<Object> = new Array<Object>();
+			let label: string;
+			let value: string;
+			let helpers: Array<Object> = new Array<Object>();
 
-			var inQuote: boolean = false;
-			var quoteType: number;
-			var equal: number;
+			let inQuote: boolean = false;
+			let quoteType: number;
+			let equal: number;
 
 			//INDEXING
-			for (var i: number = 0; i < line.length; i++) 
+			for (let i: number = 0; i < line.length; i++) 
 			{
 				//Start of quote
 				if (inQuote == false && (line.charAt(i) == "'" || line.charAt(i) == "\"")) 
@@ -215,9 +215,9 @@ namespace samchon.library
 			}
 
 			//CONSTRUCTING
-			for (var i: number = 0; i < helpers.length; i++) 
+			for (let i: number = 0; i < helpers.length; i++) 
 			{
-				var quote = helpers[i];
+				let quote = helpers[i];
 
 				if (i == 0) 
 				{
@@ -240,8 +240,8 @@ namespace samchon.library
 		 */
 		private parseValue(str: string): std.Pair<string, boolean>
 		{
-			var end_slash: number = str.lastIndexOf("/");
-			var end_block: number = str.indexOf(">");
+			let end_slash: number = str.lastIndexOf("/");
+			let end_block: number = str.indexOf(">");
 
 			if (end_slash < end_block || end_slash + 1 == str.lastIndexOf("<")) 
 			{
@@ -252,8 +252,8 @@ namespace samchon.library
 				return new std.Pair<string, boolean>(str, false);
 			}
 
-			var start: number = end_block + 1;
-			var end: number = str.lastIndexOf("<");
+			let start: number = end_block + 1;
+			let end: number = str.lastIndexOf("<");
 			str = str.substring(start, end); //REDEFINE WEAK_STRING -> IN TO THE TAG
 
 			if (str.indexOf("<") == -1)
@@ -272,15 +272,15 @@ namespace samchon.library
 			if (str.indexOf("<") == -1)
 				return;
 		
-			var start: number = str.indexOf("<");
-			var end: number = str.lastIndexOf(">") + 1;
+			let start: number = str.indexOf("<");
+			let end: number = str.lastIndexOf(">") + 1;
 			str = str.substring(start, end);
 
-			var blockStart: number = 0;
-			var blockEnd: number = 0;
+			let blockStart: number = 0;
+			let blockEnd: number = 0;
 			start = 0;
 
-			for (var i: number = 0; i < str.length; i++) 
+			for (let i: number = 0; i < str.length; i++) 
 			{
 				if (str.charAt(i) == "<" && str.substr(i, 2) != "</")
 					blockStart++;
@@ -291,8 +291,8 @@ namespace samchon.library
 				{
 					end = str.indexOf(">", i);
 
-					var xmlList: XMLList;
-					var xml: XML = new XML();
+					let xmlList: XMLList;
+					let xml: XML = new XML();
 					xml.construct( str.substring(start, end + 1) );
 
 					if (this.has(xml.tag) == true)
@@ -422,17 +422,17 @@ namespace samchon.library
 
 		public push(...items: any[]): number
 		{
-			for (var i: number = 0; i < items.length; i++)
+			for (let i: number = 0; i < items.length; i++)
 			{
 				if (items[i] instanceof XML)
 				{
-					var xml: XML = items[i];
+					let xml: XML = items[i];
 
 					if (this.has(xml.tag) == true)
 						this.get(xml.tag).push(xml);
 					else 
 					{
-						var xmlList: XMLList = new XMLList();
+						let xmlList: XMLList = new XMLList();
 						xmlList.push(xml);
 
 						this.set(xml.tag, xmlList);
@@ -440,14 +440,14 @@ namespace samchon.library
 				}
 				else if (items[i] instanceof XMLList)
 				{
-					var xmlList: XMLList = items[i];
+					let xmlList: XMLList = items[i];
 					
 					if (xmlList.empty() == true)
 						continue;
 
 					if (this.has(xmlList.getTag()) == true)
 					{
-						var myXMLList: XMLList = this.get(xmlList.getTag());
+						let myXMLList: XMLList = this.get(xmlList.getTag());
 
 						myXMLList.insert(myXMLList.end(), xmlList.begin(), xmlList.end());
 					}
@@ -461,7 +461,7 @@ namespace samchon.library
 
 		public addAllProperties(xml: XML): void
 		{
-			for (var it = xml.properties.begin(); it.equals(xml.properties.end()) == false; it = it.next())
+			for (let it = xml.properties.begin(); it.equal_to(xml.properties.end()) == false; it = it.next())
 				this.setProperty(it.first, it.second);
 		}
 
@@ -475,9 +475,9 @@ namespace samchon.library
 		------------------------------------------------------------- */
 		private calcMinIndex(... args: number[]): number 
 		{
-			var min: number = args[0];
+			let min: number = args[0];
 
-			for (var i: number = 1; i < args.length; i++)
+			for (let i: number = 1; i < args.length; i++)
 			{
 				if (args[i] == -1)
 					continue;
@@ -514,7 +514,7 @@ namespace samchon.library
 		 */
 		public static decodeValue(str: string): string 
 		{
-			var pairs: Array<std.Pair<string, string>> =
+			let pairs: Array<std.Pair<string, string>> =
 				[
 					new std.Pair("&amp;", "&"),
 					new std.Pair("&lt;", "<"),
@@ -550,7 +550,7 @@ namespace samchon.library
 		 */
 		public static encodeValue(str: string): string 
 		{
-			var pairs: Array<std.Pair<string, string>> =
+			let pairs: Array<std.Pair<string, string>> =
 				[
 					new std.Pair("&", "&amp;"),
 					new std.Pair("<", "&lt;"),
@@ -609,7 +609,7 @@ namespace samchon.library
 		 */
 		public static decodeProperty(str: string): string 
 		{
-			var pairs: Array<std.Pair<string, string>> =
+			let pairs: Array<std.Pair<string, string>> =
 				[
 					new std.Pair("&amp;", "&"),
 					new std.Pair("&lt;", "<"),
@@ -673,7 +673,7 @@ namespace samchon.library
 		 */
 		public static encodeProperty(str: string): string 
 		{
-			var pairs: Array<std.Pair<string, string>> =
+			let pairs: Array<std.Pair<string, string>> =
 				[
 					new std.Pair("&", "&amp;"),
 					new std.Pair("<", "&lt;"),
@@ -695,11 +695,11 @@ namespace samchon.library
 		 */
 		public toString(level: number = 0): string
 		{
-			var str: string = StringUtil.tab(level) + "<" + this.tag;
-			var childrenString: string = "";
+			let str: string = StringUtil.tab(level) + "<" + this.tag;
+			let childrenString: string = "";
 
 			//PROPERTIES
-			for (var p_it = this.properties.begin(); p_it.equals(this.properties.end()) == false; p_it = p_it.next())
+			for (let p_it = this.properties.begin(); p_it.equal_to(this.properties.end()) == false; p_it = p_it.next())
 				str += " " + p_it.first + "=\"" + XML.encodeProperty(String(p_it.second)) + "\"";
 		
 			if (this.size() == 0) 
@@ -713,7 +713,7 @@ namespace samchon.library
 			{
 				str += ">\n";
 
-				for (var x_it = this.begin(); x_it.equals(this.end()) == false; x_it = x_it.next())
+				for (let x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
 					str += x_it.second.toString(level + 1);
 			
 				str += StringUtil.tab(level) + "</" + this.tag + ">";
@@ -726,11 +726,11 @@ namespace samchon.library
 		 */
 		public toHTML(level: number = 0): string
 		{
-			var str: string = StringUtil.htmlTab(level) + "&lt;" + this.tag;
-			var childrenString: string = "";
+			let str: string = StringUtil.htmlTab(level) + "&lt;" + this.tag;
+			let childrenString: string = "";
 
 			//PROPERTIES
-			for (var p_it = this.properties.begin(); p_it.equals(this.properties.end()) == false; p_it = p_it.next())
+			for (let p_it = this.properties.begin(); p_it.equal_to(this.properties.end()) == false; p_it = p_it.next())
 				str += " " + p_it.first + "=&quot;" + XML.encodeProperty(String(p_it.second)) + "&quot;";
 
 			if (this.size() == 0) {
@@ -742,7 +742,7 @@ namespace samchon.library
 			else {
 				str += "&gt;<br>\n";
 
-				for (var x_it = this.begin(); x_it.equals(this.end()) == false; x_it = x_it.next())
+				for (let x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
 					str += x_it.second.toHTML(level + 1);
 
 				str += StringUtil.htmlTab(level) + "&lt;/" + this.tag + "&gt;";

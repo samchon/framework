@@ -55,7 +55,7 @@ namespace samchon.library
 		/**
 		 * Container of listeners.
 		 */
-		protected listeners: std.HashMap<string, std.HashSet<std.Bind<EventListener, Object>>>;
+		protected listeners: std.HashMap<string, std.HashSet<std.Pair<EventListener, Object>>>;
 
 		/**
 		 * Default Constructor.
@@ -76,7 +76,7 @@ namespace samchon.library
 			else
 				this.target = target;
 
-			this.listeners = new std.HashMap<string, std.HashSet<std.Bind<EventListener, Object>>>();
+			this.listeners = new std.HashMap<string, std.HashSet<std.Pair<EventListener, Object>>>();
 		}
 
 		/**
@@ -102,9 +102,10 @@ namespace samchon.library
 			if (this.listeners.has(event.type) == false)
 				return false;
 
-			var listenerSet = this.listeners.get(event.type);
-			for (var it = listenerSet.begin(); it.equals(listenerSet.end()) == false; it = it.next())
-				it.value.apply(event);
+			let listenerSet = this.listeners.get(event.type);
+			for (let it = listenerSet.begin(); it.equal_to(listenerSet.end()) == false; it = it.next())
+				it.value.first.apply(it.value.second, [event]);
+				//it.value.apply(event);
 
 			return true;
 		}
@@ -115,17 +116,17 @@ namespace samchon.library
 		public addEventListener(type: string, listener: EventListener, thisArg: Object = null): void
 		{
 			type = type.toLowerCase();
-			var listenerSet: std.HashSet<std.Bind<EventListener, Object>>;
+			let listenerSet: std.HashSet<std.Pair<EventListener, Object>>;
 			
 			if (this.listeners.has(type) == false)
 			{
-				listenerSet = new std.HashSet<std.Bind<EventListener, Object>>();
+				listenerSet = new std.HashSet<std.Pair<EventListener, Object>>();
 				this.listeners.set(type, listenerSet);
 			}
 			else
 				listenerSet = this.listeners.get(type);
 
-			listenerSet.insert(new std.Bind<EventListener, Object>(listener, thisArg));
+			listenerSet.insert(new std.Pair<EventListener, Object>(listener, thisArg));
 		}
 
 		/**
@@ -137,8 +138,8 @@ namespace samchon.library
 			if (this.listeners.has(type) == false)
 				return;
 
-			var listenerSet = this.listeners.get(type);
-			var bind: std.Bind<EventListener, Object> = new std.Bind<EventListener, Object>(listener, thisArg);
+			let listenerSet = this.listeners.get(type);
+			let bind: std.Pair<EventListener, Object> = new std.Pair<EventListener, Object>(listener, thisArg);
 			
 			if (listenerSet.has(bind) == false)
 				return;

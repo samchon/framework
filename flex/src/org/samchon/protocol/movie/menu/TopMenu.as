@@ -12,7 +12,7 @@ package org.samchon.protocol.movie.menu
 	 * <img src="movie.png" />
 	 * 
 	 * @see Window
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	public class TopMenu 
 		extends TabNavigator

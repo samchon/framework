@@ -33,10 +33,10 @@ namespace samchon.library
 			this.size_ = Math.pow(n, r);
 			this.dividerArray = new Array<number>();
 
-			for (var i: number = 0; i < r; i++)
+			for (let i: number = 0; i < r; i++)
 			{
-				var x: number = r - (i + 1);
-				var val: number = Math.pow(n, x);
+				let x: number = r - (i + 1);
+				let val: number = Math.pow(n, x);
 
 				this.dividerArray.push(val);
 			}
@@ -44,10 +44,10 @@ namespace samchon.library
 
 		public at(index: number): Array<number>
 		{
-			var row: Array<number> = new Array<number>();
-			for (var i: number = 0; i < this.r_; i++)
+			let row: Array<number> = new Array<number>();
+			for (let i: number = 0; i < this.r_; i++)
 			{
-				var val: number = Math.floor(index / this.dividerArray[i]) % this.n_;
+				let val: number = Math.floor(index / this.dividerArray[i]) % this.n_;
 
 				row.push(val);
 			}

@@ -101,8 +101,8 @@ namespace samchon.protocol
 		 */
 		public sendData(invoke: Invoke): void 
 		{
-			var xml: library.XML = invoke.toXML();
-			var str: string = xml.toString();
+			let xml: library.XML = invoke.toXML();
+			let str: string = xml.toString();
 
 			this.socket.send(str);
 		}
@@ -132,16 +132,16 @@ namespace samchon.protocol
 		private handleReply(event: MessageEvent): void
 		{
 			this.str += event.data;
-			var invokeArray: Array<Invoke>;
+			let invokeArray: Array<Invoke>;
 
-			var indexPair: std.Pair<number, number> = null;
-			var sizePair: std.Pair<number, number> = new std.Pair<number, number>(0, 0);
-			var startIndex: number = 0;
-			var endIndex: number = 0;
+			let indexPair: std.Pair<number, number> = null;
+			let sizePair: std.Pair<number, number> = new std.Pair<number, number>(0, 0);
+			let startIndex: number = 0;
+			let endIndex: number = 0;
 
 			while (true) 
 			{
-				var iPair: std.Pair<number, number> = new std.Pair<number, number>
+				let iPair: std.Pair<number, number> = new std.Pair<number, number>
 					(
 						this.str.indexOf("<invoke", startIndex),
 						this.str.indexOf("</invoke>", startIndex)
@@ -161,11 +161,11 @@ namespace samchon.protocol
 				//AN INVOKE HAS FOUND
 				if (indexPair != null && sizePair.first == sizePair.second)
 				{
-					var start: number = indexPair.first;
-					var end: number = indexPair.second + ("</invoke>").length;
+					let start: number = indexPair.first;
+					let end: number = indexPair.second + ("</invoke>").length;
 
-					var xml: library.XML = new library.XML(this.str.substring(start, end));
-					var invoke: Invoke = new Invoke(xml);
+					let xml: library.XML = new library.XML(this.str.substring(start, end));
+					let invoke: Invoke = new Invoke(xml);
 					invokeArray.push(invoke);
 				
 					//CLEAR CURRENT'S INDEX PAIR
@@ -186,7 +186,7 @@ namespace samchon.protocol
 				this.str = this.str.substr(endIndex);
 
 			//CALL REPLY_DATA
-			for (var i: number = 0; i < invokeArray.length; i++)
+			for (let i: number = 0; i < invokeArray.length; i++)
 				this.replyData(invokeArray[i]);
 		}
 	}

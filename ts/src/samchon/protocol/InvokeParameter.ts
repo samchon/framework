@@ -115,7 +115,7 @@ namespace samchon.protocol
 		
 		public toXML(): library.XML
 		{
-			var xml: library.XML = new library.XML();
+			let xml: library.XML = new library.XML();
 			xml.setTag(this.TAG());
 
 			if (this.name != "")

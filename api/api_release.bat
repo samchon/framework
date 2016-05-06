@@ -44,10 +44,10 @@ SET FLEX_SRC_DIR=..\flex\src\
 ::    TYPE_SCRIPT API DOCUMENT
 :: ----------------------------------------------------------------
 ::PATH
-SET TS_SRC_DIR=../ts/samchon/
+SET TS_SRC_DIR=../ts/src/
 
 ::DOCUMENTATE
-typedoc --target ES5 --out "%RELEASE_DIR%ts" "%TS_SRC_DIR%" --mode file
+typedoc --target ES5 --out "%RELEASE_DIR%ts" "%TS_SRC_DIR%" --mode file --includeDeclarations
 
 :: ----------------------------------------------------------------
 ::    COMMIT TO GITHUB (SAMCHON.GITHUB.IO)

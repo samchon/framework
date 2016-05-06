@@ -35,8 +35,8 @@ void main()
 		}),
 		thread([&client]()
 		{
-			//client.connect();
-			//client.listen();
+			client.connect();
+			client.listen();
 		})
 	};
 

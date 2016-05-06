@@ -131,7 +131,7 @@ namespace samchon.protocol
 		{
 			invoke.apply(this);
 
-			for (var i: number = 0; i < this.size(); i++)
+			for (let i: number = 0; i < this.size(); i++)
 				this[i].replyData(invoke);
 		}
 

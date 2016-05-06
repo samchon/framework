@@ -43,11 +43,11 @@ namespace samchon.example.packer
 			}
 			else if (obj instanceof Packer)
 			{
-				var packer: Packer = obj;
+				let packer: Packer = obj;
 	 
 				this.productArray = packer.productArray;
 
-				for (var i: number = 0; i < packer.size(); i++)
+				for (let i: number = 0; i < packer.size(); i++)
 					this.push
 					(
 						new WrapperArray
@@ -76,26 +76,26 @@ namespace samchon.example.packer
 			if (this.size() == 0 || this.productArray.size() == 0)
 				return;
 
-			var caseGenerator: library.CombinedPermutationGenerator =
+			let caseGenerator: library.CombinedPermutationGenerator =
 				new library.CombinedPermutationGenerator(this.size(), this.productArray.size());
-			var minPacker: Packer = null;
+			let minPacker: Packer = null;
 
 			//ADJUST END INDEX
 			if (size == -1 || start + size > caseGenerator.size())
 				size = caseGenerator.size() - start;
 		
 			//FIND THE BEST SOLUTION
-			for (var i: number = start; i < start + size; i++) //ROW
+			for (let i: number = start; i < start + size; i++) //ROW
 			{
-				var packer: Packer = new Packer(this);
-				var row: Array<number> = caseGenerator.at(i);
+				let packer: Packer = new Packer(this);
+				let row: Array<number> = caseGenerator.at(i);
 
-				var validity: boolean = true;
+				let validity: boolean = true;
 
-				for (var j: number = 0; j < row.length; j++) //EACH ELEMENT
+				for (let j: number = 0; j < row.length; j++) //EACH ELEMENT
 				{
-					var product: Product = this.productArray.at(j);
-					var wrapperArray: WrapperArray = packer.at( row[j] );
+					let product: Product = this.productArray.at(j);
+					let wrapperArray: WrapperArray = packer.at( row[j] );
 
 					if (wrapperArray.tryInsert(product) == false)
 					{
@@ -108,7 +108,7 @@ namespace samchon.example.packer
 					continue;
 
 				//OPTIMIZE ALL WRAPPERS IN A PACKER
-				for (var j: number = 0; j < packer.size(); j++)
+				for (let j: number = 0; j < packer.size(); j++)
 					packer.at(j).optimize();
 
 				if (minPacker == null || packer.calcPrice() < minPacker.calcPrice())
@@ -118,7 +118,7 @@ namespace samchon.example.packer
 			//REPLACE TO MIN_PACKER
 			this.splice(0, this.size());
 
-			for (var i: number = 0; i < minPacker.size(); i++)
+			for (let i: number = 0; i < minPacker.size(); i++)
 				this.push(minPacker.at(i));
 		}
 
@@ -127,8 +127,8 @@ namespace samchon.example.packer
 		 */
 		public calcPrice(): number
 		{
-			var price: number = 0;
-			for (var i: number = 0; i < this.size(); i++)
+			let price: number = 0;
+			for (let i: number = 0; i < this.size(); i++)
 				price += this.at(i).calcPrice();
 
 			return price;
@@ -151,7 +151,7 @@ namespace samchon.example.packer
 		-------------------------------------------------------------------- */
 		public static main(): void
 		{
-			var productArray: ProductArray = new ProductArray();
+			let productArray: ProductArray = new ProductArray();
 			productArray.push
 			(
 				new Product("Eraser", 500, 10, 70),
@@ -170,7 +170,7 @@ namespace samchon.example.packer
 			productArray.clear();
 			productArray.construct(xml);
 
-			var packer: Packer = new Packer(productArray);
+			let packer: Packer = new Packer(productArray);
 			packer.push
 			(
 				new WrapperArray(new Wrapper("Large", 100, 200, 1000)),

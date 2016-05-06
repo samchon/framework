@@ -37,9 +37,9 @@ namespace samchon.protocol
 		public construct(xml: library.XML): void 
 		{
 			// MEMBER VARIABLES; ATOMIC
-			var propertyMap = xml.getPropertyMap();
+			let propertyMap = xml.getPropertyMap();
 
-			for (var v_it = propertyMap.begin(); v_it.equals(propertyMap.end()) != true; v_it = v_it.next())
+			for (let v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
 				if (this.hasOwnProperty(v_it.first) == true) 
 					if (typeof this[v_it.first] == "number")
 						this[v_it.first] = parseFloat(v_it.second);
@@ -47,15 +47,15 @@ namespace samchon.protocol
 						this[v_it.first] = v_it.second;
 
 			// MEMBER ENTITIES
-			//for (var e_it = xml.begin(); e_it.equals(xml.end()) != true; e_it = e_it.next())
+			//for (let e_it = xml.begin(); e_it.equal_to(xml.end()) != true; e_it = e_it.next())
 			//{
 			//	if (this.hasOwnProperty(e_it.first) == true 
 			//		&& e_it.second.size() == 1 
 			//		&& (this[e_it.first] instanceof Entity || this[e_it.first] instanceof EntityArray)
 			//		&& this[e_it.first] != null)
 			//	{
-			//		var entity: IEntity = this[e_it.first];
-			//		var e_xml: library.XML = e_it.second.at(0);
+			//		let entity: IEntity = this[e_it.first];
+			//		let e_xml: library.XML = e_it.second.at(0);
 
 			//		if (entity == null)
 			//			continue;
@@ -71,11 +71,11 @@ namespace samchon.protocol
 		
 		public toXML(): library.XML
 		{
-			var xml: library.XML = new library.XML();
+			let xml: library.XML = new library.XML();
 			xml.setTag(this.TAG());
 
 			// MEMBERS
-			for (var key in this) 
+			for (let key in this) 
 				if (typeof key == "string" && // NOT STRING, THEN IT MEANS CHILDREN (INT, INDEX)
 					(typeof this[key] == "string" || typeof this[key] == "number"))
 				{

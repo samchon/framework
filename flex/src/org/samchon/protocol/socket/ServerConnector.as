@@ -35,7 +35,7 @@ package org.samchon.protocol.socket
 	 *
 	 * <img src="interface.png" />
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	public class ServerConnector
 		extends Socket

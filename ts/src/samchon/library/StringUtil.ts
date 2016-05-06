@@ -304,7 +304,7 @@ namespace samchon.library
 				if (pairs.length == 0)
 					return str;
 
-				for (var i: number = 0; i < pairs.length; i++)
+				for (let i: number = 0; i < pairs.length; i++)
 					str = str.split(pairs[i].first).join(pairs[i].second);
 
 				return str;
@@ -319,8 +319,8 @@ namespace samchon.library
 		 */
 		public static tab(size: number): string
 		{
-			var str: string = "";
-			for (var i: number = 0; i < size; i++)
+			let str: string = "";
+			for (let i: number = 0; i < size; i++)
 				str += "\t";
 
 			return str;
@@ -331,8 +331,8 @@ namespace samchon.library
 		 */
 		public static htmlTab(size: number): string
 		{
-			var str: string = "";
-			for (var i: number = 0; i < size; i++)
+			let str: string = "";
+			for (let i: number = 0; i < size; i++)
 				str += "&nbsp;&nbsp;&nbsp;&nbsp;";
 
 			return str;

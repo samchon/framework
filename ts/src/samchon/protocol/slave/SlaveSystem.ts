@@ -31,7 +31,7 @@ namespace samchon.protocol.slave
 		 */
 		public replyData(invoke: Invoke): void
 		{
-			var history: InvokeHistory = new InvokeHistory(invoke);
+			let history: InvokeHistory = new InvokeHistory(invoke);
 
 			super.replyData(invoke);
 		

@@ -26,7 +26,7 @@ package org.samchon.protocol.invoke
 	 *
 	 * <img src="invoke.png" />
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	public class Invoke
 		extends EntityArray

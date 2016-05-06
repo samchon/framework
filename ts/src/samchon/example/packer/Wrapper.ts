@@ -42,7 +42,7 @@ namespace samchon.example.packer
 
 			if (args.length == 1 && args[0] instanceof Wrapper)
 			{
-				var wrapper: Wrapper = args[0];
+				let wrapper: Wrapper = args[0];
 
 				this.name = wrapper.name;
 				this.price = wrapper.price;
@@ -68,10 +68,10 @@ namespace samchon.example.packer
 		-------------------------------------------------------------------- */
 		public tryInsert(product: Product): boolean
 		{
-			var volume: number = 0;
-			var weight: number = 0;
+			let volume: number = 0;
+			let weight: number = 0;
 
-			for (var i: number = 0; i < this.size(); i++)
+			for (let i: number = 0; i < this.size(); i++)
 			{
 				volume += this.at(i).getVolume();
 				weight += this.at(i).getWeight();

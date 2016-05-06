@@ -31,9 +31,9 @@ namespace samchon.library
 		 */
 		public toString(level: number = 0): string 
 		{
-			var str: string = "";
+			let str: string = "";
 			
-			for (var i: number = 0; i < this.size(); i++)
+			for (let i: number = 0; i < this.size(); i++)
 				str += this.at(i).toString(level) + "\n";
 
 			return str;
@@ -46,9 +46,9 @@ namespace samchon.library
 		 */
 		public toHTML(level: number = 0): string
 		{
-			var str: string = "";
+			let str: string = "";
 
-			for (var i: number = 0; i < this.size(); i++)
+			for (let i: number = 0; i < this.size(); i++)
 				str += this.at(i).toHTML(level) + "<br>\n";
 
 			return str;

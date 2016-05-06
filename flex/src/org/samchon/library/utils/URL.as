@@ -6,7 +6,7 @@ package org.samchon.library.utils
 	/**
 	 * <p>URL is a utility class gathering interaction functions with web (browser-side containing Flex SWF file).</p>
 	 * 
-	 * @author Jeongho Nam<br/>
+	 * @author Jeongho Nam <http://samchon.org><br/>
 	 * <a href="http://samchon.org" target="_blank">http://samchon.org</a>
 	 */
 	public class URL

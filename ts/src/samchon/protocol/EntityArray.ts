@@ -1,7 +1,7 @@
 namespace samchon.protocol
 {
 	/**
-	 * 
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class EntityArray<Ety extends IEntity>
 		extends std.Vector<Ety>
@@ -35,9 +35,9 @@ namespace samchon.protocol
 			this.clear();
 
 			// MEMBER VARIABLES; ATOMIC
-			var propertyMap = xml.getPropertyMap();
+			let propertyMap = xml.getPropertyMap();
 
-			for (var v_it = propertyMap.begin(); v_it.equals(propertyMap.end()) != true; v_it = v_it.next())
+			for (let v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
 				if (typeof this[v_it.first] == "number" && v_it.first != "length")
 					this[v_it.first] = parseFloat(v_it.second);
 				else if (typeof this[v_it.first] == "string")
@@ -47,11 +47,11 @@ namespace samchon.protocol
 			if (xml.has(this.CHILD_TAG()) == false)
 				return;
 
-			var xmlList: library.XMLList = xml.get(this.CHILD_TAG());
+			let xmlList: library.XMLList = xml.get(this.CHILD_TAG());
 
-			for (var i: number = 0; i < xmlList.size(); i++) 
+			for (let i: number = 0; i < xmlList.size(); i++) 
 			{
-				var child: Ety = this.createChild(xmlList.at(i));
+				let child: Ety = this.createChild(xmlList.at(i));
 				if (child == null)
 					continue;
 
@@ -83,38 +83,67 @@ namespace samchon.protocol
 		}
 
 		/**
-		 * @inheritdoc
+		 * <p> Whether have the item or not. </p>
+		 * 
+		 * <p> Indicates whether a map has an item having the specified identifier. </p>
+		 *
+		 * @param key Key value of the element whose mapped value is accessed.
+		 *
+		 * @return Whether the map has an item having the specified identifier.
 		 */
 		public has(key: any): boolean
 		{
-			var i: number;
-
-			if (key instanceof Entity || key instanceof EntityArray)
-			{
-				for (i = 0; i < this.size(); i++)
-					if (this.at(i) == key)
-						return true;
-			}
-			else
-			{
-				for (var i: number = 0; i < this.size(); i++)
-					if (this.at(i).key() == key)
-						return true;
-			}
-
-			return false;
+			return std.any_of(this.begin(), this.end(),
+				function (entity: Ety): boolean
+				{
+					return entity.key() == key;
+				}
+			);
 		}
 
 		/**
-		 * @inheritdoc
+		 * <p> Count elements with a specific key. </p>
+		 * 
+		 * <p> Searches the container for elements whose key is <i>key</i> and returns the number of elements found. </p>
+		 *
+		 * @param key Key value to be searched for.
+		 *
+		 * @return The number of elements in the container with a <i>key</i>.
+		 */
+		public count(key: any): number
+		{
+			return std.count_if(this.begin(), this.end(),
+				function (entity: Ety): boolean
+				{
+					return entity.key() == key;
+				}
+			);
+		}
+
+		/**
+		 * <p> Get an element </p>
+		 *
+		 * <p> Returns a reference to the mapped value of the element identified with <i>key</i>. </p>
+		 *
+		 * @param key Key value of the element whose mapped value is accessed.
+		 * 
+		 * @throw exception out of range
+		 * 
+		 * @return A reference object of the mapped value (_Ty)
 		 */
 		public get(key: string): Ety
 		{
-			for (var i: number = 0; i < this.size(); i++)
-				if (this.at(i).key() == key)
-					return this.at(i);
+			let it = std.find_if(this.begin(), this.end(),
+				function (entity: Ety): boolean
+				{
+					return entity.key() == key;
+				}
+			);
 
-			throw Error("out of range");
+			if (it.equal_to(this.end()))
+				throw new std.OutOfRange("out of range");
+
+			return it.value;
 		}
 
 		/* ------------------------------------------------------------------
@@ -146,11 +175,11 @@ namespace samchon.protocol
 		 */
 		public toXML(): library.XML
 		{
-			var xml: library.XML = new library.XML();
+			let xml: library.XML = new library.XML();
 			xml.setTag(this.TAG());
 
 			// MEMBERS
-			for (var key in this)
+			for (let key in this)
 				if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
 					&& (typeof this[key] == "string" || typeof this[key] == "number"))
 				{
@@ -159,7 +188,7 @@ namespace samchon.protocol
 				}
 		
 			// CHILDREN
-			for (var i: number = 0; i < this.size(); i++)
+			for (let i: number = 0; i < this.size(); i++)
 				xml.push(this.at(i).toXML());
 
 			return xml;

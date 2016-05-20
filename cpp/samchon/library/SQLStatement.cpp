@@ -83,8 +83,12 @@ void SQLStatement::prepare(const std::wstring &sql)
 void SQLStatement::execute()
 {
 	SQLRETURN res = SQLExecute(hstmt);
+
 	if (res == SQL_ERROR)
 		throw exception(sqli->getErrorMessage(SQL_HANDLE_STMT).c_str());
+
+	// device or resource busy
+	// it means network disconnection in almost case
 }
 void SQLStatement::executeDirectly(const std::string &sql)
 {

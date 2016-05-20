@@ -2,7 +2,7 @@
 ::	FETCH DEPENDENCIES
 :: ---------------------------------------------------------
 :: DIRECTORIES TO FETCH
-SET STD_DIR=D:\OneDrive\Project\Samchon\stl\release
+SET STD_DIR=D:\OneDrive\Project\Samchon\stl\lib
 
 :: DEFINITIONS (TYPESCRIPT HEADER FILE)
 xcopy %STD_DIR%\*.d.ts src\std\ /Y

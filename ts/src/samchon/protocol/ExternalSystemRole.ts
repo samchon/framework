@@ -1,4 +1,4 @@
-/// <referece path="Entity.ts" />
+/// <reference path="Entity.ts" />
 
 namespace samchon.protocol
 {

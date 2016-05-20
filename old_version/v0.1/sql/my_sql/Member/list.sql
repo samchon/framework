@@ -1,6 +1,0 @@
-CREATE TABLE list
-(
-	id		VARCHAR(60)	PRIMARY KEY,
-	name		VARCHAR(60)	NOT NULL,
-	pass		VARCHAR(60)	NOT NULL
-);

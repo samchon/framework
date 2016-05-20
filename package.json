@@ -1,0 +1,36 @@
+{
+  "name": "samchon-framework",
+  "description": "Samchon Framework, a SDN (Software Defined Network) Framework",
+  "author": {
+    "name": "Jeongho Nam",
+    "email": "samchon@samchon.org",
+    "url": "http://samchon.org"
+  },
+  "version": "1.8.0",
+
+  "main": "./lib/samchon-framework.js",
+  "typings": "./lib/samchon-framework.d.ts",
+  "dependencies": {
+    "ts-stl": "~0.9.5"
+  },
+  "devDependencies": {
+    "typescript": "~1.8.0"
+  },
+
+  "homepage": "http://samchon.org/framework",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samchon/framework.git"
+  },
+  "bugs": { "url": "https://github.com/samchon/framework/issues" },
+
+  "licenses": [
+    {
+      "type": "BSD 3-Clause",
+      "url": "https://opensource.org/licenses/BSD-3-Clause"
+    }
+  ],
+  "keywords": [
+    "samchon framework", "SDN", "software defined network", "cloud", "distributed processing system"
+    "C++", "TypeScript", "XML", "Entity", "Invoke", "chain of responsibility", "composite"]
+}

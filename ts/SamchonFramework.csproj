@@ -27,19 +27,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\samchon\API.ts" />
-    <TypeScriptCompile Include="src\samchon\example\xml\xml.ts" />
-    <TypeScriptCompile Include="src\samchon\example\packer\Instance.ts" />
-    <TypeScriptCompile Include="src\samchon\example\packer\Packer.ts" />
-    <TypeScriptCompile Include="src\samchon\example\packer\Product.ts" />
-    <TypeScriptCompile Include="src\samchon\example\packer\ProductArray.ts" />
-    <TypeScriptCompile Include="src\samchon\example\packer\Wrapper.ts" />
-    <TypeScriptCompile Include="src\samchon\example\packer\WrapperArray.ts" />
-    <TypeScriptCompile Include="src\samchon\library\BasicEvent.ts" />
+    <TypeScriptCompile Include="src\samchon\library\Event.ts" />
     <TypeScriptCompile Include="src\samchon\library\CaseGenerator.ts" />
-    <TypeScriptCompile Include="src\samchon\library\CombinedPermutationGenerator.ts" />
-    <TypeScriptCompile Include="src\samchon\library\FactorialGenerator.ts" />
-    <TypeScriptCompile Include="src\samchon\library\PermutationGenerator.ts" />
-    <TypeScriptCompile Include="src\samchon\library\ProgressEvent.ts" />
+    <TypeScriptCompile Include="src\samchon\library\Collection.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\ExternalSystem.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\ExternalSystemArray.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\ExternalSystemRole.ts" />
@@ -50,9 +40,7 @@
     <TypeScriptCompile Include="src\samchon\protocol\service\SubMovie.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\slave\SlaveSystem.ts" />
     <TypeScriptCompile Include="src\samchon\library\EventDispatcher.ts" />
-    <TypeScriptCompile Include="src\samchon\library\IEventDispatcher.ts" />
     <TypeScriptCompile Include="src\samchon\library\StringUtil.ts" />
-    <TypeScriptCompile Include="src\samchon\library\XMLList.ts" />
     <TypeScriptCompile Include="src\samchon\library\XML.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\Entity.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\EntityArray.ts" />
@@ -60,7 +48,7 @@
     <TypeScriptCompile Include="src\samchon\protocol\Invoke.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\InvokeParameter.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\IProtocol.ts" />
-    <TypeScriptCompile Include="src\std\std.d.ts" />
+    <TypeScriptCompile Include="src\std\typescript-stl.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="web.Debug.config">
@@ -104,10 +92,11 @@
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptModuleKind>None</TypeScriptModuleKind>
+    <TypeScriptModuleKind>
+    </TypeScriptModuleKind>
     <TypeScriptOutFile>SamchonFramework.js</TypeScriptOutFile>
     <TypeScriptOutDir />
-    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />

@@ -316,7 +316,7 @@ void IClient::sendData(shared_ptr<Invoke> invoke)
 
 	if (error)
 	{
-		cout << error.message() << endl;
+		//cout << error.message() << endl;
 		return;
 	}
 

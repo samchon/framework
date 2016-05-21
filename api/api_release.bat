@@ -10,18 +10,8 @@ mkdir "%RELEASE_DIR%"
 :: ----------------------------------------------------------------
 ::    C++ API DOCUMENT
 :: ----------------------------------------------------------------
-::PATH
-SET DOXYGEN_DIR=C:\Program Files\doxygen\bin\
-SET CHM_DIR=C:\Program Files (x86)\HTML Help Workshop\
-
 ::DOCUMENTATE
-"%DOXYGEN_DIR%doxygen" cpp.doxygen
-::call "%RELEASE_DIR%_cpp/latex/make.bat"
-::"%CHM_DIR%hhc.exe" "%RELEASE_DIR%_cpp\html\index.hhp"
-
-::MOVE
-::move "%RELEASE_DIR%_cpp\html\index.chm" "%RELEASE_DIR%_cpp\html\api.chm"
-::move "%RELEASE_DIR%_cpp\latex\refman.pdf" "%RELEASE_DIR%_cpp\html\api.pdf"
+doxygen cpp.doxygen
 move "%RELEASE_DIR%_cpp\html" "%RELEASE_DIR%cpp"
 
 ::COPY TO PORTFOLIO

@@ -86,12 +86,14 @@ html-template/
 # ======================================================
 #	TYPESCRIPT - SOURCE FILE ONLY
 # ======================================================
-js/
-!/js/SamchonFramework.ts
-!/js/SamchonFramework.js
+ts/*
+!ts/src
+!ts/include
+!ts/tsconfig.json
 
 # ======================================================
 #	CUSTOM IGNORE
 # ======================================================
-cloc.bat
+release\
+*.bat
 cpp/SamchonFramework/SamchonFramework.vcxproj

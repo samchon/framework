@@ -11,7 +11,7 @@
   "main": "./lib/samchon-framework.js",
   "typings": "./lib/samchon-framework.d.ts",
   "dependencies": {
-    "ts-stl": "~0.9.5"
+    "typescript-stl": "~0.9.7-b"
   },
   "devDependencies": {
     "typescript": "~1.8.0"

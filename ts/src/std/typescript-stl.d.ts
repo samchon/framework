@@ -1,3 +1,5 @@
+// Type definitions for TypeScript-STL v0.9.7
+// Project: https://github.com/samchon/stl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
@@ -3034,11 +3036,11 @@ declare namespace std {
         /**
          * @hidden
          */
-        private insert_by_repeating_val(position, n, val);
+        protected insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>;
         /**
          * @hidden
          */
-        private insert_by_range<U, InputIterator>(position, begin, end);
+        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
         /**
          * @hidden
          */
@@ -3062,7 +3064,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        private erase_by_range(first, last);
+        protected erase_by_range(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>;
         /**
          * @inheritdoc
          */
@@ -5830,11 +5832,11 @@ declare namespace std {
         /**
          * @hidden
          */
-        private insert_by_repeating_val(position, size, val);
+        protected insert_by_repeating_val(position: ListIterator<T>, size: number, val: T): ListIterator<T>;
         /**
          * @hidden
          */
-        private insert_by_range<U, InputIterator>(position, begin, end);
+        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
         /**
          * <p> Erase an element. </p>
          *
@@ -5904,7 +5906,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        private erase_by_range(first, last);
+        protected erase_by_range(first: ListIterator<T>, last: ListIterator<T>): ListIterator<T>;
         /**
          * <p> Remove duplicate values. </p>
          *
@@ -8279,11 +8281,11 @@ declare namespace std {
         /**
          * @hidden
          */
-        private insert_by_repeating_val(position, n, val);
+        protected insert_by_repeating_val(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>;
         /**
          * @hidden
          */
-        private insert_by_range<InputIterator>(position, first, last);
+        protected insert_by_range<InputIterator extends Iterator<T>>(position: VectorIterator<T>, first: InputIterator, last: InputIterator): VectorIterator<T>;
         /**
          * @inheritdoc
          */
@@ -8369,7 +8371,7 @@ declare namespace std {
         /**
          * @hiddde
          */
-        private erase_by_range(first, last);
+        protected erase_by_range(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>;
         /**
          * @inheritdoc
          */

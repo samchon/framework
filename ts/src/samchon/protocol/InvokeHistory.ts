@@ -1,3 +1,5 @@
+/// <reference path="node/requires.ts" />
+
 /// <reference path="Entity.ts" />
 
 namespace samchon.protocol

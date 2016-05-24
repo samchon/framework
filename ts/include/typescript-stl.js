@@ -3,7 +3,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-/// <reference path="API.ts" />
 // Standard Template Library: Algorithms
 // The header <algorithm> defines a collection of functions especially designed to be used on ranges of elements.
 //
@@ -1681,7 +1680,6 @@ var std;
     }
     std.minmax_element = minmax_element;
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var base;
@@ -1744,7 +1742,6 @@ var std;
         base.Container = Container;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="API.ts" />
 // Iterator definitions.
 //
 // @reference http://www.cplusplus.com/reference/iterator
@@ -2033,7 +2030,6 @@ var std;
     }
     std.end = end;
 })(std || (std = {}));
-/// <reference path="API.ts" />
 /// <reference path="base/Container.ts" />
 /// <reference path="Iterator.ts" />
 var std;
@@ -2446,6 +2442,7 @@ var std;
             // INSERT ELEMENTS
             if (position.equal_to(this.end())) {
                 this.push.apply(this, items);
+                return this.begin();
             }
             else
                 return this.insert_by_items(position, items);
@@ -2461,6 +2458,7 @@ var std;
             // INSERT ELEMENTS
             if (position.equal_to(this.end())) {
                 this.push.apply(this, items);
+                return this.begin();
             }
             else
                 return this.insert_by_items(position, items);
@@ -2754,7 +2752,6 @@ var std;
     }(std.ReverseIterator));
     std.DequeReverseIterator = DequeReverseIterator;
 })(std || (std = {}));
-/// <reference path="API.ts" />
 var std;
 (function (std) {
     /* =========================================================
@@ -3059,7 +3056,6 @@ var std;
     }(RuntimeError));
     std.RangeError = RangeError;
 })(std || (std = {}));
-/// <reference path="API.ts" />
 // Standard Template Library: Function objects
 // Function objects are objects specifically designed to be used with a syntax similar to that of functions.
 //
@@ -3309,21 +3305,23 @@ var std;
      * Incremental sequence of unique id for objects.
      */
     var __s_iUID = 0;
-    Object.defineProperties(Object.prototype, {
-        "__getUID": {
-            value: function () {
-                if (this.hasOwnProperty("__m_iUID") == false) {
-                    var uid = ++__s_iUID;
-                    Object.defineProperty(this, "__m_iUID", {
-                        "get": function () {
-                            return uid;
-                        }
-                    });
+    if (Object.prototype.hasOwnProperty("__getUID") == false) {
+        Object.defineProperties(Object.prototype, {
+            "__getUID": {
+                value: function () {
+                    if (this.hasOwnProperty("__m_iUID") == false) {
+                        var uid = ++__s_iUID;
+                        Object.defineProperty(this, "__m_iUID", {
+                            "get": function () {
+                                return uid;
+                            }
+                        });
+                    }
+                    return this.__m_iUID;
                 }
-                return this.__m_iUID;
             }
-        }
-    });
+        });
+    }
     function swap(left, right) {
         left.swap(right);
     }
@@ -3463,7 +3461,6 @@ var std;
         placeholders._20 = new PlaceHolder(20);
     })(placeholders = std.placeholders || (std.placeholders = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 /// <reference path="Container.ts" />
 /// <reference path="../Iterator.ts" />
 var std;
@@ -3974,7 +3971,6 @@ var std;
     }(std.ReverseIterator));
     std.MapReverseIterator = MapReverseIterator;
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 /// <reference path="MapContainer.ts" />
 var std;
 (function (std) {
@@ -4107,7 +4103,6 @@ var std;
         base.UniqueMap = UniqueMap;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 /// <reference path="MapContainer.ts" />
 var std;
 (function (std) {
@@ -4195,7 +4190,6 @@ var std;
         base.MultiMap = MultiMap;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="API.ts" />
 /// <reference path="base/UniqueMap.ts" />
 /// <reference path="base/MultiMap.ts" />
 var std;
@@ -4583,7 +4577,6 @@ var std;
     }(std.base.MultiMap));
     std.HashMultiMap = HashMultiMap;
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 /// <reference path="Container.ts" />
 /// <reference path="../Iterator.ts" />
 var std;
@@ -4984,7 +4977,6 @@ var std;
     }(std.ReverseIterator));
     std.SetReverseIterator = SetReverseIterator;
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 /// <reference path="SetContainer.ts" />
 var std;
 (function (std) {
@@ -5063,7 +5055,6 @@ var std;
         base.UniqueSet = UniqueSet;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 /// <reference path="SetContainer.ts" />
 var std;
 (function (std) {
@@ -5133,7 +5124,6 @@ var std;
         base.MultiSet = MultiSet;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="API.ts" />
 /// <reference path="base/UniqueSet.ts" />
 /// <reference path="base/MultiSet.ts" />
 var std;
@@ -5514,7 +5504,6 @@ var std;
     }(std.base.MultiSet));
     std.HashMultiSet = HashMultiSet;
 })(std || (std = {}));
-/// <reference path="API.ts" />
 /// <reference path="base/Container.ts" />
 /// <reference path="Iterator.ts" />
 var std;
@@ -6138,7 +6127,6 @@ var std;
     }(std.ReverseIterator));
     std.ListReverseIterator = ListReverseIterator;
 })(std || (std = {}));
-/// <reference path="API.ts" />
 var std;
 (function (std) {
     /**
@@ -6471,7 +6459,6 @@ var std;
     }());
     std.PriorityQueue = PriorityQueue;
 })(std || (std = {}));
-/// <reference path="API.ts" />
 var std;
 (function (std) {
     /**
@@ -6609,7 +6596,6 @@ var std;
     }());
     std.Stack = Stack;
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var base;
@@ -6742,7 +6728,6 @@ var std;
         base.ErrorInstance = ErrorInstance;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="API.ts" />
 /// <reference path="Exception.ts" />
 /// <reference path="base/ErrorInstance.ts" />
 var std;
@@ -6922,7 +6907,6 @@ var std;
     }(std.base.ErrorInstance));
     std.ErrorCode = ErrorCode;
 })(std || (std = {}));
-/// <reference path="API.ts" />
 /// <reference path="base/UniqueMap.ts" />
 /// <reference path="base/MultiMap.ts" />
 var std;
@@ -7546,7 +7530,6 @@ var std;
     }(std.base.MultiMap));
     std.TreeMultiMap = TreeMultiMap;
 })(std || (std = {}));
-/// <reference path="API.ts" />
 /// <reference path="base/UniqueSet.ts" />
 /// <reference path="base/MultiSet.ts" />
 var std;
@@ -8163,7 +8146,6 @@ var std;
     }(std.base.MultiSet));
     std.TreeMultiSet = TreeMultiSet;
 })(std || (std = {}));
-/// <reference path="API.ts" />
 var std;
 (function (std) {
     /**
@@ -8241,7 +8223,6 @@ var std;
     }
     std.make_pair = make_pair;
 })(std || (std = {}));
-/// <reference path="API.ts" />
 /// <reference path="Iterator.ts" />
 var std;
 (function (std) {
@@ -8774,7 +8755,6 @@ var std;
     }(std.ReverseIterator));
     std.VectorReverseIterator = VectorReverseIterator;
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var base;
@@ -9609,7 +9589,6 @@ var std;
         base.XTree = XTree;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 /// <reference path="XTree.ts" />
 var std;
 (function (std) {
@@ -9687,7 +9666,6 @@ var std;
         base.AtomicTree = AtomicTree;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var base;
@@ -9733,7 +9711,6 @@ var std;
         var Color = base.Color;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var base;
@@ -9805,7 +9782,6 @@ var std;
         }
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var base;
@@ -9888,12 +9864,6 @@ var std;
         base.HashBuckets = HashBuckets;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
-/// <reference path="../API.ts" />
-/// <reference path="../API.ts" />
-/// <reference path="../API.ts" />
-/// <reference path="../API.ts" />
-/// <reference path="../API.ts" />
 /// <reference path="HashBuckets.ts" />
 var std;
 (function (std) {
@@ -9925,7 +9895,6 @@ var std;
         base.MapHashBuckets = MapHashBuckets;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 /// <reference path="XTree.ts" />
 var std;
 (function (std) {
@@ -10003,7 +9972,6 @@ var std;
         base.PairTree = PairTree;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 /// <reference path="HashBuckets.ts" />
 var std;
 (function (std) {
@@ -10035,7 +10003,6 @@ var std;
         base.SetHashBuckets = SetHashBuckets;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var base;
@@ -10127,7 +10094,6 @@ var std;
     - system_error				SystemError
 // -----------------------------------------------
 */ 
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var example;
@@ -10140,7 +10106,6 @@ var std;
         example.test_all = test_all;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var example;
@@ -10170,7 +10135,6 @@ var std;
         example.test_bind = test_bind;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var example;
@@ -10196,7 +10160,6 @@ var std;
         example.test_deque = test_deque;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var example;
@@ -10210,7 +10173,6 @@ var std;
         example.test_for_each = test_for_each;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var example;
@@ -10274,7 +10236,6 @@ var std;
         example.test_hash_map = test_hash_map;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var example;
@@ -10300,7 +10261,6 @@ var std;
         example.test_list = test_list;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var example;
@@ -10360,7 +10320,6 @@ var std;
         }());
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 var std;
 (function (std) {
     var example;
@@ -10387,7 +10346,6 @@ var std;
         example.tree_set = tree_set;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
 /// <reference path="../Vector.ts" />
 /// <reference path="../Deque.ts" />
 /// <reference path="../List.ts" />

@@ -1,3 +1,5 @@
+/// <reference path="../node/requires.ts" />
+
 /// <reference path="../ExternalSystem.ts" />
 
 namespace samchon.protocol.slave

@@ -87,6 +87,7 @@ html-template/
 #	TYPESCRIPT - SOURCE FILE ONLY
 # ======================================================
 ts/*
+!ts/index.html
 !ts/src
 !ts/include
 !ts/tsconfig.json
@@ -94,6 +95,6 @@ ts/*
 # ======================================================
 #	CUSTOM IGNORE
 # ======================================================
-release\
+*.*ignore
 *.bat
 cpp/SamchonFramework/SamchonFramework.vcxproj

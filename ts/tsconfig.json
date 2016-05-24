@@ -3,7 +3,7 @@
         "target": "es5",
         "declaration": true,
         "allowJs": true,
-        "outFile": "../release/ts/samchon-framework.js"
+        "outFile": "../lib/ts/samchon-framework.js"
     },
     "exclude": [
         "include"

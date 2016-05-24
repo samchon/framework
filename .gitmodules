@@ -1,3 +1,0 @@
-[submodule "ts/std"]
-	path = ts/std
-	url = git://github.com/samchon/stl.git

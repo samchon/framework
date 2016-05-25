@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "1.1.1",
+  "version": "1.1.1-a",
 
   "main": "./lib/ts/samchon-framework.js",
   "typings": "./lib/ts/samchon-framework.d.ts",

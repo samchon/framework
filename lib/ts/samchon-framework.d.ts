@@ -544,6 +544,105 @@ declare namespace samchon.protocol {
         toXML(): library.XML;
     }
 }
+declare namespace samchon.library {
+    /**
+     * An event class.
+     *
+     * <ul>
+     *  <li> Comments from - https://developer.mozilla.org/en-US/docs/Web/API/Event/ </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class BasicEvent implements Event {
+        NONE: number;
+        CAPTURING_PHASE: number;
+        AT_TARGET: number;
+        BUBBLING_PHASE: number;
+        private type_;
+        private target_;
+        private currentTarget_;
+        protected trusted_: boolean;
+        protected bubbles_: boolean;
+        protected cancelable_: boolean;
+        protected defaultPrevented_: boolean;
+        protected cancelBubble_: boolean;
+        private timeStamp_;
+        constructor(type: string, bubbles?: boolean, cancelable?: boolean);
+        /**
+         * @inheritdoc
+         */
+        initEvent(type: string, bubbles: boolean, cancelable: boolean): void;
+        /**
+         * @inheritdoc
+         */
+        preventDefault(): void;
+        /**
+         * @inheritdoc
+         */
+        stopImmediatePropagation(): void;
+        /**
+         * @inheritdoc
+         */
+        stopPropagation(): void;
+        /**
+         * @inheritdoc
+         */
+        type: string;
+        /**
+         * @inheritdoc
+         */
+        target: IEventDispatcher;
+        /**
+         * @inheritdoc
+         */
+        currentTarget: IEventDispatcher;
+        /**
+         * @inheritdoc
+         */
+        isTrusted: boolean;
+        /**
+         * @inheritdoc
+         */
+        bubbles: boolean;
+        /**
+         * @inheritdoc
+         */
+        cancelable: boolean;
+        /**
+         * @inheritdoc
+         */
+        eventPhase: number;
+        /**
+         * @inheritdoc
+         */
+        defaultPrevented: boolean;
+        /**
+         * @inheritdoc
+         */
+        srcElement: Element;
+        /**
+         * @inheritdoc
+         */
+        cancelBubble: boolean;
+        /**
+         * @inheritdoc
+         */
+        timeStamp: number;
+        /**
+         * Don't know what it is.
+         */
+        returnValue: boolean;
+    }
+    class ProgressEvent extends BasicEvent {
+        static PROGRESS: string;
+        protected numerator_: number;
+        protected denominator_: number;
+        constructor(type: string, numerator: number, denominator: number);
+        numerator: number;
+        denominator: number;
+    }
+}
 declare namespace samchon.collection {
     interface CollectionEventListener<T> extends EventListener {
         (event: CollectionEvent<T>): void;
@@ -1504,105 +1603,6 @@ declare namespace samchon.library {
          * @param n Factoria size N.
          */
         constructor(n: number);
-    }
-}
-declare namespace samchon.library {
-    /**
-     * An event class.
-     *
-     * <ul>
-     *  <li> Comments from - https://developer.mozilla.org/en-US/docs/Web/API/Event/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class BasicEvent implements Event {
-        NONE: number;
-        CAPTURING_PHASE: number;
-        AT_TARGET: number;
-        BUBBLING_PHASE: number;
-        private type_;
-        private target_;
-        private currentTarget_;
-        protected trusted_: boolean;
-        protected bubbles_: boolean;
-        protected cancelable_: boolean;
-        protected defaultPrevented_: boolean;
-        protected cancelBubble_: boolean;
-        private timeStamp_;
-        constructor(type: string, bubbles?: boolean, cancelable?: boolean);
-        /**
-         * @inheritdoc
-         */
-        initEvent(type: string, bubbles: boolean, cancelable: boolean): void;
-        /**
-         * @inheritdoc
-         */
-        preventDefault(): void;
-        /**
-         * @inheritdoc
-         */
-        stopImmediatePropagation(): void;
-        /**
-         * @inheritdoc
-         */
-        stopPropagation(): void;
-        /**
-         * @inheritdoc
-         */
-        type: string;
-        /**
-         * @inheritdoc
-         */
-        target: IEventDispatcher;
-        /**
-         * @inheritdoc
-         */
-        currentTarget: IEventDispatcher;
-        /**
-         * @inheritdoc
-         */
-        isTrusted: boolean;
-        /**
-         * @inheritdoc
-         */
-        bubbles: boolean;
-        /**
-         * @inheritdoc
-         */
-        cancelable: boolean;
-        /**
-         * @inheritdoc
-         */
-        eventPhase: number;
-        /**
-         * @inheritdoc
-         */
-        defaultPrevented: boolean;
-        /**
-         * @inheritdoc
-         */
-        srcElement: Element;
-        /**
-         * @inheritdoc
-         */
-        cancelBubble: boolean;
-        /**
-         * @inheritdoc
-         */
-        timeStamp: number;
-        /**
-         * Don't know what it is.
-         */
-        returnValue: boolean;
-    }
-    class ProgressEvent extends BasicEvent {
-        static PROGRESS: string;
-        protected numerator_: number;
-        protected denominator_: number;
-        constructor(type: string, numerator: number, denominator: number);
-        numerator: number;
-        denominator: number;
     }
 }
 declare namespace samchon.library {

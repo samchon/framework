@@ -1,5 +1,7 @@
 ﻿/// <reference path="../API.ts" />
 
+/// <reference path="../library/Event.ts" />
+
 namespace samchon.collection
 {
 	export interface CollectionEventListener<T> extends EventListener

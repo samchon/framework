@@ -954,6 +954,260 @@ if (typeof (exports) != "undefined") {
 /// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
+    var library;
+    (function (library) {
+        /**
+         * An event class.
+         *
+         * <ul>
+         *  <li> Comments from - https://developer.mozilla.org/en-US/docs/Web/API/Event/ </li>
+         * </ul>
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var BasicEvent = (function () {
+            /* -------------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------------- */
+            function BasicEvent(type, bubbles, cancelable) {
+                if (bubbles === void 0) { bubbles = false; }
+                if (cancelable === void 0) { cancelable = false; }
+                this.type_ = type.toLowerCase();
+                this.target_ = null;
+                this.currentTarget_ = null;
+                this.trusted_ = false;
+                this.bubbles_ = bubbles;
+                this.cancelable_ = cancelable;
+                this.defaultPrevented_ = false;
+                this.cancelBubble_ = false;
+                this.timeStamp_ = new Date();
+            }
+            Object.defineProperty(BasicEvent.prototype, "NONE", {
+                /* -------------------------------------------------------------------
+                    STATIC CONSTS
+                ------------------------------------------------------------------- */
+                ///**
+                // * @inheritdoc
+                // */
+                //public static get NONE(): number { return 0; }
+                get: function () { return 0; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "CAPTURING_PHASE", {
+                ///**
+                // * @inheritdoc
+                // */
+                //public static get CAPTURING_PHASE(): number { return Event.CAPTURING_PHASE; }
+                get: function () { return Event.CAPTURING_PHASE; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "AT_TARGET", {
+                ///**
+                // * @inheritdoc
+                // */
+                //public static get AT_TARGET(): number { return Event.AT_TARGET; }
+                get: function () { return Event.AT_TARGET; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "BUBBLING_PHASE", {
+                ///**
+                // * @inheritdoc
+                // */
+                //public static get BUBBLING_PHASE(): number { return Event.BUBBLING_PHASE; }
+                get: function () { return Event.BUBBLING_PHASE; },
+                enumerable: true,
+                configurable: true
+            });
+            /**
+             * @inheritdoc
+             */
+            BasicEvent.prototype.initEvent = function (type, bubbles, cancelable) {
+                this.type_ = type.toLowerCase();
+                this.bubbles_ = bubbles;
+                this.cancelable_ = cancelable;
+            };
+            /* -------------------------------------------------------------------
+                ACTIONS ON PROGRESS
+            ------------------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            BasicEvent.prototype.preventDefault = function () {
+            };
+            /**
+             * @inheritdoc
+             */
+            BasicEvent.prototype.stopImmediatePropagation = function () {
+            };
+            /**
+             * @inheritdoc
+             */
+            BasicEvent.prototype.stopPropagation = function () {
+            };
+            Object.defineProperty(BasicEvent.prototype, "type", {
+                /* -------------------------------------------------------------------
+                    GETTERS
+                ------------------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return this.type_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "target", {
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return this.target_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "currentTarget", {
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return this.currentTarget_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "isTrusted", {
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return this.isTrusted;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "bubbles", {
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return this.bubbles_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "cancelable", {
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return this.cancelable_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "eventPhase", {
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return 0;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "defaultPrevented", {
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return this.defaultPrevented_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "srcElement", {
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return null;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "cancelBubble", {
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return this.cancelBubble_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "timeStamp", {
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return this.timeStamp_.getTime();
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(BasicEvent.prototype, "returnValue", {
+                /**
+                 * Don't know what it is.
+                 */
+                get: function () {
+                    return false;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return BasicEvent;
+        }());
+        library.BasicEvent = BasicEvent;
+        var ProgressEvent = (function (_super) {
+            __extends(ProgressEvent, _super);
+            function ProgressEvent(type, numerator, denominator) {
+                _super.call(this, type);
+                this.numerator_ = numerator;
+                this.denominator_ = denominator;
+            }
+            Object.defineProperty(ProgressEvent, "PROGRESS", {
+                get: function () { return "progress"; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(ProgressEvent.prototype, "numerator", {
+                get: function () {
+                    return this.numerator_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(ProgressEvent.prototype, "denominator", {
+                get: function () {
+                    return this.denominator_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return ProgressEvent;
+        }(BasicEvent));
+        library.ProgressEvent = ProgressEvent;
+    })(library = samchon.library || (samchon.library = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="../library/Event.ts" />
+var samchon;
+(function (samchon) {
     var collection;
     (function (collection) {
         var CollectionEvent = (function (_super) {
@@ -2334,259 +2588,6 @@ var samchon;
             return FactorialGenerator;
         }(PermuationGenerator));
         library.FactorialGenerator = FactorialGenerator;
-    })(library = samchon.library || (samchon.library = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-var samchon;
-(function (samchon) {
-    var library;
-    (function (library) {
-        /**
-         * An event class.
-         *
-         * <ul>
-         *  <li> Comments from - https://developer.mozilla.org/en-US/docs/Web/API/Event/ </li>
-         * </ul>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var BasicEvent = (function () {
-            /* -------------------------------------------------------------------
-                CONSTRUCTORS
-            ------------------------------------------------------------------- */
-            function BasicEvent(type, bubbles, cancelable) {
-                if (bubbles === void 0) { bubbles = false; }
-                if (cancelable === void 0) { cancelable = false; }
-                this.type_ = type.toLowerCase();
-                this.target_ = null;
-                this.currentTarget_ = null;
-                this.trusted_ = false;
-                this.bubbles_ = bubbles;
-                this.cancelable_ = cancelable;
-                this.defaultPrevented_ = false;
-                this.cancelBubble_ = false;
-                this.timeStamp_ = new Date();
-            }
-            Object.defineProperty(BasicEvent.prototype, "NONE", {
-                /* -------------------------------------------------------------------
-                    STATIC CONSTS
-                ------------------------------------------------------------------- */
-                ///**
-                // * @inheritdoc
-                // */
-                //public static get NONE(): number { return 0; }
-                get: function () { return 0; },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "CAPTURING_PHASE", {
-                ///**
-                // * @inheritdoc
-                // */
-                //public static get CAPTURING_PHASE(): number { return Event.CAPTURING_PHASE; }
-                get: function () { return Event.CAPTURING_PHASE; },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "AT_TARGET", {
-                ///**
-                // * @inheritdoc
-                // */
-                //public static get AT_TARGET(): number { return Event.AT_TARGET; }
-                get: function () { return Event.AT_TARGET; },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "BUBBLING_PHASE", {
-                ///**
-                // * @inheritdoc
-                // */
-                //public static get BUBBLING_PHASE(): number { return Event.BUBBLING_PHASE; }
-                get: function () { return Event.BUBBLING_PHASE; },
-                enumerable: true,
-                configurable: true
-            });
-            /**
-             * @inheritdoc
-             */
-            BasicEvent.prototype.initEvent = function (type, bubbles, cancelable) {
-                this.type_ = type.toLowerCase();
-                this.bubbles_ = bubbles;
-                this.cancelable_ = cancelable;
-            };
-            /* -------------------------------------------------------------------
-                ACTIONS ON PROGRESS
-            ------------------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            BasicEvent.prototype.preventDefault = function () {
-            };
-            /**
-             * @inheritdoc
-             */
-            BasicEvent.prototype.stopImmediatePropagation = function () {
-            };
-            /**
-             * @inheritdoc
-             */
-            BasicEvent.prototype.stopPropagation = function () {
-            };
-            Object.defineProperty(BasicEvent.prototype, "type", {
-                /* -------------------------------------------------------------------
-                    GETTERS
-                ------------------------------------------------------------------- */
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return this.type_;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "target", {
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return this.target_;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "currentTarget", {
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return this.currentTarget_;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "isTrusted", {
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return this.isTrusted;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "bubbles", {
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return this.bubbles_;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "cancelable", {
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return this.cancelable_;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "eventPhase", {
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return 0;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "defaultPrevented", {
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return this.defaultPrevented_;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "srcElement", {
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return null;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "cancelBubble", {
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return this.cancelBubble_;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "timeStamp", {
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return this.timeStamp_.getTime();
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BasicEvent.prototype, "returnValue", {
-                /**
-                 * Don't know what it is.
-                 */
-                get: function () {
-                    return false;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return BasicEvent;
-        }());
-        library.BasicEvent = BasicEvent;
-        var ProgressEvent = (function (_super) {
-            __extends(ProgressEvent, _super);
-            function ProgressEvent(type, numerator, denominator) {
-                _super.call(this, type);
-                this.numerator_ = numerator;
-                this.denominator_ = denominator;
-            }
-            Object.defineProperty(ProgressEvent, "PROGRESS", {
-                get: function () { return "progress"; },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(ProgressEvent.prototype, "numerator", {
-                get: function () {
-                    return this.numerator_;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(ProgressEvent.prototype, "denominator", {
-                get: function () {
-                    return this.denominator_;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return ProgressEvent;
-        }(BasicEvent));
-        library.ProgressEvent = ProgressEvent;
     })(library = samchon.library || (samchon.library = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />

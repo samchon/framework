@@ -144,13 +144,15 @@ auto SQLStatement::toXML() const -> shared_ptr<XML>
 /* --------------------------------------------------------------------------------------
 	BIND PARAMETER
 -------------------------------------------------------------------------------------- */
+#include <iostream>
+
 template<> void SQLStatement::bindParameter(const std::string &val)
 {
-	::SQLBindParameter(hstmt, (SQLUSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_TCHAR, SQL_VARCHAR, val.size(), 0, (char*)&val[0], 0, NULL);
+	::SQLBindParameter(hstmt, (SQLUSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, val.size(), 0, (SQLPOINTER)val.data(), val.size(), NULL);
 }
 template<> void SQLStatement::bindParameter(const std::wstring &val)
 {
-	::SQLBindParameter(hstmt, (SQLUSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_WCHAR, SQL_WVARCHAR, val.size(), 0, (wchar_t*)&val[0], 0, NULL);
+	::SQLBindParameter(hstmt, (SQLUSMALLINT)++bindParameterCount, SQL_PARAM_INPUT, SQL_C_WCHAR, SQL_WVARCHAR, val.size(), 0, (SQLPOINTER)val.data(), val.size(), NULL);
 }
 template<> void SQLStatement::bindParameter(const ByteArray &val)
 {
@@ -333,7 +335,10 @@ auto SQLStatement::_atAsString(size_t index) const -> std::string
 
 	if (::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_CHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
 	{
-		str.assign((size_t)size, NULL);
+		// IMPORTANT, FOR NULL-TERMINATED-STRING
+		size++;
+
+		str.assign(size, NULL);
 		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_CHAR, &str[0], sizeof(char)*size, NULL);
 	}
 
@@ -357,9 +362,22 @@ auto SQLStatement::_atAsWString(size_t index) const -> std::wstring
 
 	if (::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_WCHAR, &str[0], 0, &size) != SQL_SUCCESS && size != 0)
 	{
+		// IMPORTANT, FOR NULL-TERMINATED-STRING
+		size++;
+
 		str.assign((size_t)size, NULL);
 		::SQLGetData(hstmt, (SQLUSMALLINT)index, SQL_C_WCHAR, &str[0], sizeof(wchar_t)*size, NULL);
 	}
+
+	// ERASE ZERO-CHARS
+	long long i;
+	for (i = str.size() - 1; i >= 0; i--)
+		if (str[i] != NULL)
+			break;
+
+	if (i != str.size() - 1)
+		str.erase(str.begin() + i + 1, str.end());
+
 	return str;
 }
 auto SQLStatement::_atAsByteArray(size_t index) const -> ByteArray

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <thread>
-#include <samchon/library/RWMutex.hpp>
+#include <string>
+#include <samchon/library/TSQLi.hpp>
+#include <samchon/library/SQLStatement.hpp>
 
 #ifdef _WIN64
 #	ifdef _DEBUG
@@ -21,16 +23,21 @@ using namespace samchon::library;
 
 void main()
 {
-	RWMutex mtx;
+	TSQLi sqli;
+	sqli.connect("127.0.0.1", "master", "sa", "team8");
 
-	for (size_t i = 0; i < 10; i++)
-		thread([&mtx]() 
-			{
-				UniqueWriteLock uk(mtx);
+	auto stmt = sqli.createStatement();
+	int val1 = 4;
+	double val2 = 5.0;
+	wstring val3 = L"a value";
 
-				cout << "AAAAA" << endl;
-				this_thread::sleep_for(1s);
-			}).detach();
+	stmt->prepare("SELECT ?, ?, ?", val1, val2, val3);
+	stmt->execute();
+
+	stmt->fetch();
+	cout << stmt->at<int>(0) << endl;
+	cout << stmt->at<double>(1) << endl;
+	wcout << "'" << stmt->at<wstring>(2) << "'" << endl;
 
 	system("pause");
 }

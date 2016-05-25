@@ -1,4 +1,4 @@
-/// <reference path="../node/requires.ts" />
+/// <reference path="../../API.ts" />
 
 namespace samchon.protocol.service
 {

@@ -6,10 +6,10 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "1.1.0",
+  "version": "1.1.1",
 
-  "main": "./release/ts/samchon-framework.js",
-  "typings": "./release/ts/samchon-framework.d.ts",
+  "main": "./lib/ts/samchon-framework.js",
+  "typings": "./lib/ts/samchon-framework.d.ts",
   "homepage": "http://samchon.org/framework",
   "repository": {
     "type": "git",
@@ -18,11 +18,8 @@
   "bugs": { "url": "https://github.com/samchon/framework/issues" },
   
   "dependencies": {
-    "typescript-stl": "~0.9.8-e",
-    "samchon-library": "~0.0.1",
-    "samchon-collection": "~0.0.1-a"
+    "typescript-stl": "~0.9.8-e"
   },
-
   "licenses": [
     {
       "type": "BSD 3-Clause",

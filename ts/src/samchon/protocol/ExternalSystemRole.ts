@@ -1,4 +1,4 @@
-/// <reference path="node/requires.ts" />
+/// <reference path="../API.ts" />
 
 /// <reference path="Entity.ts" />
 

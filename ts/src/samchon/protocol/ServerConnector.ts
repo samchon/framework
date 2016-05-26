@@ -26,7 +26,7 @@ namespace samchon.protocol
 		/**
 		 * <p> A parent object who listens and sends Invoke message. </p>
 		 * 
-		 * <ul>
+		 * <ul>z
 		 * 	<li> ServerConnector.replyData(Invoke) -> parent.replyData(Invoke) </li>
 		 * </ul>
 		 */
@@ -55,6 +55,7 @@ namespace samchon.protocol
 			this.parent = parent;
 
 			this.str = "";
+			this.onopen = null;
 		}
 
 		/**
@@ -80,7 +81,7 @@ namespace samchon.protocol
 		 * 		Local untrusted SWF files may not communicate with the Internet. You can work around 
 		 * 		this limitation by reclassifying the file as local-with-networking or as trusted.
 		 */
-		public connect(ip: string, port: number): void 
+	 public connect(ip: string, port: number): void 
 		{
 			if(ip.indexOf("ws://") == -1)
 			{
@@ -90,9 +91,17 @@ namespace samchon.protocol
 					ip = "ws://" + ip;
 			}
 			this.socket = new WebSocket(ip + ":" + port);
+			
+			let this_ = this;
 
-			this.socket.onopen = this.handleConnect;
-			this.socket.onmessage = this.handleReply;
+			this.socket.onopen = function (event: Event)
+			{
+				this_.handleConnect(event);
+			}
+			this.socket.onmessage = function (event: MessageEvent)
+			{
+				this_.handleReply(event)
+			};
 		}
 
 		/* ----------------------------------------------------
@@ -125,7 +134,7 @@ namespace samchon.protocol
 			if(this.onopen == null)
 				return;
 		
-			this.onopen.apply([event]);
+			this.onopen(event);
 		}
 
 		/**
@@ -133,8 +142,10 @@ namespace samchon.protocol
 		 */
 		private handleReply(event: MessageEvent): void
 		{
+			console.log("ServerConnector.handleReply:", event.data);
+
 			this.str += event.data;
-			let invokeArray: Array<Invoke>;
+			let invokeArray: Array<Invoke> = new Array<Invoke>();
 
 			let indexPair: std.Pair<number, number> = null;
 			let sizePair: std.Pair<number, number> = new std.Pair<number, number>(0, 0);

@@ -18,6 +18,8 @@
 // Those declaration of global and require can be substituted by using "node.d.ts"
 // ------------------------------------------------------------------------------------
 
+/// <reference path="../typescript-stl/typescript-stl.d.ts" />
+
 /**
  * Samchon Framework, A SDN framework.
  *
@@ -1500,6 +1502,9 @@ declare namespace samchon.collection {
         removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
 }
+declare namespace samchon.example {
+    function test_web_client(): void;
+}
 declare namespace samchon.library {
     /**
      * <p> Case generator. </p>
@@ -2535,7 +2540,7 @@ declare namespace samchon.protocol {
         /**
          * <p> A parent object who listens and sends Invoke message. </p>
          *
-         * <ul>
+         * <ul>z
          * 	<li> ServerConnector.replyData(Invoke) -> parent.replyData(Invoke) </li>
          * </ul>
          */

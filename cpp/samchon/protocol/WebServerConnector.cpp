@@ -12,6 +12,12 @@ WebServerConnector::WebServerConnector()
 	web_super()
 {
 }
+
+auto WebServerConnector::is_server() const -> bool
+{
+	return false;
+}
+
 void WebServerConnector::connect()
 {
 	//CONNECT

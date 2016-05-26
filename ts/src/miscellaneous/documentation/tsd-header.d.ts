@@ -18,3 +18,5 @@
 // Those declaration of global and require can be substituted by using "node.d.ts"
 // ------------------------------------------------------------------------------------
 
+/// <reference path="../typescript-stl/typescript-stl.d.ts" />
+

@@ -80,11 +80,11 @@ auto IWebServer::handshake(Socket *socket) const -> bool
 
 	byteArray.assign(1000, NULL);
 
-	socket->read_some(boost::asio::buffer(byteArray), error);
+	size_t size = socket->read_some(boost::asio::buffer(byteArray), error);
 	if (error)
 		return false;
 
-	string &header = byteArray.read<string>();
+	string header(byteArray.begin(), byteArray.begin() + size);
 
 	WeakString wstr = header;
 	wstr = wstr.between("Sec-WebSocket-Key:", "\n").trim();

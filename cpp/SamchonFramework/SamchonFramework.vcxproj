@@ -110,7 +110,6 @@
     <ClInclude Include="..\samchon\protocol\IServer.hpp" />
     <ClInclude Include="..\samchon\protocol\ISQLEntity.hpp" />
     <ClInclude Include="..\samchon\protocol\IWebClient.hpp" />
-    <ClInclude Include="..\samchon\protocol\IWebClientBase.hpp" />
     <ClInclude Include="..\samchon\protocol\IWebServer.hpp" />
     <ClInclude Include="..\samchon\protocol\master.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedClient.hpp" />
@@ -235,7 +234,7 @@
     <ClCompile Include="..\samchon\protocol\IProtocol.cpp" />
     <ClCompile Include="..\samchon\protocol\IServer.cpp" />
     <ClCompile Include="..\samchon\protocol\ISQLEntity.cpp" />
-    <ClCompile Include="..\samchon\protocol\IWebClientBase.cpp" />
+    <ClCompile Include="..\samchon\protocol\IWebClient.cpp" />
     <ClCompile Include="..\samchon\protocol\IWebServer.cpp" />
     <ClCompile Include="..\samchon\protocol\master\DistributedSystem.cpp" />
     <ClCompile Include="..\samchon\protocol\master\DistributedSystemArray.cpp" />
@@ -304,7 +303,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">

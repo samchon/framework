@@ -1,8 +1,9 @@
 #include <iostream>
 #include <thread>
 #include <string>
-#include <samchon/library/TSQLi.hpp>
-#include <samchon/library/SQLStatement.hpp>
+#include <samchon/protocol/IWebServer.hpp>
+#include <samchon/protocol/IWebClient.hpp>
+#include <samchon/protocol/Invoke.hpp>
 
 #ifdef _WIN64
 #	ifdef _DEBUG
@@ -20,24 +21,60 @@
 
 using namespace std;
 using namespace samchon::library;
+using namespace samchon::protocol;
+
+class WebClient
+	: public IWebClient
+{
+private:
+	typedef IWebClient super;
+
+public:
+	WebClient(Socket *socket)
+		: super()
+	{
+		this->socket = socket;
+
+		cout << "A client has connected." << endl;
+	};
+
+	virtual void replyData(shared_ptr<Invoke> invoke) override
+	{
+		cout << "Got a message: " << invoke->getListener() << endl;
+
+		sendData(make_shared<Invoke>("meesage from cpp"));
+	};
+};
+
+class WebServer
+	: public IWebServer
+{
+private:
+	typedef IWebServer super;
+
+public:
+	WebServer()
+		: super()
+	{
+	};
+
+protected:
+	virtual auto PORT() const -> int override
+	{
+		return 37888;
+	};
+	
+	virtual void addClient(Socket *socket) override
+	{
+		unique_ptr<WebClient> client(new WebClient(socket));
+		client->listen();
+	};
+};
 
 void main()
 {
-	TSQLi sqli;
-	sqli.connect("127.0.0.1", "master", "sa", "team8");
-
-	auto stmt = sqli.createStatement();
-	int val1 = 4;
-	double val2 = 5.0;
-	wstring val3 = L"a value";
-
-	stmt->prepare("SELECT ?, ?, ?", val1, val2, val3);
-	stmt->execute();
-
-	stmt->fetch();
-	cout << stmt->at<int>(0) << endl;
-	cout << stmt->at<double>(1) << endl;
-	wcout << "'" << stmt->at<wstring>(2) << "'" << endl;
+	WebServer server;
+	server.open();
 
 	system("pause");
 }

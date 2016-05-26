@@ -7,653 +7,6 @@ if (typeof (exports) != "undefined") {
     global["std"] = require("typescript-stl");
 }
 /// <reference path="../miscellaneous/node/requires.ts" /> 
-/// <reference path="../../samchon/API.ts" />
-/// <reference path="../API.ts" />
-var samchon;
-(function (samchon) {
-    var library;
-    (function (library) {
-        /**
-         * <p> XML is a class representing a tree structued xml objects. </p>
-         * <p> The XML class provides methods and properties for working with XML objects. </p>
-         *
-         * <p> The XML class (along with the XMLList and Namespace) implements
-         * the powerful XML-handling standard defined in ECMAScript for XML (E4X) specification. </p>
-         *
-         * <p> XML class has a recursive, hierarchical relationship. </p>
-         *
-         * <p> Relationships between XML and XMLList </p>
-         * <ul>
-         *	<li> XML contains XMLList from dictionary of XMLList. </li>
-         *  <li> XMLList contains XML from vector of XML. </li>
-         * </ul>
-         *
-         * <h4> Note </h4>
-         * <p> Do not abuse values for expressing member variables. </p>
-         *
-         * <table>
-         *	<tr>
-         *		<th>Standard Usage</th>
-         *		<th>Non-standard usage abusing value</th>
-         *	</tr>
-         *	<tr>
-         *		<td>
-         *			&lt;memberList&gt;<br/>
-         *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt;<br/>
-         *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt;<br/>
-         *			&lt;/memberList&gt;
-         *		</td>
-         *		<td>
-         *			&lt;member&gt;<br/>
-         *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;id&gt;jhnam88&lt;/id&gt;<br/>
-         *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;name&gt;Jeongho+Nam&lt;/name&gt;<br/>
-         *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;<br/>
-         *			&lt;/member&gt;
-         *		</td>
-         *	</tr>
-         * </table>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var XML = (function (_super) {
-            __extends(XML, _super);
-            /* -------------------------------------------------------------
-                CONSTRUCTORS
-            ------------------------------------------------------------- */
-            /**
-             * <p> Default Constructor. </p>
-             *
-             * <p> If the string parameter is not omitted, constructs its tag, value and
-             * properties by parsing the string. If there's children, then construct the
-             * children XML, XMLList objects, too. </p>
-             *
-             * @param str A string to be parsed
-             */
-            function XML(str) {
-                if (str === void 0) { str = ""; }
-                _super.call(this);
-                this.properties = new std.HashMap();
-                this.value = "";
-                if (str.indexOf("<") == -1)
-                    return;
-                var start;
-                var end;
-                //ERASE HEADER OF XML
-                if ((start = str.indexOf("<?xml")) != -1) {
-                    end = str.indexOf("?>", start);
-                    if (end != -1)
-                        str = str.substr(end + 2);
-                }
-                //ERASE COMMENTS
-                while ((start = str.indexOf("<!--")) != -1) {
-                    end = str.indexOf("-->", start);
-                    if (end != -1)
-                        break;
-                    str = str.substr(0, start) + str.substr(end + 3);
-                }
-                //BEGIN PARSING
-                this.construct(str);
-            }
-            /**
-             * <p> Construct XML objects by parsing a string. </p>
-             */
-            XML.prototype.construct = function (str) {
-                this.parseTag(str);
-                this.parseProperty(str);
-                var res = this.parseValue(str);
-                if (res.second == true)
-                    this.parseChildren(res.first);
-            };
-            /**
-             * <p> Parse and fetch a tag. </p>
-             */
-            XML.prototype.parseTag = function (str) {
-                var start = str.indexOf("<") + 1;
-                var end = this.calcMinIndex(str.indexOf(" ", start), str.indexOf("\r\n", start), str.indexOf("\n", start), str.indexOf("\t", start), str.indexOf(">", start), str.indexOf("/", start));
-                if (start == 0 || end == -1)
-                    return;
-                this.tag = str.substring(start, end);
-            };
-            /**
-             * <p> Parse and fetch properties. </p>
-             */
-            XML.prototype.parseProperty = function (str) {
-                var start = str.indexOf("<" + this.tag) + this.tag.length + 1;
-                var end = this.calcMinIndex(str.lastIndexOf("/"), str.indexOf(">", start));
-                if (start == -1 || end == -1 || start >= end)
-                    return;
-                //<comp label='ABCD' /> : " label='ABCD' "
-                var line = str.substring(start, end);
-                if (line.indexOf("=") == -1)
-                    return;
-                var label;
-                var value;
-                var helpers = new Array();
-                var inQuote = false;
-                var quoteType;
-                var equal;
-                //INDEXING
-                for (var i = 0; i < line.length; i++) {
-                    //Start of quote
-                    if (inQuote == false && (line.charAt(i) == "'" || line.charAt(i) == "\"")) {
-                        inQuote = true;
-                        start = i;
-                        if (line.charAt(i) == "'")
-                            quoteType = 1;
-                        else if (line.charAt(i) == "\"")
-                            quoteType = 2;
-                    }
-                    else if (inQuote == true &&
-                        ((quoteType == 1 && line.charAt(i) == "'") ||
-                            (quoteType == 2 && line.charAt(i) == "\""))) {
-                        helpers.push({ "type": quoteType, "start": start, "end": i });
-                        inQuote = false;
-                    }
-                }
-                //CONSTRUCTING
-                for (var i = 0; i < helpers.length; i++) {
-                    var quote = helpers[i];
-                    if (i == 0) {
-                        equal = line.indexOf("=");
-                        label = line.substring(0, equal).trim();
-                    }
-                    else {
-                        equal = line.indexOf("=", helpers[i - 1]["end"] + 1);
-                        label = line.substring(helpers[i - 1]["end"] + 1, equal).trim();
-                    }
-                    value = line.substring(helpers[i]["start"] + 1, helpers[i]["end"]);
-                    this.setProperty(label, XML.decodeProperty(value));
-                }
-            };
-            /**
-             * <p> Parse and fetch a value. </p>
-             */
-            XML.prototype.parseValue = function (str) {
-                var end_slash = str.lastIndexOf("/");
-                var end_block = str.indexOf(">");
-                if (end_slash < end_block || end_slash + 1 == str.lastIndexOf("<")) {
-                    //STATEMENT1: <TAG />
-                    //STATEMENT2: <TAG></TAG> -> SAME WITH STATEMENT1: <TAG />
-                    this.value = "";
-                    return new std.Pair(str, false);
-                }
-                var start = end_block + 1;
-                var end = str.lastIndexOf("<");
-                str = str.substring(start, end); //REDEFINE WEAK_STRING -> IN TO THE TAG
-                if (str.indexOf("<") == -1)
-                    this.value = XML.decodeValue(str.trim());
-                else
-                    this.value = "";
-                return new std.Pair(str, true);
-            };
-            /**
-             * <p> Parse and construct children XML objects. </p>
-             */
-            XML.prototype.parseChildren = function (str) {
-                if (str.indexOf("<") == -1)
-                    return;
-                var start = str.indexOf("<");
-                var end = str.lastIndexOf(">") + 1;
-                str = str.substring(start, end);
-                var blockStart = 0;
-                var blockEnd = 0;
-                start = 0;
-                for (var i = 0; i < str.length; i++) {
-                    if (str.charAt(i) == "<" && str.substr(i, 2) != "</")
-                        blockStart++;
-                    else if (str.substr(i, 2) == "/>" || str.substr(i, 2) == "</")
-                        blockEnd++;
-                    if (blockStart >= 1 && blockStart == blockEnd) {
-                        end = str.indexOf(">", i);
-                        var xmlList = void 0;
-                        var xml = new XML();
-                        xml.construct(str.substring(start, end + 1));
-                        if (this.has(xml.tag) == true)
-                            xmlList = this.get(xml.tag);
-                        else {
-                            xmlList = new XMLList();
-                            this.set(xml.tag, xmlList);
-                        }
-                        xmlList.push(xml);
-                        i = end;
-                        start = end + 1;
-                        blockStart = 0;
-                        blockEnd = 0;
-                    }
-                }
-            };
-            /* -------------------------------------------------------------
-                ACCESSORS
-            ------------------------------------------------------------- */
-            /**
-             * <p> Get tag. </p>
-             */
-            XML.prototype.getTag = function () {
-                return this.tag;
-            };
-            /**
-             * <p> Get value. </p>
-             */
-            XML.prototype.getValue = function () {
-                return this.value;
-            };
-            /**
-             * <p> Test wheter a property exists or not. </p>
-             */
-            XML.prototype.hasProperty = function (key) {
-                return this.properties.has(key);
-            };
-            /**
-             * <p> Get property by its key. </p>
-             */
-            XML.prototype.getProperty = function (key) {
-                return this.properties.get(key);
-            };
-            XML.prototype.getPropertyMap = function () {
-                return this.properties;
-            };
-            /* -------------------------------------------------------------
-                SETTERS
-            ------------------------------------------------------------- */
-            /**
-             * <p> Set tag (identifier) of the XML. </p>
-             */
-            XML.prototype.setTag = function (str) {
-                this.tag = str;
-            };
-            /**
-             * <p> Set value of the XML. </p>
-             *
-             * <p> Do not abuse values for expressing member variables. </p>
-             * <table>
-             *	<tr>
-             *		<th>Standard Usage</th>
-             *		<th>Non-standard usage abusing value</th>
-             *	</tr>
-             *	<tr>
-             *		<td>
-             *			\<memberList\>\n
-             *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
-             *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
-             *			\</memberList\>
-             *		</td>
-             *		<td>
-             *			\<member\>\n
-             *				\<id\>jhnam88\</id\>\n
-             *				\<name\>Jeongho+Nam\</name\>\n
-             *				\<birthdate\>1988-03-11\</birthdate\>\n
-             *			\</member\>
-             *		</td>
-             *	</tr>
-             * </table>
-             *
-             * @param val A value to set
-             */
-            XML.prototype.setValue = function (str) {
-                this.value = str;
-            };
-            /**
-             * <p> Set a property with its key. </p>
-             */
-            XML.prototype.setProperty = function (key, value) {
-                this.properties.set(key, value);
-            };
-            /**
-             * <p> Erase a property by its key. </p>
-             *
-             * @param key The key of the property to erase
-             * @throw exception out of range
-             */
-            XML.prototype.eraseProperty = function (key) {
-                if (this.properties.has(key) == false)
-                    throw Error("out of range");
-                else
-                    this.properties.erase(key);
-            };
-            XML.prototype.push = function () {
-                var items = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    items[_i - 0] = arguments[_i];
-                }
-                for (var i = 0; i < items.length; i++) {
-                    if (items[i] instanceof XML) {
-                        var xml = items[i];
-                        if (this.has(xml.tag) == true)
-                            this.get(xml.tag).push(xml);
-                        else {
-                            var xmlList = new XMLList();
-                            xmlList.push(xml);
-                            this.set(xml.tag, xmlList);
-                        }
-                    }
-                    else if (items[i] instanceof XMLList) {
-                        var xmlList = items[i];
-                        if (xmlList.empty() == true)
-                            continue;
-                        if (this.has(xmlList.getTag()) == true) {
-                            var myXMLList = this.get(xmlList.getTag());
-                            myXMLList.insert(myXMLList.end(), xmlList.begin(), xmlList.end());
-                        }
-                        else
-                            this.set(xmlList.getTag(), xmlList);
-                    }
-                    else
-                        _super.prototype.push.call(this, items[i]);
-                }
-                return this.size();
-            };
-            XML.prototype.addAllProperties = function (xml) {
-                for (var it = xml.properties.begin(); it.equal_to(xml.properties.end()) == false; it = it.next())
-                    this.setProperty(it.first, it.second);
-            };
-            XML.prototype.clearProperties = function () {
-                this.properties = new std.HashMap();
-            };
-            /* -------------------------------------------------------------
-                FILTERS
-            ------------------------------------------------------------- */
-            XML.prototype.calcMinIndex = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                var min = args[0];
-                for (var i = 1; i < args.length; i++) {
-                    if (args[i] == -1)
-                        continue;
-                    if (min == -1 || args[i] < min)
-                        min = args[i];
-                }
-                return min;
-            };
-            /**
-             * <p> Decode a value. </p>
-             *
-             * <table>
-             *	<tr>
-             *		<th>Encoded</th>
-             *		<th>Decoded</th>
-             *	</tr>
-             *	<tr>
-             *		<td>\&amp;</td>
-             *		<td>\&</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\&lt;</td>
-             *		<td>\<</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\&gt;</td>
-             *		<td>\></td>
-             *	</tr>
-             * </table>
-             *
-             * @return A decoded string represents a value
-             */
-            XML.decodeValue = function (str) {
-                var pairs = [
-                    new std.Pair("&amp;", "&"),
-                    new std.Pair("&lt;", "<"),
-                    new std.Pair("&gt;", ">")
-                ];
-                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
-            };
-            /**
-             * <p> Encode a value. </p>
-             *
-             * <table>
-             *	<tr>
-             *		<th>Original</th>
-             *		<th>Encoded</th>
-             *	</tr>
-             *	<tr>
-             *		<td>\&</td>
-             *		<td>\&amp;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\<</td>
-             *		<td>\&lt;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\></td>
-             *		<td>\&gt;</td>
-             *	</tr>
-             * </table>
-             *
-             * @return A encoded string represents a value
-             */
-            XML.encodeValue = function (str) {
-                var pairs = [
-                    new std.Pair("&", "&amp;"),
-                    new std.Pair("<", "&lt;"),
-                    new std.Pair(">", "&gt;")
-                ];
-                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
-            };
-            /**
-              * <p> Decode a property. </p>
-              *
-              * <table>
-              *	<tr>
-              *		<th>Encoded</th>
-              *		<th>Decoded</th>
-              *	</tr>
-              *	<tr>
-              *		<td>\&amp;</td>
-              *		<td>\&</td>
-              *	</tr>
-              *	<tr>
-              *		<td>\&lt;</td>
-              *		<td>\<</td>
-              *	</tr>
-              *	<tr>
-              *		<td>\&gt;</td>
-              *		<td>\></td>
-              *	</tr>
-              *	<tr>
-              *		<td>&quot;</td>
-              *		<td>\"</td>
-              *	</tr>
-              *	<tr>
-              *		<td>&apos;</td>
-              *		<td>'</td>
-              *	</tr>
-              *	<tr>
-              *		<td>&#x9;</td>
-              *		<td>'</td>
-              *	</tr>
-              *	<tr>
-              *		<td>&apos;</td>
-              *		<td>\\t</td>
-              *	</tr>
-              *	<tr>
-              *		<td>&#xA;</td>
-              *		<td>\\n</td>
-              *	</tr>
-              *	<tr>
-              *		<td>&#xD;</td>
-              *		<td>\\r</td>
-              *	</tr>
-              * </table>
-              *
-              * @return A decoded string represents a property
-              */
-            XML.decodeProperty = function (str) {
-                var pairs = [
-                    new std.Pair("&amp;", "&"),
-                    new std.Pair("&lt;", "<"),
-                    new std.Pair("&gt;", ">"),
-                    new std.Pair("&quot;", "\""),
-                    new std.Pair("&apos;", "'"),
-                    new std.Pair("&#x9;", "\t"),
-                    new std.Pair("&#xA;", "\n"),
-                    new std.Pair("&#xD;", "\r"),
-                ];
-                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
-            };
-            /**
-             * <p> Decode a property. </p>
-             *
-             * <table>
-             *	<tr>
-             *		<th>Original</th>
-             *		<th>Encoded</th>
-             *	</tr>
-             *	<tr>
-             *		<td>\&</td>
-             *		<td>\&amp;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\<</td>
-             *		<td>\&lt;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\></td>
-             *		<td>\&gt;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\"</td>
-             *		<td>&quot;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>'</td>
-             *		<td>&apos;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>'</td>
-             *		<td>&#x9;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\\t</td>
-             *		<td>&apos;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\\n</td>
-             *		<td>&#xA;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\\r</td>
-             *		<td>&#xD;</td>
-             *	</tr>
-             * </table>
-             *
-             * @return A encoded string represents a property
-             */
-            XML.encodeProperty = function (str) {
-                var pairs = [
-                    new std.Pair("&", "&amp;"),
-                    new std.Pair("<", "&lt;"),
-                    new std.Pair(">", "&gt;"),
-                    new std.Pair("\"", "&quot;"),
-                    new std.Pair("'", "&apos;"),
-                    new std.Pair("\t", "&#x9;"),
-                    new std.Pair("\n", "&#xA;"),
-                    new std.Pair("\r", "&#xD;"),
-                ];
-                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
-            };
-            /* -------------------------------------------------------------
-                EXPORTS
-            ------------------------------------------------------------- */
-            /**
-             * <p> Convert the XML to a string. </p>
-             */
-            XML.prototype.toString = function (level) {
-                if (level === void 0) { level = 0; }
-                var str = library.StringUtil.tab(level) + "<" + this.tag;
-                var childrenString = "";
-                //PROPERTIES
-                for (var p_it = this.properties.begin(); p_it.equal_to(this.properties.end()) == false; p_it = p_it.next())
-                    str += " " + p_it.first + "=\"" + XML.encodeProperty(String(p_it.second)) + "\"";
-                if (this.size() == 0) {
-                    if (this.value != "")
-                        str += ">" + XML.encodeValue(String(this.value)) + "</" + this.tag + ">";
-                    else
-                        str += " />";
-                }
-                else {
-                    str += ">\n";
-                    for (var x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
-                        str += x_it.second.toString(level + 1);
-                    str += library.StringUtil.tab(level) + "</" + this.tag + ">";
-                }
-                return str;
-            };
-            /**
-             * <p> Convert the XML to HTML string. </p>
-             */
-            XML.prototype.toHTML = function (level) {
-                if (level === void 0) { level = 0; }
-                var str = library.StringUtil.htmlTab(level) + "&lt;" + this.tag;
-                var childrenString = "";
-                //PROPERTIES
-                for (var p_it = this.properties.begin(); p_it.equal_to(this.properties.end()) == false; p_it = p_it.next())
-                    str += " " + p_it.first + "=&quot;" + XML.encodeProperty(String(p_it.second)) + "&quot;";
-                if (this.size() == 0) {
-                    if (this.value != "")
-                        str += "&gt;" + XML.encodeValue(String(this.value)) + "</" + this.tag + ">";
-                    else
-                        str += " /&gt;";
-                }
-                else {
-                    str += "&gt;<br>\n";
-                    for (var x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
-                        str += x_it.second.toHTML(level + 1);
-                    str += library.StringUtil.htmlTab(level) + "&lt;/" + this.tag + "&gt;";
-                }
-                return str;
-            };
-            return XML;
-        }(std.HashMap));
-        library.XML = XML;
-        /**
-         * <p> List of XML(s) having same tag. </p>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var XMLList = (function (_super) {
-            __extends(XMLList, _super);
-            /**
-             * <p> Default Constructor. </p>
-             */
-            function XMLList() {
-                _super.call(this);
-            }
-            XMLList.prototype.getTag = function () {
-                if (this.size() == 0)
-                    return null;
-                else
-                    return this.at(0).getTag();
-            };
-            /**
-             * <p> Convert XMLList to string. </p>
-             *
-             * @param level Level(depth) of the XMLList.
-             */
-            XMLList.prototype.toString = function (level) {
-                if (level === void 0) { level = 0; }
-                var str = "";
-                for (var i = 0; i < this.size(); i++)
-                    str += this.at(i).toString(level) + "\n";
-                return str;
-            };
-            /**
-             * <p> Convert XMLList to HTML string. </p>
-             *
-             * @param level Level(depth) of the XMLList.
-             */
-            XMLList.prototype.toHTML = function (level) {
-                if (level === void 0) { level = 0; }
-                var str = "";
-                for (var i = 0; i < this.size(); i++)
-                    str += this.at(i).toHTML(level) + "<br>\n";
-                return str;
-            };
-            return XMLList;
-        }(std.Vector));
-        library.XMLList = XMLList;
-    })(library = samchon.library || (samchon.library = {}));
-})(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
@@ -864,93 +217,6 @@ var samchon;
         collection.ArrayCollection = ArrayCollection;
     })(collection = samchon.collection || (samchon.collection = {}));
 })(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * <p> An entity, a standard data class. </p>
-         *
-         * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
-         * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
-         * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
-         * Entity is not imposed but encouraged. </p>
-         *
-         * <p> As we could get advantages from standardization of message for network I/O with Invoke,
-         * we can get additional advantage from standardizing expression method of data class with Entity.
-         * We do not need to know a part of network communication. Thus, with the Entity, we can only
-         * concentrate on entity's own logics and relationships between another entities. Entity does not
-         * need to how network communications are being done. </p>
-         *
-         * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
-         * protocol for network I/O but not a essential protocol must be kept. The expression method of
-         * Entity, using on network I/O, is expressed by XML string. </p>
-         *
-         * <p> If your own network system has a critical performance issue on communication data class,
-         * it would be better to using binary communication (with ByteArray).
-         * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var Entity = (function () {
-            /**
-             * <p> Default Constructor. </p>
-             */
-            function Entity() {
-                //NOTHING
-            }
-            Entity.prototype.construct = function (xml) {
-                // MEMBER VARIABLES; ATOMIC
-                var propertyMap = xml.getPropertyMap();
-                for (var v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
-                    if (this.hasOwnProperty(v_it.first) == true)
-                        if (typeof this[v_it.first] == "number")
-                            this[v_it.first] = parseFloat(v_it.second);
-                        else if (typeof this[v_it.first] == "string")
-                            this[v_it.first] = v_it.second;
-                // MEMBER ENTITIES
-                //for (let e_it = xml.begin(); e_it.equal_to(xml.end()) != true; e_it = e_it.next())
-                //{
-                //	if (this.hasOwnProperty(e_it.first) == true 
-                //		&& e_it.second.size() == 1 
-                //		&& (this[e_it.first] instanceof Entity || this[e_it.first] instanceof EntityArray)
-                //		&& this[e_it.first] != null)
-                //	{
-                //		let entity: IEntity = this[e_it.first];
-                //		let e_xml: library.XML = e_it.second.at(0);
-                //		if (entity == null)
-                //			continue;
-                //		entity.construct(e_xml);
-                //	}
-                //}
-            };
-            Entity.prototype.key = function () { return ""; };
-            Entity.prototype.toXML = function () {
-                var xml = new samchon.library.XML();
-                xml.setTag(this.TAG());
-                // MEMBERS
-                for (var key in this)
-                    if (typeof key == "string" &&
-                        (typeof this[key] == "string" || typeof this[key] == "number")) {
-                        xml.setProperty(key, this[key]);
-                    }
-                return xml;
-            };
-            return Entity;
-        }());
-        protocol.Entity = Entity;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../samchon/API.ts" />
-/// <reference path="../../samchon/library/XML.ts" />
-/// <reference path="../../samchon/collection/ArrayCollection.ts" />
-/// <reference path="../../samchon/protocol/Entity.ts" />
-if (typeof (exports) != "undefined") {
-    exports.library = samchon.library;
-    exports.collection = samchon.collection;
-    exports.protocol = samchon.protocol;
-}
 /// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
@@ -2436,6 +1702,40 @@ var samchon;
         collection.TreeMultiSetCollection = TreeMultiSetCollection;
     })(collection = samchon.collection || (samchon.collection = {}));
 })(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var example;
+    (function (example) {
+        var WebClient = (function () {
+            function WebClient() {
+                var this_ = this;
+                this.connector = new samchon.protocol.ServerConnector(this);
+                this.connector.onopen =
+                    function (event) {
+                        console.log("connected");
+                        this_.sendData(new samchon.protocol.Invoke("sendMessage", "I am JavaScript Client", 3, 7));
+                    };
+                this.connector.connect("127.0.0.1", 37888);
+            }
+            WebClient.prototype.rotate_interval = function () {
+                console.log("send message");
+                this.sendData(new samchon.protocol.Invoke("sendMessage", "I am JavaScript Client", 3, 7));
+            };
+            WebClient.prototype.sendData = function (invoke) {
+                console.log("sendData: #" + invoke.toXML().toString().length);
+                this.connector.sendData(invoke);
+            };
+            WebClient.prototype.replyData = function (invoke) {
+                console.log("message from cpp:", invoke.toXML().toString());
+            };
+            return WebClient;
+        }());
+        function test_web_client() {
+            var webClient = new WebClient();
+        }
+        example.test_web_client = test_web_client;
+    })(example = samchon.example || (samchon.example = {}));
+})(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
@@ -3000,6 +2300,740 @@ var samchon;
         library.StringUtil = StringUtil;
     })(library = samchon.library || (samchon.library = {}));
 })(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+var samchon;
+(function (samchon) {
+    var library;
+    (function (library) {
+        /**
+         * <p> XML is a class representing a tree structued xml objects. </p>
+         * <p> The XML class provides methods and properties for working with XML objects. </p>
+         *
+         * <p> The XML class (along with the XMLList and Namespace) implements
+         * the powerful XML-handling standard defined in ECMAScript for XML (E4X) specification. </p>
+         *
+         * <p> XML class has a recursive, hierarchical relationship. </p>
+         *
+         * <p> Relationships between XML and XMLList </p>
+         * <ul>
+         *	<li> XML contains XMLList from dictionary of XMLList. </li>
+         *  <li> XMLList contains XML from vector of XML. </li>
+         * </ul>
+         *
+         * <h4> Note </h4>
+         * <p> Do not abuse values for expressing member variables. </p>
+         *
+         * <table>
+         *	<tr>
+         *		<th>Standard Usage</th>
+         *		<th>Non-standard usage abusing value</th>
+         *	</tr>
+         *	<tr>
+         *		<td>
+         *			&lt;memberList&gt;<br/>
+         *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt;<br/>
+         *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt;<br/>
+         *			&lt;/memberList&gt;
+         *		</td>
+         *		<td>
+         *			&lt;member&gt;<br/>
+         *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;id&gt;jhnam88&lt;/id&gt;<br/>
+         *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;name&gt;Jeongho+Nam&lt;/name&gt;<br/>
+         *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;<br/>
+         *			&lt;/member&gt;
+         *		</td>
+         *	</tr>
+         * </table>
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var XML = (function (_super) {
+            __extends(XML, _super);
+            /* -------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------- */
+            /**
+             * <p> Default Constructor. </p>
+             *
+             * <p> If the string parameter is not omitted, constructs its tag, value and
+             * properties by parsing the string. If there's children, then construct the
+             * children XML, XMLList objects, too. </p>
+             *
+             * @param str A string to be parsed
+             */
+            function XML(str) {
+                if (str === void 0) { str = ""; }
+                _super.call(this);
+                this.properties = new std.HashMap();
+                this.value = "";
+                if (str.indexOf("<") == -1)
+                    return;
+                var start;
+                var end;
+                //ERASE HEADER OF XML
+                if ((start = str.indexOf("<?xml")) != -1) {
+                    end = str.indexOf("?>", start);
+                    if (end != -1)
+                        str = str.substr(end + 2);
+                }
+                //ERASE COMMENTS
+                while ((start = str.indexOf("<!--")) != -1) {
+                    end = str.indexOf("-->", start);
+                    if (end != -1)
+                        break;
+                    str = str.substr(0, start) + str.substr(end + 3);
+                }
+                //BEGIN PARSING
+                this.construct(str);
+            }
+            /**
+             * <p> Construct XML objects by parsing a string. </p>
+             */
+            XML.prototype.construct = function (str) {
+                this.parseTag(str);
+                this.parseProperty(str);
+                var res = this.parseValue(str);
+                if (res.second == true)
+                    this.parseChildren(res.first);
+            };
+            /**
+             * <p> Parse and fetch a tag. </p>
+             */
+            XML.prototype.parseTag = function (str) {
+                var start = str.indexOf("<") + 1;
+                var end = this.calcMinIndex(str.indexOf(" ", start), str.indexOf("\r\n", start), str.indexOf("\n", start), str.indexOf("\t", start), str.indexOf(">", start), str.indexOf("/", start));
+                if (start == 0 || end == -1)
+                    return;
+                this.tag = str.substring(start, end);
+            };
+            /**
+             * <p> Parse and fetch properties. </p>
+             */
+            XML.prototype.parseProperty = function (str) {
+                var start = str.indexOf("<" + this.tag) + this.tag.length + 1;
+                var end = this.calcMinIndex(str.lastIndexOf("/"), str.indexOf(">", start));
+                if (start == -1 || end == -1 || start >= end)
+                    return;
+                //<comp label='ABCD' /> : " label='ABCD' "
+                var line = str.substring(start, end);
+                if (line.indexOf("=") == -1)
+                    return;
+                var label;
+                var value;
+                var helpers = new Array();
+                var inQuote = false;
+                var quoteType;
+                var equal;
+                //INDEXING
+                for (var i = 0; i < line.length; i++) {
+                    //Start of quote
+                    if (inQuote == false && (line.charAt(i) == "'" || line.charAt(i) == "\"")) {
+                        inQuote = true;
+                        start = i;
+                        if (line.charAt(i) == "'")
+                            quoteType = 1;
+                        else if (line.charAt(i) == "\"")
+                            quoteType = 2;
+                    }
+                    else if (inQuote == true &&
+                        ((quoteType == 1 && line.charAt(i) == "'") ||
+                            (quoteType == 2 && line.charAt(i) == "\""))) {
+                        helpers.push({ "type": quoteType, "start": start, "end": i });
+                        inQuote = false;
+                    }
+                }
+                //CONSTRUCTING
+                for (var i = 0; i < helpers.length; i++) {
+                    var quote = helpers[i];
+                    if (i == 0) {
+                        equal = line.indexOf("=");
+                        label = line.substring(0, equal).trim();
+                    }
+                    else {
+                        equal = line.indexOf("=", helpers[i - 1]["end"] + 1);
+                        label = line.substring(helpers[i - 1]["end"] + 1, equal).trim();
+                    }
+                    value = line.substring(helpers[i]["start"] + 1, helpers[i]["end"]);
+                    this.setProperty(label, XML.decodeProperty(value));
+                }
+            };
+            /**
+             * <p> Parse and fetch a value. </p>
+             */
+            XML.prototype.parseValue = function (str) {
+                var end_slash = str.lastIndexOf("/");
+                var end_block = str.indexOf(">");
+                if (end_slash < end_block || end_slash + 1 == str.lastIndexOf("<")) {
+                    //STATEMENT1: <TAG />
+                    //STATEMENT2: <TAG></TAG> -> SAME WITH STATEMENT1: <TAG />
+                    this.value = "";
+                    return new std.Pair(str, false);
+                }
+                var start = end_block + 1;
+                var end = str.lastIndexOf("<");
+                str = str.substring(start, end); //REDEFINE WEAK_STRING -> IN TO THE TAG
+                if (str.indexOf("<") == -1)
+                    this.value = XML.decodeValue(str.trim());
+                else
+                    this.value = "";
+                return new std.Pair(str, true);
+            };
+            /**
+             * <p> Parse and construct children XML objects. </p>
+             */
+            XML.prototype.parseChildren = function (str) {
+                if (str.indexOf("<") == -1)
+                    return;
+                var start = str.indexOf("<");
+                var end = str.lastIndexOf(">") + 1;
+                str = str.substring(start, end);
+                var blockStart = 0;
+                var blockEnd = 0;
+                start = 0;
+                for (var i = 0; i < str.length; i++) {
+                    if (str.charAt(i) == "<" && str.substr(i, 2) != "</")
+                        blockStart++;
+                    else if (str.substr(i, 2) == "/>" || str.substr(i, 2) == "</")
+                        blockEnd++;
+                    if (blockStart >= 1 && blockStart == blockEnd) {
+                        end = str.indexOf(">", i);
+                        var xmlList = void 0;
+                        var xml = new XML();
+                        xml.construct(str.substring(start, end + 1));
+                        if (this.has(xml.tag) == true)
+                            xmlList = this.get(xml.tag);
+                        else {
+                            xmlList = new XMLList();
+                            this.set(xml.tag, xmlList);
+                        }
+                        xmlList.push(xml);
+                        i = end;
+                        start = end + 1;
+                        blockStart = 0;
+                        blockEnd = 0;
+                    }
+                }
+            };
+            /* -------------------------------------------------------------
+                ACCESSORS
+            ------------------------------------------------------------- */
+            /**
+             * <p> Get tag. </p>
+             */
+            XML.prototype.getTag = function () {
+                return this.tag;
+            };
+            /**
+             * <p> Get value. </p>
+             */
+            XML.prototype.getValue = function () {
+                return this.value;
+            };
+            /**
+             * <p> Test wheter a property exists or not. </p>
+             */
+            XML.prototype.hasProperty = function (key) {
+                return this.properties.has(key);
+            };
+            /**
+             * <p> Get property by its key. </p>
+             */
+            XML.prototype.getProperty = function (key) {
+                return this.properties.get(key);
+            };
+            XML.prototype.getPropertyMap = function () {
+                return this.properties;
+            };
+            /* -------------------------------------------------------------
+                SETTERS
+            ------------------------------------------------------------- */
+            /**
+             * <p> Set tag (identifier) of the XML. </p>
+             */
+            XML.prototype.setTag = function (str) {
+                this.tag = str;
+            };
+            /**
+             * <p> Set value of the XML. </p>
+             *
+             * <p> Do not abuse values for expressing member variables. </p>
+             * <table>
+             *	<tr>
+             *		<th>Standard Usage</th>
+             *		<th>Non-standard usage abusing value</th>
+             *	</tr>
+             *	<tr>
+             *		<td>
+             *			\<memberList\>\n
+             *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
+             *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
+             *			\</memberList\>
+             *		</td>
+             *		<td>
+             *			\<member\>\n
+             *				\<id\>jhnam88\</id\>\n
+             *				\<name\>Jeongho+Nam\</name\>\n
+             *				\<birthdate\>1988-03-11\</birthdate\>\n
+             *			\</member\>
+             *		</td>
+             *	</tr>
+             * </table>
+             *
+             * @param val A value to set
+             */
+            XML.prototype.setValue = function (str) {
+                this.value = str;
+            };
+            /**
+             * <p> Set a property with its key. </p>
+             */
+            XML.prototype.setProperty = function (key, value) {
+                this.properties.set(key, value);
+            };
+            /**
+             * <p> Erase a property by its key. </p>
+             *
+             * @param key The key of the property to erase
+             * @throw exception out of range
+             */
+            XML.prototype.eraseProperty = function (key) {
+                if (this.properties.has(key) == false)
+                    throw Error("out of range");
+                else
+                    this.properties.erase(key);
+            };
+            XML.prototype.push = function () {
+                var items = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    items[_i - 0] = arguments[_i];
+                }
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i] instanceof XML) {
+                        var xml = items[i];
+                        if (this.has(xml.tag) == true)
+                            this.get(xml.tag).push(xml);
+                        else {
+                            var xmlList = new XMLList();
+                            xmlList.push(xml);
+                            this.set(xml.tag, xmlList);
+                        }
+                    }
+                    else if (items[i] instanceof XMLList) {
+                        var xmlList = items[i];
+                        if (xmlList.empty() == true)
+                            continue;
+                        if (this.has(xmlList.getTag()) == true) {
+                            var myXMLList = this.get(xmlList.getTag());
+                            myXMLList.insert(myXMLList.end(), xmlList.begin(), xmlList.end());
+                        }
+                        else
+                            this.set(xmlList.getTag(), xmlList);
+                    }
+                    else
+                        _super.prototype.push.call(this, items[i]);
+                }
+                return this.size();
+            };
+            XML.prototype.addAllProperties = function (xml) {
+                for (var it = xml.properties.begin(); it.equal_to(xml.properties.end()) == false; it = it.next())
+                    this.setProperty(it.first, it.second);
+            };
+            XML.prototype.clearProperties = function () {
+                this.properties = new std.HashMap();
+            };
+            /* -------------------------------------------------------------
+                FILTERS
+            ------------------------------------------------------------- */
+            XML.prototype.calcMinIndex = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                var min = args[0];
+                for (var i = 1; i < args.length; i++) {
+                    if (args[i] == -1)
+                        continue;
+                    if (min == -1 || args[i] < min)
+                        min = args[i];
+                }
+                return min;
+            };
+            /**
+             * <p> Decode a value. </p>
+             *
+             * <table>
+             *	<tr>
+             *		<th>Encoded</th>
+             *		<th>Decoded</th>
+             *	</tr>
+             *	<tr>
+             *		<td>\&amp;</td>
+             *		<td>\&</td>
+             *	</tr>
+             *	<tr>
+             *		<td>\&lt;</td>
+             *		<td>\<</td>
+             *	</tr>
+             *	<tr>
+             *		<td>\&gt;</td>
+             *		<td>\></td>
+             *	</tr>
+             * </table>
+             *
+             * @return A decoded string represents a value
+             */
+            XML.decodeValue = function (str) {
+                var pairs = [
+                    new std.Pair("&amp;", "&"),
+                    new std.Pair("&lt;", "<"),
+                    new std.Pair("&gt;", ">")
+                ];
+                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
+            };
+            /**
+             * <p> Encode a value. </p>
+             *
+             * <table>
+             *	<tr>
+             *		<th>Original</th>
+             *		<th>Encoded</th>
+             *	</tr>
+             *	<tr>
+             *		<td>\&</td>
+             *		<td>\&amp;</td>
+             *	</tr>
+             *	<tr>
+             *		<td>\<</td>
+             *		<td>\&lt;</td>
+             *	</tr>
+             *	<tr>
+             *		<td>\></td>
+             *		<td>\&gt;</td>
+             *	</tr>
+             * </table>
+             *
+             * @return A encoded string represents a value
+             */
+            XML.encodeValue = function (str) {
+                var pairs = [
+                    new std.Pair("&", "&amp;"),
+                    new std.Pair("<", "&lt;"),
+                    new std.Pair(">", "&gt;")
+                ];
+                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
+            };
+            /**
+              * <p> Decode a property. </p>
+              *
+              * <table>
+              *	<tr>
+              *		<th>Encoded</th>
+              *		<th>Decoded</th>
+              *	</tr>
+              *	<tr>
+              *		<td>\&amp;</td>
+              *		<td>\&</td>
+              *	</tr>
+              *	<tr>
+              *		<td>\&lt;</td>
+              *		<td>\<</td>
+              *	</tr>
+              *	<tr>
+              *		<td>\&gt;</td>
+              *		<td>\></td>
+              *	</tr>
+              *	<tr>
+              *		<td>&quot;</td>
+              *		<td>\"</td>
+              *	</tr>
+              *	<tr>
+              *		<td>&apos;</td>
+              *		<td>'</td>
+              *	</tr>
+              *	<tr>
+              *		<td>&#x9;</td>
+              *		<td>'</td>
+              *	</tr>
+              *	<tr>
+              *		<td>&apos;</td>
+              *		<td>\\t</td>
+              *	</tr>
+              *	<tr>
+              *		<td>&#xA;</td>
+              *		<td>\\n</td>
+              *	</tr>
+              *	<tr>
+              *		<td>&#xD;</td>
+              *		<td>\\r</td>
+              *	</tr>
+              * </table>
+              *
+              * @return A decoded string represents a property
+              */
+            XML.decodeProperty = function (str) {
+                var pairs = [
+                    new std.Pair("&amp;", "&"),
+                    new std.Pair("&lt;", "<"),
+                    new std.Pair("&gt;", ">"),
+                    new std.Pair("&quot;", "\""),
+                    new std.Pair("&apos;", "'"),
+                    new std.Pair("&#x9;", "\t"),
+                    new std.Pair("&#xA;", "\n"),
+                    new std.Pair("&#xD;", "\r"),
+                ];
+                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
+            };
+            /**
+             * <p> Decode a property. </p>
+             *
+             * <table>
+             *	<tr>
+             *		<th>Original</th>
+             *		<th>Encoded</th>
+             *	</tr>
+             *	<tr>
+             *		<td>\&</td>
+             *		<td>\&amp;</td>
+             *	</tr>
+             *	<tr>
+             *		<td>\<</td>
+             *		<td>\&lt;</td>
+             *	</tr>
+             *	<tr>
+             *		<td>\></td>
+             *		<td>\&gt;</td>
+             *	</tr>
+             *	<tr>
+             *		<td>\"</td>
+             *		<td>&quot;</td>
+             *	</tr>
+             *	<tr>
+             *		<td>'</td>
+             *		<td>&apos;</td>
+             *	</tr>
+             *	<tr>
+             *		<td>'</td>
+             *		<td>&#x9;</td>
+             *	</tr>
+             *	<tr>
+             *		<td>\\t</td>
+             *		<td>&apos;</td>
+             *	</tr>
+             *	<tr>
+             *		<td>\\n</td>
+             *		<td>&#xA;</td>
+             *	</tr>
+             *	<tr>
+             *		<td>\\r</td>
+             *		<td>&#xD;</td>
+             *	</tr>
+             * </table>
+             *
+             * @return A encoded string represents a property
+             */
+            XML.encodeProperty = function (str) {
+                var pairs = [
+                    new std.Pair("&", "&amp;"),
+                    new std.Pair("<", "&lt;"),
+                    new std.Pair(">", "&gt;"),
+                    new std.Pair("\"", "&quot;"),
+                    new std.Pair("'", "&apos;"),
+                    new std.Pair("\t", "&#x9;"),
+                    new std.Pair("\n", "&#xA;"),
+                    new std.Pair("\r", "&#xD;"),
+                ];
+                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
+            };
+            /* -------------------------------------------------------------
+                EXPORTS
+            ------------------------------------------------------------- */
+            /**
+             * <p> Convert the XML to a string. </p>
+             */
+            XML.prototype.toString = function (level) {
+                if (level === void 0) { level = 0; }
+                var str = library.StringUtil.tab(level) + "<" + this.tag;
+                var childrenString = "";
+                //PROPERTIES
+                for (var p_it = this.properties.begin(); p_it.equal_to(this.properties.end()) == false; p_it = p_it.next())
+                    str += " " + p_it.first + "=\"" + XML.encodeProperty(String(p_it.second)) + "\"";
+                if (this.size() == 0) {
+                    if (this.value != "")
+                        str += ">" + XML.encodeValue(String(this.value)) + "</" + this.tag + ">";
+                    else
+                        str += " />";
+                }
+                else {
+                    str += ">\n";
+                    for (var x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
+                        str += x_it.second.toString(level + 1);
+                    str += library.StringUtil.tab(level) + "</" + this.tag + ">";
+                }
+                return str;
+            };
+            /**
+             * <p> Convert the XML to HTML string. </p>
+             */
+            XML.prototype.toHTML = function (level) {
+                if (level === void 0) { level = 0; }
+                var str = library.StringUtil.htmlTab(level) + "&lt;" + this.tag;
+                var childrenString = "";
+                //PROPERTIES
+                for (var p_it = this.properties.begin(); p_it.equal_to(this.properties.end()) == false; p_it = p_it.next())
+                    str += " " + p_it.first + "=&quot;" + XML.encodeProperty(String(p_it.second)) + "&quot;";
+                if (this.size() == 0) {
+                    if (this.value != "")
+                        str += "&gt;" + XML.encodeValue(String(this.value)) + "</" + this.tag + ">";
+                    else
+                        str += " /&gt;";
+                }
+                else {
+                    str += "&gt;<br>\n";
+                    for (var x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
+                        str += x_it.second.toHTML(level + 1);
+                    str += library.StringUtil.htmlTab(level) + "&lt;/" + this.tag + "&gt;";
+                }
+                return str;
+            };
+            return XML;
+        }(std.HashMap));
+        library.XML = XML;
+        /**
+         * <p> List of XML(s) having same tag. </p>
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var XMLList = (function (_super) {
+            __extends(XMLList, _super);
+            /**
+             * <p> Default Constructor. </p>
+             */
+            function XMLList() {
+                _super.call(this);
+            }
+            XMLList.prototype.getTag = function () {
+                if (this.size() == 0)
+                    return null;
+                else
+                    return this.at(0).getTag();
+            };
+            /**
+             * <p> Convert XMLList to string. </p>
+             *
+             * @param level Level(depth) of the XMLList.
+             */
+            XMLList.prototype.toString = function (level) {
+                if (level === void 0) { level = 0; }
+                var str = "";
+                for (var i = 0; i < this.size(); i++)
+                    str += this.at(i).toString(level) + "\n";
+                return str;
+            };
+            /**
+             * <p> Convert XMLList to HTML string. </p>
+             *
+             * @param level Level(depth) of the XMLList.
+             */
+            XMLList.prototype.toHTML = function (level) {
+                if (level === void 0) { level = 0; }
+                var str = "";
+                for (var i = 0; i < this.size(); i++)
+                    str += this.at(i).toHTML(level) + "<br>\n";
+                return str;
+            };
+            return XMLList;
+        }(std.Vector));
+        library.XMLList = XMLList;
+    })(library = samchon.library || (samchon.library = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * <p> An entity, a standard data class. </p>
+         *
+         * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
+         * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
+         * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+         * Entity is not imposed but encouraged. </p>
+         *
+         * <p> As we could get advantages from standardization of message for network I/O with Invoke,
+         * we can get additional advantage from standardizing expression method of data class with Entity.
+         * We do not need to know a part of network communication. Thus, with the Entity, we can only
+         * concentrate on entity's own logics and relationships between another entities. Entity does not
+         * need to how network communications are being done. </p>
+         *
+         * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+         * protocol for network I/O but not a essential protocol must be kept. The expression method of
+         * Entity, using on network I/O, is expressed by XML string. </p>
+         *
+         * <p> If your own network system has a critical performance issue on communication data class,
+         * it would be better to using binary communication (with ByteArray).
+         * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var Entity = (function () {
+            /**
+             * <p> Default Constructor. </p>
+             */
+            function Entity() {
+                //NOTHING
+            }
+            Entity.prototype.construct = function (xml) {
+                // MEMBER VARIABLES; ATOMIC
+                var propertyMap = xml.getPropertyMap();
+                for (var v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
+                    if (this.hasOwnProperty(v_it.first) == true)
+                        if (typeof this[v_it.first] == "number")
+                            this[v_it.first] = parseFloat(v_it.second);
+                        else if (typeof this[v_it.first] == "string")
+                            this[v_it.first] = v_it.second;
+                // MEMBER ENTITIES
+                //for (let e_it = xml.begin(); e_it.equal_to(xml.end()) != true; e_it = e_it.next())
+                //{
+                //	if (this.hasOwnProperty(e_it.first) == true 
+                //		&& e_it.second.size() == 1 
+                //		&& (this[e_it.first] instanceof Entity || this[e_it.first] instanceof EntityArray)
+                //		&& this[e_it.first] != null)
+                //	{
+                //		let entity: IEntity = this[e_it.first];
+                //		let e_xml: library.XML = e_it.second.at(0);
+                //		if (entity == null)
+                //			continue;
+                //		entity.construct(e_xml);
+                //	}
+                //}
+            };
+            Entity.prototype.key = function () { return ""; };
+            Entity.prototype.toXML = function () {
+                var xml = new samchon.library.XML();
+                xml.setTag(this.TAG());
+                // MEMBERS
+                for (var key in this)
+                    if (typeof key == "string" &&
+                        (typeof this[key] == "string" || typeof this[key] == "number")) {
+                        xml.setProperty(key, this[key]);
+                    }
+                return xml;
+            };
+            return Entity;
+        }());
+        protocol.Entity = Entity;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../samchon/API.ts" />
+/// <reference path="../../samchon/library/XML.ts" />
+/// <reference path="../../samchon/collection/ArrayCollection.ts" />
+/// <reference path="../../samchon/protocol/Entity.ts" />
+if (typeof (exports) != "undefined") {
+    exports.library = samchon.library;
+    exports.collection = samchon.collection;
+    exports.protocol = samchon.protocol;
+}
+/// <reference path="../../samchon/API.ts" />
 /// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
@@ -3771,6 +3805,7 @@ var samchon;
             function ServerConnector(parent) {
                 this.parent = parent;
                 this.str = "";
+                this.onopen = null;
             }
             /**
              * <p> Connects to a cloud server with specified host and port. </p>
@@ -3803,8 +3838,13 @@ var samchon;
                         ip = "ws://" + ip;
                 }
                 this.socket = new WebSocket(ip + ":" + port);
-                this.socket.onopen = this.handleConnect;
-                this.socket.onmessage = this.handleReply;
+                var this_ = this;
+                this.socket.onopen = function (event) {
+                    this_.handleConnect(event);
+                };
+                this.socket.onmessage = function (event) {
+                    this_.handleReply(event);
+                };
             };
             /* ----------------------------------------------------
                 IPROTOCOL'S METHOD
@@ -3829,14 +3869,15 @@ var samchon;
             ServerConnector.prototype.handleConnect = function (event) {
                 if (this.onopen == null)
                     return;
-                this.onopen.apply([event]);
+                this.onopen(event);
             };
             /**
              * <p> Handling replied message. </p>
              */
             ServerConnector.prototype.handleReply = function (event) {
+                console.log("ServerConnector.handleReply:", event.data);
                 this.str += event.data;
-                var invokeArray;
+                var invokeArray = new Array();
                 var indexPair = null;
                 var sizePair = new std.Pair(0, 0);
                 var startIndex = 0;

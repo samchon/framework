@@ -543,12 +543,6 @@
     <ClInclude Include="..\samchon\protocol\FlashPolicyServer.hpp">
       <Filter>Header Files\protocol\common\miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IWebClient.hpp">
-      <Filter>Header Files\protocol\common\web-socket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IWebClientBase.hpp">
-      <Filter>Header Files\protocol\common\web-socket</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\IWebServer.hpp">
       <Filter>Header Files\protocol\common\web-socket</Filter>
     </ClInclude>
@@ -614,6 +608,9 @@
     </ClInclude>
     <ClInclude Include="..\samchon\HashMap.hpp">
       <Filter>Header Files\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IWebClient.hpp">
+      <Filter>Header Files\protocol\common\web-socket</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -809,12 +806,6 @@
     <ClCompile Include="..\samchon\protocol\ISQLEntity.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\IWebClientBase.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\IWebServer.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\protocol\ServerConnector.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
@@ -931,6 +922,12 @@
     </ClCompile>
     <ClCompile Include="..\samchon\library\EventDispatcher.cpp">
       <Filter>Source Files\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\IWebClient.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\IWebServer.cpp">
+      <Filter>Source Files\protocol</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

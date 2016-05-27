@@ -70,14 +70,14 @@ namespace namtree
 		/**
 		 * @brief Get value
 		 */
-		auto getValue() const -> double;
+		auto get_value() const -> double;
 
 		/* -------------------------------------------------------------------
 			EXPORTERS
 		------------------------------------------------------------------- */
 		virtual auto TAG() const->std::string override;
 
-		virtual auto toXML() const->std::shared_ptr<library::XML> override;
+		virtual auto to_XML() const->std::shared_ptr<library::XML> override;
 	};
 };
 };

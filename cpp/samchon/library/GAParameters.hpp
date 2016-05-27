@@ -86,10 +86,10 @@ namespace library
 
 		virtual void construct(std::shared_ptr<XML> xml) override
 		{
-			generation = xml->getProperty<size_t>("generation");
-			population = xml->getProperty<size_t>("population");
-			tournament = xml->getProperty<size_t>("tournament");
-			mutationRate = xml->getProperty<double>("mutationRate");
+			generation = xml->get_property<size_t>("generation");
+			population = xml->get_property<size_t>("population");
+			tournament = xml->get_property<size_t>("tournament");
+			mutationRate = xml->get_property<double>("mutationRate");
 		};
 
 		/* -----------------------------------------------------------
@@ -169,13 +169,13 @@ namespace library
 		{
 			return "gaParameters";
 		};
-		virtual auto toXML() const -> std::shared_ptr<library::XML> override
+		virtual auto to_XML() const -> std::shared_ptr<library::XML> override
 		{
-			std::shared_ptr<XML> &xml = super::toXML();
-			xml->setProperty("generation", generation);
-			xml->setProperty("population", population);
-			xml->setProperty("tournament", tournament);
-			xml->setProperty("mutationRate", mutationRate);
+			std::shared_ptr<XML> &xml = super::to_XML();
+			xml->set_property("generation", generation);
+			xml->set_property("population", population);
+			xml->set_property("tournament", tournament);
+			xml->set_property("mutationRate", mutationRate);
 
 			return xml;
 		};

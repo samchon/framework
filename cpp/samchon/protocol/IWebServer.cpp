@@ -9,6 +9,8 @@
 #include <samchon/library/Base64.hpp>
 #include <samchon/library/StringUtil.hpp>
 
+#include <samchon/protocol/WebSocketUtil.hpp>
+
 using namespace std;
 
 using namespace samchon;
@@ -75,18 +77,15 @@ void IWebServer::open()
 ----------------------------------------------------------------------- */
 auto IWebServer::handshake(Socket *socket) const -> bool
 {
-	ByteArray byteArray;
+	array<char, 1000> byte_array;
 	boost::system::error_code error;
 
-	byteArray.assign(1000, NULL);
-
-	size_t size = socket->read_some(boost::asio::buffer(byteArray), error);
+	size_t size = socket->read_some(boost::asio::buffer(byte_array), error);
 	if (error)
 		return false;
 
-	string header(byteArray.begin(), byteArray.begin() + size);
+	WeakString wstr(byte_array.data(), size);
 
-	WeakString wstr = header;
 	wstr = wstr.between("Sec-WebSocket-Key:", "\n").trim();
 	if(wstr.find("\r") != string::npos)
 		wstr = wstr.between("", "\r");
@@ -101,7 +100,7 @@ auto IWebServer::handshake(Socket *socket) const -> bool
 				"Sec-WebSocket-Accept: {1}\r\n" +
 				"\r\n",
 
-			calculateCertificationKey(wstr.str())
+			WebSocketUtil::encode_certification_key(wstr.str())
 		);
 
 	socket->write_some(boost::asio::buffer(handshake), error);
@@ -109,23 +108,4 @@ auto IWebServer::handshake(Socket *socket) const -> bool
 		return false;
 	else
 		return true;
-}
-auto IWebServer::calculateCertificationKey(const string &key64) const -> string
-{
-	string acceptKey = key64 + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-
-	boost::uuids::detail::sha1 hash;
-	hash.process_bytes(acceptKey.c_str(), acceptKey.size());
-
-	ByteArray bytes;
-	unsigned int digest[5];
-	hash.get_digest(digest);
-
-	for (size_t index = 0; index < 5; index++)
-		bytes.writeReversely //ENDIAN REVERSING
-		(
-			digest[index]
-		);
-
-	return Base64::encode(bytes);
 }

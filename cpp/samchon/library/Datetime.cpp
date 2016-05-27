@@ -189,9 +189,9 @@ int Datetime::getSecond() const
 }
 
 //TO_STRING
-auto Datetime::toString() const -> std::string
+auto Datetime::to_string() const -> std::string
 {
-	return super::toString() +
+	return super::to_string() +
 		StringUtil::substitute
 		(
 			" {1}:{2}:{3}",

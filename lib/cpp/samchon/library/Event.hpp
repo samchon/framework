@@ -79,7 +79,7 @@ namespace library
 		/**
 		 * @brief Get type of the Event
 		 */
-		auto getType() const -> int;
+		auto get_type() const -> int;
 	};
 };
 };

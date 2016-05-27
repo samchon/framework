@@ -37,8 +37,15 @@ namespace protocol
 		 */
 		virtual void connect() override;
 
+		virtual auto get_path() const -> std::string = 0;
+
+		virtual auto get_session_id() const -> std::string = 0;
+
 	protected:
 		virtual auto is_server() const -> bool;
+
+	private:
+		void handshake();
 	};
 };
 };

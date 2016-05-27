@@ -30,10 +30,10 @@ void DistributedSystem::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	performance = xml->getProperty<double>("performance");
+	performance = xml->get_property<double>("performance");
 }
 
-auto DistributedSystem::createChild(shared_ptr<XML>) -> ExternalSystemRole*
+auto DistributedSystem::create_child(shared_ptr<XML>) -> ExternalSystemRole*
 {
 	// DON'T MAKE CHILDREN IN SYSTEM. 
 	// IT'S THE REPONSIBILITY OF DISTRIBUTED_SYSTEM_ARRAY
@@ -48,7 +48,7 @@ SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(DistributedSystem, DistributedSystemRo
 ------------------------------------------------------------------ */
 void DistributedSystem::sendData(shared_ptr<Invoke> invoke)
 {
-	const string &listener = invoke->getListener();
+	const string &listener = invoke->get_listener();
 
 	for (size_t i = 0; i < size(); i++)
 	{
@@ -72,13 +72,13 @@ void DistributedSystem::replyData(shared_ptr<Invoke> invoke)
 /* ------------------------------------------------------------------
 	EXPORTERS
 ------------------------------------------------------------------ */
-auto DistributedSystem::toXML() const -> shared_ptr<XML>
+auto DistributedSystem::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	xml->setProperty("performance", performance);
+	shared_ptr<XML> &xml = super::to_XML();
+	xml->set_property("performance", performance);
 
 	if (invokeHistoryArray->empty() == false)
-		xml->push_back(invokeHistoryArray->toXML());
+		xml->push_back(invokeHistoryArray->to_XML());
 
 	return xml;
 }

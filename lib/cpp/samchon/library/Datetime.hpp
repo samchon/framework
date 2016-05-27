@@ -239,7 +239,7 @@ namespace library
 		*
 		* @return std::string expressing the Datetime
 		*/
-		virtual auto toString() const->std::string override;
+		virtual auto to_string() const->std::string override;
 	};
 };
 };

@@ -86,10 +86,10 @@ namespace packer
 
 		virtual void construct(shared_ptr<XML> xml) override
 		{
-			this->name = xml->getProperty("name");
-			this->price = xml->getProperty<int>("price");
-			this->volume = xml->getProperty<int>("volume");
-			this->weight = xml->getProperty<int>("weight");
+			this->name = xml->get_property("name");
+			this->price = xml->get_property<int>("price");
+			this->volume = xml->get_property<int>("volume");
+			this->weight = xml->get_property<int>("weight");
 		};
 
 		/* ---------------------------------------------------------
@@ -98,7 +98,7 @@ namespace packer
 		/**
 		 * @brief Get name
 		 */
-		auto getName() const -> string
+		auto get_name() const -> string
 		{
 			return name;
 		};
@@ -130,13 +130,13 @@ namespace packer
 		/* ---------------------------------------------------------
 			EXPORT
 		--------------------------------------------------------- */
-		virtual auto toXML() const -> shared_ptr<XML> override
+		virtual auto to_XML() const -> shared_ptr<XML> override
 		{
-			shared_ptr<XML> &xml = super::toXML();
-			xml->setProperty("name", name);
-			xml->setProperty("price", price);
-			xml->setProperty("volume", volume);
-			xml->setProperty("weight", weight);
+			shared_ptr<XML> &xml = super::to_XML();
+			xml->set_property("name", name);
+			xml->set_property("price", price);
+			xml->set_property("volume", volume);
+			xml->set_property("weight", weight);
 
 			return xml;
 		};
@@ -144,7 +144,7 @@ namespace packer
 		/**
 		 * @brief Return a string represents the Instance
 		 */
-		virtual auto toString() const -> string
+		virtual auto to_string() const -> string
 		{
 			return StringUtil::substitute
 				(

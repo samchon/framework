@@ -292,7 +292,7 @@ namespace library
 		 *
 		 * @return std::string expressing the Date
 		 */
-		virtual auto toString() const->std::string;
+		virtual auto to_string() const->std::string;
 	};
 };
 };

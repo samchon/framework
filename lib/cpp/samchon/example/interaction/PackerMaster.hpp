@@ -71,7 +71,7 @@ namespace interaction
 				make_shared<Invoke>
 				(
 					"optimize", 
-					packer->toXML()
+					packer->to_XML()
 				), 
 				caseGen.size()
 			);
@@ -94,9 +94,9 @@ namespace interaction
 				return;
 
 			cout << "Parallel optimization has completed." << endl;
-			cout << packer->toString() << endl << endl;
+			cout << packer->to_string() << endl << endl;
 
-			chiefDriver->sendData( make_shared<Invoke>("replyOptimization", packer->toXML()) );
+			chiefDriver->sendData( make_shared<Invoke>("replyOptimization", packer->to_XML()) );
 		};
 
 		/* ---------------------------------------------------------------------------------

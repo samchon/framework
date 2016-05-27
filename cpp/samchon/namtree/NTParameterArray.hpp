@@ -39,7 +39,7 @@ namespace namtree
 		virtual ~NTParameterArray() = default;
 
 	protected:
-		virtual auto createChild(std::shared_ptr<library::XML>)->NTParameter* override;
+		virtual auto create_child(std::shared_ptr<library::XML>)->NTParameter* override;
 	};
 };
 };

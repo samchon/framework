@@ -17,9 +17,9 @@ FTInstance::FTInstance(FTFolder *parent)
 }
 void FTInstance::construct(shared_ptr<XML> xml)
 {
-	uid = xml->getProperty<int>("uid");
-	name = xml->getProperty("name");
-	comment = xml->getProperty("comment");
+	uid = xml->get_property<int>("uid");
+	name = xml->get_property("name");
+	comment = xml->get_property("comment");
 }
 
 auto FTInstance::key() const -> string
@@ -34,7 +34,7 @@ auto FTInstance::getParent() const -> FTFolder*
 {
 	return parent;
 }
-auto FTInstance::getName() const -> string
+auto FTInstance::get_name() const -> string
 {
 	return name;
 }
@@ -43,12 +43,12 @@ auto FTInstance::getComment() const -> string
 	return comment;
 }
 
-auto FTInstance::toXML() const -> shared_ptr<XML>
+auto FTInstance::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	xml->setProperty("uid", uid);
-	xml->setProperty("name", name);
-	xml->setProperty("comment", comment);
+	shared_ptr<XML> &xml = super::to_XML();
+	xml->set_property("uid", uid);
+	xml->set_property("name", name);
+	xml->set_property("comment", comment);
 
 	return xml;
 }

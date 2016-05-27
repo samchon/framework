@@ -40,13 +40,13 @@ auto NTFile::getFunction() const -> SideFunction
 	return function;
 }
 
-auto NTFile::toXML() const -> shared_ptr<XML>
+auto NTFile::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	xml->push_back(parameterArray->toXML());
+	shared_ptr<XML> &xml = super::to_XML();
+	xml->push_back(parameterArray->to_XML());
 	
 	if (otherside != nullptr)
-		xml->setProperty("othersideUID", otherside->key());
+		xml->set_property("othersideUID", otherside->key());
 	
 	return xml;
 }

@@ -31,7 +31,7 @@ void DistributedSystemRole::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	performance = xml->getProperty<double>("performance");
+	performance = xml->get_property<double>("performance");
 }
 
 /* ------------------------------------------------------------------
@@ -63,13 +63,13 @@ void DistributedSystemRole::sendData(shared_ptr<Invoke> invoke)
 /* ------------------------------------------------------------------
 	EXPORTERS
 ------------------------------------------------------------------ */
-auto DistributedSystemRole::toXML() const -> shared_ptr<XML>
+auto DistributedSystemRole::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	xml->setProperty("performance", performance);
+	shared_ptr<XML> &xml = super::to_XML();
+	xml->set_property("performance", performance);
 
 	if (invokeHistoryArray->empty() == false)
-		xml->push_back(invokeHistoryArray->toXML());
+		xml->push_back(invokeHistoryArray->to_XML());
 
 	return xml;
 }

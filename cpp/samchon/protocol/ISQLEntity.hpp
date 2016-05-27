@@ -29,13 +29,9 @@ namespace protocol
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API ISQLEntity
+	class /*SAMCHON_FRAMEWORK_API*/ ISQLEntity
 	{
 	public:
-		/**
-		 * @brief Default Constructor.
-		 */
-		ISQLEntity();
 		virtual ~ISQLEntity() = default;
 
 		/**
@@ -50,7 +46,7 @@ namespace protocol
 		 *
 		 * @param stmt SQLStatement storing data of the Entity
 		 */
-		virtual void load(std::shared_ptr<library::SQLStatement> stmt);
+		virtual void load(std::shared_ptr<library::SQLStatement> stmt) {};
 
 		/**
 		 * @brief Archive data of entity to DB
@@ -63,7 +59,7 @@ namespace protocol
 		 *
 		 * @param stmt SQLStatement would store data of the Entity
 		 */
-		virtual void archive(std::shared_ptr<library::SQLStatement> stmt);
+		virtual void archive(std::shared_ptr<library::SQLStatement> stmt) {};
 
 		/**
 		 * @brief Get a sql-statement string represents the entity.
@@ -71,13 +67,16 @@ namespace protocol
 		 * @details
 		 * <p> ISQLEntity::toSL() is an abstract method returns a sql-statement string. </p>
 		 *
-		 * <p> However, if there's some parameter in a sql-statement string from the toString() method,
+		 * <p> However, if there's some parameter in a sql-statement string from the to_string() method,
 		 * it is categorized in dynamic sql. In that case, do not access table directly but indirect from
 		 * sql-procedure. Indirecting procedure is good for performance and security. </p>
 		 *
 		 * @return SQL storing record(s) to temporary table of a Procedure
 		 */
-		virtual auto toSQL() const->std::string;
+		virtual auto to_sql() const -> std::string
+		{
+			return "";
+		};
 	};
 };
 };

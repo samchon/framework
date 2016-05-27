@@ -16,7 +16,7 @@ SystemRole::SystemRole()
 }
 void SystemRole::construct(shared_ptr<XML> xml)
 {
-	this->name = xml->getProperty("name");
+	this->name = xml->get_property("name");
 
 	listeners.clear();
 	if(xml->has("listenerArray") == false || xml->get("listenerArray")->at(0)->has("listener") == false)
@@ -24,7 +24,7 @@ void SystemRole::construct(shared_ptr<XML> xml)
 	
 	shared_ptr<XMLList> &xmlList = xml->get("listenerArray")->at(0)->get("listener");
 	for(size_t i = 0; i < xmlList->size(); i++)
-		listeners.insert(xmlList->at(i)->getValue());
+		listeners.insert(xmlList->at(i)->get_value());
 }
 
 /* ------------------------------------------------------------------
@@ -48,10 +48,10 @@ auto SystemRole::TAG() const -> string
 	return "role";
 }
 
-auto SystemRole::toXML() const -> shared_ptr<XML>
+auto SystemRole::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	xml->setProperty("name", name);
+	shared_ptr<XML> &xml = super::to_XML();
+	xml->set_property("name", name);
 
 	if (listeners.empty() == false)
 	{
@@ -62,7 +62,7 @@ auto SystemRole::toXML() const -> shared_ptr<XML>
 		{
 			shared_ptr<XML> listener(new XML());
 			listener->setTag("listener");
-			listener->setValue(*it);
+			listener->set_value(*it);
 
 			listenerArray->push_back(listener);
 		}

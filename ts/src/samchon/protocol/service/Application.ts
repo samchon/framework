@@ -58,7 +58,7 @@ namespace samchon.protocol.service
 		 * @param ip An ip address of cloud server to connect.
 		 * @param port A port number of cloud server to connect.
 		 */
-		constructor(movie:Movie, ip: string, port: number)
+		constructor(movie: Movie, ip: string, port: number)
 		{
 			this.movie = movie;
 			this.socket = new ServerConnector(this);

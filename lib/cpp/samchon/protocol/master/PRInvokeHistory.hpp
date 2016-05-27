@@ -80,7 +80,7 @@ namespace master
 		/**
 		 * @brief Get index.
 		 */
-		inline auto getIndex() const->size_t;
+		inline auto get_index() const->size_t;
 
 		/**
 		 * @brief Get size.
@@ -95,7 +95,7 @@ namespace master
 		/* --------------------------------------------------------------------
 			EXPORTER
 		-------------------------------------------------------------------- */
-		virtual auto toXML() const->std::shared_ptr<library::XML> override;
+		virtual auto to_XML() const->std::shared_ptr<library::XML> override;
 	};
 };
 };

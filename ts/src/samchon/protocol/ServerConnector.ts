@@ -37,10 +37,7 @@ namespace samchon.protocol
 		 */
 		private socket: WebSocket;
 
-		/**
-		 * <p> Unused string from a server. </p>
-		 */
-		private str: string;
+		private binary_invoke: Invoke;
 
 		/**
 		 * <p> An open-event listener. </p>
@@ -53,8 +50,8 @@ namespace samchon.protocol
 		constructor(parent: IProtocol) 
 		{
 			this.parent = parent;
-
-			this.str = "";
+			
+			this.binary_invoke = null;
 			this.onopen = null;
 		}
 
@@ -142,65 +139,56 @@ namespace samchon.protocol
 		 */
 		private handleReply(event: MessageEvent): void
 		{
-			console.log("ServerConnector.handleReply:", event.data);
+			console.log("handle_reply: #" + event.data.length);
 
-			this.str += event.data;
-			let invokeArray: Array<Invoke> = new Array<Invoke>();
-
-			let indexPair: std.Pair<number, number> = null;
-			let sizePair: std.Pair<number, number> = new std.Pair<number, number>(0, 0);
-			let startIndex: number = 0;
-			let endIndex: number = 0;
-
-			while (true) 
+			if (this.binary_invoke == null)
 			{
-				let iPair: std.Pair<number, number> = new std.Pair<number, number>
+				let xml: library.XML = new library.XML(event.data);
+				let invoke: Invoke = new Invoke(xml);
+
+				// THE INVOKE MESSAGE INCLUDES BINARY DATA?
+				let is_binary: boolean = std.any_of
 					(
-						this.str.indexOf("<invoke", startIndex),
-						this.str.indexOf("</invoke>", startIndex)
-					); //FIND WORDS
-				if (iPair.first != -1) sizePair.first++;
-				if (iPair.second != -1) sizePair.second++; //AND COUNTS
-
-				if (indexPair == null && sizePair.first == 1) //IF IT MEANS THE START,
-					indexPair = new std.Pair(iPair.first, -1); //SPECIFY THE STARTING INDEX
-
-				//FAILED TO FIND ANYTHING
-				if (iPair.first == -1 || iPair.second == -1)
-					break;
-
-				/* FOUND SOMETHING FROM NOW ON */
-
-				//AN INVOKE HAS FOUND
-				if (indexPair != null && sizePair.first == sizePair.second)
-				{
-					let start: number = indexPair.first;
-					let end: number = indexPair.second + ("</invoke>").length;
-
-					let xml: library.XML = new library.XML(this.str.substring(start, end));
-					let invoke: Invoke = new Invoke(xml);
-					invokeArray.push(invoke);
-				
-					//CLEAR CURRENT'S INDEX PAIR
-					endIndex = end;
-					indexPair = null;
-				}
-
-				//ADJUST INDEX
-				startIndex = Math.max
-					(
-						Math.max(iPair.first, iPair.second),
-						1
+						invoke.begin(), invoke.end(),
+						function (parameter: InvokeParameter): boolean
+						{
+							return parameter.getType() == "ByteArray";
+						}
 					);
+
+				// IF EXISTS, REGISTER AND TERMINATE
+				if (is_binary)
+					this.binary_invoke = invoke;
+				else // IF NOT EXISTS, JUST SHIFT THE MESSAGE
+					this.replyData(invoke);
 			}
+			else
+			{
+				// FIND THE MATCHED PARAMETER
+				let it = std.find_if(this.binary_invoke.begin(), this.binary_invoke.end(),
+					function (parameter: InvokeParameter): boolean
+					{
+						return parameter.getType() == "ByteArray" && parameter.getValue() == null;
+					}
+				);
+				
+				// SET BINARY DATA
+				it.value.setValue(event.data);
 
-			//ERASE USED CHARACTERS
-			if (endIndex != 0)
-				this.str = this.str.substr(endIndex);
-
-			//CALL REPLY_DATA
-			for (let i: number = 0; i < invokeArray.length; i++)
-				this.replyData(invokeArray[i]);
+				// FIND THE REMAINED BINARY PARAMETER
+				it = std.find_if(it.next(), this.binary_invoke.end(),
+					function (parameter: InvokeParameter): boolean
+					{
+						return parameter.getType() == "ByteArray" && parameter.getValue() == null;
+					}
+				);
+				if (it.equal_to(this.binary_invoke.end()))
+				{
+					// AND IF NOT, SEND THE INVOKE MESSAGE
+					this.replyData(this.binary_invoke);
+					this.binary_invoke = null;
+				}
+			}
 		}
 	}
 }

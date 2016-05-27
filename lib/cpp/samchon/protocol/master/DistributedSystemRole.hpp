@@ -114,7 +114,7 @@ namespace master
 		/* ------------------------------------------------------------------
 			EXPORTERS
 		------------------------------------------------------------------ */
-		virtual auto toXML() const->std::shared_ptr<library::XML> override;
+		virtual auto to_XML() const->std::shared_ptr<library::XML> override;
 	};
 };
 };

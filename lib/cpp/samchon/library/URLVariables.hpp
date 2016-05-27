@@ -86,11 +86,11 @@ namespace library
 		 * @brief Get the string representing URLVariables
 		 * @details Returns a string object representing URLVariables following the URI\n
 		 *
-		 *	\li URLVariables({{"id", "jhnam88"}, {"name", "Jeongho Nam <http://samchon.org>"}}).toString() => "id=jhnam88&name=Jeongho+Nam"
+		 *	\li URLVariables({{"id", "jhnam88"}, {"name", "Jeongho Nam <http://samchon.org>"}}).to_string() => "id=jhnam88&name=Jeongho+Nam"
 		 *
 		 * @return A string representing URLVariables following the URI
 		 */
-		auto toString() const->std::string;
+		auto to_string() const->std::string;
 	};
 
 	SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API HashMap<std::string, std::string>;

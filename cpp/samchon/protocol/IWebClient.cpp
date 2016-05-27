@@ -8,7 +8,9 @@
 #include <samchon/ByteArray.hpp>
 #include <samchon/WeakString.hpp>
 #include <samchon/library/XML.hpp>
+
 #include <samchon/protocol/Invoke.hpp>
+#include <samchon/protocol/WebSocketUtil.hpp>
 
 using namespace std;
 using namespace samchon;
@@ -36,7 +38,7 @@ void IWebClient::listen()
 	shared_ptr<Invoke> binary_invoke;
 
 	// CLIENT ADDS MASK
-	unsigned char mask = is_server() ? 128 : 0;
+	unsigned char mask = is_server() ? WebSocketUtil::MASK : 0;
 
 	while (true)
 	{
@@ -48,26 +50,39 @@ void IWebClient::listen()
 			// READ HEADER
 			///////////////////////
 			array<unsigned char, 2> header_bytes;
-			bool is_text = true; // false then binary
+			unsigned char op_code; // false then binary
 			unsigned char size_header;
 
 			socket->read_some(boost::asio::buffer(header_bytes));
-			is_text = (header_bytes.at(0) == (unsigned char)129);
+			
+			// INVALID PROTOCOL, UNMASKED MESSAGE
+			if (is_server() == true && header_bytes[1] < WebSocketUtil::MASK)
+				throw domain_error("unmasked message from client has delivered.");
+			else if (is_server() == false && header_bytes[1] >= WebSocketUtil::MASK)
+				throw domain_error("masked message from server has delivered.");
+
+			// DECODE HEADER
+			op_code = header_bytes[0];
 			size_header = header_bytes.at(1) - mask;
+
+			if (op_code == WebSocketUtil::DISCONNECT)
+				break; // DISCONNECTION SIGNAL HAS ARRIVED
 
 			///////////////////////
 			// READ CONTENT SIZE
 			///////////////////////
-			if (size_header == (unsigned char)126)
+			if (size_header == (unsigned char)WebSocketUtil::TWO_BYTES)
 			{
+				// SIZE HEADER IS 2 BYTES
 				array<unsigned char, 2> size_bytes;
 				socket->read_some(boost::asio::buffer(size_bytes));
 
 				for (size_t c = 0; c < size_bytes.size(); c++)
 					content_size += size_bytes[c] << (8 * (size_bytes.size() - 1 - c));
 			}
-			else if (size_header == (unsigned char)127)
+			else if (size_header == (unsigned char)WebSocketUtil::EIGHT_BYTES)
 			{
+				// SIZE HEADER IS 8 BYTES
 				array<unsigned char, 8> size_bytes;
 				socket->read_some(boost::asio::buffer(size_bytes));
 
@@ -80,10 +95,12 @@ void IWebClient::listen()
 			///////////////////////
 			// READ CONTENTS
 			///////////////////////
-			if (is_text == true)
+			if (op_code == WebSocketUtil::TEXT)
 				binary_invoke = listen_string(content_size);
-			else
+			else if (op_code == WebSocketUtil::BINARY)
 				listen_binary(content_size, binary_invoke);
+			else
+				throw domain_error("Unknown opcode has delivered.");
 		}
 		catch (exception &)
 		{
@@ -138,7 +155,7 @@ auto IWebClient::listen_string(size_t size) -> shared_ptr<Invoke>
 	bool is_binary = std::any_of(invoke->begin(), invoke->end(), 
 		[](const shared_ptr<InvokeParameter> &parameter) -> bool
 		{
-			return parameter->getType() == "ByteArray";
+			return parameter->get_type() == "ByteArray";
 		}
 	);
 
@@ -159,12 +176,11 @@ void IWebClient::listen_binary(size_t size, shared_ptr<Invoke> &invoke)
 	param_it = find_if(invoke->begin(), invoke->end(),
 		[size](const shared_ptr<InvokeParameter> &parameter) -> bool
 		{
-			if (parameter->getType() != "ByteArray")
+			if (parameter->get_type() != "ByteArray")
 				return false;
 
-			const ByteArray &byteArray = parameter->referValue<ByteArray>();
-
-			return byteArray.empty() == true && byteArray.capacity() == size;
+			const ByteArray &byte_array = parameter->refer_value<ByteArray>();
+			return byte_array.empty() == true && byte_array.capacity() == size;
 		});
 
 	if (param_it == invoke->end())
@@ -174,7 +190,7 @@ void IWebClient::listen_binary(size_t size, shared_ptr<Invoke> &invoke)
 		return;
 	}
 	else
-		data = (ByteArray*) &((*param_it)->referValue<ByteArray>());
+		data = (ByteArray*) &((*param_it)->refer_value<ByteArray>());
 
 	if (is_server() == true)
 		listen_masked_data(socket, *data);
@@ -186,7 +202,7 @@ void IWebClient::listen_binary(size_t size, shared_ptr<Invoke> &invoke)
 			std::any_of(next(param_it), invoke->end(), 
 			[](const shared_ptr<InvokeParameter> &parameter) -> bool
 			{
-				return parameter->getType() == "ByteArray";
+				return parameter->get_type() == "ByteArray";
 			}) == true
 		)
 		return;
@@ -201,11 +217,11 @@ void IWebClient::sendData(shared_ptr<Invoke> invoke)
 
 	try
 	{
-		send_string(invoke->toXML()->toString());
+		send_string(invoke->to_XML()->to_string());
 
 		for (size_t i = 0; i < invoke->size(); i++)
-			if (invoke->at(i)->getType() == "ByteArray")
-				send_binary(invoke->at(i)->referValue<ByteArray>());
+			if (invoke->at(i)->get_type() == "ByteArray")
+				send_binary(invoke->at(i)->refer_value<ByteArray>());
 	}
 	catch (exception &e) {}
 }
@@ -238,7 +254,7 @@ void IWebClient::send_header(unsigned char type, size_t size)
 	ByteArray header;
 	header.write(type); //1000 0001
 
-	unsigned char mask = is_server() ? 0 : 128;
+	unsigned char mask = is_server() ? 0 : WebSocketUtil::MASK;
 
 	if (size < 126)
 	{
@@ -246,12 +262,12 @@ void IWebClient::send_header(unsigned char type, size_t size)
 	}
 	else if (size <= 0xFFFF)
 	{
-		header.write((unsigned char)(126 + mask));
+		header.write((unsigned char)(WebSocketUtil::TWO_BYTES + mask));
 		header.writeReversely((unsigned short)size);
 	}
 	else
 	{
-		header.write((unsigned char)127 + mask);
+		header.write((unsigned char)(WebSocketUtil::EIGHT_BYTES + mask));
 		header.writeReversely((unsigned long long)size);
 	}
 

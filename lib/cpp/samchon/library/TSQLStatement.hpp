@@ -40,7 +40,7 @@ namespace library
 		 *
 		 * @return XML represents records
 		 */
-		virtual auto toXML() const -> std::shared_ptr<XML> override;
+		virtual auto to_XML() const -> std::shared_ptr<XML> override;
 	};
 };
 };

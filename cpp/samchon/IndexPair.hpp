@@ -78,7 +78,7 @@ namespace samchon
 		 *
 		 * @return Index of the pair
 		 */
-		auto getIndex() const -> size_t
+		auto get_index() const -> size_t
 		{
 			return first;
 		};
@@ -88,7 +88,7 @@ namespace samchon
 		 *
 		 * @return Reference of value of the pair
 		 */
-		auto getValue() -> T&
+		auto get_value() -> T&
 		{
 			return second;
 		};
@@ -98,7 +98,7 @@ namespace samchon
 		 *
 		 * @return Const reference of value of the pair
 		 */
-		auto getValue() const -> const T&
+		auto get_value() const -> const T&
 		{
 			return second;
 		};

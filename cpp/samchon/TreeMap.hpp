@@ -8,7 +8,7 @@ namespace samchon
 	 * @brief Customized std::map.
 	 *
 	 * @details
-	 * <p> Map is a std::map some methods are modified. </p>
+	 * <p> TreeMap is a std::map some methods are modified. </p>
 	 *
 	 * <ul>
 	 *	<li>Addicted methods</li>
@@ -85,7 +85,7 @@ namespace samchon
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	template <typename _Kty, typename _Ty, typename _Pr = std::less<_Kty>, typename _Alloc = std::allocator<std::pair<const _Kty, _Ty>>>
-	class Map
+	class TreeMap
 		: public std::map<_Kty, _Ty, _Pr, _Alloc>
 	{
 	private:
@@ -177,7 +177,7 @@ namespace samchon
 
 			erase(it);
 
-			return std::move(val);
+			return val;
 		};
 	};
 };

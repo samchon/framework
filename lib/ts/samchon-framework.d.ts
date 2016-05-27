@@ -151,7 +151,7 @@ declare namespace samchon.library {
         /**
          * <p> Get value. </p>
          */
-        getValue(): any;
+        getValue(): string;
         /**
          * <p> Test wheter a property exists or not. </p>
          */
@@ -159,8 +159,8 @@ declare namespace samchon.library {
         /**
          * <p> Get property by its key. </p>
          */
-        getProperty(key: string): any;
-        getPropertyMap(): std.HashMap<string, any>;
+        getProperty(key: string): string;
+        getPropertyMap(): std.HashMap<string, string>;
         /**
          * <p> Set tag (identifier) of the XML. </p>
          */
@@ -193,11 +193,11 @@ declare namespace samchon.library {
          *
          * @param val A value to set
          */
-        setValue(str: any): void;
+        setValue(str: string): void;
         /**
          * <p> Set a property with its key. </p>
          */
-        setProperty(key: string, value: any): void;
+        setProperty(key: string, value: string): void;
         /**
          * <p> Erase a property by its key. </p>
          *
@@ -512,6 +512,95 @@ declare namespace samchon.collection {
 }
 declare namespace samchon.protocol {
     /**
+     * <p> An interface of entity. </p>
+     *
+     * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
+     * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
+     * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+     * Entity is not imposed but encouraged. </p>
+     *
+     * <p> As we could get advantages from standardization of message for network I/O with Invoke,
+     * we can get additional advantage from standardizing expression method of data class with Entity.
+     * We do not need to know a part of network communication. Thus, with the Entity, we can only
+     * concentrate on entity's own logics and relationships between another entities. Entity does not
+     * need to how network communications are being done. </p>
+     *
+     * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+     * protocol for network I/O but not a essential protocol must be kept. The expression method of
+     * Entity, using on network I/O, is expressed by XML string. </p>
+     *
+     * <p> If your own network system has a critical performance issue on communication data class,
+     * it would be better to using binary communication (with ByteArray).
+     * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IEntity {
+        /**
+         * <p> Construct data of the Entity from a XML object. </p>
+         *
+         * <p> Overrides the construct() method and fetch data of member variables from the XML. </p>
+         *
+         * <p> By recommended guidance, data representing member variables are contained in properties
+         * of the put XML object. </p>
+         *
+         * @param xml An xml used to contruct data of entity.
+         */
+        construct(xml: library.XML): any;
+        /**
+        * <p> Get a key that can identify the Entity uniquely. </p>
+        *
+        * <p> If identifier of the Entity is not atomic value, returns a string or paired object
+        * that can represents the composite identifier. </p>
+        */
+        key(): any;
+        /**
+         * <p> A tag name when represented by XML. </p>
+         *
+         * <ul>
+         * 	<li> <TAG {...properties} /> </li>
+         * </ul>
+         */
+        TAG(): string;
+        /**
+         * <p> Get a XML object represents the Entity. </p>
+         *
+         * <p> A member variable (not object, but atomic value like number, string or date) is categorized
+         * as a property within the framework of entity side. Thus, when overriding a toXML() method and
+         * archiving member variables to an XML object to return, puts each variable to be a property
+         * belongs to only a XML object. </p>
+         *
+         * <p> Don't archive the member variable of atomic value to XML::value causing enormouse creation
+         * of XML objects to number of member variables. An Entity must be represented by only a XML
+         * instance (tag). </p>
+         *
+         * <h4> Standard Usage. </h4>
+         * <code>
+         *<memberList>
+         *	<member id='jhnam88' name='Jeongho Nam' birthdate='1988-03-11' />
+         *	<member id='master' name='Administartor' birthdate='2011-07-28' />
+         *</memberList>
+         * </code>
+         *
+         * <h4> Non-standard usage abusing value. </h4>
+         * <code>
+         *<member>
+         *	<id>jhnam88</id>
+         *	<name>Jeongho Nam</name>
+         *	<birthdate>1988-03-11</birthdate>
+         *</member>
+         *<member>
+         *	<id>master</id>
+         *	<name>Administartor</name>
+         *	<birthdate>2011-07-28</birthdate>
+         *</member>
+         * </code>
+         *
+         * @return An XML object representing the Entity.
+         */
+        toXML(): library.XML;
+    }
+    /**
      * <p> An entity, a standard data class. </p>
      *
      * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
@@ -537,12 +626,21 @@ declare namespace samchon.protocol {
      */
     abstract class Entity implements IEntity {
         /**
-         * <p> Default Constructor. </p>
+         * Default Constructor.
          */
         constructor();
         construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
         key(): any;
+        /**
+         * @inheritdoc
+         */
         abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
         toXML(): library.XML;
     }
 }
@@ -1571,7 +1669,7 @@ declare namespace samchon.library {
         /**
          * <p> An array using for dividing each element index. </p>
          */
-        private dividerArray;
+        private divider_array;
         /**
          * <p> Construct from size of N and R. </p>
          *
@@ -1925,14 +2023,7 @@ declare namespace samchon.library {
     }
 }
 declare namespace samchon.protocol {
-    /**
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class EntityArray<Ety extends IEntity> extends std.Vector<Ety> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
+    interface IEntityArray<T extends IEntity> extends IEntity, std.base.IContainer<T> {
         /**
          * <p> Construct data of the Entity from an XML object. </p>
          *
@@ -1943,8 +2034,6 @@ declare namespace samchon.protocol {
          * of XML objects representing children are done by abstract method of EntityArray::toXML(). </p>
          *
          * <p> Constructs only data of EntityArray's own. </p>
-         *
-         * @inheritdoc
          */
         construct(xml: library.XML): void;
         /**
@@ -1956,11 +2045,7 @@ declare namespace samchon.protocol {
          *
          * @return A new child Entity belongs to EntityArray.
          */
-        protected abstract createChild(xml: library.XML): Ety;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
+        createChild(xml: library.XML): T;
         /**
          * <p> Whether have the item or not. </p>
          *
@@ -1992,15 +2077,11 @@ declare namespace samchon.protocol {
          *
          * @return A reference object of the mapped value (_Ty)
          */
-        get(key: string): Ety;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
+        get(key: string): T;
         /**
          * <p> A tag name of children objects. </p>
          */
-        abstract CHILD_TAG(): string;
+        CHILD_TAG(): string;
         /**
          * <p> Get an XML object represents the EntityArray. </p>
          *
@@ -2012,7 +2093,258 @@ declare namespace samchon.protocol {
          * EntityArray::toXML(). </p>
          *
          * <p> Archives only data of EntityArray's own. </p>
-         *
+         */
+        toXML(): library.XML;
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityArray<T extends IEntity> extends std.Vector<T> implements IEntityArray<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: string): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityList<T extends IEntity> extends std.List<T> implements IEntityArray<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: string): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityDeque<T extends IEntity> extends std.Deque<T> implements IEntityArray<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: string): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * @inheritdoc
+     */
+    interface IEntityCollection<T extends IEntity> extends IEntityArray<T>, collection.ICollection<T> {
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityArrayCollection<T extends IEntity> extends collection.ArrayCollection<T> implements IEntityCollection<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: string): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityListCollection<T extends IEntity> extends collection.ListCollection<T> implements IEntityCollection<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: string): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityDequeCollection<T extends IEntity> extends collection.DequeCollection<T> implements IEntityCollection<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: string): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
          * @inheritdoc
          */
         toXML(): library.XML;
@@ -2205,97 +2537,6 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     /**
-     * <p> An interface of entity. </p>
-     *
-     * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
-     * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
-     * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
-     * Entity is not imposed but encouraged. </p>
-     *
-     * <p> As we could get advantages from standardization of message for network I/O with Invoke,
-     * we can get additional advantage from standardizing expression method of data class with Entity.
-     * We do not need to know a part of network communication. Thus, with the Entity, we can only
-     * concentrate on entity's own logics and relationships between another entities. Entity does not
-     * need to how network communications are being done. </p>
-     *
-     * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
-     * protocol for network I/O but not a essential protocol must be kept. The expression method of
-     * Entity, using on network I/O, is expressed by XML string. </p>
-     *
-     * <p> If your own network system has a critical performance issue on communication data class,
-     * it would be better to using binary communication (with ByteArray).
-     * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IEntity {
-        /**
-         * <p> Construct data of the Entity from a XML object. </p>
-         *
-         * <p> Overrides the construct() method and fetch data of member variables from the XML. </p>
-         *
-         * <p> By recommended guidance, data representing member variables are contained in properties
-         * of the put XML object. </p>
-         *
-         * @param xml An xml used to contruct data of entity.
-         */
-        construct(xml: library.XML): any;
-        /**
-        * <p> Get a key that can identify the Entity uniquely. </p>
-        *
-        * <p> If identifier of the Entity is not atomic value, returns a string or paired object
-        * that can represents the composite identifier. </p>
-        */
-        key(): any;
-        /**
-         * <p> A tag name when represented by XML. </p>
-         *
-         * <ul>
-         * 	<li> &lt;TAG {...properties} /&gt; </li>
-         * </ul>
-         */
-        TAG(): string;
-        /**
-         * <p> Get a XML object represents the Entity. </p>
-         *
-         * <p> A member variable (not object, but atomic value like number, string or date) is categorized
-         * as a property within the framework of entity side. Thus, when overriding a toXML() method and
-         * archiving member variables to an XML object to return, puts each variable to be a property
-         * belongs to only a XML object. </p>
-         *
-         * <p> Don't archive the member variable of atomic value to XML::value causing enormouse creation
-         * of XML objects to number of member variables. An Entity must be represented by only a XML
-         * instance (tag). </p>
-         *
-         * <table>
-         *	<tr>
-         *		<th> Standard Usage </th>
-         *		<th> Non-standard usage abusing value </th>
-         *	</tr>
-         *	<tr>
-         *		<td>
-         *		  &lt;memberList&gt; <br>
-         *		  &lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt; <br>
-    &lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt; <br>
-&lt;/memberList&gt;
-         *		</td>
-         *		<td>
-         *		  &lt;member&gt;
-         *		  &lt;id&gt;jhnam88&lt;/id&gt;
-         *		  &lt;name&gt;Jeongho+Nam&lt;name&gt;
-         *		  &lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;
-         *		  &lt;/member&gt;
-         *		</td>
-         *	</tr>
-         * </table>
-         *
-         * @return An XML object representing the Entity.
-         */
-        toXML(): library.XML;
-    }
-}
-declare namespace samchon.protocol {
-    /**
      * <p> An interface for Invoke message chain. </p>
      *
      * <p> IProtocol is an interface for Invoke message, which is standard message of network I/O
@@ -2367,7 +2608,7 @@ declare namespace samchon.protocol {
         /**
          * @inheritdoc
          */
-        protected createChild(xml: library.XML): InvokeParameter;
+        createChild(xml: library.XML): InvokeParameter;
         /**
          * Get listener.
          */
@@ -2500,6 +2741,7 @@ declare namespace samchon.protocol {
         constructor(name: string, val: any);
         constructor(name: string, type: string, val: any);
         construct(xml: library.XML): void;
+        setValue(value: any): void;
         key(): any;
         /**
          * Get name.
@@ -2549,10 +2791,7 @@ declare namespace samchon.protocol {
          * <p> A socket for network I/O. </p>
          */
         private socket;
-        /**
-         * <p> Unused string from a server. </p>
-         */
-        private str;
+        private binary_invoke;
         /**
          * <p> An open-event listener. </p>
          */

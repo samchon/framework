@@ -38,16 +38,12 @@ namespace protocol
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API IHTMLEntity
+	class /*SAMCHON_FRAMEWORK_API*/ IHTMLEntity
 	{
 	public:
 		/* ------------------------------------------------------------------------------------
 			CONSTRUCTORS
 		------------------------------------------------------------------------------------ */
-		/**
-		 * @brief Default Constructor.
-		 */
-		IHTMLEntity();
 		virtual ~IHTMLEntity() = default;
 
 		/* ------------------------------------------------------------------------------------

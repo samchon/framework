@@ -49,7 +49,7 @@ void ExternalSystemArray::sendData(shared_ptr<Invoke> invoke)
 
 	for(size_t i = 0; i < size(); i++)
 		for(size_t j = 0; j < at(i)->size(); j++)
-			if (at(i)->at(j)->hasSendListener(invoke->getListener()) == true)
+			if (at(i)->at(j)->hasSendListener(invoke->get_listener()) == true)
 			{
 				thread(&ExternalSystemRole::sendData, at(i)->at(j).get(), invoke).detach();
 				has = true;

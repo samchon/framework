@@ -16,7 +16,7 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::library;
 
-HashMap<string, string> HTTPLoader::cookieMap;
+HashMap<string, string> HTTPLoader::cookie_map;
 
 void toClipboard(const string &);
 
@@ -56,9 +56,9 @@ auto HTTPLoader::getMethod() const -> int
 
 auto HTTPLoader::getCookie(const string &host) const -> string
 {
-	auto it = cookieMap.find(host);
+	auto it = cookie_map.find(host);
 
-	if (it == cookieMap.end())
+	if (it == cookie_map.end())
 		return "";
 	else
 		return it->second;
@@ -146,13 +146,13 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 			host.str(), path,
 			((parameters.empty() == true) 
 				? string("") 
-				: "?" + parameters.toString()),
+				: "?" + parameters.to_string()),
 			getCookie(host)
 		);
 	}
 	else
 	{
-		std::string &parameterStr = parameters.toString();
+		std::string &parameterStr = parameters.to_string();
 
 		header = StringUtil::substitute
 		(
@@ -229,7 +229,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 	{
 		string &cookie = headerMap.get("Set-Cookie");
 
-		((HashMap<string, string>*)&cookieMap)->set(host, cookie);
+		((HashMap<string, string>*)&cookie_map)->set(host, cookie);
 	}
 
 	// CONTENT-LENGTH
@@ -263,7 +263,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 		{
 			string &cookie = headerMap.get("Set-Cookie");
 
-			((Map<string, string>*)&cookieMap)->set(host, cookie);
+			((TreeMap<string, string>*)&cookie_map)->set(host, cookie);
 		}
 	}*/
 

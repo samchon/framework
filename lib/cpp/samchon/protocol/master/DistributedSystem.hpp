@@ -125,7 +125,7 @@ namespace master
 		virtual void construct(std::shared_ptr<library::XML>) override;
 
 	protected:
-		virtual auto createChild(std::shared_ptr<library::XML>)->ExternalSystemRole* override;
+		virtual auto create_child(std::shared_ptr<library::XML>)->ExternalSystemRole* override;
 
 	public:
 		// GETTER
@@ -140,7 +140,7 @@ namespace master
 		/* ------------------------------------------------------------------
 			EXPORTERS
 		------------------------------------------------------------------ */
-		virtual auto toXML() const->std::shared_ptr<library::XML> override;
+		virtual auto to_XML() const->std::shared_ptr<library::XML> override;
 	};
 };
 };

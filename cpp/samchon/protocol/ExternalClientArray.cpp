@@ -22,12 +22,12 @@ void ExternalClientArray::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	if(xml->hasProperty("myIP") == true)
-		this->myIP = xml->getProperty("myIP");
+	if(xml->has_property("myIP") == true)
+		this->myIP = xml->get_property("myIP");
 	else
 		this->myIP.clear();
 
-	this->port = xml->getProperty<int>("port");
+	this->port = xml->get_property<int>("port");
 }
 
 void ExternalClientArray::start()
@@ -49,7 +49,7 @@ auto ExternalClientArray::MY_IP() const -> string
 
 void ExternalClientArray::addClient(Socket *socket)
 {
-	ExternalClient *client = dynamic_cast<ExternalClient*>(createChild(nullptr));
+	ExternalClient *client = dynamic_cast<ExternalClient*>(create_child(nullptr));
 	
 	if(client == nullptr)
 		throw exception("invalid factory method");
@@ -69,12 +69,12 @@ void ExternalClientArray::addClient(Socket *socket)
 /* ------------------------------------------------------------------
 	EXPORTERS
 ------------------------------------------------------------------ */
-auto ExternalClientArray::toXML() const -> shared_ptr<XML>
+auto ExternalClientArray::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
+	shared_ptr<XML> &xml = super::to_XML();
 
 	if(myIP.empty() == false)
-		xml->setProperty("myIP", myIP);
+		xml->set_property("myIP", myIP);
 
 	return xml;
 }

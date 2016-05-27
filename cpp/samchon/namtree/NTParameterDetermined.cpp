@@ -17,9 +17,9 @@ NTParameterDetermined::NTParameterDetermined()
 }
 void NTParameterDetermined::construct(shared_ptr<XML> xml)
 {
-	label = xml->getProperty("label");
-	value = xml->hasProperty("value")
-		? xml->getProperty<double>("value") : INT_MIN;
+	label = xml->get_property("label");
+	value = xml->has_property("value")
+		? xml->get_property<double>("value") : INT_MIN;
 }
 
 auto NTParameterDetermined::key() const -> string
@@ -30,17 +30,17 @@ auto NTParameterDetermined::getLabel() const -> string
 {
 	return label;
 }
-auto NTParameterDetermined::getValue() const -> double
+auto NTParameterDetermined::get_value() const -> double
 {
 	return value;
 }
 
-auto NTParameterDetermined::toXML() const -> shared_ptr<XML>
+auto NTParameterDetermined::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	xml->setProperty("label", label);
+	shared_ptr<XML> &xml = super::to_XML();
+	xml->set_property("label", label);
 	if(value != INT_MIN)
-		xml->setProperty("value", value);
+		xml->set_property("value", value);
 
 	return xml;
 }

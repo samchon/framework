@@ -80,7 +80,7 @@ namespace library
 		/**
 		 * @brief Get name
 		 */
-		auto getName() const -> std::string;
+		auto get_name() const -> std::string;
 
 		/**
 		 * @brief Get comment
@@ -91,7 +91,7 @@ namespace library
 		/* ========================================================
 			EXPORTER
 		======================================================== */
-		virtual auto toXML() const -> std::shared_ptr<library::XML>;
+		virtual auto to_XML() const -> std::shared_ptr<library::XML>;
 	};
 };
 };

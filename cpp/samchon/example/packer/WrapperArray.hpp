@@ -100,7 +100,7 @@ namespace packer
 		};
 
 	protected:
-		virtual auto createChild(shared_ptr<XML>) -> Wrapper* override
+		virtual auto create_child(shared_ptr<XML>) -> Wrapper* override
 		{
 			return new Wrapper();
 		};
@@ -206,10 +206,10 @@ namespace packer
 			return "wrapper";
 		};
 
-		virtual auto toXML() const -> shared_ptr<XML> override
+		virtual auto to_XML() const -> shared_ptr<XML> override
 		{
-			shared_ptr<XML> &xml = super::toXML();
-			xml->addAllProperty(sample->toXML());
+			shared_ptr<XML> &xml = super::to_XML();
+			xml->add_all_properties(sample->to_XML());
 
 			return xml;
 		};
@@ -217,11 +217,11 @@ namespace packer
 		/**
 		 * @brief Return a string represents Wrapper(s) of same type
 		 */
-		auto toString() const -> string
+		auto to_string() const -> string
 		{
-			string str = "Category - " + sample->getName() + "\n";
+			string str = "Category - " + sample->get_name() + "\n";
 			for (size_t i = 0; i < size(); i++)
-				str += at(i)->toString() + "\n";
+				str += at(i)->to_string() + "\n";
 
 			return str;
 		};

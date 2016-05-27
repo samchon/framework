@@ -60,10 +60,10 @@ void ParallelClientArrayMediator::start()
 /* ------------------------------------------------------------------
 	EXPORTERS
 ------------------------------------------------------------------ */
-auto ParallelClientArrayMediator::toXML() const -> shared_ptr<XML>
+auto ParallelClientArrayMediator::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = network_super::toXML();
-	xml->push_back(slave->toXML());
+	shared_ptr<XML> &xml = network_super::to_XML();
+	xml->push_back(slave->to_XML());
 
 	return xml;
 }

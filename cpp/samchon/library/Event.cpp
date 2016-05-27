@@ -12,7 +12,7 @@ auto Event::getSource() const -> EventDispatcher*
 {
 	return source;
 }
-auto Event::getType() const -> int
+auto Event::get_type() const -> int
 {
 	return type;
 }

@@ -21,7 +21,7 @@ namespace namtree
 	 *
 	 * @details
 	 * <p> NTFactory class is a FTFactory and an abstract class creating and managing Nam-Tree objects. 
-	 * When overriding nam-tree module, do not override methods <i>createChild()</i> of file or criteria
+	 * When overriding nam-tree module, do not override methods <i>create_child()</i> of file or criteria
 	 * objects like NTFile, NTCriteria and NTSide. Only overrides method of creation in the NTFactory. </p>
 	 *
 	 *	\li Creator method of history data is not in NTFactory. It must be done by hand of user.

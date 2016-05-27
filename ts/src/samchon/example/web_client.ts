@@ -15,7 +15,7 @@
 				{
 					console.log("connected");
 
-					this_.sendData(new protocol.Invoke("sendMessage", "I am JavaScript Client", 3, 7));
+					this_.sendData(new protocol.Invoke("sendMessage", 99999, "I am JavaScript Client", 3, 7));
 				}
 				this.connector.connect("127.0.0.1", 37888);
 		}
@@ -29,14 +29,14 @@
 
         public sendData(invoke: protocol.Invoke): void
         {
-			console.log("sendData: #" + invoke.toXML().toString().length);
+			console.log("sendData: #" + invoke.toXML().toString());
 
             this.connector.sendData(invoke);
         }
 
         public replyData(invoke: protocol.Invoke): void
         {
-            console.log("message from cpp:", invoke.toXML().toString());
+            console.log("message from cpp:", invoke.getListener());
         }
     }
 

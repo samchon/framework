@@ -38,10 +38,10 @@ void NTCriteria::construct(shared_ptr<XML> xml)
 	leftSide->construct(xml->get("side")->at(0));
 	rightSide->construct(xml->get("side")->at(1));
 
-	operator_ = xml->getProperty<int>("operator");
-	weight = xml->getProperty<int>("weight");
+	operator_ = xml->get_property<int>("operator");
+	weight = xml->get_property<int>("weight");
 }
-auto NTCriteria::createChild(shared_ptr<XML> xml) -> NTCriteria*
+auto NTCriteria::create_child(shared_ptr<XML> xml) -> NTCriteria*
 {
 	return factory->createCriteria(this, xml);
 }
@@ -67,14 +67,14 @@ auto NTCriteria::calcRetrieved(NTIterator &iterator) const -> double
 		) ? weight : 0.0;
 }
 
-auto NTCriteria::toXML() const -> shared_ptr<XML>
+auto NTCriteria::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	xml->push_back( leftSide->toXML() );
-	xml->push_back( rightSide->toXML() );
+	shared_ptr<XML> &xml = super::to_XML();
+	xml->push_back( leftSide->to_XML() );
+	xml->push_back( rightSide->to_XML() );
 
-	xml->setProperty("operator", operator_);
-	xml->setProperty("weight", weight);
+	xml->set_property("operator", operator_);
+	xml->set_property("weight", weight);
 
 	return xml;
 }

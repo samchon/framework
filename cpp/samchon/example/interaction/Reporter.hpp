@@ -96,7 +96,7 @@ namespace interaction
 			cout << "----------------------------------------------------------------------------" << endl;
 			cout << "	TSP SOLVER" << endl;
 			cout << "----------------------------------------------------------------------------" << endl;
-			cout << scheduler.toString() << endl << endl;
+			cout << scheduler.to_string() << endl << endl;
 		};
 
 		/**
@@ -112,7 +112,7 @@ namespace interaction
 			cout << "----------------------------------------------------------------------------" << endl;
 			cout << "	PACKER" << endl;
 			cout << "----------------------------------------------------------------------------" << endl;
-			cout << packer.toString() << endl << endl;
+			cout << packer.to_string() << endl << endl;
 		};
 
 	public:

@@ -247,7 +247,7 @@ auto Date::toTM() const -> struct tm
 
 	return tm;
 }
-auto Date::toString() const -> std::string
+auto Date::to_string() const -> std::string
 {
 	return StringUtil::substitute
 		(

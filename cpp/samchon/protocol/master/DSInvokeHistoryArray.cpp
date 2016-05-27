@@ -12,7 +12,7 @@ DSInvokeHistoryArray::DSInvokeHistoryArray()
 	: super()
 {
 }
-auto DSInvokeHistoryArray::createChild(shared_ptr<XML>) -> InvokeHistory*
+auto DSInvokeHistoryArray::create_child(shared_ptr<XML>) -> InvokeHistory*
 {
 	return nullptr;
 }

@@ -127,7 +127,7 @@ namespace protocol
 		/**
 		 * @brief Get listener.
 		 */
-		auto getListener() const->std::string;
+		auto get_listener() const->std::string;
 
 		/**
 		 * @brief Get start time.
@@ -158,7 +158,7 @@ namespace protocol
 	public:
 		virtual auto TAG() const->std::string override;
 
-		virtual auto toXML() const->std::shared_ptr<library::XML> override;
+		virtual auto to_XML() const->std::shared_ptr<library::XML> override;
 
 		/**
 		 * @brief Get an Invoke message

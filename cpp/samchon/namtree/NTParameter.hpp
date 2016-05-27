@@ -54,7 +54,7 @@ namespace namtree
 		virtual void construct(std::shared_ptr<library::XML>) override;
 
 	protected:
-		virtual auto createChild(std::shared_ptr<library::XML>)->NTParameterDetermined* override;
+		virtual auto create_child(std::shared_ptr<library::XML>)->NTParameterDetermined* override;
 
 	public:
 		/* -------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace namtree
 		/**
 		 * @brief Get name
 		 */
-		auto getName() const->std::string;
+		auto get_name() const->std::string;
 
 		/**
 		 * @brief Get initial, default vlaue
@@ -78,7 +78,7 @@ namespace namtree
 		virtual auto TAG() const->std::string override;
 		virtual auto CHILD_TAG() const->std::string override;
 
-		virtual auto toXML() const->std::shared_ptr<library::XML> override;
+		virtual auto to_XML() const->std::shared_ptr<library::XML> override;
 	};
 };
 };

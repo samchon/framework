@@ -73,7 +73,8 @@
     <ClInclude Include="..\samchon\library\URLVariables.hpp" />
     <ClInclude Include="..\samchon\library\XML.hpp" />
     <ClInclude Include="..\samchon\library\XMLList.hpp" />
-    <ClInclude Include="..\samchon\Map.hpp" />
+    <ClInclude Include="..\samchon\protocol\IEntityChain.hpp" />
+    <ClInclude Include="..\samchon\TreeMap.hpp" />
     <ClInclude Include="..\samchon\namtree.hpp" />
     <ClInclude Include="..\samchon\namtree\INTExplore.hpp" />
     <ClInclude Include="..\samchon\namtree\NTCriteria.hpp" />
@@ -99,7 +100,6 @@
     <ClInclude Include="..\samchon\protocol\ExternalSystemRole.hpp" />
     <ClInclude Include="..\samchon\protocol\FlashPolicyServer.hpp" />
     <ClInclude Include="..\samchon\protocol\IClient.hpp" />
-    <ClInclude Include="..\samchon\protocol\IEntityChain.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp" />
     <ClInclude Include="..\samchon\protocol\IHTMLEntity.hpp" />
     <ClInclude Include="..\samchon\protocol\Invoke.hpp" />
@@ -166,12 +166,11 @@
     <ClInclude Include="..\samchon\protocol\UniqueEntityArray.hpp" />
     <ClInclude Include="..\samchon\protocol\UniqueEntityList.hpp" />
     <ClInclude Include="..\samchon\protocol\WebServerConnector.hpp" />
+    <ClInclude Include="..\samchon\protocol\WebSocketUtil.hpp" />
     <ClInclude Include="..\samchon\SmartPointer.hpp" />
     <ClInclude Include="..\samchon\WeakString.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\samchon\ByteArray.cpp" />
-    <ClCompile Include="..\samchon\library\Base64.cpp" />
     <ClCompile Include="..\samchon\library\CaseGenerator.cpp" />
     <ClCompile Include="..\samchon\library\Charset.cpp" />
     <ClCompile Include="..\samchon\library\CombinedPermutationGenerator.cpp" />
@@ -185,7 +184,6 @@
     <ClCompile Include="..\samchon\library\FTFolder.cpp" />
     <ClCompile Include="..\samchon\library\FTInstance.cpp" />
     <ClCompile Include="..\samchon\library\HTTPLoader.cpp" />
-    <ClCompile Include="..\samchon\library\Math.cpp" />
     <ClCompile Include="..\samchon\library\EventDispatcher.cpp" />
     <ClCompile Include="..\samchon\library\PermutationGenerator.cpp" />
     <ClCompile Include="..\samchon\library\ProgressEvent.cpp" />
@@ -196,13 +194,11 @@
     <ClCompile Include="..\samchon\library\SharedWriteLock.cpp" />
     <ClCompile Include="..\samchon\library\SQLi.cpp" />
     <ClCompile Include="..\samchon\library\SQLStatement.cpp" />
-    <ClCompile Include="..\samchon\library\StringUtil.cpp" />
     <ClCompile Include="..\samchon\library\TSQLi.cpp" />
     <ClCompile Include="..\samchon\library\TSQLStatement.cpp" />
     <ClCompile Include="..\samchon\library\UniqueReadLock.cpp" />
     <ClCompile Include="..\samchon\library\UniqueWriteLock.cpp" />
     <ClCompile Include="..\samchon\library\URLVariables.cpp" />
-    <ClCompile Include="..\samchon\library\XML.cpp" />
     <ClCompile Include="..\samchon\namtree\INTExplore.cpp" />
     <ClCompile Include="..\samchon\namtree\NTCriteria.cpp" />
     <ClCompile Include="..\samchon\namtree\NTEntityGroup.cpp" />
@@ -213,8 +209,6 @@
     <ClCompile Include="..\samchon\namtree\NTParameterArray.cpp" />
     <ClCompile Include="..\samchon\namtree\NTParameterDetermined.cpp" />
     <ClCompile Include="..\samchon\namtree\NTSide.cpp" />
-    <ClCompile Include="..\samchon\protocol\Entity.cpp" />
-    <ClCompile Include="..\samchon\protocol\EntityGroup.cpp" />
     <ClCompile Include="..\samchon\protocol\ExternalClient.cpp" />
     <ClCompile Include="..\samchon\protocol\ExternalClientArray.cpp" />
     <ClCompile Include="..\samchon\protocol\ExternalServer.cpp" />
@@ -224,16 +218,10 @@
     <ClCompile Include="..\samchon\protocol\ExternalSystemRole.cpp" />
     <ClCompile Include="..\samchon\protocol\FlashPolicyServer.cpp" />
     <ClCompile Include="..\samchon\protocol\IClient.cpp" />
-    <ClCompile Include="..\samchon\protocol\IEntityChain.cpp" />
-    <ClCompile Include="..\samchon\protocol\IEntityGroup.cpp" />
-    <ClCompile Include="..\samchon\protocol\IHTMLEntity.cpp" />
-    <ClCompile Include="..\samchon\protocol\Invoke.cpp" />
     <ClCompile Include="..\samchon\protocol\InvokeHistory.cpp" />
     <ClCompile Include="..\samchon\protocol\InvokeHistoryArray.cpp" />
-    <ClCompile Include="..\samchon\protocol\InvokeParameter.cpp" />
     <ClCompile Include="..\samchon\protocol\IProtocol.cpp" />
     <ClCompile Include="..\samchon\protocol\IServer.cpp" />
-    <ClCompile Include="..\samchon\protocol\ISQLEntity.cpp" />
     <ClCompile Include="..\samchon\protocol\IWebClient.cpp" />
     <ClCompile Include="..\samchon\protocol\IWebServer.cpp" />
     <ClCompile Include="..\samchon\protocol\master\DistributedSystem.cpp" />
@@ -274,7 +262,7 @@
     <ClCompile Include="..\samchon\protocol\SystemRole.cpp" />
     <ClCompile Include="..\samchon\protocol\UniqueAcquire.cpp" />
     <ClCompile Include="..\samchon\protocol\WebServerConnector.cpp" />
-    <ClCompile Include="..\samchon\WeakString.cpp" />
+    <ClCompile Include="..\samchon\protocol\WebSocketUtil.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{546D9E83-296C-4FB6-9C76-2BBFEC92326F}</ProjectGuid>

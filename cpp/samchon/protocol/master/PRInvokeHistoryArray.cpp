@@ -11,7 +11,7 @@ PRInvokeHistoryArray::PRInvokeHistoryArray()
 	: super()
 {
 }
-auto PRInvokeHistoryArray::createChild(shared_ptr<XML>) -> InvokeHistory*
+auto PRInvokeHistoryArray::create_child(shared_ptr<XML>) -> InvokeHistory*
 {
 	return new PRInvokeHistory();
 }

@@ -23,7 +23,7 @@ namespace samchon
 	{
 	private:
 		/**
-		 * @brief Map of use count of each pointer
+		 * @brief TreeMap of use count of each pointer
 		 */
 		static std::map<_Ty*, size_t> useCountMap;
 

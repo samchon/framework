@@ -4,7 +4,7 @@
 #include <samchon/namtree/NTFile.hpp>
 #include <samchon/namtree/NTIterator.hpp>
 
-#include <samchon/Map.hpp>
+#include <samchon/TreeMap.hpp>
 #include <samchon/library/XML.hpp>
 
 using namespace std;
@@ -25,15 +25,15 @@ NTSide::NTSide(NTFactory *factory)
 void NTSide::construct(shared_ptr<XML> xml)
 {
 	
-	if (xml->hasProperty("parameterArray") == false)
+	if (xml->has_property("parameterArray") == false)
 		return;
 
 	shared_ptr<XMLList> &parameterList = xml->get("parameterArray");
 	for (auto it = parameterList->begin(); it != parameterList->end(); it++)
 	{
 		shared_ptr<XML> &parameter = *it;
-		string &name = parameter->getProperty("name");
-		string &strValue = parameter->getValue();
+		string &name = parameter->get_property("name");
+		string &strValue = parameter->get_value();
 
 		parameters.push_back
 		(
@@ -53,10 +53,10 @@ auto NTSide::calcRetrieved(NTIterator &iterator) const -> double
 	return file->getFunction()(iterator, parameters);
 }
 
-auto NTSide::toXML() const -> shared_ptr<XML>
+auto NTSide::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	xml->setProperty("fileUID", file->key());
+	shared_ptr<XML> &xml = super::to_XML();
+	xml->set_property("fileUID", file->key());
 
 	shared_ptr<XML> parameterListXML(new XML());
 	parameterListXML->setTag("parameterArray");
@@ -69,7 +69,7 @@ auto NTSide::toXML() const -> shared_ptr<XML>
 		if (*it != INT_MIN)
 			continue;
 		
-		parameter->setValue( to_string(*it) );
+		parameter->set_value( to_string(*it) );
 		parameterListXML->push_back(parameter);
 	}
 	xml->push_back(parameterListXML);

@@ -28,7 +28,7 @@ namespace samchon.protocol
 		/** 
 		 * <p> Value of the parameter. </p>
 		 */
-		protected value: any;
+		protected value: any = null;
 
 		public constructor();
 		public constructor(name: string, val: any);
@@ -66,13 +66,18 @@ namespace samchon.protocol
 			this.type = xml.getProperty("type");
 
 			if (this.type == "number")
-				this.value = parseFloat(xml.getProperty("value"));
+				this.value = parseFloat(xml.getValue());
 			else if (this.type == "string")
-				this.value = xml.getProperty("value");
+				this.value = xml.getValue();
 			else if (this.type == "XML")
 				this.value = xml.begin().second.at(0);
 			else
 				this.value = null;
+		}
+
+		public setValue(value: any): void
+		{
+			this.value = value;
 		}
 
 		/* -------------------------------------------------------------------
@@ -126,7 +131,7 @@ namespace samchon.protocol
 
 			// NOT CONSIDERED ABOUT THE BINARY DATA
 			if (this.type == "number" || this.type == "string")
-				xml.setProperty("value", this.value);
+				xml.setValue(this.value + "");
 			else if (this.type == "XML")
 				xml.push(this.value);
 

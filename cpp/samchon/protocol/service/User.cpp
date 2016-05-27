@@ -151,15 +151,15 @@ void User::replyData(shared_ptr<Invoke> invoke)
 {
 	KEEP_USER_ALIVE;
 
-	if (invoke->getListener() == "goLogin")
+	if (invoke->get_listener() == "goLogin")
 	{
 		this->goLogin(invoke);
 	}
-	else if(invoke->getListener() == "goJoin")
+	else if(invoke->get_listener() == "goJoin")
 	{
 		this->goJoin(invoke);
 	}
-	else if(invoke->getListener() == "goLogout")
+	else if(invoke->get_listener() == "goLogout")
 	{
 		this->goLogout();
 	}

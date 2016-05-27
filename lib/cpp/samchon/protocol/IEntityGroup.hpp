@@ -29,7 +29,7 @@ namespace protocol
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API IEntityGroup
+	class /*SAMCHON_FRAMEWORK_API*/ IEntityGroup
 	{
 	protected:
 		/**
@@ -44,10 +44,6 @@ namespace protocol
 		virtual auto CHILD_TAG() const->std::string = 0;
 
 	public:
-		/**
-		 * @brief Default Constructor
-		 */
-		IEntityGroup();
 		virtual ~IEntityGroup() = default;
 	};
 };

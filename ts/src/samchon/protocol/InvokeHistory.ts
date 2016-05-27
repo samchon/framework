@@ -107,11 +107,9 @@ namespace samchon.protocol
 		public toXML(): library.XML
 		{
 			let xml: library.XML = super.toXML();
-			/*xml.setProperty("uid", this.uid);
-			xml.setProperty("listener", this.listener);*/
 
-			xml.setProperty("startTime", this.startTime.getTime() * Math.pow(10.0, 6));
-			xml.setProperty("endTime", this.endTime.getTime() * Math.pow(10.0, 6));
+			xml.setProperty("startTime", this.startTime.getTime() * Math.pow(10.0, 6) + "");
+			xml.setProperty("endTime", this.endTime.getTime() * Math.pow(10.0, 6) + "");
 
 			return xml;
 		}

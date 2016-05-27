@@ -97,7 +97,7 @@ namespace samchon.library
 		/**
 		 * <p> An array using for dividing each element index. </p>
 		 */
-		private dividerArray: Array<number>;
+		private divider_array: Array<number>;
 
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS
@@ -113,14 +113,14 @@ namespace samchon.library
 			super(n, r);
 
 			this.size_ = Math.pow(n, r);
-			this.dividerArray = new Array<number>();
+			this.divider_array = new Array<number>();
 
 			for (let i: number = 0; i < r; i++)
 			{
 				let x: number = r - (i + 1);
 				let val: number = Math.pow(n, x);
 
-				this.dividerArray.push(val);
+				this.divider_array.push(val);
 			}
 		}
 
@@ -129,7 +129,7 @@ namespace samchon.library
 			let row: Array<number> = new Array<number>();
 			for (let i: number = 0; i < this.r_; i++)
 			{
-				let val: number = Math.floor(index / this.dividerArray[i]) % this.n_;
+				let val: number = Math.floor(index / this.divider_array[i]) % this.n_;
 
 				row.push(val);
 			}

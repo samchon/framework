@@ -69,7 +69,7 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 {
 	static size_t CLOSED_PARENTHESIS = string("</invoke>").size();
 
-	if (piece.getPosition() >= size)
+	if (piece.get_position() >= size)
 		return;
 
 	// LIST OF INVOKE MESSAGES
@@ -136,7 +136,7 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 
 			invoke->construct(xml);
 
-			cout << invoke->toXML()->toString() << endl;
+			cout << invoke->to_XML()->to_string() << endl;
 
 			invokeList.push_back(invoke);
 
@@ -224,13 +224,13 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 	for (size_t i = 0; i < lastInvoke->size(); i++)
 	{
 		//IF HAS, TO HANDLE_BINARY
-		if (lastInvoke->at(i)->getType() == "ByteArray")
+		if (lastInvoke->at(i)->get_type() == "ByteArray")
 		{
 			baInvoke = lastInvoke;
 
-			piece.setPosition
+			piece.set_position
 			(
-				piece.getPosition() - 
+				piece.get_position() - 
 				(pieceString.size() - (pieceString.rfind("</invoke>") + CLOSED_PARENTHESIS))
 			);
 
@@ -245,52 +245,52 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 }
 void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &invoke, size_t size)
 {
-	if (piece.getPosition() >= size)
+	if (piece.get_position() >= size)
 		return;
 
-	ByteArray *byteArray = nullptr;
-	size_t position = piece.getPosition();
+	ByteArray *byte_array = nullptr;
+	size_t position = piece.get_position();
 	size_t param_index = 0;
 
 	//FIND WHICH PARAMETER IS BINARY
 	for (size_t i = 0; i < invoke->size(); i++)
-		if (invoke->at(i)->getType() == "ByteArray")
+		if (invoke->at(i)->get_type() == "ByteArray")
 		{
-			const ByteArray &ba = invoke->at(i)->referValue<ByteArray>();
+			const ByteArray &ba = invoke->at(i)->refer_value<ByteArray>();
 		
 			if (ba.size() < ba.capacity())
 			{
 				param_index = i;
-				byteArray = (ByteArray*)&ba;
+				byte_array = (ByteArray*)&ba;
 
 				break;
 			}
 		}
 
 	//IF THERE'S NOT BINARY TYPE
-	if(byteArray == nullptr)
+	if(byte_array == nullptr)
 		return;
 
 	//CALCULATE SIZE
-	size_t totalSize = byteArray->capacity();
-	size_t leftSize = totalSize - byteArray->size();
-	size_t writeSize = std::min(size - position, leftSize);
+	size_t totalSize = byte_array->capacity();
+	size_t left_size = totalSize - byte_array->size();
+	size_t writeSize = std::min(size - position, left_size);
 
 	//AND WRITES
-	byteArray->insert
+	byte_array->insert
 	(
-		byteArray->end(), 
+		byte_array->end(), 
 		piece.begin() + position, piece.begin() + (position + writeSize)
 	);
-	piece.setPosition( position + writeSize );
+	piece.set_position( position + writeSize );
 
 	// IF NOT FULFILLED, RETURNS
-	if (byteArray->size() < byteArray->capacity())
+	if (byte_array->size() < byte_array->capacity())
 		return;
 
 	//IF LAST BINARY
 	for(size_t i = param_index + 1; i < invoke->size(); i++)
-		if(invoke->at(i)->getType() == "ByteArray")
+		if(invoke->at(i)->get_type() == "ByteArray")
 			return;
 
 	// SHIFTS
@@ -308,7 +308,7 @@ void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &in
 ----------------------------------------------------------------------------------- */
 void IClient::sendData(shared_ptr<Invoke> invoke)
 {
-	string &data = invoke->toXML()->toString();
+	string &data = invoke->to_XML()->to_string();
 	boost::system::error_code error;
 
 	unique_lock<mutex> uk(*sendMtx);
@@ -321,10 +321,10 @@ void IClient::sendData(shared_ptr<Invoke> invoke)
 	}
 
 	for (size_t i = 0; i < invoke->size(); i++)
-		if (invoke->at(i)->getType() == "ByteArray")
+		if (invoke->at(i)->get_type() == "ByteArray")
 		{
-			const ByteArray &byteArray = invoke->at(i)->referValue<ByteArray>();
-			socket->write_some(boost::asio::buffer(byteArray), error);
+			const ByteArray &byte_array = invoke->at(i)->refer_value<ByteArray>();
+			socket->write_some(boost::asio::buffer(byte_array), error);
 
 			if (error)
 				return;

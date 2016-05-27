@@ -48,7 +48,7 @@ auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> std::string
 		shared_ptr<Invoke> invoke(new Invoke());
 		invoke->construct(xml);
 
-		sessionID = invoke->at(0)->getValue<string>();
+		sessionID = invoke->at(0)->get_value<string>();
 	}
 	
 	UniqueReadLock uk(server->mtx);
@@ -67,7 +67,7 @@ auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> std::string
 		shared_ptr<Invoke> invoke( new Invoke("notifySessionID") );
 		invoke->emplace_back( new InvokeParameter("id", sessionID) );
 		
-		std::string &data = invoke->toXML()->toString();
+		std::string &data = invoke->to_XML()->to_string();
 		boost::system::error_code error;
 
 		socket->write_some(boost::asio::buffer(data), error);

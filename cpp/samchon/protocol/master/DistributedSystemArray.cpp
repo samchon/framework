@@ -63,9 +63,9 @@ auto DistributedSystemArray::getRole(const string &key) const -> shared_ptr<Dist
 /* ------------------------------------------------------------------
 	EXPORTERS
 ------------------------------------------------------------------ */
-auto DistributedSystemArray::toXML() const -> shared_ptr<XML>
+auto DistributedSystemArray::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
+	shared_ptr<XML> &xml = super::to_XML();
 
 	if (roleDictionary.empty() == true)
 		return xml;
@@ -74,7 +74,7 @@ auto DistributedSystemArray::toXML() const -> shared_ptr<XML>
 	xml->setTag("roleArray");
 
 	for (auto it = roleDictionary.begin(); it != roleDictionary.end(); it++)
-		roleArray->push_back(it->second->toXML());
+		roleArray->push_back(it->second->to_XML());
 
 	xml->push_back(roleArray);
 

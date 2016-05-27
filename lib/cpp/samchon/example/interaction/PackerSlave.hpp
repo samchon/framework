@@ -65,8 +65,8 @@ namespace interaction
 			packer.construct(xml);
 			packer.optimize(index, size);
 
-			cout << packer.toString() << endl << endl;
-			sendOptimization(packer.toXML());
+			cout << packer.to_string() << endl << endl;
+			sendOptimization(packer.to_XML());
 		};
 
 	public:

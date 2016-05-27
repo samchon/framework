@@ -8,7 +8,7 @@ InvokeHistoryArray::InvokeHistoryArray()
 	: super()
 {
 }
-auto InvokeHistoryArray::createChild(shared_ptr<XML>) -> InvokeHistory*
+auto InvokeHistoryArray::create_child(shared_ptr<XML>) -> InvokeHistory*
 {
 	return new InvokeHistory();
 }

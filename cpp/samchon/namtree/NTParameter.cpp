@@ -23,13 +23,13 @@ void NTParameter::construct(shared_ptr<XML> xml)
 	super::construct(xml);
 	INTExplore::construct(xml);
 
-	name = xml->getProperty("name");
-	if (xml->hasProperty("initialValue"))
-		initialValue = xml->getProperty<double>("initialValue");
+	name = xml->get_property("name");
+	if (xml->has_property("initialValue"))
+		initialValue = xml->get_property<double>("initialValue");
 	else
 		initialValue = INT_MIN;
 }
-auto NTParameter::createChild(shared_ptr<XML>) -> NTParameterDetermined*
+auto NTParameter::create_child(shared_ptr<XML>) -> NTParameterDetermined*
 {
 	return new NTParameterDetermined();
 }
@@ -38,7 +38,7 @@ auto NTParameter::key() const -> string
 {
 	return name;
 }
-auto NTParameter::getName() const -> string
+auto NTParameter::get_name() const -> string
 {
 	return name;
 }
@@ -47,14 +47,14 @@ auto NTParameter::getInitialValue() const -> double
 	return initialValue;
 }
 
-auto NTParameter::toXML() const -> shared_ptr<XML>
+auto NTParameter::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	xml->addAllProperty(INTExplore::toXML());
+	shared_ptr<XML> &xml = super::to_XML();
+	xml->add_all_properties(INTExplore::to_XML());
 
-	xml->setProperty("name", name);
+	xml->set_property("name", name);
 	if (initialValue != INT_MIN)
-		xml->setProperty("initialValue", initialValue);
+		xml->set_property("initialValue", initialValue);
 	
 	return xml;
 }

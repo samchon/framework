@@ -92,7 +92,7 @@ namespace master
 
 
 	protected:
-		virtual auto createChild(std::shared_ptr<library::XML>)->ExternalSystemRole* override;
+		virtual auto create_child(std::shared_ptr<library::XML>)->ExternalSystemRole* override;
 
 		/* ------------------------------------------------------------------
 			CHAIN OF INVOKE MESSAGE
@@ -113,7 +113,7 @@ namespace master
 			EXPORTERS
 		------------------------------------------------------------------ */
 	public:
-		virtual auto toXML() const->std::shared_ptr<library::XML> override;
+		virtual auto to_XML() const->std::shared_ptr<library::XML> override;
 	};
 };
 };

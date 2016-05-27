@@ -40,9 +40,11 @@ public:
 
 	virtual void replyData(shared_ptr<Invoke> invoke) override
 	{
-		cout << "Got a message: " << invoke->getListener() << endl;
+		cout << "Got a message: " << endl;
+		cout << invoke->to_XML()->to_string() << endl;
 
-		sendData(make_shared<Invoke>("meesage from cpp"));
+		size_t size = invoke->at(0)->get_value<size_t>();
+		sendData(make_shared<Invoke>("meesage from cpp", string(size, 'A')));
 	};
 };
 

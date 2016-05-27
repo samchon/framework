@@ -27,7 +27,7 @@ namespace protocol
 		virtual ~InvokeHistoryArray() = default;
 
 	protected:
-		virtual auto createChild(std::shared_ptr<library::XML>)->InvokeHistory* override;
+		virtual auto create_child(std::shared_ptr<library::XML>)->InvokeHistory* override;
 
 	public:
 		virtual auto TAG() const->std::string;

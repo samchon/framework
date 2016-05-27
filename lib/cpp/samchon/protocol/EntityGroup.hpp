@@ -73,7 +73,7 @@ namespace protocol
 		 *
 		 * <p> Do not consider about constructing children Entity objects' data in EntityGroup::construct().
 		 * Those children Entity objects' data will constructed by their own construct() method. Even insertion
-		 * of XML objects representing children are done by abstract method of EntityGroup::toXML(). </p>
+		 * of XML objects representing children are done by abstract method of EntityGroup::to_XML(). </p>
 		 *
 		 * <p> Constructs only data of EntityGroup's own. </p>
 		 *
@@ -99,7 +99,7 @@ namespace protocol
 			{
 				std::shared_ptr<library::XML> &xmlElement = xmlList->at(i);
 
-				entity_type *entity = createChild(xmlElement);
+				entity_type *entity = create_child(xmlElement);
 				if (entity != nullptr)
 				{
 					entity->construct(xmlList->at(i));
@@ -113,13 +113,13 @@ namespace protocol
 		 * @brief Factory method of a child Entity.
 		 *
 		 * @details
-		 * <p> EntityGroup::createChild() is a factory method creating a new child Entity which is belonged
+		 * <p> EntityGroup::create_child() is a factory method creating a new child Entity which is belonged
 		 * to the EntityGroup. This method is called by EntityGroup::construct(). The children construction
 		 * methods Entity::construct() will be called by abstract method of the EntityGroup::construct(). </p>
 		 *
 		 * @return A new child Entity belongs to EntityGroup.
 		 */
-		virtual auto createChild(std::shared_ptr<library::XML>) -> entity_type* = 0;
+		virtual auto create_child(std::shared_ptr<library::XML>) -> entity_type* = 0;
 
 	public:
 		/* ------------------------------------------------------------------------------------
@@ -232,25 +232,25 @@ namespace protocol
 		 *
 		 * <p> Archives the EntityGroup's own member variables only to the returned XML object. </p>
 		 *
-		 * <p> Do not consider about archiving children Entity objects' data in EntityGroup::toXML().
-		 * Those children Entity objects will converted to XML object by their own toXML() method. The
+		 * <p> Do not consider about archiving children Entity objects' data in EntityGroup::to_XML().
+		 * Those children Entity objects will converted to XML object by their own to_XML() method. The
 		 * insertion of XML objects representing children are done by abstract method of
-		 * EntityGroup::toXML(). </p>
+		 * EntityGroup::to_XML(). </p>
 		 *
 		 * <p> Archives only data of EntityGroup's own. </p>
 		 *
 		 * \par [Inherited]
-		 *		@copydoc Entity::toXML()
+		 *		@copydoc Entity::to_XML()
 		 */
-		virtual auto toXML() const -> std::shared_ptr<library::XML>
+		virtual auto to_XML() const -> std::shared_ptr<library::XML>
 		{
-			std::shared_ptr<library::XML> &xml = Entity::toXML();
+			std::shared_ptr<library::XML> &xml = Entity::to_XML();
 
 			std::shared_ptr<library::XMLList> xmlList(new library::XMLList());
 			xmlList->reserve(this->size());
 
 			for (auto it = begin(); it != end(); it++)
-				xmlList->push_back((*it)->toXML());
+				xmlList->push_back((*it)->to_XML());
 
 			xml->set(CHILD_TAG(), xmlList);
 			return xml;

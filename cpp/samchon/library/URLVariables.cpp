@@ -115,7 +115,7 @@ auto URLVariables::fromHex(unsigned char ch) -> char
 /* ------------------------------------------------------------
 	TO_STRING
 ------------------------------------------------------------ */
-auto URLVariables::toString() const -> string
+auto URLVariables::to_string() const -> string
 {
 	string str = "";
 	for(const_iterator it = begin(); it != end(); it++)

@@ -19,8 +19,8 @@ void ExternalServer::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	if(xml->hasProperty("myIP") == true)
-		this->myIP = xml->getProperty("myIP");
+	if(xml->has_property("myIP") == true)
+		this->myIP = xml->get_property("myIP");
 	else
 		this->myIP.clear();
 }
@@ -51,12 +51,12 @@ auto ExternalServer::getMyIP() const -> string
 /* ------------------------------------------------------------------
 	EXPORTERS
 ------------------------------------------------------------------ */
-auto ExternalServer::toXML() const -> shared_ptr<XML>
+auto ExternalServer::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
+	shared_ptr<XML> &xml = super::to_XML();
 
 	if(myIP.empty() == false)
-		xml->setProperty("myIP", myIP);
+		xml->set_property("myIP", myIP);
 
 	return xml;
 }

@@ -19,10 +19,10 @@ ExternalSystem::ExternalSystem()
 }
 void ExternalSystem::construct(shared_ptr<XML> xml)
 {
-	this->name = xml->getProperty("name");
+	this->name = xml->get_property("name");
 
-	this->ip = xml->getProperty("ip");
-	this->port = xml->getProperty<int>("port");
+	this->ip = xml->get_property("ip");
+	this->port = xml->get_property<int>("port");
 
 	super::construct(xml);
 }
@@ -40,7 +40,7 @@ auto ExternalSystem::key() const -> string
 ------------------------------------------------------------------ */
 void ExternalSystem::replyData(shared_ptr<Invoke> invoke)
 {
-	string &listener = invoke->getListener();
+	string &listener = invoke->get_listener();
 
 	for(size_t i = 0; i < size(); i++)
 		if(at(i)->hasReplyListener(listener) == true)
@@ -59,12 +59,12 @@ auto ExternalSystem::CHILD_TAG() const -> string
 	return "role";
 }
 
-auto ExternalSystem::toXML() const -> shared_ptr<XML>
+auto ExternalSystem::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	xml->setProperty("name", name);
-	xml->setProperty("ip", ip);
-	xml->setProperty("port", port);
+	shared_ptr<XML> &xml = super::to_XML();
+	xml->set_property("name", name);
+	xml->set_property("ip", ip);
+	xml->set_property("port", port);
 
 	return xml;
 }

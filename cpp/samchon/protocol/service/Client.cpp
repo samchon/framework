@@ -66,7 +66,7 @@ void Client::sendData(shared_ptr<Invoke> invoke)
 	KEEP_CLIENT_ALIVE;
 
 	ByteArray header;
-	string &msg = invoke->toXML()->toString();
+	string &msg = invoke->to_XML()->to_string();
 	boost::system::error_code error;
 
 	header.push_back(129);
@@ -93,11 +93,11 @@ void Client::sendData(shared_ptr<Invoke> invoke)
 }
 void Client::replyData(shared_ptr<Invoke> invoke)
 {
-	std::string &listener = invoke->getListener();
+	std::string &listener = invoke->get_listener();
 
 	if (listener == "notifyService")
 	{
-		std::string &name = invoke->at(0)->getValue<string>();
+		std::string &name = invoke->at(0)->get_value<string>();
 
 		constructService(name);
 	}

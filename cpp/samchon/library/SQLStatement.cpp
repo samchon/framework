@@ -135,7 +135,7 @@ auto SQLStatement::size() const -> size_t
 /* -------------------------------------------------------------------
 	TO_XML
 ------------------------------------------------------------------- */
-auto SQLStatement::toXML() const -> shared_ptr<XML>
+auto SQLStatement::to_XML() const -> shared_ptr<XML>
 {
 	shared_ptr<XML> xml(new XML());
 	return xml;

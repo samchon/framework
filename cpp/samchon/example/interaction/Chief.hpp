@@ -90,7 +90,7 @@ namespace interaction
 		};
 
 	protected:
-		virtual auto createChild(shared_ptr<XML>) -> ExternalSystem*
+		virtual auto create_child(shared_ptr<XML>) -> ExternalSystem*
 		{
 			return new MasterDriver(this, "", "", 0);
 		};
@@ -142,7 +142,7 @@ namespace interaction
 				make_shared<Invoke>
 				(
 					"optimize", 
-					packer.toXML()
+					packer.to_XML()
 				)
 			);
 		};
@@ -166,7 +166,7 @@ namespace interaction
 
 			// SEND
 			tsp::Scheduler scheduler(travel, gaParameters);
-			get("TSP")->sendData(make_shared<Invoke>("optimize", scheduler.toXML()));
+			get("TSP")->sendData(make_shared<Invoke>("optimize", scheduler.to_XML()));
 		};
 
 	public:

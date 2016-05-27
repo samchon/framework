@@ -88,11 +88,10 @@ namespace tsp
 
 		virtual void construct(shared_ptr<XML> xml) override
 		{
-			super::construct(xml);
-			gaParameters.mutationRate = xml->getProperty<double>("mutationRate");
-			gaParameters.tournament = xml->getProperty<size_t>("tournament");
-			gaParameters.population = xml->getProperty<size_t>("population");
-			gaParameters.generation = xml->getProperty<size_t>("generation");
+			gaParameters.mutationRate = xml->get_property<double>("mutationRate");
+			gaParameters.tournament = xml->get_property<size_t>("tournament");
+			gaParameters.population = xml->get_property<size_t>("population");
+			gaParameters.generation = xml->get_property<size_t>("generation");
 
 			travel->construct(xml->get(travel->TAG())->at(0));
 		};
@@ -138,21 +137,21 @@ namespace tsp
 			return "scheduler";
 		};
 
-		virtual auto toXML() const -> shared_ptr<XML> override
+		virtual auto to_XML() const -> shared_ptr<XML> override
 		{
-			shared_ptr<XML> &xml = super::toXML();
-			xml->setProperty("mutationRate", gaParameters.mutationRate);
-			xml->setProperty("tournament", gaParameters.tournament);
-			xml->setProperty("population", gaParameters.population);
-			xml->setProperty("generation", gaParameters.generation);
+			shared_ptr<XML> &xml = super::to_XML();
+			xml->set_property("mutationRate", gaParameters.mutationRate);
+			xml->set_property("tournament", gaParameters.tournament);
+			xml->set_property("population", gaParameters.population);
+			xml->set_property("generation", gaParameters.generation);
 
-			xml->push_back(travel->toXML());
+			xml->push_back(travel->to_XML());
 			return xml;
 		};
 
-		auto toString() const -> string
+		auto to_string() const -> string
 		{
-			return travel->toString();
+			return travel->to_string();
 		};
 
 		/* -----------------------------------------------------------
@@ -171,7 +170,7 @@ namespace tsp
 			travel = scheduler.optimize();
 
 			// PRINTING
-			string &str = travel->toString();
+			string &str = travel->to_string();
 
 			toClipboard(str);
 			cout << str << endl;

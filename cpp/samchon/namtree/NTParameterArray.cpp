@@ -15,7 +15,7 @@ NTParameterArray::NTParameterArray()
 	: super()
 {
 }
-auto NTParameterArray::createChild(shared_ptr<XML>) -> NTParameter*
+auto NTParameterArray::create_child(shared_ptr<XML>) -> NTParameter*
 {
 	return new NTParameter();
 }

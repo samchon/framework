@@ -22,17 +22,11 @@
     <Filter Include="Header Files\nam-tree">
       <UniqueIdentifier>{afae2518-1916-4a42-bc34-19d8983c6994}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\library\common">
-      <UniqueIdentifier>{2802d471-4115-4207-8883-d33cd2bb08e2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\basic">
       <UniqueIdentifier>{fb8fb87d-2054-4a03-914f-cfc5c7092dce}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\nam-tree">
       <UniqueIdentifier>{2381aa7c-4573-4bd3-81db-a67f5bfefdbb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\basic">
-      <UniqueIdentifier>{982e7f1e-5f88-4a39-9aef-e09e5d12e0e1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\library">
       <UniqueIdentifier>{a21837fe-8bc4-4739-bcf7-ae9647c60470}</UniqueIdentifier>
@@ -78,18 +72,6 @@
     </Filter>
     <Filter Include="Header Files\library\utils\string">
       <UniqueIdentifier>{2e2af994-b0b8-4fa7-a703-57ac927dc75f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\common\critical section">
-      <UniqueIdentifier>{ebb9c0ef-0284-46c5-9f26-0f4ce6f16609}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\common\critical section\container">
-      <UniqueIdentifier>{2ff36964-b86d-4387-8c3d-dcd821118953}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\common\critical section\unique_lock">
-      <UniqueIdentifier>{7f7bac72-f20a-442c-bab0-61f4e660d126}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\common\event">
-      <UniqueIdentifier>{bad49f11-60d3-49bb-b3bd-3cc6c762e62b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\library\file-tree">
       <UniqueIdentifier>{538f3934-f1f0-4f86-848e-7d12067353cc}</UniqueIdentifier>
@@ -163,6 +145,21 @@
     <Filter Include="Header Files\protocol\common\external system\client">
       <UniqueIdentifier>{1370faad-ee1a-415c-8e66-a060a4b42534}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\library\data\common">
+      <UniqueIdentifier>{2802d471-4115-4207-8883-d33cd2bb08e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\data\common\critical section">
+      <UniqueIdentifier>{ebb9c0ef-0284-46c5-9f26-0f4ce6f16609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\data\common\critical section\container">
+      <UniqueIdentifier>{2ff36964-b86d-4387-8c3d-dcd821118953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\data\common\critical section\unique_lock">
+      <UniqueIdentifier>{7f7bac72-f20a-442c-bab0-61f4e660d126}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\data\common\event">
+      <UniqueIdentifier>{bad49f11-60d3-49bb-b3bd-3cc6c762e62b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\ByteArray.hpp">
@@ -172,9 +169,6 @@
       <Filter>Header Files\basic</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\IndexPair.hpp">
-      <Filter>Header Files\basic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\Map.hpp">
       <Filter>Header Files\basic</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\SmartPointer.hpp">
@@ -196,52 +190,52 @@
       <Filter>Header Files\library\utils\string</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\ErrorEvent.hpp">
-      <Filter>Header Files\library\common\event</Filter>
+      <Filter>Header Files\library\data\common\event</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\Event.hpp">
-      <Filter>Header Files\library\common\event</Filter>
+      <Filter>Header Files\library\data\common\event</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\ProgressEvent.hpp">
-      <Filter>Header Files\library\common\event</Filter>
+      <Filter>Header Files\library\data\common\event</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalDictionary.hpp">
-      <Filter>Header Files\library\common\critical section\container</Filter>
+      <Filter>Header Files\library\data\common\critical section\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalList.hpp">
-      <Filter>Header Files\library\common\critical section\container</Filter>
+      <Filter>Header Files\library\data\common\critical section\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalMap.hpp">
-      <Filter>Header Files\library\common\critical section\container</Filter>
+      <Filter>Header Files\library\data\common\critical section\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalSet.hpp">
-      <Filter>Header Files\library\common\critical section\container</Filter>
+      <Filter>Header Files\library\data\common\critical section\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalVector.hpp">
-      <Filter>Header Files\library\common\critical section\container</Filter>
+      <Filter>Header Files\library\data\common\critical section\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\UniqueAcquire.hpp">
-      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+      <Filter>Header Files\library\data\common\critical section\unique_lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\UniqueReadLock.hpp">
-      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+      <Filter>Header Files\library\data\common\critical section\unique_lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\UniqueWriteLock.hpp">
-      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+      <Filter>Header Files\library\data\common\critical section\unique_lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\SharedWriteLock.hpp">
-      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+      <Filter>Header Files\library\data\common\critical section\unique_lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\SharedAcquire.hpp">
-      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+      <Filter>Header Files\library\data\common\critical section\unique_lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\SharedReadLock.hpp">
-      <Filter>Header Files\library\common\critical section\unique_lock</Filter>
+      <Filter>Header Files\library\data\common\critical section\unique_lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\RWMutex.hpp">
-      <Filter>Header Files\library\common\critical section</Filter>
+      <Filter>Header Files\library\data\common\critical section</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\Semaphore.hpp">
-      <Filter>Header Files\library\common\critical section</Filter>
+      <Filter>Header Files\library\data\common\critical section</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\FTByteFile.hpp">
       <Filter>Header Files\library\file-tree</Filter>
@@ -289,10 +283,10 @@
       <Filter>Header Files\library\utils\math\case generator</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalAllocator.hpp">
-      <Filter>Header Files\library\common\critical section</Filter>
+      <Filter>Header Files\library\data\common\critical section</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\IOperator.hpp">
-      <Filter>Header Files\library\common</Filter>
+      <Filter>Header Files\library\data\common</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\Math.hpp">
       <Filter>Header Files\library\utils\math</Filter>
@@ -501,9 +495,6 @@
     <ClInclude Include="..\samchon\protocol\EntityList.hpp">
       <Filter>Header Files\protocol\common\entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntityChain.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp">
       <Filter>Header Files\protocol\common\entity</Filter>
     </ClInclude>
@@ -586,7 +577,7 @@
       <Filter>Header Files\protocol\common\external system\client</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\EventDispatcher.hpp">
-      <Filter>Header Files\library\common\event</Filter>
+      <Filter>Header Files\library\data\common\event</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library.hpp">
       <Filter>Header Files</Filter>
@@ -611,6 +602,15 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\IWebClient.hpp">
       <Filter>Header Files\protocol\common\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\WebSocketUtil.hpp">
+      <Filter>Header Files\protocol\common\web-socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\TreeMap.hpp">
+      <Filter>Header Files\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IEntityChain.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -644,15 +644,6 @@
     <ClCompile Include="..\samchon\namtree\NTSide.cpp">
       <Filter>Source Files\nam-tree</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\ByteArray.cpp">
-      <Filter>Source Files\basic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\WeakString.cpp">
-      <Filter>Source Files\basic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\XML.cpp">
-      <Filter>Source Files\library</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\library\URLVariables.cpp">
       <Filter>Source Files\library</Filter>
     </ClCompile>
@@ -666,9 +657,6 @@
       <Filter>Source Files\library</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\library\TSQLi.cpp">
-      <Filter>Source Files\library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\StringUtil.cpp">
       <Filter>Source Files\library</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\library\SQLStatement.cpp">
@@ -696,9 +684,6 @@
       <Filter>Source Files\library</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\library\PermutationGenerator.cpp">
-      <Filter>Source Files\library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\Math.cpp">
       <Filter>Source Files\library</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\library\HTTPLoader.cpp">
@@ -740,15 +725,6 @@
     <ClCompile Include="..\samchon\library\CaseGenerator.cpp">
       <Filter>Source Files\library</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\library\Base64.cpp">
-      <Filter>Source Files\library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\Entity.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\EntityGroup.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\protocol\ExternalClient.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
@@ -776,34 +752,16 @@
     <ClCompile Include="..\samchon\protocol\IClient.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\IEntityChain.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\IEntityGroup.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\IHTMLEntity.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\Invoke.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\protocol\InvokeHistory.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\InvokeHistoryArray.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\InvokeParameter.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\protocol\IProtocol.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\IServer.cpp">
-      <Filter>Source Files\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\ISQLEntity.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\ServerConnector.cpp">
@@ -927,6 +885,9 @@
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\IWebServer.cpp">
+      <Filter>Source Files\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\WebSocketUtil.cpp">
       <Filter>Source Files\protocol</Filter>
     </ClCompile>
   </ItemGroup>

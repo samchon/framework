@@ -17,16 +17,16 @@ InvokeHistory::InvokeHistory()
 InvokeHistory::InvokeHistory(shared_ptr<Invoke> invoke)
 	: super()
 {
-	this->uid = invoke->get("invoke_history_uid")->getValue<size_t>();
-	this->listener = invoke->getListener();
+	this->uid = invoke->get("invoke_history_uid")->get_value<size_t>();
+	this->listener = invoke->get_listener();
 
 	this->startTime = chrono::system_clock::now();
 }
 
 void InvokeHistory::construct(shared_ptr<XML> xml)
 {
-	this->uid = xml->getProperty<size_t>("uid");
-	this->listener = xml->getProperty("listener");
+	this->uid = xml->get_property<size_t>("uid");
+	this->listener = xml->get_property("listener");
 
 	startTime = chrono::system_clock::from_time_t(0);
 	endTime = chrono::system_clock::from_time_t(0);
@@ -40,7 +40,7 @@ void InvokeHistory::construct(shared_ptr<XML> xml)
 				ratio<100i64, 1i64>, 
 				nano
 			>
-		>(xml->getProperty<long long>("startTime"));
+		>(xml->get_property<long long>("startTime"));
 
 	endTime +=
 		chrono::duration
@@ -51,7 +51,7 @@ void InvokeHistory::construct(shared_ptr<XML> xml)
 				ratio<100i64, 1i64>, 
 				nano
 			>
-		>(xml->getProperty<long long>("endTime"));
+		>(xml->get_property<long long>("endTime"));
 }
 void InvokeHistory::notifyEnd()
 {
@@ -70,7 +70,7 @@ auto InvokeHistory::getUID() const -> size_t
 {
 	return uid;
 }
-auto InvokeHistory::getListener() const -> string
+auto InvokeHistory::get_listener() const -> string
 {
 	return listener;
 }
@@ -96,18 +96,18 @@ auto InvokeHistory::TAG() const -> string
 	return "invokeHistory";
 }
 
-auto InvokeHistory::toXML() const -> shared_ptr<XML>
+auto InvokeHistory::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
+	shared_ptr<XML> &xml = super::to_XML();
 	
-	xml->setProperty("uid", uid);
-	xml->setProperty("listener", listener);
-	xml->setProperty("startTime", startTime.time_since_epoch().count());
-	xml->setProperty("endTime", endTime.time_since_epoch().count());
+	xml->set_property("uid", uid);
+	xml->set_property("listener", listener);
+	xml->set_property("startTime", startTime.time_since_epoch().count());
+	xml->set_property("endTime", endTime.time_since_epoch().count());
 	
 	return xml;
 }
 auto InvokeHistory::toInvoke() const -> shared_ptr<Invoke>
 {
-	return shared_ptr<Invoke>(new Invoke("reportInvokeHistory", toXML()));
+	return shared_ptr<Invoke>(new Invoke("reportInvokeHistory", to_XML()));
 }

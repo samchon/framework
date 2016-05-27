@@ -100,7 +100,7 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		protected createChild(xml: library.XML): InvokeParameter
+		public createChild(xml: library.XML): InvokeParameter
 		{
 			return new InvokeParameter();
 		}

@@ -1,104 +1,25 @@
-/// <reference path="../API.ts" />
+﻿/// <reference path="../API.ts" />
+
+/// <reference path="../collection/ArrayCollection.ts" />
+/// <reference path="../collection/ListCollection.ts" />
+/// <reference path="../collection/DequeCollection.ts" />
 
 namespace samchon.protocol
 {
-	export interface IEntityArray<T extends IEntity>
-		extends IEntity, std.base.IContainer<T>
+	/**
+	 * @inheritdoc
+	 */
+	export interface IEntityCollection<T extends IEntity>
+		extends IEntityArray<T>, collection.ICollection<T>
 	{
-		/* ------------------------------------------------------------------
-			CONSTRUCTORS
-		------------------------------------------------------------------ */
-		/**
-		 * <p> Construct data of the Entity from an XML object. </p>
-		 *
-		 * <p> Constructs the EntityArray's own member variables only from the input XML object. </p>
-		 *
-		 * <p> Do not consider about constructing children Entity objects' data in EntityArray::construct(). 
-		 * Those children Entity objects' data will constructed by their own construct() method. Even insertion 
-		 * of XML objects representing children are done by abstract method of EntityArray::toXML(). </p>
-		 *
-		 * <p> Constructs only data of EntityArray's own. </p>
-		 */
-		construct(xml: library.XML): void;
-
-		/**
-		 * <p> Factory method of a child Entity. </p>
-		 *
-		 * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
-		 * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-		 * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-		 *
-		 * @return A new child Entity belongs to EntityArray.
-		 */
-		createChild(xml: library.XML): T;
-
-		/* ------------------------------------------------------------------
-			GETTERS
-		------------------------------------------------------------------ */
-		/**
-		 * <p> Whether have the item or not. </p>
-		 * 
-		 * <p> Indicates whether a map has an item having the specified identifier. </p>
-		 *
-		 * @param key Key value of the element whose mapped value is accessed.
-		 *
-		 * @return Whether the map has an item having the specified identifier.
-		 */
-		has(key: any): boolean;
-
-		/**
-		 * <p> Count elements with a specific key. </p>
-		 * 
-		 * <p> Searches the container for elements whose key is <i>key</i> and returns the number of elements found. </p>
-		 *
-		 * @param key Key value to be searched for.
-		 *
-		 * @return The number of elements in the container with a <i>key</i>.
-		 */
-		count(key: any): number;
-
-		/**
-		 * <p> Get an element </p>
-		 *
-		 * <p> Returns a reference to the mapped value of the element identified with <i>key</i>. </p>
-		 *
-		 * @param key Key value of the element whose mapped value is accessed.
-		 * 
-		 * @throw exception out of range
-		 * 
-		 * @return A reference object of the mapped value (_Ty)
-		 */
-		get(key: string): T;
-
-		/* ------------------------------------------------------------------
-			EXPORTERS
-		------------------------------------------------------------------ */
-		/**
-		 * <p> A tag name of children objects. </p>
-		 */
-		CHILD_TAG(): string;
-
-		/**
-		 * <p> Get an XML object represents the EntityArray. </p>
-		 *
-		 * <p> Archives the EntityArray's own member variables only to the returned XML object. </p>
-		 *
-		 * <p> Do not consider about archiving children Entity objects' data in EntityArray::toXML(). 
-		 * Those children Entity objects will converted to XML object by their own toXML() method. The 
-		 * insertion of XML objects representing children are done by abstract method of 
-		 * EntityArray::toXML(). </p>
-		 *
-		 * <p> Archives only data of EntityArray's own. </p>
-		 */
-		toXML(): library.XML;
-	}
+	};
 
 	/**
 	 * @inheritdoc
 	 */
-	export abstract class EntityArray<T extends IEntity>
-		extends std.Vector<T>
-		implements IEntityArray<T>
+	export abstract class EntityArrayCollection<T extends IEntity>
+		extends collection.ArrayCollection<T>
+		implements IEntityCollection<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -239,9 +160,9 @@ namespace samchon.protocol
 	/**
 	 * @inheritdoc
 	 */
-	export abstract class EntityList<T extends IEntity>
-		extends std.List<T>
-		implements IEntityArray<T>
+	export abstract class EntityListCollection<T extends IEntity>
+		extends collection.ListCollection<T>
+		implements IEntityCollection<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -382,9 +303,9 @@ namespace samchon.protocol
 	/**
 	 * @inheritdoc
 	 */
-	export abstract class EntityDeque<T extends IEntity>
-		extends std.Deque<T>
-		implements IEntityArray<T>
+	export abstract class EntityDequeCollection<T extends IEntity>
+		extends collection.DequeCollection<T>
+		implements IEntityCollection<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS

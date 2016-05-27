@@ -1713,7 +1713,7 @@ var samchon;
                 this.connector.onopen =
                     function (event) {
                         console.log("connected");
-                        this_.sendData(new samchon.protocol.Invoke("sendMessage", "I am JavaScript Client", 3, 7));
+                        this_.sendData(new samchon.protocol.Invoke("sendMessage", 99999, "I am JavaScript Client", 3, 7));
                     };
                 this.connector.connect("127.0.0.1", 37888);
             }
@@ -1722,11 +1722,11 @@ var samchon;
                 this.sendData(new samchon.protocol.Invoke("sendMessage", "I am JavaScript Client", 3, 7));
             };
             WebClient.prototype.sendData = function (invoke) {
-                console.log("sendData: #" + invoke.toXML().toString().length);
+                console.log("sendData: #" + invoke.toXML().toString());
                 this.connector.sendData(invoke);
             };
             WebClient.prototype.replyData = function (invoke) {
-                console.log("message from cpp:", invoke.toXML().toString());
+                console.log("message from cpp:", invoke.getListener());
             };
             return WebClient;
         }());
@@ -1814,17 +1814,17 @@ var samchon;
             function CombinedPermutationGenerator(n, r) {
                 _super.call(this, n, r);
                 this.size_ = Math.pow(n, r);
-                this.dividerArray = new Array();
+                this.divider_array = new Array();
                 for (var i = 0; i < r; i++) {
                     var x = r - (i + 1);
                     var val = Math.pow(n, x);
-                    this.dividerArray.push(val);
+                    this.divider_array.push(val);
                 }
             }
             CombinedPermutationGenerator.prototype.at = function (index) {
                 var row = new Array();
                 for (var i = 0; i < this.r_; i++) {
-                    var val = Math.floor(index / this.dividerArray[i]) % this.n_;
+                    var val = Math.floor(index / this.divider_array[i]) % this.n_;
                     row.push(val);
                 }
                 return row;
@@ -2639,7 +2639,7 @@ var samchon;
                     this.setProperty(it.first, it.second);
             };
             XML.prototype.clearProperties = function () {
-                this.properties = new std.HashMap();
+                this.properties.clear();
             };
             /* -------------------------------------------------------------
                 FILTERS
@@ -2977,7 +2977,7 @@ var samchon;
          */
         var Entity = (function () {
             /**
-             * <p> Default Constructor. </p>
+             * Default Constructor.
              */
             function Entity() {
                 //NOTHING
@@ -2991,23 +2991,14 @@ var samchon;
                             this[v_it.first] = parseFloat(v_it.second);
                         else if (typeof this[v_it.first] == "string")
                             this[v_it.first] = v_it.second;
-                // MEMBER ENTITIES
-                //for (let e_it = xml.begin(); e_it.equal_to(xml.end()) != true; e_it = e_it.next())
-                //{
-                //	if (this.hasOwnProperty(e_it.first) == true 
-                //		&& e_it.second.size() == 1 
-                //		&& (this[e_it.first] instanceof Entity || this[e_it.first] instanceof EntityArray)
-                //		&& this[e_it.first] != null)
-                //	{
-                //		let entity: IEntity = this[e_it.first];
-                //		let e_xml: library.XML = e_it.second.at(0);
-                //		if (entity == null)
-                //			continue;
-                //		entity.construct(e_xml);
-                //	}
-                //}
             };
+            /**
+             * @inheritdoc
+             */
             Entity.prototype.key = function () { return ""; };
+            /**
+             * @inheritdoc
+             */
             Entity.prototype.toXML = function () {
                 var xml = new samchon.library.XML();
                 xml.setTag(this.TAG());
@@ -3035,35 +3026,313 @@ if (typeof (exports) != "undefined") {
 }
 /// <reference path="../../samchon/API.ts" />
 /// <reference path="../API.ts" />
+/// <reference path="../collection/ArrayCollection.ts" />
+/// <reference path="../collection/ListCollection.ts" />
+/// <reference path="../collection/DequeCollection.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        ;
+        /**
+         * @inheritdoc
+         */
+        var EntityArrayCollection = (function (_super) {
+            __extends(EntityArrayCollection, _super);
+            function EntityArrayCollection() {
+                _super.apply(this, arguments);
+            }
+            /* ------------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------------ */
+            // using super::super;
+            /**
+             * @inheritdoc
+             */
+            EntityArrayCollection.prototype.construct = function (xml) {
+                this.clear();
+                // MEMBER VARIABLES; ATOMIC
+                var propertyMap = xml.getPropertyMap();
+                for (var v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
+                    if (typeof this[v_it.first] == "number" && v_it.first != "length")
+                        this[v_it.first] = parseFloat(v_it.second);
+                    else if (typeof this[v_it.first] == "string")
+                        this[v_it.first] = v_it.second;
+                //CHILDREN
+                if (xml.has(this.CHILD_TAG()) == false)
+                    return;
+                var xmlList = xml.get(this.CHILD_TAG());
+                for (var i = 0; i < xmlList.size(); i++) {
+                    var child = this.createChild(xmlList.at(i));
+                    if (child == null)
+                        continue;
+                    child.construct(xmlList.at(i));
+                    this.push(child);
+                }
+            };
+            /* ------------------------------------------------------------------
+                GETTERS
+            ------------------------------------------------------------------ */
+            /**
+             * @inheritdoc
+             */
+            EntityArrayCollection.prototype.key = function () {
+                return "";
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityArrayCollection.prototype.has = function (key) {
+                return std.any_of(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityArrayCollection.prototype.count = function (key) {
+                return std.count_if(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityArrayCollection.prototype.get = function (key) {
+                var it = std.find_if(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+                if (it.equal_to(this.end()))
+                    throw new std.OutOfRange("out of range");
+                return it.value;
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityArrayCollection.prototype.toXML = function () {
+                var xml = new samchon.library.XML();
+                xml.setTag(this.TAG());
+                // MEMBERS
+                for (var key in this)
+                    if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
+                        && (typeof this[key] == "string" || typeof this[key] == "number")) {
+                        // ATOMIC
+                        xml.setProperty(key, this[key] + "");
+                    }
+                // CHILDREN
+                for (var it = this.begin(); !it.equal_to(this.end()); it = it.next())
+                    xml.push(it.value.toXML());
+                return xml;
+            };
+            return EntityArrayCollection;
+        }(samchon.collection.ArrayCollection));
+        protocol.EntityArrayCollection = EntityArrayCollection;
+        /**
+         * @inheritdoc
+         */
+        var EntityListCollection = (function (_super) {
+            __extends(EntityListCollection, _super);
+            function EntityListCollection() {
+                _super.apply(this, arguments);
+            }
+            /* ------------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------------ */
+            // using super::super;
+            /**
+             * @inheritdoc
+             */
+            EntityListCollection.prototype.construct = function (xml) {
+                this.clear();
+                // MEMBER VARIABLES; ATOMIC
+                var propertyMap = xml.getPropertyMap();
+                for (var v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
+                    if (typeof this[v_it.first] == "number" && v_it.first != "length")
+                        this[v_it.first] = parseFloat(v_it.second);
+                    else if (typeof this[v_it.first] == "string")
+                        this[v_it.first] = v_it.second;
+                //CHILDREN
+                if (xml.has(this.CHILD_TAG()) == false)
+                    return;
+                var xmlList = xml.get(this.CHILD_TAG());
+                for (var i = 0; i < xmlList.size(); i++) {
+                    var child = this.createChild(xmlList.at(i));
+                    if (child == null)
+                        continue;
+                    child.construct(xmlList.at(i));
+                    this.push(child);
+                }
+            };
+            /* ------------------------------------------------------------------
+                GETTERS
+            ------------------------------------------------------------------ */
+            /**
+             * @inheritdoc
+             */
+            EntityListCollection.prototype.key = function () {
+                return "";
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityListCollection.prototype.has = function (key) {
+                return std.any_of(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityListCollection.prototype.count = function (key) {
+                return std.count_if(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityListCollection.prototype.get = function (key) {
+                var it = std.find_if(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+                if (it.equal_to(this.end()))
+                    throw new std.OutOfRange("out of range");
+                return it.value;
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityListCollection.prototype.toXML = function () {
+                var xml = new samchon.library.XML();
+                xml.setTag(this.TAG());
+                // MEMBERS
+                for (var key in this)
+                    if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
+                        && (typeof this[key] == "string" || typeof this[key] == "number")) {
+                        // ATOMIC
+                        xml.setProperty(key, this[key] + "");
+                    }
+                // CHILDREN
+                for (var it = this.begin(); !it.equal_to(this.end()); it = it.next())
+                    xml.push(it.value.toXML());
+                return xml;
+            };
+            return EntityListCollection;
+        }(samchon.collection.ListCollection));
+        protocol.EntityListCollection = EntityListCollection;
+        /**
+         * @inheritdoc
+         */
+        var EntityDequeCollection = (function (_super) {
+            __extends(EntityDequeCollection, _super);
+            function EntityDequeCollection() {
+                _super.apply(this, arguments);
+            }
+            /* ------------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------------ */
+            // using super::super;
+            /**
+             * @inheritdoc
+             */
+            EntityDequeCollection.prototype.construct = function (xml) {
+                this.clear();
+                // MEMBER VARIABLES; ATOMIC
+                var propertyMap = xml.getPropertyMap();
+                for (var v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
+                    if (typeof this[v_it.first] == "number" && v_it.first != "length")
+                        this[v_it.first] = parseFloat(v_it.second);
+                    else if (typeof this[v_it.first] == "string")
+                        this[v_it.first] = v_it.second;
+                //CHILDREN
+                if (xml.has(this.CHILD_TAG()) == false)
+                    return;
+                var xmlList = xml.get(this.CHILD_TAG());
+                for (var i = 0; i < xmlList.size(); i++) {
+                    var child = this.createChild(xmlList.at(i));
+                    if (child == null)
+                        continue;
+                    child.construct(xmlList.at(i));
+                    this.push(child);
+                }
+            };
+            /* ------------------------------------------------------------------
+                GETTERS
+            ------------------------------------------------------------------ */
+            /**
+             * @inheritdoc
+             */
+            EntityDequeCollection.prototype.key = function () {
+                return "";
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityDequeCollection.prototype.has = function (key) {
+                return std.any_of(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityDequeCollection.prototype.count = function (key) {
+                return std.count_if(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityDequeCollection.prototype.get = function (key) {
+                var it = std.find_if(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+                if (it.equal_to(this.end()))
+                    throw new std.OutOfRange("out of range");
+                return it.value;
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityDequeCollection.prototype.toXML = function () {
+                var xml = new samchon.library.XML();
+                xml.setTag(this.TAG());
+                // MEMBERS
+                for (var key in this)
+                    if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
+                        && (typeof this[key] == "string" || typeof this[key] == "number")) {
+                        // ATOMIC
+                        xml.setProperty(key, this[key] + "");
+                    }
+                // CHILDREN
+                for (var it = this.begin(); !it.equal_to(this.end()); it = it.next())
+                    xml.push(it.value.toXML());
+                return xml;
+            };
+            return EntityDequeCollection;
+        }(samchon.collection.DequeCollection));
+        protocol.EntityDequeCollection = EntityDequeCollection;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
         /**
-         * @author Jeongho Nam <http://samchon.org>
+         * @inheritdoc
          */
         var EntityArray = (function (_super) {
             __extends(EntityArray, _super);
+            function EntityArray() {
+                _super.apply(this, arguments);
+            }
             /* ------------------------------------------------------------------
                 CONSTRUCTORS
             ------------------------------------------------------------------ */
+            // using super::super;
             /**
-             * Default Constructor.
-             */
-            function EntityArray() {
-                _super.call(this);
-            }
-            /**
-             * <p> Construct data of the Entity from an XML object. </p>
-             *
-             * <p> Constructs the EntityArray's own member variables only from the input XML object. </p>
-             *
-             * <p> Do not consider about constructing children Entity objects' data in EntityArray::construct().
-             * Those children Entity objects' data will constructed by their own construct() method. Even insertion
-             * of XML objects representing children are done by abstract method of EntityArray::toXML(). </p>
-             *
-             * <p> Constructs only data of EntityArray's own. </p>
-             *
              * @inheritdoc
              */
             EntityArray.prototype.construct = function (xml) {
@@ -3097,13 +3366,7 @@ var samchon;
                 return "";
             };
             /**
-             * <p> Whether have the item or not. </p>
-             *
-             * <p> Indicates whether a map has an item having the specified identifier. </p>
-             *
-             * @param key Key value of the element whose mapped value is accessed.
-             *
-             * @return Whether the map has an item having the specified identifier.
+             * @inheritdoc
              */
             EntityArray.prototype.has = function (key) {
                 return std.any_of(this.begin(), this.end(), function (entity) {
@@ -3111,13 +3374,7 @@ var samchon;
                 });
             };
             /**
-             * <p> Count elements with a specific key. </p>
-             *
-             * <p> Searches the container for elements whose key is <i>key</i> and returns the number of elements found. </p>
-             *
-             * @param key Key value to be searched for.
-             *
-             * @return The number of elements in the container with a <i>key</i>.
+             * @inheritdoc
              */
             EntityArray.prototype.count = function (key) {
                 return std.count_if(this.begin(), this.end(), function (entity) {
@@ -3125,15 +3382,7 @@ var samchon;
                 });
             };
             /**
-             * <p> Get an element </p>
-             *
-             * <p> Returns a reference to the mapped value of the element identified with <i>key</i>. </p>
-             *
-             * @param key Key value of the element whose mapped value is accessed.
-             *
-             * @throw exception out of range
-             *
-             * @return A reference object of the mapped value (_Ty)
+             * @inheritdoc
              */
             EntityArray.prototype.get = function (key) {
                 var it = std.find_if(this.begin(), this.end(), function (entity) {
@@ -3144,17 +3393,6 @@ var samchon;
                 return it.value;
             };
             /**
-             * <p> Get an XML object represents the EntityArray. </p>
-             *
-             * <p> Archives the EntityArray's own member variables only to the returned XML object. </p>
-             *
-             * <p> Do not consider about archiving children Entity objects' data in EntityArray::toXML().
-             * Those children Entity objects will converted to XML object by their own toXML() method. The
-             * insertion of XML objects representing children are done by abstract method of
-             * EntityArray::toXML(). </p>
-             *
-             * <p> Archives only data of EntityArray's own. </p>
-             *
              * @inheritdoc
              */
             EntityArray.prototype.toXML = function () {
@@ -3165,16 +3403,202 @@ var samchon;
                     if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
                         && (typeof this[key] == "string" || typeof this[key] == "number")) {
                         // ATOMIC
-                        xml.setProperty(key, this[key]);
+                        xml.setProperty(key, this[key] + "");
                     }
                 // CHILDREN
-                for (var i = 0; i < this.size(); i++)
-                    xml.push(this.at(i).toXML());
+                for (var it = this.begin(); !it.equal_to(this.end()); it = it.next())
+                    xml.push(it.value.toXML());
                 return xml;
             };
             return EntityArray;
         }(std.Vector));
         protocol.EntityArray = EntityArray;
+        /**
+         * @inheritdoc
+         */
+        var EntityList = (function (_super) {
+            __extends(EntityList, _super);
+            function EntityList() {
+                _super.apply(this, arguments);
+            }
+            /* ------------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------------ */
+            // using super::super;
+            /**
+             * @inheritdoc
+             */
+            EntityList.prototype.construct = function (xml) {
+                this.clear();
+                // MEMBER VARIABLES; ATOMIC
+                var propertyMap = xml.getPropertyMap();
+                for (var v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
+                    if (typeof this[v_it.first] == "number" && v_it.first != "length")
+                        this[v_it.first] = parseFloat(v_it.second);
+                    else if (typeof this[v_it.first] == "string")
+                        this[v_it.first] = v_it.second;
+                //CHILDREN
+                if (xml.has(this.CHILD_TAG()) == false)
+                    return;
+                var xmlList = xml.get(this.CHILD_TAG());
+                for (var i = 0; i < xmlList.size(); i++) {
+                    var child = this.createChild(xmlList.at(i));
+                    if (child == null)
+                        continue;
+                    child.construct(xmlList.at(i));
+                    this.push(child);
+                }
+            };
+            /* ------------------------------------------------------------------
+                GETTERS
+            ------------------------------------------------------------------ */
+            /**
+             * @inheritdoc
+             */
+            EntityList.prototype.key = function () {
+                return "";
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityList.prototype.has = function (key) {
+                return std.any_of(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityList.prototype.count = function (key) {
+                return std.count_if(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityList.prototype.get = function (key) {
+                var it = std.find_if(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+                if (it.equal_to(this.end()))
+                    throw new std.OutOfRange("out of range");
+                return it.value;
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityList.prototype.toXML = function () {
+                var xml = new samchon.library.XML();
+                xml.setTag(this.TAG());
+                // MEMBERS
+                for (var key in this)
+                    if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
+                        && (typeof this[key] == "string" || typeof this[key] == "number")) {
+                        // ATOMIC
+                        xml.setProperty(key, this[key] + "");
+                    }
+                // CHILDREN
+                for (var it = this.begin(); !it.equal_to(this.end()); it = it.next())
+                    xml.push(it.value.toXML());
+                return xml;
+            };
+            return EntityList;
+        }(std.List));
+        protocol.EntityList = EntityList;
+        /**
+         * @inheritdoc
+         */
+        var EntityDeque = (function (_super) {
+            __extends(EntityDeque, _super);
+            function EntityDeque() {
+                _super.apply(this, arguments);
+            }
+            /* ------------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------------ */
+            // using super::super;
+            /**
+             * @inheritdoc
+             */
+            EntityDeque.prototype.construct = function (xml) {
+                this.clear();
+                // MEMBER VARIABLES; ATOMIC
+                var propertyMap = xml.getPropertyMap();
+                for (var v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
+                    if (typeof this[v_it.first] == "number" && v_it.first != "length")
+                        this[v_it.first] = parseFloat(v_it.second);
+                    else if (typeof this[v_it.first] == "string")
+                        this[v_it.first] = v_it.second;
+                //CHILDREN
+                if (xml.has(this.CHILD_TAG()) == false)
+                    return;
+                var xmlList = xml.get(this.CHILD_TAG());
+                for (var i = 0; i < xmlList.size(); i++) {
+                    var child = this.createChild(xmlList.at(i));
+                    if (child == null)
+                        continue;
+                    child.construct(xmlList.at(i));
+                    this.push(child);
+                }
+            };
+            /* ------------------------------------------------------------------
+                GETTERS
+            ------------------------------------------------------------------ */
+            /**
+             * @inheritdoc
+             */
+            EntityDeque.prototype.key = function () {
+                return "";
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityDeque.prototype.has = function (key) {
+                return std.any_of(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityDeque.prototype.count = function (key) {
+                return std.count_if(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityDeque.prototype.get = function (key) {
+                var it = std.find_if(this.begin(), this.end(), function (entity) {
+                    return entity.key() == key;
+                });
+                if (it.equal_to(this.end()))
+                    throw new std.OutOfRange("out of range");
+                return it.value;
+            };
+            /**
+             * @inheritdoc
+             */
+            EntityDeque.prototype.toXML = function () {
+                var xml = new samchon.library.XML();
+                xml.setTag(this.TAG());
+                // MEMBERS
+                for (var key in this)
+                    if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
+                        && (typeof this[key] == "string" || typeof this[key] == "number")) {
+                        // ATOMIC
+                        xml.setProperty(key, this[key] + "");
+                    }
+                // CHILDREN
+                for (var it = this.begin(); !it.equal_to(this.end()); it = it.next())
+                    xml.push(it.value.toXML());
+                return xml;
+            };
+            return EntityDeque;
+        }(std.Deque));
+        protocol.EntityDeque = EntityDeque;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
@@ -3471,7 +3895,6 @@ var samchon;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
-/// <reference path="../API.ts" />
 /// <reference path="EntityArray.ts" />
 var samchon;
 (function (samchon) {
@@ -3652,10 +4075,8 @@ var samchon;
             };
             InvokeHistory.prototype.toXML = function () {
                 var xml = _super.prototype.toXML.call(this);
-                /*xml.setProperty("uid", this.uid);
-                xml.setProperty("listener", this.listener);*/
-                xml.setProperty("startTime", this.startTime.getTime() * Math.pow(10.0, 6));
-                xml.setProperty("endTime", this.endTime.getTime() * Math.pow(10.0, 6));
+                xml.setProperty("startTime", this.startTime.getTime() * Math.pow(10.0, 6) + "");
+                xml.setProperty("endTime", this.endTime.getTime() * Math.pow(10.0, 6) + "");
                 return xml;
             };
             /**
@@ -3699,6 +4120,10 @@ var samchon;
                     args[_i - 0] = arguments[_i];
                 }
                 _super.call(this);
+                /**
+                 * <p> Value of the parameter. </p>
+                 */
+                this.value = null;
                 if (args.length == 0)
                     return;
                 else if (args.length == 2) {
@@ -3718,13 +4143,16 @@ var samchon;
                     this.name = xml.getProperty("name");
                 this.type = xml.getProperty("type");
                 if (this.type == "number")
-                    this.value = parseFloat(xml.getProperty("value"));
+                    this.value = parseFloat(xml.getValue());
                 else if (this.type == "string")
-                    this.value = xml.getProperty("value");
+                    this.value = xml.getValue();
                 else if (this.type == "XML")
                     this.value = xml.begin().second.at(0);
                 else
                     this.value = null;
+            };
+            InvokeParameter.prototype.setValue = function (value) {
+                this.value = value;
             };
             /* -------------------------------------------------------------------
                 GETTERS
@@ -3764,7 +4192,7 @@ var samchon;
                 xml.setProperty("type", this.type);
                 // NOT CONSIDERED ABOUT THE BINARY DATA
                 if (this.type == "number" || this.type == "string")
-                    xml.setProperty("value", this.value);
+                    xml.setValue(this.value + "");
                 else if (this.type == "XML")
                     xml.push(this.value);
                 return xml;
@@ -3804,7 +4232,7 @@ var samchon;
              */
             function ServerConnector(parent) {
                 this.parent = parent;
-                this.str = "";
+                this.binary_invoke = null;
                 this.onopen = null;
             }
             /**
@@ -3875,45 +4303,37 @@ var samchon;
              * <p> Handling replied message. </p>
              */
             ServerConnector.prototype.handleReply = function (event) {
-                console.log("ServerConnector.handleReply:", event.data);
-                this.str += event.data;
-                var invokeArray = new Array();
-                var indexPair = null;
-                var sizePair = new std.Pair(0, 0);
-                var startIndex = 0;
-                var endIndex = 0;
-                while (true) {
-                    var iPair = new std.Pair(this.str.indexOf("<invoke", startIndex), this.str.indexOf("</invoke>", startIndex)); //FIND WORDS
-                    if (iPair.first != -1)
-                        sizePair.first++;
-                    if (iPair.second != -1)
-                        sizePair.second++; //AND COUNTS
-                    if (indexPair == null && sizePair.first == 1)
-                        indexPair = new std.Pair(iPair.first, -1); //SPECIFY THE STARTING INDEX
-                    //FAILED TO FIND ANYTHING
-                    if (iPair.first == -1 || iPair.second == -1)
-                        break;
-                    /* FOUND SOMETHING FROM NOW ON */
-                    //AN INVOKE HAS FOUND
-                    if (indexPair != null && sizePair.first == sizePair.second) {
-                        var start = indexPair.first;
-                        var end = indexPair.second + ("</invoke>").length;
-                        var xml = new samchon.library.XML(this.str.substring(start, end));
-                        var invoke = new protocol.Invoke(xml);
-                        invokeArray.push(invoke);
-                        //CLEAR CURRENT'S INDEX PAIR
-                        endIndex = end;
-                        indexPair = null;
-                    }
-                    //ADJUST INDEX
-                    startIndex = Math.max(Math.max(iPair.first, iPair.second), 1);
+                console.log("handle_reply: #" + event.data.length);
+                if (this.binary_invoke == null) {
+                    var xml = new samchon.library.XML(event.data);
+                    var invoke = new protocol.Invoke(xml);
+                    // THE INVOKE MESSAGE INCLUDES BINARY DATA?
+                    var is_binary = std.any_of(invoke.begin(), invoke.end(), function (parameter) {
+                        return parameter.getType() == "ByteArray";
+                    });
+                    // IF EXISTS, REGISTER AND TERMINATE
+                    if (is_binary)
+                        this.binary_invoke = invoke;
+                    else
+                        this.replyData(invoke);
                 }
-                //ERASE USED CHARACTERS
-                if (endIndex != 0)
-                    this.str = this.str.substr(endIndex);
-                //CALL REPLY_DATA
-                for (var i = 0; i < invokeArray.length; i++)
-                    this.replyData(invokeArray[i]);
+                else {
+                    // FIND THE MATCHED PARAMETER
+                    var it = std.find_if(this.binary_invoke.begin(), this.binary_invoke.end(), function (parameter) {
+                        return parameter.getType() == "ByteArray" && parameter.getValue() == null;
+                    });
+                    // SET BINARY DATA
+                    it.value.setValue(event.data);
+                    // FIND THE REMAINED BINARY PARAMETER
+                    it = std.find_if(it.next(), this.binary_invoke.end(), function (parameter) {
+                        return parameter.getType() == "ByteArray" && parameter.getValue() == null;
+                    });
+                    if (it.equal_to(this.binary_invoke.end())) {
+                        // AND IF NOT, SEND THE INVOKE MESSAGE
+                        this.replyData(this.binary_invoke);
+                        this.binary_invoke = null;
+                    }
+                }
             };
             return ServerConnector;
         }());

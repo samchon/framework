@@ -19,18 +19,18 @@ INTExplore::INTExplore()
 }
 void INTExplore::construct(shared_ptr<XML> xml)
 {
-	minimum = xml->hasProperty("minimum")
-		? xml->getProperty<double>("minimum")
+	minimum = xml->has_property("minimum")
+		? xml->get_property<double>("minimum")
 		: INT_MIN;
-	maximum = xml->hasProperty("maximum")
-		? xml->getProperty<double>("maximum")
+	maximum = xml->has_property("maximum")
+		? xml->get_property<double>("maximum")
 		: INT_MIN;
 
-	section = xml->hasProperty("section")
-		? xml->getProperty<unsigned int>("section")
+	section = xml->has_property("section")
+		? xml->get_property<unsigned int>("section")
 		: 0;
-	precision = xml->hasProperty("precision")
-		? xml->getProperty<int>("precision")
+	precision = xml->has_property("precision")
+		? xml->get_property<int>("precision")
 		: INT_MIN;
 }
 
@@ -51,13 +51,13 @@ auto INTExplore::getPrecision() const -> int
 	return precision;
 }
 
-auto INTExplore::toXML() const -> shared_ptr<XML>
+auto INTExplore::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	if (minimum != INT_MIN)		xml->setProperty("minimum",	minimum);
-	if (maximum != INT_MIN)		xml->setProperty("maximum",	maximum);
-	if (section != 0)			xml->setProperty("section", section);
-	if (precision != INT_MIN)	xml->setProperty("precision", precision);
+	shared_ptr<XML> &xml = super::to_XML();
+	if (minimum != INT_MIN)		xml->set_property("minimum",	minimum);
+	if (maximum != INT_MIN)		xml->set_property("maximum",	maximum);
+	if (section != 0)			xml->set_property("section", section);
+	if (precision != INT_MIN)	xml->set_property("precision", precision);
 
 	return xml;
 }

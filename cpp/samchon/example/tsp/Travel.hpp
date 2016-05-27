@@ -81,14 +81,14 @@ namespace tsp
 		{
 			super::construct(xml);
 
-			if (xml->hasProperty("distance") == true)
-				distance = xml->getProperty<double>("distance");
+			if (xml->has_property("distance") == true)
+				distance = xml->get_property<double>("distance");
 			else
 				distance = INT_MIN;
 		};
 
 	protected:
-		virtual auto createChild(shared_ptr<XML>) -> GeometryPoint*
+		virtual auto create_child(shared_ptr<XML>) -> GeometryPoint*
 		{
 			return new GeometryPoint();
 		};
@@ -138,11 +138,11 @@ namespace tsp
 			return "point";
 		};
 
-		virtual auto toXML() const -> shared_ptr<XML> override
+		virtual auto to_XML() const -> shared_ptr<XML> override
 		{
-			shared_ptr<XML> &xml = super::toXML();
+			shared_ptr<XML> &xml = super::to_XML();
 			if (distance != INT_MIN)
-				xml->setProperty("distance", distance);
+				xml->set_property("distance", distance);
 
 			return xml;
 		};
@@ -159,14 +159,14 @@ namespace tsp
 		 *
 		 * @return A string can represent the Travel
 		 */
-		auto toString() const -> string
+		auto to_string() const -> string
 		{
 			string str =
 				"Distance: " + StringUtil::numberFormat(calcDistance()) + " km\n" + 
 				"uid	longitude	latitude\n";
 
 			for(size_t i = 0; i < size(); i++)
-				str += at(i)->toString() + "\n";
+				str += at(i)->to_string() + "\n";
 
 			return str;
 		};

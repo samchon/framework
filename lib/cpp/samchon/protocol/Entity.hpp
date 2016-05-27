@@ -45,7 +45,7 @@ namespace protocol
 	 * @see protocol
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API Entity
+	class /*SAMCHON_FRAMEWORK_API*/ Entity
 	{
 	public:
 		/**
@@ -56,10 +56,6 @@ namespace protocol
 		virtual auto TAG() const->std::string = 0;
 
 	public:
-		/**
-		 * @brief Default Constructor.
-		 */
-		Entity();
 		virtual ~Entity() = default;
 
 		/**
@@ -85,7 +81,10 @@ namespace protocol
 		 *
 		 * @return An identifier
 		 */
-		virtual auto key() const->std::string;
+		virtual auto key() const -> std::string
+		{
+			return "";
+		};
 
 		/**
 		 * @brief Get an XML object represents the Entity.
@@ -94,7 +93,7 @@ namespace protocol
 		 * <p> Returns an XML object that can represents the Entity containing member variables into properties. </p>
 		 *
 		 * <p> A member variable (not object, but atomic value like number, string or date) is categorized
-		 * as a property within the framework of entity side. Thus, when overriding a toXML() method and
+		 * as a property within the framework of entity side. Thus, when overriding a to_XML() method and
 		 * archiving member variables to an XML object to return, puts each variable to be a property
 		 * belongs to only an XML object. </p>
 		 *
@@ -126,7 +125,13 @@ namespace protocol
 		 *
 		 * @return An XML object representing the Entity.
 		 */
-		virtual auto toXML() const->std::shared_ptr<library::XML>;
+		virtual auto to_XML() const -> std::shared_ptr<library::XML>
+		{
+			auto xml = std::make_shared<library::XML>();
+			xml->setTag(this->TAG());
+
+			return xml;
+		}
 	};
 };
 };

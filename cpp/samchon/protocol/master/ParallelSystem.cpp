@@ -34,13 +34,13 @@ void ParallelSystem::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	if (xml->hasProperty("performance"))
-		this->performance = xml->getProperty<double>("performance");
+	if (xml->has_property("performance"))
+		this->performance = xml->get_property<double>("performance");
 
 	if (xml->has(historyArray->TAG()) == true)
 		historyArray->construct(xml->get(historyArray->TAG())->at(0));
 }
-auto ParallelSystem::createChild(shared_ptr<XML> xml) -> ExternalSystemRole*
+auto ParallelSystem::create_child(shared_ptr<XML> xml) -> ExternalSystemRole*
 {
 	return nullptr;
 }
@@ -50,10 +50,10 @@ auto ParallelSystem::createChild(shared_ptr<XML> xml) -> ExternalSystemRole*
 ------------------------------------------------------------------ */
 void ParallelSystem::_replyData(shared_ptr<Invoke> invoke)
 {
-	if (invoke->getListener() == "reportInvokeHistory")
+	if (invoke->get_listener() == "reportInvokeHistory")
 	{
 		InvokeHistory invokeHistory;
-		invokeHistory.construct(invoke->at(0)->getValueAsXML());
+		invokeHistory.construct(invoke->at(0)->get_value_as_xml());
 
 		string uid = to_string(invokeHistory.getUID());
 		if (progressArray->has(uid) == false)
@@ -65,7 +65,7 @@ void ParallelSystem::_replyData(shared_ptr<Invoke> invoke)
 		historyArray->push_back(history);
 
 		//NOTIFY END
-		history->construct(invoke->at(0)->getValueAsXML());
+		history->construct(invoke->at(0)->get_value_as_xml());
 		history->notifyEnd();
 	}
 	else
@@ -97,10 +97,10 @@ void ParallelSystem::sendPieceData
 /* ------------------------------------------------------------------
 	EXPORTERS
 ------------------------------------------------------------------ */
-auto ParallelSystem::toXML() const -> shared_ptr<XML>
+auto ParallelSystem::to_XML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::toXML();
-	xml->setProperty("performance", performance);
+	shared_ptr<XML> &xml = super::to_XML();
+	xml->set_property("performance", performance);
 
 	return xml;
 }

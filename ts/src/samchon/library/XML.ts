@@ -79,7 +79,7 @@ namespace samchon.library
 		 *					 {\"comment\", \"Hello. My name is Jeongho Nam <http://samchon.org>\"}} </li>
 		 * </ul>
 		 */
-		private properties: std.HashMap<string, any>;
+		private properties: std.HashMap<string, string>;
 	
 		/* -------------------------------------------------------------
 			CONSTRUCTORS
@@ -97,7 +97,7 @@ namespace samchon.library
 		{
 			super();
 
-			this.properties = new std.HashMap<string, any>();
+			this.properties = new std.HashMap<string, string>();
 			this.value = "";
 
 			if (str.indexOf("<") == -1)
@@ -327,7 +327,7 @@ namespace samchon.library
 		/** 
 		 * <p> Get value. </p>
 		 */
-		public getValue(): any
+		public getValue(): string
 		{
 			return this.value;
 		}
@@ -343,12 +343,12 @@ namespace samchon.library
 		/**
 		 * <p> Get property by its key. </p>
 		 */
-		public getProperty(key: string): any
+		public getProperty(key: string): string
 		{
 			return this.properties.get(key);
 		}
 
-		public getPropertyMap(): std.HashMap<string, any>
+		public getPropertyMap(): std.HashMap<string, string>
 		{
 			return this.properties;
 		}
@@ -392,7 +392,7 @@ namespace samchon.library
 		 *
 		 * @param val A value to set
 		 */
-		public setValue(str: any): void
+		public setValue(str: string): void
 		{
 			this.value = str;
 		}
@@ -400,7 +400,7 @@ namespace samchon.library
 		/**
 		 * <p> Set a property with its key. </p>
 		 */
-		public setProperty(key: string, value: any): void
+		public setProperty(key: string, value: string): void
 		{
 			this.properties.set(key, value);
 		}
@@ -473,7 +473,7 @@ namespace samchon.library
 
 		public clearProperties(): void
 		{
-			this.properties = new std.HashMap<string, any>();
+			this.properties.clear();
 		}
 
 		/* -------------------------------------------------------------

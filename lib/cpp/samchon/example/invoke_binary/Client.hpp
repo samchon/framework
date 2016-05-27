@@ -46,13 +46,13 @@ public:
 
 	virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override
 	{
-		if (invoke->getListener() != "saveFile")
+		if (invoke->get_listener() != "saveFile")
 			return;
 
 		for (size_t i = 0; i < invoke->size(); i++)
 		{
-			const std::string &name = invoke->at(i)->getName();
-			const ByteArray &data = invoke->at(i)->referValue<ByteArray>();
+			const std::string &name = invoke->at(i)->get_name();
+			const ByteArray &data = invoke->at(i)->refer_value<ByteArray>();
 
 			std::ofstream file("E:/" + name, std::ios::out | std::ios::binary);
 			file.write((const char*)&data[0], data.size());
@@ -60,10 +60,10 @@ public:
 			file.close();
 		}
 
-		//const std::string &name = invoke->at(0)->referValue<std::string>();
-		//const std::string &extension = invoke->at(1)->referValue<std::string>();
+		//const std::string &name = invoke->at(0)->refer_value<std::string>();
+		//const std::string &extension = invoke->at(1)->refer_value<std::string>();
 
-		//const ByteArray &data = invoke->at(2)->referValue<ByteArray>();
+		//const ByteArray &data = invoke->at(2)->refer_value<ByteArray>();
 
 		//std::ofstream file("E:/" + name + "." + extension, std::ios::out | std::ios::binary);
 		//file.write((const char*)&data[0], data.size());

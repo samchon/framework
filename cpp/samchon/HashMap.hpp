@@ -194,7 +194,7 @@ namespace samchon
 
 			erase(it);
 
-			return std::move(val);
+			return val;
 		};
 	};
 };

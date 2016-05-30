@@ -40,7 +40,7 @@ void ParallelSystem::construct(shared_ptr<XML> xml)
 	if (xml->has(historyArray->TAG()) == true)
 		historyArray->construct(xml->get(historyArray->TAG())->at(0));
 }
-auto ParallelSystem::create_child(shared_ptr<XML> xml) -> ExternalSystemRole*
+auto ParallelSystem::createChild(shared_ptr<XML> xml) -> ExternalSystemRole*
 {
 	return nullptr;
 }
@@ -50,10 +50,10 @@ auto ParallelSystem::create_child(shared_ptr<XML> xml) -> ExternalSystemRole*
 ------------------------------------------------------------------ */
 void ParallelSystem::_replyData(shared_ptr<Invoke> invoke)
 {
-	if (invoke->get_listener() == "reportInvokeHistory")
+	if (invoke->getListener() == "reportInvokeHistory")
 	{
 		InvokeHistory invokeHistory;
-		invokeHistory.construct(invoke->at(0)->get_value_as_xml());
+		invokeHistory.construct(invoke->at(0)->getValueAsXML());
 
 		string uid = to_string(invokeHistory.getUID());
 		if (progressArray->has(uid) == false)
@@ -65,7 +65,7 @@ void ParallelSystem::_replyData(shared_ptr<Invoke> invoke)
 		historyArray->push_back(history);
 
 		//NOTIFY END
-		history->construct(invoke->at(0)->get_value_as_xml());
+		history->construct(invoke->at(0)->getValueAsXML());
 		history->notifyEnd();
 	}
 	else

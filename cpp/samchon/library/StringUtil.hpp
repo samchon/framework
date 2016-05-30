@@ -137,6 +137,10 @@ namespace library
 		{
 			return str.str();
 		};
+		static auto toString(const char *ptr) -> std::string
+		{
+			return ptr;
+		};
 
 		template <typename T>
 		static auto toSQL(const T &val) -> std::string

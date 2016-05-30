@@ -222,12 +222,12 @@ namespace protocol
 				this->str = xml->getValue();
 		};
 
-		auto reserved_byte_array_size() const -> size_t
+		auto byteArrayCapacity() const -> size_t
 		{
 			return byte_array.capacity();
 		};
 
-		void set_byte_array(ByteArray &&ba)
+		void setByteArray(ByteArray &&ba)
 		{
 			byte_array = move(ba);
 		};
@@ -322,7 +322,7 @@ namespace protocol
 		 * @brief Get value as XML object
 		 * @details Same with getValue< std::shared_ptr<library::XML> >();
 		 */
-		auto get_value_as_xml() const -> std::shared_ptr<library::XML>
+		auto getValueAsXML() const -> std::shared_ptr<library::XML>
 		{
 			return xml;
 		};
@@ -332,12 +332,12 @@ namespace protocol
 		 *
 		 * @tparam _Ty Type of value to reference
 		 */
-		template <typename T> auto refer_value() const -> const T&;
-		template<> auto refer_value() const -> const std::string&
+		template <typename T> auto referValue() const -> const T&;
+		template<> auto referValue() const -> const std::string&
 		{
 			return str;
 		};
-		template<> auto refer_value() const -> const ByteArray&
+		template<> auto referValue() const -> const ByteArray&
 		{
 			return byte_array;
 		};
@@ -347,12 +347,12 @@ namespace protocol
 		 *
 		 * @tparam _Ty Type of value to move
 		 */
-		template <typename T> auto move_value() -> T;
-		template<> auto move_value() -> std::string
+		template <typename T> auto moveValue() -> T;
+		template<> auto moveValue() -> std::string
 		{
 			return move(str);
 		};
-		template<> auto move_value() -> ByteArray
+		template<> auto moveValue() -> ByteArray
 		{
 			return move(byte_array);
 		};

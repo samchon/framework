@@ -24,7 +24,7 @@ void FTFolder::construct(shared_ptr<XML> xml)
 	FTInstance::construct(xml);
 }
 
-auto FTFolder::create_child(shared_ptr<XML> xml) -> FTInstance*
+auto FTFolder::createChild(shared_ptr<XML> xml) -> FTInstance*
 {
 	FTInstance *file = nullptr;
 	if (xml->hasProperty("extension") == false)

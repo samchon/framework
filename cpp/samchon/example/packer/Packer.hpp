@@ -94,7 +94,7 @@ namespace packer
 		};
 
 	protected:
-		virtual auto create_child(shared_ptr<XML>) -> WrapperArray* override
+		virtual auto createChild(shared_ptr<XML>) -> WrapperArray* override
 		{
 			return new WrapperArray();
 		};
@@ -202,7 +202,7 @@ namespace packer
 		 */
 		auto toString() const -> string
 		{
-			string str = "$" + toString(calcPrice()) + "\n";
+			string str = "$" + std::to_string(calcPrice()) + "\n";
 			for (size_t i = 0; i < size(); i++)
 				str += at(i)->toString() + "\n";
 

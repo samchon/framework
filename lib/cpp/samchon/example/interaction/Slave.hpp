@@ -69,7 +69,7 @@ namespace interaction
 		------------------------------------------------------------ */
 		virtual void replyPieceData(shared_ptr<Invoke> invoke, size_t index, size_t size) override
 		{
-			if (invoke->get_listener() == "optimize")
+			if (invoke->getListener() == "optimize")
 				optimize
 				(
 					invoke->at(0)->getValueAsXML(),

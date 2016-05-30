@@ -127,7 +127,7 @@ namespace protocol
 		/**
 		 * @brief Get listener.
 		 */
-		auto get_listener() const->std::string;
+		auto getListener() const->std::string;
 
 		/**
 		 * @brief Get start time.

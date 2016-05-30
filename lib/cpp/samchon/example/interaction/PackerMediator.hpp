@@ -85,7 +85,7 @@ namespace interaction
 		virtual ~PackerMediator() = default;
 
 	protected:
-		virtual auto create_child(std::shared_ptr<library::XML>) -> protocol::ExternalSystem* override
+		virtual auto createChild(std::shared_ptr<library::XML>) -> protocol::ExternalSystem* override
 		{
 			return new SlaveDriver();
 		};
@@ -103,7 +103,7 @@ namespace interaction
 		--------------------------------------------------------------------------------- */
 		virtual void sendPieceData(std::shared_ptr<protocol::Invoke> invoke, size_t index, size_t size)
 		{
-			if (invoke->get_listener() == "optimize")
+			if (invoke->getListener() == "optimize")
 			{
 				std::cout << "----------------------------------------------------------------------------" << std::endl;
 				std::cout << "	OPTIMIZE FROM " << index << ", SIZE: " << size << std::endl;
@@ -115,7 +115,7 @@ namespace interaction
 		};
 		virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override
 		{
-			if (invoke->get_listener() == "replyOptimization")
+			if (invoke->getListener() == "replyOptimization")
 				replyOptimization(invoke->at(0)->getValueAsXML());
 		};
 

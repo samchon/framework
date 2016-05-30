@@ -32,7 +32,7 @@ namespace slave
 		virtual ~ParallelSystem() = default;
 
 	protected:
-		virtual auto create_child(std::shared_ptr<library::XML>)->ExternalSystemRole* override;
+		virtual auto createChild(std::shared_ptr<library::XML>)->ExternalSystemRole* override;
 
 		/**
 		* @brief Pre-processor for segmented processes and reporting elapsed time.

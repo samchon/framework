@@ -179,7 +179,7 @@ void IWebClient::listen_binary(size_t size, shared_ptr<Invoke> &invoke)
 			if (parameter->getType() != "ByteArray")
 				return false;
 
-			const ByteArray &byte_array = parameter->refer_value<ByteArray>();
+			const ByteArray &byte_array = parameter->referValue<ByteArray>();
 			return byte_array.empty() == true && byte_array.capacity() == size;
 		});
 
@@ -190,7 +190,7 @@ void IWebClient::listen_binary(size_t size, shared_ptr<Invoke> &invoke)
 		return;
 	}
 	else
-		data = (ByteArray*) &((*param_it)->refer_value<ByteArray>());
+		data = (ByteArray*) &((*param_it)->referValue<ByteArray>());
 
 	if (isServer() == true)
 		listen_masked_data(socket, *data);
@@ -221,7 +221,7 @@ void IWebClient::sendData(shared_ptr<Invoke> invoke)
 
 		for (size_t i = 0; i < invoke->size(); i++)
 			if (invoke->at(i)->getType() == "ByteArray")
-				send_binary(invoke->at(i)->refer_value<ByteArray>());
+				send_binary(invoke->at(i)->referValue<ByteArray>());
 	}
 	catch (exception &) {}
 }

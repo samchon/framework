@@ -88,7 +88,7 @@ namespace tsp
 		};
 
 	protected:
-		virtual auto create_child(shared_ptr<XML>) -> GeometryPoint*
+		virtual auto createChild(shared_ptr<XML>) -> GeometryPoint*
 		{
 			return new GeometryPoint();
 		};

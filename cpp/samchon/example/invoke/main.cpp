@@ -8,20 +8,6 @@ using namespace samchon;
 using namespace samchon::library;
 using namespace samchon::protocol;
 
-#ifdef _WIN64
-#	ifdef _DEBUG
-#		pragma comment(lib, "x64/Debug/SamchonFramework.lib")
-#	else
-#		pragma comment(lib, "x64/Release/SamchonFramework.lib")
-#	endif
-#else
-#	ifdef _DEBUG
-#		pragma comment(lib, "Debug/SamchonFramework.lib")
-#	else
-#		pragma comment(lib, "Release/SamchonFramework.lib")
-#	endif
-#endif
-
 void main()
 {
 	string str = string("") +
@@ -32,6 +18,8 @@ void main()
 		"</memberList>";
 
 	shared_ptr<XML> xml(new XML(str));
+	cout << xml->toString() << endl;
+
 	shared_ptr<Invoke> invoke(new Invoke("login", "jhnam88", "1231", 4, xml));
 
 	cout << "Invoke to XML: " << endl;
@@ -44,6 +32,8 @@ void main()
 	cout << "2nd param: " << invoke->at(1)->getValue<string>() << endl;
 	cout << "3rd param: " << invoke->at(2)->getValue<string>() << endl;
 	cout << "4th param: " << endl << invoke->at(3)->getValue<shared_ptr<XML>>()->toString() << endl;
+
+	cout << shared_ptr<XML>(new XML(invoke->toXML()->toString()))->toString() << endl;
 
 	system("pause");
 }

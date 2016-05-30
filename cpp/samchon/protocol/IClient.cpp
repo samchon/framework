@@ -256,7 +256,7 @@ void IClient::handle_binary(ByteArray &piece, string &str, shared_ptr<Invoke> &i
 	for (size_t i = 0; i < invoke->size(); i++)
 		if (invoke->at(i)->getType() == "ByteArray")
 		{
-			const ByteArray &ba = invoke->at(i)->refer_value<ByteArray>();
+			const ByteArray &ba = invoke->at(i)->referValue<ByteArray>();
 		
 			if (ba.size() < ba.capacity())
 			{
@@ -323,7 +323,7 @@ void IClient::sendData(shared_ptr<Invoke> invoke)
 	for (size_t i = 0; i < invoke->size(); i++)
 		if (invoke->at(i)->getType() == "ByteArray")
 		{
-			const ByteArray &byte_array = invoke->at(i)->refer_value<ByteArray>();
+			const ByteArray &byte_array = invoke->at(i)->referValue<ByteArray>();
 			socket->write_some(boost::asio::buffer(byte_array), error);
 
 			if (error)

@@ -99,7 +99,7 @@ namespace protocol
 			{
 				std::shared_ptr<library::XML> &xmlElement = xmlList->at(i);
 
-				entity_type *entity = create_child(xmlElement);
+				entity_type *entity = createChild(xmlElement);
 				if (entity != nullptr)
 				{
 					entity->construct(xmlList->at(i));
@@ -113,13 +113,13 @@ namespace protocol
 		 * @brief Factory method of a child Entity.
 		 *
 		 * @details
-		 * <p> EntityGroup::create_child() is a factory method creating a new child Entity which is belonged
+		 * <p> EntityGroup::createChild() is a factory method creating a new child Entity which is belonged
 		 * to the EntityGroup. This method is called by EntityGroup::construct(). The children construction
 		 * methods Entity::construct() will be called by abstract method of the EntityGroup::construct(). </p>
 		 *
 		 * @return A new child Entity belongs to EntityGroup.
 		 */
-		virtual auto create_child(std::shared_ptr<library::XML>) -> entity_type* = 0;
+		virtual auto createChild(std::shared_ptr<library::XML>) -> entity_type* = 0;
 
 	public:
 		/* ------------------------------------------------------------------------------------

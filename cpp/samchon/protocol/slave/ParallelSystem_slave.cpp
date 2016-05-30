@@ -13,7 +13,7 @@ ParallelSystem::ParallelSystem()
 	: super()
 {
 }
-auto ParallelSystem::create_child(shared_ptr<XML>) -> ExternalSystemRole*
+auto ParallelSystem::createChild(shared_ptr<XML>) -> ExternalSystemRole*
 {
 	return nullptr;
 }

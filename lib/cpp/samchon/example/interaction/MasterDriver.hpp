@@ -66,7 +66,7 @@ namespace interaction
 		virtual ~MasterDriver() = default;
 
 	protected:
-		virtual auto create_child(shared_ptr<XML>) -> ExternalSystemRole* override
+		virtual auto createChild(shared_ptr<XML>) -> ExternalSystemRole* override
 		{
 			return nullptr;
 		};

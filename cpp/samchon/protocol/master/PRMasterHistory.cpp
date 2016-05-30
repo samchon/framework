@@ -21,7 +21,7 @@ PRMasterHistory::PRMasterHistory
 	this->master = historyArray->master;
 
 	this->uid = invoke->get("invoke_history_uid")->getValue<size_t>();
-	this->listener = invoke->get_listener();
+	this->listener = invoke->getListener();
 	this->startTime = chrono::system_clock::now();
 
 	this->index = index;

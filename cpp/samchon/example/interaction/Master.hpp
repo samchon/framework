@@ -109,7 +109,7 @@ namespace interaction
 		};
 
 	protected:
-		virtual auto create_child(shared_ptr<XML>) -> ExternalSystem* override
+		virtual auto createChild(shared_ptr<XML>) -> ExternalSystem* override
 		{
 			return new SlaveDriver();
 		};
@@ -120,9 +120,9 @@ namespace interaction
 		------------------------------------------------------------ */
 		virtual void replyData(shared_ptr<Invoke> invoke) override
 		{
-			if (invoke->get_listener() == "optimize")
+			if (invoke->getListener() == "optimize")
 				optimize(invoke->at(0)->getValueAsXML());
-			else if (invoke->get_listener() == "replyOptimization")
+			else if (invoke->getListener() == "replyOptimization")
 				replyOptimization(invoke->at(0)->getValueAsXML());
 		};
 

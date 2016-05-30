@@ -40,7 +40,7 @@ auto ExternalSystem::key() const -> string
 ------------------------------------------------------------------ */
 void ExternalSystem::replyData(shared_ptr<Invoke> invoke)
 {
-	string &listener = invoke->get_listener();
+	string &listener = invoke->getListener();
 
 	for(size_t i = 0; i < size(); i++)
 		if(at(i)->hasReplyListener(listener) == true)

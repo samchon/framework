@@ -33,7 +33,7 @@ void DistributedSystem::construct(shared_ptr<XML> xml)
 	performance = xml->getProperty<double>("performance");
 }
 
-auto DistributedSystem::create_child(shared_ptr<XML>) -> ExternalSystemRole*
+auto DistributedSystem::createChild(shared_ptr<XML>) -> ExternalSystemRole*
 {
 	// DON'T MAKE CHILDREN IN SYSTEM. 
 	// IT'S THE REPONSIBILITY OF DISTRIBUTED_SYSTEM_ARRAY
@@ -48,7 +48,7 @@ SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_BODY(DistributedSystem, DistributedSystemRo
 ------------------------------------------------------------------ */
 void DistributedSystem::sendData(shared_ptr<Invoke> invoke)
 {
-	const string &listener = invoke->get_listener();
+	const string &listener = invoke->getListener();
 
 	for (size_t i = 0; i < size(); i++)
 	{

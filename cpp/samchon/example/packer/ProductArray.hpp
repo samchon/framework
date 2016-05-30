@@ -33,7 +33,7 @@ namespace packer
 		virtual ~ProductArray() = default;
 
 	protected:
-		virtual auto create_child(shared_ptr<XML>) -> Product* override
+		virtual auto createChild(shared_ptr<XML>) -> Product* override
 		{
 			return new Product();
 		};

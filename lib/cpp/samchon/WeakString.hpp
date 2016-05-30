@@ -296,12 +296,12 @@ namespace samchon
 		 */
 		auto rfind(const WeakString &delim, size_t endIndex = SIZE_MAX) const -> size_t
 		{
-			if (empty() == true)
+			if (empty() == true || endIndex == 0)
 				return npos;
 
 			size_t j = delim.size() - 1;
 
-			for (long long i = std::min<long long>(endIndex - 1, size_ - 1); i >= 0; i--)
+			for (long long i = std::min<size_t>(endIndex - 1, size_ - 1); i >= 0; i--)
 				if (data_[(size_t)i] != delim[j]) //NOT MATCHED
 					j = delim.size() - 1;
 				else if (j == 0) //FULLY MATCHED

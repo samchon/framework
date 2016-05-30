@@ -82,7 +82,7 @@ namespace protocol
 		};
 
 	protected:
-		virtual auto create_child(std::shared_ptr<library::XML>) -> InvokeParameter* override
+		virtual auto createChild(std::shared_ptr<library::XML>) -> InvokeParameter* override
 		{
 			return new InvokeParameter();
 		};
@@ -149,7 +149,7 @@ namespace protocol
 		/**
 		 * @brief Get listener
 		 */
-		auto get_listener() const -> std::string
+		auto getListener() const -> std::string
 		{
 			return listener;
 		};
@@ -157,7 +157,7 @@ namespace protocol
 		/**
 		 * @brief Set listener
 		 */
-		void set_listener(const std::string  &val)
+		void setListener(const std::string  &val)
 		{
 			listener = val;
 		};

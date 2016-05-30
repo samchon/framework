@@ -18,7 +18,7 @@ InvokeHistory::InvokeHistory(shared_ptr<Invoke> invoke)
 	: super()
 {
 	this->uid = invoke->get("invoke_history_uid")->getValue<size_t>();
-	this->listener = invoke->get_listener();
+	this->listener = invoke->getListener();
 
 	this->startTime = chrono::system_clock::now();
 }
@@ -70,7 +70,7 @@ auto InvokeHistory::getUID() const -> size_t
 {
 	return uid;
 }
-auto InvokeHistory::get_listener() const -> string
+auto InvokeHistory::getListener() const -> string
 {
 	return listener;
 }

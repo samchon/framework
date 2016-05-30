@@ -16,7 +16,7 @@ namespace library
 	 * @see samchon::library
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API PermutationGenerator
+	class PermutationGenerator
 		: public CaseGenerator
 	{
 	private:

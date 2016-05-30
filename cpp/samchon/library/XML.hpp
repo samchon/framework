@@ -144,7 +144,7 @@ namespace library
 				for (size_t i = 0; i < it->second->size(); it++)
 					xmlList->emplace_back(new XML(*it->second->at(i)));
 
-				set(xmlList->at(0)->tag, xmlList);
+				this->set(xmlList->at(0)->tag, xmlList);
 			}
 		};
 
@@ -174,34 +174,34 @@ namespace library
 				return;
 
 			//WHEN COMMENT IS
-			std::string replaced_str;
+			std::string replacedStr;
 			if (wstr.find("<!--") != std::string::npos)
 			{
-				std::queue<std::pair<size_t, size_t>> index_pair_queue;
-				size_t begin_x = 0, end_x;
+				std::queue<std::pair<size_t, size_t>> indexPairQueue;
+				size_t beginX = 0, endX;
 
 				//CONSTRUCT INDEXES
-				replaced_str.reserve(wstr.size());
-				while ((begin_x = wstr.find("<!--", begin_x)) != std::string::npos)
+				replacedStr.reserve(wstr.size());
+				while ((beginX = wstr.find("<!--", beginX)) != std::string::npos)
 				{
-					index_pair_queue.push({ begin_x, wstr.find("-->", begin_x + 1) + 3 });
-					begin_x++;
+					indexPairQueue.push({ beginX, wstr.find("-->", beginX + 1) + 3 });
+					beginX++;
 				}
 
 				//INSERT STRINGS
-				begin_x = 0;
-				while (index_pair_queue.empty() == false)
+				beginX = 0;
+				while (indexPairQueue.empty() == false)
 				{
-					end_x = index_pair_queue.front().first;
-					replaced_str.append(wstr.substring(begin_x, end_x).str());
+					endX = indexPairQueue.front().first;
+					replacedStr.append(wstr.substring(beginX, endX).str());
 
-					begin_x = index_pair_queue.front().second;
-					index_pair_queue.pop();
+					beginX = indexPairQueue.front().second;
+					indexPairQueue.pop();
 				}
-				replaced_str.append(wstr.substr(begin_x).str());
+				replacedStr.append(wstr.substr(beginX).str());
 
 				//RE-REFERENCE
-				wstr = replaced_str;
+				wstr = replacedStr;
 			}
 
 			//ERASE HEADERS OF XML
@@ -224,9 +224,6 @@ namespace library
 		 */
 		XML(XML *parent, WeakString &wstr) : XML()
 		{
-			//	this->parent = parent;
-			//	this->level = parent->level + 1;
-
 			construct(wstr);
 		};
 
@@ -241,19 +238,22 @@ namespace library
 
 		void construct_key(WeakString &wstr)
 		{
-			size_t start_x = wstr.find("<") + 1;
-			size_t end_x = calc_min_index
-				({
-					wstr.find(' ', start_x),
-					wstr.find("\r\n", start_x),
-					wstr.find('\n', start_x),
-					wstr.find('\t', start_x),
-					wstr.find('>', start_x),
-					wstr.find('/', start_x)
-				});
+			size_t startX = wstr.find("<") + 1;
+			size_t endX =
+				calc_min_index
+				(
+					{
+						wstr.find(' ', startX),
+						wstr.find("\r\n", startX),
+						wstr.find('\n', startX),
+						wstr.find('\t', startX),
+						wstr.find('>', startX),
+						wstr.find('/', startX)
+					}
+				);
 
 			//Determinate the KEY
-			tag = wstr.substring(start_x, end_x).str();
+			tag = move( wstr.substring(startX, endX).str() );
 		};
 		
 		void construct_properties(WeakString &wstr)
@@ -281,33 +281,33 @@ namespace library
 			};
 
 			size_t i_begin = wstr.find('<' + tag) + tag.size() + 1;
-			size_t end_slash = wstr.rfind('/');
-			size_t end_block = wstr.find('>', i_begin);
+			size_t i_endSlash = wstr.rfind('/');
+			size_t i_endBlock = wstr.find('>', i_begin);
 
-			size_t i_end = calc_min_index({ end_slash, end_block });
+			size_t i_end = calc_min_index({ i_endSlash, i_endBlock });
 			if (i_end == std::string::npos || i_begin >= i_end)
 				return;
 
 			//<comp label='ABCD' /> : " label='ABCD' "
-			WeakString &line = wstr.substring(i_begin, i_end);
+			WeakString &line = wstr.substring(i_begin, i_end); 
 
 			if (line.find('=') == std::string::npos)
 				return;
 
 			std::string label, value;
 			std::vector<QuotePair*> helpers;
-			bool in_quote = false;
+			bool inQuote = false;
 			QuotePair::TYPE type;
-			size_t start_point, equal_point;
+			size_t startPoint, equalPoint;
 			size_t i;
 
-			for (i = 0; i < line.size(); i++)
+			for (i = 0; i < line.size(); i++) 
 			{
 				//Start of quote
-				if (in_quote == false && (line[i] == '\'' || line[i] == '"'))
+				if (inQuote == false && (line[i] == '\'' || line[i] == '"'))
 				{
-					in_quote = true;
-					start_point = i;
+					inQuote = true;
+					startPoint = i;
 
 					if (line[i] == '\'')
 						type = QuotePair::SINGLE;
@@ -316,41 +316,45 @@ namespace library
 				}
 				else if
 					(
-						in_quote == true &&
+						inQuote == true &&
 						(
-						(type == QuotePair::SINGLE && line[i] == '\'') ||
+							(type == QuotePair::SINGLE && line[i] == '\'') ||
 							(type == QuotePair::DOUBLE && line[i] == '"')
-							)
 						)
+					)
 				{
-					helpers.push_back(new QuotePair(type, start_point, i));
-					in_quote = false;
+					helpers.push_back(new QuotePair(type, startPoint, i));
+					inQuote = false;
 				}
 			}
 			for (i = 0; i < helpers.size(); i++)
 			{
 				if (i == 0)
 				{
-					equal_point = (long long)line.find('=');
-					label = line.substring(0, equal_point).trim().str();
+					equalPoint = (long long)line.find('=');
+					label = move( line.substring(0, equalPoint).trim().str() );
 				}
 				else
 				{
-					equal_point = line.find('=', helpers[i - 1]->end_index + 1);
-					label = line.substring(helpers[i - 1]->end_index + 1, equal_point).trim().str();
+					equalPoint = line.find('=', helpers[i - 1]->end_index + 1);
+					label = line.substring(helpers[i - 1]->end_index + 1, equalPoint).trim().str();
 				}
-
-				value = decodeProperty
+		
+				value = 
+					move
 					(
-						line.substring
+						decodeProperty
 						(
-							helpers[i]->start_index + 1,
-							helpers[i]->end_index
+							line.substring
+							(
+								helpers[i]->start_index + 1,
+								helpers[i]->end_index
+							)
 						)
 					);
-
+		
 				//INSERT INTO PROPERTY_MAP
-				properties.set(label, value);
+				properties.set(label, move(value));
 			}
 			for (i = 0; i < helpers.size(); i++)
 				delete helpers[i];
@@ -358,10 +362,10 @@ namespace library
 		
 		auto construct_value(WeakString &wstr) -> bool
 		{
-			size_t end_slash = wstr.rfind('/');
-			size_t end_block = wstr.find('>');
+			size_t i_endSlash = wstr.rfind('/');
+			size_t i_endBlock = wstr.find('>');
 
-			if (end_slash < end_block || end_block + 1 == wstr.rfind('<'))
+			if (i_endSlash < i_endBlock || i_endBlock + 1 == wstr.rfind('<'))
 			{
 				//STATEMENT1: <TAG />
 				//STATEMENT2: <TAG></TAG> -> SAME WITH STATEMENT1: <TAG />
@@ -369,12 +373,12 @@ namespace library
 				return false;
 			}
 
-			size_t start_x = end_block + 1;
-			size_t end_x = wstr.rfind('<');
-			wstr = wstr.substring(start_x, end_x); //REDEFINE WEAK_STRING -> IN TO THE TAG
+			size_t startX = i_endBlock + 1;
+			size_t endX = wstr.rfind('<');
+			wstr = wstr.substring(startX, endX); //REDEFINE WEAK_STRING -> IN TO THE TAG
 
 			if (wstr.find('<') == std::string::npos)
-				value = wstr.trim().str();
+				value = wstr.trim();
 			else
 				value.clear();
 
@@ -386,38 +390,66 @@ namespace library
 			if (wstr.find('<') == std::string::npos)
 				return;
 
-			size_t start_x = wstr.find('<');
-			size_t end_x = wstr.rfind('>') + 1;
-			wstr = wstr.substring(start_x, end_x);
+			size_t startX = wstr.find('<');
+			size_t endX = wstr.rfind('>') + 1;
+			wstr = wstr.substring(startX, endX);
 
-			int block_start_cnt = 0;
-			int block_end_cnt = 0;
+			/*map<std::string, queue<XML *>> xmlQueueMap;
+			queue<XML*> *xmlQueue;
+			XML *xml;*/
+
+			int blockStartCount = 0;
+			int blockEndCount = 0;
 			size_t start = 0;
 			size_t end;
 			size_t i;
 
 			//FIND BLOCKS, CREATES XML AND PUT IN TEMPORARY CONTAINER
-			for (i = 0; i < wstr.size(); i++)
+			for (i = 0; i < wstr.size(); i++) 
 			{
 				if (wstr[i] == '<' && wstr.substr(i, 2) != "</")
-					block_start_cnt++;
+					blockStartCount++;
 				else if (wstr.substr(i, 2) == "/>" || wstr.substr(i, 2) == "</")
-					block_end_cnt++;
+					blockEndCount++;
 
-				if (block_start_cnt >= 1 && block_start_cnt == block_end_cnt)
+				if (blockStartCount >= 1 && blockStartCount == blockEndCount) 
 				{
 					//NO PROBLEM TO AVOID COMMENT
 					end = wstr.find('>', i);
+
+					/*xml = new XML(this, wstr.substring(start, end + 1));
+					xmlQueueMap[xml->tag].push(xml);*/
 
 					std::shared_ptr<XML> xml(new XML(this, wstr.substring(start, end + 1)));
 					push_back(xml);
 
 					i = end; //WHY NOT END+1? 
 					start = end + 1;
-					block_start_cnt = 0;
-					block_end_cnt = 0;
+					blockStartCount = 0;
+					blockEndCount = 0;
 				}
 			}
+
+			//RESERVE
+			/*for (auto it = xmlQueueMap.begin(); it != xmlQueueMap.end(); it++)
+			{
+				std::string tag = move(it->first); //GET KEY
+				shared_ptr<XMLList> xmlList(new XMLList());
+
+				xmlQueue = &(it->second);
+				xmlList->reserve(xmlQueue->size()); //RESERVE
+
+				//MOVE QUEUE TO XML_LIST
+				while (xmlQueue->empty() == false)
+				{
+					xml = xmlQueue->front();
+					xmlList->push_back(shared_ptr<XML>(xml));
+
+					xmlQueue->pop();
+				}
+				//INSERT IN MAP BY KEY
+				insert({ tag, xmlList });
+			}*/
 
 			if (size() > 0)
 				value.clear();
@@ -429,12 +461,12 @@ namespace library
 		 *
 		 * @param str A string representing xml objects whould be belonged to this XML
 		 */
-		void push_back(const WeakString &wstr)
+		void push_back(WeakString wstr)
 		{
 			if (wstr.empty() == true)
 				return;
 
-			std::shared_ptr<XML> xml(new XML(this, (WeakString&)wstr));
+			std::shared_ptr<XML> xml(new XML(this, wstr));
 			auto it = find(xml->tag);
 
 			//if not exists
@@ -456,8 +488,9 @@ namespace library
 		void push_back(const std::shared_ptr<XML> xml)
 		{
 			std::string &tag = xml->tag;
+			
 			if (this->has(tag) == false)
-				set(tag, std::make_shared<XMLList>());
+				this->set(tag, std::make_shared<XMLList>());
 
 			this->get(tag)->push_back(xml);
 		};

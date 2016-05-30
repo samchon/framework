@@ -115,7 +115,7 @@ namespace library
 		 */
 		auto toMatrix() const -> std::vector<std::vector<size_t>>
 		{
-			std::vector<std::vector<size_t>> matrix(size_, vector<std::size_t>(r_, 0));
+			std::vector<std::vector<size_t>> matrix(size_, std::vector<std::size_t>(r_, 0));
 
 			for (size_t i = 0; i < size_; i++)
 				matrix[i] = operator[](i);

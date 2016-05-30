@@ -90,7 +90,7 @@ namespace interaction
 		};
 
 	protected:
-		virtual auto create_child(shared_ptr<XML>) -> ExternalSystem*
+		virtual auto createChild(shared_ptr<XML>) -> ExternalSystem*
 		{
 			return new MasterDriver(this, "", "", 0);
 		};

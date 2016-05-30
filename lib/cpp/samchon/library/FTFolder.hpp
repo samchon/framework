@@ -48,7 +48,7 @@ namespace library
 		virtual void construct(std::shared_ptr<library::XML> xml) override;
 
 	protected:
-		virtual auto create_child(std::shared_ptr<library::XML>)->FTInstance* override;
+		virtual auto createChild(std::shared_ptr<library::XML>)->FTInstance* override;
 
 	public:
 		virtual auto toXML() const->std::shared_ptr<library::XML> override;

@@ -93,7 +93,7 @@ void Client::sendData(shared_ptr<Invoke> invoke)
 }
 void Client::replyData(shared_ptr<Invoke> invoke)
 {
-	std::string &listener = invoke->get_listener();
+	std::string &listener = invoke->getListener();
 
 	if (listener == "notifyService")
 	{

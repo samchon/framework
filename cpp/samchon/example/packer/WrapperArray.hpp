@@ -100,7 +100,7 @@ namespace packer
 		};
 
 	protected:
-		virtual auto create_child(shared_ptr<XML>) -> Wrapper* override
+		virtual auto createChild(shared_ptr<XML>) -> Wrapper* override
 		{
 			return new Wrapper();
 		};

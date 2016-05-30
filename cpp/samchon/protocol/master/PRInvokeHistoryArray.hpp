@@ -30,7 +30,7 @@ namespace master
 		virtual ~PRInvokeHistoryArray() = default;
 
 	protected:
-		virtual auto create_child(std::shared_ptr<library::XML>)->InvokeHistory* override;
+		virtual auto createChild(std::shared_ptr<library::XML>)->InvokeHistory* override;
 
 	public:
 		SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_HEADER(PRInvokeHistory)

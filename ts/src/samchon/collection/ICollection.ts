@@ -46,6 +46,7 @@ namespace samchon.collection
 		addEventListener(type: string, listener: EventListener, thisArg: Object): void;
 
 		addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
+
 		addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
 
 		/**
@@ -59,6 +60,7 @@ namespace samchon.collection
 		removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
 
 		removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
+
 		removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
 	}
 }

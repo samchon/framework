@@ -49,7 +49,7 @@ auto ExternalClientArray::MY_IP() const -> string
 
 void ExternalClientArray::addClient(Socket *socket)
 {
-	ExternalClient *client = dynamic_cast<ExternalClient*>(create_child(nullptr));
+	ExternalClient *client = dynamic_cast<ExternalClient*>(createChild(nullptr));
 	
 	if(client == nullptr)
 		throw exception("invalid factory method");

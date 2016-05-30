@@ -201,7 +201,7 @@ namespace protocol
 
 		virtual ~InvokeParameter() = default;
 
-		virtual void construct(std::shared_ptr<library::XML>) override
+		virtual void construct(std::shared_ptr<library::XML> xml) override
 		{
 			if (xml->hasProperty("name") == true)
 				this->name = xml->getProperty("name");
@@ -361,12 +361,12 @@ namespace protocol
 		/* ----------------------------------------------------------
 			EXPORTERS
 		---------------------------------------------------------- */
-		virtual auto TAG() const->std::string override
+		virtual auto TAG() const -> std::string override
 		{
 			return "parameter";
 		};
 
-		virtual auto toXML() const->std::shared_ptr<library::XML> override
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override
 		{
 			std::shared_ptr<library::XML> &xml = super::toXML();
 

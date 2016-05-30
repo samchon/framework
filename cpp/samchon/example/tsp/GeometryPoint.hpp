@@ -95,9 +95,9 @@ namespace tsp
 
 		virtual void construct(shared_ptr<XML> xml) override
 		{
-			uid = xml->get_property<int>("uid");
-			longitude = xml->get_property<double>("longitude");
-			latitude = xml->get_property<double>("latitude");
+			uid = xml->getProperty<int>("uid");
+			longitude = xml->getProperty<double>("longitude");
+			latitude = xml->getProperty<double>("latitude");
 		};
 
 		/* -----------------------------------------------------------
@@ -143,12 +143,12 @@ namespace tsp
 			return "point";
 		};
 
-		auto to_XML() const -> shared_ptr<XML> override
+		auto toXML() const -> shared_ptr<XML> override
 		{
-			shared_ptr<XML> &xml = super::to_XML();
-			xml->set_property("uid", uid);
-			xml->set_property("longitude", longitude);
-			xml->set_property("latitude", latitude);
+			shared_ptr<XML> &xml = super::toXML();
+			xml->setProperty("uid", uid);
+			xml->setProperty("longitude", longitude);
+			xml->setProperty("latitude", latitude);
 
 			return xml;
 		};
@@ -161,7 +161,7 @@ namespace tsp
 		 *
 		 * @return A string represents the GeometryPoint
 		 */
-		auto to_string() const -> string
+		auto toString() const -> string
 		{
 			return StringUtil::substitute
 				(

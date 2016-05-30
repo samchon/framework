@@ -1,10 +1,9 @@
 #pragma once
-#include <samchon/API.hpp>
 
 #include <string>
-#include <samchon/ByteArray.hpp>
-
 #include <array>
+
+#include <samchon/ByteArray.hpp>
 
 namespace samchon
 {
@@ -24,7 +23,7 @@ namespace library
 	 * @see samchon::library
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class /*SAMCHON_FRAMEWORK_API*/ Base64
+	class Base64
 	{
 	public:
 		/**
@@ -36,7 +35,7 @@ namespace library
 		 */
 		static auto encode(const ByteArray &byte_array) -> std::string
 		{
-			static std::array<char, 64> base64CharArray =
+			static const std::array<char, 64> BASE64_CHAR_ARRAY =
 			{
 				'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
 				'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -70,7 +69,7 @@ namespace library
 					output[3] = input[2] & 0x3f;
 
 					for (i = 0; (i < 4); i++)
-						str += base64CharArray[output[i]];
+						str += BASE64_CHAR_ARRAY[output[i]];
 					i = 0;
 				}
 			}
@@ -86,7 +85,7 @@ namespace library
 				output[3] = input[2] & 0x3f;
 
 				for (j = 0; (j < i + 1); j++)
-					str += base64CharArray[output[j]];
+					str += BASE64_CHAR_ARRAY[output[j]];
 
 				while ((i++ < 3))
 					str += '=';
@@ -106,7 +105,7 @@ namespace library
 		 */
 		static auto decode(const std::string &str) -> ByteArray
 		{
-			static std::array<int, 256> base64DecodeArray =
+			static const std::array<int, 256> BASE64_DECODE_ARRAY =
 			{
 				-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  /* 00-0F */
 				-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  /* 10-1F */
@@ -138,7 +137,7 @@ namespace library
 
 			for (size_t i = 0; i < str.size(); i++)
 			{
-				d = base64DecodeArray[(int)str[i]];
+				d = BASE64_DECODE_ARRAY[(int)str[i]];
 
 				if (d != -1)
 				{

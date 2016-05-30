@@ -1,4 +1,5 @@
 #pragma once
+
 #include <utility>
 
 namespace samchon
@@ -88,7 +89,7 @@ namespace samchon
 		 *
 		 * @return Reference of value of the pair
 		 */
-		auto get_value() -> T&
+		auto getValue() -> T&
 		{
 			return second;
 		};
@@ -98,7 +99,7 @@ namespace samchon
 		 *
 		 * @return Const reference of value of the pair
 		 */
-		auto get_value() const -> const T&
+		auto getValue() const -> const T&
 		{
 			return second;
 		};

@@ -65,7 +65,7 @@ namespace interaction
 				make_shared<Invoke>
 				(
 					"optimize", 
-					scheduler->to_XML()
+					scheduler->toXML()
 				), 
 				this->size()
 			);
@@ -90,14 +90,14 @@ namespace interaction
 
 			cout << endl;
 			cout << "Parallel optimization has completed." << endl;
-			cout << scheduler->to_string() << endl << endl;
+			cout << scheduler->toString() << endl << endl;
 
 			chiefDriver->sendData
 			(
 				make_shared<Invoke>
 				(
 					"replyOptimization", 
-					scheduler->to_XML()
+					scheduler->toXML()
 				)
 			);
 		};

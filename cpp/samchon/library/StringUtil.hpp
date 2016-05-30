@@ -1,11 +1,10 @@
 #pragma once
-#include <samchon/API.hpp>
 
 #include <string>
-#include <samchon/WeakString.hpp>
-
 #include <iostream>
 #include <sstream>
+
+#include <samchon/WeakString.hpp>
 #include <samchon/IndexPair.hpp>
 #include <samchon/library/Math.hpp>
 
@@ -34,7 +33,7 @@ namespace library
 	 * @see samchon::library
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class /*SAMCHON_FRAMEWORK_API*/ StringUtil
+	class StringUtil
 	{
 	public:
 		/* ----------------------------------------------------------------------
@@ -99,11 +98,11 @@ namespace library
 				if (isNumeric(*it) == true)
 					vec.push_back(stoi(*it));
 
-			size_t index = (size_t)Math::minimum(vec).get_value();
+			size_t index = (size_t)Math::minimum(vec).getValue();
 
-			//replace_all
-			std::string &to = to_string(value);
-			return replace_all(format, "{" + std::to_string(index) + "}", to);
+			//replaceAll
+			std::string &to = toString(value);
+			return replaceAll(format, "{" + std::to_string(index) + "}", to);
 		};
 
 		template <typename T> static auto _substituteSQL(const std::string &format, const T& value) -> std::string
@@ -115,65 +114,65 @@ namespace library
 				if (isNumeric(*it) == true)
 					vec.push_back(stoi(*it));
 
-			size_t index = (size_t)Math::minimum(vec).get_value();
+			size_t index = (size_t)Math::minimum(vec).getValue();
 
-			//replace_all
-			std::string &to = to_sql(value);
-			return replace_all(format, "{" + std::to_string(index) + "}", to);
+			//replaceAll
+			std::string &to = toSQL(value);
+			return replaceAll(format, "{" + std::to_string(index) + "}", to);
 		};
 
 		/* ----------------------------------------------------------------------
 			SUBSTITUTE -> TO_STRING
 		---------------------------------------------------------------------- */
 		template <typename T>
-		static auto to_string(const T &val) -> std::string
+		static auto toString(const T &val) -> std::string
 		{
 			return std::to_string(val);
 		};
-		template<> static auto to_string(const std::string &str) -> std::string
+		template<> static auto toString(const std::string &str) -> std::string
 		{
 			return str;
 		};
-		template<> static auto to_string(const WeakString &str) -> std::string
+		template<> static auto toString(const WeakString &str) -> std::string
 		{
 			return str.str();
 		};
 
 		template <typename T>
-		static auto to_sql(const T &val) -> std::string
+		static auto toSQL(const T &val) -> std::string
 		{
 			if (val == INT_MIN)
 				return "NULL";
 
 			return std::to_string(val);
 		};
-		template<> static auto to_sql(const bool &flag) -> std::string
+		template<> static auto toSQL(const bool &flag) -> std::string
 		{
 			return std::to_string(flag);
 		};
-		template<> static auto to_sql(const char &val) -> std::string
+		template<> static auto toSQL(const char &val) -> std::string
 		{
-			return to_sql(std::string({ val }));
+			return toSQL(std::string({ val }));
 		};
-		template<> static auto to_sql(const std::string &str) -> std::string
+		template<> static auto toSQL(const std::string &str) -> std::string
 		{
-			return to_sql(WeakString(str));
+			return toSQL(WeakString(str));
 		};
-		template<> static auto to_sql(const WeakString &wstr) -> std::string
+		template<> static auto toSQL(const WeakString &wstr) -> std::string
 		{
 			if (wstr.empty() == true)
 				return "NULL";
 			else
 			{
 				if (wstr.find("'") != std::string::npos)
-					return "'" + wstr.replace_all("'", "''") + "'";
+					return "'" + wstr.replaceAll("'", "''") + "'";
 				else
 					return "'" + wstr.str() + "'";
 			}
 		};
-		static auto to_sql(const char *ptr) -> std::string
+		static auto toSQL(const char *ptr) -> std::string
 		{
-			return to_sql(std::string(ptr));
+			return toSQL(std::string(ptr));
 		};
 
 	public:
@@ -197,7 +196,7 @@ namespace library
 			try
 			{
 				stoi(str);
-				//stod( replace_all(str, ",", "") );
+				//stod( replaceAll(str, ",", "") );
 			}
 			catch (const std::exception &)
 			{
@@ -219,7 +218,7 @@ namespace library
 		 */
 		static auto toNumber(const std::string &str) -> double
 		{
-			std::string &numStr = replace_all(str, ",", "");
+			std::string &numStr = replaceAll(str, ",", "");
 
 			return stod(numStr);
 		};
@@ -436,7 +435,7 @@ namespace library
 		{
 			IndexPair<WeakString> &iPair = WeakString(str).finds(delims, startIndex);
 
-			return { iPair.get_index(), iPair.get_value().str() };
+			return { iPair.get_index(), iPair.getValue().str() };
 		};
 
 		/**
@@ -459,7 +458,7 @@ namespace library
 		{
 			IndexPair<WeakString> &iPair = WeakString(str).rfinds(delims, endIndex);
 
-			return { iPair.get_index(), iPair.get_value().str() };
+			return { iPair.get_index(), iPair.getValue().str() };
 		};
 
 		/**
@@ -599,9 +598,9 @@ namespace library
 		 * @param str Target string to convert uppercase to lowercase
 		 * @return A string converted to lowercase
 		 */
-		static auto to_lower_case(const std::string &str) -> std::string
+		static auto toLowerCase(const std::string &str) -> std::string
 		{
-			return WeakString(str).to_lower_case();
+			return WeakString(str).toLowerCase();
 		};
 
 		/**
@@ -610,9 +609,9 @@ namespace library
 		 * @param str Target string to convert lowercase to uppercase
 		 * @return A string converted to uppercase
 		 */
-		static auto to_upper_case(const std::string &str) -> std::string
+		static auto yoUpperCase(const std::string &str) -> std::string
 		{
-			return WeakString(str).to_upper_case();
+			return WeakString(str).yoUpperCase();
 		};
 
 		/**
@@ -623,13 +622,13 @@ namespace library
 		 * @param after Specific word you want to replace
 		 * @return A string specified word is replaced
 		 */
-		static auto replace_all
+		static auto replaceAll
 			(
 				const std::string &str, 
 				const std::string &before, const std::string &after
 			) -> std::string
 		{
-			return WeakString(str).replace_all(before, after);
+			return WeakString(str).replaceAll(before, after);
 		};
 
 		/**
@@ -639,10 +638,10 @@ namespace library
 		 * @param pairs A specific word's pairs you want to replace and to be replaced
 		 * @return A string specified words are replaced
 		 */
-		static auto replace_all(const std::string &str,
+		static auto replaceAll(const std::string &str,
 			const std::vector<std::pair<std::string, std::string>> &pairs) -> std::string
 		{
-			return WeakString(str).replace_all(pairs);
+			return WeakString(str).replaceAll(pairs);
 		};
 
 		/**
@@ -658,7 +657,7 @@ namespace library
 				{ "\t", " " },
 				{ "  ", " " }
 			};
-			return replace_all(str, pairs);
+			return replaceAll(str, pairs);
 		};
 	};
 };

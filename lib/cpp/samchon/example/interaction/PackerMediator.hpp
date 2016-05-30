@@ -147,9 +147,9 @@ namespace interaction
 				return;
 
 			std::cout << "Parallel optimization has completed." << std::endl;
-			std::cout << packer->to_string() << std::endl << std::endl;
+			std::cout << packer->toString() << std::endl << std::endl;
 
-			slave->sendData(std::make_shared<protocol::Invoke>("replyOptimization", packer->to_XML()));
+			slave->sendData(std::make_shared<protocol::Invoke>("replyOptimization", packer->toXML()));
 		};
 
 	public:

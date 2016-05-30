@@ -30,7 +30,7 @@ void DistributedSystem::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	performance = xml->get_property<double>("performance");
+	performance = xml->getProperty<double>("performance");
 }
 
 auto DistributedSystem::create_child(shared_ptr<XML>) -> ExternalSystemRole*
@@ -72,13 +72,13 @@ void DistributedSystem::replyData(shared_ptr<Invoke> invoke)
 /* ------------------------------------------------------------------
 	EXPORTERS
 ------------------------------------------------------------------ */
-auto DistributedSystem::to_XML() const -> shared_ptr<XML>
+auto DistributedSystem::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::to_XML();
-	xml->set_property("performance", performance);
+	shared_ptr<XML> &xml = super::toXML();
+	xml->setProperty("performance", performance);
 
 	if (invokeHistoryArray->empty() == false)
-		xml->push_back(invokeHistoryArray->to_XML());
+		xml->push_back(invokeHistoryArray->toXML());
 
 	return xml;
 }

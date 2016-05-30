@@ -19,7 +19,7 @@ WebServerConnector::WebServerConnector()
 {
 }
 
-auto WebServerConnector::is_server() const -> bool
+auto WebServerConnector::isServer() const -> bool
 {
 	return false;
 }
@@ -49,7 +49,7 @@ void WebServerConnector::handshake()
 		"Sec-WebSocket-Version: 13\r\n" +
 		"\r\n",
 
-		get_path(),
+		getPath(),
 		getIP() + ":" + to_string(getPort()),
 		base64_key
 	);

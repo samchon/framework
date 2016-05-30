@@ -1,6 +1,4 @@
 #pragma once
-#include <samchon/API.hpp>
-
 #include <samchon/protocol/Entity.hpp>
 
 #include <sstream>
@@ -55,7 +53,7 @@ namespace protocol
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API InvokeParameter
+	class InvokeParameter
 		: public virtual Entity
 	{
 		friend class Invoke;
@@ -154,7 +152,7 @@ namespace protocol
 		 * 	<li> XML </li>
 		 *	<ul>
 		 *		<li> std::shared_ptr<library::XML> </li>
-		 *		<li> Entity; protocol::Entity::to_XML() </li>
+		 *		<li> Entity; protocol::Entity::toXML() </li>
 		 *	</ul>
 		 *  <li> ByteArray </li>
 		 * </ul>
@@ -205,23 +203,23 @@ namespace protocol
 
 		virtual void construct(std::shared_ptr<library::XML>) override
 		{
-			if (xml->has_property("name") == true)
-				this->name = xml->get_property("name");
+			if (xml->hasProperty("name") == true)
+				this->name = xml->getProperty("name");
 			else
 				this->name = "";
 
-			this->type = xml->get_property("type");
+			this->type = xml->getProperty("type");
 
 			if (type == "XML")
 				this->xml = xml->begin()->second->at(0);
 			else if (type == "ByteArray")
 			{
-				size_t size = xml->get_value<size_t>();
+				size_t size = xml->getValue<size_t>();
 
 				byte_array.reserve(size);
 			}
 			else
-				this->str = xml->get_value();
+				this->str = xml->getValue();
 		};
 
 		auto reserved_byte_array_size() const -> size_t
@@ -287,7 +285,7 @@ namespace protocol
 		/**
 		 * @brief Get type
 		 */
-		auto get_type() const->std::string
+		auto getType() const->std::string
 		{
 			return type;
 		};
@@ -297,32 +295,32 @@ namespace protocol
 		 *
 		 * @tparam _Ty Type of value to get
 		 */
-		template<typename T> auto get_value() const -> T
+		template<typename T> auto getValue() const -> T
 		{
 			double val = std::stod(str);
 
 			return (T)val;
 		};
-		template<> auto get_value() const -> std::string
+		template<> auto getValue() const -> std::string
 		{
 			return str;
 		};
-		template<> auto get_value() const -> WeakString
+		template<> auto getValue() const -> WeakString
 		{
 			return str;
 		};
-		template<> auto get_value() const -> std::shared_ptr<library::XML>
+		template<> auto getValue() const -> std::shared_ptr<library::XML>
 		{
 			return xml;
 		};
-		template<> auto get_value() const -> ByteArray
+		template<> auto getValue() const -> ByteArray
 		{
 			return byte_array;
 		};
 
 		/**
 		 * @brief Get value as XML object
-		 * @details Same with get_value< std::shared_ptr<library::XML> >();
+		 * @details Same with getValue< std::shared_ptr<library::XML> >();
 		 */
 		auto get_value_as_xml() const -> std::shared_ptr<library::XML>
 		{
@@ -368,20 +366,20 @@ namespace protocol
 			return "parameter";
 		};
 
-		virtual auto to_XML() const->std::shared_ptr<library::XML> override
+		virtual auto toXML() const->std::shared_ptr<library::XML> override
 		{
-			std::shared_ptr<library::XML> &xml = super::to_XML();
+			std::shared_ptr<library::XML> &xml = super::toXML();
 
 			if (name.empty() == false)
-				xml->set_property("name", name);
-			xml->set_property("type", type);
+				xml->setProperty("name", name);
+			xml->setProperty("type", type);
 
 			if (type == "XML")
 				xml->push_back(this->xml);
 			else if (type == "ByteArray")
-				xml->set_value(byte_array.size());
+				xml->setValue(byte_array.size());
 			else
-				xml->set_value(str);
+				xml->setValue(str);
 
 			return xml;
 		};

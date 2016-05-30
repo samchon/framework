@@ -60,12 +60,12 @@ void IClient::listen()
 			break;
 
 		if(ba_invoke == nullptr)
-			handleString(piece, str, ba_invoke, size);
+			handle_string(piece, str, ba_invoke, size);
 		else
-			handleBinary(piece, str, ba_invoke, size);
+			handle_binary(piece, str, ba_invoke, size);
 	}
 }
-void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &baInvoke, size_t size)
+void IClient::handle_string(ByteArray &piece, string &str, shared_ptr<Invoke> &baInvoke, size_t size)
 {
 	static size_t CLOSED_PARENTHESIS = string("</invoke>").size();
 
@@ -136,7 +136,7 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 
 			invoke->construct(xml);
 
-			cout << invoke->to_XML()->to_string() << endl;
+			cout << invoke->toXML()->toString() << endl;
 
 			invokeList.push_back(invoke);
 
@@ -224,7 +224,7 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 	for (size_t i = 0; i < lastInvoke->size(); i++)
 	{
 		//IF HAS, TO HANDLE_BINARY
-		if (lastInvoke->at(i)->get_type() == "ByteArray")
+		if (lastInvoke->at(i)->getType() == "ByteArray")
 		{
 			baInvoke = lastInvoke;
 
@@ -235,7 +235,7 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 			);
 
 			//HANDLING LEFT BINARY PIECE
-			handleBinary(piece, str, baInvoke, size);
+			handle_binary(piece, str, baInvoke, size);
 			return;
 		}
 	}
@@ -243,7 +243,7 @@ void IClient::handleString(ByteArray &piece, string &str, shared_ptr<Invoke> &ba
 	//ELSE, DOES NOT HAVE, CALL REPLY_DATA
 	_replyData(lastInvoke);
 }
-void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &invoke, size_t size)
+void IClient::handle_binary(ByteArray &piece, string &str, shared_ptr<Invoke> &invoke, size_t size)
 {
 	if (piece.get_position() >= size)
 		return;
@@ -254,7 +254,7 @@ void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &in
 
 	//FIND WHICH PARAMETER IS BINARY
 	for (size_t i = 0; i < invoke->size(); i++)
-		if (invoke->at(i)->get_type() == "ByteArray")
+		if (invoke->at(i)->getType() == "ByteArray")
 		{
 			const ByteArray &ba = invoke->at(i)->refer_value<ByteArray>();
 		
@@ -290,7 +290,7 @@ void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &in
 
 	//IF LAST BINARY
 	for(size_t i = param_index + 1; i < invoke->size(); i++)
-		if(invoke->at(i)->get_type() == "ByteArray")
+		if(invoke->at(i)->getType() == "ByteArray")
 			return;
 
 	// SHIFTS
@@ -300,7 +300,7 @@ void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &in
 	invoke.reset();
 
 	//IF BYTES ARE LEFT, CALL HANDLE_STRING
-	handleString(piece, str, invoke, size);
+	handle_string(piece, str, invoke, size);
 }
 
 /* -----------------------------------------------------------------------------------
@@ -308,7 +308,7 @@ void IClient::handleBinary(ByteArray &piece, string &str, shared_ptr<Invoke> &in
 ----------------------------------------------------------------------------------- */
 void IClient::sendData(shared_ptr<Invoke> invoke)
 {
-	string &data = invoke->to_XML()->to_string();
+	string &data = invoke->toXML()->toString();
 	boost::system::error_code error;
 
 	unique_lock<mutex> uk(*sendMtx);
@@ -321,7 +321,7 @@ void IClient::sendData(shared_ptr<Invoke> invoke)
 	}
 
 	for (size_t i = 0; i < invoke->size(); i++)
-		if (invoke->at(i)->get_type() == "ByteArray")
+		if (invoke->at(i)->getType() == "ByteArray")
 		{
 			const ByteArray &byte_array = invoke->at(i)->refer_value<ByteArray>();
 			socket->write_some(boost::asio::buffer(byte_array), error);

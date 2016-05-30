@@ -142,7 +142,7 @@ namespace interaction
 				make_shared<Invoke>
 				(
 					"optimize", 
-					packer.to_XML()
+					packer.toXML()
 				)
 			);
 		};
@@ -166,7 +166,7 @@ namespace interaction
 
 			// SEND
 			tsp::Scheduler scheduler(travel, gaParameters);
-			get("TSP")->sendData(make_shared<Invoke>("optimize", scheduler.to_XML()));
+			get("TSP")->sendData(make_shared<Invoke>("optimize", scheduler.toXML()));
 		};
 
 	public:

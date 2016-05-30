@@ -27,7 +27,7 @@ void FTFolder::construct(shared_ptr<XML> xml)
 auto FTFolder::create_child(shared_ptr<XML> xml) -> FTInstance*
 {
 	FTInstance *file = nullptr;
-	if (xml->has_property("extension") == false)
+	if (xml->hasProperty("extension") == false)
 		file = new FTFolder(factory, this);
 	else
 		file = factory->createFile(this, xml);
@@ -36,10 +36,10 @@ auto FTFolder::create_child(shared_ptr<XML> xml) -> FTInstance*
 	return file;
 }
 
-auto FTFolder::to_XML() const -> shared_ptr<XML>
+auto FTFolder::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::to_XML();
-	xml->add_all_properties(FTInstance::to_XML());
+	shared_ptr<XML> &xml = super::toXML();
+	xml->addAllProperties(FTInstance::toXML());
 
 	return xml;
 }

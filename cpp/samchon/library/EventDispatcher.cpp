@@ -86,7 +86,7 @@ void EventDispatcher::dispatch(std::shared_ptr<Event> event)
 	start();
 
 	UniqueReadLock my_uk(mtx);
-	if (listeners.count(event->get_type()) == 0)
+	if (listeners.count(event->getType()) == 0)
 		return;
 
 	my_uk.unlock();
@@ -99,10 +99,10 @@ void EventDispatcher::dispatch(std::shared_ptr<Event> event)
 void EventDispatcher::deliver(shared_ptr<Event> event)
 {
 	UniqueReadLock my_uk(mtx);
-	if (listeners.count(event->get_type()) == 0)
+	if (listeners.count(event->getType()) == 0)
 		return;
 
-	auto listenerMap = listeners[event->get_type()];
+	auto listenerMap = listeners[event->getType()];
 	my_uk.unlock();
 
 	for (auto it = listenerMap.begin(); it != listenerMap.end(); it++)

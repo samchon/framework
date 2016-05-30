@@ -15,18 +15,18 @@ void ParallelServer::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	if(xml->has_property("myIP") == true)
-		this->myIP = xml->get_property("myIP");
+	if(xml->hasProperty("myIP") == true)
+		this->myIP = xml->getProperty("myIP");
 	else
 		this->myIP.clear();
 }
 
-auto ParallelServer::to_XML() const -> shared_ptr<XML>
+auto ParallelServer::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::to_XML();
+	shared_ptr<XML> &xml = super::toXML();
 
 	if(myIP.empty() == false)
-		xml->set_property("myIP", myIP);
+		xml->setProperty("myIP", myIP);
 
 	return xml;
 }

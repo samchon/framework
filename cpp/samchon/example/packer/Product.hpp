@@ -67,9 +67,9 @@ namespace packer
 		/**
 		* @brief Return a string represents the Instance
 		*/
-		virtual auto to_string() const -> string override
+		virtual auto toString() const -> string override
 		{
-			return "Product " + super::to_string();
+			return "Product " + super::toString();
 		};
 	};			
 };

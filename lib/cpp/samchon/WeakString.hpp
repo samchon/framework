@@ -1,5 +1,4 @@
 #pragma once
-#include <samchon/API.hpp>
 
 #include <string>
 #include <vector>
@@ -33,7 +32,7 @@ namespace samchon
 	 * @see samchon::library
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class /*SAMCHON_FRAMEWORK_API*/ WeakString
+	class WeakString
 	{
 	private:
 		/**
@@ -346,7 +345,7 @@ namespace samchon
 				positionVector.push_back(find(delims[i], startIndex));
 
 			IndexPair<size_t> &iPair = library::Math::minimum(positionVector);
-			return { iPair.get_index(), delims[iPair.get_value()] };
+			return { iPair.get_index(), delims[iPair.getValue()] };
 		};
 
 		/**
@@ -392,7 +391,7 @@ namespace samchon
 				return { std::string::npos, WeakString() };
 
 			IndexPair<size_t> &iPair = library::Math::maximum(positionVector);
-			return { iPair.get_index(), delims[iPair.get_value()] };
+			return { iPair.get_index(), delims[iPair.getValue()] };
 		};
 
 		/* --------------------------------------------------------------------
@@ -685,7 +684,7 @@ namespace samchon
 					indexVec.push_back(str.find(delims[i]));
 
 				indexPair = library::Math::minimum(indexVec);
-				if (indexPair.get_value() == 0)
+				if (indexPair.getValue() == 0)
 				{
 					size_t size = delims[indexPair.get_index()].size();
 
@@ -720,7 +719,7 @@ namespace samchon
 				pairIndex = library::Math::maximum(indexVec);
 				size_t size = delims[pairIndex.get_index()].size();
 
-				if (pairIndex.get_value() == str.size() - size)
+				if (pairIndex.getValue() == str.size() - size)
 					str.size_ -= size;
 				else
 					break;
@@ -761,9 +760,9 @@ namespace samchon
 		 * @param after A specific word you want to replace
 		 * @return A string specified word is replaced
 		 */
-		auto replace_all(const WeakString &before, const WeakString &after) const -> std::string
+		auto replaceAll(const WeakString &before, const WeakString &after) const -> std::string
 		{
-			return replace_all({ { before, after } });
+			return replaceAll({ { before, after } });
 		};
 
 		/**
@@ -773,16 +772,16 @@ namespace samchon
 		 * @param pairs A specific word's pairs you want to replace and to be replaced
 		 * @return A string specified words are replaced
 		 */
-		auto replace_all(const std::vector<std::pair<std::string, std::string>> &pairs) const -> std::string
+		auto replaceAll(const std::vector<std::pair<std::string, std::string>> &pairs) const -> std::string
 		{
 			std::vector<std::pair<WeakString, WeakString>> wPairs(pairs.size());
 			for (size_t i = 0; i < pairs.size(); i++)
 				wPairs[i] = { pairs[i].first, pairs[i].second };
 
-			return replace_all(wPairs);
+			return replaceAll(wPairs);
 		};
 
-		auto replace_all(const std::vector<std::pair<WeakString, WeakString>> &pairs) const -> std::string
+		auto replaceAll(const std::vector<std::pair<WeakString, WeakString>> &pairs) const -> std::string
 		{
 			if (pairs.empty() == true)
 				return this->str();
@@ -849,7 +848,7 @@ namespace samchon
 		 * @param wstr Target string to convert uppercase to lowercase
 		 * @return A string converted to lowercase
 		 */
-		auto to_lower_case() const -> std::string
+		auto toLowerCase() const -> std::string
 		{
 			std::string &str = this->str();
 
@@ -867,7 +866,7 @@ namespace samchon
 		 * @param str Target string to convert lowercase to uppercase
 		 * @return A string converted to uppercase
 		 */
-		auto to_upper_case() const -> std::string
+		auto yoUpperCase() const -> std::string
 		{
 			std::string &str = this->str();
 

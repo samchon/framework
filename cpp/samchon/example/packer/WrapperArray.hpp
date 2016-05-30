@@ -206,10 +206,10 @@ namespace packer
 			return "wrapper";
 		};
 
-		virtual auto to_XML() const -> shared_ptr<XML> override
+		virtual auto toXML() const -> shared_ptr<XML> override
 		{
-			shared_ptr<XML> &xml = super::to_XML();
-			xml->add_all_properties(sample->to_XML());
+			shared_ptr<XML> &xml = super::toXML();
+			xml->addAllProperties(sample->toXML());
 
 			return xml;
 		};
@@ -217,11 +217,11 @@ namespace packer
 		/**
 		 * @brief Return a string represents Wrapper(s) of same type
 		 */
-		auto to_string() const -> string
+		auto toString() const -> string
 		{
 			string str = "Category - " + sample->get_name() + "\n";
 			for (size_t i = 0; i < size(); i++)
-				str += at(i)->to_string() + "\n";
+				str += at(i)->toString() + "\n";
 
 			return str;
 		};

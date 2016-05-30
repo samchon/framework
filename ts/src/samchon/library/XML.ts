@@ -333,7 +333,7 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Test wheter a property exists or not. </p>
+		 * <p> Test whether a property exists or not. </p>
 		 */
 		public hasProperty(key: string): boolean
 		{
@@ -479,7 +479,7 @@ namespace samchon.library
 		/* -------------------------------------------------------------
 			FILTERS
 		------------------------------------------------------------- */
-		private calcMinIndex(... args: number[]): number 
+		private calcMinIndex(...args: number[]): number 
 		{
 			let min: number = args[0];
 

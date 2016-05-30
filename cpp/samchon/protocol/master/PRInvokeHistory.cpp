@@ -24,15 +24,15 @@ PRInvokeHistory::PRInvokeHistory(PRMasterHistory *masterHistory, ParallelSystem 
 	this->masterHistory = masterHistory;
 	this->system = system;
 
-	index = invoke->get("invoke_history_index")->get_value<size_t>();
-	size = invoke->get("invoke_history_size")->get_value<size_t>();
+	index = invoke->get("invoke_history_index")->getValue<size_t>();
+	size = invoke->get("invoke_history_size")->getValue<size_t>();
 }
 void PRInvokeHistory::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	index = xml->get_property<size_t>("index");
-	size = xml->get_property<size_t>("size");
+	index = xml->getProperty<size_t>("index");
+	size = xml->getProperty<size_t>("size");
 }
 
 void PRInvokeHistory::notifyEnd()
@@ -60,11 +60,11 @@ auto PRInvokeHistory::calcAverageElapsedTime() const -> double
 /* --------------------------------------------------------------------
 	EXPORTERS
 -------------------------------------------------------------------- */
-auto PRInvokeHistory::to_XML() const -> shared_ptr<XML>
+auto PRInvokeHistory::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::to_XML();
-	xml->set_property("index", index);
-	xml->set_property("size", size);
+	shared_ptr<XML> &xml = super::toXML();
+	xml->setProperty("index", index);
+	xml->setProperty("size", size);
 
 	return xml;
 }

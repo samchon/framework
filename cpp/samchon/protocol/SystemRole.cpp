@@ -10,13 +10,12 @@ using namespace samchon::protocol;
 	CONSTRUCTORS
 ------------------------------------------------------------------ */
 SystemRole::SystemRole()
-	: super(),
-	IProtocol()
+	: super()
 {
 }
 void SystemRole::construct(shared_ptr<XML> xml)
 {
-	this->name = xml->get_property("name");
+	this->name = xml->getProperty("name");
 
 	listeners.clear();
 	if(xml->has("listenerArray") == false || xml->get("listenerArray")->at(0)->has("listener") == false)
@@ -24,7 +23,7 @@ void SystemRole::construct(shared_ptr<XML> xml)
 	
 	shared_ptr<XMLList> &xmlList = xml->get("listenerArray")->at(0)->get("listener");
 	for(size_t i = 0; i < xmlList->size(); i++)
-		listeners.insert(xmlList->at(i)->get_value());
+		listeners.insert(xmlList->at(i)->getValue());
 }
 
 /* ------------------------------------------------------------------
@@ -48,10 +47,10 @@ auto SystemRole::TAG() const -> string
 	return "role";
 }
 
-auto SystemRole::to_XML() const -> shared_ptr<XML>
+auto SystemRole::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::to_XML();
-	xml->set_property("name", name);
+	shared_ptr<XML> &xml = super::toXML();
+	xml->setProperty("name", name);
 
 	if (listeners.empty() == false)
 	{
@@ -62,7 +61,7 @@ auto SystemRole::to_XML() const -> shared_ptr<XML>
 		{
 			shared_ptr<XML> listener(new XML());
 			listener->setTag("listener");
-			listener->set_value(*it);
+			listener->setValue(*it);
 
 			listenerArray->push_back(listener);
 		}

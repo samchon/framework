@@ -19,10 +19,10 @@ ExternalSystem::ExternalSystem()
 }
 void ExternalSystem::construct(shared_ptr<XML> xml)
 {
-	this->name = xml->get_property("name");
+	this->name = xml->getProperty("name");
 
-	this->ip = xml->get_property("ip");
-	this->port = xml->get_property<int>("port");
+	this->ip = xml->getProperty("ip");
+	this->port = xml->getProperty<int>("port");
 
 	super::construct(xml);
 }
@@ -59,12 +59,12 @@ auto ExternalSystem::CHILD_TAG() const -> string
 	return "role";
 }
 
-auto ExternalSystem::to_XML() const -> shared_ptr<XML>
+auto ExternalSystem::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::to_XML();
-	xml->set_property("name", name);
-	xml->set_property("ip", ip);
-	xml->set_property("port", port);
+	shared_ptr<XML> &xml = super::toXML();
+	xml->setProperty("name", name);
+	xml->setProperty("ip", ip);
+	xml->setProperty("port", port);
 
 	return xml;
 }

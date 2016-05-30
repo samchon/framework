@@ -73,7 +73,7 @@ namespace protocol
 		 *
 		 * <p> Do not consider about constructing children Entity objects' data in EntityGroup::construct().
 		 * Those children Entity objects' data will constructed by their own construct() method. Even insertion
-		 * of XML objects representing children are done by abstract method of EntityGroup::to_XML(). </p>
+		 * of XML objects representing children are done by abstract method of EntityGroup::toXML(). </p>
 		 *
 		 * <p> Constructs only data of EntityGroup's own. </p>
 		 *
@@ -232,25 +232,25 @@ namespace protocol
 		 *
 		 * <p> Archives the EntityGroup's own member variables only to the returned XML object. </p>
 		 *
-		 * <p> Do not consider about archiving children Entity objects' data in EntityGroup::to_XML().
-		 * Those children Entity objects will converted to XML object by their own to_XML() method. The
+		 * <p> Do not consider about archiving children Entity objects' data in EntityGroup::toXML().
+		 * Those children Entity objects will converted to XML object by their own toXML() method. The
 		 * insertion of XML objects representing children are done by abstract method of
-		 * EntityGroup::to_XML(). </p>
+		 * EntityGroup::toXML(). </p>
 		 *
 		 * <p> Archives only data of EntityGroup's own. </p>
 		 *
 		 * \par [Inherited]
-		 *		@copydoc Entity::to_XML()
+		 *		@copydoc Entity::toXML()
 		 */
-		virtual auto to_XML() const -> std::shared_ptr<library::XML>
+		virtual auto toXML() const -> std::shared_ptr<library::XML>
 		{
-			std::shared_ptr<library::XML> &xml = Entity::to_XML();
+			std::shared_ptr<library::XML> &xml = Entity::toXML();
 
 			std::shared_ptr<library::XMLList> xmlList(new library::XMLList());
 			xmlList->reserve(this->size());
 
 			for (auto it = begin(); it != end(); it++)
-				xmlList->push_back((*it)->to_XML());
+				xmlList->push_back((*it)->toXML());
 
 			xml->set(CHILD_TAG(), xmlList);
 			return xml;

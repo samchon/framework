@@ -22,12 +22,12 @@ void ExternalClientArray::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	if(xml->has_property("myIP") == true)
-		this->myIP = xml->get_property("myIP");
+	if(xml->hasProperty("myIP") == true)
+		this->myIP = xml->getProperty("myIP");
 	else
 		this->myIP.clear();
 
-	this->port = xml->get_property<int>("port");
+	this->port = xml->getProperty<int>("port");
 }
 
 void ExternalClientArray::start()
@@ -69,12 +69,12 @@ void ExternalClientArray::addClient(Socket *socket)
 /* ------------------------------------------------------------------
 	EXPORTERS
 ------------------------------------------------------------------ */
-auto ExternalClientArray::to_XML() const -> shared_ptr<XML>
+auto ExternalClientArray::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::to_XML();
+	shared_ptr<XML> &xml = super::toXML();
 
 	if(myIP.empty() == false)
-		xml->set_property("myIP", myIP);
+		xml->setProperty("myIP", myIP);
 
 	return xml;
 }

@@ -1,9 +1,8 @@
 #pragma once
 #include <samchon/protocol/Entity.hpp>
 #include <samchon/protocol/IEntityGroup.hpp>
-#include <vector>
 
-#include <samchon/library/XML.hpp>
+#include <vector>
 #include <memory>
 
 namespace samchon
@@ -69,7 +68,7 @@ namespace protocol
 		 *
 		 * <p> Do not consider about constructing children Entity objects' data in EntityArray::construct().
 		 * Those children Entity objects' data will constructed by their own construct() method. Even insertion
-		 * of XML objects representing children are done by abstract method of EntityArray::to_XML(). </p>
+		 * of XML objects representing children are done by abstract method of EntityArray::toXML(). </p>
 		 *
 		 * <p> Constructs only data of EntityArray's own. </p>
 		 *
@@ -199,25 +198,25 @@ namespace protocol
 		 *
 		 * <p> Archives the EntityArray's own member variables only to the returned XML object. </p>
 		 *
-		 * <p> Do not consider about archiving children Entity objects' data in EntityArray::to_XML().
-		 * Those children Entity objects will converted to XML object by their own to_XML() method. The
+		 * <p> Do not consider about archiving children Entity objects' data in EntityArray::toXML().
+		 * Those children Entity objects will converted to XML object by their own toXML() method. The
 		 * insertion of XML objects representing children are done by abstract method of
-		 * EntityArray::to_XML(). </p>
+		 * EntityArray::toXML(). </p>
 		 *
 		 * <p> Archives only data of EntityArray's own. </p>
 		 *
 		 * \par [Inherited]
-		 *		@copydoc Entity::to_XML()
+		 *		@copydoc Entity::toXML()
 		 */
-		virtual auto to_XML() const -> std::shared_ptr<library::XML> override
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override
 		{
-			std::shared_ptr<library::XML> &xml = super::to_XML();
+			std::shared_ptr<library::XML> &xml = super::toXML();
 
 			std::shared_ptr<library::XMLList> xmlList(new XMLList());
 			xmlList->reserve(this->size());
 
 			for (size_t i = 0; i < size(); i++)
-				xmlList->push_back(at(i).to_XML());
+				xmlList->push_back(at(i).toXML());
 
 			xml->set(CHILD_TAG(), xmlList);
 			return xml;

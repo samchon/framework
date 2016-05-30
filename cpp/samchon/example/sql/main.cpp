@@ -33,7 +33,7 @@ void main()
 		auto stmt = sqli->createStatement();
 		stmt->executeDirectly("EXEC getOrderArray");
 
-		cout << stmt->to_XML()->to_string() << endl;
+		cout << stmt->toXML()->toString() << endl;
 	}
 	catch (exception &e)
 	{

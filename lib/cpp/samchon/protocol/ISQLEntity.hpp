@@ -1,5 +1,4 @@
 #pragma once
-#include <samchon/API.hpp>
 
 #include <string>
 #include <memory>
@@ -29,7 +28,7 @@ namespace protocol
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class /*SAMCHON_FRAMEWORK_API*/ ISQLEntity
+	class ISQLEntity
 	{
 	public:
 		virtual ~ISQLEntity() = default;
@@ -67,13 +66,13 @@ namespace protocol
 		 * @details
 		 * <p> ISQLEntity::toSL() is an abstract method returns a sql-statement string. </p>
 		 *
-		 * <p> However, if there's some parameter in a sql-statement string from the to_string() method,
+		 * <p> However, if there's some parameter in a sql-statement string from the toString() method,
 		 * it is categorized in dynamic sql. In that case, do not access table directly but indirect from
 		 * sql-procedure. Indirecting procedure is good for performance and security. </p>
 		 *
 		 * @return SQL storing record(s) to temporary table of a Procedure
 		 */
-		virtual auto to_sql() const -> std::string
+		virtual auto toSQL() const -> std::string
 		{
 			return "";
 		};

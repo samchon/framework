@@ -58,8 +58,8 @@ namespace interaction
 			scheduler.construct(xml);
 			scheduler.optimize();
 
-			cout << scheduler.to_string() << endl << endl;
-			sendData( make_shared<Invoke>("replyOptimization", scheduler.to_XML()) );
+			cout << scheduler.toString() << endl << endl;
+			sendData( make_shared<Invoke>("replyOptimization", scheduler.toXML()) );
 		};
 
 	public:

@@ -118,10 +118,10 @@ void ParallelSystemArray::notifyEnd(PRMasterHistory *masterHistory)
 	//FIND SYSTEMS PARTICIPATED IN PARALLEL PROCESS
 	for (i = 0; i < size(); i++)
 	{
-		if (at(i)->historyArray->has(to_string(uid)) == false)
+		if (at(i)->historyArray->has(toString(uid)) == false)
 			continue;
 
-		systemPairArray.push_back({at(i).get(), at(i)->historyArray->get(to_string(uid)).get()});
+		systemPairArray.push_back({at(i).get(), at(i)->historyArray->get(toString(uid)).get()});
 	}
 
 	//CALCULATE PERFORMANCE INDEX

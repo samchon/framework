@@ -1,8 +1,6 @@
 #pragma once
-#include <samchon/API.hpp>
-
 #include <samchon/protocol/SharedEntityArray.hpp>
-#include <samchon/protocol/InvokeParameter.hpp>
+#	include <samchon/protocol/InvokeParameter.hpp>
 
 namespace samchon
 {
@@ -44,7 +42,7 @@ namespace protocol
 	 * 		
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API Invoke
+	class Invoke
 		: public SharedEntityArray<InvokeParameter>
 	{
 	private:
@@ -78,7 +76,7 @@ namespace protocol
 
 		virtual void construct(std::shared_ptr<library::XML> xml) override
 		{
-			listener = xml->get_property("listener");
+			listener = xml->getProperty("listener");
 
 			super::construct(xml);
 		};
@@ -176,10 +174,10 @@ namespace protocol
 			return "parameter";
 		};
 
-		virtual auto to_XML() const->std::shared_ptr<library::XML> override
+		virtual auto toXML() const->std::shared_ptr<library::XML> override
 		{
-			std::shared_ptr<library::XML> &xml = super::to_XML();
-			xml->set_property("listener", listener);
+			std::shared_ptr<library::XML> &xml = super::toXML();
+			xml->setProperty("listener", listener);
 
 			return xml;
 		};

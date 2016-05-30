@@ -91,7 +91,7 @@ namespace library
 		/* ========================================================
 			EXPORTER
 		======================================================== */
-		virtual auto to_XML() const -> std::shared_ptr<library::XML>;
+		virtual auto toXML() const -> std::shared_ptr<library::XML>;
 	};
 };
 };

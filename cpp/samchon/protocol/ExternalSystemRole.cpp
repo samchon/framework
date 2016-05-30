@@ -16,7 +16,7 @@ ExternalSystemRole::ExternalSystemRole(ExternalSystem *system)
 
 void ExternalSystemRole::construct(shared_ptr<XML> xml)
 {
-	name = xml->get_property("name");
+	name = xml->getProperty("name");
 
 	constructListeners( sendListeners,  xml->get("sendListeners")->at(0)  );
 	constructListeners( replyListeners, xml->get("replyListeners")->at(0) );
@@ -29,7 +29,7 @@ void ExternalSystemRole::constructListeners(set<string> &listenerSet, shared_ptr
 
 	shared_ptr<XMLList> &xmlList = xml->get("listener");
 	for (size_t i = 0; i < xmlList->size(); i++)
-		listenerSet.insert( xmlList->at(i)->get_value() );
+		listenerSet.insert( xmlList->at(i)->getValue() );
 }
 
 /* ------------------------------------------------------------------
@@ -69,10 +69,10 @@ auto ExternalSystemRole::TAG() const -> string
 	return "role";
 }
 
-auto ExternalSystemRole::to_XML() const -> shared_ptr<XML>
+auto ExternalSystemRole::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::to_XML();
-	xml->set_property("name", name);
+	shared_ptr<XML> &xml = super::toXML();
+	xml->setProperty("name", name);
 
 	xml->push_back( toListenersXML(sendListeners,  "sendListeners")  );
 	xml->push_back( toListenersXML(replyListeners, "replyListeners") );
@@ -88,7 +88,7 @@ auto ExternalSystemRole::toListenersXML(const set<string> &listenerSet, const st
 	{
 		shared_ptr<XML> listener(new XML());
 		listener->setTag("listener");
-		listener->set_value(*it);
+		listener->setValue(*it);
 
 		xml->push_back(listener);
 	}

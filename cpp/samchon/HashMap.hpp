@@ -1,6 +1,4 @@
 #pragma once
-#include <samchon/API.hpp>
-
 #include <unordered_map>
 
 namespace samchon

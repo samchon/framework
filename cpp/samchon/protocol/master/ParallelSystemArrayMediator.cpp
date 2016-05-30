@@ -73,11 +73,11 @@ void ParallelSystemArrayMediator::notifyEnd(PRMasterHistory *masterHistory)
 /* ------------------------------------------------------------------
 	EXPORTERS
 ------------------------------------------------------------------ */
-auto ParallelSystemArrayMediator::to_XML() const -> shared_ptr<XML>
+auto ParallelSystemArrayMediator::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::to_XML();
+	shared_ptr<XML> &xml = super::toXML();
 	if (slave != nullptr)
-		xml->push_back(slave->to_XML());
+		xml->push_back(slave->toXML());
 
 	return xml;
 }

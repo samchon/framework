@@ -51,7 +51,7 @@ namespace master
 		/**
 		 * @brief A structure of parameters for genetic algorithm
 		 */
-		struct library::GAParameters gaParameters;
+		library::GAParameters gaParameters;
 
 	public:
 		/* ------------------------------------------------------------------
@@ -118,7 +118,7 @@ namespace master
 		/* ------------------------------------------------------------------
 			EXPORTERS
 		------------------------------------------------------------------ */
-		virtual auto to_XML() const->std::shared_ptr<library::XML> override;
+		virtual auto toXML() const->std::shared_ptr<library::XML> override;
 	};
 };
 };

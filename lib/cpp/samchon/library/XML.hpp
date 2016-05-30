@@ -1,12 +1,12 @@
 ﻿#pragma once
-#include <samchon/API.hpp>
-
 #include <samchon/HashMap.hpp>
-#include <samchon/library/XMLList.hpp>
 
-#include <sstream>
+#include <vector>
 #include <string>
 #include <queue>
+#include <memory>
+#include <sstream>
+
 #include <samchon/WeakString.hpp>
 #include <samchon/library/Math.hpp>
 
@@ -14,6 +14,9 @@ namespace samchon
 {
 namespace library
 {
+	class XML;
+	typedef std::vector<std::shared_ptr<XML>> XMLList;
+
 	/**
 	 * @brief XML is a class representing xml object
 	 *
@@ -67,7 +70,7 @@ namespace library
 	 * @see samchon::library
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class /*SAMCHON_FRAMEWORK_API*/ XML
+	class XML
 		: public HashMap<std::string, std::shared_ptr<XMLList>>
 	{
 	private:
@@ -171,34 +174,34 @@ namespace library
 				return;
 
 			//WHEN COMMENT IS
-			std::string replacedStr;
+			std::string replaced_str;
 			if (wstr.find("<!--") != std::string::npos)
 			{
-				std::queue<std::pair<size_t, size_t>> indexPairQueue;
-				size_t beginX = 0, endX;
+				std::queue<std::pair<size_t, size_t>> index_pair_queue;
+				size_t begin_x = 0, end_x;
 
 				//CONSTRUCT INDEXES
-				replacedStr.reserve(wstr.size());
-				while ((beginX = wstr.find("<!--", beginX)) != std::string::npos)
+				replaced_str.reserve(wstr.size());
+				while ((begin_x = wstr.find("<!--", begin_x)) != std::string::npos)
 				{
-					indexPairQueue.push({ beginX, wstr.find("-->", beginX + 1) + 3 });
-					beginX++;
+					index_pair_queue.push({ begin_x, wstr.find("-->", begin_x + 1) + 3 });
+					begin_x++;
 				}
 
 				//INSERT STRINGS
-				beginX = 0;
-				while (indexPairQueue.empty() == false)
+				begin_x = 0;
+				while (index_pair_queue.empty() == false)
 				{
-					endX = indexPairQueue.front().first;
-					replacedStr.append(wstr.substring(beginX, endX).str());
+					end_x = index_pair_queue.front().first;
+					replaced_str.append(wstr.substring(begin_x, end_x).str());
 
-					beginX = indexPairQueue.front().second;
-					indexPairQueue.pop();
+					begin_x = index_pair_queue.front().second;
+					index_pair_queue.pop();
 				}
-				replacedStr.append(wstr.substr(beginX).str());
+				replaced_str.append(wstr.substr(begin_x).str());
 
 				//RE-REFERENCE
-				wstr = replacedStr;
+				wstr = replaced_str;
 			}
 
 			//ERASE HEADERS OF XML
@@ -238,22 +241,19 @@ namespace library
 
 		void construct_key(WeakString &wstr)
 		{
-			size_t startX = wstr.find("<") + 1;
-			size_t endX =
-				calcMinIndex
-				(
-			{
-				wstr.find(' ', startX),
-				wstr.find("\r\n", startX),
-				wstr.find('\n', startX),
-				wstr.find('\t', startX),
-				wstr.find('>', startX),
-				wstr.find('/', startX)
-			}
-			);
+			size_t start_x = wstr.find("<") + 1;
+			size_t end_x = calc_min_index
+				({
+					wstr.find(' ', start_x),
+					wstr.find("\r\n", start_x),
+					wstr.find('\n', start_x),
+					wstr.find('\t', start_x),
+					wstr.find('>', start_x),
+					wstr.find('/', start_x)
+				});
 
 			//Determinate the KEY
-			tag = move(wstr.substring(startX, endX).str());
+			tag = wstr.substring(start_x, end_x).str();
 		};
 		
 		void construct_properties(WeakString &wstr)
@@ -269,22 +269,22 @@ namespace library
 				};
 
 				TYPE type;
-				size_t startIndex;
-				size_t endIndex;
+				size_t start_index;
+				size_t end_index;
 
-				QuotePair(TYPE type, size_t startIndex, size_t endIndex)
+				QuotePair(TYPE type, size_t start_index, size_t end_index)
 				{
 					this->type = type;
-					this->startIndex = startIndex;
-					this->endIndex = endIndex;
+					this->start_index = start_index;
+					this->end_index = end_index;
 				};
 			};
 
 			size_t i_begin = wstr.find('<' + tag) + tag.size() + 1;
-			size_t i_endSlash = wstr.rfind('/');
-			size_t i_endBlock = wstr.find('>', i_begin);
+			size_t end_slash = wstr.rfind('/');
+			size_t end_block = wstr.find('>', i_begin);
 
-			size_t i_end = calcMinIndex({ i_endSlash, i_endBlock });
+			size_t i_end = calc_min_index({ end_slash, end_block });
 			if (i_end == std::string::npos || i_begin >= i_end)
 				return;
 
@@ -296,18 +296,18 @@ namespace library
 
 			std::string label, value;
 			std::vector<QuotePair*> helpers;
-			bool inQuote = false;
+			bool in_quote = false;
 			QuotePair::TYPE type;
-			size_t startPoint, equalPoint;
+			size_t start_point, equal_point;
 			size_t i;
 
 			for (i = 0; i < line.size(); i++)
 			{
 				//Start of quote
-				if (inQuote == false && (line[i] == '\'' || line[i] == '"'))
+				if (in_quote == false && (line[i] == '\'' || line[i] == '"'))
 				{
-					inQuote = true;
-					startPoint = i;
+					in_quote = true;
+					start_point = i;
 
 					if (line[i] == '\'')
 						type = QuotePair::SINGLE;
@@ -316,45 +316,41 @@ namespace library
 				}
 				else if
 					(
-						inQuote == true &&
+						in_quote == true &&
 						(
 						(type == QuotePair::SINGLE && line[i] == '\'') ||
 							(type == QuotePair::DOUBLE && line[i] == '"')
 							)
 						)
 				{
-					helpers.push_back(new QuotePair(type, startPoint, i));
-					inQuote = false;
+					helpers.push_back(new QuotePair(type, start_point, i));
+					in_quote = false;
 				}
 			}
 			for (i = 0; i < helpers.size(); i++)
 			{
 				if (i == 0)
 				{
-					equalPoint = (long long)line.find('=');
-					label = move(line.substring(0, equalPoint).trim().str());
+					equal_point = (long long)line.find('=');
+					label = line.substring(0, equal_point).trim().str();
 				}
 				else
 				{
-					equalPoint = line.find('=', helpers[i - 1]->endIndex + 1);
-					label = line.substring(helpers[i - 1]->endIndex + 1, equalPoint).trim().str();
+					equal_point = line.find('=', helpers[i - 1]->end_index + 1);
+					label = line.substring(helpers[i - 1]->end_index + 1, equal_point).trim().str();
 				}
 
-				value =
-					move
+				value = decodeProperty
 					(
-						decodeProperty
+						line.substring
 						(
-							line.substring
-							(
-								helpers[i]->startIndex + 1,
-								helpers[i]->endIndex
-							)
+							helpers[i]->start_index + 1,
+							helpers[i]->end_index
 						)
 					);
 
 				//INSERT INTO PROPERTY_MAP
-				properties.set(label, move(value));
+				properties.set(label, value);
 			}
 			for (i = 0; i < helpers.size(); i++)
 				delete helpers[i];
@@ -362,10 +358,10 @@ namespace library
 		
 		auto construct_value(WeakString &wstr) -> bool
 		{
-			size_t i_endSlash = wstr.rfind('/');
-			size_t i_endBlock = wstr.find('>');
+			size_t end_slash = wstr.rfind('/');
+			size_t end_block = wstr.find('>');
 
-			if (i_endSlash < i_endBlock || i_endBlock + 1 == wstr.rfind('<'))
+			if (end_slash < end_block || end_block + 1 == wstr.rfind('<'))
 			{
 				//STATEMENT1: <TAG />
 				//STATEMENT2: <TAG></TAG> -> SAME WITH STATEMENT1: <TAG />
@@ -373,12 +369,12 @@ namespace library
 				return false;
 			}
 
-			size_t startX = i_endBlock + 1;
-			size_t endX = wstr.rfind('<');
-			wstr = wstr.substring(startX, endX); //REDEFINE WEAK_STRING -> IN TO THE TAG
+			size_t start_x = end_block + 1;
+			size_t end_x = wstr.rfind('<');
+			wstr = wstr.substring(start_x, end_x); //REDEFINE WEAK_STRING -> IN TO THE TAG
 
 			if (wstr.find('<') == std::string::npos)
-				value = move(wstr.trim().str());
+				value = wstr.trim().str();
 			else
 				value.clear();
 
@@ -390,16 +386,12 @@ namespace library
 			if (wstr.find('<') == std::string::npos)
 				return;
 
-			size_t startX = wstr.find('<');
-			size_t endX = wstr.rfind('>') + 1;
-			wstr = wstr.substring(startX, endX);
+			size_t start_x = wstr.find('<');
+			size_t end_x = wstr.rfind('>') + 1;
+			wstr = wstr.substring(start_x, end_x);
 
-			/*map<std::string, queue<XML *>> xmlQueueMap;
-			queue<XML*> *xmlQueue;
-			XML *xml;*/
-
-			int blockStartCount = 0;
-			int blockEndCount = 0;
+			int block_start_cnt = 0;
+			int block_end_cnt = 0;
 			size_t start = 0;
 			size_t end;
 			size_t i;
@@ -408,25 +400,22 @@ namespace library
 			for (i = 0; i < wstr.size(); i++)
 			{
 				if (wstr[i] == '<' && wstr.substr(i, 2) != "</")
-					blockStartCount++;
+					block_start_cnt++;
 				else if (wstr.substr(i, 2) == "/>" || wstr.substr(i, 2) == "</")
-					blockEndCount++;
+					block_end_cnt++;
 
-				if (blockStartCount >= 1 && blockStartCount == blockEndCount)
+				if (block_start_cnt >= 1 && block_start_cnt == block_end_cnt)
 				{
 					//NO PROBLEM TO AVOID COMMENT
 					end = wstr.find('>', i);
-
-					/*xml = new XML(this, wstr.substring(start, end + 1));
-					xmlQueueMap[xml->tag].push(xml);*/
 
 					std::shared_ptr<XML> xml(new XML(this, wstr.substring(start, end + 1)));
 					push_back(xml);
 
 					i = end; //WHY NOT END+1? 
 					start = end + 1;
-					blockStartCount = 0;
-					blockEndCount = 0;
+					block_start_cnt = 0;
+					block_end_cnt = 0;
 				}
 			}
 
@@ -482,7 +471,7 @@ namespace library
 		 * @warning Not a category of assign, but an insert.
 		 * @param xml Target xml object to deliver its properties
 		 */
-		void add_all_properties(const std::shared_ptr<XML> xml)
+		void addAllProperties(const std::shared_ptr<XML> xml)
 		{
 			for (auto it = xml->properties.begin(); it != xml->properties.end(); it++)
 				properties[it->first] = it->second;
@@ -531,25 +520,25 @@ namespace library
 		 * </table>
 		 */
 		template <typename T>
-		void set_value(const T &val)
+		void setValue(const T &val)
 		{
 			value = std::to_string(val);
 		};
-		template<> void set_value(const std::string &val)
+		template<> void setValue(const std::string &val)
 		{
 			this->value = val;
 		};
-		template<> void set_value(const WeakString &val)
+		template<> void setValue(const WeakString &val)
 		{
 			this->value = val.str();
 		};
 
 		template <typename T>
-		void insert_value(const std::string &tag, const T &val)
+		void insertValue(const std::string &tag, const T &val)
 		{
 			std::shared_ptr<XML> xml(new XML());
 			xml->setTag(tag);
-			xml->set_value(val);
+			xml->setValue(val);
 
 			push_back(xml);
 		};
@@ -558,15 +547,15 @@ namespace library
 		 * @brief Set a property with its key
 		 */
 		template<typename T>
-		void set_property(const std::string &key, const T &val)
+		void setProperty(const std::string &key, const T &val)
 		{
 			properties.set(key, std::to_string(val));
 		};
-		template<> void set_property(const std::string &key, const std::string &val)
+		template<> void setProperty(const std::string &key, const std::string &val)
 		{
 			properties.set(key, val);
 		};
-		template<> void set_property(const std::string &key, const WeakString &val)
+		template<> void setProperty(const std::string &key, const WeakString &val)
 		{
 			properties.set(key, val.str());
 		};
@@ -577,7 +566,7 @@ namespace library
 		 * @param key The key of the property to erase
 		 * @throw exception Unable to find the element
 		 */
-		void erase_property(const std::string &key)
+		void eraseProperty(const std::string &key)
 		{
 			properties.erase(key);
 		};
@@ -585,7 +574,7 @@ namespace library
 		/**
 		 * @brief Remove all properties in the XML
 		 */
-		void clear_properties()
+		void clearProperties()
 		{
 			properties.clear();
 		};
@@ -600,7 +589,7 @@ namespace library
 		 * @return tag, identifer of the XML
 		 * @see XML::tag
 		 */
-		auto get_tag() const -> std::string
+		auto getTag() const -> std::string
 		{
 			return tag;
 		};
@@ -608,18 +597,18 @@ namespace library
 		/**
 		 * @brief Get value of the XML
 		 */
-		template<class T = std::string> auto get_value() const -> T
+		template<class T = std::string> auto getValue() const -> T
 		{
 			double val = std::stod(value);
 
 			return (T)val;
 		};
 
-		template<> auto get_value() const -> std::string
+		template<> auto getValue() const -> std::string
 		{
 			return value;
 		};
-		template<> auto get_value() const -> WeakString
+		template<> auto getValue() const -> WeakString
 		{
 			return value;
 		};
@@ -627,18 +616,18 @@ namespace library
 		/**
 		 * @brief Get property
 		 */
-		template<class T = std::string> auto get_property(const std::string &key) const -> T
+		template<class T = std::string> auto getProperty(const std::string &key) const -> T
 		{
 			double val = std::stod(properties.get(key));
 
 			return (T)val;
 		};
 
-		template<> auto get_property(const std::string &key) const -> std::string
+		template<> auto getProperty(const std::string &key) const -> std::string
 		{
 			return properties.get(key);
 		};
-		template<> auto get_property(const std::string &key) const -> WeakString
+		template<> auto getProperty(const std::string &key) const -> WeakString
 		{
 			return properties.get(key);
 		};
@@ -646,7 +635,7 @@ namespace library
 		/**
 		 * @brief Test wheter a property exists or not
 		 */
-		auto has_property(const std::string &key) const -> bool
+		auto hasProperty(const std::string &key) const -> bool
 		{
 			return properties.has(key);
 		};
@@ -654,7 +643,7 @@ namespace library
 		/**
 		 * @brief Get properties
 		 */
-		auto get_properties() const -> const HashMap<std::string, std::string>&
+		auto getProperties() const -> const HashMap<std::string, std::string>&
 		{
 			return properties;
 		};
@@ -663,7 +652,7 @@ namespace library
 			FILTERS
 		----------------------------------------------------------- */
 	private:
-		auto calcMinIndex(const std::vector<size_t> &vec) const -> size_t
+		auto calc_min_index(const std::vector<size_t> &vec) const -> size_t
 		{
 			size_t val = std::string::npos;
 			for (size_t i = 0; i < vec.size(); i++)
@@ -673,7 +662,7 @@ namespace library
 			return val;
 		};
 
-		auto encodeValue(const WeakString &wstr) const -> std::string
+		auto encode_value(const WeakString &wstr) const -> std::string
 		{
 			static std::vector<std::pair<std::string, std::string>> pairArray =
 			{
@@ -687,10 +676,10 @@ namespace library
 				{ "\r", "&#xD;" } //13
 			};
 
-			return wstr.replace_all(pairArray);
+			return wstr.replaceAll(pairArray);
 		};
 		
-		auto decodeValue(const WeakString &wstr) const -> std::string
+		auto decode_value(const WeakString &wstr) const -> std::string
 		{
 			static std::vector<std::pair<std::string, std::string>> pairArray =
 			{
@@ -704,10 +693,10 @@ namespace library
 				{ "&#xD;", "\r" } //13
 			};
 
-			return wstr.replace_all(pairArray);
+			return wstr.replaceAll(pairArray);
 		};
 		
-		auto encodeProperty(const WeakString &wstr) const -> std::string
+		auto encode_property(const WeakString &wstr) const -> std::string
 		{
 			static std::vector<std::pair<std::string, std::string>> pairArray =
 			{
@@ -716,7 +705,7 @@ namespace library
 				{ ">", "&gt;" }
 			};
 
-			return wstr.trim().replace_all(pairArray);
+			return wstr.trim().replaceAll(pairArray);
 		};
 		
 		auto decodeProperty(const WeakString &wstr) const -> std::string
@@ -728,7 +717,7 @@ namespace library
 				{ "&gt;", ">" }
 			};
 
-			return wstr.replace_all(pairArray);
+			return wstr.replaceAll(pairArray);
 		};
 
 		/* -----------------------------------------------------------
@@ -741,14 +730,14 @@ namespace library
 		 *
 		 * @return A string represents the XML.
 		 */
-		auto to_string(size_t level = 0) const -> std::string
+		auto toString(size_t level = 0) const -> std::string
 		{
 			// KEY
 			std::string str = std::string(level, '\t') + "<" + tag;
 
 			// PROPERTIES
 			for (auto it = properties.begin(); it != properties.end(); it++)
-				str += " " + it->first + "=\"" + encodeProperty(it->second) + "\"";
+				str += " " + it->first + "=\"" + encode_property(it->second) + "\"";
 
 			if (this->empty() == true)
 			{
@@ -756,7 +745,7 @@ namespace library
 				if (value.empty() == true)
 					str += " />";
 				else
-					str += ">" + encodeValue(value) + "</" + tag + ">";
+					str += ">" + encode_value(value) + "</" + tag + ">";
 			}
 			else
 			{
@@ -765,7 +754,7 @@ namespace library
 
 				for (auto it = begin(); it != end(); it++)
 					for (size_t i = 0; i < it->second->size(); i++)
-						str += it->second->at(i)->to_string(level + 1);
+						str += it->second->at(i)->toString(level + 1);
 
 				str += std::string(level, '\t') + "</" + tag + ">";
 			}
@@ -773,9 +762,5 @@ namespace library
 			return str + "\n";
 		};
 	};
-
-	//SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API std::shared_ptr<XML>;
-	//SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API HashMap<std::string, std::shared_ptr<XMLList>>;
-	//SAMCHON_FRAMEWORK_EXTERN template class SAMCHON_FRAMEWORK_API HashMap<std::string, std::string>;
 };
 };

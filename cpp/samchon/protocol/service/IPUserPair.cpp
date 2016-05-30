@@ -7,7 +7,7 @@
 #include <thread>
 #include <sstream>
 
-#include <samchon/library/Datetime.hpp>
+#include <samchon/library/Date.hpp>
 #include <samchon/library/XML.hpp>
 #include <samchon/protocol/Invoke.hpp>
 #include <samchon/protocol/InvokeParameter.hpp>
@@ -48,7 +48,7 @@ auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> std::string
 		shared_ptr<Invoke> invoke(new Invoke());
 		invoke->construct(xml);
 
-		sessionID = invoke->at(0)->get_value<string>();
+		sessionID = invoke->at(0)->getValue<string>();
 	}
 	
 	UniqueReadLock uk(server->mtx);
@@ -67,7 +67,7 @@ auto IPUserPair::getSessionID(Socket *socket, size_t sequence) -> std::string
 		shared_ptr<Invoke> invoke( new Invoke("notifySessionID") );
 		invoke->emplace_back( new InvokeParameter("id", sessionID) );
 		
-		std::string &data = invoke->to_XML()->to_string();
+		std::string &data = invoke->toXML()->toString();
 		boost::system::error_code error;
 
 		socket->write_some(boost::asio::buffer(data), error);
@@ -82,7 +82,7 @@ auto IPUserPair::issueSessionID(size_t sequence) const -> std::string
 {
 	std::string &name = server->NAME();
 	int port = server->PORT();
-	long long linuxTime = Datetime().toLinuxTime();
+	long long linuxTime = Date().toLinuxTime();
 
 	stringstream sstream;
 	sstream << name << "::"

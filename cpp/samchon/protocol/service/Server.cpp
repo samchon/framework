@@ -9,7 +9,7 @@
 
 #include <samchon/SmartPointer.hpp>
 #include <samchon/library/SQLi.hpp>
-#include <samchon/library/Datetime.hpp>
+#include <samchon/library/Date.hpp>
 
 #include <samchon/library/XML.hpp>
 #include <samchon/protocol/Invoke.hpp>

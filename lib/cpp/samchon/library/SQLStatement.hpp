@@ -258,7 +258,7 @@ namespace library
 		 *
 		 * @return XML representing records of the statement
 		 */
-		virtual auto to_XML() const->std::shared_ptr<XML>;
+		virtual auto toXML() const->std::shared_ptr<XML>;
 
 	private:
 		/* -------------------------------------------------------------------

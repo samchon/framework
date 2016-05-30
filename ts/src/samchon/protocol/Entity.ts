@@ -41,11 +41,11 @@ namespace samchon.protocol
 		construct(xml: library.XML);
 
 		/**
-		* <p> Get a key that can identify the Entity uniquely. </p>
-		* 
-		* <p> If identifier of the Entity is not atomic value, returns a string or paired object
-		* that can represents the composite identifier. </p>
-		*/
+		 * <p> Get a key that can identify the Entity uniquely. </p>
+		 * 
+		 * <p> If identifier of the Entity is not atomic value, returns a string or paired object
+		 * that can represents the composite identifier. </p>
+		 */
 		key(): any;
 
 		/**

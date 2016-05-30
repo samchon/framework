@@ -95,7 +95,7 @@ public:
 	};
 	virtual void replyData(std::shared_ptr<protocol::Invoke> invoke)
 	{
-		std::cout << invoke->to_XML()->to_string() << std::endl;
+		std::cout << invoke->toXML()->toString() << std::endl;
 		if (invoke->get_listener() != "getFile")
 			return;
 

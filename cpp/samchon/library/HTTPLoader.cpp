@@ -8,7 +8,7 @@
 #include <thread>
 #include <boost/asio.hpp>
 
-#include <samchon/library/Datetime.hpp>
+#include <samchon/library/Date.hpp>
 #include <samchon/library/URLVariables.hpp>
 #include <samchon/library/StringUtil.hpp>
 
@@ -75,7 +75,7 @@ auto HTTPLoader::getCookie(const string &host) const -> string
 	
 	string val;
 	size_t i, j;
-	Datetime now;
+	Date now;
 
 	for (i = 0; i < 8; i++)
 		val.push_back(ALPHA_CHAR_CODES[distribution(device)]);
@@ -88,7 +88,7 @@ auto HTTPLoader::getCookie(const string &host) const -> string
 			val.push_back(ALPHA_CHAR_CODES[distribution(device)]);
 	}
 	val.push_back('-');
-	val.append(to_string(now.toLinuxTime()));
+	val.append(toString(now.toLinuxTime()));
 
 	session = "s_pers=" + URLVariables::encode(" s_fid=" + val + ";");
 	return session;*/
@@ -146,13 +146,13 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 			host.str(), path,
 			((parameters.empty() == true) 
 				? string("") 
-				: "?" + parameters.to_string()),
+				: "?" + parameters.toString()),
 			getCookie(host)
 		);
 	}
 	else
 	{
-		std::string &parameterStr = parameters.to_string();
+		std::string &parameterStr = parameters.toString();
 
 		header = StringUtil::substitute
 		(

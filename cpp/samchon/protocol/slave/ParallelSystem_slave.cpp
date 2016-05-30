@@ -28,8 +28,8 @@ void ParallelSystem::_replyData(shared_ptr<Invoke> invoke)
 			{
 				InvokeHistory history(invoke);
 
-				size_t index = invoke->get("invoke_history_index")->get_value<size_t>();
-				size_t size = invoke->get("invoke_history_size")->get_value<size_t>();
+				size_t index = invoke->get("invoke_history_index")->getValue<size_t>();
+				size_t size = invoke->get("invoke_history_size")->getValue<size_t>();
 
 				replyPieceData(invoke, index, size);
 

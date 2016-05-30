@@ -1,5 +1,4 @@
 #pragma once
-#include <samchon/API.hpp>
 
 #include <string>
 #include <memory>
@@ -45,7 +44,7 @@ namespace protocol
 	 * @see protocol
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class /*SAMCHON_FRAMEWORK_API*/ Entity
+	class Entity
 	{
 	public:
 		/**
@@ -93,7 +92,7 @@ namespace protocol
 		 * <p> Returns an XML object that can represents the Entity containing member variables into properties. </p>
 		 *
 		 * <p> A member variable (not object, but atomic value like number, string or date) is categorized
-		 * as a property within the framework of entity side. Thus, when overriding a to_XML() method and
+		 * as a property within the framework of entity side. Thus, when overriding a toXML() method and
 		 * archiving member variables to an XML object to return, puts each variable to be a property
 		 * belongs to only an XML object. </p>
 		 *
@@ -125,7 +124,7 @@ namespace protocol
 		 *
 		 * @return An XML object representing the Entity.
 		 */
-		virtual auto to_XML() const -> std::shared_ptr<library::XML>
+		virtual auto toXML() const -> std::shared_ptr<library::XML>
 		{
 			auto xml = std::make_shared<library::XML>();
 			xml->setTag(this->TAG());

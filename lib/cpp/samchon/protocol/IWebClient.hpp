@@ -29,9 +29,6 @@ namespace protocol
 	protected:
 		typedef IClient super;
 
-		static const unsigned char TEXT_HEADER = 129;
-		static const unsigned char BINARY_HEADER = 130;
-
 	public:
 		/* -----------------------------------------------------------------------
 			CONSTRUCTORS
@@ -43,7 +40,7 @@ namespace protocol
 		virtual ~IWebClient() = default;
 
 	protected:
-		virtual auto is_server() const -> bool;
+		virtual auto isServer() const -> bool;
 
 	public:
 		/* -----------------------------------------------------------------------

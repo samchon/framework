@@ -34,8 +34,8 @@ void ParallelSystem::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	if (xml->has_property("performance"))
-		this->performance = xml->get_property<double>("performance");
+	if (xml->hasProperty("performance"))
+		this->performance = xml->getProperty<double>("performance");
 
 	if (xml->has(historyArray->TAG()) == true)
 		historyArray->construct(xml->get(historyArray->TAG())->at(0));
@@ -97,10 +97,10 @@ void ParallelSystem::sendPieceData
 /* ------------------------------------------------------------------
 	EXPORTERS
 ------------------------------------------------------------------ */
-auto ParallelSystem::to_XML() const -> shared_ptr<XML>
+auto ParallelSystem::toXML() const -> shared_ptr<XML>
 {
-	shared_ptr<XML> &xml = super::to_XML();
-	xml->set_property("performance", performance);
+	shared_ptr<XML> &xml = super::toXML();
+	xml->setProperty("performance", performance);
 
 	return xml;
 }

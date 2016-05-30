@@ -11,7 +11,7 @@ TSQLStatement::TSQLStatement(SQLi *sqli)
 	: SQLStatement(sqli) {}
 TSQLStatement::~TSQLStatement() {}
 
-auto TSQLStatement::to_XML() const -> shared_ptr<XML>
+auto TSQLStatement::toXML() const -> shared_ptr<XML>
 {
 	fetch();
 	string &str = super::at<std::string>(0);

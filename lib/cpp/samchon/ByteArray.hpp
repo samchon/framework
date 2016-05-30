@@ -1,5 +1,4 @@
 #pragma once
-#include <samchon/API.hpp>
 
 #include <vector>
 #include <string>
@@ -27,7 +26,7 @@ namespace samchon
 	 * @see samchon::library
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API ByteArray
+	class ByteArray
 		: public std::vector<unsigned char>
 	{
 	private:

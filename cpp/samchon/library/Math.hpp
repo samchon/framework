@@ -1,5 +1,4 @@
 #pragma once
-#include <samchon/API.hpp>
 
 #include <cmath>
 #include <random>
@@ -22,7 +21,7 @@ namespace library
 	 * @see samchon::library
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class /*SAMCHON_FRAMEWORK_API*/ Math
+	class Math
 	{
 	public:
 		/* ========================================================

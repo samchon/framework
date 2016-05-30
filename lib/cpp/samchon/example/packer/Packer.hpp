@@ -189,10 +189,10 @@ namespace packer
 			return "wrapperArray";
 		};
 
-		virtual auto to_XML() const -> shared_ptr<XML> override
+		virtual auto toXML() const -> shared_ptr<XML> override
 		{
-			shared_ptr<XML> &xml = super::to_XML();
-			xml->push_back(productArray->to_XML());
+			shared_ptr<XML> &xml = super::toXML();
+			xml->push_back(productArray->toXML());
 
 			return xml;
 		};
@@ -200,11 +200,11 @@ namespace packer
 		/**
 		 * @brief Return a string represents an packaging method.
 		 */
-		auto to_string() const -> string
+		auto toString() const -> string
 		{
-			string str = "$" + to_string(calcPrice()) + "\n";
+			string str = "$" + toString(calcPrice()) + "\n";
 			for (size_t i = 0; i < size(); i++)
-				str += at(i)->to_string() + "\n";
+				str += at(i)->toString() + "\n";
 
 			return str;
 		};
@@ -237,7 +237,7 @@ namespace packer
 			packer.optimize();
 
 			// PRINT
-			cout << packer.to_string();
+			cout << packer.toString();
 		};
 	};			
 };

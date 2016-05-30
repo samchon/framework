@@ -45,7 +45,7 @@ void FlashPolicyServer::open()
 }
 void FlashPolicyServer::accept(Socket *socket)
 {
-	string data = "<?xml version=\"1.0\"?>\n" + policy_->to_string();
+	string data = "<?xml version=\"1.0\"?>\n" + policy_->toString();
 	vector<unsigned char> piece;
 	boost::system::error_code error;
 

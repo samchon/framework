@@ -25,7 +25,7 @@ IWebClient::IWebClient()
 {
 }
 
-auto IWebClient::is_server() const -> bool
+auto IWebClient::isServer() const -> bool
 {
 	return true;
 }
@@ -38,7 +38,7 @@ void IWebClient::listen()
 	shared_ptr<Invoke> binary_invoke;
 
 	// CLIENT ADDS MASK
-	unsigned char mask = is_server() ? WebSocketUtil::MASK : 0;
+	unsigned char mask = isServer() ? WebSocketUtil::MASK : 0;
 
 	while (true)
 	{
@@ -56,9 +56,9 @@ void IWebClient::listen()
 			socket->read_some(boost::asio::buffer(header_bytes));
 			
 			// INVALID PROTOCOL, UNMASKED MESSAGE
-			if (is_server() == true && header_bytes[1] < WebSocketUtil::MASK)
+			if (isServer() == true && header_bytes[1] < WebSocketUtil::MASK)
 				throw domain_error("unmasked message from client has delivered.");
-			else if (is_server() == false && header_bytes[1] >= WebSocketUtil::MASK)
+			else if (isServer() == false && header_bytes[1] >= WebSocketUtil::MASK)
 				throw domain_error("masked message from server has delivered.");
 
 			// DECODE HEADER
@@ -141,7 +141,7 @@ auto IWebClient::listen_string(size_t size) -> shared_ptr<Invoke>
 	///////////////////////
 	// READ CONTENT
 	///////////////////////
-	if (is_server() == true)
+	if (isServer() == true)
 		listen_masked_data(socket, data);
 	else
 		listen_data(socket, data);
@@ -155,7 +155,7 @@ auto IWebClient::listen_string(size_t size) -> shared_ptr<Invoke>
 	bool is_binary = std::any_of(invoke->begin(), invoke->end(), 
 		[](const shared_ptr<InvokeParameter> &parameter) -> bool
 		{
-			return parameter->get_type() == "ByteArray";
+			return parameter->getType() == "ByteArray";
 		}
 	);
 
@@ -176,7 +176,7 @@ void IWebClient::listen_binary(size_t size, shared_ptr<Invoke> &invoke)
 	param_it = find_if(invoke->begin(), invoke->end(),
 		[size](const shared_ptr<InvokeParameter> &parameter) -> bool
 		{
-			if (parameter->get_type() != "ByteArray")
+			if (parameter->getType() != "ByteArray")
 				return false;
 
 			const ByteArray &byte_array = parameter->refer_value<ByteArray>();
@@ -192,7 +192,7 @@ void IWebClient::listen_binary(size_t size, shared_ptr<Invoke> &invoke)
 	else
 		data = (ByteArray*) &((*param_it)->refer_value<ByteArray>());
 
-	if (is_server() == true)
+	if (isServer() == true)
 		listen_masked_data(socket, *data);
 	else
 		listen_data(socket, *data);
@@ -202,7 +202,7 @@ void IWebClient::listen_binary(size_t size, shared_ptr<Invoke> &invoke)
 			std::any_of(next(param_it), invoke->end(), 
 			[](const shared_ptr<InvokeParameter> &parameter) -> bool
 			{
-				return parameter->get_type() == "ByteArray";
+				return parameter->getType() == "ByteArray";
 			}) == true
 		)
 		return;
@@ -217,13 +217,13 @@ void IWebClient::sendData(shared_ptr<Invoke> invoke)
 
 	try
 	{
-		send_string(invoke->to_XML()->to_string());
+		send_string(invoke->toXML()->toString());
 
 		for (size_t i = 0; i < invoke->size(); i++)
-			if (invoke->at(i)->get_type() == "ByteArray")
+			if (invoke->at(i)->getType() == "ByteArray")
 				send_binary(invoke->at(i)->refer_value<ByteArray>());
 	}
-	catch (exception &e) {}
+	catch (exception &) {}
 }
 
 /* -----------------------------------------------------------------------
@@ -254,7 +254,7 @@ void IWebClient::send_header(unsigned char type, size_t size)
 	ByteArray header;
 	header.write(type); //1000 0001
 
-	unsigned char mask = is_server() ? 0 : WebSocketUtil::MASK;
+	unsigned char mask = isServer() ? 0 : WebSocketUtil::MASK;
 
 	if (size < 126)
 	{
@@ -276,18 +276,18 @@ void IWebClient::send_header(unsigned char type, size_t size)
 
 void IWebClient::send_string(const string &data)
 {
-	send_header(TEXT_HEADER, data.size());
+	send_header(WebSocketUtil::TEXT, data.size());
 
-	if (is_server() == true)
+	if (isServer() == true)
 		socket->write_some(boost::asio::buffer(data));
 	else
 		send_masked_data(socket, data);
 }
 void IWebClient::send_binary(const ByteArray &data)
 {
-	send_header(BINARY_HEADER, data.size());
+	send_header(WebSocketUtil::BINARY, data.size());
 
-	if (is_server() == true)
+	if (isServer() == true)
 		socket->write_some(boost::asio::buffer(data));
 	else
 		send_masked_data(socket, data);

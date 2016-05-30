@@ -117,10 +117,10 @@ namespace packer
 			return "wrapper";
 		};
 
-		virtual auto to_XML() const -> shared_ptr<XML> override
+		virtual auto toXML() const -> shared_ptr<XML> override
 		{
-			shared_ptr<XML> &xml = super::to_XML();
-			xml->add_all_properties(Instance::to_XML());
+			shared_ptr<XML> &xml = super::toXML();
+			xml->addAllProperties(Instance::toXML());
 
 			return xml;
 		};
@@ -131,11 +131,11 @@ namespace packer
 		 *
 		 * @return A string represents the Wrapper and contained Product(s).
 		 */
-		virtual auto to_string() const -> string override
+		virtual auto toString() const -> string override
 		{
-			string str = "\tWrapper " + Instance::to_string() + "\n";
+			string str = "\tWrapper " + Instance::toString() + "\n";
 			for (size_t i = 0; i < size(); i++)
-				str += "\t\t" + at(i)->to_string() 
+				str += "\t\t" + at(i)->toString() 
 				+ ((i == size() - 1) ? "" : "\n");
 
 			return str;

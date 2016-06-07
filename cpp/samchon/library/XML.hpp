@@ -90,7 +90,7 @@ namespace library
 		 *
 		 * @details
 		 *  \li \<parameter name='age' type='int'\><b>26</b>\</parameter\>: value => 26
-		 *	\li \<price high='1500' low='1300' open='1450' close='1320' /\>: tag => null
+		 *	\li \<price high='1500' low='1300' open='1450' close='1320' /\>: value => null
 		 */
 		std::string value;
 

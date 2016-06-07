@@ -33,6 +33,110 @@ auto IWebClient::isServer() const -> bool
 /* -----------------------------------------------------------------------
 	LISTEN MESSAGE
 ----------------------------------------------------------------------- */
+template <typename Container>
+void listen_data(Socket *socket, Container &data)
+{
+	size_t completed = 0;
+
+	if (completed < data.size())
+		completed += socket->read_some(boost::asio::buffer((unsigned char*)data.data() + completed, data.size() - completed));
+}
+
+template <typename Container>
+auto listen_data(Socket *socket, bool masked) -> Container
+{
+	Container data;
+	size_t content_size = 0;
+
+	unsigned char size_header;
+	socket->read_some(boost::asio::buffer(&size_header, 1));
+
+	///////////////////////
+	// READ CONTENT SIZE
+	///////////////////////
+	if (size_header == (unsigned char)WebSocketUtil::TWO_BYTES)
+	{
+		// SIZE HEADER IS 2 BYTES
+		array<unsigned char, 2> size_bytes;
+		socket->read_some(boost::asio::buffer(size_bytes));
+
+		for (size_t c = 0; c < size_bytes.size(); c++)
+			content_size += size_bytes[c] << (8 * (size_bytes.size() - 1 - c));
+	}
+	else if (size_header == (unsigned char)WebSocketUtil::EIGHT_BYTES)
+	{
+		// SIZE HEADER IS 8 BYTES
+		array<unsigned char, 8> size_bytes;
+		socket->read_some(boost::asio::buffer(size_bytes));
+
+		for (size_t c = 0; c < size_bytes.size(); c++)
+			content_size += size_bytes[c] << (8 * (size_bytes.size() - 1 - c));
+	}
+	else
+		content_size = (size_t)size_header;
+
+	data.assign(content_size, 0);
+
+	///////////////////////
+	// READ CONTENT SIZE
+	///////////////////////
+	array<unsigned char, 4> mask;
+	size_t completed = 0;
+
+	if (masked == true) // READ MASK
+		socket->read_some(boost::asio::buffer(mask));
+
+	// READ CONTENTS
+	if (completed < data.size())
+		completed += socket->read_some(boost::asio::buffer((unsigned char*)data.data() + completed, data.size() - completed));
+
+	if (masked == true) // UNMASK
+		for (size_t i = 0; i < data.size(); i++)
+			data[i] = data[i] ^ mask[i % 4];
+	
+	return data;
+};
+
+//void IWebClient::listen()
+//{
+//	bool is_server = isServer();
+//	unsigned char mask = is_server ? WebSocketUtil::MASK : 0;
+//
+//	while (true)
+//		try
+//		{
+//			unsigned char op_code;
+//			socket->read_some(boost::asio::buffer(&op_code, 1));
+//
+//			if (op_code != WebSocketUtil::OpCode::TEXT)
+//				throw invalid_argument("Invalid opcode.");
+//
+//			string &str = listen_data<string>(socket, is_server);
+//
+//			shared_ptr<Invoke> invoke(new Invoke());
+//			invoke->construct(make_shared<XML>(str));
+//
+//			for (size_t i = 0; i < invoke->size(); i++)
+//			{
+//				const shared_ptr<InvokeParameter> &parameter = invoke->at(i);
+//
+//				// VALIDATE OP-CODE
+//				socket->read_some(boost::asio::buffer(&op_code, 1));
+//				if (op_code != WebSocketUtil::OpCode::BINARY)
+//					throw invalid_argument("Invalid opcode.");
+//
+//				ByteArray &byteArray = listen_data<ByteArray>(socket, is_server);
+//				parameter->setByteArray(move(byteArray));
+//			}
+//
+//			_replyData(invoke);
+//		}
+//		catch (exception &)
+//		{
+//			break;
+//		}
+//}
+
 void IWebClient::listen()
 {
 	shared_ptr<Invoke> binary_invoke;
@@ -107,16 +211,6 @@ void IWebClient::listen()
 			break;
 		}
 	}
-}
-
-template <class Container>
-void listen_data(Socket *socket, Container &data)
-{
-	// READ CONTENTS
-	size_t completed = 0;
-
-	if (completed < data.size())
-		completed += socket->read_some(boost::asio::buffer((unsigned char*)data.data() + completed, data.size() - completed));
 }
 
 template <class Container>

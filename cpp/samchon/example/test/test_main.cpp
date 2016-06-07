@@ -66,7 +66,7 @@ protected:
 		return 37888;
 	};
 	
-	virtual void addClient(Socket *socket) override
+	virtual void addClient(Socket *socket, const string &path, const string &sessionID) override
 	{
 		unique_ptr<WebClient> client(new WebClient(socket));
 		client->listen();

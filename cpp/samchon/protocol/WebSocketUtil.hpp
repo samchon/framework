@@ -7,17 +7,9 @@ namespace samchon
 {
 namespace protocol
 {
-	class IWebServer;
-	class IWebClient;
-	class WebServerConnector;
-
 	class WebSocketUtil
 	{
-		friend class IWebServer;
-		friend class IWebClient;
-		friend class WebServerConnector;
-
-	private:
+	public:
 		enum OpCode : unsigned char
 		{
 			TEXT = 129,
@@ -38,6 +30,8 @@ namespace protocol
 		static auto generate_base64_certification_key() -> std::string;
 
 		static auto encode_certification_key(const std::string &base64) -> std::string;
+
+		static auto issue_session_id() -> std::string;
 	};
 };
 };

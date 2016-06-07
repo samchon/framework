@@ -1,0 +1,6 @@
+D:\OneDrive\Project\Samchon\framework\ts\bin\samchon-framework.dll.config
+D:\OneDrive\Project\Samchon\framework\ts\bin\samchon-framework.dll
+D:\OneDrive\Project\Samchon\framework\ts\bin\samchon-framework.pdb
+D:\OneDrive\Project\Samchon\framework\ts\obj\Debug\samchon-framework.csprojResolveAssemblyReference.cache
+D:\OneDrive\Project\Samchon\framework\ts\obj\Debug\samchon-framework.dll
+D:\OneDrive\Project\Samchon\framework\ts\obj\Debug\samchon-framework.pdb

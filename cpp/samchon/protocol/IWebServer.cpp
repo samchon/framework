@@ -59,14 +59,7 @@ void IWebServer::open()
 			break;
 		}
 
-		thread
-		(
-			[this, socket]
-			{
-				if (handshake(socket) == true)
-					addClient(socket);
-			}
-		).detach();
+		thread(&IWebServer::handshake, this, socket).detach();
 	}
 	delete acceptor;
 	acceptor = nullptr;
@@ -75,37 +68,58 @@ void IWebServer::open()
 /* -----------------------------------------------------------------------
 	HANDSHAKE OF WEB-SOCKET
 ----------------------------------------------------------------------- */
-auto IWebServer::handshake(Socket *socket) const -> bool
+void IWebServer::addClient(Socket *socket)
+{
+	handshake(socket);
+}
+
+void IWebServer::handshake(Socket *socket)
 {
 	array<char, 1000> byte_array;
 	boost::system::error_code error;
 
 	size_t size = socket->read_some(boost::asio::buffer(byte_array), error);
 	if (error)
-		return false;
+		return;
 
 	WeakString wstr(byte_array.data(), size);
+	WeakString path = wstr.between("", "\r\n").between(" /", " HTTP");
+	WeakString encrypted_cert_key;
+	string session_id;
 
-	wstr = wstr.between("Sec-WebSocket-Key:", "\n").trim();
-	if(wstr.find("\r") != string::npos)
-		wstr = wstr.between("", "\r");
+	// DECODE ENCRYPTED CERTIFICATION KEY
+	encrypted_cert_key = wstr.between("Sec-WebSocket-Key:", "\n").trim();
+	if(encrypted_cert_key.find("\r") != string::npos)
+		encrypted_cert_key = encrypted_cert_key.between("", "\r");
 
-	string &handshake =
-		StringUtil::substitute
+	// FETCH OR ISSUE SESSION_ID
+	if (wstr.find("SESSION_ID") == string::npos)
+		session_id = WebSocketUtil::issue_session_id();
+	else
+	{
+		session_id = wstr.between("SESSION_ID=", "\r\n");
+		if (session_id.back() == ';')
+			session_id.pop_back();
+	}
+
+	// REPLY HANDSHAKE MESSAGE
+	string &handshake = StringUtil::substitute
 		(
 			string("") +
 				"HTTP/1.1 101 Switching Protocols\r\n" +
 				"Upgrade: websocket\r\n" +
 				"Connection: Upgrade\r\n" +
 				"Sec-WebSocket-Accept: {1}\r\n" +
+				"Set-Cookie: SESSION_ID={2}\r\n" +
 				"\r\n",
 
-			WebSocketUtil::encode_certification_key(wstr.str())
+			WebSocketUtil::encode_certification_key(encrypted_cert_key),
+			session_id
 		);
 
 	socket->write_some(boost::asio::buffer(handshake), error);
 	if (error)
-		return false;
+		return;
 	else
-		return true;
+		addClient(socket, path, session_id);
 }

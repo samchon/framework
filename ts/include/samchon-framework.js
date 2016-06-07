@@ -21,7 +21,7 @@ var samchon;
                         console.log("connected");
                         this_.sendData(new samchon.protocol.Invoke("sendMessage", 99999, "I am JavaScript Client", 3, 7));
                     };
-                this.connector.connect("127.0.0.1", 37888);
+                this.connector.connect("127.0.0.1", 37888, "simulation");
             }
             WebClient.prototype.rotate_interval = function () {
                 console.log("send message");
@@ -702,8 +702,17 @@ var samchon;
             __extends(ArrayCollection, _super);
             function ArrayCollection() {
                 _super.apply(this, arguments);
+                /**
+                 * A callback function listening elements insertion.
+                 */
                 this.insert_handler_ = null;
+                /**
+                 * A callback function listening elements deletion.
+                 */
                 this.erase_handler_ = null;
+                /**
+                 * A chain object taking responsibility of dispatching events.
+                 */
                 this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
             }
             /* =========================================================
@@ -1235,8 +1244,18 @@ var samchon;
 (function (samchon) {
     var collection;
     (function (collection) {
+        /**
+         *
+         */
         var CollectionEvent = (function (_super) {
             __extends(CollectionEvent, _super);
+            /**
+             *
+             *
+             * @param type
+             * @param first
+             * @param last
+             */
             function CollectionEvent(type, first, last) {
                 _super.call(this, type);
                 this.first_ = first;
@@ -1257,6 +1276,9 @@ var samchon;
                 configurable: true
             });
             Object.defineProperty(CollectionEvent.prototype, "container", {
+                /**
+                 *
+                 */
                 get: function () {
                     return this.target;
                 },
@@ -1264,6 +1286,9 @@ var samchon;
                 configurable: true
             });
             Object.defineProperty(CollectionEvent.prototype, "first", {
+                /**
+                 *
+                 */
                 get: function () {
                     return this.first_;
                 },
@@ -1271,6 +1296,9 @@ var samchon;
                 configurable: true
             });
             Object.defineProperty(CollectionEvent.prototype, "last", {
+                /**
+                 *
+                 */
                 get: function () {
                     return this.last_;
                 },
@@ -1296,8 +1324,17 @@ var samchon;
             __extends(DequeCollection, _super);
             function DequeCollection() {
                 _super.apply(this, arguments);
+                /**
+                 * A callback function listening elements insertion.
+                 */
                 this.insert_handler_ = null;
+                /**
+                 * A callback function listening elements deletion.
+                 */
                 this.erase_handler_ = null;
+                /**
+                 * A chain object taking responsibility of dispatching events.
+                 */
                 this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
             }
             /* =========================================================
@@ -1461,8 +1498,17 @@ var samchon;
             __extends(HashMapCollection, _super);
             function HashMapCollection() {
                 _super.apply(this, arguments);
+                /**
+                 * A callback function listening elements insertion.
+                 */
                 this.insert_handler_ = null;
+                /**
+                 * A callback function listening elements deletion.
+                 */
                 this.erase_handler_ = null;
+                /**
+                 * A chain object taking responsibility of dispatching events.
+                 */
                 this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
             }
             /* =========================================================
@@ -1562,8 +1608,17 @@ var samchon;
             __extends(HashMultiMapCollection, _super);
             function HashMultiMapCollection() {
                 _super.apply(this, arguments);
+                /**
+                 * A callback function listening elements insertion.
+                 */
                 this.insert_handler_ = null;
+                /**
+                 * A callback function listening elements deletion.
+                 */
                 this.erase_handler_ = null;
+                /**
+                 * A chain object taking responsibility of dispatching events.
+                 */
                 this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
             }
             /* =========================================================
@@ -1670,8 +1725,17 @@ var samchon;
             __extends(HashSetCollection, _super);
             function HashSetCollection() {
                 _super.apply(this, arguments);
+                /**
+                 * A callback function listening elements insertion.
+                 */
                 this.insert_handler_ = null;
+                /**
+                 * A callback function listening elements deletion.
+                 */
                 this.erase_handler_ = null;
+                /**
+                 * A chain object taking responsibility of dispatching events.
+                 */
                 this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
             }
             /* =========================================================
@@ -1766,8 +1830,17 @@ var samchon;
             __extends(HashMultiSetCollection, _super);
             function HashMultiSetCollection() {
                 _super.apply(this, arguments);
+                /**
+                 * A callback function listening elements insertion.
+                 */
                 this.insert_handler_ = null;
+                /**
+                 * A callback function listening elements deletion.
+                 */
                 this.erase_handler_ = null;
+                /**
+                 * A chain object taking responsibility of dispatching events.
+                 */
                 this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
             }
             /* =========================================================
@@ -1875,8 +1948,17 @@ var samchon;
             __extends(ListCollection, _super);
             function ListCollection() {
                 _super.apply(this, arguments);
+                /**
+                 * A callback function listening elements insertion.
+                 */
                 this.insert_handler_ = null;
+                /**
+                 * A callback function listening elements deletion.
+                 */
                 this.erase_handler_ = null;
+                /**
+                 * A chain object taking responsibility of dispatching events.
+                 */
                 this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
             }
             /* =========================================================
@@ -2057,8 +2139,17 @@ var samchon;
             __extends(TreeMapCollection, _super);
             function TreeMapCollection() {
                 _super.apply(this, arguments);
+                /**
+                 * A callback function listening elements insertion.
+                 */
                 this.insert_handler_ = null;
+                /**
+                 * A callback function listening elements deletion.
+                 */
                 this.erase_handler_ = null;
+                /**
+                 * A chain object taking responsibility of dispatching events.
+                 */
                 this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
             }
             /* =========================================================
@@ -2158,8 +2249,17 @@ var samchon;
             __extends(TreeMultiMapCollection, _super);
             function TreeMultiMapCollection() {
                 _super.apply(this, arguments);
+                /**
+                 * A callback function listening elements insertion.
+                 */
                 this.insert_handler_ = null;
+                /**
+                 * A callback function listening elements deletion.
+                 */
                 this.erase_handler_ = null;
+                /**
+                 * A chain object taking responsibility of dispatching events.
+                 */
                 this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
             }
             /* =========================================================
@@ -2266,8 +2366,17 @@ var samchon;
             __extends(TreeSetCollection, _super);
             function TreeSetCollection() {
                 _super.apply(this, arguments);
+                /**
+                 * A callback function listening elements insertion.
+                 */
                 this.insert_handler_ = null;
+                /**
+                 * A callback function listening elements deletion.
+                 */
                 this.erase_handler_ = null;
+                /**
+                 * A chain object taking responsibility of dispatching events.
+                 */
                 this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
             }
             /* =========================================================
@@ -2367,8 +2476,17 @@ var samchon;
             __extends(TreeMultiSetCollection, _super);
             function TreeMultiSetCollection() {
                 _super.apply(this, arguments);
+                /**
+                 * A callback function listening elements insertion.
+                 */
                 this.insert_handler_ = null;
+                /**
+                 * A callback function listening elements deletion.
+                 */
                 this.erase_handler_ = null;
+                /**
+                 * A chain object taking responsibility of dispatching events.
+                 */
                 this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
             }
             /* =========================================================
@@ -2696,9 +2814,6 @@ var samchon;
                 //it.value.apply(event);
                 return true;
             };
-            /**
-             * @inheritdoc
-             */
             EventDispatcher.prototype.addEventListener = function (type, listener, thisArg) {
                 if (thisArg === void 0) { thisArg = null; }
                 type = type.toLowerCase();
@@ -2711,9 +2826,6 @@ var samchon;
                     listenerSet = this.listeners.get(type);
                 listenerSet.insert(new std.Pair(listener, thisArg));
             };
-            /**
-             * @inheritdoc
-             */
             EventDispatcher.prototype.removeEventListener = function (type, listener, thisArg) {
                 if (thisArg === void 0) { thisArg = null; }
                 type = type.toLowerCase();
@@ -4138,18 +4250,14 @@ var samchon;
                 if (this.value instanceof samchon.library.XML)
                     this.type = "XML";
             }
+            /**
+             * @inheritdoc
+             */
             InvokeParameter.prototype.construct = function (xml) {
-                if (xml.hasProperty("name") == true)
-                    this.name = xml.getProperty("name");
-                this.type = xml.getProperty("type");
-                if (this.type == "number")
-                    this.value = parseFloat(xml.getValue());
-                else if (this.type == "string")
-                    this.value = xml.getValue();
-                else if (this.type == "XML")
+                this.value = null;
+                _super.prototype.construct.call(this, xml);
+                if (this.type == "XML")
                     this.value = xml.begin().second.at(0);
-                else
-                    this.value = null;
             };
             InvokeParameter.prototype.setValue = function (value) {
                 this.value = value;
@@ -4157,6 +4265,9 @@ var samchon;
             /* -------------------------------------------------------------------
                 GETTERS
             ------------------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
             InvokeParameter.prototype.key = function () {
                 return this.name;
             };
@@ -4181,20 +4292,20 @@ var samchon;
             /* -------------------------------------------------------------------
                 EXPORTERS
             ------------------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
             InvokeParameter.prototype.TAG = function () {
                 return "parameter";
             };
+            /**
+             * @inheritdoc
+             */
             InvokeParameter.prototype.toXML = function () {
-                var xml = new samchon.library.XML();
-                xml.setTag(this.TAG());
-                if (this.name != "")
-                    xml.setProperty("name", this.name);
-                xml.setProperty("type", this.type);
+                var xml = _super.prototype.toXML.call(this);
                 // NOT CONSIDERED ABOUT THE BINARY DATA
-                if (this.type == "number" || this.type == "string")
-                    xml.setValue(this.value + "");
-                else if (this.type == "XML")
-                    xml.push(this.value);
+                (this.type == "XML");
+                xml.push(this.value);
                 return xml;
             };
             return InvokeParameter;
@@ -4258,14 +4369,15 @@ var samchon;
              * 		Local untrusted SWF files may not communicate with the Internet. You can work around
              * 		this limitation by reclassifying the file as local-with-networking or as trusted.
              */
-            ServerConnector.prototype.connect = function (ip, port) {
+            ServerConnector.prototype.connect = function (ip, port, path) {
+                if (path === void 0) { path = ""; }
                 if (ip.indexOf("ws://") == -1) {
                     if (ip.indexOf("://") != -1)
                         throw "only websocket is possible";
                     else
                         ip = "ws://" + ip;
                 }
-                this.socket = new WebSocket(ip + ":" + port);
+                this.socket = new WebSocket(ip + ":" + port + "/" + path);
                 var this_ = this;
                 this.socket.onopen = function (event) {
                     this_.handleConnect(event);

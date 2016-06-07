@@ -11,10 +11,19 @@ namespace samchon.collection
 		extends std.TreeSet<T>
 		implements ICollection<T>
 	{
+		/**
+		 * A callback function listening elements insertion.
+		 */
 		private insert_handler_: CollectionHandler<T> = null;
 
+		/**
+		 * A callback function listening elements deletion.
+		 */
 		private erase_handler_: CollectionHandler<T> = null;
 
+		/**
+		 * A chain object taking responsibility of dispatching events.
+		 */
 		private event_dispatcher_: library.EventDispatcher = new library.EventDispatcher(this);
 
 		/* =========================================================
@@ -176,10 +185,19 @@ namespace samchon.collection
 		extends std.TreeMultiSet<T>
 		implements ICollection<T>
 	{
+		/**
+		 * A callback function listening elements insertion.
+		 */
 		private insert_handler_: CollectionHandler<T> = null;
 
+		/**
+		 * A callback function listening elements deletion.
+		 */
 		private erase_handler_: CollectionHandler<T> = null;
 
+		/**
+		 * A chain object taking responsibility of dispatching events.
+		 */
 		private event_dispatcher_: library.EventDispatcher = new library.EventDispatcher(this);
 
 		/* =========================================================

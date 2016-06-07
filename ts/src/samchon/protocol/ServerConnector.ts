@@ -78,7 +78,7 @@ namespace samchon.protocol
 		 * 		Local untrusted SWF files may not communicate with the Internet. You can work around 
 		 * 		this limitation by reclassifying the file as local-with-networking or as trusted.
 		 */
-	 public connect(ip: string, port: number): void 
+	 public connect(ip: string, port: number, path: string = ""): void 
 		{
 			if(ip.indexOf("ws://") == -1)
 			{
@@ -87,7 +87,7 @@ namespace samchon.protocol
 				else
 					ip = "ws://" + ip;
 			}
-			this.socket = new WebSocket(ip + ":" + port);
+			this.socket = new WebSocket(ip + ":" + port + "/" + path);
 			
 			let this_ = this;
 

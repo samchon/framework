@@ -169,6 +169,12 @@
     <Filter Include="Source Files\protocol\common">
       <UniqueIdentifier>{eae23445-1be9-49dd-aa83-157415887907}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\protocol\common\web-socket">
+      <UniqueIdentifier>{8238fa67-369d-462e-b64e-69b9650135a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\common\basic components">
+      <UniqueIdentifier>{077b3cad-17fd-42fa-a83f-8bd708680f07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\ByteArray.hpp">
@@ -659,34 +665,13 @@
     <ClCompile Include="..\samchon\library\HTTPLoader.cpp">
       <Filter>Source Files\library\miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\WebSocketUtil.cpp">
-      <Filter>Source Files\protocol\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\WebServerConnector.cpp">
-      <Filter>Source Files\protocol\common</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\protocol\SystemRole.cpp">
-      <Filter>Source Files\protocol\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\ServerConnector.cpp">
-      <Filter>Source Files\protocol\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\IWebServer.cpp">
-      <Filter>Source Files\protocol\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\IWebClient.cpp">
-      <Filter>Source Files\protocol\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\IServer.cpp">
       <Filter>Source Files\protocol\common</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\InvokeHistoryArray.cpp">
       <Filter>Source Files\protocol\common</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\InvokeHistory.cpp">
-      <Filter>Source Files\protocol\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\protocol\IClient.cpp">
       <Filter>Source Files\protocol\common</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\FlashPolicyServer.cpp">
@@ -775,6 +760,27 @@
     </ClCompile>
     <ClCompile Include="..\samchon\protocol\master\PRMasterHistoryArray.cpp">
       <Filter>Source Files\protocol\master</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\IWebClient.cpp">
+      <Filter>Source Files\protocol\common\web-socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\IWebServer.cpp">
+      <Filter>Source Files\protocol\common\web-socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\WebSocketUtil.cpp">
+      <Filter>Source Files\protocol\common\web-socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\WebServerConnector.cpp">
+      <Filter>Source Files\protocol\common\web-socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\IServer.cpp">
+      <Filter>Source Files\protocol\common\basic components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\ServerConnector.cpp">
+      <Filter>Source Files\protocol\common\basic components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\IClient.cpp">
+      <Filter>Source Files\protocol\common\basic components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

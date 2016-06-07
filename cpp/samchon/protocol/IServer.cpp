@@ -39,7 +39,6 @@ void IServer::open()
 	if (acceptor == nullptr)
 	{
 		string &myIP = MY_IP();
-
 		if (myIP.empty() == true)
 			endPoint.reset( new tcp::endpoint(tcp::v4(), PORT()) );
 		else

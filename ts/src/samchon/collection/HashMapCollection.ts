@@ -11,10 +11,19 @@ namespace samchon.collection
 		extends std.HashMap<Key, T>
 		implements ICollection<std.Pair<Key, T>>
 	{
+		/**
+		 * A callback function listening elements insertion.
+		 */
 		private insert_handler_: MapCollectionHandler<Key, T> = null;
 
+		/**
+		 * A callback function listening elements deletion.
+		 */
 		private erase_handler_: MapCollectionHandler<Key, T> = null;
 
+		/**
+		 * A chain object taking responsibility of dispatching events.
+		 */
 		private event_dispatcher_: library.EventDispatcher = new library.EventDispatcher(this);
 
 		/* =========================================================
@@ -181,10 +190,19 @@ namespace samchon.collection
 		extends std.HashMap<Key, T>
 		implements ICollection<std.Pair<Key, T>>
 	{
+		/**
+		 * A callback function listening elements insertion.
+		 */
 		private insert_handler_: MapCollectionHandler<Key, T> = null;
 
+		/**
+		 * A callback function listening elements deletion.
+		 */
 		private erase_handler_: MapCollectionHandler<Key, T> = null;
 
+		/**
+		 * A chain object taking responsibility of dispatching events.
+		 */
 		private event_dispatcher_: library.EventDispatcher = new library.EventDispatcher(this);
 
 		/* =========================================================

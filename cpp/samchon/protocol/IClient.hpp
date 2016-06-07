@@ -108,10 +108,6 @@ namespace protocol
 		 * @param invoke An invoke message to be pre-processed and shifted to IProtocol::replyData().
 		 */
 		virtual void _replyData(std::shared_ptr<Invoke>);
-
-	private:
-		void handle_string(ByteArray &, std::string &, std::shared_ptr<Invoke> &, size_t);
-		void handle_binary(ByteArray &, std::string &, std::shared_ptr<Invoke> &, size_t);
 	};
 };
 };

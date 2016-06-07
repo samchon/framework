@@ -39,30 +39,13 @@ void main()
 {
 	setlocale(LC_ALL, "korean");
 
-	login();
 	loadPage();
-	loadFile();
 
 	system("pause");
 }
 
-void login()
-{
-	HTTPLoader loader("http://www.bomtvbiz.com/ad/?c=login", HTTPLoader::POST);
-	URLVariables data;
-	{
-		data["m_id"] = "rprt01";
-		data["password"] = "1234";
-	}
-
-	string &str = loader.load(data).read<string>();
-	cout << str << endl << endl;
-	//cout << loader.load(data).read<string>() << endl << endl;
-}
 void loadPage()
 {
-	//http://www.bomtvbiz.com/ad/
-	//http://samchon.org/simulation/php/corporate/list.php
 	HTTPLoader loader("http://samchon.org/simulation/php/corporate/list.php", HTTPLoader::GET);
 	URLVariables data;
 	{
@@ -73,35 +56,4 @@ void loadPage()
 
 	//cout << "#size: " << loader.load(data).size() << endl;
 	string &str = loader.load(data).read<string>();
-	toClipboard(str);
-}
-void loadFile()
-{
-	HTTPLoader loader(Charset::toUTF8("http://www.bomtvbiz.com/dt/order_print/1448241706869/20151123_1448241706869_辫泅快_2疙_辫 铰 林.pdf"), HTTPLoader::GET);
-	ByteArray &data = loader.load({});
-
-	// 颇老 历厘
-	ofstream file("E:\\test.pdf", ios::out | ios::binary);
-	file.write((const char*)&data[0], data.size());
-
-	file.close();
-}
-
-void toClipboard(const string &str)
-{
-	OpenClipboard(0);
-	EmptyClipboard();
-	HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, str.size() + 1);
-
-	if (!hg)
-	{
-		CloseClipboard();
-		return;
-	}
-	memcpy(GlobalLock(hg), str.c_str(), str.size() + 1);
-
-	GlobalUnlock(hg);
-	SetClipboardData(CF_TEXT, hg);
-	CloseClipboard();
-	GlobalFree(hg);
 }

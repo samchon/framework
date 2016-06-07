@@ -44,7 +44,12 @@ namespace samchon
 			/* -----------------------------------------------------------------------
 				HANDSHAKE OF WEB-SOCKET
 			----------------------------------------------------------------------- */
-			auto handshake(Socket *socket) const -> bool;
+			void handshake(Socket *socket);
+
+			virtual void addClient(Socket *socket) override final;
+
+		protected:
+			virtual void addClient(Socket *socket, const std::string &path, const std::string &sessionID) = 0;
 		};
 	};
 };

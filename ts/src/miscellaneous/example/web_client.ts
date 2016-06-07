@@ -17,7 +17,7 @@
 
 					this_.sendData(new protocol.Invoke("sendMessage", 99999, "I am JavaScript Client", 3, 7));
 				}
-				this.connector.connect("127.0.0.1", 37888);
+				this.connector.connect("127.0.0.1", 37888, "simulation");
 		}
 
 		private rotate_interval(): void

@@ -209,6 +209,8 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 				break;
 		}
 
+		cout << header << endl;
+
 		WeakString wstr = header;
 		vector<WeakString> wstrArray = wstr.split("\r\n");
 

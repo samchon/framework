@@ -30,8 +30,26 @@ namespace samchon.protocol
 		 */
 		protected value: any = null;
 
+		/**
+		 * Default Constructor.
+		 */
 		public constructor();
+
+		/**
+		 * Initialization Constructor without type specification.
+		 * 
+		 * @param name
+		 * @param val
+		 */
 		public constructor(name: string, val: any);
+
+		/**
+		 * Initialization Constructor.
+		 * 
+		 * @param name
+		 * @param type
+		 * @param val
+		 */
 		public constructor(name: string, type: string, val: any);
 
 		/* -------------------------------------------------------------------
@@ -59,20 +77,17 @@ namespace samchon.protocol
 				this.type = "XML";
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public construct(xml: library. XML): void
 		{
-			if (xml.hasProperty("name") == true)
-				this.name = xml.getProperty("name");
-			this.type = xml.getProperty("type");
+			this.value = null;
 
-			if (this.type == "number")
-				this.value = parseFloat(xml.getValue());
-			else if (this.type == "string")
-				this.value = xml.getValue();
-			else if (this.type == "XML")
+			super.construct(xml);
+
+			if (this.type == "XML")
 				this.value = xml.begin().second.at(0);
-			else
-				this.value = null;
 		}
 
 		public setValue(value: any): void
@@ -83,6 +98,9 @@ namespace samchon.protocol
 		/* -------------------------------------------------------------------
 			GETTERS
 		------------------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public key(): any
 		{
 			return this.name;
@@ -115,24 +133,23 @@ namespace samchon.protocol
 		/* -------------------------------------------------------------------
 			EXPORTERS
 		------------------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public TAG(): string
 		{
 			return "parameter";
 		}
 		
+		/**
+		 * @inheritdoc
+		 */
 		public toXML(): library.XML
 		{
-			let xml: library.XML = new library.XML();
-			xml.setTag(this.TAG());
-
-			if (this.name != "")
-				xml.setProperty("name", this.name);
-			xml.setProperty("type", this.type);
+			let xml: library.XML = super.toXML();
 
 			// NOT CONSIDERED ABOUT THE BINARY DATA
-			if (this.type == "number" || this.type == "string")
-				xml.setValue(this.value + "");
-			else if (this.type == "XML")
+			(this.type == "XML")
 				xml.push(this.value);
 
 			return xml;

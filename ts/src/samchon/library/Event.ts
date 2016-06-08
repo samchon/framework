@@ -209,7 +209,7 @@ namespace samchon.library
 	}
 
 	export class ProgressEvent
-		extends BasicEvent
+		extends library.BasicEvent
 	{
 		public static get PROGRESS(): string { return "progress"; }
 
@@ -233,4 +233,4 @@ namespace samchon.library
 			return this.denominator_;
 		}
 	}
-}
+}2

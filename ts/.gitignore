@@ -43,14 +43,11 @@ Temporary Items
 .apdisk
 
 # ======================================================
-#	FLEX - FLASH BUILDER
+#	TYPESCRIPT - SOURCE FILE ONLY
 # ======================================================
-.settings/
-bin/
-bin-debug/
-bin-release/
-html-template/
-*.actionScriptProperties
-*.flexProperties
-*.project
-.DS_Store
+*
+!.gitignore
+!index.html
+!ts/src
+!ts/include
+!ts/tsconfig.json

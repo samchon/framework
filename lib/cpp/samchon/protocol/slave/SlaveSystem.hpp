@@ -13,7 +13,7 @@ namespace slave
 	 *  @brief A slave system.
 	 *
 	 * @details
-	 * <p> SlaveSystem, literally, means a slave system belongs to a maste system. </p>
+	 * <p> SlaveSystem, literally, means a slave system belongs to a master system. </p>
 	 *
 	 * <p> The SlaveSystem class is used in opposite side system of master::DistributedSystem
 	 * and master::ParallelSystem and reports elapsed time of each commmand (by Invoke message)

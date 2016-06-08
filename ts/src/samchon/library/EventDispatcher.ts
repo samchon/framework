@@ -48,7 +48,7 @@ namespace samchon.library
 		 *			  dispatched, its target property cannot be changed, so you must create a new copy 
 		 *			  of the event for redispatching to work. 
 		 */
-		dispatchEvent(event: BasicEvent): boolean;
+		dispatchEvent(event: library.BasicEvent): boolean;
 
 		/**
 		 * <p> Registers an event listener object with an EventDispatcher object so that the listener 
@@ -253,7 +253,7 @@ namespace samchon.library
 		 */
 		public dispatchEvent(event: Event): boolean
 		{
-			if (event instanceof BasicEvent)
+			if (event instanceof library.BasicEvent)
 				event["target_"] = this.target;
 			else
 				event.target = this.target;

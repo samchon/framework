@@ -54,7 +54,7 @@ namespace protocol
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class InvokeParameter
-		: public virtual Entity
+		: public Entity
 	{
 		friend class Invoke;
 

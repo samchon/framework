@@ -2,7 +2,7 @@
 
 namespace samchon.protocol
 {
-	export interface IEntityArray<T extends IEntity>
+	export interface IEntityGroup<T extends IEntity>
 		extends IEntity, std.base.IContainer<T>
 	{
 		/* ------------------------------------------------------------------
@@ -36,6 +36,24 @@ namespace samchon.protocol
 			GETTERS
 		------------------------------------------------------------------ */
 		/**
+		 * <p> Get iterator to element. </p>
+		 * 
+		 * <p> Searches the container for an element with a identifier equivalent to <i>key</i> and returns an 
+		 * iterator to it if found, otherwise it returns an iterator to {@link end end()}. </p>
+		 *
+		 * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively 
+		 * (i.e., no matter the order in which the elements are passed as arguments). </p>
+		 *
+		 * <p> Another member functions, {@link has has()} and {@link count count()}, can be used to just check 
+		 * whether a particular <i>key</i> exists. </p>
+		 *
+		 * @param key Key to be searched for
+		 * @return An iterator to the element, if an element with specified <i>key</i> is found, or 
+		 *		   {@link end end()} otherwise.
+		 */
+		find(key: any): std.Iterator<T>;
+
+		/**
 		 * <p> Whether have the item or not. </p>
 		 * 
 		 * <p> Indicates whether a map has an item having the specified identifier. </p>
@@ -68,7 +86,7 @@ namespace samchon.protocol
 		 * 
 		 * @return A reference object of the mapped value (_Ty)
 		 */
-		get(key: string): T;
+		get(key: any): T;
 
 		/* ------------------------------------------------------------------
 			EXPORTERS
@@ -98,7 +116,7 @@ namespace samchon.protocol
 	 */
 	export abstract class EntityArray<T extends IEntity>
 		extends std.Vector<T>
-		implements IEntityArray<T>
+		implements IEntityGroup<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -142,7 +160,7 @@ namespace samchon.protocol
 		 * @inheritdoc
 		 */
 		public abstract createChild(xml: library.XML): T;
-		
+
 		/* ------------------------------------------------------------------
 			GETTERS
 		------------------------------------------------------------------ */
@@ -157,12 +175,25 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
+		public find(key: any): std.VectorIterator<T>
+		{
+			return std.find_if(this.begin(), this.end(),
+				function (entity: T): boolean
+				{
+					return std.equal_to(entity.key(), this.key());
+				}
+			);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public has(key: any): boolean
 		{
 			return std.any_of(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), this.key());
 				}
 			);
 		}
@@ -175,7 +206,7 @@ namespace samchon.protocol
 			return std.count_if(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), key);
 				}
 			);
 		}
@@ -183,15 +214,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		public get(key: string): T
+		public get(key: any): T
 		{
-			let it = std.find_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return entity.key() == key;
-				}
-			);
-
+			let it = this.find(key);
 			if (it.equal_to(this.end()))
 				throw new std.OutOfRange("out of range");
 
@@ -241,7 +266,7 @@ namespace samchon.protocol
 	 */
 	export abstract class EntityList<T extends IEntity>
 		extends std.List<T>
-		implements IEntityArray<T>
+		implements IEntityGroup<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -300,12 +325,25 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
+		public find(key: any): std.ListIterator<T>
+		{
+			return std.find_if(this.begin(), this.end(),
+				function (entity: T): boolean
+				{
+					return std.equal_to(entity.key(), this.key());
+				}
+			);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public has(key: any): boolean
 		{
 			return std.any_of(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), this.key());
 				}
 			);
 		}
@@ -318,7 +356,7 @@ namespace samchon.protocol
 			return std.count_if(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), key);
 				}
 			);
 		}
@@ -326,15 +364,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		public get(key: string): T
+		public get(key: any): T
 		{
-			let it = std.find_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return entity.key() == key;
-				}
-			);
-
+			let it = this.find(key);
 			if (it.equal_to(this.end()))
 				throw new std.OutOfRange("out of range");
 
@@ -384,7 +416,7 @@ namespace samchon.protocol
 	 */
 	export abstract class EntityDeque<T extends IEntity>
 		extends std.Deque<T>
-		implements IEntityArray<T>
+		implements IEntityGroup<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -443,12 +475,25 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
+		public find(key: any): std.DequeIterator<T>
+		{
+			return std.find_if(this.begin(), this.end(),
+				function (entity: T): boolean
+				{
+					return std.equal_to(entity.key(), this.key());
+				}
+			);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public has(key: any): boolean
 		{
 			return std.any_of(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), this.key());
 				}
 			);
 		}
@@ -461,7 +506,7 @@ namespace samchon.protocol
 			return std.count_if(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), key);
 				}
 			);
 		}
@@ -469,15 +514,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		public get(key: string): T
+		public get(key: any): T
 		{
-			let it = std.find_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return entity.key() == key;
-				}
-			);
-
+			let it = this.find(key);
 			if (it.equal_to(this.end()))
 				throw new std.OutOfRange("out of range");
 

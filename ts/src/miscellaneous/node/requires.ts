@@ -1,4 +1,9 @@
 ﻿if (typeof (exports) != "undefined")
-{
-    global["std"] = require("typescript-stl");
-}
+	try
+	{
+		global["std"] = require("typescript-stl");
+	}
+	catch (e) 
+	{
+		// NOT CALLED BY NODE.JS BUT REQUIRE.JS IN WEB ENVIRONMENT. 
+	}

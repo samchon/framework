@@ -10,7 +10,7 @@ namespace samchon.protocol
 	 * @inheritdoc
 	 */
 	export interface IEntityCollection<T extends IEntity>
-		extends IEntityArray<T>, collection.ICollection<T>
+		extends IEntityGroup<T>, collection.ICollection<T>
 	{
 	};
 
@@ -78,12 +78,25 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
+		public find(key: any): std.VectorIterator<T>
+		{
+			return std.find_if(this.begin(), this.end(),
+				function (entity: T): boolean
+				{
+					return std.equal_to(entity.key(), this.key());
+				}
+			);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public has(key: any): boolean
 		{
 			return std.any_of(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), this.key());
 				}
 			);
 		}
@@ -96,7 +109,7 @@ namespace samchon.protocol
 			return std.count_if(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), key);
 				}
 			);
 		}
@@ -104,15 +117,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		public get(key: string): T
+		public get(key: any): T
 		{
-			let it = std.find_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return entity.key() == key;
-				}
-			);
-
+			let it = this.find(key);
 			if (it.equal_to(this.end()))
 				throw new std.OutOfRange("out of range");
 
@@ -221,12 +228,25 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
+		public find(key: any): std.ListIterator<T>
+		{
+			return std.find_if(this.begin(), this.end(),
+				function (entity: T): boolean
+				{
+					return std.equal_to(entity.key(), this.key());
+				}
+			);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public has(key: any): boolean
 		{
 			return std.any_of(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), this.key());
 				}
 			);
 		}
@@ -239,7 +259,7 @@ namespace samchon.protocol
 			return std.count_if(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), key);
 				}
 			);
 		}
@@ -247,15 +267,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		public get(key: string): T
+		public get(key: any): T
 		{
-			let it = std.find_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return entity.key() == key;
-				}
-			);
-
+			let it = this.find(key);
 			if (it.equal_to(this.end()))
 				throw new std.OutOfRange("out of range");
 
@@ -364,12 +378,25 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
+		public find(key: any): std.DequeIterator<T>
+		{
+			return std.find_if(this.begin(), this.end(),
+				function (entity: T): boolean
+				{
+					return std.equal_to(entity.key(), this.key());
+				}
+			);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public has(key: any): boolean
 		{
 			return std.any_of(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), this.key());
 				}
 			);
 		}
@@ -382,7 +409,7 @@ namespace samchon.protocol
 			return std.count_if(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return entity.key() == key;
+					return std.equal_to(entity.key(), key);
 				}
 			);
 		}
@@ -390,15 +417,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		public get(key: string): T
+		public get(key: any): T
 		{
-			let it = std.find_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return entity.key() == key;
-				}
-			);
-
+			let it = this.find(key);
 			if (it.equal_to(this.end()))
 				throw new std.OutOfRange("out of range");
 

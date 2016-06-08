@@ -148,9 +148,6 @@
     <Filter Include="Header Files\library\data\common\critical section\container">
       <UniqueIdentifier>{2ff36964-b86d-4387-8c3d-dcd821118953}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\library\data\common\event">
-      <UniqueIdentifier>{bad49f11-60d3-49bb-b3bd-3cc6c762e62b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\library\data\common\critical section\unique &amp; shared lock">
       <UniqueIdentifier>{7f7bac72-f20a-442c-bab0-61f4e660d126}</UniqueIdentifier>
     </Filter>
@@ -174,6 +171,9 @@
     </Filter>
     <Filter Include="Source Files\protocol\common\basic components">
       <UniqueIdentifier>{077b3cad-17fd-42fa-a83f-8bd708680f07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\events">
+      <UniqueIdentifier>{70cdb311-f894-4ac3-8ec6-a976e9c6e893}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -203,15 +203,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\library\StringUtil.hpp">
       <Filter>Header Files\library\utils\string</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\ErrorEvent.hpp">
-      <Filter>Header Files\library\data\common\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\Event.hpp">
-      <Filter>Header Files\library\data\common\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\ProgressEvent.hpp">
-      <Filter>Header Files\library\data\common\event</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalDictionary.hpp">
       <Filter>Header Files\library\data\common\critical section\container</Filter>
@@ -546,9 +537,6 @@
     <ClInclude Include="..\samchon\protocol\ExternalClientArray.hpp">
       <Filter>Header Files\protocol\common\external system\client</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\library\EventDispatcher.hpp">
-      <Filter>Header Files\library\data\common\event</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\library.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -590,6 +578,18 @@
     </ClInclude>
     <ClInclude Include="..\samchon\library\SharedWriteLock.hpp">
       <Filter>Header Files\library\data\common\critical section\unique &amp; shared lock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\ErrorEvent.hpp">
+      <Filter>Header Files\library\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\Event.hpp">
+      <Filter>Header Files\library\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\EventDispatcher.hpp">
+      <Filter>Header Files\library\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\ProgressEvent.hpp">
+      <Filter>Header Files\library\events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -46,381 +46,6 @@ declare namespace samchon.protocol.master {
 }
 declare namespace samchon.protocol.slave {
 }
-/**
- * Samchon Framework, A SDN framework.
- *
- * @author Jeongho Nam <http://samchon.org>
- */
-declare namespace samchon {
-}
-declare namespace samchon.library {
-}
-declare namespace samchon.collection {
-}
-declare namespace samchon.protocol {
-}
-declare namespace samchon.protocol.service {
-}
-declare namespace samchon.protocol.master {
-}
-declare namespace samchon.protocol.slave {
-}
-declare namespace samchon.example {
-}
-declare namespace samchon.example {
-    function test_web_client(): void;
-}
-declare namespace samchon.library {
-    /**
-     * <p> XML is a class representing a tree structued xml objects. </p>
-     * <p> The XML class provides methods and properties for working with XML objects. </p>
-     *
-     * <p> The XML class (along with the XMLList and Namespace) implements
-     * the powerful XML-handling standard defined in ECMAScript for XML (E4X) specification. </p>
-     *
-     * <p> XML class has a recursive, hierarchical relationship. </p>
-     *
-     * <p> Relationships between XML and XMLList </p>
-     * <ul>
-     *	<li> XML contains XMLList from dictionary of XMLList. </li>
-     *  <li> XMLList contains XML from vector of XML. </li>
-     * </ul>
-     *
-     * <h4> Note </h4>
-     * <p> Do not abuse values for expressing member variables. </p>
-     *
-     * <table>
-     *	<tr>
-     *		<th>Standard Usage</th>
-     *		<th>Non-standard usage abusing value</th>
-     *	</tr>
-     *	<tr>
-     *		<td>
-     *			&lt;memberList&gt;<br/>
-     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt;<br/>
-     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt;<br/>
-     *			&lt;/memberList&gt;
-     *		</td>
-     *		<td>
-     *			&lt;member&gt;<br/>
-     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;id&gt;jhnam88&lt;/id&gt;<br/>
-     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;name&gt;Jeongho+Nam&lt;/name&gt;<br/>
-     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;<br/>
-     *			&lt;/member&gt;
-     *		</td>
-     *	</tr>
-     * </table>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class XML extends std.HashMap<string, XMLList> {
-        /**
-         * <p> Tag name of the XML. </p>
-         *
-         * <ul>
-         *	<li> \<<b>tag</b> label='property' /\>: tag => \"tag\" </li>
-         *  <li> \<<b>price</b> high='1500' low='1300' open='1450' close='1320' /\>: tag => \"price\" </li>
-         * </ul>
-         */
-        private tag;
-        /**
-         * <p> Value of the XML. </p>
-         *
-         * <ul>
-         *  <li> \<parameter name='age' type='int'\><b>26</b>\</parameter\>: value => 26 </li>
-         *	<li> \<price high='1500' low='1300' open='1450' close='1320' /\>: value => null </li>
-         * </ul>
-         */
-        private value;
-        /**
-         * <p> Properties belongs to the XML. </p>
-         * <p> A Dictionary of properties accessing each property by its key. </p>
-         *
-         * <ul>
-         *	<li> \<price <b>high='1500' low='1300' open='1450' close='1320'</b> /\>:
-         *		propertyMap => {{\"high\": 1500}, {\"low\": 1300}, {\"open\": 1450}, {\"close\", 1320}} </li>
-         *	<li> \<member <b>id='jhnam88' name='Jeongho+Nam' comment='Hello.+My+name+is+Jeongho+Nam'</b> \>:
-         *		propertyMap => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam <http://samchon.org>\"},
-         *					 {\"comment\", \"Hello. My name is Jeongho Nam <http://samchon.org>\"}} </li>
-         * </ul>
-         */
-        private properties;
-        /**
-         * <p> Default Constructor. </p>
-         *
-         * <p> If the string parameter is not omitted, constructs its tag, value and
-         * properties by parsing the string. If there's children, then construct the
-         * children XML, XMLList objects, too. </p>
-         *
-         * @param str A string to be parsed
-         */
-        constructor(str?: string);
-        /**
-         * <p> Construct XML objects by parsing a string. </p>
-         */
-        private construct(str);
-        /**
-         * <p> Parse and fetch a tag. </p>
-         */
-        private parseTag(str);
-        /**
-         * <p> Parse and fetch properties. </p>
-         */
-        private parseProperty(str);
-        /**
-         * <p> Parse and fetch a value. </p>
-         */
-        private parseValue(str);
-        /**
-         * <p> Parse and construct children XML objects. </p>
-         */
-        private parseChildren(str);
-        /**
-         * <p> Get tag. </p>
-         */
-        getTag(): string;
-        /**
-         * <p> Get value. </p>
-         */
-        getValue(): string;
-        /**
-         * <p> Test whether a property exists or not. </p>
-         */
-        hasProperty(key: string): boolean;
-        /**
-         * <p> Get property by its key. </p>
-         */
-        getProperty(key: string): string;
-        getPropertyMap(): std.HashMap<string, string>;
-        /**
-         * <p> Set tag (identifier) of the XML. </p>
-         */
-        setTag(str: string): void;
-        /**
-         * <p> Set value of the XML. </p>
-         *
-         * <p> Do not abuse values for expressing member variables. </p>
-         * <table>
-         *	<tr>
-         *		<th>Standard Usage</th>
-         *		<th>Non-standard usage abusing value</th>
-         *	</tr>
-         *	<tr>
-         *		<td>
-         *			\<memberList\>\n
-         *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
-         *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
-         *			\</memberList\>
-         *		</td>
-         *		<td>
-         *			\<member\>\n
-         *				\<id\>jhnam88\</id\>\n
-         *				\<name\>Jeongho+Nam\</name\>\n
-         *				\<birthdate\>1988-03-11\</birthdate\>\n
-         *			\</member\>
-         *		</td>
-         *	</tr>
-         * </table>
-         *
-         * @param val A value to set
-         */
-        setValue(str: string): void;
-        /**
-         * <p> Set a property with its key. </p>
-         */
-        setProperty(key: string, value: string): void;
-        /**
-         * <p> Erase a property by its key. </p>
-         *
-         * @param key The key of the property to erase
-         * @throw exception out of range
-         */
-        eraseProperty(key: string): void;
-        push<L extends string, U extends XMLList>(...args: std.Pair<L, U>[]): number;
-        push<L extends string, U extends XMLList>(...args: [L, U][]): number;
-        push(...xmls: XML[]): number;
-        push(...xmlLists: XMLList[]): number;
-        addAllProperties(xml: XML): void;
-        clearProperties(): void;
-        private calcMinIndex(...args);
-        /**
-         * <p> Decode a value. </p>
-         *
-         * <table>
-         *	<tr>
-         *		<th>Encoded</th>
-         *		<th>Decoded</th>
-         *	</tr>
-         *	<tr>
-         *		<td>\&amp;</td>
-         *		<td>\&</td>
-         *	</tr>
-         *	<tr>
-         *		<td>\&lt;</td>
-         *		<td>\<</td>
-         *	</tr>
-         *	<tr>
-         *		<td>\&gt;</td>
-         *		<td>\></td>
-         *	</tr>
-         * </table>
-         *
-         * @return A decoded string represents a value
-         */
-        static decodeValue(str: string): string;
-        /**
-         * <p> Encode a value. </p>
-         *
-         * <table>
-         *	<tr>
-         *		<th>Original</th>
-         *		<th>Encoded</th>
-         *	</tr>
-         *	<tr>
-         *		<td>\&</td>
-         *		<td>\&amp;</td>
-         *	</tr>
-         *	<tr>
-         *		<td>\<</td>
-         *		<td>\&lt;</td>
-         *	</tr>
-         *	<tr>
-         *		<td>\></td>
-         *		<td>\&gt;</td>
-         *	</tr>
-         * </table>
-         *
-         * @return A encoded string represents a value
-         */
-        static encodeValue(str: string): string;
-        /**
-          * <p> Decode a property. </p>
-          *
-          * <table>
-          *	<tr>
-          *		<th>Encoded</th>
-          *		<th>Decoded</th>
-          *	</tr>
-          *	<tr>
-          *		<td>\&amp;</td>
-          *		<td>\&</td>
-          *	</tr>
-          *	<tr>
-          *		<td>\&lt;</td>
-          *		<td>\<</td>
-          *	</tr>
-          *	<tr>
-          *		<td>\&gt;</td>
-          *		<td>\></td>
-          *	</tr>
-          *	<tr>
-          *		<td>&quot;</td>
-          *		<td>\"</td>
-          *	</tr>
-          *	<tr>
-          *		<td>&apos;</td>
-          *		<td>'</td>
-          *	</tr>
-          *	<tr>
-          *		<td>&#x9;</td>
-          *		<td>'</td>
-          *	</tr>
-          *	<tr>
-          *		<td>&apos;</td>
-          *		<td>\\t</td>
-          *	</tr>
-          *	<tr>
-          *		<td>&#xA;</td>
-          *		<td>\\n</td>
-          *	</tr>
-          *	<tr>
-          *		<td>&#xD;</td>
-          *		<td>\\r</td>
-          *	</tr>
-          * </table>
-          *
-          * @return A decoded string represents a property
-          */
-        static decodeProperty(str: string): string;
-        /**
-         * <p> Decode a property. </p>
-         *
-         * <table>
-         *	<tr>
-         *		<th>Original</th>
-         *		<th>Encoded</th>
-         *	</tr>
-         *	<tr>
-         *		<td>\&</td>
-         *		<td>\&amp;</td>
-         *	</tr>
-         *	<tr>
-         *		<td>\<</td>
-         *		<td>\&lt;</td>
-         *	</tr>
-         *	<tr>
-         *		<td>\></td>
-         *		<td>\&gt;</td>
-         *	</tr>
-         *	<tr>
-         *		<td>\"</td>
-         *		<td>&quot;</td>
-         *	</tr>
-         *	<tr>
-         *		<td>'</td>
-         *		<td>&apos;</td>
-         *	</tr>
-         *	<tr>
-         *		<td>'</td>
-         *		<td>&#x9;</td>
-         *	</tr>
-         *	<tr>
-         *		<td>\\t</td>
-         *		<td>&apos;</td>
-         *	</tr>
-         *	<tr>
-         *		<td>\\n</td>
-         *		<td>&#xA;</td>
-         *	</tr>
-         *	<tr>
-         *		<td>\\r</td>
-         *		<td>&#xD;</td>
-         *	</tr>
-         * </table>
-         *
-         * @return A encoded string represents a property
-         */
-        static encodeProperty(str: string): string;
-        /**
-         * <p> Convert the XML to a string. </p>
-         */
-        toString(level?: number): string;
-        /**
-         * <p> Convert the XML to HTML string. </p>
-         */
-        toHTML(level?: number): string;
-    }
-    /**
-     * <p> List of XML(s) having same tag. </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class XMLList extends std.Vector<XML> {
-        getTag(): string;
-        /**
-         * <p> Convert XMLList to string. </p>
-         *
-         * @param level Level(depth) of the XMLList.
-         */
-        toString(level?: number): string;
-        /**
-         * <p> Convert XMLList to HTML string. </p>
-         *
-         * @param level Level(depth) of the XMLList.
-         */
-        toHTML(level?: number): string;
-    }
-}
 declare namespace samchon.collection {
     /**
      * A {@link Vector} who can detect element I/O events.
@@ -508,140 +133,6 @@ declare namespace samchon.collection {
          * @inheritdoc
          */
         splice(start: number, deleteCount: number, ...items: T[]): T[];
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * <p> An interface of entity. </p>
-     *
-     * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
-     * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
-     * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
-     * Entity is not imposed but encouraged. </p>
-     *
-     * <p> As we could get advantages from standardization of message for network I/O with Invoke,
-     * we can get additional advantage from standardizing expression method of data class with Entity.
-     * We do not need to know a part of network communication. Thus, with the Entity, we can only
-     * concentrate on entity's own logics and relationships between another entities. Entity does not
-     * need to how network communications are being done. </p>
-     *
-     * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
-     * protocol for network I/O but not a essential protocol must be kept. The expression method of
-     * Entity, using on network I/O, is expressed by XML string. </p>
-     *
-     * <p> If your own network system has a critical performance issue on communication data class,
-     * it would be better to using binary communication (with ByteArray).
-     * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IEntity {
-        /**
-         * <p> Construct data of the Entity from a XML object. </p>
-         *
-         * <p> Overrides the construct() method and fetch data of member variables from the XML. </p>
-         *
-         * <p> By recommended guidance, data representing member variables are contained in properties
-         * of the put XML object. </p>
-         *
-         * @param xml An xml used to contruct data of entity.
-         */
-        construct(xml: library.XML): any;
-        /**
-         * <p> Get a key that can identify the Entity uniquely. </p>
-         *
-         * <p> If identifier of the Entity is not atomic value, returns a string or paired object
-         * that can represents the composite identifier. </p>
-         */
-        key(): any;
-        /**
-         * <p> A tag name when represented by XML. </p>
-         *
-         * <ul>
-         * 	<li> <TAG {...properties} /> </li>
-         * </ul>
-         */
-        TAG(): string;
-        /**
-         * <p> Get a XML object represents the Entity. </p>
-         *
-         * <p> A member variable (not object, but atomic value like number, string or date) is categorized
-         * as a property within the framework of entity side. Thus, when overriding a toXML() method and
-         * archiving member variables to an XML object to return, puts each variable to be a property
-         * belongs to only a XML object. </p>
-         *
-         * <p> Don't archive the member variable of atomic value to XML::value causing enormouse creation
-         * of XML objects to number of member variables. An Entity must be represented by only a XML
-         * instance (tag). </p>
-         *
-         * <h4> Standard Usage. </h4>
-         * <code>
-         * <memberList>
-         *	<member id='jhnam88' name='Jeongho Nam' birthdate='1988-03-11' />
-         *	<member id='master' name='Administartor' birthdate='2011-07-28' />
-         * </memberList>
-         * </code>
-         *
-         * <h4> Non-standard usage abusing value. </h4>
-         * <code>
-         * <member>
-         *	<id>jhnam88</id>
-         *	<name>Jeongho Nam</name>
-         *	<birthdate>1988-03-11</birthdate>
-         * </member>
-         * <member>
-         *	<id>master</id>
-         *	<name>Administartor</name>
-         *	<birthdate>2011-07-28</birthdate>
-         * </member>
-         * </code>
-         *
-         * @return An XML object representing the Entity.
-         */
-        toXML(): library.XML;
-    }
-    /**
-     * <p> An entity, a standard data class. </p>
-     *
-     * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
-     * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
-     * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
-     * Entity is not imposed but encouraged. </p>
-     *
-     * <p> As we could get advantages from standardization of message for network I/O with Invoke,
-     * we can get additional advantage from standardizing expression method of data class with Entity.
-     * We do not need to know a part of network communication. Thus, with the Entity, we can only
-     * concentrate on entity's own logics and relationships between another entities. Entity does not
-     * need to how network communications are being done. </p>
-     *
-     * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
-     * protocol for network I/O but not a essential protocol must be kept. The expression method of
-     * Entity, using on network I/O, is expressed by XML string. </p>
-     *
-     * <p> If your own network system has a critical performance issue on communication data class,
-     * it would be better to using binary communication (with ByteArray).
-     * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class Entity implements IEntity {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        construct(xml: library.XML): void;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
     }
 }
 declare namespace samchon.library {
@@ -1326,6 +817,357 @@ declare namespace samchon.collection {
         removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
     }
 }
+declare namespace samchon.library {
+    /**
+     * <p> XML is a class representing a tree structued xml objects. </p>
+     * <p> The XML class provides methods and properties for working with XML objects. </p>
+     *
+     * <p> The XML class (along with the XMLList and Namespace) implements
+     * the powerful XML-handling standard defined in ECMAScript for XML (E4X) specification. </p>
+     *
+     * <p> XML class has a recursive, hierarchical relationship. </p>
+     *
+     * <p> Relationships between XML and XMLList </p>
+     * <ul>
+     *	<li> XML contains XMLList from dictionary of XMLList. </li>
+     *  <li> XMLList contains XML from vector of XML. </li>
+     * </ul>
+     *
+     * <h4> Note </h4>
+     * <p> Do not abuse values for expressing member variables. </p>
+     *
+     * <table>
+     *	<tr>
+     *		<th>Standard Usage</th>
+     *		<th>Non-standard usage abusing value</th>
+     *	</tr>
+     *	<tr>
+     *		<td>
+     *			&lt;memberList&gt;<br/>
+     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt;<br/>
+     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt;<br/>
+     *			&lt;/memberList&gt;
+     *		</td>
+     *		<td>
+     *			&lt;member&gt;<br/>
+     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;id&gt;jhnam88&lt;/id&gt;<br/>
+     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;name&gt;Jeongho+Nam&lt;/name&gt;<br/>
+     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;<br/>
+     *			&lt;/member&gt;
+     *		</td>
+     *	</tr>
+     * </table>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class XML extends std.HashMap<string, XMLList> {
+        /**
+         * <p> Tag name of the XML. </p>
+         *
+         * <ul>
+         *	<li> \<<b>tag</b> label='property' /\>: tag => \"tag\" </li>
+         *  <li> \<<b>price</b> high='1500' low='1300' open='1450' close='1320' /\>: tag => \"price\" </li>
+         * </ul>
+         */
+        private tag;
+        /**
+         * <p> Value of the XML. </p>
+         *
+         * <ul>
+         *  <li> \<parameter name='age' type='int'\><b>26</b>\</parameter\>: value => 26 </li>
+         *	<li> \<price high='1500' low='1300' open='1450' close='1320' /\>: value => null </li>
+         * </ul>
+         */
+        private value;
+        /**
+         * <p> Properties belongs to the XML. </p>
+         * <p> A Dictionary of properties accessing each property by its key. </p>
+         *
+         * <ul>
+         *	<li> \<price <b>high='1500' low='1300' open='1450' close='1320'</b> /\>:
+         *		propertyMap => {{\"high\": 1500}, {\"low\": 1300}, {\"open\": 1450}, {\"close\", 1320}} </li>
+         *	<li> \<member <b>id='jhnam88' name='Jeongho+Nam' comment='Hello.+My+name+is+Jeongho+Nam'</b> \>:
+         *		propertyMap => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam <http://samchon.org>\"},
+         *					 {\"comment\", \"Hello. My name is Jeongho Nam <http://samchon.org>\"}} </li>
+         * </ul>
+         */
+        private properties;
+        /**
+         * <p> Default Constructor. </p>
+         *
+         * <p> If the string parameter is not omitted, constructs its tag, value and
+         * properties by parsing the string. If there's children, then construct the
+         * children XML, XMLList objects, too. </p>
+         *
+         * @param str A string to be parsed
+         */
+        constructor(str?: string);
+        /**
+         * <p> Construct XML objects by parsing a string. </p>
+         */
+        private construct(str);
+        /**
+         * <p> Parse and fetch a tag. </p>
+         */
+        private parseTag(str);
+        /**
+         * <p> Parse and fetch properties. </p>
+         */
+        private parseProperty(str);
+        /**
+         * <p> Parse and fetch a value. </p>
+         */
+        private parseValue(str);
+        /**
+         * <p> Parse and construct children XML objects. </p>
+         */
+        private parseChildren(str);
+        /**
+         * <p> Get tag. </p>
+         */
+        getTag(): string;
+        /**
+         * <p> Get value. </p>
+         */
+        getValue(): string;
+        /**
+         * <p> Test whether a property exists or not. </p>
+         */
+        hasProperty(key: string): boolean;
+        /**
+         * <p> Get property by its key. </p>
+         */
+        getProperty(key: string): string;
+        getPropertyMap(): std.HashMap<string, string>;
+        /**
+         * <p> Set tag (identifier) of the XML. </p>
+         */
+        setTag(str: string): void;
+        /**
+         * <p> Set value of the XML. </p>
+         *
+         * <p> Do not abuse values for expressing member variables. </p>
+         * <table>
+         *	<tr>
+         *		<th>Standard Usage</th>
+         *		<th>Non-standard usage abusing value</th>
+         *	</tr>
+         *	<tr>
+         *		<td>
+         *			\<memberList\>\n
+         *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
+         *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
+         *			\</memberList\>
+         *		</td>
+         *		<td>
+         *			\<member\>\n
+         *				\<id\>jhnam88\</id\>\n
+         *				\<name\>Jeongho+Nam\</name\>\n
+         *				\<birthdate\>1988-03-11\</birthdate\>\n
+         *			\</member\>
+         *		</td>
+         *	</tr>
+         * </table>
+         *
+         * @param val A value to set
+         */
+        setValue(str: string): void;
+        /**
+         * <p> Set a property with its key. </p>
+         */
+        setProperty(key: string, value: string): void;
+        /**
+         * <p> Erase a property by its key. </p>
+         *
+         * @param key The key of the property to erase
+         * @throw exception out of range
+         */
+        eraseProperty(key: string): void;
+        push<L extends string, U extends XMLList>(...args: std.Pair<L, U>[]): number;
+        push<L extends string, U extends XMLList>(...args: [L, U][]): number;
+        push(...xmls: XML[]): number;
+        push(...xmlLists: XMLList[]): number;
+        addAllProperties(xml: XML): void;
+        clearProperties(): void;
+        private calcMinIndex(...args);
+        /**
+         * <p> Decode a value. </p>
+         *
+         * <table>
+         *	<tr>
+         *		<th>Encoded</th>
+         *		<th>Decoded</th>
+         *	</tr>
+         *	<tr>
+         *		<td>\&amp;</td>
+         *		<td>\&</td>
+         *	</tr>
+         *	<tr>
+         *		<td>\&lt;</td>
+         *		<td>\<</td>
+         *	</tr>
+         *	<tr>
+         *		<td>\&gt;</td>
+         *		<td>\></td>
+         *	</tr>
+         * </table>
+         *
+         * @return A decoded string represents a value
+         */
+        static decodeValue(str: string): string;
+        /**
+         * <p> Encode a value. </p>
+         *
+         * <table>
+         *	<tr>
+         *		<th>Original</th>
+         *		<th>Encoded</th>
+         *	</tr>
+         *	<tr>
+         *		<td>\&</td>
+         *		<td>\&amp;</td>
+         *	</tr>
+         *	<tr>
+         *		<td>\<</td>
+         *		<td>\&lt;</td>
+         *	</tr>
+         *	<tr>
+         *		<td>\></td>
+         *		<td>\&gt;</td>
+         *	</tr>
+         * </table>
+         *
+         * @return A encoded string represents a value
+         */
+        static encodeValue(str: string): string;
+        /**
+          * <p> Decode a property. </p>
+          *
+          * <table>
+          *	<tr>
+          *		<th>Encoded</th>
+          *		<th>Decoded</th>
+          *	</tr>
+          *	<tr>
+          *		<td>\&amp;</td>
+          *		<td>\&</td>
+          *	</tr>
+          *	<tr>
+          *		<td>\&lt;</td>
+          *		<td>\<</td>
+          *	</tr>
+          *	<tr>
+          *		<td>\&gt;</td>
+          *		<td>\></td>
+          *	</tr>
+          *	<tr>
+          *		<td>&quot;</td>
+          *		<td>\"</td>
+          *	</tr>
+          *	<tr>
+          *		<td>&apos;</td>
+          *		<td>'</td>
+          *	</tr>
+          *	<tr>
+          *		<td>&#x9;</td>
+          *		<td>'</td>
+          *	</tr>
+          *	<tr>
+          *		<td>&apos;</td>
+          *		<td>\\t</td>
+          *	</tr>
+          *	<tr>
+          *		<td>&#xA;</td>
+          *		<td>\\n</td>
+          *	</tr>
+          *	<tr>
+          *		<td>&#xD;</td>
+          *		<td>\\r</td>
+          *	</tr>
+          * </table>
+          *
+          * @return A decoded string represents a property
+          */
+        static decodeProperty(str: string): string;
+        /**
+         * <p> Decode a property. </p>
+         *
+         * <table>
+         *	<tr>
+         *		<th>Original</th>
+         *		<th>Encoded</th>
+         *	</tr>
+         *	<tr>
+         *		<td>\&</td>
+         *		<td>\&amp;</td>
+         *	</tr>
+         *	<tr>
+         *		<td>\<</td>
+         *		<td>\&lt;</td>
+         *	</tr>
+         *	<tr>
+         *		<td>\></td>
+         *		<td>\&gt;</td>
+         *	</tr>
+         *	<tr>
+         *		<td>\"</td>
+         *		<td>&quot;</td>
+         *	</tr>
+         *	<tr>
+         *		<td>'</td>
+         *		<td>&apos;</td>
+         *	</tr>
+         *	<tr>
+         *		<td>'</td>
+         *		<td>&#x9;</td>
+         *	</tr>
+         *	<tr>
+         *		<td>\\t</td>
+         *		<td>&apos;</td>
+         *	</tr>
+         *	<tr>
+         *		<td>\\n</td>
+         *		<td>&#xA;</td>
+         *	</tr>
+         *	<tr>
+         *		<td>\\r</td>
+         *		<td>&#xD;</td>
+         *	</tr>
+         * </table>
+         *
+         * @return A encoded string represents a property
+         */
+        static encodeProperty(str: string): string;
+        /**
+         * <p> Convert the XML to a string. </p>
+         */
+        toString(level?: number): string;
+        /**
+         * <p> Convert the XML to HTML string. </p>
+         */
+        toHTML(level?: number): string;
+    }
+    /**
+     * <p> List of XML(s) having same tag. </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class XMLList extends std.Vector<XML> {
+        getTag(): string;
+        /**
+         * <p> Convert XMLList to string. </p>
+         *
+         * @param level Level(depth) of the XMLList.
+         */
+        toString(level?: number): string;
+        /**
+         * <p> Convert XMLList to HTML string. </p>
+         *
+         * @param level Level(depth) of the XMLList.
+         */
+        toHTML(level?: number): string;
+    }
+}
 declare namespace samchon.collection {
     class XMLListCollection extends library.XMLList implements ICollection<library.XML> {
         /**
@@ -1410,10 +1252,145 @@ declare namespace samchon.collection {
         splice(start: number, deleteCount: number, ...items: library.XML[]): library.XML[];
     }
 }
+declare namespace samchon.protocol {
+    /**
+     * <p> An interface of entity. </p>
+     *
+     * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
+     * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
+     * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+     * Entity is not imposed but encouraged. </p>
+     *
+     * <p> As we could get advantages from standardization of message for network I/O with Invoke,
+     * we can get additional advantage from standardizing expression method of data class with Entity.
+     * We do not need to know a part of network communication. Thus, with the Entity, we can only
+     * concentrate on entity's own logics and relationships between another entities. Entity does not
+     * need to how network communications are being done. </p>
+     *
+     * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+     * protocol for network I/O but not a essential protocol must be kept. The expression method of
+     * Entity, using on network I/O, is expressed by XML string. </p>
+     *
+     * <p> If your own network system has a critical performance issue on communication data class,
+     * it would be better to using binary communication (with ByteArray).
+     * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IEntity {
+        /**
+         * <p> Construct data of the Entity from a XML object. </p>
+         *
+         * <p> Overrides the construct() method and fetch data of member variables from the XML. </p>
+         *
+         * <p> By recommended guidance, data representing member variables are contained in properties
+         * of the put XML object. </p>
+         *
+         * @param xml An xml used to contruct data of entity.
+         */
+        construct(xml: library.XML): any;
+        /**
+         * <p> Get a key that can identify the Entity uniquely. </p>
+         *
+         * <p> If identifier of the Entity is not atomic value, returns a string or paired object
+         * that can represents the composite identifier. </p>
+         */
+        key(): any;
+        /**
+         * <p> A tag name when represented by XML. </p>
+         *
+         * <ul>
+         * 	<li> <TAG {...properties} /> </li>
+         * </ul>
+         */
+        TAG(): string;
+        /**
+         * <p> Get a XML object represents the Entity. </p>
+         *
+         * <p> A member variable (not object, but atomic value like number, string or date) is categorized
+         * as a property within the framework of entity side. Thus, when overriding a toXML() method and
+         * archiving member variables to an XML object to return, puts each variable to be a property
+         * belongs to only a XML object. </p>
+         *
+         * <p> Don't archive the member variable of atomic value to XML::value causing enormouse creation
+         * of XML objects to number of member variables. An Entity must be represented by only a XML
+         * instance (tag). </p>
+         *
+         * <h4> Standard Usage. </h4>
+         * <code>
+         * <memberList>
+         *	<member id='jhnam88' name='Jeongho Nam' birthdate='1988-03-11' />
+         *	<member id='master' name='Administartor' birthdate='2011-07-28' />
+         * </memberList>
+         * </code>
+         *
+         * <h4> Non-standard usage abusing value. </h4>
+         * <code>
+         * <member>
+         *	<id>jhnam88</id>
+         *	<name>Jeongho Nam</name>
+         *	<birthdate>1988-03-11</birthdate>
+         * </member>
+         * <member>
+         *	<id>master</id>
+         *	<name>Administartor</name>
+         *	<birthdate>2011-07-28</birthdate>
+         * </member>
+         * </code>
+         *
+         * @return An XML object representing the Entity.
+         */
+        toXML(): library.XML;
+    }
+    /**
+     * <p> An entity, a standard data class. </p>
+     *
+     * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
+     * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
+     * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+     * Entity is not imposed but encouraged. </p>
+     *
+     * <p> As we could get advantages from standardization of message for network I/O with Invoke,
+     * we can get additional advantage from standardizing expression method of data class with Entity.
+     * We do not need to know a part of network communication. Thus, with the Entity, we can only
+     * concentrate on entity's own logics and relationships between another entities. Entity does not
+     * need to how network communications are being done. </p>
+     *
+     * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+     * protocol for network I/O but not a essential protocol must be kept. The expression method of
+     * Entity, using on network I/O, is expressed by XML string. </p>
+     *
+     * <p> If your own network system has a critical performance issue on communication data class,
+     * it would be better to using binary communication (with ByteArray).
+     * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class Entity implements IEntity {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+}
 declare namespace samchon.example {
     function test_entity(): void;
 }
 declare namespace samchon.example {
+    function test_file_reference(): void;
 }
 declare namespace samchon.protocol {
     abstract class Server {

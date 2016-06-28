@@ -18,12 +18,12 @@ namespace samchon.protocol
 		 *
 		 * @details Optional property, can be omitted.
 		 */
-		protected name: string;
+		protected name: string = "";
 
 		/**
 		 * <p> Type of the parameter. </p>
 		 */
-		protected type: string;
+		protected type: string = "";
 
 		/** 
 		 * <p> Value of the parameter. </p>
@@ -82,12 +82,15 @@ namespace samchon.protocol
 		 */
 		public construct(xml: library. XML): void
 		{
-			this.value = null;
-
-			super.construct(xml);
+			this.name = (xml.hasProperty("name")) ? xml.getProperty("name") : "";
+			this.type = xml.getProperty("type");
 
 			if (this.type == "XML")
-				this.value = xml.begin().second.at(0);
+				this.value = xml.begin().second.front();
+			else if (this.type == "number")
+				this.value = parseFloat(xml.getProperty("value"));
+			else
+				this.value = xml.getProperty("value");
 		}
 
 		public setValue(value: any): void

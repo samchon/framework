@@ -71,24 +71,24 @@ namespace samchon.protocol
 		 *
 		 * <h4> Standard Usage. </h4>
 		 * <code>
-		 *<memberList>
+		 * <memberList>
 		 *	<member id='jhnam88' name='Jeongho Nam' birthdate='1988-03-11' />
 		 *	<member id='master' name='Administartor' birthdate='2011-07-28' />
-		 *</memberList>
+		 * </memberList>
 		 * </code>
 		 *
 		 * <h4> Non-standard usage abusing value. </h4>
 		 * <code>
-		 *<member>
+		 * <member>
 		 *	<id>jhnam88</id>
 		 *	<name>Jeongho Nam</name>
 		 *	<birthdate>1988-03-11</birthdate>
-		 *</member>
-		 *<member>
+		 * </member>
+		 * <member>
 		 *	<id>master</id>
 		 *	<name>Administartor</name>
 		 *	<birthdate>2011-07-28</birthdate>
-		 *</member>
+		 * </member>
 		 * </code>
 		 *
 		 * @return An XML object representing the Entity.
@@ -142,6 +142,8 @@ namespace samchon.protocol
 						this[v_it.first] = parseFloat(v_it.second);
 					else if (typeof this[v_it.first] == "string")
 						this[v_it.first] = v_it.second;
+					else if (typeof this[v_it.first] == "boolean")
+						this[v_it.first] = (v_it.second == "true");
 		}
 
 		/**
@@ -164,10 +166,11 @@ namespace samchon.protocol
 
 			// MEMBERS
 			for (let key in this) 
-				if (typeof key == "string" && // NOT STRING, THEN IT MEANS CHILDREN (INT, INDEX)
-					(typeof this[key] == "string" || typeof this[key] == "number"))
+				if (typeof key == "string" // NOT STRING, THEN IT MEANS CHILDREN (INT, INDEX)
+					&& (typeof this[key] == "string" || typeof this[key] == "number" || typeof this[key] == "boolean") 
+					&& this.hasOwnProperty(key))
 				{
-					xml.setProperty(key, this[key]);
+					xml.setProperty(key, this[key] + "");
 				}
 
 			return xml;

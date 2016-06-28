@@ -41,6 +41,8 @@ namespace samchon.protocol
 					this[v_it.first] = parseFloat(v_it.second);
 				else if (typeof this[v_it.first] == "string")
 					this[v_it.first] = v_it.second;
+				else if (typeof this[v_it.first] == "boolean")
+					this[v_it.first] = (v_it.second == "true");
 
 			//CHILDREN
 			if (xml.has(this.CHILD_TAG()) == false)
@@ -78,15 +80,15 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		public find(key: any): std.VectorIterator<T>
-		{
-			return std.find_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), this.key());
-				}
-			);
-		}
+		//public find(key: any): std.VectorIterator<T>
+		//{
+		//	return std.find_if(this.begin(), this.end(),
+		//		function (entity: T): boolean
+		//		{
+		//			return std.equal_to(entity.key(), key);
+		//		}
+		//	);
+		//}
 
 		/**
 		 * @inheritdoc
@@ -96,7 +98,7 @@ namespace samchon.protocol
 			return std.any_of(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return std.equal_to(entity.key(), this.key());
+					return std.equal_to(entity.key(), key);
 				}
 			);
 		}
@@ -119,11 +121,11 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			let it = this.find(key);
-			if (it.equal_to(this.end()))
-				throw new std.OutOfRange("out of range");
+			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+				if (it.value.key() == key)
+					return it.value;
 
-			return it.value;
+			throw new std.OutOfRange("out of range");
 		}
 
 		/* ------------------------------------------------------------------
@@ -150,7 +152,8 @@ namespace samchon.protocol
 			// MEMBERS
 			for (let key in this)
 				if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
-					&& (typeof this[key] == "string" || typeof this[key] == "number"))
+					&& (typeof this[key] == "string" || typeof this[key] == "number")
+					&& this.hasOwnProperty(key))
 				{
 					// ATOMIC
 					xml.setProperty(key, this[key] + "");
@@ -187,10 +190,12 @@ namespace samchon.protocol
 			let propertyMap = xml.getPropertyMap();
 
 			for (let v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
-				if (typeof this[v_it.first] == "number" && v_it.first != "length")
+				if (typeof this[v_it.first] == "number")
 					this[v_it.first] = parseFloat(v_it.second);
 				else if (typeof this[v_it.first] == "string")
 					this[v_it.first] = v_it.second;
+				else if (typeof this[v_it.first] == "boolean")
+					this[v_it.first] = (v_it.second == "true");
 
 			//CHILDREN
 			if (xml.has(this.CHILD_TAG()) == false)
@@ -228,15 +233,15 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		public find(key: any): std.ListIterator<T>
-		{
-			return std.find_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), this.key());
-				}
-			);
-		}
+		//public find(key: any): std.ListIterator<T>
+		//{
+		//	return std.find_if(this.begin(), this.end(),
+		//		function (entity: T): boolean
+		//		{
+		//			return std.equal_to(entity.key(), key);
+		//		}
+		//	);
+		//}
 
 		/**
 		 * @inheritdoc
@@ -246,7 +251,7 @@ namespace samchon.protocol
 			return std.any_of(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return std.equal_to(entity.key(), this.key());
+					return std.equal_to(entity.key(), key);
 				}
 			);
 		}
@@ -269,11 +274,11 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			let it = this.find(key);
-			if (it.equal_to(this.end()))
-				throw new std.OutOfRange("out of range");
+			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+				if (it.value.key() == key)
+					return it.value;
 
-			return it.value;
+			throw new std.OutOfRange("out of range");
 		}
 
 		/* ------------------------------------------------------------------
@@ -299,17 +304,18 @@ namespace samchon.protocol
 
 			// MEMBERS
 			for (let key in this)
-				if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
-					&& (typeof this[key] == "string" || typeof this[key] == "number"))
+				if (typeof key == "string"
+					&& (typeof this[key] == "string" || typeof this[key] == "number" || typeof this[key] == "boolean")
+					&& this.hasOwnProperty(key))
 				{
 					// ATOMIC
 					xml.setProperty(key, this[key] + "");
 				}
-		
+
 			// CHILDREN
 			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
 				xml.push(it.value.toXML());
-			
+
 			return xml;
 		}
 	}
@@ -337,10 +343,12 @@ namespace samchon.protocol
 			let propertyMap = xml.getPropertyMap();
 
 			for (let v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
-				if (typeof this[v_it.first] == "number" && v_it.first != "length")
+				if (typeof this[v_it.first] == "number")
 					this[v_it.first] = parseFloat(v_it.second);
 				else if (typeof this[v_it.first] == "string")
 					this[v_it.first] = v_it.second;
+				else if (typeof this[v_it.first] == "boolean")
+					this[v_it.first] = (v_it.second == "true");
 
 			//CHILDREN
 			if (xml.has(this.CHILD_TAG()) == false)
@@ -378,15 +386,15 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		public find(key: any): std.DequeIterator<T>
-		{
-			return std.find_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), this.key());
-				}
-			);
-		}
+		//public find(key: any): std.DequeIterator<T>
+		//{
+		//	return std.find_if(this.begin(), this.end(),
+		//		function (entity: T): boolean
+		//		{
+		//			return std.equal_to(entity.key(), key);
+		//		}
+		//	);
+		//}
 
 		/**
 		 * @inheritdoc
@@ -396,7 +404,7 @@ namespace samchon.protocol
 			return std.any_of(this.begin(), this.end(),
 				function (entity: T): boolean
 				{
-					return std.equal_to(entity.key(), this.key());
+					return std.equal_to(entity.key(), key);
 				}
 			);
 		}
@@ -419,11 +427,11 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			let it = this.find(key);
-			if (it.equal_to(this.end()))
-				throw new std.OutOfRange("out of range");
+			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+				if (it.value.key() == key)
+					return it.value;
 
-			return it.value;
+			throw new std.OutOfRange("out of range");
 		}
 
 		/* ------------------------------------------------------------------
@@ -449,17 +457,18 @@ namespace samchon.protocol
 
 			// MEMBERS
 			for (let key in this)
-				if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
-					&& (typeof this[key] == "string" || typeof this[key] == "number"))
+				if (typeof key == "string"
+					&& (typeof this[key] == "string" || typeof this[key] == "number" || typeof this[key] == "boolean")
+					&& this.hasOwnProperty(key))
 				{
 					// ATOMIC
 					xml.setProperty(key, this[key] + "");
 				}
-		
+
 			// CHILDREN
 			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
 				xml.push(it.value.toXML());
-			
+
 			return xml;
 		}
 	}

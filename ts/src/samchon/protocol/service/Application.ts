@@ -44,7 +44,7 @@ namespace samchon.protocol.service
 		/**
 		 * <p> Invoke Socket. </p>
 		 */
-		protected socket: ServerConnector;
+		protected socket: WebServerConnector;
 
 		/**
 		 * <p> A movie. </p>
@@ -61,7 +61,7 @@ namespace samchon.protocol.service
 		constructor(movie: Movie, ip: string, port: number)
 		{
 			this.movie = movie;
-			this.socket = new ServerConnector(this);
+			this.socket = new WebServerConnector(this);
 			this.socket.onopen = this.handleConnect;
 
 			this.socket.connect(ip, port);

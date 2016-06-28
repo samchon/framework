@@ -765,13 +765,7 @@ namespace samchon.library
 	export class XMLList
 		extends std.Vector<XML>
 	{
-		/**
-		 * <p> Default Constructor. </p>
-		 */
-		constructor() 
-		{
-			super();
-		}
+		// using super::constructor
 
 		public getTag(): string
 		{

@@ -1,3 +1,51 @@
+// Type definitions for Samchon Framework v1.2.0
+// Project: https://github.com/samchon/framework
+// Definitions by: Jeongho Nam <http://samchon.org>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+
+/// <reference path="../typescript-stl/typescript-stl.d.ts" />
+/// <reference path="../node/node.d.ts" />
+/// <reference path="../websocket/websocket.d.ts" />
+
+declare module "samchon-framework"
+{
+        export = samchon;
+}
+
+declare namespace samchon
+{
+        export import http = NodeJS.http;
+        export import websocket = __websocket;
+}
+declare namespace samchon {
+    /**
+     * <p> Running on Node. </p>
+     *
+     * <p> Test whether the JavaScript is running on Node. </p>
+     *
+     * @references http://stackoverflow.com/questions/17575790/environment-detection-node-js-or-browser
+     */
+    function is_node(): boolean;
+}
+/**
+ * Samchon Framework, A SDN framework.
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
+declare namespace samchon {
+}
+declare namespace samchon.library {
+}
+declare namespace samchon.collection {
+}
+declare namespace samchon.protocol {
+}
+declare namespace samchon.protocol.service {
+}
+declare namespace samchon.protocol.master {
+}
+declare namespace samchon.protocol.slave {
+}
 /**
  * Samchon Framework, A SDN framework.
  *
@@ -18,7 +66,6 @@ declare namespace samchon.protocol.master {
 declare namespace samchon.protocol.slave {
 }
 declare namespace samchon.example {
-    function test_file_reference(): void;
 }
 declare namespace samchon.example {
     function test_web_client(): void;
@@ -359,10 +406,6 @@ declare namespace samchon.library {
      * @author Jeongho Nam <http://samchon.org>
      */
     class XMLList extends std.Vector<XML> {
-        /**
-         * <p> Default Constructor. </p>
-         */
-        constructor();
         getTag(): string;
         /**
          * <p> Convert XMLList to string. </p>
@@ -386,33 +429,9 @@ declare namespace samchon.collection {
      */
     class ArrayCollection<T> extends std.Vector<T> implements ICollection<T> {
         /**
-         * A callback function listening elements insertion.
-         */
-        private insert_handler_;
-        /**
-         * A callback function listening elements deletion.
-         */
-        private erase_handler_;
-        /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        set_insert_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_erase_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        get_insert_handler(): CollectionHandler<T>;
-        /**
-         * @inheritdoc
-         */
-        get_erase_handler(): CollectionHandler<T>;
         /**
          * @inheritdoc
          */
@@ -456,6 +475,10 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
         addEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
@@ -464,27 +487,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
         removeEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
@@ -569,24 +576,24 @@ declare namespace samchon.protocol {
          *
          * <h4> Standard Usage. </h4>
          * <code>
-         *<memberList>
+         * <memberList>
          *	<member id='jhnam88' name='Jeongho Nam' birthdate='1988-03-11' />
          *	<member id='master' name='Administartor' birthdate='2011-07-28' />
-         *</memberList>
+         * </memberList>
          * </code>
          *
          * <h4> Non-standard usage abusing value. </h4>
          * <code>
-         *<member>
+         * <member>
          *	<id>jhnam88</id>
          *	<name>Jeongho Nam</name>
          *	<birthdate>1988-03-11</birthdate>
-         *</member>
-         *<member>
+         * </member>
+         * <member>
          *	<id>master</id>
          *	<name>Administartor</name>
          *	<birthdate>2011-07-28</birthdate>
-         *</member>
+         * </member>
          * </code>
          *
          * @return An XML object representing the Entity.
@@ -749,6 +756,7 @@ declare namespace samchon.collection {
     class CollectionEvent<T> extends library.BasicEvent {
         static INSERT: string;
         static ERASE: string;
+        static REFRESH: string;
         /**
          *
          */
@@ -787,33 +795,9 @@ declare namespace samchon.collection {
      */
     class DequeCollection<T> extends std.Deque<T> implements ICollection<T> {
         /**
-         * A callback function listening elements insertion.
-         */
-        private insert_handler_;
-        /**
-         * A callback function listening elements deletion.
-         */
-        private erase_handler_;
-        /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        set_insert_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_erase_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        get_insert_handler(): CollectionHandler<T>;
-        /**
-         * @inheritdoc
-         */
-        get_erase_handler(): CollectionHandler<T>;
         /**
          * @inheritdoc
          */
@@ -857,6 +841,10 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
         addEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
@@ -865,23 +853,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
         removeEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
@@ -896,33 +872,9 @@ declare namespace samchon.collection {
      */
     class HashMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
         /**
-         * A callback function listening elements insertion.
-         */
-        private insert_handler_;
-        /**
-         * A callback function listening elements deletion.
-         */
-        private erase_handler_;
-        /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        get_insert_handler(): MapCollectionHandler<Key, T>;
-        /**
-         * @inheritdoc
-         */
-        get_erase_handler(): MapCollectionHandler<Key, T>;
-        /**
-         * @inheritdoc
-         */
-        set_insert_handler(listener: MapCollectionHandler<Key, T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_erase_handler(listener: MapCollectionHandler<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -942,6 +894,10 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
         addEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
@@ -950,27 +906,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
         removeEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
     /**
      * A {@link HashMultiMap} who can detect element I/O events.
@@ -979,33 +919,9 @@ declare namespace samchon.collection {
      */
     class HashMultiMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
         /**
-         * A callback function listening elements insertion.
-         */
-        private insert_handler_;
-        /**
-         * A callback function listening elements deletion.
-         */
-        private erase_handler_;
-        /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        get_insert_handler(): MapCollectionHandler<Key, T>;
-        /**
-         * @inheritdoc
-         */
-        get_erase_handler(): MapCollectionHandler<Key, T>;
-        /**
-         * @inheritdoc
-         */
-        set_insert_handler(listener: MapCollectionHandler<Key, T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_erase_handler(listener: MapCollectionHandler<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -1025,6 +941,10 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
         addEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
@@ -1033,27 +953,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
         removeEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
 }
 declare namespace samchon.collection {
@@ -1062,35 +966,11 @@ declare namespace samchon.collection {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class HashSetCollection<T> extends std.TreeSet<T> implements ICollection<T> {
-        /**
-         * A callback function listening elements insertion.
-         */
-        private insert_handler_;
-        /**
-         * A callback function listening elements deletion.
-         */
-        private erase_handler_;
+    class HashSetCollection<T> extends std.HashSet<T> implements ICollection<T> {
         /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        set_insert_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_erase_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        get_insert_handler(): CollectionHandler<T>;
-        /**
-         * @inheritdoc
-         */
-        get_erase_handler(): CollectionHandler<T>;
         /**
          * @inheritdoc
          */
@@ -1110,19 +990,15 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
         addEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
          */
         addEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
@@ -1140,43 +1016,11 @@ declare namespace samchon.collection {
          */
         removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
-    class HashMultiSetCollection<T> extends std.TreeMultiSet<T> implements ICollection<T> {
-        /**
-         * A callback function listening elements insertion.
-         */
-        private insert_handler_;
-        /**
-         * A callback function listening elements deletion.
-         */
-        private erase_handler_;
+    class HashMultiSetCollection<T> extends std.HashMultiSet<T> implements ICollection<T> {
         /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        set_insert_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_erase_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        get_insert_handler(): CollectionHandler<T>;
-        /**
-         * @inheritdoc
-         */
-        get_erase_handler(): CollectionHandler<T>;
-        /**
-         * @inheritdoc
-         */
-        protected handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -1188,6 +1032,10 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
         addEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
@@ -1196,182 +1044,21 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
         removeEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
 }
 declare namespace samchon.collection {
-    interface CollectionHandler<T> {
-        (first: std.Iterator<T>, last: std.Iterator<T>): void;
-    }
-    interface MapCollectionHandler<Key, T> extends CollectionHandler<std.Pair<Key, T>> {
-        (first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
-    }
     /**
      * An interface for {@link IContainer containers} who can detect element I/O events.
      *
      * @author Jeongho Nam <http://samchon.org>
      */
     interface ICollection<T> extends std.base.IContainer<T>, library.IEventDispatcher {
-        /**
-         * Get insertion handler.
-         *
-         * @return A pointer of callback function who listens elements insertion.
-         */
-        get_insert_handler(): CollectionHandler<T>;
-        /**
-         * Get deletion handler.
-         *
-         * @return A pointer of callback function who listens elements deletion.
-         */
-        get_erase_handler(): CollectionHandler<T>;
-        /**
-         * Set insertion handler.
-         */
-        set_insert_handler(listener: CollectionHandler<T>): any;
-        /**
-         * Set deletion handler.
-         */
-        set_erase_handler(listener: CollectionHandler<T>): any;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: string, listener: EventListener): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * <p> Registers an event listener object with an EventDispatcher object so that the listener
-         * receives notification of an event. You can register event listeners on all nodes in the display
-         * list for a specific type of event, phase, and priority.
-         *
-         * <p> After you successfully register an event listener, you cannot change its priority through
-         * additional calls to addEventListener(). To change a listener's priority, you must first call
-         * removeEventListener(). Then you can register the listener again with the new priority level. </p>
-         *
-         * <p> Keep in mind that after the listener is registered, subsequent calls to addEventListener()
-         * with a different type or useCapture value result in the creation of a separate listener
-         * registration. For example, if you first register a listener with useCapture set to true,
-         * it listens only during the capture phase. If you call addEventListener() again using the same
-         * listener object, but with useCapture set to false, you have two separate listeners: one that
-         * listens during the capture phase and another that listens during the target and bubbling phases. </p>
-         *
-         * <p> You cannot register an event listener for only the target phase or the bubbling phase.
-         * Those phases are coupled during registration because bubbling applies only to the ancestors of
-         * the target node. </p>
-         *
-         * <p> If you no longer need an event listener, remove it by calling removeEventListener(), or
-         * memory problems could result. Event listeners are not automatically removed from memory because
-         * the garbage collector does not remove the listener as long as the dispatching object exists
-         * (unless the useWeakReference parameter is set to true). </p>
-         *
-         * <p> Copying an EventDispatcher instance does not copy the event listeners attached to it. (If
-         * your newly created node needs an event listener, you must attach the listener after creating
-         * the node.) However, if you move an EventDispatcher instance, the event listeners attached to
-         * it move along with it. </p>
-         *
-         * <p> If the event listener is being registered on a node while an event is also being processed
-         * on this node, the event listener is not triggered during the current phase but may be triggered
-         * during a later phase in the event flow, such as the bubbling phase. </p>
-         *
-         * <p> If an event listener is removed from a node while an event is being processed on the node,
-         * it is still triggered by the current actions. After it is removed, the event listener is never
-         * invoked again (unless it is registered again for future processing). </p>
-         *
-         * @param event The type of event; {@link CollectionEvent.INSERT} or {@link CollectionEvent.ERASE}.
-         * @param listener The listener function that processes the event.
-         *				 This function must accept an Event object as its only parameter and must return
-         *				 nothing.
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * <p> Registers an event listener object with an EventDispatcher object so that the listener
-         * receives notification of an event. You can register event listeners on all nodes in the display
-         * list for a specific type of event, phase, and priority.
-         *
-         * <p> After you successfully register an event listener, you cannot change its priority through
-         * additional calls to addEventListener(). To change a listener's priority, you must first call
-         * removeEventListener(). Then you can register the listener again with the new priority level. </p>
-         *
-         * <p> Keep in mind that after the listener is registered, subsequent calls to addEventListener()
-         * with a different type or useCapture value result in the creation of a separate listener
-         * registration. For example, if you first register a listener with useCapture set to true,
-         * it listens only during the capture phase. If you call addEventListener() again using the same
-         * listener object, but with useCapture set to false, you have two separate listeners: one that
-         * listens during the capture phase and another that listens during the target and bubbling phases. </p>
-         *
-         * <p> You cannot register an event listener for only the target phase or the bubbling phase.
-         * Those phases are coupled during registration because bubbling applies only to the ancestors of
-         * the target node. </p>
-         *
-         * <p> If you no longer need an event listener, remove it by calling removeEventListener(), or
-         * memory problems could result. Event listeners are not automatically removed from memory because
-         * the garbage collector does not remove the listener as long as the dispatching object exists
-         * (unless the useWeakReference parameter is set to true). </p>
-         *
-         * <p> Copying an EventDispatcher instance does not copy the event listeners attached to it. (If
-         * your newly created node needs an event listener, you must attach the listener after creating
-         * the node.) However, if you move an EventDispatcher instance, the event listeners attached to
-         * it move along with it. </p>
-         *
-         * <p> If the event listener is being registered on a node while an event is also being processed
-         * on this node, the event listener is not triggered during the current phase but may be triggered
-         * during a later phase in the event flow, such as the bubbling phase. </p>
-         *
-         * <p> If an event listener is removed from a node while an event is being processed on the node,
-         * it is still triggered by the current actions. After it is removed, the event listener is never
-         * invoked again (unless it is registered again for future processing). </p>
-         *
-         * @param event The type of event; {@link CollectionEvent.INSERT} or {@link CollectionEvent.ERASE}.
-         * @param listener The listener function that processes the event.
-         *				 This function must accept an Event object as its only parameter and must return
-         *				 nothing.
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: string, listener: EventListener): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * Removes a listener from the EventDispatcher object. If there is no matching listener registered
-         * with the EventDispatcher object, a call to this method has no effect.
-         *
-         * @param type The type of event; {@link CollectionEvent.INSERT} or {@link CollectionEvent.ERASE}.
-         * @param listener The listener object to remove.
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * Removes a listener from the EventDispatcher object. If there is no matching listener registered
-         * with the EventDispatcher object, a call to this method has no effect.
-         *
-         * @param type The type of event; {@link CollectionEvent.INSERT} or {@link CollectionEvent.ERASE}.
-         * @param listener The listener object to remove.
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
+        refresh(): void;
     }
 }
 declare namespace samchon.collection {
@@ -1382,33 +1069,9 @@ declare namespace samchon.collection {
      */
     class ListCollection<T> extends std.List<T> implements ICollection<T> {
         /**
-         * A callback function listening elements insertion.
-         */
-        private insert_handler_;
-        /**
-         * A callback function listening elements deletion.
-         */
-        private erase_handler_;
-        /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        set_insert_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_erase_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        get_insert_handler(): CollectionHandler<T>;
-        /**
-         * @inheritdoc
-         */
-        get_erase_handler(): CollectionHandler<T>;
         /**
          * @inheritdoc
          */
@@ -1460,6 +1123,10 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
         addEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
@@ -1468,27 +1135,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
         removeEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
 }
 declare namespace samchon.collection {
@@ -1499,33 +1150,9 @@ declare namespace samchon.collection {
      */
     class TreeMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
         /**
-         * A callback function listening elements insertion.
-         */
-        private insert_handler_;
-        /**
-         * A callback function listening elements deletion.
-         */
-        private erase_handler_;
-        /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        get_insert_handler(): MapCollectionHandler<Key, T>;
-        /**
-         * @inheritdoc
-         */
-        get_erase_handler(): MapCollectionHandler<Key, T>;
-        /**
-         * @inheritdoc
-         */
-        set_insert_handler(listener: MapCollectionHandler<Key, T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_erase_handler(listener: MapCollectionHandler<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -1545,6 +1172,10 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
         addEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
@@ -1553,27 +1184,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
         removeEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
     /**
      * A {@link TreeMultiMap} who can detect element I/O events.
@@ -1582,33 +1197,9 @@ declare namespace samchon.collection {
      */
     class TreeMultiMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
         /**
-         * A callback function listening elements insertion.
-         */
-        private insert_handler_;
-        /**
-         * A callback function listening elements deletion.
-         */
-        private erase_handler_;
-        /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        get_insert_handler(): MapCollectionHandler<Key, T>;
-        /**
-         * @inheritdoc
-         */
-        get_erase_handler(): MapCollectionHandler<Key, T>;
-        /**
-         * @inheritdoc
-         */
-        set_insert_handler(listener: MapCollectionHandler<Key, T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_erase_handler(listener: MapCollectionHandler<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -1628,6 +1219,10 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
         addEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
@@ -1636,27 +1231,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
         removeEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
 }
 declare namespace samchon.collection {
@@ -1667,41 +1246,9 @@ declare namespace samchon.collection {
      */
     class TreeSetCollection<T> extends std.TreeSet<T> implements ICollection<T> {
         /**
-         * A callback function listening elements insertion.
-         */
-        private insert_handler_;
-        /**
-         * A callback function listening elements deletion.
-         */
-        private erase_handler_;
-        /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        set_insert_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_erase_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        get_insert_handler(): CollectionHandler<T>;
-        /**
-         * @inheritdoc
-         */
-        get_erase_handler(): CollectionHandler<T>;
-        /**
-         * @inheritdoc
-         */
-        protected handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -1713,6 +1260,10 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
         addEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
@@ -1721,27 +1272,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
         removeEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
     /**
      * A {@link TreeMultiSet} who can detect element I/O events.
@@ -1750,33 +1285,9 @@ declare namespace samchon.collection {
      */
     class TreeMultiSetCollection<T> extends std.TreeMultiSet<T> implements ICollection<T> {
         /**
-         * A callback function listening elements insertion.
-         */
-        private insert_handler_;
-        /**
-         * A callback function listening elements deletion.
-         */
-        private erase_handler_;
-        /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        set_insert_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_erase_handler(listener: CollectionHandler<T>): void;
-        /**
-         * @inheritdoc
-         */
-        get_insert_handler(): CollectionHandler<T>;
-        /**
-         * @inheritdoc
-         */
-        get_erase_handler(): CollectionHandler<T>;
         /**
          * @inheritdoc
          */
@@ -1796,6 +1307,10 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
         addEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
@@ -1804,11 +1319,71 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
+        removeEventListener(type: string, listener: EventListener): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
+        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+    }
+}
+declare namespace samchon.collection {
+    class XMLListCollection extends library.XMLList implements ICollection<library.XML> {
+        /**
+         * A chain object taking responsibility of dispatching events.
+         */
+        private event_dispatcher_;
+        /**
+         * @inheritdoc
+         */
+        push<U extends library.XML>(...items: U[]): number;
+        /**
+         * @inheritdoc
+         */
+        push_back(val: library.XML): void;
+        /**
+         * @hidden
+         */
+        protected insert_by_repeating_val(position: std.VectorIterator<library.XML>, n: number, val: library.XML): std.VectorIterator<library.XML>;
+        /**
+         * @hidden
+         */
+        protected insert_by_range<U extends library.XML, InputIterator extends std.Iterator<U>>(position: std.VectorIterator<library.XML>, begin: InputIterator, end: InputIterator): std.VectorIterator<library.XML>;
+        /**
+         * @inheritdoc
+         */
+        pop_back(): void;
+        /**
+         * @hidden
+         */
+        protected erase_by_range(first: std.VectorIterator<library.XML>, last: std.VectorIterator<library.XML>): std.VectorIterator<library.XML>;
+        /**
+         * @hidden
+         */
+        private notify_insert(first, last);
+        /**
+         * @hidden
+         */
+        private notify_erase(first, last);
+        /**
+         * @inheritdoc
+         */
+        hasEventListener(type: string): boolean;
+        /**
+         * @inheritdoc
+         */
+        dispatchEvent(event: Event): boolean;
+        /**
+         * @inheritdoc
+         */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
+        addEventListener(type: string, listener: EventListener): void;
+        /**
+         * @inheritdoc
+         */
+        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
         /**
          * @inheritdoc
          */
@@ -1820,12 +1395,137 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>): void;
+        unshift<U extends library.XML>(...items: U[]): number;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: "insert" | "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
+        pop(): library.XML;
+        /**
+         * @inheritdoc
+         */
+        splice(start: number): library.XML[];
+        /**
+         * @inheritdoc
+         */
+        splice(start: number, deleteCount: number, ...items: library.XML[]): library.XML[];
     }
+}
+declare namespace samchon.example {
+    function test_entity(): void;
+}
+declare namespace samchon.example {
+}
+declare namespace samchon.protocol {
+    abstract class Server {
+        abstract open(port: number): void;
+        protected abstract addClient(clientDriver: ClientDriver): void;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class WebServer extends Server {
+        private http_server;
+        open(port: number): void;
+        protected abstract addClient(driver: WebClientDriver): void;
+        getPort(): number;
+        private handle_request(request);
+    }
+}
+declare namespace samchon.protocol {
+    interface ICommunicator extends IProtocol {
+    }
+    abstract class Communicator implements ICommunicator {
+        protected listener: IProtocol;
+        private binary_invoke;
+        constructor(listener?: IProtocol);
+        abstract sendData(invoke: Invoke): void;
+        replyData(invoke: Invoke): void;
+        protected handleData(data: any): void;
+    }
+}
+declare namespace samchon.protocol {
+    interface IServerConnector extends ICommunicator {
+        onopen: Function;
+        connect(ip: string, port: number): void;
+    }
+    abstract class ServerConnector extends Communicator implements IServerConnector {
+        /**
+         * <p> An open-event listener. </p>
+         */
+        onopen: Function;
+        constructor(listener: IProtocol);
+        abstract connect(ip: string, port: number): void;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * <p> A server connector for a physical client. </p>
+     *
+     * <p> ServerConnector is a class for a physical client connecting a server. If you want to connect
+     * to a server,  then implements this ServerConnector and just override some methods like
+     * getIP(), getPort() and replyData(). That's all. </p>
+     *
+     * <p> In Samchon Framework, package protocol, There are basic 3 + 1 components that can make any
+     * type of network system in Samchon Framework. The basic 3 components are IProtocol, IServer and
+     * IClient. The last, surplus one is the ServerConnector. Looking around classes in
+     * Samchon Framework, especially module master and slave which are designed for realizing
+     * distributed processing systems and parallel processing systems, physical client classes are all
+     * derived from this ServerConnector. </p>
+     *
+     * <img src="interface.png" />
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class WebServerConnector extends ServerConnector {
+        /**
+         * <p> A socket for network I/O. </p>
+         */
+        private socket;
+        private client;
+        private connection;
+        private static cookies;
+        /**
+         * <p> Constructor with parent. </p>
+         */
+        constructor(parent: IProtocol);
+        /**
+         * <p> Connects to a cloud server with specified host and port. </p>
+         *
+         * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown:
+         * an error event is dispatched if a host was specified, and an exception is thrown if no host
+         * was specified. Otherwise, the status of the connection is reported by an event.
+         * If the socket is already connected, the existing connection is closed first. </p>
+         *
+         * @param ip
+         * 		The name or IP address of the host to connect to.
+         * 		If no host is specified, the host that is contacted is the host where the calling
+         * 		file resides. If you do not specify a host, use an event listener to determine whether
+         * 		the connection was successful.
+         * @param port
+         * 		The port number to connect to.
+         *
+         * @throws IOError
+         * 		No host was specified and the connection failed.
+         * @throws SecurityError
+         * 		This error occurs in SWF content for the following reasons:
+         * 		Local untrusted SWF files may not communicate with the Internet. You can work around
+         * 		this limitation by reclassifying the file as local-with-networking or as trusted.
+         */
+        connect(ip: string, port: number, path?: string): void;
+        /**
+         * <p> Send data to the server. </p>
+         */
+        sendData(invoke: Invoke): void;
+        private handle_browser_connect(event);
+        /**
+         * <p> Handling replied message. </p>
+         */
+        private handle_browser_message(event);
+        private handle_node_connect(connection);
+        private handle_node_message(message);
+    }
+}
+declare namespace samchon.example {
+    function test_websocket(): void;
 }
 declare namespace samchon.library {
     /**
@@ -2548,6 +2248,151 @@ declare namespace samchon.library {
     }
 }
 declare namespace samchon.protocol {
+    abstract class ClientDriver extends Communicator {
+        setListener(listener: IProtocol): void;
+        abstract listen(): void;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * @inheritdoc
+     */
+    interface IEntityCollection<T extends IEntity> extends IEntityGroup<T>, collection.ICollection<T> {
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityArrayCollection<T extends IEntity> extends collection.ArrayCollection<T> implements IEntityCollection<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: any): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityListCollection<T extends IEntity> extends collection.ListCollection<T> implements IEntityCollection<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: any): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityDequeCollection<T extends IEntity> extends collection.DequeCollection<T> implements IEntityCollection<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: any): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+}
+declare namespace samchon.protocol {
     interface IEntityGroup<T extends IEntity> extends IEntity, std.base.IContainer<T> {
         /**
          * <p> Construct data of the Entity from an XML object. </p>
@@ -2587,7 +2432,6 @@ declare namespace samchon.protocol {
          * @return An iterator to the element, if an element with specified <i>key</i> is found, or
          *		   {@link end end()} otherwise.
          */
-        find(key: any): std.Iterator<T>;
         /**
          * <p> Whether have the item or not. </p>
          *
@@ -2657,7 +2501,6 @@ declare namespace samchon.protocol {
         /**
          * @inheritdoc
          */
-        find(key: any): std.VectorIterator<T>;
         /**
          * @inheritdoc
          */
@@ -2702,7 +2545,6 @@ declare namespace samchon.protocol {
         /**
          * @inheritdoc
          */
-        find(key: any): std.ListIterator<T>;
         /**
          * @inheritdoc
          */
@@ -2747,149 +2589,6 @@ declare namespace samchon.protocol {
         /**
          * @inheritdoc
          */
-        find(key: any): std.DequeIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        has(key: any): boolean;
-        /**
-         * @inheritdoc
-         */
-        count(key: any): number;
-        /**
-         * @inheritdoc
-         */
-        get(key: any): T;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        abstract CHILD_TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * @inheritdoc
-     */
-    interface IEntityCollection<T extends IEntity> extends IEntityGroup<T>, collection.ICollection<T> {
-    }
-    /**
-     * @inheritdoc
-     */
-    abstract class EntityArrayCollection<T extends IEntity> extends collection.ArrayCollection<T> implements IEntityCollection<T> {
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * @inheritdoc
-         */
-        abstract createChild(xml: library.XML): T;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
-        /**
-         * @inheritdoc
-         */
-        find(key: any): std.VectorIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        has(key: any): boolean;
-        /**
-         * @inheritdoc
-         */
-        count(key: any): number;
-        /**
-         * @inheritdoc
-         */
-        get(key: any): T;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        abstract CHILD_TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-    }
-    /**
-     * @inheritdoc
-     */
-    abstract class EntityListCollection<T extends IEntity> extends collection.ListCollection<T> implements IEntityCollection<T> {
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * @inheritdoc
-         */
-        abstract createChild(xml: library.XML): T;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
-        /**
-         * @inheritdoc
-         */
-        find(key: any): std.ListIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        has(key: any): boolean;
-        /**
-         * @inheritdoc
-         */
-        count(key: any): number;
-        /**
-         * @inheritdoc
-         */
-        get(key: any): T;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        abstract CHILD_TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-    }
-    /**
-     * @inheritdoc
-     */
-    abstract class EntityDequeCollection<T extends IEntity> extends collection.DequeCollection<T> implements IEntityCollection<T> {
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * @inheritdoc
-         */
-        abstract createChild(xml: library.XML): T;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
-        /**
-         * @inheritdoc
-         */
-        find(key: any): std.DequeIterator<T>;
         /**
          * @inheritdoc
          */
@@ -2950,7 +2649,7 @@ declare namespace samchon.protocol {
         /**
          * <p> A driver for interacting with (real, physical) external system. </p>
          */
-        protected driver: ServerConnector;
+        protected driver: WebServerConnector;
         /**
          * <p> A name can identify an external system. </p>
          *
@@ -3354,83 +3053,16 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    /**
-     * <p> A server connector for a physical client. </p>
-     *
-     * <p> ServerConnector is a class for a physical client connecting a server. If you want to connect
-     * to a server,  then implements this ServerConnector and just override some methods like
-     * getIP(), getPort() and replyData(). That's all. </p>
-     *
-     * <p> In Samchon Framework, package protocol, There are basic 3 + 1 components that can make any
-     * type of network system in Samchon Framework. The basic 3 components are IProtocol, IServer and
-     * IClient. The last, surplus one is the ServerConnector. Looking around classes in
-     * Samchon Framework, especially module master and slave which are designed for realizing
-     * distributed processing systems and parallel processing systems, physical client classes are all
-     * derived from this ServerConnector. </p>
-     *
-     * <img src="interface.png" />
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class ServerConnector implements IProtocol {
-        /**
-         * <p> A parent object who listens and sends Invoke message. </p>
-         *
-         * <ul>z
-         * 	<li> ServerConnector.replyData(Invoke) -> parent.replyData(Invoke) </li>
-         * </ul>
-         */
-        private parent;
-        /**
-         * <p> A socket for network I/O. </p>
-         */
-        private socket;
-        private binary_invoke;
-        /**
-         * <p> An open-event listener. </p>
-         */
-        onopen: Function;
-        /**
-         * <p> Constructor with parent. </p>
-         */
-        constructor(parent: IProtocol);
-        /**
-         * <p> Connects to a cloud server with specified host and port. </p>
-         *
-         * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown:
-         * an error event is dispatched if a host was specified, and an exception is thrown if no host
-         * was specified. Otherwise, the status of the connection is reported by an event.
-         * If the socket is already connected, the existing connection is closed first. </p>
-         *
-         * @param ip
-         * 		The name or IP address of the host to connect to.
-         * 		If no host is specified, the host that is contacted is the host where the calling
-         * 		file resides. If you do not specify a host, use an event listener to determine whether
-         * 		the connection was successful.
-         * @param port
-         * 		The port number to connect to.
-         *
-         * @throws IOError
-         * 		No host was specified and the connection failed.
-         * @throws SecurityError
-         * 		This error occurs in SWF content for the following reasons:
-         * 		Local untrusted SWF files may not communicate with the Internet. You can work around
-         * 		this limitation by reclassifying the file as local-with-networking or as trusted.
-         */
-        connect(ip: string, port: number, path?: string): void;
-        /**
-         * <p> Send data to the server. </p>
-         */
+    class WebClientDriver extends ClientDriver {
+        private request;
+        private connection;
+        constructor(request: websocket.request);
+        listen(): void;
+        getPath(): string;
+        hasCookie(key: string): boolean;
+        getCookie(key: string): string;
         sendData(invoke: Invoke): void;
-        /**
-         * <p> Shift responsiblity of handling message to parent. </p>
-         */
-        replyData(invoke: Invoke): void;
-        private handleConnect(event);
-        /**
-         * <p> Handling replied message. </p>
-         */
-        private handleReply(event);
+        private handle_message(message);
     }
 }
 declare namespace samchon.protocol.service {
@@ -3474,7 +3106,7 @@ declare namespace samchon.protocol.service {
         /**
          * <p> Invoke Socket. </p>
          */
-        protected socket: ServerConnector;
+        protected socket: WebServerConnector;
         /**
          * <p> A movie. </p>
          */
@@ -3499,6 +3131,18 @@ declare namespace samchon.protocol.service {
     }
 }
 declare namespace samchon.protocol.service {
+    abstract class Client implements protocol.IProtocol {
+        protected user: User;
+        protected service: Service;
+        private sequence;
+        private driver;
+        constructor(user: User);
+        protected abstract createService(path: string): Service;
+        sendData(invoke: protocol.Invoke): void;
+        replyData(invoke: protocol.Invoke): void;
+    }
+}
+declare namespace samchon.protocol.service {
     /**
      * A movie belonged to an Application.
      */
@@ -3518,6 +3162,52 @@ declare namespace samchon.protocol.service {
     }
 }
 declare namespace samchon.protocol.service {
+    abstract class Server extends protocol.WebServer implements IProtocol {
+        private session_map;
+        private session_sequence;
+        private account_map;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        protected abstract createUser(): User;
+        hasAccount(account: string): boolean;
+        getUser(account: string): User;
+        getUsers(): std.Vector<User>;
+        sendData(invoke: protocol.Invoke): void;
+        replyData(invoke: protocol.Invoke): void;
+        protected addClient(driver: WebClientDriver): void;
+        private issue_session_id();
+    }
+}
+declare namespace samchon.protocol.service {
+    abstract class Service implements protocol.IProtocol {
+        protected client: Client;
+        protected path: string;
+        constructor(client: Client);
+        sendData(invoke: protocol.Invoke): void;
+        replyData(invoke: protocol.Invoke): void;
+    }
+}
+declare namespace samchon.protocol.service {
+}
+declare namespace samchon.protocol.service {
+    abstract class User implements protocol.IProtocol {
+        protected server: Server;
+        protected clients: std.TreeMap<number, Client>;
+        protected account: string;
+        protected authority: number;
+        private session_id;
+        private client_sequence;
+        constructor(server: Server);
+        protected abstract createClient(): Client;
+        protected setAccount(account: string, authority: number): void;
+        getAccount(): string;
+        getAuthority(): number;
+        sendData(invoke: protocol.Invoke): void;
+        replyData(invoke: protocol.Invoke): void;
+        protected logout(): void;
+    }
 }
 declare namespace samchon.protocol.slave {
     /**
@@ -3542,5 +3232,51 @@ declare namespace samchon.protocol.slave {
          * @inheritdoc
          */
         replyData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol.worker {
+    abstract class DedicatedWorker implements IProtocol {
+        private communicator;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        sendData(invoke: Invoke): void;
+        abstract replyData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol.worker {
+    class DedicatedWorkerConnector extends Communicator implements IWorkerConnector {
+        private worker;
+        constructor(listener: IProtocol);
+        connect(jsFile: string): void;
+        close(): void;
+        sendData(invoke: Invoke): void;
+        private reply_message(event);
+    }
+}
+declare namespace samchon.protocol.worker {
+    interface IWorkerConnector extends Communicator {
+        connect(jsFile: string): void;
+        close(): void;
+    }
+}
+declare namespace samchon.protocol.worker {
+    class SharedWorkerConnector extends Communicator implements IWorkerConnector {
+        private driver;
+        constructor(listener: IProtocol);
+        connect(jsFile: string): void;
+        connect(jsFile: string, name: string): void;
+        close(): void;
+        sendData(invoke: Invoke): void;
+        private reply_message(event);
+    }
+}
+declare namespace samchon.protocol.worker {
+    abstract class SharedWorkerServer extends Server implements IProtocol {
+        open(): void;
+        protected addClient(communicator: ClientDriver): void;
+        abstract replyData(invoke: Invoke): void;
+        sendData(invoke: Invoke): void;
     }
 }

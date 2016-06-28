@@ -1,1 +1,2 @@
-﻿/// <reference path="../miscellaneous/node/requires.ts" />
+﻿/// <reference path="miscellaneous/requires.ts" />
+/// <reference path="miscellaneous/namespace.ts" />

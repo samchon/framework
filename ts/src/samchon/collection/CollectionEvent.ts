@@ -26,6 +26,10 @@ namespace samchon.collection
 		{
 			return "erase";
 		}
+		public static get REFRESH(): string
+		{
+			return "refresh";
+		}
 
 		/**
 		 *

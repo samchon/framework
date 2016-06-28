@@ -1,6 +1,6 @@
 /// <reference path="../API.ts" />
 
-/// <reference path="EntityArray.ts" />
+/// <reference path="EntityContainer.ts" />
 
 namespace samchon.protocol
 {
@@ -40,7 +40,7 @@ namespace samchon.protocol
 		/**
 		 * <p> A driver for interacting with (real, physical) external system. </p>
 		 */
-		protected driver: ServerConnector;
+		protected driver: WebServerConnector;
 
 		/**
 		 * <p> A name can identify an external system. </p>
@@ -86,7 +86,7 @@ namespace samchon.protocol
 			if (this.driver != null)
 				return;
 
-			this.driver = new ServerConnector(this);
+			this.driver = new WebServerConnector(this);
 			this.driver.connect(this.ip, this.port);
 		}
 

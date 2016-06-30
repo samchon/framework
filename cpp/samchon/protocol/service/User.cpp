@@ -1,166 +1,70 @@
 #include <samchon/protocol/service/User.hpp>
-#	include <samchon/protocol/service/Server.hpp>
-#	include <samchon/protocol/service/Client.hpp>
 
-#include <boost/asio.hpp>
-
-#include <mutex>
-#include <samchon/library/Semaphore.hpp>
-#include <samchon/protocol/Invoke.hpp>
+#include <samchon/protocol/service/Server.hpp>
+#include <samchon/protocol/service/Client.hpp>
 
 using namespace std;
-
 using namespace samchon;
 using namespace samchon::library;
 using namespace samchon::protocol;
 using namespace samchon::protocol::service;
 
-using namespace boost::asio;
-using namespace boost::asio::ip;
-
-/* --------------------------------------------------------
+/* ---------------------------------------------------------
 	CONSTRUCTORS
--------------------------------------------------------- */
-User::User(Server *server)
-	: super()
+--------------------------------------------------------- */
+User::User()
 {
-	this->server = server;
-	
-	semaphore = new Semaphore(2);
-	sequence = 0;
-
-	id = "guest";
-	authority = 1;
 }
 User::~User()
 {
 }
 
-/* --------------------------------------------------------
-	GETTERS
--------------------------------------------------------- */
-auto User::getServer() const -> Server*
+void User::erase_client(Client *client)
 {
-	return server;
-}
-auto User::getID() const -> std::string
-{
-	return id;
-}
-auto User::getAuthority() const -> int
-{
-	return authority;
-}
-
-auto User::getSemaphore() const -> Semaphore*
-{
-	return semaphore;
-}
-
-auto User::size() const -> size_t
-{
-	return super::size();
-}
-auto User::begin() const -> const_iterator
-{
-	return super::begin();
-}
-auto User::end() const -> const_iterator
-{
-	return super::end();
-}
-
-/* --------------------------------------------------------
-	CLIENT FACTORY
--------------------------------------------------------- */
-void User::addClient(Socket *socket)
-{
-	UniqueWriteLock uk(mtx);
-
-	size_t no = ++sequence;
-
-	SmartPointer<Client> client(createClient());
-	client->user = this;
-	client->no = no;
-	client->socket = socket;
-
-	this->set(no, client);
-	
-	uk.unlock();
-
-	client->listen();
-	this->eraseClient(no);
-}
-void User::eraseClient(size_t no)
-{
-	KEEP_USER_ALIVE;
-	
-	UniqueWriteLock uk(mtx);
+	size_t left_size;
 	{
-		super::erase(no);
+		UniqueWriteLock w_uk(client_map_mtx);
+		left_size = client_map.erase(client->no);
 	}
-	uk.unlock();
 
-	if (empty() == true)
-		server->eraseUser(sessionID);
+	// NO CLIENT, THEN ERASE THIS USER.
+	if (left_size == 0)
+		server->erase_user(this);
 }
 
-/* --------------------------------------------------------
-	AUTHENTIFICATION
--------------------------------------------------------- */
-void User::goLogin(shared_ptr<Invoke> invoke)
+/* ---------------------------------------------------------
+	ACCESSORS
+--------------------------------------------------------- */
+void User::setAccount(const string &account, int authority)
 {
-	bool result = doLogin(invoke);
+	if (this->account == account) // SAME WITH BEFORE
+		return;
+	else if (this->account.empty() == false) // ACCOUNT IS CHANGED
+	{
+		// ERASE FROM ORDINARY ACCOUNT_MAP
+		UniqueWriteLock uk(server->account_map_mtx);
+		server->account_map.erase(this->account);
+	}
 
-	shared_ptr<Invoke> reply(new Invoke("handleLogin"));
-	reply->emplace_back(new InvokeParameter("result", result));
-	reply->emplace_back(new InvokeParameter("authority", authority));
+	// SET
+	this->account = account;
+	this->authority = authority;
 
-	this->sendData(reply);
-}
-void User::goJoin(shared_ptr<Invoke> invoke)
-{
-	bool success = doJoin(invoke);
-
-	shared_ptr<Invoke> reply(new Invoke("handleJoin"));
-	reply->emplace_back(new InvokeParameter("success", success));
-
-	this->sendData(reply);
-}
-void User::goLogout()
-{
-	id = "guest";
-	authority = 0;
-
-	shared_ptr<Invoke> invoke(new Invoke("doLogout"));
-	this->sendData(invoke);
+	// REGISTER TO ACCOUNT_MAP IN ITS SERVER
+	UniqueWriteLock uk(server->account_map_mtx);
+	server->account_map.set(account, my_weak_ptr.lock());
 }
 
-/* --------------------------------------------------------
+/* ---------------------------------------------------------
 	MESSAGE CHAIN
--------------------------------------------------------- */
+--------------------------------------------------------- */
 void User::sendData(shared_ptr<Invoke> invoke)
 {
-	KEEP_USER_ALIVE;
-	UniqueReadLock uk(mtx);
+	client_map_mtx.readLock();
+	auto clients = this->client_map;
+	client_map_mtx.readUnlock();
 
-	for(auto it = begin(); it != end(); it++)
-		thread(&Client::sendData, it->second, invoke).detach();
+	for (auto it = clients.begin(); it != clients.end(); it++)
+		it->second->sendData(invoke);
 }
-void User::replyData(shared_ptr<Invoke> invoke)
-{
-	KEEP_USER_ALIVE;
 
-	if (invoke->getListener() == "goLogin")
-	{
-		this->goLogin(invoke);
-	}
-	else if(invoke->getListener() == "goJoin")
-	{
-		this->goJoin(invoke);
-	}
-	else if(invoke->getListener() == "goLogout")
-	{
-		this->goLogout();
-	}
-}

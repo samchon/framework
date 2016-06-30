@@ -15,15 +15,15 @@ namespace protocol
 	 * @tparam T A type of children Entity. Must be a class derived from an Entity.
 	 *
 	 * @details
-	 * <p> EntityArray is a static array containing children objects derived from an Entity class.
+	 * <p> StaticEntityArray is a static array containing children objects derived from an Entity class.
 	 *
-	 * <p> The EntityArray has advantages of performance like fast iteration or fast access because the
-	 * EntityArray is serialized. However, as EntityArray is serialized, allocated memory space for each
+	 * <p> The StaticEntityArray has advantages of performance like fast iteration or fast access because the
+	 * StaticEntityArray is serialized. However, as StaticEntityArray is serialized, allocated memory space for each
 	 * child is fixed and cannot contain derived a entity class from the child entity type. </p>
 	 *
-	 *	\li EntityArray<Animal> is specified
+	 *	\li StaticEntityArray<Animal> is specified
 	 *	\li Dog is extended from the Animal
-	 *	\li EntityArray<Animal> cannot contain Dog. You can try insertion of the Dog class into the EntityArray, 
+	 *	\li StaticEntityArray<Animal> cannot contain Dog. You can try insertion of the Dog class into the StaticEntityArray, 
 	 *		but only memory size of Animal is allocated, so that derived member variables and methods are all
 	 *		truncated.
 	 *
@@ -34,18 +34,18 @@ namespace protocol
 	 *		@copydetails protocol::Entity
 	 *
 	 * @warning
-	 * <p> If a data structure has recursive and hierarchical relationship, never use the EntityArray.
-	 * EntityArray's memory allocation is static. The recursive relationship causes infinite memory
+	 * <p> If a data structure has recursive and hierarchical relationship, never use the StaticEntityArray.
+	 * StaticEntityArray's memory allocation is static. The recursive relationship causes infinite memory
 	 * allocation. It must generates stack overflow. </p>
 	 *
 	 * <p> Use EntityGroup instead. </p>
-	 *	\li class NTCriteria : public EntityArray<NTCriteria> causes a stack overflow.
+	 *	\li class NTCriteria : public StaticEntityArray<NTCriteria> causes a stack overflow.
 	 *	\li class NTCriteria : public SharedEntityArray<NTCriteria> doesn't cause the stack overflow.
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	template <typename T>
-	class EntityArray
+	class StaticEntityArray
 		: public virtual Entity, public std::vector<T>, //CLASSES
 		public virtual IEntityGroup //INTERFACE
 	{
@@ -59,18 +59,18 @@ namespace protocol
 		------------------------------------------------------------------------------------ */
 		using container_type::container_type;
 
-		virtual ~EntityArray() = default;
+		virtual ~StaticEntityArray() = default;
 
 		/**
 		 * @brief Construct data of the Entity from an XML object
 		 *
-		 * <p> Constructs the EntityArray's own member variables only from the input XML object. </p>
+		 * <p> Constructs the StaticEntityArray's own member variables only from the input XML object. </p>
 		 *
-		 * <p> Do not consider about constructing children Entity objects' data in EntityArray::construct().
+		 * <p> Do not consider about constructing children Entity objects' data in StaticEntityArray::construct().
 		 * Those children Entity objects' data will constructed by their own construct() method. Even insertion
-		 * of XML objects representing children are done by abstract method of EntityArray::toXML(). </p>
+		 * of XML objects representing children are done by abstract method of StaticEntityArray::toXML(). </p>
 		 *
-		 * <p> Constructs only data of EntityArray's own. </p>
+		 * <p> Constructs only data of StaticEntityArray's own. </p>
 		 *
 		 * \par [Inherited]
 		 *		@copydoc Entity::construct()
@@ -194,16 +194,16 @@ namespace protocol
 			EXPORTERS
 		------------------------------------------------------------------------------------ */
 		/**
-		 * @brief Get an XML object represents the EntityArray
+		 * @brief Get an XML object represents the StaticEntityArray
 		 *
-		 * <p> Archives the EntityArray's own member variables only to the returned XML object. </p>
+		 * <p> Archives the StaticEntityArray's own member variables only to the returned XML object. </p>
 		 *
-		 * <p> Do not consider about archiving children Entity objects' data in EntityArray::toXML().
+		 * <p> Do not consider about archiving children Entity objects' data in StaticEntityArray::toXML().
 		 * Those children Entity objects will converted to XML object by their own toXML() method. The
 		 * insertion of XML objects representing children are done by abstract method of
-		 * EntityArray::toXML(). </p>
+		 * StaticEntityArray::toXML(). </p>
 		 *
-		 * <p> Archives only data of EntityArray's own. </p>
+		 * <p> Archives only data of StaticEntityArray's own. </p>
 		 *
 		 * \par [Inherited]
 		 *		@copydoc Entity::toXML()

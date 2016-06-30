@@ -88,9 +88,9 @@ namespace samchon.protocol
 			if (this.type == "XML")
 				this.value = xml.begin().second.front();
 			else if (this.type == "number")
-				this.value = parseFloat(xml.getProperty("value"));
+				this.value = parseFloat(xml.getValue());
 			else
-				this.value = xml.getProperty("value");
+				this.value = xml.getValue();
 		}
 
 		public setValue(value: any): void
@@ -149,11 +149,17 @@ namespace samchon.protocol
 		 */
 		public toXML(): library.XML
 		{
-			let xml: library.XML = super.toXML();
+			let xml: library.XML = new library.XML();
+			xml.setTag(this.TAG());
+
+			xml.setProperty("name", this.name);
+			xml.setProperty("type", this.type);
 
 			// NOT CONSIDERED ABOUT THE BINARY DATA
-			(this.type == "XML")
+			if (this.type == "XML")
 				xml.push(this.value);
+			else if (this.type != "ByteArray")
+				xml.setValue(this.value);
 
 			return xml;
 		}

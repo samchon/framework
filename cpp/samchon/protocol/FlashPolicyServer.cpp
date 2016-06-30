@@ -24,15 +24,15 @@ FlashPolicyServer::FlashPolicyServer()
 	)
 {
 }
-FlashPolicyServer::FlashPolicyServer(shared_ptr<XML> policy_)
+FlashPolicyServer::FlashPolicyServer(shared_ptr<XML> policy)
 {
-	this->policy_ = policy_;
+	this->policy = policy;
 }
 
-void FlashPolicyServer::open()
+void FlashPolicyServer::open(int port)
 {
 	boost::asio::io_service ioService;
-	boost::asio::ip::tcp::endpoint endPoint(boost::asio::ip::tcp::v4(), 843);
+	boost::asio::ip::tcp::endpoint endPoint(boost::asio::ip::tcp::v4(), port);
 	boost::asio::ip::tcp::acceptor acceptor(ioService, endPoint);
 
 	while (true)
@@ -45,7 +45,7 @@ void FlashPolicyServer::open()
 }
 void FlashPolicyServer::accept(Socket *socket)
 {
-	string data = "<?xml version=\"1.0\"?>\n" + policy_->toString();
+	string data = "<?xml version=\"1.0\"?>\n" + policy->toString();
 	vector<unsigned char> piece;
 	boost::system::error_code error;
 

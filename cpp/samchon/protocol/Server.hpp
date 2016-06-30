@@ -1,24 +1,26 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <string>
+#include <memory>
 #include <samchon/protocol/Socket.hpp>
 
 namespace samchon
 {
 namespace protocol
 {
+	class ClientDriver;
+
 	/**
 	 * @brief An interface of a physical server
 	 * 
 	 * @details 
-	 * <p> IServer provides methods for opening a server. </p>
+	 * <p> Server provides methods for opening a server. </p>
 	 *
-	 * <p> IServer is one of the basic 3 + 1 components that can make any type of network system in
+	 * <p> Server is one of the basic 3 + 1 components that can make any type of network system in
 	 * Samchon Framework with IProtocol and IClient. Looking around classes in Samchon Framework, 
-	 * you can see all servers are implemented from the IServer. </p>
+	 * you can see all servers are implemented from the Server. </p>
 	 *
-	 * <p> When a client connects to the server, the abstract method IServer::addClient() is called
+	 * <p> When a client connects to the server, the abstract method Server::addClient() is called
 	 * with a new thread. If you want to accept only a client at a time, use OneToOneServer instead. </p>
 	 *
 	 * @image html  cpp/protocol_interface.png
@@ -40,38 +42,21 @@ namespace protocol
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API IServer
+	class SAMCHON_FRAMEWORK_API Server
 	{
 	protected:
-		/**
-		 * @brief An acceptor for clients
-		 */
-		Acceptor *acceptor;
-
-		/**
-		 * @brief (optional) Server's IP
-		 */
-		virtual auto MY_IP() const -> std::string;
-
-		/**
-		 * @brief Port number of the server
-		 */
-		virtual auto PORT() const -> int = 0;
+		std::unique_ptr<Acceptor> acceptor;
 
 	public:
-		/**
-		 * @brief Default Constructor
-		 */
-		IServer();
-
-		virtual ~IServer();
+		Server();
+		virtual ~Server();
 
 		/**
 		 * @brief Open the server
 		 *
 		 * @note It holds (monopolies) a thread.
 		 */
-		virtual void open();
+		virtual void open(int port);
 
 		/**
 		 * @brief Close the server
@@ -79,10 +64,12 @@ namespace protocol
 		virtual void close();
 
 	protected:
+		virtual void handleConnection(std::shared_ptr<Socket> socket);
+
 		/**
 		 * @brief Handling connection of a physical client
 		 */
-		virtual void addClient(Socket*) = 0; //ADD_CLIENT
+		virtual void addClient(std::shared_ptr<ClientDriver>) = 0; //ADD_CLIENT
 	};
 };
 };

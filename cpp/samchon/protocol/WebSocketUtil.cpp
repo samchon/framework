@@ -1,7 +1,5 @@
 #include <samchon/protocol/WebSocketUtil.hpp>
 
-#include <random>
-#include <sstream>
 #include <boost/uuid/sha1.hpp>
 
 #include <samchon/ByteArray.hpp>
@@ -48,22 +46,4 @@ auto WebSocketUtil::encode_certification_key(const string &base64) -> string
 		);
 
 	return Base64::encode(bytes);
-}
-
-auto WebSocketUtil::issue_session_id() -> string
-{
-	static uniform_int_distribution<unsigned int> distribution(0, UINT32_MAX);
-	static random_device device;
-	static size_t sequence = (size_t)distribution(device);
-
-	stringstream ss;
-	size_t uid = ++sequence;
-	long long linux_time = Date().toLinuxTime();
-	unsigned int random_no = distribution(device);
-
-	ss << hex << uid;
-	ss << hex << linux_time;
-	ss << hex << random_no;
-
-	return ss.str();
 }

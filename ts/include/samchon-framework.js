@@ -31,122 +31,6 @@ if (samchon.is_node() == true) {
 /// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * <p> An entity, a standard data class. </p>
-         *
-         * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
-         * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
-         * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
-         * Entity is not imposed but encouraged. </p>
-         *
-         * <p> As we could get advantages from standardization of message for network I/O with Invoke,
-         * we can get additional advantage from standardizing expression method of data class with Entity.
-         * We do not need to know a part of network communication. Thus, with the Entity, we can only
-         * concentrate on entity's own logics and relationships between another entities. Entity does not
-         * need to how network communications are being done. </p>
-         *
-         * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
-         * protocol for network I/O but not a essential protocol must be kept. The expression method of
-         * Entity, using on network I/O, is expressed by XML string. </p>
-         *
-         * <p> If your own network system has a critical performance issue on communication data class,
-         * it would be better to using binary communication (with ByteArray).
-         * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var Entity = (function () {
-            /**
-             * Default Constructor.
-             */
-            function Entity() {
-                //NOTHING
-            }
-            Entity.prototype.construct = function (xml) {
-                // MEMBER VARIABLES; ATOMIC
-                var propertyMap = xml.getPropertyMap();
-                for (var v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
-                    if (this.hasOwnProperty(v_it.first) == true)
-                        if (typeof this[v_it.first] == "number")
-                            this[v_it.first] = parseFloat(v_it.second);
-                        else if (typeof this[v_it.first] == "string")
-                            this[v_it.first] = v_it.second;
-                        else if (typeof this[v_it.first] == "boolean")
-                            this[v_it.first] = (v_it.second == "true");
-            };
-            /**
-             * @inheritdoc
-             */
-            Entity.prototype.key = function () { return ""; };
-            /**
-             * @inheritdoc
-             */
-            Entity.prototype.toXML = function () {
-                var xml = new samchon.library.XML();
-                xml.setTag(this.TAG());
-                // MEMBERS
-                for (var key in this)
-                    if (typeof key == "string" // NOT STRING, THEN IT MEANS CHILDREN (INT, INDEX)
-                        && (typeof this[key] == "string" || typeof this[key] == "number" || typeof this[key] == "boolean")
-                        && this.hasOwnProperty(key)) {
-                        xml.setProperty(key, this[key] + "");
-                    }
-                return xml;
-            };
-            return Entity;
-        }());
-        protocol.Entity = Entity;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../protocol/Entity.ts" />
-var samchon;
-(function (samchon) {
-    var example;
-    (function (example) {
-        var TestEntity = (function (_super) {
-            __extends(TestEntity, _super);
-            function TestEntity() {
-                _super.apply(this, arguments);
-                this.flag = true;
-            }
-            TestEntity.prototype.TAG = function () {
-                return "test";
-            };
-            return TestEntity;
-        }(samchon.protocol.Entity));
-        function test_entity() {
-            var te = new TestEntity();
-            console.log(te.toXML().toString());
-        }
-        example.test_entity = test_entity;
-    })(example = samchon.example || (samchon.example = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var example;
-    (function (example) {
-        function test_file_reference() {
-            var file = new samchon.library.FileReference();
-            file.addEventListener("select", handle_select);
-            file.addEventListener("complete", handle_complete);
-            file.browse("*.js", "*.ts", "*.txt");
-        }
-        example.test_file_reference = test_file_reference;
-        function handle_select(event) {
-            var file = event.target;
-            file.load();
-        }
-        function handle_complete(event) {
-            var file = event.target;
-            console.log(file.name, file.extension, file.size, file.modificationDate);
-        }
-    })(example = samchon.example || (samchon.example = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-var samchon;
-(function (samchon) {
     var collection;
     (function (collection) {
         /**
@@ -1561,306 +1445,6 @@ var samchon;
 /// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var Server = (function () {
-            function Server() {
-            }
-            return Server;
-        }());
-        protocol.Server = Server;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="Server.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var WebServer = (function (_super) {
-            __extends(WebServer, _super);
-            function WebServer() {
-                _super.apply(this, arguments);
-            }
-            WebServer.prototype.open = function (port) {
-                this.http_server = samchon.http.createServer();
-                this.http_server.listen(port);
-                var ws_server = new samchon.websocket.server({ httpServer: this.http_server });
-                ws_server.on("request", this.handle_request.bind(this));
-            };
-            WebServer.prototype.getPort = function () {
-                return this.http_server.localPort;
-            };
-            WebServer.prototype.handle_request = function (request) {
-                var driver = new protocol.WebClientDriver(request);
-                this.addClient(driver);
-            };
-            return WebServer;
-        }(protocol.Server));
-        protocol.WebServer = WebServer;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var Communicator = (function () {
-            function Communicator(listener) {
-                if (listener === void 0) { listener = null; }
-                this.listener = listener;
-                this.binary_invoke = null;
-            }
-            Communicator.prototype.replyData = function (invoke) {
-                this.listener.replyData(invoke);
-            };
-            Communicator.prototype.handleData = function (data) {
-                if (this.binary_invoke == null) {
-                    var xml = new samchon.library.XML(data);
-                    var invoke = new protocol.Invoke(xml);
-                    // THE INVOKE MESSAGE INCLUDES BINARY DATA?
-                    var is_binary = std.any_of(invoke.begin(), invoke.end(), function (parameter) {
-                        return parameter.getType() == "ByteArray";
-                    });
-                    // IF EXISTS, REGISTER AND TERMINATE
-                    if (is_binary)
-                        this.binary_invoke = invoke;
-                    else
-                        this.replyData(invoke);
-                }
-                else {
-                    // FIND THE MATCHED PARAMETER
-                    var it = std.find_if(this.binary_invoke.begin(), this.binary_invoke.end(), function (parameter) {
-                        return parameter.getType() == "ByteArray" && parameter.getValue() == null;
-                    });
-                    // SET BINARY DATA
-                    it.value.setValue(data);
-                    // FIND THE REMAINED BINARY PARAMETER
-                    it = std.find_if(it.next(), this.binary_invoke.end(), function (parameter) {
-                        return parameter.getType() == "ByteArray" && parameter.getValue() == null;
-                    });
-                    if (it.equal_to(this.binary_invoke.end())) {
-                        // AND IF NOT, SEND THE INVOKE MESSAGE
-                        this.replyData(this.binary_invoke);
-                        this.binary_invoke = null;
-                    }
-                }
-            };
-            return Communicator;
-        }());
-        protocol.Communicator = Communicator;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../APi.ts" />
-/// <reference path="Communicator.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var ServerConnector = (function (_super) {
-            __extends(ServerConnector, _super);
-            function ServerConnector(listener) {
-                _super.call(this, listener);
-                this.onopen = null;
-            }
-            return ServerConnector;
-        }(protocol.Communicator));
-        protocol.ServerConnector = ServerConnector;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="ServerConnector.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * <p> A server connector for a physical client. </p>
-         *
-         * <p> ServerConnector is a class for a physical client connecting a server. If you want to connect
-         * to a server,  then implements this ServerConnector and just override some methods like
-         * getIP(), getPort() and replyData(). That's all. </p>
-         *
-         * <p> In Samchon Framework, package protocol, There are basic 3 + 1 components that can make any
-         * type of network system in Samchon Framework. The basic 3 components are IProtocol, IServer and
-         * IClient. The last, surplus one is the ServerConnector. Looking around classes in
-         * Samchon Framework, especially module master and slave which are designed for realizing
-         * distributed processing systems and parallel processing systems, physical client classes are all
-         * derived from this ServerConnector. </p>
-         *
-         * <img src="interface.png" />
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var WebServerConnector = (function (_super) {
-            __extends(WebServerConnector, _super);
-            /**
-             * <p> Constructor with parent. </p>
-             */
-            function WebServerConnector(parent) {
-                _super.call(this, parent);
-                /**
-                 * <p> A socket for network I/O. </p>
-                 */
-                this.socket = null;
-                this.client = null;
-                this.connection = null;
-            }
-            /**
-             * <p> Connects to a cloud server with specified host and port. </p>
-             *
-             * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown:
-             * an error event is dispatched if a host was specified, and an exception is thrown if no host
-             * was specified. Otherwise, the status of the connection is reported by an event.
-             * If the socket is already connected, the existing connection is closed first. </p>
-             *
-             * @param ip
-             * 		The name or IP address of the host to connect to.
-             * 		If no host is specified, the host that is contacted is the host where the calling
-             * 		file resides. If you do not specify a host, use an event listener to determine whether
-             * 		the connection was successful.
-             * @param port
-             * 		The port number to connect to.
-             *
-             * @throws IOError
-             * 		No host was specified and the connection failed.
-             * @throws SecurityError
-             * 		This error occurs in SWF content for the following reasons:
-             * 		Local untrusted SWF files may not communicate with the Internet. You can work around
-             * 		this limitation by reclassifying the file as local-with-networking or as trusted.
-             */
-            WebServerConnector.prototype.connect = function (ip, port, path) {
-                if (path === void 0) { path = ""; }
-                // COMPOSITE FULL-ADDRESS
-                var address;
-                if (ip.indexOf("ws://") == -1)
-                    if (ip.indexOf("://") != -1)
-                        throw "only websocket is possible";
-                    else
-                        ip = "ws://" + ip;
-                address = ip + ":" + port + "/" + path;
-                // CONNECTION BRANCHES
-                if (samchon.is_node() == true) {
-                    this.client = new samchon.websocket.client();
-                    this.client.on("connect", this.handle_node_connect.bind(this));
-                    this.client.connect(address);
-                }
-                else {
-                    this.socket = new WebSocket(address);
-                    this.socket.onopen = this.handle_browser_connect.bind(this);
-                    this.socket.onmessage = this.handle_browser_message.bind(this);
-                }
-            };
-            /* ----------------------------------------------------
-                IPROTOCOL'S METHOD
-            ---------------------------------------------------- */
-            /**
-             * <p> Send data to the server. </p>
-             */
-            WebServerConnector.prototype.sendData = function (invoke) {
-                if (this.socket != null) {
-                    this.socket.send(invoke.toXML().toString());
-                    for (var i = 0; i < invoke.size(); i++)
-                        if (invoke.at(i).getType() == "ByteArray")
-                            this.socket.send(invoke.at(i).getValue());
-                }
-                else {
-                    this.connection.sendUTF(invoke.toXML().toString());
-                    for (var i = 0; i < invoke.size(); i++)
-                        if (invoke.at(i).getType() == "ByteArray")
-                            this.connection.sendBytes(invoke.at(i).getValue());
-                }
-            };
-            WebServerConnector.prototype.handle_browser_connect = function (event) {
-                if (this.onopen != null)
-                    this.onopen();
-            };
-            /**
-             * <p> Handling replied message. </p>
-             */
-            WebServerConnector.prototype.handle_browser_message = function (event) {
-                this.handleData(event.data);
-            };
-            WebServerConnector.prototype.handle_node_connect = function (connection) {
-                this.connection = connection;
-                connection.on("message", this.handle_node_message.bind(this));
-                if (this.onopen != null)
-                    this.onopen();
-            };
-            WebServerConnector.prototype.handle_node_message = function (message) {
-                if (message.type == "utf8")
-                    this.handleData(message.utf8Data);
-                else
-                    this.handleData(message.binaryData);
-            };
-            return WebServerConnector;
-        }(protocol.ServerConnector));
-        protocol.WebServerConnector = WebServerConnector;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="../protocol/WebServer.ts" />
-/// <reference path="../protocol/WebServerConnector.ts" />
-var samchon;
-(function (samchon) {
-    var example;
-    (function (example) {
-        function test_websocket() {
-            if (samchon.is_node() == true)
-                new TestWebServer();
-            // else
-            new TestWebClient();
-        }
-        example.test_websocket = test_websocket;
-        var TestWebServer = (function (_super) {
-            __extends(TestWebServer, _super);
-            function TestWebServer() {
-                _super.call(this);
-                this.open(11711);
-            }
-            TestWebServer.prototype.addClient = function (driver) {
-                var client = new TestWebClientDriver(driver);
-            };
-            return TestWebServer;
-        }(samchon.protocol.WebServer));
-        var TestWebClientDriver = (function () {
-            function TestWebClientDriver(driver) {
-                driver.setListener(this);
-                this.driver = driver;
-                this.driver.listen();
-            }
-            TestWebClientDriver.prototype.sendData = function (invoke) {
-                this.driver.sendData(invoke);
-            };
-            TestWebClientDriver.prototype.replyData = function (invoke) {
-                console.log(invoke.toXML().toString());
-                this.sendData(invoke);
-            };
-            return TestWebClientDriver;
-        }());
-        var TestWebClient = (function () {
-            function TestWebClient() {
-                this.connector = new samchon.protocol.WebServerConnector(this);
-                this.connector.onopen = this.handle_open.bind(this);
-                this.connector.connect("127.0.0.1", 11711);
-            }
-            TestWebClient.prototype.handle_open = function (event) {
-                var invoke = new samchon.protocol.Invoke("sendMessage", 99999, "I am JavaScript Client", 3, 7);
-                this.sendData(invoke);
-            };
-            TestWebClient.prototype.sendData = function (invoke) {
-                this.connector.sendData(invoke);
-            };
-            TestWebClient.prototype.replyData = function (invoke) {
-                console.log(invoke.toXML().toString());
-            };
-            return TestWebClient;
-        }());
-    })(example = samchon.example || (samchon.example = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-var samchon;
-(function (samchon) {
     var library;
     (function (library) {
         /**
@@ -2683,6 +2267,435 @@ var samchon;
         }(samchon.library.XMLList));
         collection.XMLListCollection = XMLListCollection;
     })(collection = samchon.collection || (samchon.collection = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * <p> An entity, a standard data class. </p>
+         *
+         * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
+         * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
+         * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+         * Entity is not imposed but encouraged. </p>
+         *
+         * <p> As we could get advantages from standardization of message for network I/O with Invoke,
+         * we can get additional advantage from standardizing expression method of data class with Entity.
+         * We do not need to know a part of network communication. Thus, with the Entity, we can only
+         * concentrate on entity's own logics and relationships between another entities. Entity does not
+         * need to how network communications are being done. </p>
+         *
+         * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+         * protocol for network I/O but not a essential protocol must be kept. The expression method of
+         * Entity, using on network I/O, is expressed by XML string. </p>
+         *
+         * <p> If your own network system has a critical performance issue on communication data class,
+         * it would be better to using binary communication (with ByteArray).
+         * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var Entity = (function () {
+            /**
+             * Default Constructor.
+             */
+            function Entity() {
+                //NOTHING
+            }
+            Entity.prototype.construct = function (xml) {
+                // MEMBER VARIABLES; ATOMIC
+                var propertyMap = xml.getPropertyMap();
+                for (var v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
+                    if (this.hasOwnProperty(v_it.first) == true)
+                        if (typeof this[v_it.first] == "number")
+                            this[v_it.first] = parseFloat(v_it.second);
+                        else if (typeof this[v_it.first] == "string")
+                            this[v_it.first] = v_it.second;
+                        else if (typeof this[v_it.first] == "boolean")
+                            this[v_it.first] = (v_it.second == "true");
+            };
+            /**
+             * @inheritdoc
+             */
+            Entity.prototype.key = function () { return ""; };
+            /**
+             * @inheritdoc
+             */
+            Entity.prototype.toXML = function () {
+                var xml = new samchon.library.XML();
+                xml.setTag(this.TAG());
+                // MEMBERS
+                for (var key in this)
+                    if (typeof key == "string" // NOT STRING, THEN IT MEANS CHILDREN (INT, INDEX)
+                        && (typeof this[key] == "string" || typeof this[key] == "number" || typeof this[key] == "boolean")
+                        && this.hasOwnProperty(key)) {
+                        xml.setProperty(key, this[key] + "");
+                    }
+                return xml;
+            };
+            return Entity;
+        }());
+        protocol.Entity = Entity;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../protocol/Entity.ts" />
+var samchon;
+(function (samchon) {
+    var example;
+    (function (example) {
+        var TestEntity = (function (_super) {
+            __extends(TestEntity, _super);
+            function TestEntity() {
+                _super.apply(this, arguments);
+                this.flag = true;
+            }
+            TestEntity.prototype.TAG = function () {
+                return "test";
+            };
+            return TestEntity;
+        }(samchon.protocol.Entity));
+        function test_entity() {
+            var te = new TestEntity();
+            console.log(te.toXML().toString());
+        }
+        example.test_entity = test_entity;
+    })(example = samchon.example || (samchon.example = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var example;
+    (function (example) {
+        function test_file_reference() {
+            var file = new samchon.library.FileReference();
+            file.addEventListener("select", handle_select);
+            file.addEventListener("complete", handle_complete);
+            file.browse("*.js", "*.ts", "*.txt");
+        }
+        example.test_file_reference = test_file_reference;
+        function handle_select(event) {
+            var file = event.target;
+            file.load();
+        }
+        function handle_complete(event) {
+            var file = event.target;
+            console.log(file.name, file.extension, file.size, file.modificationDate);
+        }
+    })(example = samchon.example || (samchon.example = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var Server = (function () {
+            function Server() {
+            }
+            return Server;
+        }());
+        protocol.Server = Server;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="Server.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var WebServer = (function (_super) {
+            __extends(WebServer, _super);
+            function WebServer() {
+                _super.call(this);
+                this.sequence = 0;
+            }
+            WebServer.prototype.open = function (port) {
+                this.http_server = samchon.http.createServer();
+                this.http_server.listen(port);
+                var ws_server = new samchon.websocket.server({ httpServer: this.http_server });
+                ws_server.on("request", this.handle_request.bind(this));
+            };
+            WebServer.prototype.handle_request = function (request) {
+                var path = request.resource;
+                var session_id = this.get_session_id(request.cookies);
+                console.log(request.cookies);
+                var connection = request.accept("", request.origin, [{ name: "SESSION_ID", value: session_id }]);
+                var driver = new protocol.WebClientDriver(connection, path, session_id);
+                this.addClient(driver);
+            };
+            WebServer.prototype.get_session_id = function (cookies) {
+                for (var i = 0; i < cookies.length; i++)
+                    if (cookies[i].name == "SESSION_ID")
+                        return cookies[i].value;
+                return this.issue_session_id();
+            };
+            WebServer.prototype.issue_session_id = function () {
+                return "" + ++this.sequence;
+            };
+            return WebServer;
+        }(protocol.Server));
+        protocol.WebServer = WebServer;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var Communicator = (function () {
+            function Communicator() {
+                this.listener = null;
+                this.binary_invoke = null;
+            }
+            Communicator.prototype.replyData = function (invoke) {
+                this.listener.replyData(invoke);
+            };
+            Communicator.prototype.handleData = function (data) {
+                if (this.binary_invoke == null) {
+                    var xml = new samchon.library.XML(data);
+                    var invoke = new protocol.Invoke(xml);
+                    // THE INVOKE MESSAGE INCLUDES BINARY DATA?
+                    var is_binary = std.any_of(invoke.begin(), invoke.end(), function (parameter) {
+                        return parameter.getType() == "ByteArray";
+                    });
+                    // IF EXISTS, REGISTER AND TERMINATE
+                    if (is_binary)
+                        this.binary_invoke = invoke;
+                    else
+                        this.replyData(invoke);
+                }
+                else {
+                    // FIND THE MATCHED PARAMETER
+                    var it = std.find_if(this.binary_invoke.begin(), this.binary_invoke.end(), function (parameter) {
+                        return parameter.getType() == "ByteArray" && parameter.getValue() == null;
+                    });
+                    // SET BINARY DATA
+                    it.value.setValue(data);
+                    // FIND THE REMAINED BINARY PARAMETER
+                    it = std.find_if(it.next(), this.binary_invoke.end(), function (parameter) {
+                        return parameter.getType() == "ByteArray" && parameter.getValue() == null;
+                    });
+                    if (it.equal_to(this.binary_invoke.end())) {
+                        // AND IF NOT, SEND THE INVOKE MESSAGE
+                        this.replyData(this.binary_invoke);
+                        this.binary_invoke = null;
+                    }
+                }
+            };
+            return Communicator;
+        }());
+        protocol.Communicator = Communicator;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../APi.ts" />
+/// <reference path="Communicator.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var ServerConnector = (function (_super) {
+            __extends(ServerConnector, _super);
+            function ServerConnector(listener) {
+                _super.call(this);
+                this.listener = listener;
+                this.onopen = null;
+            }
+            return ServerConnector;
+        }(protocol.Communicator));
+        protocol.ServerConnector = ServerConnector;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="ServerConnector.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * <p> A server connector for a physical client. </p>
+         *
+         * <p> ServerConnector is a class for a physical client connecting a server. If you want to connect
+         * to a server,  then implements this ServerConnector and just override some methods like
+         * getIP(), getPort() and replyData(). That's all. </p>
+         *
+         * <p> In Samchon Framework, package protocol, There are basic 3 + 1 components that can make any
+         * type of network system in Samchon Framework. The basic 3 components are IProtocol, IServer and
+         * IClient. The last, surplus one is the ServerConnector. Looking around classes in
+         * Samchon Framework, especially module master and slave which are designed for realizing
+         * distributed processing systems and parallel processing systems, physical client classes are all
+         * derived from this ServerConnector. </p>
+         *
+         * <img src="interface.png" />
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var WebServerConnector = (function (_super) {
+            __extends(WebServerConnector, _super);
+            /**
+             * <p> Constructor with parent. </p>
+             */
+            function WebServerConnector(listener) {
+                _super.call(this, listener);
+                /**
+                 * <p> A socket for network I/O. </p>
+                 */
+                this.socket = null;
+                this.client = null;
+                this.connection = null;
+            }
+            /**
+             * <p> Connects to a cloud server with specified host and port. </p>
+             *
+             * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown:
+             * an error event is dispatched if a host was specified, and an exception is thrown if no host
+             * was specified. Otherwise, the status of the connection is reported by an event.
+             * If the socket is already connected, the existing connection is closed first. </p>
+             *
+             * @param ip
+             * 		The name or IP address of the host to connect to.
+             * 		If no host is specified, the host that is contacted is the host where the calling
+             * 		file resides. If you do not specify a host, use an event listener to determine whether
+             * 		the connection was successful.
+             * @param port
+             * 		The port number to connect to.
+             *
+             * @throws IOError
+             * 		No host was specified and the connection failed.
+             * @throws SecurityError
+             * 		This error occurs in SWF content for the following reasons:
+             * 		Local untrusted SWF files may not communicate with the Internet. You can work around
+             * 		this limitation by reclassifying the file as local-with-networking or as trusted.
+             */
+            WebServerConnector.prototype.connect = function (ip, port, path) {
+                if (path === void 0) { path = ""; }
+                // COMPOSITE FULL-ADDRESS
+                var address;
+                if (ip.indexOf("ws://") == -1)
+                    if (ip.indexOf("://") != -1)
+                        throw "only websocket is possible";
+                    else
+                        ip = "ws://" + ip;
+                address = ip + ":" + port + "/" + path;
+                // CONNECTION BRANCHES
+                if (samchon.is_node() == true) {
+                    this.client = new samchon.websocket.client();
+                    this.client.on("connect", this.handle_node_connect.bind(this));
+                    this.client.connect(address);
+                }
+                else {
+                    this.socket = new WebSocket(address);
+                    this.socket.onopen = this.handle_browser_connect.bind(this);
+                    this.socket.onmessage = this.handle_browser_message.bind(this);
+                }
+            };
+            /* ----------------------------------------------------
+                IPROTOCOL'S METHOD
+            ---------------------------------------------------- */
+            /**
+             * <p> Send data to the server. </p>
+             */
+            WebServerConnector.prototype.sendData = function (invoke) {
+                if (this.socket != null) {
+                    this.socket.send(invoke.toXML().toString());
+                    for (var i = 0; i < invoke.size(); i++)
+                        if (invoke.at(i).getType() == "ByteArray")
+                            this.socket.send(invoke.at(i).getValue());
+                }
+                else {
+                    this.connection.sendUTF(invoke.toXML().toString());
+                    for (var i = 0; i < invoke.size(); i++)
+                        if (invoke.at(i).getType() == "ByteArray")
+                            this.connection.sendBytes(invoke.at(i).getValue());
+                }
+            };
+            WebServerConnector.prototype.handle_browser_connect = function (event) {
+                if (this.onopen != null)
+                    this.onopen();
+            };
+            /**
+             * <p> Handling replied message. </p>
+             */
+            WebServerConnector.prototype.handle_browser_message = function (event) {
+                this.handleData(event.data);
+            };
+            WebServerConnector.prototype.handle_node_connect = function (connection) {
+                this.connection = connection;
+                connection.on("message", this.handle_node_message.bind(this));
+                if (this.onopen != null)
+                    this.onopen();
+            };
+            WebServerConnector.prototype.handle_node_message = function (message) {
+                if (message.type == "utf8")
+                    this.handleData(message.utf8Data);
+                else
+                    this.handleData(message.binaryData);
+            };
+            return WebServerConnector;
+        }(protocol.ServerConnector));
+        protocol.WebServerConnector = WebServerConnector;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="../protocol/WebServer.ts" />
+/// <reference path="../protocol/WebServerConnector.ts" />
+var samchon;
+(function (samchon) {
+    var example;
+    (function (example) {
+        function test_websocket() {
+            if (samchon.is_node() == true)
+                new TestWebServer();
+            //else
+            new TestWebConnector();
+        }
+        example.test_websocket = test_websocket;
+        var TestWebServer = (function (_super) {
+            __extends(TestWebServer, _super);
+            function TestWebServer() {
+                _super.call(this);
+                this.open(11711);
+            }
+            TestWebServer.prototype.addClient = function (driver) {
+                console.log("A client has connected.");
+                var client = new TestWebClientDriver(driver);
+            };
+            return TestWebServer;
+        }(samchon.protocol.WebServer));
+        var TestWebClientDriver = (function () {
+            function TestWebClientDriver(driver) {
+                this.driver = driver;
+                this.driver.listen(this);
+            }
+            TestWebClientDriver.prototype.sendData = function (invoke) {
+                this.driver.sendData(invoke);
+            };
+            TestWebClientDriver.prototype.replyData = function (invoke) {
+                console.log(invoke.toXML().toString());
+                this.sendData(invoke);
+            };
+            return TestWebClientDriver;
+        }());
+        var TestWebConnector = (function () {
+            function TestWebConnector() {
+                this.connector = new samchon.protocol.WebServerConnector(this);
+                this.connector.onopen = this.handle_open.bind(this);
+                console.log("go connect");
+                this.connector.connect("127.0.0.1", 11711, "my_path");
+            }
+            TestWebConnector.prototype.handle_open = function (event) {
+                console.log("connected");
+                var invoke = new samchon.protocol.Invoke("sendMessage", 99999, "I am a JavaScript Client", 3, 7);
+                this.sendData(invoke);
+            };
+            TestWebConnector.prototype.sendData = function (invoke) {
+                this.connector.sendData(invoke);
+            };
+            TestWebConnector.prototype.replyData = function (invoke) {
+                console.log(invoke.toXML().toString());
+            };
+            return TestWebConnector;
+        }());
+    })(example = samchon.example || (samchon.example = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
 var samchon;
@@ -3657,379 +3670,11 @@ var samchon;
         var ClientDriver = (function (_super) {
             __extends(ClientDriver, _super);
             function ClientDriver() {
-                _super.apply(this, arguments);
+                _super.call(this);
             }
-            ClientDriver.prototype.setListener = function (listener) {
-                this.listener = listener;
-            };
             return ClientDriver;
         }(protocol.Communicator));
         protocol.ClientDriver = ClientDriver;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../APi.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var service;
-        (function (service) {
-            var Client = (function () {
-                function Client(user) {
-                    this.user = user;
-                }
-                Client.prototype.sendData = function (invoke) {
-                    this.driver.sendData(invoke);
-                };
-                Client.prototype.replyData = function (invoke) {
-                    this.service.replyData(invoke);
-                    this.user.replyData(invoke);
-                };
-                return Client;
-            }());
-            service.Client = Client;
-        })(service = protocol.service || (protocol.service = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="../WebServer.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var service;
-        (function (service_1) {
-            var Server = (function (_super) {
-                __extends(Server, _super);
-                /* ------------------------------------------------------------------
-                    CONSTRUCTORS
-                ------------------------------------------------------------------ */
-                /**
-                 * Default Constructor.
-                 */
-                function Server() {
-                    _super.call(this);
-                    this.account_map = new std.HashMap();
-                    this.session_map = new std.HashMap();
-                    this.session_sequence = 0;
-                }
-                /* ------------------------------------------------------------------
-                    ACCESSORS
-                ------------------------------------------------------------------ */
-                Server.prototype.hasAccount = function (account) {
-                    return this.account_map.has(account);
-                };
-                Server.prototype.getUser = function (account) {
-                    return this.account_map.get(account);
-                };
-                Server.prototype.getUsers = function () {
-                    var users = new std.Vector();
-                    for (var it = this.session_map.begin(); !it.equal_to(this.session_map.end()); it = it.next())
-                        users.push_back(it.second);
-                    return users;
-                };
-                /* ------------------------------------------------------------------
-                    INVOKE CHAIN
-                ------------------------------------------------------------------ */
-                Server.prototype.sendData = function (invoke) {
-                    for (var it = this.session_map.begin(); !it.equal_to(this.session_map.end()); it = it.next())
-                        it.second.sendData(invoke);
-                };
-                Server.prototype.replyData = function (invoke) {
-                    invoke.apply(this);
-                };
-                /* ------------------------------------------------------------------
-                    PROCEDURES
-                ------------------------------------------------------------------ */
-                Server.prototype.addClient = function (driver) {
-                    // FETCH OR ISSUE SESSION ID
-                    var session_id = driver.getCookie("SERVICE_SESSION_ID");
-                    if (session_id == null)
-                        session_id = this.issue_session_id();
-                    // CREATE OR TAKE ORDINARY USER
-                    var user;
-                    if (this.session_map.has(session_id) == true)
-                        user = this.session_map.get(session_id);
-                    else {
-                        user = this.createUser();
-                        user.session_id = session_id;
-                        this.session_map.insert(std.make_pair(session_id, user));
-                    }
-                    // CREATE A CLIENT
-                    var client = user.createClient();
-                    client.driver = driver;
-                    client.sequence = ++user.client_sequence;
-                    // CREATE A SERVICE
-                    var service = client.createService(driver.getPath());
-                    service.path = driver.getPath();
-                    client.service = service;
-                };
-                Server.prototype.issue_session_id = function () {
-                    var port = this.getPort();
-                    var sequence = ++this.session_sequence;
-                    var rand1 = Math.floor(Math.random() * 1000000); // RAND BETWEEN 0 ~ 1000000
-                    var rand2 = Math.floor(Math.random() * 1000000);
-                    return port.toString(16) + sequence.toString(16) + rand1.toString(16) + rand2.toString(16);
-                };
-                return Server;
-            }(protocol.WebServer));
-            service_1.Server = Server;
-        })(service = protocol.service || (protocol.service = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var service;
-        (function (service) {
-            var Service = (function () {
-                function Service(client) {
-                    this.client = client;
-                }
-                Service.prototype.sendData = function (invoke) {
-                    return this.client.sendData(invoke);
-                };
-                Service.prototype.replyData = function (invoke) {
-                    invoke.apply(this);
-                };
-                return Service;
-            }());
-            service.Service = Service;
-        })(service = protocol.service || (protocol.service = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var service;
-        (function (service) {
-            var User = (function () {
-                function User(server) {
-                    this.server = server;
-                    this.clients = new std.TreeMap();
-                    this.account = "";
-                    this.authority = 1;
-                }
-                User.prototype.setAccount = function (account, authority) {
-                    this.account = account;
-                    this.authority = authority;
-                    var account_map = this.server.account_map;
-                    account_map.insert(std.make_pair(account, this));
-                };
-                User.prototype.getAccount = function () {
-                    return this.account;
-                };
-                User.prototype.getAuthority = function () {
-                    return this.authority;
-                };
-                User.prototype.sendData = function (invoke) {
-                    for (var it = this.clients.begin(); !it.equal_to(this.clients.end()); it = it.next())
-                        it.second.sendData(invoke);
-                };
-                User.prototype.replyData = function (invoke) {
-                    invoke.apply(this);
-                };
-                User.prototype.logout = function () {
-                    if (this.account != "") {
-                        var account_map = this.server.account_map;
-                        account_map.erase(this.account);
-                    }
-                    this.account = "";
-                    this.authority = 1;
-                };
-                return User;
-            }());
-            service.User = User;
-        })(service = protocol.service || (protocol.service = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="ClientDriver.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var WebClientDriver = (function (_super) {
-            __extends(WebClientDriver, _super);
-            function WebClientDriver(request) {
-                _super.call(this);
-                this.request = request;
-            }
-            WebClientDriver.prototype.listen = function () {
-                this.connection = this.request.accept("", this.request.origin, [{ name: "sssss", value: "aaaaa" }]);
-                this.connection.on("message", this.handle_message.bind(this));
-            };
-            WebClientDriver.prototype.getPath = function () {
-                return "something";
-            };
-            WebClientDriver.prototype.hasCookie = function (key) {
-                var cookies = this.request.cookies;
-                for (var i = 0; i < cookies.length; i++)
-                    if (cookies[i].name == key)
-                        return true;
-                return false;
-            };
-            WebClientDriver.prototype.getCookie = function (key) {
-                var cookies = this.request.cookies;
-                for (var i = 0; i < cookies.length; i++)
-                    if (cookies[i].name == key)
-                        return cookies[i].value;
-                return null;
-            };
-            WebClientDriver.prototype.sendData = function (invoke) {
-                this.connection.sendUTF(invoke.toXML().toString());
-                for (var i = 0; i < invoke.size(); i++)
-                    if (invoke.at(i).getType() == "ByteArray")
-                        this.connection.sendBytes(invoke.at(i).getValue());
-            };
-            WebClientDriver.prototype.handle_message = function (message) {
-                if (message.type == "utf8")
-                    this.handleData(message.utf8Data);
-                else
-                    this.handleData(message.binaryData);
-            };
-            return WebClientDriver;
-        }(protocol.ClientDriver));
-        protocol.WebClientDriver = WebClientDriver;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../Communicator.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var worker;
-        (function (worker) {
-            var DedicatedWorker = (function () {
-                /**
-                 * Default Constructor.
-                 */
-                function DedicatedWorker() {
-                    this.communicator = new DedicatedWorkerClientDriver(this);
-                }
-                DedicatedWorker.prototype.sendData = function (invoke) {
-                    this.communicator.sendData(invoke);
-                };
-                return DedicatedWorker;
-            }());
-            worker.DedicatedWorker = DedicatedWorker;
-            var DedicatedWorkerClientDriver = (function (_super) {
-                __extends(DedicatedWorkerClientDriver, _super);
-                function DedicatedWorkerClientDriver(listener) {
-                    _super.call(this, listener);
-                    self.addEventListener("message", this.listen_message.bind(this));
-                }
-                DedicatedWorkerClientDriver.prototype.sendData = function (invoke) {
-                    postMessage(invoke.toXML().toString());
-                    for (var i = 0; i < invoke.size(); i++)
-                        if (invoke.at(i).getType() == "ByteArray")
-                            postMessage(invoke.at(i).getValue());
-                };
-                DedicatedWorkerClientDriver.prototype.listen_message = function (event) {
-                    this.handleData(event.data);
-                };
-                return DedicatedWorkerClientDriver;
-            }(protocol.Communicator));
-        })(worker = protocol.worker || (protocol.worker = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../Communicator.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var worker;
-        (function (worker) {
-            var DedicatedWorkerConnector = (function (_super) {
-                __extends(DedicatedWorkerConnector, _super);
-                function DedicatedWorkerConnector(listener) {
-                    _super.call(this, listener);
-                    this.worker = null;
-                }
-                DedicatedWorkerConnector.prototype.connect = function (jsFile) {
-                    this.worker = new Worker(jsFile);
-                    this.worker.addEventListener("message", this.reply_message.bind(this));
-                };
-                DedicatedWorkerConnector.prototype.close = function () {
-                    this.worker.terminate();
-                };
-                DedicatedWorkerConnector.prototype.sendData = function (invoke) {
-                    this.worker.postMessage(invoke.toXML().toString());
-                    for (var i = 0; i < invoke.size(); i++)
-                        if (invoke.at(i).getType() == "ByteaArray")
-                            this.worker.postMessage(invoke.at(i).getValue());
-                };
-                DedicatedWorkerConnector.prototype.reply_message = function (event) {
-                    this.handleData(event.data);
-                };
-                return DedicatedWorkerConnector;
-            }(protocol.Communicator));
-            worker.DedicatedWorkerConnector = DedicatedWorkerConnector;
-        })(worker = protocol.worker || (protocol.worker = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../Communicator.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var worker;
-        (function (worker) {
-            var SharedWorkerConnector = (function (_super) {
-                __extends(SharedWorkerConnector, _super);
-                function SharedWorkerConnector(listener) {
-                    _super.call(this, listener);
-                    this.driver = null;
-                }
-                SharedWorkerConnector.prototype.connect = function (jsFile, name) {
-                    if (name === void 0) { name = ""; }
-                    this.driver = new SharedWorker(jsFile, name);
-                    this.driver.port.addEventListener("message", this.reply_message.bind(this));
-                    this.driver.port.start();
-                };
-                SharedWorkerConnector.prototype.close = function () {
-                    this.driver.port.close();
-                };
-                SharedWorkerConnector.prototype.sendData = function (invoke) {
-                    this.driver.port.postMessage(invoke.toXML().toString());
-                    for (var i = 0; i < invoke.size(); i++)
-                        if (invoke.at(i).getType() == "ByteaArray")
-                            this.driver.port.postMessage(invoke.at(i).getValue());
-                };
-                SharedWorkerConnector.prototype.reply_message = function (event) {
-                    this.handleData(event.data);
-                };
-                return SharedWorkerConnector;
-            }(protocol.Communicator));
-            worker.SharedWorkerConnector = SharedWorkerConnector;
-        })(worker = protocol.worker || (protocol.worker = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var worker;
-        (function (worker) {
-            var SharedWorkerServer = (function (_super) {
-                __extends(SharedWorkerServer, _super);
-                function SharedWorkerServer() {
-                    _super.apply(this, arguments);
-                }
-                SharedWorkerServer.prototype.open = function () {
-                };
-                SharedWorkerServer.prototype.addClient = function (communicator) {
-                };
-                SharedWorkerServer.prototype.sendData = function (invoke) {
-                };
-                return SharedWorkerServer;
-            }(protocol.Server));
-            worker.SharedWorkerServer = SharedWorkerServer;
-        })(worker = protocol.worker || (protocol.worker = {}));
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
@@ -5242,9 +4887,9 @@ var samchon;
                 if (this.type == "XML")
                     this.value = xml.begin().second.front();
                 else if (this.type == "number")
-                    this.value = parseFloat(xml.getProperty("value"));
+                    this.value = parseFloat(xml.getValue());
                 else
-                    this.value = xml.getProperty("value");
+                    this.value = xml.getValue();
             };
             InvokeParameter.prototype.setValue = function (value) {
                 this.value = value;
@@ -5289,10 +4934,15 @@ var samchon;
              * @inheritdoc
              */
             InvokeParameter.prototype.toXML = function () {
-                var xml = _super.prototype.toXML.call(this);
+                var xml = new samchon.library.XML();
+                xml.setTag(this.TAG());
+                xml.setProperty("name", this.name);
+                xml.setProperty("type", this.type);
                 // NOT CONSIDERED ABOUT THE BINARY DATA
-                (this.type == "XML");
-                xml.push(this.value);
+                if (this.type == "XML")
+                    xml.push(this.value);
+                else if (this.type != "ByteArray")
+                    xml.setValue(this.value);
                 return xml;
             };
             return InvokeParameter;
@@ -5379,6 +5029,47 @@ var samchon;
         })(service = protocol.service || (protocol.service = {}));
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
+/// <reference path="../../APi.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var service;
+        (function (service) {
+            var Client = (function () {
+                /* ------------------------------------------------------------------
+                    CONSTRUCTORS
+                ------------------------------------------------------------------ */
+                /**
+                 * Default Constructor.
+                 */
+                function Client() {
+                }
+                /* ------------------------------------------------------------------
+                    ACCESSORS
+                ------------------------------------------------------------------ */
+                Client.prototype.getUser = function () {
+                    return this.user;
+                };
+                Client.prototype.getService = function () {
+                    return this.service;
+                };
+                /* ------------------------------------------------------------------
+                    MESSAGE CHAIN
+                ------------------------------------------------------------------ */
+                Client.prototype.sendData = function (invoke) {
+                    this.driver.sendData(invoke);
+                };
+                Client.prototype.replyData = function (invoke) {
+                    this.service.replyData(invoke);
+                    this.user.replyData(invoke);
+                };
+                return Client;
+            }());
+            service.Client = Client;
+        })(service = protocol.service || (protocol.service = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
 var samchon;
 (function (samchon) {
@@ -5411,6 +5102,125 @@ var samchon;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
+/// <reference path="../WebServer.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var service;
+        (function (service_1) {
+            var Server = (function (_super) {
+                __extends(Server, _super);
+                /* ------------------------------------------------------------------
+                    CONSTRUCTORS
+                ------------------------------------------------------------------ */
+                /**
+                 * Default Constructor.
+                 */
+                function Server() {
+                    _super.call(this);
+                    this.session_map = new std.HashMap();
+                    this.account_map = new std.HashMap();
+                }
+                /* ------------------------------------------------------------------
+                    MESSAGE CHAIN
+                ------------------------------------------------------------------ */
+                Server.prototype.sendData = function (invoke) {
+                    for (var it = this.session_map.begin(); !it.equal_to(this.session_map.end()); it = it.next())
+                        it.second.sendData(invoke);
+                };
+                Server.prototype.replyData = function (invoke) {
+                    invoke.apply(this);
+                };
+                /* ------------------------------------------------------------------
+                    CLIENT I/O
+                ------------------------------------------------------------------ */
+                Server.prototype.addClient = function (driver) {
+                    ///////
+                    // CREATE CHILDREN OBJECTS
+                    ///////
+                    // USER
+                    var user;
+                    if (this.session_map.has(driver.getSessionID()) == true) {
+                        user = this.session_map.get(driver.getSessionID());
+                        user.server = this;
+                        user.session_id = driver.getSessionID();
+                        this.session_map.insert(std.make_pair(user.session_id, user));
+                    }
+                    else
+                        user = this.createUser();
+                    // CLIENT
+                    var client = user.createClient();
+                    client.user = user;
+                    client.no = ++user.sequence;
+                    client.driver = driver;
+                    user.client_map.insert(std.make_pair(client.no, client));
+                    // SERVICE
+                    var service = client.createService(driver.getPath());
+                    service.client = client;
+                    service.path = driver.getPath();
+                    client.service = service;
+                    ///////
+                    // START COMMUNICATION
+                    ///////
+                    driver.listen(client);
+                    service.start();
+                };
+                Server.prototype.erase_user = function (user) {
+                    // USER DOESN'T BE ERASED AT THAT TIME
+                    // IT WAITS UNTIL 30 SECONDS TO KEEP SESSION
+                    setTimeout(function () {
+                        if (user.client_map.empty() == false)
+                            return;
+                        this.session_map.erase(user.session_id);
+                        if (user.getAccount() != "")
+                            this.account_map.erase(user.getAccount());
+                    }.bind(this), 30000);
+                };
+                return Server;
+            }(protocol.WebServer));
+            service_1.Server = Server;
+        })(service = protocol.service || (protocol.service = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var service;
+        (function (service) {
+            var Service = (function () {
+                /* ------------------------------------------------------------------
+                    CONSTRUCTORS
+                ------------------------------------------------------------------ */
+                /**
+                 * Default Constructor.
+                 */
+                function Service() {
+                }
+                /* ------------------------------------------------------------------
+                    ACCESSORS
+                ------------------------------------------------------------------ */
+                Service.prototype.getClient = function () {
+                    return this.client;
+                };
+                /* ------------------------------------------------------------------
+                    MESSAGE CHAIN
+                ------------------------------------------------------------------ */
+                Service.prototype.sendData = function (invoke) {
+                    return this.client.sendData(invoke);
+                };
+                Service.prototype.replyData = function (invoke) {
+                    invoke.apply(this);
+                };
+                return Service;
+            }());
+            service.Service = Service;
+        })(service = protocol.service || (protocol.service = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
 var samchon;
 (function (samchon) {
     var protocol;
@@ -5433,6 +5243,66 @@ var samchon;
                 };
                 return SubMovie;
             }());
+        })(service = protocol.service || (protocol.service = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var service;
+        (function (service) {
+            var User = (function () {
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function User() {
+                    this.client_map = new std.TreeMap();
+                    this.sequence = 0;
+                    this.account = "";
+                    this.authority = 1;
+                }
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                User.prototype.getServer = function () {
+                    return this.server;
+                };
+                User.prototype.getAccount = function () {
+                    return this.account;
+                };
+                User.prototype.getAuthority = function () {
+                    return this.authority;
+                };
+                User.prototype.setAccount = function (account, authority) {
+                    if (this.account == account)
+                        return;
+                    else if (this.account != "")
+                        this.server.account_map.erase(this.account); // ERASE FROM ORDINARY ACCOUNT_MAP
+                    // SET
+                    this.account = account;
+                    this.authority = authority;
+                    // REGISTER TO ACCOUNT_MAP IN ITS SERVER
+                    this.server.account_map.set(account, this);
+                };
+                /* ---------------------------------------------------------
+                    MESSAGE CHAIN
+                --------------------------------------------------------- */
+                User.prototype.sendData = function (invoke) {
+                    for (var it = this.client_map.begin(); !it.equal_to(this.client_map.end()); it = it.next())
+                        it.second.sendData(invoke);
+                };
+                User.prototype.replyData = function (invoke) {
+                    invoke.apply(this);
+                    this.server.replyData(invoke);
+                };
+                return User;
+            }());
+            service.User = User;
         })(service = protocol.service || (protocol.service = {}));
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
@@ -5478,6 +5348,185 @@ var samchon;
             }(protocol.ExternalSystem));
             slave.SlaveSystem = SlaveSystem;
         })(slave = protocol.slave || (protocol.slave = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="ClientDriver.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var WebClientDriver = (function (_super) {
+            __extends(WebClientDriver, _super);
+            function WebClientDriver(connection, path, session_id) {
+                _super.call(this);
+                this.connection = connection;
+                this.path = path;
+                this.session_id = session_id;
+            }
+            WebClientDriver.prototype.listen = function (listener) {
+                this.listener = listener;
+                this.connection.on("message", this.handle_message.bind(this));
+            };
+            WebClientDriver.prototype.getPath = function () {
+                return this.path;
+            };
+            WebClientDriver.prototype.getSessionID = function () {
+                return this.session_id;
+            };
+            WebClientDriver.prototype.sendData = function (invoke) {
+                this.connection.sendUTF(invoke.toXML().toString());
+                for (var i = 0; i < invoke.size(); i++)
+                    if (invoke.at(i).getType() == "ByteArray")
+                        this.connection.sendBytes(invoke.at(i).getValue());
+            };
+            WebClientDriver.prototype.handle_message = function (message) {
+                if (message.type == "utf8")
+                    this.handleData(message.utf8Data);
+                else
+                    this.handleData(message.binaryData);
+            };
+            return WebClientDriver;
+        }(protocol.ClientDriver));
+        protocol.WebClientDriver = WebClientDriver;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../Communicator.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var worker;
+        (function (worker) {
+            var DedicatedWorker = (function () {
+                /**
+                 * Default Constructor.
+                 */
+                function DedicatedWorker() {
+                    this.communicator = new DedicatedWorkerClientDriver(this);
+                }
+                DedicatedWorker.prototype.sendData = function (invoke) {
+                    this.communicator.sendData(invoke);
+                };
+                return DedicatedWorker;
+            }());
+            worker.DedicatedWorker = DedicatedWorker;
+            var DedicatedWorkerClientDriver = (function (_super) {
+                __extends(DedicatedWorkerClientDriver, _super);
+                function DedicatedWorkerClientDriver(listener) {
+                    _super.call(this);
+                    this.listener = listener;
+                    self.addEventListener("message", this.listen_message.bind(this));
+                }
+                DedicatedWorkerClientDriver.prototype.sendData = function (invoke) {
+                    postMessage(invoke.toXML().toString());
+                    for (var i = 0; i < invoke.size(); i++)
+                        if (invoke.at(i).getType() == "ByteArray")
+                            postMessage(invoke.at(i).getValue());
+                };
+                DedicatedWorkerClientDriver.prototype.listen_message = function (event) {
+                    this.handleData(event.data);
+                };
+                return DedicatedWorkerClientDriver;
+            }(protocol.Communicator));
+        })(worker = protocol.worker || (protocol.worker = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../Communicator.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var worker;
+        (function (worker) {
+            var DedicatedWorkerConnector = (function (_super) {
+                __extends(DedicatedWorkerConnector, _super);
+                function DedicatedWorkerConnector(listener) {
+                    _super.call(this);
+                    this.listener = listener;
+                    this.worker = null;
+                }
+                DedicatedWorkerConnector.prototype.connect = function (jsFile) {
+                    this.worker = new Worker(jsFile);
+                    this.worker.addEventListener("message", this.reply_message.bind(this));
+                };
+                DedicatedWorkerConnector.prototype.close = function () {
+                    this.worker.terminate();
+                };
+                DedicatedWorkerConnector.prototype.sendData = function (invoke) {
+                    this.worker.postMessage(invoke.toXML().toString());
+                    for (var i = 0; i < invoke.size(); i++)
+                        if (invoke.at(i).getType() == "ByteaArray")
+                            this.worker.postMessage(invoke.at(i).getValue());
+                };
+                DedicatedWorkerConnector.prototype.reply_message = function (event) {
+                    this.handleData(event.data);
+                };
+                return DedicatedWorkerConnector;
+            }(protocol.Communicator));
+            worker.DedicatedWorkerConnector = DedicatedWorkerConnector;
+        })(worker = protocol.worker || (protocol.worker = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../Communicator.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var worker;
+        (function (worker) {
+            var SharedWorkerConnector = (function (_super) {
+                __extends(SharedWorkerConnector, _super);
+                function SharedWorkerConnector(listener) {
+                    _super.call(this);
+                    this.listener = listener;
+                    this.driver = null;
+                }
+                SharedWorkerConnector.prototype.connect = function (jsFile, name) {
+                    if (name === void 0) { name = ""; }
+                    this.driver = new SharedWorker(jsFile, name);
+                    this.driver.port.addEventListener("message", this.reply_message.bind(this));
+                    this.driver.port.start();
+                };
+                SharedWorkerConnector.prototype.close = function () {
+                    this.driver.port.close();
+                };
+                SharedWorkerConnector.prototype.sendData = function (invoke) {
+                    this.driver.port.postMessage(invoke.toXML().toString());
+                    for (var i = 0; i < invoke.size(); i++)
+                        if (invoke.at(i).getType() == "ByteaArray")
+                            this.driver.port.postMessage(invoke.at(i).getValue());
+                };
+                SharedWorkerConnector.prototype.reply_message = function (event) {
+                    this.handleData(event.data);
+                };
+                return SharedWorkerConnector;
+            }(protocol.Communicator));
+            worker.SharedWorkerConnector = SharedWorkerConnector;
+        })(worker = protocol.worker || (protocol.worker = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var worker;
+        (function (worker) {
+            var SharedWorkerServer = (function (_super) {
+                __extends(SharedWorkerServer, _super);
+                function SharedWorkerServer() {
+                    _super.apply(this, arguments);
+                }
+                SharedWorkerServer.prototype.open = function () {
+                };
+                SharedWorkerServer.prototype.addClient = function (communicator) {
+                };
+                SharedWorkerServer.prototype.sendData = function (invoke) {
+                };
+                return SharedWorkerServer;
+            }(protocol.Server));
+            worker.SharedWorkerServer = SharedWorkerServer;
+        })(worker = protocol.worker || (protocol.worker = {}));
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 //# sourceMappingURL=samchon-framework.js.map

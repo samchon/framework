@@ -22,8 +22,9 @@ namespace samchon.protocol
 
 		public constructor(listener: IProtocol)
 		{
-			super(listener);
+			super();
 
+			this.listener = listener;
 			this.onopen = null;
 		}
 

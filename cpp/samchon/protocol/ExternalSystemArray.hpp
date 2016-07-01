@@ -1,9 +1,14 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/protocol/SharedEntityArray.hpp>
+#include <samchon/protocol/SharedEntityDeque.hpp>
 #	include <samchon/protocol/ExternalSystem.hpp>
+#include <samchon/protocol/Server.hpp>
 #include <samchon/protocol/IProtocol.hpp>
+
+#include <samchon/protocol/ClientDriver.hpp>
+
+#include <thread>
 
 namespace samchon
 {
@@ -11,18 +16,16 @@ namespace protocol
 {
 	class ExternalSystemArrayServer;
 
-	class SAMCHON_FRAMEWORK_API ExternalSystemArray
-		: public SharedEntityArray<ExternalSystem>,
+	class ExternalSystemArray
+		: public SharedEntityDeque<ExternalSystem>,
+		public virtual Server,
 		public virtual IProtocol
 	{
 		friend class ExternalSystem;
 		friend class ExternalSystemArrayServer;
 
 	private:
-		typedef SharedEntityArray<ExternalSystem> super;
-
-	protected:
-		std::unique_ptr<ExternalSystemArrayServer> server;
+		typedef SharedEntityDeque<ExternalSystem> super;
 
 	public:
 		/* =========================================================
@@ -35,38 +38,67 @@ namespace protocol
 		/**
 		 * Default Constructor.
 		 */
-		ExternalSystemArray();
-		virtual ~ExternalSystemArray();
+		ExternalSystemArray()
+			: super(),
+			Server()
+		{
+		};
+		virtual ~ExternalSystemArray() = default;
 
 	protected:
-		virtual auto createServer() -> ExternalSystemArrayServer* = 0;
+		virtual void addClient(std::shared_ptr<ClientDriver> driver)
+		{
+			ExternalSystem *system = createExternalClient(driver);
+			if (system == nullptr)
+				return;
+
+			system->communicator = driver;
+
+			emplace_back(system);
+			driver->listen(system);
+		};
 
 		/* ---------------------------------------------------------
 			CHILDREN ELEMENTS
 		--------------------------------------------------------- */
-		virtual auto createChild(std::shared_ptr<library::XML> xml) -> ExternalSystem*
-		{
-			return createSystem(xml->getProperty<std::string>("name"));
-		};
-		virtual auto createSystem(const std::string &name = "") -> ExternalSystem* = 0;
-		virtual auto createRole(const std::string &name) -> ExternalSystemRole* = 0;
+		virtual auto createChild(std::shared_ptr<library::XML> xml) -> ExternalSystem* = 0;
 
+		virtual auto createExternalClient(std::shared_ptr<ClientDriver> driver) -> ExternalSystem* = 0;
+		
 	public:
 		/* =========================================================
 			NETWORK
 				- SERVER AND CLIENT
-				- MESSAGE I/O
+				- MESSAGE CHAIN
 		============================================================
 			SERVER AND CLIENT
 		--------------------------------------------------------- */
-		void open(int port);
-		void connect();
+		virtual void open(int port) override
+		{
+			Server::open(port);
+		};
+
+		virtual void connect()
+		{
+			for (size_t i = 0; i < size(); i++)
+				if (at(i)->communicator == nullptr && at(i)->ip.empty() == false)
+					std::thread(&ExternalSystem::connect, at(i).get()).detach();
+		};
 
 		/* ---------------------------------------------------------
-			MESSAGE I/O
+			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		virtual void sendData(std::shared_ptr<Invoke>);
-		virtual void replyData(std::shared_ptr<Invoke>);
+		virtual void sendData(std::shared_ptr<Invoke> invoke)
+		{
+			for (size_t i = 0; i < size(); i++)
+				at(i)->sendData(invoke);
+		};
+
+		virtual void replyData(std::shared_ptr<Invoke> invoke)
+		{
+			for (size_t i = 0; i < size(); i++)
+				at(i)->replyData(invoke);
+		};
 
 		/* ---------------------------------------------------------
 			EXPORTERS

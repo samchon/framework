@@ -1,6 +1,6 @@
 /// <reference path="../API.ts" />
 
-/// <reference path="EntityContainer.ts" />
+/// <reference path="EntityArray.ts" />
 
 namespace samchon.protocol
 {

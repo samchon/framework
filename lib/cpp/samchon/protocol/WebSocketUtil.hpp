@@ -7,7 +7,7 @@ namespace samchon
 {
 namespace protocol
 {
-	class WebSocketUtil
+	class SAMCHON_FRAMEWORK_API WebSocketUtil
 	{
 	public:
 		enum OpCode : unsigned char
@@ -30,8 +30,6 @@ namespace protocol
 		static auto generate_base64_certification_key() -> std::string;
 
 		static auto encode_certification_key(const std::string &base64) -> std::string;
-
-		static auto issue_session_id() -> std::string;
 	};
 };
 };

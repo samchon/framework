@@ -1,100 +1,93 @@
-/// <reference path="../API.ts" />
+﻿/// <reference path="../API.ts" />
 
 /// <reference path="Entity.ts" />
 
 namespace samchon.protocol
 {
-	/**
-	 * <p> A role belongs to an external system. </p>
-	 *
-	 * <p> ExternalSystemRole is a 'control' class groupping methods, handling Invoke messages 
-	 * interacting with an external system that the ExternalSystemRole is belonged to, by a subject or 
-	 * unit of a module. <p>
-	 *
-	 * <p> ExternalSystemRole can be a "logical proxy" for an ExternalSystem which is containing the 
-	 * ExternalSystemRole. Of course, the ExternalSystemRole is belonged to an ExternalSystem. However, 
-	 * if you access an ExternalSystemRole from an ExternalSystemArray directly, not passing by a 
-	 * belonged ExternalSystem, and send an Invoke message even you're not knowing which ExternalSystem 
-	 * is related in, the ExternalSystemRole acted a role of proxy. </p>
-	 *
-	 * <p> It's called as "Proxy pattern". With the pattern, you can only concentrate on 
-	 * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole 
-	 * is belonged to which ExternalSystem. </p>
-	 *
-	 * @author Jeongho Nam <http://samchon.org>
-	 */
-	export class ExternalSystemRole
-		extends Entity
+	export abstract class ExternalSystem
+		extends EntityArrayCollection<ExternalSystemRole>
 		implements IProtocol
 	{
-		/**
-		 * <p> A driver of external system containing the ExternalSystemRole. </p>
-		 */
-		protected system: ExternalSystem;
+		private systemArray: ExternalSystemArray;
+		private communicator: Communicator;
 
-		/**
-		 * <p> A name representing the role. </p>
-		 */
 		protected name: string;
+		protected ip: string;
+		protected port: number;
 
-		protected sendListeners: std.HashSet<string>;
-
-		/* ------------------------------------------------------------------
+		/* ---------------------------------------------------------
 			CONSTRUCTORS
-		------------------------------------------------------------------ */
-		/**
-		 * <p> Construct from external system driver. </p>
-		 *
-		 * @param system A driver of external system the ExternalSystemRole is belonged to.
-		 */
-		public constructor(system: ExternalSystem)
+		--------------------------------------------------------- */
+		public constructor(systemArray: ExternalSystemArray)
 		{
 			super();
 
-			this.system = system;
-			this.sendListeners = new std.HashSet<string>();
-		}
-		public construct(xml: library.XML): void
-		{
-			super.construct(xml);
+			this.systemArray = systemArray;
+			this.communicator = null;
 		}
 
-		/* ------------------------------------------------------------------
-			GETTERS
-		------------------------------------------------------------------ */
+		protected abstract createServerConnector(): ServerConnector;
+
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		public key(): string
+		{
+			return this.name;
+		}
+
+		public getSystemArray(): ExternalSystemArray
+		{
+			return this.systemArray;
+		}
 		public getName(): string
 		{
 			return this.name;
 		}
-		public hasSendListener(key: string): boolean
+		public getIP(): string
 		{
-			return this.sendListeners.has(key);
+			return this.ip;
+		}
+		public getPort(): number
+		{
+			return this.port;
 		}
 
-		/* ------------------------------------------------------------------
-			CHAIN OF INVOKE MESSAGE
-		------------------------------------------------------------------ */
+		/* ---------------------------------------------------------
+			NETWORK & MESSAGE CHAIN
+		--------------------------------------------------------- */
+		public connect(): void
+		{
+			if (this.communicator == null || this.ip == undefined)
+				return;
+
+			this.communicator = this.createServerConnector();
+			(this.communicator as ServerConnector).connect(this.ip, this.port);
+		}
+
 		public sendData(invoke: Invoke): void
 		{
-			this.system.sendData(invoke);
+			this.communicator.sendData(invoke);
 		}
 		public replyData(invoke: Invoke): void
 		{
 			invoke.apply(this);
+
+			this.systemArray.replyData(invoke);
+			for (let i: number = 0; i < this.size(); i++)
+				this.at(i).replyData(invoke);
 		}
 
-		/* ------------------------------------------------------------------
+		/* ---------------------------------------------------------
 			EXPORTERS
-		------------------------------------------------------------------ */
+		--------------------------------------------------------- */
 		public TAG(): string
 		{
-			return "role";
+			return "system";
 		}
-		public toXML(): library.XML
+		public CHILD_TAG(): string
 		{
-			let xml: library.XML = super.toXML();
-			
-			return xml;
+			return "role";
 		}
 	}
 }

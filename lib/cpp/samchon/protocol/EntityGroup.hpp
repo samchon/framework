@@ -44,7 +44,7 @@ namespace protocol
 	 * @warning
 	 * <p> EntityGroup contains children entity elements as type of pointer. Because children entity
 	 * objects are not serialized and referenced by pointer, its iteration and accessment is not fast.
-	 * If it needs higher performance, then use EntityArray (static array for children entity) instead. </p> 
+	 * If it needs higher performance, then use StaticEntityArray (static array for children entity) instead. </p> 
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

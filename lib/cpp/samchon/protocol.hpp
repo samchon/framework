@@ -19,7 +19,7 @@
 #include <samchon/protocol/InvokeHistoryArray.hpp>
 
 #include <samchon/protocol/IProtocol.hpp>
-#include <samchon/protocol/IServer.hpp>
+#include <samchon/protocol/Server.hpp>
 #include <samchon/protocol/IClient.hpp>
 #include <samchon/protocol/ServerConnector.hpp>
 

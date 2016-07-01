@@ -4,16 +4,8 @@
 
 namespace samchon.protocol
 {
-	export interface IServerConnector extends ICommunicator
-	{
-		onopen: Function;
-
-		connect(ip: string, port: number): void;
-	}
-
 	export abstract class ServerConnector
 		extends Communicator
-		implements IServerConnector
 	{
 		/**
 		 * <p> An open-event listener. </p>

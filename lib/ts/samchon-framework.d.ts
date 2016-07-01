@@ -1401,10 +1401,13 @@ declare namespace samchon.protocol {
 declare namespace samchon.protocol {
     abstract class WebServer extends Server {
         private http_server;
+        private sequence;
+        constructor();
         open(port: number): void;
         protected abstract addClient(driver: WebClientDriver): void;
-        getPort(): number;
         private handle_request(request);
+        private get_session_id(cookies);
+        private issue_session_id();
     }
 }
 declare namespace samchon.protocol {
@@ -1413,7 +1416,7 @@ declare namespace samchon.protocol {
     abstract class Communicator implements ICommunicator {
         protected listener: IProtocol;
         private binary_invoke;
-        constructor(listener?: IProtocol);
+        constructor();
         abstract sendData(invoke: Invoke): void;
         replyData(invoke: Invoke): void;
         protected handleData(data: any): void;
@@ -1463,7 +1466,7 @@ declare namespace samchon.protocol {
         /**
          * <p> Constructor with parent. </p>
          */
-        constructor(parent: IProtocol);
+        constructor(listener: IProtocol);
         /**
          * <p> Connects to a cloud server with specified host and port. </p>
          *
@@ -2226,8 +2229,8 @@ declare namespace samchon.library {
 }
 declare namespace samchon.protocol {
     abstract class ClientDriver extends Communicator {
-        setListener(listener: IProtocol): void;
-        abstract listen(): void;
+        constructor();
+        abstract listen(listener: IProtocol): void;
     }
 }
 declare namespace samchon.protocol {
@@ -3031,13 +3034,13 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     class WebClientDriver extends ClientDriver {
-        private request;
         private connection;
-        constructor(request: websocket.request);
-        listen(): void;
+        private path;
+        private session_id;
+        constructor(connection: websocket.connection, path: string, session_id: string);
+        listen(listener: IProtocol): void;
         getPath(): string;
-        hasCookie(key: string): boolean;
-        getCookie(key: string): string;
+        getSessionID(): string;
         sendData(invoke: Invoke): void;
         private handle_message(message);
     }
@@ -3109,12 +3112,17 @@ declare namespace samchon.protocol.service {
 }
 declare namespace samchon.protocol.service {
     abstract class Client implements protocol.IProtocol {
-        protected user: User;
-        protected service: Service;
-        private sequence;
+        private user;
+        private service;
         private driver;
-        constructor(user: User);
+        private no;
+        /**
+         * Default Constructor.
+         */
+        constructor();
         protected abstract createService(path: string): Service;
+        getUser(): User;
+        getService(): Service;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
     }
@@ -3141,27 +3149,28 @@ declare namespace samchon.protocol.service {
 declare namespace samchon.protocol.service {
     abstract class Server extends protocol.WebServer implements IProtocol {
         private session_map;
-        private session_sequence;
         private account_map;
         /**
          * Default Constructor.
          */
         constructor();
         protected abstract createUser(): User;
-        hasAccount(account: string): boolean;
-        getUser(account: string): User;
-        getUsers(): std.Vector<User>;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
         protected addClient(driver: WebClientDriver): void;
-        private issue_session_id();
+        private erase_user(user);
     }
 }
 declare namespace samchon.protocol.service {
     abstract class Service implements protocol.IProtocol {
-        protected client: Client;
-        protected path: string;
-        constructor(client: Client);
+        private client;
+        private path;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        protected abstract start(): void;
+        getClient(): Client;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
     }
@@ -3170,20 +3179,23 @@ declare namespace samchon.protocol.service {
 }
 declare namespace samchon.protocol.service {
     abstract class User implements protocol.IProtocol {
-        protected server: Server;
-        protected clients: std.TreeMap<number, Client>;
-        protected account: string;
-        protected authority: number;
+        private server;
+        private client_map;
         private session_id;
-        private client_sequence;
-        constructor(server: Server);
-        protected abstract createClient(): Client;
-        protected setAccount(account: string, authority: number): void;
+        private sequence;
+        private account;
+        private authority;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        abstract createClient(): Client;
+        getServer(): Server;
         getAccount(): string;
         getAuthority(): number;
+        protected setAccount(account: string, authority: number): void;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
-        protected logout(): void;
     }
 }
 declare namespace samchon.protocol.slave {

@@ -1,12 +1,14 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/protocol/SharedEntityArray.hpp>
+#include <samchon/protocol/SharedEntityDeque.hpp>
 #	include <samchon/protocol/ExternalSystem.hpp>
 #include <samchon/protocol/Server.hpp>
 #include <samchon/protocol/IProtocol.hpp>
 
 #include <samchon/protocol/ClientDriver.hpp>
+
+#include <thread>
 
 namespace samchon
 {
@@ -15,23 +17,21 @@ namespace protocol
 	class ExternalSystemArrayServer;
 
 	class ExternalSystemArray
-		: public SharedEntityArray<ExternalSystem>,
-		public virtual Server,
+		: public SharedEntityDeque<ExternalSystem>,
+		public virtual Server, // YOU CAN REPLACE IT -> WebServer
 		public virtual IProtocol
 	{
 		friend class ExternalSystem;
 		friend class ExternalSystemArrayServer;
 
 	private:
-		typedef SharedEntityArray<ExternalSystem> super;
+		typedef SharedEntityDeque<ExternalSystem> super;
 
 	public:
-		/* =========================================================
+		/* ---------------------------------------------------------
 			CONSTRUCTORS
-				- MEMBERS
-				- CHILDREN ELEMENTS
-		============================================================
-			MEMBERS
+				- DEFAULT
+				- FACTORY METHOD FOR SERVER
 		--------------------------------------------------------- */
 		/**
 		 * Default Constructor.
@@ -46,37 +46,63 @@ namespace protocol
 	protected:
 		virtual void addClient(std::shared_ptr<ClientDriver> driver)
 		{
-			ExternalSystem *system = createSystem("");
+			ExternalSystem *system = createClient(driver);
+			if (system == nullptr)
+				return;
+
 			system->communicator = driver;
 
 			emplace_back(system);
 			driver->listen(system);
 		};
 
-		/* ---------------------------------------------------------
-			CHILDREN ELEMENTS
-		--------------------------------------------------------- */
-		virtual auto createChild(std::shared_ptr<library::XML> xml) -> ExternalSystem*
-		{
-			return createSystem(xml->getProperty<std::string>("name"));
-		};
-		virtual auto createSystem(const std::string &name = "") -> ExternalSystem* = 0;
+		virtual auto createClient(std::shared_ptr<ClientDriver> driver) -> ExternalSystem* = 0;
 		
 	public:
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		auto hasRole(const std::string &key) const -> bool
+		{
+			for (size_t i = 0; i < size(); i++)
+				for (size_t j = 0; j < at(i)->size(); j++)
+					if (at(i)->at(j)->key() == key)
+						return true;
+
+			return false;
+		};
+
+		auto getRole(const std::string &key) const -> std::shared_ptr<ExternalSystemRole>
+		{
+			for (size_t i = 0; i < size(); i++)
+				for (size_t j = 0; j < at(i)->size(); j++)
+					if (at(i)->at(j)->key() == key)
+						return at(i)->at(j);
+
+			throw std::out_of_range("No such key.");
+		};
+
 		/* =========================================================
 			NETWORK
 				- SERVER AND CLIENT
-				- MESSAGE I/O
+				- MESSAGE CHAIN
 		============================================================
 			SERVER AND CLIENT
 		--------------------------------------------------------- */
-		void connect()
+		virtual void open(int port) override
 		{
+			Server::open(port);
+		};
 
+		virtual void connect()
+		{
+			for (size_t i = 0; i < size(); i++)
+				if (at(i)->communicator == nullptr && at(i)->ip.empty() == false)
+					std::thread(&ExternalSystem::connect, at(i).get()).detach();
 		};
 
 		/* ---------------------------------------------------------
-			MESSAGE I/O
+			MESSAGE CHAIN
 		--------------------------------------------------------- */
 		virtual void sendData(std::shared_ptr<Invoke> invoke)
 		{
@@ -97,6 +123,7 @@ namespace protocol
 		{
 			return "systemArray";
 		};
+
 		virtual auto CHILD_TAG() const -> std::string override
 		{
 			return "system";

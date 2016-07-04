@@ -39,12 +39,6 @@
     <ClInclude Include="..\samchon\library\ErrorEvent.hpp" />
     <ClInclude Include="..\samchon\library\Event.hpp" />
     <ClInclude Include="..\samchon\library\FactorialGenerator.hpp" />
-    <ClInclude Include="..\samchon\library\FTByteFile.hpp" />
-    <ClInclude Include="..\samchon\library\FTFactory.hpp" />
-    <ClInclude Include="..\samchon\library\FTFile.hpp" />
-    <ClInclude Include="..\samchon\library\FTFolder.hpp" />
-    <ClInclude Include="..\samchon\library\FTInstance.hpp" />
-    <ClInclude Include="..\samchon\library\FTTextFile.hpp" />
     <ClInclude Include="..\samchon\library\GAParameters.hpp" />
     <ClInclude Include="..\samchon\library\GAPopulation.hpp" />
     <ClInclude Include="..\samchon\library\GeneticAlgorithm.hpp" />
@@ -114,13 +108,10 @@
     <ClInclude Include="..\samchon\protocol\UniqueEntityList.hpp" />
     <ClInclude Include="..\samchon\SmartPointer.hpp" />
     <ClInclude Include="..\samchon\WeakString.hpp" />
+    <ClInclude Include="ParallelSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samchon\library\Charset.cpp" />
-    <ClCompile Include="..\samchon\library\FTFactory.cpp" />
-    <ClCompile Include="..\samchon\library\FTFile.cpp" />
-    <ClCompile Include="..\samchon\library\FTFolder.cpp" />
-    <ClCompile Include="..\samchon\library\FTInstance.cpp" />
     <ClCompile Include="..\samchon\library\HTTPLoader.cpp" />
     <ClCompile Include="..\samchon\library\EventDispatcher.cpp" />
     <ClCompile Include="..\samchon\library\SQLi.cpp" />

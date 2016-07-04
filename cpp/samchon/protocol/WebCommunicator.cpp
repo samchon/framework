@@ -70,7 +70,7 @@ auto WebCommunicator::listen_header() -> pair<unsigned char, size_t>
 	size_t content_size = 0;
 
 	// READ HEADER BYTES
-	size_t listen_size = socket->read_some(boost::asio::buffer(header_bytes));
+	websocket::listen_data(socket, header_bytes);
 	op_code = header_bytes[0];
 	size_header = header_bytes[1];
 
@@ -98,7 +98,7 @@ auto WebCommunicator::listen_header() -> pair<unsigned char, size_t>
 	{
 		// SIZE HEADER IS 2 BYTES
 		array<unsigned char, 2> size_bytes;
-		socket->read_some(boost::asio::buffer(size_bytes));
+		websocket::listen_data(socket, size_bytes);
 
 		for (size_t c = 0; c < size_bytes.size(); c++)
 			content_size += size_bytes[c] << (8 * (size_bytes.size() - 1 - c));
@@ -107,7 +107,7 @@ auto WebCommunicator::listen_header() -> pair<unsigned char, size_t>
 	{
 		// SIZE HEADER IS 8 BYTES
 		array<unsigned char, 8> size_bytes;
-		socket->read_some(boost::asio::buffer(size_bytes));
+		websocket::listen_data(socket, size_bytes);
 
 		for (size_t c = 0; c < size_bytes.size(); c++)
 			content_size += size_bytes[c] << (8 * (size_bytes.size() - 1 - c));

@@ -12,6 +12,8 @@ namespace samchon.protocol
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
+				- DEFAULT
+				- FACTORY METHOD FOR SERVER
 		--------------------------------------------------------- */
 		/**
 		 * Default Constructor.
@@ -20,16 +22,14 @@ namespace samchon.protocol
 		{
 			super();
 		}
+		
+		protected abstract createServer(): IExtServer;
 
-		public abstract createChild(xml: library.XML): ExternalSystem;
-
-		protected abstract createExternalClient(driver: ClientDriver): ExternalSystem;
-
-		protected abstract createServer(): Server;
+		protected abstract createClient(driver: ClientDriver): ExternalSystem;
 
 		protected addClient(driver: ClientDriver): void
 		{
-			let system: ExternalSystem = this.createExternalClient(driver);
+			let system: ExternalSystem = this.createClient(driver);
 			if (system == null)
 				return;
 
@@ -37,6 +37,29 @@ namespace samchon.protocol
 			driver.listen(system);
 
 			this.push_back(system);
+		}
+
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		public hasRole(key: string): boolean
+		{
+			for (let i: number = 0; i < this.size(); i++)
+				for (let j: number = 0; j < this.at(i).size(); j++)
+					if (this.at(i).at(j).key() == key)
+						return true;
+
+			return false;
+		}
+		
+		public getRole(key: string): ExternalSystemRole
+		{
+			for (let i: number = 0; i < this.size(); i++)
+				for (let j: number = 0; j < this.at(i).size(); j++)
+					if (this.at(i).at(j).key() == key)
+						return this.at(i).at(j);
+
+			throw new std.OutOfRange("No role with such name.");
 		}
 
 		/* ---------------------------------------------------------
@@ -59,6 +82,7 @@ namespace samchon.protocol
 			for (let i: number = 0; i < this.size(); i++)
 				this.at(i).sendData(invoke);
 		}
+
 		public replyData(invoke: Invoke): void
 		{
 			invoke.apply(this);

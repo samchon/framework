@@ -48,16 +48,8 @@ void Communicator::listen(IProtocol *listener)
 
 	while (true)
 	{
-		///////
 		// READ CONTENT SIZE
-		///////
-		// READ SIZE HEADER
-		array<unsigned char, 8> size_header;
-		socket->read_some(boost::asio::buffer(size_header));
-
-		size_t content_size = 0;
-		for (size_t c = 0; c < size_header.size(); c++)
-			content_size += size_header[c] << (8 * (size_header.size() - 1 - c));
+		size_t content_size = listen_size();
 
 		// READ CONTENT
 		if (binary_invoke == nullptr)
@@ -65,6 +57,18 @@ void Communicator::listen(IProtocol *listener)
 		else
 			listen_binary(content_size, binary_invoke);
 	}
+}
+
+auto Communicator::listen_size() const -> size_t
+{
+	array<unsigned char, 8> size_header;
+	listen_data(socket, size_header);
+
+	size_t size = 0;
+	for (size_t c = 0; c < size_header.size(); c++)
+		size += size_header[c] << (8 * (size_header.size() - 1 - c));
+
+	return size;
 }
 
 auto Communicator::listen_string(size_t size) -> shared_ptr<Invoke>

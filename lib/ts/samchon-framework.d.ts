@@ -11,12 +11,6 @@ declare module "samchon-framework"
 {
         export = samchon;
 }
-
-declare namespace samchon
-{
-        export import http = NodeJS.http;
-        export import websocket = __websocket;
-}
 declare namespace samchon {
     /**
      * <p> Running on Node. </p>
@@ -26,6 +20,11 @@ declare namespace samchon {
      * @references http://stackoverflow.com/questions/17575790/environment-detection-node-js-or-browser
      */
     function is_node(): boolean;
+}
+declare namespace samchon {
+    var http: typeof NodeJS.http;
+    var websocket: typeof __websocket;
+    var net: typeof NodeJS.net;
 }
 /**
  * Samchon Framework, A SDN framework.
@@ -1399,6 +1398,41 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
+    abstract class NormalServer extends Server {
+        private server;
+        open(port: number): void;
+        private handle_connect(socket);
+    }
+}
+declare namespace samchon.protocol {
+    abstract class Communicator {
+        protected listener: IProtocol;
+        constructor();
+        abstract sendData(invoke: Invoke): void;
+        replyData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class ServerConnector extends Communicator {
+        /**
+         * <p> An open-event listener. </p>
+         */
+        onopen: Function;
+        constructor(listener: IProtocol);
+        abstract connect(ip: string, port: number): void;
+    }
+}
+declare namespace samchon.protocol {
+    class NormalServerConnector extends ServerConnector {
+        private socket;
+        private base;
+        constructor(listener: IProtocol);
+        connect(ip: string, port: number): void;
+        private handle_connect(...arg);
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
     abstract class WebServer extends Server {
         private http_server;
         private sequence;
@@ -1408,32 +1442,6 @@ declare namespace samchon.protocol {
         private handle_request(request);
         private get_session_id(cookies);
         private issue_session_id();
-    }
-}
-declare namespace samchon.protocol {
-    interface ICommunicator extends IProtocol {
-    }
-    abstract class Communicator implements ICommunicator {
-        protected listener: IProtocol;
-        private binary_invoke;
-        constructor();
-        abstract sendData(invoke: Invoke): void;
-        replyData(invoke: Invoke): void;
-        protected handleData(data: any): void;
-    }
-}
-declare namespace samchon.protocol {
-    interface IServerConnector extends ICommunicator {
-        onopen: Function;
-        connect(ip: string, port: number): void;
-    }
-    abstract class ServerConnector extends Communicator implements IServerConnector {
-        /**
-         * <p> An open-event listener. </p>
-         */
-        onopen: Function;
-        constructor(listener: IProtocol);
-        abstract connect(ip: string, port: number): void;
     }
 }
 declare namespace samchon.protocol {
@@ -1461,8 +1469,7 @@ declare namespace samchon.protocol {
          */
         private socket;
         private client;
-        private connection;
-        private static cookies;
+        private base;
         /**
          * <p> Constructor with parent. </p>
          */
@@ -1501,7 +1508,6 @@ declare namespace samchon.protocol {
          */
         private handle_browser_message(event);
         private handle_node_connect(connection);
-        private handle_node_message(message);
     }
 }
 declare namespace samchon.example {
@@ -2234,142 +2240,24 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    /**
-     * @inheritdoc
-     */
-    interface IEntityCollection<T extends IEntity> extends IEntityGroup<T>, collection.ICollection<T> {
+    abstract class DedicatedWorker implements IProtocol {
+        private communicator;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        sendData(invoke: Invoke): void;
+        abstract replyData(invoke: Invoke): void;
     }
-    /**
-     * @inheritdoc
-     */
-    abstract class EntityArrayCollection<T extends IEntity> extends collection.ArrayCollection<T> implements IEntityCollection<T> {
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * @inheritdoc
-         */
-        abstract createChild(xml: library.XML): T;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
-        /**
-         * @inheritdoc
-         */
-        /**
-         * @inheritdoc
-         */
-        has(key: any): boolean;
-        /**
-         * @inheritdoc
-         */
-        count(key: any): number;
-        /**
-         * @inheritdoc
-         */
-        get(key: any): T;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        abstract CHILD_TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-    }
-    /**
-     * @inheritdoc
-     */
-    abstract class EntityListCollection<T extends IEntity> extends collection.ListCollection<T> implements IEntityCollection<T> {
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * @inheritdoc
-         */
-        abstract createChild(xml: library.XML): T;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
-        /**
-         * @inheritdoc
-         */
-        /**
-         * @inheritdoc
-         */
-        has(key: any): boolean;
-        /**
-         * @inheritdoc
-         */
-        count(key: any): number;
-        /**
-         * @inheritdoc
-         */
-        get(key: any): T;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        abstract CHILD_TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-    }
-    /**
-     * @inheritdoc
-     */
-    abstract class EntityDequeCollection<T extends IEntity> extends collection.DequeCollection<T> implements IEntityCollection<T> {
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * @inheritdoc
-         */
-        abstract createChild(xml: library.XML): T;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
-        /**
-         * @inheritdoc
-         */
-        /**
-         * @inheritdoc
-         */
-        has(key: any): boolean;
-        /**
-         * @inheritdoc
-         */
-        count(key: any): number;
-        /**
-         * @inheritdoc
-         */
-        get(key: any): T;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        abstract CHILD_TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
+}
+declare namespace samchon.protocol {
+    class DedicatedWorkerConnector extends Communicator {
+        private worker;
+        constructor(listener: IProtocol);
+        connect(jsFile: string): void;
+        close(): void;
+        sendData(invoke: Invoke): void;
+        private reply_message(event);
     }
 }
 declare namespace samchon.protocol {
@@ -2597,138 +2485,207 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     /**
-     * <p> A network driver for an external system. </p>
-     *
-     * <p> ExternalSystem is a boundary class interacting with an external system by network communication.
-     * Also, ExternalSystem is an abstract class that a network role, which one is server and which one is
-     * client, is not determined yet. </p>
-     *
-     * <p> The ExternalSystem has ExternalSystemRole(s) groupped methods, handling Invoke message
-     * interacting with the external system, by subject or unit of a moudle. The ExternalSystemRole is
-     * categorized in a 'control'. </p>
-     *
-     * <h4> Note </h4>
-     * <p> The ExternalSystem class takes a role of interaction with external system in network level.
-     * However, within a framework of Samchon Framework, a boundary class like the ExternalSystem is
-     * not such important. You can find some evidence in a relationship between ExternalSystemArray,
-     * ExternalSystem and ExternalSystemRole. </p>
-     *
-     * <p> Of course, the ExternalSystemRole is belonged to an ExternalSystem. However, if you
-     * access an ExternalSystemRole from an ExternalSystemArray directly, not passing by a belonged
-     * ExternalSystem, and send an Invoke message even you're not knowing which ExternalSystem is
-     * related in, it's called "Proxy pattern".
-     *
-     * <p> Like the explanation of "Proxy pattern", you can utilize an ExternalSystemRole as a proxy
-     * of an ExternalSystem. With the pattern, you can only concentrate on ExternalSystemRole itself,
-     * what to do with Invoke message, irrespective of the ExternalSystemRole is belonged to which
-     * ExternalSystem. </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
+     * @inheritdoc
      */
-    abstract class ExternalSystem extends EntityArray<ExternalSystemRole> implements IProtocol {
+    interface IEntityCollection<T extends IEntity> extends IEntityGroup<T>, collection.ICollection<T> {
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityArrayCollection<T extends IEntity> extends collection.ArrayCollection<T> implements IEntityCollection<T> {
         /**
-         * <p> A driver for interacting with (real, physical) external system. </p>
+         * @inheritdoc
          */
-        protected driver: WebServerConnector;
+        construct(xml: library.XML): void;
         /**
-         * <p> A name can identify an external system. </p>
-         *
-         * <p> The name must be unique in ExternalSystemArray. </p>
+         * @inheritdoc
          */
-        protected name: string;
+        abstract createChild(xml: library.XML): T;
         /**
-         * <p> An ip address of an external system. </p>
+         * @inheritdoc
          */
-        protected ip: string;
-        /**
-         * <p> A port number of an external system. </p>
-         */
-        protected port: number;
-        /**
-         * <p> Default Constructor. </p>
-         */
-        constructor();
-        /**
-         * <p> Start interaction. </p>
-         * <p> An abstract method starting interaction with an external system. </p>
-         *
-         * <p> If an external systems are a server, starts connection and listening Inovoke message,
-         * else clients, just starts listening only. You also can addict your own procudures of starting
-         * the driver, but if you directly override method of abstract ExternalSystem, be careful about
-         * virtual inheritance. </p>
-         */
-        start(): void;
         key(): any;
         /**
-         * <p> Get name. </p>
+         * @inheritdoc
          */
-        getName(): string;
         /**
-         * <p> Get ip address of the external system. </p>
+         * @inheritdoc
          */
-        getIP(): string;
+        has(key: any): boolean;
         /**
-         * <p> Get port number of the external system. </p>
+         * @inheritdoc
          */
-        getPort(): number;
-        sendData(invoke: Invoke): void;
-        replyData(invoke: Invoke): void;
-        TAG(): string;
-        CHILD_TAG(): string;
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: any): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityListCollection<T extends IEntity> extends collection.ListCollection<T> implements IEntityCollection<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: any): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityDequeCollection<T extends IEntity> extends collection.DequeCollection<T> implements IEntityCollection<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: any): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
     }
 }
 declare namespace samchon.protocol {
-    /**
-     * <p> An array of ExternalSystem(s). </p>
-     *
-     * <p> ExternalSystemArray is an abstract class containing and managing external system drivers. </p>
-     *
-     * <p> Also, ExternalSystemArray can access to ExternalSystemRole(s) directly. With the method, you
-     * can use an ExternalSystemRole as "logical proxy" of an ExternalSystem. Of course, the
-     * ExternalSystemRole is belonged to an ExternalSystem. However, if you access an ExternalSystemRole
-     * from an ExternalSystemArray directly, not passing by a belonged ExternalSystem, and send an Invoke
-     * message even you're not knowing which ExternalSystem is related in, the ExternalSystemRole acted
-     * a role of proxy. </p>
-     *
-     * <p> It's called as "Proxy pattern". With the pattern, you can only concentrate on
-     * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole
-     * is belonged to which ExternalSystem. </p>
-     *
-     * <ul>
-     *  <li> ExternalSystemArray::getRole("something")->sendData(invoke); </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalSystemArray extends EntityArray<ExternalSystem> implements IProtocol {
+    abstract class SharedWorkerServer extends Server {
+        open(): void;
+    }
+}
+declare namespace samchon.protocol {
+    class SharedWorkerClientDriver extends ClientDriver {
+        listen(listener: IProtocol): void;
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    class SharedWorkerConnector extends Communicator {
+        private driver;
+        constructor(listener: IProtocol);
+        connect(jsFile: string): void;
+        connect(jsFile: string, name: string): void;
+        close(): void;
+        sendData(invoke: Invoke): void;
+        private reply_message(event);
+    }
+}
+declare namespace samchon.protocol {
+    interface IExtServer extends Server {
+    }
+    class ExtWebServer extends WebServer implements IExtServer {
+        private system_array;
+        constructor(system_array: ExternalSystemArray);
+        protected addClient(driver: ClientDriver): void;
+    }
+    class ExtSharedWorkerServer extends SharedWorkerServer implements IExtServer {
+        private system_array;
+        constructor(system_array: ExternalSystemArray);
+        protected addClient(driver: ClientDriver): void;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class ExternalSystemRole extends Entity implements IProtocol {
+        private system;
+        private name;
+        constructor(system: ExternalSystem);
+        setSystem(system: ExternalSystem): void;
+        key(): string;
+        getSystem(): ExternalSystem;
+        getName(): string;
+        sendData(invoke: Invoke): void;
+        replyData(invoke: Invoke): void;
+        TAG(): string;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class ExternalSystemArray extends EntityArrayCollection<ExternalSystem> implements IProtocol {
+        private server;
         /**
          * Default Constructor.
          */
         constructor();
-        /**
-         * <p> Start interaction. </p>
-         * <p> An abstract method starting interaction with external systems. </p>
-         *
-         * <p> If external systems are servers, starts connection to them, else clients, opens a server
-         * and accepts the external systems. You can addict your own procudures of starting drivers, but
-         * if you directly override method of abstract ExternalSystemArray, be careful about virtual
-         * inheritance. </p>
-         */
-        start(): void;
-        /**
-         * <p> Test whether has a role. </p>
-         *
-         * @param name Name of an ExternalSystemRole.
-         * @return Whether has or not.
-         */
+        protected abstract createServer(): IExtServer;
+        protected abstract createClient(driver: ClientDriver): ExternalSystem;
+        protected addClient(driver: ClientDriver): void;
         hasRole(key: string): boolean;
-        /**
-         * <p> Get a role. </p>
-         *
-         * @param name Name of an ExternalSystemRole
-         * @return A shared pointer of specialized role
-         */
         getRole(key: string): ExternalSystemRole;
+        open(port: number): void;
+        connect(): void;
         sendData(invoke: Invoke): void;
         replyData(invoke: Invoke): void;
         TAG(): string;
@@ -2736,48 +2693,24 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    /**
-     * <p> A role belongs to an external system. </p>
-     *
-     * <p> ExternalSystemRole is a 'control' class groupping methods, handling Invoke messages
-     * interacting with an external system that the ExternalSystemRole is belonged to, by a subject or
-     * unit of a module. <p>
-     *
-     * <p> ExternalSystemRole can be a "logical proxy" for an ExternalSystem which is containing the
-     * ExternalSystemRole. Of course, the ExternalSystemRole is belonged to an ExternalSystem. However,
-     * if you access an ExternalSystemRole from an ExternalSystemArray directly, not passing by a
-     * belonged ExternalSystem, and send an Invoke message even you're not knowing which ExternalSystem
-     * is related in, the ExternalSystemRole acted a role of proxy. </p>
-     *
-     * <p> It's called as "Proxy pattern". With the pattern, you can only concentrate on
-     * ExternalSystemRole itself, what to do with Invoke message, irrespective of the ExternalSystemRole
-     * is belonged to which ExternalSystem. </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class ExternalSystemRole extends Entity implements IProtocol {
-        /**
-         * <p> A driver of external system containing the ExternalSystemRole. </p>
-         */
-        protected system: ExternalSystem;
-        /**
-         * <p> A name representing the role. </p>
-         */
+    abstract class ExternalSystem extends EntityArrayCollection<ExternalSystemRole> implements IProtocol {
+        private systemArray;
+        private communicator;
         protected name: string;
-        protected sendListeners: std.HashSet<string>;
-        /**
-         * <p> Construct from external system driver. </p>
-         *
-         * @param system A driver of external system the ExternalSystemRole is belonged to.
-         */
-        constructor(system: ExternalSystem);
-        construct(xml: library.XML): void;
+        protected ip: string;
+        protected port: number;
+        constructor(systemArray: ExternalSystemArray);
+        protected abstract createServerConnector(): ServerConnector;
+        key(): string;
+        getSystemArray(): ExternalSystemArray;
         getName(): string;
-        hasSendListener(key: string): boolean;
+        getIP(): string;
+        getPort(): number;
+        connect(): void;
         sendData(invoke: Invoke): void;
         replyData(invoke: Invoke): void;
         TAG(): string;
-        toXML(): library.XML;
+        CHILD_TAG(): string;
     }
 }
 declare namespace samchon.protocol {
@@ -2880,88 +2813,6 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     /**
-     * <p> A history of an Invoke message. </p>
-     *
-     * <p> InvokeHistory is a class for reporting history log of an Invoke message with elapsed time
-     * from a slave to its master.</p>
-     *
-     * <p> With the elapsed time, consumed time for a process of handling the Invoke message,
-     * InvokeHistory is reported to the master. The master utilizies the elapsed time to estimating
-     * performances of each slave system. With the estimated performan index, master retrives the
-     * optimal solution of distributing processes. </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class InvokeHistory extends Entity {
-        /**
-         * <p> An identifier. </p>
-         */
-        protected uid: number;
-        /**
-         * <p> A listener of the Invoke message. </p>
-         *
-         * <p> InvokeHistory does not archive entire data of an Invoke message. InvokeHistory only
-         * archives its listener. The first, formal reason is to save space, avoid wasting spaces. </p>
-         *
-         * <p> The second, complicate reason is on an aspect of which systems are using the
-         * InvokeHistory class. InvokeHistory is designed to let slave reports to master elapsed time
-         * of a process used to handling the Invoke message. If you want to archive entire history log
-         * of Invoke messages, then the subject should be master, not the slave using InvokeHistory
-         * classes. </p>
-         */
-        protected listener: string;
-        /**
-         * <p> Start time of the history. </p>
-         *
-         * <p> Means start time of a process handling the Invoke message. The start time not only
-         * has ordinary arguments represented Datetime (year to seconds), but also has very precise
-         * values under seconds, which is expressed as nano seconds (10^-9). </p>
-         *
-         * <p> The precise start time will be used to calculate elapsed time with end time. </p>
-         */
-        protected startTime: Date;
-        /**
-         * <p> End time of the history. </p>
-         *
-         * @details
-         * <p> Means end time of a process handling the Invoke message. The end time not only
-         * has ordinary arguments represented Datetime (year to seconds), but also has very precise
-         * values under seconds, which is expressed as nano seconds (10^-9). </p>
-         *
-         * <p> The precise end time will be used to calculate elapsed time with start time. </p>
-         */
-        protected endTime: Date;
-        /**
-         * <p> Construct from an Invoke message. </p>
-         *
-         * <p> InvokeHistory does not archive entire Invoke message, only archives its listener. </p>
-         *
-         * @param invoke A message to archive its history log
-         */
-        constructor(invoke: Invoke);
-        /**
-         * <p> Notify end of the process. </p>
-         *
-         * <p> Notifies end of a process handling the matched Invoke message to InvokeHistory. </p>
-         * <p> InvokeHistory archives the end datetime and calculates elapsed time as nanoseconds. </p>
-         */
-        notifyEnd(): void;
-        TAG(): string;
-        toXML(): library.XML;
-        /**
-         * <p> Get an Invoke message. </p>
-         *
-         * <p> Returns an Invoke message to report to a master that how much time was elapsed on a
-         * process handling the Invoke message. In master, those reports are used to estimate
-         * performance of each slave system. </p>
-         *
-         * @return An Invoke message to report master.
-         */
-        toInvoke(): Invoke;
-    }
-}
-declare namespace samchon.protocol {
-    /**
      * A parameter belongs to an Invoke.
      *
      * @see Invoke
@@ -3033,80 +2884,50 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
+    class NormalClientDriver extends ClientDriver {
+        private base;
+        constructor(socket: NodeJS.net.Socket);
+        listen(listener: IProtocol): void;
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    class NormalCommunicatorBase implements IProtocol {
+        private communicator;
+        private socket;
+        private data;
+        private content_size;
+        constructor(clientDriver: NormalClientDriver, socket: NodeJS.net.Socket);
+        constructor(serverConnector: NormalServerConnector, socket: NodeJS.net.Socket);
+        listen(): void;
+        private listen_piece(piece);
+        private listen_header();
+        private listen_data();
+        replyData(invoke: Invoke): void;
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
     class WebClientDriver extends ClientDriver {
-        private connection;
+        private base;
         private path;
         private session_id;
-        constructor(connection: websocket.connection, path: string, session_id: string);
+        constructor(connection: __websocket.connection, path: string, session_id: string);
         listen(listener: IProtocol): void;
         getPath(): string;
         getSessionID(): string;
         sendData(invoke: Invoke): void;
-        private handle_message(message);
     }
 }
-declare namespace samchon.protocol.service {
-    /**
-     * <p> An application, the top class in JS-UI. </p>
-     *
-     * <p> The Application is separated to three part, TopMenu, Movie and ServerConnector. </p>
-     * <ul>
-     * 	<li> <code>TopMenu</code>: Menu on the top. It's not an essential component. </li>
-     * 	<li> <code>Movie</code>: Correspond with Service in Server. Movie has domain UI components(Movie) for the matched Service. </li>
-     * 	<li> <code>ServerConnector</code>: The socket connecting to the Server. </li>
-     * </ul>
-     *
-     * <p> The Application and its UI-layout is not fixed, essential component for Samchon Framework in Flex,
-     * so it's okay to do not use the provided Application and make your custom Application.
-     * But the custom Application, your own, has to contain the Movie and keep the construction routine. </p>
-     *
-     * <p> <img src="movie.png" /> </p>
-     *
-     * <h4> THE CONSTRUCTION ROUTINE </h4>
-     * <ul>
-     * 	<li>Socket Connection</li>
-     * 	<ul>
-     * 		<li>Connect to the CPP-Server</li>
-     * 	</ul>
-     * 	<li>Fetch authority</li>
-     * 	<ul>
-     * 		<li>Send a request to fetching authority</li>
-     * 		<li>The window can be navigated to other page by the authority</li>
-     * 	</ul>
-     * 	<li>Construct Movie</li>
-     * 	<ul>
-     * 		<li>Determine a Movie by URLVariables::movie and construct it</li>
-     * 	</ul>
-     * 	<li>All the routines are done</li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class Application implements IProtocol {
-        /**
-         * <p> Invoke Socket. </p>
-         */
-        protected socket: WebServerConnector;
-        /**
-         * <p> A movie. </p>
-         */
-        protected movie: Movie;
-        /**
-         * <p> Construct from arguments. </p>
-         *
-         * @param movie A movie represents a service.
-         * @param ip An ip address of cloud server to connect.
-         * @param port A port number of cloud server to connect.
-         */
-        constructor(movie: Movie, ip: string, port: number);
-        private handleConnect(event);
-        /**
-         * <p> Handle replied message or shift the responsibility. </p>
-         */
+declare namespace samchon.protocol {
+    class WebCommunicatorBase implements IProtocol {
+        private communicator;
+        private connection;
+        constructor(clientDriver: WebClientDriver, connection: __websocket.connection);
+        constructor(serverConnector: WebServerConnector, connection: __websocket.connection);
+        listen(): void;
+        private handle_message(message);
         replyData(invoke: Invoke): void;
-        /**
-         * <p> Send a data to server. </p>
-         */
         sendData(invoke: Invoke): void;
     }
 }
@@ -3125,25 +2946,6 @@ declare namespace samchon.protocol.service {
         getService(): Service;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
-    }
-}
-declare namespace samchon.protocol.service {
-    /**
-     * A movie belonged to an Application.
-     */
-    class Movie implements IProtocol {
-        /**
-         * <p> An application the movie is belonged to
-         */
-        protected application: Application;
-        /**
-         * Handle replied data.
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * Send data to server.
-         */
-        sendData(invoke: Invoke): void;
     }
 }
 declare namespace samchon.protocol.service {
@@ -3176,8 +2978,6 @@ declare namespace samchon.protocol.service {
     }
 }
 declare namespace samchon.protocol.service {
-}
-declare namespace samchon.protocol.service {
     abstract class User implements protocol.IProtocol {
         private server;
         private client_map;
@@ -3196,76 +2996,5 @@ declare namespace samchon.protocol.service {
         protected setAccount(account: string, authority: number): void;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
-    }
-}
-declare namespace samchon.protocol.slave {
-    /**
-     * @brief A slave system.
-     *
-     * @details
-     * <p> SlaveSystem, literally, means a slave system belongs to a maste system. </p>
-     *
-     * <p> The SlaveSystem class is used in opposite side system of master::DistributedSystem
-     * and master::ParallelSystem and reports elapsed time of each commmand (by Invoke message)
-     * for estimation of its performance. </p>
-     *
-     * @inheritdoc
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class SlaveSystem extends ExternalSystem {
-        /**
-         * <p> Default Constructor. </p>
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        replyData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol.worker {
-    abstract class DedicatedWorker implements IProtocol {
-        private communicator;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        sendData(invoke: Invoke): void;
-        abstract replyData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol.worker {
-    class DedicatedWorkerConnector extends Communicator implements IWorkerConnector {
-        private worker;
-        constructor(listener: IProtocol);
-        connect(jsFile: string): void;
-        close(): void;
-        sendData(invoke: Invoke): void;
-        private reply_message(event);
-    }
-}
-declare namespace samchon.protocol.worker {
-    interface IWorkerConnector extends Communicator {
-        connect(jsFile: string): void;
-        close(): void;
-    }
-}
-declare namespace samchon.protocol.worker {
-    class SharedWorkerConnector extends Communicator implements IWorkerConnector {
-        private driver;
-        constructor(listener: IProtocol);
-        connect(jsFile: string): void;
-        connect(jsFile: string, name: string): void;
-        close(): void;
-        sendData(invoke: Invoke): void;
-        private reply_message(event);
-    }
-}
-declare namespace samchon.protocol.worker {
-    abstract class SharedWorkerServer extends Server implements IProtocol {
-        open(): void;
-        protected addClient(communicator: ClientDriver): void;
-        abstract replyData(invoke: Invoke): void;
-        sendData(invoke: Invoke): void;
     }
 }

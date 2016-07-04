@@ -44,7 +44,7 @@ namespace websocket
 	class MyWebServer : protected protocol::WebServer
 	{
 	private:
-		typedef protocol::WebServer super;
+		typedef protocol::Server super;
 
 	public:
 		MyWebServer() : super()
@@ -57,7 +57,14 @@ namespace websocket
 		{
 			std::cout << "A client has connected." << std::endl;
 
-			new MyWebClient(driver);
+			try
+			{
+				new MyWebClient(driver);
+			}
+			catch (...)
+			{
+
+			}
 		};
 	};
 

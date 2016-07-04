@@ -22,6 +22,7 @@ namespace protocol
 		virtual void listen(IProtocol *listener);
 
 	private:
+		auto listen_size() const -> size_t;
 		auto listen_string(size_t) -> std::shared_ptr<Invoke>;
 		void listen_binary(size_t, std::shared_ptr<Invoke> &);
 

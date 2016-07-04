@@ -58,7 +58,7 @@ namespace protocol
 		};
 
 		/* ---------------------------------------------------------
-			MESSAGE I/O
+			MESSAGE CHAIN
 		--------------------------------------------------------- */
 		virtual void sendData(std::shared_ptr<Invoke> invoke)
 		{

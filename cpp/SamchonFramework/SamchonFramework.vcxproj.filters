@@ -58,9 +58,6 @@
     <Filter Include="Header Files\library\utils\string">
       <UniqueIdentifier>{2e2af994-b0b8-4fa7-a703-57ac927dc75f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\library\file-tree">
-      <UniqueIdentifier>{538f3934-f1f0-4f86-848e-7d12067353cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\protocol\common">
       <UniqueIdentifier>{a687587f-fb12-4139-adae-1d4906b183d7}</UniqueIdentifier>
     </Filter>
@@ -81,9 +78,6 @@
     </Filter>
     <Filter Include="Header Files\library\data\common\critical section\unique &amp; shared lock">
       <UniqueIdentifier>{7f7bac72-f20a-442c-bab0-61f4e660d126}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\library\file-tree">
-      <UniqueIdentifier>{bb2b0fea-2ae5-4255-b1a0-55d8f178f3fa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\library\sql interface">
       <UniqueIdentifier>{84878e71-78cc-42dd-9ffa-13edf0a806b3}</UniqueIdentifier>
@@ -194,24 +188,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\library\Semaphore.hpp">
       <Filter>Header Files\library\data\common\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTByteFile.hpp">
-      <Filter>Header Files\library\file-tree</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTFactory.hpp">
-      <Filter>Header Files\library\file-tree</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTFile.hpp">
-      <Filter>Header Files\library\file-tree</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTFolder.hpp">
-      <Filter>Header Files\library\file-tree</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTInstance.hpp">
-      <Filter>Header Files\library\file-tree</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\FTTextFile.hpp">
-      <Filter>Header Files\library\file-tree</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\GAParameters.hpp">
       <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
@@ -423,20 +399,11 @@
     <ClInclude Include="..\samchon\protocol\SharedEntityDeque.hpp">
       <Filter>Header Files\protocol\common\entity</Filter>
     </ClInclude>
+    <ClInclude Include="ParallelSystem.hpp">
+      <Filter>Header Files\protocol\common\master\parallel system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\samchon\library\FTFactory.cpp">
-      <Filter>Source Files\library\file-tree</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\FTFile.cpp">
-      <Filter>Source Files\library\file-tree</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\FTFolder.cpp">
-      <Filter>Source Files\library\file-tree</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\FTInstance.cpp">
-      <Filter>Source Files\library\file-tree</Filter>
-    </ClCompile>
     <ClCompile Include="..\samchon\library\SQLi.cpp">
       <Filter>Source Files\library\sql interface</Filter>
     </ClCompile>

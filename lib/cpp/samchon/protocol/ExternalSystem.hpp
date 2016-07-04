@@ -1,7 +1,7 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/protocol/SharedEntityArray.hpp>
+#include <samchon/protocol/SharedEntityDeque.hpp>
 #	include <samchon/protocol/ExternalSystemRole.hpp>
 #include <samchon/protocol/IProtocol.hpp>
 
@@ -13,19 +13,17 @@ namespace samchon
 namespace protocol
 {
 	class ExternalSystemArray;
-	class Communicator;
-	class ServerConnector;
 	class ExternalSystemArrayServer;
 
 	class ExternalSystem 
-		: public SharedEntityArray<ExternalSystemRole>,
+		: public SharedEntityDeque<ExternalSystemRole>,
 		public virtual IProtocol
 	{
 		friend class ExternalSystemArray;
 		friend class ExternalSystemArrayServer;
 
 	private:
-		typedef SharedEntityArray<ExternalSystemRole> super;
+		typedef SharedEntityDeque<ExternalSystemRole> super;
 
 		ExternalSystemArray *systemArray;
 		std::shared_ptr<Communicator> communicator;
@@ -56,11 +54,14 @@ namespace protocol
 		};
 
 	protected:
-		virtual auto createServerConnector() -> ServerConnector* = 0;
+		virtual auto createServerConnector() -> ServerConnector*
+		{
+			return new ServerConnector();
+		};
 
 	public:
 		/* ---------------------------------------------------------
-			NETWORK & MESSAGE I/O
+			ACCESSORS
 		--------------------------------------------------------- */
 		virtual auto key() const -> std::string
 		{
@@ -85,9 +86,9 @@ namespace protocol
 		};
 
 		/* ---------------------------------------------------------
-			NETWORK & MESSAGE I/O
+			NETWORK & MESSAGE CHAIN
 		--------------------------------------------------------- */
-		void connect()
+		virtual void connect()
 		{
 			if (communicator != nullptr || ip.empty() == true)
 				return;

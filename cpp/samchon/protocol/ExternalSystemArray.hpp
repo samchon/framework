@@ -18,7 +18,7 @@ namespace protocol
 
 	class ExternalSystemArray
 		: public SharedEntityDeque<ExternalSystem>,
-		public virtual Server,
+		public virtual Server, // YOU CAN REPLACE IT -> WebServer
 		public virtual IProtocol
 	{
 		friend class ExternalSystem;
@@ -28,12 +28,10 @@ namespace protocol
 		typedef SharedEntityDeque<ExternalSystem> super;
 
 	public:
-		/* =========================================================
+		/* ---------------------------------------------------------
 			CONSTRUCTORS
-				- MEMBERS
-				- CHILDREN ELEMENTS
-		============================================================
-			MEMBERS
+				- DEFAULT
+				- FACTORY METHOD FOR SERVER
 		--------------------------------------------------------- */
 		/**
 		 * Default Constructor.
@@ -48,7 +46,7 @@ namespace protocol
 	protected:
 		virtual void addClient(std::shared_ptr<ClientDriver> driver)
 		{
-			ExternalSystem *system = createExternalClient(driver);
+			ExternalSystem *system = createClient(driver);
 			if (system == nullptr)
 				return;
 
@@ -58,14 +56,32 @@ namespace protocol
 			driver->listen(system);
 		};
 
-		/* ---------------------------------------------------------
-			CHILDREN ELEMENTS
-		--------------------------------------------------------- */
-		virtual auto createChild(std::shared_ptr<library::XML> xml) -> ExternalSystem* = 0;
-
-		virtual auto createExternalClient(std::shared_ptr<ClientDriver> driver) -> ExternalSystem* = 0;
+		virtual auto createClient(std::shared_ptr<ClientDriver> driver) -> ExternalSystem* = 0;
 		
 	public:
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		auto hasRole(const std::string &key) const -> bool
+		{
+			for (size_t i = 0; i < size(); i++)
+				for (size_t j = 0; j < at(i)->size(); j++)
+					if (at(i)->at(j)->key() == key)
+						return true;
+
+			return false;
+		};
+
+		auto getRole(const std::string &key) const -> std::shared_ptr<ExternalSystemRole>
+		{
+			for (size_t i = 0; i < size(); i++)
+				for (size_t j = 0; j < at(i)->size(); j++)
+					if (at(i)->at(j)->key() == key)
+						return at(i)->at(j);
+
+			throw std::out_of_range("No such key.");
+		};
+
 		/* =========================================================
 			NETWORK
 				- SERVER AND CLIENT
@@ -107,6 +123,7 @@ namespace protocol
 		{
 			return "systemArray";
 		};
+
 		virtual auto CHILD_TAG() const -> std::string override
 		{
 			return "system";

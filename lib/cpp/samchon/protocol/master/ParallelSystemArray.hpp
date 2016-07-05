@@ -16,7 +16,8 @@ namespace master
 		typedef ExternalSystemArray super;
 
 	public:
-		ParallelSystemArray() : super()
+		ParallelSystemArray() 
+			: super()
 		{
 		};
 		virtual ~ParallelSystemArray() = default;
@@ -27,7 +28,7 @@ namespace master
 		};
 		void sendPieceData(std::shared_ptr<Invoke> invoke, size_t first, size_t last)
 		{
-
+			size_t size = last - first;
 		};
 	};
 };

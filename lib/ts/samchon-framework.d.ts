@@ -1391,125 +1391,6 @@ declare namespace samchon.example {
 declare namespace samchon.example {
     function test_file_reference(): void;
 }
-declare namespace samchon.protocol {
-    abstract class Server {
-        abstract open(port: number): void;
-        protected abstract addClient(clientDriver: ClientDriver): void;
-    }
-}
-declare namespace samchon.protocol {
-    abstract class NormalServer extends Server {
-        private server;
-        open(port: number): void;
-        private handle_connect(socket);
-    }
-}
-declare namespace samchon.protocol {
-    abstract class Communicator {
-        protected listener: IProtocol;
-        constructor();
-        abstract sendData(invoke: Invoke): void;
-        replyData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol {
-    abstract class ServerConnector extends Communicator {
-        /**
-         * <p> An open-event listener. </p>
-         */
-        onopen: Function;
-        constructor(listener: IProtocol);
-        abstract connect(ip: string, port: number): void;
-    }
-}
-declare namespace samchon.protocol {
-    class NormalServerConnector extends ServerConnector {
-        private socket;
-        private base;
-        constructor(listener: IProtocol);
-        connect(ip: string, port: number): void;
-        private handle_connect(...arg);
-        sendData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol {
-    abstract class WebServer extends Server {
-        private http_server;
-        private sequence;
-        constructor();
-        open(port: number): void;
-        protected abstract addClient(driver: WebClientDriver): void;
-        private handle_request(request);
-        private get_session_id(cookies);
-        private issue_session_id();
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * <p> A server connector for a physical client. </p>
-     *
-     * <p> ServerConnector is a class for a physical client connecting a server. If you want to connect
-     * to a server,  then implements this ServerConnector and just override some methods like
-     * getIP(), getPort() and replyData(). That's all. </p>
-     *
-     * <p> In Samchon Framework, package protocol, There are basic 3 + 1 components that can make any
-     * type of network system in Samchon Framework. The basic 3 components are IProtocol, IServer and
-     * IClient. The last, surplus one is the ServerConnector. Looking around classes in
-     * Samchon Framework, especially module master and slave which are designed for realizing
-     * distributed processing systems and parallel processing systems, physical client classes are all
-     * derived from this ServerConnector. </p>
-     *
-     * <img src="interface.png" />
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class WebServerConnector extends ServerConnector {
-        /**
-         * <p> A socket for network I/O. </p>
-         */
-        private socket;
-        private client;
-        private base;
-        /**
-         * <p> Constructor with parent. </p>
-         */
-        constructor(listener: IProtocol);
-        /**
-         * <p> Connects to a cloud server with specified host and port. </p>
-         *
-         * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown:
-         * an error event is dispatched if a host was specified, and an exception is thrown if no host
-         * was specified. Otherwise, the status of the connection is reported by an event.
-         * If the socket is already connected, the existing connection is closed first. </p>
-         *
-         * @param ip
-         * 		The name or IP address of the host to connect to.
-         * 		If no host is specified, the host that is contacted is the host where the calling
-         * 		file resides. If you do not specify a host, use an event listener to determine whether
-         * 		the connection was successful.
-         * @param port
-         * 		The port number to connect to.
-         *
-         * @throws IOError
-         * 		No host was specified and the connection failed.
-         * @throws SecurityError
-         * 		This error occurs in SWF content for the following reasons:
-         * 		Local untrusted SWF files may not communicate with the Internet. You can work around
-         * 		this limitation by reclassifying the file as local-with-networking or as trusted.
-         */
-        connect(ip: string, port: number, path?: string): void;
-        /**
-         * <p> Send data to the server. </p>
-         */
-        sendData(invoke: Invoke): void;
-        private handle_browser_connect(event);
-        /**
-         * <p> Handling replied message. </p>
-         */
-        private handle_browser_message(event);
-        private handle_node_connect(connection);
-    }
-}
 declare namespace samchon.example {
     function test_websocket(): void;
 }
@@ -2234,6 +2115,14 @@ declare namespace samchon.library {
     }
 }
 declare namespace samchon.protocol {
+    abstract class Communicator {
+        protected listener: IProtocol;
+        constructor();
+        abstract sendData(invoke: Invoke): void;
+        replyData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
     abstract class ClientDriver extends Communicator {
         constructor();
         abstract listen(listener: IProtocol): void;
@@ -2623,6 +2512,165 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
+    abstract class Server {
+        abstract open(port: number): void;
+        protected abstract addClient(clientDriver: ClientDriver): void;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class ServerConnector extends Communicator {
+        /**
+         * <p> An open-event listener. </p>
+         */
+        onopen: Function;
+        constructor(listener: IProtocol);
+        abstract connect(ip: string, port: number): void;
+    }
+}
+declare namespace samchon.protocol {
+    class NormalCommunicatorBase implements IProtocol {
+        private communicator;
+        private socket;
+        private data;
+        private content_size;
+        constructor(clientDriver: NormalClientDriver, socket: NodeJS.net.Socket);
+        constructor(serverConnector: NormalServerConnector, socket: NodeJS.net.Socket);
+        listen(): void;
+        private listen_piece(piece);
+        private listen_header();
+        private listen_data();
+        replyData(invoke: Invoke): void;
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class NormalServer extends Server {
+        private server;
+        open(port: number): void;
+        private handle_connect(socket);
+    }
+}
+declare namespace samchon.protocol {
+    class NormalClientDriver extends ClientDriver {
+        private base;
+        constructor(socket: NodeJS.net.Socket);
+        listen(listener: IProtocol): void;
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    class NormalServerConnector extends ServerConnector {
+        private socket;
+        private base;
+        constructor(listener: IProtocol);
+        connect(ip: string, port: number): void;
+        private handle_connect(...arg);
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    class WebCommunicatorBase implements IProtocol {
+        private communicator;
+        private connection;
+        constructor(clientDriver: WebClientDriver, connection: __websocket.connection);
+        constructor(serverConnector: WebServerConnector, connection: __websocket.connection);
+        listen(): void;
+        private handle_message(message);
+        replyData(invoke: Invoke): void;
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class WebServer extends Server {
+        private http_server;
+        private sequence;
+        constructor();
+        open(port: number): void;
+        protected abstract addClient(driver: WebClientDriver): void;
+        private handle_request(request);
+        private get_session_id(cookies);
+        private issue_session_id();
+    }
+}
+declare namespace samchon.protocol {
+    class WebClientDriver extends ClientDriver {
+        private base;
+        private path;
+        private session_id;
+        constructor(connection: __websocket.connection, path: string, session_id: string);
+        listen(listener: IProtocol): void;
+        getPath(): string;
+        getSessionID(): string;
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * <p> A server connector for a physical client. </p>
+     *
+     * <p> ServerConnector is a class for a physical client connecting a server. If you want to connect
+     * to a server,  then implements this ServerConnector and just override some methods like
+     * getIP(), getPort() and replyData(). That's all. </p>
+     *
+     * <p> In Samchon Framework, package protocol, There are basic 3 + 1 components that can make any
+     * type of network system in Samchon Framework. The basic 3 components are IProtocol, IServer and
+     * IClient. The last, surplus one is the ServerConnector. Looking around classes in
+     * Samchon Framework, especially module master and slave which are designed for realizing
+     * distributed processing systems and parallel processing systems, physical client classes are all
+     * derived from this ServerConnector. </p>
+     *
+     * <img src="interface.png" />
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class WebServerConnector extends ServerConnector {
+        /**
+         * <p> A socket for network I/O. </p>
+         */
+        private socket;
+        private client;
+        private base;
+        /**
+         * <p> Constructor with parent. </p>
+         */
+        constructor(listener: IProtocol);
+        /**
+         * <p> Connects to a cloud server with specified host and port. </p>
+         *
+         * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown:
+         * an error event is dispatched if a host was specified, and an exception is thrown if no host
+         * was specified. Otherwise, the status of the connection is reported by an event.
+         * If the socket is already connected, the existing connection is closed first. </p>
+         *
+         * @param ip
+         * 		The name or IP address of the host to connect to.
+         * 		If no host is specified, the host that is contacted is the host where the calling
+         * 		file resides. If you do not specify a host, use an event listener to determine whether
+         * 		the connection was successful.
+         * @param port
+         * 		The port number to connect to.
+         *
+         * @throws IOError
+         * 		No host was specified and the connection failed.
+         * @throws SecurityError
+         * 		This error occurs in SWF content for the following reasons:
+         * 		Local untrusted SWF files may not communicate with the Internet. You can work around
+         * 		this limitation by reclassifying the file as local-with-networking or as trusted.
+         */
+        connect(ip: string, port: number, path?: string): void;
+        /**
+         * <p> Send data to the server. </p>
+         */
+        sendData(invoke: Invoke): void;
+        private handle_browser_connect(event);
+        /**
+         * <p> Handling replied message. </p>
+         */
+        private handle_browser_message(event);
+        private handle_node_connect(connection);
+    }
+}
+declare namespace samchon.protocol {
     abstract class SharedWorkerServer extends Server {
         open(): void;
     }
@@ -2636,6 +2684,7 @@ declare namespace samchon.protocol {
 declare namespace samchon.protocol {
     class SharedWorkerConnector extends Communicator {
         private driver;
+        onopen: FunctionConstructor;
         constructor(listener: IProtocol);
         connect(jsFile: string): void;
         connect(jsFile: string, name: string): void;
@@ -2645,42 +2694,16 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    interface IExtServer extends Server {
-    }
-    class ExtWebServer extends WebServer implements IExtServer {
-        private system_array;
-        constructor(system_array: ExternalSystemArray);
-        protected addClient(driver: ClientDriver): void;
-    }
-    class ExtSharedWorkerServer extends SharedWorkerServer implements IExtServer {
-        private system_array;
-        constructor(system_array: ExternalSystemArray);
-        protected addClient(driver: ClientDriver): void;
-    }
-}
-declare namespace samchon.protocol {
-    abstract class ExternalSystemRole extends Entity implements IProtocol {
-        private system;
-        private name;
-        constructor(system: ExternalSystem);
-        setSystem(system: ExternalSystem): void;
-        key(): string;
-        getSystem(): ExternalSystem;
-        getName(): string;
-        sendData(invoke: Invoke): void;
-        replyData(invoke: Invoke): void;
-        TAG(): string;
-    }
-}
-declare namespace samchon.protocol {
     abstract class ExternalSystemArray extends EntityArrayCollection<ExternalSystem> implements IProtocol {
         private server;
         /**
          * Default Constructor.
          */
         constructor();
-        protected abstract createServer(): IExtServer;
-        protected abstract createClient(driver: ClientDriver): ExternalSystem;
+        protected abstract createServer(): ExtNormalServerBase | ExtWebServerBase | ExtSharedWorkerServerBase;
+        createChild(xml: library.XML): ExternalSystem;
+        protected abstract createExternalClient(driver: ClientDriver): IExternalClient;
+        protected abstract createExternalServer(xml: library.XML): IExternalServer;
         protected addClient(driver: ClientDriver): void;
         hasRole(key: string): boolean;
         getRole(key: string): ExternalSystemRole;
@@ -2694,23 +2717,93 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     abstract class ExternalSystem extends EntityArrayCollection<ExternalSystemRole> implements IProtocol {
-        private systemArray;
-        private communicator;
+        protected communicator: Communicator;
         protected name: string;
-        protected ip: string;
-        protected port: number;
-        constructor(systemArray: ExternalSystemArray);
-        protected abstract createServerConnector(): ServerConnector;
+        /**
+         * Default Constructor.
+         */
+        constructor();
         key(): string;
-        getSystemArray(): ExternalSystemArray;
         getName(): string;
-        getIP(): string;
-        getPort(): number;
-        connect(): void;
         sendData(invoke: Invoke): void;
         replyData(invoke: Invoke): void;
         TAG(): string;
         CHILD_TAG(): string;
+    }
+    interface IExternalClient extends ExternalSystem {
+    }
+    interface IExternalServer extends ExternalSystem {
+        connect(): void;
+        getIP(): string;
+        getPort(): number;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class ExternalSystemRole extends Entity implements IProtocol {
+        private system;
+        private name;
+        constructor(system: ExternalSystem);
+        key(): string;
+        getSystem(): ExternalSystem;
+        getName(): string;
+        sendData(invoke: Invoke): void;
+        replyData(invoke: Invoke): void;
+        TAG(): string;
+    }
+}
+declare namespace samchon.protocol {
+    interface IExtServer extends Server {
+    }
+    class ExtNormalServerBase extends NormalServer implements IExtServer {
+        private system_array;
+        constructor(system_array: ExternalSystemArray);
+        protected addClient(driver: ClientDriver): void;
+    }
+    class ExtWebServerBase extends WebServer implements IExtServer {
+        private system_array;
+        constructor(system_array: ExternalSystemArray);
+        protected addClient(driver: ClientDriver): void;
+    }
+    class ExtSharedWorkerServerBase extends SharedWorkerServer implements IExtServer {
+        private system_array;
+        constructor(system_array: ExternalSystemArray);
+        protected addClient(driver: ClientDriver): void;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class ExternalServerArray extends ExternalSystemArray {
+        protected createServer(): ExtNormalServerBase | ExtWebServerBase | ExtSharedWorkerServerBase;
+    }
+    abstract class ExternalNormalSystemArray extends ExternalSystemArray {
+        protected createServer(): ExtNormalServerBase | ExtWebServerBase | ExtSharedWorkerServerBase;
+    }
+    abstract class ExternalWebSystemArray extends ExternalSystemArray {
+        protected createServer(): ExtNormalServerBase | ExtWebServerBase | ExtSharedWorkerServerBase;
+    }
+    abstract class ExternalSharedWorkerSystemArray extends ExternalSystemArray {
+        protected createServer(): ExtNormalServerBase | ExtWebServerBase | ExtSharedWorkerServerBase;
+    }
+    abstract class ExternalClient extends ExternalSystem implements IExternalClient {
+    }
+}
+declare namespace samchon.protocol {
+    abstract class ExternalServer extends ExternalSystem implements IExternalServer {
+        protected ip: string;
+        protected port: number;
+        constructor();
+        protected abstract createServerConnector(): ServerConnector;
+        connect(): void;
+        getIP(): string;
+        getPort(): number;
+    }
+    abstract class ExternalNormalServer extends ExternalServer {
+        protected createServerConnector(): ServerConnector;
+    }
+    abstract class ExternalWebServer extends ExternalServer {
+        protected createServerConnector(): ServerConnector;
+    }
+    abstract class ExternalSharedWorker extends ExternalServer {
+        protected createServerConnector(): ServerConnector;
     }
 }
 declare namespace samchon.protocol {
@@ -2884,51 +2977,124 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class NormalClientDriver extends ClientDriver {
-        private base;
-        constructor(socket: NodeJS.net.Socket);
-        listen(listener: IProtocol): void;
+    class InvokeHistory extends Entity {
+        private uid;
+        private listener;
+        private startTime;
+        private endTime;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        constructor(invoke: Invoke);
+        construct(xml: library.XML): void;
+        notifyEnd(): void;
+        key(): number;
+        getUID(): number;
+        getListener(): string;
+        getStartTime(): Date;
+        getEndTime(): Date;
+        getElapsedTime(): number;
+        TAG(): string;
+        toXML(): library.XML;
+        toInvoke(): Invoke;
+    }
+}
+declare namespace samchon.protocol.master {
+    abstract class DistributedSystemArray extends ExternalSystemArray {
+        private roles;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        protected abstract createExternalClient(driver: ClientDriver): DistributedSystem;
+        abstract createRole(xml: library.XML): DistributedSystemRole;
+        at(index: number): DistributedSystem;
+        get(key: any): DistributedSystem;
+        hasRole(key: string): boolean;
+        getRole(key: string): DistributedSystemRole;
+    }
+}
+declare namespace samchon.protocol.master {
+    abstract class DistributedSystem extends ExternalSystem {
+        private systemArray;
+        constructor(systemArray: DistributedSystemArray);
+        createChild(xml: library.XML): DistributedSystemRole;
+        getSystemArray(): DistributedSystemArray;
+    }
+}
+declare namespace samchon.protocol.master {
+    abstract class DistributedSystemRole extends ExternalSystemRole {
+        private systems;
+        constructor();
         sendData(invoke: Invoke): void;
     }
 }
-declare namespace samchon.protocol {
-    class NormalCommunicatorBase implements IProtocol {
-        private communicator;
-        private socket;
-        private data;
-        private content_size;
-        constructor(clientDriver: NormalClientDriver, socket: NodeJS.net.Socket);
-        constructor(serverConnector: NormalServerConnector, socket: NodeJS.net.Socket);
-        listen(): void;
-        private listen_piece(piece);
-        private listen_header();
-        private listen_data();
-        replyData(invoke: Invoke): void;
-        sendData(invoke: Invoke): void;
+declare namespace samchon.protocol.master {
+    interface ISystemArrayMediator extends ExternalSystemArray {
+    }
+    abstract class ParallelSystemArrayMediator extends ParallelSystemArray {
+        private mediator;
+    }
+    interface IMediator extends IProtocol {
     }
 }
-declare namespace samchon.protocol {
-    class WebClientDriver extends ClientDriver {
-        private base;
-        private path;
-        private session_id;
-        constructor(connection: __websocket.connection, path: string, session_id: string);
-        listen(listener: IProtocol): void;
-        getPath(): string;
-        getSessionID(): string;
-        sendData(invoke: Invoke): void;
+declare namespace samchon.protocol.master {
+    abstract class ParallelSystemArray extends ExternalSystemArray {
+        private history_sequence;
+        constructor();
+        protected abstract createExternalClient(driver: ClientDriver): IParallelClient;
+        protected abstract createExternalServer(xml: library.XML): IParallelServer;
+        at(index: number): ParallelSystem;
+        get(key: any): ParallelSystem;
+        sendSegmentData(invoke: Invoke, size: number): void;
+        sendPieceData(invoke: Invoke, index: number, size: number): void;
+        private notify_end(history);
+        private normalize_performance();
+    }
+    abstract class ParallelSystem extends ExternalSystem {
+        private systemArray;
+        private progress_list;
+        private history_list;
+        private performance;
+        constructor(systemArray: ParallelSystemArray);
+        getSystemArray(): ParallelSystemArray;
+        getPerformance(): number;
+        sendPieceData(invoke: Invoke, index: number, size: number): void;
+        private report_invoke_history(invoke);
+    }
+    interface IParallelClient extends ParallelSystem, IExternalClient {
+    }
+    interface IParallelServer extends ParallelSystem, IExternalServer {
+    }
+    abstract class ParallelClient extends ParallelSystem implements IParallelClient {
+    }
+    abstract class ParallelServer extends ParallelSystem implements IExternalServer {
+        protected ip: string;
+        protected port: number;
+        constructor(systemArray: ParallelSystemArray);
+        protected abstract createServerConnector(): ServerConnector;
+        connect(): void;
+        getIP(): string;
+        getPort(): number;
     }
 }
-declare namespace samchon.protocol {
-    class WebCommunicatorBase implements IProtocol {
-        private communicator;
-        private connection;
-        constructor(clientDriver: WebClientDriver, connection: __websocket.connection);
-        constructor(serverConnector: WebServerConnector, connection: __websocket.connection);
-        listen(): void;
-        private handle_message(message);
-        replyData(invoke: Invoke): void;
-        sendData(invoke: Invoke): void;
+declare namespace samchon.protocol.master {
+    class PRInvokeHistory extends InvokeHistory {
+        private index;
+        private size;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from an Invoke message.
+         *
+         * @param invoke
+         */
+        constructor(invoke: Invoke);
+        getIndex(): number;
+        getSize(): number;
     }
 }
 declare namespace samchon.protocol.service {
@@ -2940,7 +3106,7 @@ declare namespace samchon.protocol.service {
         /**
          * Default Constructor.
          */
-        constructor();
+        constructor(user: User);
         protected abstract createService(path: string): Service;
         getUser(): User;
         getService(): Service;
@@ -2970,9 +3136,15 @@ declare namespace samchon.protocol.service {
         /**
          * Default Constructor.
          */
-        constructor();
-        protected abstract start(): void;
+        constructor(client: Client, path: string);
+        /**
+         * Get client.
+         */
         getClient(): Client;
+        /**
+         * Get path.
+         */
+        getPath(): string;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
     }
@@ -2988,7 +3160,7 @@ declare namespace samchon.protocol.service {
         /**
          * Default Constructor.
          */
-        constructor();
+        constructor(server: Server);
         abstract createClient(): Client;
         getServer(): Server;
         getAccount(): string;
@@ -2996,5 +3168,33 @@ declare namespace samchon.protocol.service {
         protected setAccount(account: string, authority: number): void;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
+    }
+}
+declare namespace samchon.protocol.slave {
+    abstract class SlaveSystem extends ExternalSystem {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        replyData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol.slave {
+    interface ISlaveServerBase extends Server {
+    }
+    class SlaveNormalServerBase extends NormalServer implements ISlaveServerBase {
+        private slave_system;
+        constructor(slave_system: SlaveSystem);
+        protected addClient(driver: ClientDriver): void;
+    }
+    class SlaveWebServerBase extends WebServer implements ISlaveServerBase {
+        private slave_system;
+        constructor(slave_system: SlaveSystem);
+        protected addClient(driver: ClientDriver): void;
+    }
+    class SlaveSharedWorkerServerBase extends SharedWorkerServer implements ISlaveServerBase {
+        private slave_system;
+        constructor(slave_system: SlaveSystem);
+        protected addClient(driver: ClientDriver): void;
     }
 }

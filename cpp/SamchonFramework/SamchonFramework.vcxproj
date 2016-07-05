@@ -67,11 +67,13 @@
     <ClInclude Include="..\samchon\library\XML.hpp" />
     <ClInclude Include="..\samchon\protocol\ClientDriver.hpp" />
     <ClInclude Include="..\samchon\protocol\Communicator.hpp" />
+    <ClInclude Include="..\samchon\protocol\ExternalServer.hpp" />
     <ClInclude Include="..\samchon\protocol\ExternalSystem.hpp" />
     <ClInclude Include="..\samchon\protocol\ExternalSystemArray.hpp" />
     <ClInclude Include="..\samchon\protocol\ExternalSystemRole.hpp" />
     <ClInclude Include="..\samchon\protocol\FlashPolicyServer.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityChain.hpp" />
+    <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelSystemArray.hpp" />
     <ClInclude Include="..\samchon\protocol\service\Client.hpp" />
     <ClInclude Include="..\samchon\protocol\service\Server.hpp" />

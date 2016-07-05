@@ -402,6 +402,12 @@
     <ClInclude Include="ParallelSystem.hpp">
       <Filter>Header Files\protocol\common\master\parallel system</Filter>
     </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ExternalServer.hpp">
+      <Filter>Header Files\protocol\common\external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp">
+      <Filter>Header Files\protocol\common\invoke</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samchon\library\SQLi.cpp">

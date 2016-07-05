@@ -12,9 +12,6 @@ namespace samchon
 {
 namespace protocol
 {
-	class ExternalSystemArray;
-	class ExternalSystemArrayServer;
-
 	class ExternalSystem 
 		: public SharedEntityDeque<ExternalSystemRole>,
 		public virtual IProtocol
@@ -25,13 +22,10 @@ namespace protocol
 	private:
 		typedef SharedEntityDeque<ExternalSystemRole> super;
 
-		ExternalSystemArray *systemArray;
-		std::shared_ptr<Communicator> communicator;
-
 	protected:
 		std::string name;
-		std::string ip;
-		int port;
+
+		std::shared_ptr<Communicator> communicator;
 
 	public:
 		/* ---------------------------------------------------------
@@ -40,23 +34,16 @@ namespace protocol
 		/**
 		 * Default Constructor.
 		 */
-		ExternalSystem(ExternalSystemArray *systemArray)
+		ExternalSystem()
 		{
-			this->systemArray = systemArray;
 		};
 		virtual ~ExternalSystem() = default;
 
 		virtual void construct(std::shared_ptr<library::XML> xml) override
 		{
 			name = xml->fetchProperty("name");
-			ip = xml->fetchProperty("ip");
-			port = xml->fetchProperty<int>("port");
-		};
-
-	protected:
-		virtual auto createServerConnector() -> ServerConnector*
-		{
-			return new ServerConnector();
+			
+			super::construct(xml);
 		};
 
 	public:
@@ -68,38 +55,14 @@ namespace protocol
 			return name;
 		};
 
-		auto getSystemArray() const -> ExternalSystemArray* 
-		{
-			return systemArray;
-		};
 		auto getName() const -> std::string
 		{
 			return name;
 		};
-		auto getIP() const -> std::string 
-		{
-			return ip;
-		};
-		auto getPort() const -> int
-		{
-			return port;
-		};
 
 		/* ---------------------------------------------------------
-			NETWORK & MESSAGE CHAIN
+			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		virtual void connect()
-		{
-			if (communicator != nullptr || ip.empty() == true)
-				return;
-
-			ServerConnector *connector = this->createServerConnector();
-			communicator.reset(connector);
-
-			connector->connect(ip, port);
-			connector->listen(this);
-		};
-
 		virtual void sendData(std::shared_ptr<Invoke> invoke)
 		{
 			communicator->sendData(invoke);
@@ -128,8 +91,6 @@ namespace protocol
 		{
 			std::shared_ptr<library::XML> &xml = super::toXML();
 			xml->setProperty("name", name);
-			xml->setProperty("ip", ip);
-			xml->setProperty("port", port);
 
 			return xml;
 		};

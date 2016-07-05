@@ -3,6 +3,7 @@
 
 #include <samchon/protocol/SharedEntityDeque.hpp>
 #	include <samchon/protocol/ExternalSystem.hpp>
+#	include <samchon/protocol/ExternalServer.hpp>
 #include <samchon/protocol/Server.hpp>
 #include <samchon/protocol/IProtocol.hpp>
 
@@ -44,9 +45,9 @@ namespace protocol
 		virtual ~ExternalSystemArray() = default;
 
 	protected:
-		virtual void addClient(std::shared_ptr<ClientDriver> driver)
+		virtual void addClient(std::shared_ptr<ClientDriver> driver) final
 		{
-			ExternalSystem *system = createClient(driver);
+			ExternalSystem *system = createExternalClient(driver);
 			if (system == nullptr)
 				return;
 
@@ -55,14 +56,19 @@ namespace protocol
 			emplace_back(system);
 			driver->listen(system);
 		};
+		virtual auto createChild(std::shared_ptr<library::XML> xml) -> ExternalSystem* override final
+		{
+			return this->createExternalServer(xml);
+		};
 
-		virtual auto createClient(std::shared_ptr<ClientDriver> driver) -> ExternalSystem* = 0;
+		virtual auto createExternalClient(std::shared_ptr<ClientDriver>) -> ExternalSystem* = 0;
+		virtual auto createExternalServer(std::shared_ptr<library::XML>) -> ExternalServer* = 0;
 		
 	public:
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		auto hasRole(const std::string &key) const -> bool
+		virtual auto hasRole(const std::string &key) const -> bool
 		{
 			for (size_t i = 0; i < size(); i++)
 				for (size_t j = 0; j < at(i)->size(); j++)
@@ -72,7 +78,7 @@ namespace protocol
 			return false;
 		};
 
-		auto getRole(const std::string &key) const -> std::shared_ptr<ExternalSystemRole>
+		virtual auto getRole(const std::string &key) const -> std::shared_ptr<ExternalSystemRole>
 		{
 			for (size_t i = 0; i < size(); i++)
 				for (size_t j = 0; j < at(i)->size(); j++)
@@ -97,8 +103,10 @@ namespace protocol
 		virtual void connect()
 		{
 			for (size_t i = 0; i < size(); i++)
-				if (at(i)->communicator == nullptr && at(i)->ip.empty() == false)
-					std::thread(&ExternalSystem::connect, at(i).get()).detach();
+			{
+				auto external_server = std::dynamic_pointer_cast<ExternalServer>(this->at(i));
+				external_server->connect();
+			}
 		};
 
 		/* ---------------------------------------------------------

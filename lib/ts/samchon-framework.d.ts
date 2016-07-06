@@ -3060,8 +3060,8 @@ declare namespace samchon.protocol.master {
         constructor(systemArray: ParallelSystemArray);
         getSystemArray(): ParallelSystemArray;
         getPerformance(): number;
-        sendPieceData(invoke: Invoke, index: number, size: number): void;
-        private report_invoke_history(invoke);
+        private send_piece_data(invoke, index, size);
+        private report_invoke_history(xml);
     }
     interface IParallelClient extends ParallelSystem, IExternalClient {
     }

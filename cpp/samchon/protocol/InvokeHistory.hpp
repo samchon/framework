@@ -15,6 +15,7 @@ namespace protocol
 	private:
 		typedef Entity super;
 
+	protected:
 		size_t uid;
 
 		std::string listener;
@@ -51,6 +52,11 @@ namespace protocol
 
 			startTime += std::chrono::duration<long long, std::ratio_multiply<std::ratio<100i64, 1i64>, std::nano>>(xml->getProperty<long long>("startTime"));
 			endTime += std::chrono::duration<long long, std::ratio_multiply<std::ratio<100i64, 1i64>, std::nano>>(xml->getProperty<long long>("endTime"));
+		};
+
+		void notifyEnd()
+		{
+			endTime = std::chrono::system_clock::now();
 		};
 
 		/* ---------------------------------------------------------

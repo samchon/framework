@@ -45,8 +45,7 @@ namespace samchon.protocol.master
 
 		public sendPieceData(invoke: Invoke, index: number, size: number): void
 		{
-			if (invoke.has("invoke_history_uid") == false)
-				invoke.push_back(new InvokeParameter("invoke_history_uid", ++this.history_sequence));
+			invoke.push_back(new InvokeParameter("invoke_history_uid", ++this.history_sequence));
 
 			for (let i: number = 0; i < this.size(); i++)
 			{
@@ -54,11 +53,11 @@ namespace samchon.protocol.master
 
 				let piece_size: number = (i == this.size() - 1) 
 					? size - index
-					: Math.round(size / this.size() * system.getPerformance());
+					: Math.floor(size / this.size() * system.getPerformance());
 				if (piece_size == 0)
 					continue;
 
-				system.sendPieceData(invoke, index, size);
+				system["send_piece_data"](invoke, index, piece_size);
 				index += piece_size;
 			}
 		}
@@ -69,7 +68,7 @@ namespace samchon.protocol.master
 
 			// ALL THE SUB-TASKS ARE DONE?
 			for (let i: number = 0; i < this.size(); i++)
-				if (this.at(i)["progress_list"].count(uid) != 0)
+				if (this.at(i)["progress_list"].has(uid) == false)
 					return;
 
 			///////
@@ -77,7 +76,7 @@ namespace samchon.protocol.master
 			///////
 			// CONSTRUCT BASIC DATA
 			let system_pairs = new std.Vector<std.Pair<ParallelSystem, number>>();
-			let performance_index_avergae: number = 0;
+			let performance_index_avergae: number = 0.0;
 
 			for (let i: number = 0; i < this.size(); i++)
 			{
@@ -85,8 +84,8 @@ namespace samchon.protocol.master
 				if (system["history_list"].has(uid) == false)
 					continue;
 
-				let history: PRInvokeHistory = system["history_list"].get(uid);
-				let performance_index: number = history.getSize() / history.getElapsedTime();
+				let my_history: PRInvokeHistory = system["history_list"].get(uid);
+				let performance_index: number = my_history.getSize() / my_history.getElapsedTime();
 
 				system_pairs.push_back(std.make_pair(system, performance_index));
 				performance_index_avergae += performance_index;
@@ -107,11 +106,14 @@ namespace samchon.protocol.master
 
 		private normalize_performance(): void
 		{
+			// CALC AVERAGE
 			let average: number = 0.0;
+
 			for (let i: number = 0; i < this.size(); i++)
 				average += this.at(i)["performance"];
 			average /= this.size();
 
+			// DIVIDE FROM THE AVERAGE
 			for (let i: number = 0; i < this.size(); i++)
 				this.at(i)["performance"] /= average;
 		}
@@ -156,7 +158,7 @@ namespace samchon.protocol.master
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		public sendPieceData(invoke: Invoke, index: number, size: number): void
+		private send_piece_data(invoke: Invoke, index: number, size: number): void
 		{
 			// DUPLICATE INVOKE AND ATTACH PIECE INFO
 			let my_invoke: Invoke = new Invoke(invoke.getListener());
@@ -167,20 +169,20 @@ namespace samchon.protocol.master
 			}
 
 			// REGISTER THE UID AS PROGRESS
-			let uid: number = invoke.back().getValue() as number;
-			this.progress_list.insert([uid, new PRInvokeHistory(my_invoke)]);
+			let history: PRInvokeHistory = new PRInvokeHistory(my_invoke);
+			this.progress_list.insert([history.getUID(), history]);
 
 			// SEND DATA
 			this.sendData(invoke);
 		}
 
-		private report_invoke_history(invoke: Invoke): void
+		private report_invoke_history(xml: library.XML): void
 		{
 			///////
 			// CONSTRUCT HISTORY
 			///////
 			let history: PRInvokeHistory = new PRInvokeHistory();
-			history.construct(invoke.front().getValue() as library.XML);
+			history.construct(xml);
 
 			let progress_it = this.progress_list.find(history.getUID());
 			history["index"] = progress_it.second.getIndex();
@@ -191,7 +193,7 @@ namespace samchon.protocol.master
 			this.history_list.insert([history.getUID(), history]);
 
 			// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
-			this.getSystemArray()["notify_end"](history);
+			this.systemArray["notify_end"](history);
 		}
 	}
 
@@ -273,8 +275,16 @@ namespace samchon.protocol.master
 		{
 			super(invoke);
 			
-			this.index = invoke.get("index").getValue() as number;
-			this.size = invoke.get("size").getValue() as number;
+			if (invoke == null)
+			{
+				this.index = 0;
+				this.size = 0;
+			}
+			else
+			{
+				this.index = invoke.get("index").getValue() as number;
+				this.size = invoke.get("size").getValue() as number;
+			}
 		}
 		
 		public getIndex(): number

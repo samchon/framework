@@ -2,17 +2,18 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/SharedEntityDeque.hpp>
-#	include <samchon/protocol/ExternalSystemRole.hpp>
+#	include <samchon/protocol/external/ExternalSystemRole.hpp>
 #include <samchon/protocol/IProtocol.hpp>
-
-#include <samchon/protocol/Communicator.hpp>
-#include <samchon/protocol/ServerConnector.hpp>
 
 namespace samchon
 {
 namespace protocol
 {
-	class ExternalSystem 
+	class Communicator;
+
+namespace external
+{
+	class SAMCHON_FRAMEWORK_API ExternalSystem 
 		: public SharedEntityDeque<ExternalSystemRole>,
 		public virtual IProtocol
 	{
@@ -34,17 +35,10 @@ namespace protocol
 		/**
 		 * Default Constructor.
 		 */
-		ExternalSystem()
-		{
-		};
-		virtual ~ExternalSystem() = default;
+		ExternalSystem();
+		virtual ~ExternalSystem();
 
-		virtual void construct(std::shared_ptr<library::XML> xml) override
-		{
-			name = xml->fetchProperty("name");
-			
-			super::construct(xml);
-		};
+		virtual void construct(std::shared_ptr<library::XML> xml) override;
 
 	public:
 		/* ---------------------------------------------------------
@@ -63,16 +57,9 @@ namespace protocol
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		virtual void sendData(std::shared_ptr<Invoke> invoke)
-		{
-			communicator->sendData(invoke);
-		};
+		virtual void sendData(std::shared_ptr<Invoke> invoke);
 
-		virtual void replyData(std::shared_ptr<Invoke> invoke)
-		{
-			for (size_t i = 0; i < size(); i++)
-				at(i)->replyData(invoke);
-		};
+		virtual void replyData(std::shared_ptr<Invoke> invoke);
 
 	public:
 		/* ---------------------------------------------------------
@@ -87,13 +74,8 @@ namespace protocol
 			return "role";
 		};
 
-		virtual auto toXML() const -> std::shared_ptr<library::XML> override
-		{
-			std::shared_ptr<library::XML> &xml = super::toXML();
-			xml->setProperty("name", name);
-
-			return xml;
-		};
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override;
 	};
+};
 };
 };

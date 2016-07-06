@@ -5446,16 +5446,15 @@ var samchon;
                     this.sendPieceData(invoke, 0, size);
                 };
                 ParallelSystemArray.prototype.sendPieceData = function (invoke, index, size) {
-                    if (invoke.has("invoke_history_uid") == false)
-                        invoke.push_back(new protocol.InvokeParameter("invoke_history_uid", ++this.history_sequence));
+                    invoke.push_back(new protocol.InvokeParameter("invoke_history_uid", ++this.history_sequence));
                     for (var i = 0; i < this.size(); i++) {
                         var system = this.at(i);
                         var piece_size = (i == this.size() - 1)
                             ? size - index
-                            : Math.round(size / this.size() * system.getPerformance());
+                            : Math.floor(size / this.size() * system.getPerformance());
                         if (piece_size == 0)
                             continue;
-                        system.sendPieceData(invoke, index, size);
+                        system["send_piece_data"](invoke, index, piece_size);
                         index += piece_size;
                     }
                 };
@@ -5463,20 +5462,20 @@ var samchon;
                     var uid = history.getUID();
                     // ALL THE SUB-TASKS ARE DONE?
                     for (var i = 0; i < this.size(); i++)
-                        if (this.at(i)["progress_list"].count(uid) != 0)
+                        if (this.at(i)["progress_list"].has(uid) == false)
                             return;
                     ///////
                     // RE-CALCULATE PERFORMANCE INDEX
                     ///////
                     // CONSTRUCT BASIC DATA
                     var system_pairs = new std.Vector();
-                    var performance_index_avergae = 0;
+                    var performance_index_avergae = 0.0;
                     for (var i = 0; i < this.size(); i++) {
                         var system = this.at(i);
                         if (system["history_list"].has(uid) == false)
                             continue;
-                        var history_1 = system["history_list"].get(uid);
-                        var performance_index = history_1.getSize() / history_1.getElapsedTime();
+                        var my_history = system["history_list"].get(uid);
+                        var performance_index = my_history.getSize() / my_history.getElapsedTime();
                         system_pairs.push_back(std.make_pair(system, performance_index));
                         performance_index_avergae += performance_index;
                     }
@@ -5491,10 +5490,12 @@ var samchon;
                     this.normalize_performance();
                 };
                 ParallelSystemArray.prototype.normalize_performance = function () {
+                    // CALC AVERAGE
                     var average = 0.0;
                     for (var i = 0; i < this.size(); i++)
                         average += this.at(i)["performance"];
                     average /= this.size();
+                    // DIVIDE FROM THE AVERAGE
                     for (var i = 0; i < this.size(); i++)
                         this.at(i)["performance"] /= average;
                 };
@@ -5525,7 +5526,7 @@ var samchon;
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
-                ParallelSystem.prototype.sendPieceData = function (invoke, index, size) {
+                ParallelSystem.prototype.send_piece_data = function (invoke, index, size) {
                     // DUPLICATE INVOKE AND ATTACH PIECE INFO
                     var my_invoke = new protocol.Invoke(invoke.getListener());
                     {
@@ -5534,17 +5535,17 @@ var samchon;
                         my_invoke.push_back(new protocol.InvokeParameter("size", size));
                     }
                     // REGISTER THE UID AS PROGRESS
-                    var uid = invoke.back().getValue();
-                    this.progress_list.insert([uid, new master.PRInvokeHistory(my_invoke)]);
+                    var history = new master.PRInvokeHistory(my_invoke);
+                    this.progress_list.insert([history.getUID(), history]);
                     // SEND DATA
                     this.sendData(invoke);
                 };
-                ParallelSystem.prototype.report_invoke_history = function (invoke) {
+                ParallelSystem.prototype.report_invoke_history = function (xml) {
                     ///////
                     // CONSTRUCT HISTORY
                     ///////
                     var history = new master.PRInvokeHistory();
-                    history.construct(invoke.front().getValue());
+                    history.construct(xml);
                     var progress_it = this.progress_list.find(history.getUID());
                     history["index"] = progress_it.second.getIndex();
                     history["size"] = progress_it.second.getSize();
@@ -5552,7 +5553,7 @@ var samchon;
                     this.progress_list.erase(progress_it);
                     this.history_list.insert([history.getUID(), history]);
                     // NOTIFY TO THE MANAGER, SYSTEM_ARRAY
-                    this.getSystemArray()["notify_end"](history);
+                    this.systemArray["notify_end"](history);
                 };
                 return ParallelSystem;
             }(protocol.ExternalSystem));
@@ -5601,8 +5602,14 @@ var samchon;
                 function PRInvokeHistory(invoke) {
                     if (invoke === void 0) { invoke = null; }
                     _super.call(this, invoke);
-                    this.index = invoke.get("index").getValue();
-                    this.size = invoke.get("size").getValue();
+                    if (invoke == null) {
+                        this.index = 0;
+                        this.size = 0;
+                    }
+                    else {
+                        this.index = invoke.get("index").getValue();
+                        this.size = invoke.get("size").getValue();
+                    }
                 }
                 PRInvokeHistory.prototype.getIndex = function () {
                     return this.index;
@@ -5868,15 +5875,15 @@ var samchon;
                 SlaveSystem.prototype.replyData = function (invoke) {
                     if (invoke.has("invoke_history_uid")) {
                         // INIT HISTORY - WITH START TIME
-                        var history_2 = new protocol.InvokeHistory(invoke);
+                        var history_1 = new protocol.InvokeHistory(invoke);
                         std.remove_if(invoke.begin(), invoke.end(), function (parameter) {
                             return parameter.getName() == "invoke_history_uid";
                         }); // DETACH THE UID FOR FUNCTION AUTO-MATCHING
                         // MAIN PROCESS - REPLY_DATA
                         _super.prototype.replyData.call(this, invoke);
                         // NOTIFY - WITH END TIME
-                        history_2.notifyEnd();
-                        this.sendData(history_2.toInvoke());
+                        history_1.notifyEnd();
+                        this.sendData(history_1.toInvoke());
                     }
                     else
                         _super.prototype.replyData.call(this, invoke);

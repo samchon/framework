@@ -67,14 +67,16 @@
     <ClInclude Include="..\samchon\library\XML.hpp" />
     <ClInclude Include="..\samchon\protocol\ClientDriver.hpp" />
     <ClInclude Include="..\samchon\protocol\Communicator.hpp" />
-    <ClInclude Include="..\samchon\protocol\ExternalServer.hpp" />
-    <ClInclude Include="..\samchon\protocol\ExternalSystem.hpp" />
-    <ClInclude Include="..\samchon\protocol\ExternalSystemArray.hpp" />
-    <ClInclude Include="..\samchon\protocol\ExternalSystemRole.hpp" />
+    <ClInclude Include="..\samchon\protocol\external\ExternalServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\external\ExternalSystem.hpp" />
+    <ClInclude Include="..\samchon\protocol\external\ExternalSystemArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\external\ExternalSystemRole.hpp" />
     <ClInclude Include="..\samchon\protocol\FlashPolicyServer.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityChain.hpp" />
     <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\ParallelSystem.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelSystemArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\PRInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\service\Client.hpp" />
     <ClInclude Include="..\samchon\protocol\service\Server.hpp" />
     <ClInclude Include="..\samchon\protocol\service\Service.hpp" />
@@ -110,7 +112,6 @@
     <ClInclude Include="..\samchon\protocol\UniqueEntityList.hpp" />
     <ClInclude Include="..\samchon\SmartPointer.hpp" />
     <ClInclude Include="..\samchon\WeakString.hpp" />
-    <ClInclude Include="ParallelSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samchon\library\Charset.cpp" />
@@ -122,7 +123,14 @@
     <ClCompile Include="..\samchon\library\TSQLStatement.cpp" />
     <ClCompile Include="..\samchon\protocol\ClientDriver.cpp" />
     <ClCompile Include="..\samchon\protocol\Communicator.cpp" />
+    <ClCompile Include="..\samchon\protocol\external\ExternalServer.cpp" />
+    <ClCompile Include="..\samchon\protocol\external\ExternalSystem.cpp" />
+    <ClCompile Include="..\samchon\protocol\external\ExternalSystemArray.cpp" />
+    <ClCompile Include="..\samchon\protocol\external\ExternalSystemRole.cpp" />
     <ClCompile Include="..\samchon\protocol\FlashPolicyServer.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ParallelSystem.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\ParallelSystemArray.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\PRInvokeHistory.cpp" />
     <ClCompile Include="..\samchon\protocol\Server.cpp" />
     <ClCompile Include="..\samchon\protocol\ServerConnector.cpp" />
     <ClCompile Include="..\samchon\protocol\service\Client.cpp" />

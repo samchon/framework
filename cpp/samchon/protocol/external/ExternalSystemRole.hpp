@@ -8,9 +8,11 @@ namespace samchon
 {
 namespace protocol
 {
+namespace external
+{
 	class ExternalSystem;
 
-	class ExternalSystemRole
+	class SAMCHON_FRAMEWORK_API ExternalSystemRole
 		: public virtual Entity,
 		public virtual IProtocol
 	{
@@ -29,16 +31,10 @@ namespace protocol
 		/**
 		 * Default Constructor.
 		 */
-		ExternalSystemRole(ExternalSystem *system)
-		{
-			this->system = system;
-		};
-		virtual ~ExternalSystemRole() = default;
+		ExternalSystemRole(ExternalSystem *system);
+		virtual ~ExternalSystemRole();
 
-		virtual void construct(std::shared_ptr<library::XML> xml)
-		{
-			name = xml->getProperty("name");
-		};
+		virtual void construct(std::shared_ptr<library::XML> xml);
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -60,10 +56,7 @@ namespace protocol
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		virtual void sendData(std::shared_ptr<Invoke> invoke)
-		{
-			((IProtocol*)system)->sendData(invoke);
-		};
+		virtual void sendData(std::shared_ptr<Invoke> invoke);
 
 		/* ---------------------------------------------------------
 			EXPORTERS
@@ -73,13 +66,8 @@ namespace protocol
 			return "role";
 		};
 
-		virtual auto toXML() const -> std::shared_ptr<library::XML>
-		{
-			std::shared_ptr<library::XML> &xml = super::toXML();
-			xml->setProperty("name", name);
-			
-			return xml;
-		};
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override;
 	};
+};
 };
 };

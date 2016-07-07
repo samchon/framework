@@ -2,8 +2,7 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/external/ExternalSystemArray.hpp>
-
-#include <samchon/protocol/master/ParallelSystem.hpp>
+#	include <samchon/protocol/master/ParallelSystem.hpp>
 
 namespace samchon
 {
@@ -11,12 +10,14 @@ namespace protocol
 {
 namespace master
 {
+	class ParallelSystemArrayMediator;
 	class ParallelSystem;
 	class PRInvokeHistory;
 
 	class SAMCHON_FRAMEWORK_API ParallelSystemArray
 		: public external::ExternalSystemArray
 	{
+		friend class ParallelSystemArrayMediator;
 		friend class ParallelSystem;
 
 	private:
@@ -31,7 +32,7 @@ namespace master
 		ParallelSystemArray();
 		virtual ~ParallelSystemArray();
 
-		SHARED_ENTITY_ARRAY_ELEMENT_ACCESSOR_INLINE(ParallelSystem)
+		SHARED_ENTITY_DEQUE_ELEMENT_ACCESSOR_INLINE(ParallelSystem)
 
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
@@ -43,7 +44,8 @@ namespace master
 		void sendPieceData(std::shared_ptr<Invoke> invoke, size_t index, size_t count);
 
 	private:
-		void notify_end(const PRInvokeHistory &);
+		virtual auto notify_end(std::shared_ptr<PRInvokeHistory>) -> bool;
+
 		void normalize_performance();
 	};
 };

@@ -11,20 +11,22 @@ namespace protocol
 namespace master
 {
 	class ParallelSystemArray;
+	class ParallelSystemArrayMediator;
 	class PRInvokeHistory;
 
 	class SAMCHON_FRAMEWORK_API ParallelSystem 
 		: public virtual external::ExternalSystem
 	{
 		friend class ParallelSystemArray;
+		friend class ParallelSystemArrayMediator;
 
 	private:
 		typedef external::ExternalSystem super;
 
 		ParallelSystemArray* systemArray;
 
-		HashMap<size_t, PRInvokeHistory> progress_list;
-		HashMap<size_t, PRInvokeHistory> history_list;
+		HashMap<size_t, std::shared_ptr<PRInvokeHistory>> progress_list;
+		HashMap<size_t, std::shared_ptr<PRInvokeHistory>> history_list;
 
 		double performance;
 

@@ -6,7 +6,6 @@ using namespace samchon::library;
 using namespace samchon::protocol;
 using namespace samchon::protocol::master;
 
-
 PRInvokeHistory::PRInvokeHistory()
 	: super()
 {
@@ -15,8 +14,8 @@ PRInvokeHistory::PRInvokeHistory()
 PRInvokeHistory::PRInvokeHistory(shared_ptr<Invoke> invoke)
 	: super(invoke)
 {
-	index = invoke->get("invoke")->getValue<size_t>();
-	size = invoke->get("size")->getValue<size_t>();
+	index = invoke->get("piece_index")->getValue<size_t>();
+	size = invoke->get("piece_size")->getValue<size_t>();
 }
 
 PRInvokeHistory::~PRInvokeHistory()

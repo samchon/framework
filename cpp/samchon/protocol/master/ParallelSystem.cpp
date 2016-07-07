@@ -36,13 +36,13 @@ void ParallelSystem::send_piece_data(shared_ptr<Invoke> invoke, size_t index, si
 	// DUPLICATE INVOKE AND ATTACH PIECE INFO
 	shared_ptr<Invoke> my_invoke(new Invoke(*invoke));
 	{
-		my_invoke->emplace_back(new InvokeParameter("index", index));
-		my_invoke->emplace_back(new InvokeParameter("size", size));
+		my_invoke->emplace_back(new InvokeParameter("piece_index", index));
+		my_invoke->emplace_back(new InvokeParameter("piece_size", size));
 	}
 
 	// REGISTER THE UID AS PROGRESS
-	PRInvokeHistory history(my_invoke);
-	progress_list.insert({ history.uid, history });
+	std::shared_ptr<PRInvokeHistory> history(new PRInvokeHistory(my_invoke));
+	progress_list.insert({ history->uid, history });
 
 	// SEND DATA
 	this->sendData(my_invoke);
@@ -61,16 +61,16 @@ void ParallelSystem::report_invoke_history(shared_ptr<XML> xml)
 	///////
 	// CONSTRUCT HISTORY
 	///////
-	PRInvokeHistory history;
-	history.construct(xml);
+	shared_ptr<PRInvokeHistory> history(new PRInvokeHistory());
+	history->construct(xml);
 
-	auto progress_it = progress_list.find(history.uid);
-	history.index = progress_it->second.index;
-	history.size = progress_it->second.size;
+	auto progress_it = progress_list.find(history->uid);
+	history->index = progress_it->second->index;
+	history->size = progress_it->second->size;
 
 	// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 	progress_list.erase(progress_it);
-	history_list.insert({ history.uid, history });
+	history_list.insert({ history->uid, history });
 
 	// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
 	systemArray->notify_end(history);

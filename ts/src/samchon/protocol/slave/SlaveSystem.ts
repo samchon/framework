@@ -1,11 +1,11 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../ExternalSystem.ts" />
+/// <reference path="../external/ExternalSystem.ts" />
 
 namespace samchon.protocol.slave
 {
-	export abstract class SlaveSystem 
-		extends ExternalSystem
+	export abstract class SlaveSystem
+		extends external.ExternalSystem
 	{
 		/**
 		 * Default Constructor.
@@ -66,8 +66,8 @@ namespace samchon.protocol.slave
 		}
 	}
 
-	export class SlaveWebServerBase 
-		extends WebServer 
+	export class SlaveWebServerBase
+		extends WebServer
 		implements ISlaveServerBase
 	{
 		private slave_system: SlaveSystem;

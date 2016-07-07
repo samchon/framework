@@ -33,6 +33,10 @@ HTTPLoader::HTTPLoader(const string &url, int method)
 	this->url = url;
 }
 
+HTTPLoader::~HTTPLoader()
+{
+}
+
 /* ------------------------------------------------------------
 	SETTERS & GETTERS
 ------------------------------------------------------------ */

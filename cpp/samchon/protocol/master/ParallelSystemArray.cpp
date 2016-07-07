@@ -2,6 +2,8 @@
 
 #include <samchon/protocol/master/PRInvokeHistory.hpp>
 
+#include <array>
+
 using namespace std;
 using namespace samchon;
 using namespace samchon::library;
@@ -25,11 +27,20 @@ ParallelSystemArray::~ParallelSystemArray()
 --------------------------------------------------------- */
 void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t index, size_t size)
 {
+	// CHECK VALIDITY - RESERVED PARAMETER
+	static const std::array<std::string, 3> RESERVED_PARAMETERS = {"invoke_history_uid", "piece_index", "piece_size"};
+
+	for (size_t i = 0; i < RESERVED_PARAMETERS.size(); i++)
+		if (invoke->has(RESERVED_PARAMETERS[i]) == true)
+			throw std::domain_error("Parameter " + RESERVED_PARAMETERS[i] + " is a reserved parameter in the ParallelSystem. Replace your name to another.");
+
+	// INSERT HISTORY_UID
 	invoke->emplace_back(new InvokeParameter("invoke_history_uid", ++history_sequence));
 
+	// SPLIT TO PIECES AND SEND TO EACH SYSTEM
 	for (size_t i = 0; i < this->size(); i++)
 	{
-		auto system = this->at(i);
+		shared_ptr<ParallelSystem> &system = this->at(i);
 
 		size_t piece_size = (i == this->size() - 1)
 			? size - index
@@ -42,14 +53,14 @@ void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t index,
 	}
 }
 
-void ParallelSystemArray::notify_end(const PRInvokeHistory &history)
+auto ParallelSystemArray::notify_end(std::shared_ptr<PRInvokeHistory> history) -> bool
 {
-	size_t uid = history.getUID();
+	size_t uid = history->getUID();
 
 	// ALL THE SUB-TASKS ARE DONE?
 	for (size_t i = 0; i < this->size(); i++)
-		if (this->at(i)->progress_list.has(uid) == false)
-			return;
+		if (this->at(i)->progress_list.has(uid) == true)
+			return false;
 
 	///////
 	// RE-CALCULATE PERFORMANCE INDEX
@@ -65,8 +76,8 @@ void ParallelSystemArray::notify_end(const PRInvokeHistory &history)
 		if (system->history_list.has(uid) == false)
 			continue;
 
-		const PRInvokeHistory &my_history = system->history_list.get(uid);
-		double performance_index = my_history.getSize() / (double)my_history.getElapsedTime();
+		shared_ptr<PRInvokeHistory> &my_history = system->history_list.get(uid);
+		double performance_index = my_history->getSize() / (double)my_history->getElapsedTime();
 
 		system_pairs.push_back({ system, performance_index });
 		performance_index_avergae += performance_index;
@@ -83,6 +94,8 @@ void ParallelSystemArray::notify_end(const PRInvokeHistory &history)
 		system->performance = (system->performance * ordinary_ratio) + (new_performance * (1 - ordinary_ratio));
 	}
 	this->normalize_performance();
+
+	return true;
 }
 
 void ParallelSystemArray::normalize_performance()

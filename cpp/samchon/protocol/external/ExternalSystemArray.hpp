@@ -15,15 +15,12 @@ namespace protocol
 {
 namespace external
 {
-	class ExternalSystemArrayServer;
-
 	class SAMCHON_FRAMEWORK_API ExternalSystemArray
 		: public SharedEntityDeque<ExternalSystem>,
 		public virtual Server, // YOU CAN REPLACE IT -> WebServer
 		public virtual IProtocol
 	{
 		friend class ExternalSystem;
-		friend class ExternalSystemArrayServer;
 
 	private:
 		typedef SharedEntityDeque<ExternalSystem> super;

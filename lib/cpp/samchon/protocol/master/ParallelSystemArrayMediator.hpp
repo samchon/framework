@@ -9,7 +9,7 @@ namespace protocol
 {
 namespace master
 {
-	class ParallelMediator;
+	class MediatorSystem;
 
 	class SAMCHON_FRAMEWORK_API ParallelSystemArrayMediator
 		: public ParallelSystemArray
@@ -17,7 +17,7 @@ namespace master
 	private:
 		typedef ParallelSystemArray super;
 
-		std::unique_ptr<ParallelMediator> mediator;
+		std::unique_ptr<MediatorSystem> mediator;
 
 	public:
 		/* ---------------------------------------------------------
@@ -27,7 +27,7 @@ namespace master
 		virtual ~ParallelSystemArrayMediator();
 
 	protected:
-		virtual auto createMediator() -> ParallelMediator* = 0;
+		virtual auto createMediator() -> MediatorSystem* = 0;
 
 	public:
 		/* ---------------------------------------------------------
@@ -39,6 +39,15 @@ namespace master
 	private:
 		void start_mediator();
 
+	public:
+		/* ---------------------------------------------------------
+			MESSAGE CHAIN
+		--------------------------------------------------------- */
+		virtual void sendData(std::shared_ptr<Invoke>) override;
+
+		virtual void sendPieceData(std::shared_ptr<Invoke> invoke, size_t index, size_t count);
+		
+	private:
 		virtual auto notify_end(std::shared_ptr<PRInvokeHistory>) -> bool;
 	};
 };

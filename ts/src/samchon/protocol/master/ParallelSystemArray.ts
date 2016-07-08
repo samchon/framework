@@ -4,7 +4,7 @@
 
 namespace samchon.protocol.master
 {
-	export abstract class ParallelSystemArray 
+	export abstract class ParallelSystemArray
 		extends external.ExternalSystemArray
 	{
 		private history_sequence: number;

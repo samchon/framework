@@ -4,8 +4,6 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 /// <reference path="../typescript-stl/typescript-stl.d.ts" />
-/// <reference path="../node/node.d.ts" />
-/// <reference path="../websocket/websocket.d.ts" />
 
 declare module "samchon-framework"
 {

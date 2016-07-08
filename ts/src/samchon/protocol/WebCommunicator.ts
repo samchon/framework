@@ -9,12 +9,12 @@ namespace samchon.protocol
 	export class WebCommunicatorBase implements IProtocol
 	{
 		private communicator: IProtocol;
-		private connection: __websocket.connection;
+		private connection: websocket.connection;
 
-		public constructor(clientDriver: WebClientDriver, connection: __websocket.connection);
-		public constructor(serverConnector: WebServerConnector, connection: __websocket.connection);
+		public constructor(clientDriver: WebClientDriver, connection: websocket.connection);
+		public constructor(serverConnector: WebServerConnector, connection: websocket.connection);
 
-		public constructor(communicator: IProtocol, connection: __websocket.connection)
+		public constructor(communicator: IProtocol, connection: websocket.connection)
 		{
 			this.communicator = communicator;
 			this.connection = connection;
@@ -25,7 +25,7 @@ namespace samchon.protocol
 			this.connection.on("message", this.handle_message.bind(this));
 		}
 
-		private handle_message(message: __websocket.IMessage)
+		private handle_message(message: websocket.IMessage)
 		{
 			if (message.type == "utf8")
 				this.replyData(new Invoke(new library.XML(message.utf8Data)));
@@ -49,9 +49,12 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	declare var http: typeof NodeJS.http;
+	declare var websocket: typeof __websocket;
+
 	export abstract class WebServer extends Server
 	{
-		private http_server: NodeJS.http.Server;
+		private http_server: socket.http_server;
 
 		private sequence: number;
 
@@ -73,7 +76,7 @@ namespace samchon.protocol
 
 		protected abstract addClient(driver: WebClientDriver): void;
 
-		private handle_request(request: __websocket.request): void
+		private handle_request(request: websocket.request): void
 		{
 			let path: string = request.resource;
 			let session_id: string = this.get_session_id(request.cookies);
@@ -88,7 +91,7 @@ namespace samchon.protocol
 			this.addClient(driver);
 		}
 
-		private get_session_id(cookies: __websocket.ICookie[]): string
+		private get_session_id(cookies: websocket.ICookie[]): string
 		{
 			for (let i: number = 0; i < cookies.length; i++)
 				if (cookies[i].name == "SESSION_ID")
@@ -112,7 +115,7 @@ namespace samchon.protocol
 		private path: string;
 		private session_id: string;
 
-		public constructor(connection: __websocket.connection, path: string, session_id: string)
+		public constructor(connection: websocket.connection, path: string, session_id: string)
 		{
 			super();
 
@@ -145,6 +148,8 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	declare var websocket: typeof __websocket;
+
 	/**
 	 * <p> A server connector for a physical client. </p>
 	 *
@@ -177,7 +182,7 @@ namespace samchon.protocol
 		///////
 		// NODE CLIENT
 		///////
-		private client: __websocket.client = null;
+		private client: websocket.client = null;
 		private base: WebCommunicatorBase = null;
 
 		/**
@@ -277,7 +282,7 @@ namespace samchon.protocol
 			this.replyData(new Invoke(new library.XML(event.data)));
 		}
 
-		private handle_node_connect(connection: __websocket.connection): void
+		private handle_node_connect(connection: websocket.connection): void
 		{
 			this.base = new WebCommunicatorBase(this, connection);
 			this.base.listen();

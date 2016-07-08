@@ -34,7 +34,7 @@ namespace samchon.protocol
 	export class SharedWorkerConnector
 		extends Communicator
 	{
-		private driver: SharedWorker;
+		private driver: any; //SharedWorker;
 
 		public onopen = Function;
 

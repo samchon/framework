@@ -148,6 +148,12 @@
     <Filter Include="Source Files\protocol\slave">
       <UniqueIdentifier>{f40d6d06-961e-44e4-8efa-726631d41243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\protocol\master\mediator">
+      <UniqueIdentifier>{fc58b9f1-3e7a-43b8-bd4e-0e3863777729}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\master\mediator">
+      <UniqueIdentifier>{341d76cb-b00e-4861-a949-aaf6a12b16ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\ByteArray.hpp">
@@ -460,13 +466,19 @@
       <Filter>Header Files\protocol\slave</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\MediatorClient.hpp">
-      <Filter>Header Files\protocol\master\parallel system</Filter>
+      <Filter>Header Files\protocol\master\mediator</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\MediatorServer.hpp">
-      <Filter>Header Files\protocol\master\parallel system</Filter>
+      <Filter>Header Files\protocol\master\mediator</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelMediator.hpp">
-      <Filter>Header Files\protocol\master\parallel system</Filter>
+    <ClInclude Include="..\samchon\protocol\master\MediatorWebServer.hpp">
+      <Filter>Header Files\protocol\master\mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\MediatorWebClient.hpp">
+      <Filter>Header Files\protocol\master\mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\MediatorSystem.hpp">
+      <Filter>Header Files\protocol\master\mediator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -563,8 +575,8 @@
     <ClCompile Include="..\samchon\protocol\master\ParallelSystemArrayMediator.cpp">
       <Filter>Source Files\protocol\master\parallel system</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\ParallelMediator.cpp">
-      <Filter>Source Files\protocol\master\parallel system</Filter>
+    <ClCompile Include="..\samchon\protocol\master\MediatorSystem.cpp">
+      <Filter>Source Files\protocol\master\mediator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

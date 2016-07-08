@@ -21,14 +21,11 @@ var samchon;
     }
     samchon.is_node = is_node;
 })(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-})(samchon || (samchon = {}));
 if (samchon.is_node() == true) {
     global["std"] = require("typescript-stl");
-    samchon.http = require("http");
-    samchon.websocket = require("websocket");
-    samchon.net = require("net");
+    global["http"] = require("http");
+    global["websocket"] = require("websocket");
+    global["net"] = require("net");
 }
 /// <reference path="miscellaneous/requires.ts" />
 /// <reference path="miscellaneous/namespace.ts" /> 
@@ -2391,13 +2388,303 @@ var samchon;
 /// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var Server = (function () {
+            function Server() {
+            }
+            return Server;
+        }());
+        protocol.Server = Server;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var Communicator = (function () {
+            function Communicator() {
+                this.listener = null;
+            }
+            Communicator.prototype.replyData = function (invoke) {
+                this.listener.replyData(invoke);
+            };
+            return Communicator;
+        }());
+        protocol.Communicator = Communicator;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="Communicator.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var ClientDriver = (function (_super) {
+            __extends(ClientDriver, _super);
+            function ClientDriver() {
+                _super.call(this);
+            }
+            return ClientDriver;
+        }(protocol.Communicator));
+        protocol.ClientDriver = ClientDriver;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../APi.ts" />
+/// <reference path="Communicator.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var ServerConnector = (function (_super) {
+            __extends(ServerConnector, _super);
+            function ServerConnector(listener) {
+                _super.call(this);
+                this.listener = listener;
+                this.onopen = null;
+            }
+            return ServerConnector;
+        }(protocol.Communicator));
+        protocol.ServerConnector = ServerConnector;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="Server.ts" />
+/// <reference path="ClientDriver.ts" />
+/// <reference path="ServerConnector.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var WebCommunicatorBase = (function () {
+            function WebCommunicatorBase(communicator, connection) {
+                this.communicator = communicator;
+                this.connection = connection;
+            }
+            WebCommunicatorBase.prototype.listen = function () {
+                this.connection.on("message", this.handle_message.bind(this));
+            };
+            WebCommunicatorBase.prototype.handle_message = function (message) {
+                if (message.type == "utf8")
+                    this.replyData(new protocol.Invoke(new samchon.library.XML(message.utf8Data)));
+            };
+            WebCommunicatorBase.prototype.replyData = function (invoke) {
+                this.communicator.replyData(invoke);
+            };
+            WebCommunicatorBase.prototype.sendData = function (invoke) {
+                this.connection.sendUTF(invoke.toXML().toString());
+                for (var i = 0; i < invoke.size(); i++)
+                    if (invoke.at(i).getType() == "ByteArray")
+                        this.connection.sendBytes(invoke.at(i).getValue());
+            };
+            return WebCommunicatorBase;
+        }());
+        protocol.WebCommunicatorBase = WebCommunicatorBase;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var WebServer = (function (_super) {
+            __extends(WebServer, _super);
+            function WebServer() {
+                _super.call(this);
+                this.sequence = 0;
+            }
+            WebServer.prototype.open = function (port) {
+                this.http_server = http.createServer();
+                this.http_server.listen(port);
+                var ws_server = new websocket.server({ httpServer: this.http_server });
+                ws_server.on("request", this.handle_request.bind(this));
+            };
+            WebServer.prototype.handle_request = function (request) {
+                var path = request.resource;
+                var session_id = this.get_session_id(request.cookies);
+                var connection = request.accept("", request.origin, [{ name: "SESSION_ID", value: session_id }]);
+                var driver = new protocol.WebClientDriver(connection, path, session_id);
+                this.addClient(driver);
+            };
+            WebServer.prototype.get_session_id = function (cookies) {
+                for (var i = 0; i < cookies.length; i++)
+                    if (cookies[i].name == "SESSION_ID")
+                        return cookies[i].value;
+                return this.issue_session_id();
+            };
+            WebServer.prototype.issue_session_id = function () {
+                return "" + ++this.sequence;
+            };
+            return WebServer;
+        }(protocol.Server));
+        protocol.WebServer = WebServer;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var WebClientDriver = (function (_super) {
+            __extends(WebClientDriver, _super);
+            function WebClientDriver(connection, path, session_id) {
+                _super.call(this);
+                this.base = new protocol.WebCommunicatorBase(this, connection);
+                this.path = path;
+                this.session_id = session_id;
+            }
+            WebClientDriver.prototype.listen = function (listener) {
+                this.listener = listener;
+                this.base.listen();
+            };
+            WebClientDriver.prototype.getPath = function () {
+                return this.path;
+            };
+            WebClientDriver.prototype.getSessionID = function () {
+                return this.session_id;
+            };
+            WebClientDriver.prototype.sendData = function (invoke) {
+                this.base.sendData(invoke);
+            };
+            return WebClientDriver;
+        }(protocol.ClientDriver));
+        protocol.WebClientDriver = WebClientDriver;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * <p> A server connector for a physical client. </p>
+         *
+         * <p> ServerConnector is a class for a physical client connecting a server. If you want to connect
+         * to a server,  then implements this ServerConnector and just override some methods like
+         * getIP(), getPort() and replyData(). That's all. </p>
+         *
+         * <p> In Samchon Framework, package protocol, There are basic 3 + 1 components that can make any
+         * type of network system in Samchon Framework. The basic 3 components are IProtocol, IServer and
+         * IClient. The last, surplus one is the ServerConnector. Looking around classes in
+         * Samchon Framework, especially module master and slave which are designed for realizing
+         * distributed processing systems and parallel processing systems, physical client classes are all
+         * derived from this ServerConnector. </p>
+         *
+         * <img src="interface.png" />
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var WebServerConnector = (function (_super) {
+            __extends(WebServerConnector, _super);
+            /**
+             * <p> Constructor with parent. </p>
+             */
+            function WebServerConnector(listener) {
+                _super.call(this, listener);
+                ///////
+                // WEB-BROWSER
+                ///////
+                /**
+                 * <p> A socket for network I/O. </p>
+                 */
+                this.socket = null;
+                ///////
+                // NODE CLIENT
+                ///////
+                this.client = null;
+                this.base = null;
+            }
+            /**
+             * <p> Connects to a cloud server with specified host and port. </p>
+             *
+             * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown:
+             * an error event is dispatched if a host was specified, and an exception is thrown if no host
+             * was specified. Otherwise, the status of the connection is reported by an event.
+             * If the socket is already connected, the existing connection is closed first. </p>
+             *
+             * @param ip
+             * 		The name or IP address of the host to connect to.
+             * 		If no host is specified, the host that is contacted is the host where the calling
+             * 		file resides. If you do not specify a host, use an event listener to determine whether
+             * 		the connection was successful.
+             * @param port
+             * 		The port number to connect to.
+             *
+             * @throws IOError
+             * 		No host was specified and the connection failed.
+             * @throws SecurityError
+             * 		This error occurs in SWF content for the following reasons:
+             * 		Local untrusted SWF files may not communicate with the Internet. You can work around
+             * 		this limitation by reclassifying the file as local-with-networking or as trusted.
+             */
+            WebServerConnector.prototype.connect = function (ip, port, path) {
+                if (path === void 0) { path = ""; }
+                // COMPOSITE FULL-ADDRESS
+                var address;
+                if (ip.indexOf("ws://") == -1)
+                    if (ip.indexOf("://") != -1)
+                        throw "only websocket is possible";
+                    else
+                        ip = "ws://" + ip;
+                address = ip + ":" + port + "/" + path;
+                // CONNECTION BRANCHES
+                if (samchon.is_node() == true) {
+                    this.client = new websocket.client();
+                    this.client.on("connect", this.handle_node_connect.bind(this));
+                    this.client.connect(address);
+                }
+                else {
+                    this.socket = new WebSocket(address);
+                    this.socket.onopen = this.handle_browser_connect.bind(this);
+                    this.socket.onmessage = this.handle_browser_message.bind(this);
+                }
+            };
+            /* ----------------------------------------------------
+                IPROTOCOL'S METHOD
+            ---------------------------------------------------- */
+            /**
+             * <p> Send data to the server. </p>
+             */
+            WebServerConnector.prototype.sendData = function (invoke) {
+                if (this.socket != null) {
+                    this.socket.send(invoke.toXML().toString());
+                    for (var i = 0; i < invoke.size(); i++)
+                        if (invoke.at(i).getType() == "ByteArray")
+                            this.socket.send(invoke.at(i).getValue());
+                }
+                else {
+                    this.base.sendData(invoke);
+                }
+            };
+            WebServerConnector.prototype.handle_browser_connect = function (event) {
+                if (this.onopen != null)
+                    this.onopen();
+            };
+            /**
+             * <p> Handling replied message. </p>
+             */
+            WebServerConnector.prototype.handle_browser_message = function (event) {
+                this.replyData(new protocol.Invoke(new samchon.library.XML(event.data)));
+            };
+            WebServerConnector.prototype.handle_node_connect = function (connection) {
+                this.base = new protocol.WebCommunicatorBase(this, connection);
+                this.base.listen();
+                if (this.onopen != null)
+                    this.onopen();
+            };
+            return WebServerConnector;
+        }(protocol.ServerConnector));
+        protocol.WebServerConnector = WebServerConnector;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="../protocol/WebCommunicator.ts" />
+var samchon;
+(function (samchon) {
     var example;
     (function (example) {
         function test_websocket() {
             if (samchon.is_node() == true)
                 new TestWebServer();
-            else
-                new TestWebConnector();
+            new TestWebConnector();
         }
         example.test_websocket = test_websocket;
         var TestWebServer = (function (_super) {
@@ -3409,41 +3696,7 @@ var samchon;
 /// <reference path="../protocol/Entity.ts" />
 if (std.is_node() == true) {
     Object.assign(exports, samchon);
-    samchon.example.test_websocket();
 }
-/// <reference path="../API.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var Communicator = (function () {
-            function Communicator() {
-                this.listener = null;
-            }
-            Communicator.prototype.replyData = function (invoke) {
-                this.listener.replyData(invoke);
-            };
-            return Communicator;
-        }());
-        protocol.Communicator = Communicator;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="Communicator.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var ClientDriver = (function (_super) {
-            __extends(ClientDriver, _super);
-            function ClientDriver() {
-                _super.call(this);
-            }
-            return ClientDriver;
-        }(protocol.Communicator));
-        protocol.ClientDriver = ClientDriver;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
 /// <reference path="Communicator.ts" />
 var samchon;
@@ -4347,104 +4600,6 @@ var samchon;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
-/// <reference path="ExternalSystemArray.ts" />
-/// <reference path="ExternalSystem.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var external;
-        (function (external) {
-            var ExternalServerArray = (function (_super) {
-                __extends(ExternalServerArray, _super);
-                function ExternalServerArray() {
-                    _super.apply(this, arguments);
-                }
-                ExternalServerArray.prototype.createServer = function () {
-                    return null;
-                };
-                return ExternalServerArray;
-            }(external.ExternalSystemArray));
-            external.ExternalServerArray = ExternalServerArray;
-            var ExternalNormalSystemArray = (function (_super) {
-                __extends(ExternalNormalSystemArray, _super);
-                function ExternalNormalSystemArray() {
-                    _super.apply(this, arguments);
-                }
-                ExternalNormalSystemArray.prototype.createServer = function () {
-                    return new external.ExtNormalServerBase(this);
-                };
-                return ExternalNormalSystemArray;
-            }(external.ExternalSystemArray));
-            external.ExternalNormalSystemArray = ExternalNormalSystemArray;
-            var ExternalWebSystemArray = (function (_super) {
-                __extends(ExternalWebSystemArray, _super);
-                function ExternalWebSystemArray() {
-                    _super.apply(this, arguments);
-                }
-                ExternalWebSystemArray.prototype.createServer = function () {
-                    return new external.ExtWebServerBase(this);
-                };
-                return ExternalWebSystemArray;
-            }(external.ExternalSystemArray));
-            external.ExternalWebSystemArray = ExternalWebSystemArray;
-            var ExternalSharedWorkerSystemArray = (function (_super) {
-                __extends(ExternalSharedWorkerSystemArray, _super);
-                function ExternalSharedWorkerSystemArray() {
-                    _super.apply(this, arguments);
-                }
-                ExternalSharedWorkerSystemArray.prototype.createServer = function () {
-                    return new external.ExtSharedWorkerServerBase(this);
-                };
-                return ExternalSharedWorkerSystemArray;
-            }(external.ExternalSystemArray));
-            external.ExternalSharedWorkerSystemArray = ExternalSharedWorkerSystemArray;
-        })(external = protocol.external || (protocol.external = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var external;
-        (function (external) {
-            var ExternalNormalServer = (function (_super) {
-                __extends(ExternalNormalServer, _super);
-                function ExternalNormalServer() {
-                    _super.apply(this, arguments);
-                }
-                ExternalNormalServer.prototype.createServerConnector = function () {
-                    return new protocol.NormalServerConnector(this);
-                };
-                return ExternalNormalServer;
-            }(external.ExternalServer));
-            external.ExternalNormalServer = ExternalNormalServer;
-            var ExternalWebServer = (function (_super) {
-                __extends(ExternalWebServer, _super);
-                function ExternalWebServer() {
-                    _super.apply(this, arguments);
-                }
-                ExternalWebServer.prototype.createServerConnector = function () {
-                    return new protocol.WebServerConnector(this);
-                };
-                return ExternalWebServer;
-            }(external.ExternalServer));
-            external.ExternalWebServer = ExternalWebServer;
-            var ExternalSharedWorker = (function (_super) {
-                __extends(ExternalSharedWorker, _super);
-                function ExternalSharedWorker() {
-                    _super.apply(this, arguments);
-                }
-                ExternalSharedWorker.prototype.createServerConnector = function () {
-                    return new protocol.SharedWorkerConnector(this);
-                };
-                return ExternalSharedWorker;
-            }(external.ExternalServer));
-            external.ExternalSharedWorker = ExternalSharedWorker;
-        })(external = protocol.external || (protocol.external = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
 /// <reference path="../Entity.ts" />
 var samchon;
 (function (samchon) {
@@ -4492,37 +4647,6 @@ var samchon;
             }(protocol.Entity));
             external.ExternalSystemRole = ExternalSystemRole;
         })(external = protocol.external || (protocol.external = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var Server = (function () {
-            function Server() {
-            }
-            return Server;
-        }());
-        protocol.Server = Server;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../APi.ts" />
-/// <reference path="Communicator.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var ServerConnector = (function (_super) {
-            __extends(ServerConnector, _super);
-            function ServerConnector(listener) {
-                _super.call(this);
-                this.listener = listener;
-                this.onopen = null;
-            }
-            return ServerConnector;
-        }(protocol.Communicator));
-        protocol.ServerConnector = ServerConnector;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
@@ -4600,7 +4724,7 @@ var samchon;
                 _super.apply(this, arguments);
             }
             NormalServer.prototype.open = function (port) {
-                this.server = samchon.net.createServer(this.handle_connect.bind(this));
+                this.server = net.createServer(this.handle_connect.bind(this));
                 this.server.listen(port);
             };
             NormalServer.prototype.handle_connect = function (socket) {
@@ -4645,7 +4769,7 @@ var samchon;
                 this.socket = null;
             }
             NormalServerConnector.prototype.connect = function (ip, port) {
-                this.socket = samchon.net.connect({ host: ip, port: port }, this.handle_connect.bind(this));
+                this.socket = net.connect({ host: ip, port: port }, this.handle_connect.bind(this));
             };
             NormalServerConnector.prototype.handle_connect = function () {
                 var arg = [];
@@ -4663,232 +4787,6 @@ var samchon;
             return NormalServerConnector;
         }(protocol.ServerConnector));
         protocol.NormalServerConnector = NormalServerConnector;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="Server.ts" />
-/// <reference path="ClientDriver.ts" />
-/// <reference path="ServerConnector.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var WebCommunicatorBase = (function () {
-            function WebCommunicatorBase(communicator, connection) {
-                this.communicator = communicator;
-                this.connection = connection;
-            }
-            WebCommunicatorBase.prototype.listen = function () {
-                this.connection.on("message", this.handle_message.bind(this));
-            };
-            WebCommunicatorBase.prototype.handle_message = function (message) {
-                if (message.type == "utf8")
-                    this.replyData(new protocol.Invoke(new samchon.library.XML(message.utf8Data)));
-            };
-            WebCommunicatorBase.prototype.replyData = function (invoke) {
-                this.communicator.replyData(invoke);
-            };
-            WebCommunicatorBase.prototype.sendData = function (invoke) {
-                this.connection.sendUTF(invoke.toXML().toString());
-                for (var i = 0; i < invoke.size(); i++)
-                    if (invoke.at(i).getType() == "ByteArray")
-                        this.connection.sendBytes(invoke.at(i).getValue());
-            };
-            return WebCommunicatorBase;
-        }());
-        protocol.WebCommunicatorBase = WebCommunicatorBase;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var WebServer = (function (_super) {
-            __extends(WebServer, _super);
-            function WebServer() {
-                _super.call(this);
-                this.sequence = 0;
-            }
-            WebServer.prototype.open = function (port) {
-                this.http_server = samchon.http.createServer();
-                this.http_server.listen(port);
-                var ws_server = new samchon.websocket.server({ httpServer: this.http_server });
-                ws_server.on("request", this.handle_request.bind(this));
-            };
-            WebServer.prototype.handle_request = function (request) {
-                var path = request.resource;
-                var session_id = this.get_session_id(request.cookies);
-                var connection = request.accept("", request.origin, [{ name: "SESSION_ID", value: session_id }]);
-                var driver = new protocol.WebClientDriver(connection, path, session_id);
-                this.addClient(driver);
-            };
-            WebServer.prototype.get_session_id = function (cookies) {
-                for (var i = 0; i < cookies.length; i++)
-                    if (cookies[i].name == "SESSION_ID")
-                        return cookies[i].value;
-                return this.issue_session_id();
-            };
-            WebServer.prototype.issue_session_id = function () {
-                return "" + ++this.sequence;
-            };
-            return WebServer;
-        }(protocol.Server));
-        protocol.WebServer = WebServer;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var WebClientDriver = (function (_super) {
-            __extends(WebClientDriver, _super);
-            function WebClientDriver(connection, path, session_id) {
-                _super.call(this);
-                this.base = new protocol.WebCommunicatorBase(this, connection);
-                this.path = path;
-                this.session_id = session_id;
-            }
-            WebClientDriver.prototype.listen = function (listener) {
-                this.listener = listener;
-                this.base.listen();
-            };
-            WebClientDriver.prototype.getPath = function () {
-                return this.path;
-            };
-            WebClientDriver.prototype.getSessionID = function () {
-                return this.session_id;
-            };
-            WebClientDriver.prototype.sendData = function (invoke) {
-                this.base.sendData(invoke);
-            };
-            return WebClientDriver;
-        }(protocol.ClientDriver));
-        protocol.WebClientDriver = WebClientDriver;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * <p> A server connector for a physical client. </p>
-         *
-         * <p> ServerConnector is a class for a physical client connecting a server. If you want to connect
-         * to a server,  then implements this ServerConnector and just override some methods like
-         * getIP(), getPort() and replyData(). That's all. </p>
-         *
-         * <p> In Samchon Framework, package protocol, There are basic 3 + 1 components that can make any
-         * type of network system in Samchon Framework. The basic 3 components are IProtocol, IServer and
-         * IClient. The last, surplus one is the ServerConnector. Looking around classes in
-         * Samchon Framework, especially module master and slave which are designed for realizing
-         * distributed processing systems and parallel processing systems, physical client classes are all
-         * derived from this ServerConnector. </p>
-         *
-         * <img src="interface.png" />
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var WebServerConnector = (function (_super) {
-            __extends(WebServerConnector, _super);
-            /**
-             * <p> Constructor with parent. </p>
-             */
-            function WebServerConnector(listener) {
-                _super.call(this, listener);
-                ///////
-                // WEB-BROWSER
-                ///////
-                /**
-                 * <p> A socket for network I/O. </p>
-                 */
-                this.socket = null;
-                ///////
-                // NODE CLIENT
-                ///////
-                this.client = null;
-                this.base = null;
-            }
-            /**
-             * <p> Connects to a cloud server with specified host and port. </p>
-             *
-             * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown:
-             * an error event is dispatched if a host was specified, and an exception is thrown if no host
-             * was specified. Otherwise, the status of the connection is reported by an event.
-             * If the socket is already connected, the existing connection is closed first. </p>
-             *
-             * @param ip
-             * 		The name or IP address of the host to connect to.
-             * 		If no host is specified, the host that is contacted is the host where the calling
-             * 		file resides. If you do not specify a host, use an event listener to determine whether
-             * 		the connection was successful.
-             * @param port
-             * 		The port number to connect to.
-             *
-             * @throws IOError
-             * 		No host was specified and the connection failed.
-             * @throws SecurityError
-             * 		This error occurs in SWF content for the following reasons:
-             * 		Local untrusted SWF files may not communicate with the Internet. You can work around
-             * 		this limitation by reclassifying the file as local-with-networking or as trusted.
-             */
-            WebServerConnector.prototype.connect = function (ip, port, path) {
-                if (path === void 0) { path = ""; }
-                // COMPOSITE FULL-ADDRESS
-                var address;
-                if (ip.indexOf("ws://") == -1)
-                    if (ip.indexOf("://") != -1)
-                        throw "only websocket is possible";
-                    else
-                        ip = "ws://" + ip;
-                address = ip + ":" + port + "/" + path;
-                // CONNECTION BRANCHES
-                if (samchon.is_node() == true) {
-                    this.client = new samchon.websocket.client();
-                    this.client.on("connect", this.handle_node_connect.bind(this));
-                    this.client.connect(address);
-                }
-                else {
-                    this.socket = new WebSocket(address);
-                    this.socket.onopen = this.handle_browser_connect.bind(this);
-                    this.socket.onmessage = this.handle_browser_message.bind(this);
-                }
-            };
-            /* ----------------------------------------------------
-                IPROTOCOL'S METHOD
-            ---------------------------------------------------- */
-            /**
-             * <p> Send data to the server. </p>
-             */
-            WebServerConnector.prototype.sendData = function (invoke) {
-                if (this.socket != null) {
-                    this.socket.send(invoke.toXML().toString());
-                    for (var i = 0; i < invoke.size(); i++)
-                        if (invoke.at(i).getType() == "ByteArray")
-                            this.socket.send(invoke.at(i).getValue());
-                }
-                else {
-                    this.base.sendData(invoke);
-                }
-            };
-            WebServerConnector.prototype.handle_browser_connect = function (event) {
-                if (this.onopen != null)
-                    this.onopen();
-            };
-            /**
-             * <p> Handling replied message. </p>
-             */
-            WebServerConnector.prototype.handle_browser_message = function (event) {
-                this.replyData(new protocol.Invoke(new samchon.library.XML(event.data)));
-            };
-            WebServerConnector.prototype.handle_node_connect = function (connection) {
-                this.base = new protocol.WebCommunicatorBase(this, connection);
-                this.base.listen();
-                if (this.onopen != null)
-                    this.onopen();
-            };
-            return WebServerConnector;
-        }(protocol.ServerConnector));
-        protocol.WebServerConnector = WebServerConnector;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
@@ -5461,6 +5359,120 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        var slave;
+        (function (slave) {
+            var SlaveSystem = (function (_super) {
+                __extends(SlaveSystem, _super);
+                /**
+                 * Default Constructor.
+                 */
+                function SlaveSystem() {
+                    _super.call(this);
+                }
+                SlaveSystem.prototype.replyData = function (invoke) {
+                    if (invoke.has("invoke_history_uid")) {
+                        // INIT HISTORY - WITH START TIME
+                        var history_1 = new protocol.InvokeHistory(invoke);
+                        std.remove_if(invoke.begin(), invoke.end(), function (parameter) {
+                            return parameter.getName() == "invoke_history_uid";
+                        }); // DETACH THE UID FOR FUNCTION AUTO-MATCHING
+                        // MAIN PROCESS - REPLY_DATA
+                        _super.prototype.replyData.call(this, invoke);
+                        // NOTIFY - WITH END TIME
+                        history_1.notifyEnd();
+                        this.sendData(history_1.toInvoke());
+                    }
+                    else
+                        _super.prototype.replyData.call(this, invoke);
+                };
+                return SlaveSystem;
+            }(protocol.external.ExternalSystem));
+            slave.SlaveSystem = SlaveSystem;
+        })(slave = protocol.slave || (protocol.slave = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var slave;
+        (function (slave) {
+            var SlaveNormalServerBase = (function (_super) {
+                __extends(SlaveNormalServerBase, _super);
+                function SlaveNormalServerBase(slave_system) {
+                    _super.call(this);
+                    this.slave_system = slave_system;
+                }
+                SlaveNormalServerBase.prototype.addClient = function (driver) {
+                    this.slave_system["communicator"] = driver;
+                    driver.listen(this.slave_system);
+                };
+                return SlaveNormalServerBase;
+            }(protocol.NormalServer));
+            slave.SlaveNormalServerBase = SlaveNormalServerBase;
+            var SlaveWebServerBase = (function (_super) {
+                __extends(SlaveWebServerBase, _super);
+                function SlaveWebServerBase(slave_system) {
+                    _super.call(this);
+                    this.slave_system = slave_system;
+                }
+                SlaveWebServerBase.prototype.addClient = function (driver) {
+                    this.slave_system["communicator"] = driver;
+                    driver.listen(this.slave_system);
+                };
+                return SlaveWebServerBase;
+            }(protocol.WebServer));
+            slave.SlaveWebServerBase = SlaveWebServerBase;
+            var SlaveSharedWorkerServerBase = (function (_super) {
+                __extends(SlaveSharedWorkerServerBase, _super);
+                function SlaveSharedWorkerServerBase(slave_system) {
+                    _super.call(this);
+                    this.slave_system = slave_system;
+                }
+                SlaveSharedWorkerServerBase.prototype.addClient = function (driver) {
+                    this.slave_system["communicator"] = driver;
+                    driver.listen(this.slave_system);
+                };
+                return SlaveSharedWorkerServerBase;
+            }(protocol.SharedWorkerServer));
+            slave.SlaveSharedWorkerServerBase = SlaveSharedWorkerServerBase;
+        })(slave = protocol.slave || (protocol.slave = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="../slave/SlaveSystem.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var master;
+        (function (master) {
+            var MediatorSystem = (function (_super) {
+                __extends(MediatorSystem, _super);
+                function MediatorSystem(systemArray) {
+                    _super.call(this);
+                    this.system_array = systemArray;
+                    this.progress_list = new std.HashMap();
+                }
+                MediatorSystem.prototype.notifyEnd = function (uid) {
+                    if (this.progress_list.has(uid) == false)
+                        return;
+                    var history = this.progress_list.get(uid);
+                    this.sendData(history.toInvoke());
+                    this.progress_list.erase(uid);
+                };
+                return MediatorSystem;
+            }(protocol.slave.SlaveSystem));
+            master.MediatorSystem = MediatorSystem;
+        })(master = protocol.master || (protocol.master = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="../external/ExternalSystem.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
         var master;
         (function (master) {
             var ParallelSystem = (function (_super) {
@@ -5644,6 +5656,35 @@ var samchon;
                 return ParallelSystemArray;
             }(protocol.external.ExternalSystemArray));
             master.ParallelSystemArray = ParallelSystemArray;
+        })(master = protocol.master || (protocol.master = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="ParallelSystemArray".ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var master;
+        (function (master) {
+            var ParallelSystemArrayMediator = (function (_super) {
+                __extends(ParallelSystemArrayMediator, _super);
+                function ParallelSystemArrayMediator() {
+                    _super.apply(this, arguments);
+                }
+                ParallelSystemArrayMediator.prototype.open = function (port) {
+                    this.start_mediator();
+                    _super.prototype.open.call(this, port);
+                };
+                ParallelSystemArrayMediator.prototype.connect = function () {
+                    this.start_mediator();
+                    _super.prototype.connect.call(this);
+                };
+                ParallelSystemArrayMediator.prototype.start_mediator = function () {
+                };
+                return ParallelSystemArrayMediator;
+            }(master.ParallelSystemArray));
+            master.ParallelSystemArrayMediator = ParallelSystemArrayMediator;
         })(master = protocol.master || (protocol.master = {}));
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
@@ -5914,90 +5955,5 @@ var samchon;
         })(service = protocol.service || (protocol.service = {}));
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="../external/ExternalSystem.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var slave;
-        (function (slave) {
-            var SlaveSystem = (function (_super) {
-                __extends(SlaveSystem, _super);
-                /**
-                 * Default Constructor.
-                 */
-                function SlaveSystem() {
-                    _super.call(this);
-                }
-                SlaveSystem.prototype.replyData = function (invoke) {
-                    if (invoke.has("invoke_history_uid")) {
-                        // INIT HISTORY - WITH START TIME
-                        var history_1 = new protocol.InvokeHistory(invoke);
-                        std.remove_if(invoke.begin(), invoke.end(), function (parameter) {
-                            return parameter.getName() == "invoke_history_uid";
-                        }); // DETACH THE UID FOR FUNCTION AUTO-MATCHING
-                        // MAIN PROCESS - REPLY_DATA
-                        _super.prototype.replyData.call(this, invoke);
-                        // NOTIFY - WITH END TIME
-                        history_1.notifyEnd();
-                        this.sendData(history_1.toInvoke());
-                    }
-                    else
-                        _super.prototype.replyData.call(this, invoke);
-                };
-                return SlaveSystem;
-            }(protocol.external.ExternalSystem));
-            slave.SlaveSystem = SlaveSystem;
-        })(slave = protocol.slave || (protocol.slave = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var slave;
-        (function (slave) {
-            var SlaveNormalServerBase = (function (_super) {
-                __extends(SlaveNormalServerBase, _super);
-                function SlaveNormalServerBase(slave_system) {
-                    _super.call(this);
-                    this.slave_system = slave_system;
-                }
-                SlaveNormalServerBase.prototype.addClient = function (driver) {
-                    this.slave_system["communicator"] = driver;
-                    driver.listen(this.slave_system);
-                };
-                return SlaveNormalServerBase;
-            }(protocol.NormalServer));
-            slave.SlaveNormalServerBase = SlaveNormalServerBase;
-            var SlaveWebServerBase = (function (_super) {
-                __extends(SlaveWebServerBase, _super);
-                function SlaveWebServerBase(slave_system) {
-                    _super.call(this);
-                    this.slave_system = slave_system;
-                }
-                SlaveWebServerBase.prototype.addClient = function (driver) {
-                    this.slave_system["communicator"] = driver;
-                    driver.listen(this.slave_system);
-                };
-                return SlaveWebServerBase;
-            }(protocol.WebServer));
-            slave.SlaveWebServerBase = SlaveWebServerBase;
-            var SlaveSharedWorkerServerBase = (function (_super) {
-                __extends(SlaveSharedWorkerServerBase, _super);
-                function SlaveSharedWorkerServerBase(slave_system) {
-                    _super.call(this);
-                    this.slave_system = slave_system;
-                }
-                SlaveSharedWorkerServerBase.prototype.addClient = function (driver) {
-                    this.slave_system["communicator"] = driver;
-                    driver.listen(this.slave_system);
-                };
-                return SlaveSharedWorkerServerBase;
-            }(protocol.SharedWorkerServer));
-            slave.SlaveSharedWorkerServerBase = SlaveSharedWorkerServerBase;
-        })(slave = protocol.slave || (protocol.slave = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
 //# sourceMappingURL=samchon-framework.js.map

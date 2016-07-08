@@ -1,13 +1,15 @@
 ﻿/// <reference path="../API.ts" />
 
+/// <reference path="../protocol/WebCommunicator.ts" />
+
 namespace samchon.example
 {
 	export function test_websocket(): void
 	{
 		if (is_node() == true)
 			new TestWebServer();
-		else
-			new TestWebConnector();
+		
+		new TestWebConnector();
 	}
 
 	class TestWebServer extends protocol.WebServer

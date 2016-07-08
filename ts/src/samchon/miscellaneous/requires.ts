@@ -18,17 +18,10 @@
 	}
 }
 
-namespace samchon
-{
-	export declare var http: typeof NodeJS.http;
-	export declare var websocket: typeof __websocket;
-	export declare var net: typeof NodeJS.net;
-}
-
 if (samchon.is_node() == true)
 {
 	global["std"] = require("typescript-stl");
-	samchon.http = require("http");
-	samchon.websocket = require("websocket");
-	samchon.net = require("net");
+	global["http"] = require("http");
+	global["websocket"] = require("websocket");
+	global["net"] = require("net");
 }

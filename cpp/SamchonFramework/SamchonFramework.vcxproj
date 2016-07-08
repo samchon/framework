@@ -79,9 +79,11 @@
     <ClInclude Include="..\samchon\protocol\master\DistributedSystem.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedSystemArray.hpp" />
     <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp" />
-    <ClInclude Include="..\samchon\protocol\master\ParallelMediator.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\MediatorSystem.hpp" />
     <ClInclude Include="..\samchon\protocol\master\MediatorClient.hpp" />
     <ClInclude Include="..\samchon\protocol\master\MediatorServer.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\MediatorWebClient.hpp" />
+    <ClInclude Include="..\samchon\protocol\master\MediatorWebServer.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelSystem.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelSystemArray.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelSystemArrayMediator.hpp" />
@@ -141,7 +143,7 @@
     <ClCompile Include="..\samchon\protocol\external\ExternalSystemArray.cpp" />
     <ClCompile Include="..\samchon\protocol\external\ExternalSystemRole.cpp" />
     <ClCompile Include="..\samchon\protocol\FlashPolicyServer.cpp" />
-    <ClCompile Include="..\samchon\protocol\master\ParallelMediator.cpp" />
+    <ClCompile Include="..\samchon\protocol\master\MediatorSystem.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelSystem.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelSystemArray.cpp" />
     <ClCompile Include="..\samchon\protocol\master\ParallelSystemArrayMediator.cpp" />

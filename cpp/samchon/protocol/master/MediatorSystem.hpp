@@ -9,31 +9,28 @@ namespace protocol
 {
 	class InvokeHistory;
 
+namespace external
+{
+	class ExternalSystemArray;
+};
 namespace master
 {
-	class ParallelSystemArrayMediator;
-
-	class SAMCHON_FRAMEWORK_API ParallelMediator
+	class SAMCHON_FRAMEWORK_API MediatorSystem
 		: public virtual slave::SlaveSystem
 	{
-		friend class ParallelSystemArrayMediator;
-
 	private:
 		typedef slave::SlaveSystem super;
 
-		ParallelSystemArrayMediator *systemArray;
+		external::ExternalSystemArray *system_array;
 		HashMap<size_t, std::shared_ptr<InvokeHistory>> progress_list;
 
 	public:
-		ParallelMediator(ParallelSystemArrayMediator *systemArray);
-		virtual ~ParallelMediator();
+		MediatorSystem(external::ExternalSystemArray *systemArray);
+		virtual ~MediatorSystem();
 
 		virtual void start() = 0;
 
-		virtual void replyData(std::shared_ptr<Invoke> invoke);
-
-	private:
-		void notify_end(size_t uid);
+		void notifyEnd(size_t uid);
 	};
 };
 };

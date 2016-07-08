@@ -41,7 +41,7 @@ namespace master
 		{
 			sendPieceData(invoke, 0, size);
 		};
-		void sendPieceData(std::shared_ptr<Invoke> invoke, size_t index, size_t count);
+		virtual void sendPieceData(std::shared_ptr<Invoke> invoke, size_t index, size_t count);
 
 	private:
 		virtual auto notify_end(std::shared_ptr<PRInvokeHistory>) -> bool;

@@ -7,6 +7,4 @@
 if (std.is_node() == true)
 {
 	(Object as any).assign(exports, samchon);
-
-	samchon.example.test_websocket();
 }

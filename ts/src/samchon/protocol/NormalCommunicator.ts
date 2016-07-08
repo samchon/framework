@@ -9,15 +9,15 @@ namespace samchon.protocol
 	export class NormalCommunicatorBase implements IProtocol
 	{
 		private communicator: IProtocol;
-		private socket: NodeJS.net.Socket;
+		private socket: socket.socket;
 
 		private data: string;
 		private content_size: number;
 
-		public constructor(clientDriver: NormalClientDriver, socket: NodeJS.net.Socket);
-		public constructor(serverConnector: NormalServerConnector, socket: NodeJS.net.Socket);
+		public constructor(clientDriver: NormalClientDriver, socket: socket.socket);
+		public constructor(serverConnector: NormalServerConnector, socket: socket.socket);
 
-		public constructor(communicator: IProtocol, socket: NodeJS.net.Socket)
+		public constructor(communicator: IProtocol, socket: socket.socket)
 		{
 			this.communicator = communicator;
 			this.socket = socket;
@@ -97,9 +97,11 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	declare var net: typeof NodeJS.net;
+
 	export abstract class NormalServer extends Server
 	{
-		private server: NodeJS.net.Server;
+		private server: socket.server;
 
 		public open(port: number): void
 		{
@@ -107,7 +109,7 @@ namespace samchon.protocol
 			this.server.listen(port);
 		}
 
-		private handle_connect(socket: NodeJS.net.Socket): void
+		private handle_connect(socket: socket.server): void
 		{
 			let clientDriver: ClientDriver;
 
@@ -122,7 +124,7 @@ namespace samchon.protocol
 	{
 		private base: NormalCommunicatorBase;
 
-		public constructor(socket: NodeJS.net.Socket)
+		public constructor(socket: socket.socket)
 		{
 			super();
 
@@ -144,9 +146,11 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	declare var net: typeof NodeJS.net;
+
 	export class NormalServerConnector extends ServerConnector
 	{
-		private socket: NodeJS.net.Socket;
+		private socket: socket.socket;
 		private base: NormalCommunicatorBase;
 
 		public constructor(listener: IProtocol)

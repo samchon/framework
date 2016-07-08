@@ -1,12 +1,12 @@
 {
   "name": "samchon-framework",
-  "description": "Samchon Framework, a SDN (Software Defined Network) Framework",
+  "description": "Samchon, a SDN (Software Defined Network) Framework with C++ and TypeScript",
   "author": {
     "name": "Jeongho Nam",
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "1.1.1-a",
+  "version": "2.0.0-alpha.1",
 
   "main": "./lib/ts/samchon-framework.js",
   "typings": "./lib/ts/samchon-framework.d.ts",
@@ -18,7 +18,8 @@
   "bugs": { "url": "https://github.com/samchon/framework/issues" },
   
   "dependencies": {
-    "typescript-stl": "~0.9.8-e"
+    "typescript-stl": "~1.0.0-rc.2",
+    "websocket": "~1.0.23"
   },
   "licenses": [
     {

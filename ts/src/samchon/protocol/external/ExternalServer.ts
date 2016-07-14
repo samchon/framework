@@ -24,7 +24,7 @@ namespace samchon.protocol.external
 			super();
 		}
 
-		protected abstract createServerConnector(): ServerConnector;
+		protected abstract createServerConnector(): IServerConnector;
 
 		public connect(): void
 		{
@@ -32,7 +32,7 @@ namespace samchon.protocol.external
 				return;
 
 			this.communicator = this.createServerConnector();
-			(this.communicator as ServerConnector).connect(this.ip, this.port);
+			(this.communicator as IServerConnector).connect(this.ip, this.port);
 		}
 
 		public getIP(): string

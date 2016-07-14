@@ -6,6 +6,6 @@ namespace samchon.protocol
 	{
 		public abstract open(port: number): void;
 
-		protected abstract addClient(clientDriver: ClientDriver): void;
+		protected abstract addClient(clientDriver: IClientDriver): void;
 	}
 }

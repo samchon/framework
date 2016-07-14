@@ -38,22 +38,33 @@ namespace samchon.protocol
 		 * 
 		 * @param xml An xml used to contruct data of entity.
 		 */
-		construct(xml: library.XML);
+		construct(xml: library.XML): void;
 
 		/**
 		 * <p> Get a key that can identify the Entity uniquely. </p>
 		 * 
-		 * <p> If identifier of the Entity is not atomic value, returns a string or paired object
+		 * <p> If identifier of the Entity is not atomic value, returns a paired or tuple object
 		 * that can represents the composite identifier. </p>
+		 * 
+		 * <code>
+		 * class Point extends Entity
+		 * {
+		 *     private x: number;
+		 *     private y: number;
+		 * 
+		 *     public key(): std.Pair<number, number>
+		 *     {
+		 *         return std.make_pair(this.x, this.y);
+		 *     }
+		 * }
+		 * </code>
 		 */
 		key(): any;
 
 		/**
 		 * <p> A tag name when represented by XML. </p>
 		 *
-		 * <ul>
-		 * 	<li> <TAG {...properties} /> </li>
-		 * </ul>
+		 * <code> <TAG {...properties} /> </code>
 		 */
 		TAG(): string;
 

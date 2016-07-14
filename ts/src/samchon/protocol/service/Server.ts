@@ -28,6 +28,19 @@ namespace samchon.protocol.service
 		protected abstract createUser(): User;
 
 		/* ------------------------------------------------------------------
+			ACCESSORS
+		------------------------------------------------------------------ */
+		public has(account: string): boolean
+		{
+			return this.has(account);
+		}
+
+		public get(account: string): User
+		{
+			return this.account_map.get(account);
+		}
+
+		/* ------------------------------------------------------------------
 			MESSAGE CHAIN
 		------------------------------------------------------------------ */
 		public sendData(invoke: protocol.Invoke): void
@@ -46,10 +59,11 @@ namespace samchon.protocol.service
 		------------------------------------------------------------------ */
 		protected addClient(driver: WebClientDriver): void
 		{
-			///////
+			/////////////////////////////////////////////
 			// CREATE CHILDREN OBJECTS
-			///////
+			/////////////////////////////////////////////
 			// USER
+			/////
 			let user: User;
 
 			if (this.session_map.has(driver.getSessionID()) == true)
@@ -63,15 +77,19 @@ namespace samchon.protocol.service
 			else
 				user = this.createUser();
 
+			/////
 			// CLIENT
+			/////
 			let client: Client = user.createClient();
 			client["user"] = user;
 			client["no"] = ++user["sequence"];
 			client["driver"] = driver;
 			
-			user["client_map"].insert(std.make_pair(client["no"], client));
+			user.insert(std.make_pair(client["no"], client));
 
+			/////
 			// SERVICE
+			/////
 			let service: Service = client["createService"](driver.getPath());
 			service["client"] = client;
 			service["path"] = driver.getPath();
@@ -82,6 +100,16 @@ namespace samchon.protocol.service
 			// START COMMUNICATION
 			///////
 			driver.listen(client);
+
+			driver.onClose = function (): void
+			{
+				// WHEN DISCONNECTED, THEN ERASE THE CLIENT.
+				// OF COURSE, IT CAN CAUSE DELETION OF THE RELATED USER.
+				user.erase(client["no"]);
+
+				// ALSO, DESTRUCTOR OF THE SERVICE IS CALLED.
+				service.destructor();
+			}
 		}
 
 		private erase_user(user: User): void
@@ -90,7 +118,7 @@ namespace samchon.protocol.service
 			// IT WAITS UNTIL 30 SECONDS TO KEEP SESSION
 			setTimeout(function ()
 				{
-					if (user["client_map"].empty() == false)
+					if (user.empty() == false)
 						return;
 
 					this.session_map.erase(user["session_id"]);

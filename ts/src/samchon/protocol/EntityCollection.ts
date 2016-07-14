@@ -37,12 +37,17 @@ namespace samchon.protocol
 			let propertyMap = xml.getPropertyMap();
 
 			for (let v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
-				if (typeof this[v_it.first] == "number" && v_it.first != "length")
+			{
+				if (v_it.first == "length")
+					continue;
+
+				if (typeof this[v_it.first] == "number")
 					this[v_it.first] = parseFloat(v_it.second);
 				else if (typeof this[v_it.first] == "string")
 					this[v_it.first] = v_it.second;
 				else if (typeof this[v_it.first] == "boolean")
 					this[v_it.first] = (v_it.second == "true");
+			}
 
 			//CHILDREN
 			if (xml.has(this.CHILD_TAG()) == false)
@@ -62,9 +67,15 @@ namespace samchon.protocol
 		}
 
 		/**
-		 * @inheritdoc
+		 * <p> Factory method of a child Entity. </p>
+		 *
+		 * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
+		 * to the EntityArray. This method is called by EntityArray::construct(). The children construction
+		 * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
+		 *
+		 * @return A new child Entity belongs to EntityArray.
 		 */
-		public abstract createChild(xml: library.XML): T;
+		protected abstract createChild(xml: library.XML): T;
 		
 		/* ------------------------------------------------------------------
 			GETTERS
@@ -151,10 +162,13 @@ namespace samchon.protocol
 
 			// MEMBERS
 			for (let key in this)
-				if (typeof key == "string" && key != "length" // LENGTH: MEMBER OF AN ARRAY
+				if (typeof key == "string"
 					&& (typeof this[key] == "string" || typeof this[key] == "number")
 					&& this.hasOwnProperty(key))
 				{
+					if (key == "length")
+						continue;
+
 					// ATOMIC
 					xml.setProperty(key, this[key] + "");
 				}
@@ -190,12 +204,17 @@ namespace samchon.protocol
 			let propertyMap = xml.getPropertyMap();
 
 			for (let v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
+			{
+				if (v_it.first == "size_")
+					continue;
+
 				if (typeof this[v_it.first] == "number")
 					this[v_it.first] = parseFloat(v_it.second);
 				else if (typeof this[v_it.first] == "string")
 					this[v_it.first] = v_it.second;
 				else if (typeof this[v_it.first] == "boolean")
 					this[v_it.first] = (v_it.second == "true");
+			}
 
 			//CHILDREN
 			if (xml.has(this.CHILD_TAG()) == false)
@@ -215,9 +234,15 @@ namespace samchon.protocol
 		}
 
 		/**
-		 * @inheritdoc
+		 * <p> Factory method of a child Entity. </p>
+		 *
+		 * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
+		 * to the EntityArray. This method is called by EntityArray::construct(). The children construction
+		 * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
+		 *
+		 * @return A new child Entity belongs to EntityArray.
 		 */
-		public abstract createChild(xml: library.XML): T;
+		protected abstract createChild(xml: library.XML): T;
 		
 		/* ------------------------------------------------------------------
 			GETTERS
@@ -308,6 +333,9 @@ namespace samchon.protocol
 					&& (typeof this[key] == "string" || typeof this[key] == "number" || typeof this[key] == "boolean")
 					&& this.hasOwnProperty(key))
 				{
+					if (key == "size_")
+						continue;
+
 					// ATOMIC
 					xml.setProperty(key, this[key] + "");
 				}
@@ -343,12 +371,17 @@ namespace samchon.protocol
 			let propertyMap = xml.getPropertyMap();
 
 			for (let v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
+			{
+				if (v_it.first == "size_" || v_it.first == "capacity_")
+					continue;
+
 				if (typeof this[v_it.first] == "number")
 					this[v_it.first] = parseFloat(v_it.second);
 				else if (typeof this[v_it.first] == "string")
 					this[v_it.first] = v_it.second;
 				else if (typeof this[v_it.first] == "boolean")
 					this[v_it.first] = (v_it.second == "true");
+			}
 
 			//CHILDREN
 			if (xml.has(this.CHILD_TAG()) == false)
@@ -368,9 +401,15 @@ namespace samchon.protocol
 		}
 
 		/**
-		 * @inheritdoc
+		 * <p> Factory method of a child Entity. </p>
+		 *
+		 * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
+		 * to the EntityArray. This method is called by EntityArray::construct(). The children construction
+		 * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
+		 *
+		 * @return A new child Entity belongs to EntityArray.
 		 */
-		public abstract createChild(xml: library.XML): T;
+		protected abstract createChild(xml: library.XML): T;
 		
 		/* ------------------------------------------------------------------
 			GETTERS
@@ -461,6 +500,9 @@ namespace samchon.protocol
 					&& (typeof this[key] == "string" || typeof this[key] == "number" || typeof this[key] == "boolean")
 					&& this.hasOwnProperty(key))
 				{
+					if (key == "size_" || key == "capacity_")
+						continue;
+
 					// ATOMIC
 					xml.setProperty(key, this[key] + "");
 				}

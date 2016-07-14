@@ -147,9 +147,16 @@ namespace samchon.collection
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(): void
+		public refresh(): void;
+
+		/**
+		 * @inheritdoc
+		 */
+		public refresh(first: std.Vector.Iterator<library.XML>, last: std.Vector.Iterator<library.XML>): void;
+
+		public refresh(first: std.Vector.Iterator<library.XML> = this.begin(), last: std.Vector.Iterator<library.XML> = this.end()): void
 		{
-			this.dispatchEvent(new CollectionEvent<library.XML>(CollectionEvent.REFRESH, this.begin(), this.end()));
+			this.dispatchEvent(new CollectionEvent<library.XML>("refresh", first, last));
 		}
 
 		/* ---------------------------------------------------------

@@ -1,41 +1,108 @@
 ﻿/// <reference path="../API.ts" />
 
 /// <reference path="Server.ts" />
-/// <reference path="ClientDriver.ts" />
-/// <reference path="ServerConnector.ts" />
 
 namespace samchon.protocol
 {
-	export class WebCommunicatorBase implements IProtocol
+	/**
+	 * <p> Base class for web-communicator, {@link WebClientDriver} and {@link WebServerConnector}. </p>
+	 * 
+	 * <p> This class {@link WebCommunicatorBase} subrogates network communication for web-communicator classes, 
+	 * {@link WebClinetDriver} and {@link WebServerConnector}. The web-communicator and this class 
+	 * {@link WebCommunicatorBase} share same interface {@link IProtocol} and have a <b>chain of responsibily</b> 
+	 * relationship. </p>
+	 * 
+	 * <p> When an {@link Invoke} message was delivered from the connected remote system, then this class calls 
+	 * web-communicator's {@link WebServerConnector.replyData replyData()} method. Also, when called web-communicator's 
+	 * {@link WebClientDriver.sendData sendData()}, then {@link sendData sendData()} of this class will be caleed. </p>
+	 * 
+	 * <ul>
+	 *	<li> this.replyData() -> communicator.replyData() </li>
+	 *	<li> communicator.sendData() -> this.sendData() </li>
+	 * </ul>
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class WebCommunicator implements ICommunicator
 	{
-		private communicator: IProtocol;
-		private connection: websocket.connection;
+		/**
+		 * Communicator of web-socket.
+		 */
+		protected listener: IProtocol;
+		
+		/**
+		 * Connection driver, a socket for web-socket.
+		 */
+		protected connection: websocket.connection;
 
-		public constructor(clientDriver: WebClientDriver, connection: websocket.connection);
-		public constructor(serverConnector: WebServerConnector, connection: websocket.connection);
+		public onClose: Function;
 
-		public constructor(communicator: IProtocol, connection: websocket.connection)
+		/**
+		 * Initialization Constructor.
+		 * 
+		 * @param communicator Communicator of web-socket.
+		 * @param connection Connection driver, a socket for web-socket.
+		 */
+		public constructor()
 		{
-			this.communicator = communicator;
-			this.connection = connection;
+			this.listener = null;
+			this.connection = null;
+
+			this.onClose = null;
 		}
 
-		public listen(): void
+		/**
+		 * Listen message from remoate system.
+		 */
+		//public listen(): void
+		//{
+		//	this.connection.on("message", this.handle_message.bind(this));
+		//}
+
+		/**
+		 * Close the connection.
+		 */
+		public close(): void
 		{
-			this.connection.on("message", this.handle_message.bind(this));
+			this.connection.close();
 		}
 
-		private handle_message(message: websocket.IMessage)
+		/**
+		 * <p> Handle raw-data received from the remote system. </p>
+		 * 
+		 * <p> Queries raw-data received from the remote system. When the raw-data represents an formal {@link Invoke} 
+		 * message, then it will be sent to the {@link replyData}. </p> 
+		 * 
+		 * @param message A raw-data received from the remote system.
+		 */
+		protected handle_message(message: websocket.IMessage)
 		{
 			if (message.type == "utf8")
 				this.replyData(new Invoke(new library.XML(message.utf8Data)));
+			else
+				message.binaryData
 		}
 
+		/**
+		 * Reply {@link Invoke} message from the remote system. </p>
+		 * 
+		 * <p> {@link WebCommunicator} delivers replied {@link Invoke} message from remote system to its parent class,
+		 * {@link communicator}. </p>
+		 * 
+		 * @param invoke An Invoke message replied from the remote system.
+		 */
 		public replyData(invoke: Invoke): void
 		{
-			this.communicator.replyData(invoke);
+			this.listener.replyData(invoke);
 		}
 
+		/**
+		 * <p> Send message to the remote system. </p>
+		 * 
+		 * {@link WebCommunicator}.{@link sendData} is called from its parent {@link communicator}'s sendData(). </p>
+		 * 
+		 * @param invoke An Inovoke message to send to the remote system.
+		 */
 		public sendData(invoke: Invoke): void
 		{
 			this.connection.sendUTF(invoke.toXML().toString());
@@ -54,10 +121,19 @@ namespace samchon.protocol
 
 	export abstract class WebServer extends Server
 	{
+		/**
+		 * A server handler.
+		 */
 		private http_server: socket.http_server;
 
+		/** 
+		 * Sequence number for issuing session id.
+		 */
 		private sequence: number;
 
+		/**
+		 * Default Constructor.
+		 */
 		public constructor()
 		{
 			super();
@@ -65,6 +141,9 @@ namespace samchon.protocol
 			this.sequence = 0;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public open(port: number): void
 		{
 			this.http_server = http.createServer();
@@ -74,23 +153,43 @@ namespace samchon.protocol
 			ws_server.on("request", this.handle_request.bind(this));
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		protected abstract addClient(driver: WebClientDriver): void;
 
+		/**
+		 * <p> Handle request from a client system. </p>
+		 * 
+		 * <p> This method {@link handle_request} will be called when a client is connected. It will call an abstract 
+		 * method method {@link addClient addClient()} who handles an accepted client. If the newly connected client 
+		 * doesn't have its own session id, then a new session id will be issued. </p>
+		 * 
+		 * @param request Requested header.
+		 */
 		private handle_request(request: websocket.request): void
 		{
 			let path: string = request.resource;
 			let session_id: string = this.get_session_id(request.cookies);
 
 			let connection = request.accept
-				(
+			(
 				"", request.origin,
 				[{ name: "SESSION_ID", value: session_id }]
-				);
+			);
 
 			let driver = new WebClientDriver(connection, path, session_id);
 			this.addClient(driver);
 		}
 
+		/**
+		 * <p> Get session id from a newly connected. </p>
+		 * 
+		 * <p> Queries ordinary session id from cookies of a newly connected client. If the client has not, a new 
+		 * session id will be issued. </p>
+		 * 
+		 * @param cookies Cookies from the remote client.
+		 */
 		private get_session_id(cookies: websocket.ICookie[]): string
 		{
 			for (let i: number = 0; i < cookies.length; i++)
@@ -100,48 +199,77 @@ namespace samchon.protocol
 			return this.issue_session_id();
 		}
 
+		/**
+		 * Issue a new session id.
+		 */
 		private issue_session_id(): string
 		{
-			return "" + ++this.sequence;
+			let port: number = this.http_server.localPort;
+			let uid: number = ++this.sequence;
+			let linux_time: number = new Date().getTime();
+			let rand: number = Math.floor(Math.random() * 0xffffffff);
+
+			return port.toString(16) + uid.toString(16) + linux_time.toString(16) + rand.toString(16);
 		}
 	}
 }
 
 namespace samchon.protocol
 {
-	export class WebClientDriver extends ClientDriver
+	export class WebClientDriver 
+		extends WebCommunicator 
+		implements IClientDriver
 	{
-		private base: WebCommunicatorBase;
+		/**
+		 * Requested path.
+		 */
 		private path: string;
+		
+		/**
+		 * Session ID, an identifier of the remote client.
+		 */
 		private session_id: string;
 
+		/**
+		 * Initialization Constructor.
+		 * 
+		 * @param connection Connection driver, a socket for web-socket.
+		 * @param path Requested path.
+		 * @param session_id Session ID, an identifier of the remote client.
+		 */
 		public constructor(connection: websocket.connection, path: string, session_id: string)
 		{
 			super();
 
-			this.base = new WebCommunicatorBase(this, connection);
+			this.connection = connection;
 			this.path = path;
 			this.session_id = session_id;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public listen(listener: IProtocol): void
 		{
 			this.listener = listener;
-			this.base.listen();
-		}
 
+			this.connection.on("message", this.handle_message.bind(this));
+		}
+		
+		/**
+		 * Get requested path.
+		 */
 		public getPath(): string
 		{
 			return this.path;
 		}
+
+		/**
+		 * Get session ID, an identifier of the remote client.
+		 */
 		public getSessionID(): string
 		{
 			return this.session_id;
-		}
-
-		public sendData(invoke: Invoke): void
-		{
-			this.base.sendData(invoke);
 		}
 	}
 }
@@ -151,70 +279,52 @@ namespace samchon.protocol
 	declare var websocket: typeof __websocket;
 
 	/**
-	 * <p> A server connector for a physical client. </p>
-	 *
-	 * <p> ServerConnector is a class for a physical client connecting a server. If you want to connect 
-	 * to a server,  then implements this ServerConnector and just override some methods like 
-	 * getIP(), getPort() and replyData(). That's all. </p>
-	 *
-	 * <p> In Samchon Framework, package protocol, There are basic 3 + 1 components that can make any 
-	 * type of network system in Samchon Framework. The basic 3 components are IProtocol, IServer and
-	 * IClient. The last, surplus one is the ServerConnector. Looking around classes in 
-	 * Samchon Framework, especially module master and slave which are designed for realizing 
-	 * distributed processing systems and parallel processing systems, physical client classes are all 
-	 * derived from this ServerConnector. </p>
-	 *
-	 * <img src="interface.png" />
+	 * <p> A server connector for web-socket protocol. </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class WebServerConnector
-		extends ServerConnector
+		extends WebCommunicator
+		implements IServerConnector
 	{
 		///////
 		// WEB-BROWSER
 		///////
 		/**
 		 * <p> A socket for network I/O. </p>
+		 * 
+		 * <p> Note that, {@link socket} is only used in web-browser environment. </p>
 		 */
-		private socket: WebSocket = null;
+		private browser_socket: WebSocket;
 
 		///////
 		// NODE CLIENT
 		///////
-		private client: websocket.client = null;
-		private base: WebCommunicatorBase = null;
-
 		/**
-		 * <p> Constructor with parent. </p>
+		 * <p> A driver for server connection. </p>
+		 * 
+		 * <p> Note that, {@link node_client} is only used in NodeJS environment. </p>
 		 */
-		public constructor(listener: IProtocol) 
-		{
-			super(listener);
-		}
+		private node_client: websocket.client;
 
+		public onConnect: Function;
+		
+		/* ----------------------------------------------------
+			CONSTRUCTORS
+		---------------------------------------------------- */
+		public constructor(listener: IProtocol)
+		{
+			super();
+
+			this.listener = listener;
+			this.browser_socket = null;
+			this.node_client = null;
+
+			this.onConnect = null;
+		}
+		
 		/**
-		 * <p> Connects to a cloud server with specified host and port. </p>
-		 * 
-		 * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown: 
-		 * an error event is dispatched if a host was specified, and an exception is thrown if no host 
-		 * was specified. Otherwise, the status of the connection is reported by an event. 
-		 * If the socket is already connected, the existing connection is closed first. </p>
-		 * 
-		 * @param ip
-		 * 		The name or IP address of the host to connect to. 
-		 * 		If no host is specified, the host that is contacted is the host where the calling 
-		 * 		file resides. If you do not specify a host, use an event listener to determine whether 
-		 * 		the connection was successful.
-		 * @param port 
-		 * 		The port number to connect to.
-		 * 
-		 * @throws IOError
-		 * 		No host was specified and the connection failed.
-		 * @throws SecurityError
-		 * 		This error occurs in SWF content for the following reasons: 
-		 * 		Local untrusted SWF files may not communicate with the Internet. You can work around 
-		 * 		this limitation by reclassifying the file as local-with-networking or as trusted.
+		 * @inheritdoc
 		 */
 		public connect(ip: string, port: number, path: string = ""): void 
 		{
@@ -232,51 +342,56 @@ namespace samchon.protocol
 			// CONNECTION BRANCHES
 			if (is_node() == true)
 			{
-				this.client = new websocket.client();
-				this.client.on("connect", this.handle_node_connect.bind(this));
+				this.node_client = new websocket.client();
+				this.node_client.on("connect", this.handle_node_connect.bind(this));
 
-				this.client.connect(address);
+				this.node_client.connect(address);
 			}
 			else
 			{
-				this.socket = new WebSocket(address);
+				this.browser_socket = new WebSocket(address);
 
-				this.socket.onopen = this.handle_browser_connect.bind(this);
-				this.socket.onmessage = this.handle_browser_message.bind(this);
+				this.browser_socket.onopen = this.handle_browser_connect.bind(this);
+				this.browser_socket.onmessage = this.handle_browser_message.bind(this);
 			}
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public close(): void
+		{
+			this.close();
 		}
 
 		/* ----------------------------------------------------
 			IPROTOCOL'S METHOD
 		---------------------------------------------------- */
 		/**
-		 * <p> Send data to the server. </p>
+		 * @inheritdoc
 		 */
 		public sendData(invoke: Invoke): void 
 		{
-			if (this.socket != null)
+			if (this.browser_socket != null)
 			{
-				this.socket.send(invoke.toXML().toString());
+				this.browser_socket.send(invoke.toXML().toString());
 
 				for (let i: number = 0; i < invoke.size(); i++)
 					if (invoke.at(i).getType() == "ByteArray")
-						this.socket.send(invoke.at(i).getValue());
+						this.browser_socket.send(invoke.at(i).getValue());
 			}
 			else
 			{
-				this.base.sendData(invoke);
+				super.sendData(invoke);
 			}
 		}
 
 		private handle_browser_connect(event: Event): void
 		{
-			if (this.onopen != null)
-				this.onopen();
+			if (this.onConnect != null)
+				this.onConnect();
 		}
-
-		/**
-		 * <p> Handling replied message. </p>
-		 */
+		
 		private handle_browser_message(event: MessageEvent): void
 		{
 			this.replyData(new Invoke(new library.XML(event.data)));
@@ -284,11 +399,11 @@ namespace samchon.protocol
 
 		private handle_node_connect(connection: websocket.connection): void
 		{
-			this.base = new WebCommunicatorBase(this, connection);
-			this.base.listen();
+			this.connection = connection;
+			this.connection.on("message", this.handle_message.bind(this));
 
-			if (this.onopen != null)
-				this.onopen();
+			if (this.onConnect != null)
+				this.onConnect();
 		}
 	}
 }

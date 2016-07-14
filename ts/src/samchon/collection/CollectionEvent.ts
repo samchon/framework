@@ -11,42 +11,32 @@ namespace samchon.collection
 	{
 		(event: CollectionEvent<T>): void;
 	}
+}
 
+namespace samchon.collection
+{	
 	/**
-	 * 
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class CollectionEvent<T>
 		extends library.BasicEvent
 	{
-		public static get INSERT(): string
-		{
-			return "insert";
-		}
-		public static get ERASE(): string
-		{
-			return "erase";
-		}
-		public static get REFRESH(): string
-		{
-			return "refresh";
-		}
-
 		/**
-		 *
+		 * @hidden
 		 */
 		private first_: std.Iterator<T>;
 
 		/**
-		 *
+		 * @hidden
 		 */
 		private last_: std.Iterator<T>;
-
+		
 		/**
 		 * 
 		 * 
-		 * @param type
-		 * @param first
-		 * @param last
+		 * @param type Type of collection event.
+		 * @param first 
+		 * @param last 
 		 */
 		public constructor(type: string, first: std.Iterator<T>, last: std.Iterator<T>)
 		{
@@ -57,7 +47,7 @@ namespace samchon.collection
 		}
 
 		/**
-		 *
+		 * Get associative container.
 		 */
 		public get container(): ICollection<T>
 		{
@@ -65,7 +55,7 @@ namespace samchon.collection
 		}
 
 		/**
-		 *
+		 * Get range of the first.
 		 */
 		public get first(): std.Iterator<T>
 		{
@@ -73,11 +63,18 @@ namespace samchon.collection
 		}
 
 		/**
-		 *
+		 * Get range of the last.
 		 */
 		public get last(): std.Iterator<T>
 		{
 			return this.last_;
 		}
 	}
+}
+
+namespace samchon.collection.CollectionEvent
+{
+	export const INSERT: string = "insert";
+	export const ERASE: string = "erase";
+	export const REFRESH: string = "refresh";
 }

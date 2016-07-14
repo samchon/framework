@@ -30,15 +30,15 @@ namespace samchon.protocol.external
 		/* ---------------------------------------------------------
 			FACTORY METHOD FOR CHILDREN
 		--------------------------------------------------------- */
-		public createChild(xml: library.XML): ExternalSystem
+		protected createChild(xml: library.XML): ExternalSystem
 		{
 			return this.createExternalServer(xml) as ExternalSystem;
 		}
 
-		protected abstract createExternalClient(driver: ClientDriver): ExternalSystem;
+		protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
 		protected abstract createExternalServer(xml: library.XML): IExternalServer;
 
-		protected addClient(driver: ClientDriver): void
+		protected addClient(driver: IClientDriver): void
 		{
 			let system: ExternalSystem = this.createExternalClient(driver);
 			if (system == null)

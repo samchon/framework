@@ -76,9 +76,16 @@ namespace samchon.collection
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(): void
+		public refresh(): void;
+
+		/**
+		 * @inheritdoc
+		 */
+		public refresh(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+
+		public refresh(first: std.MapIterator<Key, T> = this.begin(), last: std.MapIterator<Key, T> = this.end()): void
 		{
-			this.dispatchEvent(new CollectionEvent<std.Pair<Key, T>>(CollectionEvent.REFRESH, this.begin(), this.end()));
+			this.dispatchEvent(new CollectionEvent<std.Pair<Key, T>>("refresh", first, last));
 		}
 
 		/* ---------------------------------------------------------
@@ -88,11 +95,17 @@ namespace samchon.collection
 		 * @inheritdoc
 		 */
 		public addEventListener(type: string, listener: EventListener): void;
+		public addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+		public addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+		public addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
 
 		/**
 		 * @inheritdoc
 		 */
 		public addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+		public addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+		public addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+		public addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
 
 		public addEventListener(type: string, listener: EventListener, thisArg: Object = null): void
 		{
@@ -106,11 +119,17 @@ namespace samchon.collection
 		 * @inheritdoc
 		 */
 		public removeEventListener(type: string, listener: EventListener): void;
+		public removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+		public removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+		public removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
 
 		/**
 		 * @inheritdoc
 		 */
 		public removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+		public removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+		public removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+		public removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
 
 		public removeEventListener(type: string, listener: EventListener, thisArg: Object = null): void
 		{
@@ -192,9 +211,16 @@ namespace samchon.collection
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(): void
+		public refresh(): void;
+
+		/**
+		 * @inheritdoc
+		 */
+		public refresh(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+
+		public refresh(first: std.MapIterator<Key, T> = this.begin(), last: std.MapIterator<Key, T> = this.end()): void
 		{
-			this.dispatchEvent(new CollectionEvent<std.Pair<Key, T>>(CollectionEvent.REFRESH, this.begin(), this.end()));
+			this.dispatchEvent(new CollectionEvent<std.Pair<Key, T>>("refresh", first, last));
 		}
 
 		/* ---------------------------------------------------------
@@ -204,11 +230,17 @@ namespace samchon.collection
 		 * @inheritdoc
 		 */
 		public addEventListener(type: string, listener: EventListener): void;
+		public addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+		public addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+		public addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
 
 		/**
 		 * @inheritdoc
 		 */
 		public addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+		public addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+		public addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+		public addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
 
 		public addEventListener(type: string, listener: EventListener, thisArg: Object = null): void
 		{
@@ -222,11 +254,17 @@ namespace samchon.collection
 		 * @inheritdoc
 		 */
 		public removeEventListener(type: string, listener: EventListener): void;
+		public removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+		public removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+		public removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
 
 		/**
 		 * @inheritdoc
 		 */
 		public removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+		public removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+		public removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+		public removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
 
 		public removeEventListener(type: string, listener: EventListener, thisArg: Object = null): void
 		{

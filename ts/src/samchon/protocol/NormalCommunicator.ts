@@ -1,35 +1,39 @@
 ﻿/// <reference path="../API.ts" />
 
 /// <reference path="Server.ts" />
-/// <reference path="ClientDriver.ts" />
-/// <reference path="ServerConnector.ts" />
 
 namespace samchon.protocol
 {
-	export class NormalCommunicatorBase implements IProtocol
+	export class NormalCommunicator implements ICommunicator
 	{
-		private communicator: IProtocol;
-		private socket: socket.socket;
+		protected listener: IProtocol;
+		protected socket: socket.socket;
+
+		public onClose: Function;
 
 		private data: string;
 		private content_size: number;
 
-		public constructor(clientDriver: NormalClientDriver, socket: socket.socket);
-		public constructor(serverConnector: NormalServerConnector, socket: socket.socket);
-
-		public constructor(communicator: IProtocol, socket: socket.socket)
+		public constructor()
 		{
-			this.communicator = communicator;
-			this.socket = socket;
+			this.listener = null;
+			this.socket = null;
+
+			this.onClose = null;
 
 			this.data = "";
 			this.content_size = -1;
 		}
 
-		public listen(): void
+		public close(): void
+		{
+			// HOW TO CLOSE IT?
+		}
+
+		protected start_listen(): void
 		{
 			this.socket.setEncoding("utf8");
-			this.socket.on("data", this.listen.bind(this));
+			this.socket.on("data", this.listen_piece.bind(this));
 		}
 
 		private listen_piece(piece: string): void
@@ -61,7 +65,6 @@ namespace samchon.protocol
 
 		private listen_data(): void
 		{
-			console.log(this.data.length, this.content_size);
 			if (this.data.length < this.content_size)
 				return;
 
@@ -77,7 +80,7 @@ namespace samchon.protocol
 
 		public replyData(invoke: Invoke): void
 		{
-			this.communicator.replyData(invoke);
+			this.listener.replyData(invoke);
 		}
 
 		public sendData(invoke: Invoke): void
@@ -111,8 +114,7 @@ namespace samchon.protocol
 
 		private handle_connect(socket: socket.server): void
 		{
-			let clientDriver: ClientDriver;
-
+			let clientDriver: NormalClientDriver = new NormalClientDriver(socket);;
 			this.addClient(clientDriver);
 		}
 	}
@@ -120,26 +122,22 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
-	export class NormalClientDriver extends ClientDriver
+	export class NormalClientDriver 
+		extends NormalCommunicator
+		implements IClientDriver
 	{
-		private base: NormalCommunicatorBase;
-
 		public constructor(socket: socket.socket)
 		{
 			super();
 
-			this.base = new NormalCommunicatorBase(this, socket);
+			this.socket = socket;
 		}
 
 		public listen(listener: IProtocol): void
 		{
 			this.listener = listener;
-			this.base.listen();
-		}
-
-		public sendData(invoke: Invoke): void
-		{
-			this.base.sendData(invoke);
+			
+			this.start_listen();
 		}
 	}
 }
@@ -148,34 +146,30 @@ namespace samchon.protocol
 {
 	declare var net: typeof NodeJS.net;
 
-	export class NormalServerConnector extends ServerConnector
+	export class NormalServerConnector 
+		extends NormalCommunicator
+		implements IServerConnector
 	{
-		private socket: socket.socket;
-		private base: NormalCommunicatorBase;
+		public onConnect: Function;
 
 		public constructor(listener: IProtocol)
 		{
-			super(listener);
+			super();
 
-			this.socket = null;
+			this.listener = listener;
 		}
 
 		public connect(ip: string, port: number): void
 		{
 			this.socket = net.connect({ host: ip, port: port }, this.handle_connect.bind(this));
 		}
+
 		private handle_connect(...arg: any[]): void
 		{
-			this.base = new NormalCommunicatorBase(this, this.socket);
-			this.base.listen();
+			this.start_listen(); 
 
-			if (this.onopen != null)
-				this.onopen();
-		}
-
-		public sendData(invoke: Invoke): void
-		{
-			this.base.sendData(invoke);
+			if (this.onConnect != null)
+				this.onConnect();
 		}
 	}
 }

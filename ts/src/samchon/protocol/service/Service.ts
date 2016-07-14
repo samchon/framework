@@ -19,6 +19,10 @@ namespace samchon.protocol.service
 			this.client = client;
 			this.path = path;
 		}
+
+		public destructor(): void
+		{
+		}
 		
 		/* ------------------------------------------------------------------
 			ACCESSORS

@@ -24,6 +24,11 @@ namespace samchon.protocol.service
 
 		protected abstract createService(path: string): Service;
 
+		public close(): void
+		{
+			this.user.erase(this.no);
+		}
+
 		/* ------------------------------------------------------------------
 			ACCESSORS
 		------------------------------------------------------------------ */

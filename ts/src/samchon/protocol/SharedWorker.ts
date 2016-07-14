@@ -1,6 +1,5 @@
 ﻿/// <reference path="../API.ts" />
 
-/// <reference path="Communicator.ts" />
 /// <reference path="Server.ts" />
 
 namespace samchon.protocol
@@ -17,14 +16,27 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	export class SharedWorkerClientDriver 
-		extends ClientDriver
+		implements IClientDriver
 	{
+		private listener: IProtocol;
+
+		public onClose: Function;
+
 		public listen(listener: IProtocol): void
+		{
+			this.listener = listener;
+		}
+
+		public close(): void
 		{
 		}
 
 		public sendData(invoke: Invoke): void
 		{
+		}
+		public replyData(invoke: Invoke): void
+		{
+			this.listener.replyData(invoke);
 		}
 	}
 }
@@ -32,16 +44,16 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	export class SharedWorkerConnector
-		extends Communicator
+		implements IServerConnector
 	{
+		private listener: IProtocol;
 		private driver: any; //SharedWorker;
 
-		public onopen = Function;
+		public onConnect: Function;
+		public onClose: Function;
 
 		public constructor(listener: IProtocol)
 		{
-			super();
-
 			this.listener = listener;
 			this.driver = null;
 		}
@@ -69,6 +81,10 @@ namespace samchon.protocol
 			for (let i: number = 0; i < invoke.size(); i++)
 				if (invoke.at(i).getType() == "ByteaArray")
 					this.driver.port.postMessage(invoke.at(i).getValue());
+		}
+		public replyData(invoke: Invoke): void
+		{
+			this.listener.replyData(invoke);
 		}
 
 		private reply_message(event: MessageEvent): void

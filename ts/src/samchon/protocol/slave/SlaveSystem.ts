@@ -59,7 +59,7 @@ namespace samchon.protocol.slave
 			this.slave_system = slave_system;
 		}
 
-		protected addClient(driver: ClientDriver): void
+		protected addClient(driver: IClientDriver): void
 		{
 			this.slave_system["communicator"] = driver;
 			driver.listen(this.slave_system);
@@ -79,7 +79,7 @@ namespace samchon.protocol.slave
 			this.slave_system = slave_system;
 		}
 
-		protected addClient(driver: ClientDriver): void
+		protected addClient(driver: IClientDriver): void
 		{
 			this.slave_system["communicator"] = driver;
 			driver.listen(this.slave_system);
@@ -99,7 +99,7 @@ namespace samchon.protocol.slave
 			this.slave_system = slave_system;
 		}
 
-		protected addClient(driver: ClientDriver): void
+		protected addClient(driver: IClientDriver): void
 		{
 			this.slave_system["communicator"] = driver;
 			driver.listen(this.slave_system);

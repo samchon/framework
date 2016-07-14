@@ -46,10 +46,21 @@ namespace samchon.protocol
 		 */
 		public constructor(invoke: Invoke);
 
+		/**
+		 * Construct from XML.
+		 * 
+		 * @param xml
+		 */
 		public constructor(xml: library.XML);
 
 		public constructor(listener: string, begin: std.VectorIterator<InvokeParameter>, end: std.VectorIterator<InvokeParameter>);
 
+		/**
+		 * Construct from listener and parametric values.
+		 * 
+		 * @param listener
+		 * @param parameters
+		 */
 		public constructor(listener: string, ...parameters: any[]);
 
 		public constructor(...args: any[])
@@ -101,7 +112,7 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		public createChild(xml: library.XML): InvokeParameter
+		protected createChild(xml: library.XML): InvokeParameter
 		{
 			return new InvokeParameter();
 		}

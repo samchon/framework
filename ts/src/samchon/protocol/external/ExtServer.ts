@@ -22,7 +22,7 @@ namespace samchon.protocol.external
 			this.system_array = system_array;
 		}
 
-		protected addClient(driver: ClientDriver): void
+		protected addClient(driver: IClientDriver): void
 		{
 			this.system_array["addClient"](driver);
 		}
@@ -40,7 +40,7 @@ namespace samchon.protocol.external
 			this.system_array = system_array;
 		}
 
-		protected addClient(driver: ClientDriver): void
+		protected addClient(driver: IClientDriver): void
 		{
 			this.system_array["addClient"](driver);
 		}
@@ -58,7 +58,7 @@ namespace samchon.protocol.external
 			this.system_array = system_array;
 		}
 
-		protected addClient(driver: ClientDriver): void
+		protected addClient(driver: IClientDriver): void
 		{
 			this.system_array["addClient"](driver);
 		}

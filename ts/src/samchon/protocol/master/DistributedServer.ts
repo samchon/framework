@@ -5,7 +5,7 @@
 namespace samchon.protocol.master
 {
 	export interface IDistributedServer
-		extends DistributedSystem, external.IExternalServer
+		extends external.IExternalServer, DistributedSystem
 	{
 	}
 
@@ -24,7 +24,7 @@ namespace samchon.protocol.master
 			this.port = 0;
 		}
 
-		protected abstract createServerConnector(): ServerConnector;
+		protected abstract createServerConnector(): IServerConnector;
 
 		public connect(): void
 		{
@@ -32,7 +32,7 @@ namespace samchon.protocol.master
 				return;
 
 			this.communicator = this.createServerConnector();
-			(this.communicator as ServerConnector).connect(this.ip, this.port);
+			(this.communicator as IServerConnector).connect(this.ip, this.port);
 		}
 
 		public getIP(): string

@@ -8,7 +8,7 @@ namespace samchon.protocol.external
 		extends EntityArrayCollection<ExternalSystemRole>
 		implements IProtocol
 	{
-		protected communicator: Communicator;
+		protected communicator: ICommunicator;
 		
 		protected name: string;
 

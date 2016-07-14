@@ -20,7 +20,7 @@ namespace samchon.protocol.master
 			super();
 		}
 		
-		protected abstract createExternalClient(driver: ClientDriver): DistributedSystem;
+		protected abstract createExternalClient(driver: IClientDriver): DistributedSystem;
 		protected abstract createExternalServer(xml: library.XML): IDistributedServer;
 
 		protected abstract createRole(xml: library.XML): DistributedSystemRole;

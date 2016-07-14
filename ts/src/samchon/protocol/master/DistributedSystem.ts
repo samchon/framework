@@ -18,10 +18,10 @@ namespace samchon.protocol.master
 			this.systemArray = systemArray;
 		}
 
-		public createChild(xml: library.XML): external.ExternalSystemRole
-		{
-			return this.systemArray["createRole"](xml);
-		}
+		//protected createChild(xml: library.XML): external.ExternalSystemRole
+		//{
+		//	return this.systemArray["createRole"](xml);
+		//}
 
 		public getSystemArray(): DistributedSystemArray
 		{

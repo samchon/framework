@@ -19,7 +19,7 @@ namespace samchon.protocol.master
 			this.history_sequence = 0;
 		}
 
-		protected abstract createExternalClient(driver: ClientDriver): ParallelSystem;
+		protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
 		protected abstract createExternalServer(xml: library.XML): IParallelServer;
 
 		/* ---------------------------------------------------------

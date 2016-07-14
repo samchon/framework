@@ -18,7 +18,7 @@
   "bugs": { "url": "https://github.com/samchon/framework/issues" },
   
   "dependencies": {
-    "typescript-stl": "~1.0.0-rc.2",
+    "typescript-stl": "~1.0.0-rc.4-a",
     "websocket": "~1.0.23"
   },
   "licenses": [
@@ -28,6 +28,7 @@
     }
   ],
   "keywords": [
-    "samchon framework", "SDN", "software defined network", "cloud", "distributed processing system",
-    "C++", "TypeScript", "XML", "Entity", "Invoke", "chain of responsibility", "composite"]
+    "samchon framework", "SDN", "software defined network", "interaction",
+    "cloud system", "distributed processing system", "parallel processing system",
+    "C++", "TypeScript", "XML", "Entity"]
 }

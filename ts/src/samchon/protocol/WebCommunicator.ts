@@ -83,6 +83,12 @@ namespace samchon.protocol
 				message.binaryData
 		}
 
+		protected handle_close(): void
+		{
+			if (this.onClose != null)
+				this.onClose();
+		}
+
 		/**
 		 * Reply {@link Invoke} message from the remote system. </p>
 		 * 
@@ -132,6 +138,11 @@ namespace samchon.protocol
 		private sequence: number;
 
 		/**
+		 * @hidden
+		 */
+		private my_port: number;
+
+		/**
 		 * Default Constructor.
 		 */
 		public constructor()
@@ -146,6 +157,8 @@ namespace samchon.protocol
 		 */
 		public open(port: number): void
 		{
+			this.my_port = port;
+
 			this.http_server = http.createServer();
 			this.http_server.listen(port);
 
@@ -169,7 +182,7 @@ namespace samchon.protocol
 		 */
 		private handle_request(request: websocket.request): void
 		{
-			let path: string = request.resource;
+			let path: string = request.resource.substr(1);
 			let session_id: string = this.get_session_id(request.cookies);
 
 			let connection = request.accept
@@ -204,7 +217,7 @@ namespace samchon.protocol
 		 */
 		private issue_session_id(): string
 		{
-			let port: number = this.http_server.localPort;
+			let port: number = this.my_port;
 			let uid: number = ++this.sequence;
 			let linux_time: number = new Date().getTime();
 			let rand: number = Math.floor(Math.random() * 0xffffffff);
@@ -230,6 +243,8 @@ namespace samchon.protocol
 		 */
 		private session_id: string;
 
+		private listening_: boolean;
+
 		/**
 		 * Initialization Constructor.
 		 * 
@@ -244,6 +259,8 @@ namespace samchon.protocol
 			this.connection = connection;
 			this.path = path;
 			this.session_id = session_id;
+
+			this.listening_ = false;
 		}
 
 		/**
@@ -253,7 +270,14 @@ namespace samchon.protocol
 		{
 			this.listener = listener;
 
-			this.connection.on("message", this.handle_message.bind(this));
+			if (this.listening_ == false)
+			{
+				this.listening_=  true;
+
+				this.connection.on("message", this.handle_message.bind(this));
+				this.connection.on("close", this.handle_close.bind(this));
+				this.connection.on("error", this.handle_close.bind(this));
+			}
 		}
 		
 		/**
@@ -352,6 +376,8 @@ namespace samchon.protocol
 				this.browser_socket = new WebSocket(address);
 
 				this.browser_socket.onopen = this.handle_browser_connect.bind(this);
+				this.browser_socket.onerror = this.handle_close.bind(this);
+				this.browser_socket.onclose = this.handle_close.bind(this);
 				this.browser_socket.onmessage = this.handle_browser_message.bind(this);
 			}
 		}
@@ -401,6 +427,8 @@ namespace samchon.protocol
 		{
 			this.connection = connection;
 			this.connection.on("message", this.handle_message.bind(this));
+			this.connection.on("close", this.handle_close.bind(this));
+			this.connection.on("error", this.handle_close.bind(this));
 
 			if (this.onConnect != null)
 				this.onConnect();

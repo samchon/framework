@@ -16,7 +16,7 @@ namespace samchon.protocol.service
 		private sequence: number;
 
 		// ACCOUNT
-		private account: string;
+		private account_id: string;
 		private authority: number;
 
 		/* ---------------------------------------------------------
@@ -32,13 +32,13 @@ namespace samchon.protocol.service
 			this.server = server;
 			
 			this.sequence = 0;
-			this.account = "guest";
-			this.authority = 1;
+			this.account_id = "guest";
+			this.authority = 0;
 
 			this.addEventListener("erase", this.handle_erase_client, this);
 		}
 
-		public abstract createClient(): Client;
+		protected abstract createClient(driver: WebClientDriver): Client;
 
 		private handle_erase_client(event: collection.CollectionEvent<std.Pair<number, Client>>): void
 		{
@@ -57,28 +57,28 @@ namespace samchon.protocol.service
 		{
 			return this.server;
 		}
-		public getAccount(): string
+		public getAccountID(): string
 		{
-			return this.account;
+			return this.account_id;
 		}
 		public getAuthority(): number
 		{
 			return this.authority;
 		}
 
-		protected setAccount(account: string, authority: number): void
+		public setAccount(id: string, authority: number): void
 		{
-			if (this.account == account) // SAME WITH BEFORE
+			if (this.account_id == id) // SAME WITH BEFORE
 				return;
-			else if (this.account != "") // ACCOUTN IS CHANGED
-				this.server["account_map"].erase(this.account); // ERASE FROM ORDINARY ACCOUNT_MAP
+			else if (this.account_id != "") // ACCOUTN IS CHANGED
+				this.server["account_map"].erase(this.account_id); // ERASE FROM ORDINARY ACCOUNT_MAP
 
 			// SET
-			this.account = account;
+			this.account_id = id;
 			this.authority = authority;
 
 			// REGISTER TO ACCOUNT_MAP IN ITS SERVER
-			this.server["account_map"].set(account, this);
+			this.server["account_map"].set(id, this);
 		}
 
 		/* ---------------------------------------------------------

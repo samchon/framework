@@ -233,4 +233,4 @@ namespace samchon.library
 			return this.denominator_;
 		}
 	}
-}2
+};

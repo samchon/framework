@@ -263,6 +263,7 @@ namespace samchon.library
 					break;
 
 				format = StringUtil.replaceAll(format, "{" + minIndex + "}", args[0]);
+				args.shift();
 			}
 			return format;
 		}

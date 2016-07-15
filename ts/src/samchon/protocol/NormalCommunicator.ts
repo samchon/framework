@@ -57,8 +57,6 @@ namespace samchon.protocol
 			this.content_size = buffer.readUInt32BE(0, true) * Math.pow(2, 32);
 			this.content_size += buffer.readUInt32BE(4, true);
 
-			console.log("content size: #" + this.content_size);
-
 			if (this.data != "")
 				this.listen_data();
 		}

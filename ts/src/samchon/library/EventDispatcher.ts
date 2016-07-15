@@ -209,12 +209,12 @@ namespace samchon.library
 		/**
 		 * The origin object who issuing events.
 		 */
-		protected target: IEventDispatcher;
+		protected event_dispatcher_: IEventDispatcher;
 
 		/**
 		 * Container of listeners.
 		 */
-		protected listeners: std.HashMap<string, std.HashSet<std.Pair<EventListener, Object>>>;
+		protected event_listeners_: std.HashMap<string, std.HashSet<std.Pair<EventListener, Object>>>;
 
 		/**
 		 * Default Constructor.
@@ -224,18 +224,18 @@ namespace samchon.library
 		/**
 		 * Construct from the origin event dispatcher.
 		 *
-		 * @param target The origin object who issuing events.
+		 * @param dispatcher The origin object who issuing events.
 		 */
-		public constructor(target: IEventDispatcher);
+		public constructor(dispatcher: IEventDispatcher);
 
-		public constructor(target: IEventDispatcher = null)
+		public constructor(dispatcher: IEventDispatcher = null)
 		{
-			if (target == null)
-				this.target = this;
+			if (dispatcher == null)
+				this.event_dispatcher_ = this;
 			else
-				this.target = target;
+				this.event_dispatcher_ = dispatcher;
 
-			this.listeners = new std.HashMap<string, std.HashSet<std.Pair<EventListener, Object>>>();
+			this.event_listeners_ = new std.HashMap<string, std.HashSet<std.Pair<EventListener, Object>>>();
 		}
 
 		/**
@@ -245,7 +245,7 @@ namespace samchon.library
 		{
 			type = type.toLowerCase();
 
-			return this.listeners.has(type);
+			return this.event_listeners_.has(type);
 		}
 		
 		/**
@@ -254,14 +254,14 @@ namespace samchon.library
 		public dispatchEvent(event: Event): boolean
 		{
 			if (event instanceof library.BasicEvent)
-				event["target_"] = this.target;
+				event["target_"] = this.event_dispatcher_;
 			else
-				event.target = this.target;
+				event.target = this.event_dispatcher_;
 
-			if (this.listeners.has(event.type) == false)
+			if (this.event_listeners_.has(event.type) == false)
 				return false;
 
-			let listenerSet = this.listeners.get(event.type);
+			let listenerSet = this.event_listeners_.get(event.type);
 			for (let it = listenerSet.begin(); it.equal_to(listenerSet.end()) == false; it = it.next())
 				it.value.first.apply(it.value.second, [event]);
 				//it.value.apply(event);
@@ -284,13 +284,13 @@ namespace samchon.library
 			type = type.toLowerCase();
 			let listenerSet: std.HashSet<std.Pair<EventListener, Object>>;
 			
-			if (this.listeners.has(type) == false)
+			if (this.event_listeners_.has(type) == false)
 			{
 				listenerSet = new std.HashSet<std.Pair<EventListener, Object>>();
-				this.listeners.set(type, listenerSet);
+				this.event_listeners_.set(type, listenerSet);
 			}
 			else
-				listenerSet = this.listeners.get(type);
+				listenerSet = this.event_listeners_.get(type);
 
 			listenerSet.insert(new std.Pair<EventListener, Object>(listener, thisArg));
 		}
@@ -309,10 +309,10 @@ namespace samchon.library
 		public removeEventListener(type: string, listener: EventListener, thisArg: Object = null): void
 		{
 			type = type.toLowerCase();
-			if (this.listeners.has(type) == false)
+			if (this.event_listeners_.has(type) == false)
 				return;
 
-			let listenerSet = this.listeners.get(type);
+			let listenerSet = this.event_listeners_.get(type);
 			let bind: std.Pair<EventListener, Object> = new std.Pair<EventListener, Object>(listener, thisArg);
 			
 			if (listenerSet.has(bind) == false)
@@ -321,7 +321,7 @@ namespace samchon.library
 			listenerSet.erase(bind);
 
 			if (listenerSet.empty() == true)
-				this.listeners.erase(type);
+				this.event_listeners_.erase(type);
 		}
 	}
 }

@@ -1,13 +1,14 @@
 ﻿/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
 
-import sf = require("samchon-framework");
+import std = require("typescript-stl");
+import samchon = require("samchon-framework");
 
 namespace example.chat
 {
 	// SHORTCUTS
-	export import library = sf.library;
-	export import collection = sf.collection;
-	export import protocol = sf.protocol;
+	export import library = samchon.library;
+	export import collection = samchon.collection;
+	export import protocol = samchon.protocol;
 }
 
 /* =================================================================
@@ -19,6 +20,9 @@ namespace example.chat
 	{
 		private rooms: ChatRoomList;
 
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		public constructor()
 		{
 			super();
@@ -31,6 +35,9 @@ namespace example.chat
 			return new ChatUser(this);
 		}
 
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
 		public getRooms(): ChatRoomList
 		{
 			return this.rooms;
@@ -41,11 +48,31 @@ namespace example.chat
 	{
 		private name: string = "";
 
-		public createClient(): protocol.service.Client
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
+		public constructor(server: ChatServer)
 		{
-			return new ChatClient(this);
+			super(server);
 		}
 
+		public createClient(driver: protocol.WebClientDriver): protocol.service.Client
+		{
+			return new ChatClient(this, driver);
+		}
+
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		public getServer(): ChatServer
+		{
+			return super.getServer() as ChatServer;
+		}
+
+		public setName(val: string): void
+		{
+			this.name = val;
+		}
 		public getName(): string
 		{
 			return this.name;
@@ -54,6 +81,17 @@ namespace example.chat
 
 	export class ChatClient extends protocol.service.Client
 	{
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
+		public constructor(user: ChatUser, driver: protocol.WebClientDriver)
+		{
+			super(user, driver);
+
+			if (user.getAuthority() != 0)
+				this.send_account_info();
+		}
+
 		protected createService(path: string): protocol.service.Service
 		{
 			if (path == "list")
@@ -64,26 +102,56 @@ namespace example.chat
 				return null;
 		}
 
-		public sendAccountInfo(): void
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		public getUser(): ChatUser
 		{
-			let id: string = this.getUser().getAccount();
-			let name: string = (this.getUser() as ChatUser).getName();
+			return super.getUser() as ChatUser;
+		}
 
-			this.sendData(new protocol.Invoke("handleAccountInfo", id, name)); 
+		/* ---------------------------------------------------------
+			SEND DATA
+		--------------------------------------------------------- */
+		public sendData(invoke: protocol.Invoke): void
+		{
+			console.log("SENT DATA: ");
+			console.log(invoke.toXML().toString() + "\n");
+
+			super.sendData(invoke);
+		}
+
+		private send_account_info(): void
+		{
+			let id: string = this.getUser().getAccountID();
+			let name: string = this.getUser().getName();
+
+			this.sendData(new protocol.Invoke("setAccount", id, name)); 
+		}
+
+		/* ---------------------------------------------------------
+			REPLY DATA
+		--------------------------------------------------------- */
+		public replyData(invoke: protocol.Invoke): void
+		{
+			console.log("REPLIED DATA: ");
+			console.log(invoke.toXML().toString() + "\n");
+
+			super.replyData(invoke);
 		}
 
 		private login(id: string, name: string): void
 		{
-			if (this.getUser().getAccount() != "guest")
-				this.sendData(new protocol.Invoke("handleLogin", false, "You're already being logged-in."));
+			if (this.getUser().getAccountID() != "guest")
+				this.sendData(new protocol.Invoke("handleLoginFailed", "You're already being logged-in."));
 			else if (this.getUser().getServer().has(id) == true)
-				this.sendData(new protocol.Invoke("handleLogin", false, "Another one is using the account."));
+				this.sendData(new protocol.Invoke("handleLoginFailed", "Another one is using the account."));
 			else
 			{
-				this.getUser()["account"] = id;
-				(this.getUser() as ChatUser)["name"] = name;
+				this.getUser().setAccount(id, 1);
+				this.getUser().setName(name);
 
-				this.sendData(new protocol.Invoke("handleLogin", true));
+				this.send_account_info();
 			}
 		}
 	}
@@ -96,48 +164,71 @@ namespace example.chat
 {
 	export class ListService extends protocol.service.Service
 	{
+		private get rooms(): ChatRoomList
+		{
+			return this.getClient().getUser().getServer().getRooms();
+		}
+
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		public constructor(client: ChatClient, path: string)
 		{
 			super(client, path);
 
-			// FIRST, SEND ACCOUNT INFO
-			(this.getClient() as ChatClient).sendAccountInfo();
-
-			// SECOND, SEND THE LIST OF CHATTING ROOMS TO THE NEWLY CONNECTED CLIENT (SERVICE).
+			// FIRST, SEND THE LIST OF CHATTING ROOMS TO THE NEWLY CONNECTED CLIENT (SERVICE).
 			this.send_rooms();
 
 			// ALSO, SEND THE LIST WHENEVENR PARTICIPANTS JOIN OR GO OUT
-			let rooms: ChatRoomList = (this.getClient().getUser().getServer() as ChatServer).getRooms();
-
-			rooms.addEventListener("insert", ListService.prototype.handle_change, this);
-			rooms.addEventListener("erase", ListService.prototype.handle_change, this);
+			this.rooms.addEventListener("insert", ListService.prototype.handle_room_change, this);
+			this.rooms.addEventListener("erase", ListService.prototype.handle_room_change, this);
+			this.rooms.addEventListener("refresh", ListService.prototype.handle_participant_change, this);
 		}
 
 		public destructor(): void
 		{
-			let rooms: ChatRoomList = (this.getClient().getUser().getServer() as ChatServer).getRooms();
-
-			rooms.removeEventListener("insert", ListService.prototype.handle_change, this);
-			rooms.removeEventListener("erase", ListService.prototype.handle_change, this);
+			this.rooms.removeEventListener("insert", ListService.prototype.handle_room_change, this);
+			this.rooms.removeEventListener("erase", ListService.prototype.handle_room_change, this);
+			this.rooms.removeEventListener("refresh", ListService.prototype.handle_participant_change, this);
 		}
 
-		private handle_change(event: collection.CollectionEvent<std.Pair<string, ChatService>>): void
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		public getClient(): ChatClient
+		{
+			return super.getClient() as ChatClient;
+		}
+
+		/* ---------------------------------------------------------
+			SEND DATA
+		--------------------------------------------------------- */
+		private handle_room_change(event: collection.CollectionEvent<std.Pair<number, ChatRoom>>): void
 		{
 			// SEND LIST OF CHATTING ROOMS WHENEVER PARTICIPANTS JOIN OR GO OUT
 			this.send_rooms();
 		}
 
-		private send_rooms(): void
+		private handle_participant_change(event: collection.CollectionEvent<std.Pair<number, ChatRoom>>): void
 		{
-			let rooms: ChatRoomList = (this.getClient().getUser().getServer() as ChatServer).getRooms();
+			let room: ChatRoom = event.first.value.second;
 
-			let invoke: protocol.Invoke = new protocol.Invoke("setRoomList", rooms.toXML());
+			let invoke: protocol.Invoke = new protocol.Invoke("setRoom", room["uid"], room.toXML());
 			this.sendData(invoke);
 		}
 
+		private send_rooms(): void
+		{
+			let invoke: protocol.Invoke = new protocol.Invoke("setRoomList", this.rooms.toXML());
+			this.sendData(invoke);
+		}
+
+		/* ---------------------------------------------------------
+			REPLY DATA
+		--------------------------------------------------------- */
 		private createRoom(name: string): void
 		{
-			let rooms: ChatRoomList = (this.getClient().getUser().getServer() as ChatServer).getRooms();
+			let rooms: ChatRoomList = this.getClient().getUser().getServer().getRooms();
 
 			rooms.createRoom(name);
 		}
@@ -147,21 +238,21 @@ namespace example.chat
 	{
 		private room: ChatRoom;
 
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		public constructor(client: ChatClient, path: string)
 		{
 			super(client, path);
 
-			// FIRST, SEND ACCOUNT INFO
-			(this.getClient() as ChatClient).sendAccountInfo();
-
-			// SECOND, FIND MATCHED ROOM
+			// FIRST, FIND MATCHED ROOM
 			try
 			{
 				// IDENTIFIER
-				let rooms: ChatRoomList = (this.getClient().getUser().getServer() as ChatServer).getRooms();
+				let rooms: ChatRoomList = this.getClient().getUser().getServer().getRooms();
 				let uid: number = Number(path.split("chat/")[1]);
-				let account_id: string = this.getClient().getUser().getAccount();
-				
+				let account_id: string = this.getClient().getUser().getAccountID();
+
 				let room: ChatRoom = rooms.get(uid);
 				if (room.has(account_id) == true)
 				{
@@ -190,9 +281,20 @@ namespace example.chat
 			if (this.room == null)
 				return;
 
-			this.room.erase(this.getClient().getUser().getAccount());
+			this.room.erase(this.getClient().getUser().getAccountID());
 		}
 
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		public getClient(): ChatClient
+		{
+			return super.getClient() as ChatClient;
+		}
+
+		/* ---------------------------------------------------------
+			REPLY DATA
+		--------------------------------------------------------- */
 		public replyData(invoke: protocol.Invoke)
 		{
 			// DON'T ACCEPT ANY MESSAGE WHEN FAILED TO JOIN A ROOM
@@ -204,18 +306,20 @@ namespace example.chat
 
 		private talk(message: string): void
 		{
-			let my_account_id: string = this.getClient().getUser().getAccount();
+			let my_account_id: string = this.getClient().getUser().getAccountID();
 
 			let invoke: protocol.Invoke = new protocol.Invoke("printTalk", my_account_id, message);
 			this.room.sendData(invoke);
 		}
-
+		
 		private whisper(to: string, message: string): void
 		{
-			let my_account_id: string = this.getClient().getUser().getAccount();
+			let from: string = this.getClient().getUser().getAccountID();
+			let invoke: protocol.Invoke = new protocol.Invoke("printWhisper", from, to, message);
 
-			let invoke: protocol.Invoke = new protocol.Invoke("printWhisper", my_account_id, to, message);
-			this.room.sendData(invoke);
+			this.room.get(to).sendData(invoke); // TO OTHERSIDE
+			if (from != to)
+				this.sendData(invoke); // AND MYSELF
 		}
 	}
 }
@@ -225,19 +329,26 @@ namespace example.chat
 ================================================================= */
 namespace example.chat
 {
-	export class ChatRoomList extends collection.HashMapCollection<number, ChatRoom>
+	export class ChatRoomList 
+		extends collection.HashMapCollection<number, ChatRoom>
 	{
 		private sequence: number = 0; // AUTO_INCREMENT FOR ChatRoom.uid
 
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		// using super::super
 
 		public createRoom(name: string): void
 		{
 			let uid: number = ++this.sequence;
 
-			this.insert(std.make_pair(uid, new ChatRoom(this, uid, name)));
+			this.insert([uid, new ChatRoom(this, uid, name)]);
 		}
 
+		/* ---------------------------------------------------------
+			EXPORTERS
+		--------------------------------------------------------- */
 		public toXML(): library.XML
 		{
 			// <roomList>
@@ -260,20 +371,26 @@ namespace example.chat
 	{
 		private rooms: ChatRoomList;
 		private uid: number;
-		private name: string;
+		private title: string;
 
-		public constructor(rooms: ChatRoomList, uid: number, name: string)
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
+		public constructor(rooms: ChatRoomList, uid: number, title: string)
 		{
 			super();
 
 			this.rooms = rooms;
 			this.uid = uid;
-			this.name = name;
+			this.title = title;
 
 			this.addEventListener("insert", ChatRoom.prototype.handle_change, this);
 			this.addEventListener("erase", ChatRoom.prototype.handle_change, this);
 		}
 
+		/* ---------------------------------------------------------
+			SEND DATA
+		--------------------------------------------------------- */
 		private handle_change(event: collection.CollectionEvent<std.Pair<string, ChatService>>): void
 		{
 			if (event.type == "erase" && this.empty() == true)
@@ -283,8 +400,15 @@ namespace example.chat
 				return;
 			}
 			
+			// SEND CHANGE TO PARTICIPANTS
 			let invoke: protocol.Invoke = new protocol.Invoke("setRoom", this.toXML());
 			this.sendData(invoke);
+
+			// NOTIFY CHANGE TO ITS PARENT ROOM_LIST
+			let it = this.rooms.find(this.uid);
+			let refresh_event = new collection.CollectionEvent("refresh", it, it.next());
+			
+			this.rooms.dispatchEvent(refresh_event);
 		}
 
 		public sendData(invoke: protocol.Invoke): void
@@ -294,6 +418,9 @@ namespace example.chat
 				it.second.sendData(invoke);
 		}
 
+		/* ---------------------------------------------------------
+			EXPORTERS
+		--------------------------------------------------------- */
 		public toXML(): library.XML
 		{
 			// <room uid="1" name="Debate Something">
@@ -303,13 +430,13 @@ namespace example.chat
 			let xml: library.XML = new library.XML();
 			xml.setTag("room");
 			xml.setProperty("uid", this.uid + "");
-			xml.setProperty("name", this.name);
+			xml.setProperty("title", this.title);
 
 			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
 			{
 				let participant: library.XML = new library.XML();
 				participant.setTag("participant");
-				participant.setProperty("id", it.second.getClient().getUser().getAccount());
+				participant.setProperty("id", it.second.getClient().getUser().getAccountID());
 				participant.setProperty("name", (it.second.getClient().getUser() as ChatUser).getName());
 
 				xml.push(participant);
@@ -327,7 +454,7 @@ namespace example.chat
 	export function main(): void
 	{
 		let server: ChatServer = new ChatServer();
-		server.open(37755);
+		server.open(11723);
 	}
 }
 

@@ -16,9 +16,13 @@ namespace samchon.protocol.service
 		/**
 		 * Default Constructor.
 		 */
-		public constructor(user: User)
+		public constructor(user: User, driver: WebClientDriver)
 		{
 			this.user = user;
+
+			this.driver = driver;
+			this.driver.listen(this);
+
 			this.service = null;
 		}
 
@@ -50,8 +54,24 @@ namespace samchon.protocol.service
 		}
 		public replyData(invoke: protocol.Invoke): void
 		{
-			this.service.replyData(invoke);
+			invoke.apply(this);
 			this.user.replyData(invoke);
+
+			if (this.service != null)
+				this.service.replyData(invoke);
+		}
+
+		protected changeService(path: string): void
+		{
+			if (this.service != null)
+				this.service.destructor();
+
+			this.service = this.createService(path);
+			if (this.service != null)
+			{
+				this.service["client"] = this;
+				this.service["path"] = path;
+			}
 		}
 	}
 }

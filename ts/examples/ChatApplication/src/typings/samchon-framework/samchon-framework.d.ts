@@ -1444,281 +1444,6 @@ declare namespace samchon.collection {
         splice(start: number, deleteCount: number, ...items: library.XML[]): library.XML[];
     }
 }
-declare namespace samchon.protocol {
-    /**
-     * <p> An interface of entity. </p>
-     *
-     * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
-     * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
-     * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
-     * Entity is not imposed but encouraged. </p>
-     *
-     * <p> As we could get advantages from standardization of message for network I/O with Invoke,
-     * we can get additional advantage from standardizing expression method of data class with Entity.
-     * We do not need to know a part of network communication. Thus, with the Entity, we can only
-     * concentrate on entity's own logics and relationships between another entities. Entity does not
-     * need to how network communications are being done. </p>
-     *
-     * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
-     * protocol for network I/O but not a essential protocol must be kept. The expression method of
-     * Entity, using on network I/O, is expressed by XML string. </p>
-     *
-     * <p> If your own network system has a critical performance issue on communication data class,
-     * it would be better to using binary communication (with ByteArray).
-     * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IEntity {
-        /**
-         * <p> Construct data of the Entity from a XML object. </p>
-         *
-         * <p> Overrides the construct() method and fetch data of member variables from the XML. </p>
-         *
-         * <p> By recommended guidance, data representing member variables are contained in properties
-         * of the put XML object. </p>
-         *
-         * @param xml An xml used to contruct data of entity.
-         */
-        construct(xml: library.XML): void;
-        /**
-         * <p> Get a key that can identify the Entity uniquely. </p>
-         *
-         * <p> If identifier of the Entity is not atomic value, returns a string or paired object
-         * that can represents the composite identifier. </p>
-         */
-        key(): any;
-        /**
-         * <p> A tag name when represented by XML. </p>
-         *
-         * <ul>
-         * 	<li> <TAG {...properties} /> </li>
-         * </ul>
-         */
-        TAG(): string;
-        /**
-         * <p> Get a XML object represents the Entity. </p>
-         *
-         * <p> A member variable (not object, but atomic value like number, string or date) is categorized
-         * as a property within the framework of entity side. Thus, when overriding a toXML() method and
-         * archiving member variables to an XML object to return, puts each variable to be a property
-         * belongs to only a XML object. </p>
-         *
-         * <p> Don't archive the member variable of atomic value to XML::value causing enormouse creation
-         * of XML objects to number of member variables. An Entity must be represented by only a XML
-         * instance (tag). </p>
-         *
-         * <h4> Standard Usage. </h4>
-         * <code>
-         * <memberList>
-         *	<member id='jhnam88' name='Jeongho Nam' birthdate='1988-03-11' />
-         *	<member id='master' name='Administartor' birthdate='2011-07-28' />
-         * </memberList>
-         * </code>
-         *
-         * <h4> Non-standard usage abusing value. </h4>
-         * <code>
-         * <member>
-         *	<id>jhnam88</id>
-         *	<name>Jeongho Nam</name>
-         *	<birthdate>1988-03-11</birthdate>
-         * </member>
-         * <member>
-         *	<id>master</id>
-         *	<name>Administartor</name>
-         *	<birthdate>2011-07-28</birthdate>
-         * </member>
-         * </code>
-         *
-         * @return An XML object representing the Entity.
-         */
-        toXML(): library.XML;
-    }
-    /**
-     * <p> An entity, a standard data class. </p>
-     *
-     * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
-     * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
-     * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
-     * Entity is not imposed but encouraged. </p>
-     *
-     * <p> As we could get advantages from standardization of message for network I/O with Invoke,
-     * we can get additional advantage from standardizing expression method of data class with Entity.
-     * We do not need to know a part of network communication. Thus, with the Entity, we can only
-     * concentrate on entity's own logics and relationships between another entities. Entity does not
-     * need to how network communications are being done. </p>
-     *
-     * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
-     * protocol for network I/O but not a essential protocol must be kept. The expression method of
-     * Entity, using on network I/O, is expressed by XML string. </p>
-     *
-     * <p> If your own network system has a critical performance issue on communication data class,
-     * it would be better to using binary communication (with ByteArray).
-     * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class Entity implements IEntity {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        construct(xml: library.XML): void;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-    }
-}
-declare namespace samchon.example {
-    function test_entity(): void;
-}
-declare namespace samchon.example {
-    function test_file_reference(): void;
-}
-declare namespace samchon.protocol {
-    abstract class Server {
-        abstract open(port: number): void;
-        protected abstract addClient(clientDriver: ClientDriver): void;
-    }
-}
-declare namespace samchon.protocol {
-    abstract class Communicator implements IProtocol {
-        protected listener: IProtocol;
-        constructor();
-        abstract sendData(invoke: Invoke): void;
-        replyData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol {
-    abstract class ClientDriver extends Communicator {
-        constructor();
-        abstract listen(listener: IProtocol): void;
-    }
-}
-declare namespace samchon.protocol {
-    abstract class ServerConnector extends Communicator {
-        /**
-         * <p> An open-event listener. </p>
-         */
-        onopen: Function;
-        constructor(listener: IProtocol);
-        abstract connect(ip: string, port: number): void;
-    }
-}
-declare namespace samchon.protocol {
-    class WebCommunicatorBase implements IProtocol {
-        private communicator;
-        private connection;
-        constructor(clientDriver: WebClientDriver, connection: websocket.connection);
-        constructor(serverConnector: WebServerConnector, connection: websocket.connection);
-        listen(): void;
-        private handle_message(message);
-        replyData(invoke: Invoke): void;
-        sendData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol {
-    abstract class WebServer extends Server {
-        private http_server;
-        private sequence;
-        constructor();
-        open(port: number): void;
-        protected abstract addClient(driver: WebClientDriver): void;
-        private handle_request(request);
-        private get_session_id(cookies);
-        private issue_session_id();
-    }
-}
-declare namespace samchon.protocol {
-    class WebClientDriver extends ClientDriver {
-        private base;
-        private path;
-        private session_id;
-        constructor(connection: websocket.connection, path: string, session_id: string);
-        listen(listener: IProtocol): void;
-        getPath(): string;
-        getSessionID(): string;
-        sendData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * <p> A server connector for a physical client. </p>
-     *
-     * <p> ServerConnector is a class for a physical client connecting a server. If you want to connect
-     * to a server,  then implements this ServerConnector and just override some methods like
-     * getIP(), getPort() and replyData(). That's all. </p>
-     *
-     * <p> In Samchon Framework, package protocol, There are basic 3 + 1 components that can make any
-     * type of network system in Samchon Framework. The basic 3 components are IProtocol, IServer and
-     * IClient. The last, surplus one is the ServerConnector. Looking around classes in
-     * Samchon Framework, especially module master and slave which are designed for realizing
-     * distributed processing systems and parallel processing systems, physical client classes are all
-     * derived from this ServerConnector. </p>
-     *
-     * <img src="interface.png" />
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class WebServerConnector extends ServerConnector {
-        /**
-         * <p> A socket for network I/O. </p>
-         */
-        private socket;
-        private client;
-        private base;
-        /**
-         * <p> Constructor with parent. </p>
-         */
-        constructor(listener: IProtocol);
-        /**
-         * <p> Connects to a cloud server with specified host and port. </p>
-         *
-         * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown:
-         * an error event is dispatched if a host was specified, and an exception is thrown if no host
-         * was specified. Otherwise, the status of the connection is reported by an event.
-         * If the socket is already connected, the existing connection is closed first. </p>
-         *
-         * @param ip
-         * 		The name or IP address of the host to connect to.
-         * 		If no host is specified, the host that is contacted is the host where the calling
-         * 		file resides. If you do not specify a host, use an event listener to determine whether
-         * 		the connection was successful.
-         * @param port
-         * 		The port number to connect to.
-         *
-         * @throws IOError
-         * 		No host was specified and the connection failed.
-         * @throws SecurityError
-         * 		This error occurs in SWF content for the following reasons:
-         * 		Local untrusted SWF files may not communicate with the Internet. You can work around
-         * 		this limitation by reclassifying the file as local-with-networking or as trusted.
-         */
-        connect(ip: string, port: number, path?: string): void;
-        /**
-         * <p> Send data to the server. </p>
-         */
-        sendData(invoke: Invoke): void;
-        private handle_browser_connect(event);
-        /**
-         * <p> Handling replied message. </p>
-         */
-        private handle_browser_message(event);
-        private handle_node_connect(connection);
-    }
-}
-declare namespace samchon.example {
-    function test_websocket(): void;
-}
 declare namespace samchon.library {
     /**
      * <p> Case generator. </p>
@@ -2023,11 +1748,11 @@ declare namespace samchon.library {
         /**
          * The origin object who issuing events.
          */
-        protected target: IEventDispatcher;
+        protected event_dispatcher_: IEventDispatcher;
         /**
          * Container of listeners.
          */
-        protected listeners: std.HashMap<string, std.HashSet<std.Pair<EventListener, Object>>>;
+        protected event_listeners_: std.HashMap<string, std.HashSet<std.Pair<EventListener, Object>>>;
         /**
          * Default Constructor.
          */
@@ -2035,9 +1760,9 @@ declare namespace samchon.library {
         /**
          * Construct from the origin event dispatcher.
          *
-         * @param target The origin object who issuing events.
+         * @param dispatcher The origin object who issuing events.
          */
-        constructor(target: IEventDispatcher);
+        constructor(dispatcher: IEventDispatcher);
         /**
          * @inheritdoc
          */
@@ -2439,25 +2164,156 @@ declare namespace samchon.library {
         static removeHTMLSpaces(str: string): string;
     }
 }
+declare namespace samchon.library {
+    class URLVariables extends std.HashMap<string, string> {
+        constructor();
+        constructor(str: string);
+        toString(): string;
+    }
+}
 declare namespace samchon.protocol {
-    abstract class DedicatedWorker implements IProtocol {
-        private communicator;
+    /**
+     * <p> An interface of entity. </p>
+     *
+     * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
+     * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
+     * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+     * Entity is not imposed but encouraged. </p>
+     *
+     * <p> As we could get advantages from standardization of message for network I/O with Invoke,
+     * we can get additional advantage from standardizing expression method of data class with Entity.
+     * We do not need to know a part of network communication. Thus, with the Entity, we can only
+     * concentrate on entity's own logics and relationships between another entities. Entity does not
+     * need to how network communications are being done. </p>
+     *
+     * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+     * protocol for network I/O but not a essential protocol must be kept. The expression method of
+     * Entity, using on network I/O, is expressed by XML string. </p>
+     *
+     * <p> If your own network system has a critical performance issue on communication data class,
+     * it would be better to using binary communication (with ByteArray).
+     * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IEntity {
+        /**
+         * <p> Construct data of the Entity from a XML object. </p>
+         *
+         * <p> Overrides the construct() method and fetch data of member variables from the XML. </p>
+         *
+         * <p> By recommended guidance, data representing member variables are contained in properties
+         * of the put XML object. </p>
+         *
+         * @param xml An xml used to contruct data of entity.
+         */
+        construct(xml: library.XML): void;
+        /**
+         * <p> Get a key that can identify the Entity uniquely. </p>
+         *
+         * <p> If identifier of the Entity is not atomic value, returns a paired or tuple object
+         * that can represents the composite identifier. </p>
+         *
+         * <code>
+         * class Point extends Entity
+         * {
+         *     private x: number;
+         *     private y: number;
+         *
+         *     public key(): std.Pair<number, number>
+         *     {
+         *         return std.make_pair(this.x, this.y);
+         *     }
+         * }
+         * </code>
+         */
+        key(): any;
+        /**
+         * <p> A tag name when represented by XML. </p>
+         *
+         * <code> <TAG {...properties} /> </code>
+         */
+        TAG(): string;
+        /**
+         * <p> Get a XML object represents the Entity. </p>
+         *
+         * <p> A member variable (not object, but atomic value like number, string or date) is categorized
+         * as a property within the framework of entity side. Thus, when overriding a toXML() method and
+         * archiving member variables to an XML object to return, puts each variable to be a property
+         * belongs to only a XML object. </p>
+         *
+         * <p> Don't archive the member variable of atomic value to XML::value causing enormouse creation
+         * of XML objects to number of member variables. An Entity must be represented by only a XML
+         * instance (tag). </p>
+         *
+         * <h4> Standard Usage. </h4>
+         * <code>
+         * <memberList>
+         *	<member id='jhnam88' name='Jeongho Nam' birthdate='1988-03-11' />
+         *	<member id='master' name='Administartor' birthdate='2011-07-28' />
+         * </memberList>
+         * </code>
+         *
+         * <h4> Non-standard usage abusing value. </h4>
+         * <code>
+         * <member>
+         *	<id>jhnam88</id>
+         *	<name>Jeongho Nam</name>
+         *	<birthdate>1988-03-11</birthdate>
+         * </member>
+         * <member>
+         *	<id>master</id>
+         *	<name>Administartor</name>
+         *	<birthdate>2011-07-28</birthdate>
+         * </member>
+         * </code>
+         *
+         * @return An XML object representing the Entity.
+         */
+        toXML(): library.XML;
+    }
+    /**
+     * <p> An entity, a standard data class. </p>
+     *
+     * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
+     * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
+     * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
+     * Entity is not imposed but encouraged. </p>
+     *
+     * <p> As we could get advantages from standardization of message for network I/O with Invoke,
+     * we can get additional advantage from standardizing expression method of data class with Entity.
+     * We do not need to know a part of network communication. Thus, with the Entity, we can only
+     * concentrate on entity's own logics and relationships between another entities. Entity does not
+     * need to how network communications are being done. </p>
+     *
+     * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+     * protocol for network I/O but not a essential protocol must be kept. The expression method of
+     * Entity, using on network I/O, is expressed by XML string. </p>
+     *
+     * <p> If your own network system has a critical performance issue on communication data class,
+     * it would be better to using binary communication (with ByteArray).
+     * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class Entity implements IEntity {
         /**
          * Default Constructor.
          */
         constructor();
-        sendData(invoke: Invoke): void;
-        abstract replyData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol {
-    class DedicatedWorkerConnector extends Communicator {
-        private worker;
-        constructor(listener: IProtocol);
-        connect(jsFile: string): void;
-        close(): void;
-        sendData(invoke: Invoke): void;
-        private reply_message(event);
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
     }
 }
 declare namespace samchon.protocol {
@@ -2858,6 +2714,37 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
+    interface ICommunicator extends IProtocol {
+        onClose: Function;
+        close(): any;
+    }
+    interface IClientDriver extends ICommunicator {
+        listen(listener: IProtocol): void;
+    }
+    /**
+     * <p> An abstract server connector. </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IServerConnector extends ICommunicator {
+        onConnect: Function;
+        /**
+         * <p> Connect to a server. </p>
+         *
+         * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown:
+         * an error event is dispatched if a host was specified, and an exception is thrown if no host
+         * was specified. Otherwise, the status of the connection is reported by an event.
+         * If the socket is already connected, the existing connection is closed first. </p>
+         *
+         * @param ip The name or IP address of the host to connect to.
+         *			 If no host is specified, the host that is contacted is the host where the calling file resides. If
+         *			 you do not specify a host, use an event listener to determine whether the connection was successful.
+         * @param port The port number to connect to.
+         */
+        connect(ip: string, port: number): void;
+    }
+}
+declare namespace samchon.protocol {
     /**
      * <p> An interface for Invoke message chain. </p>
      *
@@ -3063,14 +2950,21 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class NormalCommunicatorBase implements IProtocol {
-        private communicator;
-        private socket;
+    abstract class Server {
+        abstract open(port: number): void;
+        protected abstract addClient(clientDriver: IClientDriver): void;
+    }
+}
+declare namespace samchon.protocol {
+    class NormalCommunicator implements ICommunicator {
+        protected listener: IProtocol;
+        protected socket: socket.socket;
+        onClose: Function;
         private data;
         private content_size;
-        constructor(clientDriver: NormalClientDriver, socket: socket.socket);
-        constructor(serverConnector: NormalServerConnector, socket: socket.socket);
-        listen(): void;
+        constructor();
+        close(): void;
+        protected start_listen(): void;
         private listen_piece(piece);
         private listen_header();
         private listen_data();
@@ -3086,21 +2980,17 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class NormalClientDriver extends ClientDriver {
-        private base;
+    class NormalClientDriver extends NormalCommunicator implements IClientDriver {
         constructor(socket: socket.socket);
         listen(listener: IProtocol): void;
-        sendData(invoke: Invoke): void;
     }
 }
 declare namespace samchon.protocol {
-    class NormalServerConnector extends ServerConnector {
-        private socket;
-        private base;
+    class NormalServerConnector extends NormalCommunicator implements IServerConnector {
+        onConnect: Function;
         constructor(listener: IProtocol);
         connect(ip: string, port: number): void;
         private handle_connect(...arg);
-        sendData(invoke: Invoke): void;
     }
 }
 declare namespace samchon.protocol {
@@ -3109,20 +2999,27 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class SharedWorkerClientDriver extends ClientDriver {
+    class SharedWorkerClientDriver implements IClientDriver {
+        private listener;
+        onClose: Function;
         listen(listener: IProtocol): void;
+        close(): void;
         sendData(invoke: Invoke): void;
+        replyData(invoke: Invoke): void;
     }
 }
 declare namespace samchon.protocol {
-    class SharedWorkerConnector extends Communicator {
+    class SharedWorkerConnector implements IServerConnector {
+        private listener;
         private driver;
-        onopen: FunctionConstructor;
+        onConnect: Function;
+        onClose: Function;
         constructor(listener: IProtocol);
         connect(jsFile: string): void;
         connect(jsFile: string, name: string): void;
         close(): void;
         sendData(invoke: Invoke): void;
+        replyData(invoke: Invoke): void;
         private reply_message(event);
     }
 }
@@ -3130,8 +3027,6 @@ declare namespace samchon.protocol {
     namespace socket {
         type socket = any;
         type server = any;
-        type net = any;
-        type http = any;
         type http_server = any;
     }
     namespace websocket {
@@ -3142,28 +3037,223 @@ declare namespace samchon.protocol {
         type client = any;
     }
 }
+declare namespace samchon.protocol {
+    /**
+     * <p> Base class for web-communicator, {@link WebClientDriver} and {@link WebServerConnector}. </p>
+     *
+     * <p> This class {@link WebCommunicatorBase} subrogates network communication for web-communicator classes,
+     * {@link WebClinetDriver} and {@link WebServerConnector}. The web-communicator and this class
+     * {@link WebCommunicatorBase} share same interface {@link IProtocol} and have a <b>chain of responsibily</b>
+     * relationship. </p>
+     *
+     * <p> When an {@link Invoke} message was delivered from the connected remote system, then this class calls
+     * web-communicator's {@link WebServerConnector.replyData replyData()} method. Also, when called web-communicator's
+     * {@link WebClientDriver.sendData sendData()}, then {@link sendData sendData()} of this class will be caleed. </p>
+     *
+     * <ul>
+     *	<li> this.replyData() -> communicator.replyData() </li>
+     *	<li> communicator.sendData() -> this.sendData() </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class WebCommunicator implements ICommunicator {
+        /**
+         * Communicator of web-socket.
+         */
+        protected listener: IProtocol;
+        /**
+         * Connection driver, a socket for web-socket.
+         */
+        protected connection: websocket.connection;
+        onClose: Function;
+        /**
+         * Initialization Constructor.
+         *
+         * @param communicator Communicator of web-socket.
+         * @param connection Connection driver, a socket for web-socket.
+         */
+        constructor();
+        /**
+         * Listen message from remoate system.
+         */
+        /**
+         * Close the connection.
+         */
+        close(): void;
+        /**
+         * <p> Handle raw-data received from the remote system. </p>
+         *
+         * <p> Queries raw-data received from the remote system. When the raw-data represents an formal {@link Invoke}
+         * message, then it will be sent to the {@link replyData}. </p>
+         *
+         * @param message A raw-data received from the remote system.
+         */
+        protected handle_message(message: websocket.IMessage): void;
+        protected handle_close(): void;
+        /**
+         * Reply {@link Invoke} message from the remote system. </p>
+         *
+         * <p> {@link WebCommunicator} delivers replied {@link Invoke} message from remote system to its parent class,
+         * {@link communicator}. </p>
+         *
+         * @param invoke An Invoke message replied from the remote system.
+         */
+        replyData(invoke: Invoke): void;
+        /**
+         * <p> Send message to the remote system. </p>
+         *
+         * {@link WebCommunicator}.{@link sendData} is called from its parent {@link communicator}'s sendData(). </p>
+         *
+         * @param invoke An Inovoke message to send to the remote system.
+         */
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class WebServer extends Server {
+        /**
+         * A server handler.
+         */
+        private http_server;
+        /**
+         * Sequence number for issuing session id.
+         */
+        private sequence;
+        /**
+         * @hidden
+         */
+        private my_port;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        open(port: number): void;
+        /**
+         * @inheritdoc
+         */
+        protected abstract addClient(driver: WebClientDriver): void;
+        /**
+         * <p> Handle request from a client system. </p>
+         *
+         * <p> This method {@link handle_request} will be called when a client is connected. It will call an abstract
+         * method method {@link addClient addClient()} who handles an accepted client. If the newly connected client
+         * doesn't have its own session id, then a new session id will be issued. </p>
+         *
+         * @param request Requested header.
+         */
+        private handle_request(request);
+        /**
+         * <p> Get session id from a newly connected. </p>
+         *
+         * <p> Queries ordinary session id from cookies of a newly connected client. If the client has not, a new
+         * session id will be issued. </p>
+         *
+         * @param cookies Cookies from the remote client.
+         */
+        private get_session_id(cookies);
+        /**
+         * Issue a new session id.
+         */
+        private issue_session_id();
+    }
+}
+declare namespace samchon.protocol {
+    class WebClientDriver extends WebCommunicator implements IClientDriver {
+        /**
+         * Requested path.
+         */
+        private path;
+        /**
+         * Session ID, an identifier of the remote client.
+         */
+        private session_id;
+        private listening_;
+        /**
+         * Initialization Constructor.
+         *
+         * @param connection Connection driver, a socket for web-socket.
+         * @param path Requested path.
+         * @param session_id Session ID, an identifier of the remote client.
+         */
+        constructor(connection: websocket.connection, path: string, session_id: string);
+        /**
+         * @inheritdoc
+         */
+        listen(listener: IProtocol): void;
+        /**
+         * Get requested path.
+         */
+        getPath(): string;
+        /**
+         * Get session ID, an identifier of the remote client.
+         */
+        getSessionID(): string;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * <p> A server connector for web-socket protocol. </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class WebServerConnector extends WebCommunicator implements IServerConnector {
+        /**
+         * <p> A socket for network I/O. </p>
+         *
+         * <p> Note that, {@link socket} is only used in web-browser environment. </p>
+         */
+        private browser_socket;
+        /**
+         * <p> A driver for server connection. </p>
+         *
+         * <p> Note that, {@link node_client} is only used in NodeJS environment. </p>
+         */
+        private node_client;
+        onConnect: Function;
+        constructor(listener: IProtocol);
+        /**
+         * @inheritdoc
+         */
+        connect(ip: string, port: number, path?: string): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+        /**
+         * @inheritdoc
+         */
+        sendData(invoke: Invoke): void;
+        private handle_browser_connect(event);
+        private handle_browser_message(event);
+        private handle_node_connect(connection);
+    }
+}
 declare namespace samchon.protocol.external {
     interface IExtServer extends Server {
     }
     class ExtNormalServerBase extends NormalServer implements IExtServer {
         private system_array;
         constructor(system_array: ExternalSystemArray);
-        protected addClient(driver: ClientDriver): void;
+        protected addClient(driver: IClientDriver): void;
     }
     class ExtWebServerBase extends WebServer implements IExtServer {
         private system_array;
         constructor(system_array: ExternalSystemArray);
-        protected addClient(driver: ClientDriver): void;
+        protected addClient(driver: IClientDriver): void;
     }
     class ExtSharedWorkerServerBase extends SharedWorkerServer implements IExtServer {
         private system_array;
         constructor(system_array: ExternalSystemArray);
-        protected addClient(driver: ClientDriver): void;
+        protected addClient(driver: IClientDriver): void;
     }
 }
 declare namespace samchon.protocol.external {
     abstract class ExternalSystem extends EntityArrayCollection<ExternalSystemRole> implements IProtocol {
-        protected communicator: Communicator;
+        protected communicator: ICommunicator;
         protected name: string;
         /**
          * Default Constructor.
@@ -3187,7 +3277,7 @@ declare namespace samchon.protocol.external {
         protected ip: string;
         protected port: number;
         constructor();
-        protected abstract createServerConnector(): ServerConnector;
+        protected abstract createServerConnector(): IServerConnector;
         connect(): void;
         getIP(): string;
         getPort(): number;
@@ -3202,9 +3292,9 @@ declare namespace samchon.protocol.external {
         constructor();
         protected abstract createServer(): IExtServer;
         protected createChild(xml: library.XML): ExternalSystem;
-        protected abstract createExternalClient(driver: ClientDriver): ExternalSystem;
+        protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
         protected abstract createExternalServer(xml: library.XML): IExternalServer;
-        protected addClient(driver: ClientDriver): void;
+        protected addClient(driver: IClientDriver): void;
         hasRole(key: string): boolean;
         getRole(key: string): ExternalSystemRole;
         open(port: number): void;
@@ -3242,7 +3332,7 @@ declare namespace samchon.protocol.master {
         protected ip: string;
         protected port: number;
         constructor(systemArray: DistributedSystemArray);
-        protected abstract createServerConnector(): ServerConnector;
+        protected abstract createServerConnector(): IServerConnector;
         connect(): void;
         getIP(): string;
         getPort(): number;
@@ -3255,7 +3345,7 @@ declare namespace samchon.protocol.master {
          * Default Constructor.
          */
         constructor();
-        protected abstract createExternalClient(driver: ClientDriver): DistributedSystem;
+        protected abstract createExternalClient(driver: IClientDriver): DistributedSystem;
         protected abstract createExternalServer(xml: library.XML): IDistributedServer;
         protected abstract createRole(xml: library.XML): DistributedSystemRole;
         at(index: number): DistributedSystem;
@@ -3286,17 +3376,17 @@ declare namespace samchon.protocol.slave {
     class SlaveNormalServerBase extends NormalServer implements ISlaveServerBase {
         private slave_system;
         constructor(slave_system: SlaveSystem);
-        protected addClient(driver: ClientDriver): void;
+        protected addClient(driver: IClientDriver): void;
     }
     class SlaveWebServerBase extends WebServer implements ISlaveServerBase {
         private slave_system;
         constructor(slave_system: SlaveSystem);
-        protected addClient(driver: ClientDriver): void;
+        protected addClient(driver: IClientDriver): void;
     }
     class SlaveSharedWorkerServerBase extends SharedWorkerServer implements ISlaveServerBase {
         private slave_system;
         constructor(slave_system: SlaveSystem);
-        protected addClient(driver: ClientDriver): void;
+        protected addClient(driver: IClientDriver): void;
     }
 }
 declare namespace samchon.protocol.master {
@@ -3346,7 +3436,7 @@ declare namespace samchon.protocol.master {
         protected ip: string;
         protected port: number;
         constructor(systemArray: ParallelSystemArray);
-        protected abstract createServerConnector(): ServerConnector;
+        protected abstract createServerConnector(): IServerConnector;
         connect(): void;
         getIP(): string;
         getPort(): number;
@@ -3356,7 +3446,7 @@ declare namespace samchon.protocol.master {
     abstract class ParallelSystemArray extends external.ExternalSystemArray {
         private history_sequence;
         constructor();
-        protected abstract createExternalClient(driver: ClientDriver): ParallelSystem;
+        protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
         protected abstract createExternalServer(xml: library.XML): IParallelServer;
         at(index: number): ParallelSystem;
         get(key: any): ParallelSystem;
@@ -3382,13 +3472,14 @@ declare namespace samchon.protocol.service {
         /**
          * Default Constructor.
          */
-        constructor(user: User);
+        constructor(user: User, driver: WebClientDriver);
         protected abstract createService(path: string): Service;
         close(): void;
         getUser(): User;
         getService(): Service;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
+        protected changeService(path: string): void;
     }
 }
 declare namespace samchon.protocol.service {
@@ -3416,6 +3507,7 @@ declare namespace samchon.protocol.service {
          * Default Constructor.
          */
         constructor(client: Client, path: string);
+        destructor(): void;
         /**
          * Get client.
          */
@@ -3433,18 +3525,18 @@ declare namespace samchon.protocol.service {
         private server;
         private session_id;
         private sequence;
-        private account;
+        private account_id;
         private authority;
         /**
          * Default Constructor.
          */
         constructor(server: Server);
-        abstract createClient(): Client;
+        protected abstract createClient(driver: WebClientDriver): Client;
         private handle_erase_client(event);
         getServer(): Server;
-        getAccount(): string;
+        getAccountID(): string;
         getAuthority(): number;
-        protected setAccount(account: string, authority: number): void;
+        setAccount(id: string, authority: number): void;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
     }

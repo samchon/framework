@@ -8,7 +8,7 @@
 #include <samchon/protocol/EntityGroup.hpp>
 
 #include <samchon/protocol/StaticEntityArray.hpp>
-#include <samchon/protocol/StaticEntityArray.hpp>
+#include <samchon/protocol/StaticEntityList.hpp>
 #include <samchon/protocol/SharedEntityArray.hpp>
 #include <samchon/protocol/SharedEntityDeque.hpp>
 #include <samchon/protocol/SharedEntityList.hpp>

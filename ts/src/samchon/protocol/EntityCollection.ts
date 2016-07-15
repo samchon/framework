@@ -54,6 +54,7 @@ namespace samchon.protocol
 				return;
 
 			let xmlList: library.XMLList = xml.get(this.CHILD_TAG());
+			let children: T[] = [];
 
 			for (let i: number = 0; i < xmlList.size(); i++) 
 			{
@@ -62,8 +63,9 @@ namespace samchon.protocol
 					continue;
 
 				child.construct(xmlList.at(i));
-				this.push(child);
+				children.push(child);
 			}
+			this.push(...children);
 		}
 
 		/**
@@ -221,6 +223,7 @@ namespace samchon.protocol
 				return;
 
 			let xmlList: library.XMLList = xml.get(this.CHILD_TAG());
+			let children: T[] = [];
 
 			for (let i: number = 0; i < xmlList.size(); i++) 
 			{
@@ -229,8 +232,9 @@ namespace samchon.protocol
 					continue;
 
 				child.construct(xmlList.at(i));
-				this.push(child);
+				children.push(child);
 			}
+			this.push(...children);
 		}
 
 		/**

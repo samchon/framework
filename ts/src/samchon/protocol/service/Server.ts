@@ -32,7 +32,7 @@ namespace samchon.protocol.service
 		------------------------------------------------------------------ */
 		public has(account: string): boolean
 		{
-			return this.has(account);
+			return this.account_map.has(account);
 		}
 
 		public get(account: string): User
@@ -67,20 +67,20 @@ namespace samchon.protocol.service
 			let user: User;
 
 			if (this.session_map.has(driver.getSessionID()) == true)
-			{
 				user = this.session_map.get(driver.getSessionID());
+			else
+			{
+				user = this.createUser();
 				user["server"] = this;
 				user["session_id"] = driver.getSessionID();
 
-				this.session_map.insert(std.make_pair(user["session_id"], user));
+				this.session_map.insert(std.make_pair(driver.getSessionID(), user));
 			}
-			else
-				user = this.createUser();
 
 			/////
 			// CLIENT
 			/////
-			let client: Client = user.createClient();
+			let client: Client = user["createClient"](driver);
 			client["user"] = user;
 			client["no"] = ++user["sequence"];
 			client["driver"] = driver;
@@ -91,15 +91,18 @@ namespace samchon.protocol.service
 			// SERVICE
 			/////
 			let service: Service = client["createService"](driver.getPath());
-			service["client"] = client;
-			service["path"] = driver.getPath();
-
+			if (service != null)
+			{
+				service["client"] = client;
+				service["path"] = driver.getPath();
+			}
 			client["service"] = service;
 			
 			///////
 			// START COMMUNICATION
 			///////
-			driver.listen(client);
+			if (driver["listening_"] == false)
+				driver.listen(client);
 
 			driver.onClose = function (): void
 			{
@@ -108,7 +111,8 @@ namespace samchon.protocol.service
 				user.erase(client["no"]);
 
 				// ALSO, DESTRUCTOR OF THE SERVICE IS CALLED.
-				service.destructor();
+				if (client["service"] != null)
+					client["service"].destructor();
 			}
 		}
 
@@ -122,8 +126,8 @@ namespace samchon.protocol.service
 						return;
 
 					this.session_map.erase(user["session_id"]);
-					if (user.getAccount() != "")
-						this.account_map.erase(user.getAccount());
+					if (user.getAccountID() != "")
+						this.account_map.erase(user.getAccountID());
 				}.bind(this), 30000);
 		}
 	}

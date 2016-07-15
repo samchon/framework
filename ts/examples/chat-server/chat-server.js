@@ -378,4 +378,3 @@ var example;
     })(chat = example.chat || (example.chat = {}));
 })(example || (example = {}));
 example.chat.main();
-//# sourceMappingURL=ChatServer.js.map

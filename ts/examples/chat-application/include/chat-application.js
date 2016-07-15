@@ -1,3 +1,8 @@
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var example;
 (function (example) {
     var chat;
@@ -7,14 +12,83 @@ var example;
         chat.SERVER_PORT = 11723;
     })(chat = example.chat || (example.chat = {}));
 })(example || (example = {}));
+/// <reference path="API.ts" />
+var example;
+(function (example) {
+    var chat;
+    (function (chat) {
+        var ChatRoomList = (function (_super) {
+            __extends(ChatRoomList, _super);
+            function ChatRoomList() {
+                _super.call(this);
+            }
+            ChatRoomList.prototype.createChild = function (xml) {
+                return new ChatRoom();
+            };
+            ChatRoomList.prototype.TAG = function () {
+                return "roomList";
+            };
+            ChatRoomList.prototype.CHILD_TAG = function () {
+                return "room";
+            };
+            return ChatRoomList;
+        }(chat.protocol.EntityArray));
+        chat.ChatRoomList = ChatRoomList;
+        var ChatRoom = (function (_super) {
+            __extends(ChatRoom, _super);
+            function ChatRoom() {
+                _super.call(this);
+                this.uid = 0;
+                this.title = "";
+            }
+            ChatRoom.prototype.createChild = function (xml) {
+                return new Participant();
+            };
+            ChatRoom.prototype.key = function () {
+                return this.uid;
+            };
+            ChatRoom.prototype.getUID = function () {
+                return this.uid;
+            };
+            ChatRoom.prototype.getTitle = function () {
+                return this.title;
+            };
+            ChatRoom.prototype.TAG = function () {
+                return "room";
+            };
+            ChatRoom.prototype.CHILD_TAG = function () {
+                return "participant";
+            };
+            return ChatRoom;
+        }(chat.protocol.EntityArray));
+        chat.ChatRoom = ChatRoom;
+        var Participant = (function (_super) {
+            __extends(Participant, _super);
+            function Participant() {
+                _super.call(this);
+                this.id = "";
+                this.name = "";
+            }
+            Participant.prototype.key = function () {
+                return this.id;
+            };
+            Participant.prototype.getID = function () {
+                return this.id;
+            };
+            Participant.prototype.getName = function () {
+                return this.name;
+            };
+            Participant.prototype.TAG = function () {
+                return "participant";
+            };
+            return Participant;
+        }(chat.protocol.Entity));
+        chat.Participant = Participant;
+    })(chat = example.chat || (example.chat = {}));
+})(example || (example = {}));
 // A '.tsx' file enables JSX support in the TypeScript compiler, 
 // for more information see the following page on the TypeScript wiki:
 // https://github.com/Microsoft/TypeScript/wiki/JSX
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var example;
 (function (example) {
     var chat;
@@ -141,80 +215,6 @@ var example;
             return ChatApplication;
         }(chat.Application));
         chat.ChatApplication = ChatApplication;
-    })(chat = example.chat || (example.chat = {}));
-})(example || (example = {}));
-/// <reference path="API.ts" />
-var example;
-(function (example) {
-    var chat;
-    (function (chat) {
-        var ChatRoomList = (function (_super) {
-            __extends(ChatRoomList, _super);
-            function ChatRoomList() {
-                _super.call(this);
-            }
-            ChatRoomList.prototype.createChild = function (xml) {
-                return new ChatRoom();
-            };
-            ChatRoomList.prototype.TAG = function () {
-                return "roomList";
-            };
-            ChatRoomList.prototype.CHILD_TAG = function () {
-                return "room";
-            };
-            return ChatRoomList;
-        }(chat.protocol.EntityArray));
-        chat.ChatRoomList = ChatRoomList;
-        var ChatRoom = (function (_super) {
-            __extends(ChatRoom, _super);
-            function ChatRoom() {
-                _super.call(this);
-                this.uid = 0;
-                this.title = "";
-            }
-            ChatRoom.prototype.createChild = function (xml) {
-                return new Participant();
-            };
-            ChatRoom.prototype.key = function () {
-                return this.uid;
-            };
-            ChatRoom.prototype.getUID = function () {
-                return this.uid;
-            };
-            ChatRoom.prototype.getTitle = function () {
-                return this.title;
-            };
-            ChatRoom.prototype.TAG = function () {
-                return "room";
-            };
-            ChatRoom.prototype.CHILD_TAG = function () {
-                return "participant";
-            };
-            return ChatRoom;
-        }(chat.protocol.EntityArray));
-        chat.ChatRoom = ChatRoom;
-        var Participant = (function (_super) {
-            __extends(Participant, _super);
-            function Participant() {
-                _super.call(this);
-                this.id = "";
-                this.name = "";
-            }
-            Participant.prototype.key = function () {
-                return this.id;
-            };
-            Participant.prototype.getID = function () {
-                return this.id;
-            };
-            Participant.prototype.getName = function () {
-                return this.name;
-            };
-            Participant.prototype.TAG = function () {
-                return "participant";
-            };
-            return Participant;
-        }(chat.protocol.Entity));
-        chat.Participant = Participant;
     })(chat = example.chat || (example.chat = {}));
 })(example || (example = {}));
 // A '.tsx' file enables JSX support in the TypeScript compiler, 
@@ -364,4 +364,3 @@ var example;
         chat.LoginApplication = LoginApplication;
     })(chat = example.chat || (example.chat = {}));
 })(example || (example = {}));
-//# sourceMappingURL=chat-application.js.map

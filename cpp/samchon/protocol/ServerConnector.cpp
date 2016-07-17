@@ -7,9 +7,10 @@ using namespace std;
 using namespace samchon;
 using namespace samchon::protocol;
 
-ServerConnector::ServerConnector()
+ServerConnector::ServerConnector(IProtocol *listener)
 	: Communicator()
 {
+	this->listener = listener;
 }
 ServerConnector::~ServerConnector()
 {
@@ -25,4 +26,6 @@ void ServerConnector::connect(const string &ip, int port)
 
 	socket.reset(new boost::asio::ip::tcp::socket(*io_service, boost::asio::ip::tcp::v4()));
 	socket->connect(*endpoint);
+
+	this->listen_message();
 }

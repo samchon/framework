@@ -10,24 +10,15 @@ namespace protocol
 {
 namespace master
 {
-	class MediatorClient
+	class SAMCHON_FRAMEWORK_API MediatorClient
 		: public MediatorSystem,
 		public external::ExternalServer
 	{
 	public:
-		MediatorClient(external::ExternalSystemArray *systemArray, const std::string &ip, int port)
-			: MediatorSystem(systemArray),
-			external::ExternalServer()
-		{
-			this->ip = ip;
-			this->port = port;
-		};
-		virtual ~MediatorClient() = default;
+		MediatorClient(external::ExternalSystemArray *systemArray, const std::string &ip, int port);
+		virtual ~MediatorClient();
 
-		virtual void start()
-		{
-			this->connect();
-		};
+		virtual void start();
 	};
 };
 };

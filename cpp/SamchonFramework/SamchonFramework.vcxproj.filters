@@ -130,9 +130,6 @@
     <Filter Include="Header Files\protocol\master">
       <UniqueIdentifier>{59059166-2ddb-49c3-a683-756793708bed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\protocol\master\distributed system">
-      <UniqueIdentifier>{0bb41ad9-4ad0-4a6c-a5c5-0161f3abd2ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\protocol\master\parallel system">
       <UniqueIdentifier>{4c112d03-449a-4934-aaa5-4344ee06cbcd}</UniqueIdentifier>
     </Filter>
@@ -148,11 +145,17 @@
     <Filter Include="Source Files\protocol\slave">
       <UniqueIdentifier>{f40d6d06-961e-44e4-8efa-726631d41243}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\protocol\master\mediator">
+    <Filter Include="Header Files\protocol\master\parallel system\mediator %28master%29">
+      <UniqueIdentifier>{0ff07505-0717-46f1-9d6c-7e9c265ff3c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\master\mediator %28slave driver%29">
       <UniqueIdentifier>{fc58b9f1-3e7a-43b8-bd4e-0e3863777729}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\protocol\master\mediator">
+    <Filter Include="Header Files\protocol\master\mediator %28slave driver%29">
       <UniqueIdentifier>{341d76cb-b00e-4861-a949-aaf6a12b16ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protocol\master\parallel system\mediator">
+      <UniqueIdentifier>{f2c00bba-91a4-4939-b85f-4a2248d8a96d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -435,23 +438,8 @@
     <ClInclude Include="..\samchon\protocol\external\ExternalSystemRole.hpp">
       <Filter>Header Files\protocol\external</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSystemRole.hpp">
-      <Filter>Header Files\protocol\master\distributed system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSystem.hpp">
-      <Filter>Header Files\protocol\master\distributed system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\DistributedSystemArray.hpp">
-      <Filter>Header Files\protocol\master\distributed system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\master\ParallelSystemArrayMediator.hpp">
-      <Filter>Header Files\protocol\master\parallel system</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\external.hpp">
       <Filter>Header Files\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\external\DistributedSystemArrayMediator.hpp">
-      <Filter>Header Files\protocol\master\distributed system</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\slave\SlaveSystem.hpp">
       <Filter>Header Files\protocol\slave</Filter>
@@ -466,19 +454,52 @@
       <Filter>Header Files\protocol\slave</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\MediatorClient.hpp">
-      <Filter>Header Files\protocol\master\mediator</Filter>
+      <Filter>Header Files\protocol\master\mediator %28slave driver%29</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\MediatorServer.hpp">
-      <Filter>Header Files\protocol\master\mediator</Filter>
+      <Filter>Header Files\protocol\master\mediator %28slave driver%29</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\MediatorWebServer.hpp">
-      <Filter>Header Files\protocol\master\mediator</Filter>
+      <Filter>Header Files\protocol\master\mediator %28slave driver%29</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\MediatorWebClient.hpp">
-      <Filter>Header Files\protocol\master\mediator</Filter>
+      <Filter>Header Files\protocol\master\mediator %28slave driver%29</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\MediatorSystem.hpp">
-      <Filter>Header Files\protocol\master\mediator</Filter>
+      <Filter>Header Files\protocol\master\mediator %28slave driver%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\external\ExternalClientArray.hpp">
+      <Filter>Header Files\protocol\external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\external\ExternalServerArray.hpp">
+      <Filter>Header Files\protocol\external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\external\ExternalServerClientArray.hpp">
+      <Filter>Header Files\protocol\external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelServerArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelClientArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelServerClientArray.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelServer.hpp">
+      <Filter>Header Files\protocol\master\parallel system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelClientArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system\mediator %28master%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelServerArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system\mediator %28master%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelServerClientArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system\mediator %28master%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\master\ParallelSystemArrayMediator.hpp">
+      <Filter>Header Files\protocol\master\parallel system\mediator %28master%29</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -572,11 +593,47 @@
     <ClCompile Include="..\samchon\protocol\slave\ParallelSystem_slave.cpp">
       <Filter>Source Files\protocol\slave</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\ParallelSystemArrayMediator.cpp">
+    <ClCompile Include="..\samchon\protocol\master\MediatorSystem.cpp">
+      <Filter>Source Files\protocol\master\mediator %28slave driver%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\external\ExternalServerArray.cpp">
+      <Filter>Source Files\protocol\external</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\external\ExternalClientArray.cpp">
+      <Filter>Source Files\protocol\external</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\external\ExternalServerClientArray.cpp">
+      <Filter>Source Files\protocol\external</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\ParallelServer.cpp">
       <Filter>Source Files\protocol\master\parallel system</Filter>
     </ClCompile>
-    <ClCompile Include="..\samchon\protocol\master\MediatorSystem.cpp">
-      <Filter>Source Files\protocol\master\mediator</Filter>
+    <ClCompile Include="..\samchon\protocol\master\ParallelServerArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\ParallelSystemArrayMediator.cpp">
+      <Filter>Source Files\protocol\master\parallel system\mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\MediatorClient.cpp">
+      <Filter>Source Files\protocol\master\mediator %28slave driver%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\MediatorServer.cpp">
+      <Filter>Source Files\protocol\master\mediator %28slave driver%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\MediatorWebServer.cpp">
+      <Filter>Source Files\protocol\master\mediator %28slave driver%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\MediatorWebClient.cpp">
+      <Filter>Source Files\protocol\master\mediator %28slave driver%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\ParallelServerArrayMediator.cpp">
+      <Filter>Source Files\protocol\master\parallel system\mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\ParallelClientArrayMediator.cpp">
+      <Filter>Source Files\protocol\master\parallel system\mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samchon\protocol\master\ParallelServerClientArrayMediator.cpp">
+      <Filter>Source Files\protocol\master\parallel system\mediator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

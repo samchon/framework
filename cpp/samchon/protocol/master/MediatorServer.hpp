@@ -4,15 +4,15 @@
 #include <samchon/protocol/master/MediatorSystem.hpp>
 #include <samchon/protocol/Server.hpp>
 
-#include <samchon/protocol/ClientDriver.hpp>
-
 namespace samchon
 {
 namespace protocol
 {
+	class ClientDriver;
+
 namespace master
 {
-	class MediatorServer
+	class SAMCHON_FRAMEWORK_API MediatorServer
 		: public MediatorSystem,
 		public virtual Server
 	{
@@ -20,24 +20,13 @@ namespace master
 		int port;
 
 	public:
-		MediatorServer(external::ExternalSystemArray *systemArray, int port)
-			: MediatorSystem(systemArray)
-		{
-			this->port = port;
-		};
-		virtual ~MediatorServer() = default;
+		MediatorServer(external::ExternalSystemArray *systemArray, int port);
+		virtual ~MediatorServer();
 
-		virtual void start()
-		{
-			this->open(this->port);
-		};
+		virtual void start();
 
 	protected:
-		virtual void addClient(std::shared_ptr<ClientDriver> driver) override final
-		{
-			this->communicator = driver;
-			this->communicator->listen(this);
-		};
+		virtual void addClient(std::shared_ptr<ClientDriver> driver) override final;
 	};
 };
 };

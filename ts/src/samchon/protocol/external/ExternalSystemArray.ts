@@ -24,7 +24,7 @@ namespace samchon.protocol.external
 		{
 			super();
 		}
-		
+
 		protected abstract createServer(): IExtServer;
 
 		/* ---------------------------------------------------------
@@ -43,7 +43,7 @@ namespace samchon.protocol.external
 			let system: ExternalSystem = this.createExternalClient(driver);
 			if (system == null)
 				return;
-			
+
 			if (system["communicator"] == null)
 			{
 				system["communicator"] = driver;
@@ -64,7 +64,7 @@ namespace samchon.protocol.external
 
 			return false;
 		}
-		
+
 		public getRole(key: string): ExternalSystemRole
 		{
 			for (let i: number = 0; i < this.size(); i++)

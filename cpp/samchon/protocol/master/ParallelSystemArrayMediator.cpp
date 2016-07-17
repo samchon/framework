@@ -23,21 +23,9 @@ ParallelSystemArrayMediator::~ParallelSystemArrayMediator()
 /* ---------------------------------------------------------
 	NETWORK INITIALIZATION
 --------------------------------------------------------- */
-void ParallelSystemArrayMediator::open(int port)
-{
-	start_mediator();
-	super::open(port);
-}
-
-void ParallelSystemArrayMediator::connect()
-{
-	start_mediator();
-	super::connect();
-}
-
 void ParallelSystemArrayMediator::start_mediator()
 {
-	if (mediator == nullptr)
+	if (mediator != nullptr)
 		return;
 
 	mediator.reset(this->createMediator());

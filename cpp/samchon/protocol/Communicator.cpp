@@ -40,10 +40,8 @@ void listen_data(shared_ptr<Socket> socket, Container &data)
 		completed += socket->read_some(boost::asio::buffer((unsigned char*)data.data() + completed, data.size() - completed));
 }
 
-void Communicator::listen(IProtocol *listener)
+void Communicator::listen_message()
 {
-	this->listener = listener;
-
 	shared_ptr<Invoke> binary_invoke;
 
 	while (true)

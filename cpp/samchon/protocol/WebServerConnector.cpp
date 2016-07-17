@@ -17,8 +17,8 @@ RWMutex WebServerConnector::s_mtx;
 /* ---------------------------------------------------------
 	CONSTRUCTORS
 --------------------------------------------------------- */
-WebServerConnector::WebServerConnector()
-	: super(),
+WebServerConnector::WebServerConnector(IProtocol *listener)
+	: super(listener),
 	WebCommunicator(false)
 {
 }
@@ -35,8 +35,18 @@ void WebServerConnector::connect(const string &ip, int port)
 }
 void WebServerConnector::connect(const string &ip, int port, const string &path)
 {
-	super::connect(ip, port);
+	if (socket != nullptr && socket->is_open() == true)
+		return;
+
+	io_service.reset(new boost::asio::io_service());
+	endpoint.reset(new boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), port));
+
+	socket.reset(new boost::asio::ip::tcp::socket(*io_service, boost::asio::ip::tcp::v4()));
+	socket->connect(*endpoint);
+
 	handshake(ip, port, path);
+
+	listen_message();
 }
 
 void WebServerConnector::handshake(const string &ip, int port, const string &path)

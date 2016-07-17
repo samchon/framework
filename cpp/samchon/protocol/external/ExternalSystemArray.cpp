@@ -14,7 +14,7 @@ using namespace samchon::protocol::external;
 	DEFAULT
 --------------------------------------------------------- */
 ExternalSystemArray::ExternalSystemArray()
-	: super(), Server()
+	: super()
 {
 }
 ExternalSystemArray::~ExternalSystemArray()
@@ -24,21 +24,21 @@ ExternalSystemArray::~ExternalSystemArray()
 /* ---------------------------------------------------------
 	FACTORY METHODS FOR CHILDREN
 --------------------------------------------------------- */
-void ExternalSystemArray::addClient(shared_ptr<ClientDriver> driver)
-{
-	ExternalSystem *system = createExternalClient(driver);
-	if (system == nullptr)
-		return;
-
-	system->communicator = driver;
-
-	emplace_back(system);
-	driver->listen(system);
-}
-auto ExternalSystemArray::createChild(shared_ptr<XML> xml) -> ExternalSystem*
-{
-	return this->createExternalServer(xml);
-}
+//void ExternalSystemArray::addClient(shared_ptr<ClientDriver> driver)
+//{
+//	ExternalSystem *system = createExternalClient(driver);
+//	if (system == nullptr)
+//		return;
+//
+//	system->communicator = driver;
+//
+//	emplace_back(system);
+//	driver->listen(system);
+//}
+//auto ExternalSystemArray::createChild(shared_ptr<XML> xml) -> ExternalSystem*
+//{
+//	return this->createExternalServer(xml);
+//}
 
 /* =========================================================
 	NETWORK
@@ -47,14 +47,14 @@ auto ExternalSystemArray::createChild(shared_ptr<XML> xml) -> ExternalSystem*
 ============================================================
 	SERVER AND CLIENT
 --------------------------------------------------------- */
-void ExternalSystemArray::connect()
-{
-	for (size_t i = 0; i < size(); i++)
-	{
-		auto external_server = std::dynamic_pointer_cast<ExternalServer>(this->at(i));
-		external_server->connect();
-	}
-}
+//void ExternalSystemArray::connect()
+//{
+//	for (size_t i = 0; i < size(); i++)
+//	{
+//		auto external_server = std::dynamic_pointer_cast<ExternalServer>(this->at(i));
+//		external_server->connect();
+//	}
+//}
 
 void ExternalSystemArray::sendData(shared_ptr<Invoke> invoke)
 {

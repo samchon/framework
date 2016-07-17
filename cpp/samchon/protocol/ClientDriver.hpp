@@ -18,6 +18,8 @@ namespace protocol
 	public:
 		ClientDriver(Server *server, std::shared_ptr<Socket> socket);
 		virtual ~ClientDriver();
+
+		void listen(IProtocol *listener);
 	};
 };
 };

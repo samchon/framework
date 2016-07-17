@@ -21,7 +21,7 @@ ExternalServer::~ExternalServer()
 
 auto ExternalServer::createServerConnector() -> ServerConnector*
 {
-	return new ServerConnector();
+	return new ServerConnector(this);
 }
 
 /* ---------------------------------------------------------
@@ -36,5 +36,4 @@ void ExternalServer::connect()
 	communicator.reset(connector);
 
 	connector->connect(ip, port);
-	connector->listen(this);
 }

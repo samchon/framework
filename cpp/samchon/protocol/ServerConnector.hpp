@@ -47,7 +47,7 @@ namespace protocol
 		/* -----------------------------------------------------------
 			CONSTRUCTORS
 		----------------------------------------------------------- */
-		ServerConnector();
+		ServerConnector(IProtocol *listener);
 		virtual ~ServerConnector();
 
 		/* -----------------------------------------------------------

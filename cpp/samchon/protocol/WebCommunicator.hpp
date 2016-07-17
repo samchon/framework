@@ -17,9 +17,10 @@ namespace protocol
 		WebCommunicator(bool is_server);
 		virtual ~WebCommunicator();
 
-		virtual void listen(IProtocol *listener) override;
-
 		virtual void sendData(std::shared_ptr<Invoke>);
+
+	protected:
+		virtual void listen_message() override;
 
 	private:
 		auto listen_header() -> std::pair<unsigned char, size_t>;

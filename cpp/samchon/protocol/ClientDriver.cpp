@@ -12,3 +12,10 @@ ClientDriver::ClientDriver(Server *server, shared_ptr<Socket> socket)
 ClientDriver::~ClientDriver()
 {
 }
+
+void ClientDriver::listen(IProtocol *listener)
+{
+	this->listener = listener;
+
+	listen_message();
+}

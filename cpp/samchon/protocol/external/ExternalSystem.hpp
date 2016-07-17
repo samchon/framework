@@ -17,8 +17,7 @@ namespace external
 		: public SharedEntityDeque<ExternalSystemRole>,
 		public virtual IProtocol
 	{
-		friend class ExternalSystemArray;
-		friend class ExternalSystemArrayServer;
+		friend class ExternalClientArray;
 
 	private:
 		typedef SharedEntityDeque<ExternalSystemRole> super;

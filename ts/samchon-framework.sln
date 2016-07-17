@@ -11,6 +11,8 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "chat-server", "examples\cha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chat-application", "examples\chat-application\chat-application.csproj", "{B8EA8970-6D04-4253-A638-EE2A5E043AC3}"
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "interaction", "examples\interaction\interaction.njsproj", "{390074C3-3152-40EB-8900-B9FE17D5E869}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{B8EA8970-6D04-4253-A638-EE2A5E043AC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8EA8970-6D04-4253-A638-EE2A5E043AC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8EA8970-6D04-4253-A638-EE2A5E043AC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{390074C3-3152-40EB-8900-B9FE17D5E869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{390074C3-3152-40EB-8900-B9FE17D5E869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{390074C3-3152-40EB-8900-B9FE17D5E869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{390074C3-3152-40EB-8900-B9FE17D5E869}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,5 +42,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{233EA846-4C24-4734-8393-BE25BE7979E6} = {62828809-965A-4CC3-B1E8-7CC2B3FCFE90}
 		{B8EA8970-6D04-4253-A638-EE2A5E043AC3} = {62828809-965A-4CC3-B1E8-7CC2B3FCFE90}
+		{390074C3-3152-40EB-8900-B9FE17D5E869} = {62828809-965A-4CC3-B1E8-7CC2B3FCFE90}
 	EndGlobalSection
 EndGlobal

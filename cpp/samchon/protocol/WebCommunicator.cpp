@@ -37,10 +37,8 @@ namespace websocket
 }
 }
 
-void WebCommunicator::listen(IProtocol *listener)
+void WebCommunicator::listen_message()
 {
-	this->listener = listener;
-
 	shared_ptr<Invoke> binary_invoke;
 
 	while (true)

@@ -10814,9 +10814,17 @@ var std;
     var example;
     (function (example) {
         function test_all() {
-            for (var key in std.example)
-                if (key != "test_all" && std.example[key] instanceof Function)
-                    std.example[key]();
+            //for (let key in std.example)
+            //	if (key != "test_all" && std.example[key] instanceof Function)
+            //		std.example[key]();
+            var vec1 = new std.Vector();
+            var vec2 = new std.Vector();
+            var fn1 = vec1.insert.bind(vec1);
+            var fn2 = vec1.insert.bind(vec1);
+            var fn3 = vec2.insert.bind(vec2);
+            console.log(fn1["__get_m_iUID"](), fn1["__get_m_iUID"]());
+            console.log(fn2["__get_m_iUID"]());
+            console.log(fn3["__get_m_iUID"]());
         }
         example.test_all = test_all;
     })(example = std.example || (std.example = {}));
@@ -11041,4 +11049,5 @@ var std;
 /// <reference path="../../std/Utility.ts" />
 /// <reference path="../../std/example/test_all.ts" />
 if (std.is_node() == true)
-    Object.assign(exports, std);
+    for (var key in std)
+        exports[key] = std[key];

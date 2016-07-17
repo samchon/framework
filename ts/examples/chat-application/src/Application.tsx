@@ -8,7 +8,6 @@ namespace example.chat
 		extends React.Component<{}, {}>
 		implements protocol.IProtocol
 	{
-		protected host: string;
 		protected id: string;
 		protected name: string;
 

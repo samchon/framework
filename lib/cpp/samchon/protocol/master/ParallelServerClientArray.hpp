@@ -2,7 +2,7 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/master/ParallelSystemArray.hpp>
-#include <samchon/protocol/external/ExternalClientArray.hpp>
+#include <samchon/protocol/external/ExternalServerClientArray.hpp>
 
 namespace samchon
 {
@@ -10,18 +10,18 @@ namespace protocol
 {
 namespace master
 {
-	class ParallelClientArray
+	class ParallelServerClientArray
 		: public ParallelSystemArray,
-		public external::ExternalClientArray
+		public external::ExternalServerClientArray
 	{
 	public:
-		ParallelClientArray()
+		ParallelServerClientArray()
 			: ParallelSystemArray(),
-			external::ExternalClientArray()
+			external::ExternalServerClientArray()
 		{
 		};
 
-		virtual ~ParallelClientArray()
+		virtual ~ParallelServerClientArray()
 		{
 		};
 	};

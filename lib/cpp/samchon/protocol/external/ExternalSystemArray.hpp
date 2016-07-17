@@ -3,11 +3,7 @@
 
 #include <samchon/protocol/SharedEntityDeque.hpp>
 #	include <samchon/protocol/external/ExternalSystem.hpp>
-#	include <samchon/protocol/external/ExternalServer.hpp>
-#include <samchon/protocol/Server.hpp>
 #include <samchon/protocol/IProtocol.hpp>
-
-#include <samchon/protocol/ClientDriver.hpp>
 
 namespace samchon
 {
@@ -17,7 +13,6 @@ namespace external
 {
 	class SAMCHON_FRAMEWORK_API ExternalSystemArray
 		: public SharedEntityDeque<ExternalSystem>,
-		public virtual Server, // YOU CAN REPLACE IT -> WebServer
 		public virtual IProtocol
 	{
 		friend class ExternalSystem;
@@ -26,28 +21,15 @@ namespace external
 		typedef SharedEntityDeque<ExternalSystem> super;
 
 	public:
-		/* =========================================================
+		/* ---------------------------------------------------------
 			CONSTRUCTORS
-				- DEFAULT
-				- FACTORY METHODS FOR CHILDREN
-		============================================================
-			DEFAULT
 		--------------------------------------------------------- */
 		/**
 		 * Default Constructor.
 		 */
 		ExternalSystemArray();
+
 		virtual ~ExternalSystemArray();
-
-	protected:
-		/* ---------------------------------------------------------
-			FACTORY METHODS FOR CHILDREN
-		--------------------------------------------------------- */
-		virtual void addClient(std::shared_ptr<ClientDriver> driver) final;
-		virtual auto createChild(std::shared_ptr<library::XML> xml) -> ExternalSystem* override final;
-
-		virtual auto createExternalClient(std::shared_ptr<ClientDriver>) -> ExternalSystem* = 0;
-		virtual auto createExternalServer(std::shared_ptr<library::XML>) -> ExternalServer* = 0;
 		
 	public:
 		/* ---------------------------------------------------------
@@ -73,21 +55,12 @@ namespace external
 			throw std::out_of_range("No such key.");
 		};
 
-		/* =========================================================
-			NETWORK
-				- SERVER AND CLIENT
-				- MESSAGE CHAIN
-		============================================================
-			SERVER AND CLIENT
-		--------------------------------------------------------- */
-		// virtual void open(int port) override;
-
-		virtual void connect();
-
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
 		virtual void sendData(std::shared_ptr<Invoke> invoke);
+
+		virtual void replyData(std::shared_ptr<Invoke> invoke) = 0;
 
 		/* ---------------------------------------------------------
 			EXPORTERS

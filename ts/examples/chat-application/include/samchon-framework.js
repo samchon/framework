@@ -3341,9 +3341,9 @@ var samchon;
 /// <reference path="../library/XML.ts" />
 /// <reference path="../collection/ArrayCollection.ts" />
 /// <reference path="../protocol/Entity.ts" />
-if (std.is_node() == true) {
-    Object.assign(exports, samchon);
-}
+if (samchon.is_node() == true)
+    for (var key in samchon)
+        exports[key] = samchon[key];
 ///// <reference path="../API.ts" />
 //namespace samchon.protocol
 //{
@@ -5228,133 +5228,6 @@ var samchon;
             }(protocol.Entity));
             external.ExternalSystemRole = ExternalSystemRole;
         })(external = protocol.external || (protocol.external = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="../external/ExternalSystem.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var master;
-        (function (master) {
-            var DistributedSystem = (function (_super) {
-                __extends(DistributedSystem, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                function DistributedSystem(systemArray) {
-                    _super.call(this);
-                    this.systemArray = systemArray;
-                }
-                //protected createChild(xml: library.XML): external.ExternalSystemRole
-                //{
-                //	return this.systemArray["createRole"](xml);
-                //}
-                DistributedSystem.prototype.getSystemArray = function () {
-                    return this.systemArray;
-                };
-                return DistributedSystem;
-            }(protocol.external.ExternalSystem));
-            master.DistributedSystem = DistributedSystem;
-        })(master = protocol.master || (protocol.master = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <referece path="../../API.ts" />
-/// <reference path="DistributedSystem.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var master;
-        (function (master) {
-            var DistributedServer = (function (_super) {
-                __extends(DistributedServer, _super);
-                function DistributedServer(systemArray) {
-                    _super.call(this, systemArray);
-                    this.ip = "";
-                    this.port = 0;
-                }
-                DistributedServer.prototype.connect = function () {
-                    if (this.communicator == null)
-                        return;
-                    this.communicator = this.createServerConnector();
-                    this.communicator.connect(this.ip, this.port);
-                };
-                DistributedServer.prototype.getIP = function () {
-                    return this.ip;
-                };
-                DistributedServer.prototype.getPort = function () {
-                    return this.port;
-                };
-                return DistributedServer;
-            }(master.DistributedSystem));
-            master.DistributedServer = DistributedServer;
-        })(master = protocol.master || (protocol.master = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="../external/ExternalSystemArray.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var master;
-        (function (master) {
-            var DistributedSystemArray = (function (_super) {
-                __extends(DistributedSystemArray, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                /**
-                 * Default Constructor.
-                 */
-                function DistributedSystemArray() {
-                    _super.call(this);
-                }
-                /* ---------------------------------------------------------
-                    ACCESSORS
-                --------------------------------------------------------- */
-                DistributedSystemArray.prototype.at = function (index) {
-                    return _super.prototype.at.call(this, index);
-                };
-                DistributedSystemArray.prototype.get = function (key) {
-                    return _super.prototype.get.call(this, key);
-                };
-                DistributedSystemArray.prototype.hasRole = function (key) {
-                    return this.roles.has(key);
-                };
-                DistributedSystemArray.prototype.getRole = function (key) {
-                    return this.roles.get(key);
-                };
-                return DistributedSystemArray;
-            }(protocol.external.ExternalSystemArray));
-            master.DistributedSystemArray = DistributedSystemArray;
-        })(master = protocol.master || (protocol.master = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="../external/ExternalSystemRole.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var master;
-        (function (master) {
-            var DistributedSystemRole = (function (_super) {
-                __extends(DistributedSystemRole, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                function DistributedSystemRole() {
-                    _super.call(this, null);
-                }
-                DistributedSystemRole.prototype.sendData = function (invoke) {
-                };
-                return DistributedSystemRole;
-            }(protocol.external.ExternalSystemRole));
-            master.DistributedSystemRole = DistributedSystemRole;
-        })(master = protocol.master || (protocol.master = {}));
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />

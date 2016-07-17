@@ -33,10 +33,7 @@ namespace master
 		/* ---------------------------------------------------------
 			NETWORK INITIALIZATION
 		--------------------------------------------------------- */
-		virtual void open(int port);
-		virtual void connect();
-
-	private:
+	protected:
 		void start_mediator();
 
 	public:

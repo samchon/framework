@@ -110,6 +110,11 @@ namespace samchon.protocol
 			this.server.listen(port);
 		}
 
+		public close(): void
+		{
+			this.server.close();
+		}
+
 		private handle_connect(socket: socket.server): void
 		{
 			let clientDriver: NormalClientDriver = new NormalClientDriver(socket);;

@@ -136,7 +136,7 @@ namespace example.chat
 		{
 			console.log("REPLIED DATA: ");
 			console.log(invoke.toXML().toString() + "\n");
-
+			
 			super.replyData(invoke);
 		}
 

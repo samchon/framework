@@ -14,15 +14,14 @@ namespace example.chat
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(host: string)
+		public constructor()
 		{
 			super();
-
-			this.host = host;
+			
 			this.room_list = new ChatRoomList();
 
 			this.communicator = new protocol.WebServerConnector(this);
-			this.communicator.connect(this.host, SERVER_PORT, "list");
+			this.communicator.connect(SERVER_HOST, SERVER_PORT, "list");
 		}
 
 		/* =========================================================
@@ -72,7 +71,7 @@ namespace example.chat
 			for (let i: number = 0; i < this.room_list.size(); i++)
 			{
 				let room: ChatRoom = this.room_list.at(i);
-				let link_address: string = "chat.html?host=" + this.host + "&uid=" + room.getUID();
+				let link_address: string = "chat.html?&uid=" + room.getUID();
 
 				let participant_elements: JSX.Element[] = [];
 
@@ -128,19 +127,7 @@ namespace example.chat
 
 		public static main(): void
 		{
-			let url_variables: library.URLVariables = new library.URLVariables(location.href);
-			if (url_variables.has("host") == false)
-			{
-				alert("You're not logged-in.");
-				location.href = "login.html";
-
-				return;
-			}
-
-			let host: string = url_variables.get("host");
-			let application: ListApplication = new ListApplication(host);
-
-			ReactDOM.render(application.render(), document.body);
+			ReactDOM.render(<ListApplication />, document.body);
 		}
 	}
 }

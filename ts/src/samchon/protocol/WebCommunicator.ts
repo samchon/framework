@@ -166,6 +166,11 @@ namespace samchon.protocol
 			ws_server.on("request", this.handle_request.bind(this));
 		}
 
+		public close(): void
+		{
+			this.http_server.close();
+		}
+
 		/**
 		 * @inheritdoc
 		 */

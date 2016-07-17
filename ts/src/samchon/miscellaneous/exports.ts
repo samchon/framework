@@ -4,7 +4,6 @@
 /// <reference path="../collection/ArrayCollection.ts" />
 /// <reference path="../protocol/Entity.ts" />
 
-if (std.is_node() == true)
-{
-	(Object as any).assign(exports, samchon);
-}
+if (samchon.is_node() == true)
+	for (let key in samchon)
+		exports[key] = samchon[key];

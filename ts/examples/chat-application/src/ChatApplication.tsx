@@ -12,15 +12,14 @@ namespace example.chat
 		private room: ChatRoom;
 		private messages: string = "";
 
-		public constructor(host: string, uid: number)
+		public constructor(uid: number)
 		{
 			super();
-
-			this.host = host;
+			
 			this.room = new ChatRoom();
 
 			this.communicator = new protocol.WebServerConnector(this);
-			this.communicator.connect(this.host, SERVER_PORT, "chat/" + uid);
+			this.communicator.connect(SERVER_HOST, SERVER_PORT, "chat/" + uid);
 		}
 
 		/* =========================================================
@@ -143,19 +142,9 @@ namespace example.chat
 		public static main(): void
 		{
 			let url_variables: library.URLVariables = new library.URLVariables(location.href);
-			if (url_variables.has("host") == false)
-			{
-				alert("You're not logged-in.");
-				location.href = "login.html";
-
-				return;
-			}
-
-			let host: string = url_variables.get("host");
 			let uid: number = Number(url_variables.get("uid"));
 
-			let application: ChatApplication = new ChatApplication(host, uid);
-
+			let application: ChatApplication = new ChatApplication(uid);
 			ReactDOM.render(application.render(), document.body);
 		}
 	}

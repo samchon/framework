@@ -15,7 +15,7 @@ namespace master
 	class PRInvokeHistory;
 
 	class SAMCHON_FRAMEWORK_API ParallelSystemArray
-		: public external::ExternalSystemArray
+		: public virtual external::ExternalSystemArray
 	{
 		friend class ParallelSystemArrayMediator;
 		friend class ParallelSystem;

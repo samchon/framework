@@ -19,20 +19,17 @@ namespace samchon.protocol.master
 			this.history_sequence = 0;
 		}
 
-		protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
-		protected abstract createExternalServer(xml: library.XML): IParallelServer;
-
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public at(index: number): ParallelSystem
-		{
-			return super.at(index) as ParallelSystem;
-		}
-		public get(key: any): ParallelSystem
-		{
-			return super.get(key) as ParallelSystem;
-		}
+		//public at(index: number): ParallelSystem
+		//{
+		//	return super.at(index) as ParallelSystem;
+		//}
+		//public get(key: any): ParallelSystem
+		//{
+		//	return super.get(key) as ParallelSystem;
+		//}
 
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
@@ -48,7 +45,7 @@ namespace samchon.protocol.master
 
 			for (let i: number = 0; i < this.size(); i++)
 			{
-				let system: ParallelSystem = this.at(i);
+				let system: ParallelSystem = this.at(i) as ParallelSystem;
 
 				let piece_size: number = (i == this.size() - 1) 
 					? size - index
@@ -79,7 +76,7 @@ namespace samchon.protocol.master
 
 			for (let i: number = 0; i < this.size(); i++)
 			{
-				let system: ParallelSystem = this.at(i);
+				let system: ParallelSystem = this.at(i) as ParallelSystem;
 				if (system["history_list"].has(uid) == false)
 					continue;
 

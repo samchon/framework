@@ -22,7 +22,7 @@ namespace protocol
 		static library::RWMutex s_mtx;
 
 	public:
-		WebServerConnector();
+		WebServerConnector(IProtocol *listener);
 		virtual ~WebServerConnector();
 
 		virtual void connect(const std::string &ip, int port);

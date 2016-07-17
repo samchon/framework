@@ -1,3 +1,14 @@
+// Type definitions for Samchon Framework v1.2.0
+// Project: https://github.com/samchon/framework
+// Definitions by: Jeongho Nam <http://samchon.org>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+
+/// <reference path="../typescript-stl/typescript-stl.d.ts" />
+
+declare module "samchon-framework"
+{
+        export = samchon;
+}
 /**
  * <h1> Samchon-Framework </h1>
  *
@@ -2941,6 +2952,7 @@ declare namespace samchon.protocol {
 declare namespace samchon.protocol {
     abstract class Server {
         abstract open(port: number): void;
+        abstract close(): void;
         protected abstract addClient(clientDriver: IClientDriver): void;
     }
 }
@@ -2965,6 +2977,7 @@ declare namespace samchon.protocol {
     abstract class NormalServer extends Server {
         private server;
         open(port: number): void;
+        close(): void;
         private handle_connect(socket);
     }
 }
@@ -2985,6 +2998,7 @@ declare namespace samchon.protocol {
 declare namespace samchon.protocol {
     abstract class SharedWorkerServer extends Server {
         open(): void;
+        close(): void;
     }
 }
 declare namespace samchon.protocol {
@@ -3121,6 +3135,7 @@ declare namespace samchon.protocol {
          * @inheritdoc
          */
         open(port: number): void;
+        close(): void;
         /**
          * @inheritdoc
          */
@@ -3241,6 +3256,39 @@ declare namespace samchon.protocol.external {
     }
 }
 declare namespace samchon.protocol.external {
+    abstract class ExternalSystemArray extends EntityArrayCollection<ExternalSystem> implements IProtocol {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        hasRole(key: string): boolean;
+        getRole(key: string): ExternalSystemRole;
+        sendData(invoke: Invoke): void;
+        replyData(invoke: Invoke): void;
+        TAG(): string;
+        CHILD_TAG(): string;
+    }
+}
+declare namespace samchon.protocol.external {
+    interface IExternalClientArray extends ExternalSystemArray {
+        open(port: number): void;
+        close(): void;
+    }
+    abstract class ExternalClientArray extends ExternalSystemArray implements IExternalClientArray {
+        private server;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        protected abstract createServer(): IExtServer;
+        protected addClient(driver: IClientDriver): void;
+        protected createChild(xml: library.XML): ExternalSystem;
+        protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
+        open(port: number): void;
+        close(): void;
+    }
+}
+declare namespace samchon.protocol.external {
     abstract class ExternalSystem extends EntityArrayCollection<ExternalSystemRole> implements IProtocol {
         protected communicator: ICommunicator;
         protected name: string;
@@ -3273,7 +3321,21 @@ declare namespace samchon.protocol.external {
     }
 }
 declare namespace samchon.protocol.external {
-    abstract class ExternalSystemArray extends EntityArrayCollection<ExternalSystem> implements IProtocol {
+    interface IExternalServerArray extends ExternalSystemArray {
+        connect(): void;
+    }
+    abstract class ExternalServerArray extends ExternalSystemArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        connect(): void;
+    }
+}
+declare namespace samchon.protocol.external {
+    interface IExternalServerClientArray extends IExternalServerArray, IExternalClientArray {
+    }
+    abstract class ExternalServerClientArray extends ExternalSystemArray {
         private server;
         /**
          * Default Constructor.
@@ -3284,14 +3346,9 @@ declare namespace samchon.protocol.external {
         protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
         protected abstract createExternalServer(xml: library.XML): IExternalServer;
         protected addClient(driver: IClientDriver): void;
-        hasRole(key: string): boolean;
-        getRole(key: string): ExternalSystemRole;
         open(port: number): void;
+        close(): void;
         connect(): void;
-        sendData(invoke: Invoke): void;
-        replyData(invoke: Invoke): void;
-        TAG(): string;
-        CHILD_TAG(): string;
     }
 }
 declare namespace samchon.protocol.external {
@@ -3305,49 +3362,6 @@ declare namespace samchon.protocol.external {
         sendData(invoke: Invoke): void;
         replyData(invoke: Invoke): void;
         TAG(): string;
-    }
-}
-declare namespace samchon.protocol.master {
-    abstract class DistributedSystem extends external.ExternalSystem {
-        protected systemArray: DistributedSystemArray;
-        constructor(systemArray: DistributedSystemArray);
-        getSystemArray(): DistributedSystemArray;
-    }
-}
-declare namespace samchon.protocol.master {
-    interface IDistributedServer extends external.IExternalServer, DistributedSystem {
-    }
-    abstract class DistributedServer extends DistributedSystem implements IDistributedServer {
-        protected ip: string;
-        protected port: number;
-        constructor(systemArray: DistributedSystemArray);
-        protected abstract createServerConnector(): IServerConnector;
-        connect(): void;
-        getIP(): string;
-        getPort(): number;
-    }
-}
-declare namespace samchon.protocol.master {
-    abstract class DistributedSystemArray extends external.ExternalSystemArray {
-        private roles;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        protected abstract createExternalClient(driver: IClientDriver): DistributedSystem;
-        protected abstract createExternalServer(xml: library.XML): IDistributedServer;
-        protected abstract createRole(xml: library.XML): DistributedSystemRole;
-        at(index: number): DistributedSystem;
-        get(key: any): DistributedSystem;
-        hasRole(key: string): boolean;
-        getRole(key: string): DistributedSystemRole;
-    }
-}
-declare namespace samchon.protocol.master {
-    abstract class DistributedSystemRole extends external.ExternalSystemRole {
-        private systems;
-        constructor();
-        sendData(invoke: Invoke): void;
     }
 }
 declare namespace samchon.protocol.slave {
@@ -3406,6 +3420,31 @@ declare namespace samchon.protocol.master {
     }
 }
 declare namespace samchon.protocol.master {
+    abstract class ParallelSystemArray extends external.ExternalSystemArray {
+        private history_sequence;
+        constructor();
+        sendSegmentData(invoke: Invoke, size: number): void;
+        sendPieceData(invoke: Invoke, index: number, size: number): void;
+        private notify_end(history);
+        private normalize_performance();
+    }
+}
+declare namespace samchon.protocol.master {
+    abstract class ParallelClientArray extends ParallelSystemArray implements external.IExternalClientArray {
+        private server;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        protected abstract createServer(): external.IExtServer;
+        protected addClient(driver: IClientDriver): void;
+        protected createChild(xml: library.XML): ParallelSystem;
+        protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
+        open(port: number): void;
+        close(): void;
+    }
+}
+declare namespace samchon.protocol.master {
     abstract class ParallelSystem extends external.ExternalSystem {
         private systemArray;
         private progress_list;
@@ -3432,24 +3471,34 @@ declare namespace samchon.protocol.master {
     }
 }
 declare namespace samchon.protocol.master {
-    abstract class ParallelSystemArray extends external.ExternalSystemArray {
-        private history_sequence;
+    abstract class ParallelServerArray extends ParallelSystemArray implements external.IExternalServerArray {
         constructor();
+        connect(): void;
+    }
+}
+declare namespace samchon.protocol.master {
+    abstract class ParallelServerClientArray extends ParallelSystemArray implements external.IExternalServerClientArray {
+        private server;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        protected abstract createServer(): external.IExtServer;
+        protected createChild(xml: library.XML): ParallelSystem;
         protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
         protected abstract createExternalServer(xml: library.XML): IParallelServer;
-        at(index: number): ParallelSystem;
-        get(key: any): ParallelSystem;
-        sendSegmentData(invoke: Invoke, size: number): void;
-        sendPieceData(invoke: Invoke, index: number, size: number): void;
-        private notify_end(history);
-        private normalize_performance();
+        protected addClient(driver: IClientDriver): void;
+        open(port: number): void;
+        close(): void;
+        connect(): void;
     }
 }
 declare namespace samchon.protocol.master {
     abstract class ParallelSystemArrayMediator extends ParallelSystemArray {
-        open(port: number): void;
-        connect(): void;
-        private start_mediator();
+        private mediator;
+        constructor();
+        protected abstract createMediator(): MediatorSystem;
+        protected start_mediator(): void;
     }
 }
 declare namespace samchon.protocol.service {

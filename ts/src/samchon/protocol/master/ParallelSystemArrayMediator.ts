@@ -7,19 +7,16 @@ namespace samchon.protocol.master
 	export abstract class ParallelSystemArrayMediator
 		extends ParallelSystemArray
 	{
-		public open(port: number): void
+		private mediator: MediatorSystem;
+
+		public constructor()
 		{
-			this.start_mediator();
-			super.open(port);
+			super();
 		}
 
-		public connect(): void
-		{
-			this.start_mediator();
-			super.connect();
-		}
+		protected abstract createMediator(): MediatorSystem;
 
-		private start_mediator(): void
+		protected start_mediator(): void
 		{
 		}
 	}

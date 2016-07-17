@@ -19,7 +19,8 @@ namespace protocol
 		Communicator();
 		virtual ~Communicator();
 
-		virtual void listen(IProtocol *listener);
+	protected:
+		virtual void listen_message();
 
 	private:
 		auto listen_size() const -> size_t;

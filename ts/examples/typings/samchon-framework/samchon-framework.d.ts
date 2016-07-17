@@ -3318,49 +3318,6 @@ declare namespace samchon.protocol.external {
         TAG(): string;
     }
 }
-declare namespace samchon.protocol.master {
-    abstract class DistributedSystem extends external.ExternalSystem {
-        protected systemArray: DistributedSystemArray;
-        constructor(systemArray: DistributedSystemArray);
-        getSystemArray(): DistributedSystemArray;
-    }
-}
-declare namespace samchon.protocol.master {
-    interface IDistributedServer extends external.IExternalServer, DistributedSystem {
-    }
-    abstract class DistributedServer extends DistributedSystem implements IDistributedServer {
-        protected ip: string;
-        protected port: number;
-        constructor(systemArray: DistributedSystemArray);
-        protected abstract createServerConnector(): IServerConnector;
-        connect(): void;
-        getIP(): string;
-        getPort(): number;
-    }
-}
-declare namespace samchon.protocol.master {
-    abstract class DistributedSystemArray extends external.ExternalSystemArray {
-        private roles;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        protected abstract createExternalClient(driver: IClientDriver): DistributedSystem;
-        protected abstract createExternalServer(xml: library.XML): IDistributedServer;
-        protected abstract createRole(xml: library.XML): DistributedSystemRole;
-        at(index: number): DistributedSystem;
-        get(key: any): DistributedSystem;
-        hasRole(key: string): boolean;
-        getRole(key: string): DistributedSystemRole;
-    }
-}
-declare namespace samchon.protocol.master {
-    abstract class DistributedSystemRole extends external.ExternalSystemRole {
-        private systems;
-        constructor();
-        sendData(invoke: Invoke): void;
-    }
-}
 declare namespace samchon.protocol.slave {
     abstract class SlaveSystem extends external.ExternalSystem {
         /**

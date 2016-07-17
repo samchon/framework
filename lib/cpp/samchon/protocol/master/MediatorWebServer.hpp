@@ -11,17 +11,13 @@ namespace protocol
 {
 namespace master
 {
-	class MediatorWebServer
+	class SAMCHON_FRAMEWORK_API MediatorWebServer
 		: public MediatorServer,
 		public virtual WebServer
 	{
 	public:
-		MediatorWebServer(external::ExternalSystemArray *systemArray, int port)
-			: MediatorServer(systemArray, port),
-			WebServer()
-		{
-		};
-		virtual ~MediatorWebServer() = default;
+		MediatorWebServer(external::ExternalSystemArray *systemArray, int port);
+		virtual ~MediatorWebServer();
 	};
 };
 };

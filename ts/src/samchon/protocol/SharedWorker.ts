@@ -10,6 +10,10 @@ namespace samchon.protocol
 		{
 
 		}
+
+		public close(): void
+		{
+		}
 	}
 }
 

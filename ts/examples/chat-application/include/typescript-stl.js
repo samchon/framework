@@ -3,6 +3,99 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+/**
+ * <h1> TypeScript-STL </h1>
+ * <p> <a href="https://nodei.co/npm/typescript-stl">
+ *	<img src="https://nodei.co/npm/typescript-stl.png?downloads=true&downloadRank=true&stars=true"> </a> </p>
+ *
+ * <p> STL (Standard Template Library) Containers and Algorithms for TypeScript. </p>
+ *
+ * <p> TypeScript-STL is a TypeScript's <b>Standard Template Library</b> who is migrated from C++ STL. Most of classes
+ * and functions of STL have implemented. Just enjoy it. </p>
+ *
+ * @git https://github.com/samchon/typescript-stl
+ * @author Jeongho Nam <http://samchon.org>
+ */
+var std;
+(function (std) {
+    /* =========================================================
+        CONTAINER SHORTCUTS
+            - LINEAR CONTAINERS
+            - ASSOCIATIVE CONTAINERS
+            - SET CONTAINERS
+            - MAP CONTAINERS
+            - EXCEPTIONS
+    ============================================================
+        LINEAR CONTAINERS
+    --------------------------------------------------------- */
+    /**
+     * Type definition of {@link Vector} and it's the original name used in C++.
+     */
+    std.vector = std.Vector;
+    /**
+     * Type definition of {@link List} and it's the original name used in C++.
+     */
+    std.list = std.List;
+    /**
+     * Type definition of {@link Deque} and it's the original name used in C++.
+     */
+    std.deque = std.Deque;
+    std.stack = std.Stack;
+    std.queue = std.Queue;
+    std.priority_queue = std.PriorityQueue;
+    /* ---------------------------------------------------------
+        SET CONTAINERS
+    --------------------------------------------------------- */
+    /**
+     * Type definition of {@link TreeSet} and it's the original name used in C++.
+     */
+    std.set = std.TreeSet;
+    /**
+     * Type definition of {@link TreeMultiSet} and it's the original name used in C++.
+     */
+    std.multiset = std.TreeMultiSet;
+    /**
+     * Type definition of {@link HashSet} and it's the original name used in C++.
+     */
+    std.unordered_set = std.HashSet;
+    /**
+     * Type definition of {@link HashMultiSet} and it's the original name used in C++.
+     */
+    std.unordered_multiset = std.HashMultiSet;
+    /* ---------------------------------------------------------
+        MAP CONTAINERS
+    --------------------------------------------------------- */
+    /**
+     * Type definition of {@link TreeMap} and it's the original name used in C++.
+     */
+    std.map = std.TreeMap;
+    /**
+     * Type definition of {@link TreeMultiMap} and it's the original name used in C++.
+     */
+    std.multimap = std.TreeMultiMap;
+    /**
+     * Type definition of {@link HashMap} and it's the original name used in C++.
+     */
+    std.unordered_map = std.HashMap;
+    /**
+     * Type definition of {@link HashMultiMap} and it's the original name used in C++.
+     */
+    std.unordered_multimap = std.HashMultiMap;
+    std.exception = std.Exception;
+    std.logic_error = std.LogicError;
+    std.domain_error = std.DomainError;
+    std.invalid_argument = std.InvalidArgument;
+    std.length_error = std.LengthError;
+    std.out_of_range = std.OutOfRange;
+    std.runtime_error = std.RuntimeError;
+    std.overflow_error = std.OverflowError;
+    std.underflow_error = std.UnderflowError;
+    std.range_error = std.RangeError;
+    std.system_error = std.SystemError;
+    std.error_category = std.ErrorCategory;
+    std.error_condition = std.ErrorCondition;
+    std.error_code = std.ErrorCode;
+})(std || (std = {}));
 /// <reference path="API.ts" />
 // Standard Template Library: Algorithms
 // The header <algorithm> defines a collection of functions especially designed to be used on ranges of elements.
@@ -3185,7 +3278,7 @@ var std;
      * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
      * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
-     * @reference http://www.cplusplus.com/reference/stdexcept/outflow_error
+     * @reference http://www.cplusplus.com/reference/stdexcept/overflow_error
      * @author Jeongho Nam <http://samchon.org>
      */
     var OverflowError = (function (_super) {
@@ -11049,5 +11142,4 @@ var std;
 /// <reference path="../../std/Utility.ts" />
 /// <reference path="../../std/example/test_all.ts" />
 if (std.is_node() == true)
-    for (var key in std)
-        exports[key] = std[key];
+    module.exports = std;

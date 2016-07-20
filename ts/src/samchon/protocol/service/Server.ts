@@ -1,7 +1,5 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../WebCommunicator.ts" />
-
 namespace samchon.protocol.service
 {
 	export abstract class Server
@@ -57,7 +55,7 @@ namespace samchon.protocol.service
 		/* ------------------------------------------------------------------
 			CLIENT I/O
 		------------------------------------------------------------------ */
-		protected addClient(driver: WebClientDriver): void
+		public addClient(driver: WebClientDriver): void
 		{
 			/////////////////////////////////////////////
 			// CREATE CHILDREN OBJECTS

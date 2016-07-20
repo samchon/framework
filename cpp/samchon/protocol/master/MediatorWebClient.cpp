@@ -9,7 +9,7 @@ using namespace samchon::protocol;
 using namespace samchon::protocol::master;
 using namespace samchon::protocol::external;
 
-MediatorWebClient::MediatorWebClient(ExternalSystemArray *systemArray, const string &ip, int port)
+MediatorWebClient::MediatorWebClient(ExternalClientArray *systemArray, const string &ip, int port)
 	: MediatorClient(systemArray, ip, port)
 {
 	this->ip = ip;

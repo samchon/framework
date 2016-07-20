@@ -38,6 +38,11 @@ namespace samchon.collection
 		 * @param first 
 		 * @param last 
 		 */
+		public constructor(type: string, first: std.Iterator<T>, last: std.Iterator<T>);
+		public constructor(type: "insert", first: std.Iterator<T>, last: std.Iterator<T>);
+		public constructor(type: "erase", first: std.Iterator<T>, last: std.Iterator<T>);
+		public constructor(type: "refresh", first: std.Iterator<T>, last: std.Iterator<T>);
+
 		public constructor(type: string, first: std.Iterator<T>, last: std.Iterator<T>)
 		{
 			super(type);

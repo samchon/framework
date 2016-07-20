@@ -406,9 +406,7 @@ namespace example.chat
 
 			// NOTIFY CHANGE TO ITS PARENT ROOM_LIST
 			let it = this.rooms.find(this.uid);
-			let refresh_event = new collection.CollectionEvent("refresh", it, it.next());
-			
-			this.rooms.dispatchEvent(refresh_event);
+			this.rooms.refresh(it);
 		}
 
 		public sendData(invoke: protocol.Invoke): void

@@ -39,10 +39,9 @@ void ParallelSystemArrayMediator::sendData(shared_ptr<Invoke> invoke)
 {
 	if (invoke->has("invoke_history_uid") == true)
 	{
-		size_t piece_index = invoke->get("piece_index")->getValue<size_t>();
-		size_t piece_size = invoke->get("piece_size")->getValue<size_t>();
-		invoke->erase("piece_index");
-		invoke->erase("piece_size");
+		size_t piece_index = invoke->at(invoke->size() - 2)->getValue<size_t>();
+		size_t piece_size = invoke->at(invoke->size() - 1)->getValue<size_t>();
+		invoke->erase(invoke->end() - 2, invoke->end());
 
 		this->sendPieceData(invoke, piece_index, piece_size);
 	}
@@ -52,6 +51,13 @@ void ParallelSystemArrayMediator::sendData(shared_ptr<Invoke> invoke)
 
 void ParallelSystemArrayMediator::sendPieceData(shared_ptr<Invoke> invoke, size_t index, size_t size)
 {
+	// CHECK VALIDITY - RESERVED PARAMETER
+	static const std::array<std::string, 3> RESERVED_PARAMETERS = { "invoke_history_uid", "piece_index", "piece_size" };
+
+	for (size_t i = 0; i < RESERVED_PARAMETERS.size(); i++)
+		if (invoke->has(RESERVED_PARAMETERS[i]) == false)
+			throw std::domain_error("This is a mediator system. Don't send command directly by yourself.");
+
 	// SPLIT TO PIECES AND SEND TO EACH SYSTEM
 	for (size_t i = 0; i < this->size(); i++)
 	{
@@ -70,9 +76,9 @@ void ParallelSystemArrayMediator::sendPieceData(shared_ptr<Invoke> invoke, size_
 
 auto ParallelSystemArrayMediator::notify_end(shared_ptr<PRInvokeHistory> history) -> bool
 {
-	if (super::notify_end(history) == false)
-		return false;
-
-	mediator->notifyEnd(history->getUID());
+	bool ret = super::notify_end(history);
+	if (ret == true)
+		mediator->notify_end(history->getUID());
+	
 	return true;
 }

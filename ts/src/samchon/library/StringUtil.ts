@@ -4,7 +4,12 @@ namespace samchon.library
 {
 	/**
 	 * <p> A utility class supporting static methods of string. </p>
+	 * 
+	 * <p> The {@link StringUtil} utility class is an all-static class with methods for working with string objects within 
+	 * Samchon Framework. You do not create instances of {@link StringUtil}; instead you call methods such as the 
+	 * <code>StringUtil.substitute()</code> method. </p>
 	 *
+	 * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/utils/StringUtil.html
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class StringUtil
@@ -33,11 +38,11 @@ namespace samchon.library
 		 *	<li> If start and end are all omitted, returns str, itself. </li>
 		 * </ul>
 		 *
-		 * @param str Target string to be applied between
-		 * @param start A string for separating substring at the front
-		 * @param end A string for separating substring at the end
+		 * @param str Target string to be applied between.
+		 * @param start A string for separating substring at the front.
+		 * @param end A string for separating substring at the end.
 		 *
-		 * @return substring by specified terms
+		 * @return substring by specified terms.
 		 */
 		public static between(str: string, start: string = "", end: string = ""): string
 		{
@@ -73,12 +78,12 @@ namespace samchon.library
 		 *	<li> If startStr and endStar are all omitted, returns <i>str</i>. </li>
 		 * </ul>
 		 *
-		 * @param str Target string to split by between
+		 * @param str Target string to split by between.
 		 * @param start A string for separating substring at the front.
-		 *				If omitted, it's same with split(end) not having last item
+		 *				If omitted, it's same with split(end) not having last item.
 		 * @param end A string for separating substring at the end.
-		 *			  If omitted, it's same with split(start) not having first item
-		 * @return An array of substrings
+		 *			  If omitted, it's same with split(start) not having first item.
+		 * @return An array of substrings.
 		 */
 		public static betweens(str: string, start: string = "", end: string = ""): Array<string>
 		{

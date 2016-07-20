@@ -5,6 +5,25 @@ namespace samchon.collection
 	/**
 	 * A {@link Deque} who can detect element I/O events.
 	 * 
+	 * <p> Below are list of methods who are dispatching {@link CollectionEvent}: </p>
+	 * 
+	 * <ul>
+	 *	<li> <i>insert</i> typed events: <ul>
+	 *		<li> {@link assign} </li>
+	 *		<li> {@link insert} </li>
+	 *		<li> {@link push} </li>
+	 *		<li> {@link push_front} </li>
+	 *		<li> {@link push_back} </li>
+	 *	</ul></li>
+	 *	<li> <i>erase</i> typed events: <ul>
+	 *		<li> {@link assign} </li>
+	 *		<li> {@link clear} </li>
+	 *		<li> {@link erase} </li>
+	 *		<li> {@link pop_front} </li>
+	 *		<li> {@link pop_back} </li>
+	 *	</ul></li>
+	 * </ul>
+	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class DequeCollection<T>
@@ -155,10 +174,34 @@ namespace samchon.collection
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(first: std.Deque.Iterator<T>, last: std.Deque.Iterator<T>): void;
+		public refresh(it: std.DequeIterator<T>): void;
 
-		public refresh(first: std.Deque.Iterator<T> = this.begin(), last: std.Deque.Iterator<T> = this.end()): void
+		/**
+		 * @inheritdoc
+		 */
+		public refresh(first: std.DequeIterator<T>, last: std.DequeIterator<T>): void;
+
+		public refresh(...args: any[]): void
 		{
+			let first: std.DequeIterator<T>;
+			let last: std.DequeIterator<T>;
+
+			if (args.length == 0)
+			{
+				first = this.begin();
+				last = this.end();
+			}
+			else if (args.length == 1)
+			{
+				first = args[0];
+				last = first.next();
+			}
+			else
+			{
+				first = args[0];
+				last = args[1];
+			}
+
 			this.dispatchEvent(new CollectionEvent<T>("refresh", first, last));
 		}
 

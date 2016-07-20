@@ -3,7 +3,7 @@
 namespace samchon.protocol
 {
 	/**
-	 * <p> An interface for Invoke message chain. </p>
+	 * <p> An interface for {@link Invoke} message chain. </p>
 	 * 
 	 * <p> IProtocol is an interface for Invoke message, which is standard message of network I/O 
 	 * in Samchon Framework, chain. The IProtocol interface is used to network drivers and some 

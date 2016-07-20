@@ -20,7 +20,7 @@ namespace master
 		int port;
 
 	public:
-		MediatorServer(external::ExternalSystemArray *systemArray, int port);
+		MediatorServer(external::ExternalClientArray *systemArray, int port);
 		virtual ~MediatorServer();
 
 		virtual void start();

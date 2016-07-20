@@ -5,11 +5,11 @@ namespace samchon.library
 	/**
 	 * <p> Case generator. </p>
 	 * 
-	 * <p> CaseGenerator is an abstract case generator using like a matrix. </p>
+	 * <p> {@link CaseGenerator} is an abstract case generator being used like a matrix. </p>
 	 * <ul>
-	 *  <li> nTTr(n^r) -> CombinedPermutationGenerator </li>
-	 *  <li> nPr -> PermutationGenerator </li>
-	 *  <li> n! -> FactorialGenerator </li>
+	 *  <li> n¢³r(n^r) -> {@link CombinedPermutationGenerator} </li>
+	 *  <li> nPr -> {@link PermutationGenerator} </li>
+	 *  <li> n! -> {@link FactorialGenerator} </li>
 	 * </ul>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
@@ -81,14 +81,14 @@ namespace samchon.library
 		 * @param index Index number
 		 * @return The row of the index'th in combined permuation case
 		 */
-		public abstract at(index: number): Array<number>;
+		public abstract at(index: number): number[];
 	}
 
 	/**
 	 * <p> A combined-permutation case generator. </p>
-	 * <p> <sub>n</sub>TT<sub>r</sub> </p>
 	 * 
-	 * @inheritdoc
+	 * <p> <sub>n</sub>¢³<sub>r</sub> </p>
+	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class CombinedPermutationGenerator
@@ -124,9 +124,9 @@ namespace samchon.library
 			}
 		}
 
-		public at(index: number): Array<number>
+		public at(index: number): number[]
 		{
-			let row: Array<number> = new Array<number>();
+			let row: number[] = [];
 			for (let i: number = 0; i < this.r_; i++)
 			{
 				let val: number = Math.floor(index / this.divider_array[i]) % this.n_;
@@ -139,10 +139,10 @@ namespace samchon.library
 
 	/**
 	 * <p> A permutation case generator. </p>
-	 * <p> nPr </p>
+	 * 
+	 * <p> <sub>n</sub>P<sub>r</sub> </p>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
-	 * @inheritdoc
 	 */
 	export class PermuationGenerator
 		extends CaseGenerator
@@ -168,13 +168,13 @@ namespace samchon.library
 		/**
 		 * @inheritdoc
 		 */
-		public at(index: number): Array<number>
+		public at(index: number): number[]
 		{
-			let atoms: Array<number> = new Array<number>();
+			let atoms: number[] = [];
 			for (let i: number = 0; i < this.n_; i++)
 				atoms.push(i);
 
-			let row: Array<number> = new Array<number>();
+			let row: number[] = [];
 
 			for (let i: number = 0; i < this.r_; i++)
 			{
@@ -188,6 +188,13 @@ namespace samchon.library
 		}
 	}
 
+	/**
+	 * <p> Factorial case generator. </p>
+	 * 
+	 * <p> n! = <sub>n</sub>P<sub>n</sub> </p>
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class FactorialGenerator
 		extends PermuationGenerator
 	{

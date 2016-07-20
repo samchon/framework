@@ -20,18 +20,6 @@ namespace samchon.protocol.master
 		}
 
 		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		//public at(index: number): ParallelSystem
-		//{
-		//	return super.at(index) as ParallelSystem;
-		//}
-		//public get(key: any): ParallelSystem
-		//{
-		//	return super.get(key) as ParallelSystem;
-		//}
-
-		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
 		public sendSegmentData(invoke: Invoke, size: number): void
@@ -58,14 +46,14 @@ namespace samchon.protocol.master
 			}
 		}
 
-		private notify_end(history: PRInvokeHistory): void
+		protected notify_end(history: PRInvokeHistory): boolean
 		{
 			let uid: number = history.getUID();
 
 			// ALL THE SUB-TASKS ARE DONE?
 			for (let i: number = 0; i < this.size(); i++)
 				if (this.at(i)["progress_list"].has(uid) == false)
-					return;
+					return false;
 
 			///////
 			// RE-CALCULATE PERFORMANCE INDEX
@@ -98,6 +86,8 @@ namespace samchon.protocol.master
 				system["performance"] = (system["performance"] * ordinary_ratio) + (new_performance * (1 - ordinary_ratio));
 			}
 			this.normalize_performance();
+
+			return true;
 		}
 
 		private normalize_performance(): void

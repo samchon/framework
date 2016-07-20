@@ -19,13 +19,25 @@ namespace samchon.protocol.external
 		protected ip: string;
 		protected port: number;
 
+		/**
+		 * Default Constructor.
+		 */
 		public constructor()
 		{
 			super();
+
+			this.ip = "";
+			this.port = 0;
 		}
 
+		/**
+		 * Factory method creating server connector.
+		 */
 		protected abstract createServerConnector(): IServerConnector;
 
+		/**
+		 * @inheritdoc
+		 */
 		public connect(): void
 		{
 			if (this.communicator == null)
@@ -35,10 +47,17 @@ namespace samchon.protocol.external
 			(this.communicator as IServerConnector).connect(this.ip, this.port);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public getIP(): string
 		{
 			return this.ip;
 		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public getPort(): number
 		{
 			return this.port;

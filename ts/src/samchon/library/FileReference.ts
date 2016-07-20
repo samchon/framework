@@ -274,6 +274,35 @@
 		 */
 		public save(data: string, fileName: string): void
 		{
+			FileReference.save(data, fileName);
+		}
+
+		/**
+		 * <p> Save a file to local filesystem. </p>
+		 * 
+		 * <p> {@link FileReference.save} implemented the save function by downloading a file from a hidden anchor tag.
+		 * However, the plan, future's {@link FileReference} will follow such rule: </p>
+		 * 
+		 * <p> Opens a dialog box that lets the user save a file to the local filesystem. </p>
+		 * 
+		 * <p> The {@link save save()} method first opens an browser-system dialog box that asks the user to enter a
+		 * filename and select a location on the local computer to save the file. When the user selects a location and 
+		 * confirms the save operation (for example, by clicking Save), the save process begins. Listeners receive events 
+		 * to indicate the progress, success, or failure of the save operation. To ascertain the status of the dialog box 
+		 * and the save operation after calling {@link save save()}, your code must listen for events such as cancel, 
+		 * open, progress, and complete. </p>
+		 * 
+		 * <p> When the file is saved successfully, the properties of the {@link FileReference} object are populated with 
+		 * the properties of the local file. The complete event is dispatched if the save is successful. </p>
+		 * 
+		 * <p> Only one {@link browse browse()} or {@link save()} session can be performed at a time (because only one 
+		 * dialog box can be invoked at a time). </p>
+		 * 
+		 * @param data The data to be saved. The data can be in one of several formats, and will be treated appropriately.
+		 * @param fileName File name to be saved.
+		 */
+		public static save(data: string, fileName: string): void
+		{
 			let blob: Blob = new Blob([data], { type: "text/plain" });
 			
 			if (window.navigator.msSaveBlob != undefined)

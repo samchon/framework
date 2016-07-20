@@ -1,5 +1,6 @@
 #include <samchon/protocol/master/MediatorServer.hpp>
 
+#include <samchon/protocol/external/ExternalClientArray.hpp>
 #include <samchon/protocol/ClientDriver.hpp>
 
 using namespace std;
@@ -9,7 +10,7 @@ using namespace samchon::protocol;
 using namespace samchon::protocol::master;
 using namespace samchon::protocol::external;
 
-MediatorServer::MediatorServer(ExternalSystemArray *systemArray, int port)
+MediatorServer::MediatorServer(ExternalClientArray *systemArray, int port)
 	: MediatorSystem(systemArray)
 {
 	this->port = port;

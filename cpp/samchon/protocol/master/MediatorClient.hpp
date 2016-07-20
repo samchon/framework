@@ -15,7 +15,7 @@ namespace master
 		public external::ExternalServer
 	{
 	public:
-		MediatorClient(external::ExternalSystemArray *systemArray, const std::string &ip, int port);
+		MediatorClient(external::ExternalClientArray *systemArray, const std::string &ip, int port);
 		virtual ~MediatorClient();
 
 		virtual void start();

@@ -41,6 +41,28 @@ declare namespace samchon.collection {
     /**
      * A {@link Vector} who can detect element I/O events.
      *
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *		<li> {@link push_back} </li>
+     *		<li> {@link unshift} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *		<li> {@link pop_back} </li>
+     *		<li> {@link shift} </li>
+     *		<li> {@link pop} </li>
+     *		<li> {@link splice} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link sort} </li>
+     *	</ul></li>
+     * </ul>
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     class ArrayCollection<T> extends std.Vector<T> implements ICollection<T> {
@@ -95,7 +117,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        refresh(first: std.Vector.Iterator<T>, last: std.Vector.Iterator<T>): void;
+        refresh(it: std.VectorIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(first: std.VectorIterator<T>, last: std.VectorIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -144,12 +170,9 @@ declare namespace samchon.collection {
 }
 declare namespace samchon.library {
     /**
-     * An event class.
+     * A basic event class of Samchon Framework.
      *
-     * <ul>
-     *  <li> Comments from - https://developer.mozilla.org/en-US/docs/Web/API/Event/ </li>
-     * </ul>
-     *
+     * @reference https://developer.mozilla.org/en-US/docs/Web/API/Event
      * @author Jeongho Nam <http://samchon.org>
      */
     class BasicEvent implements Event {
@@ -270,6 +293,9 @@ declare namespace samchon.collection {
          * @param last
          */
         constructor(type: string, first: std.Iterator<T>, last: std.Iterator<T>);
+        constructor(type: "insert", first: std.Iterator<T>, last: std.Iterator<T>);
+        constructor(type: "erase", first: std.Iterator<T>, last: std.Iterator<T>);
+        constructor(type: "refresh", first: std.Iterator<T>, last: std.Iterator<T>);
         /**
          * Get associative container.
          */
@@ -292,6 +318,25 @@ declare namespace samchon.collection.CollectionEvent {
 declare namespace samchon.collection {
     /**
      * A {@link Deque} who can detect element I/O events.
+     *
+     * <p> Below are list of methods who are dispatching {@link CollectionEvent}: </p>
+     *
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *		<li> {@link push_front} </li>
+     *		<li> {@link push_back} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *		<li> {@link pop_front} </li>
+     *		<li> {@link pop_back} </li>
+     *	</ul></li>
+     * </ul>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -347,7 +392,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        refresh(first: std.Deque.Iterator<T>, last: std.Deque.Iterator<T>): void;
+        refresh(it: std.DequeIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(first: std.DequeIterator<T>, last: std.DequeIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -382,6 +431,26 @@ declare namespace samchon.collection {
     /**
      * A {@link HashMap} who can detect element I/O events.
      *
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *		<li> {@link set} </li>
+     *		<li> {@link insert_or_assign} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *		<li> {@link extract} </li>
+     *	</ul></li>
+     *	<li> <i>refresh</i> typed events: <ul>
+     *		<li> {@link set} </li>
+     *		<li> {@link insert_or_assign} </li>
+     *	</ul></li>
+     * </ul>
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
@@ -412,66 +481,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        refresh(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: string, listener: EventListener): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: string, listener: EventListener): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-    }
-    /**
-     * A {@link HashMultiMap} who can detect element I/O events.
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class HashMultiMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
-        /**
-         * A chain object taking responsibility of dispatching events.
-         */
-        private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        protected handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
-        /**
-         * @inheritdoc
-         */
-        hasEventListener(type: string): boolean;
-        /**
-         * @inheritdoc
-         */
-        dispatchEvent(event: Event): boolean;
-        /**
-         * @inheritdoc
-         */
-        refresh(): void;
+        refresh(it: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -508,11 +518,24 @@ declare namespace samchon.collection {
 }
 declare namespace samchon.collection {
     /**
-     * A {@link HashSet} who can detect element I/O events.
+     * A {@link HashMultiMap} who can detect element I/O events.
+     *
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *	</ul></li>
+     * </ul>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class HashSetCollection<T> extends std.HashSet<T> implements ICollection<T> {
+    class HashMultiMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
         /**
          * A chain object taking responsibility of dispatching events.
          */
@@ -520,11 +543,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        protected handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        protected handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -537,6 +560,84 @@ declare namespace samchon.collection {
          * @inheritdoc
          */
         refresh(): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(it: std.MapIterator<Key, T>): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+        /**
+         * @inheritdoc
+         */
+        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        /**
+         * @inheritdoc
+         */
+        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        /**
+         * @inheritdoc
+         */
+        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        /**
+         * @inheritdoc
+         */
+        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+    }
+}
+declare namespace samchon.collection {
+    /**
+     * A {@link HashMultiSet} who can detect element I/O events.
+     *
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *	</ul></li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class HashMultiSetCollection<T> extends std.HashMultiSet<T> implements ICollection<T> {
+        /**
+         * A chain object taking responsibility of dispatching events.
+         */
+        private event_dispatcher_;
+        /**
+         * @inheritdoc
+         */
+        hasEventListener(type: string): boolean;
+        /**
+         * @inheritdoc
+         */
+        dispatchEvent(event: Event): boolean;
+        /**
+         * @inheritdoc
+         */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(it: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -570,11 +671,40 @@ declare namespace samchon.collection {
         removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
-    class HashMultiSetCollection<T> extends std.HashMultiSet<T> implements ICollection<T> {
+}
+declare namespace samchon.collection {
+    /**
+     * A {@link HashSet} who can detect element I/O events.
+     *
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *		<li> {@link extract} </li>
+     *	</ul></li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class HashSetCollection<T> extends std.HashSet<T> implements ICollection<T> {
         /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
+        /**
+         * @inheritdoc
+         */
+        protected handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -587,6 +717,10 @@ declare namespace samchon.collection {
          * @inheritdoc
          */
         refresh(): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(it: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -625,10 +759,72 @@ declare namespace samchon.collection {
     /**
      * An interface for {@link IContainer containers} who can detect element I/O events.
      *
+     * <p> Below are list of methods who are dispatching {@link CollectionEvent}: </p>
+     *
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *	</ul></li>
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     interface ICollection<T> extends std.base.IContainer<T>, library.IEventDispatcher {
+        /**
+         * <p> Dispatch a {@link CollectionEvent} with <i>refresh</i> typed. </p>
+         *
+         * <p> {@link ICollection} dispatches {@link CollectionEvent} typed <i>insert</i> or <i>erase</i> whenever
+         * elements I/O has occured. However, unlike those elements I/O events, content change in element level can't be
+         * detected. There's no way to detect those events automatically by {@link IContainer}. </p>
+         *
+         * <p> If you want to dispatch those typed events (notifying change on contents in element level), you've to
+         * dispatch <i>refresh</i> typed event manually, by yourself. Call {@link refresh refresh()} with specified
+         * iterators who're pointing the elements whose content have changed. Then a {@link CollectionEvent} with
+         * <i>refresh</i> typed will be dispatched. </p>
+         *
+         * <p> If you don't specify any iterator, then the range of the <i>refresh<i> event will be all elements in this
+         * {@link ICollection collection}; {@link begin begin()} to {@link end end()}. </p>
+         */
         refresh(): void;
+        /**
+         * <p> Dispatch a {@link CollectionEvent} with <i>refresh</i> typed. </p>
+         *
+         * <p> {@link ICollection} dispatches {@link CollectionEvent} typed <i>insert</i> or <i>erase</i> whenever
+         * elements I/O has occured. However, unlike those elements I/O events, content change in element level can't be
+         * detected. There's no way to detect those events automatically by {@link IContainer}. </p>
+         *
+         * <p> If you want to dispatch those typed events (notifying change on contents in element level), you've to
+         * dispatch <i>refresh</i> typed event manually, by yourself. Call {@link refresh refresh()} with specified
+         * iterators who're pointing the elements whose content have changed. Then a {@link CollectionEvent} with
+         * <i>refresh</i> typed will be dispatched. </p>
+         *
+         * @param it An iterator targeting the content changed element.
+         */
+        refresh(it: std.Iterator<T>): void;
+        /**
+         * <p> Dispatch a {@link CollectionEvent} with <i>refresh</i> typed. </p>
+         *
+         * <p> {@link ICollection} dispatches {@link CollectionEvent} typed <i>insert</i> or <i>erase</i> whenever
+         * elements I/O has occured. However, unlike those elements I/O events, content change in element level can't be
+         * detected. There's no way to detect those events automatically by {@link IContainer}. </p>
+         *
+         * <p> If you want to dispatch those typed events (notifying change on contents in element level), you've to
+         * dispatch <i>refresh</i> typed event manually, by yourself. Call {@link refresh refresh()} with specified
+         * iterators who're pointing the elements whose content have changed. Then a {@link CollectionEvent} with
+         * <i>refresh</i> typed will be dispatched. </p>
+         *
+         * @param first An Iterator to the initial position in a sequence of the content changed elmeents.
+         * @param last An {@link Iterator} to the final position in a sequence of the content changed elements. The range
+         *			   used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and
+         *			   <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
+         *			   <i>last</i>.
+         */
         refresh(first: std.Iterator<T>, last: std.Iterator<T>): void;
         /**
          * @inheritdoc
@@ -663,6 +859,31 @@ declare namespace samchon.collection {
 declare namespace samchon.collection {
     /**
      * A {@link List} who can detect element I/O events.
+     *
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *		<li> {@link push_front} </li>
+     *		<li> {@link push_back} </li>
+     *		<li> {@link merge} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *		<li> {@link pop_front} </li>
+     *		<li> {@link pop_back} </li>
+     *		<li> {@link unique} </li>
+     *		<li> {@link remove} </li>
+     *		<li> {@link remove_if} </li>
+     *		<li> {@link splice} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link sort} </li>
+     *	</ul></li>
+     * </ul>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -726,7 +947,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        refresh(first: std.List.Iterator<T>, last: std.List.Iterator<T>): void;
+        refresh(it: std.ListIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(first: std.ListIterator<T>, last: std.ListIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -761,72 +986,29 @@ declare namespace samchon.collection {
     /**
      * A {@link TreeMap} who can detect element I/O events.
      *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class TreeMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
-        /**
-         * A chain object taking responsibility of dispatching events.
-         */
-        private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        protected handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
-        /**
-         * @inheritdoc
-         */
-        hasEventListener(type: string): boolean;
-        /**
-         * @inheritdoc
-         */
-        dispatchEvent(event: Event): boolean;
-        /**
-         * @inheritdoc
-         */
-        refresh(): void;
-        /**
-         * @inheritdoc
-         */
-        refresh(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: string, listener: EventListener): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        /**
-         * @inheritdoc
-         */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: string, listener: EventListener): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        /**
-         * @inheritdoc
-         */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-    }
-    /**
-     * A {@link TreeMultiMap} who can detect element I/O events.
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *		<li> {@link set} </li>
+     *		<li> {@link insert_or_assign} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *		<li> {@link extract} </li>
+     *	</ul></li>
+     *	<li> <i>refresh</i> typed events: <ul>
+     *		<li> {@link set} </li>
+     *		<li> {@link insert_or_assign} </li>
+     *	</ul></li>
+     * </ul>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class TreeMultiMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
+    class TreeMapCollection<Key, T> extends std.TreeMap<Key, T> implements ICollection<std.Pair<Key, T>> {
         /**
          * A chain object taking responsibility of dispatching events.
          */
@@ -851,6 +1033,10 @@ declare namespace samchon.collection {
          * @inheritdoc
          */
         refresh(): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(it: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -887,15 +1073,36 @@ declare namespace samchon.collection {
 }
 declare namespace samchon.collection {
     /**
-     * A {@link TreeMap} who can detect element I/O events.
+     * A {@link TreeMultiMap} who can detect element I/O events.
+     *
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *	</ul></li>
+     * </ul>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class TreeSetCollection<T> extends std.TreeSet<T> implements ICollection<T> {
+    class TreeMultiMapCollection<Key, T> extends std.TreeMultiMap<Key, T> implements ICollection<std.Pair<Key, T>> {
         /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
+        /**
+         * @inheritdoc
+         */
+        protected handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -908,6 +1115,92 @@ declare namespace samchon.collection {
          * @inheritdoc
          */
         refresh(): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(it: std.MapIterator<Key, T>): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+        /**
+         * @inheritdoc
+         */
+        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        /**
+         * @inheritdoc
+         */
+        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        /**
+         * @inheritdoc
+         */
+        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        /**
+         * @inheritdoc
+         */
+        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+    }
+}
+declare namespace samchon.collection {
+    /**
+     * A {@link TreeMultiSet} who can detect element I/O events.
+     *
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *	</ul></li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class TreeMultiSetCollection<T> extends std.TreeMultiSet<T> implements ICollection<T> {
+        /**
+         * A chain object taking responsibility of dispatching events.
+         */
+        private event_dispatcher_;
+        /**
+         * @inheritdoc
+         */
+        protected handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        hasEventListener(type: string): boolean;
+        /**
+         * @inheritdoc
+         */
+        dispatchEvent(event: Event): boolean;
+        /**
+         * @inheritdoc
+         */
+        refresh(): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(it: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -941,24 +1234,32 @@ declare namespace samchon.collection {
         removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
+}
+declare namespace samchon.collection {
     /**
-     * A {@link TreeMultiSet} who can detect element I/O events.
+     * A {@link TreeMap} who can detect element I/O events.
+     *
+     * <ul>
+     *	<li> <i>insert</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link insert} </li>
+     *		<li> {@link push} </li>
+     *	</ul></li>
+     *	<li> <i>erase</i> typed events: <ul>
+     *		<li> {@link assign} </li>
+     *		<li> {@link clear} </li>
+     *		<li> {@link erase} </li>
+     *		<li> {@link extract} </li>
+     *	</ul></li>
+     * </ul>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class TreeMultiSetCollection<T> extends std.TreeMultiSet<T> implements ICollection<T> {
+    class TreeSetCollection<T> extends std.TreeSet<T> implements ICollection<T> {
         /**
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
-        /**
-         * @inheritdoc
-         */
-        protected handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -971,6 +1272,10 @@ declare namespace samchon.collection {
          * @inheritdoc
          */
         refresh(): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(it: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -1409,7 +1714,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        refresh(first: std.Vector.Iterator<library.XML>, last: std.Vector.Iterator<library.XML>): void;
+        refresh(it: std.VectorIterator<library.XML>): void;
+        /**
+         * @inheritdoc
+         */
+        refresh(first: std.VectorIterator<library.XML>, last: std.VectorIterator<library.XML>): void;
         /**
          * @inheritdoc
          */
@@ -1448,11 +1757,11 @@ declare namespace samchon.library {
     /**
      * <p> Case generator. </p>
      *
-     * <p> CaseGenerator is an abstract case generator using like a matrix. </p>
+     * <p> {@link CaseGenerator} is an abstract case generator being used like a matrix. </p>
      * <ul>
-     *  <li> nTTr(n^r) -> CombinedPermutationGenerator </li>
-     *  <li> nPr -> PermutationGenerator </li>
-     *  <li> n! -> FactorialGenerator </li>
+     *  <li> n��r(n^r) -> {@link CombinedPermutationGenerator} </li>
+     *  <li> nPr -> {@link PermutationGenerator} </li>
+     *  <li> n! -> {@link FactorialGenerator} </li>
      * </ul>
      *
      * @author Jeongho Nam <http://samchon.org>
@@ -1497,13 +1806,13 @@ declare namespace samchon.library {
          * @param index Index number
          * @return The row of the index'th in combined permuation case
          */
-        abstract at(index: number): Array<number>;
+        abstract at(index: number): number[];
     }
     /**
      * <p> A combined-permutation case generator. </p>
-     * <p> <sub>n</sub>TT<sub>r</sub> </p>
      *
-     * @inheritdoc
+     * <p> <sub>n</sub>��<sub>r</sub> </p>
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     class CombinedPermutationGenerator extends CaseGenerator {
@@ -1518,14 +1827,14 @@ declare namespace samchon.library {
          * @param r Size of elements of each case.
          */
         constructor(n: number, r: number);
-        at(index: number): Array<number>;
+        at(index: number): number[];
     }
     /**
      * <p> A permutation case generator. </p>
-     * <p> nPr </p>
+     *
+     * <p> <sub>n</sub>P<sub>r</sub> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
-     * @inheritdoc
      */
     class PermuationGenerator extends CaseGenerator {
         /**
@@ -1538,8 +1847,15 @@ declare namespace samchon.library {
         /**
          * @inheritdoc
          */
-        at(index: number): Array<number>;
+        at(index: number): number[];
     }
+    /**
+     * <p> Factorial case generator. </p>
+     *
+     * <p> n! = <sub>n</sub>P<sub>n</sub> </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
     class FactorialGenerator extends PermuationGenerator {
         /**
          * Construct from factorial size N.
@@ -1681,6 +1997,7 @@ declare namespace samchon.library {
          * @param listener The listener function that processes the event.
          *				 This function must accept an Event object as its only parameter and must return
          *				 nothing.
+         * @param thisArg The object to be used as the <b>this</b> object.
          */
         addEventListener(type: string, listener: EventListener, thisArg: Object): void;
         /**
@@ -1697,6 +2014,7 @@ declare namespace samchon.library {
          *
          * @param type The type of event.
          * @param listener The listener object to remove.
+         * @param thisArg The object to be used as the <b>this</b> object.
          */
         removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
     }
@@ -1964,6 +2282,31 @@ declare namespace samchon.library {
          * @param fileName File name to be saved.
          */
         save(data: string, fileName: string): void;
+        /**
+         * <p> Save a file to local filesystem. </p>
+         *
+         * <p> {@link FileReference.save} implemented the save function by downloading a file from a hidden anchor tag.
+         * However, the plan, future's {@link FileReference} will follow such rule: </p>
+         *
+         * <p> Opens a dialog box that lets the user save a file to the local filesystem. </p>
+         *
+         * <p> The {@link save save()} method first opens an browser-system dialog box that asks the user to enter a
+         * filename and select a location on the local computer to save the file. When the user selects a location and
+         * confirms the save operation (for example, by clicking Save), the save process begins. Listeners receive events
+         * to indicate the progress, success, or failure of the save operation. To ascertain the status of the dialog box
+         * and the save operation after calling {@link save save()}, your code must listen for events such as cancel,
+         * open, progress, and complete. </p>
+         *
+         * <p> When the file is saved successfully, the properties of the {@link FileReference} object are populated with
+         * the properties of the local file. The complete event is dispatched if the save is successful. </p>
+         *
+         * <p> Only one {@link browse browse()} or {@link save()} session can be performed at a time (because only one
+         * dialog box can be invoked at a time). </p>
+         *
+         * @param data The data to be saved. The data can be in one of several formats, and will be treated appropriately.
+         * @param fileName File name to be saved.
+         */
+        static save(data: string, fileName: string): void;
     }
     /**
      * <p> The {@link FileReferenceList} class provides a means to let users select one or more files for
@@ -2036,8 +2379,161 @@ declare namespace samchon.library {
 }
 declare namespace samchon.library {
     /**
+     * <p> A genetic algorithm class. </p>
+     *
+     * @details
+     * <p> In the field of artificial intelligence, a genetic algorithm (GA) is a search heuristic that mimics the
+     * process of natural selection. This heuristic (also sometimes called a metaheuristic) is routinely used to generate
+     * useful solutions to optimization and search problems. </p>
+     *
+     * <p> Genetic algorithms belong to the larger class of evolutionary algorithms (EA), which generate solutions to
+     * optimization problems using techniques inspired by natural evolution, such as inheritance, {@link mutate mutation},
+     * {@link selection}, and {@link crossover}. </p>
+     *
+     * @reference https://en.wikipedia.org/wiki/Genetic_algorithm
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class GeneticAlgorithm {
+        /**
+         * Whether each element (Gene) is unique in their GeneArray.
+         */
+        private unique;
+        /**
+         * Rate of mutation.
+         *
+         * The {@link mutation_rate} determines the percentage of occurence of mutation in GeneArray.
+         *
+         * <ul>
+         *	<li> When {@link mutation_rate} is too high, it is hard to ancitipate studying on genetic algorithm. </li>
+         *	<li>
+         *		When {@link mutation_rate} is too low and initial set of genes (GeneArray) is far away from optimal, the
+         *		evolution tends to wandering outside of he optimal.
+         *	</li>
+         * </ul>
+         */
+        private mutation_rate;
+        /**
+         * Number of tournaments in selection.
+         */
+        private tournament;
+        /**
+         * Initialization Constructor.
+         *
+         * @param unique Whether each Gene is unique in their GeneArray.
+         * @param mutation_rate Rate of mutation.
+         * @param tournament Number of tournaments in selection.
+         */
+        constructor(unique?: boolean, mutation_rate?: number, tournament?: number);
+        /**
+         * <p> Evolove <i>GeneArray</i>. </p>
+         *
+         * <p> Convenient method accessing to {@link evolvePopulation evolvePopulation()}. </p>
+         *
+         * @param individual An initial set of genes; sequence listing.
+         * @param population Size of population in a generation.
+         * @param generation Size of generation in evolution.
+         *
+         * @return An evolved <i>GeneArray</i>, optimally.
+         */
+        evolveGeneArray<T, GeneArray extends std.base.IArrayContainer<T>>(individual: GeneArray, population: number, generation: number): GeneArray;
+        /**
+         * Evolve <i>population</i>, a mass of <i>GeneArraies</i>.
+         *
+         * @param population An initial population.
+         */
+        evolvePopulation<T, GeneArray extends std.base.IArrayContainer<T>>(population: GAPopulation<T, GeneArray>): GAPopulation<T, GeneArray>;
+        /**
+         * <p> Select the best GeneArray in <i>population</i> from tournament. </p>
+         *
+         * <p> {@link selection Selection} is the stage of a genetic algorithm in which individual genomes are chosen
+         * from a population for later breeding (using {@linlk crossover} operator). A generic {@link selection}
+         * procedure may be implemented as follows: </p>
+         *
+         * <ol>
+         *	<li>
+         *		The fitness function is evaluated for each individual, providing fitness values, which are then
+         *		normalized. Normalization means dividing the fitness value of each individual by the sum of all fitness
+         *		values, so that the sum of all resulting fitness values equals 1.
+         *	</li>
+         *	<li> The population is sorted by descending fitness values. </li>
+         *	<li>
+         *		Accumulated normalized fitness values are computed (the accumulated fitness value of an individual is the
+         *		sum of its own fitness value plus the fitness values of all the previous individuals). The accumulated
+         *		fitness of the last individual should be 1 (otherwise something went wrong in the normalization step).
+         *	</li>
+         *	<li> A random number R between 0 and 1 is chosen. </li>
+         *	<li> The selected individual is the first one whose accumulated normalized value is greater than R. </li>
+         * </ol>
+         *
+         * @param population The target of tournament.
+         * @return The best genes derived by the tournament.
+         *
+         * @reference https://en.wikipedia.org/wiki/Selection_(genetic_algorithm)
+         */
+        private selection<T, GeneArray>(population);
+        /**
+         * <p> Create a new GeneArray by crossing over two <i>GeneArray</i>(s). </p>
+         *
+         * <p> {@link crossover} is a genetic operator used to vary the programming of a chromosome or chromosomes from
+         * one generation to the next. It is analogous to reproduction and biological crossover, upon which genetic
+         * algorithms are based. </p>
+         *
+         * <p> {@link crossover Cross over} is a process of taking more than one parent solutions and producing a child
+         * solution from them. There are methods for selection of the chromosomes. </p>
+         *
+         * @param parent1 A parent sequence listing
+         * @param parent2 A parent sequence listing
+         *
+         * @reference https://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)
+         */
+        private crossover<T, GeneArray>(parent1, parent2);
+        /**
+         * <p> Cause a mutation on the <i>GeneArray</i>. </p>
+         *
+         * <p> {@link mutate Mutation} is a genetic operator used to maintain genetic diversity from one generation of a
+         * population of genetic algorithm chromosomes to the next. It is analogous to biological mutation. </p>
+         *
+         * <p> {@link mutate Mutation} alters one or more gene values in a chromosome from its initial state. In
+         * {@link mutate mutation}, the solution may change entirely from the previous solution. Hence GA can come to
+         * better solution by using {@link mutate mutation}. </p>
+         *
+         * <p> {@link mutate Mutation} occurs during evolution according to a user-definable mutation probability. This
+         * probability should be set low. If it is set too high, the search will turn into a primitive random search. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Muttion is pursuing diversity. Mutation is useful for avoiding the following problem. </p>
+         *
+         * <p> When initial set of genes(GeneArray) is far away from optimail, without mutation (only with selection and
+         * crossover), the genetic algorithm has a tend to wandering outside of the optimal. </p>
+         *
+         * <p> Genes in the GeneArray will be swapped following percentage of the {@link mutation_rate}. </p>
+         *
+         * @param individual A container of genes to mutate
+         *
+         * @reference https://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)
+         * @see {@link mutation_rate}
+         */
+        private mutate<T, GeneArray>(individual);
+    }
+    class GAPopulation<T, GeneArray extends std.base.IArrayContainer<T>> {
+        private children;
+        private compare;
+        constructor(size: number);
+        constructor(geneArray: GeneArray, size: number);
+        constructor(geneArray: GeneArray, size: number, compare: (left: GeneArray, right: GeneArray) => boolean);
+        fitTest(): GeneArray;
+        private clone(obj);
+    }
+}
+declare namespace samchon.library {
+    /**
      * <p> A utility class supporting static methods of string. </p>
      *
+     * <p> The {@link StringUtil} utility class is an all-static class with methods for working with string objects within
+     * Samchon Framework. You do not create instances of {@link StringUtil}; instead you call methods such as the
+     * <code>StringUtil.substitute()</code> method. </p>
+     *
+     * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/utils/StringUtil.html
      * @author Jeongho Nam <http://samchon.org>
      */
     class StringUtil {
@@ -2058,11 +2554,11 @@ declare namespace samchon.library {
          *	<li> If start and end are all omitted, returns str, itself. </li>
          * </ul>
          *
-         * @param str Target string to be applied between
-         * @param start A string for separating substring at the front
-         * @param end A string for separating substring at the end
+         * @param str Target string to be applied between.
+         * @param start A string for separating substring at the front.
+         * @param end A string for separating substring at the end.
          *
-         * @return substring by specified terms
+         * @return substring by specified terms.
          */
         static between(str: string, start?: string, end?: string): string;
         /**
@@ -2077,12 +2573,12 @@ declare namespace samchon.library {
          *	<li> If startStr and endStar are all omitted, returns <i>str</i>. </li>
          * </ul>
          *
-         * @param str Target string to split by between
+         * @param str Target string to split by between.
          * @param start A string for separating substring at the front.
-         *				If omitted, it's same with split(end) not having last item
+         *				If omitted, it's same with split(end) not having last item.
          * @param end A string for separating substring at the end.
-         *			  If omitted, it's same with split(start) not having first item
-         * @return An array of substrings
+         *			  If omitted, it's same with split(start) not having first item.
+         * @return An array of substrings.
          */
         static betweens(str: string, start?: string, end?: string): Array<string>;
         /**
@@ -2165,9 +2661,41 @@ declare namespace samchon.library {
     }
 }
 declare namespace samchon.library {
+    /**
+     * <p> URLVariables class is for representing variables of HTTP. </p>
+     *
+     * <p> URLVariables class allows you to transfer variables between an application and server.
+     * When transfering, URLVariables will be converted to a URI string. </p>
+     *
+     * <ul>
+     *	<li> URI: Uniform Resource Identifier </li>
+     * </ul>
+     *
+     * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/URLVariables.html
+     * @author Migrated by Jeongho Nam <http://samchon.org>
+     */
     class URLVariables extends std.HashMap<string, string> {
+        /**
+         * Default Constructor.
+         */
         constructor();
+        /**
+         * <p> Construct from a URL-encoded string. </p>
+         *
+         * <p> The {@link decode decode()} method is automatically called to convert the string to properties of the {@link URLVariables} object. </p>
+         *
+         * @param str A URL-encoded string containing name/value pairs.
+         */
         constructor(str: string);
+        /**
+         * Converts the variable string to properties of the specified URLVariables object.
+         *
+         * @param str A URL-encoded query string containing name/value pairs.
+         */
+        decode(str: string): void;
+        /**
+         * Returns a string containing all enumerable variables, in the MIME content encoding application/x-www-form-urlencoded.
+         */
         toString(): string;
     }
 }
@@ -2314,6 +2842,278 @@ declare namespace samchon.protocol {
          * @inheritdoc
          */
         toXML(): library.XML;
+    }
+}
+declare namespace samchon.protocol {
+    class NormalCommunicatorBase {
+        protected communicator: IProtocol;
+        private data;
+        private content_size;
+        constructor(communicator: IProtocol);
+        listen_piece(piece: string): void;
+        private listen_header();
+        private listen_data();
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * <p> An interface taking full charge of network communication. </p>
+     *
+     * <p> {@link ICommunicator} is an interface for communicator classes who take full charge of network communication
+     * with external system, without reference to whether the external system is a server or a client. </p>
+     *
+     * <p> Whenever a replied message comes from the external system has arrived, the message will be converted to an
+     * {@link Invoke} class and will be shifted to the {@link WebCommunicator.listener listener}'s
+     * {@link IProtoco.replyData replyData()} method. </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface ICommunicator extends IProtocol {
+        /**
+         * Callback function for connection closed.
+         */
+        onClose: Function;
+        /**
+         * Close connection.
+         */
+        close(): any;
+        sendData(invoke: protocol.Invoke): void;
+        replyData(invoke: protocol.Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    class NormalCommunicator implements ICommunicator {
+        private communicator_base;
+        protected listener: IProtocol;
+        protected socket: socket.socket;
+        /**
+         * @inheritdoc
+         */
+        onClose: Function;
+        constructor();
+        close(): void;
+        protected start_listen(): void;
+        /**
+         * @inheritdoc
+         */
+        replyData(invoke: Invoke): void;
+        /**
+         * @inheritdoc
+         */
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * <p> Base class for web-communicator, {@link WebClientDriver} and {@link WebServerConnector}. </p>
+     *
+     * <p> This class {@link WebCommunicatorBase} subrogates network communication for web-communicator classes,
+     * {@link WebClinetDriver} and {@link WebServerConnector}. The web-communicator and this class
+     * {@link WebCommunicatorBase} share same interface {@link IProtocol} and have a <b>chain of responsibily</b>
+     * relationship. </p>
+     *
+     * <p> When an {@link Invoke} message was delivered from the connected remote system, then this class calls
+     * web-communicator's {@link WebServerConnector.replyData replyData()} method. Also, when called web-communicator's
+     * {@link WebClientDriver.sendData sendData()}, then {@link sendData sendData()} of this class will be caleed. </p>
+     *
+     * <ul>
+     *	<li> this.replyData() -> communicator.replyData() </li>
+     *	<li> communicator.sendData() -> this.sendData() </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class WebCommunicator implements ICommunicator {
+        /**
+         * Communicator of web-socket.
+         */
+        protected listener: IProtocol;
+        /**
+         * Connection driver, a socket for web-socket.
+         */
+        protected connection: websocket.connection;
+        /**
+         * @inheritdoc
+         */
+        onClose: Function;
+        /**
+         * Initialization Constructor.
+         *
+         * @param communicator Communicator of web-socket.
+         * @param connection Connection driver, a socket for web-socket.
+         */
+        constructor();
+        /**
+         * Listen message from remoate system.
+         */
+        /**
+         * Close the connection.
+         */
+        close(): void;
+        /**
+         * <p> Handle raw-data received from the remote system. </p>
+         *
+         * <p> Queries raw-data received from the remote system. When the raw-data represents an formal {@link Invoke}
+         * message, then it will be sent to the {@link replyData}. </p>
+         *
+         * @param message A raw-data received from the remote system.
+         */
+        protected handle_message(message: websocket.IMessage): void;
+        protected handle_close(): void;
+        /**
+         * @inheritdoc
+         */
+        replyData(invoke: Invoke): void;
+        /**
+         * @inheritdoc
+         */
+        sendData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     *
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IClientDriver extends ICommunicator {
+        /**
+         * <p> Listen message from the newly connected client. </p>
+         *
+         * <p> Starts listening message from the newly connected client. Replied message from the connected client will
+         * be converted to {@link Invoke} classes and shifted to the <i>listener</i>'s
+         * {@link IProtocol.replyData replyData()} method. </p>
+         *
+         * @param listener A listener object to listen replied message from newly connected client in
+         *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} message.
+         */
+        listen(listener: IProtocol): void;
+    }
+}
+declare namespace samchon.protocol {
+    class NormalClientDriver extends NormalCommunicator implements IClientDriver {
+        constructor(socket: socket.socket);
+        /**
+         * @inheritdoc
+         */
+        listen(listener: IProtocol): void;
+    }
+}
+declare namespace samchon.protocol {
+    class WebClientDriver extends WebCommunicator implements IClientDriver {
+        /**
+         * Requested path.
+         */
+        private path;
+        /**
+         * Session ID, an identifier of the remote client.
+         */
+        private session_id;
+        private listening_;
+        /**
+         * Initialization Constructor.
+         *
+         * @param connection Connection driver, a socket for web-socket.
+         * @param path Requested path.
+         * @param session_id Session ID, an identifier of the remote client.
+         */
+        constructor(connection: websocket.connection, path: string, session_id: string);
+        /**
+         * @inheritdoc
+         */
+        listen(listener: IProtocol): void;
+        /**
+         * Get requested path.
+         */
+        getPath(): string;
+        /**
+         * Get session ID, an identifier of the remote client.
+         */
+        getSessionID(): string;
+    }
+}
+declare namespace samchon.protocol {
+    class SharedWorkerClientDriver implements IClientDriver {
+        private listener;
+        /**
+         * @inheritdoc
+         */
+        onClose: Function;
+        /**
+         * @inheritdoc
+         */
+        listen(listener: IProtocol): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+        /**
+         * @inheritdoc
+         */
+        sendData(invoke: Invoke): void;
+        /**
+         * @inheritdoc
+         */
+        replyData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class DedicatedWorker implements IProtocol {
+        private communicator_base;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        sendData(invoke: Invoke): void;
+        private handle_message(event);
+        abstract replyData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    class DedicatedWorkerConnector implements IServerConnector {
+        private listener;
+        private worker;
+        private communicator_base;
+        /**
+         * @inheritdoc
+         */
+        onConnect: Function;
+        /**
+         * @inheritdoc
+         */
+        onClose: Function;
+        constructor(listener: IProtocol);
+        /**
+         * <p> Connect to dedicated worker. </p>
+         *
+         * <p> Creates a dedictaed worker with specified <i>jsFile (JavaScript file name)</i> and connect to it. After
+         * the creation and connection, callback function {@link onConnect} is called. Listening data from the connected
+         * dedicated worker also begins. Replied messages from the dedicated worker will be converted to {@link Invoke}
+         * classes and will be shifted to the {@link listener listener}'s {@link IProtocol.replyData replyData()} method.
+         * </p>
+         *
+         * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown: an error
+         * event is dispatched if a host was specified, and an exception is thrown if no host was specified. Otherwise,
+         * the status of the connection is reported by an event. If the socket is already connected, the existing
+         * connection is closed first. </p>
+         *
+         * @param jsFile File name of JavaScript. The JavaScript file must have {@link DedicatedWorker} and constructs
+         *				 the class immediately on execution.
+         */
+        connect(jsFile: string): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+        private handle_message(event);
+        /**
+         * @inheritdoc
+         */
+        replyData(invoke: Invoke): void;
+        /**
+         * @inheritdoc
+         */
+        sendData(invoke: Invoke): void;
     }
 }
 declare namespace samchon.protocol {
@@ -2714,39 +3514,8 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    interface ICommunicator extends IProtocol {
-        onClose: Function;
-        close(): any;
-    }
-    interface IClientDriver extends ICommunicator {
-        listen(listener: IProtocol): void;
-    }
     /**
-     * <p> An abstract server connector. </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IServerConnector extends ICommunicator {
-        onConnect: Function;
-        /**
-         * <p> Connect to a server. </p>
-         *
-         * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown:
-         * an error event is dispatched if a host was specified, and an exception is thrown if no host
-         * was specified. Otherwise, the status of the connection is reported by an event.
-         * If the socket is already connected, the existing connection is closed first. </p>
-         *
-         * @param ip The name or IP address of the host to connect to.
-         *			 If no host is specified, the host that is contacted is the host where the calling file resides. If
-         *			 you do not specify a host, use an event listener to determine whether the connection was successful.
-         * @param port The port number to connect to.
-         */
-        connect(ip: string, port: number): void;
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * <p> An interface for Invoke message chain. </p>
+     * <p> An interface for {@link Invoke} message chain. </p>
      *
      * <p> IProtocol is an interface for Invoke message, which is standard message of network I/O
      * in Samchon Framework, chain. The IProtocol interface is used to network drivers and some
@@ -2824,7 +3593,7 @@ declare namespace samchon.protocol {
          * @param listener
          * @param parameters
          */
-        constructor(listener: string, ...parameters: any[]);
+        constructor(listener: string, ...parameters: Array<number | string | Buffer | library.XML>);
         /**
          * @inheritdoc
          */
@@ -2874,7 +3643,7 @@ declare namespace samchon.protocol {
         /**
          * <p> Value of the parameter. </p>
          */
-        protected value: any;
+        protected value: string | number | Buffer | library.XML;
         /**
          * Default Constructor.
          */
@@ -2885,7 +3654,7 @@ declare namespace samchon.protocol {
          * @param name
          * @param val
          */
-        constructor(name: string, val: any);
+        constructor(name: string, val: string | number | Buffer | library.XML);
         /**
          * Initialization Constructor.
          *
@@ -2893,12 +3662,12 @@ declare namespace samchon.protocol {
          * @param type
          * @param val
          */
-        constructor(name: string, type: string, val: any);
+        constructor(name: string, type: string, val: string | number | Buffer | library.XML);
         /**
          * @inheritdoc
          */
         construct(xml: library.XML): void;
-        setValue(value: any): void;
+        setValue(value: number | string | library.XML): void;
         /**
          * @inheritdoc
          */
@@ -2950,171 +3719,32 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    abstract class Server {
-        abstract open(port: number): void;
-        abstract close(): void;
-        protected abstract addClient(clientDriver: IClientDriver): void;
-    }
-}
-declare namespace samchon.protocol {
-    class NormalCommunicator implements ICommunicator {
-        protected listener: IProtocol;
-        protected socket: socket.socket;
-        onClose: Function;
-        private data;
-        private content_size;
-        constructor();
-        close(): void;
-        protected start_listen(): void;
-        private listen_piece(piece);
-        private listen_header();
-        private listen_data();
-        replyData(invoke: Invoke): void;
-        sendData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol {
-    abstract class NormalServer extends Server {
-        private server;
+    interface IServer {
         open(port: number): void;
+        close(): void;
+        addClient(clientDriver: IClientDriver): void;
+    }
+}
+declare namespace samchon.protocol {
+    abstract class NormalServer implements IServer {
+        private server;
+        /**
+         * @inheritdoc
+         */
+        abstract addClient(driver: NormalClientDriver): void;
+        /**
+         * @inheritdoc
+         */
+        open(port: number): void;
+        /**
+         * @inheritdoc
+         */
         close(): void;
         private handle_connect(socket);
     }
 }
 declare namespace samchon.protocol {
-    class NormalClientDriver extends NormalCommunicator implements IClientDriver {
-        constructor(socket: socket.socket);
-        listen(listener: IProtocol): void;
-    }
-}
-declare namespace samchon.protocol {
-    class NormalServerConnector extends NormalCommunicator implements IServerConnector {
-        onConnect: Function;
-        constructor(listener: IProtocol);
-        connect(ip: string, port: number): void;
-        private handle_connect(...arg);
-    }
-}
-declare namespace samchon.protocol {
-    abstract class SharedWorkerServer extends Server {
-        open(): void;
-        close(): void;
-    }
-}
-declare namespace samchon.protocol {
-    class SharedWorkerClientDriver implements IClientDriver {
-        private listener;
-        onClose: Function;
-        listen(listener: IProtocol): void;
-        close(): void;
-        sendData(invoke: Invoke): void;
-        replyData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol {
-    class SharedWorkerConnector implements IServerConnector {
-        private listener;
-        private driver;
-        onConnect: Function;
-        onClose: Function;
-        constructor(listener: IProtocol);
-        connect(jsFile: string): void;
-        connect(jsFile: string, name: string): void;
-        close(): void;
-        sendData(invoke: Invoke): void;
-        replyData(invoke: Invoke): void;
-        private reply_message(event);
-    }
-}
-declare namespace samchon.protocol {
-    namespace socket {
-        type socket = any;
-        type server = any;
-        type http_server = any;
-    }
-    namespace websocket {
-        type connection = any;
-        type request = any;
-        type IMessage = any;
-        type ICookie = any;
-        type client = any;
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * <p> Base class for web-communicator, {@link WebClientDriver} and {@link WebServerConnector}. </p>
-     *
-     * <p> This class {@link WebCommunicatorBase} subrogates network communication for web-communicator classes,
-     * {@link WebClinetDriver} and {@link WebServerConnector}. The web-communicator and this class
-     * {@link WebCommunicatorBase} share same interface {@link IProtocol} and have a <b>chain of responsibily</b>
-     * relationship. </p>
-     *
-     * <p> When an {@link Invoke} message was delivered from the connected remote system, then this class calls
-     * web-communicator's {@link WebServerConnector.replyData replyData()} method. Also, when called web-communicator's
-     * {@link WebClientDriver.sendData sendData()}, then {@link sendData sendData()} of this class will be caleed. </p>
-     *
-     * <ul>
-     *	<li> this.replyData() -> communicator.replyData() </li>
-     *	<li> communicator.sendData() -> this.sendData() </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class WebCommunicator implements ICommunicator {
-        /**
-         * Communicator of web-socket.
-         */
-        protected listener: IProtocol;
-        /**
-         * Connection driver, a socket for web-socket.
-         */
-        protected connection: websocket.connection;
-        onClose: Function;
-        /**
-         * Initialization Constructor.
-         *
-         * @param communicator Communicator of web-socket.
-         * @param connection Connection driver, a socket for web-socket.
-         */
-        constructor();
-        /**
-         * Listen message from remoate system.
-         */
-        /**
-         * Close the connection.
-         */
-        close(): void;
-        /**
-         * <p> Handle raw-data received from the remote system. </p>
-         *
-         * <p> Queries raw-data received from the remote system. When the raw-data represents an formal {@link Invoke}
-         * message, then it will be sent to the {@link replyData}. </p>
-         *
-         * @param message A raw-data received from the remote system.
-         */
-        protected handle_message(message: websocket.IMessage): void;
-        protected handle_close(): void;
-        /**
-         * Reply {@link Invoke} message from the remote system. </p>
-         *
-         * <p> {@link WebCommunicator} delivers replied {@link Invoke} message from remote system to its parent class,
-         * {@link communicator}. </p>
-         *
-         * @param invoke An Invoke message replied from the remote system.
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * <p> Send message to the remote system. </p>
-         *
-         * {@link WebCommunicator}.{@link sendData} is called from its parent {@link communicator}'s sendData(). </p>
-         *
-         * @param invoke An Inovoke message to send to the remote system.
-         */
-        sendData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol {
-    abstract class WebServer extends Server {
+    abstract class WebServer implements IServer {
         /**
          * A server handler.
          */
@@ -3135,11 +3765,14 @@ declare namespace samchon.protocol {
          * @inheritdoc
          */
         open(port: number): void;
+        /**
+         * @inheritdoc
+         */
         close(): void;
         /**
          * @inheritdoc
          */
-        protected abstract addClient(driver: WebClientDriver): void;
+        abstract addClient(driver: WebClientDriver): void;
         /**
          * <p> Handle request from a client system. </p>
          *
@@ -3166,36 +3799,259 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class WebClientDriver extends WebCommunicator implements IClientDriver {
-        /**
-         * Requested path.
-         */
-        private path;
-        /**
-         * Session ID, an identifier of the remote client.
-         */
-        private session_id;
-        private listening_;
-        /**
-         * Initialization Constructor.
-         *
-         * @param connection Connection driver, a socket for web-socket.
-         * @param path Requested path.
-         * @param session_id Session ID, an identifier of the remote client.
-         */
-        constructor(connection: websocket.connection, path: string, session_id: string);
+    abstract class SharedWorkerServer implements IServer {
         /**
          * @inheritdoc
          */
-        listen(listener: IProtocol): void;
+        abstract addClient(driver: SharedWorkerClientDriver): void;
         /**
-         * Get requested path.
+         * @inheritdoc
          */
-        getPath(): string;
+        open(): void;
         /**
-         * Get session ID, an identifier of the remote client.
+         * @inheritdoc
          */
-        getSessionID(): string;
+        close(): void;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * <p> An interface for substitute server classes. </p>
+     *
+     * <p> {@link IServerBase} is an interface for substitue server classes who subrogate server's role. </p>
+     *
+     * <p> The easiest way to defining a server class is to extending one of them, who are derived from the
+     * {@link IServer}. </p>
+     *
+     * <ul>
+     *	<li> {@link NormalServer} </li>
+     *	<li> {@link WebServer} </li>
+     *	<li> {@link SharedWorkerServer} </li>
+     * </ul>
+     *
+     * <p> However, it is impossible (that is, if the class is already extending another class), you can instead implement
+     * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into the
+     * aggregated {@link IServerBase}. </p>
+     *
+     * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
+     * <ul>
+     *	<li>https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts</li>
+     * </ul>
+     *
+     * <code>
+    class MyServer extends Something implements IServer
+    {
+        private server_base: IServerBase = new WebServerBase(this);
+
+        public addClient(driver: WebClientDriver): void
+        {
+            // WHAT TO DO WHEN A CLIENT HAS CONNECTED
+        }
+
+        public open(port: number): void
+        {
+            this.server_base.open();
+        }
+        public close(): void
+        {
+            this.server_base.close();
+        }
+    }
+     * </code>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IServerBase extends IServer {
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * <p> A substitute {@link NormalServer}. </p>
+     *
+     * <p> {@link NormalServerBase} is a substitute class who subrogates {@link NormalServer}'s responsibility. </p>
+     *
+     * <p> The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
+     * {@link NormalServer}. However, it is impossible (that is, if the class is already extending another class), you can
+     * instead implement the {@link IServer} interface, create a {@link NormalServerBase} member, and write simple hooks
+     * to route calls into the aggregated {@link NormalServerBase}. </p>
+     *
+     * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
+     * <ul>
+     *	<li>https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts</li>
+     * </ul>
+     *
+     * <code>
+    class MyServer extends Something implements IServer
+    {
+        private server_base: NormalServerBase = new NormalServerBase(this);
+
+        public addClient(driver: NormalClientDriver): void
+        {
+            // WHAT TO DO WHEN A CLIENT HAS CONNECTED
+        }
+
+        public open(port: number): void
+        {
+            this.server_base.open();
+        }
+        public close(): void
+        {
+            this.server_base.close();
+        }
+    }
+     * </code>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class NormalServerBase extends NormalServer implements IServerBase {
+        private target;
+        constructor(target: IServer);
+        addClient(driver: IClientDriver): void;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * <p> A substitute {@link WebServer}. </p>
+     *
+     * <p> {@link WebServerBase} is a substitute class who subrogates {@link WebServer}'s responsibility. </p>
+     *
+     * <p> The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
+     * {@link WebServer}. However, it is impossible (that is, if the class is already extending another class), you can
+     * instead implement the {@link IServer} interface, create a {@link WebServerBase} member, and write simple hooks to
+     * route calls into the aggregated {@link WebServerBase}. </p>
+     *
+     * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
+     * <ul>
+     *	<li>https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts</li>
+     * </ul>
+     *
+     * <code>
+    class MyServer extends Something implements IServer
+    {
+        private server_base: WebServerBase = new WebServerBase(this);
+
+        public addClient(driver: WebClientDriver): void
+        {
+            // WHAT TO DO WHEN A CLIENT HAS CONNECTED
+        }
+
+        public open(port: number): void
+        {
+            this.server_base.open();
+        }
+        public close(): void
+        {
+            this.server_base.close();
+        }
+    }
+     * </code>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class WebServerBase extends WebServer implements IServerBase {
+        private target;
+        constructor(target: IServer);
+        addClient(driver: IClientDriver): void;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * <p> A substitute {@link SharedWorkerServer}. </p>
+     *
+     * <p> {@link SharedWorkerServerBase} is a substitute class who subrogates {@link SharedWorkerServer}'s
+     * responsibility. </p>
+     *
+     * <p> The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
+     * {@link SharedWorkerServer}. However, it is impossible (that is, if the class is already extending another class),
+     * you can instead implement the {@link IServer} interface, create a {@link SharedWorkerServerBase} member, and write
+     * simple hooks to route calls into the aggregated {@link SharedWorkerServerBase}. </p>
+     *
+     * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
+     * <ul>
+     *	<li>https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts</li>
+     * </ul>
+     *
+     * <code>
+    class MyServer extends Something implements IServer
+    {
+        private server_base: SharedWorkerServerBase = new SharedWorkerServerBase(this);
+
+        public addClient(driver: SharedWorkerClientDriver): void
+        {
+            // WHAT TO DO WHEN A CLIENT HAS CONNECTED
+        }
+
+        public open(port: number): void
+        {
+            this.server_base.open();
+        }
+        public close(): void
+        {
+            this.server_base.close();
+        }
+    }
+     * </code>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class SharedWorkerServerBase extends SharedWorkerServer implements IServerBase {
+        private target;
+        constructor(target: IServer);
+        addClient(driver: IClientDriver): void;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * <p> An interface for server connector. </p>
+     *
+     * <p> {@link IServerConnector} is an interface for server connector classes who ca connect to an external server
+     * as a client. </p>
+     *
+     * <p> Of course, {@link IServerConnector} is extended from the {@link ICommunicator}, thus, it also takes full
+     * charge of network communication and delivers replied message to {@link WebCommunicator.listener listener}'s
+     * {@link IProtocol.replyData replyData()} method. </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IServerConnector extends ICommunicator {
+        /**
+         * Callback function for connection completed.
+         */
+        onConnect: Function;
+        /**
+         * <p> Connect to a server. </p>
+         *
+         * <p> Connects to a server with specified <i>host</i> address and <i>port</i> number. After the connection has
+         * succeeded, callback function {@link onConnect} is called. Listening data from the connected server also begins.
+         * Replied messages from the connected server will be converted to {@link Invoke} classes and will be shifted to
+         * the {@link WebCommunicator.listener listener}'s {@link IProtocol.replyData replyData()} method. </p>
+         *
+         * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown: an error
+         * event is dispatched if a host was specified, and an exception is thrown if no host was specified. Otherwise,
+         * the status of the connection is reported by an event. If the socket is already connected, the existing
+         * connection is closed first. </p>
+         *
+         * @param host The name or IP address of the host to connect to.
+         *			   If no host is specified, the host that is contacted is the host where the calling file resides.
+         *			   If you do not specify a host, use an event listener to determine whether the connection was
+         *			   successful.
+         * @param port The port number to connect to.
+         */
+        connect(ip: string, port: number): void;
+    }
+}
+declare namespace samchon.protocol {
+    class NormalServerConnector extends NormalCommunicator implements IServerConnector {
+        /**
+         * @inheritdoc
+         */
+        onConnect: Function;
+        constructor(listener: IProtocol);
+        /**
+         * @inheritdoc
+         */
+        connect(ip: string, port: number): void;
+        private handle_connect(...arg);
     }
 }
 declare namespace samchon.protocol {
@@ -3217,6 +4073,9 @@ declare namespace samchon.protocol {
          * <p> Note that, {@link node_client} is only used in NodeJS environment. </p>
          */
         private node_client;
+        /**
+         * @inheritdoc
+         */
         onConnect: Function;
         constructor(listener: IProtocol);
         /**
@@ -3236,26 +4095,56 @@ declare namespace samchon.protocol {
         private handle_node_connect(connection);
     }
 }
-declare namespace samchon.protocol.external {
-    interface IExtServer extends Server {
+declare namespace samchon.protocol {
+    class SharedWorkerServerConnector implements IServerConnector {
+        private listener;
+        private worker;
+        private communicator_base;
+        /**
+         * @inheritdoc
+         */
+        onConnect: Function;
+        /**
+         * @inheritdoc
+         */
+        onClose: Function;
+        constructor(listener: IProtocol);
+        connect(jsFile: string): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+        private handle_message(event);
+        /**
+         * @inheritdoc
+         */
+        replyData(invoke: Invoke): void;
+        /**
+         * @inheritdoc
+         */
+        sendData(invoke: Invoke): void;
     }
-    class ExtNormalServerBase extends NormalServer implements IExtServer {
-        private system_array;
-        constructor(system_array: ExternalSystemArray);
-        protected addClient(driver: IClientDriver): void;
+}
+declare namespace samchon.protocol {
+    namespace socket {
+        type socket = NodeJS.net.Socket;
+        type server = NodeJS.net.Server;
+        type http_server = NodeJS.http.Server;
     }
-    class ExtWebServerBase extends WebServer implements IExtServer {
-        private system_array;
-        constructor(system_array: ExternalSystemArray);
-        protected addClient(driver: IClientDriver): void;
-    }
-    class ExtSharedWorkerServerBase extends SharedWorkerServer implements IExtServer {
-        private system_array;
-        constructor(system_array: ExternalSystemArray);
-        protected addClient(driver: IClientDriver): void;
+    namespace websocket {
+        type connection = __websocket.connection;
+        type request = __websocket.request;
+        type IMessage = __websocket.IMessage;
+        type ICookie = __websocket.ICookie;
+        type client = __websocket.client;
     }
 }
 declare namespace samchon.protocol.external {
+    /**
+     *
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
     abstract class ExternalSystemArray extends EntityArrayCollection<ExternalSystem> implements IProtocol {
         /**
          * Default Constructor.
@@ -3270,18 +4159,18 @@ declare namespace samchon.protocol.external {
     }
 }
 declare namespace samchon.protocol.external {
-    interface IExternalClientArray extends ExternalSystemArray {
+    interface IExternalClientArray extends ExternalSystemArray, IServer {
         open(port: number): void;
         close(): void;
     }
     abstract class ExternalClientArray extends ExternalSystemArray implements IExternalClientArray {
-        private server;
+        private server_base;
         /**
          * Default Constructor.
          */
         constructor();
-        protected abstract createServer(): IExtServer;
-        protected addClient(driver: IClientDriver): void;
+        protected abstract createServerBase(): IServerBase;
+        addClient(driver: IClientDriver): void;
         protected createChild(xml: library.XML): ExternalSystem;
         protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
         open(port: number): void;
@@ -3313,10 +4202,25 @@ declare namespace samchon.protocol.external {
     abstract class ExternalServer extends ExternalSystem implements IExternalServer {
         protected ip: string;
         protected port: number;
+        /**
+         * Default Constructor.
+         */
         constructor();
+        /**
+         * Factory method creating server connector.
+         */
         protected abstract createServerConnector(): IServerConnector;
+        /**
+         * @inheritdoc
+         */
         connect(): void;
+        /**
+         * @inheritdoc
+         */
         getIP(): string;
+        /**
+         * @inheritdoc
+         */
         getPort(): number;
     }
 }
@@ -3335,32 +4239,100 @@ declare namespace samchon.protocol.external {
 declare namespace samchon.protocol.external {
     interface IExternalServerClientArray extends IExternalServerArray, IExternalClientArray {
     }
-    abstract class ExternalServerClientArray extends ExternalSystemArray {
-        private server;
+    abstract class ExternalServerClientArray extends ExternalClientArray implements IExternalServerClientArray {
         /**
          * Default Constructor.
          */
         constructor();
-        protected abstract createServer(): IExtServer;
         protected createChild(xml: library.XML): ExternalSystem;
-        protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
         protected abstract createExternalServer(xml: library.XML): IExternalServer;
-        protected addClient(driver: IClientDriver): void;
-        open(port: number): void;
-        close(): void;
         connect(): void;
     }
 }
 declare namespace samchon.protocol.external {
+    /**
+     * <p> A role of an external system. </p>
+     *
+     * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}.
+     * Extends this class and writes some methods related to the role. </p>
+     *
+     * <p> <a href="http://samchon.github.io/framework/api/images/ts/protocol_external_system.png" target="_blank">
+     * <img src="http://samchon.github.io/framework/api/images/ts/protocol_external_system.png" style="max-width: 100%" />
+     * </a> </p>
+     *
+     * <h4> Proxy Pattern </h4>
+     * <p> This {@link ExternalSystemRole} class can be an <i>logical proxy</i>. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+     *
+     * <p? By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     * </ul>
+     * <ul>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link sendData sendData()}. Then, the message will be sent to the external system.
+     *	</li>
+     *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
     abstract class ExternalSystemRole extends Entity implements IProtocol {
+        /**
+         * An {@link ExternalSystem external system} containing this {@link ExternalSystemRole role}.
+         */
         private system;
+        /**
+         * <p> A name, represents and identifies this {@link ExternalSystemRole role}. </p>
+         *
+         * <p> This {@link name} is an identifier represents this {@link ExternalSystemRole role}. This {@link name} is
+         * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
+         * {@link name} should be unique in an {@link ExternalSystemArray}.
+         */
         private name;
+        /**
+         * Constructor from a system.
+         *
+         * @param system An external system containing this role.
+         */
         constructor(system: ExternalSystem);
+        /**
+         * Identifier of {@link ExternalSystemRole} is its {@link name}.
+         */
         key(): string;
+        /**
+         * Get external system, this role is belonged to.
+         */
         getSystem(): ExternalSystem;
+        /**
+         * Get name, who represents and identifies this role.
+         */
         getName(): string;
+        /**
+         * Send an {@link Invoke} message to the external system via {@link system}.
+         *
+         * @param invoke An {@link Invoke} message to send to the external system.
+         */
         sendData(invoke: Invoke): void;
+        /**
+         * <p> Handle replied {@link Invoke message} from the {@link system external system} belonged to. </p>
+         *
+         * <p> This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}.
+         * in the <i>invoke</i>. </p>
+         *
+         * @param invoke An {@link Invoke} message received from the {@link system external system}.
+         */
         replyData(invoke: Invoke): void;
+        /**
+         * @inheritdoc
+         */
         TAG(): string;
     }
 }
@@ -3373,32 +4345,57 @@ declare namespace samchon.protocol.slave {
         replyData(invoke: Invoke): void;
     }
 }
-declare namespace samchon.protocol.slave {
-    interface ISlaveServerBase extends Server {
-    }
-    class SlaveNormalServerBase extends NormalServer implements ISlaveServerBase {
-        private slave_system;
-        constructor(slave_system: SlaveSystem);
-        protected addClient(driver: IClientDriver): void;
-    }
-    class SlaveWebServerBase extends WebServer implements ISlaveServerBase {
-        private slave_system;
-        constructor(slave_system: SlaveSystem);
-        protected addClient(driver: IClientDriver): void;
-    }
-    class SlaveSharedWorkerServerBase extends SharedWorkerServer implements ISlaveServerBase {
-        private slave_system;
-        constructor(slave_system: SlaveSystem);
-        protected addClient(driver: IClientDriver): void;
-    }
-}
 declare namespace samchon.protocol.master {
     abstract class MediatorSystem extends slave.SlaveSystem {
         private system_array;
         private progress_list;
-        constructor(systemArray: ParallelSystemArray);
+        constructor(systemArray: external.ExternalSystemArray);
         abstract start(): void;
-        notifyEnd(uid: number): void;
+        protected createChild(xml: library.XML): external.ExternalSystemRole;
+        private notify_end(uid);
+        replyData(invoke: protocol.Invoke): void;
+    }
+}
+declare namespace samchon.protocol.master {
+    abstract class MediatorServer extends MediatorSystem implements IServer {
+        private server_base;
+        private port;
+        constructor(systemArray: external.ExternalSystemArray, port: number);
+        protected abstract createServerBase(): IServerBase;
+        addClient(driver: IClientDriver): void;
+        start(): void;
+        open(port: number): void;
+        close(): void;
+    }
+    class MediatorNormalServer extends MediatorServer {
+        protected createServerBase(): IServerBase;
+    }
+    class MediatorWebServer extends MediatorServer {
+        protected createServerBase(): IServerBase;
+    }
+    class MediatorSharedWorkerServer extends MediatorServer {
+        protected createServerBase(): IServerBase;
+    }
+}
+declare namespace samchon.protocol.master {
+    abstract class MediatorClient extends MediatorSystem implements external.IExternalServer {
+        protected ip: string;
+        protected port: number;
+        constructor(systemArray: external.ExternalSystemArray);
+        protected abstract createServerConnector(): IServerConnector;
+        getIP(): string;
+        getPort(): number;
+        start(): void;
+        connect(): void;
+    }
+    class MediatorNormalClient extends MediatorClient {
+        protected createServerConnector(): IServerConnector;
+    }
+    class MediatorWebClient extends MediatorClient {
+        protected createServerConnector(): IServerConnector;
+    }
+    class MediatorSharedWorkerClient extends MediatorClient {
+        protected createServerConnector(): IServerConnector;
     }
 }
 declare namespace samchon.protocol.master {
@@ -3425,19 +4422,48 @@ declare namespace samchon.protocol.master {
         constructor();
         sendSegmentData(invoke: Invoke, size: number): void;
         sendPieceData(invoke: Invoke, index: number, size: number): void;
-        private notify_end(history);
+        protected notify_end(history: PRInvokeHistory): boolean;
         private normalize_performance();
     }
 }
 declare namespace samchon.protocol.master {
     abstract class ParallelClientArray extends ParallelSystemArray implements external.IExternalClientArray {
-        private server;
+        private server_base;
         /**
          * Default Constructor.
          */
         constructor();
-        protected abstract createServer(): external.IExtServer;
-        protected addClient(driver: IClientDriver): void;
+        protected abstract createServerBase(): IServerBase;
+        addClient(driver: IClientDriver): void;
+        protected createChild(xml: library.XML): ParallelSystem;
+        protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
+        open(port: number): void;
+        close(): void;
+    }
+}
+declare namespace samchon.protocol.master {
+    abstract class ParallelSystemArrayMediator extends ParallelSystemArray {
+        private mediator;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        protected abstract createMediator(): MediatorSystem;
+        protected start_mediator(): void;
+        sendData(invoke: protocol.Invoke): void;
+        sendPieceData(invoke: protocol.Invoke, index: number, size: number): void;
+        protected notify_end(history: PRInvokeHistory): boolean;
+    }
+}
+declare namespace samchon.protocol.master {
+    abstract class ParallelClientArrayMediator extends ParallelSystemArrayMediator implements external.IExternalClientArray {
+        private server_base;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        protected abstract createServerBase(): IServerBase;
+        addClient(driver: IClientDriver): void;
         protected createChild(xml: library.XML): ParallelSystem;
         protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
         open(port: number): void;
@@ -3477,28 +4503,31 @@ declare namespace samchon.protocol.master {
     }
 }
 declare namespace samchon.protocol.master {
-    abstract class ParallelServerClientArray extends ParallelSystemArray implements external.IExternalServerClientArray {
-        private server;
-        /**
-         * Default Constructor.
-         */
+    abstract class ParallelServerArrayMediator extends ParallelSystemArrayMediator implements external.IExternalServerArray {
         constructor();
-        protected abstract createServer(): external.IExtServer;
-        protected createChild(xml: library.XML): ParallelSystem;
-        protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
-        protected abstract createExternalServer(xml: library.XML): IParallelServer;
-        protected addClient(driver: IClientDriver): void;
-        open(port: number): void;
-        close(): void;
         connect(): void;
     }
 }
 declare namespace samchon.protocol.master {
-    abstract class ParallelSystemArrayMediator extends ParallelSystemArray {
-        private mediator;
+    abstract class ParallelServerClientArray extends ParallelClientArray implements external.IExternalServerClientArray {
+        /**
+         * Default Constructor.
+         */
         constructor();
-        protected abstract createMediator(): MediatorSystem;
-        protected start_mediator(): void;
+        protected createChild(xml: library.XML): ParallelSystem;
+        protected abstract createExternalServer(xml: library.XML): IParallelServer;
+        connect(): void;
+    }
+}
+declare namespace samchon.protocol.master {
+    abstract class ParallelServerClientArrayMediator extends ParallelClientArrayMediator implements external.IExternalServerClientArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        protected createChild(xml: library.XML): ParallelSystem;
+        protected abstract createExternalServer(xml: library.XML): IParallelServer;
+        connect(): void;
     }
 }
 declare namespace samchon.protocol.service {
@@ -3533,7 +4562,7 @@ declare namespace samchon.protocol.service {
         get(account: string): User;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
-        protected addClient(driver: WebClientDriver): void;
+        addClient(driver: WebClientDriver): void;
         private erase_user(user);
     }
 }
@@ -3577,5 +4606,26 @@ declare namespace samchon.protocol.service {
         setAccount(id: string, authority: number): void;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
+    }
+}
+declare namespace samchon.protocol.slave {
+    abstract class SlaveClient extends SlaveSystem implements external.IExternalServer {
+        protected ip: string;
+        protected port: number;
+        constructor();
+        protected abstract createServerConnector(): IServerConnector;
+        getIP(): string;
+        getPort(): number;
+        connect(): void;
+    }
+}
+declare namespace samchon.protocol.slave {
+    abstract class SlaveServer extends SlaveSystem implements IServer {
+        private server_base;
+        constructor();
+        protected abstract createServerBase(): IServerBase;
+        addClient(driver: IClientDriver): void;
+        open(port: number): void;
+        close(): void;
     }
 }

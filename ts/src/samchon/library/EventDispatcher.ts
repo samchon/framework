@@ -137,6 +137,7 @@ namespace samchon.library
 		 * @param listener The listener function that processes the event. 
 		 *				 This function must accept an Event object as its only parameter and must return 
 		 *				 nothing.
+		 * @param thisArg The object to be used as the <b>this</b> object.
 		 */
 		addEventListener(type: string, listener: EventListener, thisArg: Object): void;
 
@@ -155,6 +156,7 @@ namespace samchon.library
 		 *
 		 * @param type The type of event.
 		 * @param listener The listener object to remove.
+		 * @param thisArg The object to be used as the <b>this</b> object.
 		 */
 		removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
 	}

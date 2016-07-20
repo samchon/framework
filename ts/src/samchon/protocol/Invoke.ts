@@ -61,7 +61,7 @@ namespace samchon.protocol
 		 * @param listener
 		 * @param parameters
 		 */
-		public constructor(listener: string, ...parameters: any[]);
+		public constructor(listener: string, ...parameters: Array<number|string|Buffer|library.XML>);
 
 		public constructor(...args: any[])
 		{
@@ -212,7 +212,7 @@ namespace samchon.protocol
 		/** 
 		 * <p> Value of the parameter. </p>
 		 */
-		protected value: any = null;
+		protected value: string | number | Buffer | library.XML = null;
 
 		/**
 		 * Default Constructor.
@@ -225,7 +225,7 @@ namespace samchon.protocol
 		 * @param name
 		 * @param val
 		 */
-		public constructor(name: string, val: any);
+		public constructor(name: string, val: string|number|Buffer|library.XML);
 
 		/**
 		 * Initialization Constructor.
@@ -234,7 +234,7 @@ namespace samchon.protocol
 		 * @param type
 		 * @param val
 		 */
-		public constructor(name: string, type: string, val: any);
+		public constructor(name: string, type: string, val: string|number|Buffer|library.XML);
 
 		/* -------------------------------------------------------------------
 			CONSTRUCTORS
@@ -277,7 +277,7 @@ namespace samchon.protocol
 				this.value = xml.getValue();
 		}
 
-		public setValue(value: any): void
+		public setValue(value: number | string | library.XML): void
 		{
 			this.value = value;
 		}
@@ -341,9 +341,9 @@ namespace samchon.protocol
 
 			// NOT CONSIDERED ABOUT THE BINARY DATA
 			if (this.type == "XML")
-				xml.push(this.value);
+				xml.push(this.value as library.XML);
 			else if (this.type != "ByteArray")
-				xml.setValue(this.value);
+				xml.setValue(this.value + "");
 
 			return xml;
 		}

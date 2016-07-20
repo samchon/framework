@@ -307,8 +307,7 @@ var example;
                 this.sendData(invoke);
                 // NOTIFY CHANGE TO ITS PARENT ROOM_LIST
                 let it = this.rooms.find(this.uid);
-                let refresh_event = new chat.collection.CollectionEvent("refresh", it, it.next());
-                this.rooms.dispatchEvent(refresh_event);
+                this.rooms.refresh(it);
             }
             sendData(invoke) {
                 // SEND DATA - TO ALL PARTICIPANTS

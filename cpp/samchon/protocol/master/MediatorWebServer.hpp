@@ -16,7 +16,7 @@ namespace master
 		public virtual WebServer
 	{
 	public:
-		MediatorWebServer(external::ExternalSystemArray *systemArray, int port);
+		MediatorWebServer(external::ExternalClientArray *systemArray, int port);
 		virtual ~MediatorWebServer();
 	};
 };

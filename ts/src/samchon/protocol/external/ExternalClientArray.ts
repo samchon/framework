@@ -5,10 +5,10 @@
 namespace samchon.protocol.external
 {
 	export interface IExternalClientArray
-		extends ExternalSystemArray
+		extends ExternalSystemArray,
+				IServer
 	{
 		open(port: number): void;
-
 		close(): void;
 	}
 
@@ -16,7 +16,7 @@ namespace samchon.protocol.external
 		extends ExternalSystemArray
 		implements IExternalClientArray
 	{
-		private server: IExtServer;
+		private server_base: IServerBase;
 
 		/* =========================================================
 			CONSTRUCTORS
@@ -31,14 +31,16 @@ namespace samchon.protocol.external
 		public constructor()
 		{
 			super();
+
+			this.server_base = null;
 		}
 
-		protected abstract createServer(): IExtServer;
+		protected abstract createServerBase(): IServerBase;
 
 		/* ---------------------------------------------------------
 			FACTORY METHOD FOR CHILDREN
 		--------------------------------------------------------- */
-		protected addClient(driver: IClientDriver): void
+		public addClient(driver: IClientDriver): void
 		{
 			let system: ExternalSystem = this.createExternalClient(driver);
 			if (system == null)
@@ -56,20 +58,21 @@ namespace samchon.protocol.external
 		protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
 
 		/* ---------------------------------------------------------
-			SERVER's METHOD
+			METHOD OF SERVER
 		--------------------------------------------------------- */
 		public open(port: number): void
 		{
-			this.server = this.createServer();
-			if (this.server == null)
+			this.server_base = this.createServerBase();
+			if (this.server_base == null)
 				return;
 
-			this.server.open(port);
+			this.server_base.open(port);
 		}
+
 		public close(): void
 		{
-			if (this.server != null)
-				this.server.close();
+			if (this.server_base != null)
+				this.server_base.close();
 		}
 	}
 }

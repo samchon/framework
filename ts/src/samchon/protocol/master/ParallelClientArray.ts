@@ -8,7 +8,7 @@ namespace samchon.protocol.master
 		extends ParallelSystemArray
 		implements external.IExternalClientArray
 	{
-		private server: external.IExtServer;
+		private server_base: IServerBase;
 
 		/* =========================================================
 			CONSTRUCTORS
@@ -25,12 +25,12 @@ namespace samchon.protocol.master
 			super();
 		}
 
-		protected abstract createServer(): external.IExtServer;
+		protected abstract createServerBase(): IServerBase;
 
 		/* ---------------------------------------------------------
 			FACTORY METHOD FOR CHILDREN
 		--------------------------------------------------------- */
-		protected addClient(driver: IClientDriver): void
+		public addClient(driver: IClientDriver): void
 		{
 			let system: ParallelSystem = this.createExternalClient(driver);
 			if (system == null)
@@ -52,16 +52,17 @@ namespace samchon.protocol.master
 		--------------------------------------------------------- */
 		public open(port: number): void
 		{
-			this.server = this.createServer();
-			if (this.server == null)
+			this.server_base = this.createServerBase();
+			if (this.server_base == null)
 				return;
 
-			this.server.open(port);
+			this.server_base.open(port);
 		}
+
 		public close(): void
 		{
-			if (this.server != null)
-				this.server.close();
+			if (this.server_base != null)
+				this.server_base.close();
 		}
 	}
 }

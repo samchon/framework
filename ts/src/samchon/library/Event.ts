@@ -3,12 +3,9 @@
 namespace samchon.library
 {
 	/**
-	 * An event class.
+	 * A basic event class of Samchon Framework.
 	 *
-	 * <ul>
-	 *  <li> Comments from - https://developer.mozilla.org/en-US/docs/Web/API/Event/ </li>
-	 * </ul>
-	 *
+	 * @reference https://developer.mozilla.org/en-US/docs/Web/API/Event
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class BasicEvent implements Event

@@ -12,6 +12,9 @@ namespace samchon.protocol.master
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor()
 		{
 			super();

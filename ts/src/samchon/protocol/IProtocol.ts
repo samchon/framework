@@ -31,7 +31,7 @@ namespace samchon.protocol
 		 * <p> Handling replied message. </p>
 		 * <p> Handles replied message or shifts the responsibility to chain. </p>
 		 *
-		 * @param invoke Replied invoke message 
+		 * @param invoke An {@link Invoke} message have received.
 		 */
 		sendData(invoke: Invoke): void;
 	}

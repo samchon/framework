@@ -61,7 +61,7 @@ namespace samchon.protocol
 		 * @param listener
 		 * @param parameters
 		 */
-		public constructor(listener: string, ...parameters: Array<number|string|Buffer|library.XML>);
+		public constructor(listener: string, ...parameters: Array<number|string|library.XML>);
 
 		public constructor(...args: any[])
 		{
@@ -212,7 +212,7 @@ namespace samchon.protocol
 		/** 
 		 * <p> Value of the parameter. </p>
 		 */
-		protected value: string | number | Buffer | library.XML = null;
+		protected value: string | number | library.XML = null;
 
 		/**
 		 * Default Constructor.
@@ -225,7 +225,7 @@ namespace samchon.protocol
 		 * @param name
 		 * @param val
 		 */
-		public constructor(name: string, val: string|number|Buffer|library.XML);
+		public constructor(name: string, val: string|number|library.XML);
 
 		/**
 		 * Initialization Constructor.
@@ -234,7 +234,7 @@ namespace samchon.protocol
 		 * @param type
 		 * @param val
 		 */
-		public constructor(name: string, type: string, val: string|number|Buffer|library.XML);
+		public constructor(name: string, type: string, val: string|number|library.XML);
 
 		/* -------------------------------------------------------------------
 			CONSTRUCTORS

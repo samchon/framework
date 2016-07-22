@@ -323,30 +323,6 @@ namespace samchon.library
 			MISCELLANEOUS
 		------------------------------------------------------------------ */
 		/**
-		 * <p> Get a tabbed string by specified size. </p>
-		 */
-		public static tab(size: number): string
-		{
-			let str: string = "";
-			for (let i: number = 0; i < size; i++)
-				str += "\t";
-
-			return str;
-		}
-
-		/**
-		 * <p> Get a tabbed HTLM string by specified size. </p>
-		 */
-		public static htmlTab(size: number): string
-		{
-			let str: string = "";
-			for (let i: number = 0; i < size; i++)
-				str += "&nbsp;&nbsp;&nbsp;&nbsp;";
-
-			return str;
-		}
-
-		/**
 		 * Replace all HTML spaces to a literal space.
 		 *
 		 * @param str Target string to replace.
@@ -360,6 +336,94 @@ namespace samchon.library
 					new std.Pair<string, string>("\t", " "),
 					new std.Pair<string, string>("  ", " ")
 				);
+		}
+
+		/**
+		 * <p> Repeat a string. </p>
+		 * 
+		 * <p> Returns a string consisting of a specified string concatenated with itself a specified number of times. </p>
+		 * 
+		 * @param str The string to be repeated.
+		 * @param n The repeat count.
+		 * 
+		 * @return The repeated string.
+		 */
+		public static repeat(str: string, n: number): string
+		{
+			let ret: string = "";
+			for (let i: number = 0; i < n; i++)
+				ret += str;
+
+			return ret;
+		}
+
+		/* ==================================================================
+			NUMBER FORMAT
+				- NUMBER
+				- PERCENT
+		=====================================================================
+			NUMBER
+		------------------------------------------------------------------ */
+		/**
+		 * <p> Number to formatted string with &quot;,&quot; sign. </p>
+		 * 
+		 * <p> Returns a string converted from the number rounded off from specified precision with &quot;,&quot; symbols. </p>
+		 * 
+		 * @param val A number wants to convert to string.
+		 * @param precision Target precision of round off.
+		 * 
+		 * @return A string who represents the number with roundoff and &quot;,&quot; symbols.
+		 */
+		public static numberFormat(val: number, precision: number = 2): string
+		{
+			let str: string = "";
+
+			if (precision < 0)
+			{
+				// WHEN numberFormat(12345, -2) COMES
+				val = Math.round(val * Math.pow(10, precision)); // Math.round(12345 * 10^-2 = 123)
+				val = val / Math.pow(10, precision); // 123 / 10^-2 = 12300
+			}
+			
+			// CHECK IS NEGATIVE
+			let is_negative: boolean = (val < 0);
+			val = Math.abs(val);
+
+			// PRECISION
+			if (precision > 0 && val != Math.floor(val))
+			{
+				let rounded: number = val - Math.floor(val);
+				rounded = Math.round(rounded * Math.pow(10, precision));
+
+				str += "." + rounded;
+			}
+
+			// NATURAL NUMBER
+			let cipher_count = Math.floor(Math.log(val) / Math.log(10)) + 1;
+
+			for (let i: number = 0; i < cipher_count; i++)
+			{
+				let cipher: number = Math.floor(val % Math.pow(10, i + 1));
+				cipher = Math.floor(cipher / Math.pow(10, i));
+
+				// PUSH FRONT TO THE STRING
+				str = cipher + str;
+
+				// IS MULTIPLIER OF 3
+				if ((i + 1) % 3 == 0 && i < cipher_count - 1)
+					str = "," + str;
+			}
+
+			// NEGATIVE SIGN
+			if (is_negative == true)
+				str = "-" + str;
+
+			return str;
+		}
+
+		public static percentFormat(val: number, precision: number = 2): string
+		{
+			return StringUtil.numberFormat(val * 100, precision) + " %";
 		}
 	}
 }

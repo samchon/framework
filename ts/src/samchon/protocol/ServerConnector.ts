@@ -39,10 +39,10 @@ namespace samchon.protocol
 		 * the status of the connection is reported by an event. If the socket is already connected, the existing 
 		 * connection is closed first. </p>
 		 * 
-		 * @param host The name or IP address of the host to connect to. 
-		 *			   If no host is specified, the host that is contacted is the host where the calling file resides. 
-		 *			   If you do not specify a host, use an event listener to determine whether the connection was 
-		 *			   successful.
+		 * @param ip The name or IP address of the host to connect to. 
+		 *			 If no host is specified, the host that is contacted is the host where the calling file resides. 
+		 *			 If you do not specify a host, use an event listener to determine whether the connection was 
+		 *			 successful.
 		 * @param port The port number to connect to.
 		 */
 		connect(ip: string, port: number): void;

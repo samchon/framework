@@ -31,11 +31,17 @@ namespace samchon.protocol.master
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * Get parent {@link systemArray}.
+		 */
 		public getSystemArray(): ParallelSystemArray
 		{
 			return this.systemArray;
 		}
 
+		/**
+		 * Get {@link performant performance index}.
+		 */
 		public getPerformance(): number
 		{
 			return this.performance;

@@ -4,5 +4,9 @@
 /// <reference path="../collection/ArrayCollection.ts" />
 /// <reference path="../protocol/Entity.ts" />
 
-if (samchon.is_node() == true)
+try
+{
+	// IF THE CONDITION BE IS_NODE(), THEN CANNOT BE USED IN BROWSERIFY
 	module.exports = samchon;
+} 
+catch (exception) { }

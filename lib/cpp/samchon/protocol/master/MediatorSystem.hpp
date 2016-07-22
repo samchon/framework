@@ -11,26 +11,31 @@ namespace protocol
 
 namespace external
 {
-	class ExternalSystemArray;
+	class ExternalClientArray;
 };
 namespace master
 {
 	class SAMCHON_FRAMEWORK_API MediatorSystem
 		: public virtual slave::SlaveSystem
 	{
+		friend class ParallelSystemArrayMediator;
+
 	private:
 		typedef slave::SlaveSystem super;
 
-		external::ExternalSystemArray *system_array;
+		external::ExternalClientArray *system_array;
 		HashMap<size_t, std::shared_ptr<InvokeHistory>> progress_list;
 
 	public:
-		MediatorSystem(external::ExternalSystemArray *systemArray);
+		MediatorSystem(external::ExternalClientArray *systemArray);
 		virtual ~MediatorSystem();
 
 		virtual void start() = 0;
 
-		void notifyEnd(size_t uid);
+		void replyData(std::shared_ptr<Invoke>) override;
+
+	private:
+		void notify_end(size_t uid);
 	};
 };
 };

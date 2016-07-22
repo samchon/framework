@@ -13,7 +13,7 @@ namespace master
 		: public MediatorClient
 	{
 	public:
-		MediatorWebClient(external::ExternalSystemArray *systemArray, const std::string &ip, int port);
+		MediatorWebClient(external::ExternalClientArray *systemArray, const std::string &ip, int port);
 		virtual ~MediatorWebClient();
 
 	protected:

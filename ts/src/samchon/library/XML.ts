@@ -701,7 +701,7 @@ namespace samchon.library
 		 */
 		public toString(level: number = 0): string
 		{
-			let str: string = StringUtil.tab(level) + "<" + this.tag;
+			let str: string = StringUtil.repeat("\t", level) + "<" + this.tag;
 			let childrenString: string = "";
 
 			//PROPERTIES
@@ -722,7 +722,7 @@ namespace samchon.library
 				for (let x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
 					str += x_it.second.toString(level + 1);
 			
-				str += StringUtil.tab(level) + "</" + this.tag + ">";
+				str += StringUtil.repeat("\t", level) + "</" + this.tag + ">";
 			}
 			return str;
 		}
@@ -732,7 +732,7 @@ namespace samchon.library
 		 */
 		public toHTML(level: number = 0): string
 		{
-			let str: string = StringUtil.htmlTab(level) + "&lt;" + this.tag;
+			let str: string = StringUtil.repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level) + "&lt;" + this.tag;
 			let childrenString: string = "";
 
 			//PROPERTIES
@@ -751,7 +751,7 @@ namespace samchon.library
 				for (let x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
 					str += x_it.second.toHTML(level + 1);
 
-				str += StringUtil.htmlTab(level) + "&lt;/" + this.tag + "&gt;";
+				str += StringUtil.repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level) + "&lt;/" + this.tag + "&gt;";
 			}
 			return str;
 		}
@@ -763,7 +763,7 @@ namespace samchon.library
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class XMLList
-		extends std.Vector<XML>
+		extends std.Deque<XML>
 	{
 		// using super::constructor
 

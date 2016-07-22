@@ -24,7 +24,7 @@ namespace samchon.protocol
 	 * 
 	 * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
 	 * <ul>
-	 *	<li>https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts</li>
+	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
 	 * </ul>
 	 * 
 	 * <code>
@@ -69,7 +69,7 @@ namespace samchon.protocol
 	 * 
 	 * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
 	 * <ul>
-	 *	<li>https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts</li>
+	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
 	 * </ul>
 	 * 
 	 * <code>
@@ -128,7 +128,7 @@ namespace samchon.protocol
 	 * 
 	 * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
 	 * <ul>
-	 *	<li>https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts</li>
+	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
 	 * </ul>
 	 * 
 	 * <code>
@@ -188,7 +188,7 @@ namespace samchon.protocol
 	 * 
 	 * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
 	 * <ul>
-	 *	<li>https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts</li>
+	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
 	 * </ul>
 	 * 
 	 * <code>

@@ -8,6 +8,9 @@ namespace samchon.protocol.master
 		extends ParallelSystemArray
 		implements external.IExternalClientArray
 	{
+		/**
+		 * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
+		 */
 		private server_base: IServerBase;
 
 		/* =========================================================
@@ -25,6 +28,22 @@ namespace samchon.protocol.master
 			super();
 		}
 
+		/**
+		 * <p> Factory method creating {@link IServerBase} object. </p>
+		 * 
+		 * <p> This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
+		 * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who 
+		 * may connect to {@link ExternalClientArray this server} must follow the specified protocol. </p>
+		 * 
+		 * <p> Creates and returns one of them: </p>
+		 * <ul>
+		 *	<li> {@link NormalServerBase} </li>
+		 *	<li> {@link WebServerBase} </li>
+		 *	<li> {@link SharedWorkerServerBase} </li>
+		 * </ul>
+		 * 
+		 * @return A new {@link IServerBase} object.
+		 */
 		protected abstract createServerBase(): IServerBase;
 
 		/* ---------------------------------------------------------
@@ -50,6 +69,9 @@ namespace samchon.protocol.master
 		/* ---------------------------------------------------------
 			SERVER's METHOD
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public open(port: number): void
 		{
 			this.server_base = this.createServerBase();
@@ -59,6 +81,9 @@ namespace samchon.protocol.master
 			this.server_base.open(port);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public close(): void
 		{
 			if (this.server_base != null)

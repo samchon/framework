@@ -69,11 +69,17 @@ namespace samchon.library
 		 * @param individual An initial set of genes; sequence listing.
 		 * @param population Size of population in a generation.
 		 * @param generation Size of generation in evolution.
+		 * @param compare A comparison function returns whether left gene is more optimal.
 		 * 
 		 * @return An evolved <i>GeneArray</i>, optimally.
+		 * 
+		 * @see {@link GAPopulation.compare}
 		 */
 		public evolveGeneArray<T, GeneArray extends std.base.IArrayContainer<T>>
-			(individual: GeneArray, population: number, generation: number): GeneArray
+			(
+				individual: GeneArray, population: number, generation: number, 
+				compare: (left: T, right: T) => boolean = std.greater
+			): GeneArray
 		{
 			let ga_population = new GAPopulation(individual, population);
 
@@ -87,9 +93,17 @@ namespace samchon.library
 		 * Evolve <i>population</i>, a mass of <i>GeneArraies</i>.
 		 * 
 		 * @param population An initial population.
+		 * @param compare A comparison function returns whether left gene is more optimal.
+		 * 
+		 * @return An evolved population.
+		 * 
+		 * @see {@link GAPopulation.compare}
 		 */
 		public evolvePopulation<T, GeneArray extends std.base.IArrayContainer<T>>
-			(population: GAPopulation<T, GeneArray>): GAPopulation<T, GeneArray>
+			(
+				population: GAPopulation<T, GeneArray>, 
+				compare: (left: T, right: T) => boolean = std.greater
+			): GAPopulation<T, GeneArray>
 		{
 			let size: number = population["children"].size();
 			let evolved = new GAPopulation<T, GeneArray>(size);
@@ -260,15 +274,88 @@ namespace samchon.library
 		}
 	}
 
+	/**
+	 * <p> A population in a generation. </p>
+	 * 
+	 * <p> {@link GAPopulation} is a class representing population of candidate genes (sequence listing) having an array 
+	 * of GeneArray as a member. {@link GAPopulation} also manages initial set of genes and handles fitting test direclty 
+	 * by the method {@link fitTest fitTest()}. </p>
+	 *
+	 * <p> The success of evolution of genetic algorithm is depend on the {@link GAPopulation}'s initial set and fitting 
+	 * test. (<i>GeneArray</i> and {@link compare}.) </p>
+	 * 
+	 * <h4> Warning </h4>
+	 * <p> Be careful for the mistakes of direction or position of the {@link compare}. </p>
+	 * <p> Most of logical errors failed to access optimal solution are occured from those mistakes. </p>
+	 * 
+	 * @param <T> Type of gene elements.
+	 * @param <GeneArray> An array containing genes as elments; sequnce listing.
+	 * 
+	 * @author Jeongho Nam <http://samcho.org>
+	 */
 	export class GAPopulation<T, GeneArray extends std.base.IArrayContainer<T>>
 	{
+		/**
+		 * Genes representing the population.
+		 */
 		private children: std.Vector<GeneArray>;
+
+		/**
+		 * <p> A comparison function returns whether left gene is more optimal, greater. </p>
+		 * 
+		 * <p> Default value of this {@link compare} is {@link std.greater}. It means to compare two array 
+		 * (GeneArray must be a type of {@link std.base.IArrayContainer}). Thus, you've to keep follwing rule. </p>
+		 *
+		 * <ul>
+		 *	<li> GeneArray is implemented from {@link std.base.IArrayContainer}. </li>
+		 *	<ul>
+		 *		<li> {@link std.Vector} </li>
+		 *		<li> {@link std.Deque} </li>
+		 *	</ul>
+		 *	<li> GeneArray has custom <code>public less(obj: T): boolean;</code> function. </li>
+		 * </ul>
+		 *
+		 * <p> If you don't want to follow the rule or want a custom comparison function, you have to realize a 
+		 * comparison function. </p>
+		 */
 		private compare: (left: GeneArray, right: GeneArray) => boolean;
 		
+		/**
+		 * <p> Private constructor with population. </p>
+		 * 
+		 * <p> Private constructor of GAPopulation does not create {@link children}. (candidate genes) but only assigns
+		 * <i>null</i> repeatedly following the <i>population size</i>. </p>
+		 * 
+		 * <p> This private constructor is designed only for {@link GeneticAlgorithm}. Don't create {@link GAPopulation}
+		 * with this constructor, by yourself. </p>
+		 * 
+		 * @param size Size of the population.
+		 */
 		public constructor(size: number);
 
+		/**
+		 * <p> Construct from a {@link GeneArray} and <i>size of the population</i>. </p>
+		 * 
+		 * <p> This public constructor creates <i>GeneArray(s)</i> as population (size) having shuffled genes which are 
+		 * came from the initial set of genes (<i>geneArray</i>). It uses {@link std.greater} as default comparison function. 
+		 * </p>
+		 * 
+		 * @param geneArray An initial sequence listing.
+		 * @param size The size of population to have as children.
+		 */
 		public constructor(geneArray: GeneArray, size: number);
 
+		/**
+		 * <p> Constructor from a GeneArray, size of the poluation and custom comparison function. </p>
+		 * 
+		 * <p> This public constructor creates <i>GeneArray(s)</i> as population (size) having shuffled genes which are
+		 * came from the initial set of genes (<i>geneArray</i>). The <i>compare</i> is used for comparison function. 
+		 * </p>
+		 * 
+		 * @param geneArray An initial sequence listing.
+		 * @param size The size of population to have as children.
+		 * @param compare A comparison function returns whether left gene is more optimal.
+		 */
 		public constructor(geneArray: GeneArray, size: number, compare: (left: GeneArray, right: GeneArray) => boolean);
 
 		public constructor(...args: any[])
@@ -282,7 +369,7 @@ namespace samchon.library
 			{
 				let geneArray: GeneArray = args[0];
 				let size: number = args[1];
-				let compare: (left: GeneArray, right: GeneArray) => boolean = (args.length == 2) ? std.less : args[2];
+				let compare: (left: GeneArray, right: GeneArray) => boolean = (args.length == 2) ? std.greater : args[2];
 
 				this.children = new std.Vector<GeneArray>();
 				this.children.length = args[1] as number;
@@ -303,6 +390,11 @@ namespace samchon.library
 			}
 		}
 
+		/**
+		 * Test fitness of each <i>GeneArray</i> in the {@link population}.
+		 * 
+		 * @return The best <i>GeneArray</i> in the {@link population}.
+		 */
 		public fitTest(): GeneArray
 		{
 			let best: GeneArray = this.children.front();
@@ -314,6 +406,9 @@ namespace samchon.library
 			return best;
 		}
 
+		/**
+		 * @hidden
+		 */
 		private clone(obj: GeneArray): GeneArray
 		{
 			var ret: GeneArray = obj.constructor();

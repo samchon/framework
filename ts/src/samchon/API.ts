@@ -11,7 +11,7 @@
  * system templates and even integration with C++ is possible. </p>
  * 
  * <p> The goal, ultimate utilization model of Samchon Framework is, building cloud system with NodeJS and 
- * take heavy works to C++ distributed systems with provided modules (system templates). </p>
+ * takING heavy works to C++ distributed systems with provided modules (those are system templates). </p>
  * 
  * @git https://github.com/samchon/framework
  * @author Jeongho Nam <http://samchon.org>
@@ -36,10 +36,12 @@ namespace samchon
 	}
 }
 
-if (samchon.is_node() == true)
+try
 {
+	// IF THE CONDITION BE IS_NODE(), THEN CANNOT BE USED IN BROWSERIFY
 	eval("var std = require('typescript-stl')");
 	eval("var http = require('http')");
 	eval("var websocket = require('websocket')");
 	eval("var net = require('net')");
 }
+catch (exception) { }

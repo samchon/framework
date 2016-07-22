@@ -28,6 +28,9 @@ namespace samchon.protocol.master
 		/* ---------------------------------------------------------
 			METHOD OF CLIENT
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public connect(): void
 		{
 			for (let i: number = 0; i < this.size(); i++)

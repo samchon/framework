@@ -10,28 +10,30 @@ namespace samchon.protocol.external
 	 * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}. 
 	 * Extends this class and writes some methods related to the role. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/framework/api/images/ts/protocol_external_system.png" target="_blank">
-	 * <img src="http://samchon.github.io/framework/api/images/ts/protocol_external_system.png" style="max-width: 100%" />
+	 * <p> <a href="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png" 
+	 *		  target="_blank">
+	 *	<img src="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png" 
+	 *		 style="max-width: 100%" />
 	 * </a> </p>
 	 * 
 	 * <h4> Proxy Pattern </h4>
-	 * <p> This {@link ExternalSystemRole} class can be an <i>logical proxy</i>. In framework within user, which 
+	 * <p> The {@link ExternalSystemRole} class can be an <i>logical proxy</i>. In framework within user, which 
 	 * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not 
 	 * important. Only interested in user's perspective is <i>which can be done</i>. </p> 
 	 * 
-	 * <p? By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged 
+	 * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged 
 	 * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}. 
 	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
 	 * 
 	 * <ul>
-	 *	<li> 
-	 *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring 
-	 *		from {ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-	 * </ul>
-	 * <ul>
+	 *	<li>
+	 *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+	 *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+	 *	</li>
 	 *	<li>
 	 *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-	 *		{@link sendData sendData()}. Then, the message will be sent to the external system.
+	 *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+	 *		external system.
 	 *	</li>
 	 *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
 	 * </ul>
@@ -127,7 +129,9 @@ namespace samchon.protocol.external
 			EXPORTERS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * Tag name of the {@link ExternalSytemRole} in {@link XML}.
+		 *
+		 * @return <i>role</i>.
 		 */
 		public TAG(): string
 		{

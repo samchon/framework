@@ -43,15 +43,6 @@
     <Filter Include="Header Files\library\utils">
       <UniqueIdentifier>{ce2c988a-fb6a-411d-95bb-588dfc52d835}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\library\utils\math">
-      <UniqueIdentifier>{ecb824e6-f3f4-4009-a922-dfcdab698402}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\utils\math\genetic algorithm">
-      <UniqueIdentifier>{3b42f71b-7c6f-4c65-84c5-1a7782e84149}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\utils\math\case generator">
-      <UniqueIdentifier>{1da2e867-3792-4fd6-8cb1-c43bc92abac7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\library\utils\string">
       <UniqueIdentifier>{2e2af994-b0b8-4fa7-a703-57ac927dc75f}</UniqueIdentifier>
     </Filter>
@@ -157,6 +148,15 @@
     <Filter Include="Source Files\protocol\master\parallel system\mediator">
       <UniqueIdentifier>{f2c00bba-91a4-4939-b85f-4a2248d8a96d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\library\math">
+      <UniqueIdentifier>{ecb824e6-f3f4-4009-a922-dfcdab698402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\math\genetic algorithm">
+      <UniqueIdentifier>{3b42f71b-7c6f-4c65-84c5-1a7782e84149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\math\case generator">
+      <UniqueIdentifier>{1da2e867-3792-4fd6-8cb1-c43bc92abac7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\ByteArray.hpp">
@@ -217,28 +217,28 @@
       <Filter>Header Files\library\data\common\critical section</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\GAParameters.hpp">
-      <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
+      <Filter>Header Files\library\math\genetic algorithm</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\GAPopulation.hpp">
-      <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
+      <Filter>Header Files\library\math\genetic algorithm</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\GeneticAlgorithm.hpp">
-      <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
+      <Filter>Header Files\library\math\genetic algorithm</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\Date.hpp">
       <Filter>Header Files\library\data\datetime</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CaseGenerator.hpp">
-      <Filter>Header Files\library\utils\math\case generator</Filter>
+      <Filter>Header Files\library\math\case generator</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CombinedPermutationGenerator.hpp">
-      <Filter>Header Files\library\utils\math\case generator</Filter>
+      <Filter>Header Files\library\math\case generator</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\FactorialGenerator.hpp">
-      <Filter>Header Files\library\utils\math\case generator</Filter>
+      <Filter>Header Files\library\math\case generator</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\PermutationGenerator.hpp">
-      <Filter>Header Files\library\utils\math\case generator</Filter>
+      <Filter>Header Files\library\math\case generator</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalAllocator.hpp">
       <Filter>Header Files\library\data\common\critical section</Filter>
@@ -247,7 +247,7 @@
       <Filter>Header Files\library\data\common</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\Math.hpp">
-      <Filter>Header Files\library\utils\math</Filter>
+      <Filter>Header Files\library\math</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\XML.hpp">
       <Filter>Header Files\library\data\xml</Filter>

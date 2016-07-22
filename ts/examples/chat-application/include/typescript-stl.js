@@ -8732,8 +8732,8 @@ var std;
      * <i>T2</i>). The individual values can be accessed through its public members {@link first} and
      * {@link second}. </p>
      *
-     * @param <K> Type of member {@link first}.
-     * @param <T> Type of member {@link second}.
+     * @param <T1> Type of member {@link first}.
+     * @param <T2> Type of member {@link second}.
      *
      * @reference http://www.cplusplus.com/reference/utility/pair
      * @author Jeongho Nam <http://samchon.org>
@@ -10907,17 +10907,9 @@ var std;
     var example;
     (function (example) {
         function test_all() {
-            //for (let key in std.example)
-            //	if (key != "test_all" && std.example[key] instanceof Function)
-            //		std.example[key]();
-            var vec1 = new std.Vector();
-            var vec2 = new std.Vector();
-            var fn1 = vec1.insert.bind(vec1);
-            var fn2 = vec1.insert.bind(vec1);
-            var fn3 = vec2.insert.bind(vec2);
-            console.log(fn1["__get_m_iUID"](), fn1["__get_m_iUID"]());
-            console.log(fn2["__get_m_iUID"]());
-            console.log(fn3["__get_m_iUID"]());
+            for (var key in std.example)
+                if (key != "test_all" && std.example[key] instanceof Function)
+                    std.example[key]();
         }
         example.test_all = test_all;
     })(example = std.example || (std.example = {}));
@@ -11141,5 +11133,7 @@ var std;
 /// <reference path="../../std/SystemError.ts" />
 /// <reference path="../../std/Utility.ts" />
 /// <reference path="../../std/example/test_all.ts" />
-if (std.is_node() == true)
+try {
     module.exports = std;
+}
+catch (exception) { }

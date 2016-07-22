@@ -4,6 +4,30 @@
 
 namespace samchon.collection
 {
+	/**
+	 * An {@link XMLList} who can detect element I/O events.
+	 * 
+	 * <p> Below are list of methods who are dispatching {@link CollectionEvent}: </p>
+	 * 
+	 * <ul>
+	 *	<li> <i>insert</i> typed events: <ul>
+	 *		<li> {@link assign} </li>
+	 *		<li> {@link insert} </li>
+	 *		<li> {@link push} </li>
+	 *		<li> {@link push_front} </li>
+	 *		<li> {@link push_back} </li>
+	 *	</ul></li>
+	 *	<li> <i>erase</i> typed events: <ul>
+	 *		<li> {@link assign} </li>
+	 *		<li> {@link clear} </li>
+	 *		<li> {@link erase} </li>
+	 *		<li> {@link pop_front} </li>
+	 *		<li> {@link pop_back} </li>
+	 *	</ul></li>
+	 * </ul>
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class XMLListCollection
 		extends library.XMLList
 		implements ICollection<library.XML>
@@ -51,12 +75,12 @@ namespace samchon.collection
 		/**
 		 * @hidden
 		 */
-		protected insert_by_repeating_val(position: std.VectorIterator<library.XML>, n: number, val: library.XML): std.VectorIterator<library.XML>
+		protected insert_by_repeating_val(position: std.DequeIterator<library.XML>, n: number, val: library.XML): std.DequeIterator<library.XML>
 		{
 			let ret = super.insert_by_repeating_val(position, n, val);
 
 			this.notify_insert(ret, ret.advance(n));
-			
+
 			return ret;
 		}
 
@@ -64,7 +88,7 @@ namespace samchon.collection
 		 * @hidden
 		 */
 		protected insert_by_range<U extends library.XML, InputIterator extends std.Iterator<U>>
-			(position: std.VectorIterator<library.XML>, begin: InputIterator, end: InputIterator): std.VectorIterator<library.XML>
+			(position: std.DequeIterator<library.XML>, begin: InputIterator, end: InputIterator): std.DequeIterator<library.XML>
 		{
 			let n: number = this.size();
 
@@ -85,14 +109,14 @@ namespace samchon.collection
 		public pop_back(): void
 		{
 			this.notify_erase(this.end().prev(), this.end());
-			
+
 			super.pop_back();
 		}
 
 		/**
 		 * @hidden
 		 */
-		protected erase_by_range(first: std.VectorIterator<library.XML>, last: std.VectorIterator<library.XML>): std.VectorIterator<library.XML>
+		protected erase_by_range(first: std.DequeIterator<library.XML>, last: std.DequeIterator<library.XML>): std.DequeIterator<library.XML>
 		{
 			this.notify_erase(first, last);
 
@@ -105,7 +129,7 @@ namespace samchon.collection
 		/**
 		 * @hidden
 		 */
-		private notify_insert(first: std.VectorIterator<library.XML>, last: std.VectorIterator<library.XML>): void
+		private notify_insert(first: std.DequeIterator<library.XML>, last: std.DequeIterator<library.XML>): void
 		{
 			if (this.hasEventListener(CollectionEvent.INSERT))
 				this.dispatchEvent(new CollectionEvent(CollectionEvent.INSERT, first, last));
@@ -114,7 +138,7 @@ namespace samchon.collection
 		/**
 		 * @hidden
 		 */
-		private notify_erase(first: std.VectorIterator<library.XML>, last: std.VectorIterator<library.XML>): void
+		private notify_erase(first: std.DequeIterator<library.XML>, last: std.DequeIterator<library.XML>): void
 		{
 			if (this.hasEventListener(CollectionEvent.ERASE))
 				this.dispatchEvent(new CollectionEvent(CollectionEvent.ERASE, first, last));
@@ -152,17 +176,17 @@ namespace samchon.collection
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(it: std.VectorIterator<library.XML>): void;
+		public refresh(it: std.DequeIterator<library.XML>): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(first: std.VectorIterator<library.XML>, last: std.VectorIterator<library.XML>): void;
+		public refresh(first: std.DequeIterator<library.XML>, last: std.DequeIterator<library.XML>): void;
 
 		public refresh(...args: any[]): void
 		{
-			let first: std.VectorIterator<library.XML>;
-			let last: std.VectorIterator<library.XML>;
+			let first: std.DequeIterator<library.XML>;
+			let last: std.DequeIterator<library.XML>;
 
 			if (args.length == 0)
 			{
@@ -190,11 +214,17 @@ namespace samchon.collection
 		 * @inheritdoc
 		 */
 		public addEventListener(type: string, listener: EventListener): void;
+		public addEventListener(type: "insert", listener: CollectionEventListener<library.XML>): void;
+		public addEventListener(type: "erase", listener: CollectionEventListener<library.XML>): void;
+		public addEventListener(type: "refresh", listener: CollectionEventListener<library.XML>): void;
 
 		/**
 		 * @inheritdoc
 		 */
 		public addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+		public addEventListener(type: "insert", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
+		public addEventListener(type: "erase", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
+		public addEventListener(type: "refresh", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
 
 		public addEventListener(type: string, listener: EventListener, thisArg: Object = null): void
 		{
@@ -208,73 +238,21 @@ namespace samchon.collection
 		 * @inheritdoc
 		 */
 		public removeEventListener(type: string, listener: EventListener): void;
+		public removeEventListener(type: "insert", listener: CollectionEventListener<library.XML>): void;
+		public removeEventListener(type: "erase", listener: CollectionEventListener<library.XML>): void;
+		public removeEventListener(type: "refresh", listener: CollectionEventListener<library.XML>): void;
 
 		/**
 		 * @inheritdoc
 		 */
 		public removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+		public removeEventListener(type: "insert", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
+		public removeEventListener(type: "erase", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
+		public removeEventListener(type: "refresh", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
 
 		public removeEventListener(type: string, listener: EventListener, thisArg: Object = null): void
 		{
 			this.event_dispatcher_.removeEventListener(type, listener, thisArg);
-		}
-
-		/* =========================================================
-			ARRAY'S MEMBERS
-				- INSERT
-				- ERASE
-		============================================================
-			INSERT
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public unshift<U extends library.XML>(...items: U[]): number
-		{
-			let ret = super.unshift(...items);
-
-			this.notify_insert(this.begin(), this.begin().advance(items.length));
-
-			return ret;
-		}
-
-		/* ---------------------------------------------------------
-			ERASE
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public pop(): library.XML
-		{
-			this.notify_erase(this.end().prev(), this.end());
-
-			return super.pop();
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public splice(start: number): library.XML[];
-		
-		/**
-		 * @inheritdoc
-		 */
-		public splice(start: number, deleteCount: number, ...items: library.XML[]): library.XML[];
-
-		public splice(start: number, deleteCount: number = this.size() - start, ...items: library.XML[]): library.XML[]
-		{
-			// FILTER
-			if (start + deleteCount > this.size())
-				deleteCount = this.size() - start;
-
-			// NOTIFY ERASE
-			let first = new std.VectorIterator<library.XML>(this, start);
-			let last = first.advance(deleteCount);
-
-			this.notify_erase(first, last);
-
-			// CALL SUPER::ERASE
-			return super.splice(start, deleteCount, ...items);
 		}
 	}
 }

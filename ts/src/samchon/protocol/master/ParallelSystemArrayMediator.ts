@@ -7,7 +7,7 @@ namespace samchon.protocol.master
 	export abstract class ParallelSystemArrayMediator
 		extends ParallelSystemArray
 	{
-		private mediator: MediatorSystem;
+		protected mediator: MediatorSystem;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

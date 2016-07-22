@@ -28,7 +28,7 @@ namespace samchon.protocol.master
 
 		public connect(): void
 		{
-			if (this.communicator == null)
+			if (this.communicator != null)
 				return;
 
 			this.communicator = this.createServerConnector();

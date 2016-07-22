@@ -133,6 +133,7 @@ namespace samchon.protocol
 			super();
 
 			this.listener = listener;
+
 			this.browser_socket = null;
 			this.node_client = null;
 

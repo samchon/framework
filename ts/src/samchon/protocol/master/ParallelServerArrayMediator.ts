@@ -24,6 +24,8 @@ namespace samchon.protocol.master
 			for (let i: number = 0; i < this.size(); i++)
 				if (this.at(i)["connect"] != undefined)
 					(this.at(i) as external.IExternalServer).connect();
+
+			this.start_mediator();
 		}
 	}
 }

@@ -17,6 +17,11 @@ namespace samchon.protocol.master
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Construct from a {@link ParallelSystemArray}
+		 * 
+		 * @param systemArray
+		 */
 		public constructor(systemArray: ParallelSystemArray)
 		{
 			super();
@@ -56,8 +61,8 @@ namespace samchon.protocol.master
 			let my_invoke: Invoke = new Invoke(invoke.getListener());
 			{
 				my_invoke.assign(invoke.begin(), invoke.end());
-				my_invoke.push_back(new InvokeParameter("index", index));
-				my_invoke.push_back(new InvokeParameter("size", size));
+				my_invoke.push_back(new InvokeParameter("piece_index", index));
+				my_invoke.push_back(new InvokeParameter("piece_size", size));
 			}
 
 			// REGISTER THE UID AS PROGRESS
@@ -65,7 +70,12 @@ namespace samchon.protocol.master
 			this.progress_list.insert([history.getUID(), history]);
 
 			// SEND DATA
-			this.sendData(invoke);
+			this.sendData(my_invoke);
+		}
+
+		public replyData(invoke: Invoke): void
+		{
+			super.replyData(invoke);
 		}
 
 		private report_invoke_history(xml: library.XML): void
@@ -77,8 +87,8 @@ namespace samchon.protocol.master
 			history.construct(xml);
 
 			let progress_it = this.progress_list.find(history.getUID());
-			history["index"] = progress_it.second.getIndex();
-			history["size"] = progress_it.second.getSize();
+			history["piece_index"] = progress_it.second.getIndex();
+			history["piece_size"] = progress_it.second.getSize();
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list.erase(progress_it);

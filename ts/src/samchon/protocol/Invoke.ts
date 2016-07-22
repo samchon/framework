@@ -7,7 +7,8 @@ namespace samchon.protocol
 {
 	/**
 	 * <p> Standard message of network I/O. </p>
-	 * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework. </p>
+	 * 
+	 * <p> {@link Invoke} is a class used in network I/O in protocol package of Samchon Framework. </p>
 	 *
 	 * <p> The Invoke message has an XML structure like the result screen of provided example in below. 
 	 * We can enjoy lots of benefits by the normalized and standardized message structure used in
@@ -19,8 +20,8 @@ namespace samchon.protocol
 	 * like a object (class) in OOD. And those relationships can be easily designed by using design
 	 * pattern. </p>
 	 *
-	 * <p> In Samchon Framework, you can make any type of network system with basic 3 + 1 componenets
-	 * (IProtocol, IServer and IClient + ServerConnector), by implemens or inherits them, like designing
+	 * <p> In Samchon Framework, you can make any type of network system with basic componenets
+	 * (IProtocol, IServer and ICommunicator) by implemens or inherits them, like designing
 	 * classes of S/W architecture. </p>
 	 *
 	 * @see IProtocol

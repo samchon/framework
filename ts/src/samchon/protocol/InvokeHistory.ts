@@ -26,7 +26,12 @@ namespace samchon.protocol
 		{
 			super();
 
-			if (invoke != null)
+			if (invoke == null)
+			{
+				this.uid = 0;
+				this.listener = "";
+			}
+			else
 			{
 				this.uid = invoke.get("invoke_history_uid").getValue();
 				this.listener = invoke.getListener();

@@ -121,9 +121,6 @@ namespace samchon.protocol.external
 		 */
 		public connect(): void
 		{
-			if (this.communicator == null)
-				return;
-
 			this.communicator = this.createServerConnector();
 			(this.communicator as IServerConnector).connect(this.ip, this.port);
 		}

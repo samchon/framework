@@ -12,8 +12,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>390074c3-3152-40eb-8900-b9fe17d5e869</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>
-    </StartupFile>
+    <StartupFile>chief.ts</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
     <SearchPath>
     </SearchPath>
@@ -45,15 +44,20 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="base\master.ts" />
+    <TypeScriptCompile Include="base\packer.ts" />
+    <TypeScriptCompile Include="base\slave.ts" />
     <TypeScriptCompile Include="chief.ts" />
     <TypeScriptCompile Include="packer-master.ts" />
     <TypeScriptCompile Include="packer-mediator.ts" />
     <TypeScriptCompile Include="packer-slave.ts" />
-    <TypeScriptCompile Include="packer.ts" />
     <TypeScriptCompile Include="reporter.ts" />
     <TypeScriptCompile Include="tsp-master.ts" />
     <TypeScriptCompile Include="tsp-slave.ts" />
-    <TypeScriptCompile Include="tsp.ts" />
+    <TypeScriptCompile Include="base\tsp.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="base\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

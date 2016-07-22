@@ -136,12 +136,12 @@ namespace samchon.protocol.master
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(systemArray: external.ExternalSystemArray)
+		public constructor(systemArray: external.ExternalSystemArray, ip: string, port: number)
 		{
 			super(systemArray);
 
-			this.ip = "";
-			this.port = 0;
+			this.ip = ip;
+			this.port = port;
 		}
 
 		protected abstract createServerConnector(): IServerConnector;
@@ -168,7 +168,7 @@ namespace samchon.protocol.master
 
 		public connect(): void
 		{
-			if (this.communicator == null)
+			if (this.communicator != null)
 				return;
 
 			this.communicator = this.createServerConnector();

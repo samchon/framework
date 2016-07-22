@@ -79,6 +79,7 @@ namespace samchon.protocol.master
 				return;
 
 			this.server_base.open(port);
+			this.start_mediator();
 		}
 
 		/**

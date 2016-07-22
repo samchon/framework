@@ -5,7 +5,10 @@ import std = require("typescript-stl");
 import samchon = require("samchon-framework");
 import scanf = require("scanf");
 
-namespace example.interaction
+import tsp = require("./base/tsp");
+import pack = require("./base/packer");
+
+namespace chief
 {
 	export import library = samchon.library;
 	export import protocol = samchon.protocol;
@@ -21,7 +24,7 @@ namespace example.interaction
 			super();
 		}
 		
-		protected createChild(xml: library.XML): external.IExternalServer
+		protected createChild(xml: library.XML): MasterSystem
 		{
 			return new MasterSystem(this);
 		}
@@ -29,12 +32,38 @@ namespace example.interaction
 		/* ---------------------------------------------------------
 			PROCEDURES -> SEND DATA & REPLY DATA
 		--------------------------------------------------------- */
-		private solve_pack(): void
+		public solveTSP(): void
 		{
-		}
+			let travel: tsp.Travel = new tsp.Travel();
+			for (let i: number = 0; i < 5; i++)
+				travel.push(new tsp.Branch((i+1) + "th branch", Math.random() * 90, Math.random() * 90));
 
-		private solve_tsp(): void
+			this.get("tsp").sendData(new protocol.Invoke("optimize", travel.toXML()));
+		}
+		
+		public solvePack(): void
 		{
+			let productArray: pack.ProductArray = new pack.ProductArray();
+			productArray.push
+			(
+				new pack.Product("Eraser", 500, 10, 70),
+				new pack.Product("Pencil", 400, 30, 35),
+				new pack.Product("Book", 8000, 150, 300),
+				new pack.Product("Drink", 1000, 75, 250),
+				new pack.Product("Umbrella", 4000, 200, 1000),
+				new pack.Product("Notebook-PC", 800000, 150, 850),
+				new pack.Product("Tablet-PC", 600000, 120, 450)
+			);
+
+			let packer: pack.Packer = new pack.Packer(productArray);
+			packer.push
+			(
+				new pack.WrapperArray(new pack.Wrapper("Large", 100, 200, 1000)),
+				new pack.WrapperArray(new pack.Wrapper("Medium", 70, 150, 500)),
+				new pack.WrapperArray(new pack.Wrapper("Small", 50, 100, 250))
+			);
+
+			this.get("packer").sendData(new protocol.Invoke("optimize", packer.toXML()));
 		}
 		
 		public replyData(invoke: protocol.Invoke): void
@@ -47,6 +76,12 @@ namespace example.interaction
 		--------------------------------------------------------- */
 		public static main(): void
 		{
+			console.log("Select what to do.");
+			console.log("	1. Solve TSP");
+			console.log("	2. Solve Packer");
+
+			let what_to_do: number = scanf("%d");
+			
 			///////
 			// CONSTRUCT CHIEF
 			///////
@@ -55,20 +90,28 @@ namespace example.interaction
 			{
 				// ADD MASTER SYSTEMS WITH THEIR IP ADDRESSES.
 				console.log("Insert IP addresses of external systems.");
-				console.log("	Reporter system: ");
-				chief.push_back(new MasterSystem(chief, "reporter", scanf("%s"), 37200));
-
+	
 				console.log("	TSP system: ");
-				chief.push_back(new MasterSystem(chief, "tsp", scanf("%s"), 37110));
+				chief.push_back(new MasterSystem(chief, "tsp", "127.0.0.1", 37110));
+
+				console.log("	Reporter system: ");
+				chief.push_back(new MasterSystem(chief, "reporter", "127.0.0.1", 37200));
 
 				console.log("	Packer system: ");
-				chief.push_back(new MasterSystem(chief, "packer", scanf("%s"), 37310));
+				chief.push_back(new MasterSystem(chief, "packer", "127.0.0.1", 37310));
 			}
 			chief.connect();
 
-			///////
-			// LISTEN ORDERS
-			///////
+			setTimeout
+			(
+				function (): void
+				{
+					if (what_to_do == 1)
+						chief.solveTSP();
+					else
+						chief.solvePack();
+				}, 3000
+			);
 		}
 	}
 
@@ -108,3 +151,5 @@ namespace example.interaction
 		}
 	}
 }
+
+chief.Chief.main();

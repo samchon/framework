@@ -6,7 +6,7 @@ namespace samchon.protocol.external
 {
 	/**
 	 * <p> An interface for an {@link ExternalSystemArray} accepts {@link ExternalSystem external clients} as a
-	 * {@link IServer}. </p>
+	 * {@link IServer server}. </p>
 	 * 
 	 * <p> The easiest way to defining an {@link ExternalSystemArray} who opens server and accepts 
 	 * {@link ExternalSystem external clients} is to extending one of below, who are derived from this interface 
@@ -21,11 +21,11 @@ namespace samchon.protocol.external
 	 *		   target="_blank"> View source code on GitHub </a>
 	 *	</li>
 	 *	<li> {@link ParallelClientArray}:
-	 *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedClientArray.ts"
+	 *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelClientArray.ts"
 	 *		   target="_blank"> View source code on GitHub </a>
 	 *	</li>
 	 *	<li> {@link DistributedClientArray}:
-	 *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelClientArray.ts"
+	 *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedClientArray.ts"
 	 *		   target="_blank"> View source code on GitHub </a>
 	 *	</li>
 	 * </ul>
@@ -39,7 +39,7 @@ namespace samchon.protocol.external
 	}
 
 	/**
-	 * <p> An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer}. </p>
+	 * <p> An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}. </p>
 	 * 
 	 * <p> {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers, 
 	 * {@link IExternalServer} objects, as a {@link IServer server}. </p>

@@ -5209,7 +5209,8 @@ var samchon;
     (function (protocol) {
         /**
          * <p> Standard message of network I/O. </p>
-         * <p> Invoke is a class used in network I/O in protocol package of Samchon Framework. </p>
+         *
+         * <p> {@link Invoke} is a class used in network I/O in protocol package of Samchon Framework. </p>
          *
          * <p> The Invoke message has an XML structure like the result screen of provided example in below.
          * We can enjoy lots of benefits by the normalized and standardized message structure used in
@@ -5221,8 +5222,8 @@ var samchon;
          * like a object (class) in OOD. And those relationships can be easily designed by using design
          * pattern. </p>
          *
-         * <p> In Samchon Framework, you can make any type of network system with basic 3 + 1 componenets
-         * (IProtocol, IServer and IClient + ServerConnector), by implemens or inherits them, like designing
+         * <p> In Samchon Framework, you can make any type of network system with basic componenets
+         * (IProtocol, IServer and ICommunicator) by implemens or inherits them, like designing
          * classes of S/W architecture. </p>
          *
          * @see IProtocol
@@ -5462,7 +5463,11 @@ var samchon;
             function InvokeHistory(invoke) {
                 if (invoke === void 0) { invoke = null; }
                 _super.call(this);
-                if (invoke != null) {
+                if (invoke == null) {
+                    this.uid = 0;
+                    this.listener = "";
+                }
+                else {
                     this.uid = invoke.get("invoke_history_uid").getValue();
                     this.listener = invoke.getListener();
                     this.startTime = new Date();
@@ -6137,7 +6142,7 @@ var samchon;
         var external;
         (function (external) {
             /**
-             * <p> An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer}. </p>
+             * <p> An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}. </p>
              *
              * <p> {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers,
              * {@link IExternalServer} objects, as a {@link IServer server}. </p>
@@ -6412,8 +6417,6 @@ var samchon;
                  * @inheritdoc
                  */
                 ExternalServer.prototype.connect = function () {
-                    if (this.communicator == null)
-                        return;
                     this.communicator = this.createServerConnector();
                     this.communicator.connect(this.ip, this.port);
                 };
@@ -6515,6 +6518,44 @@ var samchon;
     (function (protocol) {
         var external;
         (function (external) {
+            /**
+             * <p> An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a <b>client</b> and
+             * accepts {@link ExternalSystem external clients} as a {@link IServer server}. </p>
+             *
+             * <p> {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
+             * {@link IExternalServer} objects and accepts external client drivers {@link ExternalSyste} obejcts as a
+             * <b>client</b> and a {@link IServer server} at the same time. </p>
+             *
+             * <p> <a href="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+             *		  target="_blank">
+             *	<img src="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+             *		 style="max-width: 100%" />
+             * </a> </p>
+             *
+             * <h4> Proxy Pattern </h4>
+             * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
+             * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+             * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+             *
+             * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+             * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+             *
+             * <ul>
+             *	<li>
+             *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+             *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+             *	</li>
+             *	<li>
+             *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+             *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+             *		external system.
+             *	</li>
+             *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+             * </ul>
+             *
+             * @author Jeongho Nam <http://samchon.org>
+             */
             var ExternalServerClientArray = (function (_super) {
                 __extends(ExternalServerClientArray, _super);
                 /* ---------------------------------------------------------
@@ -6526,12 +6567,25 @@ var samchon;
                 function ExternalServerClientArray() {
                     _super.call(this);
                 }
+                /**
+                 * <p> Factory method of a child Entity. </p>
+                 *
+                 * <p> This method is migrated to {@link createExternalServer createExternalServer()}. Override the
+                 * {@link createExternalServer createExternalServer()}. </p>
+                 *
+                 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+                 *
+                 * @return A new child Entity via {@link createExternalServer createExternalServer()}.
+                 */
                 ExternalServerClientArray.prototype.createChild = function (xml) {
                     return this.createExternalServer(xml);
                 };
                 /* ---------------------------------------------------------
                     METHOD OF CLIENT
                 --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
                 ExternalServerClientArray.prototype.connect = function () {
                     for (var i = 0; i < this.size(); i++)
                         if (this.at(i)["connect"] != undefined)
@@ -6824,10 +6878,10 @@ var samchon;
                 /* ---------------------------------------------------------
                     CONSTRUCTORS
                 --------------------------------------------------------- */
-                function MediatorClient(systemArray) {
+                function MediatorClient(systemArray, ip, port) {
                     _super.call(this, systemArray);
-                    this.ip = "";
-                    this.port = 0;
+                    this.ip = ip;
+                    this.port = port;
                 }
                 /* ---------------------------------------------------------
                     ACCESSORS
@@ -6845,7 +6899,7 @@ var samchon;
                     this.connect();
                 };
                 MediatorClient.prototype.connect = function () {
-                    if (this.communicator == null)
+                    if (this.communicator != null)
                         return;
                     this.communicator = this.createServerConnector();
                     this.communicator.connect(this.ip, this.port);
@@ -6907,8 +6961,8 @@ var samchon;
                         this.size = 0;
                     }
                     else {
-                        this.index = invoke.get("index").getValue();
-                        this.size = invoke.get("size").getValue();
+                        this.index = invoke.get("piece_index").getValue();
+                        this.size = invoke.get("piece_size").getValue();
                     }
                 }
                 PRInvokeHistory.prototype.getIndex = function () {
@@ -7183,6 +7237,7 @@ var samchon;
                     if (this.server_base == null)
                         return;
                     this.server_base.open(port);
+                    this.start_mediator();
                 };
                 /**
                  * @inheritdoc
@@ -7210,6 +7265,11 @@ var samchon;
                 /* ---------------------------------------------------------
                     CONSTRUCTORS
                 --------------------------------------------------------- */
+                /**
+                 * Construct from a {@link ParallelSystemArray}
+                 *
+                 * @param systemArray
+                 */
                 function ParallelSystem(systemArray) {
                     _super.call(this);
                     this.systemArray = systemArray;
@@ -7240,14 +7300,17 @@ var samchon;
                     var my_invoke = new protocol.Invoke(invoke.getListener());
                     {
                         my_invoke.assign(invoke.begin(), invoke.end());
-                        my_invoke.push_back(new protocol.InvokeParameter("index", index));
-                        my_invoke.push_back(new protocol.InvokeParameter("size", size));
+                        my_invoke.push_back(new protocol.InvokeParameter("piece_index", index));
+                        my_invoke.push_back(new protocol.InvokeParameter("piece_size", size));
                     }
                     // REGISTER THE UID AS PROGRESS
                     var history = new master.PRInvokeHistory(my_invoke);
                     this.progress_list.insert([history.getUID(), history]);
                     // SEND DATA
-                    this.sendData(invoke);
+                    this.sendData(my_invoke);
+                };
+                ParallelSystem.prototype.replyData = function (invoke) {
+                    _super.prototype.replyData.call(this, invoke);
                 };
                 ParallelSystem.prototype.report_invoke_history = function (xml) {
                     ///////
@@ -7256,8 +7319,8 @@ var samchon;
                     var history = new master.PRInvokeHistory();
                     history.construct(xml);
                     var progress_it = this.progress_list.find(history.getUID());
-                    history["index"] = progress_it.second.getIndex();
-                    history["size"] = progress_it.second.getSize();
+                    history["piece_index"] = progress_it.second.getIndex();
+                    history["piece_size"] = progress_it.second.getSize();
                     // ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
                     this.progress_list.erase(progress_it);
                     this.history_list.insert([history.getUID(), history]);
@@ -7286,7 +7349,7 @@ var samchon;
                     this.port = 0;
                 }
                 ParallelServer.prototype.connect = function () {
-                    if (this.communicator == null)
+                    if (this.communicator != null)
                         return;
                     this.communicator = this.createServerConnector();
                     this.communicator.connect(this.ip, this.port);
@@ -7356,6 +7419,7 @@ var samchon;
                     for (var i = 0; i < this.size(); i++)
                         if (this.at(i)["connect"] != undefined)
                             this.at(i).connect();
+                    this.start_mediator();
                 };
                 return ParallelServerArrayMediator;
             }(master.ParallelSystemArrayMediator));
@@ -7738,26 +7802,15 @@ var samchon;
                 --------------------------------------------------------- */
                 function SlaveClient() {
                     _super.call(this);
-                    this.ip = "";
-                    this.port = 0;
                 }
-                /* ---------------------------------------------------------
-                    ACCESSORS
-                --------------------------------------------------------- */
-                SlaveClient.prototype.getIP = function () {
-                    return this.ip;
-                };
-                SlaveClient.prototype.getPort = function () {
-                    return this.port;
-                };
                 /* ---------------------------------------------------------
                     METHOD OF CONNECTOR
                 --------------------------------------------------------- */
-                SlaveClient.prototype.connect = function () {
-                    if (this.communicator == null)
+                SlaveClient.prototype.connect = function (ip, port) {
+                    if (this.communicator != null)
                         return;
                     this.communicator = this.createServerConnector();
-                    this.communicator.connect(this.ip, this.port);
+                    this.communicator.connect(ip, port);
                 };
                 return SlaveClient;
             }(slave.SlaveSystem));

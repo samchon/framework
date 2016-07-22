@@ -35,8 +35,8 @@ namespace samchon.protocol.master
 			}
 			else
 			{
-				this.index = invoke.get("index").getValue() as number;
-				this.size = invoke.get("size").getValue() as number;
+				this.index = invoke.get("piece_index").getValue() as number;
+				this.size = invoke.get("piece_size").getValue() as number;
 			}
 		}
 		

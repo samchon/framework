@@ -21,11 +21,11 @@ namespace samchon.protocol.external
 	 *		   target="_blank"> View source code on GitHub </a>
 	 *	</li>
 	 *	<li> {@link ParallelServerArray}:
-	 *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedServerArray.ts"
+	 *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelServerArray.ts"
 	 *		   target="_blank"> View source code on GitHub </a>
 	 *	</li>
 	 *	<li> {@link DistributedServerArray}:
-	 *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelServerArray.ts"
+	 *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedServerArray.ts"
 	 *		   target="_blank"> View source code on GitHub </a>
 	 *	</li>
 	 * </ul>

@@ -4281,9 +4281,9 @@ declare namespace samchon.protocol.external {
      *	</li>
      * </ul>
      *
-     * <p> <a href="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+     * <p> <a href="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
      *		  target="_blank">
-     *	<img src="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+     *	<img src="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
      *		 style="max-width: 100%" />
      * </a> </p>
      *
@@ -4395,9 +4395,9 @@ declare namespace samchon.protocol.external {
      * <p> {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers,
      * {@link IExternalServer} objects, as a {@link IServer server}. </p>
      *
-     * <p> <a href="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+     * <p> <a href="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
      *		  target="_blank">
-     *	<img src="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+     *	<img src="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
      *		 style="max-width: 100%" />
      * </a> </p>
      *
@@ -4708,9 +4708,9 @@ declare namespace samchon.protocol.external {
      * <p> {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
      * {@link IExternalServer} objects, as a <b>client</b>. </p>
      *
-     * <p> <a href="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+     * <p> <a href="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
      *		  target="_blank">
-     *	<img src="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+     *	<img src="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
      *		 style="max-width: 100%" />
      * </a> </p>
      *
@@ -4789,9 +4789,9 @@ declare namespace samchon.protocol.external {
      * {@link IExternalServer} objects and accepts external client drivers {@link ExternalSyste} obejcts as a
      * <b>client</b> and a {@link IServer server} at the same time. </p>
      *
-     * <p> <a href="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+     * <p> <a href="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
      *		  target="_blank">
-     *	<img src="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+     *	<img src="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
      *		 style="max-width: 100%" />
      * </a> </p>
      *
@@ -4856,9 +4856,9 @@ declare namespace samchon.protocol.external {
      * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}.
      * Extends this class and writes some methods related to the role. </p>
      *
-     * <p> <a href="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+     * <p> <a href="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
      *		  target="_blank">
-     *	<img src="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+     *	<img src="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
      *		 style="max-width: 100%" />
      * </a> </p>
      *

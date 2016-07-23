@@ -10,9 +10,9 @@ namespace samchon.protocol.external
 	 * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}. 
 	 * Extends this class and writes some methods related to the role. </p>
 	 * 
-	 * <p> <a href="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png" 
+	 * <p> <a href="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png" 
 	 *		  target="_blank">
-	 *	<img src="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png" 
+	 *	<img src="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png" 
 	 *		 style="max-width: 100%" />
 	 * </a> </p>
 	 * 

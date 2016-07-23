@@ -6,10 +6,9 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.0.0-alpha.4",
+  "version": "2.0.0-alpha.4-a",
 
   "main": "./lib/ts/samchon-framework.js",
-  "typings": "./lib/ts/samchon-framework.d.ts",
   "homepage": "http://samchon.org/framework",
   "repository": {
     "type": "git",

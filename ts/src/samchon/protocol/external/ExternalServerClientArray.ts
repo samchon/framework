@@ -46,9 +46,9 @@ namespace samchon.protocol.external
 	 * {@link IExternalServer} objects and accepts external client drivers {@link ExternalSyste} obejcts as a 
 	 * <b>client</b> and a {@link IServer server} at the same time. </p>
 	 *
-	 * <p> <a href="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+	 * <p> <a href="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
 	 *		  target="_blank">
-	 *	<img src="hhttp://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
+	 *	<img src="http://samchon.github.io/framework/api/ts/assets/images/design/protocol_external_system.png"
 	 *		 style="max-width: 100%" />
 	 * </a> </p>
 	 *

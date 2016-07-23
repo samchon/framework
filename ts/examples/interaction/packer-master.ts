@@ -7,7 +7,7 @@ import samchon = require("samchon-framework");
 import master = require("./base/master");
 import pack = require("./base/packer");
 
-namespace tsp_master
+namespace packer_master
 {
 	export import library = samchon.library;
 	export import protocol = samchon.protocol;
@@ -72,4 +72,4 @@ namespace tsp_master
 	}
 }
 
-tsp_master.PackerMaster.main();
+packer_master.PackerMaster.main();

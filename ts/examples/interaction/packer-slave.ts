@@ -25,7 +25,7 @@ namespace tsp_slave
 			packer.construct(xml);
 
 			// OPTIMIZE
-			packer.optimize();
+			packer.optimize(index, size);
 
 			// REPORT TO ITS MASTER
 			console.log("Report Packing optimization result: $" + packer.calcPrice());

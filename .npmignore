@@ -14,3 +14,4 @@ lib\flex
 
 *.bat
 *.*ignore
+*.d.ts

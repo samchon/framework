@@ -28,7 +28,7 @@ namespace tsp_slave
 			packer.optimize(index, size);
 
 			// REPORT TO ITS MASTER
-			console.log("Report Packing optimization result: $" + packer.calcPrice());
+			console.log("Report Packing optimization result: $" + packer.computePrice());
 
 			this.sendData(new protocol.Invoke("replyOptimization", packer.toXML()));
 		}

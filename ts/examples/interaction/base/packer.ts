@@ -429,7 +429,7 @@ namespace pack
 		}
 
 		/* --------------------------------------------------------------------
-			CALCULATORS
+			OPTIMIZERS
 		-------------------------------------------------------------------- */
 		public optimize(): void;
 		public optimize(start: number, size: number): void;
@@ -473,27 +473,37 @@ namespace pack
 				for (var j: number = 0; j < packer.length; j++)
 					packer[j].optimize();
 
-				if (minPacker == null || packer.calcPrice() < minPacker.calcPrice())
+				if (minPacker == null || packer.computePrice() < minPacker.computePrice())
 					minPacker = packer;
 			}
 
 			//REPLACE TO MIN_PACKER
 			this.splice(0, this.length);
+			if (minPacker == null)
+				return;
 
 			for (var i: number = 0; i < minPacker.length; i++)
 				this.push(minPacker[i]);
 		}
 
+		/* --------------------------------------------------------------------
+			ACCESORS
+		-------------------------------------------------------------------- */
 		/**
 		 * <p> Calculate price of the wrappers. </p>
 		 */
-		public calcPrice(): number
+		public computePrice(): number
 		{
 			var price: number = 0;
 			for (var i: number = 0; i < this.length; i++)
 				price += this[i].calcPrice();
 
 			return price;
+		}
+
+		public getProductArray(): ProductArray
+		{
+			return this.productArray;
 		}
 
 		/* --------------------------------------------------------------------
@@ -511,7 +521,7 @@ namespace pack
 		public toXML(): library.XML
 		{
 			var xml: library.XML = super.toXML();
-			xml.setProperty("price", this.calcPrice() + "");
+			xml.setProperty("price", this.computePrice() + "");
 			xml.push(this.productArray.toXML());
 
 			return xml;
@@ -540,7 +550,7 @@ namespace pack
 			);
 
 			packer.optimize();
-			console.log("$" + packer.calcPrice());
+			console.log("$" + packer.computePrice());
 			console.log(packer.toXML().toString());
 		}
 	}

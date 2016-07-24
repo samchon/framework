@@ -11,6 +11,7 @@ ts\
 
 lib\cpp
 lib\flex
+lib\ts\typings
 
 *.bat
 *.*ignore

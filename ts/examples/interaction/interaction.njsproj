@@ -12,7 +12,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>390074c3-3152-40eb-8900-b9fe17d5e869</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>chief.ts</StartupFile>
+    <StartupFile>packer-slave.ts</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
     <SearchPath>
     </SearchPath>

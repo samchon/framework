@@ -37,7 +37,7 @@ namespace reporter
 			let packer: pack.Packer = new pack.Packer();
 			packer.construct(xml);
 
-			console.log("The best packing solution: $" + packer.calcPrice());
+			console.log("The best packing solution: $" + packer.computePrice());
 		}
 
 		public static main(): void

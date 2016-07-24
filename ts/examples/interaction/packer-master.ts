@@ -25,8 +25,6 @@ namespace packer_master
 
 		protected optimize(xml: library.XML): void
 		{
-			console.log("Start Packer optimization");
-
 			let packer = new pack.Packer();
 			{
 				packer.construct(xml);
@@ -37,9 +35,10 @@ namespace packer_master
 			}
 
 			let invoke: protocol.Invoke = new protocol.Invoke("optimize", packer.toXML());
-			let case_size: number = new library.FactorialGenerator(packer.size()).size();
-
-			this.sendSegmentData(invoke, case_size);
+			let piece_size: number = new library.CombinedPermutationGenerator(packer.size(), packer.getProductArray().size()).size();
+		
+			console.log("Start Packer optimization: #" + piece_size);
+			this.sendSegmentData(invoke, piece_size);
 		}
 
 		protected replyOptimization(xml: library.XML): void
@@ -47,10 +46,10 @@ namespace packer_master
 			let my_travel: pack.Packer = new pack.Packer();
 			my_travel.construct(xml);
 
-			console.log("A slave has finished his optimization: $" + my_travel.calcPrice());
+			console.log("A slave has finished his optimization: $" + my_travel.computePrice());
 
 			// IF CURRENT TRAVEL IS SHORTER, MAKE IT THE BEST
-			if (this.best_packer.calcPrice() == 0 || my_travel.calcPrice() < this.best_packer.calcPrice())
+			if (this.best_packer.computePrice() == 0 || my_travel.computePrice() < this.best_packer.computePrice())
 			{
 				console.log("The slave renewed the best solution");
 				this.best_packer = my_travel;

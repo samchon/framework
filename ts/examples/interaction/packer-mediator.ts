@@ -59,10 +59,10 @@ namespace packer_mediator
 			let my_travel: pack.Packer = new pack.Packer();
 			my_travel.construct(xml);
 
-			console.log("A slave has finished his optimization: $" + my_travel.calcPrice());
+			console.log("A slave has finished his optimization: $" + my_travel.computePrice());
 
 			// IF CURRENT TRAVEL IS SHORTER, MAKE IT THE BEST
-			if (this.best_packer == null || my_travel.calcPrice() < this.best_packer.calcPrice())
+			if (this.best_packer == null || my_travel.computePrice() < this.best_packer.computePrice())
 			{
 				console.log("The slave renewed the best solution");
 				this.best_packer = my_travel;

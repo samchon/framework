@@ -3836,7 +3836,7 @@ declare namespace samchon.protocol {
         getListener(): string;
         getStartTime(): Date;
         getEndTime(): Date;
-        getElapsedTime(): number;
+        computeElapsedTime(): number;
         TAG(): string;
         toXML(): library.XML;
         toInvoke(): Invoke;
@@ -4311,11 +4311,23 @@ declare namespace samchon.protocol.external {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ExternalSystemArray extends EntityDequeCollection<ExternalSystem> implements IProtocol {
+    abstract class ExternalSystemArray extends EntityArrayCollection<ExternalSystem> implements IProtocol {
         /**
          * Default Constructor.
          */
         constructor();
+        /**
+         * @hidden
+         */
+        private handle_system_insert(event);
+        /**
+         * @hidden
+         */
+        private handle_system_erase(event);
+        /**
+         * @hidden
+         */
+        protected handle_system_close(system: ExternalSystem): void;
         /**
          * Test whether this system array has the role.
          *
@@ -4512,6 +4524,9 @@ declare namespace samchon.protocol.external {
         /**
          * A network communicator with external system.
          */
+        /**
+         * A network communicator with external system.
+         */
         protected communicator: ICommunicator;
         /**
          * The name represents external system have connected.
@@ -4522,6 +4537,16 @@ declare namespace samchon.protocol.external {
          */
         constructor();
         /**
+         * Construct from an IClientDriver object.
+         *
+         * @param driver
+         */
+        constructor(driver: IClientDriver);
+        /**
+         * Default Destructor.
+         */
+        destructor(): void;
+        /**
          * Identifier of {@link ExternalSystem} is its {@link name}.
          */
         key(): string;
@@ -4529,6 +4554,7 @@ declare namespace samchon.protocol.external {
          * Get {@link name}.
          */
         getName(): string;
+        close(): void;
         /**
          * Send {@link Invoke} message to external system.
          *
@@ -4553,6 +4579,30 @@ declare namespace samchon.protocol.external {
          * @return <i>role</i>.
          */
         CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+        /**
+         * @hidden
+         */
+        private communicator_;
+        /**
+         * @hidden
+         */
+        private external_system_array_;
+        /**
+         * @hidden
+         */
+        private erasing_;
+        /**
+         * @hidden
+         */
+        private external_system_array;
+        /**
+         * @hidden
+         */
+        private handle_close();
     }
 }
 declare namespace samchon.protocol.external {
@@ -5138,7 +5188,7 @@ declare namespace samchon.protocol.master {
          *
          * @param systemArray
          */
-        constructor(systemArray: ParallelSystemArray);
+        constructor(systemArray: ParallelSystemArray, communicator?: ICommunicator);
         /**
          * Get parent {@link systemArray}.
          */
@@ -5148,7 +5198,6 @@ declare namespace samchon.protocol.master {
          */
         getPerformance(): number;
         private send_piece_data(invoke, index, size);
-        replyData(invoke: Invoke): void;
         private report_invoke_history(xml);
     }
 }
@@ -5209,7 +5258,7 @@ declare namespace samchon.protocol.service {
         private driver;
         private no;
         /**
-         * Default Constructor.
+         * Construct from an User and WebClientDriver.
          */
         constructor(user: User, driver: WebClientDriver);
         protected abstract createService(path: string): Service;
@@ -5267,7 +5316,7 @@ declare namespace samchon.protocol.service {
         private account_id;
         private authority;
         /**
-         * Default Constructor.
+         * Construct from a Server.
          */
         constructor(server: Server);
         protected abstract createClient(driver: WebClientDriver): Client;

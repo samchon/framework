@@ -52,7 +52,7 @@ namespace samchon.protocol.external
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class ExternalSystemArray
-		extends EntityDequeCollection<ExternalSystem>
+		extends EntityArrayCollection<ExternalSystem>
 		implements IProtocol
 	{
 		/* ---------------------------------------------------------
@@ -64,6 +64,48 @@ namespace samchon.protocol.external
 		public constructor()
 		{
 			super();
+			
+			this.addEventListener("erase", this.handle_system_erase, this);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private handle_system_insert(event: collection.CollectionEvent<ExternalSystem>): void
+		{
+			for (let it = event.first; !it.equal_to(event.last); it = it.next())
+				it.value["external_system_array"] = this;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private handle_system_erase(event: collection.CollectionEvent<ExternalSystem>): void
+		{
+			for (let it = event.first; !it.equal_to(event.last); it = it.next())
+			{
+				if (it.value["erasing_"] == true)
+					continue;
+
+				it.value["erasing_"] = true;
+				it.value.close();
+				it.value.destructor();
+			}
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected handle_system_close(system: ExternalSystem): void
+		{
+			if (system["erasing_"] == true)
+				return;
+
+			system["erasing_"] = true;
+			system.close();
+			system.destructor();
+
+			std.remove(this.begin(), this.end(), system);
 		}
 
 		/* ---------------------------------------------------------

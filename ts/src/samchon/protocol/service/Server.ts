@@ -99,9 +99,7 @@ namespace samchon.protocol.service
 			///////
 			// START COMMUNICATION
 			///////
-			if (driver["listening_"] == false)
-				driver.listen(client);
-
+			// CLOSE HANDLER
 			driver.onClose = function (): void
 			{
 				// WHEN DISCONNECTED, THEN ERASE THE CLIENT.
@@ -112,6 +110,11 @@ namespace samchon.protocol.service
 				if (client["service"] != null)
 					client["service"].destructor();
 			}
+
+			// PRECAUTION FOR IDIOTS
+			client["driver"] = driver;
+			if (client["listening_"] == false)
+				driver.listen(client);
 		}
 
 		private erase_user(user: User): void

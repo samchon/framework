@@ -1,5 +1,7 @@
 ﻿/// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
 /// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+
+/// <reference path="../typings/node/node.d.ts" />
 /// <reference path="../typings/scanf/scanf.d.ts" />
 
 import std = require("typescript-stl");
@@ -35,11 +37,19 @@ namespace tsp_slave
 
 		public static main(): void
 		{
-			console.log("Master's IP address: ");
-			let ip: string = scanf("%s");
+			let ip: string;
+			let port: number;
 
-			console.log("Master's Port number (master: #37300, mediator: #37350): ");
-			let port: number = scanf("%d");
+			if (process.argv.length == 4)
+				[ip, port] = [process.argv[2], Number(process.argv[3])];
+			else
+			{
+				console.log("Master's IP address: ");
+				ip = scanf("%s");
+
+				console.log("Master's Port number (master: #37300, mediator: #37350): ");
+				port = scanf("%d");
+			}
 
 			let slave: PackerSlave = new PackerSlave();
 			slave.connect(ip, port);
@@ -47,4 +57,4 @@ namespace tsp_slave
 	}
 }
 
-tsp_slave.PackerSlave.main();
+new tsp_slave.PackerSlave.main();

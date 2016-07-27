@@ -14,7 +14,7 @@ namespace samchon.protocol.service
 			CONSTRUCTORS
 		------------------------------------------------------------------ */
 		/**
-		 * Default Constructor.
+		 * Construct from an User and WebClientDriver.
 		 */
 		public constructor(user: User, driver: WebClientDriver)
 		{

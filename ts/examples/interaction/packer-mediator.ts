@@ -1,6 +1,9 @@
 ﻿/// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
 /// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
 
+/// <reference path="../typings/node/node.d.ts" />
+/// <reference path="../typings/scanf/scanf.d.ts" />
+
 import std = require("typescript-stl");
 import samchon = require("samchon-framework");
 import scanf = require("scanf");
@@ -21,11 +24,11 @@ namespace packer_mediator
 		private requested_size: number;
 		private completed_count: number;
 
-		public constructor(masterIP: string)
+		public constructor(master_ip: string)
 		{
 			super();
 
-			this.master_ip = masterIP;
+			this.master_ip = master_ip;
 		}
 
 		protected createServerBase(): protocol.IServerBase
@@ -78,13 +81,20 @@ namespace packer_mediator
 
 		public static main(): void
 		{
-			console.log("Master's IP address: ");
-			let ip: string = scanf("%s");
+			let master_ip: string;
 
-			let mediator = new PackerMediator(ip);
+			if (process.argv.length == 3)
+				master_ip = process.argv[2];
+			else
+			{
+				console.log("Master's IP address: ");
+				master_ip = scanf("%s");
+			}
+
+			let mediator: PackerMediator = new PackerMediator(master_ip);
 			mediator.open(37350);
 		}
 	}
 }
 
-packer_mediator.PackerMediator.main();
+new packer_mediator.PackerMediator.main();

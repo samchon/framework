@@ -127,11 +127,10 @@ namespace samchon.protocol.external
 			if (system == null)
 				return;
 
+			// SOME IDIOTS FORGOT TO ENROLLING THIS COMMUNICATOR
 			if (system["communicator"] == null)
-			{
 				system["communicator"] = driver;
-				driver.listen(system);
-			}
+
 			this.push_back(system);
 		}
 

@@ -22,15 +22,20 @@ namespace samchon.protocol.master
 		 * 
 		 * @param systemArray
 		 */
-		public constructor(systemArray: ParallelSystemArray)
+		public constructor(systemArray: ParallelSystemArray, communicator: ICommunicator = null)
 		{
 			super();
 
+			// BASIC MEMBERS
 			this.systemArray = systemArray;
-			this.performance = 1.0;
 
+			// PERFORMANCE INDEX
+			this.performance = 1.0;
 			this.progress_list = new std.HashMap<number, PRInvokeHistory>();
 			this.history_list = new std.HashMap<number, PRInvokeHistory>();
+
+			// BACKGROUNDS
+			this.communicator = communicator;
 		}
 
 		/* ---------------------------------------------------------
@@ -73,11 +78,6 @@ namespace samchon.protocol.master
 			this.sendData(my_invoke);
 		}
 
-		public replyData(invoke: Invoke): void
-		{
-			super.replyData(invoke);
-		}
-
 		private report_invoke_history(xml: library.XML): void
 		{
 			///////
@@ -87,8 +87,8 @@ namespace samchon.protocol.master
 			history.construct(xml);
 
 			let progress_it = this.progress_list.find(history.getUID());
-			history["piece_index"] = progress_it.second.getIndex();
-			history["piece_size"] = progress_it.second.getSize();
+			history["index"] = progress_it.second.getIndex();
+			history["size"] = progress_it.second.getSize();
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list.erase(progress_it);

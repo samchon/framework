@@ -1,4 +1,6 @@
 ﻿/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+
+/// <reference path="../typings/node/node.d.ts" />
 /// <reference path="../typings/scanf/scanf.d.ts" />
 
 import std = require("typescript-stl");
@@ -22,6 +24,35 @@ namespace chief
 		public constructor()
 		{
 			super();
+			{
+				let tsp_ip: string;
+				let reporter_ip: string;
+				let packer_ip: string;
+
+				if (process.argv.length == 5)
+					[tsp_ip, reporter_ip, packer_ip] = [process.argv[2], process.argv[3], process.argv[4]];
+				else
+				{
+					console.log("Insert IP addresses of external systems.");
+					console.log("	TSP system: ");
+						tsp_ip = scanf("%s");
+
+					console.log("	Reporter system: ");
+						reporter_ip = scanf("%s");
+
+					console.log("	Packer system: ");
+						packer_ip = scanf("%s");
+				}
+
+				// ADD MASTER SYSTEMS WITH THEIR IP ADDRESSES.
+				this.push_back(new MasterSystem(this, "tsp", tsp_ip, 37110));
+				this.push_back(new MasterSystem(this, "reporter", reporter_ip, 37200));
+				this.push_back(new MasterSystem(this, "packer", packer_ip, 37310));
+			}
+			this.connect();
+
+			this.print_menu();
+			process.stdin.on("data", this.handle_stdin.bind(this));
 		}
 		
 		protected createChild(xml: library.XML): MasterSystem
@@ -32,10 +63,30 @@ namespace chief
 		/* ---------------------------------------------------------
 			PROCEDURES -> SEND DATA & REPLY DATA
 		--------------------------------------------------------- */
+		private print_menu(): void
+		{
+			process.stdout.write("\x1B[2J\x1B[0f"); // CLEAR CONSOLE
+
+			console.log("Select what to do.");
+			console.log("	1. Solve TSP");
+			console.log("	2. Solve Packer");
+		}
+
+		private handle_stdin(input: Buffer): void
+		{
+			let no: number = Number(input.toString());
+			if (no == 1)
+				this.solveTSP();
+			else if (no == 2)
+				this.solvePack();
+
+			this.print_menu();
+		}
+
 		public solveTSP(): void
 		{
 			let travel: tsp.Travel = new tsp.Travel();
-			for (let i: number = 0; i < 5; i++)
+			for (let i: number = 0; i < 9; i++)
 				travel.push(new tsp.Branch((i+1) + "th branch", Math.random() * 90, Math.random() * 90));
 
 			this.get("tsp").sendData(new protocol.Invoke("optimize", travel.toXML()));
@@ -69,49 +120,6 @@ namespace chief
 		public replyData(invoke: protocol.Invoke): void
 		{
 			this.get("reporter").sendData(invoke);
-		}
-
-		/* ---------------------------------------------------------
-			START APPLICATION
-		--------------------------------------------------------- */
-		public static main(): void
-		{
-			console.log("Select what to do.");
-			console.log("	1. Solve TSP");
-			console.log("	2. Solve Packer");
-
-			let what_to_do: number = scanf("%d");
-			
-			///////
-			// CONSTRUCT CHIEF
-			///////
-			// CREATE CHIEF
-			let chief: Chief = new Chief();
-			{
-				// ADD MASTER SYSTEMS WITH THEIR IP ADDRESSES.
-				console.log("Insert IP addresses of external systems.");
-	
-				console.log("	TSP system: ");
-				chief.push_back(new MasterSystem(chief, "tsp", "127.0.0.1", 37110));
-
-				console.log("	Reporter system: ");
-				chief.push_back(new MasterSystem(chief, "reporter", "127.0.0.1", 37200));
-
-				console.log("	Packer system: ");
-				chief.push_back(new MasterSystem(chief, "packer", "127.0.0.1", 37310));
-			}
-			chief.connect();
-
-			setTimeout
-			(
-				function (): void
-				{
-					if (what_to_do == 1)
-						chief.solveTSP();
-					else
-						chief.solvePack();
-				}, 3000
-			);
 		}
 	}
 
@@ -152,4 +160,4 @@ namespace chief
 	}
 }
 
-chief.Chief.main();
+new chief.Chief();

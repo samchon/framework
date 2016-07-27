@@ -102,8 +102,14 @@ namespace samchon.protocol.external
 		public connect(): void
 		{
 			for (let i: number = 0; i < this.size(); i++)
-				if (this.at(i)["connect"] != undefined)
-					(this.at(i) as IExternalServer).connect();
+			{
+				let system: ExternalSystem = this.at(i);
+				if (system["connect"] == undefined)
+					continue;
+
+				(system as IExternalServer).connect();
+				system["communicator"].onClose = this.handle_system_close.bind(this, system);
+			}
 		}
 	}
 }

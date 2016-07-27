@@ -115,8 +115,7 @@ namespace example.chat
 		--------------------------------------------------------- */
 		public sendData(invoke: protocol.Invoke): void
 		{
-			console.log("SENT DATA: ");
-			console.log(invoke.toXML().toString() + "\n");
+			console.log("SENT DATA: " + invoke.getListener());
 
 			super.sendData(invoke);
 		}
@@ -134,8 +133,7 @@ namespace example.chat
 		--------------------------------------------------------- */
 		public replyData(invoke: protocol.Invoke): void
 		{
-			console.log("REPLIED DATA: ");
-			console.log(invoke.toXML().toString() + "\n");
+			console.log("REPLIED DATA: " + invoke.getListener());
 			
 			super.replyData(invoke);
 		}

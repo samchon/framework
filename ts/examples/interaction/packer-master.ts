@@ -59,7 +59,7 @@ namespace packer_master
 			if (++this.completed_count == this.requested_size)
 			{
 				console.log("An optimization has fully finished");
-				this.chiefDriver.sendData(new protocol.Invoke("reportPacker", this.best_packer.toXML()));
+				this.chiefDriver.sendData(new protocol.Invoke("printPacker", this.best_packer.toXML()));
 			}
 		}
 

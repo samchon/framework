@@ -81,9 +81,9 @@ namespace samchon.protocol
 			return this.endTime;
 		}
 
-		public getElapsedTime(): number
+		public computeElapsedTime(): number
 		{
-			return this.endTime.getTime() - this.startTime.getTime();
+			return Math.max(this.endTime.getTime() - this.startTime.getTime(), 1);
 		}
 
 		/* ---------------------------------------------------------

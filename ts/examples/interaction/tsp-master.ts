@@ -21,6 +21,8 @@ namespace tsp_master
 		public constructor()
 		{
 			super(37110);
+			
+			this.open(37100);
 		}
 
 		protected optimize(xml: library.XML): void
@@ -60,16 +62,10 @@ namespace tsp_master
 			if (++this.completed_count == this.requested_size)
 			{
 				console.log("An optimization has fully finished");
-				this.chiefDriver.sendData(new protocol.Invoke("reportTSP", this.best_travel.toXML()));
+				this.chiefDriver.sendData(new protocol.Invoke("printTSP", this.best_travel.toXML()));
 			}
-		}
-
-		public static main(): void
-		{
-			let master = new TSPMaster();
-			master.open(37100);
 		}
 	}
 }
 
-tsp_master.TSPMaster.main();
+new tsp_master.TSPMaster();

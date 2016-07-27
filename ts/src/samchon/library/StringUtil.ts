@@ -401,17 +401,20 @@ namespace samchon.library
 			// NATURAL NUMBER
 			let cipher_count = Math.floor(Math.log(val) / Math.log(10)) + 1;
 
-			for (let i: number = 0; i < cipher_count; i++)
+			for (let i: number = 0; i <= cipher_count; i++)
 			{
 				let cipher: number = Math.floor(val % Math.pow(10, i + 1));
 				cipher = Math.floor(cipher / Math.pow(10, i));
 
-				// PUSH FRONT TO THE STRING
-				str = cipher + str;
+				if (i == cipher_count && cipher == 0)
+					continue;
 
 				// IS MULTIPLIER OF 3
-				if ((i + 1) % 3 == 0 && i < cipher_count - 1)
+				if (i > 0 && i % 3 == 0)
 					str = "," + str;
+
+				// PUSH FRONT TO THE STRING
+				str = cipher + str;
 			}
 
 			// NEGATIVE SIGN

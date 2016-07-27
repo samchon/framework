@@ -23,7 +23,7 @@ namespace samchon.protocol.service
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		/**
-		 * Default Constructor.
+		 * Construct from a Server.
 		 */
 		public constructor(server: Server)
 		{
@@ -57,6 +57,7 @@ namespace samchon.protocol.service
 		{
 			return this.server;
 		}
+
 		public getAccountID(): string
 		{
 			return this.account_id;

@@ -55,7 +55,7 @@ namespace samchon.protocol.master
 
 			// ALL THE SUB-TASKS ARE DONE?
 			for (let i: number = 0; i < this.size(); i++)
-				if (this.at(i)["progress_list"].has(uid) == false)
+				if (this.at(i)["progress_list"].has(uid) == true)
 					return false;
 
 			///////
@@ -63,7 +63,7 @@ namespace samchon.protocol.master
 			///////
 			// CONSTRUCT BASIC DATA
 			let system_pairs = new std.Vector<std.Pair<ParallelSystem, number>>();
-			let performance_index_avergae: number = 0.0;
+			let performance_index_averge: number = 0.0;
 
 			for (let i: number = 0; i < this.size(); i++)
 			{
@@ -72,20 +72,25 @@ namespace samchon.protocol.master
 					continue;
 
 				let my_history: PRInvokeHistory = system["history_list"].get(uid);
-				let performance_index: number = my_history.getSize() / my_history.getElapsedTime();
+				let performance_index: number = my_history.getSize() / my_history.computeElapsedTime();
 
 				system_pairs.push_back(std.make_pair(system, performance_index));
-				performance_index_avergae += performance_index;
+				performance_index_averge += performance_index;
 			}
-			performance_index_avergae /= system_pairs.size();
+			performance_index_averge /= system_pairs.size();
 
 			// RE-CALCULATE PERFORMANCE INDEX
 			for (let i: number = 0; i < system_pairs.size(); i++)
 			{
 				let system: ParallelSystem = system_pairs.at(i).first;
-				let new_performance: number = system_pairs.at(i).second / performance_index_avergae;
+				let new_performance: number = system_pairs.at(i).second / performance_index_averge;
 
-				let ordinary_ratio: number = Math.max(0.3, 1.0 / (system["history_list"].size() - 1.0));
+				let ordinary_ratio: number;
+				if (system["history_list"].size() < 2)
+					ordinary_ratio = .3;
+				else
+					ordinary_ratio = Math.min(0.7, 1.0 / (system["history_list"].size() - 1.0));
+				
 				system["performance"] = (system["performance"] * ordinary_ratio) + (new_performance * (1 - ordinary_ratio));
 			}
 			this.normalize_performance();
@@ -99,12 +104,12 @@ namespace samchon.protocol.master
 			let average: number = 0.0;
 
 			for (let i: number = 0; i < this.size(); i++)
-				average += this.at(i)["performance"];
+				average += (this.at(i) as ParallelSystem).getPerformance();
 			average /= this.size();
 
 			// DIVIDE FROM THE AVERAGE
 			for (let i: number = 0; i < this.size(); i++)
-				this.at(i)["performance"] /= average;
+				(this.at(i) as ParallelSystem)["performance"] /= average;
 		}
 	}
 }

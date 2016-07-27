@@ -76,6 +76,11 @@ namespace master
 	export class SlaveDriver
 		extends protocol.master.ParallelSystem
 	{
+		public destructor(): void
+		{
+			console.log("A slave has left");
+		}
+
 		protected createChild(xml: library.XML): protocol.external.ExternalSystemRole
 		{
 			// DO NOT CREATE CHILDREN, EXTERNAL_SYSTEM_ROLE

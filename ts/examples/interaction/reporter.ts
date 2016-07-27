@@ -25,14 +25,14 @@ namespace reporter
 			invoke.apply(this);
 		}
 
-		private reportTSP(xml: library.XML): void
+		private printTSP(xml: library.XML): void
 		{
 			let travel: tsp.Travel = new tsp.Travel();
 			travel.construct(xml);
 
 			console.log("The best travel: " + travel.computeDistance() + " km");
 		}
-		private reportPacker(xml: library.XML): void
+		private printPacker(xml: library.XML): void
 		{
 			let packer: pack.Packer = new pack.Packer();
 			packer.construct(xml);

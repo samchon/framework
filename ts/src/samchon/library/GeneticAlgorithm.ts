@@ -138,7 +138,7 @@ namespace samchon.library
 		 * <ol>
 		 *	<li>
 		 *		The fitness function is evaluated for each individual, providing fitness values, which are then 
-		 *		normalized. Normalization means dividing the fitness value of each individual by the sum of all fitness 
+		 *		normalized. ization means dividing the fitness value of each individual by the sum of all fitness 
 		 *		values, so that the sum of all resulting fitness values equals 1.
 		 *	</li>
 		 *	<li> The population is sorted by descending fitness values. </li>

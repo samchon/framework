@@ -53,8 +53,8 @@ namespace samchon.protocol
 {
 	declare var net: typeof NodeJS.net;
 
-	export class NormalServerConnector
-		extends NormalCommunicator
+	export class ServerConnector
+		extends Communicator
 		implements IServerConnector
 	{
 		/**
@@ -237,7 +237,7 @@ namespace samchon.protocol
 		private listener: IProtocol;
 
 		private worker: any; //SharedWorker;
-		private communicator_base: NormalCommunicatorBase;
+		private communicator_base: CommunicatorBase;
 
 		/**
 		 * @inheritdoc

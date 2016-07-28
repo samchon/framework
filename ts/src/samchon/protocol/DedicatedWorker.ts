@@ -5,14 +5,14 @@ namespace samchon.protocol
 	export abstract class DedicatedWorker
 		implements IProtocol
 	{
-		private communicator_base: NormalCommunicatorBase;
+		private communicator_base: CommunicatorBase;
 
 		/**
 		 * Default Constructor.
 		 */
 		public constructor()
 		{
-			this.communicator_base = new NormalCommunicatorBase(this);
+			this.communicator_base = new CommunicatorBase(this);
 			onmessage = this.handle_message.bind(this);
 		}
 
@@ -46,7 +46,7 @@ namespace samchon.protocol
 		private listener: IProtocol;
 
 		private worker: Worker;
-		private communicator_base: NormalCommunicatorBase;
+		private communicator_base: CommunicatorBase;
 
 		/**
 		 * @inheritdoc
@@ -61,7 +61,7 @@ namespace samchon.protocol
 		public constructor(listener: IProtocol)
 		{
 			this.listener = listener;
-			this.communicator_base = new NormalCommunicatorBase(this);
+			this.communicator_base = new CommunicatorBase(this);
 
 			this.worker = null;
 			this.onConnect = null;

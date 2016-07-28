@@ -2480,7 +2480,7 @@ declare namespace samchon.library {
          * <ol>
          *	<li>
          *		The fitness function is evaluated for each individual, providing fitness values, which are then
-         *		normalized. Normalization means dividing the fitness value of each individual by the sum of all fitness
+         *		normalized. ization means dividing the fitness value of each individual by the sum of all fitness
          *		values, so that the sum of all resulting fitness values equals 1.
          *	</li>
          *	<li> The population is sorted by descending fitness values. </li>
@@ -2968,7 +2968,7 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class NormalCommunicatorBase {
+    class CommunicatorBase {
         protected communicator: IProtocol;
         private data;
         private content_size;
@@ -3005,7 +3005,7 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class NormalCommunicator implements ICommunicator {
+    class Communicator implements ICommunicator {
         private communicator_base;
         protected listener: IProtocol;
         protected socket: socket.socket;
@@ -3114,7 +3114,7 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class NormalClientDriver extends NormalCommunicator implements IClientDriver {
+    class ClientDriver extends Communicator implements IClientDriver {
         constructor(socket: socket.socket);
         /**
          * @inheritdoc
@@ -3850,12 +3850,12 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    abstract class NormalServer implements IServer {
+    abstract class Server implements IServer {
         private server;
         /**
          * @inheritdoc
          */
-        abstract addClient(driver: NormalClientDriver): void;
+        abstract addClient(driver: ClientDriver): void;
         /**
          * @inheritdoc
          */
@@ -3948,7 +3948,7 @@ declare namespace samchon.protocol {
      * {@link IServer}. </p>
      *
      * <ul>
-     *	<li> {@link NormalServer} </li>
+     *	<li> {@link Server} </li>
      *	<li> {@link WebServer} </li>
      *	<li> {@link SharedWorkerServer} </li>
      * </ul>
@@ -3990,14 +3990,14 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     /**
-     * <p> A substitute {@link NormalServer}. </p>
+     * <p> A substitute {@link Server}. </p>
      *
-     * <p> {@link NormalServerBase} is a substitute class who subrogates {@link NormalServer}'s responsibility. </p>
+     * <p> {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility. </p>
      *
      * <p> The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
-     * {@link NormalServer}. However, it is impossible (that is, if the class is already extending another class), you can
-     * instead implement the {@link IServer} interface, create a {@link NormalServerBase} member, and write simple hooks
-     * to route calls into the aggregated {@link NormalServerBase}. </p>
+     * {@link Server}. However, it is impossible (that is, if the class is already extending another class), you can
+     * instead implement the {@link IServer} interface, create a {@link ServerBase} member, and write simple hooks
+     * to route calls into the aggregated {@link ServerBase}. </p>
      *
      * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
      * <ul>
@@ -4007,9 +4007,9 @@ declare namespace samchon.protocol {
      * <code>
     class MyServer extends Something implements IServer
     {
-        private server_base: NormalServerBase = new NormalServerBase(this);
+        private server_base: ServerBase = new ServerBase(this);
 
-        public addClient(driver: NormalClientDriver): void
+        public addClient(driver: ClientDriver): void
         {
             // WHAT TO DO WHEN A CLIENT HAS CONNECTED
         }
@@ -4027,7 +4027,7 @@ declare namespace samchon.protocol {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class NormalServerBase extends NormalServer implements IServerBase {
+    class ServerBase extends Server implements IServerBase {
         private target;
         constructor(target: IServer);
         addClient(driver: IClientDriver): void;
@@ -4165,7 +4165,7 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class NormalServerConnector extends NormalCommunicator implements IServerConnector {
+    class ServerConnector extends Communicator implements IServerConnector {
         /**
          * @inheritdoc
          */
@@ -4455,7 +4455,7 @@ declare namespace samchon.protocol.external {
          *
          * <p> Creates and returns one of them: </p>
          * <ul>
-         *	<li> {@link NormalServerBase} </li>
+         *	<li> {@link ServerBase} </li>
          *	<li> {@link WebServerBase} </li>
          *	<li> {@link SharedWorkerServerBase} </li>
          * </ul>
@@ -5011,18 +5011,15 @@ declare namespace samchon.protocol.master {
     }
 }
 declare namespace samchon.protocol.master {
-    abstract class MediatorServer extends MediatorSystem implements IServer {
+    class MediatorServer extends MediatorSystem implements IServer {
         private server_base;
         private port;
         constructor(systemArray: external.ExternalSystemArray, port: number);
-        protected abstract createServerBase(): IServerBase;
+        protected createServerBase(): IServerBase;
         addClient(driver: IClientDriver): void;
         start(): void;
         open(port: number): void;
         close(): void;
-    }
-    class MediatorNormalServer extends MediatorServer {
-        protected createServerBase(): IServerBase;
     }
     class MediatorWebServer extends MediatorServer {
         protected createServerBase(): IServerBase;
@@ -5032,18 +5029,15 @@ declare namespace samchon.protocol.master {
     }
 }
 declare namespace samchon.protocol.master {
-    abstract class MediatorClient extends MediatorSystem implements external.IExternalServer {
+    class MediatorClient extends MediatorSystem implements external.IExternalServer {
         protected ip: string;
         protected port: number;
         constructor(systemArray: external.ExternalSystemArray, ip: string, port: number);
-        protected abstract createServerConnector(): IServerConnector;
+        protected createServerConnector(): IServerConnector;
         getIP(): string;
         getPort(): number;
         start(): void;
         connect(): void;
-    }
-    class MediatorNormalClient extends MediatorClient {
-        protected createServerConnector(): IServerConnector;
     }
     class MediatorWebClient extends MediatorClient {
         protected createServerConnector(): IServerConnector;
@@ -5102,7 +5096,7 @@ declare namespace samchon.protocol.master {
          *
          * <p> Creates and returns one of them: </p>
          * <ul>
-         *	<li> {@link NormalServerBase} </li>
+         *	<li> {@link ServerBase} </li>
          *	<li> {@link WebServerBase} </li>
          *	<li> {@link SharedWorkerServerBase} </li>
          * </ul>
@@ -5156,7 +5150,7 @@ declare namespace samchon.protocol.master {
          *
          * <p> Creates and returns one of them: </p>
          * <ul>
-         *	<li> {@link NormalServerBase} </li>
+         *	<li> {@link ServerBase} </li>
          *	<li> {@link WebServerBase} </li>
          *	<li> {@link SharedWorkerServerBase} </li>
          * </ul>

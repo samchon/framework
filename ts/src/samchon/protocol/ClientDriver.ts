@@ -27,8 +27,8 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
-	export class NormalClientDriver 
-		extends NormalCommunicator
+	export class ClientDriver 
+		extends Communicator
 		implements IClientDriver
 	{
 		public constructor(socket: socket.socket)

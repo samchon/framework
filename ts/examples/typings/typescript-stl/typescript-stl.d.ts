@@ -1,4 +1,4 @@
-// Type definitions for TypeScript-STL v1.0.0-rc.3
+// Type definitions for TypeScript-STL v1.0.0
 // Project: https://github.com/samchon/typescript-stl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -116,13 +116,6 @@ declare namespace std {
  * @author Jeongho Nam <http://samchon.org>
  */
 declare namespace std.base {
-}
-/**
- * Examples for supporting developers who use STL library.
- *
- * @author Jeongho Nam <http://samchon.org>
- */
-declare namespace std.example {
 }
 declare namespace std {
     /**
@@ -3217,66 +3210,27 @@ declare namespace std {
      */
     class Deque<T> extends base.Container<T> implements base.IArrayContainer<T>, base.IDequeContainer<T> {
         /**
-         * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
-         *
-         * <p> Note that the {@link ROW} affects on time complexity of accessing and inserting element.
-         * Accessing element is {@link ROW} times slower than ordinary {@link Vector} and inserting element
-         * in middle position is {@link ROW} times faster than ordinary {@link Vector}. </p>
-         *
-         * <p> When the {@link ROW} returns 8, time complexity of accessing element is O(8) and inserting
-         * element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
-         * and inserting element is O(N)). </p>
+         * @hidden
          */
         private static ROW;
         /**
-         * <p> Minimum {@link capacity}. </p>
-         *
-         * <p> Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque}
-         * keeps the minimum {@link capacity} at least. </p>
+         * @hidden
          */
         private static MIN_CAPACITY;
         /**
-         * <p> A matrix containing elements. </p>
-         *
-         * <p> This {@link matrix_} is the biggest difference one between {@link Vector} and {@link Deque}.
-         * Its number of rows follows {@link ROW} and number of columns follows {@link get_col_size} which
-         * returns divide of {@link capacity} and {@link ROW}. </p>
-         *
-         * By separating segment of elements (segment: row, elements in a segment: col), {@link Deque} takes
-         * advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW}
-         * times faster than {@link Vector} when inserting elements in middle position. </p>
-         *
-         * <p> However, separating segment of elements from matrix, {@link Deque} also takes disadvantage of
-         * time complexity on accessing element. {@link Deque} is {@link ROW} times slower than {@link Vector}
-         * when accessing element. </p>
+         * @hidden
          */
         private matrix_;
         /**
-         * Number of elements in the {@link Deque}.
+         * @hidden
          */
         private size_;
         /**
-         * <p> Size of allocated storage capacity. </p>
-         *
-         * <p> The {@link capacity_ capacity} is size of the storage space currently allocated for the
-         * {@link Deque container}, expressed in terms of elements. </p>
-         *
-         * <p> This {@link capacity_ capacity} is not necessarily equal to the {@link Deque container}
-         * {@link size}. It can be equal or greater, with the extra space allowing to accommodate for growth
-         * without the need to reallocate on each insertion. </p>
-         *
-         * <p> Notice that this {@link capacity_ capacity} does not suppose a limit on the {@link size} of
-         * the {@link Deque container}. When this {@link capacity} is exhausted and more is needed, it is
-         * automatically expanded by the {@link Deque container} (reallocating it storage space).
-         * The theoretical limit on the {@link size} of a {@link Deque container} is given by member
-         * {@link max_size}. </p>
-         *
-         * <p> The {@link capacity_ capacity} of a {@link Deque container} can be explicitly altered by
-         * calling member {@link Deque.reserve}. </p>
+         * @hidden
          */
         private capacity_;
         /**
-         * Get column size; {@link capacity_ capacity} / {@link ROW row}.
+         * @hidden
          */
         private get_col_size();
         /**
@@ -5342,6 +5296,9 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashMap<Key, T> extends base.UniqueMap<Key, T> implements base.IHashMap<Key, T> {
+        /**
+         * @hidden
+         */
         private hash_buckets_;
         /**
          * @hidden
@@ -5505,7 +5462,7 @@ declare namespace std {
      */
     class HashMultiMap<Key, T> extends base.MultiMap<Key, T> {
         /**
-         *
+         * @hidden
          */
         private hash_buckets_;
         /**
@@ -5991,6 +5948,238 @@ declare namespace std.base {
      * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
      * individual elements based on their value. </p>
      *
+     * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
+     * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
+     * modified once in the container - they can be inserted and removed, though. </p>
+     *
+     * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+     * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+     * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+     *
+     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
+     *			  by this value (each value is itself also the element's <i>key</i>).
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class MultiSet<T> extends SetContainer<T> {
+        /**
+         * <p> Insert an element. </p>
+         *
+         * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
+         * the number of elements inserted. </p>
+         *
+         * @param key Value to be inserted as an element.
+         *
+         * @return An iterator to the newly inserted element.
+         */
+        insert(val: T): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: MultiSet<T>): void;
+    }
+}
+declare namespace std.HashMultiSet {
+    type iterator<T> = std.SetIterator<T>;
+    type reverse_iterator<T> = std.SetReverseIterator<T>;
+}
+declare namespace std {
+    /**
+     * <p> Hashed, unordered Multiset. </p>
+     *
+     * <p> {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
+     * retrieval of individual elements based on their value, much like {@link HashSet} containers,
+     * but allowing different elements to have equivalent values. </p>
+     *
+     * <p> In an {@link HashMultiSet}, the value of an element is at the same time its <i>key</i>, used to
+     * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link HashMultiSet} cannot be
+     * modified once in the container - they can be inserted and removed, though. </p>
+     *
+     * <p> Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but
+     * organized into <i>buckets</i> depending on their hash values to allow for fast access to individual
+     * elements directly by their <i>values</i> (with a constant average time complexity on average). </p>
+     *
+     * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
+     * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
+     *
+     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Hashed </dt>
+     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+     *		 by their <i>key</i>. </dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * @param <T> Type of the elements.
+     *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
+     *
+     * @reference http://www.cplusplus.com/reference/unordered_set/unordered_multiset
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class HashMultiSet<T> extends base.MultiSet<T> {
+        /**
+         * @hidden
+         */
+        private hash_buckets_;
+        /**
+         * @hidden
+         */
+        protected init(): void;
+        /**
+         * @hidden
+         */
+        protected construct_from_array(items: Array<T>): void;
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        find(key: T): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        count(key: T): number;
+        /**
+         * @inheritdoc
+         */
+        begin(): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        begin(index: number): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        end(): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        end(index: number): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        rbegin(): SetReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        rbegin(index: number): SetReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        rend(): SetReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        rend(index: number): SetReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        bucket_count(): number;
+        /**
+         * @inheritdoc
+         */
+        bucket_size(n: number): number;
+        /**
+         * @inheritdoc
+         */
+        max_load_factor(): number;
+        /**
+         * @inheritdoc
+         */
+        max_load_factor(z: number): void;
+        /**
+         * @inheritdoc
+         */
+        bucket(key: T): number;
+        /**
+         * @inheritdoc
+         */
+        reserve(n: number): void;
+        /**
+         * @inheritdoc
+         */
+        rehash(n: number): void;
+        /**
+         * @hidden
+         */
+        protected insert_by_val(val: T): any;
+        /**
+         * @hidden
+         */
+        protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
+        /**
+         * @hidden
+         */
+        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
+        /**
+         * @inheritdoc
+         */
+        protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: base.MultiSet<T>): void;
+        /**
+         * @hidden
+         */
+        private swap_tree_set(obj);
+    }
+}
+declare namespace std.base {
+    /**
+     * <p> An abstract set. </p>
+     *
+     * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
+     * individual elements based on their value. </p>
+     *
      * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to uniquely
      * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be modified
      * once in the container - they can be inserted and removed, though. </p>
@@ -6109,74 +6298,6 @@ declare namespace std.base {
         swap(obj: UniqueSet<T>): void;
     }
 }
-declare namespace std.base {
-    /**
-     * <p> An abstract set. </p>
-     *
-     * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
-     * individual elements based on their value. </p>
-     *
-     * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
-     * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
-     * modified once in the container - they can be inserted and removed, though. </p>
-     *
-     * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
-     * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-     * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
-     *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd>
-     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		position in the container.
-     *	</dd>
-     *
-     *	<dt> Set </dt>
-     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-     *
-     *	<dt> Multiple equivalent keys </dt>
-     *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
-     *			  by this value (each value is itself also the element's <i>key</i>).
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class MultiSet<T> extends SetContainer<T> {
-        /**
-         * <p> Insert an element. </p>
-         *
-         * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
-         * the number of elements inserted. </p>
-         *
-         * @param key Value to be inserted as an element.
-         *
-         * @return An iterator to the newly inserted element.
-         */
-        insert(val: T): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
-        /**
-         * @inheritdoc
-         */
-        swap(obj: MultiSet<T>): void;
-    }
-}
 declare namespace std.HashSet {
     type iterator<T> = std.SetIterator<T>;
     type reverse_iterator<T> = std.SetReverseIterator<T>;
@@ -6227,6 +6348,9 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashSet<T> extends base.UniqueSet<T> {
+        /**
+         * @hidden
+         */
         private hash_buckets_;
         /**
          * @hidden
@@ -6334,167 +6458,6 @@ declare namespace std {
         private swap_tree_set(obj);
     }
 }
-declare namespace std.HashMultiSet {
-    type iterator<T> = std.SetIterator<T>;
-    type reverse_iterator<T> = std.SetReverseIterator<T>;
-}
-declare namespace std {
-    /**
-     * <p> Hashed, unordered Multiset. </p>
-     *
-     * <p> {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
-     * retrieval of individual elements based on their value, much like {@link HashSet} containers,
-     * but allowing different elements to have equivalent values. </p>
-     *
-     * <p> In an {@link HashMultiSet}, the value of an element is at the same time its <i>key</i>, used to
-     * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link HashMultiSet} cannot be
-     * modified once in the container - they can be inserted and removed, though. </p>
-     *
-     * <p> Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but
-     * organized into <i>buckets</i> depending on their hash values to allow for fast access to individual
-     * elements directly by their <i>values</i> (with a constant average time complexity on average). </p>
-     *
-     * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
-     * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
-     *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the container. </dd>
-     *
-     *	<dt> Hashed </dt>
-     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
-     *		 by their <i>key</i>. </dd>
-     *
-     *	<dt> Set </dt>
-     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-     *
-     *	<dt> Multiple equivalent keys </dt>
-     *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements.
-     *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
-     *
-     * @reference http://www.cplusplus.com/reference/unordered_set/unordered_multiset
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class HashMultiSet<T> extends base.MultiSet<T> {
-        private hash_buckets_;
-        /**
-         * @hidden
-         */
-        protected init(): void;
-        /**
-         * @hidden
-         */
-        protected construct_from_array(items: Array<T>): void;
-        /**
-         * @inheritdoc
-         */
-        clear(): void;
-        /**
-         * @inheritdoc
-         */
-        find(key: T): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        count(key: T): number;
-        /**
-         * @inheritdoc
-         */
-        begin(): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        begin(index: number): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        end(): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        end(index: number): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        rbegin(): SetReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        rbegin(index: number): SetReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        rend(): SetReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        rend(index: number): SetReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        bucket_count(): number;
-        /**
-         * @inheritdoc
-         */
-        bucket_size(n: number): number;
-        /**
-         * @inheritdoc
-         */
-        max_load_factor(): number;
-        /**
-         * @inheritdoc
-         */
-        max_load_factor(z: number): void;
-        /**
-         * @inheritdoc
-         */
-        bucket(key: T): number;
-        /**
-         * @inheritdoc
-         */
-        reserve(n: number): void;
-        /**
-         * @inheritdoc
-         */
-        rehash(n: number): void;
-        /**
-         * @hidden
-         */
-        protected insert_by_val(val: T): any;
-        /**
-         * @hidden
-         */
-        protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
-        /**
-         * @hidden
-         */
-        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        swap(obj: base.MultiSet<T>): void;
-        /**
-         * @hidden
-         */
-        private swap_tree_set(obj);
-    }
-}
 declare namespace std.List {
     type iterator<T> = std.ListIterator<T>;
     type reverse_iterator<T> = std.ListReverseIterator<T>;
@@ -6546,15 +6509,15 @@ declare namespace std {
      */
     class List<T> extends base.Container<T> implements base.IDequeContainer<T> {
         /**
-         * An iterator of beginning.
+         * @hidden
          */
         protected begin_: ListIterator<T>;
         /**
-         * An iterator of end.
+         * @hidden
          */
         protected end_: ListIterator<T>;
         /**
-         * Number of elements in the {@link List}.
+         * @hidden
          */
         protected size_: number;
         /**
@@ -7658,11 +7621,11 @@ declare namespace std.base {
      */
     abstract class ErrorInstance {
         /**
-         * A reference to an {@link ErrorCategory} object.
+         * @hidden
          */
         protected category_: ErrorCategory;
         /**
-         * A numerical value identifying an error instance.
+         * @hidden
          */
         protected value_: number;
         /**
@@ -7769,7 +7732,7 @@ declare namespace std {
      */
     class SystemError extends RuntimeError {
         /**
-         * Error code.
+         * @hidden
          */
         protected code_: ErrorCode;
         /**
@@ -8063,7 +8026,7 @@ declare namespace std {
      */
     class TreeMap<Key, T> extends base.UniqueMap<Key, T> implements base.ITreeMap<Key, T> {
         /**
-         * <i>RB-Tree+</i> object for implemeting the {@link TreeMap}.
+         * @hidden
          */
         private tree_;
         /**
@@ -8250,6 +8213,9 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class TreeMultiMap<Key, T> extends base.MultiMap<Key, T> implements base.ITreeMap<Key, T> {
+        /**
+         * @hidden
+         */
         private tree_;
         /**
          * Default Constructor.
@@ -8377,169 +8343,6 @@ declare namespace std {
         private swap_tree_multimap(obj);
     }
 }
-declare namespace std.TreeSet {
-    type iterator<T> = std.SetIterator<T>;
-    type reverse_iterator<T> = std.SetReverseIterator<T>;
-}
-declare namespace std {
-    /**
-     * <p> Tree-structured set, <code>std::set</code> of STL. </p>
-     *
-     * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
-     *
-     * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the
-     * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a
-     * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
-     * can be inserted or removed from the  </p>
-     *
-     * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak
-     * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
-     *
-     * <p> {@link TreeSet} containers are generally slower than {@link HashSet} containers to access
-     * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
-     * order. </p>
-     *
-     * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
-     *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </a></p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd>
-     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		position in the container.
-     *	</dd>
-     *
-     *	<dt> Ordered </dt>
-     *	<dd>
-     *		The elements in the container follow a strict order at all times. All inserted elements are
-     *		given a position in this order.
-     *	</dd>
-     *
-     *	<dt> Set </dt>
-     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-     *
-     *	<dt> Unique keys </dt>
-     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements.
-     *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
-     *
-     * @reference http://www.cplusplus.com/reference/set/set
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class TreeSet<T> extends base.UniqueSet<T> implements base.ITreeSet<T> {
-        /**
-         * <i>RB-Tree+</i> object for implemeting the {@link TreeSet}.
-         */
-        private tree_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from compare.
-         *
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(compare: (x: T, y: T) => boolean);
-        /**
-         * Contruct from elements.
-         *
-         * @param array Elements to be contained.
-         */
-        constructor(array: Array<T>);
-        /**
-         * Contruct from elements with compare.
-         *
-         * @param array Elements to be contained.
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(array: Array<T>, compare: (x: T, y: T) => boolean);
-        /**
-         * Copy Constructor.
-         */
-        constructor(container: base.IContainer<T>);
-        /**
-         * Copy Constructor with compare.
-         *
-         * @param container A container to be copied.
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(container: base.IContainer<T>, compare: (x: T, y: T) => boolean);
-        /**
-         * Range Constructor.
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         */
-        constructor(begin: Iterator<T>, end: Iterator<T>);
-        /**
-         * Range Constructor with compare.
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(begin: Iterator<T>, end: Iterator<T>, compare: (x: T, y: T) => boolean);
-        /**
-         * @inheritdoc
-         */
-        clear(): void;
-        /**
-         * @inheritdoc
-         */
-        find(val: T): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        key_comp(): (x: T, y: T) => boolean;
-        /**
-         * @inheritdoc
-         */
-        value_comp(): (x: T, y: T) => boolean;
-        /**
-         * @inheritdoc
-         */
-        lower_bound(val: T): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        upper_bound(val: T): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>;
-        /**
-         * @hidden
-         */
-        protected insert_by_val(val: T): any;
-        protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
-        /**
-         * @hidden
-         */
-        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        swap(obj: base.UniqueSet<T>): void;
-        /**
-         * @hidden
-         */
-        private swap_tree_set(obj);
-    }
-}
 declare namespace std.TreeMultiSet {
     type iterator<T> = std.SetIterator<T>;
     type reverse_iterator<T> = std.SetReverseIterator<T>;
@@ -8597,7 +8400,7 @@ declare namespace std {
      */
     class TreeMultiSet<T> extends base.MultiSet<T> implements base.ITreeSet<T> {
         /**
-         * <i>RB-Tree+</i> object for implemeting the {@link TreeMultiSet}.
+         * @hidden
          */
         private tree_;
         /**
@@ -8705,6 +8508,169 @@ declare namespace std {
          * @inheritdoc
          */
         swap(obj: base.MultiSet<T>): void;
+        /**
+         * @hidden
+         */
+        private swap_tree_set(obj);
+    }
+}
+declare namespace std.TreeSet {
+    type iterator<T> = std.SetIterator<T>;
+    type reverse_iterator<T> = std.SetReverseIterator<T>;
+}
+declare namespace std {
+    /**
+     * <p> Tree-structured set, <code>std::set</code> of STL. </p>
+     *
+     * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
+     *
+     * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the
+     * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a
+     * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
+     * can be inserted or removed from the  </p>
+     *
+     * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak
+     * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
+     *
+     * <p> {@link TreeSet} containers are generally slower than {@link HashSet} containers to access
+     * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
+     * order. </p>
+     *
+     * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
+     *
+     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </a></p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
+     *
+     *	<dt> Ordered </dt>
+     *	<dd>
+     *		The elements in the container follow a strict order at all times. All inserted elements are
+     *		given a position in this order.
+     *	</dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Unique keys </dt>
+     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * @param <T> Type of the elements.
+     *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
+     *
+     * @reference http://www.cplusplus.com/reference/set/set
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class TreeSet<T> extends base.UniqueSet<T> implements base.ITreeSet<T> {
+        /**
+         * @hidden
+         */
+        private tree_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from compare.
+         *
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(compare: (x: T, y: T) => boolean);
+        /**
+         * Contruct from elements.
+         *
+         * @param array Elements to be contained.
+         */
+        constructor(array: Array<T>);
+        /**
+         * Contruct from elements with compare.
+         *
+         * @param array Elements to be contained.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(array: Array<T>, compare: (x: T, y: T) => boolean);
+        /**
+         * Copy Constructor.
+         */
+        constructor(container: base.IContainer<T>);
+        /**
+         * Copy Constructor with compare.
+         *
+         * @param container A container to be copied.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(container: base.IContainer<T>, compare: (x: T, y: T) => boolean);
+        /**
+         * Range Constructor.
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         */
+        constructor(begin: Iterator<T>, end: Iterator<T>);
+        /**
+         * Range Constructor with compare.
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(begin: Iterator<T>, end: Iterator<T>, compare: (x: T, y: T) => boolean);
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        find(val: T): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        key_comp(): (x: T, y: T) => boolean;
+        /**
+         * @inheritdoc
+         */
+        value_comp(): (x: T, y: T) => boolean;
+        /**
+         * @inheritdoc
+         */
+        lower_bound(val: T): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        upper_bound(val: T): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>;
+        /**
+         * @hidden
+         */
+        protected insert_by_val(val: T): any;
+        protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
+        /**
+         * @hidden
+         */
+        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
+        /**
+         * @inheritdoc
+         */
+        protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: base.UniqueSet<T>): void;
         /**
          * @hidden
          */
@@ -9353,7 +9319,13 @@ declare namespace std.base {
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashBuckets<T> {
+        /**
+         * @hidden
+         */
         private buckets_;
+        /**
+         * @hidden
+         */
         private item_size_;
         /**
          * Default Constructor.
@@ -11263,7 +11235,13 @@ declare namespace std.base {
      * @author Jeongho Nam <http://samchon.org>
      */
     class PairTree<Key, T> extends XTree<MapIterator<Key, T>> {
+        /**
+         * @hidden
+         */
         private map_;
+        /**
+         * @hidden
+         */
         private compare_;
         /**
          * Default Constructor.
@@ -11557,7 +11535,13 @@ declare namespace std.base {
      * @author Jeongho Nam <http://samchon.org>
      */
     class AtomicTree<T> extends XTree<SetIterator<T>> {
+        /**
+         * @hidden
+         */
         private set_;
+        /**
+         * @hidden
+         */
         private compare_;
         /**
          * Default Constructor.
@@ -11737,31 +11721,4 @@ declare namespace std.base {
          */
         uncle: XTreeNode<T>;
     }
-}
-declare namespace std.example {
-    function test_all(): void;
-}
-declare namespace std.example {
-    function test_anything(): void;
-}
-declare namespace std.example {
-    function test_bind(): void;
-}
-declare namespace std.example {
-    function test_deque(): void;
-}
-declare namespace std.example {
-    function test_for_each(): void;
-}
-declare namespace std.example {
-    function test_hash_map(): void;
-}
-declare namespace std.example {
-    function test_list(): void;
-}
-declare namespace std.example {
-    function sorting(): void;
-}
-declare namespace std.example {
-    function tree_set(): void;
 }

@@ -51,7 +51,7 @@ namespace samchon.protocol.master
 
 namespace samchon.protocol.master
 {
-	export abstract class MediatorServer
+	export class MediatorServer
 		extends MediatorSystem
 		implements IServer
 	{
@@ -67,7 +67,10 @@ namespace samchon.protocol.master
 			this.port = port;
 		}
 
-		protected abstract createServerBase(): IServerBase;
+		protected createServerBase(): IServerBase
+		{
+			return new ServerBase(this);
+		}
 
 		public addClient(driver: IClientDriver): void
 		{
@@ -99,14 +102,6 @@ namespace samchon.protocol.master
 		}
 	}
 
-	export class MediatorNormalServer extends MediatorServer
-	{
-		protected createServerBase(): IServerBase
-		{
-			return new NormalServerBase(this);
-		}
-	}
-
 	export class MediatorWebServer extends MediatorServer
 	{
 		protected createServerBase(): IServerBase
@@ -126,7 +121,7 @@ namespace samchon.protocol.master
 
 namespace samchon.protocol.master
 {
-	export abstract class MediatorClient
+	export class MediatorClient
 		extends MediatorSystem
 		implements external.IExternalServer
 	{
@@ -144,7 +139,10 @@ namespace samchon.protocol.master
 			this.port = port;
 		}
 
-		protected abstract createServerConnector(): IServerConnector;
+		protected createServerConnector(): IServerConnector
+		{
+			return new ServerConnector(this);
+		}
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -173,15 +171,6 @@ namespace samchon.protocol.master
 
 			this.communicator = this.createServerConnector();
 			(this.communicator as IServerConnector).connect(this.ip, this.port);
-		}
-	}
-
-	export class MediatorNormalClient
-		extends MediatorClient
-	{
-		protected createServerConnector(): IServerConnector
-		{
-			return new NormalServerConnector(this);
 		}
 	}
 

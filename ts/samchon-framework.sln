@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "samchon-framework", "samchon-framework.csproj", "{17279480-B4B1-449D-9574-200AB632FD75}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{62828809-965A-4CC3-B1E8-7CC2B3FCFE90}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{62828809-965A-4CC3-B1E8-7CC2B3FCFE90}"
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "chat-server", "examples\chat-server\chat-server.njsproj", "{233EA846-4C24-4734-8393-BE25BE7979E6}"
 EndProject

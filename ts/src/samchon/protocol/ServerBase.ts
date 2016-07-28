@@ -13,7 +13,7 @@ namespace samchon.protocol
 	 * {@link IServer}. </p>
 	 * 
 	 * <ul>
-	 *	<li> {@link NormalServer} </li>
+	 *	<li> {@link Server} </li>
 	 *	<li> {@link WebServer} </li>
 	 *	<li> {@link SharedWorkerServer} </li>
 	 * </ul>
@@ -58,14 +58,14 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	/**
-	 * <p> A substitute {@link NormalServer}. </p>
+	 * <p> A substitute {@link Server}. </p>
 	 * 
-	 * <p> {@link NormalServerBase} is a substitute class who subrogates {@link NormalServer}'s responsibility. </p>
+	 * <p> {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility. </p>
 	 * 
 	 * <p> The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
-	 * {@link NormalServer}. However, it is impossible (that is, if the class is already extending another class), you can
-	 * instead implement the {@link IServer} interface, create a {@link NormalServerBase} member, and write simple hooks 
-	 * to route calls into the aggregated {@link NormalServerBase}. </p>
+	 * {@link Server}. However, it is impossible (that is, if the class is already extending another class), you can
+	 * instead implement the {@link IServer} interface, create a {@link ServerBase} member, and write simple hooks 
+	 * to route calls into the aggregated {@link ServerBase}. </p>
 	 * 
 	 * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
 	 * <ul>
@@ -75,9 +75,9 @@ namespace samchon.protocol
 	 * <code>
 	class MyServer extends Something implements IServer
 	{
-		private server_base: NormalServerBase = new NormalServerBase(this);
+		private server_base: ServerBase = new ServerBase(this);
 
-		public addClient(driver: NormalClientDriver): void
+		public addClient(driver: ClientDriver): void
 		{
 			// WHAT TO DO WHEN A CLIENT HAS CONNECTED
 		}
@@ -95,8 +95,8 @@ namespace samchon.protocol
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class NormalServerBase
-		extends NormalServer
+	export class ServerBase
+		extends Server
 		implements IServerBase
 	{
 		private target: IServer;

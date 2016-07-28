@@ -2293,34 +2293,39 @@ var std;
             }
         }
         Object.defineProperty(Deque, "ROW", {
+            ///
+            // Row size of the {@link matrix_ matrix} which contains elements.
+            // 
+            // Note that the {@link ROW} affects on time complexity of accessing and inserting element. 
+            // Accessing element is {@link ROW} times slower than ordinary {@link Vector} and inserting element 
+            // in middle position is {@link ROW} times faster than ordinary {@link Vector}.
+            // 
+            // When the {@link ROW} returns 8, time complexity of accessing element is O(8) and inserting 
+            // element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
+            // and inserting element is O(N)).
             /**
-             * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
-             *
-             * <p> Note that the {@link ROW} affects on time complexity of accessing and inserting element.
-             * Accessing element is {@link ROW} times slower than ordinary {@link Vector} and inserting element
-             * in middle position is {@link ROW} times faster than ordinary {@link Vector}. </p>
-             *
-             * <p> When the {@link ROW} returns 8, time complexity of accessing element is O(8) and inserting
-             * element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
-             * and inserting element is O(N)). </p>
+             * @hidden
              */
             get: function () { return 8; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(Deque, "MIN_CAPACITY", {
+            ///
+            // Minimum {@link capacity}.
+            // 
+            // Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque} 
+            // keeps the minimum {@link capacity} at least.
             /**
-             * <p> Minimum {@link capacity}. </p>
-             *
-             * <p> Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque}
-             * keeps the minimum {@link capacity} at least. </p>
+             * @hidden
              */
             get: function () { return 100; },
             enumerable: true,
             configurable: true
         });
+        // Get column size; {@link capacity_ capacity} / {@link ROW row}.
         /**
-         * Get column size; {@link capacity_ capacity} / {@link ROW row}.
+         * @hidden
          */
         Deque.prototype.get_col_size = function () {
             return Math.floor(this.capacity_ / Deque.ROW);
@@ -4886,6 +4891,8 @@ var std;
     }(std.base.UniqueMap));
     std.HashMap = HashMap;
 })(std || (std = {}));
+/// <reference path="API.ts" />
+/// <reference path="base/MultiMap.ts" />
 var std;
 (function (std) {
     /**
@@ -5551,6 +5558,341 @@ var std;
          * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
          * individual elements based on their value. </p>
          *
+         * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
+         * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
+         * modified once in the container - they can be inserted and removed, though. </p>
+         *
+         * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+         * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+         * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+         *
+         * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         *	<dt> Associative </dt>
+         *	<dd>
+         *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+         *		position in the container.
+         *	</dd>
+         *
+         *	<dt> Set </dt>
+         *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+         *
+         *	<dt> Multiple equivalent keys </dt>
+         *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+         * </dl>
+         *
+         * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
+         *			  by this value (each value is itself also the element's <i>key</i>).
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var MultiSet = (function (_super) {
+            __extends(MultiSet, _super);
+            function MultiSet() {
+                _super.apply(this, arguments);
+            }
+            MultiSet.prototype.insert = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                return _super.prototype.insert.apply(this, args);
+            };
+            /* ---------------------------------------------------------
+                UTILITIES
+            --------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            MultiSet.prototype.swap = function (obj) {
+                var vec = new std.Vector(this.begin(), this.end());
+                this.assign(obj.begin(), obj.end());
+                obj.assign(vec.begin(), vec.end());
+            };
+            return MultiSet;
+        }(base.SetContainer));
+        base.MultiSet = MultiSet;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="API.ts" />
+/// <reference path="base/MultiSet.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Hashed, unordered Multiset. </p>
+     *
+     * <p> {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
+     * retrieval of individual elements based on their value, much like {@link HashSet} containers,
+     * but allowing different elements to have equivalent values. </p>
+     *
+     * <p> In an {@link HashMultiSet}, the value of an element is at the same time its <i>key</i>, used to
+     * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link HashMultiSet} cannot be
+     * modified once in the container - they can be inserted and removed, though. </p>
+     *
+     * <p> Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but
+     * organized into <i>buckets</i> depending on their hash values to allow for fast access to individual
+     * elements directly by their <i>values</i> (with a constant average time complexity on average). </p>
+     *
+     * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
+     * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
+     *
+     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Hashed </dt>
+     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+     *		 by their <i>key</i>. </dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * @param <T> Type of the elements.
+     *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
+     *
+     * @reference http://www.cplusplus.com/reference/unordered_set/unordered_multiset
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    var HashMultiSet = (function (_super) {
+        __extends(HashMultiSet, _super);
+        function HashMultiSet() {
+            _super.apply(this, arguments);
+            /**
+             * @hidden
+             */
+            this.hash_buckets_ = new std.base.SetHashBuckets(this);
+        }
+        /* =========================================================
+            CONSTRUCTORS & SEMI-CONSTRUCTORS
+                - CONSTRUCTORS
+                - ASSIGN & CLEAR
+        ============================================================
+            CONSTURCTORS
+        --------------------------------------------------------- */
+        /////
+        // using super::constructor
+        /////
+        /**
+         * @hidden
+         */
+        HashMultiSet.prototype.init = function () {
+            _super.prototype.init.call(this);
+            this.hash_buckets_ = new std.base.SetHashBuckets(this);
+        };
+        /**
+         * @hidden
+         */
+        HashMultiSet.prototype.construct_from_array = function (items) {
+            this.hash_buckets_.rehash(items.length * std.base.Hash.RATIO);
+            _super.prototype.construct_from_array.call(this, items);
+        };
+        /* ---------------------------------------------------------
+            ASSIGN & CLEAR
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.clear = function () {
+            this.hash_buckets_.clear();
+            _super.prototype.clear.call(this);
+        };
+        /* =========================================================
+            ACCESSORS
+                - MEMBER
+                - HASH
+        ============================================================
+            MEMBER
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.find = function (key) {
+            return this.hash_buckets_.find(key);
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.count = function (key) {
+            // FIND MATCHED BUCKET
+            var index = std.hash(key) % this.hash_buckets_.item_size();
+            var bucket = this.hash_buckets_.at(index);
+            // ITERATE THE BUCKET
+            var cnt = 0;
+            for (var i = 0; i < bucket.length; i++)
+                if (std.equal_to(bucket[i].value, key))
+                    cnt++;
+            return cnt;
+        };
+        HashMultiSet.prototype.begin = function (index) {
+            if (index == undefined)
+                return _super.prototype.begin.call(this);
+            else
+                return this.hash_buckets_.at(index).front();
+        };
+        HashMultiSet.prototype.end = function (index) {
+            if (index == undefined)
+                return _super.prototype.end.call(this);
+            else
+                return this.hash_buckets_.at(index).back().next();
+        };
+        HashMultiSet.prototype.rbegin = function (index) {
+            if (index == undefined)
+                return _super.prototype.rbegin.call(this);
+            else
+                return new std.SetReverseIterator(this.end(index));
+        };
+        HashMultiSet.prototype.rend = function (index) {
+            if (index == undefined)
+                return _super.prototype.rend.call(this);
+            else
+                return new std.SetReverseIterator(this.begin(index));
+        };
+        /* ---------------------------------------------------------
+            HASH
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.bucket_count = function () {
+            return this.hash_buckets_.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.bucket_size = function (n) {
+            return this.hash_buckets_.at(n).size();
+        };
+        HashMultiSet.prototype.max_load_factor = function (z) {
+            if (z == undefined)
+                return this.size() / this.bucket_count();
+            else
+                this.rehash(Math.ceil(this.bucket_count() / z));
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.bucket = function (key) {
+            return std.hash(key) % this.hash_buckets_.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.reserve = function (n) {
+            this.hash_buckets_.rehash(Math.ceil(n * this.max_load_factor()));
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.rehash = function (n) {
+            if (n <= this.bucket_count())
+                return;
+            this.hash_buckets_.rehash(n);
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - INSERT
+                - POST-PROCESS
+        ============================================================
+            INSERT
+        --------------------------------------------------------- */
+        /**
+         * @hidden
+         */
+        HashMultiSet.prototype.insert_by_val = function (val) {
+            // INSERT
+            var it = new std.SetIterator(this, this.data_.insert(this.data_.end(), val));
+            this.handle_insert(it, it.next()); // POST-PROCESS
+            return it;
+        };
+        /**
+         * @hidden
+         */
+        HashMultiSet.prototype.insert_by_hint = function (hint, val) {
+            // INSERT
+            var list_iterator = this.data_.insert(hint.get_list_iterator(), val);
+            // POST-PROCESS
+            var it = new std.SetIterator(this, list_iterator);
+            this.handle_insert(it, it.next());
+            return it;
+        };
+        /**
+         * @hidden
+         */
+        HashMultiSet.prototype.insert_by_range = function (first, last) {
+            // INSERT ELEMENTS
+            var list_iterator = this.data_.insert(this.data_.end(), first, last);
+            var my_first = new std.SetIterator(this, list_iterator);
+            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+            if (this.size() > this.hash_buckets_.item_size() * std.base.Hash.MAX_RATIO)
+                this.hash_buckets_.rehash(this.size() * std.base.Hash.RATIO);
+            // POST-PROCESS
+            this.handle_insert(my_first, this.end());
+        };
+        /* ---------------------------------------------------------
+            POST-PROCESS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.handle_insert = function (first, last) {
+            for (; !first.equal_to(last); first = first.next())
+                this.hash_buckets_.insert(first);
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.handle_erase = function (first, last) {
+            for (; !first.equal_to(last); first = first.next())
+                this.hash_buckets_.erase(first);
+        };
+        /* ===============================================================
+            UTILITIES
+        =============================================================== */
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.swap = function (obj) {
+            if (obj instanceof HashMultiSet)
+                this.swap_tree_set(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        HashMultiSet.prototype.swap_tree_set = function (obj) {
+            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
+            _b = [obj.hash_buckets_, this.hash_buckets_], this.hash_buckets_ = _b[0], obj.hash_buckets_ = _b[1];
+            var _a, _b;
+        };
+        return HashMultiSet;
+    }(std.base.MultiSet));
+    std.HashMultiSet = HashMultiSet;
+})(std || (std = {}));
+/// <reference path="../API.ts" />
+/// <reference path="SetContainer.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        /**
+         * <p> An abstract set. </p>
+         *
+         * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
+         * individual elements based on their value. </p>
+         *
          * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to uniquely
          * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be modified
          * once in the container - they can be inserted and removed, though. </p>
@@ -5652,80 +5994,8 @@ var std;
         base.UniqueSet = UniqueSet;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
-/// <reference path="SetContainer.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        /**
-         * <p> An abstract set. </p>
-         *
-         * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
-         * individual elements based on their value. </p>
-         *
-         * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
-         * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
-         * modified once in the container - they can be inserted and removed, though. </p>
-         *
-         * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
-         * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-         * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
-         *
-         * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-         * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
-         *
-         * <h3> Container properties </h3>
-         * <dl>
-         *	<dt> Associative </dt>
-         *	<dd>
-         *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-         *		position in the container.
-         *	</dd>
-         *
-         *	<dt> Set </dt>
-         *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-         *
-         *	<dt> Multiple equivalent keys </dt>
-         *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
-         * </dl>
-         *
-         * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
-         *			  by this value (each value is itself also the element's <i>key</i>).
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var MultiSet = (function (_super) {
-            __extends(MultiSet, _super);
-            function MultiSet() {
-                _super.apply(this, arguments);
-            }
-            MultiSet.prototype.insert = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                return _super.prototype.insert.apply(this, args);
-            };
-            /* ---------------------------------------------------------
-                UTILITIES
-            --------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            MultiSet.prototype.swap = function (obj) {
-                var vec = new std.Vector(this.begin(), this.end());
-                this.assign(obj.begin(), obj.end());
-                obj.assign(vec.begin(), vec.end());
-            };
-            return MultiSet;
-        }(base.SetContainer));
-        base.MultiSet = MultiSet;
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
 /// <reference path="API.ts" />
 /// <reference path="base/UniqueSet.ts" />
-/// <reference path="base/MultiSet.ts" />
 var std;
 (function (std) {
     /**
@@ -5776,6 +6046,9 @@ var std;
         __extends(HashSet, _super);
         function HashSet() {
             _super.apply(this, arguments);
+            /**
+             * @hidden
+             */
             this.hash_buckets_ = new std.base.SetHashBuckets(this);
         }
         /* =========================================================
@@ -5987,265 +6260,6 @@ var std;
         return HashSet;
     }(std.base.UniqueSet));
     std.HashSet = HashSet;
-})(std || (std = {}));
-var std;
-(function (std) {
-    /**
-     * <p> Hashed, unordered Multiset. </p>
-     *
-     * <p> {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
-     * retrieval of individual elements based on their value, much like {@link HashSet} containers,
-     * but allowing different elements to have equivalent values. </p>
-     *
-     * <p> In an {@link HashMultiSet}, the value of an element is at the same time its <i>key</i>, used to
-     * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link HashMultiSet} cannot be
-     * modified once in the container - they can be inserted and removed, though. </p>
-     *
-     * <p> Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but
-     * organized into <i>buckets</i> depending on their hash values to allow for fast access to individual
-     * elements directly by their <i>values</i> (with a constant average time complexity on average). </p>
-     *
-     * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
-     * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
-     *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the container. </dd>
-     *
-     *	<dt> Hashed </dt>
-     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
-     *		 by their <i>key</i>. </dd>
-     *
-     *	<dt> Set </dt>
-     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-     *
-     *	<dt> Multiple equivalent keys </dt>
-     *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements.
-     *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
-     *
-     * @reference http://www.cplusplus.com/reference/unordered_set/unordered_multiset
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    var HashMultiSet = (function (_super) {
-        __extends(HashMultiSet, _super);
-        function HashMultiSet() {
-            _super.apply(this, arguments);
-            this.hash_buckets_ = new std.base.SetHashBuckets(this);
-        }
-        /* =========================================================
-            CONSTRUCTORS & SEMI-CONSTRUCTORS
-                - CONSTRUCTORS
-                - ASSIGN & CLEAR
-        ============================================================
-            CONSTURCTORS
-        --------------------------------------------------------- */
-        /////
-        // using super::constructor
-        /////
-        /**
-         * @hidden
-         */
-        HashMultiSet.prototype.init = function () {
-            _super.prototype.init.call(this);
-            this.hash_buckets_ = new std.base.SetHashBuckets(this);
-        };
-        /**
-         * @hidden
-         */
-        HashMultiSet.prototype.construct_from_array = function (items) {
-            this.hash_buckets_.rehash(items.length * std.base.Hash.RATIO);
-            _super.prototype.construct_from_array.call(this, items);
-        };
-        /* ---------------------------------------------------------
-            ASSIGN & CLEAR
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        HashMultiSet.prototype.clear = function () {
-            this.hash_buckets_.clear();
-            _super.prototype.clear.call(this);
-        };
-        /* =========================================================
-            ACCESSORS
-                - MEMBER
-                - HASH
-        ============================================================
-            MEMBER
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        HashMultiSet.prototype.find = function (key) {
-            return this.hash_buckets_.find(key);
-        };
-        /**
-         * @inheritdoc
-         */
-        HashMultiSet.prototype.count = function (key) {
-            // FIND MATCHED BUCKET
-            var index = std.hash(key) % this.hash_buckets_.item_size();
-            var bucket = this.hash_buckets_.at(index);
-            // ITERATE THE BUCKET
-            var cnt = 0;
-            for (var i = 0; i < bucket.length; i++)
-                if (std.equal_to(bucket[i].value, key))
-                    cnt++;
-            return cnt;
-        };
-        HashMultiSet.prototype.begin = function (index) {
-            if (index == undefined)
-                return _super.prototype.begin.call(this);
-            else
-                return this.hash_buckets_.at(index).front();
-        };
-        HashMultiSet.prototype.end = function (index) {
-            if (index == undefined)
-                return _super.prototype.end.call(this);
-            else
-                return this.hash_buckets_.at(index).back().next();
-        };
-        HashMultiSet.prototype.rbegin = function (index) {
-            if (index == undefined)
-                return _super.prototype.rbegin.call(this);
-            else
-                return new std.SetReverseIterator(this.end(index));
-        };
-        HashMultiSet.prototype.rend = function (index) {
-            if (index == undefined)
-                return _super.prototype.rend.call(this);
-            else
-                return new std.SetReverseIterator(this.begin(index));
-        };
-        /* ---------------------------------------------------------
-            HASH
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        HashMultiSet.prototype.bucket_count = function () {
-            return this.hash_buckets_.size();
-        };
-        /**
-         * @inheritdoc
-         */
-        HashMultiSet.prototype.bucket_size = function (n) {
-            return this.hash_buckets_.at(n).size();
-        };
-        HashMultiSet.prototype.max_load_factor = function (z) {
-            if (z == undefined)
-                return this.size() / this.bucket_count();
-            else
-                this.rehash(Math.ceil(this.bucket_count() / z));
-        };
-        /**
-         * @inheritdoc
-         */
-        HashMultiSet.prototype.bucket = function (key) {
-            return std.hash(key) % this.hash_buckets_.size();
-        };
-        /**
-         * @inheritdoc
-         */
-        HashMultiSet.prototype.reserve = function (n) {
-            this.hash_buckets_.rehash(Math.ceil(n * this.max_load_factor()));
-        };
-        /**
-         * @inheritdoc
-         */
-        HashMultiSet.prototype.rehash = function (n) {
-            if (n <= this.bucket_count())
-                return;
-            this.hash_buckets_.rehash(n);
-        };
-        /* =========================================================
-            ELEMENTS I/O
-                - INSERT
-                - POST-PROCESS
-        ============================================================
-            INSERT
-        --------------------------------------------------------- */
-        /**
-         * @hidden
-         */
-        HashMultiSet.prototype.insert_by_val = function (val) {
-            // INSERT
-            var it = new std.SetIterator(this, this.data_.insert(this.data_.end(), val));
-            this.handle_insert(it, it.next()); // POST-PROCESS
-            return it;
-        };
-        /**
-         * @hidden
-         */
-        HashMultiSet.prototype.insert_by_hint = function (hint, val) {
-            // INSERT
-            var list_iterator = this.data_.insert(hint.get_list_iterator(), val);
-            // POST-PROCESS
-            var it = new std.SetIterator(this, list_iterator);
-            this.handle_insert(it, it.next());
-            return it;
-        };
-        /**
-         * @hidden
-         */
-        HashMultiSet.prototype.insert_by_range = function (first, last) {
-            // INSERT ELEMENTS
-            var list_iterator = this.data_.insert(this.data_.end(), first, last);
-            var my_first = new std.SetIterator(this, list_iterator);
-            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() > this.hash_buckets_.item_size() * std.base.Hash.MAX_RATIO)
-                this.hash_buckets_.rehash(this.size() * std.base.Hash.RATIO);
-            // POST-PROCESS
-            this.handle_insert(my_first, this.end());
-        };
-        /* ---------------------------------------------------------
-            POST-PROCESS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        HashMultiSet.prototype.handle_insert = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
-                this.hash_buckets_.insert(first);
-        };
-        /**
-         * @inheritdoc
-         */
-        HashMultiSet.prototype.handle_erase = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
-                this.hash_buckets_.erase(first);
-        };
-        /* ===============================================================
-            UTILITIES
-        =============================================================== */
-        /**
-         * @inheritdoc
-         */
-        HashMultiSet.prototype.swap = function (obj) {
-            if (obj instanceof HashMultiSet)
-                this.swap_tree_set(obj);
-            else
-                _super.prototype.swap.call(this, obj);
-        };
-        /**
-         * @hidden
-         */
-        HashMultiSet.prototype.swap_tree_set = function (obj) {
-            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
-            _b = [obj.hash_buckets_, this.hash_buckets_], this.hash_buckets_ = _b[0], obj.hash_buckets_ = _b[1];
-            var _a, _b;
-        };
-        return HashMultiSet;
-    }(std.base.MultiSet));
-    std.HashMultiSet = HashMultiSet;
 })(std || (std = {}));
 /// <reference path="API.ts" />
 /// <reference path="base/Container.ts" />
@@ -7690,7 +7704,6 @@ var std;
 })(std || (std = {}));
 /// <reference path="API.ts" />
 /// <reference path="base/UniqueMap.ts" />
-/// <reference path="base/MultiMap.ts" />
 var std;
 (function (std) {
     /**
@@ -7935,6 +7948,8 @@ var std;
     }(std.base.UniqueMap));
     std.TreeMap = TreeMap;
 })(std || (std = {}));
+/// <reference path="API.ts" />
+/// <reference path="base/MultiMap.ts" />
 var std;
 (function (std) {
     /**
@@ -8201,252 +8216,7 @@ var std;
     std.TreeMultiMap = TreeMultiMap;
 })(std || (std = {}));
 /// <reference path="API.ts" />
-/// <reference path="base/UniqueSet.ts" />
 /// <reference path="base/MultiSet.ts" />
-var std;
-(function (std) {
-    /**
-     * <p> Tree-structured set, <code>std::set</code> of STL. </p>
-     *
-     * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
-     *
-     * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the
-     * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a
-     * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
-     * can be inserted or removed from the  </p>
-     *
-     * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak
-     * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
-     *
-     * <p> {@link TreeSet} containers are generally slower than {@link HashSet} containers to access
-     * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
-     * order. </p>
-     *
-     * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
-     *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </a></p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd>
-     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		position in the container.
-     *	</dd>
-     *
-     *	<dt> Ordered </dt>
-     *	<dd>
-     *		The elements in the container follow a strict order at all times. All inserted elements are
-     *		given a position in this order.
-     *	</dd>
-     *
-     *	<dt> Set </dt>
-     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-     *
-     *	<dt> Unique keys </dt>
-     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements.
-     *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
-     *
-     * @reference http://www.cplusplus.com/reference/set/set
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    var TreeSet = (function (_super) {
-        __extends(TreeSet, _super);
-        function TreeSet() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
-            // CONSTRUCT TREE WITH COMPARE
-            var compare = std.less;
-            var fn = null;
-            // OVERLOADINGS
-            if (args.length == 0) { } // DO NOTHING
-            else if (args.length >= 1 && (args[0] instanceof std.base.Container || args[0] instanceof std.Vector)) {
-                fn = this.construct_from_container;
-                if (args.length == 2)
-                    compare = args[1];
-            }
-            else if (args.length >= 1 && args[0] instanceof Array) {
-                fn = this.construct_from_array;
-                if (args.length == 2)
-                    compare = args[1];
-            }
-            else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
-                fn = this.construct_from_range;
-                if (args.length == 3)
-                    compare = args[2];
-            }
-            else if (args.length == 1)
-                compare = args[0];
-            // CONSTRUCT TREE
-            this.tree_ = new std.base.AtomicTree(this, compare);
-            // BRANCH - CALL OVERLOADED CONSTRUCTORS
-            if (fn != null)
-                fn.apply(this, args);
-        }
-        /* ---------------------------------------------------------
-            ASSIGN & CLEAR
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.clear = function () {
-            _super.prototype.clear.call(this);
-            this.tree_.clear();
-        };
-        /* =========================================================
-            ACCESSORS
-        ========================================================= */
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.find = function (val) {
-            var node = this.tree_.find(val);
-            if (node == null || std.equal_to(node.value.value, val) == false)
-                return this.end();
-            else
-                return node.value;
-        };
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.key_comp = function () {
-            return this.tree_.key_comp();
-        };
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.value_comp = function () {
-            return this.tree_.key_comp();
-        };
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.lower_bound = function (val) {
-            return this.tree_.lower_bound(val);
-        };
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.upper_bound = function (val) {
-            return this.tree_.lower_bound(val);
-        };
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.equal_range = function (val) {
-            return this.tree_.equal_range(val);
-        };
-        /* =========================================================
-            ELEMENTS I/O
-                - INSERT
-                - POST-PROCESS
-        ============================================================
-            INSERT
-        --------------------------------------------------------- */
-        /**
-         * @hidden
-         */
-        TreeSet.prototype.insert_by_val = function (val) {
-            var node = this.tree_.find(val);
-            // IF EQUALS, THEN RETURN FALSE
-            if (node != null && std.equal_to(node.value.value, val) == true)
-                return std.make_pair(node.value, false);
-            // FIND NODE
-            var it;
-            if (node == null)
-                it = this.end();
-            else if (std.less(node.value.value, val) == true)
-                it = node.value.next();
-            else
-                it = node.value;
-            /////
-            // INSERTS
-            /////
-            it = new std.SetIterator(this, this.data_.insert(it.get_list_iterator(), val));
-            this.handle_insert(it, it.next()); // POST-PROCESS
-            return std.make_pair(it, true);
-        };
-        TreeSet.prototype.insert_by_hint = function (hint, val) {
-            // FIND KEY
-            if (this.has(val) == true)
-                return this.end();
-            // VALIDATE HINT
-            var ret;
-            var compare = this.tree_.key_comp();
-            // hint < current && current < next
-            if (compare(hint.value, val) == true
-                && (hint.next().equal_to(this.end()) || compare(val, hint.next().value) == true)) {
-                ///////
-                // RIGHT HINT
-                ///////
-                // INSERT
-                ret = new std.SetIterator(this, this.data_.insert(hint.get_list_iterator(), val));
-                // POST-PROCESS
-                this.handle_insert(ret, ret.next());
-            }
-            else {
-                ///////
-                // WRONG HINT
-                ///////
-                // INSERT BY AUTOMATIC NODE FINDING
-                ret = this.insert_by_val(val).first;
-            }
-            return ret;
-        };
-        /**
-         * @hidden
-         */
-        TreeSet.prototype.insert_by_range = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
-                this.insert_by_val(first.value);
-        };
-        /* ---------------------------------------------------------
-            POST-PROCESS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.handle_insert = function (first, last) {
-            this.tree_.insert(first);
-        };
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.handle_erase = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
-                this.tree_.erase(last);
-        };
-        /* ===============================================================
-            UTILITIES
-        =============================================================== */
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.swap = function (obj) {
-            if (obj instanceof TreeSet)
-                this.swap_tree_set(obj);
-            else
-                _super.prototype.swap.call(this, obj);
-        };
-        /**
-         * @hidden
-         */
-        TreeSet.prototype.swap_tree_set = function (obj) {
-            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
-            _b = [obj.tree_, this.tree_], this.tree_ = _b[0], obj.tree_ = _b[1];
-            var _a, _b;
-        };
-        return TreeSet;
-    }(std.base.UniqueSet));
-    std.TreeSet = TreeSet;
-})(std || (std = {}));
 var std;
 (function (std) {
     /**
@@ -8706,6 +8476,252 @@ var std;
         return TreeMultiSet;
     }(std.base.MultiSet));
     std.TreeMultiSet = TreeMultiSet;
+})(std || (std = {}));
+/// <reference path="API.ts" />
+/// <reference path="base/UniqueSet.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Tree-structured set, <code>std::set</code> of STL. </p>
+     *
+     * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
+     *
+     * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the
+     * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a
+     * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
+     * can be inserted or removed from the  </p>
+     *
+     * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak
+     * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
+     *
+     * <p> {@link TreeSet} containers are generally slower than {@link HashSet} containers to access
+     * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
+     * order. </p>
+     *
+     * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
+     *
+     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </a></p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
+     *
+     *	<dt> Ordered </dt>
+     *	<dd>
+     *		The elements in the container follow a strict order at all times. All inserted elements are
+     *		given a position in this order.
+     *	</dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Unique keys </dt>
+     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * @param <T> Type of the elements.
+     *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
+     *
+     * @reference http://www.cplusplus.com/reference/set/set
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    var TreeSet = (function (_super) {
+        __extends(TreeSet, _super);
+        function TreeSet() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            // CONSTRUCT TREE WITH COMPARE
+            var compare = std.less;
+            var fn = null;
+            // OVERLOADINGS
+            if (args.length == 0) { } // DO NOTHING
+            else if (args.length >= 1 && (args[0] instanceof std.base.Container || args[0] instanceof std.Vector)) {
+                fn = this.construct_from_container;
+                if (args.length == 2)
+                    compare = args[1];
+            }
+            else if (args.length >= 1 && args[0] instanceof Array) {
+                fn = this.construct_from_array;
+                if (args.length == 2)
+                    compare = args[1];
+            }
+            else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
+                fn = this.construct_from_range;
+                if (args.length == 3)
+                    compare = args[2];
+            }
+            else if (args.length == 1)
+                compare = args[0];
+            // CONSTRUCT TREE
+            this.tree_ = new std.base.AtomicTree(this, compare);
+            // BRANCH - CALL OVERLOADED CONSTRUCTORS
+            if (fn != null)
+                fn.apply(this, args);
+        }
+        /* ---------------------------------------------------------
+            ASSIGN & CLEAR
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        TreeSet.prototype.clear = function () {
+            _super.prototype.clear.call(this);
+            this.tree_.clear();
+        };
+        /* =========================================================
+            ACCESSORS
+        ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        TreeSet.prototype.find = function (val) {
+            var node = this.tree_.find(val);
+            if (node == null || std.equal_to(node.value.value, val) == false)
+                return this.end();
+            else
+                return node.value;
+        };
+        /**
+         * @inheritdoc
+         */
+        TreeSet.prototype.key_comp = function () {
+            return this.tree_.key_comp();
+        };
+        /**
+         * @inheritdoc
+         */
+        TreeSet.prototype.value_comp = function () {
+            return this.tree_.key_comp();
+        };
+        /**
+         * @inheritdoc
+         */
+        TreeSet.prototype.lower_bound = function (val) {
+            return this.tree_.lower_bound(val);
+        };
+        /**
+         * @inheritdoc
+         */
+        TreeSet.prototype.upper_bound = function (val) {
+            return this.tree_.lower_bound(val);
+        };
+        /**
+         * @inheritdoc
+         */
+        TreeSet.prototype.equal_range = function (val) {
+            return this.tree_.equal_range(val);
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - INSERT
+                - POST-PROCESS
+        ============================================================
+            INSERT
+        --------------------------------------------------------- */
+        /**
+         * @hidden
+         */
+        TreeSet.prototype.insert_by_val = function (val) {
+            var node = this.tree_.find(val);
+            // IF EQUALS, THEN RETURN FALSE
+            if (node != null && std.equal_to(node.value.value, val) == true)
+                return std.make_pair(node.value, false);
+            // FIND NODE
+            var it;
+            if (node == null)
+                it = this.end();
+            else if (std.less(node.value.value, val) == true)
+                it = node.value.next();
+            else
+                it = node.value;
+            /////
+            // INSERTS
+            /////
+            it = new std.SetIterator(this, this.data_.insert(it.get_list_iterator(), val));
+            this.handle_insert(it, it.next()); // POST-PROCESS
+            return std.make_pair(it, true);
+        };
+        TreeSet.prototype.insert_by_hint = function (hint, val) {
+            // FIND KEY
+            if (this.has(val) == true)
+                return this.end();
+            // VALIDATE HINT
+            var ret;
+            var compare = this.tree_.key_comp();
+            // hint < current && current < next
+            if (compare(hint.value, val) == true
+                && (hint.next().equal_to(this.end()) || compare(val, hint.next().value) == true)) {
+                ///////
+                // RIGHT HINT
+                ///////
+                // INSERT
+                ret = new std.SetIterator(this, this.data_.insert(hint.get_list_iterator(), val));
+                // POST-PROCESS
+                this.handle_insert(ret, ret.next());
+            }
+            else {
+                ///////
+                // WRONG HINT
+                ///////
+                // INSERT BY AUTOMATIC NODE FINDING
+                ret = this.insert_by_val(val).first;
+            }
+            return ret;
+        };
+        /**
+         * @hidden
+         */
+        TreeSet.prototype.insert_by_range = function (first, last) {
+            for (; !first.equal_to(last); first = first.next())
+                this.insert_by_val(first.value);
+        };
+        /* ---------------------------------------------------------
+            POST-PROCESS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        TreeSet.prototype.handle_insert = function (first, last) {
+            this.tree_.insert(first);
+        };
+        /**
+         * @inheritdoc
+         */
+        TreeSet.prototype.handle_erase = function (first, last) {
+            for (; !first.equal_to(last); first = first.next())
+                this.tree_.erase(last);
+        };
+        /* ===============================================================
+            UTILITIES
+        =============================================================== */
+        /**
+         * @inheritdoc
+         */
+        TreeSet.prototype.swap = function (obj) {
+            if (obj instanceof TreeSet)
+                this.swap_tree_set(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        TreeSet.prototype.swap_tree_set = function (obj) {
+            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
+            _b = [obj.tree_, this.tree_], this.tree_ = _b[0], obj.tree_ = _b[1];
+            var _a, _b;
+        };
+        return TreeSet;
+    }(std.base.UniqueSet));
+    std.TreeSet = TreeSet;
 })(std || (std = {}));
 /// <reference path="API.ts" />
 var std;
@@ -10901,253 +10917,6 @@ var std;
         base.XTreeNode = XTreeNode;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../API.ts" />
-var std;
-(function (std) {
-    var example;
-    (function (example) {
-        function test_all() {
-            for (var key in std.example)
-                if (key != "test_all" && std.example[key] instanceof Function)
-                    std.example[key]();
-        }
-        example.test_all = test_all;
-    })(example = std.example || (std.example = {}));
-})(std || (std = {}));
-/// <reference path="../API.ts" />
-var std;
-(function (std) {
-    var example;
-    (function (example) {
-        function test_anything() {
-            var map = new std.HashMap();
-            map.insert(["samchon", 1]);
-            map.insert(["FireFox", 2]);
-            console.log(map.has("samchon"), "#" + map.size());
-            for (var it = map.begin(); !it.equal_to(map.end()); it = it.next())
-                console.log(it.first);
-            map.erase("samchon");
-            console.log(map.has("samchon"), "#" + map.size());
-            for (var it = map.begin(); !it.equal_to(map.end()); it = it.next())
-                console.log(it.first);
-            console.log("first item", map.begin().first);
-            console.log("last item", map.rbegin().first);
-            /* --------------------------------------------------------- */
-            //let list: std.List<string> = new std.List<string>();
-            //list.push_back("samchon");
-            //list.push_back("FireFox");
-            //console.log("#" + list.size());
-            //list.erase(list.begin());
-            //console.log("#" + list.size());
-            //for (let it = list.begin(); !it.equal_to(list.end()); it = it.next())
-            //	console.log(it.value);
-        }
-        example.test_anything = test_anything;
-    })(example = std.example || (std.example = {}));
-})(std || (std = {}));
-/// <reference path="../API.ts" />
-var std;
-(function (std) {
-    var example;
-    (function (example) {
-        function test_bind() {
-            var list = new std.List();
-            // <List>???.insert(...)
-            // list.insert(list.end(), 5, 1)
-            var fn = std.bind(std.List.prototype.insert);
-            fn(list, list.end(), 5, 1);
-            debug_list();
-            var fn2 = std.bind(std.List.prototype.clear);
-            fn2(list);
-            debug_list();
-            // <List>???.insert(_1, _2, 5, _3)
-            // list.insert(list.end(), 5, 2)
-            var fn3 = std.bind(list.insert, std.placeholders._1, std.placeholders._2, 5, std.placeholders._3);
-            fn3(list, list.end(), 2);
-            debug_list();
-            function debug_list() {
-                console.log("#" + list.size());
-                for (var it = list.begin(); !it.equal_to(list.end()); it = it.next())
-                    console.log(it.value);
-                console.log("----------------------------------------------------------");
-            }
-        }
-        example.test_bind = test_bind;
-    })(example = std.example || (std.example = {}));
-})(std || (std = {}));
-/// <reference path="../API.ts" />
-var std;
-(function (std) {
-    var example;
-    (function (example) {
-        function test_deque() {
-            var deque = new std.Deque();
-            for (var i = 0; i < 10; i++)
-                deque.push_back(i);
-            var it = deque.begin().advance(3);
-            it = deque.erase(it); // erase 3
-            console.log(it.value); // print 4
-            it = deque.begin().advance(2);
-            it = deque.insert(it, -1); // insert -1
-            console.log(it.next().value); // print 2
-            it = deque.begin().advance(6);
-            it = deque.erase(it, it.advance(3)); // erase from 6 to 9
-            //console.log(it.value); // print 9
-            console.log(it.equal_to(deque.end()));
-            console.log("-------------------------------------");
-            for (var it_1 = deque.begin(); !it_1.equal_to(deque.end()); it_1 = it_1.next())
-                console.log(it_1.value);
-        }
-        example.test_deque = test_deque;
-    })(example = std.example || (std.example = {}));
-})(std || (std = {}));
-/// <reference path="../API.ts" />
-var std;
-(function (std) {
-    var example;
-    (function (example) {
-        function test_for_each() {
-            var array = new std.Vector();
-            for (var i = 0; i < 20; i++)
-                array.push_back(i);
-            var fn = std.for_each(array.begin(), array.end(), function (val) { console.log(val); });
-        }
-        example.test_for_each = test_for_each;
-    })(example = std.example || (std.example = {}));
-})(std || (std = {}));
-/// <reference path="../API.ts" />
-var std;
-(function (std) {
-    var example;
-    (function (example) {
-        function test_hash_map() {
-            var map = new std.TreeMap();
-            map.insert(["first", 1]);
-            map.insert(["second", 2]);
-            for (var it = map.begin(); !it.equal_to(map.end()); it = it.next())
-                console.log(it.first, it.second);
-            var array = new Array();
-            array["abcd"] = 2;
-            for (var key in array)
-                console.log(array[key]);
-        }
-        example.test_hash_map = test_hash_map;
-    })(example = std.example || (std.example = {}));
-})(std || (std = {}));
-/// <reference path="../API.ts" />
-/// <reference path="../List.ts" />
-var std;
-(function (std) {
-    var example;
-    (function (example) {
-        function test_list() {
-            var list = new std.List();
-            for (var i = 0; i < 10; i++)
-                list.push_back(i);
-            var it = list.begin().advance(3);
-            it = list.erase(it); // erase 3
-            console.log(it.value); // print 4
-            it = list.begin().advance(2);
-            it = list.insert(it, -1); // insert -1
-            console.log(it.next().value); // print 2
-            it = list.begin().advance(6);
-            it = list.erase(it, it.advance(3)); // erase from 6 to 9
-            //console.log(it.value); // print 9
-            console.log(it.equal_to(list.end()));
-            console.log("-------------------------------------");
-            for (var it_2 = list.begin(); !it_2.equal_to(list.end()); it_2 = it_2.next())
-                console.log(it_2.value);
-        }
-        example.test_list = test_list;
-    })(example = std.example || (std.example = {}));
-})(std || (std = {}));
-/// <reference path="../API.ts" />
-var std;
-(function (std) {
-    var example;
-    (function (example) {
-        function sorting() {
-            var cubes = new std.Deque();
-            for (var i = 0; i < 0; i++)
-                cubes.push_back(new Cube());
-            ///////////////////////////////
-            // SORT BY Cube.less()
-            ///////////////////////////////
-            std.sort(cubes.begin(), cubes.end());
-            for (var it = cubes.begin(); !it.equal_to(cubes.end()); it = it.next())
-                it.value.debug_size();
-            console.log("------------------------------");
-            ///////////////////////////////
-            // SORT BY inline function
-            ///////////////////////////////
-            std.sort(cubes.begin(), cubes.end(), function (left, right) {
-                if (left.x != right.x)
-                    return left.x < right.x;
-                else if (left.y != right.y)
-                    return left.y < right.y;
-                else
-                    return left.z < right.z;
-            });
-            for (var it = cubes.begin(); !it.equal_to(cubes.end()); it = it.next())
-                it.value.debug_position();
-        }
-        example.sorting = sorting;
-        var Cube = (function () {
-            function Cube() {
-                this.width = Math.random() * 10;
-                this.height = Math.random() * 10;
-                this.length = Math.random() * 10;
-                this.x = Math.random() * 100 - 50;
-                this.y = Math.random() * 100 - 50;
-                this.z = Math.random() * 100 - 50;
-            }
-            Object.defineProperty(Cube.prototype, "volume", {
-                get: function () {
-                    return this.width * this.height * this.length;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Cube.prototype.less = function (obj) {
-                return this.volume < obj.volume;
-            };
-            Cube.prototype.debug_size = function () {
-                console.log(this.width, this.height, this.length + " => " + this.volume);
-            };
-            Cube.prototype.debug_position = function () {
-                console.log(this.x, this.y, this.z);
-            };
-            return Cube;
-        }());
-    })(example = std.example || (std.example = {}));
-})(std || (std = {}));
-/// <reference path="../API.ts" />
-var std;
-(function (std) {
-    var example;
-    (function (example) {
-        function tree_set() {
-            var set = new std.TreeMultiSet();
-            // INSERTS EVEN NUMBERS
-            for (var i = 0; i <= 10; i += 2)
-                for (var j = 0; j < 3; j++)
-                    set.insert(i);
-            // FIND 4 -> HAS
-            console.log("Matched node: 4");
-            console.log("	lower bound: " + set.lower_bound(4).value);
-            console.log("	upper bound: " + set.upper_bound(4).value);
-            console.log(" ");
-            // FIND ODD NUMBERS -> NOT EXIST
-            for (var i = 1; i <= 10; i += 2) {
-                console.log("Mis-matched node: " + i);
-                console.log("	lower bound: " + set.lower_bound(i).value);
-                console.log("	upper bound: " + set.upper_bound(i).value);
-                console.log(" ");
-            }
-        }
-        example.tree_set = tree_set;
-    })(example = std.example || (std.example = {}));
-})(std || (std = {}));
 /// <reference path="../../std/Vector.ts" />
 /// <reference path="../../std/Deque.ts" />
 /// <reference path="../../std/List.ts" />
@@ -11155,15 +10924,18 @@ var std;
 /// <reference path="../../std/Stack.ts" />
 /// <reference path="../../std/HashSet.ts" />
 /// <reference path="../../std/HashMap.ts" />
+/// <reference path="../../std/HashMultiSet.ts" />
+/// <reference path="../../std/HashMultiMap.ts" />
 /// <reference path="../../std/TreeSet.ts" />
 /// <reference path="../../std/TreeMap.ts" />
+/// <reference path="../../std/TreeMultiSet.ts" />
+/// <reference path="../../std/TreeMultiMap.ts" />
 /// <reference path="../../std/Algorithm.ts" />
 /// <reference path="../../std/Functional.ts" />
 /// <reference path="../../std/Iterator.ts" />
 /// <reference path="../../std/Exception.ts" />
 /// <reference path="../../std/SystemError.ts" />
 /// <reference path="../../std/Utility.ts" />
-/// <reference path="../../std/example/test_all.ts" />
 try {
     module.exports = std;
 }

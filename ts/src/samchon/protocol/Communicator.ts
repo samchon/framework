@@ -1,6 +1,6 @@
 ﻿/// <reference path="../API.ts" />
 
-/// <reference path="NormalCommunicatorBase.ts" />
+/// <reference path="CommunicatorBase.ts" />
 
 namespace samchon.protocol
 {
@@ -36,10 +36,10 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
-	export class NormalCommunicator
+	export class Communicator
 		implements ICommunicator
 	{
-		private communicator_base: NormalCommunicatorBase;
+		private communicator_base: CommunicatorBase;
 
 		protected listener: IProtocol;
 
@@ -52,7 +52,7 @@ namespace samchon.protocol
 
 		public constructor()
 		{
-			this.communicator_base = new NormalCommunicatorBase(this);
+			this.communicator_base = new CommunicatorBase(this);
 
 			this.listener = null;
 			this.socket = null;

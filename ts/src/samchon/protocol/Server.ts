@@ -16,14 +16,14 @@ namespace samchon.protocol
 {
 	declare var net: typeof NodeJS.net;
 
-	export abstract class NormalServer implements IServer
+	export abstract class Server implements IServer
 	{
 		private server: socket.server;
 
 		/**
 		 * @inheritdoc
 		 */
-		public abstract addClient(driver: NormalClientDriver): void;
+		public abstract addClient(driver: ClientDriver): void;
 
 		/**
 		 * @inheritdoc
@@ -44,7 +44,7 @@ namespace samchon.protocol
 
 		private handle_connect(socket: socket.server): void
 		{
-			let clientDriver: NormalClientDriver = new NormalClientDriver(socket);;
+			let clientDriver: ClientDriver = new ClientDriver(socket);;
 			this.addClient(clientDriver);
 		}
 	}

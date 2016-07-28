@@ -109,7 +109,7 @@ namespace samchon.protocol.external
 		 * 
 		 * <p> Creates and returns one of them: </p>
 		 * <ul>
-		 *	<li> {@link NormalServerBase} </li>
+		 *	<li> {@link ServerBase} </li>
 		 *	<li> {@link WebServerBase} </li>
 		 *	<li> {@link SharedWorkerServerBase} </li>
 		 * </ul>

@@ -2744,8 +2744,8 @@ declare namespace std.base {
     /**
      * <p> An abstract container. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" style="max-width: 100%" />
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" />
      * </a> </p>
      *
      * <h3> Container properties </h3>
@@ -2865,8 +2865,8 @@ declare namespace std {
      * <p> There is not a single type of {@link Iterator bidirectional iterator}: {@link IContainer Each container}
      * may define its own specific iterator type able to iterate through it and access its elements. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * @reference http://www.cplusplus.com/reference/iterator/BidirectionalIterator
@@ -2951,8 +2951,8 @@ declare namespace std {
      * first element in a range is reversed, the reversed iterator points to the element before the first element (this
      * would be the past-the-end element of the reversed range). </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * @reference http://www.cplusplus.com/reference/iterator/reverse_iterator
@@ -3187,8 +3187,8 @@ declare namespace std {
      * the end, {@link Deque Deques} perform worse and have less consistent iterators and references than
      * {@link List Lists}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> </a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * <h3> Container properties </h3>
@@ -3434,8 +3434,8 @@ declare namespace std {
     /**
      * <p> An iterator of {@link Deque}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> </a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * @author Jeongho Nam <http://samchon.org>
@@ -3506,8 +3506,8 @@ declare namespace std {
     /**
      * <p> A reverse-iterator of Deque. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> </a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * @param <T> Type of the elements.
@@ -3583,8 +3583,8 @@ declare namespace std {
      * <p> All objects thrown by components of the standard library are derived from this class.
      * Therefore, all standard exceptions can be caught by catching this type by reference. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/exception/exception
      * @author Jeongho Nam <http://samchon.org>
@@ -3632,8 +3632,8 @@ declare namespace std {
      *
      * <p> It is used as a base class for several logical error exceptions. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/logic_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3658,8 +3658,8 @@ declare namespace std {
      * <p> No component of the standard library throws exceptions of this type. It is designed as a standard
      * exception to be thrown by programs. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a></p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a></p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/domain_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3680,8 +3680,8 @@ declare namespace std {
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
      * also throw exceptions of this type to signal invalid arguments. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/invalid_argument
      * @author Jeongho Nam <http://samchon.org>
@@ -3702,8 +3702,8 @@ declare namespace std {
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library,
      * such as vector and string also throw exceptions of this type to signal errors resizing. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/length_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3725,8 +3725,8 @@ declare namespace std {
      * such as vector, deque, string and bitset also throw exceptions of this type to signal arguments
      * out of range. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/out_of_range
      * @author Jeongho Nam <http://samchon.org>
@@ -3747,8 +3747,8 @@ declare namespace std {
      *
      * <p> It is used as a base class for several runtime error exceptions. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/runtime_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3769,8 +3769,8 @@ declare namespace std {
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
      * also throw exceptions of this type to signal range errors. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/overflow_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3791,8 +3791,8 @@ declare namespace std {
      * <p> No component of the standard library throws exceptions of this type. It is designed as a standard
      * exception to be thrown by programs. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/underflow_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3814,8 +3814,8 @@ declare namespace std {
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
      * also throw exceptions of this type to signal range errors. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/range_error
      * @author Jeongho Nam <http://samchon.org>
@@ -4376,8 +4376,8 @@ declare namespace std.base {
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -4774,8 +4774,8 @@ declare namespace std {
     /**
      * <p> An iterator of {@link MapContainer map container}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -4845,8 +4845,8 @@ declare namespace std {
     /**
      * <p> A reverse-iterator of {@link MapContainer map container}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -4885,8 +4885,8 @@ declare namespace std.base {
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -5152,8 +5152,8 @@ declare namespace std.base {
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -5265,8 +5265,8 @@ declare namespace std {
      * <p> {@link HashMap} containers are faster than {@link TreeMap} containers to access individual elements by their
      * <i>key</i>, although they are generally less efficient for range iteration through a subset of their elements. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * <h3> Container properties </h3>
@@ -5430,8 +5430,8 @@ declare namespace std {
      * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that
      * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </a>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * <h3> Container properties </h3>
@@ -5590,8 +5590,8 @@ declare namespace std.base {
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -5867,8 +5867,8 @@ declare namespace std {
     /**
      * <p> An iterator of a Set. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -5926,8 +5926,8 @@ declare namespace std {
     /**
      * <p> A reverse-iterator of Set. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
      *
      * @param <T> Type of the elements.
      *
@@ -5956,8 +5956,8 @@ declare namespace std.base {
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -6032,8 +6032,8 @@ declare namespace std {
      * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
      * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -6188,8 +6188,8 @@ declare namespace std.base {
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -6321,8 +6321,8 @@ declare namespace std {
      * elements by their <i>key</i>, although they are generally less efficient for range iteration through a
      * subset of their elements. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -6486,8 +6486,8 @@ declare namespace std {
      * distance between these. They also consume some extra memory to keep the linking information associated to each
      * element (which may be an important factor for large lists of small-sized elements). </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * <h3> Container properties </h3>
@@ -7059,8 +7059,8 @@ declare namespace std {
     /**
      * <p> An iterator, node of a List. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * @author Jeongho Nam <http://samchon.org>
@@ -7121,8 +7121,8 @@ declare namespace std {
     /**
      * <p> A reverse-iterator of List. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * @param <T> Type of the elements.
@@ -7171,8 +7171,8 @@ declare namespace std {
      * By default, if no container class is specified for a particular {@link Queue} class instantiation, the standard
      * container {@link List} is used. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * @param <T> Type of elements.
@@ -7503,8 +7503,8 @@ declare namespace std {
      * By default, if no container class is specified for a particular {@link Stack} class instantiation, the standard
      * container {@link List} is used. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * @param <T> Type of elements.
@@ -7614,8 +7614,8 @@ declare namespace std.base {
      * so that they can be interpreted when needed as more abstract (and portable)
      * {@link ErrorCondition error conditions}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -7724,8 +7724,8 @@ declare namespace std {
      * <p> The class inherits from {@link RuntimeError}, to which it adds an {@link ErrorCode} as
      * member code (and defines a specialized what member). </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/system_error/system_error
      * @author Jeongho Nam <http://samchon.org>
@@ -7790,8 +7790,8 @@ declare namespace std {
      * passed by reference. As such, only one object of each of these types shall exist, each uniquely identifying its own
      * category: all error codes and conditions of a same category shall return a reference to same object. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/system_error/error_category
      * @author Jeongho Nam <http://samchon.org>
@@ -7918,8 +7918,8 @@ declare namespace std {
      * <p> The {@link ErrorCategory categories} associated with the {@link ErrorCondition} and the
      * {@link ErrorCode} define the equivalences between them. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/system_error/error_condition
      * @author Jeongho Nam <http://samchon.org>
@@ -7951,8 +7951,8 @@ declare namespace std {
      * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, so that they
      * can be interpreted when needed as more abstract (and portable) {@link ErrorCondition error conditions}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/system_error/error_code
      * @author Jeongho Nam <http://samchon.org>
@@ -7997,8 +7997,8 @@ declare namespace std {
      *
      * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </a></p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a></p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -8179,8 +8179,8 @@ declare namespace std {
      *
      * <p> {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank"> <
-     * img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </a></p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank"> <
+     * img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a></p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -8368,8 +8368,8 @@ declare namespace std {
      *
      * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </a></p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /> </a></p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -8538,8 +8538,8 @@ declare namespace std {
      *
      * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </a></p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /> </a></p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -8784,8 +8784,8 @@ declare namespace std {
      * end, they perform worse than the others, and have less consistent iterators and references than {@link List}s.
      * </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" />
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
      * </a> </p>
      *
      * <h3> Container properties </h3>
@@ -9166,8 +9166,8 @@ declare namespace std {
     /**
      * <p> An iterator of Vector. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" />
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
      * </p>
      *
      * @param <T> Type of the elements.
@@ -9243,8 +9243,8 @@ declare namespace std {
     /**
      * <p> A reverse-iterator of Vector. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" />
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
      * </p>
      *
      * @param <T> Type of the elements.
@@ -9372,8 +9372,8 @@ declare namespace std.base {
      * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that
      * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * <h3> Container properties </h3>
@@ -9668,8 +9668,8 @@ declare namespace std.base {
     /**
      * <p> Hash buckets storing {@link MapIterator MapIterators}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * @author Jeongho Nam <http://samchon.org>
@@ -9699,8 +9699,8 @@ declare namespace std.base {
      * elements by their <i>key</i>, although they are generally less efficient for range iteration through a
      * subset of their elements. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </a>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * <h3> Container properties </h3>
@@ -9923,8 +9923,8 @@ declare namespace std.base {
     /**
      * <p> Hash buckets storing {@link SetIterator SetIterators}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </a>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * @author Jeongho Nam <http://samchon.org>
@@ -9965,8 +9965,8 @@ declare namespace std.base {
      * beginning or the end, {@link IArray} objects perform worse and have less consistent iterators and references
      * than {@link List Lists} </p>.
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" />
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
      * </a> </p>
      *
      * <h3> Container properties </h3>
@@ -10079,8 +10079,8 @@ declare namespace std.base {
      * <p> There is not a single type of {@link IArrayIterator random-access iterator}: Each container may define its
      * own specific iterator type able to iterate through it and access its elements. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" />
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" style="max-width: 100%" />
      * </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/iterator/RandomAccessIterator
@@ -10110,8 +10110,8 @@ declare namespace std.base {
      * <p> {@link IContainer} is an interface designed for sequence containers. Sequence containers of STL
      * (Standard Template Library) are based on the {@link IContainer}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" style="max-width: 100%" />
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" />
      * </a> </p>
      *
      * <h3> Container properties </h3>
@@ -10302,8 +10302,8 @@ declare namespace std.base {
     /**
      * <p> An interface for deque  </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" />
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" style="max-width: 100%" />
      * </a> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
@@ -10332,8 +10332,8 @@ declare namespace std.base {
     /**
      * <p> An interface for linear containers.  </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" target="_blank">
+     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * @author Jeonngho Nam
@@ -10494,7 +10494,7 @@ declare namespace std.base {
      *	</li>
      * </ol>
      *
-     * <p> <img src="http://samchon.github.io/typescript-stl/api/assets/images/tree/Red-black_tree_example.svg"
+     * <p> <img src="http://samchon.github.io/typescript-stl/images/design/conceptual_diagram/Red-black_tree_example.svg"
      *			style="max-width: 100%" /> </p>
      *
      * <p> These constraints enforce a critical property of red-black trees: the path from the root to the farthest
@@ -10689,7 +10689,7 @@ declare namespace std.base {
          * the only loop, and any rotations occur after this loop, this proves that a constant number of rotations
          * occur. </p>
          *
-         * <p> <img src="http://samchon.github.io/typescript-stl/api/assets/images/tree/Red-black_tree_insert_case_3.svg"
+         * <p> <img src="http://samchon.github.io/typescript-stl/images/design/conceptual_diagram/Red-black_tree_insert_case_3.svg"
                     style="max-width: 100%" /> </p>
          *
          * @param N A node to be inserted or swapped.
@@ -10723,7 +10723,7 @@ declare namespace std.base {
          * node are <font color='darkBlue'>black</font>) is still violated, but now we can resolve this by
          * continuing to case 5. </p>
          *
-         * <p> <img src="http://samchon.github.io/typescript-stl/api/assets/images/tree/Red-black_tree_insert_case_4.svg"
+         * <p> <img src="http://samchon.github.io/typescript-stl/images/design/conceptual_diagram/Red-black_tree_insert_case_4.svg"
                     style="max-width: 100%" /> </p>
          *
          * @param N A node to be inserted or swapped.
@@ -10754,7 +10754,7 @@ declare namespace std.base {
          * through {@link XTreeNode.parent <b>P</b>}. In each case, this is the only
          * <font color='darkBlue'>black</font> node of the three. </p>
          *
-         * <p> <img src="http://samchon.github.io/typescript-stl/api/assets/images/tree/Red-black_tree_insert_case_5.svg"
+         * <p> <img src="http://samchon.github.io/typescript-stl/images/design/conceptual_diagram/Red-black_tree_insert_case_5.svg"
                     style="max-width: 100%" /> </p>
          *
          * @param N A node to be inserted or swapped.
@@ -10908,7 +10908,7 @@ declare namespace std.base {
         /**
          * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </p>
          *
-         * <p> <img src="http://samchon.github.io/typescript-stl/api/assets/images/tree/Red-black_tree_delete_case_2.svg"
+         * <p> <img src="http://samchon.github.io/typescript-stl/images/design/conceptual_diagram/Red-black_tree_delete_case_2.svg"
                     style="max-width: 100%" /> </p>
          *
          * <p> In this case we reverse the colors of {@link XTreeNode.parent <b>P</b>} and
@@ -10930,7 +10930,7 @@ declare namespace std.base {
          * <p> {@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and {@link XTreeNode.sibling
          * <b>S</b>}'s children are <font color='darkBlue'>black</font>. </p>
          *
-         * <p> <img src="http://samchon.github.io/typescript-stl/api/assets/images/tree/Red-black_tree_delete_case_3.svg"
+         * <p> <img src="http://samchon.github.io/typescript-stl/images/design/conceptual_diagram/Red-black_tree_delete_case_3.svg"
                     style="max-width: 100%" /> </p>
          *
          * <p> In this case, we simply repaint {@link XTreeNode.sibling <b>S</b>} <font color='red'>red</font>. The
@@ -10954,7 +10954,7 @@ declare namespace std.base {
          * <p> {@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
          * <font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font>. </p>
          *
-         * <p> <img src="http://samchon.github.io/typescript-stl/api/assets/images/tree/Red-black_tree_delete_case_4.svg"
+         * <p> <img src="http://samchon.github.io/typescript-stl/images/design/conceptual_diagram/Red-black_tree_delete_case_4.svg"
                     style="max-width: 100%" /> </p>
          *
          * <p> In this case, we simply exchange the colors of {@link XTreeNode.sibling <b>S</b>} and
@@ -10971,7 +10971,7 @@ declare namespace std.base {
          * left child is <font color='red'>red</font>, {@link XTreeNode.sibling <b>S</b>}'s right child is
          * <font color='darkBlue'>black</font>, and <i><b>N</b></i> is the left child of its parent. </p>
          *
-         * <p> <img src="http://samchon.github.io/typescript-stl/api/assets/images/tree/Red-black_tree_delete_case_5.svg"
+         * <p> <img src="http://samchon.github.io/typescript-stl/images/design/conceptual_diagram/Red-black_tree_delete_case_5.svg"
                     style="max-width: 100%" /> </p>
          *
          * <p> In this case we rotate right at {@link XTreeNode.sibling <b>S</b>}, so that
@@ -11010,7 +11010,7 @@ declare namespace std.base {
          * <p> Thus, the paths passing through <i><b>N</b></i> pass through one additional
          * <font color='darkBlue'>black</font> node. </p>
          *
-         * <p> <img src="http://samchon.github.io/typescript-stl/api/assets/images/tree/Red-black_tree_delete_case_6.svg"
+         * <p> <img src="http://samchon.github.io/typescript-stl/images/design/conceptual_diagram/Red-black_tree_delete_case_6.svg"
                     style="max-width: 100%" /> </p>
          *
          * <p> Meanwhile, if a path does not go through <i><b>N</b></i>, then there are two possibilities: </p>
@@ -11094,8 +11094,8 @@ declare namespace std.base {
      *
      * <p> {@link ITreeMap TreeMultiMaps} are typically implemented as binary search trees. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -11229,8 +11229,8 @@ declare namespace std.base {
     /**
      * <p> A red-black tree storing {@link MapIterator MapIterators}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -11387,8 +11387,8 @@ declare namespace std.base {
      *
      * <p> {@link ITreeSet TreeMultiSets} are typically implemented as binary search trees. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -11529,8 +11529,8 @@ declare namespace std.base {
     /**
      * <p> A red-black Tree storing {@link SetIterator SetIterators}. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */

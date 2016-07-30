@@ -53,7 +53,10 @@ namespace example.chat
 			let room: ChatRoom;
 
 			if (this.room_list.has(uid) == false)
+			{
 				room = new ChatRoom();
+				this.room_list.push_back(room);
+			}
 			else
 				room = this.room_list.get(uid);
 

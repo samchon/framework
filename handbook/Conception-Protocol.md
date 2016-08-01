@@ -1,12 +1,4 @@
-# Protocol
+# Message Protocol
+## Invoke
 
-## Message Protocol
-
-#### Invoke
-
-#### Entity
-
-## Basic Components
-#### IProtoocl
-#### Communicator
-#### Server
+## Entity

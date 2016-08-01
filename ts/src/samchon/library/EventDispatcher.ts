@@ -7,8 +7,8 @@ namespace samchon.library
 	 * whether specific types of event listeners are registered, and dispatches events. </p>
 	 *
 	 * <p> Event targets are an important part of the Flash¢ç Player and Adobe AIR event model. The event 
-	 * target serves as the focal point for how events flow through the display list hierarchy. When an 
-	 * event such as a mouse click or a keypress occurs, an event object is dispatched into the event flow 
+	 * target serves as the local point for how events flow through the display list hierarchy. When an 
+	 * event such as a mouse click or a key press occurs, an event object is dispatched into the event flow 
 	 * from the root of the display list. The event object makes a round-trip journey to the event target, 
 	 * which is conceptually divided into three phases: the capture phase includes the journey from the 
 	 * root to the last node before the event target's node; the target phase includes only the event 

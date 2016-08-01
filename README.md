@@ -44,7 +44,7 @@ Installing *Samchon-Framework* in **NodeJS** is very easy. Just install with **n
 npm install -g samchon-framework
 ```
 
-When importing *Samchon Framework* has installed, don't forget to referencing the header file ```samchon-framework.d.ts```
+When importing *Samchon Framework*, don't forget to referencing the header file ```samchon-framework.d.ts```
 ```typescript
 /// <reference path="typings/samchon-framework/samchon-framework.d.ts" />
 import samchon = require("samchon-framework");
@@ -67,6 +67,7 @@ If you want to include directly without the *Browserify*, then you've to include
 #### API Documents
   - [C++ API Documents](http://samchon.github.io/framework/api/cpp)
   - [TypeScript API Documents](http://samchon.github.io/framework/api/ts)
+  - ~~[Flex API Documents](http://samchon.github.io/framework/api/flex)~~
 
 #### Architecture Designs
   - [C++ Class Diagram](http://samchon.github.io/framework/design/cpp_class_diagram.pdf)
@@ -74,43 +75,48 @@ If you want to include directly without the *Browserify*, then you've to include
   - [Sequence Diagram](http://samchon.github.io/framework/design/sequence_diagram.pdf)
 
 #### Handbook
+- [**Outline**](https://github.com/samchon/framework/wiki/Home)
+  - [*Samchon Framework is*](https://github.com/samchon/framework/wiki/Home#introduction)
+  - [References](https://github.com/samchon/framework/wiki/Home#references)
+  - [Installation](https://github.com/samchon/framework/wiki/Home#Installation)
+    - [C++](https://github.com/samchon/framework/wiki/Home#c)
+    - [TypeScript in NodeJS](https://github.com/samchon/framework/wiki/Home#typescript-nodejs)
+    - [TypeScript in Browser](https://github.com/samchon/framework/wiki/Home#typescript-browser)
 - [**Conception**](https://github.com/samchon/framework/wiki/Conception)
-  - [What SDN is?](https://github.com/samchon/framework/wiki/Conception-SDN)
-  - [Prime Modules](https://github.com/samchon/framework/wiki/Conception-Modules)
-    - [Basic Components](https://github.com/samchon/framework/wiki/Conception-Modules-Basic_Components)
-      - [IProtocol](https://github.com/samchon/framework/wiki/Conception-Modules-Basic_Components#iprotocol)
-      - [Communicator](https://github.com/samchon/framework/wiki/Conception-Modules-Basic_Components#communicator)
-      - [ServerConnector](https://github.com/samchon/framework/wiki/Conception-Modules-Basic_Components#serverconnector)
-  	  - [Server](https://github.com/samchon/framework/wiki/Conception-Modules-Basic_Components#server)
-    - [Cloud Service](https://github.com/samchon/framework/wiki/Conception-Modules-Service)
-    - [External System](https://github.com/samchon/framework/wiki/Conception-External_System)
-      - [Parallel System](https://github.com/samchon/framework/wiki/Conception-Parallel_System)
-      - [Distributed System](https://github.com/samchon/framework/wiki/Conception-Distributed_System)
-  - [Message Protocol](https://github.com/samchon/framework/wiki/Conception-Message_Protocol)
-    - [Invoke](https://github.com/samchon/framework/wiki/Conception-Message_Protocol#invoke)
-    - [IProtocol](https://github.com/samchon/framework/wiki/Conception-Message_Protocol#iprotocol)
-    - [Entity](https://github.com/samchon/framework/wiki/Conception-Message_Protocol#entity)
-- [**Tutorial - _TypeScript_**](https://github.com/samchon/framework/wiki/Tutorial-TypeScript)
-  - [Basic Libraries](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Libraries)
-    - [XML](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Libraries-XML)
-    - [EventDispatcher](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Libraries-EventDispatcher)
-    - [Collection](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Libraries-Collection)
-  - [Network](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Network)
-    - [Protocol](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Protocol)
-      - [Invoke](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Protocol#invoke)
-      - [IProtocol](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Protocol#iprotocol)
-      - [Entity](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Protocol#entity)
-    - [Basic Components](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Protocol-Basic_Components)
-    - [Service](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Protocol-Service)
-    - [External System](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Protocol-External_System)
-      - [Parallel System](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Protocol-Parallel_System)
-      - [Distributed System](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Protocol-Distributed_System)
-      - [Slave System](https://github.com/samchon/framework/wiki/Tutorial-TypeScript-Protocol-Slave_System)
+  - [What SDN is?](https://github.com/samchon/framework/wiki/Conception#sdn)
+  - [Protocol](https://github.com/samchon/framework/wiki/Conception-Protocol)
+    - [Message Protocol](https://github.com/samchon/framework/wiki/Conception-Protocol#message-protocol)
+      - [Invoke](https://github.com/samchon/framework/wiki/Conception-Protocol#invoke)
+      - [Entity](https://github.com/samchon/framework/wiki/Conception-Protocol#entity)
+    - [Basic Components](https://github.com/samchon/framework/wiki/Conception-Protocol#basic-components)
+      - [IProtocol](https://github.com/samchon/framework/wiki/Conception-Protocol#iprotocol)
+      - [Communicator](https://github.com/samchon/framework/wiki/Conception-Protocol#communicator)
+  	  - [Server](https://github.com/samchon/framework/wiki/Conception-Protocol#server)
+  - [Template Systems](https://github.com/samchon/framework/wiki/Conception-Template_Systems)
+    - [Cloud Service](https://github.com/samchon/framework/wiki/Conception-Template_Systems-Service)
+    - [External System](https://github.com/samchon/framework/wiki/Conception-Template_Systems-External_System)
+      - [Parallel System](https://github.com/samchon/framework/wiki/Conception-Template_Systems-Parallel_System)
+      - [Distributed System](https://github.com/samchon/framework/wiki/Conception-Template_Systems-Distributed_System)
+- [**Tutorial - _TypeScript_**](https://github.com/samchon/framework/wiki/TypeScript)
+  - [Library](https://github.com/samchon/framework/wiki/TypeScript-Library)
+    - [XML](https://github.com/samchon/framework/wiki/TypeScript-Library-XML)
+    - [EventDispatcher](https://github.com/samchon/framework/wiki/TypeScript-Library-EventDispatcher)
+  - [Collection](https://github.com/samchon/framework/wiki/TypeScript-Collection)
+  - [Protocol](https://github.com/samchon/framework/wiki/TypeScript-Protocol)
+    - [Message Protocol](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Message_Protocol)
+      - [Invoke](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Message_Protocol#invoke)
+      - [Entity](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Message_Protocol#entity)
+    - [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components)
+    - [Service](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Service)
+    - [External System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-External_System)
+      - [Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
+      - [Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
+      - [Slave System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Slave_System)
 - [**Examples**](https://github.com/samchon/framework/wiki/Examples)
-  - [Samchon Simulation Cloud, older example](https://github.com/samchon/framework/wiki/Examples-Simulation)
-  - [Web-Chatting, Cloud-Server and Web-Application](https://github.com/samchon/framework/wiki/Examples-Chatting)
-  - [Interaction, Tree-structured Distributed System](https://github.com/samchon/framework/wiki/Examples-Interaction)
-  - [Packer, 3D Bin Packing with multiple Boxes](https://github.com/samchon/framework/wiki/Examples-Packer)
+  - [Samchon Simulation Cloud](https://github.com/samchon/framework/wiki/Examples-Simulation)
+  - [Web-Chatting](https://github.com/samchon/framework/wiki/Examples-Chatting)
+  - [Interaction](https://github.com/samchon/framework/wiki/Examples-Interaction)
+  - [Packer](https://github.com/samchon/framework/wiki/Examples-Packer)[**Outline**](https://github.com/samchon/framework/wiki/Home)
 
 ## License
 #### BSD License

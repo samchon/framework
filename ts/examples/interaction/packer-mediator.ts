@@ -16,7 +16,8 @@ namespace packer_mediator
 	export import library = samchon.library;
 	export import protocol = samchon.protocol;
 
-	export class PackerMediator extends protocol.master.ParallelClientArrayMediator
+	export class PackerMediator 
+		extends protocol.master.ParallelClientArrayMediator
 	{
 		private master_ip: string;
 
@@ -33,13 +34,13 @@ namespace packer_mediator
 
 		protected createServerBase(): protocol.IServerBase
 		{
-			return new protocol.WebServerBase(this);
+			return new protocol.ServerBase(this);
 		}
 		protected createMediator(): protocol.master.MediatorSystem
 		{
-			return new protocol.master.MediatorWebClient(this, this.master_ip, 37300);
+			return new protocol.master.MediatorClient(this, this.master_ip, 37300);
 		}
-		protected createExternalClient(driver: protocol.WebClientDriver): protocol.master.ParallelSystem
+		protected createExternalClient(driver: protocol.IClientDriver): protocol.master.ParallelSystem
 		{
 			console.log("A new slave has connected.");
 			return new master.SlaveDriver(this);

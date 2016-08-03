@@ -27,7 +27,7 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
-	export class ClientDriver 
+	export class ClientDriver
 		extends Communicator
 		implements IClientDriver
 	{
@@ -66,7 +66,7 @@ namespace samchon.protocol
 		 */
 		private session_id: string;
 
-		private listening_: boolean;
+		private listening: boolean;
 
 		/**
 		 * Initialization Constructor.
@@ -83,7 +83,7 @@ namespace samchon.protocol
 			this.path = path;
 			this.session_id = session_id;
 
-			this.listening_ = false;
+			this.listening = false;
 		}
 
 		/**
@@ -93,14 +93,13 @@ namespace samchon.protocol
 		{
 			this.listener = listener;
 
-			if (this.listening_ == false)
-			{
-				this.listening_ = true;
+			if (this.listening == true)
+				return;
+			this.listening = true;
 
-				this.connection.on("message", this.handle_message.bind(this));
-				this.connection.on("close", this.handle_close.bind(this));
-				this.connection.on("error", this.handle_close.bind(this));
-			}
+			this.connection.on("message", this.handle_message.bind(this));
+			this.connection.on("close", this.handle_close.bind(this));
+			this.connection.on("error", this.handle_close.bind(this));
 		}
 
 		/**
@@ -124,14 +123,18 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	export class SharedWorkerClientDriver 
+		extends SharedWorkerCommunicator
 		implements IClientDriver
 	{
-		private listener: IProtocol;
+		private listening: boolean;
 
-		/**
-		 * @inheritdoc
-		 */
-		public onClose: Function;
+		public constructor(port: MessagePort)
+		{
+			super();
+
+			this.port = port;
+			this.listening = false;
+		}
 
 		/**
 		 * @inheritdoc
@@ -139,28 +142,12 @@ namespace samchon.protocol
 		public listen(listener: IProtocol): void
 		{
 			this.listener = listener;
-		}
 
-		/**
-		 * @inheritdoc
-		 */
-		public close(): void
-		{
-		}
+			if (this.listening == true)
+				return;
+			this.listening = true;
 
-		/**
-		 * @inheritdoc
-		 */
-		public sendData(invoke: Invoke): void
-		{
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public replyData(invoke: Invoke): void
-		{
-			this.listener.replyData(invoke);
+			this.port.onmessage = this.handle_message.bind(this);
 		}
 	}
 }

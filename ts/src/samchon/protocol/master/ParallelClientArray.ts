@@ -56,10 +56,8 @@ namespace samchon.protocol.master
 				return;
 
 			if (system["communicator"] == null)
-			{
 				system["communicator"] = driver;
-				driver.listen(system);
-			}
+
 			this.push_back(system);
 		}
 

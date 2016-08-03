@@ -1891,8 +1891,8 @@ declare namespace samchon.library {
      * whether specific types of event listeners are registered, and dispatches events. </p>
      *
      * <p> Event targets are an important part of the Flash�� Player and Adobe AIR event model. The event
-     * target serves as the focal point for how events flow through the display list hierarchy. When an
-     * event such as a mouse click or a keypress occurs, an event object is dispatched into the event flow
+     * target serves as the local point for how events flow through the display list hierarchy. When an
+     * event such as a mouse click or a key press occurs, an event object is dispatched into the event flow
      * from the root of the display list. The event object makes a round-trip journey to the event target,
      * which is conceptually divided into three phases: the capture phase includes the journey from the
      * root to the last node before the event target's node; the target phase includes only the event
@@ -2968,17 +2968,6 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class CommunicatorBase {
-        protected communicator: IProtocol;
-        private data;
-        private content_size;
-        constructor(communicator: IProtocol);
-        listen_piece(piece: string): void;
-        private listen_header();
-        private listen_data();
-    }
-}
-declare namespace samchon.protocol {
     /**
      * <p> An interface taking full charge of network communication. </p>
      *
@@ -3005,25 +2994,97 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class Communicator implements ICommunicator {
-        private communicator_base;
+    abstract class CommunicatorBase implements ICommunicator {
+        /**
+         * @hidden
+         */
         protected listener: IProtocol;
-        protected socket: socket.socket;
         /**
          * @inheritdoc
          */
         onClose: Function;
+        /**
+         * @hidden
+         */
+        private binary_invoke;
+        /**
+         * @hidden
+         */
+        private binary_parameters;
+        /**
+         * @hidden
+         */
+        private unhandled_invokes;
+        /**
+         * Default Constructor.
+         */
         constructor();
-        close(): void;
-        protected start_listen(): void;
+        constructor(listener: IProtocol);
         /**
          * @inheritdoc
          */
+        abstract close(): void;
+        protected is_binary_invoke(): boolean;
+        abstract sendData(invoke: Invoke): void;
         replyData(invoke: Invoke): void;
+        protected handle_string(str: string): void;
+        protected handle_binary(binary: Uint8Array): void;
+    }
+}
+declare namespace samchon.protocol {
+    class Communicator extends CommunicatorBase {
+        /**
+         * @hidden
+         */
+        protected socket: socket.socket;
+        /**
+         * @hidden
+         */
+        private header_bytes;
+        /**
+         * @hidden
+         */
+        private data;
+        /**
+         * @hidden
+         */
+        private data_index;
+        /**
+         * @hidden
+         */
+        private listening;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+        /**
+         * @hidden
+         */
+        protected start_listen(): void;
+        /**
+         * @hidden
+         */
+        private handle_error();
+        /**
+         * @hidden
+         */
+        private handle_close();
         /**
          * @inheritdoc
          */
         sendData(invoke: Invoke): void;
+        /**
+         * @hidden
+         */
+        private listen_piece(piece);
+        /**
+         * @hidden
+         */
+        private listen_header(piece, piece_index);
+        /**
+         * @hidden
+         */
+        private listen_data(piece, piece_index);
     }
 }
 declare namespace samchon.protocol {
@@ -3046,33 +3107,19 @@ declare namespace samchon.protocol {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class WebCommunicator implements ICommunicator {
-        /**
-         * Communicator of web-socket.
-         */
-        protected listener: IProtocol;
+    class WebCommunicator extends CommunicatorBase {
         /**
          * Connection driver, a socket for web-socket.
          */
         protected connection: websocket.connection;
         /**
-         * @inheritdoc
-         */
-        onClose: Function;
-        /**
-         * Initialization Constructor.
-         *
-         * @param communicator Communicator of web-socket.
-         * @param connection Connection driver, a socket for web-socket.
-         */
-        constructor();
-        /**
-         * Listen message from remoate system.
-         */
-        /**
          * Close the connection.
          */
         close(): void;
+        /**
+         * @inheritdoc
+         */
+        sendData(invoke: Invoke): void;
         /**
          * <p> Handle raw-data received from the remote system. </p>
          *
@@ -3083,14 +3130,17 @@ declare namespace samchon.protocol {
          */
         protected handle_message(message: websocket.IMessage): void;
         protected handle_close(): void;
-        /**
-         * @inheritdoc
-         */
-        replyData(invoke: Invoke): void;
+    }
+}
+declare namespace samchon.protocol {
+    class SharedWorkerCommunicator extends CommunicatorBase {
+        protected port: MessagePort;
+        close(): void;
         /**
          * @inheritdoc
          */
         sendData(invoke: Invoke): void;
+        protected handle_message(event: MessageEvent): void;
     }
 }
 declare namespace samchon.protocol {
@@ -3132,7 +3182,7 @@ declare namespace samchon.protocol {
          * Session ID, an identifier of the remote client.
          */
         private session_id;
-        private listening_;
+        private listening;
         /**
          * Initialization Constructor.
          *
@@ -3156,47 +3206,29 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class SharedWorkerClientDriver implements IClientDriver {
-        private listener;
-        /**
-         * @inheritdoc
-         */
-        onClose: Function;
+    class SharedWorkerClientDriver extends SharedWorkerCommunicator implements IClientDriver {
+        private listening;
+        constructor(port: MessagePort);
         /**
          * @inheritdoc
          */
         listen(listener: IProtocol): void;
-        /**
-         * @inheritdoc
-         */
-        close(): void;
-        /**
-         * @inheritdoc
-         */
-        sendData(invoke: Invoke): void;
-        /**
-         * @inheritdoc
-         */
-        replyData(invoke: Invoke): void;
     }
 }
 declare namespace samchon.protocol {
     abstract class DedicatedWorker implements IProtocol {
-        private communicator_base;
+        private communicator_;
         /**
          * Default Constructor.
          */
         constructor();
+        abstract replyData(invoke: protocol.Invoke): void;
         sendData(invoke: Invoke): void;
-        private handle_message(event);
-        abstract replyData(invoke: Invoke): void;
     }
 }
 declare namespace samchon.protocol {
-    class DedicatedWorkerConnector implements IServerConnector {
-        private listener;
+    class DedicatedWorkerConnector extends CommunicatorBase implements IServerConnector {
         private worker;
-        private communicator_base;
         /**
          * @inheritdoc
          */
@@ -3207,36 +3239,16 @@ declare namespace samchon.protocol {
         onClose: Function;
         constructor(listener: IProtocol);
         /**
-         * <p> Connect to dedicated worker. </p>
-         *
-         * <p> Creates a dedictaed worker with specified <i>jsFile (JavaScript file name)</i> and connect to it. After
-         * the creation and connection, callback function {@link onConnect} is called. Listening data from the connected
-         * dedicated worker also begins. Replied messages from the dedicated worker will be converted to {@link Invoke}
-         * classes and will be shifted to the {@link listener listener}'s {@link IProtocol.replyData replyData()} method.
-         * </p>
-         *
-         * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown: an error
-         * event is dispatched if a host was specified, and an exception is thrown if no host was specified. Otherwise,
-         * the status of the connection is reported by an event. If the socket is already connected, the existing
-         * connection is closed first. </p>
-         *
-         * @param jsFile File name of JavaScript. The JavaScript file must have {@link DedicatedWorker} and constructs
-         *				 the class immediately on execution.
+         * @inheritdoc
          */
         connect(jsFile: string): void;
         /**
          * @inheritdoc
          */
         close(): void;
-        private handle_message(event);
-        /**
-         * @inheritdoc
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * @inheritdoc
-         */
         sendData(invoke: Invoke): void;
+        replyData(invoke: Invoke): void;
+        private handle_message(event);
     }
 }
 declare namespace samchon.protocol {
@@ -3697,6 +3709,10 @@ declare namespace samchon.protocol {
          * <p> Listener, represent function's name. </p>
          */
         protected listener: string;
+        /**
+         * Default Constructor.
+         */
+        constructor();
         constructor(listener: string);
         /**
          * Copy Constructor.
@@ -3704,13 +3720,6 @@ declare namespace samchon.protocol {
          * @param invoke
          */
         constructor(invoke: Invoke);
-        /**
-         * Construct from XML.
-         *
-         * @param xml
-         */
-        constructor(xml: library.XML);
-        constructor(listener: string, begin: std.VectorIterator<InvokeParameter>, end: std.VectorIterator<InvokeParameter>);
         /**
          * Construct from listener and parametric values.
          *
@@ -3767,31 +3776,33 @@ declare namespace samchon.protocol {
         /**
          * <p> Value of the parameter. </p>
          */
-        protected value: string | number | library.XML;
+        protected value: string | number | library.XML | Uint8Array;
         /**
          * Default Constructor.
          */
         constructor();
+        constructor(val: number);
+        constructor(val: string);
+        constructor(val: library.XML);
+        constructor(val: Uint8Array);
         /**
-         * Initialization Constructor without type specification.
+         * Construct from variable name and number value.
          *
          * @param name
          * @param val
          */
-        constructor(name: string, val: string | number | library.XML);
-        /**
-         * Initialization Constructor.
-         *
-         * @param name
-         * @param type
-         * @param val
-         */
-        constructor(name: string, type: string, val: string | number | library.XML);
+        constructor(name: string, val: number);
+        constructor(name: string, val: string);
+        constructor(name: string, val: library.XML);
+        constructor(name: string, val: Uint8Array);
         /**
          * @inheritdoc
          */
         construct(xml: library.XML): void;
-        setValue(value: number | string | library.XML): void;
+        setValue(value: number): any;
+        setValue(value: string): any;
+        setValue(value: library.XML): any;
+        setValue(value: Uint8Array): any;
         /**
          * @inheritdoc
          */
@@ -3936,6 +3947,7 @@ declare namespace samchon.protocol {
          * @inheritdoc
          */
         close(): void;
+        private handle_connect(event);
     }
 }
 declare namespace samchon.protocol {
@@ -3967,7 +3979,7 @@ declare namespace samchon.protocol {
     {
         private server_base: IServerBase = new WebServerBase(this);
 
-        public addClient(driver: WebClientDriver): void
+        public addClient(driver: IClientDriver): void
         {
             // WHAT TO DO WHEN A CLIENT HAS CONNECTED
         }
@@ -4220,33 +4232,13 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class SharedWorkerServerConnector implements IServerConnector {
-        private listener;
-        private worker;
-        private communicator_base;
+    class SharedWorkerServerConnector extends SharedWorkerCommunicator implements IServerConnector {
         /**
          * @inheritdoc
          */
         onConnect: Function;
-        /**
-         * @inheritdoc
-         */
-        onClose: Function;
         constructor(listener: IProtocol);
         connect(jsFile: string): void;
-        /**
-         * @inheritdoc
-         */
-        close(): void;
-        private handle_message(event);
-        /**
-         * @inheritdoc
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * @inheritdoc
-         */
-        sendData(invoke: Invoke): void;
     }
 }
 declare namespace samchon.protocol {
@@ -5040,9 +5032,6 @@ declare namespace samchon.protocol.master {
         connect(): void;
     }
     class MediatorWebClient extends MediatorClient {
-        protected createServerConnector(): IServerConnector;
-    }
-    class MediatorSharedWorkerClient extends MediatorClient {
         protected createServerConnector(): IServerConnector;
     }
 }

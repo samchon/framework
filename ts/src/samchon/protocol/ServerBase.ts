@@ -32,7 +32,7 @@ namespace samchon.protocol
 	{
 		private server_base: IServerBase = new WebServerBase(this);
 
-		public addClient(driver: WebClientDriver): void
+		public addClient(driver: IClientDriver): void
 		{
 			// WHAT TO DO WHEN A CLIENT HAS CONNECTED
 		}

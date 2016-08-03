@@ -14,6 +14,9 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	/**
+	 * @hidden
+	 */
 	declare var net: typeof NodeJS.net;
 
 	export abstract class Server implements IServer
@@ -52,7 +55,14 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	/**
+	 * @hidden
+	 */
 	declare var http: typeof NodeJS.http;
+	
+	/**
+	 * @hidden
+	 */
 	declare var websocket: typeof __websocket;
 
 	export abstract class WebServer implements IServer
@@ -177,7 +187,7 @@ namespace samchon.protocol
 		 */
 		public open(): void
 		{
-			
+			self.addEventListener("connect", this.handle_connect.bind(this));
 		}
 
 		/**
@@ -185,6 +195,15 @@ namespace samchon.protocol
 		 */
 		public close(): void
 		{
+			// MAY IMPOSSIBLE
+		}
+
+		private handle_connect(event: {ports: MessagePort[]}): void
+		{
+			let port: MessagePort = event.ports[event.ports.length - 1];
+			let driver: SharedWorkerClientDriver = new SharedWorkerClientDriver(port);
+
+			this.addClient(driver);
 		}
 	}
 }

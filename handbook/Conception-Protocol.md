@@ -1,4 +1,0 @@
-# Message Protocol
-## Invoke
-
-## Entity

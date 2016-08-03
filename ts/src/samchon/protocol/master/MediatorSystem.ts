@@ -183,12 +183,12 @@ namespace samchon.protocol.master
 		}
 	}
 
-	export class MediatorSharedWorkerClient
-		extends MediatorClient
-	{
-		protected createServerConnector(): IServerConnector
-		{
-			return new SharedWorkerServerConnector(this);
-		}
-	}
+	//export class MediatorSharedWorkerClient
+	//	extends MediatorClient
+	//{
+	//	protected createServerConnector(): IServerConnector
+	//	{
+	//		return new SharedWorkerServerConnector(this);
+	//	}
+	//}
 }

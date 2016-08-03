@@ -65,7 +65,7 @@ namespace chief
 		--------------------------------------------------------- */
 		private print_menu(): void
 		{
-			process.stdout.write("\x1B[2J\x1B[0f"); // CLEAR CONSOLE
+			// process.stdout.write("\x1B[2J\x1B[0f"); // CLEAR CONSOLE
 
 			console.log("Select what to do.");
 			console.log("	1. Solve TSP");
@@ -143,7 +143,7 @@ namespace chief
 
 		protected createServerConnector(): protocol.IServerConnector
 		{
-			return new protocol.WebServerConnector(this);
+			return new protocol.ServerConnector(this);
 		}
 		protected createChild(xml: library.XML): external.ExternalSystemRole
 		{

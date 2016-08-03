@@ -24,7 +24,7 @@ namespace samchon.protocol.master
 		 */
 		public constructor(systemArray: ParallelSystemArray, communicator: ICommunicator = null)
 		{
-			super();
+			super(communicator as IClientDriver);
 
 			// BASIC MEMBERS
 			this.systemArray = systemArray;
@@ -33,9 +33,6 @@ namespace samchon.protocol.master
 			this.performance = 1.0;
 			this.progress_list = new std.HashMap<number, PRInvokeHistory>();
 			this.history_list = new std.HashMap<number, PRInvokeHistory>();
-
-			// BACKGROUNDS
-			this.communicator = communicator;
 		}
 
 		/* ---------------------------------------------------------

@@ -38,6 +38,11 @@ namespace samchon.protocol
 		/* -------------------------------------------------------------------
 			CONSTRUCTORS
 		------------------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
+		public constructor();
+
 		public constructor(listener: string);
 
 		/**
@@ -46,15 +51,6 @@ namespace samchon.protocol
 		 * @param invoke
 		 */
 		public constructor(invoke: Invoke);
-
-		/**
-		 * Construct from XML.
-		 * 
-		 * @param xml
-		 */
-		public constructor(xml: library.XML);
-
-		public constructor(listener: string, begin: std.VectorIterator<InvokeParameter>, end: std.VectorIterator<InvokeParameter>);
 
 		/**
 		 * Construct from listener and parametric values.
@@ -72,41 +68,12 @@ namespace samchon.protocol
 			{
 				this.listener = "";
 			}
-			else if (args.length == 1 && typeof args[0] == "string")
-			{
-				let listener: string = args[0];
-
-				this.listener = listener;
-			}
-			else if (args.length == 1 && args[0] instanceof library.XML)
-			{
-				this.listener = "";
-				let xml: library.XML = args[0];
-
-				this.construct(xml);
-			}
-			else if (args.length == 1 && args[0] instanceof Invoke) 
-			{
-				let invoke: Invoke = args[0];
-
-				this.listener = invoke.listener;
-				this.assign(invoke.begin(), invoke.end());
-			}
-			else if (args.length == 3 && args[1] instanceof std.VectorIterator && args[2] instanceof std.VectorIterator)
-			{
-				let listener: string = args[0];
-				let begin: std.VectorIterator<InvokeParameter> = args[1];
-				let end: std.VectorIterator<InvokeParameter> = args[2];
-
-				this.listener = listener;
-				this.assign(begin, end);
-			}
-			else if (args.length > 1)
+			else
 			{
 				this.listener = args[0];
 
 				for (let i: number = 1; i < args.length; i++)
-					this.push_back(new InvokeParameter("", args[i]));
+					this.push_back(new InvokeParameter(args[i]));
 			}
 		}
 		
@@ -213,30 +180,29 @@ namespace samchon.protocol
 		/** 
 		 * <p> Value of the parameter. </p>
 		 */
-		protected value: string | number | library.XML = null;
+		protected value: string | number | library.XML | Uint8Array = null;
 
 		/**
 		 * Default Constructor.
 		 */
 		public constructor();
 
+		public constructor(val: number);
+		public constructor(val: string);
+		public constructor(val: library.XML);
+		public constructor(val: Uint8Array);
+
 		/**
-		 * Initialization Constructor without type specification.
+		 * Construct from variable name and number value.
 		 * 
 		 * @param name
 		 * @param val
 		 */
-		public constructor(name: string, val: string|number|library.XML);
-
-		/**
-		 * Initialization Constructor.
-		 * 
-		 * @param name
-		 * @param type
-		 * @param val
-		 */
-		public constructor(name: string, type: string, val: string|number|library.XML);
-
+		public constructor(name: string, val: number);
+		public constructor(name: string, val: string);
+		public constructor(name: string, val: library.XML);
+		public constructor(name: string, val: Uint8Array);
+		
 		/* -------------------------------------------------------------------
 			CONSTRUCTORS
 		------------------------------------------------------------------- */
@@ -244,22 +210,21 @@ namespace samchon.protocol
 		{
 			super();
 
+			// DEFAULT CONSTRUCTOR
 			if (args.length == 0)
 				return;
-			else if (args.length == 2)
-			{
-				this.name = args[0];
-				this.value = args[1];
-			}
-			else if (args.length == 3)
-			{
-				this.name = args[0];
-				this.value = args[2];
-			}
 
-			this.type = typeof this.value;
-			if (this.value instanceof library.XML)
-				this.type = "XML";
+			// INITIALIZATION CONSTRUCTOR
+			if (args.length == 1)
+			{
+				this.name = "";
+				this.setValue(args[0]);
+			}
+			else
+			{
+				this.name = args[0];
+				this.setValue(args[1]);
+			}
 		}
 
 		/**
@@ -273,14 +238,26 @@ namespace samchon.protocol
 			if (this.type == "XML")
 				this.value = xml.begin().second.front();
 			else if (this.type == "number")
-				this.value = parseFloat(xml.getValue());
-			else
+				this.value = Number(xml.getValue());
+			else if (this.type == "string")
 				this.value = xml.getValue();
 		}
 
-		public setValue(value: number | string | library.XML): void
+		public setValue(value: number);
+		public setValue(value: string);
+		public setValue(value: library.XML);
+		public setValue(value: Uint8Array);
+
+		public setValue(value: number | string | library.XML | Uint8Array): void
 		{
 			this.value = value;
+
+			if (value instanceof library.XML)
+				this.type = "XML";
+			else if (value instanceof Uint8Array)
+				this.type = "ByteArray";
+			else
+				this.type = typeof value;
 		}
 
 		/* -------------------------------------------------------------------

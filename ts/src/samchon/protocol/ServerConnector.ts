@@ -64,9 +64,7 @@ namespace samchon.protocol
 
 		public constructor(listener: IProtocol)
 		{
-			super();
-
-			this.listener = listener;
+			super(listener);
 		}
 
 		/**
@@ -130,9 +128,7 @@ namespace samchon.protocol
 		---------------------------------------------------- */
 		public constructor(listener: IProtocol)
 		{
-			super();
-
-			this.listener = listener;
+			super(listener);
 
 			this.browser_socket = null;
 			this.node_client = null;
@@ -213,7 +209,10 @@ namespace samchon.protocol
 
 		private handle_browser_message(event: MessageEvent): void
 		{
-			this.replyData(new Invoke(new library.XML(event.data)));
+			if (this.is_binary_invoke() == false)
+				this.handle_string(event.data);
+			else
+				this.handle_binary(event.data);
 		}
 
 		private handle_node_connect(connection: websocket.connection): void
@@ -232,74 +231,36 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	export class SharedWorkerServerConnector
+		extends SharedWorkerCommunicator
 		implements IServerConnector
 	{
-		private listener: IProtocol;
-
-		private worker: any; //SharedWorker;
-		private communicator_base: CommunicatorBase;
-
 		/**
 		 * @inheritdoc
 		 */
 		public onConnect: Function;
-		
-		/**
-		 * @inheritdoc
-		 */
-		public onClose: Function;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS AND CONNECTORS
 		--------------------------------------------------------- */
 		public constructor(listener: IProtocol)
 		{
-			this.listener = listener;
-			this.worker = null;
+			super(listener);
+			
+			this.onConnect = null;
 		}
 		
 		public connect(jsFile: string): void
 		{
-			this.worker = new SharedWorker(jsFile);
-			this.worker.port.addEventListener("message", this.handle_message.bind(this));
+			// CONSTRUCT AND START SHARED-WORKER-SERVER
+			let worker: SharedWorker = new SharedWorker(jsFile);
+			
+			// LISTEN MESSAGE
+			this.port = worker.port;
+			this.port.onmessage = this.handle_message.bind(this);
 
-			this.worker.port.start();
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public close(): void
-		{
-			this.worker.port.close();
-		}
-
-		/* ---------------------------------------------------------
-			INVOKE MESSAGE CHAIN
-		--------------------------------------------------------- */
-		private handle_message(event: MessageEvent): void
-		{
-			this.communicator_base.listen_piece(event.data);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public replyData(invoke: Invoke): void
-		{
-			this.listener.replyData(invoke);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public sendData(invoke: Invoke): void
-		{
-			this.worker.port.postMessage(invoke.toXML().toString());
-
-			for (let i: number = 0; i < invoke.size(); i++)
-				if (invoke.at(i).getType() == "ByteaArray")
-					this.worker.port.postMessage(invoke.at(i).getValue());
+			// NOTIFY THE CONNECTION
+			if (this.onConnect != null)
+				this.onConnect();
 		}
 	}
 }

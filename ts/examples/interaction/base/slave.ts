@@ -14,7 +14,7 @@ namespace slave
 	{
 		protected createServerConnector(): protocol.IServerConnector
 		{
-			return new protocol.WebServerConnector(this);
+			return new protocol.ServerConnector(this);
 		}
 		protected createChild(xml: library.XML): protocol.external.ExternalSystemRole
 		{

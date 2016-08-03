@@ -24,12 +24,12 @@ namespace master
 
 		protected createServerBase(): protocol.IServerBase
 		{
-			return new protocol.WebServerBase(this);
+			return new protocol.ServerBase(this);
 		}
-		protected createExternalClient(driver: protocol.WebClientDriver): protocol.master.ParallelSystem
+		protected createExternalClient(driver: protocol.IClientDriver): protocol.master.ParallelSystem
 		{
 			console.log("A new slave has connected.");
-			return new SlaveDriver(this);
+			return new SlaveDriver(this, driver);
 		}
 
 		protected abstract optimize(xml: library.XML): void;
@@ -37,11 +37,11 @@ namespace master
 	}
 
 	export class ChiefDriver
-		extends protocol.WebServer
+		extends protocol.Server
 		implements protocol.IProtocol
 	{
 		private master: Master;
-		private communicator: protocol.WebClientDriver;
+		private communicator: protocol.IClientDriver;
 
 		public constructor(master: Master)
 		{
@@ -55,7 +55,7 @@ namespace master
 			super.open(port);
 		}
 
-		public addClient(communicator: protocol.WebClientDriver): void
+		public addClient(communicator: protocol.IClientDriver): void
 		{
 			console.log("Chief has connected.");
 

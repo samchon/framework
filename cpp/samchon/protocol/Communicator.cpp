@@ -2,6 +2,7 @@
 #include <samchon/protocol/Communicator.hpp>
 
 #include <array>
+#include <queue>
 #include <boost/asio.hpp>
 
 using namespace std;
@@ -42,7 +43,8 @@ void listen_data(shared_ptr<Socket> socket, Container &data)
 
 void Communicator::listen_message()
 {
-	shared_ptr<Invoke> binary_invoke;
+	shared_ptr<Invoke> binary_invoke = nullptr;
+	queue<shared_ptr<InvokeParameter>> binary_parameters;
 
 	while (true)
 	{
@@ -51,9 +53,40 @@ void Communicator::listen_message()
 
 		// READ CONTENT
 		if (binary_invoke == nullptr)
-			binary_invoke = listen_string(content_size);
+		{
+			shared_ptr<Invoke> invoke = listen_string(content_size);
+
+			for (size_t i = 0; i < invoke->size(); i++)
+			{
+				shared_ptr<InvokeParameter> &parameter = invoke->at(i);
+				if (parameter->getType() != "ByteArray")
+					continue;
+
+				if (binary_invoke == nullptr)
+					binary_invoke = invoke;
+				binary_parameters.push(parameter);
+			}
+
+			// NO BINARY, THEN REPLY DIRECTLY
+			if (binary_invoke == nullptr)
+				this->replyData(invoke);
+		}
 		else
-			listen_binary(content_size, binary_invoke);
+		{
+			shared_ptr<InvokeParameter> parameter = binary_parameters.front();
+			listen_binary(content_size, parameter);
+			binary_parameters.pop();
+
+			if (binary_parameters.empty() == true)
+			{
+				// NO BINARY PARAMETER LEFT,
+				shared_ptr<Invoke> invoke = binary_invoke;
+				binary_invoke = nullptr;
+
+				// THEN REPLY
+				this->replyData(invoke);
+			}
+		}
 	}
 }
 
@@ -71,80 +104,24 @@ auto Communicator::listen_size() const -> size_t
 
 auto Communicator::listen_string(size_t size) -> shared_ptr<Invoke>
 {
-	///////
 	// READ CONTENT
-	///////
 	string data(size, (char)NULL);
 	listen_data(socket, data);
 
+	// CONSTRUCT INVOKE OBJECT
 	shared_ptr<Invoke> invoke(new Invoke());
 	invoke->construct(make_shared<XML>(data));
 
-	///////
-	// REPLY OR HOLD
-	///////
-	bool is_binary = std::any_of(invoke->begin(), invoke->end(), 
-		[](const shared_ptr<InvokeParameter> &parameter) -> bool
-		{
-			return parameter->getType() == "ByteArray";
-		}
-	);
-
-	if (is_binary == true)
-		return invoke;
-	else
-	{
-		replyData(invoke);
-		return nullptr;
-	}
+	return invoke;
 }
 
-void Communicator::listen_binary(size_t size, shared_ptr<Invoke> &invoke)
+void Communicator::listen_binary(size_t size, shared_ptr<InvokeParameter> parameter)
 {
-	ByteArray *data = nullptr;
-	Invoke::iterator param_it;
+	// FETCH BYTE_ARRAY
+	ByteArray &data = (ByteArray&)parameter->referValue<ByteArray>();
 
-	///////
-	// FIND THE MATCHED PARAMETER
-	///////
-	param_it = find_if(invoke->begin(), invoke->end(),
-		[size](const shared_ptr<InvokeParameter> &parameter) -> bool
-		{
-			if (parameter->getType() != "ByteArray")
-				return false;
-
-			const ByteArray &byte_array = parameter->referValue<ByteArray>();
-			return byte_array.empty() == true && byte_array.capacity() == size;
-		});
-
-	if (param_it == invoke->end())
-	{
-		// FAILED TO FIND
-		invoke = nullptr;
-		return;
-	}
-	else
-		data = (ByteArray*) &((*param_it)->referValue<ByteArray>());
-
-	///////
 	// READ CONTENT
-	///////
-	listen_data(socket, *data);
-
-	///////
-	// REPLY OR HOLD
-	///////
-	if (
-		std::any_of(next(param_it), invoke->end(),
-			[](const shared_ptr<InvokeParameter> &parameter) -> bool
-			{
-				return parameter->getType() == "ByteArray";
-			}) == true
-		)
-		return;
-
-	replyData(invoke);
-	invoke = nullptr;
+	listen_data(socket, data);
 }
 
 /* ---------------------------------------------------------
@@ -162,6 +139,8 @@ void send_data(shared_ptr<Socket> socket, const Container &data)
 
 void Communicator::sendData(shared_ptr<Invoke> invoke)
 {
+	unique_lock<mutex> uk(send_mtx);
+
 	// SEND INVOKE
 	send_data(socket, invoke->toXML()->toString());
 

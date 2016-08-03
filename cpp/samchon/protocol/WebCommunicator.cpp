@@ -39,7 +39,8 @@ namespace websocket
 
 void WebCommunicator::listen_message()
 {
-	shared_ptr<Invoke> binary_invoke;
+	shared_ptr<Invoke> binary_invoke = nullptr;
+	queue<shared_ptr<InvokeParameter>> binary_parameters;
 
 	while (true)
 	{
@@ -51,9 +52,40 @@ void WebCommunicator::listen_message()
 
 		// READ DATA
 		if (header.first == WebSocketUtil::TEXT)
-			binary_invoke = listen_string(header.second);
+		{
+			shared_ptr<Invoke> invoke = listen_string(header.second);
+
+			for (size_t i = 0; i < invoke->size(); i++)
+			{
+				shared_ptr<InvokeParameter> &parameter = invoke->at(i);
+				if (parameter->getType() != "ByteArray")
+					continue;
+
+				if (binary_invoke == nullptr)
+					binary_invoke = invoke;
+				binary_parameters.push(parameter);
+			}
+
+			// NO BINARY, THEN REPLY DIRECTLY
+			if (binary_invoke == nullptr)
+				this->replyData(invoke);
+		}
 		else if (header.first == WebSocketUtil::BINARY)
-			listen_binary(header.second, binary_invoke);
+		{
+			shared_ptr<InvokeParameter> parameter = binary_parameters.front();
+			listen_binary(header.second, parameter);
+			binary_parameters.pop();
+
+			if (binary_parameters.empty() == true)
+			{
+				// NO BINARY PARAMETER LEFT,
+				shared_ptr<Invoke> invoke = binary_invoke;
+				binary_invoke = nullptr;
+
+				// THEN REPLY
+				this->replyData(invoke);
+			}
+		}
 	}
 }
 
@@ -118,86 +150,30 @@ auto WebCommunicator::listen_header() -> pair<unsigned char, size_t>
 
 auto WebCommunicator::listen_string(size_t size) -> shared_ptr<Invoke>
 {
+	// READ CONTENT
 	string data(size, (char)NULL);
-
-	///////
-	// LISTEN DATA
-	///////
 	if (is_server) // CLIENT SENDS MASKED DATA
 		websocket::listen_masked_data(socket, data);
 	else
 		websocket::listen_data(socket, data);
 
+	// CONSTRUCT INVOKE OBJECT
 	shared_ptr<Invoke> invoke(new Invoke());
 	invoke->construct(make_shared<XML>(data));
 
-	///////
-	// REPLY OR HOLD
-	///////
-	bool is_binary = std::any_of(invoke->begin(), invoke->end(), 
-		[](const shared_ptr<InvokeParameter> &parameter) -> bool
-		{
-			return parameter->getType() == "ByteArray";
-		}
-	);
-
-	if (is_binary == true)
-		return invoke;
-	else
-	{
-		replyData(invoke);
-		return nullptr;
-	}
+	return invoke;
 }
 
-void WebCommunicator::listen_binary(size_t size, shared_ptr<Invoke> &invoke)
+void WebCommunicator::listen_binary(size_t size, shared_ptr<InvokeParameter> parameter)
 {
-	ByteArray *data = nullptr;
-	Invoke::iterator param_it;
+	// FETCH BYTE_ARRAY
+	ByteArray &data = (ByteArray&)parameter->referValue<ByteArray>();
 
-	///////
-	// FIND THE MATCHED PARAMETER
-	///////
-	param_it = find_if(invoke->begin(), invoke->end(),
-		[size](const shared_ptr<InvokeParameter> &parameter) -> bool
-		{
-			if (parameter->getType() != "ByteArray")
-				return false;
-
-			const ByteArray &byte_array = parameter->referValue<ByteArray>();
-			return byte_array.empty() == true && byte_array.capacity() == size;
-		});
-
-	if (param_it == invoke->end())
-	{
-		// FAILED TO FIND
-		invoke = nullptr;
-		return;
-	}
-	else
-		data = (ByteArray*) &((*param_it)->referValue<ByteArray>());
-
-	///////
-	// LISTEN DATA
-	///////
+	// READ CONTENT
 	if (is_server) // CLIENT SENDS MASKED DATA
-		websocket::listen_masked_data(socket, *data);
+		websocket::listen_masked_data(socket, data);
 	else
-		websocket::listen_data(socket, *data);
-
-	///////
-	// REPLY OR HOLD
-	///////
-	if (std::any_of(next(param_it), invoke->end(),
-			[](const shared_ptr<InvokeParameter> &parameter) -> bool
-			{
-				return parameter->getType() == "ByteArray";
-			}) == true
-		)
-		return;
-
-	replyData(invoke);
-	invoke = nullptr;
+		websocket::listen_data(socket, data);
 }
 
 namespace samchon
@@ -250,6 +226,8 @@ namespace websocket
 
 void WebCommunicator::sendData(shared_ptr<Invoke> invoke)
 {
+	unique_lock<mutex> uk(send_mtx);
+
 	// SEND INVOKE
 	const std::string &str = invoke->toXML()->toString();
 	if (is_server)

@@ -4,6 +4,8 @@
 #include <samchon/protocol/IProtocol.hpp>
 #include <samchon/protocol/Socket.hpp>
 
+#include <mutex>
+
 namespace samchon
 {
 namespace protocol
@@ -15,6 +17,8 @@ namespace protocol
 		std::shared_ptr<Socket> socket;
 		IProtocol *listener;
 
+		std::mutex send_mtx;
+
 	public:
 		Communicator();
 		virtual ~Communicator();
@@ -25,7 +29,7 @@ namespace protocol
 	private:
 		auto listen_size() const -> size_t;
 		auto listen_string(size_t) -> std::shared_ptr<Invoke>;
-		void listen_binary(size_t, std::shared_ptr<Invoke> &);
+		void listen_binary(size_t, std::shared_ptr<InvokeParameter>);
 
 	public:
 		virtual void replyData(std::shared_ptr<Invoke> invoke);

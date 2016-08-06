@@ -20,5 +20,8 @@ void main()
 			"December", 2012
 		) << endl;
 
+	cout << StringUtil::numberFormat(0.0678) << endl;
+	cout << StringUtil::numberFormat(1245.6789) << endl;
+
 	system("pause");
 }

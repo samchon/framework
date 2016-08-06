@@ -15,6 +15,8 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "interaction", "examples\int
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "chat-application-console", "examples\chat-application-console\chat-application-console.njsproj", "{5C55FBB5-08F7-42F2-AE47-F0BBC5E8B717}"
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "calculator", "examples\calculator\calculator.njsproj", "{BD790087-20FD-4526-8942-3EBD92CA9A42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{5C55FBB5-08F7-42F2-AE47-F0BBC5E8B717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C55FBB5-08F7-42F2-AE47-F0BBC5E8B717}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C55FBB5-08F7-42F2-AE47-F0BBC5E8B717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD790087-20FD-4526-8942-3EBD92CA9A42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD790087-20FD-4526-8942-3EBD92CA9A42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD790087-20FD-4526-8942-3EBD92CA9A42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD790087-20FD-4526-8942-3EBD92CA9A42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +56,6 @@ Global
 		{B8EA8970-6D04-4253-A638-EE2A5E043AC3} = {62828809-965A-4CC3-B1E8-7CC2B3FCFE90}
 		{390074C3-3152-40EB-8900-B9FE17D5E869} = {62828809-965A-4CC3-B1E8-7CC2B3FCFE90}
 		{5C55FBB5-08F7-42F2-AE47-F0BBC5E8B717} = {62828809-965A-4CC3-B1E8-7CC2B3FCFE90}
+		{BD790087-20FD-4526-8942-3EBD92CA9A42} = {62828809-965A-4CC3-B1E8-7CC2B3FCFE90}
 	EndGlobalSection
 EndGlobal

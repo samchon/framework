@@ -15,7 +15,7 @@
     - [Basic Components](Conception-Protocol#basic-components)
       - [IProtocol](Conception-Protocol#iprotocol)
       - [Communicator](Conception-Protocol#communicator)
-  	  - [Server](Conception-Protocol#server)
+      - [Server](Conception-Protocol#server)
   - [Template Systems](Conception-Template_Systems)
     - [Cloud Service](Conception-Template_Systems-Service)
     - [External System](Conception-Template_Systems-External_System)

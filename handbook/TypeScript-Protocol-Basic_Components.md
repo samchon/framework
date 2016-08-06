@@ -26,16 +26,50 @@ Note that, whatever the network system what you've to construct is, just concent
     - [Server](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.server.html)
     - [WebServer](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webserver.html)
     - [SharedWorkerServer](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerserver.html)
-  - [IClientDriver](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iclientdriver.html)
-    - [ClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.clientdriver.html)
-    - [WebClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webclientdriver.html)
-    - [SharedWorkerClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerclientdriver.html)
-  - [IServerConnector](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iserverconnector.html)
-    - [ServerConnector](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.serverconnector.html)
-    - [WebServerConnector](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webserverconnector.html)
-    - [SharedWorkerServerConnector](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerserverconnector.html)
+  - [ICommunicator](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.icommunicator.html)
+    - [CommunicatorBase](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.communicatorbase.html)
+      - [Communicator](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.communicator.html)
+      - [WebCommunicator](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webcommunicator.html)
+      - [SharedWorkerCommunicator](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerservercommunicator.html)
+    - [IClientDriver](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iclientdriver.html)
+      - [ClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.clientdriver.html)
+      - [WebClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webclientdriver.html)
+      - [SharedWorkerClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerclientdriver.html)
+    - [IServerConnector](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iserverconnector.html)
+      - [ServerConnector](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.serverconnector.html)
+      - [WebServerConnector](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webserverconnector.html)
+      - [SharedWorkerServerConnector](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerserverconnector.html)
 
 ## IServer
+```IServer``` is used to open a server. First, extends one of them, who are derived from the ```IServer```.
+  - [Server](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.server.html)
+  - [WebServer](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webserver.html)
+  - [SharedWorkerServer](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerserver.html)
+
+``` typescript
+/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+
+import samchon = require("samchon-framework");
+import protocol = samchon.protocol;
+
+class MyServer extends protocol.WebServer
+{
+	// OVERRIDE TO DEFINE WHAT TO DO WHEN A CLIENT HAS CONNECTED
+	// 
+	// @param driver A COMMUNICATOR WITH CONNECTED CLIENT
+	public addCliet(driver: IClientDriver): void
+	{
+		// DO SOMETHING
+	}
+}
+var server: MyServer = new MyServer();
+server.open(54321); // OPEN SERVER
+server.close(); // ALSO, CLOSING IS POSSIBLE
+```
+
+After inheritance, override ```IServer.addClient()``` method to defined what to do whenever a client has newly connected. To open the server, call ```IServer.open()``` method.
+
+If you're under embarassed situation, unable to extends one of them (Server, WebServer and SharedWorkerServer) because your class already extended another one, then use [IServerBase](#iserverbase).
 
 #### IServerBase
 The easiest way to defning a server class is to extending one of them, who are derived from the ```IServer```.
@@ -54,7 +88,9 @@ Code under below is an example using the WebServerBase when extending WebServer 
 
 ``` typescript
 /// <reference path="typings/samchon-framework/samchon-framework.d.ts" />
-import protocol = require("samchon-framework").protocol;
+
+import samchon = require("samchon-framework");
+import protocol = samchon.protocol;
 
 class MySlaveServer extends protocol.external.ExternalSystem 
 	implements IServer
@@ -94,9 +130,504 @@ Also, many of modules even in *Samchon Framework* are using the strategy pattern
   - [MediatorServer](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.master.mediatorserver.html)
   - [SlaveServer](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.slave.slaveserver.html)
 
-## Communicator
+## ICommunicator
+```ICommunicator``` takes full charge of network communication with external, conneted system. Type of the ICommunicator is specified to [IClientDriver](#iclientdriver) and [IServerConnector](#iserverconnector) whether the connected system is a server (that I've to connect) or a client (a client connected to my server)
+
+Whenever ```ICommunicator``` network message has come from the connceted system, the network message will be converted to an [
+](TypeScript-Protocol-Message_Protocol#invoke) object and it will be shifted to the [ICommunicator.listener](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.communicatorbase.html#listener)'s [replyData()](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iprotocol.html#replydata) method.
+
+``` typescript
+interface ICommmunicator
+{
+	private socket: SomeSocketClass;
+
+	// LISTENER LISTENS INVOKE MESSAGE BY IT'S IProtocol.replyData() METHOD
+	protected listener: IProtocol;
+	
+	// YOU CAN DETECT DISCONNECTION BY ENROLLING FUNCTION POINTER TO HERE.
+	public onClose: Function;
+	
+	public sendData(invoke: Invoke): void
+	{
+		this.socket.write(invoke);
+	}
+	public replyData(invoke: Invoke): void
+	{
+		// WHENEVER COMMUNICATOR GETS MESSAGE, THEN SHIFT IT TO LISTENER'S replyData() METHOD.
+		this.listener.replyData(invoke);
+	}
+}
+```
+
 #### IClientDriver
+```IClientDriver``` is a type of [ICommunicator](#icommunicator), specified for communication with external client, connected to this server. This ```IClientDriver``` is created in [IServer](#iserver) and delivered from [IServer.addClient()](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iserver.html#addclient). Those are derived classes from the ```IClientDriver```, being created by [IServer](#iserver) object.
+
+  - [ClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.clientdriver.html)
+  - [WebClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webclientdriver.html)
+  - [SharedWorkerClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerclientdriver.html)
+
+When you got the IClientDriver object in the [IServer.addClient()](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iserver.html#addclient), then specify listener from [IClientDriver.listen()](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iclientdriver.html#listen) method.
+
+``` typescript
+/// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
+/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+
+// IMPORTS
+import std = require("typescript-stl");
+import samchon = require("samchon-framework");
+
+// SHORTCUTS
+import library = samchon.library;
+import protocol = samchon.protocol;
+
+class CalculatorServer extends protocol.Server
+{
+	private clients: std.HashSet<CalculatorClient>;
+	
+	// WHEN A CLIENT HAS CONNECTED
+	public addClient(driver: IClientDriver): void
+	{
+		let client: CalculatorClient = new CalculatorClient(this, driver);
+		this.clients.insert(client);
+	}
+}
+
+class CalculatorClient extends protocol.IProtocol
+{
+	// PARENT SERVER INSTANCE
+	private server: CalculatorServer;
+
+	// COMMUNICATOR, SENDS AND RECEIVES NETWORK MESSAGE WITH CONNECTED CLIENT
+	private driver: protocol.IClientDriver;
+
+	/////
+	// CONSTRUCTORS
+	/////
+	public constructor(server: CalculatorServer, driver: protocol.IClientDriver)
+	{
+		this.server = server;
+		this.driver = driver;
+
+		// START LISTENING AND RESPOND CLOSING EVENT
+		this.driver.listen(this); // INVOKE MESSAGE WILL COME TO HERE
+		this.driver.onClose = this.destructor.bind(this); // DISCONNECTED HANDLER
+	}
+	public destructor(): void
+	{
+		// WHEN DISCONNECTED, THEN ERASE THIS OBJECT FROM CalculatorServer.clients.
+		this.server["clients"].erase(this);
+	}
+	
+	/////
+	// INVOKE MESSAGE CHAIN
+	/////
+	public sendData(invoke: protocol.Invoke): void
+	{
+		// CALL ICommunicator.sendData(), WHO PHYSICALLY SEND NETWORK MESSAGE
+		this.driver.sendData(invoke);
+	}
+	public replyData(invoke: protocol.Invoke): void
+	{
+		// FIND MATCHED MEMBER FUNCTION NAMED EQUAL TO THE invoke.getListener()
+		invoke.apply(this);
+	}
+}
+
+```
 
 #### IServerConnector
+```IServerConnector``` is a type of [ICommunicator](#icommunicator), specified for a client who connecting to an external server. Those are derived type from this interface ```IServerConnector```.
+
+  - [ServerConnector](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.serverconnector.html)
+  - [WebServerConnector](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webserverconnector.html)
+  - [SharedWorkerServerConnector](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerserverconnector.html)
+
+To utilize this ```IServerConnector```, create derived type with listener. [constructor(listener: IProtocol)](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.serverconnector.html#constructor). After creation, call [IServerConnector.connect()](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iserverconnector.html#connect) with specified ip address and port number.
+
+``` typescript
+/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+
+import samchon = require("samchon-framework");
+import protocol = samchon.protocol;
+
+class CalculatorApplication implements protocol.IProtocol
+{
+	// COMMUNICATOR, SENDS AND RECEIVES NETWORK MESSAGE WITH SERVER
+	private connector: protocol.IServerConnector;
+
+	/////
+	// CONSTRUCTORS
+	/////
+	public constructor()
+	{
+		// CONSTRUCT CONNECTOR AND
+		this.connector = new protocol.ServerConnector(this);
+		this.connector.onConnect = this.handleConnect.bind(this);
+
+		// CONNECT TO CALCULATOR-SERVER
+		this.connector.connect("127.0.0.1", 17823);
+	}
+	private handleConnect(): void
+	{
+		// DO SOMETHING
+		...
+	}
+	
+	/////
+	// SEND & REPLY DATA
+	/////
+	public sendData(invoke: protocol.Invoke): void
+	{
+		// CALL ICommunicator.sendData(), WHO PHYSICALLY SEND NETWORK MESSAGE
+		this.connector.sendData(invoke);
+	}
+	public replyData(invoke: protocol.Invoke): void
+	{
+		// FIND MATCHED MEMBER FUNCTION IN this OBJECT AND CALL IT.
+		invoke.apply(this);
+	}
+```
 
 ## IProtocol
+```IProtocol``` is an interface for [Invoke](TypeScript-Protocol-Message_Protocol#invoke) message, which is standard message of network I/O in Samchon Framework, chain. The IProtocol interface is used to network drivers (Basic Components) and some related classes with the network drivers, which are in a relationship of *Chain of Responsibility* with those network drivers.
+
+Implements ```IProtocol``` if the class sends and handles [Invoke](TypeScript-Protocol-Message_Protocol#invoke) message. Looking around source codes of Samchon Framework, especially System Templates, you can find out that all the classes and modules handling [Invoke](TypeScript-Protocol-Message_Protocol#invoke) message are always implementing the ```IProtocol```. Yeah, ```IProtocol```, this is the main role you've to follow in Samchon Framework.
+
+Below pseudo code represents [Service Module](TypeScript-Protocol-Service), who can build a cloud server. All the classes in the pseudo code are implementing the IProtocol because all of them are handling [Invoke](TypeScript-Protocol-Message_Protocol#invoke) messages.
+
+  - [Server](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.service.server.html): Represents a server literally.
+  - [User](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.service.user.html): Represents an user being identified by its session id. User contains multiple Client objects.
+    - In browser, an user can open multiple windows
+      - User: A browser (like IE, Chrome and Safari)
+      - Client: An internet browser window
+  - [Client](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.service.client.html): Represents a browser window and it takes role of network commmunication.
+  - [Service](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.service.service.html): Represents a service, domain logic.
+
+![Service Module](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png)
+
+``` typescript
+/// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
+/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+
+// IMPORTS
+import std = require("typescript-stl");
+import samchon = require("samchon-framework");
+
+// SHORTCUTS
+import library = samchon.library;
+import collection = samchon.collection;
+import protocol = samchon.protocol;
+
+namespace service
+{
+	export class Server extends protocol.WebServer implements IProtocol
+	{
+		// SERVER HAS MULTIPLE USER OBJECTS
+		private session_map: std.HashMap<string, User>;
+		
+		/////
+		// MESSAGE CHAIN
+		/////
+		public sendData(invoke: protocol.Invoke): void
+		{
+			// SEND INVOKE MESSAGE TO ALL USER OBJECTS
+			for (let it = this.session_map.begin(); !it.equal_to(this.session_map.end()); it = it.next())
+				it.second.sendData(invoke);
+		}
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this); // HANDLE INVOKE MESSAGE BY ITSELF
+		}
+	}
+	
+	export class User extends 
+		collection.HashMapCollection<number, Client> // USER HAS MULTIPLE CLIENT OBJECTS
+		implements IProtocol
+	{
+		private server: Server; // USER REFRES SERVER
+		
+		/////
+		// MESSAGE CHAIN
+		/////
+		public sendData(invoke: protocol.Invoke): void
+		{
+			// SEND INVOKE MESSAGE TO ALL CLIENT OBJECTS
+			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+				it.second.sendData(invoke);
+		}
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this); // HANDLE INOVKE MESSAGE BY ITSELF
+			this.server.replyData(invoke); // OR VIA SERVER
+		}
+	}
+	
+	export class Client implements IProtocol
+	{
+		private user: User; // CLIENT REFERS USER
+		private service: Service; // CLIENT HAS A SERVICE OBJECT
+		
+		private driver: WebClientDriver;
+		
+		/////
+		// MESSAGE CHAIN
+		/////
+		public sendData(invoke: protocol.Invoke): void
+		{
+			// SEND INVOKE MESSAGE VIA driver: WebClientDriver
+			this.driver.sendData(invoke);
+		}
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this); // HANDLE INOVKE MEESAGE BY ITSELF
+			this.user.replyData(invoke); // OR VIA USER
+
+			if (this.service != null) // OR VIA SERVICE
+				this.service.replyData(invoke);
+		}
+	}
+	
+	export class Service implements IProtocol
+	{
+		private client: Client; // SERVICE REFRES CLIENT
+		
+		/////
+		// MESSAGE CHAIN
+		/////
+		public sendData(invoke: protocol.Invoke): void
+		{
+			// SEND INVOKE MESSAGE VIA CLIENT
+			return this.client.sendData(invoke);
+		}
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this); // HANDLE INVOKE MESSAGE BY ITSELF
+		}
+	}
+```
+
+## Example Code
+#### System Templates
+Learning and understanding **Basic Components** of *Samchon Framework*, reading source codes and designed of **System Templates**' modules will be very helpful.
+
+Name | Source | Guidance
+----|----|---
+Cloud Service | [protocol/service](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service) | [Conception](Conception-Template_Systems-Service), [TypeScript](TypeScript-Protocol-Service)
+External System | [protocol/external](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external) | [Conception](Conception-Template_Systems-External_System), [TypeScript](TypeScript-Protocol-External_System)
+Parallel System | [protocol/master](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/master) | [Conception](Conception-Template_Systems-Parallel_System), [TypeScript](TypeScript-Protocol-Parallel_System)
+Distributed System | [protocol/master](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/master) | [Conception](Conception-Template_Systems-Distributed_System), [TypeScript](TypeScript-Protocol-Distributed_System)
+Slave System | [protocol/slave](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave) | [TypeScript](TypeScript-Protocol-Slave_System)
+
+#### Simple Calculator
+###### calculator-server.ts
+``` typescript
+/// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
+/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+
+// IMPORTS
+import std = require("typescript-stl");
+import samchon = require("samchon-framework");
+
+// SHORTCUTS
+import library = samchon.library;
+import protocol = samchon.protocol;
+
+class CalculatorServer extends protocol.Server
+{
+	// CONTAINER OF CalculatorClient OBJECTS
+	private clients: std.HashSet<CalculatorClient>;
+
+	/* ------------------------------------------------------------------
+		CONSTRUCTORS
+	------------------------------------------------------------------ */
+	public constructor()
+	{
+		super();
+
+		this.clients = new std.HashSet<CalculatorClient>();
+	}
+	public addClient(driver: protocol.IClientDriver): void
+	{
+		// WHEN A CLIENT HAS CONNECTED, THEN AN CalculatorClient OBJECT 
+		// AND ENROLL THE NEWLY CREATED CalucatorClient OBJECT TO MEMBER clients.
+		let client: CalculatorClient = new CalculatorClient(this, driver);
+		this.clients.insert(client);
+	}
+
+	/* ------------------------------------------------------------------
+		INVOKE MESSAGE CHAIN
+	------------------------------------------------------------------ */
+	/////
+	// SEND & REPLY DATA
+	/////
+	public sendData(invoke: protocol.Invoke): void
+	{
+		// ALL sendData() METHOD IN CalculatorClient OBJECTS ARE CALLED
+		for (let it = this.clients.begin(); !it.equal_to(this.clients.end()); it = it.next())
+			it.value.sendData(invoke);
+	}
+	public replyData(invoke: protocol.Invoke): void
+	{
+		// FIND MATCHED MEMBER FUNCTION NAMED EQUAL TO THE invoke.getListener()
+		invoke.apply(this);
+	}
+
+	/////
+	// METHODS CALLED BY invoke.apply(this) in replyData().
+	/////
+	private computeMultiply(x: number, y: number): void
+	{
+		// CALL CalculatorApplication.printMultiply
+		this.sendData(new protocol.Invoke("printMultiply", x, y, x * y));
+	}
+	private computeDivide(x: number, y: number): void
+	{
+		// CALL CalculatorApplication.printDivide
+		this.sendData(new protocol.Invoke("printDivide", x, y, x / y));
+	}
+}
+
+class CalculatorClient implements protocol.IProtocol
+{
+	// PARENT SERVER INSTANCE
+	private server: CalculatorServer;
+
+	// COMMUNICATOR, SENDS AND RECEIVES NETWORK MESSAGE WITH CONNECTED CLIENT
+	private driver: protocol.IClientDriver;
+
+	/* ------------------------------------------------------------------
+		CONSTRUCTORS
+	------------------------------------------------------------------ */
+	public constructor(server: CalculatorServer, driver: protocol.IClientDriver)
+	{
+		this.server = server;
+		this.driver = driver;
+
+		// START LISTENING AND RESPOND CLOSING EVENT
+		this.driver.listen(this);
+		this.driver.onClose = this.destructor.bind(this);
+	}
+	public destructor(): void
+	{
+		// WHEN DISCONNECTED, THEN ERASE THIS OBJECT FROM CalculatorServer.clients.
+		this.server["clients"].erase(this);
+	}
+
+	/* ------------------------------------------------------------------
+		INVOKE MESSAGE CHAIN
+	------------------------------------------------------------------ */
+	/////
+	// SEND & REPLY DATA
+	/////
+	public sendData(invoke: protocol.Invoke): void
+	{
+		// CALL Communicator.sendData(), WHO PHYSICALLY SEND NETWORK MESSAGE
+		this.driver.sendData(invoke);
+	}
+	public replyData(invoke: protocol.Invoke): void
+	{
+		// FIND MATCHED MEMBER FUNCTION NAMED EQUAL TO THE invoke.getListener()
+		invoke.apply(this);
+
+		// THE REPLIED INVOKE MESSAGE IS ALSO SHIFTED TO ITS SERVER OBJECT
+		this.server.replyData(invoke);
+	}
+
+	/////
+	// METHODS CALLED BY invoke.apply(this) in replyData().
+	/////
+	private computeSum(x: number, y: number): void
+	{
+		// CALL CalculatorApplication.printSum
+		this.sendData(new protocol.Invoke("printSum", x, y, x + y));
+	}
+	private computeMinus(x: number, y: number): void
+	{
+		// CALL CalculatorApplication.printMinus
+		this.sendData(new protocol.Invoke("printMinus", x, y, x - y));
+	}
+}
+
+var server: CalculatorServer = new CalculatorServer();
+server.open(17823);
+```
+
+###### calculator-application.ts
+``` typescript
+/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+
+// IMPORT
+import samchon = require("samchon-framework");
+
+// SHORTCUTS
+import library = samchon.library;
+import protocol = samchon.protocol;
+
+class CalculatorApplication implements protocol.IProtocol
+{
+	// COMMUNICATOR, SENDS AND RECEIVES NETWORK MESSAGE WITH SERVER
+	private connector: protocol.IServerConnector;
+
+	/* ------------------------------------------------------------------
+		CONSTRUCTORS
+	------------------------------------------------------------------ */
+	public constructor()
+	{
+		// CONSTRUCT CONNECTOR AND
+		this.connector = new protocol.ServerConnector(this);
+		this.connector.onConnect = this.handleConnect.bind(this);
+
+		// CONNECT TO CALCULATOR-SERVER
+		this.connector.connect("127.0.0.1", 17823);
+	}
+	private handleConnect(): void
+	{
+		// CALL CalculatorClient.computeSum
+		this.sendData(new protocol.Invoke("computeSum", Math.random(), Math.random()));
+
+		// CALL CalculatorClient.computeMinus
+		this.sendData(new protocol.Invoke("computeMinus", Math.random(), Math.random()));
+
+		// CALL CalculatorServer.computeMultiply
+		this.sendData(new protocol.Invoke("computeMultiply", Math.random(), Math.random()));
+
+		// CALL CalculatorServer.computeDivide
+		this.sendData(new protocol.Invoke("computeDivide", Math.random(), Math.random()));
+	}
+
+	/* ------------------------------------------------------------------
+		INVOKE MESSAGE CHAIN
+	------------------------------------------------------------------ */
+	/////
+	// SEND & REPLY DATA
+	/////
+	public sendData(invoke: protocol.Invoke): void
+	{
+		this.connector.sendData(invoke);
+	}
+	public replyData(invoke: protocol.Invoke): void
+	{
+		invoke.apply(this);
+	}
+
+	/////
+	// METHODS CALLED BY invoke.apply(this) in replyData().
+	/////
+	private printPlus(x: number, y: number, ret: number): void
+	{
+		console.log(library.StringUtil.substitute("{1} + {2} = {3}", x, y, ret));
+	}
+	private printMius(x: number, y: number, ret: number): void
+	{
+		console.log(library.StringUtil.substitute("{1} - {2} = {3}", x, y, ret));
+	}
+	private printMultiply(x: number, y: number, ret: number): void
+	{
+		console.log(library.StringUtil.substitute("{1} x {2} = {3}", x, y, ret));
+	}
+	private printDivide(x: number, y: number, ret: number): void
+	{
+		console.log(library.StringUtil.substitute("{1} / {2} = {3}", x, y, ret));
+	}
+}
+```

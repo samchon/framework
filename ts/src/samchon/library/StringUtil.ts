@@ -377,41 +377,27 @@ namespace samchon.library
 		public static numberFormat(val: number, precision: number = 2): string
 		{
 			let str: string = "";
-			
-			if (precision < 0)
-			{
-				// WHEN numberFormat(12345, -2) COMES
-				val = Math.round(val * Math.pow(10, precision)); // Math.round(12345 * 10^-2 = 123)
-				val = val / Math.pow(10, precision); // 123 / 10^-2 = 12300
-			}
-			
-			// CHECK IS NEGATIVE
+
+			// FIRST, DO ROUND-OFF
+			val = Math.round(val * Math.pow(10, precision));
+			val = val / Math.pow(10, precision);
+
+			// SEPERATE NUMBERS
 			let is_negative: boolean = (val < 0);
-			val = Math.abs(val);
-
-			// PRECISION
-			if (precision > 0 && val != Math.floor(val))
-			{
-				let rounded: number = val - Math.floor(val);
-				rounded = Math.round(rounded * Math.pow(10, precision));
-
-				str += "." + rounded;
-			}
+			let natural: number = Math.floor(Math.abs(val));
+			let fraction: number = Math.abs(val) - Math.floor(Math.abs(val));
 
 			// NATURAL NUMBER
-			if (Math.floor(val) == 0)
-			{
-				// WHEN NATURAL VALUE IS ZERO
-				str = "0" + str;
-			}
+			if (natural == 0)
+				str = "0";
 			else
 			{
 				// NOT ZERO
-				let cipher_count = Math.floor(Math.log(val) / Math.log(10)) + 1;
+				let cipher_count = Math.floor(Math.log(natural) / Math.log(10)) + 1;
 
 				for (let i: number = 0; i <= cipher_count; i++)
 				{
-					let cipher: number = Math.floor(val % Math.pow(10, i + 1));
+					let cipher: number = Math.floor(natural % Math.pow(10, i + 1));
 					cipher = Math.floor(cipher / Math.pow(10, i));
 
 					if (i == cipher_count && cipher == 0)
@@ -424,10 +410,19 @@ namespace samchon.library
 					// PUSH FRONT TO THE STRING
 					str = cipher + str;
 				}
+			}
 
-				// NEGATIVE SIGN
-				if (is_negative == true)
-					str = "-" + str;
+			// NEGATIVE SIGN
+			if (is_negative == true)
+				str = "-" + str;
+
+			// ADD FRACTION
+			if (precision > 0 && fraction != 0)
+			{
+				fraction = Math.round(fraction * Math.pow(10, precision));
+				let zeros: number = precision - Math.floor(Math.log(fraction) / Math.log(10)) - 1;
+
+				str += "." + StringUtil.repeat("0", zeros) + fraction;
 			}
 			return str;
 		}

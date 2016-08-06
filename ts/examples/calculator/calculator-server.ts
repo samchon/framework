@@ -103,6 +103,8 @@ class CalculatorClient implements protocol.IProtocol
 	}
 	public replyData(invoke: protocol.Invoke): void
 	{
+		console.log(invoke.toXML().toString() + "\n\n");
+
 		// FIND MATCHED MEMBER FUNCTION NAMED EQUAL TO THE invoke.getListener()
 		invoke.apply(this);
 

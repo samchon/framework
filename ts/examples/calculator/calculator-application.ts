@@ -61,7 +61,7 @@ class CalculatorApplication implements protocol.IProtocol
 	{
 		console.log(library.StringUtil.substitute("{1} + {2} = {3}", x, y, ret));
 	}
-	private printMius(x: number, y: number, ret: number): void
+	private printMinus(x: number, y: number, ret: number): void
 	{
 		console.log(library.StringUtil.substitute("{1} - {2} = {3}", x, y, ret));
 	}
@@ -74,3 +74,5 @@ class CalculatorApplication implements protocol.IProtocol
 		console.log(library.StringUtil.substitute("{1} / {2} = {3}", x, y, ret));
 	}
 }
+
+new CalculatorApplication();

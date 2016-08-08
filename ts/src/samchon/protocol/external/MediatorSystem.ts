@@ -2,18 +2,18 @@
 
 /// <reference path="../slave/SlaveSystem.ts" />
 
-namespace samchon.protocol.master
+namespace samchon.protocol.external
 {
 	export abstract class MediatorSystem
 		extends slave.SlaveSystem
 	{
-		private system_array: external.ExternalSystemArray;
+		private system_array: ExternalSystemArray;
 		private progress_list: std.HashMap<number, InvokeHistory>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(systemArray: external.ExternalSystemArray)
+		public constructor(systemArray: ExternalSystemArray)
 		{
 			super();
 
@@ -23,7 +23,7 @@ namespace samchon.protocol.master
 
 		public abstract start(): void;
 		
-		protected createChild(xml: library.XML): external.ExternalSystemRole
+		protected createChild(xml: library.XML): ExternalSystemRole
 		{
 			return null;
 		}
@@ -49,7 +49,7 @@ namespace samchon.protocol.master
 	}
 }
 
-namespace samchon.protocol.master
+namespace samchon.protocol.external
 {
 	export class MediatorServer
 		extends MediatorSystem
@@ -61,7 +61,7 @@ namespace samchon.protocol.master
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(systemArray: external.ExternalSystemArray, port: number)
+		public constructor(systemArray: ExternalSystemArray, port: number)
 		{
 			super(systemArray);
 			this.port = port;
@@ -119,11 +119,11 @@ namespace samchon.protocol.master
 	}
 }
 
-namespace samchon.protocol.master
+namespace samchon.protocol.external
 {
 	export class MediatorClient
 		extends MediatorSystem
-		implements external.IExternalServer
+		implements IExternalServer
 	{
 		protected ip: string;
 		protected port: number;
@@ -131,7 +131,7 @@ namespace samchon.protocol.master
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(systemArray: external.ExternalSystemArray, ip: string, port: number)
+		public constructor(systemArray: ExternalSystemArray, ip: string, port: number)
 		{
 			super(systemArray);
 

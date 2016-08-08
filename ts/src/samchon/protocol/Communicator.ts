@@ -12,6 +12,121 @@ namespace samchon.protocol
 	 * {@link Invoke} class and will be shifted to the {@link WebCommunicator.listener listener}'s 
 	 * {@link IProtocol.replyData replyData()} method. </p>
 	 * 
+	 * <code>
+	interface ICommmunicator
+	{
+		private socket: SomeSocketClass;
+
+		// LISTENER LISTENS INVOKE MESSAGE BY IT'S IProtocol.replyData() METHOD
+		protected listener: IProtocol;
+
+		// YOU CAN DETECT DISCONNECTION BY ENROLLING FUNCTION POINTER TO HERE.
+		public onClose: Function;
+
+		public sendData(invoke: Invoke): void
+		{
+			this.socket.write(invoke);
+		}
+		public replyData(invoke: Invoke): void
+		{
+			// WHENEVER COMMUNICATOR GETS MESSAGE, THEN SHIFT IT TO LISTENER'S replyData() METHOD.
+			this.listener.replyData(invoke);
+		}
+	}
+	 * </code>
+	 * 
+	 * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a> </p>
+	 * 
+	 * 
+	 * <h2> Basic Components </h2>
+	 * <h4> What Basic Components are </h4>
+	 * <p> <b>Basic Components</b> are the smallest unit of network communication in this <i>Samchon Framework</i>. With
+	 * <b>Basic Components</b>, you can construct any type of network system, even how the network system is enormously
+	 * scaled and complicated, by just combinating the <b>Basic Components</b>. </p>
+	 *
+	 * <p> All the system templates in this framework are also being implemented by utilization of the
+	 * <b>Basic Compoonents</b>. </p>
+	 *
+	 * <ul>
+	 *	<li> {@link service Service} </il>
+	 *	<li> {@link external External System} </il>
+	 *	<li> {@link parallel Parallel System} </il>
+	 *	<li> {@link distributed Distributed System} </il>
+	 * </ul>
+	 *
+	 * <p> Note that, whatever the network system what you've to construct is, just concentrate on role of each system
+	 * and attach matched <b>Basic Components</b> to the role, within framework of the <b>Object-Oriented Design</b>.
+	 * Then construction of the network system will be much easier. </p>
+	 *
+	 * <ul>
+	 *	<li> A system is a server, then use {@link IServer} or {@link IServerBase}. </li>
+	 *	<li> A server wants to handle a client has connected, then use {@link IClientDriver}. </li>
+	 *	<li> A system is a client connecting to an external server, then use {@link IServerConnector}. </li>
+	 *	<li> </li>
+	 * </ul>
+	 *
+	 * <h4> Example - System Templates </h4>
+	 * <p> Learning and understanding <i>Basic Components</i> of Samchon Framework, reading source codes and design of
+	 * <b>System Templates</b>' modules will be very helpful. </p>
+	 *
+	 * <table>
+	 *	<tr>
+	 *		<th> Name </th>
+	 *		<th> Source </th>
+	 *		<th> API Documents </th>
+	 *	</tr>
+	 *	<tr>
+	 *		<td> Cloud Service </td>
+	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service"
+	 *				target="_blank"> protocol/service </a> </td>
+	 *		<td> {@link protocol.service} </td>
+	 *	</tr>
+	 *	<tr>
+	 *		<td> External System </td>
+	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external"
+	 *				target="_blank"> protocol/external </a> </td>
+	 *		<td> {@link protocol.external} </td>
+	 *	</tr>
+	 *	<tr>
+	 *		<td> Parallel System </td>
+	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel"
+	 *				target="_blank"> protocol/parallel </a> </td>
+	 *		<td> {@link protocol.parallel} </td>
+	 *	</tr>
+	 *	<tr>
+	 *		<td> Distributed System </td>
+	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed"
+	 *				target="_blank"> protocol/distributed </a> </td>
+	 *		<td> {@link protocol.distributed} </td>
+	 *	</tr>
+	 *	<tr>
+	 *		<td> Slave System </td>
+	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave"
+	 *				target="_blank"> protocol/slave </a> </td>
+	 *		<td> {@link protocol.slave} </td>
+	 *	</tr>
+	 * </table>
+	 *
+	 * <h4> Example - Projects </h4>
+	 * <ul>
+	 *	<li>
+	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Calculator" target="_blank"> Calculator </a>
+	 *	</li>
+	 *	<li>
+	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Chatting" target="_blank"> Chatting </a>
+	 *	</li>
+	 *	<li>
+	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Interaction" target="_blank"> Interaction </a>
+	 *	</li>
+	 * </ul>
+	 * 
+	 * @see {@link IClientDriver}, {@link IServerConnector}
+	 * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator"
+	 *			 target="_blank"> Basic Components - ICommunicator </a>
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface ICommunicator extends IProtocol

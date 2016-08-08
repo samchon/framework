@@ -14,6 +14,8 @@ namespace samchon.protocol
 	 * charge of network communication and delivers replied message to {@link WebCommunicator.listener listener}'s
 	 * {@link IProtocol.replyData replyData()} method. </p>
 	 * 
+	 * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector"
+	 *			 target="_blank"> Basic Components - IServerConnector </a>
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IServerConnector

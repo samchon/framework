@@ -7,10 +7,10 @@ All the system templates in this framework are also being implemented by utiliza
   - [Parallel System](TypeScript-Protocol-Parallel_System)
   - [Distributed System](TypeScript-Protocol-Distributed_System)
 
-Note that, whatever the network system what you've to construct is, just concentrate on role of each system and attach matched *Basic Component* to the role, within framework of the *Object-Oriented Design*. Then construction of the network system will be much easier.
+Note that, whatever the network system what you've to construct is, just concentrate on role of each system and attach matched **Basic Component** to the role, within framework of the **Object-Oriented Design**. Then construction of the network system will be much easier.
   - A system is server, then use [IServer](#iserver) or [IServerBase](#iserverdriver).
+  - A server wants to handle a client has connected, then use [IClientDriver](#iclientdriver).
   - A system is a client conneting to an extenral server, then use [IServerConnector](#iserverconnector).
-  - A server wants a handle clients have connected, then use [IClientDriver](#iclientdriver).
 
 ## References
 #### Class Diagram
@@ -162,9 +162,11 @@ interface ICommmunicator
 #### IClientDriver
 ```IClientDriver``` is a type of [ICommunicator](#icommunicator), specified for communication with external client, connected to this server. This ```IClientDriver``` is created in [IServer](#iserver) and delivered from [IServer.addClient()](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iserver.html#addclient). Those are derived classes from the ```IClientDriver```, being created by [IServer](#iserver) object.
 
-  - [ClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.clientdriver.html)
-  - [WebClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webclientdriver.html)
-  - [SharedWorkerClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerclientdriver.html)
+Derived Type | Crated By
+-------------|-----------
+[ClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.clientdriver.html) | [Server](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.server.html)
+[WebClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webclientdriver.html) | [Server](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.server.html)
+[SharedWorkerClientDriver](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerclientdriver.html) | [Server](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.server.html)
 
 When you got the IClientDriver object in the [IServer.addClient()](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iserver.html#addclient), then specify listener from [IClientDriver.listen()](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iclientdriver.html#listen) method.
 
@@ -291,7 +293,7 @@ class CalculatorApplication implements protocol.IProtocol
 ## IProtocol
 ```IProtocol``` is an interface for [Invoke](TypeScript-Protocol-Message_Protocol#invoke) message, which is standard message of network I/O in Samchon Framework, chain. The IProtocol interface is used to network drivers (Basic Components) and some related classes with the network drivers, which are in a relationship of *Chain of Responsibility* with those network drivers.
 
-Implements ```IProtocol``` if the class sends and handles [Invoke](TypeScript-Protocol-Message_Protocol#invoke) message. Looking around source codes of Samchon Framework, especially System Templates, you can find out that all the classes and modules handling [Invoke](TypeScript-Protocol-Message_Protocol#invoke) message are always implementing the ```IProtocol```. Yeah, ```IProtocol```, this is the main role you've to follow in Samchon Framework.
+Implements ```IProtocol``` if the class sends and handles [Invoke](TypeScript-Protocol-Message_Protocol#invoke) message. Looking around source codes of Samchon Framework, especially System Templates, you can find out that all the classes and modules handling [Invoke](TypeScript-Protocol-Message_Protocol#invoke) message are always implementing the ```IProtocol```. Yes, ```IProtocol```, this is the main role you've to follow in Samchon Framework.
 
 Below pseudo code represents [Service Module](TypeScript-Protocol-Service), who can build a cloud server. All the classes in the pseudo code are implementing the IProtocol because all of them are handling [Invoke](TypeScript-Protocol-Message_Protocol#invoke) messages.
 
@@ -408,226 +410,17 @@ namespace service
 
 ## Example Code
 #### System Templates
-Learning and understanding **Basic Components** of *Samchon Framework*, reading source codes and designed of **System Templates**' modules will be very helpful.
+Learning and understanding **Basic Components** of *Samchon Framework*, reading source codes and designs of **System Templates**' modules will be very helpful.
 
 Name | Source | Guidance
 ----|----|---
 Cloud Service | [protocol/service](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service) | [Conception](Conception-Template_Systems-Service), [TypeScript](TypeScript-Protocol-Service)
 External System | [protocol/external](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external) | [Conception](Conception-Template_Systems-External_System), [TypeScript](TypeScript-Protocol-External_System)
-Parallel System | [protocol/master](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/master) | [Conception](Conception-Template_Systems-Parallel_System), [TypeScript](TypeScript-Protocol-Parallel_System)
-Distributed System | [protocol/master](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/master) | [Conception](Conception-Template_Systems-Distributed_System), [TypeScript](TypeScript-Protocol-Distributed_System)
+Parallel System | [protocol/parallel](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel) | [Conception](Conception-Template_Systems-Parallel_System), [TypeScript](TypeScript-Protocol-Parallel_System)
+Distributed System | [protocol/distributed](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed) | [Conception](Conception-Template_Systems-Distributed_System), [TypeScript](TypeScript-Protocol-Distributed_System)
 Slave System | [protocol/slave](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave) | [TypeScript](TypeScript-Protocol-Slave_System)
 
-#### Simple Calculator
-###### calculator-server.ts
-``` typescript
-/// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
-/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
-
-// IMPORTS
-import std = require("typescript-stl");
-import samchon = require("samchon-framework");
-
-// SHORTCUTS
-import library = samchon.library;
-import protocol = samchon.protocol;
-
-class CalculatorServer extends protocol.Server
-{
-	// CONTAINER OF CalculatorClient OBJECTS
-	private clients: std.HashSet<CalculatorClient>;
-
-	/* ------------------------------------------------------------------
-		CONSTRUCTORS
-	------------------------------------------------------------------ */
-	public constructor()
-	{
-		super();
-
-		this.clients = new std.HashSet<CalculatorClient>();
-	}
-	public addClient(driver: protocol.IClientDriver): void
-	{
-		// WHEN A CLIENT HAS CONNECTED, THEN AN CalculatorClient OBJECT 
-		// AND ENROLL THE NEWLY CREATED CalucatorClient OBJECT TO MEMBER clients.
-		let client: CalculatorClient = new CalculatorClient(this, driver);
-		this.clients.insert(client);
-	}
-
-	/* ------------------------------------------------------------------
-		INVOKE MESSAGE CHAIN
-	------------------------------------------------------------------ */
-	/////
-	// SEND & REPLY DATA
-	/////
-	public sendData(invoke: protocol.Invoke): void
-	{
-		// ALL sendData() METHOD IN CalculatorClient OBJECTS ARE CALLED
-		for (let it = this.clients.begin(); !it.equal_to(this.clients.end()); it = it.next())
-			it.value.sendData(invoke);
-	}
-	public replyData(invoke: protocol.Invoke): void
-	{
-		// FIND MATCHED MEMBER FUNCTION NAMED EQUAL TO THE invoke.getListener()
-		invoke.apply(this);
-	}
-
-	/////
-	// METHODS CALLED BY invoke.apply(this) in replyData().
-	/////
-	private computeMultiply(x: number, y: number): void
-	{
-		// CALL CalculatorApplication.printMultiply
-		this.sendData(new protocol.Invoke("printMultiply", x, y, x * y));
-	}
-	private computeDivide(x: number, y: number): void
-	{
-		// CALL CalculatorApplication.printDivide
-		this.sendData(new protocol.Invoke("printDivide", x, y, x / y));
-	}
-}
-
-class CalculatorClient implements protocol.IProtocol
-{
-	// PARENT SERVER INSTANCE
-	private server: CalculatorServer;
-
-	// COMMUNICATOR, SENDS AND RECEIVES NETWORK MESSAGE WITH CONNECTED CLIENT
-	private driver: protocol.IClientDriver;
-
-	/* ------------------------------------------------------------------
-		CONSTRUCTORS
-	------------------------------------------------------------------ */
-	public constructor(server: CalculatorServer, driver: protocol.IClientDriver)
-	{
-		this.server = server;
-		this.driver = driver;
-
-		// START LISTENING AND RESPOND CLOSING EVENT
-		this.driver.listen(this);
-		this.driver.onClose = this.destructor.bind(this);
-	}
-	public destructor(): void
-	{
-		// WHEN DISCONNECTED, THEN ERASE THIS OBJECT FROM CalculatorServer.clients.
-		this.server["clients"].erase(this);
-	}
-
-	/* ------------------------------------------------------------------
-		INVOKE MESSAGE CHAIN
-	------------------------------------------------------------------ */
-	/////
-	// SEND & REPLY DATA
-	/////
-	public sendData(invoke: protocol.Invoke): void
-	{
-		// CALL Communicator.sendData(), WHO PHYSICALLY SEND NETWORK MESSAGE
-		this.driver.sendData(invoke);
-	}
-	public replyData(invoke: protocol.Invoke): void
-	{
-		// FIND MATCHED MEMBER FUNCTION NAMED EQUAL TO THE invoke.getListener()
-		invoke.apply(this);
-
-		// THE REPLIED INVOKE MESSAGE IS ALSO SHIFTED TO ITS SERVER OBJECT
-		this.server.replyData(invoke);
-	}
-
-	/////
-	// METHODS CALLED BY invoke.apply(this) in replyData().
-	/////
-	private computeSum(x: number, y: number): void
-	{
-		// CALL CalculatorApplication.printSum
-		this.sendData(new protocol.Invoke("printSum", x, y, x + y));
-	}
-	private computeMinus(x: number, y: number): void
-	{
-		// CALL CalculatorApplication.printMinus
-		this.sendData(new protocol.Invoke("printMinus", x, y, x - y));
-	}
-}
-
-var server: CalculatorServer = new CalculatorServer();
-server.open(17823);
-```
-
-###### calculator-application.ts
-``` typescript
-/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
-
-// IMPORT
-import samchon = require("samchon-framework");
-
-// SHORTCUTS
-import library = samchon.library;
-import protocol = samchon.protocol;
-
-class CalculatorApplication implements protocol.IProtocol
-{
-	// COMMUNICATOR, SENDS AND RECEIVES NETWORK MESSAGE WITH SERVER
-	private connector: protocol.IServerConnector;
-
-	/* ------------------------------------------------------------------
-		CONSTRUCTORS
-	------------------------------------------------------------------ */
-	public constructor()
-	{
-		// CONSTRUCT CONNECTOR AND
-		this.connector = new protocol.ServerConnector(this);
-		this.connector.onConnect = this.handleConnect.bind(this);
-
-		// CONNECT TO CALCULATOR-SERVER
-		this.connector.connect("127.0.0.1", 17823);
-	}
-	private handleConnect(): void
-	{
-		// CALL CalculatorClient.computeSum
-		this.sendData(new protocol.Invoke("computeSum", Math.random(), Math.random()));
-
-		// CALL CalculatorClient.computeMinus
-		this.sendData(new protocol.Invoke("computeMinus", Math.random(), Math.random()));
-
-		// CALL CalculatorServer.computeMultiply
-		this.sendData(new protocol.Invoke("computeMultiply", Math.random(), Math.random()));
-
-		// CALL CalculatorServer.computeDivide
-		this.sendData(new protocol.Invoke("computeDivide", Math.random(), Math.random()));
-	}
-
-	/* ------------------------------------------------------------------
-		INVOKE MESSAGE CHAIN
-	------------------------------------------------------------------ */
-	/////
-	// SEND & REPLY DATA
-	/////
-	public sendData(invoke: protocol.Invoke): void
-	{
-		this.connector.sendData(invoke);
-	}
-	public replyData(invoke: protocol.Invoke): void
-	{
-		invoke.apply(this);
-	}
-
-	/////
-	// METHODS CALLED BY invoke.apply(this) in replyData().
-	/////
-	private printPlus(x: number, y: number, ret: number): void
-	{
-		console.log(library.StringUtil.substitute("{1} + {2} = {3}", x, y, ret));
-	}
-	private printMius(x: number, y: number, ret: number): void
-	{
-		console.log(library.StringUtil.substitute("{1} - {2} = {3}", x, y, ret));
-	}
-	private printMultiply(x: number, y: number, ret: number): void
-	{
-		console.log(library.StringUtil.substitute("{1} x {2} = {3}", x, y, ret));
-	}
-	private printDivide(x: number, y: number, ret: number): void
-	{
-		console.log(library.StringUtil.substitute("{1} / {2} = {3}", x, y, ret));
-	}
-}
-```
+#### Example Projects
+  - [Calculator](Examples-Calculator)
+  - [Chatting](Examples-Chatting)
+  - [Interaction](Examples-Interaction)

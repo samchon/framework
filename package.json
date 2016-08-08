@@ -1,12 +1,12 @@
 {
   "name": "samchon-framework",
-  "description": "Samchon, a SDN (Software Defined Network) Framework with C++ and TypeScript",
+  "description": "Samchon, a OON (Object Oriented Network) Framework with C++ and TypeScript",
   "author": {
     "name": "Jeongho Nam",
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.0.0-alpha.6",
+  "version": "2.0.0-beta.1",
 
   "main": "./lib/ts/samchon-framework.js",
   "homepage": "http://samchon.org/framework",
@@ -27,7 +27,7 @@
     }
   ],
   "keywords": [
-    "samchon framework", "SDN", "software defined network", "interaction",
+    "samchon framework", "OON", "object oriented network", "interaction",
     "cloud system", "distributed processing system", "parallel processing system",
     "C++", "TypeScript", "XML", "Entity"]
 }

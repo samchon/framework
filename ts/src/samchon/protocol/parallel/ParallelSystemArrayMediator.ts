@@ -2,12 +2,12 @@
 
 /// <reference path="ParallelSystemArray".ts" />
 
-namespace samchon.protocol.master
+namespace samchon.protocol.parallel
 {
 	export abstract class ParallelSystemArrayMediator
 		extends ParallelSystemArray
 	{
-		protected mediator: MediatorSystem;
+		protected mediator: external.MediatorSystem;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -22,7 +22,7 @@ namespace samchon.protocol.master
 			this.mediator = null;
 		}
 
-		protected abstract createMediator(): MediatorSystem;
+		protected abstract createMediator(): external.MediatorSystem;
 
 		protected start_mediator(): void
 		{

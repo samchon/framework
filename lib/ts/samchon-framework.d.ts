@@ -1,4 +1,4 @@
-// Type definitions for Samchon Framework v2.0.0-alpha.4
+// Type definitions for Samchon Framework v2.0.0-beta.1
 // Project: https://github.com/samchon/framework
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -9,6 +9,7 @@ declare module "samchon-framework"
 {
         export = samchon;
 }
+
 /**
  * <h1> Samchon-Framework </h1>
  *
@@ -2974,9 +2975,9 @@ declare namespace samchon.protocol {
      * <p> {@link ICommunicator} is an interface for communicator classes who take full charge of network communication
      * with external system, without reference to whether the external system is a server or a client. </p>
      *
-     * <p> Whenever a replied message comes from the external system has arrived, the message will be converted to an
+     * <p> Whenever a replied message comes from the external system, the message will be converted to an
      * {@link Invoke} class and will be shifted to the {@link WebCommunicator.listener listener}'s
-     * {@link IProtoco.replyData replyData()} method. </p>
+     * {@link IProtocol.replyData replyData()} method. </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */

@@ -2,7 +2,7 @@
 
 /// <reference path="ParallelSystem.ts" />
 
-namespace samchon.protocol.master
+namespace samchon.protocol.parallel
 {
 	export interface IParallelServer
 		extends ParallelSystem, external.IExternalServer

@@ -9,13 +9,6 @@
 ![Protocol - Invoke](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_invoke.png)
 
 #### Forms
-``` typescript
-/// <reference path="typings/samchon-framework/samchon-framework.d.ts" />
-import protocol = require("samchon-framework").protocol;
-
-new protocol.Invoke({FUNCTION_TO_CALL}, ...PARAMETERS);
-```
-
 ``` xml
 <?xml encoding="utf-8" ?>
 <invoke listener={FUNCTION_TO_CALL}>
@@ -26,7 +19,9 @@ new protocol.Invoke({FUNCTION_TO_CALL}, ...PARAMETERS);
 
 ``` typescript
 /// <reference path="typings/samchon-framework/samchon-framework.d.ts" />
-import protocol = require("samchon-framework").protocol;
+
+import samchon = require("samchon-framework");
+import protocol = samchon.protocol;
 
 let invoke = new protocol.Invoke
 	(

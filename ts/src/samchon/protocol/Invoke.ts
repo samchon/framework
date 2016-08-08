@@ -158,8 +158,7 @@ namespace samchon.protocol
 {
 	/**
 	 * A parameter belongs to an Invoke.
-	 *
-	 * @see Invoke
+	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class InvokeParameter

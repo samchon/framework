@@ -2,7 +2,7 @@
 
 /// <reference path="ParallelSystemArrayMediator.ts" />
 
-namespace samchon.protocol.master
+namespace samchon.protocol.parallel
 {
 	export abstract class ParallelServerArrayMediator
 		extends ParallelSystemArrayMediator

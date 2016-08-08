@@ -3,15 +3,15 @@
 # ======================================================
 .git
 api\
-cpp\
 design\
-doc\
-flex\
+handbook\
+
+cpp\
 ts\
+flex\
 
 lib\cpp
 lib\flex
 
 *.bat
 *.*ignore
-*.d.ts

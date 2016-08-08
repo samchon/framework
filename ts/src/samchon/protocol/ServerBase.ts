@@ -29,25 +29,28 @@ namespace samchon.protocol
 	 * 
 	 * <code>
 	class MyServer extends Something implements IServer
-	{
-		private server_base: IServerBase = new WebServerBase(this);
-
+	{ 
+		private server_base: IServerBase = new WebServerBase(this); 
+	
 		public addClient(driver: IClientDriver): void
 		{
 			// WHAT TO DO WHEN A CLIENT HAS CONNECTED
-		}
-
+		} 
+	
 		public open(port: number): void
 		{
 			this.server_base.open();
-		}
+		} 
 		public close(): void
 		{
 			this.server_base.close();
-		}
+		} 
 	}
 	 * </code>
 	 * 
+	 * @see {@link IServer}
+	 * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase"
+	 *			 target="_blank"> Basic Components - IServerBase </a>
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IServerBase extends IServer

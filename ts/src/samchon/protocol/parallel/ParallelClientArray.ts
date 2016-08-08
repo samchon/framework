@@ -2,7 +2,7 @@
 
 /// <reference path="ParallelSystemArray.ts" />
 
-namespace samchon.protocol.master
+namespace samchon.protocol.parallel
 {
 	export abstract class ParallelClientArray
 		extends ParallelSystemArray

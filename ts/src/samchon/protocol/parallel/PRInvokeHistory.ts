@@ -2,7 +2,7 @@
 
 /// <reference path="../InvokeHistory.ts" />
 
-namespace samchon.protocol.master
+namespace samchon.protocol.parallel
 {
 	export class PRInvokeHistory extends InvokeHistory
 	{

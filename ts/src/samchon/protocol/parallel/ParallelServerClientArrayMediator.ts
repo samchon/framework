@@ -1,11 +1,11 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="ParallelSystemArray.ts" />
+/// <reference path="ParallelClientArrayMediator.ts" />
 
-namespace samchon.protocol.master
+namespace samchon.protocol.parallel
 {
-	export abstract class ParallelServerClientArray
-		extends ParallelClientArray
+	export abstract class ParallelServerClientArrayMediator
+		extends ParallelClientArrayMediator
 		implements external.IExternalServerClientArray
 	{
 		/* ---------------------------------------------------------
@@ -28,6 +28,9 @@ namespace samchon.protocol.master
 		/* ---------------------------------------------------------
 			METHOD OF CLIENT
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public connect(): void
 		{
 			for (let i: number = 0; i < this.size(); i++)

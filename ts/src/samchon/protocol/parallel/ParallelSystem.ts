@@ -2,7 +2,7 @@
 
 /// <reference path="../external/ExternalSystem.ts" />
 
-namespace samchon.protocol.master
+namespace samchon.protocol.parallel
 {
 	export abstract class ParallelSystem 
 		extends external.ExternalSystem

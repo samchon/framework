@@ -412,13 +412,13 @@ namespace service
 #### System Templates
 Learning and understanding **Basic Components** of *Samchon Framework*, reading source codes and designs of **System Templates**' modules will be very helpful.
 
-Name | Source | Guidance
+Name | Source | Documents
 ----|----|---
-Cloud Service | [protocol/service](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service) | [Conception](Conception-Template_Systems-Service), [TypeScript](TypeScript-Protocol-Service)
-External System | [protocol/external](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external) | [Conception](Conception-Template_Systems-External_System), [TypeScript](TypeScript-Protocol-External_System)
-Parallel System | [protocol/parallel](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel) | [Conception](Conception-Template_Systems-Parallel_System), [TypeScript](TypeScript-Protocol-Parallel_System)
-Distributed System | [protocol/distributed](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed) | [Conception](Conception-Template_Systems-Distributed_System), [TypeScript](TypeScript-Protocol-Distributed_System)
-Slave System | [protocol/slave](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave) | [TypeScript](TypeScript-Protocol-Slave_System)
+Cloud Service | [protocol/service](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.service.html), [Guidance](TypeScript-Protocol-Service)
+External System | [protocol/external](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.external.html), [Guidance](TypeScript-Protocol-External_System)
+Parallel System | [protocol/parallel](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.parallel.html), [Guidance](TypeScript-Protocol-Parallel_System)
+Distributed System | [protocol/distributed](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.distributed.html), [Guidance](TypeScript-Protocol-Distributed_System)
+Slave System | [protocol/slave](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.slave.html), [Guidance](TypeScript-Protocol-Slave_System)
 
 #### Example Projects
   - [Calculator](Examples-Calculator)

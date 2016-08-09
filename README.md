@@ -45,10 +45,9 @@ Samchon Framework provides guide documents in [Wiki Page](https://github.com/sam
 
 The contents in the guide documents are such below:
   1. [Outline](https://github.com/samchon/framework/wiki/Home)
-  2. [Conception](https://github.com/samchon/framework/wiki/Conception)
-  4. [C++](https://github.com/samchon/framework/wiki/CPP)
-  5. [TypeScript](https://github.com/samchon/framework/wiki/TypeScript)
-  6. [Example Projects](https://github.com/samchon/framework/wiki/Examples)
+  2. [C++](https://github.com/samchon/framework/wiki/CPP)
+  3. [TypeScript](https://github.com/samchon/framework/wiki/TypeScript)
+  4. [Example Projects](https://github.com/samchon/framework/wiki/Examples)
 
 
 ## License

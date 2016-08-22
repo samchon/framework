@@ -1,4 +1,4 @@
 # Summary
 
-* TypeScript
+* [TypeScript](TypeScript.md)
 

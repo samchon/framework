@@ -103,9 +103,9 @@ namespace samchon.protocol.external
 		/**
 		 * Default Constructor.
 		 */
-		public constructor()
+		public constructor(systemArray: ExternalSystemArray)
 		{
-			super();
+			super(systemArray);
 
 			this.ip = "";
 			this.port = 0;

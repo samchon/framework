@@ -33,7 +33,7 @@ namespace samchon.protocol
 		/**
 		 * <p> Listener, represent function's name. </p>
 		 */
-		protected listener: string;
+		protected listener: string = "";
 
 		/* -------------------------------------------------------------------
 			CONSTRUCTORS
@@ -80,7 +80,7 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		protected createChild(xml: library.XML): InvokeParameter
+		public createChild(xml: library.XML): InvokeParameter
 		{
 			return new InvokeParameter();
 		}

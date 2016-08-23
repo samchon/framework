@@ -2,18 +2,18 @@
 
 /// <reference path="../slave/SlaveSystem.ts" />
 
-namespace samchon.protocol.external
+namespace samchon.protocol.parallel
 {
 	export abstract class MediatorSystem
 		extends slave.SlaveSystem
 	{
-		private system_array: ExternalSystemArray;
+		private system_array: ParallelSystemArrayMediator;
 		private progress_list: std.HashMap<number, InvokeHistory>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(systemArray: ExternalSystemArray)
+		public constructor(systemArray: ParallelSystemArrayMediator)
 		{
 			super();
 
@@ -23,7 +23,10 @@ namespace samchon.protocol.external
 
 		public abstract start(): void;
 		
-		protected createChild(xml: library.XML): ExternalSystemRole
+		/**
+		 * @hidden
+		 */
+		public createChild(xml: library.XML): external.ExternalSystemRole
 		{
 			return null;
 		}
@@ -49,7 +52,7 @@ namespace samchon.protocol.external
 	}
 }
 
-namespace samchon.protocol.external
+namespace samchon.protocol.parallel
 {
 	export class MediatorServer
 		extends MediatorSystem
@@ -61,7 +64,7 @@ namespace samchon.protocol.external
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(systemArray: ExternalSystemArray, port: number)
+		public constructor(systemArray: ParallelSystemArrayMediator, port: number)
 		{
 			super(systemArray);
 			this.port = port;
@@ -119,11 +122,11 @@ namespace samchon.protocol.external
 	}
 }
 
-namespace samchon.protocol.external
+namespace samchon.protocol.parallel
 {
 	export class MediatorClient
 		extends MediatorSystem
-		implements IExternalServer
+		implements external.IExternalServer
 	{
 		protected ip: string;
 		protected port: number;
@@ -131,7 +134,7 @@ namespace samchon.protocol.external
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(systemArray: ExternalSystemArray, ip: string, port: number)
+		public constructor(systemArray: ParallelSystemArrayMediator, ip: string, port: number)
 		{
 			super(systemArray);
 
@@ -177,18 +180,24 @@ namespace samchon.protocol.external
 	export class MediatorWebClient
 		extends MediatorClient
 	{
+		/**
+		 * @inheritdoc
+		 */
 		protected createServerConnector(): IServerConnector
 		{
 			return new WebServerConnector(this);
 		}
 	}
 
-	//export class MediatorSharedWorkerClient
-	//	extends MediatorClient
-	//{
-	//	protected createServerConnector(): IServerConnector
-	//	{
-	//		return new SharedWorkerServerConnector(this);
-	//	}
-	//}
+	export class MediatorSharedWorkerClient
+		extends MediatorClient
+	{
+		/**
+		 * @inheritdoc
+		 */
+		protected createServerConnector(): IServerConnector
+		{
+			return new SharedWorkerServerConnector(this);
+		}
+	}
 }

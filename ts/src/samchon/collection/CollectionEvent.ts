@@ -5,7 +5,7 @@
 namespace samchon.collection
 {
 	/**
-	 * Type of function pointer for {@link CollectionEvent CollectionEvents}.
+	 * Type of function pointer for listener of {@link CollectionEvent CollectionEvents}.
 	 */
 	export interface CollectionEventListener<T> extends EventListener
 	{
@@ -32,13 +32,14 @@ namespace samchon.collection
 		private last_: std.Iterator<T>;
 		
 		/**
-		 * 
+		 * Initialization Constructor.
 		 * 
 		 * @param type Type of collection event.
 		 * @param first 
 		 * @param last 
 		 */
 		public constructor(type: string, first: std.Iterator<T>, last: std.Iterator<T>);
+
 		public constructor(type: "insert", first: std.Iterator<T>, last: std.Iterator<T>);
 		public constructor(type: "erase", first: std.Iterator<T>, last: std.Iterator<T>);
 		public constructor(type: "refresh", first: std.Iterator<T>, last: std.Iterator<T>);

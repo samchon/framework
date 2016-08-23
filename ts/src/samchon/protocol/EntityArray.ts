@@ -30,7 +30,7 @@ namespace samchon.protocol
 		 *
 		 * @return A new child Entity belongs to EntityArray.
 		 */
-		// createChild(xml: library.XML): T;
+		createChild(xml: library.XML): T;
 
 		/* ------------------------------------------------------------------
 			GETTERS
@@ -111,6 +111,119 @@ namespace samchon.protocol
 		toXML(): library.XML;
 	}
 
+	export namespace IEntityGroup
+	{
+		export function construct<T extends Entity>(entity: IEntityGroup<T>, xml: library.XML): void
+		{
+			entity.clear();
+
+			/////
+			// MEMBER VARIABLES
+			//	ATOMIC ONLY - STRING, NUMBER AND BOOLEAN
+			/////
+			let property_map: std.HashMap<string, string> = xml.getPropertyMap();
+			let prohibited_names: string[] = [];
+
+			if (entity instanceof std.Vector)
+				prohibited_names = ["length"];
+			else if (entity instanceof std.List)
+				prohibited_names = ["size_"];
+			else if (entity instanceof std.Deque)
+				prohibited_names = ["size_", "capacity_"];
+
+			for (let it = property_map.begin(); !it.equal_to(property_map.end()); it = it.next())
+			{
+				if (entity[it.first] == undefined)
+					continue;
+
+				let prohibited: boolean = false;
+				for (let i: number = 0; i < prohibited_names.length; i++)
+					if (prohibited_names[i] == it.first)
+					{
+						prohibited = true;
+						break;
+					}
+				if (prohibited == true)
+					continue;
+
+				if (typeof entity[it.first] == "string")
+					entity[it.first] = it.second;
+				else if (typeof entity[it.first] == "number")
+					entity[it.first] = Number(it.second);
+				else if (typeof entity[it.first] == "boolean")
+					entity[it.first] = (it.second == "true");
+			}
+
+			////
+			//CHILDREN
+			////
+			if (xml.has(entity.CHILD_TAG()) == false)
+				return;
+
+			let children: std.Vector<T> = new std.Vector<T>();
+
+			let xml_list: library.XMLList = xml.get(entity.CHILD_TAG());
+			for (let i: number = 0; i < xml_list.size(); i++) 
+			{
+				let child: T = entity.createChild(xml_list.at(i));
+				if (child == null)
+					continue;
+
+				child.construct(xml_list.at(i));
+				children.push(child);
+			}
+			entity.assign(children.begin(), children.end());
+		}
+	
+		export function toXML<T extends Entity>(entity: IEntityGroup<T>): library.XML
+		{
+			let xml: library.XML = new library.XML();
+			xml.setTag(entity.TAG());
+
+			/////
+			// MEMBERS
+			/////
+			let prohibited_names: string[] = [];
+
+			if (entity instanceof std.Vector)
+				prohibited_names = ["length"];
+			else if (entity instanceof std.List)
+				prohibited_names = ["size_"];
+			else if (entity instanceof std.Deque)
+				prohibited_names = ["size_", "capacity_"];
+			
+			for (let key in entity)
+				if (typeof key == "string"
+					&& (typeof entity[key] == "string" || typeof entity[key] == "number" || typeof entity[key] == "boolean")
+					&& entity.hasOwnProperty(key))
+				{
+					let prohibited: boolean = false;
+					for (let i: number = 0; i < prohibited_names.length; i++)
+						if (prohibited_names[i] == key)
+						{
+							prohibited = true;
+							break;
+						}
+					if (prohibited == true)
+						continue;
+
+					// ATOMIC
+					xml.setProperty(key, String(entity[key]));
+				}
+
+			/////
+			// CHILDREN
+			/////
+			for (let it = entity.begin(); !it.equal_to(entity.end()); it = it.next())
+				xml.push(it.value.toXML());
+
+			return xml;
+		}
+	}
+}
+
+namespace samchon.protocol
+{
 	/**
 	 * @inheritdoc
 	 */
@@ -128,51 +241,13 @@ namespace samchon.protocol
 		 */
 		public construct(xml: library.XML): void
 		{
-			this.clear();
-
-			// MEMBER VARIABLES; ATOMIC
-			let propertyMap = xml.getPropertyMap();
-
-			for (let v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
-			{
-				if (v_it.first == "length")
-					continue;
-
-				if (typeof this[v_it.first] == "number")
-					this[v_it.first] = parseFloat(v_it.second);
-				else if (typeof this[v_it.first] == "string")
-					this[v_it.first] = v_it.second;
-				else if (typeof this[v_it.first] == "boolean")
-					this[v_it.first] = (v_it.second == "true");
-			}
-
-			//CHILDREN
-			if (xml.has(this.CHILD_TAG()) == false)
-				return;
-
-			let xmlList: library.XMLList = xml.get(this.CHILD_TAG());
-
-			for (let i: number = 0; i < xmlList.size(); i++) 
-			{
-				let child: T = this.createChild(xmlList.at(i));
-				if (child == null)
-					continue;
-
-				child.construct(xmlList.at(i));
-				this.push(child);
-			}
+			IEntityGroup.construct(this, xml);
 		}
 
 		/**
-		 * <p> Factory method of a child Entity. </p>
-		 *
-		 * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
-		 * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-		 * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-		 *
-		 * @return A new child Entity belongs to EntityArray.
+		 * @inheritdoc
 		 */
-		protected abstract createChild(xml: library.XML): T;
+		public abstract createChild(xml: library.XML): T;
 
 		/* ------------------------------------------------------------------
 			GETTERS
@@ -254,30 +329,13 @@ namespace samchon.protocol
 		 */
 		public toXML(): library.XML
 		{
-			let xml: library.XML = new library.XML();
-			xml.setTag(this.TAG());
-
-			// MEMBERS
-			for (let key in this)
-				if (typeof key == "string"
-					&& (typeof this[key] == "string" || typeof this[key] == "number" || typeof this[key] == "boolean") 
-					&& this.hasOwnProperty(key))
-				{
-					if (key == "length")
-						continue;
-
-					// ATOMIC
-					xml.setProperty(key, this[key] + "");
-				}
-		
-			// CHILDREN
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
-				xml.push(it.value.toXML());
-			
-			return xml;
+			return IEntityGroup.toXML(this);
 		}
 	}
+}
 
+namespace samchon.protocol
+{
 	/**
 	 * @inheritdoc
 	 */
@@ -295,51 +353,13 @@ namespace samchon.protocol
 		 */
 		public construct(xml: library.XML): void
 		{
-			this.clear();
-
-			// MEMBER VARIABLES; ATOMIC
-			let propertyMap = xml.getPropertyMap();
-
-			for (let v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
-			{
-				if (v_it.first == "size_")
-					continue;
-
-				if (typeof this[v_it.first] == "number")
-					this[v_it.first] = parseFloat(v_it.second);
-				else if (typeof this[v_it.first] == "string")
-					this[v_it.first] = v_it.second;
-				else if (typeof this[v_it.first] == "boolean")
-					this[v_it.first] = (v_it.second == "true");
-			}
-
-			//CHILDREN
-			if (xml.has(this.CHILD_TAG()) == false)
-				return;
-
-			let xmlList: library.XMLList = xml.get(this.CHILD_TAG());
-
-			for (let i: number = 0; i < xmlList.size(); i++) 
-			{
-				let child: T = this.createChild(xmlList.at(i));
-				if (child == null)
-					continue;
-
-				child.construct(xmlList.at(i));
-				this.push(child);
-			}
+			IEntityGroup.construct(this, xml);
 		}
 
 		/**
-		 * <p> Factory method of a child Entity. </p>
-		 *
-		 * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
-		 * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-		 * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-		 *
-		 * @return A new child Entity belongs to EntityArray.
+		 * @inheritdoc
 		 */
-		protected abstract createChild(xml: library.XML): T;
+		public abstract createChild(xml: library.XML): T;
 		
 		/* ------------------------------------------------------------------
 			GETTERS
@@ -421,27 +441,13 @@ namespace samchon.protocol
 		 */
 		public toXML(): library.XML
 		{
-			let xml: library.XML = new library.XML();
-			xml.setTag(this.TAG());
-
-			// MEMBERS
-			for (let key in this)
-				if (typeof key == "string"
-					&& (typeof this[key] == "string" || typeof this[key] == "number" || typeof this[key] == "boolean") 
-					&& this.hasOwnProperty(key))
-				{
-					// ATOMIC
-					xml.setProperty(key, this[key] + "");
-				}
-		
-			// CHILDREN
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
-				xml.push(it.value.toXML());
-			
-			return xml;
+			return IEntityGroup.toXML(this);
 		}
 	}
+}
 
+namespace samchon.protocol
+{
 	/**
 	 * @inheritdoc
 	 */
@@ -459,51 +465,13 @@ namespace samchon.protocol
 		 */
 		public construct(xml: library.XML): void
 		{
-			this.clear();
-
-			// MEMBER VARIABLES; ATOMIC
-			let propertyMap = xml.getPropertyMap();
-
-			for (let v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
-			{
-				if (v_it.first == "size_" || v_it.first == "capacity_")
-					continue;
-
-				if (typeof this[v_it.first] == "number")
-					this[v_it.first] = parseFloat(v_it.second);
-				else if (typeof this[v_it.first] == "string")
-					this[v_it.first] = v_it.second;
-				else if (typeof this[v_it.first] == "boolean")
-					this[v_it.first] = (v_it.second == "true");
-			}
-
-			//CHILDREN
-			if (xml.has(this.CHILD_TAG()) == false)
-				return;
-
-			let xmlList: library.XMLList = xml.get(this.CHILD_TAG());
-
-			for (let i: number = 0; i < xmlList.size(); i++) 
-			{
-				let child: T = this.createChild(xmlList.at(i));
-				if (child == null)
-					continue;
-
-				child.construct(xmlList.at(i));
-				this.push(child);
-			}
+			IEntityGroup.construct(this, xml);
 		}
 
 		/**
-		 * <p> Factory method of a child Entity. </p>
-		 *
-		 * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
-		 * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-		 * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-		 *
-		 * @return A new child Entity belongs to EntityArray.
+		 * @inheritdoc
 		 */
-		protected abstract createChild(xml: library.XML): T;
+		public abstract createChild(xml: library.XML): T;
 		
 		/* ------------------------------------------------------------------
 			GETTERS
@@ -585,27 +553,7 @@ namespace samchon.protocol
 		 */
 		public toXML(): library.XML
 		{
-			let xml: library.XML = new library.XML();
-			xml.setTag(this.TAG());
-
-			// MEMBERS
-			for (let key in this)
-				if (typeof key == "string"
-					&& (typeof this[key] == "string" || typeof this[key] == "number" || typeof this[key] == "boolean") 
-					&& this.hasOwnProperty(key))
-				{
-					if (key == "size_" || key == "capacity_")
-						continue;
-
-					// ATOMIC
-					xml.setProperty(key, this[key] + "");
-				}
-		
-			// CHILDREN
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
-				xml.push(it.value.toXML());
-			
-			return xml;
+			return IEntityGroup.toXML(this);
 		}
 	}
 }

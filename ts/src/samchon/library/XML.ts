@@ -13,8 +13,8 @@ namespace samchon.library
 	 * 
 	 * <p> Relationships between XML and XMLList </p>
 	 * <ul>
-	 *	<li> XML contains XMLList from dictionary of XMLList. </li>
-	 *  <li> XMLList contains XML from vector of XML. </li>
+	 *	<li> XML is <code>std.HashMap<string, XMLList></code> </li>
+	 *  <li> XMLList is <code>std.Deque<XML></code> </li>
 	 * </ul> 
 	 *
 	 * <h4> Note </h4>
@@ -27,17 +27,28 @@ namespace samchon.library
 	 *	</tr>
 	 *	<tr>
 	 *		<td>
-	 *			&lt;memberList&gt;<br/>
-	 *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt;<br/>
-	 *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt;<br/>
-	 *			&lt;/memberList&gt;
+	 * <code>
+	 * <memberList>
+	 *	<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' />
+	 *	<member id='master' name='Administartor' birthdate='2011-07-28' />
+	 * </memberList>
+	 * </code>
 	 *		</td>
 	 *		<td>
-	 *			&lt;member&gt;<br/>
-	 *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;id&gt;jhnam88&lt;/id&gt;<br/>
-	 *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;name&gt;Jeongho+Nam&lt;/name&gt;<br/>
-	 *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;<br/>
-	 *			&lt;/member&gt;
+	 * <code>
+	 * <memberList>
+	 *	<member>
+	 *		<id>jhnam88</id>
+	 *		<name>Jeongho Nam</name>
+	 *		<birthdate>1988-03-11</birthdate>
+	 *	</member>
+	 *	<member>
+	 *		<id>master</id>
+	 *		<name>Administartor</name>
+	 *		<birthdate>2011-07-28</birthdate>
+	 *	</member>
+	 * </memberList>
+	 * </code>
 	 *		</td>
 	 *	</tr>
 	 * </table>
@@ -702,7 +713,7 @@ namespace samchon.library
 		public toString(level: number = 0): string
 		{
 			let str: string = StringUtil.repeat("\t", level) + "<" + this.tag;
-			let childrenString: string = "";
+			let children_str: string = "";
 
 			//PROPERTIES
 			for (let p_it = this.properties.begin(); p_it.equal_to(this.properties.end()) == false; p_it = p_it.next())
@@ -710,6 +721,7 @@ namespace samchon.library
 		
 			if (this.size() == 0) 
 			{
+				// VALUE
 				if (this.value != "")
 					str += ">" + XML.encodeValue(String(this.value)) + "</" + this.tag + ">";
 				else
@@ -717,6 +729,7 @@ namespace samchon.library
 			} 
 			else 
 			{
+				// CHILDREN
 				str += ">\n";
 
 				for (let x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())

@@ -46,6 +46,13 @@ namespace example.chat
 		/* ---------------------------------------------------------
 			REPLY DATA
 		--------------------------------------------------------- */
+		public replyData(invoke: protocol.Invoke): void
+		{
+			console.log("replied", invoke.toXML().toString());
+
+			super.replyData(invoke);
+		}
+
 		protected setAccount(id: string, name: string): void
 		{
 			// GOT INFORMATION ABOUT ACCOUT -> LOGIN SUCCESS

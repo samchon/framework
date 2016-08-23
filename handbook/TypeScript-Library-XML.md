@@ -23,6 +23,38 @@ class XMLList extends std.Deque<XML>;
 
 XML and XMLList are on right side.
 
+## Conception
+#### Element
+XML object, it has three elements; tag, property and value.
+
+```xml
+<!-- TAG AND VALUE -->
+<tag>value</tag>
+
+<!-- TAG AND PROPERTY -->
+<tag property_name="property_value" />
+
+<!-- TAG, PROPERTY AND VALUE -->
+<tag property_name="property_value">value</tag>
+```
+
+###### Tag
+
+###### Property
+
+###### Value
+
+## XML and XMLList
+```xml
+<!-- THIS IS AN XML OBJECT -->
+
+<!-- THEY ARE BELONGED TO AN XML_LIST
+
+<!-- THE TOP XML OBJECT -->
+<!-- XML_LIST NAMED GUILD
+<!-- XML_LIST NAMED MEMBER
+```
+
 ## Usage
 #### Parsing XML
 Parsing XML string is very simple. Just create XML object with the string to parse.
@@ -240,4 +272,4 @@ function test_xml_generation(): void
 ## Using Entity Module
 As you can see, generating XML structure by yourself is very tough and annoying work. You can generate and parse XML much easier with the Entity Module.
 
-  - [Entity Module](TypeScript-Protocol#entity)
+  - [Entity Module](TypeScript-Protocol-Standard_Message#entity)

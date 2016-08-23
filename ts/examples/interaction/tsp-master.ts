@@ -62,7 +62,7 @@ namespace tsp_master
 			if (++this.completed_count == this.requested_size)
 			{
 				console.log("An optimization has fully finished");
-				this.chiefDriver.sendData(new protocol.Invoke("printTSP", this.best_travel.toXML()));
+				this.chief.sendData(new protocol.Invoke("printTSP", this.best_travel.toXML()));
 			}
 		}
 	}

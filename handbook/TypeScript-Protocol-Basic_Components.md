@@ -40,6 +40,14 @@ Note that, whatever the network system what you've to construct is, just concent
       - [WebServerConnector](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.webserverconnector.html)
       - [SharedWorkerServerConnector](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.sharedworkerserverconnector.html)
 
+#### Source Codes
+  - [Server.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/Server.ts)
+  - [Communicator.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/Communicator.ts)
+    - [ClientDriver.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/ClientDriver.ts)
+    - [ServerConnector.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/ServerConnector.ts)
+  - [IProtocol.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/IProtocol.ts)
+
+
 ## IServer
 ```IServer``` is used to open a server. First, extends one of them, who are derived from the ```IServer```.
   - [Server](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.server.html)
@@ -134,7 +142,7 @@ Also, many of modules even in *Samchon Framework* are using the strategy pattern
 ```ICommunicator``` takes full charge of network communication with external, conneted system. Type of the ICommunicator is specified to [IClientDriver](#iclientdriver) and [IServerConnector](#iserverconnector) whether the connected system is a server (that I've to connect) or a client (a client connected to my server)
 
 Whenever ```ICommunicator``` network message has come from the connceted system, the network message will be converted to an [
-](TypeScript-Protocol-Message_Protocol#invoke) object and it will be shifted to the [ICommunicator.listener](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.communicatorbase.html#listener)'s [replyData()](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iprotocol.html#replydata) method.
+](TypeScript-Protocol-Standard_Message#invoke) object and it will be shifted to the [ICommunicator.listener](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.communicatorbase.html#listener)'s [replyData()](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.iprotocol.html#replydata) method.
 
 ``` typescript
 interface ICommmunicator
@@ -291,11 +299,11 @@ class CalculatorApplication implements protocol.IProtocol
 ```
 
 ## IProtocol
-```IProtocol``` is an interface for [Invoke](TypeScript-Protocol-Message_Protocol#invoke) message, which is standard message of network I/O in Samchon Framework, chain. The IProtocol interface is used to network drivers (Basic Components) and some related classes with the network drivers, which are in a relationship of *Chain of Responsibility* with those network drivers.
+```IProtocol``` is an interface for [Invoke](TypeScript-Protocol-Standard_Message#invoke) message, which is standard message of network I/O in Samchon Framework, chain. The IProtocol interface is used to network drivers (Basic Components) and some related classes with the network drivers, which are in a relationship of *Chain of Responsibility* with those network drivers.
 
-Implements ```IProtocol``` if the class sends and handles [Invoke](TypeScript-Protocol-Message_Protocol#invoke) message. Looking around source codes of Samchon Framework, especially System Templates, you can find out that all the classes and modules handling [Invoke](TypeScript-Protocol-Message_Protocol#invoke) message are always implementing the ```IProtocol```. Yes, ```IProtocol```, this is the main role you've to follow in Samchon Framework.
+Implements ```IProtocol``` if the class sends and handles [Invoke](TypeScript-Protocol-Standard_Message#invoke) message. Looking around source codes of Samchon Framework, especially System Templates, you can find out that all the classes and modules handling [Invoke](TypeScript-Protocol-Standard_Message#invoke) message are always implementing the ```IProtocol```. Yes, ```IProtocol```, this is the main role you've to follow in Samchon Framework.
 
-Below pseudo code represents [Service Module](TypeScript-Protocol-Service), who can build a cloud server. All the classes in the pseudo code are implementing the IProtocol because all of them are handling [Invoke](TypeScript-Protocol-Message_Protocol#invoke) messages.
+Below pseudo code represents [Service Module](TypeScript-Protocol-Service), who can build a cloud server. All the classes in the pseudo code are implementing the IProtocol because all of them are handling [Invoke](TypeScript-Protocol-Standard_Message#invoke) messages.
 
   - [Server](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.service.server.html): Represents a server literally.
   - [User](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.service.user.html): Represents an user being identified by its session id. User contains multiple Client objects.

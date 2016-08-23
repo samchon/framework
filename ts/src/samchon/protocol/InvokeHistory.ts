@@ -7,9 +7,24 @@ namespace samchon.protocol
 {
 	export class InvokeHistory extends Entity
 	{
+		/**
+		 *
+		 */
 		private uid: number;
+		
+		/**
+		 * @see {@link Invoke.listener}
+		 */
 		private listener: string;
+		
+		/**
+		 * 
+		 */
 		private startTime: Date;
+		
+		/**
+		 *
+		 */
 		private endTime: Date;
 
 		/* ---------------------------------------------------------

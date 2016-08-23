@@ -101,7 +101,7 @@ namespace samchon.protocol.external
 		 * 
 		 * @return A new child Entity via {@link createExternalServer createExternalServer()}.
 		 */
-		protected createChild(xml: library.XML): ExternalSystem
+		public createChild(xml: library.XML): ExternalSystem
 		{
 			return this.createExternalServer(xml) as ExternalSystem;
 		}
@@ -111,7 +111,7 @@ namespace samchon.protocol.external
 		 *
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
 		 * 
-		 * @return A new {@link IExternalServer} object.
+		 * @return A newly created {@link IExternalServer} object.
 		 */
 		protected abstract createExternalServer(xml: library.XML): IExternalServer;
 

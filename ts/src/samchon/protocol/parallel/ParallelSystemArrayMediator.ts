@@ -7,7 +7,7 @@ namespace samchon.protocol.parallel
 	export abstract class ParallelSystemArrayMediator
 		extends ParallelSystemArray
 	{
-		protected mediator: external.MediatorSystem;
+		protected mediator: MediatorSystem;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -22,7 +22,7 @@ namespace samchon.protocol.parallel
 			this.mediator = null;
 		}
 
-		protected abstract createMediator(): external.MediatorSystem;
+		protected abstract createMediator(): MediatorSystem;
 
 		protected start_mediator(): void
 		{
@@ -40,30 +40,32 @@ namespace samchon.protocol.parallel
 		{
 			if (invoke.has("invoke_history_uid") == true)
 			{
-				let piece_index: number = invoke.get("piece_index").getValue();
-				let piece_size: number = invoke.get("piece_size").getValue();
+				let first: number = invoke.get("piece_first").getValue();
+				let last: number = invoke.get("piece_last").getValue();
 
 				invoke.erase(invoke.end().advance(-2), invoke.end());
-				this.sendPieceData(invoke, piece_index, piece_size);
+				this.sendPieceData(invoke, first, last);
 			}
 			else
 				super.sendData(invoke);
 		}
 
-		public sendPieceData(invoke: protocol.Invoke, index: number, size: number): void
+		public sendPieceData(invoke: protocol.Invoke, first: number, last: number): void
 		{
+			let size: number = last - first;
+
 			for (let i: number = 0; i < this.size(); i++)
 			{
 				let system: ParallelSystem = this.at(i) as ParallelSystem;
 
 				let piece_size: number = (i == this.size() - 1)
-					? size - index
+					? size - first
 					: Math.floor(size / this.size() * system.getPerformance());
 				if (piece_size == 0)
 					continue;
 
-				system["send_piece_data"](invoke, index, piece_size);
-				index += piece_size;
+				system["send_piece_data"](invoke, first, first + piece_size);
+				first += piece_size;
 			}
 		}
 

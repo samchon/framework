@@ -13,7 +13,7 @@ module room
 		{
 			super();
 		}
-		protected createChild(xml: library.XML): ChatRoom
+		public createChild(xml: library.XML): ChatRoom
 		{
 			return new ChatRoom();
 		}
@@ -46,7 +46,7 @@ module room
 		{
 			super();
 		}
-		protected createChild(xml: library.XML): Participant
+		public createChild(xml: library.XML): Participant
 		{
 			return new Participant();
 		}

@@ -19,7 +19,7 @@ namespace samchon.protocol.parallel
 			super();
 		}
 
-		protected createChild(xml: library.XML): ParallelSystem
+		public createChild(xml: library.XML): ParallelSystem
 		{
 			return this.createExternalServer(xml);
 		}

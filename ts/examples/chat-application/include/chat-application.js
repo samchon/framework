@@ -327,6 +327,10 @@ var example;
             /* ---------------------------------------------------------
                 REPLY DATA
             --------------------------------------------------------- */
+            LoginApplication.prototype.replyData = function (invoke) {
+                console.log("replied", invoke.toXML().toString());
+                _super.prototype.replyData.call(this, invoke);
+            };
             LoginApplication.prototype.setAccount = function (id, name) {
                 // GOT INFORMATION ABOUT ACCOUT -> LOGIN SUCCESS
                 location.href = "list.html";

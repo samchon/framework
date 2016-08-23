@@ -5,13 +5,17 @@
 namespace samchon.protocol.parallel
 {
 	export interface IParallelServer
-		extends ParallelSystem, external.IExternalServer
+		extends external.IExternalServer, ParallelSystem 
 	{
+		/**
+		 * @inheritdoc
+		 */
+		getSystemArray(): ParallelSystemArray;
 	}
 
 	export abstract class ParallelServer
 		extends ParallelSystem
-		implements IParallelServer
+		implements external.IExternalServer
 	{
 		protected ip: string;
 		protected port: number;

@@ -61,7 +61,7 @@ namespace samchon.protocol.parallel
 			this.push_back(system);
 		}
 
-		protected createChild(xml: library.XML): ParallelSystem { return null; }
+		public createChild(xml: library.XML): ParallelSystem { return null; }
 		protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
 
 		/* ---------------------------------------------------------
@@ -84,8 +84,11 @@ namespace samchon.protocol.parallel
 		 */
 		public close(): void
 		{
-			if (this.server_base != null)
-				this.server_base.close();
+			if (this.server_base == null)
+				return;
+
+			this.server_base.close();
+			this.clear();
 		}
 	}
 }

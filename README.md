@@ -76,7 +76,12 @@ After installation and configuration of those dependencies, download or fork thi
 #### TypeScript (NodeJS)
 Installing *Samchon-Framework* in **NodeJS** is very easy. Just install with **npm**.
 ```bash
+# Install Samchon-Framework from NPM modules
 npm install -g samchon-framework
+
+# Fetch definition (header) file from TSD
+# If TSD is not installed, then type "npm install -g tsd"
+tsd install samchon-framework
 ```
 
 When importing *Samchon Framework*, don't forget to referencing the header file ```samchon-framework.d.ts```

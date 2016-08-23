@@ -137,10 +137,16 @@ namespace samchon.protocol.external
 		/**
 		 * This method is deprecated. Don't use and override this.
 		 * 
-		 * @return nothing.
+		 * @return null.
 		 */
-		protected createChild(xml: library.XML): ExternalSystem { return null; }
+		public createChild(xml: library.XML): ExternalSystem { return null; }
 
+		/**
+		 * Factory method creating {@link ExternalSystem} object.
+		 * 
+		 * @param driver A communicator with connected client.
+		 * @return A newly created {@link ExternalSystem} object.
+		 */
 		protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
 
 		/* ---------------------------------------------------------
@@ -163,8 +169,11 @@ namespace samchon.protocol.external
 		 */
 		public close(): void
 		{
-			if (this.server_base != null)
-				this.server_base.close();
+			if (this.server_base == null)
+				return;
+
+			this.server_base.close();
+			this.clear();
 		}
 	}
 }

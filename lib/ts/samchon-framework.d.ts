@@ -267,7 +267,7 @@ declare namespace samchon.library {
 }
 declare namespace samchon.collection {
     /**
-     * Type of function pointer for {@link CollectionEvent CollectionEvents}.
+     * Type of function pointer for listener of {@link CollectionEvent CollectionEvents}.
      */
     interface CollectionEventListener<T> extends EventListener {
         (event: CollectionEvent<T>): void;
@@ -287,7 +287,7 @@ declare namespace samchon.collection {
          */
         private last_;
         /**
-         *
+         * Initialization Constructor.
          *
          * @param type Type of collection event.
          * @param first
@@ -1323,8 +1323,8 @@ declare namespace samchon.library {
      *
      * <p> Relationships between XML and XMLList </p>
      * <ul>
-     *	<li> XML contains XMLList from dictionary of XMLList. </li>
-     *  <li> XMLList contains XML from vector of XML. </li>
+     *	<li> XML is <code>std.HashMap<string, XMLList></code> </li>
+     *  <li> XMLList is <code>std.Deque<XML></code> </li>
      * </ul>
      *
      * <h4> Note </h4>
@@ -1337,17 +1337,28 @@ declare namespace samchon.library {
      *	</tr>
      *	<tr>
      *		<td>
-     *			&lt;memberList&gt;<br/>
-     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /&gt;<br/>
-     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;member id='master' name='Administartor' birthdate='2011-07-28' /&gt;<br/>
-     *			&lt;/memberList&gt;
+     * <code>
+     * <memberList>
+     *	<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' />
+     *	<member id='master' name='Administartor' birthdate='2011-07-28' />
+     * </memberList>
+     * </code>
      *		</td>
      *		<td>
-     *			&lt;member&gt;<br/>
-     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;id&gt;jhnam88&lt;/id&gt;<br/>
-     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;name&gt;Jeongho+Nam&lt;/name&gt;<br/>
-     *			&nbsp;&nbsp;&nbsp;&nbsp; &lt;birthdate&gt;1988-03-11&lt;/birthdate&gt;<br/>
-     *			&lt;/member&gt;
+     * <code>
+     * <memberList>
+     *	<member>
+     *		<id>jhnam88</id>
+     *		<name>Jeongho Nam</name>
+     *		<birthdate>1988-03-11</birthdate>
+     *	</member>
+     *	<member>
+     *		<id>master</id>
+     *		<name>Administartor</name>
+     *		<birthdate>2011-07-28</birthdate>
+     *	</member>
+     * </memberList>
+     * </code>
      *		</td>
      *	</tr>
      * </table>
@@ -2979,6 +2990,121 @@ declare namespace samchon.protocol {
      * {@link Invoke} class and will be shifted to the {@link WebCommunicator.listener listener}'s
      * {@link IProtocol.replyData replyData()} method. </p>
      *
+     * <code>
+    interface ICommmunicator
+    {
+        private socket: SomeSocketClass;
+
+        // LISTENER LISTENS INVOKE MESSAGE BY IT'S IProtocol.replyData() METHOD
+        protected listener: IProtocol;
+
+        // YOU CAN DETECT DISCONNECTION BY ENROLLING FUNCTION POINTER TO HERE.
+        public onClose: Function;
+
+        public sendData(invoke: Invoke): void
+        {
+            this.socket.write(invoke);
+        }
+        public replyData(invoke: Invoke): void
+        {
+            // WHENEVER COMMUNICATOR GETS MESSAGE, THEN SHIFT IT TO LISTENER'S replyData() METHOD.
+            this.listener.replyData(invoke);
+        }
+    }
+     * </code>
+     *
+     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		 style="max-width: 100%" />
+     * </a> </p>
+     *
+     *
+     * <h2> Basic Components </h2>
+     * <h4> What Basic Components are </h4>
+     * <p> <b>Basic Components</b> are the smallest unit of network communication in this <i>Samchon Framework</i>. With
+     * <b>Basic Components</b>, you can construct any type of network system, even how the network system is enormously
+     * scaled and complicated, by just combinating the <b>Basic Components</b>. </p>
+     *
+     * <p> All the system templates in this framework are also being implemented by utilization of the
+     * <b>Basic Compoonents</b>. </p>
+     *
+     * <ul>
+     *	<li> {@link service Service} </il>
+     *	<li> {@link external External System} </il>
+     *	<li> {@link parallel Parallel System} </il>
+     *	<li> {@link distributed Distributed System} </il>
+     * </ul>
+     *
+     * <p> Note that, whatever the network system what you've to construct is, just concentrate on role of each system
+     * and attach matched <b>Basic Components</b> to the role, within framework of the <b>Object-Oriented Design</b>.
+     * Then construction of the network system will be much easier. </p>
+     *
+     * <ul>
+     *	<li> A system is a server, then use {@link IServer} or {@link IServerBase}. </li>
+     *	<li> A server wants to handle a client has connected, then use {@link IClientDriver}. </li>
+     *	<li> A system is a client connecting to an external server, then use {@link IServerConnector}. </li>
+     *	<li> </li>
+     * </ul>
+     *
+     * <h4> Example - System Templates </h4>
+     * <p> Learning and understanding <i>Basic Components</i> of Samchon Framework, reading source codes and design of
+     * <b>System Templates</b>' modules will be very helpful. </p>
+     *
+     * <table>
+     *	<tr>
+     *		<th> Name </th>
+     *		<th> Source </th>
+     *		<th> API Documents </th>
+     *	</tr>
+     *	<tr>
+     *		<td> Cloud Service </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service"
+     *				target="_blank"> protocol/service </a> </td>
+     *		<td> {@link protocol.service} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> External System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external"
+     *				target="_blank"> protocol/external </a> </td>
+     *		<td> {@link protocol.external} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Parallel System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel"
+     *				target="_blank"> protocol/parallel </a> </td>
+     *		<td> {@link protocol.parallel} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Distributed System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed"
+     *				target="_blank"> protocol/distributed </a> </td>
+     *		<td> {@link protocol.distributed} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Slave System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave"
+     *				target="_blank"> protocol/slave </a> </td>
+     *		<td> {@link protocol.slave} </td>
+     *	</tr>
+     * </table>
+     *
+     * <h4> Example - Projects </h4>
+     * <ul>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Calculator" target="_blank"> Calculator </a>
+     *	</li>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Chatting" target="_blank"> Chatting </a>
+     *	</li>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Interaction" target="_blank"> Interaction </a>
+     *	</li>
+     * </ul>
+     *
+     * @see {@link IClientDriver}, {@link IServerConnector}
+     * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator"
+     *			 target="_blank"> Basic Components - ICommunicator </a>
      * @author Jeongho Nam <http://samchon.org>
      */
     interface ICommunicator extends IProtocol {
@@ -3146,8 +3272,196 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     /**
+     * <p> An interface for communicator with connected client. </p>
+     *
+     * <p> {@link IClientDriver} is a type of {@link ICommunicator}, specified for communication with connected client
+     * in a server. It takes full charge of network communication with the connected client. </p>
+     *
+     * <p> {@link IClientDriver} is created in {@link IServer} and delivered via
+     * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
+     * created by matched {@link IServer} object. </p>
+     *
+     * <table>
+     *	<tr>
+     *		<th> Derived Type </th>
+     *		<th> Created By </th>
+     *	</tr>
+     *	<tr>
+     *		<td> {@link ClientDrvier} </td>
+     *		<td> {@link Server} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> {@link WebClientDrvier} </td>
+     *		<td> {@link WebServer} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> {@link SharedWorkerClientDrvier} </td>
+     *		<td> {@link SharedWorkerServer} </td>
+     *	</tr>
+     * </table>
+     *
+     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		 style="max-width: 100%" />
+     * </a> </p>
+     *
+     * <p> When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
+     * specify {@link CommunicatorBase.listener listener} with {@link IClient.listen IClient.listen()}. Below codes are
+     * an example specifying and managing the {@link CommunicatorBase.listener listener} objects. </p>
+     *
+     * <code>
+    /// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
+    /// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+
+    // IMPORTS
+    import std = require("typescript-stl");
+    import samchon = require("samchon-framework");
+
+    // SHORTCUTS
+    import library = samchon.library;
+    import protocol = samchon.protocol;
+
+    class CalculatorServer extends protocol.Server
+    {
+        private clients: std.HashSet<CalculatorClient>;
+
+        // WHEN A CLIENT HAS CONNECTED
+        public addClient(driver: IClientDriver): void
+        {
+            let client: CalculatorClient = new CalculatorClient(this, driver);
+            this.clients.insert(client);
+        }
+    }
+
+    class CalculatorClient extends protocol.IProtocol
+    {
+        // PARENT SERVER INSTANCE
+        private server: CalculatorServer;
+
+        // COMMUNICATOR, SENDS AND RECEIVES NETWORK MESSAGE WITH CONNECTED CLIENT
+        private driver: protocol.IClientDriver;
+
+        /////
+        // CONSTRUCTORS
+        /////
+        public constructor(server: CalculatorServer, driver: protocol.IClientDriver)
+        {
+            this.server = server;
+            this.driver = driver;
+
+            // START LISTENING AND RESPOND CLOSING EVENT
+            this.driver.listen(this); // INVOKE MESSAGE WILL COME TO HERE
+            this.driver.onClose = this.destructor.bind(this); // DISCONNECTED HANDLER
+        }
+        public destructor(): void
+        {
+            // WHEN DISCONNECTED, THEN ERASE THIS OBJECT FROM CalculatorServer.clients.
+            this.server["clients"].erase(this);
+        }
+
+        /////
+        // INVOKE MESSAGE CHAIN
+        /////
+        public sendData(invoke: protocol.Invoke): void
+        {
+            // CALL ICommunicator.sendData(), WHO PHYSICALLY SEND NETWORK MESSAGE
+            this.driver.sendData(invoke);
+        }
+        public replyData(invoke: protocol.Invoke): void
+        {
+            // FIND MATCHED MEMBER FUNCTION NAMED EQUAL TO THE invoke.getListener()
+            invoke.apply(this);
+        }
+    }
+     * </code>
      *
      *
+     * <h2> Basic Components </h2>
+     * <h4> What Basic Components are </h4>
+     * <p> <b>Basic Components</b> are the smallest unit of network communication in this <i>Samchon Framework</i>. With
+     * <b>Basic Components</b>, you can construct any type of network system, even how the network system is enormously
+     * scaled and complicated, by just combinating the <b>Basic Components</b>. </p>
+     *
+     * <p> All the system templates in this framework are also being implemented by utilization of the
+     * <b>Basic Compoonents</b>. </p>
+     *
+     * <ul>
+     *	<li> {@link service Service} </il>
+     *	<li> {@link external External System} </il>
+     *	<li> {@link parallel Parallel System} </il>
+     *	<li> {@link distributed Distributed System} </il>
+     * </ul>
+     *
+     * <p> Note that, whatever the network system what you've to construct is, just concentrate on role of each system
+     * and attach matched <b>Basic Components</b> to the role, within framework of the <b>Object-Oriented Design</b>.
+     * Then construction of the network system will be much easier. </p>
+     *
+     * <ul>
+     *	<li> A system is a server, then use {@link IServer} or {@link IServerBase}. </li>
+     *	<li> A server wants to handle a client has connected, then use {@link IClientDriver}. </li>
+     *	<li> A system is a client connecting to an external server, then use {@link IServerConnector}. </li>
+     *	<li> </li>
+     * </ul>
+     *
+     * <h4> Example - System Templates </h4>
+     * <p> Learning and understanding <i>Basic Components</i> of Samchon Framework, reading source codes and design of
+     * <b>System Templates</b>' modules will be very helpful. </p>
+     *
+     * <table>
+     *	<tr>
+     *		<th> Name </th>
+     *		<th> Source </th>
+     *		<th> API Documents </th>
+     *	</tr>
+     *	<tr>
+     *		<td> Cloud Service </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service"
+     *				target="_blank"> protocol/service </a> </td>
+     *		<td> {@link protocol.service} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> External System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external"
+     *				target="_blank"> protocol/external </a> </td>
+     *		<td> {@link protocol.external} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Parallel System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel"
+     *				target="_blank"> protocol/parallel </a> </td>
+     *		<td> {@link protocol.parallel} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Distributed System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed"
+     *				target="_blank"> protocol/distributed </a> </td>
+     *		<td> {@link protocol.distributed} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Slave System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave"
+     *				target="_blank"> protocol/slave </a> </td>
+     *		<td> {@link protocol.slave} </td>
+     *	</tr>
+     * </table>
+     *
+     * <h4> Example - Projects </h4>
+     * <ul>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Calculator" target="_blank"> Calculator </a>
+     *	</li>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Chatting" target="_blank"> Chatting </a>
+     *	</li>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Interaction" target="_blank"> Interaction </a>
+     *	</li>
+     * </ul>
+     *
+     * @see {@link IServer}
+     * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver"
+     *			 target="_blank"> Basic Components - IClientDriver </a>
      * @author Jeongho Nam <http://samchon.org>
      */
     interface IClientDriver extends ICommunicator {
@@ -3275,6 +3589,7 @@ declare namespace samchon.protocol {
          *
          * @return A new child Entity belongs to EntityArray.
          */
+        createChild(xml: library.XML): T;
         /**
          * <p> Get iterator to element. </p>
          *
@@ -3341,6 +3656,12 @@ declare namespace samchon.protocol {
          */
         toXML(): library.XML;
     }
+    namespace IEntityGroup {
+        function construct<T extends Entity>(entity: IEntityGroup<T>, xml: library.XML): void;
+        function toXML<T extends Entity>(entity: IEntityGroup<T>): library.XML;
+    }
+}
+declare namespace samchon.protocol {
     /**
      * @inheritdoc
      */
@@ -3350,15 +3671,9 @@ declare namespace samchon.protocol {
          */
         construct(xml: library.XML): void;
         /**
-         * <p> Factory method of a child Entity. </p>
-         *
-         * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged
-         * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-         * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-         *
-         * @return A new child Entity belongs to EntityArray.
+         * @inheritdoc
          */
-        protected abstract createChild(xml: library.XML): T;
+        abstract createChild(xml: library.XML): T;
         /**
          * @inheritdoc
          */
@@ -3391,6 +3706,8 @@ declare namespace samchon.protocol {
          */
         toXML(): library.XML;
     }
+}
+declare namespace samchon.protocol {
     /**
      * @inheritdoc
      */
@@ -3400,15 +3717,9 @@ declare namespace samchon.protocol {
          */
         construct(xml: library.XML): void;
         /**
-         * <p> Factory method of a child Entity. </p>
-         *
-         * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged
-         * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-         * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-         *
-         * @return A new child Entity belongs to EntityArray.
+         * @inheritdoc
          */
-        protected abstract createChild(xml: library.XML): T;
+        abstract createChild(xml: library.XML): T;
         /**
          * @inheritdoc
          */
@@ -3441,6 +3752,8 @@ declare namespace samchon.protocol {
          */
         toXML(): library.XML;
     }
+}
+declare namespace samchon.protocol {
     /**
      * @inheritdoc
      */
@@ -3450,15 +3763,9 @@ declare namespace samchon.protocol {
          */
         construct(xml: library.XML): void;
         /**
-         * <p> Factory method of a child Entity. </p>
-         *
-         * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged
-         * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-         * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-         *
-         * @return A new child Entity belongs to EntityArray.
+         * @inheritdoc
          */
-        protected abstract createChild(xml: library.XML): T;
+        abstract createChild(xml: library.XML): T;
         /**
          * @inheritdoc
          */
@@ -3498,6 +3805,8 @@ declare namespace samchon.protocol {
      */
     interface IEntityCollection<T extends IEntity> extends IEntityGroup<T>, collection.ICollection<T> {
     }
+}
+declare namespace samchon.protocol {
     /**
      * @inheritdoc
      */
@@ -3507,15 +3816,9 @@ declare namespace samchon.protocol {
          */
         construct(xml: library.XML): void;
         /**
-         * <p> Factory method of a child Entity. </p>
-         *
-         * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged
-         * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-         * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-         *
-         * @return A new child Entity belongs to EntityArray.
+         * @inheritdoc
          */
-        protected abstract createChild(xml: library.XML): T;
+        abstract createChild(xml: library.XML): T;
         /**
          * @inheritdoc
          */
@@ -3548,6 +3851,8 @@ declare namespace samchon.protocol {
          */
         toXML(): library.XML;
     }
+}
+declare namespace samchon.protocol {
     /**
      * @inheritdoc
      */
@@ -3557,15 +3862,9 @@ declare namespace samchon.protocol {
          */
         construct(xml: library.XML): void;
         /**
-         * <p> Factory method of a child Entity. </p>
-         *
-         * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged
-         * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-         * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-         *
-         * @return A new child Entity belongs to EntityArray.
+         * @inheritdoc
          */
-        protected abstract createChild(xml: library.XML): T;
+        abstract createChild(xml: library.XML): T;
         /**
          * @inheritdoc
          */
@@ -3598,6 +3897,8 @@ declare namespace samchon.protocol {
          */
         toXML(): library.XML;
     }
+}
+declare namespace samchon.protocol {
     /**
      * @inheritdoc
      */
@@ -3607,15 +3908,9 @@ declare namespace samchon.protocol {
          */
         construct(xml: library.XML): void;
         /**
-         * <p> Factory method of a child Entity. </p>
-         *
-         * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged
-         * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-         * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
-         *
-         * @return A new child Entity belongs to EntityArray.
+         * @inheritdoc
          */
-        protected abstract createChild(xml: library.XML): T;
+        abstract createChild(xml: library.XML): T;
         /**
          * @inheritdoc
          */
@@ -3653,16 +3948,236 @@ declare namespace samchon.protocol {
     /**
      * <p> An interface for {@link Invoke} message chain. </p>
      *
-     * <p> IProtocol is an interface for Invoke message, which is standard message of network I/O
-     * in Samchon Framework, chain. The IProtocol interface is used to network drivers and some
-     * classes which are in a relationship of chain of responsibility with those network drivers. </p>
+     * <p> {@link IProtocol} is an interface for {@link Invoke} message, which is standard message of network I/O in
+     * <i>Samchon Framework</i>, chain. The {@link IProtocol} interface is used to network drivers and some classes
+     * which are in a relationship of <i>Chain of Responsibility Pattern</i> with those network drivers. </p>
      *
-     * <p> In Samchon Framework, server side, IProtocol is one of the basic 3 + 1 components that
-     * can make any type of network system in Samchon Framework with IServer and IClient. Following
-     * the "chain of responsibility" pa1ttern, looking around classes in Samchon Framework, you
-     * can see all related classes with network I/O are implemented from the IProtocol. </p>
+     * <p> Implements {@link IProtocol} if the class sends and handles {@link Invoke} message. Looking around source
+     * codes of <i>Samchon Framework</i>, especially <i>System Templates</i>, you can find out that all the classes and
+     * modules handling {@link Invoke} messages are always implementing this {@link IProtocol} . Yes, {@link IProtocol},
+     * this is the main role you've to follow in this <i>Samchon Framework</i>. </p>
      *
-     * @see Invoke
+     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		 style="max-width: 100%" />
+     * </a> </p>
+     *
+     *
+     * <h2> Utilization Case </h2>
+     * <p> Below pseudo code and class diagram represents {@link service Service Module}, who can build a cloud server.
+     * All the classes in the pseudo code are implementing the {@link IProtocol} because all of them are handling
+     * {@link Invoke} message. </p>
+     *
+     * <ul>
+     *	<li> Server: Represents a server literally </li>
+     *	<li> User: Represents an user being identified by its session id. User contains multiple Client objects. </li>
+     *	<ul>
+     *		<li> In browser, an user can open multiple windows.
+     *		<ul>
+     *			<li> User: A browser (like IE, Chrome and Safari).
+     *			<li> Client: An internet browser window
+     *		</ul>
+     *		</li>
+     *	</ul>
+     *	<li> Client: Represents a browser window and it takes role of network communication with it. </li>
+     *	<li> Service: Represents a service, domain logic. </li>
+     * </ul>
+     *
+     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+     *		 style="max-width: 100%" />
+     * </a> </p>
+     *
+     * <code>
+    /// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
+    /// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+
+    // IMPORTS
+    import std = require("typescript-stl");
+    import samchon = require("samchon-framework");
+
+    // SHORTCUTS
+    import library = samchon.library;
+    import collection = samchon.collection;
+    import protocol = samchon.protocol;
+
+    namespace service
+    {
+        export class Server extends protocol.WebServer implements IProtocol
+        {
+            // SERVER HAS MULTIPLE USER OBJECTS
+            private session_map: std.HashMap<string, User>;
+
+            //------------------------
+            // MESSAGE CHAIN
+            //------------------------
+            public sendData(invoke: protocol.Invoke): void
+            {
+                // SEND INVOKE MESSAGE TO ALL USER OBJECTS
+                for (let it = this.session_map.begin(); !it.equal_to(this.session_map.end()); it = it.next())
+                    it.second.sendData(invoke);
+            }
+            public replyData(invoke: protocol.Invoke): void
+            {
+                invoke.apply(this); // HANDLE INVOKE MESSAGE BY ITSELF
+            }
+        }
+
+        export class User extends
+            collection.HashMapCollection<number, Client> // USER HAS MULTIPLE CLIENT OBJECTS
+            implements IProtocol
+        {
+            private server: Server; // USER REFRES SERVER
+
+            //------------------------
+            // MESSAGE CHAIN
+            //------------------------
+            public sendData(invoke: protocol.Invoke): void
+            {
+                // SEND INVOKE MESSAGE TO ALL CLIENT OBJECTS
+                for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+                    it.second.sendData(invoke);
+            }
+            public replyData(invoke: protocol.Invoke): void
+            {
+                invoke.apply(this); // HANDLE INOVKE MESSAGE BY ITSELF
+                this.server.replyData(invoke); // OR VIA SERVER
+            }
+        }
+
+        export class Client implements IProtocol
+        {
+            private user: User; // CLIENT REFERS USER
+            private service: Service; // CLIENT HAS A SERVICE OBJECT
+
+            private driver: WebClientDriver;
+
+            //------------------------
+            // MESSAGE CHAIN
+            //------------------------
+            public sendData(invoke: protocol.Invoke): void
+            {
+                // SEND INVOKE MESSAGE VIA driver: WebClientDriver
+                this.driver.sendData(invoke);
+            }
+            public replyData(invoke: protocol.Invoke): void
+            {
+                invoke.apply(this); // HANDLE INOVKE MEESAGE BY ITSELF
+                this.user.replyData(invoke); // OR VIA USER
+
+                if (this.service != null) // OR VIA SERVICE
+                    this.service.replyData(invoke);
+            }
+        }
+
+        export class Service implements IProtocol
+        {
+            private client: Client; // SERVICE REFRES CLIENT
+
+            //------------------------
+            // MESSAGE CHAIN
+            //------------------------
+            public sendData(invoke: protocol.Invoke): void
+            {
+                // SEND INVOKE MESSAGE VIA CLIENT
+                return this.client.sendData(invoke);
+            }
+            public replyData(invoke: protocol.Invoke): void
+            {
+                invoke.apply(this); // HANDLE INVOKE MESSAGE BY ITSELF
+            }
+        }
+    }
+     * </code>
+     *
+     *
+     * <h2> Basic Components </h2>
+     * <h4> What Basic Components are </h4>
+     * <p> <b>Basic Components</b> are the smallest unit of network communication in this <i>Samchon Framework</i>. With
+     * <b>Basic Components</b>, you can construct any type of network system, even how the network system is enormously
+     * scaled and complicated, by just combinating the <b>Basic Components</b>. </p>
+     *
+     * <p> All the system templates in this framework are also being implemented by utilization of the
+     * <b>Basic Compoonents</b>. </p>
+     *
+     * <ul>
+     *	<li> {@link service Service} </il>
+     *	<li> {@link external External System} </il>
+     *	<li> {@link parallel Parallel System} </il>
+     *	<li> {@link distributed Distributed System} </il>
+     * </ul>
+     *
+     * <p> Note that, whatever the network system what you've to construct is, just concentrate on role of each system
+     * and attach matched <b>Basic Components</b> to the role, within framework of the <b>Object-Oriented Design</b>.
+     * Then construction of the network system will be much easier. </p>
+     *
+     * <ul>
+     *	<li> A system is a server, then use {@link IServer} or {@link IServerBase}. </li>
+     *	<li> A server wants to handle a client has connected, then use {@link IClientDriver}. </li>
+     *	<li> A system is a client connecting to an external server, then use {@link IServerConnector}. </li>
+     *	<li> </li>
+     * </ul>
+     *
+     * <h4> Example - System Templates </h4>
+     * <p> Learning and understanding <i>Basic Components</i> of Samchon Framework, reading source codes and design of
+     * <b>System Templates</b>' modules will be very helpful. </p>
+     *
+     * <table>
+     *	<tr>
+     *		<th> Name </th>
+     *		<th> Source </th>
+     *		<th> API Documents </th>
+     *	</tr>
+     *	<tr>
+     *		<td> Cloud Service </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service"
+     *				target="_blank"> protocol/service </a> </td>
+     *		<td> {@link protocol.service} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> External System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external"
+     *				target="_blank"> protocol/external </a> </td>
+     *		<td> {@link protocol.external} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Parallel System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel"
+     *				target="_blank"> protocol/parallel </a> </td>
+     *		<td> {@link protocol.parallel} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Distributed System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed"
+     *				target="_blank"> protocol/distributed </a> </td>
+     *		<td> {@link protocol.distributed} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Slave System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave"
+     *				target="_blank"> protocol/slave </a> </td>
+     *		<td> {@link protocol.slave} </td>
+     *	</tr>
+     * </table>
+     *
+     * <h4> Example - Projects </h4>
+     * <ul>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Calculator" target="_blank"> Calculator </a>
+     *	</li>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Chatting" target="_blank"> Chatting </a>
+     *	</li>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Interaction" target="_blank"> Interaction </a>
+     *	</li>
+     * </ul>
+     *
+     * @see {@link Invoke}
+     * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iprotocol"
+     *			 target="_blank"> Basic Components - IProtocol </a>
      * @author Jeongho Nam <http://samchon.org>
      */
     interface IProtocol {
@@ -3677,7 +4192,7 @@ declare namespace samchon.protocol {
          * <p> Handling replied message. </p>
          * <p> Handles replied message or shifts the responsibility to chain. </p>
          *
-         * @param invoke An {@link Invoke} message have received.
+         * @param invoke An {@link Invoke} message has received.
          */
         sendData(invoke: Invoke): void;
     }
@@ -3731,7 +4246,7 @@ declare namespace samchon.protocol {
         /**
          * @inheritdoc
          */
-        protected createChild(xml: library.XML): InvokeParameter;
+        createChild(xml: library.XML): InvokeParameter;
         /**
          * Get listener.
          */
@@ -3760,7 +4275,6 @@ declare namespace samchon.protocol {
     /**
      * A parameter belongs to an Invoke.
      *
-     * @see Invoke
      * @author Jeongho Nam <http://samchon.org>
      */
     class InvokeParameter extends Entity {
@@ -3832,9 +4346,21 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     class InvokeHistory extends Entity {
+        /**
+         *
+         */
         private uid;
+        /**
+         * @see {@link Invoke.listener}
+         */
         private listener;
+        /**
+         *
+         */
         private startTime;
+        /**
+         *
+         */
         private endTime;
         /**
          * Default Constructor.
@@ -3855,6 +4381,113 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
+    /**
+     * <p> An interface for a physical server. </p>
+     *
+     * <p> {@link IServer} provides methods for opening a server. Extends one of them who are derived from this
+     * {@link IServer} and open the server with method {@link open IServer.open()}. Override
+     * {@link addClient IServer.addClient()} who accepts a newly connected client with {@link IClientDriver}.
+     * If you're embarrased because your class already extended another one, then use {@link IServerBase}. </p>
+     *
+     * <ul>
+     *	<li> {@link Server} </li>
+     *	<li> {@link WebServer} </li>
+     *	<li> {@link SharedWorkerServer} </li>
+     * </ul>
+     *
+     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		 style="max-width: 100%" />
+     * </a> </p>
+     *
+     * <h2> Basic Components </h2>
+     * <h4> What Basic Components are </h4>
+     * <p> <b>Basic Components</b> are the smallest unit of network communication in this <i>Samchon Framework</i>. With
+     * <b>Basic Components</b>, you can construct any type of network system, even how the network system is enormously
+     * scaled and complicated, by just combinating the <b>Basic Components</b>. </p>
+     *
+     * <p> All the system templates in this framework are also being implemented by utilization of the
+     * <b>Basic Compoonents</b>. </p>
+     *
+     * <ul>
+     *	<li> {@link service Service} </il>
+     *	<li> {@link external External System} </il>
+     *	<li> {@link parallel Parallel System} </il>
+     *	<li> {@link distributed Distributed System} </il>
+     * </ul>
+     *
+     * <p> Note that, whatever the network system what you've to construct is, just concentrate on role of each system
+     * and attach matched <b>Basic Components</b> to the role, within framework of the <b>Object-Oriented Design</b>.
+     * Then construction of the network system will be much easier. </p>
+     *
+     * <ul>
+     *	<li> A system is a server, then use {@link IServer} or {@link IServerBase}. </li>
+     *	<li> A server wants to handle a client has connected, then use {@link IClientDriver}. </li>
+     *	<li> A system is a client connecting to an external server, then use {@link IServerConnector}. </li>
+     *	<li> </li>
+     * </ul>
+     *
+     * <h4> Example - System Templates </h4>
+     * <p> Learning and understanding <i>Basic Components</i> of Samchon Framework, reading source codes and design of
+     * <b>System Templates</b>' modules will be very helpful. </p>
+     *
+     * <table>
+     *	<tr>
+     *		<th> Name </th>
+     *		<th> Source </th>
+     *		<th> API Documents </th>
+     *	</tr>
+     *	<tr>
+     *		<td> Cloud Service </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service"
+     *				target="_blank"> protocol/service </a> </td>
+     *		<td> {@link protocol.service} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> External System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external"
+     *				target="_blank"> protocol/external </a> </td>
+     *		<td> {@link protocol.external} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Parallel System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel"
+     *				target="_blank"> protocol/parallel </a> </td>
+     *		<td> {@link protocol.parallel} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Distributed System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed"
+     *				target="_blank"> protocol/distributed </a> </td>
+     *		<td> {@link protocol.distributed} </td>
+     *	</tr>
+     *	<tr>
+     *		<td> Slave System </td>
+     *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave"
+     *				target="_blank"> protocol/slave </a> </td>
+     *		<td> {@link protocol.slave} </td>
+     *	</tr>
+     * </table>
+     *
+     * <h4> Example - Projects </h4>
+     * <ul>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Calculator" target="_blank"> Calculator </a>
+     *	</li>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Chatting" target="_blank"> Chatting </a>
+     *	</li>
+     *	<li>
+     *		<a href="https://github.com/samchon/framework/wiki/Examples-Interaction" target="_blank"> Interaction </a>
+     *	</li>
+     * </ul>
+     *
+     * @see {@link IClientDriver}
+     * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver"
+     *			 target="_blank"> Basic Components - IServer </a>
+     * @author Jeongho Nam <http://samchon.org>
+     */
     interface IServer {
         open(port: number): void;
         close(): void;
@@ -3979,12 +4612,12 @@ declare namespace samchon.protocol {
     class MyServer extends Something implements IServer
     {
         private server_base: IServerBase = new WebServerBase(this);
-
+    
         public addClient(driver: IClientDriver): void
         {
             // WHAT TO DO WHEN A CLIENT HAS CONNECTED
         }
-
+    
         public open(port: number): void
         {
             this.server_base.open();
@@ -3996,6 +4629,9 @@ declare namespace samchon.protocol {
     }
      * </code>
      *
+     * @see {@link IServer}
+     * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase"
+     *			 target="_blank"> Basic Components - IServerBase </a>
      * @author Jeongho Nam <http://samchon.org>
      */
     interface IServerBase extends IServer {
@@ -4148,6 +4784,8 @@ declare namespace samchon.protocol {
      * charge of network communication and delivers replied message to {@link WebCommunicator.listener listener}'s
      * {@link IProtocol.replyData replyData()} method. </p>
      *
+     * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector"
+     *			 target="_blank"> Basic Components - IServerConnector </a>
      * @author Jeongho Nam <http://samchon.org>
      */
     interface IServerConnector extends ICommunicator {
@@ -4258,6 +4896,200 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol.external {
     /**
+     * <p> An external system driver. </p>
+     *
+     * <p> The {@link ExternalSystem} class represents an external system, connected and interact with this system.
+     * {@link ExternalSystem} takes full charge of network communication with external system have connected.
+     * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
+     * class, {@link ExternalSystemRole} objects. </p>
+     *
+     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a> </p>
+     *
+     * <h4> Bridge & Proxy Pattern </h4>
+     * <p> The {@link ExternalSystem} class can be a <i>bridge</i> for <i>logical proxy</i>. In framework within user,
+     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+     *
+     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called <i>Bridge Pattern</i> and <i>Proxy Pattern</i>. </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalSystem extends EntityDequeCollection<ExternalSystemRole> implements IProtocol {
+        /**
+         * The name represents external system have connected.
+         */
+        protected name: string;
+        /**
+         * @hidden
+         */
+        private system_array_;
+        /**
+         * @hidden
+         */
+        private communicator_;
+        /**
+         * @hidden
+         */
+        private erasing_;
+        constructor(systemArray: ExternalSystemArray);
+        constructor(systemArray: ExternalSystemArray, communicator: IClientDriver);
+        /**
+         * Default Destructor.
+         */
+        destructor(): void;
+        /**
+         * @hidden
+         */
+        private handle_close();
+        getSystemArray(): ExternalSystemArray;
+        /**
+         * Identifier of {@link ExternalSystem} is its {@link name}.
+         */
+        key(): string;
+        /**
+         * Get {@link name}.
+         */
+        getName(): string;
+        protected communicator: protocol.ICommunicator;
+        close(): void;
+        /**
+         * Send {@link Invoke} message to external system.
+         *
+         * @param invoke An {@link Invoke} message to send.
+         */
+        sendData(invoke: Invoke): void;
+        /**
+         * Handle an {@Invoke} message have received.
+         *
+         * @param invoke An {@link Invoke} message have received.
+         */
+        replyData(invoke: Invoke): void;
+        /**
+         * Tag name of the {@link ExternalSytem} in {@link XML}.
+         *
+         * @return <i>system</i>.
+         */
+        TAG(): string;
+        /**
+         * Tag name of {@link ExternalSystemRole children elements} belonged to the {@link ExternalSytem} in {@link XML}.
+         *
+         * @return <i>role</i>.
+         */
+        CHILD_TAG(): string;
+    }
+}
+declare namespace samchon.protocol.parallel {
+    /**
+     * <p> An external parallel system driver. </p>
+     *
+     *
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelSystem extends external.ExternalSystem {
+        /**
+         * A list of {@link Invoke} messages on process.
+         *
+         * @see {@link performance}
+         */
+        private progress_list;
+        /**
+         * A list of {@link Invoke} messages had processed.
+         *
+         * @see {@link performance}
+         */
+        private history_list;
+        /**
+         * <p> Performance index. </p>
+         *
+         * <p> A performance index that indicates how much fast the connected parallel system is. </p>
+         *
+         * <p> If this {@link ParallelSystem parallel system} hasn't any {@link Invoke} message
+         * {@link history_list had handled}, then the {@link performance performance index} will be 1, which means
+         * default and average value between all {@link ParallelSystem} instances (belonged to a same
+         * {@link ParallelSystemArray} object). </p>
+         *
+         * <p> You can specify this {@link performance} by yourself, but notice that, if the
+         * {@link performance performance index} is higher then other {@link ParallelSystem} objects, then this
+         * {@link ParallelSystem parallel system} will ordered to handle more processes than other {@link ParallelSystem}
+         * objects. Otherwise, the {@link performance performance index) is lower than others, of course, less processes
+         * will be delivered. </p>
+         *
+         * <p> This {@link performance index} is always re-calculated whenever {@link ParallelSystemArray} calls one of
+         * them below. </p>
+         *
+         * <ul>
+         *	<li> {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()} </li>
+         *	<li> {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()} </li>
+         * </ul>
+         *
+         * <p> If this class is a type of {@link DistributedSystem}, a derived class from the {@link ParallelSystem},
+         * then {@link DistributedSystemRole.sendData DistributedSystem.sendData()} also cause the re-calculation. </p>
+         *
+         * @see {@link progress_list}, {@link history_list}
+         */
+        protected performance: number;
+        constructor(systemArray: ParallelSystemArray);
+        constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
+        /**
+         * Get manager of this object, {@link systemArray}.
+         *
+         * @return A manager containing this {@link ParallelSystem} object.
+         */
+        getSystemArray(): ParallelSystemArray;
+        /**
+         * Get {@link performant performance index}.
+         *
+         * A performance index that indicates how much fast the connected parallel system is.
+         */
+        getPerformance(): number;
+        /**
+         * Send an {@link Invoke} message with index of segmentation.
+         *
+         * @param invoke An invoke message requesting parallel process.
+         * @param first Initial piece's index in a section.
+         * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
+         *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
+         *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
+         *
+         * @see {@link ParallelSystemArray.sendPieceData}
+         */
+        private send_piece_data(invoke, first, last);
+        /**
+         *
+         *
+         * @param xml
+         *
+         * @see {@link ParallelSystemArray.notify_end}
+         */
+        private report_invoke_history(xml);
+    }
+}
+declare namespace samchon.protocol.distributed {
+    abstract class DistributedSystem extends parallel.ParallelSystem {
+    }
+}
+declare namespace samchon.protocol.external {
+    /**
      * <p> An array and manager of {@link ExternalSystem external systems}. </p>
      *
      * <p> {@link ExternalSystemArray} is an abstract class contains and manages external system drivers,
@@ -4304,7 +5136,7 @@ declare namespace samchon.protocol.external {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ExternalSystemArray extends EntityArrayCollection<ExternalSystem> implements IProtocol {
+    abstract class ExternalSystemArray extends EntityDequeCollection<ExternalSystem> implements IProtocol {
         /**
          * Default Constructor.
          */
@@ -4312,15 +5144,7 @@ declare namespace samchon.protocol.external {
         /**
          * @hidden
          */
-        private handle_system_insert(event);
-        /**
-         * @hidden
-         */
         private handle_system_erase(event);
-        /**
-         * @hidden
-         */
-        protected handle_system_close(system: ExternalSystem): void;
         /**
          * Test whether this system array has the role.
          *
@@ -4361,6 +5185,155 @@ declare namespace samchon.protocol.external {
          * @return <i>system</i>.
          */
         CHILD_TAG(): string;
+    }
+}
+declare namespace samchon.protocol.parallel {
+    /**
+     * <p> A manager containing {@link ParallelSystem} objects. </p>
+     *
+     *
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelSystemArray extends external.ExternalSystemArray {
+        /**
+         * @see {@link ParallelSystem.progress_list}, {@link ParallelSystem.history_list}
+         */
+        private history_sequence;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         *
+         * @param invoke An invoke message requesting parallel process.
+         * @param size Number of pieces.
+         */
+        sendSegmentData(invoke: Invoke, size: number): void;
+        /**
+         *
+         *
+         * @param invoke An invoke message requesting parallel process.
+         * @param first Initial piece's index in a section.
+         * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
+         *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
+         *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
+         */
+        sendPieceData(invoke: Invoke, first: number, last: number): void;
+        /**
+         *
+         * @param history
+         *
+         * @return Whether the processes with same uid are all fininsed.
+         *
+         * @see {@link ParallelSystem.report_invoke_history}, {@link normalize_performance}
+         */
+        protected notify_end(history: PRInvokeHistory): boolean;
+        /**
+         * @see {@link ParallelSystem.performance}
+         */
+        private normalize_performance();
+    }
+}
+declare namespace samchon.protocol.distributed {
+    abstract class DistributedSystemArray extends parallel.ParallelSystemArray {
+        protected roles: std.HashMap<string, DistributedSystemRole>;
+    }
+}
+declare namespace samchon.protocol.external {
+    /**
+     * <p> A role of an external system. </p>
+     *
+     * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}.
+     * Extends this class and writes some methods related to the role. </p>
+     *
+     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a> </p>
+     *
+     * <h4> Proxy Pattern </h4>
+     * <p> The {@link ExternalSystemRole} class can be an <i>logical proxy</i>. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+     *
+     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalSystemRole extends Entity implements IProtocol {
+        /**
+         * An {@link ExternalSystem external system} containing this {@link ExternalSystemRole role}.
+         */
+        private system;
+        /**
+         * <p> A name, represents and identifies this {@link ExternalSystemRole role}. </p>
+         *
+         * <p> This {@link name} is an identifier represents this {@link ExternalSystemRole role}. This {@link name} is
+         * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
+         * {@link name} should be unique in an {@link ExternalSystemArray}.
+         */
+        private name;
+        /**
+         * Constructor from a system.
+         *
+         * @param system An external system containing this role.
+         */
+        constructor(system: ExternalSystem);
+        /**
+         * Identifier of {@link ExternalSystemRole} is its {@link name}.
+         */
+        key(): string;
+        /**
+         * Get external system, this role is belonged to.
+         */
+        getSystem(): ExternalSystem;
+        /**
+         * Get name, who represents and identifies this role.
+         */
+        getName(): string;
+        /**
+         * Send an {@link Invoke} message to the external system via {@link system}.
+         *
+         * @param invoke An {@link Invoke} message to send to the external system.
+         */
+        sendData(invoke: Invoke): void;
+        /**
+         * <p> Handle replied {@link Invoke message} from the {@link system external system} belonged to. </p>
+         *
+         * <p> This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}.
+         * in the <i>invoke</i>. </p>
+         *
+         * @param invoke An {@link Invoke} message received from the {@link system external system}.
+         */
+        replyData(invoke: Invoke): void;
+        /**
+         * Tag name of the {@link ExternalSytemRole} in {@link XML}.
+         *
+         * @return <i>role</i>.
+         */
+        TAG(): string;
+    }
+}
+declare namespace samchon.protocol.distributed {
+    abstract class DistributedSystemRole extends external.ExternalSystemRole {
+        private systems;
     }
 }
 declare namespace samchon.protocol.external {
@@ -4460,9 +5433,15 @@ declare namespace samchon.protocol.external {
         /**
          * This method is deprecated. Don't use and override this.
          *
-         * @return nothing.
+         * @return null.
          */
-        protected createChild(xml: library.XML): ExternalSystem;
+        createChild(xml: library.XML): ExternalSystem;
+        /**
+         * Factory method creating {@link ExternalSystem} object.
+         *
+         * @param driver A communicator with connected client.
+         * @return A newly created {@link ExternalSystem} object.
+         */
         protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
         /**
          * @inheritdoc
@@ -4472,130 +5451,6 @@ declare namespace samchon.protocol.external {
          * @inheritdoc
          */
         close(): void;
-    }
-}
-declare namespace samchon.protocol.external {
-    /**
-     * <p> An external system driver. </p>
-     *
-     * <p> The {@link ExternalSystem} class represents an external system, connected and interact with this system.
-     * {@link ExternalSystem} takes full charge of network communication with external system have connected.
-     * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
-     * class, {@link ExternalSystemRole} objects. </p>
-     *
-     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a> </p>
-     *
-     * <h4> Bridge & Proxy Pattern </h4>
-     * <p> The {@link ExternalSystem} class can be a <i>bridge</i> for <i>logical proxy</i>. In framework within user,
-     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
-     *
-     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called <i>Bridge Pattern</i> and <i>Proxy Pattern</i>. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalSystem extends EntityDequeCollection<ExternalSystemRole> implements IProtocol {
-        /**
-         * A network communicator with external system.
-         */
-        /**
-         * A network communicator with external system.
-         */
-        protected communicator: ICommunicator;
-        /**
-         * The name represents external system have connected.
-         */
-        protected name: string;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from an IClientDriver object.
-         *
-         * @param driver
-         */
-        constructor(driver: IClientDriver);
-        /**
-         * Default Destructor.
-         */
-        destructor(): void;
-        /**
-         * Identifier of {@link ExternalSystem} is its {@link name}.
-         */
-        key(): string;
-        /**
-         * Get {@link name}.
-         */
-        getName(): string;
-        close(): void;
-        /**
-         * Send {@link Invoke} message to external system.
-         *
-         * @param invoke An {@link Invoke} message to send.
-         */
-        sendData(invoke: Invoke): void;
-        /**
-         * Handle an {@Invoke} message have received.
-         *
-         * @param invoke An {@link Invoke} message have received.
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * Tag name of the {@link ExternalSytem} in {@link XML}.
-         *
-         * @return <i>system</i>.
-         */
-        TAG(): string;
-        /**
-         * Tag name of {@link ExternalSystemRole children elements} belonged to the {@link ExternalSytem} in {@link XML}.
-         *
-         * @return <i>role</i>.
-         */
-        CHILD_TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-        /**
-         * @hidden
-         */
-        private communicator_;
-        /**
-         * @hidden
-         */
-        private external_system_array_;
-        /**
-         * @hidden
-         */
-        private erasing_;
-        /**
-         * @hidden
-         */
-        private external_system_array;
-        /**
-         * @hidden
-         */
-        private handle_close();
     }
 }
 declare namespace samchon.protocol.external {
@@ -4689,7 +5544,7 @@ declare namespace samchon.protocol.external {
         /**
          * Default Constructor.
          */
-        constructor();
+        constructor(systemArray: ExternalSystemArray);
         /**
          * Factory method creating server connector.
          */
@@ -4877,110 +5732,19 @@ declare namespace samchon.protocol.external {
          *
          * @return A new child Entity via {@link createExternalServer createExternalServer()}.
          */
-        protected createChild(xml: library.XML): ExternalSystem;
+        createChild(xml: library.XML): ExternalSystem;
         /**
          * Factory method creating an {@link IExternalServer} object.
          *
          * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
          *
-         * @return A new {@link IExternalServer} object.
+         * @return A newly created {@link IExternalServer} object.
          */
         protected abstract createExternalServer(xml: library.XML): IExternalServer;
         /**
          * @inheritdoc
          */
         connect(): void;
-    }
-}
-declare namespace samchon.protocol.external {
-    /**
-     * <p> A role of an external system. </p>
-     *
-     * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}.
-     * Extends this class and writes some methods related to the role. </p>
-     *
-     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a> </p>
-     *
-     * <h4> Proxy Pattern </h4>
-     * <p> The {@link ExternalSystemRole} class can be an <i>logical proxy</i>. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
-     *
-     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalSystemRole extends Entity implements IProtocol {
-        /**
-         * An {@link ExternalSystem external system} containing this {@link ExternalSystemRole role}.
-         */
-        private system;
-        /**
-         * <p> A name, represents and identifies this {@link ExternalSystemRole role}. </p>
-         *
-         * <p> This {@link name} is an identifier represents this {@link ExternalSystemRole role}. This {@link name} is
-         * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
-         * {@link name} should be unique in an {@link ExternalSystemArray}.
-         */
-        private name;
-        /**
-         * Constructor from a system.
-         *
-         * @param system An external system containing this role.
-         */
-        constructor(system: ExternalSystem);
-        /**
-         * Identifier of {@link ExternalSystemRole} is its {@link name}.
-         */
-        key(): string;
-        /**
-         * Get external system, this role is belonged to.
-         */
-        getSystem(): ExternalSystem;
-        /**
-         * Get name, who represents and identifies this role.
-         */
-        getName(): string;
-        /**
-         * Send an {@link Invoke} message to the external system via {@link system}.
-         *
-         * @param invoke An {@link Invoke} message to send to the external system.
-         */
-        sendData(invoke: Invoke): void;
-        /**
-         * <p> Handle replied {@link Invoke message} from the {@link system external system} belonged to. </p>
-         *
-         * <p> This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}.
-         * in the <i>invoke</i>. </p>
-         *
-         * @param invoke An {@link Invoke} message received from the {@link system external system}.
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * Tag name of the {@link ExternalSytemRole} in {@link XML}.
-         *
-         * @return <i>role</i>.
-         */
-        TAG(): string;
     }
 }
 declare namespace samchon.protocol.slave {
@@ -4992,22 +5756,25 @@ declare namespace samchon.protocol.slave {
         replyData(invoke: Invoke): void;
     }
 }
-declare namespace samchon.protocol.master {
+declare namespace samchon.protocol.external {
     abstract class MediatorSystem extends slave.SlaveSystem {
         private system_array;
         private progress_list;
-        constructor(systemArray: external.ExternalSystemArray);
+        constructor(systemArray: ExternalSystemArray);
         abstract start(): void;
-        protected createChild(xml: library.XML): external.ExternalSystemRole;
+        /**
+         * @hidden
+         */
+        createChild(xml: library.XML): ExternalSystemRole;
         private notify_end(uid);
         replyData(invoke: protocol.Invoke): void;
     }
 }
-declare namespace samchon.protocol.master {
+declare namespace samchon.protocol.external {
     class MediatorServer extends MediatorSystem implements IServer {
         private server_base;
         private port;
-        constructor(systemArray: external.ExternalSystemArray, port: number);
+        constructor(systemArray: ExternalSystemArray, port: number);
         protected createServerBase(): IServerBase;
         addClient(driver: IClientDriver): void;
         start(): void;
@@ -5021,11 +5788,11 @@ declare namespace samchon.protocol.master {
         protected createServerBase(): IServerBase;
     }
 }
-declare namespace samchon.protocol.master {
-    class MediatorClient extends MediatorSystem implements external.IExternalServer {
+declare namespace samchon.protocol.external {
+    class MediatorClient extends MediatorSystem implements IExternalServer {
         protected ip: string;
         protected port: number;
-        constructor(systemArray: external.ExternalSystemArray, ip: string, port: number);
+        constructor(systemArray: ExternalSystemArray, ip: string, port: number);
         protected createServerConnector(): IServerConnector;
         getIP(): string;
         getPort(): number;
@@ -5033,13 +5800,28 @@ declare namespace samchon.protocol.master {
         connect(): void;
     }
     class MediatorWebClient extends MediatorClient {
+        /**
+         * @inheritdoc
+         */
+        protected createServerConnector(): IServerConnector;
+    }
+    class MediatorSharedWorkerClient extends MediatorClient {
+        /**
+         * @inheritdoc
+         */
         protected createServerConnector(): IServerConnector;
     }
 }
-declare namespace samchon.protocol.master {
+declare namespace samchon.protocol.parallel {
     class PRInvokeHistory extends InvokeHistory {
-        private index;
-        private size;
+        /**
+         * Index number of initial piece.
+         */
+        private first;
+        /**
+         * Index number of final piece.
+         */
+        private last;
         /**
          * Default Constructor.
          */
@@ -5050,24 +5832,15 @@ declare namespace samchon.protocol.master {
          * @param invoke
          */
         constructor(invoke: Invoke);
-        getIndex(): number;
-        getSize(): number;
-    }
-}
-declare namespace samchon.protocol.master {
-    abstract class ParallelSystemArray extends external.ExternalSystemArray {
-        private history_sequence;
+        getFirst(): number;
+        getLast(): number;
         /**
-         * Default Constructor.
+         * Compute number of allocated pieces.
          */
-        constructor();
-        sendSegmentData(invoke: Invoke, size: number): void;
-        sendPieceData(invoke: Invoke, index: number, size: number): void;
-        protected notify_end(history: PRInvokeHistory): boolean;
-        private normalize_performance();
+        computeSize(): number;
     }
 }
-declare namespace samchon.protocol.master {
+declare namespace samchon.protocol.parallel {
     abstract class ParallelClientArray extends ParallelSystemArray implements external.IExternalClientArray {
         /**
          * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
@@ -5095,7 +5868,7 @@ declare namespace samchon.protocol.master {
          */
         protected abstract createServerBase(): IServerBase;
         addClient(driver: IClientDriver): void;
-        protected createChild(xml: library.XML): ParallelSystem;
+        createChild(xml: library.XML): ParallelSystem;
         protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
         /**
          * @inheritdoc
@@ -5107,21 +5880,21 @@ declare namespace samchon.protocol.master {
         close(): void;
     }
 }
-declare namespace samchon.protocol.master {
+declare namespace samchon.protocol.parallel {
     abstract class ParallelSystemArrayMediator extends ParallelSystemArray {
-        protected mediator: MediatorSystem;
+        protected mediator: external.MediatorSystem;
         /**
          * Default Constructor.
          */
         constructor();
-        protected abstract createMediator(): MediatorSystem;
+        protected abstract createMediator(): external.MediatorSystem;
         protected start_mediator(): void;
         sendData(invoke: protocol.Invoke): void;
-        sendPieceData(invoke: protocol.Invoke, index: number, size: number): void;
+        sendPieceData(invoke: protocol.Invoke, first: number, last: number): void;
         protected notify_end(history: PRInvokeHistory): boolean;
     }
 }
-declare namespace samchon.protocol.master {
+declare namespace samchon.protocol.parallel {
     abstract class ParallelClientArrayMediator extends ParallelSystemArrayMediator implements external.IExternalClientArray {
         /**
          * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
@@ -5149,7 +5922,7 @@ declare namespace samchon.protocol.master {
          */
         protected abstract createServerBase(): IServerBase;
         addClient(driver: IClientDriver): void;
-        protected createChild(xml: library.XML): ParallelSystem;
+        createChild(xml: library.XML): ParallelSystem;
         protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
         /**
          * @inheritdoc
@@ -5161,34 +5934,14 @@ declare namespace samchon.protocol.master {
         close(): void;
     }
 }
-declare namespace samchon.protocol.master {
-    abstract class ParallelSystem extends external.ExternalSystem {
-        private systemArray;
-        private progress_list;
-        private history_list;
-        private performance;
+declare namespace samchon.protocol.parallel {
+    interface IParallelServer extends external.IExternalServer, ParallelSystem {
         /**
-         * Construct from a {@link ParallelSystemArray}
-         *
-         * @param systemArray
-         */
-        constructor(systemArray: ParallelSystemArray, communicator?: ICommunicator);
-        /**
-         * Get parent {@link systemArray}.
+         * @inheritdoc
          */
         getSystemArray(): ParallelSystemArray;
-        /**
-         * Get {@link performant performance index}.
-         */
-        getPerformance(): number;
-        private send_piece_data(invoke, index, size);
-        private report_invoke_history(xml);
     }
-}
-declare namespace samchon.protocol.master {
-    interface IParallelServer extends ParallelSystem, external.IExternalServer {
-    }
-    abstract class ParallelServer extends ParallelSystem implements IParallelServer {
+    abstract class ParallelServer extends ParallelSystem implements external.IExternalServer {
         protected ip: string;
         protected port: number;
         constructor(systemArray: ParallelSystemArray);
@@ -5198,36 +5951,36 @@ declare namespace samchon.protocol.master {
         getPort(): number;
     }
 }
-declare namespace samchon.protocol.master {
+declare namespace samchon.protocol.parallel {
     abstract class ParallelServerArray extends ParallelSystemArray implements external.IExternalServerArray {
         constructor();
         connect(): void;
     }
 }
-declare namespace samchon.protocol.master {
+declare namespace samchon.protocol.parallel {
     abstract class ParallelServerArrayMediator extends ParallelSystemArrayMediator implements external.IExternalServerArray {
         constructor();
         connect(): void;
     }
 }
-declare namespace samchon.protocol.master {
+declare namespace samchon.protocol.parallel {
     abstract class ParallelServerClientArray extends ParallelClientArray implements external.IExternalServerClientArray {
         /**
          * Default Constructor.
          */
         constructor();
-        protected createChild(xml: library.XML): ParallelSystem;
+        createChild(xml: library.XML): ParallelSystem;
         protected abstract createExternalServer(xml: library.XML): IParallelServer;
         connect(): void;
     }
 }
-declare namespace samchon.protocol.master {
+declare namespace samchon.protocol.parallel {
     abstract class ParallelServerClientArrayMediator extends ParallelClientArrayMediator implements external.IExternalServerClientArray {
         /**
          * Default Constructor.
          */
         constructor();
-        protected createChild(xml: library.XML): ParallelSystem;
+        createChild(xml: library.XML): ParallelSystem;
         protected abstract createExternalServer(xml: library.XML): IParallelServer;
         /**
          * @inheritdoc
@@ -5262,6 +6015,11 @@ declare namespace samchon.protocol.service {
          * Default Constructor.
          */
         constructor();
+        /**
+         * Factory method creating {@link User} object.
+         *
+         * @return A newly created {@link User} object.
+         */
         protected abstract createUser(): User;
         has(account: string): boolean;
         get(account: string): User;

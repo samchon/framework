@@ -4,31 +4,72 @@
 
 namespace samchon.protocol.parallel
 {
+	/**
+	 * <p> An external parallel system driver. </p>
+	 * 
+	 * 
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class ParallelSystem 
 		extends external.ExternalSystem
 	{
-		private systemArray: ParallelSystemArray;
-
+		/**
+		 * A list of {@link Invoke} messages on process.
+		 * 
+		 * @see {@link performance}
+		 */
 		private progress_list: std.HashMap<number, PRInvokeHistory>;
+		
+		/**
+		 * A list of {@link Invoke} messages had processed.
+		 * 
+		 * @see {@link performance}
+		 */
 		private history_list: std.HashMap<number, PRInvokeHistory>;
 
-		private performance: number;
+		/**
+		 * <p> Performance index. </p>
+		 * 
+		 * <p> A performance index that indicates how much fast the connected parallel system is. </p>
+		 * 
+		 * <p> If this {@link ParallelSystem parallel system} hasn't any {@link Invoke} message 
+		 * {@link history_list had handled}, then the {@link performance performance index} will be 1, which means 
+		 * default and average value between all {@link ParallelSystem} instances (belonged to a same 
+		 * {@link ParallelSystemArray} object). </p>
+		 * 
+		 * <p> You can specify this {@link performance} by yourself, but notice that, if the 
+		 * {@link performance performance index} is higher then other {@link ParallelSystem} objects, then this 
+		 * {@link ParallelSystem parallel system} will ordered to handle more processes than other {@link ParallelSystem} 
+		 * objects. Otherwise, the {@link performance performance index) is lower than others, of course, less processes 
+		 * will be delivered. </p>
+		 * 
+		 * <p> This {@link performance index} is always re-calculated whenever {@link ParallelSystemArray} calls one of 
+		 * them below. </p>
+		 * 
+		 * <ul>
+		 *	<li> {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()} </li>
+		 *	<li> {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()} </li>
+		 * </ul>
+		 * 
+		 * <p> If this class is a type of {@link DistributedSystem}, a derived class from the {@link ParallelSystem}, 
+		 * then {@link DistributedSystemRole.sendData DistributedSystem.sendData()} also cause the re-calculation. </p>
+		 * 
+		 * @see {@link progress_list}, {@link history_list}
+		 */
+		protected performance: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Construct from a {@link ParallelSystemArray}
-		 * 
-		 * @param systemArray
-		 */
-		public constructor(systemArray: ParallelSystemArray, communicator: ICommunicator = null)
+		public constructor(systemArray: ParallelSystemArray);
+
+		public constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
+
+		public constructor(systemArray: ParallelSystemArray, communicator: IClientDriver = null)
 		{
-			super(communicator as IClientDriver);
-
-			// BASIC MEMBERS
-			this.systemArray = systemArray;
-
+			super(systemArray, communicator as IClientDriver);
+			
 			// PERFORMANCE INDEX
 			this.performance = 1.0;
 			this.progress_list = new std.HashMap<number, PRInvokeHistory>();
@@ -39,15 +80,19 @@ namespace samchon.protocol.parallel
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * Get parent {@link systemArray}.
+		 * Get manager of this object, {@link systemArray}.
+		 * 
+		 * @return A manager containing this {@link ParallelSystem} object.
 		 */
 		public getSystemArray(): ParallelSystemArray
 		{
-			return this.systemArray;
+			return super.getSystemArray() as ParallelSystemArray;
 		}
 
 		/**
 		 * Get {@link performant performance index}.
+		 * 
+		 * A performance index that indicates how much fast the connected parallel system is.
 		 */
 		public getPerformance(): number
 		{
@@ -57,14 +102,25 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		private send_piece_data(invoke: Invoke, index: number, size: number): void
+		/**
+		 * Send an {@link Invoke} message with index of segmentation.
+		 * 
+		 * @param invoke An invoke message requesting parallel process.
+		 * @param first Initial piece's index in a section.
+		 * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
+		 *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
+		 *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
+		 * 
+		 * @see {@link ParallelSystemArray.sendPieceData}
+		 */
+		private send_piece_data(invoke: Invoke, first: number, last: number): void
 		{
 			// DUPLICATE INVOKE AND ATTACH PIECE INFO
 			let my_invoke: Invoke = new Invoke(invoke.getListener());
 			{
 				my_invoke.assign(invoke.begin(), invoke.end());
-				my_invoke.push_back(new InvokeParameter("piece_index", index));
-				my_invoke.push_back(new InvokeParameter("piece_size", size));
+				my_invoke.push_back(new InvokeParameter("piece_first", first));
+				my_invoke.push_back(new InvokeParameter("piece_last", last));
 			}
 
 			// REGISTER THE UID AS PROGRESS
@@ -74,7 +130,14 @@ namespace samchon.protocol.parallel
 			// SEND DATA
 			this.sendData(my_invoke);
 		}
-
+		
+		/**
+		 * 
+		 * 
+		 * @param xml
+		 * 
+		 * @see {@link ParallelSystemArray.notify_end}
+		 */
 		private report_invoke_history(xml: library.XML): void
 		{
 			///////
@@ -84,15 +147,15 @@ namespace samchon.protocol.parallel
 			history.construct(xml);
 
 			let progress_it = this.progress_list.find(history.getUID());
-			history["index"] = progress_it.second.getIndex();
-			history["size"] = progress_it.second.getSize();
+			history["first"] = progress_it.second.getFirst();
+			history["last"] = progress_it.second.computeSize();
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list.erase(progress_it);
 			this.history_list.insert([history.getUID(), history]);
 
 			// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
-			this.systemArray["notify_end"](history);
+			this.getSystemArray()["notify_end"](history);
 		}
 	}
 }

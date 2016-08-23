@@ -55,7 +55,7 @@ namespace chief
 			process.stdin.on("data", this.handle_stdin.bind(this));
 		}
 		
-		protected createChild(xml: library.XML): MasterSystem
+		public createChild(xml: library.XML): MasterSystem
 		{
 			return new MasterSystem(this);
 		}
@@ -133,7 +133,7 @@ namespace chief
 		--------------------------------------------------------- */
 		public constructor(chief: Chief, name: string = "", ip: string = "", port: number = 0)
 		{
-			super();
+			super(chief);
 
 			this.chief = chief;
 			this.name = name;
@@ -145,7 +145,7 @@ namespace chief
 		{
 			return new protocol.ServerConnector(this);
 		}
-		protected createChild(xml: library.XML): external.ExternalSystemRole
+		public createChild(xml: library.XML): external.ExternalSystemRole
 		{
 			return null;
 		}

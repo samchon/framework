@@ -47,39 +47,48 @@ namespace samchon.protocol.external
 		implements IProtocol
 	{
 		/**
-		 * A network communicator with external system.
-		 */
-		protected get communicator(): ICommunicator
-		{
-			return this.communicator_;
-		}
-
-		/**
 		 * The name represents external system have connected. 
 		 */
 		protected name: string;
 
+		// PARENT EXTERNAL_SYSTEM_ARRAY
+		/**
+		 * @hidden
+		 */
+		private system_array_: ExternalSystemArray;
+
+		// COMMUNICATOR, TAKES FULL CHARGE OF NETWORK COMMUNICATION
+		/**
+		 * @hidden
+		 */
+		private communicator_: ICommunicator;
+
+		// COLLECTION EVENT ON ARRAY AND DEQUE IS PRE-PROCESS
+		// FLAG FOR EARSING IS REQUIRED TO ANTICIPATE INFINITE RECURSION
+		/**
+		 * @hidden
+		 */
+		private erasing_: boolean;
+
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
-		public constructor();
+		public constructor(systemArray: ExternalSystemArray);
+		
+		public constructor(systemArray: ExternalSystemArray, communicator: IClientDriver);
 
-		/**
-		 * Construct from an IClientDriver object.
-		 * 
-		 * @param driver
-		 */
-		public constructor(driver: IClientDriver);
-
-		public constructor(communicator: ICommunicator = null)
+		public constructor(systemArray: ExternalSystemArray, communicator: IClientDriver = null)
 		{
 			super();
 			
-			this.name = "";
+			this.system_array_ = systemArray;
 			this.communicator = communicator;
+
+			if (communicator != null)
+				(communicator as IClientDriver).listen(this);
+
+			this.name = "";
+			this.erasing_ = false;
 		}
 
 		/**
@@ -89,9 +98,28 @@ namespace samchon.protocol.external
 		{
 		}
 
+		/**
+		 * @hidden
+		 */
+		private handle_close(): void
+		{
+			if (this.erasing_ == true)
+				return;
+
+			if (this.system_array_ == null)
+				this.destructor();
+			else
+				std.remove(this.system_array_.begin(), this.system_array_.end(), this as ExternalSystem);
+		}
+
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		public getSystemArray(): ExternalSystemArray
+		{
+			return this.system_array_;
+		}
+
 		/**
 		 * Identifier of {@link ExternalSystem} is its {@link name}.
 		 */
@@ -99,13 +127,26 @@ namespace samchon.protocol.external
 		{
 			return this.name;
 		}
-		
+
 		/**
 		 * Get {@link name}.
 		 */
 		public getName(): string
 		{
 			return this.name;
+		}
+
+		protected set communicator(val: protocol.ICommunicator)
+		{
+			this.communicator_ = val;
+
+			if (this.communicator_ != null)
+				this.communicator.onClose = this.handle_close.bind(this);
+		}
+
+		protected get communicator(): protocol.ICommunicator
+		{
+			return this.communicator_;
 		}
 
 		/* ---------------------------------------------------------
@@ -162,84 +203,25 @@ namespace samchon.protocol.external
 			return "role";
 		}
 
-		/**
-		 * @inheritdoc
-		 */
-		public toXML(): library.XML
-		{
-			let xml: library.XML = super.toXML();
-			xml.erase("erasing_");
-
-			return xml;
-		}
-
 		/* ---------------------------------------------------------
 			HIDDEN MEMBERS AND SETTERS
 		--------------------------------------------------------- */
-		/**
-		 * @hidden
-		 */
-		private communicator_: ICommunicator;
-
-		/**
-		 * @hidden
-		 */
-		private external_system_array_: ExternalSystemArray = null;
-
-		// COLLECTION EVENT ON ARRAY AND DEQUE IS PRE-PROCESS
-		// FLAG FOR EARSING IS REQUIRED TO ANTICIPATE INFINITE RECURSION
-		/**
-		 * @hidden
-		 */
-		private erasing_: boolean = false;
-
-		/**
-		 * @hidden
-		 */
-		private set external_system_array(system_array: ExternalSystemArray)
-		{
-			////////
-			// SOME WEIRDO DEVELOPER CLOSES COMMUNICATOR ON CONSTRUCTION LEVEL
-			// THUS, IT REQUIRES THOSE INSPECTIONS
-			////////
-			// IF THE CONNECTION WAS CLOSED BY USER IN CONSTRUCTION LEVEL
-			if (this.erasing_ == true && this.external_system_array_ == null)
-			{
-				// ERASE THIS SYSTEM IMMEDIATELY
-				std.remove(system_array.begin(), system_array.end(), this as ExternalSystem);
-			}
-			this.external_system_array_ = system_array;
-		}
-
-		/**
-		 * A network communicator with external system.
-		 */
-		protected set communicator(val: ICommunicator)
-		{
-			// SET MEMBER
-			this.communicator_ = val;
-			if (this.communicator_ == null)
-				return;
-
-			// LISTEN DATA IF ~
-			if ((this.communicator as IClientDriver).listen != undefined)
-				(this.communicator as IClientDriver).listen(this);
-
-			// HANDLE CLOSE
-			this.communicator_.onClose = this.handle_close.bind(this);
-		}
-
-		/**
-		 * @hidden
-		 */
-		private handle_close(): void
-		{
-			if (this.erasing_ == false && this.external_system_array_ != null)
-				std.remove
-				(
-					this.external_system_array_.begin(), this.external_system_array_.end(),
-					this as ExternalSystem
-				);
-		}
+		///**
+		// * @hidden
+		// */
+		//private set external_system_array(system_array: ExternalSystemArray)
+		//{
+		//	////////
+		//	// SOME WEIRDO DEVELOPER CLOSES COMMUNICATOR ON CONSTRUCTION LEVEL
+		//	// THUS, IT REQUIRES THOSE INSPECTIONS
+		//	////////
+		//	// IF THE CONNECTION WAS CLOSED BY USER IN CONSTRUCTION LEVEL
+		//	if (this.erasing_ == true && this.external_system_array_ == null)
+		//	{
+		//		// ERASE THIS SYSTEM IMMEDIATELY
+		//		std.remove(system_array.begin(), system_array.end(), this as ExternalSystem);
+		//	}
+		//	this.external_system_array_ = system_array;
+		//}
 	}
 }

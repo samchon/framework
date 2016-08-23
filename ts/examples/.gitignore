@@ -3,3 +3,5 @@
 
 !chat-application/include/*.js
 !chat-appliaction/include/*.js.map
+
+!interaction/execute.bat

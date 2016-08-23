@@ -114,7 +114,7 @@ namespace server
 		--------------------------------------------------------- */
 		public sendData(invoke: protocol.Invoke): void
 		{
-			console.log("SENT DATA: " + invoke.getListener());
+			console.log("SENT DATA: " + invoke.toXML().toString());
 
 			super.sendData(invoke);
 		}
@@ -132,7 +132,7 @@ namespace server
 		--------------------------------------------------------- */
 		public replyData(invoke: protocol.Invoke): void
 		{
-			console.log("REPLIED DATA: " + invoke.getListener());
+			console.log("REPLIED DATA: " + invoke.toXML().toString());
 			
 			super.replyData(invoke);
 		}

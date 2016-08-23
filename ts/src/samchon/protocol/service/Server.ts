@@ -1,5 +1,7 @@
 ﻿/// <reference path="../../API.ts" />
 
+/// <reference path="../Server.ts" />
+
 namespace samchon.protocol.service
 {
 	export abstract class Server
@@ -19,10 +21,16 @@ namespace samchon.protocol.service
 		{
 			super();
 
+			// INITIALIZE USER MAPS
 			this.session_map = new std.HashMap<string, User>();
 			this.account_map = new std.HashMap<string, User>();
 		}
 
+		/**
+		 * Factory method creating {@link User} object.
+		 * 
+		 * @return A newly created {@link User} object.
+		 */
 		protected abstract createUser(): User;
 
 		/* ------------------------------------------------------------------

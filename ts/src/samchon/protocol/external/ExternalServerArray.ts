@@ -108,7 +108,6 @@ namespace samchon.protocol.external
 					continue;
 
 				(system as IExternalServer).connect();
-				system["communicator"].onClose = this.handle_system_close.bind(this, system);
 			}
 		}
 	}

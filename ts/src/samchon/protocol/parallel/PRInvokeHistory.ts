@@ -6,8 +6,15 @@ namespace samchon.protocol.parallel
 {
 	export class PRInvokeHistory extends InvokeHistory
 	{
-		private index: number;
-		private size: number;
+		/**
+		 * Index number of initial piece.
+		 */
+		private first: number;
+		
+		/**
+		 * Index number of final piece.
+		 */
+		private last: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -30,24 +37,31 @@ namespace samchon.protocol.parallel
 			
 			if (invoke == null)
 			{
-				this.index = 0;
-				this.size = 0;
+				this.first = 0;
+				this.last = 0;
 			}
 			else
 			{
-				this.index = invoke.get("piece_index").getValue() as number;
-				this.size = invoke.get("piece_size").getValue() as number;
+				this.first = invoke.get("piece_first").getValue() as number;
+				this.last = invoke.get("piece_last").getValue() as number;
 			}
 		}
 		
-		public getIndex(): number
+		public getFirst(): number
 		{
-			return this.index;
+			return this.first;
+		}
+		public getLast(): number
+		{
+			return this.last;
 		}
 
-		public getSize(): number
+		/**
+		 * Compute number of allocated pieces.
+		 */
+		public computeSize(): number
 		{
-			return this.size;
+			return this.last;
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace samchon.protocol.slave
 		 */
 		public constructor()
 		{
-			super();
+			super(null);
 		}
 
 		public replyData(invoke: Invoke): void

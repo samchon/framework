@@ -1857,8 +1857,8 @@ var std;
         /**
          * <p> An abstract container. </p>
          *
-         * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank">
-         * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" />
+         * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" />
          * </a> </p>
          *
          * <h3> Container properties </h3>
@@ -1933,8 +1933,8 @@ var std;
      * <p> There is not a single type of {@link Iterator bidirectional iterator}: {@link IContainer Each container}
      * may define its own specific iterator type able to iterate through it and access its elements. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * @reference http://www.cplusplus.com/reference/iterator/BidirectionalIterator
@@ -2039,8 +2039,8 @@ var std;
      * first element in a range is reversed, the reversed iterator points to the element before the first element (this
      * would be the past-the-end element of the reversed range). </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * @reference http://www.cplusplus.com/reference/iterator/reverse_iterator
@@ -2051,6 +2051,11 @@ var std;
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         function ReverseIterator(base) {
             if (base == null)
                 _super.call(this, null);
@@ -2059,6 +2064,17 @@ var std;
                 this.base_ = base.prev();
             }
         }
+        /**
+         * <p> Return base iterator. </p>
+         *
+         * <p> Return a reference of the base iteraotr. </p>
+         *
+         * <p> The base iterator is an iterator of the same type as the one used to construct the {@link ReverseIterator},
+         * but pointing to the element next to the one the {@link ReverseIterator} is currently pointing to
+         * (a {@link ReverseIterator} has always an offset of -1 with respect to its base iterator).
+         *
+         * @return A reference of the base iterator, which iterates in the opposite direction.
+         */
         ReverseIterator.prototype.base = function () {
             return this.base_.next();
         };
@@ -2066,6 +2082,11 @@ var std;
             /* ---------------------------------------------------------
                 ACCESSORS
             --------------------------------------------------------- */
+            /**
+             * <p> Get value of the iterator is pointing. </p>
+             *
+             * @return A value of the reverse iterator.
+             */
             get: function () {
                 return this.base_.value;
             },
@@ -2807,6 +2828,11 @@ var std;
             get: function () {
                 return this.deque.at(this.index_);
             },
+            /**
+             * Set value of the iterator is pointing to.
+             *
+             * @param val Value to set.
+             */
             set: function (val) {
                 this.deque.set(this.index_, val);
             },
@@ -2906,11 +2932,16 @@ var std;
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         function DequeReverseIterator(base) {
             _super.call(this, base);
         }
         /**
-         * @inheritdoc
+         * @hidden
          */
         DequeReverseIterator.prototype.create_neighbor = function () {
             return new DequeReverseIterator(null);
@@ -2920,7 +2951,9 @@ var std;
                 ACCESSORS
             --------------------------------------------------------- */
             /**
-             * Set value.
+             * Set value of the iterator is pointing to.
+             *
+             * @param val Value to set.
              */
             set: function (val) {
                 this.base_.value = val;
@@ -3042,8 +3075,8 @@ var std;
      * <p> All objects thrown by components of the standard library are derived from this class.
      * Therefore, all standard exceptions can be caught by catching this type by reference. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/exception/exception
      * @author Jeongho Nam <http://samchon.org>
@@ -3106,8 +3139,8 @@ var std;
      *
      * <p> It is used as a base class for several logical error exceptions. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/logic_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3137,8 +3170,8 @@ var std;
      * <p> No component of the standard library throws exceptions of this type. It is designed as a standard
      * exception to be thrown by programs. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a></p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a></p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/domain_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3164,8 +3197,8 @@ var std;
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
      * also throw exceptions of this type to signal invalid arguments. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/invalid_argument
      * @author Jeongho Nam <http://samchon.org>
@@ -3191,8 +3224,8 @@ var std;
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library,
      * such as vector and string also throw exceptions of this type to signal errors resizing. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/length_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3219,8 +3252,8 @@ var std;
      * such as vector, deque, string and bitset also throw exceptions of this type to signal arguments
      * out of range. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/out_of_range
      * @author Jeongho Nam <http://samchon.org>
@@ -3253,8 +3286,8 @@ var std;
      *
      * <p> It is used as a base class for several runtime error exceptions. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/runtime_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3280,8 +3313,8 @@ var std;
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
      * also throw exceptions of this type to signal range errors. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/overflow_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3307,8 +3340,8 @@ var std;
      * <p> No component of the standard library throws exceptions of this type. It is designed as a standard
      * exception to be thrown by programs. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/underflow_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3335,8 +3368,8 @@ var std;
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
      * also throw exceptions of this type to signal range errors. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/range_error
      * @author Jeongho Nam <http://samchon.org>
@@ -3845,8 +3878,8 @@ var std;
          * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
          * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
          *
-         * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
-         * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
+         * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
          *
          * <h3> Container properties </h3>
          * <dl>
@@ -4149,8 +4182,8 @@ var std;
     /**
      * <p> An iterator of {@link MapContainer map container}. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -4277,8 +4310,8 @@ var std;
     /**
      * <p> A reverse-iterator of {@link MapContainer map container}. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -4287,9 +4320,17 @@ var std;
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         function MapReverseIterator(base) {
             _super.call(this, base);
         }
+        /**
+         * @hidden
+         */
         MapReverseIterator.prototype.create_neighbor = function () {
             return new MapReverseIterator(null);
         };
@@ -4350,8 +4391,8 @@ var std;
          * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
          * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
          *
-         * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
-         * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
+         * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
          *
          * <h3> Container properties </h3>
          * <dl>
@@ -4914,8 +4955,8 @@ var std;
      * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that
      * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /> </a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * <h3> Container properties </h3>
@@ -5171,8 +5212,8 @@ var std;
          * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
          * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
          *
-         * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
-         * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+         * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
          *
          * <h3> Container properties </h3>
          * <dl>
@@ -5420,8 +5461,8 @@ var std;
     /**
      * <p> An iterator of a Set. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -5521,8 +5562,8 @@ var std;
     /**
      * <p> A reverse-iterator of Set. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
      *
      * @param <T> Type of the elements.
      *
@@ -5533,11 +5574,16 @@ var std;
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         function SetReverseIterator(base) {
             _super.call(this, base);
         }
         /**
-         * @inheritdoc
+         * @hidden
          */
         SetReverseIterator.prototype.create_neighbor = function () {
             return new SetReverseIterator(null);
@@ -5901,8 +5947,8 @@ var std;
          * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
          * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
          *
-         * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
-         * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+         * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
          *
          * <h3> Container properties </h3>
          * <dl>
@@ -6815,6 +6861,11 @@ var std;
             get: function () {
                 return this.value_;
             },
+            /**
+             * Set value of the iterator is pointing to.
+             *
+             * @param val Value to set.
+             */
             set: function (val) {
                 this.value_ = val;
             },
@@ -6871,11 +6922,16 @@ var std;
         /* ---------------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------------- */
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         function ListReverseIterator(base) {
             _super.call(this, base);
         }
         /**
-         * @inheritdoc
+         * @hidden
          */
         ListReverseIterator.prototype.create_neighbor = function () {
             return new ListReverseIterator(null);
@@ -6885,7 +6941,9 @@ var std;
                 ACCESSORS
             --------------------------------------------------------- */
             /**
-             * @inheritdoc
+             * Set value of the iterator is pointing to.
+             *
+             * @param val Value to set.
              */
             set: function (val) {
                 this.base_.value = val;
@@ -6929,8 +6987,8 @@ var std;
      * By default, if no container class is specified for a particular {@link Queue} class instantiation, the standard
      * container {@link List} is used. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * @param <T> Type of elements.
@@ -7265,8 +7323,8 @@ var std;
      * By default, if no container class is specified for a particular {@link Stack} class instantiation, the standard
      * container {@link List} is used. </p>
      *
-     * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" target="_blank">
-     * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
      * </p>
      *
      * @param <T> Type of elements.
@@ -7862,7 +7920,7 @@ var std;
             var it;
             if (node == null)
                 it = this.end();
-            else if (this.tree_.key_comp()(node.value.first, pair.first) == true)
+            else if (this.key_comp()(node.value.first, pair.first) == true)
                 it = node.value.next();
             else
                 it = node.value;
@@ -7880,7 +7938,7 @@ var std;
                 return this.end();
             // VALIDATE HINT
             var ret;
-            var compare = this.tree_.key_comp();
+            var compare = this.key_comp();
             // hint < current && current < next
             if (compare(hint.first, pair.first) == true
                 && (hint.next().equal_to(this.end()) || compare(pair.first, hint.next().first) == true)) {
@@ -8126,9 +8184,9 @@ var std;
             else if (std.equal_to(node.value.first, pair.first) == true) {
                 it = node.value.next();
             }
-            else if (this.tree_.key_comp()(node.value.first, pair.first) == true) {
+            else if (this.key_comp()(node.value.first, pair.first) == true) {
                 it = node.value.next();
-                while (it.equal_to(this.end()) == false && this.tree_.key_comp()(it.first, pair.first))
+                while (it.equal_to(this.end()) == false && this.key_comp()(it.first, pair.first))
                     it = it.next();
             }
             else
@@ -8147,7 +8205,7 @@ var std;
                 return this.end();
             // VALIDATE HINT
             var ret;
-            var compare = this.tree_.key_comp();
+            var compare = this.key_comp();
             // hint <= current && current <= next
             if ((compare(hint.first, pair.first) || std.equal_to(hint.first, pair.first))
                 && (hint.next().equal_to(this.end()) || (compare(pair.first, hint.next().first) || std.equal_to(pair.first, hint.next().first)))) {
@@ -8388,9 +8446,9 @@ var std;
             else if (std.equal_to(node.value.value, val) == true) {
                 it = node.value.next();
             }
-            else if (std.less(node.value.value, val) == true) {
+            else if (this.key_comp()(node.value.value, val) == true) {
                 it = node.value.next();
-                while (it.equal_to(this.end()) == false && std.less(it.value, val))
+                while (it.equal_to(this.end()) == false && this.key_comp()(it.value, val))
                     it = it.next();
             }
             else {
@@ -8611,7 +8669,7 @@ var std;
          * @inheritdoc
          */
         TreeSet.prototype.upper_bound = function (val) {
-            return this.tree_.lower_bound(val);
+            return this.tree_.upper_bound(val);
         };
         /**
          * @inheritdoc
@@ -8638,7 +8696,7 @@ var std;
             var it;
             if (node == null)
                 it = this.end();
-            else if (std.less(node.value.value, val) == true)
+            else if (this.key_comp()(node.value.value, val) == true)
                 it = node.value.next();
             else
                 it = node.value;
@@ -9216,7 +9274,9 @@ var std;
                 return this.vector.at(this.index_);
             },
             /**
-             * Set value.
+             * Set value of the iterator is pointing to.
+             *
+             * @param val Value to set.
              */
             set: function (val) {
                 this.vector.set(this.index_, val);
@@ -9317,11 +9377,16 @@ var std;
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         function VectorReverseIterator(base) {
             _super.call(this, base);
         }
         /**
-         * @inheritdoc
+         * @hidden
          */
         VectorReverseIterator.prototype.create_neighbor = function () {
             return new VectorReverseIterator(null);
@@ -9331,7 +9396,9 @@ var std;
                 ACCESSORS
             --------------------------------------------------------- */
             /**
-             * Set value.
+             * Set value of the iterator is pointing to.
+             *
+             * @param val Value to set.
              */
             set: function (val) {
                 this.base_.value = val;
@@ -9540,8 +9607,8 @@ var std;
         /**
          * <p> Hash buckets storing {@link SetIterator SetIterators}. </p>
          *
-         * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
-         * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /> </a>
+         * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /> </a>
          * </p>
          *
          * @author Jeongho Nam <http://samchon.org>
@@ -10507,7 +10574,7 @@ var std;
                     return node.value.next();
                 else {
                     var it = node.value;
-                    while (!std.equal_to(it, this.map_.end()) && std.less(it.first, key))
+                    while (!std.equal_to(it, this.map_.end()) && this.compare_(it.first, key))
                         it = it.next();
                     return it;
                 }
@@ -10540,7 +10607,7 @@ var std;
                     return this.map_.end();
                 else {
                     var it = node.value;
-                    while (!std.equal_to(it, this.map_.end()) && (std.equal_to(it.first, key) || std.less(it.first, key)))
+                    while (!std.equal_to(it, this.map_.end()) && (std.equal_to(it.first, key) || this.compare_(it.first, key)))
                         it = it.next();
                     return it;
                 }
@@ -10723,7 +10790,7 @@ var std;
                     return node.value;
                 else {
                     var it = node.value;
-                    while (!std.equal_to(it, this.set_.end()) && std.less(it.value, val))
+                    while (!std.equal_to(it, this.set_.end()) && this.compare_(it.value, val))
                         it = it.next();
                     return it;
                 }
@@ -10756,7 +10823,7 @@ var std;
                     return this.set_.end();
                 else {
                     var it = node.value;
-                    while (!std.equal_to(it, this.set_.end()) && (std.equal_to(it.value, val) || std.less(it.value, val)))
+                    while (!std.equal_to(it, this.set_.end()) && (std.equal_to(it.value, val) || this.compare_(it.value, val)))
                         it = it.next();
                     return it;
                 }

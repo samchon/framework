@@ -18,7 +18,7 @@ namespace tsp_slave
 
 	export class PackerSlave extends slave.Slave
 	{
-		protected optimize(xml: library.XML, index: number, size: number): void
+		protected optimize(xml: library.XML, first: number, last: number): void
 		{
 			console.log("A packing optimization command has received");
 
@@ -27,7 +27,7 @@ namespace tsp_slave
 			packer.construct(xml);
 
 			// OPTIMIZE
-			packer.optimize(index, size);
+			packer.optimize(first, last);
 
 			// REPORT TO ITS MASTER
 			console.log("Report Packing optimization result: $" + packer.computePrice());

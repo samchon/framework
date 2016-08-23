@@ -5,7 +5,7 @@
 namespace samchon.protocol
 {
 	/**
-	 * <p> An interface for connected client. </p>
+	 * <p> An interface for communicator with connected client. </p>
 	 * 
 	 * <p> {@link IClientDriver} is a type of {@link ICommunicator}, specified for communication with connected client
 	 * in a server. It takes full charge of network communication with the connected client. </p>

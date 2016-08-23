@@ -308,13 +308,14 @@ namespace samchon.library
 			}
 			else
 			{
-				let pairs: Array<std.Pair<string, string>> = args[0];
-				if (pairs.length == 0)
+				if (args.length == 0)
 					return str;
 
-				for (let i: number = 0; i < pairs.length; i++)
-					str = str.split(pairs[i].first).join(pairs[i].second);
-
+				for (let i: number = 0; i < args.length; i++)
+				{
+                    let pair: std.Pair<string, string> = args[i];
+					str = str.split(pair.first).join(pair.second);
+                }
 				return str;
 			}
 		}

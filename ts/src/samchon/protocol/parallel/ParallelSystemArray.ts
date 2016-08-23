@@ -4,9 +4,19 @@
 
 namespace samchon.protocol.parallel
 {
+	/**
+	 * <p> A manager containing {@link ParallelSystem} objects. </p>
+	 * 
+	 * 
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class ParallelSystemArray
 		extends external.ExternalSystemArray
 	{
+		/**
+		 * @see {@link ParallelSystem.progress_list}, {@link ParallelSystem.history_list}
+		 */
 		private history_sequence: number;
 
 		/* ---------------------------------------------------------
@@ -25,30 +35,54 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
+		/**
+		 * 
+		 * @param invoke An invoke message requesting parallel process.
+		 * @param size Number of pieces.
+		 */
 		public sendSegmentData(invoke: Invoke, size: number): void
 		{
 			this.sendPieceData(invoke, 0, size);
 		}
 
-		public sendPieceData(invoke: Invoke, index: number, size: number): void
+		/**
+		 * 
+		 * 
+		 * @param invoke An invoke message requesting parallel process.
+		 * @param first Initial piece's index in a section.
+		 * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains 
+		 *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
+		 *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
+		 */
+		public sendPieceData(invoke: Invoke, first: number, last: number): void
 		{
 			invoke.push_back(new InvokeParameter("invoke_history_uid", ++this.history_sequence));
+
+			let size: number = last - first;
 
 			for (let i: number = 0; i < this.size(); i++)
 			{
 				let system: ParallelSystem = this.at(i) as ParallelSystem;
 
 				let piece_size: number = (i == this.size() - 1) 
-					? size - index
+					? size - first
 					: Math.floor(size / this.size() * system.getPerformance());
 				if (piece_size == 0)
 					continue;
 
-				system["send_piece_data"](invoke, index, piece_size);
-				index += piece_size;
+				system["send_piece_data"](invoke, first, first + piece_size);
+				first += piece_size;
 			}
 		}
 
+		/**
+		 * 
+		 * @param history 
+		 * 
+		 * @return Whether the processes with same uid are all fininsed.
+		 * 
+		 * @see {@link ParallelSystem.report_invoke_history}, {@link normalize_performance}
+		 */
 		protected notify_end(history: PRInvokeHistory): boolean
 		{
 			let uid: number = history.getUID();
@@ -56,7 +90,7 @@ namespace samchon.protocol.parallel
 			// ALL THE SUB-TASKS ARE DONE?
 			for (let i: number = 0; i < this.size(); i++)
 				if (this.at(i)["progress_list"].has(uid) == true)
-					return false;
+					return false; // IT'S ON A PROCESS IN SOME SYSTEM.
 
 			///////
 			// RE-CALCULATE PERFORMANCE INDEX
@@ -72,7 +106,7 @@ namespace samchon.protocol.parallel
 					continue;
 
 				let my_history: PRInvokeHistory = system["history_list"].get(uid);
-				let performance_index: number = my_history.getSize() / my_history.computeElapsedTime();
+				let performance_index: number = my_history.computeSize() / my_history.computeElapsedTime();
 
 				system_pairs.push_back(std.make_pair(system, performance_index));
 				performance_index_averge += performance_index;
@@ -98,6 +132,9 @@ namespace samchon.protocol.parallel
 			return true;
 		}
 
+		/**
+		 * @see {@link ParallelSystem.performance}
+		 */
 		private normalize_performance(): void
 		{
 			// CALC AVERAGE

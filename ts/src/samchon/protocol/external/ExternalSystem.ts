@@ -174,7 +174,11 @@ namespace samchon.protocol.external
 		 */
 		public replyData(invoke: Invoke): void
 		{
-			invoke.apply(this);
+			if (invoke.apply(this) == true)
+				return;
+
+			if (this.system_array_ != null)
+				this.system_array_.replyData(invoke);
 
 			for (let i: number = 0; i < this.size(); i++)
 				this.at(i).replyData(invoke);

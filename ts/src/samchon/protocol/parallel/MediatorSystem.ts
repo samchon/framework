@@ -7,8 +7,8 @@ namespace samchon.protocol.parallel
 	export abstract class MediatorSystem
 		extends slave.SlaveSystem
 	{
-		private system_array: ParallelSystemArrayMediator;
-		private progress_list: std.HashMap<number, InvokeHistory>;
+		private system_array_mediator_: ParallelSystemArrayMediator;
+		private progress_list_: std.HashMap<number, InvokeHistory>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -17,8 +17,8 @@ namespace samchon.protocol.parallel
 		{
 			super();
 
-			this.system_array = systemArray;
-			this.progress_list = new std.HashMap<number, InvokeHistory>();
+			this.system_array_mediator_ = systemArray;
+			this.progress_list_ = new std.HashMap<number, InvokeHistory>();
 		}
 
 		public abstract start(): void;
@@ -32,22 +32,41 @@ namespace samchon.protocol.parallel
 		}
 
 		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		public getSystemArray(): ParallelSystemArrayMediator
+		{
+			return this.system_array_mediator_;
+		}
+
+		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
 		private notify_end(uid: number): void
 		{
-			if (this.progress_list.has(uid) == false)
+			if (this.progress_list_.has(uid) == false)
 				return;
 
-			let history: InvokeHistory = this.progress_list.get(uid);
-			this.progress_list.erase(uid);
+			let history: InvokeHistory = this.progress_list_.get(uid);
+			this.progress_list_.erase(uid);
 
 			this.sendData(history.toInvoke());
 		}
 
 		public replyData(invoke: protocol.Invoke): void
 		{
-			this.system_array.sendData(invoke);
+			if (invoke.apply(this) == true)
+				return;
+			else if (invoke.has("invoke_history_uid") == true)
+			{
+				let first: number = invoke.get("piece_first").getValue();
+				let last: number = invoke.get("piece_last").getValue();
+
+				invoke.erase(invoke.end().advance(-2), invoke.end());
+				this.system_array_mediator_.sendPieceData(invoke, first, last);
+			}
+			else
+				this.system_array_mediator_.sendData(invoke);
 		}
 	}
 }

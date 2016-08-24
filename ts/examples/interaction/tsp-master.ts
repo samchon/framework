@@ -20,9 +20,7 @@ namespace tsp_master
 
 		public constructor()
 		{
-			super(37110);
-			
-			this.open(37100);
+			super("TSP Master");
 		}
 
 		protected optimize(xml: library.XML): void
@@ -65,7 +63,13 @@ namespace tsp_master
 				this.chief.sendData(new protocol.Invoke("printTSP", this.best_travel.toXML()));
 			}
 		}
+
+		public static main(): void
+		{
+			let master = new TSPMaster();
+			master.open(37100);
+		}
 	}
 }
 
-new tsp_master.TSPMaster();
+tsp_master.TSPMaster.main();

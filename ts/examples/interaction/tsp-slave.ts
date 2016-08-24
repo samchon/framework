@@ -18,6 +18,11 @@ namespace tsp_slave
 
 	export class TSPSlave extends slave.Slave
 	{
+		public constructor()
+		{
+			super("TSP Slave");
+		}
+
 		protected optimize(xml: library.XML, first: number, last: number): void
 		{
 			console.log("A TSP optimization command has received");
@@ -41,18 +46,8 @@ namespace tsp_slave
 
 		public static main(): void
 		{
-			let ip: string;
-			
-			if (process.argv.length == 3)
-				ip = process.argv[2];
-			else
-			{
-				console.log("Master's IP address: ");
-				ip = scanf("%s");
-			}
-
 			let slave: TSPSlave = new TSPSlave();
-			slave.connect(ip, 37100);
+			slave.connect("127.0.0.1", 37100);
 		}
 	}
 }

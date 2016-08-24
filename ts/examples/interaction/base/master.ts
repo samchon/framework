@@ -47,32 +47,8 @@ namespace master
 		}
 
 		/* ---------------------------------------------------------
-			INVOKE MESSAGE CHAIN
+			INVOKE MESSAGE CHAIN - REPLY_DATA
 		--------------------------------------------------------- */
-		//--------
-		// SEND_DATA
-		//--------
-		private send_system_structure(): void
-		{
-			// UID IS SPECIFIED
-			if (this.uid == -1)
-				return;
-
-			// SLAVES' UID ARE ALSO SPECIFIED
-			for (let i: number = 0; i < this.size(); i++)
-				if ((this.at(i) as SlaveDriver)["uid"] == -1)
-					return;
-
-			// THEN SEND TREE-STRUCTURED XML MESSAGE
-			let xml: library.XML = this.toXML();
-			xml.setTag("system");
-
-			this.monitor.sendData(new protocol.Invoke("construct", xml));
-		}
-
-		//--------
-		// REPLY_DATA
-		//--------
 		private set_uid(val: number): void
 		{
 			this.uid = val;
@@ -85,12 +61,6 @@ namespace master
 			{
 				xml.clear();
 				xml.setTag("system");
-
-				let role: library.XML = new library.XML();
-				role.setTag("role");
-				role.setProperty("name", this.name);
-
-				xml.push(role);
 			}
 			this.chief.sendData(new protocol.Invoke("construct", xml));
 		}
@@ -102,23 +72,28 @@ namespace master
 	export class SlaveDriver
 		extends protocol.parallel.ParallelSystem
 	{
-		private uid: number = -1;
+		private uid: number;
+
+		protected get master(): Master
+		{
+			return this.getSystemArray() as Master;
+		}
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(master: Master, driver: protocol.IClientDriver)
+		public constructor(master: protocol.parallel.ParallelSystemArray, driver: protocol.IClientDriver)
 		{
 			super(master, driver);
 
-			if (master["uid"] != -1)
-				this.sendData(new protocol.Invoke("set_master_uid", master["uid"]));
+			this.uid = -1;
+			if ((master as Master)["uid"] != -1)
+				this.sendData(new protocol.Invoke("set_master_uid", (master as Master)["uid"]));
 		}
-
 		public destructor(): void
 		{
 			if (this.uid != -1)
-				this.master["send_system_structure"]();
+				this.master["monitor"].sendSystemStructure();
 		}
 
 		public construct(xml: library.XML): void
@@ -126,21 +101,12 @@ namespace master
 			super.construct(xml);
 
 			if (this.uid != -1)
-				this.master["send_system_structure"]();
+				this.master["monitor"].sendSystemStructure();
 		}
-
 		public createChild(xml: library.XML): protocol.external.ExternalSystemRole
 		{
 			// DO NOT CREATE CHILDREN, EXTERNAL_SYSTEM_ROLE
 			return null;
-		}
-
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		protected get master(): Master
-		{
-			return this.getSystemArray() as Master;
 		}
 
 		/* ---------------------------------------------------------
@@ -180,6 +146,11 @@ namespace master
 			this.connector.connect("127.0.0.1", 37000);
 		}
 
+		private set_chief_uid(val: number): void
+		{
+			this.uid = val;
+		}
+
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
@@ -192,7 +163,8 @@ namespace master
 		}
 		public replyData(invoke: protocol.Invoke): void
 		{
-			this.master.replyData(invoke);
+			if (invoke.apply(this) == false)
+				this.master.replyData(invoke);
 		}
 	}
 }

@@ -2,11 +2,9 @@
 /// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
 
 /// <reference path="../typings/node/node.d.ts" />
-/// <reference path="../typings/scanf/scanf.d.ts" />
 
 import std = require("typescript-stl");
 import samchon = require("samchon-framework");
-import scanf = require("scanf");
 
 import slave = require("./base/slave");
 import pack = require("./base/packer");
@@ -18,6 +16,11 @@ namespace tsp_slave
 
 	export class PackerSlave extends slave.Slave
 	{
+		public constructor()
+		{
+			super("Packer Slave");
+		}
+
 		protected optimize(xml: library.XML, first: number, last: number): void
 		{
 			console.log("A packing optimization command has received");
@@ -37,22 +40,15 @@ namespace tsp_slave
 
 		public static main(): void
 		{
-			let ip: string;
-			let port: number;
+			let target: number;
 
-			if (process.argv.length == 4)
-				[ip, port] = [process.argv[2], Number(process.argv[3])];
+			if (process.argv.length == 3)
+				target = Number(process.argv[2]);
 			else
-			{
-				console.log("Master's IP address: ");
-				ip = scanf("%s");
-
-				console.log("Master's Port number (master: #37300, mediator: #37350): ");
-				port = scanf("%d");
-			}
+				target = 1;
 
 			let slave: PackerSlave = new PackerSlave();
-			slave.connect(ip, port);
+			slave.connect("127.0.0.1", target == 2 ? 37250 : 37200);
 		}
 	}
 }

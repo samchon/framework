@@ -12,7 +12,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{e4de4dc3-2ace-4b62-8a04-67faccd1a586}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>chief.ts</StartupFile>
+    <StartupFile>packer-mediator.ts</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
     <SearchPath>
     </SearchPath>
@@ -59,7 +59,6 @@
     <TypeScriptCompile Include="base\monitor-driver.ts" />
     <TypeScriptCompile Include="base\packer.ts" />
     <TypeScriptCompile Include="base\slave.ts" />
-    <TypeScriptCompile Include="chief - Copy.ts" />
     <TypeScriptCompile Include="chief.ts" />
     <TypeScriptCompile Include="packer-master.ts" />
     <TypeScriptCompile Include="packer-mediator.ts" />

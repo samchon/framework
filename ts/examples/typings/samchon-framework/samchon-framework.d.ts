@@ -4896,200 +4896,6 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol.external {
     /**
-     * <p> An external system driver. </p>
-     *
-     * <p> The {@link ExternalSystem} class represents an external system, connected and interact with this system.
-     * {@link ExternalSystem} takes full charge of network communication with external system have connected.
-     * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
-     * class, {@link ExternalSystemRole} objects. </p>
-     *
-     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a> </p>
-     *
-     * <h4> Bridge & Proxy Pattern </h4>
-     * <p> The {@link ExternalSystem} class can be a <i>bridge</i> for <i>logical proxy</i>. In framework within user,
-     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
-     *
-     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called <i>Bridge Pattern</i> and <i>Proxy Pattern</i>. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalSystem extends EntityDequeCollection<ExternalSystemRole> implements IProtocol {
-        /**
-         * The name represents external system have connected.
-         */
-        protected name: string;
-        /**
-         * @hidden
-         */
-        private system_array_;
-        /**
-         * @hidden
-         */
-        private communicator_;
-        /**
-         * @hidden
-         */
-        private erasing_;
-        constructor(systemArray: ExternalSystemArray);
-        constructor(systemArray: ExternalSystemArray, communicator: IClientDriver);
-        /**
-         * Default Destructor.
-         */
-        destructor(): void;
-        /**
-         * @hidden
-         */
-        private handle_close();
-        getSystemArray(): ExternalSystemArray;
-        /**
-         * Identifier of {@link ExternalSystem} is its {@link name}.
-         */
-        key(): string;
-        /**
-         * Get {@link name}.
-         */
-        getName(): string;
-        protected communicator: protocol.ICommunicator;
-        close(): void;
-        /**
-         * Send {@link Invoke} message to external system.
-         *
-         * @param invoke An {@link Invoke} message to send.
-         */
-        sendData(invoke: Invoke): void;
-        /**
-         * Handle an {@Invoke} message have received.
-         *
-         * @param invoke An {@link Invoke} message have received.
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * Tag name of the {@link ExternalSytem} in {@link XML}.
-         *
-         * @return <i>system</i>.
-         */
-        TAG(): string;
-        /**
-         * Tag name of {@link ExternalSystemRole children elements} belonged to the {@link ExternalSytem} in {@link XML}.
-         *
-         * @return <i>role</i>.
-         */
-        CHILD_TAG(): string;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * <p> An external parallel system driver. </p>
-     *
-     *
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelSystem extends external.ExternalSystem {
-        /**
-         * A list of {@link Invoke} messages on process.
-         *
-         * @see {@link performance}
-         */
-        private progress_list;
-        /**
-         * A list of {@link Invoke} messages had processed.
-         *
-         * @see {@link performance}
-         */
-        private history_list;
-        /**
-         * <p> Performance index. </p>
-         *
-         * <p> A performance index that indicates how much fast the connected parallel system is. </p>
-         *
-         * <p> If this {@link ParallelSystem parallel system} hasn't any {@link Invoke} message
-         * {@link history_list had handled}, then the {@link performance performance index} will be 1, which means
-         * default and average value between all {@link ParallelSystem} instances (belonged to a same
-         * {@link ParallelSystemArray} object). </p>
-         *
-         * <p> You can specify this {@link performance} by yourself, but notice that, if the
-         * {@link performance performance index} is higher then other {@link ParallelSystem} objects, then this
-         * {@link ParallelSystem parallel system} will ordered to handle more processes than other {@link ParallelSystem}
-         * objects. Otherwise, the {@link performance performance index) is lower than others, of course, less processes
-         * will be delivered. </p>
-         *
-         * <p> This {@link performance index} is always re-calculated whenever {@link ParallelSystemArray} calls one of
-         * them below. </p>
-         *
-         * <ul>
-         *	<li> {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()} </li>
-         *	<li> {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()} </li>
-         * </ul>
-         *
-         * <p> If this class is a type of {@link DistributedSystem}, a derived class from the {@link ParallelSystem},
-         * then {@link DistributedSystemRole.sendData DistributedSystem.sendData()} also cause the re-calculation. </p>
-         *
-         * @see {@link progress_list}, {@link history_list}
-         */
-        protected performance: number;
-        constructor(systemArray: ParallelSystemArray);
-        constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
-        /**
-         * Get manager of this object, {@link systemArray}.
-         *
-         * @return A manager containing this {@link ParallelSystem} object.
-         */
-        getSystemArray(): ParallelSystemArray;
-        /**
-         * Get {@link performant performance index}.
-         *
-         * A performance index that indicates how much fast the connected parallel system is.
-         */
-        getPerformance(): number;
-        /**
-         * Send an {@link Invoke} message with index of segmentation.
-         *
-         * @param invoke An invoke message requesting parallel process.
-         * @param first Initial piece's index in a section.
-         * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
-         *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
-         *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
-         *
-         * @see {@link ParallelSystemArray.sendPieceData}
-         */
-        private send_piece_data(invoke, first, last);
-        /**
-         *
-         *
-         * @param xml
-         *
-         * @see {@link ParallelSystemArray.notify_end}
-         */
-        private report_invoke_history(xml);
-    }
-}
-declare namespace samchon.protocol.distributed {
-    abstract class DistributedSystem extends parallel.ParallelSystem {
-    }
-}
-declare namespace samchon.protocol.external {
-    /**
      * <p> An array and manager of {@link ExternalSystem external systems}. </p>
      *
      * <p> {@link ExternalSystemArray} is an abstract class contains and manages external system drivers,
@@ -5185,155 +4991,6 @@ declare namespace samchon.protocol.external {
          * @return <i>system</i>.
          */
         CHILD_TAG(): string;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * <p> A manager containing {@link ParallelSystem} objects. </p>
-     *
-     *
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelSystemArray extends external.ExternalSystemArray {
-        /**
-         * @see {@link ParallelSystem.progress_list}, {@link ParallelSystem.history_list}
-         */
-        private history_sequence;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         *
-         * @param invoke An invoke message requesting parallel process.
-         * @param size Number of pieces.
-         */
-        sendSegmentData(invoke: Invoke, size: number): void;
-        /**
-         *
-         *
-         * @param invoke An invoke message requesting parallel process.
-         * @param first Initial piece's index in a section.
-         * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
-         *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
-         *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
-         */
-        sendPieceData(invoke: Invoke, first: number, last: number): void;
-        /**
-         *
-         * @param history
-         *
-         * @return Whether the processes with same uid are all fininsed.
-         *
-         * @see {@link ParallelSystem.report_invoke_history}, {@link normalize_performance}
-         */
-        protected notify_end(history: PRInvokeHistory): boolean;
-        /**
-         * @see {@link ParallelSystem.performance}
-         */
-        private normalize_performance();
-    }
-}
-declare namespace samchon.protocol.distributed {
-    abstract class DistributedSystemArray extends parallel.ParallelSystemArray {
-        protected roles: std.HashMap<string, DistributedSystemRole>;
-    }
-}
-declare namespace samchon.protocol.external {
-    /**
-     * <p> A role of an external system. </p>
-     *
-     * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}.
-     * Extends this class and writes some methods related to the role. </p>
-     *
-     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a> </p>
-     *
-     * <h4> Proxy Pattern </h4>
-     * <p> The {@link ExternalSystemRole} class can be an <i>logical proxy</i>. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
-     *
-     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalSystemRole extends Entity implements IProtocol {
-        /**
-         * An {@link ExternalSystem external system} containing this {@link ExternalSystemRole role}.
-         */
-        private system;
-        /**
-         * <p> A name, represents and identifies this {@link ExternalSystemRole role}. </p>
-         *
-         * <p> This {@link name} is an identifier represents this {@link ExternalSystemRole role}. This {@link name} is
-         * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
-         * {@link name} should be unique in an {@link ExternalSystemArray}.
-         */
-        private name;
-        /**
-         * Constructor from a system.
-         *
-         * @param system An external system containing this role.
-         */
-        constructor(system: ExternalSystem);
-        /**
-         * Identifier of {@link ExternalSystemRole} is its {@link name}.
-         */
-        key(): string;
-        /**
-         * Get external system, this role is belonged to.
-         */
-        getSystem(): ExternalSystem;
-        /**
-         * Get name, who represents and identifies this role.
-         */
-        getName(): string;
-        /**
-         * Send an {@link Invoke} message to the external system via {@link system}.
-         *
-         * @param invoke An {@link Invoke} message to send to the external system.
-         */
-        sendData(invoke: Invoke): void;
-        /**
-         * <p> Handle replied {@link Invoke message} from the {@link system external system} belonged to. </p>
-         *
-         * <p> This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}.
-         * in the <i>invoke</i>. </p>
-         *
-         * @param invoke An {@link Invoke} message received from the {@link system external system}.
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * Tag name of the {@link ExternalSytemRole} in {@link XML}.
-         *
-         * @return <i>role</i>.
-         */
-        TAG(): string;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    abstract class DistributedSystemRole extends external.ExternalSystemRole {
-        private systems;
     }
 }
 declare namespace samchon.protocol.external {
@@ -5451,6 +5108,109 @@ declare namespace samchon.protocol.external {
          * @inheritdoc
          */
         close(): void;
+    }
+}
+declare namespace samchon.protocol.external {
+    /**
+     * <p> An external system driver. </p>
+     *
+     * <p> The {@link ExternalSystem} class represents an external system, connected and interact with this system.
+     * {@link ExternalSystem} takes full charge of network communication with external system have connected.
+     * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
+     * class, {@link ExternalSystemRole} objects. </p>
+     *
+     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a> </p>
+     *
+     * <h4> Bridge & Proxy Pattern </h4>
+     * <p> The {@link ExternalSystem} class can be a <i>bridge</i> for <i>logical proxy</i>. In framework within user,
+     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+     *
+     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called <i>Bridge Pattern</i> and <i>Proxy Pattern</i>. </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalSystem extends EntityDequeCollection<ExternalSystemRole> implements IProtocol {
+        /**
+         * The name represents external system have connected.
+         */
+        protected name: string;
+        /**
+         * @hidden
+         */
+        private system_array_;
+        /**
+         * @hidden
+         */
+        private communicator_;
+        /**
+         * @hidden
+         */
+        private erasing_;
+        constructor(systemArray: ExternalSystemArray);
+        constructor(systemArray: ExternalSystemArray, communicator: IClientDriver);
+        /**
+         * Default Destructor.
+         */
+        destructor(): void;
+        /**
+         * @hidden
+         */
+        private handle_close();
+        getSystemArray(): ExternalSystemArray;
+        /**
+         * Identifier of {@link ExternalSystem} is its {@link name}.
+         */
+        key(): string;
+        /**
+         * Get {@link name}.
+         */
+        getName(): string;
+        protected communicator: protocol.ICommunicator;
+        close(): void;
+        /**
+         * Send {@link Invoke} message to external system.
+         *
+         * @param invoke An {@link Invoke} message to send.
+         */
+        sendData(invoke: Invoke): void;
+        /**
+         * Handle an {@Invoke} message have received.
+         *
+         * @param invoke An {@link Invoke} message have received.
+         */
+        replyData(invoke: Invoke): void;
+        /**
+         * Tag name of the {@link ExternalSytem} in {@link XML}.
+         *
+         * @return <i>system</i>.
+         */
+        TAG(): string;
+        /**
+         * Tag name of {@link ExternalSystemRole children elements} belonged to the {@link ExternalSytem} in {@link XML}.
+         *
+         * @return <i>role</i>.
+         */
+        CHILD_TAG(): string;
     }
 }
 declare namespace samchon.protocol.external {
@@ -5747,34 +5507,126 @@ declare namespace samchon.protocol.external {
         connect(): void;
     }
 }
+declare namespace samchon.protocol.external {
+    /**
+     * <p> A role of an external system. </p>
+     *
+     * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}.
+     * Extends this class and writes some methods related to the role. </p>
+     *
+     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a> </p>
+     *
+     * <h4> Proxy Pattern </h4>
+     * <p> The {@link ExternalSystemRole} class can be an <i>logical proxy</i>. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+     *
+     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalSystemRole extends Entity implements IProtocol {
+        /**
+         * An {@link ExternalSystem external system} containing this {@link ExternalSystemRole role}.
+         */
+        private system;
+        /**
+         * <p> A name, represents and identifies this {@link ExternalSystemRole role}. </p>
+         *
+         * <p> This {@link name} is an identifier represents this {@link ExternalSystemRole role}. This {@link name} is
+         * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
+         * {@link name} should be unique in an {@link ExternalSystemArray}.
+         */
+        private name;
+        /**
+         * Constructor from a system.
+         *
+         * @param system An external system containing this role.
+         */
+        constructor(system: ExternalSystem);
+        /**
+         * Identifier of {@link ExternalSystemRole} is its {@link name}.
+         */
+        key(): string;
+        /**
+         * Get external system, this role is belonged to.
+         */
+        getSystem(): ExternalSystem;
+        /**
+         * Get name, who represents and identifies this role.
+         */
+        getName(): string;
+        /**
+         * Send an {@link Invoke} message to the external system via {@link system}.
+         *
+         * @param invoke An {@link Invoke} message to send to the external system.
+         */
+        sendData(invoke: Invoke): void;
+        /**
+         * <p> Handle replied {@link Invoke message} from the {@link system external system} belonged to. </p>
+         *
+         * <p> This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}.
+         * in the <i>invoke</i>. </p>
+         *
+         * @param invoke An {@link Invoke} message received from the {@link system external system}.
+         */
+        replyData(invoke: Invoke): void;
+        /**
+         * Tag name of the {@link ExternalSytemRole} in {@link XML}.
+         *
+         * @return <i>role</i>.
+         */
+        TAG(): string;
+    }
+}
 declare namespace samchon.protocol.slave {
     abstract class SlaveSystem extends external.ExternalSystem {
         /**
          * Default Constructor.
          */
         constructor();
-        replyData(invoke: Invoke): void;
+        private _replyData(invoke);
     }
 }
-declare namespace samchon.protocol.external {
+declare namespace samchon.protocol.parallel {
     abstract class MediatorSystem extends slave.SlaveSystem {
-        private system_array;
-        private progress_list;
-        constructor(systemArray: ExternalSystemArray);
+        private system_array_mediator_;
+        private progress_list_;
+        constructor(systemArray: ParallelSystemArrayMediator);
         abstract start(): void;
         /**
          * @hidden
          */
-        createChild(xml: library.XML): ExternalSystemRole;
+        createChild(xml: library.XML): external.ExternalSystemRole;
+        getSystemArray(): ParallelSystemArrayMediator;
         private notify_end(uid);
         replyData(invoke: protocol.Invoke): void;
     }
 }
-declare namespace samchon.protocol.external {
+declare namespace samchon.protocol.parallel {
     class MediatorServer extends MediatorSystem implements IServer {
         private server_base;
         private port;
-        constructor(systemArray: ExternalSystemArray, port: number);
+        constructor(systemArray: ParallelSystemArrayMediator, port: number);
         protected createServerBase(): IServerBase;
         addClient(driver: IClientDriver): void;
         start(): void;
@@ -5788,11 +5640,11 @@ declare namespace samchon.protocol.external {
         protected createServerBase(): IServerBase;
     }
 }
-declare namespace samchon.protocol.external {
-    class MediatorClient extends MediatorSystem implements IExternalServer {
+declare namespace samchon.protocol.parallel {
+    class MediatorClient extends MediatorSystem implements external.IExternalServer {
         protected ip: string;
         protected port: number;
-        constructor(systemArray: ExternalSystemArray, ip: string, port: number);
+        constructor(systemArray: ParallelSystemArrayMediator, ip: string, port: number);
         protected createServerConnector(): IServerConnector;
         getIP(): string;
         getPort(): number;
@@ -5841,6 +5693,54 @@ declare namespace samchon.protocol.parallel {
     }
 }
 declare namespace samchon.protocol.parallel {
+    /**
+     * <p> A manager containing {@link ParallelSystem} objects. </p>
+     *
+     *
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelSystemArray extends external.ExternalSystemArray {
+        /**
+         * @see {@link ParallelSystem.progress_list}, {@link ParallelSystem.history_list}
+         */
+        private history_sequence;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         *
+         * @param invoke An invoke message requesting parallel process.
+         * @param size Number of pieces.
+         */
+        sendSegmentData(invoke: Invoke, size: number): void;
+        /**
+         *
+         *
+         * @param invoke An invoke message requesting parallel process.
+         * @param first Initial piece's index in a section.
+         * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
+         *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
+         *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
+         */
+        sendPieceData(invoke: Invoke, first: number, last: number): void;
+        /**
+         *
+         * @param history
+         *
+         * @return Whether the processes with same uid are all fininsed.
+         *
+         * @see {@link ParallelSystem.report_invoke_history}, {@link normalize_performance}
+         */
+        protected notify_end(history: PRInvokeHistory): boolean;
+        /**
+         * @see {@link ParallelSystem.performance}
+         */
+        private normalize_performance();
+    }
+}
+declare namespace samchon.protocol.parallel {
     abstract class ParallelClientArray extends ParallelSystemArray implements external.IExternalClientArray {
         /**
          * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
@@ -5882,14 +5782,13 @@ declare namespace samchon.protocol.parallel {
 }
 declare namespace samchon.protocol.parallel {
     abstract class ParallelSystemArrayMediator extends ParallelSystemArray {
-        protected mediator: external.MediatorSystem;
+        protected mediator: MediatorSystem;
         /**
          * Default Constructor.
          */
         constructor();
-        protected abstract createMediator(): external.MediatorSystem;
+        protected abstract createMediator(): MediatorSystem;
         protected start_mediator(): void;
-        sendData(invoke: protocol.Invoke): void;
         sendPieceData(invoke: protocol.Invoke, first: number, last: number): void;
         protected notify_end(history: PRInvokeHistory): boolean;
     }
@@ -5932,6 +5831,93 @@ declare namespace samchon.protocol.parallel {
          * @inheritdoc
          */
         close(): void;
+    }
+}
+declare namespace samchon.protocol.parallel {
+    /**
+     * <p> An external parallel system driver. </p>
+     *
+     *
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelSystem extends external.ExternalSystem {
+        /**
+         * A list of {@link Invoke} messages on process.
+         *
+         * @see {@link performance}
+         */
+        private progress_list;
+        /**
+         * A list of {@link Invoke} messages had processed.
+         *
+         * @see {@link performance}
+         */
+        private history_list;
+        /**
+         * <p> Performance index. </p>
+         *
+         * <p> A performance index that indicates how much fast the connected parallel system is. </p>
+         *
+         * <p> If this {@link ParallelSystem parallel system} hasn't any {@link Invoke} message
+         * {@link history_list had handled}, then the {@link performance performance index} will be 1, which means
+         * default and average value between all {@link ParallelSystem} instances (belonged to a same
+         * {@link ParallelSystemArray} object). </p>
+         *
+         * <p> You can specify this {@link performance} by yourself, but notice that, if the
+         * {@link performance performance index} is higher then other {@link ParallelSystem} objects, then this
+         * {@link ParallelSystem parallel system} will ordered to handle more processes than other {@link ParallelSystem}
+         * objects. Otherwise, the {@link performance performance index) is lower than others, of course, less processes
+         * will be delivered. </p>
+         *
+         * <p> This {@link performance index} is always re-calculated whenever {@link ParallelSystemArray} calls one of
+         * them below. </p>
+         *
+         * <ul>
+         *	<li> {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()} </li>
+         *	<li> {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()} </li>
+         * </ul>
+         *
+         * <p> If this class is a type of {@link DistributedSystem}, a derived class from the {@link ParallelSystem},
+         * then {@link DistributedSystemRole.sendData DistributedSystem.sendData()} also cause the re-calculation. </p>
+         *
+         * @see {@link progress_list}, {@link history_list}
+         */
+        protected performance: number;
+        constructor(systemArray: ParallelSystemArray);
+        constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
+        /**
+         * Get manager of this object, {@link systemArray}.
+         *
+         * @return A manager containing this {@link ParallelSystem} object.
+         */
+        getSystemArray(): ParallelSystemArray;
+        /**
+         * Get {@link performant performance index}.
+         *
+         * A performance index that indicates how much fast the connected parallel system is.
+         */
+        getPerformance(): number;
+        /**
+         * Send an {@link Invoke} message with index of segmentation.
+         *
+         * @param invoke An invoke message requesting parallel process.
+         * @param first Initial piece's index in a section.
+         * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
+         *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
+         *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
+         *
+         * @see {@link ParallelSystemArray.sendPieceData}
+         */
+        private send_piece_data(invoke, first, last);
+        /**
+         *
+         *
+         * @param xml
+         *
+         * @see {@link ParallelSystemArray.notify_end}
+         */
+        private report_invoke_history(xml);
     }
 }
 declare namespace samchon.protocol.parallel {

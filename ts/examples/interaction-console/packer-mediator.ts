@@ -36,9 +36,9 @@ namespace packer_mediator
 		{
 			return new protocol.ServerBase(this);
 		}
-		protected createMediator(): protocol.external.MediatorSystem
+		protected createMediator(): protocol.parallel.MediatorSystem
 		{
-			return new protocol.external.MediatorClient(this, this.master_ip, 37300);
+			return new protocol.parallel.MediatorClient(this, this.master_ip, 37300);
 		}
 		protected createExternalClient(driver: protocol.IClientDriver): protocol.parallel.ParallelSystem
 		{

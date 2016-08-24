@@ -248,7 +248,12 @@ namespace samchon.protocol
 			if (this.listener == null)
 				this.unhandled_invokes.push_back(invoke);
 			else
-				this.listener.replyData(invoke);
+			{
+				if (this.listener["_replyData"] instanceof Function)
+					this.listener["_replyData"](invoke);
+				else
+					this.listener.replyData(invoke);
+			}
 		}
 
 		protected handle_string(str: string): void

@@ -15,8 +15,9 @@ namespace samchon.protocol.slave
 			super(null);
 		}
 
-		public replyData(invoke: Invoke): void
+		private _replyData(invoke: Invoke): void
 		{
+			// INTERCEPT INVOKE MESSAGE
 			if (invoke.has("invoke_history_uid"))
 			{
 				// INIT HISTORY - WITH START TIME
@@ -28,14 +29,14 @@ namespace samchon.protocol.slave
 					}); // DETACH THE UID FOR FUNCTION AUTO-MATCHING
 
 				// MAIN PROCESS - REPLY_DATA
-				super.replyData(invoke);
+				this.replyData(invoke);
 
 				// NOTIFY - WITH END TIME
 				history.notifyEnd();
 				this.sendData(history.toInvoke());
 			}
 			else
-				super.replyData(invoke);
+				this.replyData(invoke);
 		}
 	}
 }

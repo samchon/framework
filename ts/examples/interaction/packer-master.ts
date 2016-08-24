@@ -20,7 +20,7 @@ namespace packer_master
 
 		public constructor()
 		{
-			super(37310);
+			super("Packer Master");
 		}
 
 		protected optimize(xml: library.XML): void
@@ -66,7 +66,7 @@ namespace packer_master
 		public static main(): void
 		{
 			let master = new PackerMaster();
-			master.open(37300);
+			master.open(37200);
 		}
 	}
 }

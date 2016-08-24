@@ -80,7 +80,8 @@ namespace samchon.protocol.external
 
 				it.value["erasing_"] = true;
 				it.value.close();
-				it.value.destructor();
+
+				setTimeout(it.value.destructor.bind(it.value), 0);
 			}
 		}
 

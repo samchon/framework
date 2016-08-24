@@ -36,20 +36,6 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		public sendData(invoke: protocol.Invoke): void
-		{
-			if (invoke.has("invoke_history_uid") == true)
-			{
-				let first: number = invoke.get("piece_first").getValue();
-				let last: number = invoke.get("piece_last").getValue();
-
-				invoke.erase(invoke.end().advance(-2), invoke.end());
-				this.sendPieceData(invoke, first, last);
-			}
-			else
-				super.sendData(invoke);
-		}
-
 		public sendPieceData(invoke: protocol.Invoke, first: number, last: number): void
 		{
 			let size: number = last - first;

@@ -2,7 +2,7 @@ body{
   background-color: white;
 }
 
-.create-room{
-    position: absolute;
-    bottom : 5vh;
+.user-info{
+  position: absolute;
+  bottom: 1vh;
 }

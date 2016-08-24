@@ -108,24 +108,25 @@ namespace example.chat {
 					<h1>✿ 삼촌톡 ✿</h1>
 				</div>
 				<div className="row">
-				<div className="">
-					<h2> User Information </h2>
-					<ul>
-						<li> Account ID: {this.id} </li>
-						<li> Name: {this.name} </li>
-					</ul>
-					<h2> List of Chatting Room </h2>
-
-					<div>
-					{room_elements}
-					</div>
 
 					<div className="create-room">
 						<h2> Create Room </h2>
 						<input id="create_room_input" type="text" />
 						<button onClick={this.create_room.bind(this) }>Create</button>
 					</div>
-				</div>
+
+					<div className="chat-room-list">
+						<h2> List of Chatting Room </h2>
+						{room_elements}
+					</div>
+
+					<div className="user-info">
+						<h2> User Information </h2>
+						<ul>
+							<li> Account ID: {this.id} </li>
+							<li> Name: {this.name} </li>
+						</ul>
+					</div>
 				</div>
 			</div>;
 		}

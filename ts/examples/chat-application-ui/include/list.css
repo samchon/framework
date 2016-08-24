@@ -6,3 +6,33 @@ body{
   position: absolute;
   bottom: 1vh;
 }
+
+.talk-title {
+  border: 0;
+  color: white;
+  padding: 10px;
+}
+
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #6e5baa;
+    border-right: 1px solid #eee;
+}
+
+.user-info{
+  left:0;
+  bottom:0;
+  background-color: #5d4a99;
+  padding: 10px;
+  width: 300px;
+}

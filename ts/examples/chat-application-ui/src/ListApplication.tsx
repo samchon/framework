@@ -104,10 +104,11 @@ namespace example.chat {
 			}
 
 			return <div className="container">
-				<div className="page-header">
-					<h1>✿ 삼촌톡 ✿</h1>
-				</div>
-				<div className="row">
+
+				<div className="sidebar">
+					<div className="talk-title">
+						<h1>✿ 삼촌톡 ✿</h1>
+					</div>
 
 					<div className="create-room">
 						<h2> Create Room </h2>

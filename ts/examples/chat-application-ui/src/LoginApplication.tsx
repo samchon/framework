@@ -12,8 +12,8 @@ namespace example.chat {
 		--------------------------------------------------------- */
 		private handle_login_click(event: React.MouseEvent): void {
 			// REMEMBER TEMPORARILY
-			this.id = (document.getElementById("id_input") as HTMLInputElement).value;
-			this.name = (document.getElementById("name_input") as HTMLInputElement).value;
+			this.id = (document.getElementById("id") as HTMLInputElement).value;
+			this.name = (document.getElementById("name") as HTMLInputElement).value;
 
 			// CONNECT
 			this.communicator = new protocol.WebServerConnector(this);
@@ -68,7 +68,7 @@ namespace example.chat {
 						<input type="text" id="name" name="name" placeholder="NAME"/>
 					</div>
 					<div className="u-form-group">
-						<button id="quickstart-sign-in">Log In</button>
+						<button id="quickstart-sign-in" onClick={this.handle_login_click.bind(this) }>Log In</button>
 					</div>
 					<div className="u-form-group">
 						<a href="#" className="forgot-password">Forgot password?</a>

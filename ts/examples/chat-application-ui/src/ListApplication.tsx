@@ -4,20 +4,17 @@
 
 /// <reference path="API.ts" />
 
-namespace example.chat
-{
+namespace example.chat {
 	export class ListApplication
-		extends Application
-	{
+		extends Application {
 		private room_list: ChatRoomList;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor()
-		{
+		public constructor() {
 			super();
-			
+
 			this.room_list = new ChatRoomList();
 
 			this.communicator = new protocol.WebServerConnector(this);
@@ -31,8 +28,7 @@ namespace example.chat
 		============================================================
 			SEND DATA
 		--------------------------------------------------------- */
-		private create_room(event: React.MouseEvent): void
-		{
+		private create_room(event: React.MouseEvent): void {
 			let name: string = (document.getElementById("create_room_input") as HTMLInputElement).value;
 
 			this.sendData(new protocol.Invoke("createRoom", name));
@@ -41,19 +37,16 @@ namespace example.chat
 		/* ---------------------------------------------------------
 			REPLY DATA
 		--------------------------------------------------------- */
-		private setRoomList(xml: library.XML): void
-		{
+		private setRoomList(xml: library.XML): void {
 			this.room_list.construct(xml);
 
 			this.refresh();
 		}
 
-		private setRoom(uid: number, xml: library.XML): void
-		{
+		private setRoom(uid: number, xml: library.XML): void {
 			let room: ChatRoom;
 
-			if (this.room_list.has(uid) == false)
-			{
+			if (this.room_list.has(uid) == false) {
 				room = new ChatRoom();
 				this.room_list.push_back(room);
 			}
@@ -67,38 +60,35 @@ namespace example.chat
 		/* ---------------------------------------------------------
 			VISUALIZER
 		--------------------------------------------------------- */
-		public render(): JSX.Element
-		{
+		public render(): JSX.Element {
 			let room_elements: JSX.Element[] = [];
 
-			for (let i: number = 0; i < this.room_list.size(); i++)
-			{
+			for (let i: number = 0; i < this.room_list.size(); i++) {
 				let room: ChatRoom = this.room_list.at(i);
 				let link_address: string = "chat.html?&uid=" + room.getUID();
 
 				let participant_elements: JSX.Element[] = [];
 
-				for (let j: number = 0; j < room.size(); j++)
-				{
+				for (let j: number = 0; j < room.size(); j++) {
 					let participant: Participant = room.at(j);
 
 					participant_elements.push
-					(
-						<li> {participant.getID()}: {participant.getName()} </li>
-					);
+						(
+						<li> {participant.getID() }: {participant.getName() } </li>
+						);
 				}
 
 				room_elements.push
-				(
+					(
 					<p><a href={link_address} target="_blank">
 						<table>
 							<tr>
 								<td> No </td>
-								<td> {room.getUID()} </td>
+								<td> {room.getUID() } </td>
 							</tr>
 							<tr>
 								<td> Title </td>
-								<td> {room.getTitle()} </td>
+								<td> {room.getTitle() } </td>
 							</tr>
 							<tr>
 								<td> Participants </td>
@@ -110,26 +100,37 @@ namespace example.chat
 							</tr>
 						</table>
 					</a></p>
-				);
+					);
 			}
 
-			return <div>
-				<h2> User Information </h2>
-				<ul>
-					<li> Account ID: {this.id} </li>
-					<li> Name: {this.name} </li>
-				</ul>
-				<h2> List of Chatting Room </h2>
-				{room_elements}
+			return <div className="container">
+				<div className="page-header">
+					<h1>✿ 삼촌톡 ✿</h1>
+				</div>
+				<div className="row">
+				<div className="">
+					<h2> User Information </h2>
+					<ul>
+						<li> Account ID: {this.id} </li>
+						<li> Name: {this.name} </li>
+					</ul>
+					<h2> List of Chatting Room </h2>
 
-				<h2> Create Room </h2>
-				<input id="create_room_input" type="text" />
-				<button onClick={this.create_room.bind(this)}>Create</button>
+					<div>
+					{room_elements}
+					</div>
+
+					<div className="create-room">
+						<h2> Create Room </h2>
+						<input id="create_room_input" type="text" />
+						<button onClick={this.create_room.bind(this) }>Create</button>
+					</div>
+				</div>
+				</div>
 			</div>;
 		}
 
-		public static main(): void
-		{
+		public static main(): void {
 			ReactDOM.render(<ListApplication />, document.body);
 		}
 	}

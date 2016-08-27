@@ -4,18 +4,15 @@
 
 /// <reference path="API.ts" />
 
-namespace example.chat
-{
+namespace example.chat {
 	export class ChatApplication
-		extends Application
-	{
+		extends Application {
 		private room: ChatRoom;
 		private messages: string = "";
 
-		public constructor(uid: number)
-		{
+		public constructor(uid: number) {
 			super();
-			
+
 			this.room = new ChatRoom();
 
 			this.communicator = new protocol.WebServerConnector(this);
@@ -29,13 +26,11 @@ namespace example.chat
 		============================================================
 			SEND DATA
 		--------------------------------------------------------- */
-		private send_message(event: React.MouseEvent): void
-		{
+		private send_message(event: React.MouseEvent): void {
 			let to: string = (document.getElementById("whisper_target_combo") as HTMLSelectElement).value;
 			let message: string = (document.getElementById("message_input") as HTMLInputElement).value;
 
-			if(!message) 
-			{
+			if (!message) {
 				console.log("not messages");
 				// alert("메시지를 입력해주세요.");
 				return;
@@ -45,19 +40,16 @@ namespace example.chat
 				this.sendData(new protocol.Invoke("talk", message));
 			else
 				this.sendData(new protocol.Invoke("whisper", to, message));
-		
+
 			(document.getElementById("message_input") as HTMLInputElement).value = '';
 		}
 
-		private send_message2(event: React.KeyboardEvent): void
-		{
-			if(event.charCode == 13)
-			{
+		private send_message2(event: React.KeyboardEvent): void {
+			if (event.charCode == 13) {
 				let to: string = (document.getElementById("whisper_target_combo") as HTMLSelectElement).value;
 				let message: string = (document.getElementById("message_input") as HTMLInputElement).value;
 
-				if(!message) 
-				{
+				if (!message) {
 					console.log("not messages");
 					return;
 				}
@@ -66,7 +58,7 @@ namespace example.chat
 					this.sendData(new protocol.Invoke("talk", message));
 				else
 					this.sendData(new protocol.Invoke("whisper", to, message));
-			
+
 				(document.getElementById("message_input") as HTMLInputElement).value = '';
 			}
 		}
@@ -74,37 +66,34 @@ namespace example.chat
 		/* ---------------------------------------------------------
 			REPLY DATA
 		--------------------------------------------------------- */
-		private setRoom(xml: library.XML): void
-		{
+		private setRoom(xml: library.XML): void {
 			this.room.construct(xml);
 
 			this.refresh();
 		}
 
-		private printTalk(senderID: string, message: string): void
-		{
+		private printTalk(senderID: string, message: string): void {
 			let sender: Participant = this.room.get(senderID);
 
 			this.messages += library.StringUtil.substitute
 				(
-					"<p> <b>{1}</b>: {2} </p>", 
-					sender.getName(), 
-					message
+				"<p> <b>{1}</b>: {2} </p>",
+				sender.getName(),
+				message
 				);
 			document.getElementById("messages_div").innerHTML = this.messages;
 		}
 
-		private printWhisper(from: string, to: string, message: string): void
-		{
+		private printWhisper(from: string, to: string, message: string): void {
 			let sender: Participant = this.room.get(from);
 			let receiver: Participant = this.room.get(to);
 
 			this.messages += library.StringUtil.substitute
 				(
-					"<p style='color:gray'> (Whisper) <b>{1}</b> to <b>{2}</b> : {3} </p>", 
-					sender.getName(), 
-					receiver.getName(),
-					message
+				"<p style='color:gray'> (Whisper) <b>{1}</b> to <b>{2}</b> : {3} </p>",
+				sender.getName(),
+				receiver.getName(),
+				message
 				);
 			document.getElementById("messages_div").innerHTML = this.messages;
 		}
@@ -112,26 +101,24 @@ namespace example.chat
 		/* ---------------------------------------------------------
 			VISUALIZER
 		--------------------------------------------------------- */
-		public render(): JSX.Element
-		{
+		public render(): JSX.Element {
 			let whisper_target_options: JSX.Element[] = [];
 			let participant_elements: JSX.Element[] = [];
 
-			for (let i: number = 0; i < this.room.size(); i++)
-			{
+			for (let i: number = 0; i < this.room.size(); i++) {
 				let participant: Participant = this.room.at(i);
 
 				// COMBOBOX TO WHISPER
 				whisper_target_options.push
-				(
-					<option value={participant.getID()}> {participant.getName()} </option>
-				);
+					(
+					<option value={participant.getID() }> {participant.getName() } </option>
+					);
 
 				// LIST OF PARTICIPANTS
 				participant_elements.push
-				(
-					<li> {participant.getName()} ({participant.getID()}) </li>
-				);
+					(
+					<li> {participant.getName() } ({participant.getID() }) </li>
+					);
 			}
 
 			return <div>
@@ -147,31 +134,32 @@ namespace example.chat
 						{participant_elements}
 					</ul>
 				</div>
-				<div>
-					<h2> Conversation </h2>
-					<div id="messages_div">
+				
+				<h2> Conversation </h2>
+				<div className="conversation">
+					<div className="chat-canvas">
+						<div id="messages_div">
+						</div>
 					</div>
-					<div>
-						<select id="whisper_target_combo">
-							<option value={""}> To All </option>
-							{whisper_target_options}
-						</select>
-						<input id="message_input" type="text" width="400" onKeyPress={this.send_message2.bind(this)}/>
-						<button onClick={this.send_message.bind(this) } >Send</button>
-					</div>
+				</div>
+				<div className="chat-input">
+					<select id="whisper_target_combo">
+						<option value={""}> To All </option>
+						{whisper_target_options}
+					</select>
+					<input id="message_input" type="text" width="400" onKeyPress={this.send_message2.bind(this) }/>
+					<button onClick={this.send_message.bind(this) } >Send</button>
 				</div>
 			</div>;
 		}
 
-		protected refresh(): void
-		{
+		protected refresh(): void {
 			super.refresh();
 
 			document.getElementById("messages_div").innerHTML = this.messages;
 		}
 
-		public static main(): void
-		{
+		public static main(): void {
 			let url_variables: library.URLVariables = new library.URLVariables(location.href);
 			let uid: number = Number(url_variables.get("uid"));
 

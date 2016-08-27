@@ -34,10 +34,41 @@ namespace example.chat
 			let to: string = (document.getElementById("whisper_target_combo") as HTMLSelectElement).value;
 			let message: string = (document.getElementById("message_input") as HTMLInputElement).value;
 
+			if(!message) 
+			{
+				console.log("not messages");
+				// alert("메시지를 입력해주세요.");
+				return;
+			}
+
 			if (to == "")
 				this.sendData(new protocol.Invoke("talk", message));
 			else
 				this.sendData(new protocol.Invoke("whisper", to, message));
+		
+			(document.getElementById("message_input") as HTMLInputElement).value = '';
+		}
+
+		private send_message2(event: React.KeyboardEvent): void
+		{
+			if(event.charCode == 13)
+			{
+				let to: string = (document.getElementById("whisper_target_combo") as HTMLSelectElement).value;
+				let message: string = (document.getElementById("message_input") as HTMLInputElement).value;
+
+				if(!message) 
+				{
+					console.log("not messages");
+					return;
+				}
+
+				if (to == "")
+					this.sendData(new protocol.Invoke("talk", message));
+				else
+					this.sendData(new protocol.Invoke("whisper", to, message));
+			
+				(document.getElementById("message_input") as HTMLInputElement).value = '';
+			}
 		}
 
 		/* ---------------------------------------------------------
@@ -125,8 +156,8 @@ namespace example.chat
 							<option value={""}> To All </option>
 							{whisper_target_options}
 						</select>
-						<input id="message_input" type="text" width="400" />
-						<button onClick={this.send_message.bind(this) }>Send</button>
+						<input id="message_input" type="text" width="400" onKeyPress={this.send_message2.bind(this)}/>
+						<button onClick={this.send_message.bind(this) } >Send</button>
 					</div>
 				</div>
 			</div>;

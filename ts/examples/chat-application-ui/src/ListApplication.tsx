@@ -82,9 +82,9 @@ namespace example.chat {
 			this.refresh();
 		}
 
-	/* ---------------------------------------------------------
-			VISUALIZER
-		--------------------------------------------------------- */
+		/* ---------------------------------------------------------
+				VISUALIZER
+			--------------------------------------------------------- */
 		public render(): JSX.Element {
 			let room_elements: JSX.Element[] = [];
 
@@ -133,53 +133,117 @@ namespace example.chat {
 					);
 			}
 
-			return <div className="container">
+			return <div>
 
-				<div class="row">
-					<div className="col-sm-3 col-md-2 sidebar">
-						<div className="talk-title">
-							<h1>✿ 삼촌톡 ✿</h1>
-						</div>
+				<div id="wrapper">
 
-						<div className="create-room">
-							<h2> Create Room </h2>
-							<input id="create_room_input" type="text" />
-							<button onClick={this.create_room.bind(this) }>Create</button>
-						</div>
+					<div id="sidebar-wrapper">
+						<ul className="sidebar-nav">
+							<li className="sidebar-brand">
+								<div className="talk-title">
+									<h1> SimpleTalk </h1>
+								</div>
+							</li>
+							<br/><br/>
 
-						<div className="chat-room-list">
-							<h2> List of Chatting Room </h2>
-							{room_elements}
-						</div>
+							<li>
+								<a href="#">Dashboard</a>
+							</li>
+							<li>
+								<a href="#">Shortcuts</a>
+							</li>
+							<li>
+								<a href="#">Overview</a>
+							</li>
+							<li>
+								<a href="#">Events</a>
+							</li>
+							<li>
+								<a href="#">About</a>
+							</li>
+							<li>
+								<a href="#">Services</a>
+							</li>
+							<li>
+								<a href="#">Contact</a>
+							</li>
+						</ul>
 
 						<div className="user-info">
-							<h2> User Information </h2>
+							<h3> 내정보 </h3>
 							<ul>
 								<li> Account ID: {this.id} </li>
 								<li> Name: {this.name} </li>
 							</ul>
 						</div>
 					</div>
-					<div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-						<div className="container">
-							<ul className="nav nav-tabs">
-								<li className="active"><a data-toggle="tab" href="#home">Home</a></li>
-								{this.room_name_tabs}
-							</ul>
-							<div className="tab-content">
-								<div id="home" className="tab-pane fade in active">
-									<img src="https://avatars2.githubusercontent.com/u/13158709?v=3&s=300"></img>
-									<h2>삼촌톡에 오신걸 환영합니다.</h2>
-									<p><h3>왼쪽 메뉴에서 채팅방을 만든 후 '참여' 버튼을 눌러 채팅을 즐기세요!</h3></p>
+					<div id="page-content-wrapper">
+						<div className="container-fluid">
+							<div className="row">
+								<div className="col-lg-12">
+									<h1>Welcome Simple Talk</h1>
+									<p>This template has a responsive menu toggling system.The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens.When toggled using the button below, the menu will appear/disappear.On small screens, the page content will be pushed off canvas.</p>
+									<p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
+									<a href="#menu-toggle" className="btn btn-default" id="menu-toggle">Toggle Menu</a>
 								</div>
-								{this.room_tabs}
 							</div>
 						</div>
 					</div>
+
 				</div>
-			</div>
-				;
+
+			</div>;
+
+			// return <div>
+
+			// 	<div class="row">
+			// 		<div className="col-sm-3 col-md-2 sidebar">
+			// 			<div className="talk-title">
+			// 				<h1>✿ 삼촌톡 ✿</h1>
+			// 			</div>
+
+			// 			<div className="create-room">
+			// 				<h2> Create Room </h2>
+			// 				<input id="create_room_input" type="text" />
+			// 				<button onClick={this.create_room.bind(this) }>Create</button>
+			// 			</div>
+
+			// 			<div className="chat-room-list">
+			// 				<h2> List of Chatting Room </h2>
+			// 				{room_elements}
+			// 			</div>
+
+			// 			<div className="user-info">
+			// 				<h2> User Information </h2>
+			// 				<ul>
+			// 					<li> Account ID: {this.id} </li>
+			// 					<li> Name: {this.name} </li>
+			// 				</ul>
+			// 			</div>
+			// 		</div>
+
+			// 		<div className="main">
+			// 			<div>
+			// 				<ul className="nav nav-tabs">
+			// 					<li className="active"><a data-toggle="tab" href="#home">Home</a></li>
+			// 					{this.room_name_tabs}
+			// 				</ul>
+			// 				<div className="tab-content chat-area">
+			// 					<div id="home" className="tab-pane fade in active">
+			// 						<span className="glyphicon glyphicon-envelope test">
+			// 						<h2>WELCOME TO SAMPLE CHAT</h2>
+			// 						<p><h3>왼쪽 메뉴에서 채팅방을 만든 후 '참여' 버튼을 눌러 채팅을 즐기세요!</h3></p>
+			// 						</span>
+			// 					</div>
+			// 					{this.room_tabs}
+			// 				</div>
+			// 			</div>
+			// 		</div>
+
+			// 	</div>
+			// </div>
+			// 	;
 		}
 
 		public static main(): void {

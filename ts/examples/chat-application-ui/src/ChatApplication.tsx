@@ -123,19 +123,14 @@ namespace example.chat {
 
 			return <div>
 				<div>
-					<h2> User Information </h2>
-					<ul>
-						<li> ID: {this.id} </li>
-						<li> NAME: {this.name} </li>
-					</ul>
 
-					<h2> Participants </h2>
+					<h2> 참여자 목록 </h2>
 					<ul>
 						{participant_elements}
 					</ul>
 				</div>
 				
-				<h2> Conversation </h2>
+				<h2> 채팅 </h2>
 				<div className="conversation">
 					<div className="chat-canvas">
 						<div id="messages_div">

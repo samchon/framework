@@ -106,32 +106,28 @@ namespace example.chat {
 				room_elements.push
 					(
 
-					
-					<p>
-						<table>
-							<tr>
-								<td> No </td>
-								<td> {room.getUID() } </td>
-							</tr>
-							<tr>
-								<td> Title </td>
-								<td> {room.getTitle() } </td>
-							</tr>
-							<tr>
-								<td> Participants </td>
-								<td>
-									<ol>
-										{participant_elements}
-									</ol>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<button onClick={() => this.enter_chat_room(room.getUID(), room.getTitle()) }>참여</button>
-								</td>
-							</tr>
-						</table>
-					</p>
+					<div className="col-sm-4 col-md-3 chat-room-item">
+						<a href={link_address} target="_blank">
+							<table>
+								<tr>
+									<td> No </td>
+									<td> {room.getUID() } </td>
+								</tr>
+								<tr>
+									<td> Title </td>
+									<td> {room.getTitle() } </td>
+								</tr>
+								<tr>
+									<td> Participants </td>
+									<td>
+										<ol>
+											{participant_elements}
+										</ol>
+									</td>
+								</tr>
+							</table>
+						</a>
+					</div>
 					);
 			}
 
@@ -185,8 +181,8 @@ namespace example.chat {
 							<div className="row">
 								<div className="col-lg-12">
 									<h1>Welcome Simple Talk</h1>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis animi voluptatum voluptate quam rerum facere quis, sapiente minima. Necessitatibus voluptatibus laudantium rem, porro corrupti dolorum voluptatum autem numquam recusandae error.</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam ratione reprehenderit laboriosam mollitia vel, deleniti sunt consectetur asperiores molestias natus repellat ducimus soluta, possimus. Voluptate tempora voluptatibus fugit pariatur rem earum ipsa ut, aspernatur animi quaerat, architecto nobis alias itaque necessitatibus deleniti dolores voluptates at, id ab libero explicabo. Vel dolorem veniam, provident recusandae odio voluptatum quidem earum. <code>#채팅방</code><code>#오픈채팅</code><code>#방만들어</code>.</p>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.Blanditiis animi voluptatum voluptate quam rerum facere quis, sapiente minima.Necessitatibus voluptatibus laudantium rem, porro corrupti dolorum voluptatum autem numquam recusandae error.</p>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.Magnam ratione reprehenderit laboriosam mollitia vel, deleniti sunt consectetur asperiores molestias natus repellat ducimus soluta, possimus.Voluptate tempora voluptatibus fugit pariatur rem earum ipsa ut, aspernatur animi quaerat, architecto nobis alias itaque necessitatibus deleniti dolores voluptates at, id ab libero explicabo.Vel dolorem veniam, provident recusandae odio voluptatum quidem earum.<code>#채팅방</code><code>#오픈채팅</code><code>#방만들어</code>.</p>
 								</div>
 							</div>
 							<hr/>
@@ -197,7 +193,7 @@ namespace example.chat {
 									<div className="input-group">
 										<input id="create_room_input" type="text" className="form-control" />
 										<span className="input-group-btn">
-											<button className="btn btn-default" type="button" onClick={this.create_room.bind(this)}>Create</button>
+											<button className="btn btn-default" type="button" onClick={this.create_room.bind(this) }>Create</button>
 										</span>
 									</div>
 								</div>

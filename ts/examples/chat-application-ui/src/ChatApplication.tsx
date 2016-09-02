@@ -122,27 +122,21 @@ namespace example.chat {
 			}
 
 			return <div>
-				<div>
-					<h2> User Information </h2>
-					<ul>
-						<li> ID: {this.id} </li>
-						<li> NAME: {this.name} </li>
-					</ul>
-
-					<h2> Participants </h2>
+				<div className="participant">
+					<h2> Participant List </h2>
 					<ul>
 						{participant_elements}
 					</ul>
 				</div>
 				
-				<h2> Conversation </h2>
 				<div className="conversation">
+					<h2> Conversation </h2>
 					<div className="chat-canvas">
 						<div id="messages_div">
 						</div>
 					</div>
 				</div>
-				<div className="chat-input">
+				<div className="chat-input2">
 					<select id="whisper_target_combo">
 						<option value={""}> To All </option>
 						{whisper_target_options}
@@ -150,6 +144,39 @@ namespace example.chat {
 					<input id="message_input" type="text" width="400" onKeyPress={this.send_message2.bind(this) }/>
 					<button onClick={this.send_message.bind(this) } >Send</button>
 				</div>
+
+<div className="row">
+  <div className="col-lg-6">
+    <div className="input-group">
+      <div className="input-group-btn">
+        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span className="caret"></span></button>
+        <ul className="dropdown-menu" role="menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li className="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div>
+      <input type="text" className="form-control" aria-label="..." />
+    </div>
+  </div>
+  <div className="col-lg-6">
+    <div className="input-group">
+      <input type="text" className="form-control" aria-label="..." />
+      <div className="input-group-btn">
+        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span className="caret"></span></button>
+        <ul className="dropdown-menu dropdown-menu-right" role="menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li className="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 			</div>;
 		}
 

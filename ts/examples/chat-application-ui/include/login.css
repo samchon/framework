@@ -1,11 +1,5 @@
-/* custom css */
-.custom {
-    font-size: 10rem;
-    background-color: black;
-}
-
 body{
-  background-color: #6e5baa;
+  background-color: #181818;
 }
 .login-box{
   position:relative;
@@ -40,7 +34,7 @@ body{
   transition: all 0.1s linear;
 }
 .lb-header .active{
-  color: #029f5b;
+  color: #181818;
   font-size: 18px;
 }
 .social-login{
@@ -109,7 +103,7 @@ body{
 }
 .u-form-group button{
   width:50%;
-  background-color: #1CB94E;
+  background-color: #181818;
   border: none;
   outline: none;
   color: #fff;

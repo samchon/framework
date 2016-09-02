@@ -1,0 +1,31 @@
+/*chat css*/
+body{
+  background-color: #181818;
+}
+
+.participant {
+    color: white;
+}
+
+.conversation {
+    color: white;
+    width: 100%;
+  height: calc(100% - 300px);
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.chat-canvas {
+  width: 100%;
+  height: calc(100% - 50px);
+  border-bottom: 1px solid rgba(171, 184, 196, 0.5);
+  background-color: #fff;
+  overflow-y: auto;
+  padding: 28px 0 0 0;
+}
+
+.chat-input {
+  width: 100%;
+  height: 51px;
+}
+/* end chat css*/

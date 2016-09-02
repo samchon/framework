@@ -2,6 +2,9 @@
 
 /// <reference path="../EntityCollection.ts" />
 
+/**
+ * [[include: https://raw.githubusercontent.com/samchon/framework/master/handbook/TypeScript-Protocol-External_System.md]]
+ */
 namespace samchon.protocol.external
 {
 	/**

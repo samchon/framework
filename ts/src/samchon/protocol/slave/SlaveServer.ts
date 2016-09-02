@@ -8,7 +8,7 @@ namespace samchon.protocol.slave
 		extends SlaveSystem
 		implements IServer
 	{
-		private server_base: IServerBase;
+		private server_base_: IServerBase;
 
 		/* =========================================================
 			CONSTRUCTORS
@@ -21,36 +21,36 @@ namespace samchon.protocol.slave
 		{
 			super();
 
-			this.server_base = null;
+			this.server_base_ = null;
 		}
 
 		protected abstract createServerBase(): IServerBase;
-
-		/* ---------------------------------------------------------
-			FACTORY METHOD FOR CHILDREN
-		--------------------------------------------------------- */
-		public addClient(driver: IClientDriver): void
-		{
-			this.communicator = driver;
-			driver.listen(this);
-		}
 
 		/* ---------------------------------------------------------
 			SERVER's METHOD
 		--------------------------------------------------------- */
 		public open(port: number): void
 		{
-			this.server_base = this.createServerBase();
-			if (this.server_base == null)
+			this.server_base_ = this.createServerBase();
+			if (this.server_base_ == null)
 				return;
 
-			this.server_base.open(port);
+			this.server_base_.open(port);
 		}
 
 		public close(): void
 		{
-			if (this.server_base != null)
-				this.server_base.close();
+			if (this.server_base_ != null)
+				this.server_base_.close();
+		}
+
+		/* ---------------------------------------------------------
+			OVERRIDINGS
+		--------------------------------------------------------- */
+		public addClient(driver: IClientDriver): void
+		{
+			this.communicator_ = driver;
+			driver.listen(this);
 		}
 	}
 }

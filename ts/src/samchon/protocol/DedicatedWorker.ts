@@ -39,18 +39,38 @@ namespace samchon.protocol
 	 */
 	class DedicatedWorkerCommunicator extends CommunicatorBase
 	{
+		/**
+		 * @hidden
+		 */
+		protected connected_: boolean;
+
 		public constructor(listener: IProtocol)
 		{
 			super(listener);
 			
 			onmessage = this.handle_message.bind(this);
+			this.connected_ = true;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public close(): void
 		{
 			// IMPOSSIBLE, DEDICATED WORKER ONLY CAN BE CLOSED BY ITS PARENT BROWSER
 		}
 
+		/**
+		 * @inheritdoc
+		 */
+		public isConnected(): boolean
+		{
+			return this.connected_;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public sendData(invoke: Invoke): void
 		{
 			postMessage(invoke.toXML().toString(), "");
@@ -86,6 +106,9 @@ namespace samchon.protocol
 		 */
 		public onClose: Function;
 
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		public constructor(listener: IProtocol)
 		{
 			super(listener);
@@ -93,6 +116,8 @@ namespace samchon.protocol
 
 			this.onConnect = null;
 			this.onClose = null;
+
+			this.connected_ = false;
 		}
 
 		/**
@@ -103,6 +128,7 @@ namespace samchon.protocol
 			this.worker = new Worker(jsFile);
 			this.worker.onmessage = this.handle_message.bind(this);
 
+			this.connected_ = true;
 			if (this.onConnect != null)
 				this.onConnect();
 		}
@@ -120,10 +146,14 @@ namespace samchon.protocol
 			this.worker.terminate();
 
 			// AND NOTIFY THE CLOSING
+			this.connected_ = false;
 			if (this.onClose != null)
 				this.onClose();
 		}
 
+		/* ---------------------------------------------------------
+			INVOKE MESSAGE I/O
+		--------------------------------------------------------- */
 		public sendData(invoke: Invoke): void
 		{
 			this.worker.postMessage(invoke.toXML().toString(), "");
@@ -135,7 +165,7 @@ namespace samchon.protocol
 
 		public replyData(invoke: Invoke): void
 		{
-			this.listener.replyData(invoke);
+			this.listener_.replyData(invoke);
 		}
 
 		private handle_message(event: MessageEvent): void

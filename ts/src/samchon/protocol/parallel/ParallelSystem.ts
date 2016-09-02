@@ -15,18 +15,14 @@ namespace samchon.protocol.parallel
 		extends external.ExternalSystem
 	{
 		/**
-		 * A list of {@link Invoke} messages on process.
-		 * 
-		 * @see {@link performance}
+		 * @hidden
 		 */
-		private progress_list: std.HashMap<number, PRInvokeHistory>;
+		protected progress_list_: std.HashMap<number, InvokeHistory>;
 		
 		/**
-		 * A list of {@link Invoke} messages had processed.
-		 * 
-		 * @see {@link performance}
+		 * @hidden
 		 */
-		private history_list: std.HashMap<number, PRInvokeHistory>;
+		protected history_list_: std.HashMap<number, InvokeHistory>;
 
 		/**
 		 * <p> Performance index. </p>
@@ -68,12 +64,12 @@ namespace samchon.protocol.parallel
 
 		public constructor(systemArray: ParallelSystemArray, communicator: IClientDriver = null)
 		{
-			super(systemArray, communicator as IClientDriver);
+			super(systemArray, communicator);
 			
 			// PERFORMANCE INDEX
 			this.performance = 1.0;
-			this.progress_list = new std.HashMap<number, PRInvokeHistory>();
-			this.history_list = new std.HashMap<number, PRInvokeHistory>();
+			this.progress_list_ = new std.HashMap<number, InvokeHistory>();
+			this.history_list_ = new std.HashMap<number, InvokeHistory>();
 		}
 
 		/* ---------------------------------------------------------
@@ -125,10 +121,18 @@ namespace samchon.protocol.parallel
 
 			// REGISTER THE UID AS PROGRESS
 			let history: PRInvokeHistory = new PRInvokeHistory(my_invoke);
-			this.progress_list.insert([history.getUID(), history]);
+			this.progress_list_.insert([history.getUID(), history]);
 
 			// SEND DATA
 			this.sendData(my_invoke);
+		}
+
+		private _replyData(invoke: protocol.Invoke): void
+		{
+			if (invoke.getListener() == "report_invoke_history")
+				this.report_invoke_history(invoke.front().getValue() as library.XML);
+			else
+				this.replyData(invoke);
 		}
 		
 		/**
@@ -138,7 +142,7 @@ namespace samchon.protocol.parallel
 		 * 
 		 * @see {@link ParallelSystemArray.notify_end}
 		 */
-		private report_invoke_history(xml: library.XML): void
+		protected report_invoke_history(xml: library.XML): void
 		{
 			///////
 			// CONSTRUCT HISTORY
@@ -146,13 +150,13 @@ namespace samchon.protocol.parallel
 			let history: PRInvokeHistory = new PRInvokeHistory();
 			history.construct(xml);
 
-			let progress_it = this.progress_list.find(history.getUID());
-			history["first"] = progress_it.second.getFirst();
-			history["last"] = progress_it.second.computeSize();
+			let progress_it = this.progress_list_.find(history.getUID());
+			history["first"] = (progress_it.second as PRInvokeHistory).getFirst();
+			history["last"] = (progress_it.second as PRInvokeHistory).computeSize();
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
-			this.progress_list.erase(progress_it);
-			this.history_list.insert([history.getUID(), history]);
+			this.progress_list_.erase(progress_it);
+			this.history_list_.insert([history.getUID(), history]);
 
 			// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
 			this.getSystemArray()["notify_end"](history);

@@ -20,12 +20,12 @@ namespace samchon.protocol
 		/**
 		 * 
 		 */
-		private startTime: Date;
+		private start_time_: Date;
 		
 		/**
 		 *
 		 */
-		private endTime: Date;
+		private end_time_: Date;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -51,7 +51,7 @@ namespace samchon.protocol
 				this.uid = invoke.get("invoke_history_uid").getValue();
 				this.listener = invoke.getListener();
 
-				this.startTime = new Date();
+				this.start_time_ = new Date();
 			}
 		}
 
@@ -59,13 +59,13 @@ namespace samchon.protocol
 		{
 			super.construct(xml);
 
-			this.startTime = new Date(parseInt(xml.getProperty("startTime")));
-			this.endTime = new Date(parseInt(xml.getProperty("endTime")));
+			this.start_time_ = new Date(parseInt(xml.getProperty("startTime")));
+			this.end_time_ = new Date(parseInt(xml.getProperty("endTime")));
 		}
 
 		public notifyEnd(): void
 		{
-			this.endTime = new Date();
+			this.end_time_ = new Date();
 		}
 
 		/* ---------------------------------------------------------
@@ -88,32 +88,38 @@ namespace samchon.protocol
 
 		public getStartTime(): Date
 		{
-			return this.startTime;
+			return this.start_time_;
 		}
 
 		public getEndTime(): Date
 		{
-			return this.endTime;
+			return this.end_time_;
 		}
 
 		public computeElapsedTime(): number
 		{
-			return Math.max(this.endTime.getTime() - this.startTime.getTime(), 1);
+			return Math.max(this.end_time_.getTime() - this.start_time_.getTime(), 1);
 		}
 
 		/* ---------------------------------------------------------
 			EXPORTERS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public TAG(): string
 		{
 			return "invokeHistory";
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public toXML(): library.XML
 		{
 			let xml: library.XML = super.toXML();
-			xml.setProperty("startTime", this.startTime.getTime() + "");
-			xml.setProperty("endTime", this.endTime.getTime() + "");
+			xml.setProperty("startTime", this.start_time_.getTime() + "");
+			xml.setProperty("endTime", this.end_time_.getTime() + "");
 
 			return xml;
 		}

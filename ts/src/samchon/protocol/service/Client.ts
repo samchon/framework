@@ -4,9 +4,9 @@ namespace samchon.protocol.service
 {
 	export abstract class Client implements protocol.IProtocol
 	{
-		private user: User;
-		private service: Service;
-		private driver: WebClientDriver;
+		private user_: User;
+		private service_: Service;
+		private communicator_: WebClientDriver;
 
 		private no: number;
 
@@ -18,19 +18,19 @@ namespace samchon.protocol.service
 		 */
 		public constructor(user: User, driver: WebClientDriver)
 		{
-			this.user = user;
+			this.user_ = user;
 
-			this.driver = driver;
-			this.driver.listen(this);
+			this.communicator_ = driver;
+			this.communicator_.listen(this);
 
-			this.service = null;
+			this.service_ = null;
 		}
 
 		protected abstract createService(path: string): Service;
 
 		public close(): void
 		{
-			this.user.erase(this.no);
+			this.user_.erase(this.no);
 		}
 
 		/* ------------------------------------------------------------------
@@ -38,11 +38,11 @@ namespace samchon.protocol.service
 		------------------------------------------------------------------ */
 		public getUser(): User
 		{
-			return this.user;
+			return this.user_;
 		}
 		public getService(): Service
 		{
-			return this.service;
+			return this.service_;
 		}
 
 		/* ------------------------------------------------------------------
@@ -50,27 +50,27 @@ namespace samchon.protocol.service
 		------------------------------------------------------------------ */
 		public sendData(invoke: protocol.Invoke): void
 		{
-			this.driver.sendData(invoke);
+			this.communicator_.sendData(invoke);
 		}
 		public replyData(invoke: protocol.Invoke): void
 		{
 			invoke.apply(this);
-			this.user.replyData(invoke);
+			this.user_.replyData(invoke);
 
-			if (this.service != null)
-				this.service.replyData(invoke);
+			if (this.service_ != null)
+				this.service_.replyData(invoke);
 		}
 
 		protected changeService(path: string): void
 		{
-			if (this.service != null)
-				this.service.destructor();
+			if (this.service_ != null)
+				this.service_.destructor();
 
-			this.service = this.createService(path);
-			if (this.service != null)
+			this.service_ = this.createService(path);
+			if (this.service_ != null)
 			{
-				this.service["client"] = this;
-				this.service["path"] = path;
+				this.service_["client"] = this;
+				this.service_["path"] = path;
 			}
 		}
 	}

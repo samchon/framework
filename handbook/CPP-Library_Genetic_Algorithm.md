@@ -44,7 +44,7 @@ public:
 	
 	auto optimize() const -> sshared_ptr<Travel>
 	{
-		GeneticAlgorithm<Travel> ga(this->travel, ga_params.mutationRate, ga_params.tournament);
+		GeneticAlgorithm<Travel, std.less<Travel>> ga(this->travel, ga_params.mutationRate, ga_params.tournament);
 		shared_ptr<Travel> ret = genetic_algorithm.evolveGeneArray(ga_params.population, ga_params.generation);
 		
 		return ret;

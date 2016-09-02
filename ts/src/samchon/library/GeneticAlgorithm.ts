@@ -22,7 +22,7 @@ namespace samchon.library
 		/**
 		 * Whether each element (Gene) is unique in their GeneArray.
 		 */
-		private unique: boolean;
+		private unique_: boolean;
 
 		/**
 		 * Rate of mutation.
@@ -37,12 +37,12 @@ namespace samchon.library
 		 *	</li>
 		 * </ul>
 		 */
-		private mutation_rate: number;
+		private mutation_rate_: number;
 
 		/**
 		 * Number of tournaments in selection.
 		 */
-		private tournament: number;
+		private tournament_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS AND MAIN PROCEDURES
@@ -56,9 +56,9 @@ namespace samchon.library
 		 */
 		public constructor(unique: boolean = true, mutation_rate: number = .015, tournament: number = 10)
 		{
-			this.unique = unique;
-			this.mutation_rate = mutation_rate;
-			this.tournament = tournament;
+			this.unique_ = unique;
+			this.mutation_rate_ = mutation_rate;
+			this.tournament_ = tournament;
 		}
 
 		/**
@@ -194,7 +194,7 @@ namespace samchon.library
 			let individual: GeneArray = parent1.constructor(parent1);
 			let size: number = parent1.size();
 
-			if (this.unique == false)
+			if (this.unique_ == false)
 			{
 				for (let i: number = 0; i < size; i++)
 					if (Math.random() > .5)
@@ -264,7 +264,7 @@ namespace samchon.library
 		{
 			for (let it = individual.begin(); !it.equal_to(individual.end()); it = it.next())
 			{
-				if (Math.random() > this.mutation_rate)
+				if (Math.random() > this.mutation_rate_)
 					continue;
 
 				// JUST SHUFFLE SEQUENCE OF GENES

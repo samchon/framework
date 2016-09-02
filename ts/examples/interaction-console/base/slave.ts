@@ -16,10 +16,6 @@ namespace slave
 		{
 			return new protocol.ServerConnector(this);
 		}
-		public createChild(xml: library.XML): protocol.external.ExternalSystemRole
-		{
-			return null;
-		}
 
 		protected abstract optimize(xml: library.XML, index: number, size: number): void;
 	}

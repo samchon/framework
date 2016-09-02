@@ -2,6 +2,8 @@
 
 namespace samchon.library
 {
+	export type BasicEventListener = (event: BasicEvent) => void;
+	
 	/**
 	 * <p> The IEventDispatcher interface defines methods for adding or removing event listeners, checks 
 	 * whether specific types of event listeners are registered, and dispatches events. </p>
@@ -93,7 +95,7 @@ namespace samchon.library
 		 *				 This function must accept an Event object as its only parameter and must return 
 		 *				 nothing.
 		 */
-		addEventListener(type: string, listener: EventListener): void;
+		addEventListener(type: string, listener: library.BasicEventListener): void;
 
 		/**
 		 * <p> Registers an event listener object with an EventDispatcher object so that the listener 
@@ -139,7 +141,7 @@ namespace samchon.library
 		 *				 nothing.
 		 * @param thisArg The object to be used as the <b>this</b> object.
 		 */
-		addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+		addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
 
 		/**
 		 * Removes a listener from the EventDispatcher object. If there is no matching listener registered 
@@ -148,7 +150,7 @@ namespace samchon.library
 		 * @param type The type of event.
 		 * @param listener The listener object to remove.
 		 */
-		removeEventListener(type: string, listener: EventListener): void;
+		removeEventListener(type: string, listener: library.BasicEventListener): void;
 
 		/**
 		 * Removes a listener from the EventDispatcher object. If there is no matching listener registered 
@@ -158,7 +160,7 @@ namespace samchon.library
 		 * @param listener The listener object to remove.
 		 * @param thisArg The object to be used as the <b>this</b> object.
 		 */
-		removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+		removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
 	}
 
 	/**
@@ -216,7 +218,7 @@ namespace samchon.library
 		/**
 		 * Container of listeners.
 		 */
-		protected event_listeners_: std.HashMap<string, std.HashSet<std.Pair<EventListener, Object>>>;
+		protected event_listeners_: std.HashMap<string, std.HashSet<std.Pair<library.BasicEventListener, Object>>>;
 
 		/**
 		 * Default Constructor.
@@ -237,7 +239,7 @@ namespace samchon.library
 			else
 				this.event_dispatcher_ = dispatcher;
 
-			this.event_listeners_ = new std.HashMap<string, std.HashSet<std.Pair<EventListener, Object>>>();
+			this.event_listeners_ = new std.HashMap<string, std.HashSet<std.Pair<library.BasicEventListener, Object>>>();
 		}
 
 		/**
@@ -253,69 +255,68 @@ namespace samchon.library
 		/**
 		 * @inheritdoc
 		 */
-		public dispatchEvent(event: Event): boolean
+		public dispatchEvent(event: library.BasicEvent): boolean
 		{
-			if (event instanceof library.BasicEvent)
-				event["target_"] = this.event_dispatcher_;
-			else
-				event.target = this.event_dispatcher_;
-
+			event["target_"] = this.event_dispatcher_;
 			if (this.event_listeners_.has(event.type) == false)
 				return false;
 
 			let listenerSet = this.event_listeners_.get(event.type);
 			for (let it = listenerSet.begin(); it.equal_to(listenerSet.end()) == false; it = it.next())
-				it.value.first.apply(it.value.second, [event]);
-				//it.value.apply(event);
+			{
+				if (event.defaultPrevented == true)
+					continue;
 
+				it.value.first.apply(it.value.second, [event]);
+			}
 			return true;
 		}
 		
 		/**
 		 * @inheritdoc
 		 */
-		public addEventListener(type: string, listener: EventListener): void;
+		public addEventListener(type: string, listener: library.BasicEventListener): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+		public addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
 		
-		public addEventListener(type: string, listener: EventListener, thisArg: Object = null): void
+		public addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object = null): void
 		{
 			type = type.toLowerCase();
-			let listenerSet: std.HashSet<std.Pair<EventListener, Object>>;
+			let listenerSet: std.HashSet<std.Pair<library.BasicEventListener, Object>>;
 			
 			if (this.event_listeners_.has(type) == false)
 			{
-				listenerSet = new std.HashSet<std.Pair<EventListener, Object>>();
+				listenerSet = new std.HashSet<std.Pair<library.BasicEventListener, Object>>();
 				this.event_listeners_.set(type, listenerSet);
 			}
 			else
 				listenerSet = this.event_listeners_.get(type);
 
-			listenerSet.insert(new std.Pair<EventListener, Object>(listener, thisArg));
+			listenerSet.insert(new std.Pair<library.BasicEventListener, Object>(listener, thisArg));
 		}
 
 		
 		/**
 		 * @inheritdoc
 		 */
-		public removeEventListener(type: string, listener: EventListener): void;
+		public removeEventListener(type: string, listener: library.BasicEventListener): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+		public removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
 
-		public removeEventListener(type: string, listener: EventListener, thisArg: Object = null): void
+		public removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object = null): void
 		{
 			type = type.toLowerCase();
 			if (this.event_listeners_.has(type) == false)
 				return;
 
 			let listenerSet = this.event_listeners_.get(type);
-			let bind: std.Pair<EventListener, Object> = new std.Pair<EventListener, Object>(listener, thisArg);
+			let bind: std.Pair<library.BasicEventListener, Object> = new std.Pair<library.BasicEventListener, Object>(listener, thisArg);
 			
 			if (listenerSet.has(bind) == false)
 				return;

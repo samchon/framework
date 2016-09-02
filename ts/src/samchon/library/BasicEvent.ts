@@ -8,7 +8,7 @@ namespace samchon.library
 	 * @reference https://developer.mozilla.org/en-US/docs/Web/API/Event
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class BasicEvent implements Event
+	export class BasicEvent
 	{
 		/* -------------------------------------------------------------------
 			STATIC CONSTS
@@ -17,26 +17,26 @@ namespace samchon.library
 		// * @inheritdoc
 		// */
 		//public static get NONE(): number { return 0; }
-		public get NONE(): number { return 0; }
+		//public get NONE(): number { return 0; }
 
 		///**
 		// * @inheritdoc
 		// */
 		//public static get CAPTURING_PHASE(): number { return Event.CAPTURING_PHASE; }
-		public get CAPTURING_PHASE(): number { return Event.CAPTURING_PHASE; }
+		//public get CAPTURING_PHASE(): number { return Event.CAPTURING_PHASE; }
 		
 
 		///**
 		// * @inheritdoc
 		// */
 		//public static get AT_TARGET(): number { return Event.AT_TARGET; }
-		public get AT_TARGET(): number { return Event.AT_TARGET; }
+		//public get AT_TARGET(): number { return Event.AT_TARGET; }
 
 		///**
 		// * @inheritdoc
 		// */
 		//public static get BUBBLING_PHASE(): number { return Event.BUBBLING_PHASE; }
-		public get BUBBLING_PHASE(): number { return Event.BUBBLING_PHASE; }
+		//public get BUBBLING_PHASE(): number { return Event.BUBBLING_PHASE; }
 
 		/* -------------------------------------------------------------------
 			MEMBERS
@@ -87,9 +87,7 @@ namespace samchon.library
 		/**
 		 * @inheritdoc
 		 */
-		public preventDefault(): void
-		{
-		}
+		//public abstract preventDefault(): void;
 
 		/**
 		 * @inheritdoc
@@ -205,29 +203,29 @@ namespace samchon.library
 		}
 	}
 
-	export class ProgressEvent
-		extends library.BasicEvent
-	{
-		public static get PROGRESS(): string { return "progress"; }
+	//export class ProgressEvent
+	//	extends library.BasicEvent
+	//{
+	//	public static get PROGRESS(): string { return "progress"; }
 
-		protected numerator_: number;
-		protected denominator_: number;
+	//	protected numerator_: number;
+	//	protected denominator_: number;
 
-		public constructor(type: string, numerator: number, denominator: number)
-		{
-			super(type);
+	//	public constructor(type: string, numerator: number, denominator: number)
+	//	{
+	//		super(type);
 
-			this.numerator_ = numerator;
-			this.denominator_ = denominator;
-		}
+	//		this.numerator_ = numerator;
+	//		this.denominator_ = denominator;
+	//	}
 
-		public get numerator(): number
-		{
-			return this.numerator_;
-		}
-		public get denominator(): number
-		{
-			return this.denominator_;
-		}
-	}
+	//	public get numerator(): number
+	//	{
+	//		return this.numerator_;
+	//	}
+	//	public get denominator(): number
+	//	{
+	//		return this.denominator_;
+	//	}
+	//}
 };

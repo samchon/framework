@@ -201,14 +201,14 @@
 				input.accept = typeFilter.toString();
 
 			// EVENT HANDLER
-			input.onchange = function (event: Event): void
+			input.onchange = function (event: any): void
 			{
 				this_.file_ = input.files[0];
 				this_.dispatchEvent(new library.BasicEvent("select"));
 			};
 			
 			// APEND TO BODY TEMPORARILY
-			input.onclick = function (event: Event): void
+			input.onclick = function (event: any): void
 			{
 				document.body.removeChild(event.target as Node);
 			};
@@ -237,7 +237,7 @@
 			let this_: FileReference = this;
 
 			let reader: FileReader = new FileReader();
-			reader.onload = function (event: Event): void
+			reader.onload = function (event: any): void
 			{
 				this_.data_ = reader.result;
 				this_.dispatchEvent(new library.BasicEvent("complete"));
@@ -425,7 +425,7 @@
 				input.accept = typeFilter.toString();
 
 			// EVENT HANDLER
-			input.onchange = function (event: Event): void
+			input.onchange = function (event: any): void
 			{
 				let fileList: FileList = input.files;
 
@@ -442,7 +442,7 @@
 			};
 
 			// APEND TO BODY TEMPORARILY
-			input.onclick = function (event: Event): void
+			input.onclick = function (event: any): void
 			{
 				document.body.removeChild(event.target as Node);
 			};

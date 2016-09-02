@@ -2,6 +2,13 @@
 
 namespace samchon.library
 {
+	interface XMLQuote
+	{
+		type: number;
+		start: number;
+		end: number;
+	}
+
 	/**
 	 * <p> XML is a class representing a tree structued xml objects. </p>
 	 * <p> The XML class provides methods and properties for working with XML objects. </p>
@@ -66,7 +73,7 @@ namespace samchon.library
 		 *  <li> \<<b>price</b> high='1500' low='1300' open='1450' close='1320' /\>: tag => \"price\" </li>
 		 * </ul>
 		 */
-		private tag: string;
+		private tag_: string;
 
 		/**
 		 * <p> Value of the XML. </p>
@@ -76,7 +83,7 @@ namespace samchon.library
 		 *	<li> \<price high='1500' low='1300' open='1450' close='1320' /\>: value => null </li>
 		 * </ul>
 		 */
-		private value: string;
+		private value_: string;
 
 		/**
 		 * <p> Properties belongs to the XML. </p>
@@ -90,7 +97,7 @@ namespace samchon.library
 		 *					 {\"comment\", \"Hello. My name is Jeongho Nam <http://samchon.org>\"}} </li>
 		 * </ul>
 		 */
-		private properties: std.HashMap<string, string>;
+		private property_map_: std.HashMap<string, string>;
 	
 		/* -------------------------------------------------------------
 			CONSTRUCTORS
@@ -108,8 +115,8 @@ namespace samchon.library
 		{
 			super();
 
-			this.properties = new std.HashMap<string, string>();
-			this.value = "";
+			this.property_map_ = new std.HashMap<string, string>();
+			this.value_ = "";
 
 			if (str.indexOf("<") == -1)
 				return;
@@ -172,7 +179,7 @@ namespace samchon.library
 			if (start == 0 || end == -1) 
 				return;
 		
-			this.tag = str.substring(start, end);
+			this.tag_ = str.substring(start, end);
 		}
 
 		/**
@@ -180,7 +187,7 @@ namespace samchon.library
 		 */
 		private parseProperty(str: string): void
 		{
-			let start: number = str.indexOf("<" + this.tag) + this.tag.length + 1;
+			let start: number = str.indexOf("<" + this.tag_) + this.tag_.length + 1;
 			let end: number = this.calcMinIndex(str.lastIndexOf("/"), str.indexOf(">", start));
 
 			if (start == -1 || end == -1 || start >= end)
@@ -193,7 +200,7 @@ namespace samchon.library
 		
 			let label: string;
 			let value: string;
-			let helpers: Array<Object> = new Array<Object>();
+			let helpers: XMLQuote[] = [];
 
 			let inQuote: boolean = false;
 			let quoteType: number;
@@ -222,7 +229,7 @@ namespace samchon.library
 						)
 					) 
 				{
-					helpers.push({ "type": quoteType, "start": start, "end": i });
+					helpers.push({ type: quoteType, start: start, end: i });
 					inQuote = false;
 				}
 			}
@@ -239,10 +246,10 @@ namespace samchon.library
 				}
 				else 
 				{
-					equal = line.indexOf("=", helpers[i - 1]["end"] + 1);
-					label = line.substring(helpers[i - 1]["end"] + 1, equal).trim();
+					equal = line.indexOf("=", helpers[i - 1].end + 1);
+					label = line.substring(helpers[i - 1].end + 1, equal).trim();
 				}
-				value = line.substring(helpers[i]["start"] + 1, helpers[i]["end"]);
+				value = line.substring(helpers[i].start + 1, helpers[i].end);
 			
 				this.setProperty(label, XML.decodeProperty(value));
 			}
@@ -260,7 +267,7 @@ namespace samchon.library
 			{
 				//STATEMENT1: <TAG />
 				//STATEMENT2: <TAG></TAG> -> SAME WITH STATEMENT1: <TAG />
-				this.value = "";
+				this.value_ = "";
 			
 				return new std.Pair<string, boolean>(str, false);
 			}
@@ -270,9 +277,9 @@ namespace samchon.library
 			str = str.substring(start, end); //REDEFINE WEAK_STRING -> IN TO THE TAG
 
 			if (str.indexOf("<") == -1)
-				this.value = XML.decodeValue( str.trim() );
+				this.value_ = XML.decodeValue( str.trim() );
 			else
-				this.value = "";
+				this.value_ = "";
 
 			return new std.Pair<string, boolean>(str, true);
 		}
@@ -308,12 +315,12 @@ namespace samchon.library
 					let xml: XML = new XML();
 					xml.construct( str.substring(start, end + 1) );
 
-					if (this.has(xml.tag) == true)
-						xmlList = this.get(xml.tag);
+					if (this.has(xml.tag_) == true)
+						xmlList = this.get(xml.tag_);
 					else 
 					{
 						xmlList = new XMLList();
-						this.set(xml.tag, xmlList);
+						this.set(xml.tag_, xmlList);
 					}
 					xmlList.push(xml);
 				
@@ -333,14 +340,14 @@ namespace samchon.library
 		 */
 		public getTag(): string
 		{
-			return this.tag;
+			return this.tag_;
 		}
 		/** 
 		 * <p> Get value. </p>
 		 */
 		public getValue(): string
 		{
-			return this.value;
+			return this.value_;
 		}
 
 		/**
@@ -348,7 +355,7 @@ namespace samchon.library
 		 */
 		public hasProperty(key: string): boolean
 		{
-			return this.properties.has(key);
+			return this.property_map_.has(key);
 		}
 
 		/**
@@ -356,12 +363,12 @@ namespace samchon.library
 		 */
 		public getProperty(key: string): string
 		{
-			return this.properties.get(key);
+			return this.property_map_.get(key);
 		}
 
 		public getPropertyMap(): std.HashMap<string, string>
 		{
-			return this.properties;
+			return this.property_map_;
 		}
 
 		/* -------------------------------------------------------------
@@ -372,7 +379,7 @@ namespace samchon.library
 		 */
 		public setTag(str: string): void
 		{
-			this.tag = str;
+			this.tag_ = str;
 		}
 
 		/**
@@ -405,7 +412,7 @@ namespace samchon.library
 		 */
 		public setValue(str: string): void
 		{
-			this.value = str;
+			this.value_ = str;
 		}
 
 		/**
@@ -413,7 +420,7 @@ namespace samchon.library
 		 */
 		public setProperty(key: string, value: string): void
 		{
-			this.properties.set(key, value);
+			this.property_map_.set(key, value);
 		}
 
 		/**
@@ -424,10 +431,10 @@ namespace samchon.library
 		 */
 		public eraseProperty(key: string): void 
 		{
-			if(this.properties.has(key) == false)
+			if(this.property_map_.has(key) == false)
 				throw Error("out of range");
 			else
-				this.properties.erase(key);
+				this.property_map_.erase(key);
 		}
 
 		public push<L extends string, U extends XMLList>(...args: std.Pair<L, U>[]): number;
@@ -443,14 +450,14 @@ namespace samchon.library
 				{
 					let xml: XML = items[i];
 
-					if (this.has(xml.tag) == true)
-						this.get(xml.tag).push(xml);
+					if (this.has(xml.tag_) == true)
+						this.get(xml.tag_).push(xml);
 					else 
 					{
 						let xmlList: XMLList = new XMLList();
 						xmlList.push(xml);
 
-						this.set(xml.tag, xmlList);
+						this.set(xml.tag_, xmlList);
 					}
 				}
 				else if (items[i] instanceof XMLList)
@@ -478,13 +485,13 @@ namespace samchon.library
 
 		public addAllProperties(xml: XML): void
 		{
-			for (let it = xml.properties.begin(); it.equal_to(xml.properties.end()) == false; it = it.next())
+			for (let it = xml.property_map_.begin(); it.equal_to(xml.property_map_.end()) == false; it = it.next())
 				this.setProperty(it.first, it.second);
 		}
 
 		public clearProperties(): void
 		{
-			this.properties.clear();
+			this.property_map_.clear();
 		}
 
 		/* -------------------------------------------------------------
@@ -712,18 +719,18 @@ namespace samchon.library
 		 */
 		public toString(level: number = 0): string
 		{
-			let str: string = StringUtil.repeat("\t", level) + "<" + this.tag;
+			let str: string = StringUtil.repeat("\t", level) + "<" + this.tag_;
 			let children_str: string = "";
 
 			//PROPERTIES
-			for (let p_it = this.properties.begin(); p_it.equal_to(this.properties.end()) == false; p_it = p_it.next())
+			for (let p_it = this.property_map_.begin(); p_it.equal_to(this.property_map_.end()) == false; p_it = p_it.next())
 				str += " " + p_it.first + "=\"" + XML.encodeProperty(String(p_it.second)) + "\"";
 		
 			if (this.size() == 0) 
 			{
 				// VALUE
-				if (this.value != "")
-					str += ">" + XML.encodeValue(String(this.value)) + "</" + this.tag + ">";
+				if (this.value_ != "")
+					str += ">" + XML.encodeValue(String(this.value_)) + "</" + this.tag_ + ">";
 				else
 					str += " />";
 			} 
@@ -735,7 +742,7 @@ namespace samchon.library
 				for (let x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
 					str += x_it.second.toString(level + 1);
 			
-				str += StringUtil.repeat("\t", level) + "</" + this.tag + ">";
+				str += StringUtil.repeat("\t", level) + "</" + this.tag_ + ">";
 			}
 			return str;
 		}
@@ -745,16 +752,16 @@ namespace samchon.library
 		 */
 		public toHTML(level: number = 0): string
 		{
-			let str: string = StringUtil.repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level) + "&lt;" + this.tag;
+			let str: string = StringUtil.repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level) + "&lt;" + this.tag_;
 			let childrenString: string = "";
 
 			//PROPERTIES
-			for (let p_it = this.properties.begin(); p_it.equal_to(this.properties.end()) == false; p_it = p_it.next())
+			for (let p_it = this.property_map_.begin(); p_it.equal_to(this.property_map_.end()) == false; p_it = p_it.next())
 				str += " " + p_it.first + "=&quot;" + XML.encodeProperty(String(p_it.second)) + "&quot;";
 
 			if (this.size() == 0) {
-				if (this.value != "")
-					str += "&gt;" + XML.encodeValue(String(this.value)) + "</" + this.tag + ">";
+				if (this.value_ != "")
+					str += "&gt;" + XML.encodeValue(String(this.value_)) + "</" + this.tag_ + ">";
 				else
 					str += " /&gt;";
 			}
@@ -764,7 +771,7 @@ namespace samchon.library
 				for (let x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
 					str += x_it.second.toHTML(level + 1);
 
-				str += StringUtil.repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level) + "&lt;/" + this.tag + "&gt;";
+				str += StringUtil.repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level) + "&lt;/" + this.tag_ + "&gt;";
 			}
 			return str;
 		}

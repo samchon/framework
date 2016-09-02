@@ -687,7 +687,7 @@ namespace library
 		/**
 		 * @brief Get properties
 		 */
-		auto getProperties() const -> const HashMap<std::string, std::string>&
+		auto getPropertyMap() const -> const HashMap<std::string, std::string>&
 		{
 			return properties;
 		};

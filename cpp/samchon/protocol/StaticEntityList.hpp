@@ -57,7 +57,6 @@ namespace protocol
 	{
 	private:
 		typedef std::list<T> container_type;
-		typedef Entity super;
 		typedef T entity_type;
 
 	public:
@@ -65,8 +64,7 @@ namespace protocol
 		 * @brief Default Constructor
 		 */
 		using container_type::container_type;
-		virtual ~StaticEntityList() = default;
-
+		
 		/**
 		 * @brief Construct data of the Entity from an XML object
 		 *
@@ -88,7 +86,7 @@ namespace protocol
 				return;
 
 			std::shared_ptr<library::XMLList> &xmlList = xml->get(CHILD_TAG());
-			assign(xmlList->size());
+			assign(xmlList->size(), T());
 
 			for (size_t i = 0; i < xmlList->size(); i++)
 				at(i).construct(xmlList->at(i));
@@ -111,9 +109,9 @@ namespace protocol
 		 */
 		virtual auto toXML() const -> std::shared_ptr<library::XML> override
 		{
-			std::shared_ptr<library::XML> &xml = super::toXML();
+			std::shared_ptr<library::XML> &xml = Entity::toXML();
 
-			std::shared_ptr<library::XMLList> xmlList(new XMLList());
+			std::shared_ptr<library::XMLList> xmlList(new library::XMLList());
 			xmlList->reserve(this->size());
 
 			for (size_t i = 0; i < size(); i++)

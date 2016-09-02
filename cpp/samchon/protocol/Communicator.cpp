@@ -48,44 +48,51 @@ void Communicator::listen_message()
 
 	while (true)
 	{
-		// READ CONTENT SIZE
-		size_t content_size = listen_size();
-
-		// READ CONTENT
-		if (binary_invoke == nullptr)
+		try
 		{
-			shared_ptr<Invoke> invoke = listen_string(content_size);
+			// READ CONTENT SIZE
+			size_t content_size = listen_size();
 
-			for (size_t i = 0; i < invoke->size(); i++)
-			{
-				shared_ptr<InvokeParameter> &parameter = invoke->at(i);
-				if (parameter->getType() != "ByteArray")
-					continue;
-
-				if (binary_invoke == nullptr)
-					binary_invoke = invoke;
-				binary_parameters.push(parameter);
-			}
-
-			// NO BINARY, THEN REPLY DIRECTLY
+			// READ CONTENT
 			if (binary_invoke == nullptr)
-				this->replyData(invoke);
-		}
-		else
-		{
-			shared_ptr<InvokeParameter> parameter = binary_parameters.front();
-			listen_binary(content_size, parameter);
-			binary_parameters.pop();
-
-			if (binary_parameters.empty() == true)
 			{
-				// NO BINARY PARAMETER LEFT,
-				shared_ptr<Invoke> invoke = binary_invoke;
-				binary_invoke = nullptr;
+				shared_ptr<Invoke> invoke = listen_string(content_size);
 
-				// THEN REPLY
-				this->replyData(invoke);
+				for (size_t i = 0; i < invoke->size(); i++)
+				{
+					shared_ptr<InvokeParameter> &parameter = invoke->at(i);
+					if (parameter->getType() != "ByteArray")
+						continue;
+
+					if (binary_invoke == nullptr)
+						binary_invoke = invoke;
+					binary_parameters.push(parameter);
+				}
+
+				// NO BINARY, THEN REPLY DIRECTLY
+				if (binary_invoke == nullptr)
+					this->replyData(invoke);
 			}
+			else
+			{
+				shared_ptr<InvokeParameter> parameter = binary_parameters.front();
+				listen_binary(content_size, parameter);
+				binary_parameters.pop();
+
+				if (binary_parameters.empty() == true)
+				{
+					// NO BINARY PARAMETER LEFT,
+					shared_ptr<Invoke> invoke = binary_invoke;
+					binary_invoke = nullptr;
+
+					// THEN REPLY
+					this->replyData(invoke);
+				}
+			}
+		}
+		catch (...)
+		{
+			break;
 		}
 	}
 }

@@ -33,7 +33,7 @@ namespace samchon.protocol
 		/**
 		 * <p> Listener, represent function's name. </p>
 		 */
-		protected listener: string = "";
+		private listener: string = "";
 
 		/* -------------------------------------------------------------------
 			CONSTRUCTORS
@@ -313,7 +313,8 @@ namespace samchon.protocol
 			let xml: library.XML = new library.XML();
 			xml.setTag(this.TAG());
 
-			xml.setProperty("name", this.name);
+			if (this.name != "")
+				xml.setProperty("name", this.name);
 			xml.setProperty("type", this.type);
 
 			// NOT CONSIDERED ABOUT THE BINARY DATA

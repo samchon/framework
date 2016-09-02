@@ -9,15 +9,15 @@ namespace samchon.protocol.service
 		implements protocol.IProtocol
 	{
 		// RELATED OBJECTS
-		private server: Server;
+		private server_: Server;
 
 		// KEY
-		private session_id: string;
-		private sequence: number;
+		private session_id_: string;
+		private sequence_: number;
 
 		// ACCOUNT
-		private account_id: string;
-		private authority: number;
+		private account_id_: string;
+		private authority_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -29,11 +29,11 @@ namespace samchon.protocol.service
 		{
 			super();
 
-			this.server = server;
+			this.server_ = server;
 			
-			this.sequence = 0;
-			this.account_id = "guest";
-			this.authority = 0;
+			this.sequence_ = 0;
+			this.account_id_ = "guest";
+			this.authority_ = 0;
 
 			this.addEventListener("erase", this.handle_erase_client, this);
 		}
@@ -47,7 +47,7 @@ namespace samchon.protocol.service
 				it.value.second.close();
 			}
 			if (this.empty() == true)
-				this.server["erase_user"](this);
+				this.server_["erase_user"](this);
 		}
 
 		/* ---------------------------------------------------------
@@ -55,31 +55,31 @@ namespace samchon.protocol.service
 		--------------------------------------------------------- */
 		public getServer(): Server
 		{
-			return this.server;
+			return this.server_;
 		}
 
 		public getAccountID(): string
 		{
-			return this.account_id;
+			return this.account_id_;
 		}
 		public getAuthority(): number
 		{
-			return this.authority;
+			return this.authority_;
 		}
 
 		public setAccount(id: string, authority: number): void
 		{
-			if (this.account_id == id) // SAME WITH BEFORE
+			if (this.account_id_ == id) // SAME WITH BEFORE
 				return;
-			else if (this.account_id != "") // ACCOUTN IS CHANGED
-				this.server["account_map"].erase(this.account_id); // ERASE FROM ORDINARY ACCOUNT_MAP
+			else if (this.account_id_ != "") // ACCOUTN IS CHANGED
+				this.server_["account_map"].erase(this.account_id_); // ERASE FROM ORDINARY ACCOUNT_MAP
 
 			// SET
-			this.account_id = id;
-			this.authority = authority;
+			this.account_id_ = id;
+			this.authority_ = authority;
 
 			// REGISTER TO ACCOUNT_MAP IN ITS SERVER
-			this.server["account_map"].set(id, this);
+			this.server_["account_map"].set(id, this);
 		}
 
 		/* ---------------------------------------------------------
@@ -93,7 +93,7 @@ namespace samchon.protocol.service
 		public replyData(invoke: protocol.Invoke): void
 		{
 			invoke.apply(this);
-			this.server.replyData(invoke);
+			this.server_.replyData(invoke);
 		}
 	}
 }

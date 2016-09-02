@@ -1,16 +1,13 @@
 ﻿/// <reference path="../API.ts" />
 
-/// <reference path="../library/Event.ts" />
+/// <reference path="../library/BasicEvent.ts" />
 
 namespace samchon.collection
 {
 	/**
 	 * Type of function pointer for listener of {@link CollectionEvent CollectionEvents}.
 	 */
-	export interface CollectionEventListener<T> extends EventListener
-	{
-		(event: CollectionEvent<T>): void;
-	}
+	export type CollectionEventListener<T> = (event: CollectionEvent<T>) => void;
 }
 
 namespace samchon.collection
@@ -30,7 +27,11 @@ namespace samchon.collection
 		 * @hidden
 		 */
 		private last_: std.Iterator<T>;
-		
+
+		private temporary_container_: std.Vector<T>;
+
+		private origin_first_: std.Iterator<T>;
+
 		/**
 		 * Initialization Constructor.
 		 * 
@@ -46,18 +47,32 @@ namespace samchon.collection
 
 		public constructor(type: string, first: std.Iterator<T>, last: std.Iterator<T>)
 		{
-			super(type);
+			super(type, false, (type == "insert" || type == "erase"));
 
-			this.first_ = first;
-			this.last_ = last;
+			if (type == "erase" && (first instanceof std.VectorIterator || first instanceof std.DequeIterator))
+			{
+				this.temporary_container_ = new std.Vector<T>(first, last);
+				this.origin_first_ = first;
+
+				this.first_ = this.temporary_container_.begin();
+				this.last_ = this.temporary_container_.end();
+			}
+			else
+			{
+				this.temporary_container_ = null;
+				this.origin_first_ = null;
+
+				this.first_ = first;
+				this.last_ = last;
+			}
 		}
 
 		/**
-		 * Get associative container.
+		 * Get associative target, the container.
 		 */
-		public get container(): ICollection<T>
+		public get target(): ICollection<T>
 		{
-			return this.target as ICollection<T>;
+			return this["target_"] as ICollection<T>;
 		}
 
 		/**
@@ -75,12 +90,44 @@ namespace samchon.collection
 		{
 			return this.last_;
 		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public preventDefault(): void
+		{
+			if (this.cancelable == false)
+				return;
+
+			this.defaultPrevented_ = true;
+
+			if (this.type == "insert")
+			{
+				this.target.erase(this.first_, this.last_);
+			}
+			else if (this.type == "erase")
+			{
+				let container: ArrayCollection<T> = this.target as ArrayCollection<T>;
+				let it: std.VectorIterator<T>;
+
+				if (this.temporary_container_ == null)
+					it = this.first_.prev().next() as std.VectorIterator<T>;
+				else
+					it = this.origin_first_.prev().next() as std.VectorIterator<T>;
+				
+				container.insert(it, this.first_, this.last_);
+			}
+			this.defaultPrevented_ = false;
+		}
 	}
 }
 
+/**
+ * @hidden
+ */
 namespace samchon.collection.CollectionEvent
 {
-	export const INSERT: string = "insert";
-	export const ERASE: string = "erase";
-	export const REFRESH: string = "refresh";
+	export const INSERT: "insert" = "insert";
+	export const ERASE: "erase" = "erase";
+	export const REFRESH: "refresh" = "refresh";
 }

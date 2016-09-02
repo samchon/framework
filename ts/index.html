@@ -4,7 +4,8 @@
     <script src="include/typescript-stl.js"></script>
     <script src="include/samchon-framework.js"></script>
 	<script>
-		console.log(samchon.library.StringUtil.replaceAll("A\nB\tC\tD\nE", std.make_pair("\t", ""), std.make_pair("\n", "")));
+        var invoke = new samchon.protocol.Invoke("talk", "Hello friends?");
+        console.log(invoke.toXML().toString());
 	</script>
 </head>
 <body>

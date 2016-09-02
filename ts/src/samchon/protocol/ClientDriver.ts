@@ -223,7 +223,8 @@ namespace samchon.protocol
 		{
 			super();
 
-			this.socket = socket;
+			this.socket_ = socket;
+			this.connected_ = true;
 		}
 
 		/**
@@ -231,7 +232,7 @@ namespace samchon.protocol
 		 */
 		public listen(listener: IProtocol): void
 		{
-			this.listener = listener;
+			this.listener_ = listener;
 			
 			this.start_listen();
 		}
@@ -247,14 +248,14 @@ namespace samchon.protocol
 		/**
 		 * Requested path.
 		 */
-		private path: string;
+		private path_: string;
 
 		/**
 		 * Session ID, an identifier of the remote client.
 		 */
-		private session_id: string;
+		private session_id_: string;
 
-		private listening: boolean;
+		private listening_: boolean;
 
 		/**
 		 * Initialization Constructor.
@@ -267,11 +268,11 @@ namespace samchon.protocol
 		{
 			super();
 
-			this.connection = connection;
-			this.path = path;
-			this.session_id = session_id;
+			this.connection_ = connection;
+			this.path_ = path;
+			this.session_id_ = session_id;
 
-			this.listening = false;
+			this.listening_ = false;
 		}
 
 		/**
@@ -279,15 +280,15 @@ namespace samchon.protocol
 		 */
 		public listen(listener: IProtocol): void
 		{
-			this.listener = listener;
+			this.listener_ = listener;
 
-			if (this.listening == true)
+			if (this.listening_ == true)
 				return;
-			this.listening = true;
+			this.listening_ = true;
 
-			this.connection.on("message", this.handle_message.bind(this));
-			this.connection.on("close", this.handle_close.bind(this));
-			this.connection.on("error", this.handle_close.bind(this));
+			this.connection_.on("message", this.handle_message.bind(this));
+			this.connection_.on("close", this.handle_close.bind(this));
+			this.connection_.on("error", this.handle_close.bind(this));
 		}
 
 		/**
@@ -295,7 +296,7 @@ namespace samchon.protocol
 		 */
 		public getPath(): string
 		{
-			return this.path;
+			return this.path_;
 		}
 
 		/**
@@ -303,7 +304,7 @@ namespace samchon.protocol
 		 */
 		public getSessionID(): string
 		{
-			return this.session_id;
+			return this.session_id_;
 		}
 	}
 }
@@ -320,7 +321,8 @@ namespace samchon.protocol
 		{
 			super();
 
-			this.port = port;
+			this.port_ = port;
+			this.connected_ = true;
 			this.listening = false;
 		}
 
@@ -329,13 +331,13 @@ namespace samchon.protocol
 		 */
 		public listen(listener: IProtocol): void
 		{
-			this.listener = listener;
+			this.listener_ = listener;
 
 			if (this.listening == true)
 				return;
 			this.listening = true;
 
-			this.port.onmessage = this.handle_message.bind(this);
+			this.port_.onmessage = this.handle_message.bind(this);
 		}
 	}
 }

@@ -102,17 +102,17 @@ namespace samchon.protocol
 		extends Server
 		implements IServerBase
 	{
-		private target: IServer;
+		private target_: IServer;
 
 		public constructor(target: IServer)
 		{
 			super();
-			this.target = target;
+			this.target_ = target;
 		}
 
 		public addClient(driver: IClientDriver): void
 		{
-			this.target.addClient(driver);
+			this.target_.addClient(driver);
 		}
 	}
 }
@@ -161,17 +161,17 @@ namespace samchon.protocol
 		extends WebServer
 		implements IServerBase
 	{
-		private target: IServer;
+		private target_: IServer;
 
 		public constructor(target: IServer)
 		{
 			super();
-			this.target = target;
+			this.target_ = target;
 		}
 
 		public addClient(driver: IClientDriver): void
 		{
-			this.target.addClient(driver);
+			this.target_.addClient(driver);
 		}
 	}
 }
@@ -221,17 +221,17 @@ namespace samchon.protocol
 		extends SharedWorkerServer
 		implements IServerBase
 	{
-		private target: IServer;
+		private target_: IServer;
 
 		public constructor(target: IServer)
 		{
 			super();
-			this.target = target;
+			this.target_ = target;
 		}
 
 		public addClient(driver: IClientDriver): void
 		{
-			this.target.addClient(driver);
+			this.target_.addClient(driver);
 		}
 	}
 }

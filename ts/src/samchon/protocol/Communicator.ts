@@ -139,7 +139,9 @@ namespace samchon.protocol
 		/**
 		 * Close connection.
 		 */
-		close();
+		close(): void;
+
+		isConnected(): boolean;
 
 		sendData(invoke: protocol.Invoke): void;
 
@@ -155,23 +157,25 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		protected listener: IProtocol;
+		protected listener_: IProtocol;
 
 		/**
 		 * @inheritdoc
 		 */
 		public onClose: Function;
 
+		protected connected_: boolean;
+
 		// BINARY INVOKE MEMBERS
 		/**
 		 * @hidden
 		 */
-		private binary_invoke: Invoke;
+		private binary_invoke_: Invoke;
 
 		/**
 		 * @hidden
 		 */
-		private binary_parameters: std.Queue<InvokeParameter>;
+		private binary_parameters_: std.Queue<InvokeParameter>;
 
 		/**
 		 * @hidden
@@ -186,17 +190,22 @@ namespace samchon.protocol
 		 */
 		public constructor();
 
+		/**
+		 * Construct from <i>listener</i>.
+		 * 
+		 * @param listener An {@link IProtocol} object to listen {@link Invoke} messages.
+		 */
 		public constructor(listener: IProtocol);
 
 		public constructor(listener: IProtocol = null)
 		{
 			// BASIC MEMBERS
-			this.listener = listener;
+			this.listener_ = listener;
 			this.onClose = null;
 
 			// BINARY INVOKE MEMBERS
-			this.binary_invoke = null;
-			this.binary_parameters = new std.Queue<InvokeParameter>();
+			this.binary_invoke_ = null;
+			this.binary_parameters_ = new std.Queue<InvokeParameter>();
 
 			this.unhandled_invokes = new std.Deque<Invoke>();
 		}
@@ -209,9 +218,17 @@ namespace samchon.protocol
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public isConnected(): boolean
+		{
+			return this.connected_;
+		}
+
 		protected is_binary_invoke(): boolean
 		{
-			return (this.binary_invoke != null);
+			return (this.binary_invoke_ != null);
 		}
 
 		///**
@@ -245,14 +262,14 @@ namespace samchon.protocol
 		
 		public replyData(invoke: Invoke): void
 		{
-			if (this.listener == null)
+			if (this.listener_ == null)
 				this.unhandled_invokes.push_back(invoke);
 			else
 			{
-				if (this.listener["_replyData"] instanceof Function)
-					this.listener["_replyData"](invoke);
+				if (this.listener_["_replyData"] instanceof Function)
+					this.listener_["_replyData"](invoke);
 				else
-					this.listener.replyData(invoke);
+					this.listener_.replyData(invoke);
 			}
 		}
 
@@ -268,30 +285,30 @@ namespace samchon.protocol
 				if (parameter.getType() != "ByteArray")
 					continue;
 
-				if (this.binary_invoke == null)
-					this.binary_invoke = invoke; // INIT BINARY_INVOKE
-				this.binary_parameters.push(parameter); // ENROLL TO PARAMETERS' QUEUE
+				if (this.binary_invoke_ == null)
+					this.binary_invoke_ = invoke; // INIT BINARY_INVOKE
+				this.binary_parameters_.push(parameter); // ENROLL TO PARAMETERS' QUEUE
 			}
 
 			// NO BINARY, THEN REPLY DIRECTLY
-			if (this.binary_invoke == null)
+			if (this.binary_invoke_ == null)
 				this.replyData(invoke);
 		}
 
 		protected handle_binary(binary: Uint8Array): void
 		{
 			// FETCH A PARAMETER
-			let parameter: InvokeParameter = this.binary_parameters.front();
+			let parameter: InvokeParameter = this.binary_parameters_.front();
 			{
 				parameter.setValue(binary);
 			}
-			this.binary_parameters.pop();
+			this.binary_parameters_.pop();
 
-			if (this.binary_parameters.empty() == true)
+			if (this.binary_parameters_.empty() == true)
 			{
 				// NO BINARY PARAMETER LEFT,
-				let invoke = this.binary_invoke;
-				this.binary_invoke = null;
+				let invoke = this.binary_invoke_;
+				this.binary_invoke_ = null;
 
 				// THEN REPLY
 				this.replyData(invoke);
@@ -302,34 +319,34 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
-	export class Communicator
+	export abstract class Communicator
 		extends CommunicatorBase
 	{
 		// SOCKET AND RECEIVED DATA
 		/**
 		 * @hidden
 		 */
-		protected socket: socket.socket = null;
+		protected socket_: socket.socket = null;
 
 		/**
 		 * @hidden
 		 */
-		private header_bytes: Uint8Array = null;
+		private header_bytes_: Uint8Array = null;
 
 		/**
 		 * @hidden
 		 */
-		private data: Uint8Array = null;
+		private data_: Uint8Array = null;
 		
 		/**
 		 * @hidden
 		 */
-		private data_index: number = -1;
+		private data_index_: number = -1;
 
 		/**
 		 * @hidden
 		 */
-		private listening: boolean = false;
+		private listening_: boolean = false;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -341,7 +358,7 @@ namespace samchon.protocol
 		 */
 		public close(): void
 		{
-			this.socket.end();
+			this.socket_.end();
 		}
 
 		/**
@@ -349,15 +366,15 @@ namespace samchon.protocol
 		 */
 		protected start_listen(): void
 		{
-			if (this.listening == true)
+			if (this.listening_ == true)
 				return;
-			this.listening = true;
+			this.listening_ = true;
 
-			this.socket.on("data", this.listen_piece.bind(this));
+			this.socket_.on("data", this.listen_piece.bind(this));
 
-			this.socket.on("error", this.handle_error.bind(this));
-			this.socket.on("end", this.handle_close.bind(this));
-			this.socket.on("close", this.handle_close.bind(this));
+			this.socket_.on("error", this.handle_error.bind(this));
+			this.socket_.on("end", this.handle_close.bind(this));
+			this.socket_.on("close", this.handle_close.bind(this));
 		}
 
 		/**
@@ -374,10 +391,12 @@ namespace samchon.protocol
 		 */
 		private handle_close(): void
 		{
+			this.connected_ = false;
+
 			if (this.onClose != null)
 				this.onClose();
 		}
-		
+
 		/* =========================================================
 			SEND & REPLY DATA
 				- INVOKE MESSAGE CHAIN
@@ -400,8 +419,8 @@ namespace samchon.protocol
 			str_header.writeUInt32BE(0, 0);
 			str_header.writeUInt32BE(str.length, 4);
 
-			this.socket.write(str_header); // SEND SIZE HEADER
-			this.socket.write(str, "binary"); // TEXT IS AFTER
+			this.socket_.write(str_header); // SEND SIZE HEADER
+			this.socket_.write(str, "binary"); // TEXT IS AFTER
 
 			for (let i: number = 0; i < invoke.size(); i++)
 			{
@@ -418,8 +437,8 @@ namespace samchon.protocol
 				binary_header.writeUInt32BE(0, 0);
 				binary_header.writeUInt32BE(binary.byteLength, 4);
 
-				this.socket.write(binary_header); // SEND SIZE HEADER
-				this.socket.write(binary); // BINARY IS AFTER
+				this.socket_.write(binary_header); // SEND SIZE HEADER
+				this.socket_.write(binary); // BINARY IS AFTER
 			}
 		}
 
@@ -432,7 +451,7 @@ namespace samchon.protocol
 		private listen_piece(piece: Buffer): void
 		{
 			// DETERMINE WHICH TO LISTEN
-			if (this.data == null)
+			if (this.data_ == null)
 				this.listen_header(piece, 0);
 			else
 				this.listen_data(piece, 0);
@@ -443,25 +462,25 @@ namespace samchon.protocol
 		 */
 		private listen_header(piece: Buffer, piece_index: number): void
 		{
-			if (this.header_bytes != null)
+			if (this.header_bytes_ != null)
 			{
 				// ATTACH RESERVED HEADER BYTE TO PIECE
-				(this.header_bytes as Buffer).copy
+				(this.header_bytes_ as Buffer).copy
 				(
 					piece, piece_index, // FRONT OF THE PIECE
-					0, this.header_bytes.byteLength // ALL BYTES FROM this.header_bytes
+					0, this.header_bytes_.byteLength // ALL BYTES FROM this.header_bytes
 				);
-				this.header_bytes = null; // TRUNCATE
+				this.header_bytes_ = null; // TRUNCATE
 			}
 
 			if (piece_index > piece.byteLength - 8)
 			{
 				// IF LEFT BYTES ARE UNDER 8, THEN RESERVE THE LEFT BYTES
-				this.header_bytes = new Buffer(8);
+				this.header_bytes_ = new Buffer(8);
 
 				piece.copy
 				(
-					this.header_bytes as Buffer, 0, // TO THE NEWLY CREATED HEADER
+					this.header_bytes_ as Buffer, 0, // TO THE NEWLY CREATED HEADER
 					piece_index, piece.byteLength - piece_index // LEFT BYTES
 				);
 				return;
@@ -470,8 +489,8 @@ namespace samchon.protocol
 			// READ CONTENT SIZE AND INIT DATA
 			let content_size: number = piece.readUInt32BE(piece_index + 4);
 			{
-				this.data = new Buffer(content_size);
-				this.data_index = 0;
+				this.data_ = new Buffer(content_size);
+				this.data_index_ = 0;
 				piece_index += 8;
 			}
 
@@ -488,32 +507,32 @@ namespace samchon.protocol
 			// BYTES TO INSERT
 			let inserted_bytes: number = Math.min
 				(
-					this.data.byteLength - this.data_index, // LEFT BYTES TO FILL
+					this.data_.byteLength - this.data_index_, // LEFT BYTES TO FILL
 					piece.byteLength - piece_index // LEFT BYTES IN THE PIECE
 				);
 
 			// INSERT PIECE TO THE DATA
 			piece.copy
 			(
-				this.data as Buffer, this.data_index, // COPY TO THE DATA,
+				this.data_ as Buffer, this.data_index_, // COPY TO THE DATA,
 				piece_index, piece_index + inserted_bytes // LEFT BYTES OF THE PIECE OR FILL
 			);
-			this.data_index += inserted_bytes; // INCREASE OFFSET
+			this.data_index_ += inserted_bytes; // INCREASE OFFSET
 			piece_index += inserted_bytes; // INCREASE OFFSET
 
-			if (this.data_index == this.data.byteLength) 
+			if (this.data_index_ == this.data_.byteLength) 
 			{
 				/////
 				// THE DATA IS FULLY FILLED
 				/////
 				if (this.is_binary_invoke() == false)
-					this.handle_string(this.data.toString());
+					this.handle_string(this.data_.toString());
 				else
-					this.handle_binary(this.data);
+					this.handle_binary(this.data_);
 
 				// TRUNCATE DATA
-				this.data = null;
-				this.data_index = -1;
+				this.data_ = null;
+				this.data_index_ = -1;
 			}
 
 			// THE PIECE IS NOT EXHAUSTED, THEN CONTINUE READING
@@ -544,15 +563,18 @@ namespace samchon.protocol
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class WebCommunicator
+	export abstract class WebCommunicator
 		extends CommunicatorBase
 	{
 		// SOCKET MEMBER
 		/**
 		 * Connection driver, a socket for web-socket.
 		 */
-		protected connection: websocket.connection = null;
+		protected connection_: websocket.connection = null;
 
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		// using super::constructor
 
 		/**
@@ -560,19 +582,22 @@ namespace samchon.protocol
 		 */
 		public close(): void
 		{
-			this.connection.close();
+			this.connection_.close();
 		}
 
+		/* ---------------------------------------------------------
+			INVOKE MESSAGE I/O
+		--------------------------------------------------------- */
 		/**
 		 * @inheritdoc
 		 */
 		public sendData(invoke: Invoke): void
 		{
-			this.connection.sendUTF(invoke.toXML().toString());
+			this.connection_.sendUTF(invoke.toXML().toString());
 
 			for (let i: number = 0; i < invoke.size(); i++)
 				if (invoke.at(i).getType() == "ByteArray")
-					this.connection.sendBytes(invoke.at(i).getValue());
+					this.connection_.sendBytes(invoke.at(i).getValue());
 		}
 
 		/**
@@ -597,6 +622,8 @@ namespace samchon.protocol
 
 		protected handle_close(): void
 		{
+			this.connected_ = false;
+
 			if (this.onClose != null)
 				this.onClose();
 		}
@@ -605,10 +632,10 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
-	export class SharedWorkerCommunicator
+	export abstract class SharedWorkerCommunicator
 		extends CommunicatorBase
 	{
-		protected port: MessagePort;
+		protected port_: MessagePort;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -617,8 +644,9 @@ namespace samchon.protocol
 
 		public close(): void
 		{
-			this.port.close();
+			this.connected_ = false;
 
+			this.port_.close();
 			if (this.onClose != null)
 				this.onClose();
 		}
@@ -631,11 +659,11 @@ namespace samchon.protocol
 		 */
 		public sendData(invoke: Invoke): void
 		{
-			this.port.postMessage(invoke.toXML().toString());
+			this.port_.postMessage(invoke.toXML().toString());
 
 			for (let i: number = 0; i < invoke.size(); i++)
 				if (invoke.at(i).getType() == "ByteaArray")
-					this.port.postMessage(invoke.at(i).getValue());
+					this.port_.postMessage(invoke.at(i).getValue());
 		}
 
 		protected handle_message(event: MessageEvent): void

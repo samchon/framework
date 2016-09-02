@@ -5,8 +5,8 @@ namespace samchon.protocol.service
 	export abstract class Service 
 		implements protocol.IProtocol
 	{
-		private client: Client;
-		private path: string;
+		private client_: Client;
+		private path_: string;
 
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -16,8 +16,8 @@ namespace samchon.protocol.service
 		 */
 		public constructor(client: Client, path: string)
 		{
-			this.client = client;
-			this.path = path;
+			this.client_ = client;
+			this.path_ = path;
 		}
 
 		public destructor(): void
@@ -32,7 +32,7 @@ namespace samchon.protocol.service
 		 */
 		public getClient(): Client
 		{
-			return this.client;
+			return this.client_;
 		}
 
 		/**
@@ -40,7 +40,7 @@ namespace samchon.protocol.service
 		 */
 		public getPath(): string
 		{
-			return this.path;
+			return this.path_;
 		}
 
 		/* ------------------------------------------------------------------
@@ -48,7 +48,7 @@ namespace samchon.protocol.service
 		------------------------------------------------------------------ */
 		public sendData(invoke: protocol.Invoke): void
 		{
-			return this.client.sendData(invoke);
+			return this.client_.sendData(invoke);
 		}
 		public replyData(invoke: protocol.Invoke): void
 		{

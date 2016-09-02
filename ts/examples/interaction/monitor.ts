@@ -186,8 +186,6 @@ namespace monitor
 				viewers.sendSystems();
 
 				console.log(this.monitor.getRootSystem().toXML().toString());
-				for (let it = this.monitor["system_map"].begin(); !it.equal_to(this.monitor["system_map"].end()); it = it.next())
-					console.log(it.first, it.second.getParent() == null ? "null" : it.second.getParent()["uid"]);
 			}
 			else
 				console.log(invoke.toXML().toString());

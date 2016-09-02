@@ -89,7 +89,7 @@ namespace samchon.protocol.parallel
 
 			// ALL THE SUB-TASKS ARE DONE?
 			for (let i: number = 0; i < this.size(); i++)
-				if (this.at(i)["progress_list"].has(uid) == true)
+				if ((this.at(i) as ParallelSystem)["progress_list_"].has(uid) == true)
 					return false; // IT'S ON A PROCESS IN SOME SYSTEM.
 
 			///////
@@ -102,10 +102,10 @@ namespace samchon.protocol.parallel
 			for (let i: number = 0; i < this.size(); i++)
 			{
 				let system: ParallelSystem = this.at(i) as ParallelSystem;
-				if (system["history_list"].has(uid) == false)
+				if (system["history_list_"].has(uid) == false)
 					continue;
 
-				let my_history: PRInvokeHistory = system["history_list"].get(uid);
+				let my_history: PRInvokeHistory = system["history_list_"].get(uid) as PRInvokeHistory;
 				let performance_index: number = my_history.computeSize() / my_history.computeElapsedTime();
 
 				system_pairs.push_back(std.make_pair(system, performance_index));
@@ -120,10 +120,10 @@ namespace samchon.protocol.parallel
 				let new_performance: number = system_pairs.at(i).second / performance_index_averge;
 
 				let ordinary_ratio: number;
-				if (system["history_list"].size() < 2)
+				if (system["history_list_"].size() < 2)
 					ordinary_ratio = .3;
 				else
-					ordinary_ratio = Math.min(0.7, 1.0 / (system["history_list"].size() - 1.0));
+					ordinary_ratio = Math.min(0.7, 1.0 / (system["history_list_"].size() - 1.0));
 				
 				system["performance"] = (system["performance"] * ordinary_ratio) + (new_performance * (1 - ordinary_ratio));
 			}
@@ -135,7 +135,7 @@ namespace samchon.protocol.parallel
 		/**
 		 * @see {@link ParallelSystem.performance}
 		 */
-		private normalize_performance(): void
+		protected normalize_performance(): void
 		{
 			// CALC AVERAGE
 			let average: number = 0.0;

@@ -12,10 +12,11 @@ namespace slave
 
 	export abstract class Slave
 		extends protocol.slave.SlaveClient
-		implements monitor.ISystem
+		implements monitor.ISystem, protocol.IEntity
 	{
 		private uid: number;
 		private master_uid: number;
+		private name: string;
 
 		private monitor: monitor.MonitorDriver;
 
@@ -33,6 +34,11 @@ namespace slave
 
 			// CONNECT TO MONITOR
 			this.monitor = new monitor.MonitorDriver(this);
+		}
+
+		public construct(xml: library.XML): void
+		{
+			protocol.IEntity.construct(this, xml);
 		}
 
 		protected createServerConnector(): protocol.IServerConnector
@@ -74,6 +80,24 @@ namespace slave
 		{
 			// Called by Master::SlaveSystem::sendData()
 			this.master_uid = val;
+		}
+
+		/* ---------------------------------------------------------
+			EXPORTERS
+		--------------------------------------------------------- */
+		public key(): string
+		{
+			return this.name;
+		}
+
+		public TAG(): string
+		{
+			return "system";
+		}
+
+		public toXML(): library.XML
+		{
+			return protocol.IEntity.toXML(this);
 		}
 	}
 }

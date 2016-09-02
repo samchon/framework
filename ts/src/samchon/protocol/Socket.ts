@@ -2,6 +2,9 @@
 
 namespace samchon.protocol
 {
+	///**
+	// * @hidden
+	// */
 	//export namespace socket
 	//{
 	//	export type socket = NodeJS.net.Socket;
@@ -9,6 +12,9 @@ namespace samchon.protocol
 	//	export type http_server = NodeJS.http.Server;
 	//}
 
+	///**
+	// * @hidden
+	// */
 	//export namespace websocket
 	//{
 	//	export type connection = __websocket.connection;
@@ -18,6 +24,9 @@ namespace samchon.protocol
 	//	export type client = __websocket.client;
 	//}
 
+	/**
+	 * @hidden
+	 */
 	export namespace socket
 	{
 		export type socket = any;
@@ -25,6 +34,9 @@ namespace samchon.protocol
 		export type http_server = any;
 	}
 
+	/**
+	 * @hidden
+	 */
 	export namespace websocket
 	{
 		export type connection = any;

@@ -2,6 +2,11 @@
 
 namespace samchon.protocol
 {
+	/**
+	 * A container of entity, and it's a type of entity, too.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export interface IEntityGroup<T extends IEntity>
 		extends IEntity, std.base.IContainer<T>
 	{
@@ -111,17 +116,22 @@ namespace samchon.protocol
 		toXML(): library.XML;
 	}
 
+	/**
+	 * @hidden
+	 */
 	export namespace IEntityGroup
 	{
+		/**
+		 * @hidden
+		 */
 		export function construct<T extends Entity>(entity: IEntityGroup<T>, xml: library.XML): void
 		{
 			entity.clear();
 
-			/////
+			////
 			// MEMBER VARIABLES
-			//	ATOMIC ONLY - STRING, NUMBER AND BOOLEAN
-			/////
-			let property_map: std.HashMap<string, string> = xml.getPropertyMap();
+			////
+			// PROHIBITED NAMES TO CONSTRUCT VIA XML
 			let prohibited_names: string[] = [];
 
 			if (entity instanceof std.Vector)
@@ -131,31 +141,11 @@ namespace samchon.protocol
 			else if (entity instanceof std.Deque)
 				prohibited_names = ["size_", "capacity_"];
 
-			for (let it = property_map.begin(); !it.equal_to(property_map.end()); it = it.next())
-			{
-				if (entity[it.first] == undefined)
-					continue;
-
-				let prohibited: boolean = false;
-				for (let i: number = 0; i < prohibited_names.length; i++)
-					if (prohibited_names[i] == it.first)
-					{
-						prohibited = true;
-						break;
-					}
-				if (prohibited == true)
-					continue;
-
-				if (typeof entity[it.first] == "string")
-					entity[it.first] = it.second;
-				else if (typeof entity[it.first] == "number")
-					entity[it.first] = Number(it.second);
-				else if (typeof entity[it.first] == "boolean")
-					entity[it.first] = (it.second == "true");
-			}
+			// CONSTRUCT MEMBER DATA
+			IEntity.construct(entity, xml, ...prohibited_names);
 
 			////
-			//CHILDREN
+			// CHILDREN
 			////
 			if (xml.has(entity.CHILD_TAG()) == false)
 				return;
@@ -174,15 +164,16 @@ namespace samchon.protocol
 			}
 			entity.assign(children.begin(), children.end());
 		}
-	
+
+		/**
+		 * @hidden
+		 */
 		export function toXML<T extends Entity>(entity: IEntityGroup<T>): library.XML
 		{
-			let xml: library.XML = new library.XML();
-			xml.setTag(entity.TAG());
-
-			/////
-			// MEMBERS
-			/////
+			////
+			// MEMBER VARIABLES
+			////
+			// PROHIBITED NAMES TO EXPORT
 			let prohibited_names: string[] = [];
 
 			if (entity instanceof std.Vector)
@@ -191,25 +182,9 @@ namespace samchon.protocol
 				prohibited_names = ["size_"];
 			else if (entity instanceof std.Deque)
 				prohibited_names = ["size_", "capacity_"];
-			
-			for (let key in entity)
-				if (typeof key == "string"
-					&& (typeof entity[key] == "string" || typeof entity[key] == "number" || typeof entity[key] == "boolean")
-					&& entity.hasOwnProperty(key))
-				{
-					let prohibited: boolean = false;
-					for (let i: number = 0; i < prohibited_names.length; i++)
-						if (prohibited_names[i] == key)
-						{
-							prohibited = true;
-							break;
-						}
-					if (prohibited == true)
-						continue;
 
-					// ATOMIC
-					xml.setProperty(key, String(entity[key]));
-				}
+			// MEMBERS
+			let xml: library.XML = IEntity.toXML(entity, ...prohibited_names);
 
 			/////
 			// CHILDREN

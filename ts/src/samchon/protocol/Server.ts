@@ -177,24 +177,24 @@ namespace samchon.protocol
 		/**
 		 * A server handler.
 		 */
-		private http_server: socket.http_server;
+		private http_server_: socket.http_server;
 
 		/** 
 		 * Sequence number for issuing session id.
 		 */
-		private sequence: number;
+		private sequence_: number;
 
 		/**
 		 * @hidden
 		 */
-		private my_port: number;
+		private my_port_: number;
 
 		/**
 		 * Default Constructor.
 		 */
 		public constructor()
 		{
-			this.sequence = 0;
+			this.sequence_ = 0;
 		}
 
 		/**
@@ -202,12 +202,12 @@ namespace samchon.protocol
 		 */
 		public open(port: number): void
 		{
-			this.my_port = port;
+			this.my_port_ = port;
 
-			this.http_server = http.createServer();
-			this.http_server.listen(port);
+			this.http_server_ = http.createServer();
+			this.http_server_.listen(port);
 
-			let ws_server = new websocket.server({ httpServer: this.http_server });
+			let ws_server = new websocket.server({ httpServer: this.http_server_ });
 			ws_server.on("request", this.handle_request.bind(this));
 		}
 
@@ -216,7 +216,7 @@ namespace samchon.protocol
 		 */
 		public close(): void
 		{
-			this.http_server.close();
+			this.http_server_.close();
 		}
 
 		/**
@@ -270,8 +270,8 @@ namespace samchon.protocol
 		 */
 		private issue_session_id(): string
 		{
-			let port: number = this.my_port;
-			let uid: number = ++this.sequence;
+			let port: number = this.my_port_;
+			let uid: number = ++this.sequence_;
 			let linux_time: number = new Date().getTime();
 			let rand: number = Math.floor(Math.random() * 0xffffffff);
 

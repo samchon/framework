@@ -110,7 +110,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -126,28 +126,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
@@ -176,11 +176,7 @@ declare namespace samchon.library {
      * @reference https://developer.mozilla.org/en-US/docs/Web/API/Event
      * @author Jeongho Nam <http://samchon.org>
      */
-    class BasicEvent implements Event {
-        NONE: number;
-        CAPTURING_PHASE: number;
-        AT_TARGET: number;
-        BUBBLING_PHASE: number;
+    class BasicEvent {
         private type_;
         private target_;
         private currentTarget_;
@@ -198,7 +194,6 @@ declare namespace samchon.library {
         /**
          * @inheritdoc
          */
-        preventDefault(): void;
         /**
          * @inheritdoc
          */
@@ -256,22 +251,12 @@ declare namespace samchon.library {
          */
         returnValue: boolean;
     }
-    class ProgressEvent extends library.BasicEvent {
-        static PROGRESS: string;
-        protected numerator_: number;
-        protected denominator_: number;
-        constructor(type: string, numerator: number, denominator: number);
-        numerator: number;
-        denominator: number;
-    }
 }
 declare namespace samchon.collection {
     /**
      * Type of function pointer for listener of {@link CollectionEvent CollectionEvents}.
      */
-    interface CollectionEventListener<T> extends EventListener {
-        (event: CollectionEvent<T>): void;
-    }
+    type CollectionEventListener<T> = (event: CollectionEvent<T>) => void;
 }
 declare namespace samchon.collection {
     /**
@@ -286,6 +271,8 @@ declare namespace samchon.collection {
          * @hidden
          */
         private last_;
+        private temporary_container_;
+        private origin_first_;
         /**
          * Initialization Constructor.
          *
@@ -298,9 +285,9 @@ declare namespace samchon.collection {
         constructor(type: "erase", first: std.Iterator<T>, last: std.Iterator<T>);
         constructor(type: "refresh", first: std.Iterator<T>, last: std.Iterator<T>);
         /**
-         * Get associative container.
+         * Get associative target, the container.
          */
-        container: ICollection<T>;
+        target: ICollection<T>;
         /**
          * Get range of the first.
          */
@@ -309,12 +296,19 @@ declare namespace samchon.collection {
          * Get range of the last.
          */
         last: std.Iterator<T>;
+        /**
+         * @inheritdoc
+         */
+        preventDefault(): void;
     }
 }
+/**
+ * @hidden
+ */
 declare namespace samchon.collection.CollectionEvent {
-    const INSERT: string;
-    const ERASE: string;
-    const REFRESH: string;
+    const INSERT: "insert";
+    const ERASE: "erase";
+    const REFRESH: "refresh";
 }
 declare namespace samchon.collection {
     /**
@@ -385,7 +379,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -401,28 +395,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
@@ -474,7 +468,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -490,28 +484,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
@@ -556,7 +550,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -572,28 +566,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
@@ -630,7 +624,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -646,28 +640,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
@@ -713,7 +707,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -729,28 +723,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
@@ -830,28 +824,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
@@ -940,7 +934,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -956,28 +950,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
@@ -1029,7 +1023,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -1045,28 +1039,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
@@ -1111,7 +1105,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -1127,28 +1121,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
@@ -1193,7 +1187,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -1209,28 +1203,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
@@ -1268,7 +1262,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -1284,28 +1278,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
@@ -1374,7 +1368,7 @@ declare namespace samchon.library {
          *  <li> \<<b>price</b> high='1500' low='1300' open='1450' close='1320' /\>: tag => \"price\" </li>
          * </ul>
          */
-        private tag;
+        private tag_;
         /**
          * <p> Value of the XML. </p>
          *
@@ -1383,7 +1377,7 @@ declare namespace samchon.library {
          *	<li> \<price high='1500' low='1300' open='1450' close='1320' /\>: value => null </li>
          * </ul>
          */
-        private value;
+        private value_;
         /**
          * <p> Properties belongs to the XML. </p>
          * <p> A Dictionary of properties accessing each property by its key. </p>
@@ -1396,7 +1390,7 @@ declare namespace samchon.library {
          *					 {\"comment\", \"Hello. My name is Jeongho Nam <http://samchon.org>\"}} </li>
          * </ul>
          */
-        private properties;
+        private property_map_;
         /**
          * <p> Default Constructor. </p>
          *
@@ -1742,7 +1736,7 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
@@ -1758,28 +1752,28 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         addEventListener(type: "insert", listener: CollectionEventListener<library.XML>): void;
         addEventListener(type: "erase", listener: CollectionEventListener<library.XML>): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<library.XML>): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         addEventListener(type: "insert", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
         addEventListener(type: "erase", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
         addEventListener(type: "refresh", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<library.XML>): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<library.XML>): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<library.XML>): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         removeEventListener(type: "insert", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<library.XML>, thisArg: Object): void;
@@ -1898,6 +1892,7 @@ declare namespace samchon.library {
     }
 }
 declare namespace samchon.library {
+    type BasicEventListener = (event: BasicEvent) => void;
     /**
      * <p> The IEventDispatcher interface defines methods for adding or removing event listeners, checks
      * whether specific types of event listeners are registered, and dispatches events. </p>
@@ -1986,7 +1981,7 @@ declare namespace samchon.library {
          *				 This function must accept an Event object as its only parameter and must return
          *				 nothing.
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         /**
          * <p> Registers an event listener object with an EventDispatcher object so that the listener
          * receives notification of an event. You can register event listeners on all nodes in the display
@@ -2031,7 +2026,7 @@ declare namespace samchon.library {
          *				 nothing.
          * @param thisArg The object to be used as the <b>this</b> object.
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         /**
          * Removes a listener from the EventDispatcher object. If there is no matching listener registered
          * with the EventDispatcher object, a call to this method has no effect.
@@ -2039,7 +2034,7 @@ declare namespace samchon.library {
          * @param type The type of event.
          * @param listener The listener object to remove.
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         /**
          * Removes a listener from the EventDispatcher object. If there is no matching listener registered
          * with the EventDispatcher object, a call to this method has no effect.
@@ -2048,7 +2043,7 @@ declare namespace samchon.library {
          * @param listener The listener object to remove.
          * @param thisArg The object to be used as the <b>this</b> object.
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
     }
     /**
      * <p> Registers an event listener object with an EventDispatcher object so that the listener
@@ -2102,7 +2097,7 @@ declare namespace samchon.library {
         /**
          * Container of listeners.
          */
-        protected event_listeners_: std.HashMap<string, std.HashSet<std.Pair<EventListener, Object>>>;
+        protected event_listeners_: std.HashMap<string, std.HashSet<std.Pair<library.BasicEventListener, Object>>>;
         /**
          * Default Constructor.
          */
@@ -2120,23 +2115,23 @@ declare namespace samchon.library {
         /**
          * @inheritdoc
          */
-        dispatchEvent(event: Event): boolean;
+        dispatchEvent(event: library.BasicEvent): boolean;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener): void;
+        addEventListener(type: string, listener: library.BasicEventListener): void;
         /**
          * @inheritdoc
          */
-        addEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener): void;
+        removeEventListener(type: string, listener: library.BasicEventListener): void;
         /**
          * @inheritdoc
          */
-        removeEventListener(type: string, listener: EventListener, thisArg: Object): void;
+        removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
     }
 }
 declare namespace samchon.library {
@@ -2429,7 +2424,7 @@ declare namespace samchon.library {
         /**
          * Whether each element (Gene) is unique in their GeneArray.
          */
-        private unique;
+        private unique_;
         /**
          * Rate of mutation.
          *
@@ -2443,11 +2438,11 @@ declare namespace samchon.library {
          *	</li>
          * </ul>
          */
-        private mutation_rate;
+        private mutation_rate_;
         /**
          * Number of tournaments in selection.
          */
-        private tournament;
+        private tournament_;
         /**
          * Initialization Constructor.
          *
@@ -2936,6 +2931,13 @@ declare namespace samchon.protocol {
         toXML(): library.XML;
     }
     /**
+     * @hidden
+     */
+    namespace IEntity {
+        function construct(entity: IEntity, xml: library.XML, ...prohibited_names: string[]): void;
+        function toXML(entity: IEntity, ...prohibited_names: string[]): library.XML;
+    }
+    /**
      * <p> An entity, a standard data class. </p>
      *
      * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
@@ -3115,7 +3117,8 @@ declare namespace samchon.protocol {
         /**
          * Close connection.
          */
-        close(): any;
+        close(): void;
+        isConnected(): boolean;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
     }
@@ -3125,19 +3128,20 @@ declare namespace samchon.protocol {
         /**
          * @hidden
          */
-        protected listener: IProtocol;
+        protected listener_: IProtocol;
         /**
          * @inheritdoc
          */
         onClose: Function;
+        protected connected_: boolean;
         /**
          * @hidden
          */
-        private binary_invoke;
+        private binary_invoke_;
         /**
          * @hidden
          */
-        private binary_parameters;
+        private binary_parameters_;
         /**
          * @hidden
          */
@@ -3146,11 +3150,20 @@ declare namespace samchon.protocol {
          * Default Constructor.
          */
         constructor();
+        /**
+         * Construct from <i>listener</i>.
+         *
+         * @param listener An {@link IProtocol} object to listen {@link Invoke} messages.
+         */
         constructor(listener: IProtocol);
         /**
          * @inheritdoc
          */
         abstract close(): void;
+        /**
+         * @inheritdoc
+         */
+        isConnected(): boolean;
         protected is_binary_invoke(): boolean;
         abstract sendData(invoke: Invoke): void;
         replyData(invoke: Invoke): void;
@@ -3159,27 +3172,27 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class Communicator extends CommunicatorBase {
+    abstract class Communicator extends CommunicatorBase {
         /**
          * @hidden
          */
-        protected socket: socket.socket;
+        protected socket_: socket.socket;
         /**
          * @hidden
          */
-        private header_bytes;
+        private header_bytes_;
         /**
          * @hidden
          */
-        private data;
+        private data_;
         /**
          * @hidden
          */
-        private data_index;
+        private data_index_;
         /**
          * @hidden
          */
-        private listening;
+        private listening_;
         /**
          * @inheritdoc
          */
@@ -3234,11 +3247,11 @@ declare namespace samchon.protocol {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class WebCommunicator extends CommunicatorBase {
+    abstract class WebCommunicator extends CommunicatorBase {
         /**
          * Connection driver, a socket for web-socket.
          */
-        protected connection: websocket.connection;
+        protected connection_: websocket.connection;
         /**
          * Close the connection.
          */
@@ -3260,8 +3273,8 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
-    class SharedWorkerCommunicator extends CommunicatorBase {
-        protected port: MessagePort;
+    abstract class SharedWorkerCommunicator extends CommunicatorBase {
+        protected port_: MessagePort;
         close(): void;
         /**
          * @inheritdoc
@@ -3492,12 +3505,12 @@ declare namespace samchon.protocol {
         /**
          * Requested path.
          */
-        private path;
+        private path_;
         /**
          * Session ID, an identifier of the remote client.
          */
-        private session_id;
-        private listening;
+        private session_id_;
+        private listening_;
         /**
          * Initialization Constructor.
          *
@@ -3567,6 +3580,11 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
+    /**
+     * A container of entity, and it's a type of entity, too.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
     interface IEntityGroup<T extends IEntity> extends IEntity, std.base.IContainer<T> {
         /**
          * <p> Construct data of the Entity from an XML object. </p>
@@ -3656,8 +3674,17 @@ declare namespace samchon.protocol {
          */
         toXML(): library.XML;
     }
+    /**
+     * @hidden
+     */
     namespace IEntityGroup {
+        /**
+         * @hidden
+         */
         function construct<T extends Entity>(entity: IEntityGroup<T>, xml: library.XML): void;
+        /**
+         * @hidden
+         */
         function toXML<T extends Entity>(entity: IEntityGroup<T>): library.XML;
     }
 }
@@ -4224,7 +4251,7 @@ declare namespace samchon.protocol {
         /**
          * <p> Listener, represent function's name. </p>
          */
-        protected listener: string;
+        private listener;
         /**
          * Default Constructor.
          */
@@ -4357,11 +4384,11 @@ declare namespace samchon.protocol {
         /**
          *
          */
-        private startTime;
+        private start_time_;
         /**
          *
          */
-        private endTime;
+        private end_time_;
         /**
          * Default Constructor.
          */
@@ -4375,7 +4402,13 @@ declare namespace samchon.protocol {
         getStartTime(): Date;
         getEndTime(): Date;
         computeElapsedTime(): number;
+        /**
+         * @inheritdoc
+         */
         TAG(): string;
+        /**
+         * @inheritdoc
+         */
         toXML(): library.XML;
         toInvoke(): Invoke;
     }
@@ -4517,15 +4550,15 @@ declare namespace samchon.protocol {
         /**
          * A server handler.
          */
-        private http_server;
+        private http_server_;
         /**
          * Sequence number for issuing session id.
          */
-        private sequence;
+        private sequence_;
         /**
          * @hidden
          */
-        private my_port;
+        private my_port_;
         /**
          * Default Constructor.
          */
@@ -4677,7 +4710,7 @@ declare namespace samchon.protocol {
      * @author Jeongho Nam <http://samchon.org>
      */
     class ServerBase extends Server implements IServerBase {
-        private target;
+        private target_;
         constructor(target: IServer);
         addClient(driver: IClientDriver): void;
     }
@@ -4722,7 +4755,7 @@ declare namespace samchon.protocol {
      * @author Jeongho Nam <http://samchon.org>
      */
     class WebServerBase extends WebServer implements IServerBase {
-        private target;
+        private target_;
         constructor(target: IServer);
         addClient(driver: IClientDriver): void;
     }
@@ -4768,7 +4801,7 @@ declare namespace samchon.protocol {
      * @author Jeongho Nam <http://samchon.org>
      */
     class SharedWorkerServerBase extends SharedWorkerServer implements IServerBase {
-        private target;
+        private target_;
         constructor(target: IServer);
         addClient(driver: IClientDriver): void;
     }
@@ -4841,13 +4874,13 @@ declare namespace samchon.protocol {
          *
          * <p> Note that, {@link socket} is only used in web-browser environment. </p>
          */
-        private browser_socket;
+        private browser_socket_;
         /**
          * <p> A driver for server connection. </p>
          *
          * <p> Note that, {@link node_client} is only used in NodeJS environment. </p>
          */
-        private node_client;
+        private node_client_;
         /**
          * @inheritdoc
          */
@@ -4881,11 +4914,17 @@ declare namespace samchon.protocol {
     }
 }
 declare namespace samchon.protocol {
+    /**
+     * @hidden
+     */
     namespace socket {
         type socket = any;
         type server = any;
         type http_server = any;
     }
+    /**
+     * @hidden
+     */
     namespace websocket {
         type connection = any;
         type request = any;
@@ -4894,141 +4933,42 @@ declare namespace samchon.protocol {
         type client = any;
     }
 }
-declare namespace samchon.protocol.external {
-    /**
-     * <p> An array and manager of {@link ExternalSystem external systems}. </p>
-     *
-     * <p> {@link ExternalSystemArray} is an abstract class contains and manages external system drivers,
-     * {@link ExternalSystem} objects. You can specify this {@link ExternalSystemArray} to be a server accepting
-     * {@link ExternalSystem external clients} or a client connecting to {@link IExternalServer external servers}. Even
-     * both of them is also possible. </p>
-     *
-     * <ul>
-     *	<li> A server accepting external clients: {@link IExternalClientArray} </li>
-     *	<li> A client connecting to external servers: {@link IExternalServerArray} </li>
-     *	<li>
-     *		Accepts external clients & Connects to external servers at the same time:
-     *		{@link IExternalServerClientArray}
-     *	</li>
-     * </ul>
-     *
-     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a> </p>
-     *
-     * <h4> Proxy Pattern </h4>
-     * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
-     *
-     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalSystemArray extends EntityDequeCollection<ExternalSystem> implements IProtocol {
+declare namespace samchon.protocol.distributed {
+    class DSInvokeHistory extends InvokeHistory {
+        private system_;
+        private role_;
         /**
-         * Default Constructor.
+         * Construct from a DistributedSystem.
+         *
+         * @param system
          */
-        constructor();
+        constructor(system: DistributedSystem);
         /**
-         * @hidden
+         * Initilizer Constructor.
+         *
+         * @param system
+         * @param role
+         * @param invoke
          */
-        private handle_system_erase(event);
+        constructor(system: DistributedSystem, role: DistributedSystemRole, invoke: Invoke);
         /**
-         * Test whether this system array has the role.
-         *
-         * @param name Name, identifier of target {@link ExternalSystemRole role}.
-         *
-         * @return Whether the role has or not.
+         * @inheritdoc
          */
-        hasRole(name: string): boolean;
+        construct(xml: library.XML): void;
+        getSystem(): DistributedSystem;
+        getRole(): DistributedSystemRole;
         /**
-         * Get a role.
-         *
-         * @param name Name, identifier of target {@link ExternalSystemRole role}.
-         *
-         * @return The specified role.
+         * @inheritdoc
          */
-        getRole(name: string): ExternalSystemRole;
-        /**
-         * <p> Send an {@link Invoke} message. </p>
-         *
-         * @param invoke An {@link Invoke} message to send.
-         */
-        sendData(invoke: Invoke): void;
-        /**
-         * <p> Handle an {@Invoke} message have received. </p>
-         *
-         * @param invoke An {@link Invoke} message have received.
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * Tag name of the {@link ExternalSytemArray} in {@link XML}.
-         *
-         * @return <i>systemArray</i>.
-         */
-        TAG(): string;
-        /**
-         * Tag name of {@link ExternalSystem children elements} belonged to the {@link ExternalSytemArray} in {@link XML}.
-         *
-         * @return <i>system</i>.
-         */
-        CHILD_TAG(): string;
+        toXML(): library.XML;
     }
 }
 declare namespace samchon.protocol.external {
     /**
-     * <p> An interface for an {@link ExternalSystemArray} accepts {@link ExternalSystem external clients} as a
-     * {@link IServer server}. </p>
+     * <p> A role of an external system. </p>
      *
-     * <p> The easiest way to defining an {@link ExternalSystemArray} who opens server and accepts
-     * {@link ExternalSystem external clients} is to extending one of below, who are derived from this interface
-     * {@link IExternalClientArray}. However, if you can't specify an {@link ExternalSystemArray} to be whether server or
-     * client, then make a class (let's name it as <b>BaseSystemArray</b>) extending {@link ExternalSystemArray} and make
-     * a new class (now, I name it <b>BaseClientArray</b>) extending <b>BaseSystemArray</b> and implementing this
-     * interface {@link IExternalClientArray}. Define the <b>BaseClientArray</b> following those codes on below:
-     *
-     * <ul>
-     *	<li> {@link ExternalClientArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link ParallelClientArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelClientArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link DistributedClientArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedClientArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IExternalClientArray extends ExternalSystemArray, IServer {
-    }
-    /**
-     * <p> An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}. </p>
-     *
-     * <p> {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers,
-     * {@link IExternalServer} objects, as a {@link IServer server}. </p>
+     * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}.
+     * Extends this class and writes some methods related to the role. </p>
      *
      * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
      *		  target="_blank">
@@ -5037,7 +4977,7 @@ declare namespace samchon.protocol.external {
      * </a> </p>
      *
      * <h4> Proxy Pattern </h4>
-     * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
+     * <p> The {@link ExternalSystemRole} class can be an <i>logical proxy</i>. In framework within user, which
      * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
      * important. Only interested in user's perspective is <i>which can be done</i>. </p>
      *
@@ -5060,54 +5000,70 @@ declare namespace samchon.protocol.external {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ExternalClientArray extends ExternalSystemArray implements IExternalClientArray {
+    abstract class ExternalSystemRole extends Entity implements IProtocol {
         /**
-         * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
+         * An {@link ExternalSystem external system} containing this {@link ExternalSystemRole role}.
          */
-        private server_base;
+        private system;
         /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * <p> Factory method creating {@link IServerBase} object. </p>
+         * <p> A name, represents and identifies this {@link ExternalSystemRole role}. </p>
          *
-         * <p> This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
-         * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who
-         * may connect to {@link ExternalClientArray this server} must follow the specified protocol. </p>
-         *
-         * <p> Creates and returns one of them: </p>
-         * <ul>
-         *	<li> {@link ServerBase} </li>
-         *	<li> {@link WebServerBase} </li>
-         *	<li> {@link SharedWorkerServerBase} </li>
-         * </ul>
-         *
-         * @return A new {@link IServerBase} object.
+         * <p> This {@link name} is an identifier represents this {@link ExternalSystemRole role}. This {@link name} is
+         * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
+         * {@link name} should be unique in an {@link ExternalSystemArray}.
          */
-        protected abstract createServerBase(): IServerBase;
-        addClient(driver: IClientDriver): void;
+        private name;
         /**
-         * This method is deprecated. Don't use and override this.
+         * Constructor from a system.
          *
-         * @return null.
+         * @param system An external system containing this role.
          */
-        createChild(xml: library.XML): ExternalSystem;
+        constructor(system: ExternalSystem);
         /**
-         * Factory method creating {@link ExternalSystem} object.
+         * Identifier of {@link ExternalSystemRole} is its {@link name}.
+         */
+        key(): string;
+        /**
+         * Get external system, this role is belonged to.
+         */
+        getSystem(): ExternalSystem;
+        /**
+         * Get name, who represents and identifies this role.
+         */
+        getName(): string;
+        /**
+         * Send an {@link Invoke} message to the external system via {@link system}.
          *
-         * @param driver A communicator with connected client.
-         * @return A newly created {@link ExternalSystem} object.
+         * @param invoke An {@link Invoke} message to send to the external system.
          */
-        protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
+        sendData(invoke: Invoke): void;
         /**
-         * @inheritdoc
+         * <p> Handle replied {@link Invoke message} from the {@link system external system} belonged to. </p>
+         *
+         * <p> This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}.
+         * in the <i>invoke</i>. </p>
+         *
+         * @param invoke An {@link Invoke} message received from the {@link system external system}.
          */
-        open(port: number): void;
+        replyData(invoke: Invoke): void;
         /**
-         * @inheritdoc
+         * Tag name of the {@link ExternalSytemRole} in {@link XML}.
+         *
+         * @return <i>role</i>.
          */
-        close(): void;
+        TAG(): string;
+    }
+}
+declare namespace samchon.protocol.distributed {
+    abstract class DistributedSystemRole extends external.ExternalSystemRole {
+        private system_array_;
+        private progress_list_;
+        private history_list_;
+        private performance;
+        constructor(systemArray: DistributedSystemArray);
+        getPerformance(): number;
+        sendData(invoke: protocol.Invoke): void;
+        private report_invoke_history(history);
     }
 }
 declare namespace samchon.protocol.external {
@@ -5211,6 +5167,394 @@ declare namespace samchon.protocol.external {
          * @return <i>role</i>.
          */
         CHILD_TAG(): string;
+    }
+}
+declare namespace samchon.protocol.parallel {
+    /**
+     * <p> An external parallel system driver. </p>
+     *
+     *
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelSystem extends external.ExternalSystem {
+        /**
+         * @hidden
+         */
+        protected progress_list_: std.HashMap<number, InvokeHistory>;
+        /**
+         * @hidden
+         */
+        protected history_list_: std.HashMap<number, InvokeHistory>;
+        /**
+         * <p> Performance index. </p>
+         *
+         * <p> A performance index that indicates how much fast the connected parallel system is. </p>
+         *
+         * <p> If this {@link ParallelSystem parallel system} hasn't any {@link Invoke} message
+         * {@link history_list had handled}, then the {@link performance performance index} will be 1, which means
+         * default and average value between all {@link ParallelSystem} instances (belonged to a same
+         * {@link ParallelSystemArray} object). </p>
+         *
+         * <p> You can specify this {@link performance} by yourself, but notice that, if the
+         * {@link performance performance index} is higher then other {@link ParallelSystem} objects, then this
+         * {@link ParallelSystem parallel system} will ordered to handle more processes than other {@link ParallelSystem}
+         * objects. Otherwise, the {@link performance performance index) is lower than others, of course, less processes
+         * will be delivered. </p>
+         *
+         * <p> This {@link performance index} is always re-calculated whenever {@link ParallelSystemArray} calls one of
+         * them below. </p>
+         *
+         * <ul>
+         *	<li> {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()} </li>
+         *	<li> {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()} </li>
+         * </ul>
+         *
+         * <p> If this class is a type of {@link DistributedSystem}, a derived class from the {@link ParallelSystem},
+         * then {@link DistributedSystemRole.sendData DistributedSystem.sendData()} also cause the re-calculation. </p>
+         *
+         * @see {@link progress_list}, {@link history_list}
+         */
+        protected performance: number;
+        constructor(systemArray: ParallelSystemArray);
+        constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
+        /**
+         * Get manager of this object, {@link systemArray}.
+         *
+         * @return A manager containing this {@link ParallelSystem} object.
+         */
+        getSystemArray(): ParallelSystemArray;
+        /**
+         * Get {@link performant performance index}.
+         *
+         * A performance index that indicates how much fast the connected parallel system is.
+         */
+        getPerformance(): number;
+        /**
+         * Send an {@link Invoke} message with index of segmentation.
+         *
+         * @param invoke An invoke message requesting parallel process.
+         * @param first Initial piece's index in a section.
+         * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
+         *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
+         *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
+         *
+         * @see {@link ParallelSystemArray.sendPieceData}
+         */
+        private send_piece_data(invoke, first, last);
+        private _replyData(invoke);
+        /**
+         *
+         *
+         * @param xml
+         *
+         * @see {@link ParallelSystemArray.notify_end}
+         */
+        protected report_invoke_history(xml: library.XML): void;
+    }
+}
+declare namespace samchon.protocol.distributed {
+    abstract class DistributedSystem extends parallel.ParallelSystem {
+        constructor(systemArray: DistributedSystemArray);
+        constructor(systemArray: DistributedSystemArray, driver: IClientDriver);
+        construct(xml: library.XML): void;
+        createChild(xml: library.XML): DistributedSystemRole;
+        /**
+         * Get manager of this object.
+         *
+         * @return A manager containing this {@link DistributedSystem} objects.
+         */
+        getSystemArray(): DistributedSystemArray;
+        protected report_invoke_history(xml: library.XML): void;
+    }
+}
+/**
+ * [[include: https://raw.githubusercontent.com/samchon/framework/master/handbook/TypeScript-Protocol-External_System.md]]
+ */
+declare namespace samchon.protocol.external {
+    /**
+     * <p> An array and manager of {@link ExternalSystem external systems}. </p>
+     *
+     * <p> {@link ExternalSystemArray} is an abstract class contains and manages external system drivers,
+     * {@link ExternalSystem} objects. You can specify this {@link ExternalSystemArray} to be a server accepting
+     * {@link ExternalSystem external clients} or a client connecting to {@link IExternalServer external servers}. Even
+     * both of them is also possible. </p>
+     *
+     * <ul>
+     *	<li> A server accepting external clients: {@link IExternalClientArray} </li>
+     *	<li> A client connecting to external servers: {@link IExternalServerArray} </li>
+     *	<li>
+     *		Accepts external clients & Connects to external servers at the same time:
+     *		{@link IExternalServerClientArray}
+     *	</li>
+     * </ul>
+     *
+     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a> </p>
+     *
+     * <h4> Proxy Pattern </h4>
+     * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+     *
+     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalSystemArray extends EntityDequeCollection<ExternalSystem> implements IProtocol {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @hidden
+         */
+        private handle_system_erase(event);
+        /**
+         * Test whether this system array has the role.
+         *
+         * @param name Name, identifier of target {@link ExternalSystemRole role}.
+         *
+         * @return Whether the role has or not.
+         */
+        hasRole(name: string): boolean;
+        /**
+         * Get a role.
+         *
+         * @param name Name, identifier of target {@link ExternalSystemRole role}.
+         *
+         * @return The specified role.
+         */
+        getRole(name: string): ExternalSystemRole;
+        /**
+         * <p> Send an {@link Invoke} message. </p>
+         *
+         * @param invoke An {@link Invoke} message to send.
+         */
+        sendData(invoke: Invoke): void;
+        /**
+         * <p> Handle an {@Invoke} message have received. </p>
+         *
+         * @param invoke An {@link Invoke} message have received.
+         */
+        replyData(invoke: Invoke): void;
+        /**
+         * Tag name of the {@link ExternalSytemArray} in {@link XML}.
+         *
+         * @return <i>systemArray</i>.
+         */
+        TAG(): string;
+        /**
+         * Tag name of {@link ExternalSystem children elements} belonged to the {@link ExternalSytemArray} in {@link XML}.
+         *
+         * @return <i>system</i>.
+         */
+        CHILD_TAG(): string;
+    }
+}
+declare namespace samchon.protocol.parallel {
+    /**
+     * <p> A manager containing {@link ParallelSystem} objects. </p>
+     *
+     *
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelSystemArray extends external.ExternalSystemArray {
+        /**
+         * @see {@link ParallelSystem.progress_list}, {@link ParallelSystem.history_list}
+         */
+        private history_sequence;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         *
+         * @param invoke An invoke message requesting parallel process.
+         * @param size Number of pieces.
+         */
+        sendSegmentData(invoke: Invoke, size: number): void;
+        /**
+         *
+         *
+         * @param invoke An invoke message requesting parallel process.
+         * @param first Initial piece's index in a section.
+         * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
+         *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
+         *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
+         */
+        sendPieceData(invoke: Invoke, first: number, last: number): void;
+        /**
+         *
+         * @param history
+         *
+         * @return Whether the processes with same uid are all fininsed.
+         *
+         * @see {@link ParallelSystem.report_invoke_history}, {@link normalize_performance}
+         */
+        protected notify_end(history: PRInvokeHistory): boolean;
+        /**
+         * @see {@link ParallelSystem.performance}
+         */
+        protected normalize_performance(): void;
+    }
+}
+declare namespace samchon.protocol.distributed {
+    abstract class DistributedSystemArray extends parallel.ParallelSystemArray {
+        private role_map_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        construct(xml: library.XML): void;
+        abstract createRole(xml: library.XML): DistributedSystemRole;
+        private handle_role_insert(event);
+        private handle_role_erase(event);
+        getRoleMap(): std.HashMap<string, DistributedSystemRole>;
+        /**
+         * @inheritdoc
+         */
+        hasRole(name: string): boolean;
+        /**
+         * @inheritdoc
+         */
+        getRole(name: string): DistributedSystemRole;
+    }
+}
+declare namespace samchon.protocol.external {
+    /**
+     * <p> An interface for an {@link ExternalSystemArray} accepts {@link ExternalSystem external clients} as a
+     * {@link IServer server}. </p>
+     *
+     * <p> The easiest way to defining an {@link ExternalSystemArray} who opens server and accepts
+     * {@link ExternalSystem external clients} is to extending one of below, who are derived from this interface
+     * {@link IExternalClientArray}. However, if you can't specify an {@link ExternalSystemArray} to be whether server or
+     * client, then make a class (let's name it as <b>BaseSystemArray</b>) extending {@link ExternalSystemArray} and make
+     * a new class (now, I name it <b>BaseClientArray</b>) extending <b>BaseSystemArray</b> and implementing this
+     * interface {@link IExternalClientArray}. Define the <b>BaseClientArray</b> following those codes on below:
+     *
+     * <ul>
+     *	<li> {@link ExternalClientArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link ParallelClientArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelClientArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link DistributedClientArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedClientArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IExternalClientArray extends ExternalSystemArray, IServer {
+    }
+    /**
+     * <p> An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}. </p>
+     *
+     * <p> {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers,
+     * {@link IExternalServer} objects, as a {@link IServer server}. </p>
+     *
+     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a> </p>
+     *
+     * <h4> Proxy Pattern </h4>
+     * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+     *
+     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalClientArray extends ExternalSystemArray implements IExternalClientArray {
+        /**
+         * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
+         */
+        private server_base_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * <p> Factory method creating {@link IServerBase} object. </p>
+         *
+         * <p> This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
+         * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who
+         * may connect to {@link ExternalClientArray this server} must follow the specified protocol. </p>
+         *
+         * <p> Creates and returns one of them: </p>
+         * <ul>
+         *	<li> {@link ServerBase} </li>
+         *	<li> {@link WebServerBase} </li>
+         *	<li> {@link SharedWorkerServerBase} </li>
+         * </ul>
+         *
+         * @return A new {@link IServerBase} object.
+         */
+        protected abstract createServerBase(): IServerBase;
+        addClient(driver: IClientDriver): void;
+        /**
+         * This method is deprecated. Don't use and override this.
+         *
+         * @return null.
+         */
+        createChild(xml: library.XML): ExternalSystem;
+        /**
+         * Factory method creating {@link ExternalSystem} object.
+         *
+         * @param driver A communicator with connected client.
+         * @return A newly created {@link ExternalSystem} object.
+         */
+        protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
+        /**
+         * @inheritdoc
+         */
+        open(port: number): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
     }
 }
 declare namespace samchon.protocol.external {
@@ -5507,103 +5851,15 @@ declare namespace samchon.protocol.external {
         connect(): void;
     }
 }
-declare namespace samchon.protocol.external {
-    /**
-     * <p> A role of an external system. </p>
-     *
-     * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}.
-     * Extends this class and writes some methods related to the role. </p>
-     *
-     * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a> </p>
-     *
-     * <h4> Proxy Pattern </h4>
-     * <p> The {@link ExternalSystemRole} class can be an <i>logical proxy</i>. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is <i>which can be done</i>. </p>
-     *
-     * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalSystemRole extends Entity implements IProtocol {
-        /**
-         * An {@link ExternalSystem external system} containing this {@link ExternalSystemRole role}.
-         */
-        private system;
-        /**
-         * <p> A name, represents and identifies this {@link ExternalSystemRole role}. </p>
-         *
-         * <p> This {@link name} is an identifier represents this {@link ExternalSystemRole role}. This {@link name} is
-         * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
-         * {@link name} should be unique in an {@link ExternalSystemArray}.
-         */
-        private name;
-        /**
-         * Constructor from a system.
-         *
-         * @param system An external system containing this role.
-         */
-        constructor(system: ExternalSystem);
-        /**
-         * Identifier of {@link ExternalSystemRole} is its {@link name}.
-         */
-        key(): string;
-        /**
-         * Get external system, this role is belonged to.
-         */
-        getSystem(): ExternalSystem;
-        /**
-         * Get name, who represents and identifies this role.
-         */
-        getName(): string;
-        /**
-         * Send an {@link Invoke} message to the external system via {@link system}.
-         *
-         * @param invoke An {@link Invoke} message to send to the external system.
-         */
-        sendData(invoke: Invoke): void;
-        /**
-         * <p> Handle replied {@link Invoke message} from the {@link system external system} belonged to. </p>
-         *
-         * <p> This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}.
-         * in the <i>invoke</i>. </p>
-         *
-         * @param invoke An {@link Invoke} message received from the {@link system external system}.
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * Tag name of the {@link ExternalSytemRole} in {@link XML}.
-         *
-         * @return <i>role</i>.
-         */
-        TAG(): string;
-    }
-}
 declare namespace samchon.protocol.slave {
-    abstract class SlaveSystem extends external.ExternalSystem {
+    abstract class SlaveSystem implements protocol.IProtocol {
+        protected communicator_: ICommunicator;
         /**
          * Default Constructor.
          */
         constructor();
+        sendData(invoke: Invoke): void;
+        replyData(invoke: Invoke): void;
         private _replyData(invoke);
     }
 }
@@ -5641,7 +5897,7 @@ declare namespace samchon.protocol.parallel {
     }
 }
 declare namespace samchon.protocol.parallel {
-    class MediatorClient extends MediatorSystem implements external.IExternalServer {
+    class MediatorClient extends MediatorSystem {
         protected ip: string;
         protected port: number;
         constructor(systemArray: ParallelSystemArrayMediator, ip: string, port: number);
@@ -5690,54 +5946,6 @@ declare namespace samchon.protocol.parallel {
          * Compute number of allocated pieces.
          */
         computeSize(): number;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * <p> A manager containing {@link ParallelSystem} objects. </p>
-     *
-     *
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelSystemArray extends external.ExternalSystemArray {
-        /**
-         * @see {@link ParallelSystem.progress_list}, {@link ParallelSystem.history_list}
-         */
-        private history_sequence;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         *
-         * @param invoke An invoke message requesting parallel process.
-         * @param size Number of pieces.
-         */
-        sendSegmentData(invoke: Invoke, size: number): void;
-        /**
-         *
-         *
-         * @param invoke An invoke message requesting parallel process.
-         * @param first Initial piece's index in a section.
-         * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
-         *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
-         *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
-         */
-        sendPieceData(invoke: Invoke, first: number, last: number): void;
-        /**
-         *
-         * @param history
-         *
-         * @return Whether the processes with same uid are all fininsed.
-         *
-         * @see {@link ParallelSystem.report_invoke_history}, {@link normalize_performance}
-         */
-        protected notify_end(history: PRInvokeHistory): boolean;
-        /**
-         * @see {@link ParallelSystem.performance}
-         */
-        private normalize_performance();
     }
 }
 declare namespace samchon.protocol.parallel {
@@ -5834,93 +6042,6 @@ declare namespace samchon.protocol.parallel {
     }
 }
 declare namespace samchon.protocol.parallel {
-    /**
-     * <p> An external parallel system driver. </p>
-     *
-     *
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelSystem extends external.ExternalSystem {
-        /**
-         * A list of {@link Invoke} messages on process.
-         *
-         * @see {@link performance}
-         */
-        private progress_list;
-        /**
-         * A list of {@link Invoke} messages had processed.
-         *
-         * @see {@link performance}
-         */
-        private history_list;
-        /**
-         * <p> Performance index. </p>
-         *
-         * <p> A performance index that indicates how much fast the connected parallel system is. </p>
-         *
-         * <p> If this {@link ParallelSystem parallel system} hasn't any {@link Invoke} message
-         * {@link history_list had handled}, then the {@link performance performance index} will be 1, which means
-         * default and average value between all {@link ParallelSystem} instances (belonged to a same
-         * {@link ParallelSystemArray} object). </p>
-         *
-         * <p> You can specify this {@link performance} by yourself, but notice that, if the
-         * {@link performance performance index} is higher then other {@link ParallelSystem} objects, then this
-         * {@link ParallelSystem parallel system} will ordered to handle more processes than other {@link ParallelSystem}
-         * objects. Otherwise, the {@link performance performance index) is lower than others, of course, less processes
-         * will be delivered. </p>
-         *
-         * <p> This {@link performance index} is always re-calculated whenever {@link ParallelSystemArray} calls one of
-         * them below. </p>
-         *
-         * <ul>
-         *	<li> {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()} </li>
-         *	<li> {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()} </li>
-         * </ul>
-         *
-         * <p> If this class is a type of {@link DistributedSystem}, a derived class from the {@link ParallelSystem},
-         * then {@link DistributedSystemRole.sendData DistributedSystem.sendData()} also cause the re-calculation. </p>
-         *
-         * @see {@link progress_list}, {@link history_list}
-         */
-        protected performance: number;
-        constructor(systemArray: ParallelSystemArray);
-        constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
-        /**
-         * Get manager of this object, {@link systemArray}.
-         *
-         * @return A manager containing this {@link ParallelSystem} object.
-         */
-        getSystemArray(): ParallelSystemArray;
-        /**
-         * Get {@link performant performance index}.
-         *
-         * A performance index that indicates how much fast the connected parallel system is.
-         */
-        getPerformance(): number;
-        /**
-         * Send an {@link Invoke} message with index of segmentation.
-         *
-         * @param invoke An invoke message requesting parallel process.
-         * @param first Initial piece's index in a section.
-         * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
-         *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
-         *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
-         *
-         * @see {@link ParallelSystemArray.sendPieceData}
-         */
-        private send_piece_data(invoke, first, last);
-        /**
-         *
-         *
-         * @param xml
-         *
-         * @see {@link ParallelSystemArray.notify_end}
-         */
-        private report_invoke_history(xml);
-    }
-}
-declare namespace samchon.protocol.parallel {
     interface IParallelServer extends external.IExternalServer, ParallelSystem {
         /**
          * @inheritdoc
@@ -5946,6 +6067,9 @@ declare namespace samchon.protocol.parallel {
 declare namespace samchon.protocol.parallel {
     abstract class ParallelServerArrayMediator extends ParallelSystemArrayMediator implements external.IExternalServerArray {
         constructor();
+        /**
+         * @inheritdoc
+         */
         connect(): void;
     }
 }
@@ -5976,9 +6100,9 @@ declare namespace samchon.protocol.parallel {
 }
 declare namespace samchon.protocol.service {
     abstract class Client implements protocol.IProtocol {
-        private user;
-        private service;
-        private driver;
+        private user_;
+        private service_;
+        private communicator_;
         private no;
         /**
          * Construct from an User and WebClientDriver.
@@ -5995,8 +6119,8 @@ declare namespace samchon.protocol.service {
 }
 declare namespace samchon.protocol.service {
     abstract class Server extends protocol.WebServer implements IProtocol {
-        private session_map;
-        private account_map;
+        private session_map_;
+        private account_map_;
         /**
          * Default Constructor.
          */
@@ -6017,8 +6141,8 @@ declare namespace samchon.protocol.service {
 }
 declare namespace samchon.protocol.service {
     abstract class Service implements protocol.IProtocol {
-        private client;
-        private path;
+        private client_;
+        private path_;
         /**
          * Default Constructor.
          */
@@ -6038,11 +6162,11 @@ declare namespace samchon.protocol.service {
 }
 declare namespace samchon.protocol.service {
     abstract class User extends collection.HashMapCollection<number, Client> implements protocol.IProtocol {
-        private server;
-        private session_id;
-        private sequence;
-        private account_id;
-        private authority;
+        private server_;
+        private session_id_;
+        private sequence_;
+        private account_id_;
+        private authority_;
         /**
          * Construct from a Server.
          */
@@ -6059,18 +6183,24 @@ declare namespace samchon.protocol.service {
 }
 declare namespace samchon.protocol.slave {
     abstract class SlaveClient extends SlaveSystem {
+        /**
+         * Default Constructor.
+         */
         constructor();
+        /**
+         * @inheritdoc
+         */
         protected abstract createServerConnector(): IServerConnector;
         connect(ip: string, port: number): void;
     }
 }
 declare namespace samchon.protocol.slave {
     abstract class SlaveServer extends SlaveSystem implements IServer {
-        private server_base;
+        private server_base_;
         constructor();
         protected abstract createServerBase(): IServerBase;
-        addClient(driver: IClientDriver): void;
         open(port: number): void;
         close(): void;
+        addClient(driver: IClientDriver): void;
     }
 }

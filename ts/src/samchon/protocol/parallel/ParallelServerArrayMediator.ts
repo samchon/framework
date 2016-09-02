@@ -19,6 +19,9 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			CONNECTOR's METHOD
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public connect(): void
 		{
 			for (let i: number = 0; i < this.size(); i++)

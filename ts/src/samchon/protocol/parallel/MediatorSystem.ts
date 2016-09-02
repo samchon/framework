@@ -96,7 +96,7 @@ namespace samchon.protocol.parallel
 
 		public addClient(driver: IClientDriver): void
 		{
-			this.communicator = driver;
+			this.communicator_ = driver;
 			driver.listen(this);
 		}
 
@@ -145,7 +145,6 @@ namespace samchon.protocol.parallel
 {
 	export class MediatorClient
 		extends MediatorSystem
-		implements external.IExternalServer
 	{
 		protected ip: string;
 		protected port: number;
@@ -188,11 +187,11 @@ namespace samchon.protocol.parallel
 
 		public connect(): void
 		{
-			if (this.communicator != null)
+			if (this.communicator_ != null)
 				return;
 
-			this.communicator = this.createServerConnector();
-			(this.communicator as IServerConnector).connect(this.ip, this.port);
+			this.communicator_ = this.createServerConnector();
+			(this.communicator_ as IServerConnector).connect(this.ip, this.port);
 		}
 	}
 

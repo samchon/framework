@@ -44,47 +44,54 @@ void WebCommunicator::listen_message()
 
 	while (true)
 	{
-		const std::pair<unsigned char, size_t> &header = listen_header();
-
-		// EXIT CODE
-		if (header.first == WebSocketUtil::DISCONNECT)
-			break;
-
-		// READ DATA
-		if (header.first == WebSocketUtil::TEXT)
+		try
 		{
-			shared_ptr<Invoke> invoke = listen_string(header.second);
+			const std::pair<unsigned char, size_t> &header = listen_header();
 
-			for (size_t i = 0; i < invoke->size(); i++)
+			// EXIT CODE
+			if (header.first == WebSocketUtil::DISCONNECT)
+				break;
+
+			// READ DATA
+			if (header.first == WebSocketUtil::TEXT)
 			{
-				shared_ptr<InvokeParameter> &parameter = invoke->at(i);
-				if (parameter->getType() != "ByteArray")
-					continue;
+				shared_ptr<Invoke> invoke = listen_string(header.second);
 
+				for (size_t i = 0; i < invoke->size(); i++)
+				{
+					shared_ptr<InvokeParameter> &parameter = invoke->at(i);
+					if (parameter->getType() != "ByteArray")
+						continue;
+
+					if (binary_invoke == nullptr)
+						binary_invoke = invoke;
+					binary_parameters.push(parameter);
+				}
+
+				// NO BINARY, THEN REPLY DIRECTLY
 				if (binary_invoke == nullptr)
-					binary_invoke = invoke;
-				binary_parameters.push(parameter);
+					this->replyData(invoke);
 			}
-
-			// NO BINARY, THEN REPLY DIRECTLY
-			if (binary_invoke == nullptr)
-				this->replyData(invoke);
-		}
-		else if (header.first == WebSocketUtil::BINARY)
-		{
-			shared_ptr<InvokeParameter> parameter = binary_parameters.front();
-			listen_binary(header.second, parameter);
-			binary_parameters.pop();
-
-			if (binary_parameters.empty() == true)
+			else if (header.first == WebSocketUtil::BINARY)
 			{
-				// NO BINARY PARAMETER LEFT,
-				shared_ptr<Invoke> invoke = binary_invoke;
-				binary_invoke = nullptr;
+				shared_ptr<InvokeParameter> parameter = binary_parameters.front();
+				listen_binary(header.second, parameter);
+				binary_parameters.pop();
 
-				// THEN REPLY
-				this->replyData(invoke);
+				if (binary_parameters.empty() == true)
+				{
+					// NO BINARY PARAMETER LEFT,
+					shared_ptr<Invoke> invoke = binary_invoke;
+					binary_invoke = nullptr;
+
+					// THEN REPLY
+					this->replyData(invoke);
+				}
 			}
+		}
+		catch (...)
+		{
+			break;
 		}
 	}
 }

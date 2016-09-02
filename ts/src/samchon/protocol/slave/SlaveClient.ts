@@ -10,11 +10,17 @@ namespace samchon.protocol.slave
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor()
 		{
 			super();
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		protected abstract createServerConnector(): IServerConnector;
 		
 		/* ---------------------------------------------------------
@@ -22,11 +28,11 @@ namespace samchon.protocol.slave
 		--------------------------------------------------------- */
 		public connect(ip: string, port: number): void
 		{
-			if (this.communicator != null)
+			if (this.communicator_ != null)
 				return;
 
-			this.communicator = this.createServerConnector();
-			(this.communicator as IServerConnector).connect(ip, port);
+			this.communicator_ = this.createServerConnector();
+			(this.communicator_ as IServerConnector).connect(ip, port);
 		}
 	}
 }

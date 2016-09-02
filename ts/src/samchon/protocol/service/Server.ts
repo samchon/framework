@@ -8,8 +8,8 @@ namespace samchon.protocol.service
 		extends protocol.WebServer
 		implements IProtocol
 	{
-		private session_map: std.HashMap<string, User>;
-		private account_map: std.HashMap<string, User>;
+		private session_map_: std.HashMap<string, User>;
+		private account_map_: std.HashMap<string, User>;
 
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -22,8 +22,8 @@ namespace samchon.protocol.service
 			super();
 
 			// INITIALIZE USER MAPS
-			this.session_map = new std.HashMap<string, User>();
-			this.account_map = new std.HashMap<string, User>();
+			this.session_map_ = new std.HashMap<string, User>();
+			this.account_map_ = new std.HashMap<string, User>();
 		}
 
 		/**
@@ -38,12 +38,12 @@ namespace samchon.protocol.service
 		------------------------------------------------------------------ */
 		public has(account: string): boolean
 		{
-			return this.account_map.has(account);
+			return this.account_map_.has(account);
 		}
 
 		public get(account: string): User
 		{
-			return this.account_map.get(account);
+			return this.account_map_.get(account);
 		}
 
 		/* ------------------------------------------------------------------
@@ -51,7 +51,7 @@ namespace samchon.protocol.service
 		------------------------------------------------------------------ */
 		public sendData(invoke: protocol.Invoke): void
 		{
-			for (let it = this.session_map.begin(); !it.equal_to(this.session_map.end()); it = it.next())
+			for (let it = this.session_map_.begin(); !it.equal_to(this.session_map_.end()); it = it.next())
 				it.second.sendData(invoke);
 		}
 
@@ -72,15 +72,15 @@ namespace samchon.protocol.service
 			/////
 			let user: User;
 
-			if (this.session_map.has(driver.getSessionID()) == true)
-				user = this.session_map.get(driver.getSessionID());
+			if (this.session_map_.has(driver.getSessionID()) == true)
+				user = this.session_map_.get(driver.getSessionID());
 			else
 			{
 				user = this.createUser();
 				user["server"] = this;
 				user["session_id"] = driver.getSessionID();
 
-				this.session_map.insert(std.make_pair(driver.getSessionID(), user));
+				this.session_map_.insert(std.make_pair(driver.getSessionID(), user));
 			}
 
 			/////

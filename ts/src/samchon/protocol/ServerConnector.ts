@@ -67,6 +67,8 @@ namespace samchon.protocol
 		public constructor(listener: IProtocol)
 		{
 			super(listener);
+
+			this.connected_ = false;
 		}
 
 		/**
@@ -74,11 +76,13 @@ namespace samchon.protocol
 		 */
 		public connect(ip: string, port: number): void
 		{
-			this.socket = net.connect({ host: ip, port: port }, this.handle_connect.bind(this));
+			this.socket_ = net.connect({ host: ip, port: port }, this.handle_connect.bind(this));
 		}
 
 		private handle_connect(...arg: any[]): void
 		{
+			this.connected_ = true;
+
 			this.start_listen();
 
 			if (this.onConnect != null)
@@ -108,7 +112,7 @@ namespace samchon.protocol
 		 * 
 		 * <p> Note that, {@link socket} is only used in web-browser environment. </p>
 		 */
-		private browser_socket: WebSocket;
+		private browser_socket_: WebSocket;
 
 		///////
 		// NODE CLIENT
@@ -118,7 +122,7 @@ namespace samchon.protocol
 		 * 
 		 * <p> Note that, {@link node_client} is only used in NodeJS environment. </p>
 		 */
-		private node_client: websocket.client;
+		private node_client_: websocket.client;
 
 		/**
 		 * @inheritdoc
@@ -132,9 +136,10 @@ namespace samchon.protocol
 		{
 			super(listener);
 
-			this.browser_socket = null;
-			this.node_client = null;
+			this.browser_socket_ = null;
+			this.node_client_ = null;
 
+			this.connected_ = false;
 			this.onConnect = null;
 		}
 
@@ -157,19 +162,19 @@ namespace samchon.protocol
 			// CONNECTION BRANCHES
 			if (is_node() == true)
 			{
-				this.node_client = new websocket.client();
-				this.node_client.on("connect", this.handle_node_connect.bind(this));
+				this.node_client_ = new websocket.client();
+				this.node_client_.on("connect", this.handle_node_connect.bind(this));
 
-				this.node_client.connect(address);
+				this.node_client_.connect(address);
 			}
 			else
 			{
-				this.browser_socket = new WebSocket(address);
-
-				this.browser_socket.onopen = this.handle_browser_connect.bind(this);
-				this.browser_socket.onerror = this.handle_close.bind(this);
-				this.browser_socket.onclose = this.handle_close.bind(this);
-				this.browser_socket.onmessage = this.handle_browser_message.bind(this);
+				this.browser_socket_ = new WebSocket(address);
+				
+				this.browser_socket_.onopen = this.handle_browser_connect.bind(this);
+				this.browser_socket_.onerror = this.handle_close.bind(this);
+				this.browser_socket_.onclose = this.handle_close.bind(this);
+				this.browser_socket_.onmessage = this.handle_browser_message.bind(this);
 			}
 		}
 
@@ -189,13 +194,13 @@ namespace samchon.protocol
 		 */
 		public sendData(invoke: Invoke): void 
 		{
-			if (this.browser_socket != null)
+			if (this.browser_socket_ != null)
 			{
-				this.browser_socket.send(invoke.toXML().toString());
+				this.browser_socket_.send(invoke.toXML().toString());
 
 				for (let i: number = 0; i < invoke.size(); i++)
 					if (invoke.at(i).getType() == "ByteArray")
-						this.browser_socket.send(invoke.at(i).getValue());
+						this.browser_socket_.send(invoke.at(i).getValue());
 			}
 			else
 			{
@@ -205,6 +210,8 @@ namespace samchon.protocol
 
 		private handle_browser_connect(event: Event): void
 		{
+			this.connected_ = true;
+
 			if (this.onConnect != null)
 				this.onConnect();
 		}
@@ -219,10 +226,12 @@ namespace samchon.protocol
 
 		private handle_node_connect(connection: websocket.connection): void
 		{
-			this.connection = connection;
-			this.connection.on("message", this.handle_message.bind(this));
-			this.connection.on("close", this.handle_close.bind(this));
-			this.connection.on("error", this.handle_close.bind(this));
+			this.connected_ = true;
+
+			this.connection_ = connection;
+			this.connection_.on("message", this.handle_message.bind(this));
+			this.connection_.on("close", this.handle_close.bind(this));
+			this.connection_.on("error", this.handle_close.bind(this));
 
 			if (this.onConnect != null)
 				this.onConnect();
@@ -247,7 +256,8 @@ namespace samchon.protocol
 		public constructor(listener: IProtocol)
 		{
 			super(listener);
-			
+
+			this.connected_ = false;
 			this.onConnect = null;
 		}
 		
@@ -257,10 +267,11 @@ namespace samchon.protocol
 			let worker: SharedWorker = new SharedWorker(jsFile);
 			
 			// LISTEN MESSAGE
-			this.port = worker.port;
-			this.port.onmessage = this.handle_message.bind(this);
+			this.port_ = worker.port;
+			this.port_.onmessage = this.handle_message.bind(this);
 
 			// NOTIFY THE CONNECTION
+			this.connected_ = true;
 			if (this.onConnect != null)
 				this.onConnect();
 		}

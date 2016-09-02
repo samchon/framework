@@ -108,6 +108,71 @@ namespace samchon.protocol
 	}
 
 	/**
+	 * @hidden
+	 */
+	export namespace IEntity
+	{
+		export function construct(entity: IEntity, xml: library.XML, ...prohibited_names: string[]): void
+		{
+			// MEMBER VARIABLES
+			//  - ATOMIC ONLY; STRING, NUMBER AND BOOLEAN
+			let property_map: std.HashMap<string, string> = xml.getPropertyMap();
+
+			for (let it = property_map.begin(); !it.equal_to(property_map.end()); it = it.next())
+			{
+				if (entity[it.first] == undefined)
+					continue;
+
+				let prohibited: boolean = false;
+				for (let i: number = 0; i < prohibited_names.length; i++)
+					if (prohibited_names[i] == it.first)
+					{
+						prohibited = true;
+						break;
+					}
+				if (prohibited == true)
+					continue;
+
+				if (typeof entity[it.first] == "string")
+					entity[it.first] = it.second;
+				else if (typeof entity[it.first] == "number")
+					entity[it.first] = Number(it.second);
+				else if (typeof entity[it.first] == "boolean")
+					entity[it.first] = (it.second == "true");
+			}
+		}
+
+		export function toXML(entity: IEntity, ...prohibited_names: string[]): library.XML
+		{
+			let xml: library.XML = new library.XML();
+			xml.setTag(entity.TAG());
+
+			// MEMBER VARIABLES
+			//  - ATOMIC ONLY; STRING, NUMBER AND BOOLEAN
+			for (let key in entity)
+				if (typeof key == "string"
+					&& (typeof entity[key] == "string" || typeof entity[key] == "number" || typeof entity[key] == "boolean")
+					&& entity.hasOwnProperty(key))
+				{
+					let prohibited: boolean = false;
+					for (let i: number = 0; i < prohibited_names.length; i++)
+						if (prohibited_names[i] == key)
+						{
+							prohibited = true;
+							break;
+						}
+					if (prohibited == true)
+						continue;
+
+					// ATOMIC
+					xml.setProperty(key, String(entity[key]));
+				}
+
+			return xml;
+		}
+	}
+
+	/**
 	 * <p> An entity, a standard data class. </p>
 	 *
 	 * <p> Entity is a class for standardization of expression method using on network I/O by XML. If 
@@ -144,17 +209,7 @@ namespace samchon.protocol
 
 		public construct(xml: library.XML): void 
 		{
-			// MEMBER VARIABLES; ATOMIC
-			let propertyMap = xml.getPropertyMap();
-
-			for (let v_it = propertyMap.begin(); v_it.equal_to(propertyMap.end()) != true; v_it = v_it.next())
-				if (this.hasOwnProperty(v_it.first) == true) 
-					if (typeof this[v_it.first] == "number")
-						this[v_it.first] = parseFloat(v_it.second);
-					else if (typeof this[v_it.first] == "string")
-						this[v_it.first] = v_it.second;
-					else if (typeof this[v_it.first] == "boolean")
-						this[v_it.first] = (v_it.second == "true");
+			IEntity.construct(this, xml);
 		}
 
 		/**
@@ -172,19 +227,7 @@ namespace samchon.protocol
 		 */
 		public toXML(): library.XML
 		{
-			let xml: library.XML = new library.XML();
-			xml.setTag(this.TAG());
-
-			// MEMBERS
-			for (let key in this) 
-				if (typeof key == "string" // NOT STRING, THEN IT MEANS CHILDREN (INT, INDEX)
-					&& (typeof this[key] == "string" || typeof this[key] == "number" || typeof this[key] == "boolean") 
-					&& this.hasOwnProperty(key))
-				{
-					xml.setProperty(key, this[key] + "");
-				}
-
-			return xml;
+			return IEntity.toXML(this);
 		}
 	}
 }

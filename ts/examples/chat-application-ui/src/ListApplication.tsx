@@ -185,8 +185,8 @@ namespace example.chat {
 							<div className="row">
 								<div className="col-lg-12">
 									<h1>Welcome Simple Talk</h1>
-									<p>This template has a responsive menu toggling system.The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens.When toggled using the button below, the menu will appear/disappear.On small screens, the page content will be pushed off canvas.</p>
-									<p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis animi voluptatum voluptate quam rerum facere quis, sapiente minima. Necessitatibus voluptatibus laudantium rem, porro corrupti dolorum voluptatum autem numquam recusandae error.</p>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam ratione reprehenderit laboriosam mollitia vel, deleniti sunt consectetur asperiores molestias natus repellat ducimus soluta, possimus. Voluptate tempora voluptatibus fugit pariatur rem earum ipsa ut, aspernatur animi quaerat, architecto nobis alias itaque necessitatibus deleniti dolores voluptates at, id ab libero explicabo. Vel dolorem veniam, provident recusandae odio voluptatum quidem earum. <code>#채팅방</code><code>#오픈채팅</code><code>#방만들어</code>.</p>
 									<a href="#menu-toggle" className="btn btn-default" id="menu-toggle">Toggle Menu</a>
 								</div>
 							</div>

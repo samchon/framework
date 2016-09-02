@@ -129,7 +129,7 @@ namespace samchon.protocol.service
 		{
 			// USER DOESN'T BE ERASED AT THAT TIME
 			// IT WAITS UNTIL 30 SECONDS TO KEEP SESSION
-			setTimeout(function (user: User)
+			setTimeout(function ()
 				{
 					let server: Server = this;
 					if (user.empty() == false)
@@ -138,7 +138,7 @@ namespace samchon.protocol.service
 					server.session_map_.erase(user["session_id_"]);
 					if (user.getAccountID() != "")
 						server.account_map_.erase(user.getAccountID());
-				}.bind(this, [user]), 30000);
+				}.bind(this), 30000);
 		}
 	}
 }

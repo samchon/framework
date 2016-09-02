@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.5-a",
 
   "main": "./lib/ts/samchon-framework.js",
   "homepage": "http://samchon.org/framework",

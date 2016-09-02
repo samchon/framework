@@ -8153,13 +8153,14 @@ var samchon;
                 Server.prototype.erase_user = function (user) {
                     // USER DOESN'T BE ERASED AT THAT TIME
                     // IT WAITS UNTIL 30 SECONDS TO KEEP SESSION
-                    setTimeout(function () {
+                    setTimeout(function (user) {
+                        var server = this;
                         if (user.empty() == false)
                             return;
-                        this.session_map.erase(user["session_id_"]);
+                        server.session_map_.erase(user["session_id_"]);
                         if (user.getAccountID() != "")
-                            this.account_map.erase(user.getAccountID());
-                    }.bind(this), 30000);
+                            server.account_map_.erase(user.getAccountID());
+                    }.bind(this, [user]), 30000);
                 };
                 return Server;
             }(protocol.WebServer));

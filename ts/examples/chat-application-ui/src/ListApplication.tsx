@@ -105,6 +105,8 @@ namespace example.chat {
 
 				room_elements.push
 					(
+
+					
 					<p>
 						<table>
 							<tr>
@@ -187,6 +189,20 @@ namespace example.chat {
 									<p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
 									<a href="#menu-toggle" className="btn btn-default" id="menu-toggle">Toggle Menu</a>
 								</div>
+							</div>
+							<hr/>
+							<div className="row">
+								<div className="create-room">
+									<h2> Create Room </h2>
+									<input id="create_room_input" type="text" />
+									<button onClick={this.create_room.bind(this) }>Create</button>
+								</div>
+							</div>
+							<br/>
+							<hr/>
+							<br/>
+							<div className="row">
+								{room_elements}
 							</div>
 						</div>
 					</div>

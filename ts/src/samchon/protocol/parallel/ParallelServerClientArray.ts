@@ -31,8 +31,8 @@ namespace samchon.protocol.parallel
 		public connect(): void
 		{
 			for (let i: number = 0; i < this.size(); i++)
-				if (this.at(i)["connect"] != undefined)
-					(this.at(i) as external.ExternalServer).connect();
+				if ((this.at(i) as external.IExternalServer)["connect"] != undefined)
+					(this.at(i) as external.IExternalServer).connect();
 		}
 	}
 }

@@ -242,10 +242,10 @@ namespace samchon.protocol
 				this.value = xml.getValue();
 		}
 
-		public setValue(value: number);
-		public setValue(value: string);
-		public setValue(value: library.XML);
-		public setValue(value: Uint8Array);
+		public setValue(value: number): void;
+		public setValue(value: string): void;
+		public setValue(value: library.XML): void;
+		public setValue(value: Uint8Array): void;
 
 		public setValue(value: number | string | library.XML | Uint8Array): void
 		{

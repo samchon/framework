@@ -8,7 +8,7 @@ namespace samchon.protocol.service
 		private service_: Service;
 		private communicator_: WebClientDriver;
 
-		private no: number;
+		private no_: number;
 
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -30,7 +30,7 @@ namespace samchon.protocol.service
 
 		public close(): void
 		{
-			this.user_.erase(this.no);
+			this.user_.erase(this.no_);
 		}
 
 		/* ------------------------------------------------------------------
@@ -69,8 +69,8 @@ namespace samchon.protocol.service
 			this.service_ = this.createService(path);
 			if (this.service_ != null)
 			{
-				this.service_["client"] = this;
-				this.service_["path"] = path;
+				this.service_["client_"] = this;
+				this.service_["path_"] = path;
 			}
 		}
 	}

@@ -6475,7 +6475,7 @@ var samchon;
                 ExternalServerArray.prototype.connect = function () {
                     for (var i = 0; i < this.size(); i++) {
                         var system = this.at(i);
-                        if (system["connect"] == undefined)
+                        if (this.at(i) == undefined)
                             continue;
                         system.connect();
                     }
@@ -7778,7 +7778,7 @@ var samchon;
                     this.service_ = null;
                 }
                 Client.prototype.close = function () {
-                    this.user_.erase(this.no);
+                    this.user_.erase(this.no_);
                 };
                 /* ------------------------------------------------------------------
                     ACCESSORS
@@ -7806,8 +7806,8 @@ var samchon;
                         this.service_.destructor();
                     this.service_ = this.createService(path);
                     if (this.service_ != null) {
-                        this.service_["client"] = this;
-                        this.service_["path"] = path;
+                        this.service_["client_"] = this;
+                        this.service_["path_"] = path;
                     }
                 };
                 return Client;
@@ -7871,27 +7871,27 @@ var samchon;
                         user = this.session_map_.get(driver.getSessionID());
                     else {
                         user = this.createUser();
-                        user["server"] = this;
-                        user["session_id"] = driver.getSessionID();
+                        user["server_"] = this;
+                        user["session_id_"] = driver.getSessionID();
                         this.session_map_.insert(std.make_pair(driver.getSessionID(), user));
                     }
                     /////
                     // CLIENT
                     /////
                     var client = user["createClient"](driver);
-                    client["user"] = user;
-                    client["no"] = ++user["sequence"];
-                    client["driver"] = driver;
-                    user.insert(std.make_pair(client["no"], client));
+                    client["user_"] = user;
+                    client["no_"] = ++user["sequence_"];
+                    client["communicator_"] = driver;
+                    user.insert(std.make_pair(client["no_"], client));
                     /////
                     // SERVICE
                     /////
                     var service = client["createService"](driver.getPath());
                     if (service != null) {
-                        service["client"] = client;
-                        service["path"] = driver.getPath();
+                        service["client_"] = client;
+                        service["path_"] = driver.getPath();
                     }
-                    client["service"] = service;
+                    client["service_"] = service;
                     ///////
                     // START COMMUNICATION
                     ///////
@@ -7899,14 +7899,14 @@ var samchon;
                     driver.onClose = function () {
                         // WHEN DISCONNECTED, THEN ERASE THE CLIENT.
                         // OF COURSE, IT CAN CAUSE DELETION OF THE RELATED USER.
-                        user.erase(client["no"]);
+                        user.erase(client["no_"]);
                         // ALSO, DESTRUCTOR OF THE SERVICE IS CALLED.
-                        if (client["service"] != null)
-                            client["service"].destructor();
+                        if (client["service_"] != null)
+                            client["service_"].destructor();
                     };
                     // PRECAUTION FOR IDIOTS
-                    client["driver"] = driver;
-                    if (client["listening_"] == false)
+                    client["communicator_"] = driver;
+                    if (driver["listening_"] == false)
                         driver.listen(client);
                 };
                 Server.prototype.erase_user = function (user) {
@@ -7915,7 +7915,7 @@ var samchon;
                     setTimeout(function () {
                         if (user.empty() == false)
                             return;
-                        this.session_map.erase(user["session_id"]);
+                        this.session_map.erase(user["session_id_"]);
                         if (user.getAccountID() != "")
                             this.account_map.erase(user.getAccountID());
                     }.bind(this), 30000);
@@ -8023,12 +8023,12 @@ var samchon;
                     if (this.account_id_ == id)
                         return;
                     else if (this.account_id_ != "")
-                        this.server_["account_map"].erase(this.account_id_); // ERASE FROM ORDINARY ACCOUNT_MAP
+                        this.server_["account_map_"].erase(this.account_id_); // ERASE FROM ORDINARY ACCOUNT_MAP
                     // SET
                     this.account_id_ = id;
                     this.authority_ = authority;
                     // REGISTER TO ACCOUNT_MAP IN ITS SERVER
-                    this.server_["account_map"].set(id, this);
+                    this.server_["account_map_"].set(id, this);
                 };
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN

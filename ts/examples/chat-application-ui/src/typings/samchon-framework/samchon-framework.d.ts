@@ -4341,10 +4341,10 @@ declare namespace samchon.protocol {
          * @inheritdoc
          */
         construct(xml: library.XML): void;
-        setValue(value: number): any;
-        setValue(value: string): any;
-        setValue(value: library.XML): any;
-        setValue(value: Uint8Array): any;
+        setValue(value: number): void;
+        setValue(value: string): void;
+        setValue(value: library.XML): void;
+        setValue(value: Uint8Array): void;
         /**
          * @inheritdoc
          */
@@ -6103,7 +6103,7 @@ declare namespace samchon.protocol.service {
         private user_;
         private service_;
         private communicator_;
-        private no;
+        private no_;
         /**
          * Construct from an User and WebClientDriver.
          */

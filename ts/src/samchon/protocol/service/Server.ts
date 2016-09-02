@@ -77,8 +77,8 @@ namespace samchon.protocol.service
 			else
 			{
 				user = this.createUser();
-				user["server"] = this;
-				user["session_id"] = driver.getSessionID();
+				user["server_"] = this;
+				user["session_id_"] = driver.getSessionID();
 
 				this.session_map_.insert(std.make_pair(driver.getSessionID(), user));
 			}
@@ -87,11 +87,11 @@ namespace samchon.protocol.service
 			// CLIENT
 			/////
 			let client: Client = user["createClient"](driver);
-			client["user"] = user;
-			client["no"] = ++user["sequence"];
-			client["driver"] = driver;
+			client["user_"] = user;
+			client["no_"] = ++user["sequence_"];
+			client["communicator_"] = driver;
 			
-			user.insert(std.make_pair(client["no"], client));
+			user.insert(std.make_pair(client["no_"], client));
 
 			/////
 			// SERVICE
@@ -99,10 +99,10 @@ namespace samchon.protocol.service
 			let service: Service = client["createService"](driver.getPath());
 			if (service != null)
 			{
-				service["client"] = client;
-				service["path"] = driver.getPath();
+				service["client_"] = client;
+				service["path_"] = driver.getPath();
 			}
-			client["service"] = service;
+			client["service_"] = service;
 			
 			///////
 			// START COMMUNICATION
@@ -112,16 +112,16 @@ namespace samchon.protocol.service
 			{
 				// WHEN DISCONNECTED, THEN ERASE THE CLIENT.
 				// OF COURSE, IT CAN CAUSE DELETION OF THE RELATED USER.
-				user.erase(client["no"]);
+				user.erase(client["no_"]);
 
 				// ALSO, DESTRUCTOR OF THE SERVICE IS CALLED.
-				if (client["service"] != null)
-					client["service"].destructor();
+				if (client["service_"] != null)
+					client["service_"].destructor();
 			}
 
 			// PRECAUTION FOR IDIOTS
-			client["driver"] = driver;
-			if (client["listening_"] == false)
+			client["communicator_"] = driver;
+			if (driver["listening_"] == false)
 				driver.listen(client);
 		}
 
@@ -134,7 +134,7 @@ namespace samchon.protocol.service
 					if (user.empty() == false)
 						return;
 
-					this.session_map.erase(user["session_id"]);
+					this.session_map.erase(user["session_id_"]);
 					if (user.getAccountID() != "")
 						this.account_map.erase(user.getAccountID());
 				}.bind(this), 30000);

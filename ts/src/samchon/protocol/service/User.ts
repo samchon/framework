@@ -72,14 +72,14 @@ namespace samchon.protocol.service
 			if (this.account_id_ == id) // SAME WITH BEFORE
 				return;
 			else if (this.account_id_ != "") // ACCOUTN IS CHANGED
-				this.server_["account_map"].erase(this.account_id_); // ERASE FROM ORDINARY ACCOUNT_MAP
+				this.server_["account_map_"].erase(this.account_id_); // ERASE FROM ORDINARY ACCOUNT_MAP
 
 			// SET
 			this.account_id_ = id;
 			this.authority_ = authority;
 
 			// REGISTER TO ACCOUNT_MAP IN ITS SERVER
-			this.server_["account_map"].set(id, this);
+			this.server_["account_map_"].set(id, this);
 		}
 
 		/* ---------------------------------------------------------

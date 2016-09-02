@@ -106,27 +106,15 @@ namespace example.chat {
 				room_elements.push
 					(
 
-					<div className="col-sm-4 col-md-3 chat-room-item">
-						<a href={link_address} target="_blank">
-							<table>
-								<tr>
-									<td> No </td>
-									<td> {room.getUID() } </td>
-								</tr>
-								<tr>
-									<td> Title </td>
-									<td> {room.getTitle() } </td>
-								</tr>
-								<tr>
-									<td> Participants </td>
-									<td>
-										<ol>
-											{participant_elements}
-										</ol>
-									</td>
-								</tr>
-							</table>
-						</a>
+					<div className="panel panel-default chat-room-item col-sm-4 col-md-3">
+						<div className="panel-heading">
+							<h3 className="panel-title">{room.getUID() }</h3>
+							<h3>{room.getTitle() }</h3>
+						</div>
+						<div className="pane-body">
+							<p>{participant_elements}</p>
+							<a href={link_address} target="_blank" className="btn btn-primary">참여</a>
+						</div>
 					</div>
 					);
 			}

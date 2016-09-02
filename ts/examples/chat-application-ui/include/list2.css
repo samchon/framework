@@ -20,15 +20,16 @@ body{
 }
 
 .chat-room-item{
-  border: #000 solid 10px;
-  background-color: #444;
+ 
   margin: 1.5rem;
-  padding: 2rem;
+  
+  color: white;
+  height: 200px;
 }
 
-.chat-room-item:hover{
+/*.chat-room-item:hover{
   background-color: #666;
-}
+}*/
 
 .chat-room-item table{
   color: white;

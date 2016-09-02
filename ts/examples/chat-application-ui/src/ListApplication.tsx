@@ -157,10 +157,8 @@ namespace example.chat {
 
 						<div className="user-info">
 							<h3> INFORMATION </h3>
-							<ul>
-								<li> Account ID: {this.id} </li>
-								<li> Name: {this.name} </li>
-							</ul>
+							<h5>Account ID: {this.id}</h5>
+							<h5>Name: {this.name}</h5>
 						</div>
 					</div>
 
@@ -186,10 +184,11 @@ namespace example.chat {
 									</div>
 								</div>
 							</div>
-							<br/>
+							<br/><br/>
 							<hr/>
 							<br/>
 							<div>
+								<h2> Room List</h2><br/>
 								{room_elements}
 							</div>
 						</div>

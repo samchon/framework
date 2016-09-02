@@ -172,7 +172,7 @@ namespace example.chat {
 						</ul>
 
 						<div className="user-info">
-							<h3> 내정보 </h3>
+							<h3> INFORMATION </h3>
 							<ul>
 								<li> Account ID: {this.id} </li>
 								<li> Name: {this.name} </li>

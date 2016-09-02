@@ -18,3 +18,18 @@ body{
   left: 0;
   right: 0;
 }
+
+.chat-room-item{
+  border: #000 solid 10px;
+  background-color: #444;
+  margin: 1.5rem;
+  padding: 2rem;
+}
+
+.chat-room-item:hover{
+  background-color: #666;
+}
+
+.chat-room-item table{
+  color: white;
+}

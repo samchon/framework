@@ -27,7 +27,10 @@ namespace example.chat {
 			SEND DATA
 		--------------------------------------------------------- */
 		private send_message(event: React.MouseEvent): void {
-			let to: string = (document.getElementById("whisper_target_combo") as HTMLSelectElement).value;
+
+			let to: string = (document.getElementById("whisper") as HTMLButtonElement).innerText;
+			console.log(to);
+			// let to: string = (document.getElementById("whisper_target_combo") as HTMLSelectElement).value;
 			let message: string = (document.getElementById("message_input") as HTMLInputElement).value;
 
 			if (!message) {
@@ -36,7 +39,7 @@ namespace example.chat {
 				return;
 			}
 
-			if (to == "")
+			if (to == "To All ")
 				this.sendData(new protocol.Invoke("talk", message));
 			else
 				this.sendData(new protocol.Invoke("whisper", to, message));
@@ -47,10 +50,9 @@ namespace example.chat {
 		private send_message2(event: React.KeyboardEvent): void {
 			if (event.charCode == 13) {
 
-// let test: string = (document.getElementById("whisper_target_combo2") as HTMLLIElement).value;
-// console.log(test);
-				
-				let to: string = (document.getElementById("whisper_target_combo") as HTMLSelectElement).value;
+				let to: string = (document.getElementById("whisper") as HTMLButtonElement).innerText;
+				console.log(to);
+				// let to: string = (document.getElementById("whisper_target_combo") as HTMLSelectElement).value;
 				let message: string = (document.getElementById("message_input") as HTMLInputElement).value;
 
 				if (!message) {
@@ -58,13 +60,35 @@ namespace example.chat {
 					return;
 				}
 
-				if (to == "")
+				if (to == "To All ")
 					this.sendData(new protocol.Invoke("talk", message));
 				else
 					this.sendData(new protocol.Invoke("whisper", to, message));
 
 				(document.getElementById("message_input") as HTMLInputElement).value = '';
 			}
+		}
+
+		private whisper_target_select(id, whisper_target_list): void {
+
+			
+			console.log(id);
+			// console.log(whisper_target_list);
+			console.log(whisper_target_list[id].props.children.props.children);
+			let whisper_taget: string = whisper_target_list[id].props.children.props.children;
+
+			// let to: string = (document.getElementById(whisper_taget) as HTMLLIElement).textContent;
+			(document.getElementById("whisper") as HTMLButtonElement).textContent = whisper_taget + ' ';
+			var span = document.createElement('span');
+			span.setAttribute('class', 'caret');
+			(document.getElementById("whisper") as HTMLButtonElement).appendChild(span);
+		}
+
+		private whisper_target_all(id): void {
+			(document.getElementById("whisper") as HTMLButtonElement).textContent = 'To All ';
+			var span = document.createElement('span');
+			span.setAttribute('class', 'caret');
+			(document.getElementById("whisper") as HTMLButtonElement).appendChild(span);
 		}
 
 		/* ---------------------------------------------------------
@@ -108,6 +132,8 @@ namespace example.chat {
 		public render(): JSX.Element {
 			let whisper_target_options: JSX.Element[] = [];
 			let participant_elements: JSX.Element[] = [];
+			
+			let whisper_target_list: JSX.Element[] = [];
 
 			for (let i: number = 0; i < this.room.size(); i++) {
 				let participant: Participant = this.room.at(i);
@@ -123,6 +149,11 @@ namespace example.chat {
 					(
 					<li> {participant.getName() } ({participant.getID() }) </li>
 					);
+
+				whisper_target_list.push
+					(
+						<li key={i}><a onClick={this.whisper_target_select.bind(this, i, whisper_target_list)} href="#" id={participant.getID()}>{participant.getName()}</a></li>
+					)
 			}
 
 			return <div>
@@ -182,29 +213,6 @@ namespace example.chat {
 								</div>
 							</div>
 						</div>
-						
-						
-
-						<div className="chat-input2">
-						<div className="row">
-						<div className="col-lg-6">
-							<div className="input-group">
-							
-								<div className="input-group-btn" id="whisper">
-									<select id="whisper_target_combo">
-										<option value={""}> To All </option>
-										{whisper_target_options}
-									</select>
-								</div>
-
-								<input id="message_input" type="text" className="form-control" onKeyPress={this.send_message2.bind(this) } placeholder="Type your message."/>
-								<div className="input-group-btn">
-									<button type="button" className="btn btn-default" onClick={this.send_message.bind(this) } >Send</button>
-								</div>
-							</div>							
-						</div>
-						</div>
-						</div>
 
 						<br/>
 
@@ -212,17 +220,15 @@ namespace example.chat {
 							<div className="col-lg-6">
 								<div className="input-group">
 									<div className="input-group-btn">
-										<button id="data-box" type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true" onClick="test()">To All <span className="caret"></span></button>
+										<button id="whisper" type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">To All <span className="caret"></span></button>
 										<ul className="dropdown-menu" id="demolist" role="menu">
-											<li><a href="#"id="action-1">Action</a></li>
-											<li><a href="#">Another action</a></li>
-											<li><a href="#">Something else here</a></li>
-											<li><a href="#">Separated link</a></li>
+											<li><a onClick={this.whisper_target_all.bind(this)} href="#" id="To All">To All</a></li>
+											{whisper_target_list}
 										</ul>
 									</div>
-									<input type="text" className="form-control" id="message_input" onKeyPress={this.send_message2.bind(this) } placeholder="Type your message."/>
+									<input type="text" className="form-control" id="message_input" onKeyPress={this.send_message2.bind(this)} placeholder="Type your message."/>
 									<div className="input-group-btn">
-										<button type="button" className="btn btn-default" onClick={this.send_message.bind(this) }>Send</button>							
+										<button type="button" className="btn btn-default" onClick={this.send_message.bind(this)}>Send</button>							
 									</div>
 								</div>
 							</div>

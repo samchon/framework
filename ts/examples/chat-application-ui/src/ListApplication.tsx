@@ -88,11 +88,23 @@ namespace example.chat {
 		public render(): JSX.Element {
 			let room_elements: JSX.Element[] = [];
 
+			let imageList: string[] = [
+				'https://thumbs.dreamstime.com/x/european-city-illustration-37366790.jpg',
+				'http://www.icanbecreative.com/res/2014/12/night-city-illustrations.jpg',
+				'https://thumbs.dreamstime.com/t/shopping-city-retro-colors-vector-illustration-center-33767869.jpg',
+				'https://s-media-cache-ak0.pinimg.com/originals/5b/35/32/5b35323ed68751c62a328f6e80389159.jpg'
+			];
+
+
+
 			for (let i: number = 0; i < this.room_list.size(); i++) {
 				let room: ChatRoom = this.room_list.at(i);
 				let link_address: string = "chat.html?&uid=" + room.getUID();
 
 				let participant_elements: JSX.Element[] = [];
+
+				let imageRandom:number = Math.floor(Math.random()*(3-0+1));
+
 
 				for (let j: number = 0; j < room.size(); j++) {
 					let participant: Participant = room.at(j);
@@ -106,16 +118,28 @@ namespace example.chat {
 				room_elements.push
 					(
 
-					<div className="panel panel-default chat-room-item col-sm-4 col-md-3">
-						<div className="panel-heading">
-							<h3 className="panel-title">No.{room.getUID() }</h3>
-							<h3>{room.getTitle() }</h3>
-						</div>
-						<div className="pane-body">
-							<p>{participant_elements}</p>
-							<a href={link_address} target="_blank" className="btn btn-primary">참여</a>
+					// <div className="panel panel-default chat-room-item col-sm-4 col-md-3">
+					// 	<div className="panel-heading">
+					// 		<h3 className="panel-title">No.{room.getUID() }</h3>
+					// 		<h3>{room.getTitle() }</h3>
+					// 	</div>
+					// 	<div className="pane-body">
+					// 		<p>{participant_elements}</p>
+					// 		<a href={link_address} target="_blank" className="btn btn-primary">참여</a>
+					// 	</div>
+					// </div>
+
+					<div className="col-sm-4 col-md-3">
+						<div className="thumbnail">
+							<img src={imageList[(room.getUID()-1)%4]} alt="..."></img>
+							<div className="caption">
+								<h3>{room.getTitle()}</h3>
+								<p>{participant_elements}</p>
+								<p><a href={link_address} target="_blank" className="btn btn-default">참여</a></p>
+							</div>
 						</div>
 					</div>
+
 					);
 			}
 

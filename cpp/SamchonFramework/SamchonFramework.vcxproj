@@ -77,6 +77,7 @@
     <ClInclude Include="..\samchon\protocol\external\ExternalSystemRole.hpp" />
     <ClInclude Include="..\samchon\protocol\FlashPolicyServer.hpp" />
     <ClInclude Include="..\samchon\protocol\IEntityChain.hpp" />
+    <ClInclude Include="..\samchon\protocol\IListener.hpp" />
     <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\master\MediatorSystem.hpp" />
     <ClInclude Include="..\samchon\protocol\master\MediatorClient.hpp" />
@@ -94,6 +95,9 @@
     <ClInclude Include="..\samchon\protocol\master\ParallelSystemArray.hpp" />
     <ClInclude Include="..\samchon\protocol\master\ParallelSystemArrayMediator.hpp" />
     <ClInclude Include="..\samchon\protocol\master\PRInvokeHistory.hpp" />
+    <ClInclude Include="..\samchon\protocol\parallel\ParallelSystem.hpp" />
+    <ClInclude Include="..\samchon\protocol\parallel\ParallelSystemArray.hpp" />
+    <ClInclude Include="..\samchon\protocol\parallel\PRInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\protocol\service\Client.hpp" />
     <ClInclude Include="..\samchon\protocol\service\Server.hpp" />
     <ClInclude Include="..\samchon\protocol\service\Service.hpp" />

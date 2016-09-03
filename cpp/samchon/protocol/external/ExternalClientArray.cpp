@@ -20,7 +20,7 @@ void ExternalClientArray::addClient(shared_ptr<ClientDriver> driver)
 	if (system == nullptr)
 		return;
 	
-	system->communicator = driver;
+	system->communicator_ = driver;
 	
 	emplace_back(system);
 	driver->listen(system);

@@ -16,13 +16,13 @@ namespace protocol
 		typedef Entity super;
 
 	protected:
-		size_t uid;
+		size_t uid_;
 
-		std::string listener;
+		std::string listener_;
 
-		library::Date startTime;
+		library::Date start_time_;
 
-		library::Date endTime;
+		library::Date end_time_;
 
 	public:
 		/* ---------------------------------------------------------
@@ -34,29 +34,29 @@ namespace protocol
 
 		InvokeHistory(std::shared_ptr<Invoke> invoke) : super()
 		{
-			uid = invoke->get("invoke_history_uid")->getValue<size_t>();
-			listener = invoke->getListener();
+			uid_ = invoke->get("invoke_history_uid")->getValue<size_t>();
+			listener_ = invoke->getListener();
 
-			startTime = std::chrono::system_clock::now();
+			start_time_ = std::chrono::system_clock::now();
 		};
 
 		virtual ~InvokeHistory() = default;
 
 		virtual void construct(std::shared_ptr<library::XML> xml) override
 		{
-			uid = xml->getProperty<size_t>("uid");
-			listener = xml->getProperty("listener");
+			uid_ = xml->getProperty<size_t>("uid");
+			listener_ = xml->getProperty("listener");
 
-			startTime = std::chrono::system_clock::from_time_t(0);
-			endTime = std::chrono::system_clock::from_time_t(0);
+			start_time_ = std::chrono::system_clock::from_time_t(0);
+			end_time_ = std::chrono::system_clock::from_time_t(0);
 
-			startTime += std::chrono::duration<long long, std::ratio_multiply<std::ratio<100i64, 1i64>, std::nano>>(xml->getProperty<long long>("startTime"));
-			endTime += std::chrono::duration<long long, std::ratio_multiply<std::ratio<100i64, 1i64>, std::nano>>(xml->getProperty<long long>("endTime"));
+			start_time_ += std::chrono::duration<long long, std::ratio_multiply<std::ratio<100i64, 1i64>, std::nano>>(xml->getProperty<long long>("startTime"));
+			end_time_ += std::chrono::duration<long long, std::ratio_multiply<std::ratio<100i64, 1i64>, std::nano>>(xml->getProperty<long long>("endTime"));
 		};
 
 		void notifyEnd()
 		{
-			endTime = std::chrono::system_clock::now();
+			end_time_ = std::chrono::system_clock::now();
 		};
 
 		/* ---------------------------------------------------------
@@ -64,27 +64,27 @@ namespace protocol
 		--------------------------------------------------------- */
 		auto getUID() const -> size_t
 		{
-			return uid;
+			return uid_;
 		};
 
 		auto getListener() const -> std::string
 		{
-			return listener;
+			return listener_;
 		};
 
 		auto getStartTime() const -> library::Date
 		{
-			return startTime;
+			return start_time_;
 		};
 
 		auto getEndTime() const -> library::Date
 		{
-			return endTime;
+			return end_time_;
 		};
 
 		auto getElapsedTime() const -> long long
 		{
-			return (endTime - startTime).count();
+			return (end_time_ - start_time_).count();
 		};
 
 		/* ---------------------------------------------------------
@@ -98,10 +98,10 @@ namespace protocol
 		virtual auto toXML() const -> std::shared_ptr<library::XML>
 		{
 			std::shared_ptr<library::XML> &xml = super::toXML();
-			xml->setProperty("uid", uid);
-			xml->setProperty("listener", listener);
-			xml->setProperty("startTime", startTime.time_since_epoch().count());
-			xml->setProperty("endTime", endTime.time_since_epoch().count());
+			xml->setProperty("uid", uid_);
+			xml->setProperty("listener", listener_);
+			xml->setProperty("startTime", start_time_.time_since_epoch().count());
+			xml->setProperty("endTime", end_time_.time_since_epoch().count());
 
 			return xml;
 		};

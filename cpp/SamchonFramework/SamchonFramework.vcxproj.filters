@@ -157,6 +157,9 @@
     <Filter Include="Header Files\library\math\case generator">
       <UniqueIdentifier>{1da2e867-3792-4fd6-8cb1-c43bc92abac7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\protocol\parallel">
+      <UniqueIdentifier>{a9967383-c181-406b-a681-c1bc66534b26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\ByteArray.hpp">
@@ -500,6 +503,18 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\master\ParallelSystemArrayMediator.hpp">
       <Filter>Header Files\protocol\master\parallel system\mediator %28master%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\parallel\ParallelSystem.hpp">
+      <Filter>Header Files\protocol\parallel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\parallel\ParallelSystemArray.hpp">
+      <Filter>Header Files\protocol\parallel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\parallel\PRInvokeHistory.hpp">
+      <Filter>Header Files\protocol\parallel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IListener.hpp">
+      <Filter>Header Files\protocol\common\basic components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -29,11 +29,11 @@ auto ExternalServer::createServerConnector() -> ServerConnector*
 --------------------------------------------------------- */
 void ExternalServer::connect()
 {
-	if (communicator != nullptr || ip.empty() == true)
+	if (communicator_ != nullptr || ip.empty() == true)
 		return;
 
 	ServerConnector *connector = this->createServerConnector();
-	communicator.reset(connector);
+	communicator_.reset(connector);
 
 	connector->connect(ip, port);
 }

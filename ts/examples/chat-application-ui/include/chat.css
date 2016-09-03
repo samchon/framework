@@ -1,21 +1,23 @@
 /*chat css*/
 body{
-  background-color: #181818;
+  background-color: white;
+  overflow-x: hidden;
 }
 
 .participant {
-    color: white;
+    color: black;
 }
 
 .conversation {
-    color: white;
+    color: black;
     width: 100%;
-  height: calc(100% - 300px);
-  overflow-x: hidden;
-  overflow-y: hidden;
+    height: calc(100% - 300px);
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .chat-canvas {
+color: black;
   width: 100%;
   height: calc(100% - 50px);
   border-bottom: 1px solid rgba(171, 184, 196, 0.5);
@@ -29,3 +31,31 @@ body{
   height: 51px;
 }
 /* end chat css*/
+
+.talk-title {
+  border: 0;
+  color: white;
+  padding: 10px;
+}
+
+.user-info{
+  color: white;
+  background-color: #000;
+  position: absolute;
+  bottom: 0;
+  /*margin: 2.5rem;*/
+  padding: 2.5rem;
+  left: 0;
+  right: 0;
+}
+
+.chat-room-item{
+ 
+  margin: 1.5rem;
+  /*color: white;*/
+  height: 200px;
+}
+
+select {
+  font-size: 132px;
+}

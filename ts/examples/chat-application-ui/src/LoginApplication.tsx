@@ -57,7 +57,7 @@ namespace example.chat {
 
 			return <div className="login-box">
 				<div className="lb-header">
-					<a href="#" className="active" id="login-box-link">Login</a>
+					<a href="#" className="active" id="login-box-link">Samchon Talk</a>
 				</div>
 
 				<div className="email-login">

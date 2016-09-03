@@ -46,6 +46,10 @@ namespace example.chat {
 
 		private send_message2(event: React.KeyboardEvent): void {
 			if (event.charCode == 13) {
+
+// let test: string = (document.getElementById("whisper_target_combo2") as HTMLLIElement).value;
+// console.log(test);
+				
 				let to: string = (document.getElementById("whisper_target_combo") as HTMLSelectElement).value;
 				let message: string = (document.getElementById("message_input") as HTMLInputElement).value;
 
@@ -122,62 +126,161 @@ namespace example.chat {
 			}
 
 			return <div>
-				<div className="participant">
-					<h2> Participant List </h2>
-					<ul>
-						{participant_elements}
+			
+			<div id="wrapper">
+				<div id="sidebar-wrapper">
+					<ul className="sidebar-nav">
+						<li className="sidebar-brand">
+							<div className="talk-title">
+								<h2> SamchonTalk </h2>
+							</div>
+						</li>
+						<br/><br/>
+						<li>
+							<a href="#">Dashboard</a>
+						</li>
+						<li>
+							<a href="#">Shortcuts</a>
+						</li>
+						<li>
+							<a href="#">Overview</a>
+						</li>
+						<li>
+							<a href="#">Events</a>
+						</li>
+						<li>
+							<a href="#">About</a>
+						</li>
+						<li>
+							<a href="#">Services</a>
+						</li>
+						<li>
+							<a href="#">Contact</a>
+						</li>
 					</ul>
-				</div>
-				
-				<div className="conversation">
-					<h2> Conversation </h2>
-					<div className="chat-canvas">
-						<div id="messages_div">
-						</div>
+
+					<div className="user-info">
+						<h3> INFORMATION </h3>
+						<h5>Account ID: {this.id}</h5>
+						<h5>Name: {this.name}</h5>
 					</div>
 				</div>
-				<div className="chat-input2">
-					<select id="whisper_target_combo">
-						<option value={""}> To All </option>
-						{whisper_target_options}
-					</select>
-					<input id="message_input" type="text" width="400" onKeyPress={this.send_message2.bind(this) }/>
-					<button onClick={this.send_message.bind(this) } >Send</button>
+
+				<div id="page-content-wrapper">
+					<div className="container-fluid">
+						<div className="participant">
+							<h2> Participant List </h2>
+							<ul>
+								{participant_elements}
+							</ul>
+						</div>
+				
+						<div className="conversation">
+							<h2> Conversation </h2>
+							<div className="chat-canvas">
+								<div id="messages_div">
+								</div>
+							</div>
+						</div>
+						
+						
+
+						<div className="chat-input2">
+						<div className="row">
+						<div className="col-lg-6">
+							<div className="input-group">
+							
+								<div className="input-group-btn" id="whisper">
+									<select id="whisper_target_combo">
+										<option value={""}> To All </option>
+										{whisper_target_options}
+									</select>
+								</div>
+
+								<input id="message_input" type="text" className="form-control" onKeyPress={this.send_message2.bind(this) } placeholder="Type your message."/>
+								<div className="input-group-btn">
+									<button type="button" className="btn btn-default" onClick={this.send_message.bind(this) } >Send</button>
+								</div>
+							</div>							
+						</div>
+						</div>
+						</div>
+
+						<br/>
+
+						<div className="row">
+							<div className="col-lg-6">
+								<div className="input-group">
+									<div className="input-group-btn">
+										<button id="data-box" type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true" onClick="test()">To All <span className="caret"></span></button>
+										<ul className="dropdown-menu" id="demolist" role="menu">
+											<li><a href="#"id="action-1">Action</a></li>
+											<li><a href="#">Another action</a></li>
+											<li><a href="#">Something else here</a></li>
+											<li><a href="#">Separated link</a></li>
+										</ul>
+									</div>
+									<input type="text" className="form-control" id="message_input" onKeyPress={this.send_message2.bind(this) } placeholder="Type your message."/>
+									<div className="input-group-btn">
+										<button type="button" className="btn btn-default" onClick={this.send_message.bind(this) }>Send</button>							
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
 				</div>
 
-<div className="row">
-  <div className="col-lg-6">
-    <div className="input-group">
-      <div className="input-group-btn">
-        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span className="caret"></span></button>
-        <ul className="dropdown-menu" role="menu">
-          <li><a href="#">Action</a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li className="divider"></li>
-          <li><a href="#">Separated link</a></li>
-        </ul>
-      </div>
-      <input type="text" className="form-control" aria-label="..." />
-    </div>
-  </div>
-  <div className="col-lg-6">
-    <div className="input-group">
-      <input type="text" className="form-control" aria-label="..." />
-      <div className="input-group-btn">
-        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span className="caret"></span></button>
-        <ul className="dropdown-menu dropdown-menu-right" role="menu">
-          <li><a href="#">Action</a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li className="divider"></li>
-          <li><a href="#">Separated link</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-			</div>;
+			</div>
+		</div>;
+
+// 			return <div>
+			
+// 				<div className="participant">
+// 					<h2> Participant List </h2>
+// 					<ul>
+// 						{participant_elements}
+// 					</ul>
+// 				</div>
+				
+// 				<div className="conversation">
+// 					<h2> Conversation </h2>
+// 					<div className="chat-canvas">
+// 						<div id="messages_div">
+// 						</div>
+// 					</div>
+// 				</div>
+// 				<div className="chat-input2">
+// 					<select id="whisper_target_combo">
+// 						<option value={""}> To All </option>
+// 						{whisper_target_options}
+// 					</select>
+// 					<input id="message_input" type="text" width="400" onKeyPress={this.send_message2.bind(this) }/>
+// 					<button onClick={this.send_message.bind(this) } >Send</button>
+// 				</div>
+
+// <br/>
+// 				<div className="row">
+// 					<div className="col-lg-6">
+// 						<div className="input-group">
+// 							<div className="input-group-btn">
+// 								<button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">To All <span className="caret"></span></button>
+// 								<ul className="dropdown-menu" id="whisper_target_combo2" role="menu">
+// 									<li><a href="#">Action</a></li>
+// 									<li><a href="#">Another action</a></li>
+// 									<li><a href="#">Something else here</a></li>
+// 									<li><a href="#">Separated link</a></li>
+// 								</ul>
+// 							</div>
+// 							<input type="text" className="form-control" id="message_input" onKeyPress={this.send_message2.bind(this) } placeholder="Type your message."/>
+// 							<div className="input-group-btn">
+// 								<button type="button" className="btn btn-default" onClick={this.send_message.bind(this) }>Send</button>							
+// 							</div>
+// 						</div>
+// 					</div>
+// 				</div>
+				
+// 			</div>;
 		}
 
 		protected refresh(): void {

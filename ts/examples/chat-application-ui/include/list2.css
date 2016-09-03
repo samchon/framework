@@ -22,8 +22,7 @@ body{
 .chat-room-item{
  
   margin: 1.5rem;
-  
-  color: white;
+  /*color: white;*/
   height: 200px;
 }
 
@@ -31,6 +30,3 @@ body{
   background-color: #666;
 }*/
 
-.chat-room-item table{
-  color: white;
-}

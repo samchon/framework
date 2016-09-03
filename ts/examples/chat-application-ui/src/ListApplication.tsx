@@ -108,7 +108,7 @@ namespace example.chat {
 
 					<div className="panel panel-default chat-room-item col-sm-4 col-md-3">
 						<div className="panel-heading">
-							<h3 className="panel-title">{room.getUID() }</h3>
+							<h3 className="panel-title">No.{room.getUID() }</h3>
 							<h3>{room.getTitle() }</h3>
 						</div>
 						<div className="pane-body">

@@ -27,6 +27,6 @@ void MediatorServer::start()
 
 void MediatorServer::addClient(shared_ptr<ClientDriver> driver)
 {
-	this->communicator = driver;
+	this->communicator_ = driver;
 	driver->listen(this);
 };

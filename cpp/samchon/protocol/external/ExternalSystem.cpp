@@ -41,7 +41,7 @@ void ExternalSystem::construct(shared_ptr<XML> xml)
 --------------------------------------------------------- */
 void ExternalSystem::sendData(shared_ptr<Invoke> invoke)
 {
-	communicator->sendData(invoke);
+	communicator_->sendData(invoke);
 }
 
 void ExternalSystem::replyData(shared_ptr<Invoke> invoke)

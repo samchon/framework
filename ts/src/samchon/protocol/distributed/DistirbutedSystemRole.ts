@@ -14,6 +14,9 @@ namespace samchon.protocol.distributed
 
 		private performance: number;
 
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		public constructor(systemArray: DistributedSystemArray)
 		{
 			super(null);
@@ -26,11 +29,17 @@ namespace samchon.protocol.distributed
 			this.history_list_ = new std.HashMap<number, DSInvokeHistory>();
 		}
 
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
 		public getPerformance(): number
 		{
 			return this.performance;
 		}
 
+		/* ---------------------------------------------------------
+			INVOKE MESSAGE CHAIN
+		--------------------------------------------------------- */
 		public sendData(invoke: protocol.Invoke): void
 		{
 			if (this.system_array_.empty() == true)
@@ -65,6 +74,8 @@ namespace samchon.protocol.distributed
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list_.erase(history.getUID());
 			this.history_list_.insert([history.getUID(), history]);
+
+			// ESTIMATE REQUIRED PERFORMANCE OF THIS ROLE
 		}
 	}
 }

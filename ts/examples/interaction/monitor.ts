@@ -86,7 +86,7 @@ namespace monitor
 		public static main(): void
 		{
 			let monitor = new Monitor();
-			monitor.open(37900);
+			monitor.open(37900);-
 			monitor.getReporter().open(37950);
 		}
 	}
@@ -214,6 +214,9 @@ namespace monitor
 	{
 		private monitor: Monitor;
 
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		public constructor(monitor: Monitor)
 		{
 			super();
@@ -227,43 +230,54 @@ namespace monitor
 		}
 		protected createExternalClient(driver: protocol.IClientDriver): protocol.external.ExternalSystem
 		{
-			return null;
+			return new Viewer(this, driver);
 		}
 
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
 		public getMonitor(): Monitor
 		{
 			return this.monitor;
 		}
 
+		/* ---------------------------------------------------------
+			INVOKE MESSAGE CHAIN
+		--------------------------------------------------------- */
 		public sendSystems(): void
 		{
-			for (let i: number = 0; i < this.size(); i++)
-				(this.at(i) as Viewer).sendSystems();
+			let root_system: System = this.monitor.getRootSystem();
+			if (root_system == null)
+				return null;
+
+			// SEND ROOT SYSTEM'S STRUCTURE TO ALL CONNECTED SYSTEMS
+			this.sendData(new protocol.Invoke("setSystems", root_system.toXML()));
 		}
 	}
 
 	export class Viewer extends protocol.external.ExternalSystem
 	{
-		private get reporter(): Reporter
-		{
-			return this.getSystemArray() as Reporter;
-		};
-
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		public constructor(reporter: Reporter, driver: protocol.IClientDriver)
 		{
 			super(reporter, driver);
+
+			//--------
+			// WHEN CONNECTED, THEN SEND SYSTEM STRUCTURE
+			//--------
+			let root_system: System = reporter.getMonitor().getRootSystem();
+			if (root_system == null)
+				return; // NO ROOT SYSTEM YET
+
+			// SEND SYSTEM STRUCTURE OF ROOT.
+			this.sendData(new protocol.Invoke("setSystems", root_system.toXML()));
 		}
 
 		public createChild(xml: library.XML): protocol.external.ExternalSystemRole
-		{
+		{ // NO ROLE
 			return null;
-		}
-
-		public sendSystems(): void
-		{
-			let root_system: System = this.reporter.getMonitor().getRootSystem();
-
-			this.sendData(new protocol.Invoke("setSystems", root_system.toXML()));
 		}
 	}
 }

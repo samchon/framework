@@ -18,6 +18,7 @@ namespace samchon.protocol.distributed
 		{
 			super();
 
+			// CREATE ROLE MAP AND ENROLL COLLECTION EVENT LISTENRES
 			this.role_map_ = new collection.HashMapCollection<string, DistributedSystemRole>();
 			this.role_map_.addEventListener("insert", this.handle_role_insert, this);
 			this.role_map_.addEventListener("erase", this.handle_role_erase, this);
@@ -25,9 +26,13 @@ namespace samchon.protocol.distributed
 
 		public construct(xml: library.XML): void
 		{
-			this.role_map_.clear(); // CLEAR ROLES
-
+			//--------
 			// CONSTRUCT ROLES
+			//--------
+			// CLEAR ORDINARY ROLES
+			this.role_map_.clear();
+
+			// CREATE ROLES
 			if (xml.has("roles") == true && xml.get("roles").front().has("role") == true)
 			{
 				let role_xml_list: library.XMLList = xml.get("roles").front().get("role");
@@ -44,7 +49,9 @@ namespace samchon.protocol.distributed
 				}
 			}
 
+			//--------
 			// CONSTRUCT SYSTEMS
+			//--------
 			super.construct(xml);
 		}
 
@@ -67,7 +74,7 @@ namespace samchon.protocol.distributed
 		}
 
 		/* ---------------------------------------------------------
-			ACCESSORS
+			ACCESSORS - ROLE MAP
 		--------------------------------------------------------- */
 		public getRoleMap(): std.HashMap<string, DistributedSystemRole>
 		{

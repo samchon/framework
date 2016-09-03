@@ -10,9 +10,12 @@ namespace samchon
 namespace protocol
 {
 	class Communicator;
+	class ClientDriver;
 
 namespace external
 {
+	class ExternalSystemArray;
+	
 	class SAMCHON_FRAMEWORK_API ExternalSystem 
 		: public SharedEntityDeque<ExternalSystemRole>,
 		public virtual IProtocol
@@ -25,7 +28,9 @@ namespace external
 	protected:
 		std::string name;
 
-		std::shared_ptr<Communicator> communicator;
+	private:
+		ExternalSystemArray *system_array_;
+		std::shared_ptr<Communicator> communicator_;
 
 	public:
 		/* ---------------------------------------------------------
@@ -34,15 +39,24 @@ namespace external
 		/**
 		 * Default Constructor.
 		 */
-		ExternalSystem();
+		ExternalSystem(ExternalSystemArray*);
+		ExternalSystem(ExternalSystemArray*, std::shared_ptr<ClientDriver>);
 		virtual ~ExternalSystem();
 
 		virtual void construct(std::shared_ptr<library::XML> xml) override;
+
+	private:
+		void handle_close();
 
 	public:
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		auto getSystemArray() const -> ExternalSystemArray*
+		{
+			return system_array_;
+		}
+		
 		virtual auto key() const -> std::string
 		{
 			return name;
@@ -54,11 +68,13 @@ namespace external
 		};
 
 		/* ---------------------------------------------------------
-			MESSAGE CHAIN
+			NETWORK & MESSAGE CHAIN
 		--------------------------------------------------------- */
-		virtual void sendData(std::shared_ptr<Invoke> invoke);
+		void close();
 
-		virtual void replyData(std::shared_ptr<Invoke> invoke);
+		virtual void sendData(std::shared_ptr<Invoke> invoke) override;
+
+		virtual void replyData(std::shared_ptr<Invoke> invoke) override;
 
 	public:
 		/* ---------------------------------------------------------

@@ -26,8 +26,8 @@ namespace slave
 	protected:
 		virtual void addClient(std::shared_ptr<ClientDriver> driver) override final
 		{
-			this->communicator = driver;
-			this->communicator->listen(this);
+			this->communicator_ = driver;
+			this->communicator_->listen(this);
 		};
 	};
 };

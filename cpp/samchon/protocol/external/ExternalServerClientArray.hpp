@@ -22,7 +22,14 @@ namespace external
 		============================================================
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * @brief Default Constructor.
+		 */
 		ExternalServerClientArray();
+
+		/**
+		 * @brief Default Destructor.
+		 */
 		virtual ~ExternalServerClientArray();
 
 	protected:
@@ -31,7 +38,10 @@ namespace external
 		--------------------------------------------------------- */
 		// virtual void addClient(std::shared_ptr<ClientDriver> driver) override final;
 
-		virtual auto createChild(std::shared_ptr<library::XML> xml) -> ExternalSystem* override final;
+		virtual auto createChild(std::shared_ptr<library::XML> xml) -> ExternalSystem* override final
+		{
+			return nullptr;
+		};
 
 		virtual auto createExternalServer(std::shared_ptr<library::XML>) -> ExternalServer* = 0;
 		// virtual auto createExternalClient(std::shared_ptr<ClientDriver>) -> ExternalSystem* = 0;

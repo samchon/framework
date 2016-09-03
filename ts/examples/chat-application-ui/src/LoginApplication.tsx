@@ -11,14 +11,40 @@ namespace example.chat {
 			TRY LOGIN
 		--------------------------------------------------------- */
 		private handle_login_click(event: React.MouseEvent): void {
+
 			// REMEMBER TEMPORARILY
 			this.id = (document.getElementById("id") as HTMLInputElement).value;
 			this.name = (document.getElementById("name") as HTMLInputElement).value;
+
+			if(!this.id || !this.name)
+			{
+				alert("ID 또는 NAME을 정확히 입력해주세요.");
+				return;
+			}
 
 			// CONNECT
 			this.communicator = new protocol.WebServerConnector(this);
 			this.communicator.onConnect = this.handle_connect.bind(this);
 			this.communicator.connect(SERVER_HOST, SERVER_PORT);
+		}
+			
+		private handle_login_click2(event: React.KeyboardEvent): void {
+			if (event.charCode == 13) {
+				// REMEMBER TEMPORARILY
+				this.id = (document.getElementById("id") as HTMLInputElement).value;
+				this.name = (document.getElementById("name") as HTMLInputElement).value;
+
+				if(!this.id || !this.name)
+				{
+					alert("ID 또는 NAME을 정확히 입력해주세요.");
+					return;
+				}
+
+				// CONNECT
+				this.communicator = new protocol.WebServerConnector(this);
+				this.communicator.onConnect = this.handle_connect.bind(this);
+				this.communicator.connect(SERVER_HOST, SERVER_PORT);
+			}
 		}
 
 		private handle_connect(): void {
@@ -62,13 +88,13 @@ namespace example.chat {
 
 				<div className="email-login">
 					<div className="u-form-group">
-						<input type="text" id="id" name="id" placeholder="ID"/>
+						<input type="text" id="id" name="id" placeholder="ID"onKeyPress={this.handle_login_click2.bind(this)}/>
 					</div>
 					<div className="u-form-group">
-						<input type="text" id="name" name="name" placeholder="NAME"/>
+						<input type="text" id="name" name="name" placeholder="NAME" onKeyPress={this.handle_login_click2.bind(this)}/>
 					</div>
 					<div className="u-form-group">
-						<button id="quickstart-sign-in" onClick={this.handle_login_click.bind(this) }>Log In</button>
+						<button id="quickstart-sign-in" onClick={this.handle_login_click.bind(this)}>Log In</button>
 					</div>
 					<div className="u-form-group">
 						<a href="#" className="forgot-password">Forgot password?</a>

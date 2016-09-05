@@ -1,13 +1,13 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="ParallelSystemArray".ts" />
+/// <reference path="DistributedSystemArray".ts" />
 
-namespace samchon.protocol.parallel
+namespace samchon.protocol.distributed
 {
-	export abstract class ParallelSystemArrayMediator
-		extends ParallelSystemArray
+	export abstract class DistributedSystemArrayMediator
+		extends DistributedSystemArray
 	{
-		protected mediator_: MediatorSystem;
+		protected mediator_: parallel.MediatorSystem;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -22,7 +22,7 @@ namespace samchon.protocol.parallel
 			this.mediator_ = null;
 		}
 
-		protected abstract createMediator(): MediatorSystem;
+		protected abstract createMediator(): parallel.MediatorSystem;
 
 		protected start_mediator(): void
 		{
@@ -36,7 +36,7 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		protected notify_end(history: PRInvokeHistory): boolean
+		protected notify_end(history: parallel.PRInvokeHistory): boolean
 		{
 			let ret: boolean = super.notify_end(history);
 			if (ret == true)

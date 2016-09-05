@@ -4,9 +4,14 @@
 
 namespace samchon.protocol.slave
 {
+	export interface ISlaveServer
+		extends SlaveSystem, IServer
+	{
+	}
+
 	export abstract class SlaveServer
 		extends SlaveSystem
-		implements IServer
+		implements ISlaveServer
 	{
 		private server_base_: IServerBase;
 

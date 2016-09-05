@@ -12,7 +12,7 @@ namespace samchon.protocol.distributed
 		private progress_list_: std.HashMap<number, DSInvokeHistory>;
 		private history_list_: std.HashMap<number, DSInvokeHistory>;
 
-		private performance: number;
+		protected performance: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -32,6 +32,11 @@ namespace samchon.protocol.distributed
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		public getSystemArray(): DistributedSystemArray
+		{
+			return this.system_array_;
+		}
+
 		public getPerformance(): number
 		{
 			return this.performance;
@@ -44,10 +49,28 @@ namespace samchon.protocol.distributed
 		{
 			if (this.system_array_.empty() == true)
 				return;
+			
+			let uid: number;
+			if (invoke.has("invoke_history_uid") == false)
+			{
+				// ISSUE UID AND ATTACH IT TO INVOKE'S LAST PARAMETER
+				uid = ++this.system_array_["history_sequence"];
+				invoke.push_back(new InvokeParameter("invoke_history_uid", uid));
+			}
+			else
+			{
+				// INVOKE MESSAGE ALREADY HAS ITS OWN UNIQUE ID
+				//	- system_array_ IS A TYPE OF DistributedSystemArrayMediator. THE MESSAGE HAS COME FROM ITS MASTER
+				//	- A Distributed HAS DISCONNECTED. THE SYSTEM SHIFTED ITS CHAIN TO ANOTHER SLAVE.
+				uid = invoke.get("invoke_history_uid").getValue();
 
-			// ISSUE UID AND ATTACH IT TO INVOKE'S LAST PARAMETER
-			let uid: number = ++this.system_array_["history_sequence"];
-			invoke.push_back(new InvokeParameter("invoke_history_uid", uid));
+				// FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
+				if (uid > this.system_array_["history_sequence"])
+					this.system_array_["history_sequence"] = uid;
+
+				// FOR CASE 2. ERASE ORDINARY PROGRESSIVE HISTORY FROM THE DISCONNECTED
+				this.progress_list_.erase(uid);
+			}
 
 			// FIND THE MOST IDLE SYSTEM
 			let idle_system: DistributedSystem = null;
@@ -64,8 +87,13 @@ namespace samchon.protocol.distributed
 			// ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)
 			let history: DSInvokeHistory = new DSInvokeHistory(idle_system, this, invoke);
 			this.progress_list_.insert([uid, history]);
-			idle_system["progress_list_"].insert([uid, history]);
+			idle_system["progress_list_"].insert
+			([
+				uid, 
+				std.make_pair(invoke, history)
+			]);
 
+			// SEND DATA
 			idle_system.sendData(invoke);
 		}
 
@@ -76,6 +104,7 @@ namespace samchon.protocol.distributed
 			this.history_list_.insert([history.getUID(), history]);
 
 			// ESTIMATE REQUIRED PERFORMANCE OF THIS ROLE
+			
 		}
 	}
 }

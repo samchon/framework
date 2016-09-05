@@ -122,10 +122,10 @@ namespace samchon.protocol
 		 */
 		public apply(obj: IProtocol): boolean
 		{
-			if (!(this.listener in obj && obj[this.listener] instanceof Function))
+			if (!(this.listener in obj && (obj as any)[this.listener] instanceof Function))
 				return false;
 		
-			let func: Function = obj[this.listener];
+			let func: Function = (obj as any)[this.listener];
 			let args: Array<any> = this.getArguments();
 
 			func.apply(obj, args);

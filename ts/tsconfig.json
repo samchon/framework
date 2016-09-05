@@ -1,10 +1,14 @@
 {
-    "compilerOptions": {
+    "compilerOptions": 
+    {
         "target": "es5",
         "declaration": true,
+        "noImplicitAny": true,
         "outFile": "../lib/ts/samchon-framework.js"
     },
-    "exclude": [
+    
+    "exclude": 
+    [
         "examples"
     ]
 }

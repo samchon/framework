@@ -40,11 +40,8 @@ namespace samchon.protocol.parallel
 		 * @param invoke An invoke message requesting parallel process.
 		 * @param size Number of pieces.
 		 */
-		public sendSegmentData(invoke: Invoke, size: number): void
-		{
-			this.sendPieceData(invoke, 0, size);
-		}
-
+		public sendPieceData(invoke: Invoke, size: number): void;
+		
 		/**
 		 * 
 		 * 
@@ -54,9 +51,29 @@ namespace samchon.protocol.parallel
 		 *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
 		 *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
 		 */
-		public sendPieceData(invoke: Invoke, first: number, last: number): void
+		public sendPieceData(invoke: Invoke, first: number, last: number): void;
+
+		public sendPieceData(invoke: Invoke, first: number, last: number = -1): void
 		{
-			invoke.push_back(new InvokeParameter("invoke_history_uid", ++this.history_sequence));
+			if (last == -1)
+			{ // METHOD OVERRIDING -> FROM sendPieceData(invoke, first, last)
+				last = first;
+				first = 0;
+			}
+
+			if (invoke.has("invoke_history_uid") == false)
+				invoke.push_back(new InvokeParameter("invoke_history_uid", ++this.history_sequence));
+			else
+			{
+				// INVOKE MESSAGE ALREADY HAS ITS OWN UNIQUE ID
+				//	- THIS IS A TYPE OF ParallelSystemArrayMediator. THE MESSAGE HAS COME FROM ITS MASTER
+				//	- A ParallelSystem HAS DISCONNECTED. THE SYSTEM SHIFTED ITS CHAIN TO OTHER SLAVES.
+				let uid: number = invoke.get("invoke_history_uid").getValue();
+
+				// FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
+				if (uid > this.history_sequence)
+					this.history_sequence = uid;
+			}
 
 			let size: number = last - first;
 
@@ -83,7 +100,7 @@ namespace samchon.protocol.parallel
 		 * 
 		 * @see {@link ParallelSystem.report_invoke_history}, {@link normalize_performance}
 		 */
-		protected notify_end(history: PRInvokeHistory): boolean
+		protected notify_end(history: InvokeHistory): boolean
 		{
 			let uid: number = history.getUID();
 

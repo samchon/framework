@@ -28,12 +28,7 @@ namespace samchon.protocol.slave
 			this.communicator_.sendData(invoke);
 		}
 
-		public replyData(invoke: Invoke): void
-		{
-			invoke.apply(this);
-		}
-
-		private _replyData(invoke: Invoke): void
+		protected _replyData(invoke: Invoke): void
 		{
 			// INTERCEPT INVOKE MESSAGE
 			if (invoke.has("invoke_history_uid"))
@@ -55,6 +50,11 @@ namespace samchon.protocol.slave
 			}
 			else
 				this.replyData(invoke);
+		}
+
+		public replyData(invoke: Invoke): void
+		{
+			invoke.apply(this);
 		}
 	}
 }

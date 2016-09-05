@@ -17,28 +17,27 @@ namespace samchon.protocol.parallel
 		/**
 		 * @hidden
 		 */
-		protected progress_list_: std.HashMap<number, InvokeHistory>;
+		private progress_list_: std.HashMap<number, std.Pair<Invoke, InvokeHistory>>;
 		
 		/**
 		 * @hidden
 		 */
-		protected history_list_: std.HashMap<number, InvokeHistory>;
+		private history_list_: std.HashMap<number, InvokeHistory>;
 
 		/**
 		 * <p> Performance index. </p>
 		 * 
 		 * <p> A performance index that indicates how much fast the connected parallel system is. </p>
 		 * 
-		 * <p> If this {@link ParallelSystem parallel system} hasn't any {@link Invoke} message 
-		 * {@link history_list had handled}, then the {@link performance performance index} will be 1, which means 
-		 * default and average value between all {@link ParallelSystem} instances (belonged to a same 
-		 * {@link ParallelSystemArray} object). </p>
+		 * <p> If this {@link ParallelSystem parallel system} hasn't any {@link Invoke} message had handled, then the
+		 * {@link performance performance index} will be 1, which means default and average value between all
+		 * {@link ParallelSystem} instances (belonged to a same {@link ParallelSystemArray} object). </p>
 		 * 
 		 * <p> You can specify this {@link performance} by yourself, but notice that, if the 
 		 * {@link performance performance index} is higher then other {@link ParallelSystem} objects, then this 
-		 * {@link ParallelSystem parallel system} will ordered to handle more processes than other {@link ParallelSystem} 
-		 * objects. Otherwise, the {@link performance performance index) is lower than others, of course, less processes 
-		 * will be delivered. </p>
+		 * {@link ParallelSystem parallel system} will ordered to handle more processes than other
+		 * {@link ParallelSystem} objects. Otherwise, the {@link performance performance index) is lower than others,
+		 * of course, less processes will be delivered. </p>
 		 * 
 		 * <p> This {@link performance index} is always re-calculated whenever {@link ParallelSystemArray} calls one of 
 		 * them below. </p>
@@ -48,10 +47,9 @@ namespace samchon.protocol.parallel
 		 *	<li> {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()} </li>
 		 * </ul>
 		 * 
-		 * <p> If this class is a type of {@link DistributedSystem}, a derived class from the {@link ParallelSystem}, 
-		 * then {@link DistributedSystemRole.sendData DistributedSystem.sendData()} also cause the re-calculation. </p>
-		 * 
-		 * @see {@link progress_list}, {@link history_list}
+		 * <p> If this class is a type of {@link DistributedSystem} derived class from the {@link ParallelSystem}, 
+		 * then {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()} also cause the re-calculation.
+		 * </p>
 		 */
 		protected performance: number;
 
@@ -68,8 +66,30 @@ namespace samchon.protocol.parallel
 			
 			// PERFORMANCE INDEX
 			this.performance = 1.0;
-			this.progress_list_ = new std.HashMap<number, InvokeHistory>();
+			this.progress_list_ = new std.HashMap<number, std.Pair<Invoke, InvokeHistory>>();
 			this.history_list_ = new std.HashMap<number, InvokeHistory>();
+		}
+
+		public destructor(): void
+		{
+			// MAY DO NOTHING
+			super.destructor();
+			
+			for (let it = this.progress_list_.begin(); !it.equal_to(this.progress_list_.end()); it = it.next())
+			{
+				// A HISTORY HAD PROGRESSED
+				let history: PRInvokeHistory = it.second.second as PRInvokeHistory;
+				if (history instanceof PRInvokeHistory == false)
+					continue;
+
+				// INVOKE MESSAGE TO RESEND TO OTHER SLAVES
+				let invoke: Invoke = it.second.first;
+				let first: number = history.getFirst();
+				let last: number = history.getLast();
+
+				// SEND-PIECE-DATA
+				this.getSystemArray().sendPieceData(invoke, first, last);
+			}
 		}
 
 		/* ---------------------------------------------------------
@@ -121,12 +141,19 @@ namespace samchon.protocol.parallel
 
 			// REGISTER THE UID AS PROGRESS
 			let history: PRInvokeHistory = new PRInvokeHistory(my_invoke);
-			this.progress_list_.insert([history.getUID(), history]);
+			this.progress_list_.insert
+			([
+				history.getUID(), // KEY: UID
+				std.make_pair(my_invoke, history) // VALUE: PAIR OF INVOKE AND ITS HISTORY
+			]);
 
 			// SEND DATA
 			this.sendData(my_invoke);
 		}
 
+		/**
+		 * @hidden
+		 */
 		private _replyData(invoke: protocol.Invoke): void
 		{
 			if (invoke.getListener() == "report_invoke_history")
@@ -151,8 +178,8 @@ namespace samchon.protocol.parallel
 			history.construct(xml);
 
 			let progress_it = this.progress_list_.find(history.getUID());
-			history["first"] = (progress_it.second as PRInvokeHistory).getFirst();
-			history["last"] = (progress_it.second as PRInvokeHistory).computeSize();
+			history["first"] = (progress_it.second.second as PRInvokeHistory).getFirst();
+			history["last"] = (progress_it.second.second as PRInvokeHistory).computeSize();
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list_.erase(progress_it);

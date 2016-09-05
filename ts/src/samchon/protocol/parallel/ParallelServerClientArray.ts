@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="ParallelSystemArray.ts" />
+/// <reference path="ParallelClientArray.ts" />
 
 namespace samchon.protocol.parallel
 {
@@ -31,8 +31,13 @@ namespace samchon.protocol.parallel
 		public connect(): void
 		{
 			for (let i: number = 0; i < this.size(); i++)
-				if ((this.at(i) as external.IExternalServer)["connect"] != undefined)
-					(this.at(i) as external.IExternalServer).connect();
+			{
+				let system: external.ExternalSystem = this.at(i);
+				if ((system as external.IExternalServer).connect == undefined)
+					continue;
+
+				(system as external.IExternalServer).connect();
+			}
 		}
 	}
 }

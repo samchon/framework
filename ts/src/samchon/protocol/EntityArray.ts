@@ -121,78 +121,88 @@ namespace samchon.protocol
 	 */
 	export namespace IEntityGroup
 	{
+		/* ------------------------------------------------------------------
+			ENTITY <-> XML CONVERSION
+		------------------------------------------------------------------ */
 		/**
 		 * @hidden
 		 */
-		export function construct<T extends Entity>(entity: IEntityGroup<T>, xml: library.XML): void
+		export function construct<T extends IEntity>
+			(entityGroup: IEntityGroup<T>, xml: library.XML, ...prohibited_names: string[]): void
 		{
-			entity.clear();
+			entityGroup.clear();
 
-			////
 			// MEMBER VARIABLES
-			////
-			// PROHIBITED NAMES TO CONSTRUCT VIA XML
-			let prohibited_names: string[] = [];
+			IEntity.construct(entityGroup, xml, ...prohibited_names);
 
-			if (entity instanceof std.Vector)
-				prohibited_names = ["length"];
-			else if (entity instanceof std.List)
-				prohibited_names = ["size_"];
-			else if (entity instanceof std.Deque)
-				prohibited_names = ["size_", "capacity_"];
-
-			// CONSTRUCT MEMBER DATA
-			IEntity.construct(entity, xml, ...prohibited_names);
-
-			////
 			// CHILDREN
-			////
-			if (xml.has(entity.CHILD_TAG()) == false)
+			if (xml.has(entityGroup.CHILD_TAG()) == false)
 				return;
 
 			let children: std.Vector<T> = new std.Vector<T>();
+			let xml_list: library.XMLList = xml.get(entityGroup.CHILD_TAG());
 
-			let xml_list: library.XMLList = xml.get(entity.CHILD_TAG());
 			for (let i: number = 0; i < xml_list.size(); i++) 
 			{
-				let child: T = entity.createChild(xml_list.at(i));
+				let child: T = entityGroup.createChild(xml_list.at(i));
 				if (child == null)
 					continue;
 
 				child.construct(xml_list.at(i));
 				children.push(child);
 			}
-			entity.assign(children.begin(), children.end());
+			entityGroup.assign(children.begin(), children.end());
 		}
 
 		/**
 		 * @hidden
 		 */
-		export function toXML<T extends Entity>(entity: IEntityGroup<T>): library.XML
+		export function toXML<T extends IEntity>
+			(entityGroup: IEntityGroup<T>, ...prohibited_names: string[]): library.XML
 		{
-			////
-			// MEMBER VARIABLES
-			////
-			// PROHIBITED NAMES TO EXPORT
-			let prohibited_names: string[] = [];
-
-			if (entity instanceof std.Vector)
-				prohibited_names = ["length"];
-			else if (entity instanceof std.List)
-				prohibited_names = ["size_"];
-			else if (entity instanceof std.Deque)
-				prohibited_names = ["size_", "capacity_"];
-
 			// MEMBERS
-			let xml: library.XML = IEntity.toXML(entity, ...prohibited_names);
+			let xml: library.XML = IEntity.toXML(entityGroup, ...prohibited_names);
 
-			/////
 			// CHILDREN
-			/////
-			for (let it = entity.begin(); !it.equal_to(entity.end()); it = it.next())
+			for (let it = entityGroup.begin(); !it.equal_to(entityGroup.end()); it = it.next())
 				xml.push(it.value.toXML());
 
 			return xml;
+		}
+
+		/* ------------------------------------------------------------------
+			ACCESSORS
+		------------------------------------------------------------------ */
+		export function has<T extends IEntity>
+			(entityGroup: IEntityGroup<T>, key: any): boolean
+		{
+			return std.any_of(entityGroup.begin(), entityGroup.end(),
+				function (entity: T): boolean
+				{
+					return std.equal_to(entity.key(), key);
+				}
+			);
+		}
+
+		export function count<T extends IEntity>
+			(entityGroup: IEntityGroup<T>, key: any): number
+		{
+			return std.count_if(entityGroup.begin(), entityGroup.end(),
+				function (entity: T): boolean
+				{
+					return std.equal_to(entity.key(), key);
+				}
+			);
+		}
+
+		export function get<T extends IEntity>
+			(entityGroup: IEntityGroup<T>, key: any): T
+		{
+			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+				if (std.equal_to(it.value.key(), key) == true)
+					return it.value;
+
+			throw new std.OutOfRange("out of range");
 		}
 	}
 }
@@ -216,7 +226,7 @@ namespace samchon.protocol
 		 */
 		public construct(xml: library.XML): void
 		{
-			IEntityGroup.construct(this, xml);
+			IEntityGroup.construct(this, xml, "length");
 		}
 
 		/**
@@ -238,27 +248,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		//public find(key: any): std.VectorIterator<T>
-		//{
-		//	return std.find_if(this.begin(), this.end(),
-		//		function (entity: T): boolean
-		//		{
-		//			return std.equal_to(entity.key(), key);
-		//		}
-		//	);
-		//}
-
-		/**
-		 * @inheritdoc
-		 */
 		public has(key: any): boolean
 		{
-			return std.any_of(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.has(this, key);
 		}
 
 		/**
@@ -266,12 +258,7 @@ namespace samchon.protocol
 		 */
 		public count(key: any): number
 		{
-			return std.count_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.count(this, key);
 		}
 
 		/**
@@ -279,11 +266,7 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
-				if (it.value.key() == key)
-					return it.value;
-
-			throw new std.OutOfRange("out of range");
+			return IEntityGroup.get(this, key);
 		}
 
 		/* ------------------------------------------------------------------
@@ -304,7 +287,7 @@ namespace samchon.protocol
 		 */
 		public toXML(): library.XML
 		{
-			return IEntityGroup.toXML(this);
+			return IEntityGroup.toXML(this, "length");
 		}
 	}
 }
@@ -350,27 +333,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		//public find(key: any): std.ListIterator<T>
-		//{
-		//	return std.find_if(this.begin(), this.end(),
-		//		function (entity: T): boolean
-		//		{
-		//			return std.equal_to(entity.key(), key);
-		//		}
-		//	);
-		//}
-
-		/**
-		 * @inheritdoc
-		 */
 		public has(key: any): boolean
 		{
-			return std.any_of(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.has(this, key);
 		}
 
 		/**
@@ -378,12 +343,7 @@ namespace samchon.protocol
 		 */
 		public count(key: any): number
 		{
-			return std.count_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.count(this, key);
 		}
 
 		/**
@@ -391,11 +351,7 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
-				if (it.value.key() == key)
-					return it.value;
-
-			throw new std.OutOfRange("out of range");
+			return IEntityGroup.get(this, key);
 		}
 
 		/* ------------------------------------------------------------------
@@ -462,27 +418,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		//public find(key: any): std.DequeIterator<T>
-		//{
-		//	return std.find_if(this.begin(), this.end(),
-		//		function (entity: T): boolean
-		//		{
-		//			return std.equal_to(entity.key(), key);
-		//		}
-		//	);
-		//}
-
-		/**
-		 * @inheritdoc
-		 */
 		public has(key: any): boolean
 		{
-			return std.any_of(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.has(this, key);
 		}
 
 		/**
@@ -490,12 +428,7 @@ namespace samchon.protocol
 		 */
 		public count(key: any): number
 		{
-			return std.count_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.count(this, key);
 		}
 
 		/**
@@ -503,11 +436,7 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
-				if (it.value.key() == key)
-					return it.value;
-
-			throw new std.OutOfRange("out of range");
+			return IEntityGroup.get(this, key);
 		}
 
 		/* ------------------------------------------------------------------

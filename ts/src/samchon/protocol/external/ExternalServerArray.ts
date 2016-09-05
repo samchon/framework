@@ -104,7 +104,7 @@ namespace samchon.protocol.external
 			for (let i: number = 0; i < this.size(); i++)
 			{
 				let system: ExternalSystem = this.at(i);
-				if ((this.at(i) as IExternalServer) == undefined)
+				if ((system as IExternalServer).connect == undefined)
 					continue;
 
 				(system as IExternalServer).connect();

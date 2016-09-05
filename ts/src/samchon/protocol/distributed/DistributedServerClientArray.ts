@@ -1,11 +1,11 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="ParallelClientArrayMediator.ts" />
+/// <reference path="DistributedClientArray.ts" />
 
-namespace samchon.protocol.parallel
+namespace samchon.protocol.distributed
 {
-	export abstract class ParallelServerClientArrayMediator
-		extends ParallelClientArrayMediator
+	export abstract class DistributedServerClientArray
+		extends DistributedClientArray
 		implements external.IExternalServerClientArray
 	{
 		/* ---------------------------------------------------------
@@ -19,11 +19,11 @@ namespace samchon.protocol.parallel
 			super();
 		}
 
-		public createChild(xml: library.XML): ParallelSystem
+		public createChild(xml: library.XML): DistributedSystem
 		{
 			return this.createExternalServer(xml);
 		}
-		protected abstract createExternalServer(xml: library.XML): IParallelServer;
+		protected abstract createExternalServer(xml: library.XML): IDistributedServer;
 
 		/* ---------------------------------------------------------
 			METHOD OF CLIENT

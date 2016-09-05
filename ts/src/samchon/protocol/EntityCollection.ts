@@ -34,14 +34,14 @@ namespace samchon.protocol
 		 */
 		public construct(xml: library.XML): void
 		{
-			IEntityGroup.construct(this, xml);
+			IEntityGroup.construct(this, xml, "length");
 		}
 
 		/**
 		 * @inheritdoc
 		 */
 		public abstract createChild(xml: library.XML): T;
-		
+
 		/* ------------------------------------------------------------------
 			GETTERS
 		------------------------------------------------------------------ */
@@ -56,27 +56,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		//public find(key: any): std.VectorIterator<T>
-		//{
-		//	return std.find_if(this.begin(), this.end(),
-		//		function (entity: T): boolean
-		//		{
-		//			return std.equal_to(entity.key(), key);
-		//		}
-		//	);
-		//}
-
-		/**
-		 * @inheritdoc
-		 */
 		public has(key: any): boolean
 		{
-			return std.any_of(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.has(this, key);
 		}
 
 		/**
@@ -84,12 +66,7 @@ namespace samchon.protocol
 		 */
 		public count(key: any): number
 		{
-			return std.count_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.count(this, key);
 		}
 
 		/**
@@ -97,11 +74,7 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
-				if (it.value.key() == key)
-					return it.value;
-
-			throw new std.OutOfRange("out of range");
+			return IEntityGroup.get(this, key);
 		}
 
 		/* ------------------------------------------------------------------
@@ -122,7 +95,7 @@ namespace samchon.protocol
 		 */
 		public toXML(): library.XML
 		{
-			return IEntityGroup.toXML(this);
+			return IEntityGroup.toXML(this, "length");
 		}
 	}
 }
@@ -153,7 +126,7 @@ namespace samchon.protocol
 		 * @inheritdoc
 		 */
 		public abstract createChild(xml: library.XML): T;
-		
+
 		/* ------------------------------------------------------------------
 			GETTERS
 		------------------------------------------------------------------ */
@@ -168,27 +141,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		//public find(key: any): std.ListIterator<T>
-		//{
-		//	return std.find_if(this.begin(), this.end(),
-		//		function (entity: T): boolean
-		//		{
-		//			return std.equal_to(entity.key(), key);
-		//		}
-		//	);
-		//}
-
-		/**
-		 * @inheritdoc
-		 */
 		public has(key: any): boolean
 		{
-			return std.any_of(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.has(this, key);
 		}
 
 		/**
@@ -196,12 +151,7 @@ namespace samchon.protocol
 		 */
 		public count(key: any): number
 		{
-			return std.count_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.count(this, key);
 		}
 
 		/**
@@ -209,11 +159,7 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
-				if (it.value.key() == key)
-					return it.value;
-
-			throw new std.OutOfRange("out of range");
+			return IEntityGroup.get(this, key);
 		}
 
 		/* ------------------------------------------------------------------
@@ -265,7 +211,7 @@ namespace samchon.protocol
 		 * @inheritdoc
 		 */
 		public abstract createChild(xml: library.XML): T;
-		
+
 		/* ------------------------------------------------------------------
 			GETTERS
 		------------------------------------------------------------------ */
@@ -280,27 +226,9 @@ namespace samchon.protocol
 		/**
 		 * @inheritdoc
 		 */
-		//public find(key: any): std.DequeIterator<T>
-		//{
-		//	return std.find_if(this.begin(), this.end(),
-		//		function (entity: T): boolean
-		//		{
-		//			return std.equal_to(entity.key(), key);
-		//		}
-		//	);
-		//}
-
-		/**
-		 * @inheritdoc
-		 */
 		public has(key: any): boolean
 		{
-			return std.any_of(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.has(this, key);
 		}
 
 		/**
@@ -308,12 +236,7 @@ namespace samchon.protocol
 		 */
 		public count(key: any): number
 		{
-			return std.count_if(this.begin(), this.end(),
-				function (entity: T): boolean
-				{
-					return std.equal_to(entity.key(), key);
-				}
-			);
+			return IEntityGroup.count(this, key);
 		}
 
 		/**
@@ -321,11 +244,7 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
-				if (it.value.key() == key)
-					return it.value;
-
-			throw new std.OutOfRange("out of range");
+			return IEntityGroup.get(this, key);
 		}
 
 		/* ------------------------------------------------------------------

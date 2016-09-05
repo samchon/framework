@@ -415,7 +415,7 @@ namespace samchon.library
 
 			for (let key in obj)
 				if (obj.hasOwnProperty(key) == true)
-					ret[key] = obj[key];
+					(ret as any)[key] = (obj as any)[key];
 
 			return ret;
 		}

@@ -1,11 +1,11 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="ParallelSystemArrayMediator.ts" />
+/// <reference path="DistributedSystemArray.ts" />
 
-namespace samchon.protocol.parallel
+namespace samchon.protocol.distributed
 {
-	export abstract class ParallelClientArrayMediator
-		extends ParallelSystemArrayMediator
+	export abstract class DistributedClientArray
+		extends DistributedSystemArray
 		implements external.IExternalClientArray
 	{
 		/**
@@ -51,20 +51,18 @@ namespace samchon.protocol.parallel
 		--------------------------------------------------------- */
 		public addClient(driver: IClientDriver): void
 		{
-			let system: ParallelSystem = this.createExternalClient(driver);
+			let system: DistributedSystem = this.createExternalClient(driver);
 			if (system == null)
 				return;
 
 			if (system["communicator"] == null)
-			{
 				system["communicator"] = driver;
-				driver.listen(system);
-			}
+
 			this.push_back(system);
 		}
 
-		public createChild(xml: library.XML): ParallelSystem { return null; }
-		protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
+		public createChild(xml: library.XML): DistributedSystem { return null; }
+		protected abstract createExternalClient(driver: IClientDriver): DistributedSystem;
 
 		/* ---------------------------------------------------------
 			SERVER's METHOD
@@ -79,7 +77,6 @@ namespace samchon.protocol.parallel
 				return;
 
 			this.server_base_.open(port);
-			this.start_mediator();
 		}
 
 		/**

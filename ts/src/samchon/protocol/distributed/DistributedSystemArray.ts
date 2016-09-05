@@ -6,6 +6,9 @@ namespace samchon.protocol.distributed
 {
 	export abstract class DistributedSystemArray extends parallel.ParallelSystemArray
 	{
+		/**
+		 * @hidden
+		 */
 		private role_map_: collection.HashMapCollection<string, DistributedSystemRole>;
 
 		/* ---------------------------------------------------------

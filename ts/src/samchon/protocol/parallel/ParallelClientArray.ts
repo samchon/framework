@@ -11,7 +11,7 @@ namespace samchon.protocol.parallel
 		/**
 		 * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
 		 */
-		private server_base: IServerBase;
+		private server_base_: IServerBase;
 
 		/* =========================================================
 			CONSTRUCTORS
@@ -72,11 +72,11 @@ namespace samchon.protocol.parallel
 		 */
 		public open(port: number): void
 		{
-			this.server_base = this.createServerBase();
-			if (this.server_base == null)
+			this.server_base_ = this.createServerBase();
+			if (this.server_base_ == null)
 				return;
 
-			this.server_base.open(port);
+			this.server_base_.open(port);
 		}
 
 		/**
@@ -84,10 +84,10 @@ namespace samchon.protocol.parallel
 		 */
 		public close(): void
 		{
-			if (this.server_base == null)
+			if (this.server_base_ == null)
 				return;
 
-			this.server_base.close();
+			this.server_base_.close();
 			this.clear();
 		}
 	}

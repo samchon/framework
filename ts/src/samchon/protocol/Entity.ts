@@ -120,7 +120,7 @@ namespace samchon.protocol
 
 			for (let it = property_map.begin(); !it.equal_to(property_map.end()); it = it.next())
 			{
-				if (entity[it.first] == undefined)
+				if ((entity as any)[it.first] == undefined)
 					continue;
 
 				let prohibited: boolean = false;
@@ -133,12 +133,12 @@ namespace samchon.protocol
 				if (prohibited == true)
 					continue;
 
-				if (typeof entity[it.first] == "string")
-					entity[it.first] = it.second;
-				else if (typeof entity[it.first] == "number")
-					entity[it.first] = Number(it.second);
-				else if (typeof entity[it.first] == "boolean")
-					entity[it.first] = (it.second == "true");
+				if (typeof (entity as any)[it.first] == "string")
+					(entity as any)[it.first] = it.second;
+				else if (typeof (entity as any)[it.first] == "number")
+					(entity as any)[it.first] = Number(it.second);
+				else if (typeof (entity as any)[it.first] == "boolean")
+					(entity as any)[it.first] = (it.second == "true");
 			}
 		}
 
@@ -151,9 +151,14 @@ namespace samchon.protocol
 			//  - ATOMIC ONLY; STRING, NUMBER AND BOOLEAN
 			for (let key in entity)
 				if (typeof key == "string"
-					&& (typeof entity[key] == "string" || typeof entity[key] == "number" || typeof entity[key] == "boolean")
+					&& (typeof (entity as any)[key] == "string"
+					|| typeof (entity as any)[key] == "number"
+					|| typeof (entity as any)[key] == "boolean")
 					&& entity.hasOwnProperty(key))
 				{
+					if (key == "" || key.charAt(0) == "_" || key.charAt(key.length - 1) == "_")
+						continue;
+
 					let prohibited: boolean = false;
 					for (let i: number = 0; i < prohibited_names.length; i++)
 						if (prohibited_names[i] == key)
@@ -165,7 +170,7 @@ namespace samchon.protocol
 						continue;
 
 					// ATOMIC
-					xml.setProperty(key, String(entity[key]));
+					xml.setProperty(key, String((entity as any)[key]));
 				}
 
 			return xml;

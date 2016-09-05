@@ -22,14 +22,6 @@ namespace samchon.protocol.parallel
 		}
 
 		public abstract start(): void;
-		
-		/**
-		 * @hidden
-		 */
-		public createChild(xml: library.XML): external.ExternalSystemRole
-		{
-			return null;
-		}
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -53,11 +45,9 @@ namespace samchon.protocol.parallel
 			this.sendData(history.toInvoke());
 		}
 
-		public replyData(invoke: protocol.Invoke): void
+		protected _replyData(invoke: Invoke): void
 		{
-			if (invoke.apply(this) == true)
-				return;
-			else if (invoke.has("invoke_history_uid") == true)
+			if (invoke.has("invoke_history_uid") == true)
 			{
 				let first: number = invoke.get("piece_first").getValue();
 				let last: number = invoke.get("piece_last").getValue();
@@ -65,6 +55,14 @@ namespace samchon.protocol.parallel
 				invoke.erase(invoke.end().advance(-2), invoke.end());
 				this.system_array_mediator_.sendPieceData(invoke, first, last);
 			}
+			else
+				this.replyData(invoke);
+		}
+
+		public replyData(invoke: protocol.Invoke): void
+		{
+			if (invoke.apply(this) == true)
+				return;
 			else
 				this.system_array_mediator_.sendData(invoke);
 		}
@@ -75,9 +73,9 @@ namespace samchon.protocol.parallel
 {
 	export class MediatorServer
 		extends MediatorSystem
-		implements IServer
+		implements slave.ISlaveServer
 	{
-		private server_base: IServerBase;
+		private server_base_: IServerBase;
 		private port: number;
 
 		/* ---------------------------------------------------------
@@ -110,22 +108,25 @@ namespace samchon.protocol.parallel
 
 		public open(port: number): void
 		{
-			this.server_base = this.createServerBase();
-			if (this.server_base == null)
+			this.server_base_ = this.createServerBase();
+			if (this.server_base_ == null)
 				return;
 
-			this.server_base.open(port);
+			this.server_base_.open(port);
 		}
 
 		public close(): void
 		{
-			if (this.server_base != null)
-				this.server_base.close();
+			if (this.server_base_ != null)
+				this.server_base_.close();
 		}
 	}
 
 	export class MediatorWebServer extends MediatorServer
 	{
+		/**
+		 * @inheritdoc
+		 */
 		protected createServerBase(): IServerBase
 		{
 			return new WebServerBase(this);
@@ -134,6 +135,9 @@ namespace samchon.protocol.parallel
 
 	export class MediatorSharedWorkerServer extends MediatorServer
 	{
+		/**
+		 * @inheritdoc
+		 */
 		protected createServerBase(): IServerBase
 		{
 			return new SharedWorkerServerBase(this);
@@ -145,6 +149,7 @@ namespace samchon.protocol.parallel
 {
 	export class MediatorClient
 		extends MediatorSystem
+		implements slave.ISlaveClient
 	{
 		protected ip: string;
 		protected port: number;

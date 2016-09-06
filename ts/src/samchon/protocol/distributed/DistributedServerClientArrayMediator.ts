@@ -1,12 +1,12 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="DistributedSystemArray.ts" />
+/// <reference path="DistributedClientArrayMediator.ts" />
 
 namespace samchon.protocol.distributed
 {
-	export abstract class DistributedServerArray
-		extends DistributedSystemArray
-		implements external.IExternalServerArray
+	export abstract class DistributedServerClientArrayMediator
+		extends DistributedClientArrayMediator
+		implements external.IExternalServerClientArray
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -19,8 +19,14 @@ namespace samchon.protocol.distributed
 			super();
 		}
 
+		public createChild(xml: library.XML): DistributedSystem
+		{
+			return this.createExternalServer(xml);
+		}
+		protected abstract createExternalServer(xml: library.XML): IDistributedServer;
+
 		/* ---------------------------------------------------------
-			CONNECTOR's METHOD
+			METHOD OF CLIENT
 		--------------------------------------------------------- */
 		/**
 		 * @inheritdoc

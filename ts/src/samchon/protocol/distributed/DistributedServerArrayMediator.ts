@@ -1,11 +1,11 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="DistributedSystemArray.ts" />
+/// <reference path="DistributedSystemArrayMediator.ts" />
 
 namespace samchon.protocol.distributed
 {
-	export abstract class DistributedServerArray
-		extends DistributedSystemArray
+	export abstract class DistributedServerArrayMediator
+		extends DistributedSystemArrayMediator
 		implements external.IExternalServerArray
 	{
 		/* ---------------------------------------------------------

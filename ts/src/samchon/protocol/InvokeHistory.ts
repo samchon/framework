@@ -126,7 +126,7 @@ namespace samchon.protocol
 
 		public toInvoke(): Invoke
 		{
-			return new Invoke("report_invoke_history", this.toXML());
+			return new Invoke("_Report_history", this.toXML());
 		}
 	}
 }

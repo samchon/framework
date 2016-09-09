@@ -60,19 +60,19 @@ namespace samchon.protocol.distributed
 
 		public abstract createRole(xml: library.XML): DistributedSystemRole;
 
-		private handle_role_insert(event: collection.CollectionEvent<std.Pair<string, DistributedSystemRole>>): void
+		private handle_role_insert(event: collection.MapCollectionEvent<string, DistributedSystemRole>): void
 		{
 			for (let it = event.first; !it.equal_to(event.last); it = it.next())
 				for (let i: number = 0; i < this.size(); i++)
-					this.at(i).push_back(it.value.second);
+					this.at(i).push_back(it.second);
 		}
-		private handle_role_erase(event: collection.CollectionEvent<std.Pair<string, DistributedSystemRole>>): void
+		private handle_role_erase(event: collection.MapCollectionEvent<string, DistributedSystemRole>): void
 		{
 			for (let it = event.first; !it.equal_to(event.last); it = it.next())
 				for (let i: number = 0; i < this.size(); i++)
 				{
 					let system: DistributedSystem = this.at(i) as DistributedSystem;
-					std.remove(system.begin(), system.end(), it.value.second as external.ExternalSystemRole);
+					std.remove(system.begin(), system.end(), it.second as external.ExternalSystemRole);
 				}
 		}
 

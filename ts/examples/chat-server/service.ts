@@ -53,15 +53,15 @@ namespace service
 		/* ---------------------------------------------------------
 			SEND DATA
 		--------------------------------------------------------- */
-		private handle_room_change(event: collection.CollectionEvent<std.Pair<number, room.ChatRoom>>): void
+		private handle_room_change(event: collection.MapCollectionEvent<number, room.ChatRoom>): void
 		{
 			// SEND LIST OF CHATTING ROOMS WHENEVER PARTICIPANTS JOIN OR GO OUT
 			this.send_rooms();
 		}
 
-		private handle_participant_change(event: collection.CollectionEvent<std.Pair<number, room.ChatRoom>>): void
+		private handle_participant_change(event: collection.MapCollectionEvent<number, room.ChatRoom>): void
 		{
-			let room: room.ChatRoom = event.first.value.second;
+			let room: room.ChatRoom = event.first.second;
 
 			let invoke: protocol.Invoke = new protocol.Invoke("setRoom", room["uid"], room.toXML());
 			this.sendData(invoke);

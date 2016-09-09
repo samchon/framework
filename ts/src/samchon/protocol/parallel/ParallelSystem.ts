@@ -156,8 +156,8 @@ namespace samchon.protocol.parallel
 		 */
 		private _replyData(invoke: protocol.Invoke): void
 		{
-			if (invoke.getListener() == "report_invoke_history")
-				this.report_invoke_history(invoke.front().getValue() as library.XML);
+			if (invoke.getListener() == "_Report_history")
+				this._Report_history(invoke.front().getValue() as library.XML);
 			else
 				this.replyData(invoke);
 		}
@@ -169,7 +169,7 @@ namespace samchon.protocol.parallel
 		 * 
 		 * @see {@link ParallelSystemArray.notify_end}
 		 */
-		protected report_invoke_history(xml: library.XML): void
+		protected _Report_history(xml: library.XML): void
 		{
 			///////
 			// CONSTRUCT HISTORY
@@ -186,7 +186,7 @@ namespace samchon.protocol.parallel
 			this.history_list_.insert([history.getUID(), history]);
 
 			// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
-			this.getSystemArray()["notify_end"](history);
+			this.getSystemArray()["_Notify_end"](history);
 		}
 	}
 }

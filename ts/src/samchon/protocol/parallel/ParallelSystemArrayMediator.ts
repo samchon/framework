@@ -7,7 +7,7 @@ namespace samchon.protocol.parallel
 	export abstract class ParallelSystemArrayMediator
 		extends ParallelSystemArray
 	{
-		protected mediator_: MediatorSystem;
+		private mediator_: MediatorSystem;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -34,11 +34,19 @@ namespace samchon.protocol.parallel
 		}
 
 		/* ---------------------------------------------------------
+			ACCESSOR
+		--------------------------------------------------------- */
+		public getMediator(): MediatorSystem
+		{
+			return this.mediator_;
+		}
+
+		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		protected notify_end(history: PRInvokeHistory): boolean
+		protected _Notify_end(history: PRInvokeHistory): boolean
 		{
-			let ret: boolean = super.notify_end(history);
+			let ret: boolean = super._Notify_end(history);
 			if (ret == true)
 				this.mediator_["notify_end"](history.getUID());
 

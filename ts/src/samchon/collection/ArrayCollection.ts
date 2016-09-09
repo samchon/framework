@@ -76,9 +76,9 @@ namespace samchon.collection
 		/**
 		 * @hidden
 		 */
-		protected insert_by_repeating_val(position: std.VectorIterator<T>, n: number, val: T): std.VectorIterator<T>
+		protected _Insert_by_repeating_val(position: std.VectorIterator<T>, n: number, val: T): std.VectorIterator<T>
 		{
-			let ret = super.insert_by_repeating_val(position, n, val);
+			let ret = super._Insert_by_repeating_val(position, n, val);
 
 			this.notify_insert(ret, ret.advance(n));
 			
@@ -88,12 +88,12 @@ namespace samchon.collection
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends T, InputIterator extends std.Iterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends std.Iterator<U>>
 			(position: std.VectorIterator<T>, begin: InputIterator, end: InputIterator): std.VectorIterator<T>
 		{
 			let n: number = this.size();
 
-			let ret = super.insert_by_range(position, begin, end);
+			let ret = super._Insert_by_range(position, begin, end);
 			n = this.size() - n;
 
 			this.notify_insert(ret, ret.advance(n));
@@ -117,11 +117,11 @@ namespace samchon.collection
 		/**
 		 * @hidden
 		 */
-		protected erase_by_range(first: std.VectorIterator<T>, last: std.VectorIterator<T>): std.VectorIterator<T>
+		protected _Erase_by_range(first: std.VectorIterator<T>, last: std.VectorIterator<T>): std.VectorIterator<T>
 		{
 			this.notify_erase(first, last);
 
-			return super.erase_by_range(first, last);
+			return super._Erase_by_range(first, last);
 		}
 
 		/* ---------------------------------------------------------

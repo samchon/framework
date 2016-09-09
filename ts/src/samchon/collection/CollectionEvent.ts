@@ -21,12 +21,12 @@ namespace samchon.collection
 		/**
 		 * @hidden
 		 */
-		private first_: std.Iterator<T>;
+		protected first_: std.Iterator<T>;
 
 		/**
 		 * @hidden
 		 */
-		private last_: std.Iterator<T>;
+		protected last_: std.Iterator<T>;
 
 		private temporary_container_: std.Vector<T>;
 

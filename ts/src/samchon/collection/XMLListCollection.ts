@@ -75,9 +75,9 @@ namespace samchon.collection
 		/**
 		 * @hidden
 		 */
-		protected insert_by_repeating_val(position: std.DequeIterator<library.XML>, n: number, val: library.XML): std.DequeIterator<library.XML>
+		protected _Insert_by_repeating_val(position: std.DequeIterator<library.XML>, n: number, val: library.XML): std.DequeIterator<library.XML>
 		{
-			let ret = super.insert_by_repeating_val(position, n, val);
+			let ret = super._Insert_by_repeating_val(position, n, val);
 
 			this.notify_insert(ret, ret.advance(n));
 
@@ -87,12 +87,12 @@ namespace samchon.collection
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends library.XML, InputIterator extends std.Iterator<U>>
+		protected _Insert_by_range<U extends library.XML, InputIterator extends std.Iterator<U>>
 			(position: std.DequeIterator<library.XML>, begin: InputIterator, end: InputIterator): std.DequeIterator<library.XML>
 		{
 			let n: number = this.size();
 
-			let ret = super.insert_by_range(position, begin, end);
+			let ret = super._Insert_by_range(position, begin, end);
 			n = this.size() - n;
 
 			this.notify_insert(ret, ret.advance(n));
@@ -116,11 +116,11 @@ namespace samchon.collection
 		/**
 		 * @hidden
 		 */
-		protected erase_by_range(first: std.DequeIterator<library.XML>, last: std.DequeIterator<library.XML>): std.DequeIterator<library.XML>
+		protected _Erase_by_range(first: std.DequeIterator<library.XML>, last: std.DequeIterator<library.XML>): std.DequeIterator<library.XML>
 		{
 			this.notify_erase(first, last);
 
-			return super.erase_by_range(first, last);
+			return super._Erase_by_range(first, last);
 		}
 
 		/* ---------------------------------------------------------

@@ -82,11 +82,11 @@ declare namespace samchon.collection {
         /**
          * @hidden
          */
-        protected insert_by_repeating_val(position: std.VectorIterator<T>, n: number, val: T): std.VectorIterator<T>;
+        protected _Insert_by_repeating_val(position: std.VectorIterator<T>, n: number, val: T): std.VectorIterator<T>;
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T, InputIterator extends std.Iterator<U>>(position: std.VectorIterator<T>, begin: InputIterator, end: InputIterator): std.VectorIterator<T>;
+        protected _Insert_by_range<U extends T, InputIterator extends std.Iterator<U>>(position: std.VectorIterator<T>, begin: InputIterator, end: InputIterator): std.VectorIterator<T>;
         /**
          * @inheritdoc
          */
@@ -94,7 +94,7 @@ declare namespace samchon.collection {
         /**
          * @hidden
          */
-        protected erase_by_range(first: std.VectorIterator<T>, last: std.VectorIterator<T>): std.VectorIterator<T>;
+        protected _Erase_by_range(first: std.VectorIterator<T>, last: std.VectorIterator<T>): std.VectorIterator<T>;
         /**
          * @hidden
          */
@@ -266,11 +266,11 @@ declare namespace samchon.collection {
         /**
          * @hidden
          */
-        private first_;
+        protected first_: std.Iterator<T>;
         /**
          * @hidden
          */
-        private last_;
+        protected last_: std.Iterator<T>;
         private temporary_container_;
         private origin_first_;
         /**
@@ -351,11 +351,11 @@ declare namespace samchon.collection {
         /**
          * @hidden
          */
-        protected insert_by_repeating_val(position: std.DequeIterator<T>, n: number, val: T): std.DequeIterator<T>;
+        protected _Insert_by_repeating_val(position: std.DequeIterator<T>, n: number, val: T): std.DequeIterator<T>;
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T, InputIterator extends std.Iterator<U>>(position: std.DequeIterator<T>, begin: InputIterator, end: InputIterator): std.DequeIterator<T>;
+        protected _Insert_by_range<U extends T, InputIterator extends std.Iterator<U>>(position: std.DequeIterator<T>, begin: InputIterator, end: InputIterator): std.DequeIterator<T>;
         /**
          * @inheritdoc
          */
@@ -363,7 +363,7 @@ declare namespace samchon.collection {
         /**
          * @hidden
          */
-        protected erase_by_range(first: std.DequeIterator<T>, last: std.DequeIterator<T>): std.DequeIterator<T>;
+        protected _Erase_by_range(first: std.DequeIterator<T>, last: std.DequeIterator<T>): std.DequeIterator<T>;
         /**
          * @hidden
          */
@@ -456,11 +456,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+        protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+        protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -485,30 +485,30 @@ declare namespace samchon.collection {
          * @inheritdoc
          */
         addEventListener(type: string, listener: library.BasicEventListener): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        addEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>): void;
+        addEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>): void;
+        addEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>): void;
         /**
          * @inheritdoc
          */
         addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        addEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        addEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        addEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: library.BasicEventListener): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        removeEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>): void;
+        removeEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>): void;
+        removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        removeEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        removeEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
     }
 }
 declare namespace samchon.collection {
@@ -538,11 +538,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+        protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+        protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -567,30 +567,30 @@ declare namespace samchon.collection {
          * @inheritdoc
          */
         addEventListener(type: string, listener: library.BasicEventListener): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        addEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>): void;
+        addEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>): void;
+        addEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>): void;
         /**
          * @inheritdoc
          */
         addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        addEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        addEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        addEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: library.BasicEventListener): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        removeEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>): void;
+        removeEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>): void;
+        removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        removeEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        removeEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
     }
 }
 declare namespace samchon.collection {
@@ -695,11 +695,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -902,11 +902,11 @@ declare namespace samchon.collection {
         /**
          * @hidden
          */
-        protected insert_by_repeating_val(position: std.ListIterator<T>, n: number, val: T): std.ListIterator<T>;
+        protected _Insert_by_repeating_val(position: std.ListIterator<T>, n: number, val: T): std.ListIterator<T>;
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T, InputIterator extends std.Iterator<U>>(position: std.ListIterator<T>, begin: InputIterator, end: InputIterator): std.ListIterator<T>;
+        protected _Insert_by_range<U extends T, InputIterator extends std.Iterator<U>>(position: std.ListIterator<T>, begin: InputIterator, end: InputIterator): std.ListIterator<T>;
         /**
          * @inheritdoc
          */
@@ -918,7 +918,7 @@ declare namespace samchon.collection {
         /**
          * @hidden
          */
-        protected erase_by_range(first: std.ListIterator<T>, last: std.ListIterator<T>): std.ListIterator<T>;
+        protected _Erase_by_range(first: std.ListIterator<T>, last: std.ListIterator<T>): std.ListIterator<T>;
         /**
          * @hidden
          */
@@ -978,6 +978,19 @@ declare namespace samchon.collection {
     }
 }
 declare namespace samchon.collection {
+    type MapCollectionEventListener<Key, T> = (event: MapCollectionEvent<Key, T>) => void;
+    class MapCollectionEvent<Key, T> extends CollectionEvent<std.Pair<Key, T>> {
+        /**
+         * @inheritdoc
+         */
+        first: std.MapIterator<Key, T>;
+        /**
+         * @inheritdoc
+         */
+        last: std.MapIterator<Key, T>;
+    }
+}
+declare namespace samchon.collection {
     /**
      * A {@link TreeMap} who can detect element I/O events.
      *
@@ -1011,11 +1024,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+        protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+        protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -1040,30 +1053,30 @@ declare namespace samchon.collection {
          * @inheritdoc
          */
         addEventListener(type: string, listener: library.BasicEventListener): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        addEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>): void;
+        addEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>): void;
+        addEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>): void;
         /**
          * @inheritdoc
          */
         addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        addEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        addEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        addEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: library.BasicEventListener): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        removeEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>): void;
+        removeEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>): void;
+        removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        removeEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        removeEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
     }
 }
 declare namespace samchon.collection {
@@ -1093,11 +1106,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+        protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+        protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
@@ -1122,30 +1135,30 @@ declare namespace samchon.collection {
          * @inheritdoc
          */
         addEventListener(type: string, listener: library.BasicEventListener): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        addEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>): void;
+        addEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>): void;
+        addEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>): void;
         /**
          * @inheritdoc
          */
         addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
-        addEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        addEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        addEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        addEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        addEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: library.BasicEventListener): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>): void;
+        removeEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>): void;
+        removeEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>): void;
+        removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>): void;
         /**
          * @inheritdoc
          */
         removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object): void;
-        removeEventListener(type: "insert", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "erase", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
-        removeEventListener(type: "refresh", listener: CollectionEventListener<std.Pair<Key, T>>, thisArg: Object): void;
+        removeEventListener(type: "insert", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        removeEventListener(type: "erase", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
+        removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
     }
 }
 declare namespace samchon.collection {
@@ -1175,11 +1188,11 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -1708,11 +1721,11 @@ declare namespace samchon.collection {
         /**
          * @hidden
          */
-        protected insert_by_repeating_val(position: std.DequeIterator<library.XML>, n: number, val: library.XML): std.DequeIterator<library.XML>;
+        protected _Insert_by_repeating_val(position: std.DequeIterator<library.XML>, n: number, val: library.XML): std.DequeIterator<library.XML>;
         /**
          * @hidden
          */
-        protected insert_by_range<U extends library.XML, InputIterator extends std.Iterator<U>>(position: std.DequeIterator<library.XML>, begin: InputIterator, end: InputIterator): std.DequeIterator<library.XML>;
+        protected _Insert_by_range<U extends library.XML, InputIterator extends std.Iterator<U>>(position: std.DequeIterator<library.XML>, begin: InputIterator, end: InputIterator): std.DequeIterator<library.XML>;
         /**
          * @inheritdoc
          */
@@ -1720,7 +1733,7 @@ declare namespace samchon.collection {
         /**
          * @hidden
          */
-        protected erase_by_range(first: std.DequeIterator<library.XML>, last: std.DequeIterator<library.XML>): std.DequeIterator<library.XML>;
+        protected _Erase_by_range(first: std.DequeIterator<library.XML>, last: std.DequeIterator<library.XML>): std.DequeIterator<library.XML>;
         /**
          * @hidden
          */
@@ -3681,11 +3694,14 @@ declare namespace samchon.protocol {
         /**
          * @hidden
          */
-        function construct<T extends Entity>(entity: IEntityGroup<T>, xml: library.XML): void;
+        function construct<T extends IEntity>(entityGroup: IEntityGroup<T>, xml: library.XML, ...prohibited_names: string[]): void;
         /**
          * @hidden
          */
-        function toXML<T extends Entity>(entity: IEntityGroup<T>): library.XML;
+        function toXML<T extends IEntity>(entityGroup: IEntityGroup<T>, ...prohibited_names: string[]): library.XML;
+        function has<T extends IEntity>(entityGroup: IEntityGroup<T>, key: any): boolean;
+        function count<T extends IEntity>(entityGroup: IEntityGroup<T>, key: any): number;
+        function get<T extends IEntity>(entityGroup: IEntityGroup<T>, key: any): T;
     }
 }
 declare namespace samchon.protocol {
@@ -3705,9 +3721,6 @@ declare namespace samchon.protocol {
          * @inheritdoc
          */
         key(): any;
-        /**
-         * @inheritdoc
-         */
         /**
          * @inheritdoc
          */
@@ -3754,9 +3767,6 @@ declare namespace samchon.protocol {
         /**
          * @inheritdoc
          */
-        /**
-         * @inheritdoc
-         */
         has(key: any): boolean;
         /**
          * @inheritdoc
@@ -3797,9 +3807,6 @@ declare namespace samchon.protocol {
          * @inheritdoc
          */
         key(): any;
-        /**
-         * @inheritdoc
-         */
         /**
          * @inheritdoc
          */
@@ -3853,9 +3860,6 @@ declare namespace samchon.protocol {
         /**
          * @inheritdoc
          */
-        /**
-         * @inheritdoc
-         */
         has(key: any): boolean;
         /**
          * @inheritdoc
@@ -3899,9 +3903,6 @@ declare namespace samchon.protocol {
         /**
          * @inheritdoc
          */
-        /**
-         * @inheritdoc
-         */
         has(key: any): boolean;
         /**
          * @inheritdoc
@@ -3942,9 +3943,6 @@ declare namespace samchon.protocol {
          * @inheritdoc
          */
         key(): any;
-        /**
-         * @inheritdoc
-         */
         /**
          * @inheritdoc
          */
@@ -5061,6 +5059,7 @@ declare namespace samchon.protocol.distributed {
         private history_list_;
         protected performance: number;
         constructor(systemArray: DistributedSystemArray);
+        getSystemArray(): DistributedSystemArray;
         getPerformance(): number;
         sendData(invoke: protocol.Invoke): void;
         private report_invoke_history(history);
@@ -5190,7 +5189,7 @@ declare namespace samchon.protocol.parallel {
          * @param invoke An invoke message requesting parallel process.
          * @param size Number of pieces.
          */
-        sendSegmentData(invoke: Invoke, size: number): void;
+        sendPieceData(invoke: Invoke, size: number): void;
         /**
          *
          *
@@ -5209,11 +5208,11 @@ declare namespace samchon.protocol.parallel {
          *
          * @see {@link ParallelSystem.report_invoke_history}, {@link normalize_performance}
          */
-        protected notify_end(history: InvokeHistory): boolean;
+        protected _Notify_end(history: InvokeHistory): boolean;
         /**
          * @see {@link ParallelSystem.performance}
          */
-        protected normalize_performance(): void;
+        private normalize_performance();
     }
 }
 declare namespace samchon.protocol.distributed {
@@ -5243,6 +5242,59 @@ declare namespace samchon.protocol.distributed {
 }
 declare namespace samchon.protocol.distributed {
     abstract class DistributedClientArray extends DistributedSystemArray implements external.IExternalClientArray {
+        /**
+         * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
+         */
+        private server_base_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * <p> Factory method creating {@link IServerBase} object. </p>
+         *
+         * <p> This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
+         * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who
+         * may connect to {@link ExternalClientArray this server} must follow the specified protocol. </p>
+         *
+         * <p> Creates and returns one of them: </p>
+         * <ul>
+         *	<li> {@link ServerBase} </li>
+         *	<li> {@link WebServerBase} </li>
+         *	<li> {@link SharedWorkerServerBase} </li>
+         * </ul>
+         *
+         * @return A new {@link IServerBase} object.
+         */
+        protected abstract createServerBase(): IServerBase;
+        addClient(driver: IClientDriver): void;
+        createChild(xml: library.XML): DistributedSystem;
+        protected abstract createExternalClient(driver: IClientDriver): DistributedSystem;
+        /**
+         * @inheritdoc
+         */
+        open(port: number): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+    }
+}
+declare namespace samchon.protocol.distributed {
+    abstract class DistributedSystemArrayMediator extends DistributedSystemArray {
+        private mediator_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        protected abstract createMediator(): parallel.MediatorSystem;
+        protected start_mediator(): void;
+        getMediator(): parallel.MediatorSystem;
+        protected _Notify_end(history: parallel.PRInvokeHistory): boolean;
+    }
+}
+declare namespace samchon.protocol.distributed {
+    abstract class DistributedClientArrayMediator extends DistributedSystemArrayMediator implements external.IExternalClientArray {
         /**
          * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
          */
@@ -5431,6 +5483,7 @@ declare namespace samchon.protocol.parallel {
         protected performance: number;
         constructor(systemArray: ParallelSystemArray);
         constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
+        destructor(): void;
         /**
          * Get manager of this object, {@link systemArray}.
          *
@@ -5466,13 +5519,14 @@ declare namespace samchon.protocol.parallel {
          *
          * @see {@link ParallelSystemArray.notify_end}
          */
-        protected report_invoke_history(xml: library.XML): void;
+        protected _Report_history(xml: library.XML): void;
     }
 }
 declare namespace samchon.protocol.distributed {
     abstract class DistributedSystem extends parallel.ParallelSystem {
         constructor(systemArray: DistributedSystemArray);
         constructor(systemArray: DistributedSystemArray, driver: IClientDriver);
+        destructor(): void;
         construct(xml: library.XML): void;
         createChild(xml: library.XML): external.ExternalSystemRole;
         /**
@@ -5481,7 +5535,7 @@ declare namespace samchon.protocol.distributed {
          * @return A manager containing this {@link DistributedSystem} objects.
          */
         getSystemArray(): DistributedSystemArray;
-        protected report_invoke_history(xml: library.XML): void;
+        protected _Report_history(xml: library.XML): void;
     }
 }
 declare namespace samchon.protocol.distributed {
@@ -5503,7 +5557,25 @@ declare namespace samchon.protocol.distributed {
 }
 declare namespace samchon.protocol.distributed {
     abstract class DistributedServerArray extends DistributedSystemArray implements external.IExternalServerArray {
+        /**
+         * Default Constructor.
+         */
         constructor();
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.protocol.distributed {
+    abstract class DistributedServerArrayMediator extends DistributedSystemArrayMediator implements external.IExternalServerArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
         connect(): void;
     }
 }
@@ -5522,16 +5594,17 @@ declare namespace samchon.protocol.distributed {
     }
 }
 declare namespace samchon.protocol.distributed {
-    abstract class DistributedSystemArrayMediator extends DistributedSystemArray {
-        protected mediator_: parallel.MediatorSystem;
+    abstract class DistributedServerClientArrayMediator extends DistributedClientArrayMediator implements external.IExternalServerClientArray {
         /**
          * Default Constructor.
          */
         constructor();
-        protected abstract createMediator(): parallel.MediatorSystem;
-        protected start_mediator(): void;
-        sendPieceData(invoke: protocol.Invoke, first: number, last: number): void;
-        protected notify_end(history: parallel.PRInvokeHistory): boolean;
+        createChild(xml: library.XML): DistributedSystem;
+        protected abstract createExternalServer(xml: library.XML): IDistributedServer;
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
     }
 }
 declare namespace samchon.protocol.external {
@@ -6087,15 +6160,15 @@ declare namespace samchon.protocol.parallel {
 }
 declare namespace samchon.protocol.parallel {
     abstract class ParallelSystemArrayMediator extends ParallelSystemArray {
-        protected mediator_: MediatorSystem;
+        private mediator_;
         /**
          * Default Constructor.
          */
         constructor();
         protected abstract createMediator(): MediatorSystem;
         protected start_mediator(): void;
-        sendPieceData(invoke: protocol.Invoke, first: number, last: number): void;
-        protected notify_end(history: PRInvokeHistory): boolean;
+        getMediator(): MediatorSystem;
+        protected _Notify_end(history: PRInvokeHistory): boolean;
     }
 }
 declare namespace samchon.protocol.parallel {

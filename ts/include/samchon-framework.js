@@ -122,17 +122,17 @@ var samchon;
             /**
              * @hidden
              */
-            ArrayCollection.prototype.insert_by_repeating_val = function (position, n, val) {
-                var ret = _super.prototype.insert_by_repeating_val.call(this, position, n, val);
+            ArrayCollection.prototype._Insert_by_repeating_val = function (position, n, val) {
+                var ret = _super.prototype._Insert_by_repeating_val.call(this, position, n, val);
                 this.notify_insert(ret, ret.advance(n));
                 return ret;
             };
             /**
              * @hidden
              */
-            ArrayCollection.prototype.insert_by_range = function (position, begin, end) {
+            ArrayCollection.prototype._Insert_by_range = function (position, begin, end) {
                 var n = this.size();
-                var ret = _super.prototype.insert_by_range.call(this, position, begin, end);
+                var ret = _super.prototype._Insert_by_range.call(this, position, begin, end);
                 n = this.size() - n;
                 this.notify_insert(ret, ret.advance(n));
                 return ret;
@@ -150,9 +150,9 @@ var samchon;
             /**
              * @hidden
              */
-            ArrayCollection.prototype.erase_by_range = function (first, last) {
+            ArrayCollection.prototype._Erase_by_range = function (first, last) {
                 this.notify_erase(first, last);
-                return _super.prototype.erase_by_range.call(this, first, last);
+                return _super.prototype._Erase_by_range.call(this, first, last);
             };
             /* ---------------------------------------------------------
                 NOTIFIER
@@ -621,17 +621,17 @@ var samchon;
             /**
              * @hidden
              */
-            DequeCollection.prototype.insert_by_repeating_val = function (position, n, val) {
-                var ret = _super.prototype.insert_by_repeating_val.call(this, position, n, val);
+            DequeCollection.prototype._Insert_by_repeating_val = function (position, n, val) {
+                var ret = _super.prototype._Insert_by_repeating_val.call(this, position, n, val);
                 this.notify_insert(ret, ret.advance(n));
                 return ret;
             };
             /**
              * @hidden
              */
-            DequeCollection.prototype.insert_by_range = function (position, begin, end) {
+            DequeCollection.prototype._Insert_by_range = function (position, begin, end) {
                 var n = this.size();
-                var ret = _super.prototype.insert_by_range.call(this, position, begin, end);
+                var ret = _super.prototype._Insert_by_range.call(this, position, begin, end);
                 n = this.size() - n;
                 this.notify_insert(ret, ret.advance(n));
                 return ret;
@@ -649,9 +649,9 @@ var samchon;
             /**
              * @hidden
              */
-            DequeCollection.prototype.erase_by_range = function (first, last) {
+            DequeCollection.prototype._Erase_by_range = function (first, last) {
                 this.notify_erase(first, last);
-                return _super.prototype.erase_by_range.call(this, first, last);
+                return _super.prototype._Erase_by_range.call(this, first, last);
             };
             /* ---------------------------------------------------------
                 NOTIFIER
@@ -776,16 +776,16 @@ var samchon;
             /**
              * @inheritdoc
              */
-            HashMapCollection.prototype.handle_insert = function (first, last) {
-                _super.prototype.handle_insert.call(this, first, last);
+            HashMapCollection.prototype._Handle_insert = function (first, last) {
+                _super.prototype._Handle_insert.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.INSERT))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
             };
             /**
              * @inheritdoc
              */
-            HashMapCollection.prototype.handle_erase = function (first, last) {
-                _super.prototype.handle_erase.call(this, first, last);
+            HashMapCollection.prototype._Handle_erase = function (first, last) {
+                _super.prototype._Handle_erase.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.ERASE))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
             };
@@ -828,7 +828,7 @@ var samchon;
                     first = args[0];
                     last = args[1];
                 }
-                this.dispatchEvent(new collection.CollectionEvent("refresh", first, last));
+                this.dispatchEvent(new collection.MapCollectionEvent("refresh", first, last));
             };
             HashMapCollection.prototype.addEventListener = function (type, listener, thisArg) {
                 if (thisArg === void 0) { thisArg = null; }
@@ -888,16 +888,16 @@ var samchon;
             /**
              * @inheritdoc
              */
-            HashMultiMapCollection.prototype.handle_insert = function (first, last) {
-                _super.prototype.handle_insert.call(this, first, last);
+            HashMultiMapCollection.prototype._Handle_insert = function (first, last) {
+                _super.prototype._Handle_insert.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.INSERT))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
             };
             /**
              * @inheritdoc
              */
-            HashMultiMapCollection.prototype.handle_erase = function (first, last) {
-                _super.prototype.handle_erase.call(this, first, last);
+            HashMultiMapCollection.prototype._Handle_erase = function (first, last) {
+                _super.prototype._Handle_erase.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.ERASE))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
             };
@@ -940,7 +940,7 @@ var samchon;
                     first = args[0];
                     last = args[1];
                 }
-                this.dispatchEvent(new collection.CollectionEvent("refresh", first, last));
+                this.dispatchEvent(new collection.MapCollectionEvent("refresh", first, last));
             };
             HashMultiMapCollection.prototype.addEventListener = function (type, listener, thisArg) {
                 if (thisArg === void 0) { thisArg = null; }
@@ -1091,16 +1091,16 @@ var samchon;
             /**
              * @inheritdoc
              */
-            HashSetCollection.prototype.handle_insert = function (first, last) {
-                _super.prototype.handle_insert.call(this, first, last);
+            HashSetCollection.prototype._Handle_insert = function (first, last) {
+                _super.prototype._Handle_insert.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.INSERT))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
             };
             /**
              * @inheritdoc
              */
-            HashSetCollection.prototype.handle_erase = function (first, last) {
-                _super.prototype.handle_erase.call(this, first, last);
+            HashSetCollection.prototype._Handle_erase = function (first, last) {
+                _super.prototype._Handle_erase.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.ERASE))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
             };
@@ -1244,17 +1244,17 @@ var samchon;
             /**
              * @hidden
              */
-            ListCollection.prototype.insert_by_repeating_val = function (position, n, val) {
-                var ret = _super.prototype.insert_by_repeating_val.call(this, position, n, val);
+            ListCollection.prototype._Insert_by_repeating_val = function (position, n, val) {
+                var ret = _super.prototype._Insert_by_repeating_val.call(this, position, n, val);
                 this.notify_insert(ret, ret.advance(n));
                 return ret;
             };
             /**
              * @hidden
              */
-            ListCollection.prototype.insert_by_range = function (position, begin, end) {
+            ListCollection.prototype._Insert_by_range = function (position, begin, end) {
                 var n = this.size();
-                var ret = _super.prototype.insert_by_range.call(this, position, begin, end);
+                var ret = _super.prototype._Insert_by_range.call(this, position, begin, end);
                 n = this.size() - n;
                 this.notify_insert(ret, ret.advance(n));
                 return ret;
@@ -1281,8 +1281,8 @@ var samchon;
             /**
              * @hidden
              */
-            ListCollection.prototype.erase_by_range = function (first, last) {
-                var ret = _super.prototype.erase_by_range.call(this, first, last);
+            ListCollection.prototype._Erase_by_range = function (first, last) {
+                var ret = _super.prototype._Erase_by_range.call(this, first, last);
                 this.notify_erase(first, last);
                 return ret;
             };
@@ -1358,6 +1358,43 @@ var samchon;
     })(collection = samchon.collection || (samchon.collection = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
+/// <reference path="CollectionEvent.ts" />
+var samchon;
+(function (samchon) {
+    var collection;
+    (function (collection) {
+        var MapCollectionEvent = (function (_super) {
+            __extends(MapCollectionEvent, _super);
+            function MapCollectionEvent() {
+                _super.apply(this, arguments);
+            }
+            Object.defineProperty(MapCollectionEvent.prototype, "first", {
+                // using super::constructor
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return this.first_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(MapCollectionEvent.prototype, "last", {
+                /**
+                 * @inheritdoc
+                 */
+                get: function () {
+                    return this.last_;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return MapCollectionEvent;
+        }(collection.CollectionEvent));
+        collection.MapCollectionEvent = MapCollectionEvent;
+    })(collection = samchon.collection || (samchon.collection = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
     var collection;
@@ -1409,16 +1446,16 @@ var samchon;
             /**
              * @inheritdoc
              */
-            TreeMapCollection.prototype.handle_insert = function (first, last) {
-                _super.prototype.handle_insert.call(this, first, last);
+            TreeMapCollection.prototype._Handle_insert = function (first, last) {
+                _super.prototype._Handle_insert.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.INSERT))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
             };
             /**
              * @inheritdoc
              */
-            TreeMapCollection.prototype.handle_erase = function (first, last) {
-                _super.prototype.handle_erase.call(this, first, last);
+            TreeMapCollection.prototype._Handle_erase = function (first, last) {
+                _super.prototype._Handle_erase.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.ERASE))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
             };
@@ -1461,7 +1498,7 @@ var samchon;
                     first = args[0];
                     last = args[1];
                 }
-                this.dispatchEvent(new collection.CollectionEvent("refresh", first, last));
+                this.dispatchEvent(new collection.MapCollectionEvent("refresh", first, last));
             };
             TreeMapCollection.prototype.addEventListener = function (type, listener, thisArg) {
                 if (thisArg === void 0) { thisArg = null; }
@@ -1521,16 +1558,16 @@ var samchon;
             /**
              * @inheritdoc
              */
-            TreeMultiMapCollection.prototype.handle_insert = function (first, last) {
-                _super.prototype.handle_insert.call(this, first, last);
+            TreeMultiMapCollection.prototype._Handle_insert = function (first, last) {
+                _super.prototype._Handle_insert.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.INSERT))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
             };
             /**
              * @inheritdoc
              */
-            TreeMultiMapCollection.prototype.handle_erase = function (first, last) {
-                _super.prototype.handle_erase.call(this, first, last);
+            TreeMultiMapCollection.prototype._Handle_erase = function (first, last) {
+                _super.prototype._Handle_erase.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.ERASE))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
             };
@@ -1573,7 +1610,7 @@ var samchon;
                     first = args[0];
                     last = args[1];
                 }
-                this.dispatchEvent(new collection.CollectionEvent("refresh", first, last));
+                this.dispatchEvent(new collection.MapCollectionEvent("refresh", first, last));
             };
             TreeMultiMapCollection.prototype.addEventListener = function (type, listener, thisArg) {
                 if (thisArg === void 0) { thisArg = null; }
@@ -1633,16 +1670,16 @@ var samchon;
             /**
              * @inheritdoc
              */
-            TreeMultiSetCollection.prototype.handle_insert = function (first, last) {
-                _super.prototype.handle_insert.call(this, first, last);
+            TreeMultiSetCollection.prototype._Handle_insert = function (first, last) {
+                _super.prototype._Handle_insert.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.INSERT))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
             };
             /**
              * @inheritdoc
              */
-            TreeMultiSetCollection.prototype.handle_erase = function (first, last) {
-                _super.prototype.handle_erase.call(this, first, last);
+            TreeMultiSetCollection.prototype._Handle_erase = function (first, last) {
+                _super.prototype._Handle_erase.call(this, first, last);
                 if (this.hasEventListener(collection.CollectionEvent.ERASE))
                     this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
             };
@@ -2521,17 +2558,17 @@ var samchon;
             /**
              * @hidden
              */
-            XMLListCollection.prototype.insert_by_repeating_val = function (position, n, val) {
-                var ret = _super.prototype.insert_by_repeating_val.call(this, position, n, val);
+            XMLListCollection.prototype._Insert_by_repeating_val = function (position, n, val) {
+                var ret = _super.prototype._Insert_by_repeating_val.call(this, position, n, val);
                 this.notify_insert(ret, ret.advance(n));
                 return ret;
             };
             /**
              * @hidden
              */
-            XMLListCollection.prototype.insert_by_range = function (position, begin, end) {
+            XMLListCollection.prototype._Insert_by_range = function (position, begin, end) {
                 var n = this.size();
-                var ret = _super.prototype.insert_by_range.call(this, position, begin, end);
+                var ret = _super.prototype._Insert_by_range.call(this, position, begin, end);
                 n = this.size() - n;
                 this.notify_insert(ret, ret.advance(n));
                 return ret;
@@ -2549,9 +2586,9 @@ var samchon;
             /**
              * @hidden
              */
-            XMLListCollection.prototype.erase_by_range = function (first, last) {
+            XMLListCollection.prototype._Erase_by_range = function (first, last) {
                 this.notify_erase(first, last);
-                return _super.prototype.erase_by_range.call(this, first, last);
+                return _super.prototype._Erase_by_range.call(this, first, last);
             };
             /* ---------------------------------------------------------
                 NOTIFIER
@@ -5377,7 +5414,7 @@ var samchon;
                  *
                  * @see {@link ParallelSystem.report_invoke_history}, {@link normalize_performance}
                  */
-                ParallelSystemArray.prototype.notify_end = function (history) {
+                ParallelSystemArray.prototype._Notify_end = function (history) {
                     var uid = history.getUID();
                     // ALL THE SUB-TASKS ARE DONE?
                     for (var i = 0; i < this.size(); i++)
@@ -5481,13 +5518,13 @@ var samchon;
                 DistributedSystemArray.prototype.handle_role_insert = function (event) {
                     for (var it = event.first; !it.equal_to(event.last); it = it.next())
                         for (var i = 0; i < this.size(); i++)
-                            this.at(i).push_back(it.value.second);
+                            this.at(i).push_back(it.second);
                 };
                 DistributedSystemArray.prototype.handle_role_erase = function (event) {
                     for (var it = event.first; !it.equal_to(event.last); it = it.next())
                         for (var i = 0; i < this.size(); i++) {
                             var system = this.at(i);
-                            std.remove(system.begin(), system.end(), it.value.second);
+                            std.remove(system.begin(), system.end(), it.second);
                         }
                 };
                 /* ---------------------------------------------------------
@@ -5603,10 +5640,16 @@ var samchon;
                     this.mediator_.start();
                 };
                 /* ---------------------------------------------------------
+                    ACCESSOR
+                --------------------------------------------------------- */
+                DistributedSystemArrayMediator.prototype.getMediator = function () {
+                    return this.mediator_;
+                };
+                /* ---------------------------------------------------------
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
-                DistributedSystemArrayMediator.prototype.notify_end = function (history) {
-                    var ret = _super.prototype.notify_end.call(this, history);
+                DistributedSystemArrayMediator.prototype._Notify_end = function (history) {
+                    var ret = _super.prototype._Notify_end.call(this, history);
                     if (ret == true)
                         this.mediator_["notify_end"](history.getUID());
                     return ret;
@@ -5930,8 +5973,8 @@ var samchon;
                  * @hidden
                  */
                 ParallelSystem.prototype._replyData = function (invoke) {
-                    if (invoke.getListener() == "report_invoke_history")
-                        this.report_invoke_history(invoke.front().getValue());
+                    if (invoke.getListener() == "_Report_history")
+                        this._Report_history(invoke.front().getValue());
                     else
                         this.replyData(invoke);
                 };
@@ -5942,7 +5985,7 @@ var samchon;
                  *
                  * @see {@link ParallelSystemArray.notify_end}
                  */
-                ParallelSystem.prototype.report_invoke_history = function (xml) {
+                ParallelSystem.prototype._Report_history = function (xml) {
                     ///////
                     // CONSTRUCT HISTORY
                     ///////
@@ -5955,7 +5998,7 @@ var samchon;
                     this.progress_list_.erase(progress_it);
                     this.history_list_.insert([history.getUID(), history]);
                     // NOTIFY TO THE MANAGER, SYSTEM_ARRAY
-                    this.getSystemArray()["notify_end"](history);
+                    this.getSystemArray()["_Notify_end"](history);
                 };
                 return ParallelSystem;
             }(protocol.external.ExternalSystem));
@@ -6019,12 +6062,12 @@ var samchon;
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
-                DistributedSystem.prototype.report_invoke_history = function (xml) {
+                DistributedSystem.prototype._Report_history = function (xml) {
                     if (xml.hasProperty("piece_first") == true) {
                         //--------
                         // ParallelSystem's history -> PRInvokeHistory
                         //--------
-                        _super.prototype.report_invoke_history.call(this, xml);
+                        _super.prototype._Report_history.call(this, xml);
                     }
                     else {
                         //--------
@@ -6317,7 +6360,7 @@ var samchon;
             }
             IEntityGroup.count = count;
             function get(entityGroup, key) {
-                for (var it = this.begin(); !it.equal_to(this.end()); it = it.next())
+                for (var it = entityGroup.begin(); !it.equal_to(entityGroup.end()); it = it.next())
                     if (std.equal_to(it.value.key(), key) == true)
                         return it.value;
                 throw new std.OutOfRange("out of range");
@@ -6576,7 +6619,7 @@ var samchon;
                 return xml;
             };
             InvokeHistory.prototype.toInvoke = function () {
-                return new protocol.Invoke("report_invoke_history", this.toXML());
+                return new protocol.Invoke("_Report_history", this.toXML());
             };
             return InvokeHistory;
         }(protocol.Entity));
@@ -7574,10 +7617,16 @@ var samchon;
                     this.mediator_.start();
                 };
                 /* ---------------------------------------------------------
+                    ACCESSOR
+                --------------------------------------------------------- */
+                ParallelSystemArrayMediator.prototype.getMediator = function () {
+                    return this.mediator_;
+                };
+                /* ---------------------------------------------------------
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
-                ParallelSystemArrayMediator.prototype.notify_end = function (history) {
-                    var ret = _super.prototype.notify_end.call(this, history);
+                ParallelSystemArrayMediator.prototype._Notify_end = function (history) {
+                    var ret = _super.prototype._Notify_end.call(this, history);
                     if (ret == true)
                         this.mediator_["notify_end"](history.getUID());
                     return ret;
@@ -8585,9 +8634,8 @@ var samchon;
                     this.addEventListener("erase", this.handle_erase_client, this);
                 }
                 User.prototype.handle_erase_client = function (event) {
-                    for (var it = event.first; !it.equal_to(event.last); it = it.next()) {
-                        it.value.second.close();
-                    }
+                    for (var it = event.first; !it.equal_to(event.last); it = it.next())
+                        it.second.close();
                     if (this.empty() == true)
                         this.server_["erase_user"](this);
                 };

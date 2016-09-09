@@ -93,7 +93,7 @@ namespace packer_mediator
 				xml.clear();
 				xml.setTag("system");
 			}
-			this.mediator.sendData(new protocol.Invoke("construct", xml));
+			this.getMediator().sendData(new protocol.Invoke("construct", xml));
 		}
 
 		protected replyOptimization(xml: library.XML): void
@@ -114,7 +114,7 @@ namespace packer_mediator
 			if (++this.completed_count == this.requested_size)
 			{
 				console.log("An optimization has fully finished");
-				this.mediator.sendData(new protocol.Invoke("replyOptimization", this.best_packer.toXML()));
+				this.getMediator().sendData(new protocol.Invoke("replyOptimization", this.best_packer.toXML()));
 			}
 		}
 

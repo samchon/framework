@@ -198,7 +198,7 @@ namespace samchon.protocol
 		export function get<T extends IEntity>
 			(entityGroup: IEntityGroup<T>, key: any): T
 		{
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+			for (let it = entityGroup.begin(); !it.equal_to(entityGroup.end()); it = it.next())
 				if (std.equal_to(it.value.key(), key) == true)
 					return it.value;
 

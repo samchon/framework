@@ -74,7 +74,7 @@ namespace room
 		/* ---------------------------------------------------------
 			SEND DATA
 		--------------------------------------------------------- */
-		private handle_change(event: collection.CollectionEvent<std.Pair<string, service.ChatService>>): void
+		private handle_change(event: collection.MapCollectionEvent<string, service.ChatService>): void
 		{
 			if (event.type == "erase" && this.empty() == true)
 			{

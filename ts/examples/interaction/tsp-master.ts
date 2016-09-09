@@ -39,7 +39,7 @@ namespace tsp_master
 			let invoke: protocol.Invoke = new protocol.Invoke("optimize", travel.toXML());
 			let case_size: number = new library.FactorialGenerator(travel.size()).size();
 
-			this.sendSegmentData(invoke, case_size);
+			this.sendPieceData(invoke, case_size);
 		}
 
 		protected replyOptimization(xml: library.XML): void

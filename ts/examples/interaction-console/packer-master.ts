@@ -38,7 +38,7 @@ namespace packer_master
 			let piece_size: number = new library.CombinedPermutationGenerator(packer.size(), packer.getProductArray().size()).size();
 		
 			console.log("Start Packer optimization: #" + piece_size);
-			this.sendSegmentData(invoke, piece_size);
+			this.sendPieceData(invoke, piece_size);
 		}
 
 		protected replyOptimization(xml: library.XML): void

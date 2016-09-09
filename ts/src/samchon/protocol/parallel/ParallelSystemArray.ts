@@ -100,7 +100,7 @@ namespace samchon.protocol.parallel
 		 * 
 		 * @see {@link ParallelSystem.report_invoke_history}, {@link normalize_performance}
 		 */
-		protected notify_end(history: InvokeHistory): boolean
+		protected _Notify_end(history: InvokeHistory): boolean
 		{
 			let uid: number = history.getUID();
 
@@ -152,7 +152,7 @@ namespace samchon.protocol.parallel
 		/**
 		 * @see {@link ParallelSystem.performance}
 		 */
-		protected normalize_performance(): void
+		private normalize_performance(): void
 		{
 			// CALC AVERAGE
 			let average: number = 0.0;

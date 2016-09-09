@@ -43,9 +43,9 @@ namespace samchon.collection
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void
+		protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void
 		{
-			super.handle_insert(first, last);
+			super._Handle_insert(first, last);
 
 			if (this.hasEventListener(CollectionEvent.INSERT))
 				this.dispatchEvent(new CollectionEvent(CollectionEvent.INSERT, first, last));
@@ -54,9 +54,9 @@ namespace samchon.collection
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void
+		protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void
 		{
-			super.handle_erase(first, last);
+			super._Handle_erase(first, last);
 
 			if (this.hasEventListener(CollectionEvent.ERASE))
 				this.dispatchEvent(new CollectionEvent(CollectionEvent.ERASE, first, last));

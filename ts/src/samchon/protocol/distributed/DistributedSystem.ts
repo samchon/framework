@@ -76,14 +76,14 @@ namespace samchon.protocol.distributed
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		protected report_invoke_history(xml: library.XML): void
+		protected _Report_history(xml: library.XML): void
 		{
 			if (xml.hasProperty("piece_first") == true)
 			{
 				//--------
 				// ParallelSystem's history -> PRInvokeHistory
 				//--------
-				super.report_invoke_history(xml);
+				super._Report_history(xml);
 			}
 			else
 			{

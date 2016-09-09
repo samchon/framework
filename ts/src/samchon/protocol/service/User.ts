@@ -40,12 +40,11 @@ namespace samchon.protocol.service
 
 		protected abstract createClient(driver: WebClientDriver): Client;
 
-		private handle_erase_client(event: collection.CollectionEvent<std.Pair<number, Client>>): void
+		private handle_erase_client(event: collection.MapCollectionEvent<number, Client>): void
 		{
 			for (let it = event.first; !it.equal_to(event.last); it = it.next())
-			{
-				it.value.second.close();
-			}
+				it.second.close();
+			
 			if (this.empty() == true)
 				this.server_["erase_user"](this);
 		}

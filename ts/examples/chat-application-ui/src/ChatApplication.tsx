@@ -199,6 +199,7 @@ namespace example.chat {
 
 				<div id="page-content-wrapper">
 					<div className="container-fluid">
+					
 						<div className="participant">
 							<h2> Participant List </h2>
 							<ul>
@@ -216,7 +217,7 @@ namespace example.chat {
 
 						<br/>
 
-						<div className="row">
+						<div className="row input-message">
 							<div className="col-lg-6">
 								<div className="input-group">
 									<div className="input-group-btn">

@@ -32,19 +32,19 @@ namespace example.chat {
 							<a href="#">Shortcuts</a>
 						</li>
 						<li>
-							<a href="#">Overview</a>
+							<a href="overview.html">Overview</a>
 						</li>
 						<li>
 							<a href="#">Events</a>
 						</li>
 						<li>
-							<a href="#">About</a>
+							<a href="aboutus.html">About</a>
 						</li>
 						<li>
-							<a href="#">Services</a>
+							<a href="services.html">Services</a>
 						</li>
 						<li>
-							<a href="#">Contact</a>
+							<a href="contact.html">Contact</a>
 						</li>
 					</ul>
 

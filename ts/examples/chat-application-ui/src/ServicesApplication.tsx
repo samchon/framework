@@ -26,7 +26,7 @@ namespace example.chat {
 						</li>
 						<br/><br/>
 						<li>
-							<a href="#">Dashboard</a>
+							<a href="list.html">Dashboard</a>
 						</li>
 						<li>
 							<a href="#">Shortcuts</a>

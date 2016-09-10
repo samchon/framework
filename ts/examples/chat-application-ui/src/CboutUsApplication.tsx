@@ -57,8 +57,108 @@ namespace example.chat {
 
 				<div id="page-content-wrapper">
 					<div className="container-fluid">
-					
-						AboutUsApplication Page
+				
+						<section id="team" className="bg-light-gray">
+							<div className="container">
+								<div className="row">
+									<div className="col-lg-12 text-center">
+										<h2 className="section-heading">About Us</h2>
+										<h3 className="section-subheading text-muted">SamchonFramework Team</h3>
+									</div>
+								</div>
+
+							<div className="row">
+								<div className="col-sm-12">
+										<div className="team-member">
+											<img src="https://avatars2.githubusercontent.com/u/13158709?v=3&s=280" className="img-responsive img-circle" alt=""/>
+											<h4>남정호</h4>
+											<p className="text-muted">Team Reader</p>
+											<ul className="list-inline social-buttons">
+												<li><a href="#"><i className="fa fa-github"></i></a>
+												</li>
+												<li><a href="#"><i className="fa fa-facebook"></i></a>
+												</li>
+												<li><a href="#"><i className="fa fa-linkedin"></i></a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+
+								<div className="row">
+									<div className="col-sm-6">
+										<div className="team-member">
+											<img src="https://avatars2.githubusercontent.com/u/13158709?v=3&s=200" className="img-responsive img-circle" alt=""/>
+											<h4>이아름</h4>
+											<p className="text-muted">Lead Designer</p>
+											<ul className="list-inline social-buttons">
+												<li><a href="#"><i className="fa fa-github"></i></a>
+												</li>
+												<li><a href="#"><i className="fa fa-facebook"></i></a>
+												</li>
+												<li><a href="#"><i className="fa fa-linkedin"></i></a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div className="col-sm-6">
+										<div className="team-member">
+											<img src="https://avatars2.githubusercontent.com/u/13158709?v=3&s=200" className="img-responsive img-circle" alt=""/>
+											<h4>이정훈</h4>
+											<p className="text-muted">Lead Marketer</p>
+											<ul className="list-inline social-buttons">
+												<li><a href="#"><i className="fa fa-github"></i></a>
+												</li>
+												<li><a href="#"><i className="fa fa-facebook"></i></a>
+												</li>
+												<li><a href="#"><i className="fa fa-linkedin"></i></a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									
+								</div>
+							
+							<div className="row">
+									<div className="col-sm-6">
+										<div className="team-member">
+											<img src="https://avatars2.githubusercontent.com/u/13158709?v=3&s=200" className="img-responsive img-circle" alt=""/>
+											<h4>이다빈</h4>
+											<p className="text-muted">Lead Developer</p>
+											<ul className="list-inline social-buttons">
+												<li><a href="#"><i className="fa fa-github"></i></a>
+												</li>
+												<li><a href="#"><i className="fa fa-facebook"></i></a>
+												</li>
+												<li><a href="#"><i className="fa fa-linkedin"></i></a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div className="col-sm-6">
+										<div className="team-member">
+											<img src="https://avatars2.githubusercontent.com/u/13158709?v=3&s=200" className="img-responsive img-circle" alt=""/>
+											<h4>이두두</h4>
+											<p className="text-muted">Lead Developer</p>
+											<ul className="list-inline social-buttons">
+												<li><a href="#"><i className="fa fa-github"></i></a>
+												</li>
+												<li><a href="#"><i className="fa fa-facebook"></i></a>
+												</li>
+												<li><a href="#"><i className="fa fa-linkedin"></i></a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									
+								</div>
+								<div className="row">
+									<div className="col-lg-8 col-lg-offset-2 text-center">
+										<p className="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+									</div>
+								</div>
+							</div>
+						</section>
 
 					</div>
 				</div>

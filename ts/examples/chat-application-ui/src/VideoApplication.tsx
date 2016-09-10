@@ -35,9 +35,6 @@ namespace example.chat {
 							<a href="overview.html">Overview</a>
 						</li>
 						<li>
-							<a href="#">Events</a>
-						</li>
-						<li>
 							<a href="aboutus.html">About</a>
 						</li>
 						<li>

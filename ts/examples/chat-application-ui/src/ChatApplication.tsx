@@ -177,9 +177,6 @@ namespace example.chat {
 							<a href="#">Overview</a>
 						</li>
 						<li>
-							<a href="#">Events</a>
-						</li>
-						<li>
 							<a href="#">About</a>
 						</li>
 						<li>

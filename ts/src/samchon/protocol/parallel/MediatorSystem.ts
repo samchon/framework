@@ -7,53 +7,82 @@ namespace samchon.protocol.parallel
 	export abstract class MediatorSystem
 		extends slave.SlaveSystem
 	{
-		private system_array_mediator_: ParallelSystemArrayMediator;
+		private mediator_: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator;
 		private progress_list_: std.HashMap<number, InvokeHistory>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(systemArray: ParallelSystemArrayMediator)
+		public constructor(systemArray: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator)
 		{
 			super();
 
-			this.system_array_mediator_ = systemArray;
+			this.mediator_ = systemArray;
 			this.progress_list_ = new std.HashMap<number, InvokeHistory>();
 		}
 
 		public abstract start(): void;
-
+		
 		/* ---------------------------------------------------------
-			ACCESSORS
+			ACCESSOR
 		--------------------------------------------------------- */
-		public getSystemArray(): ParallelSystemArrayMediator
+		public getMediator(): ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator
 		{
-			return this.system_array_mediator_;
+			return this.mediator_;
 		}
 
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		private notify_end(uid: number): void
+		private complete_history(uid: number): void
 		{
 			if (this.progress_list_.has(uid) == false)
-				return;
+				return; // NO SUCH HISTORY; THE PROCESS HAD DONE ONLY IN THIS MEDIATOR LEVEL.
 
+			// COMPLETE THE HISTORY
 			let history: InvokeHistory = this.progress_list_.get(uid);
+			history.complete();
+			
+			// ERASE THE HISTORY ON PROGRESS LIST
 			this.progress_list_.erase(uid);
-
+			
+			// REPORT THE HISTORY TO MASTER
 			this.sendData(history.toInvoke());
 		}
 
 		protected _replyData(invoke: Invoke): void
 		{
-			if (invoke.has("invoke_history_uid") == true)
+			if (invoke.has("_History_uid") == true)
 			{
-				let first: number = invoke.get("piece_first").getValue();
-				let last: number = invoke.get("piece_last").getValue();
+				// REGISTER THIS PROCESS ON HISTORY LIST
+				let history: InvokeHistory = new InvokeHistory(invoke);
+				this.progress_list_.insert([history.getUID(), history]);
 
-				invoke.erase(invoke.end().advance(-2), invoke.end());
-				this.system_array_mediator_.sendPieceData(invoke, first, last);
+				if (invoke.has("_Piece_first") == true)
+				{
+					// PARALLEL PROCESS
+					let first: number = invoke.get("_Piece_first").getValue();
+					let last: number = invoke.get("_Piece_last").getValue();
+
+					invoke.erase(invoke.end().advance(-2), invoke.end());
+					this.mediator_.sendPieceData(invoke, first, last);
+				}
+				else if (this.mediator_ instanceof distributed.DistributedSystemArrayMediator
+					&& invoke.has("_Role_name") == true)
+				{
+					// DISTRIBUTED PROCESS
+					let ds_mediator: distributed.DistributedSystemArrayMediator 
+						= this.mediator_ as distributed.DistributedSystemArrayMediator;
+
+					// FIND THE MATCHED ROLE
+					let role_name: string = invoke.get("_Role_name").getValue();
+					if (ds_mediator.hasRole(role_name) == false)
+						return;
+
+					// SEND DATA VIA THE ROLE
+					let role: distributed.DistributedSystemRole = ds_mediator.getRole(role_name);
+					role.sendData(invoke);
+				}
 			}
 			else
 				this.replyData(invoke);
@@ -64,7 +93,7 @@ namespace samchon.protocol.parallel
 			if (invoke.apply(this) == true)
 				return;
 			else
-				this.system_array_mediator_.sendData(invoke);
+				this.mediator_.sendData(invoke);
 		}
 	}
 }

@@ -77,8 +77,16 @@ namespace samchon.protocol.distributed
 		}
 
 		/* ---------------------------------------------------------
-			ACCESSORS - ROLE MAP
+			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public at(index: number): DistributedSystem
+		{
+			return super.at(index) as DistributedSystem;
+		}
+
 		public getRoleMap(): std.HashMap<string, DistributedSystemRole>
 		{
 			return this.role_map_;

@@ -106,7 +106,7 @@ namespace samchon.protocol
 			let args: Array<any> = [];
 
 			for (let i: number = 0; i < this.size(); i++)
-				if (this[i].getName() == "invoke_history_uid")
+				if (this[i].getName() == "_History_uid")
 					continue;
 				else
 					args.push(this[i].getValue());

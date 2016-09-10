@@ -16,6 +16,11 @@ Communicator::Communicator()
 }
 Communicator::~Communicator()
 {
+	close();
+}
+
+void Communicator::close()
+{
 	if (socket != nullptr && socket->is_open())
 		socket->close();
 }

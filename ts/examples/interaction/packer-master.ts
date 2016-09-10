@@ -38,7 +38,7 @@ namespace packer_master
 			let piece_size: number = new library.CombinedPermutationGenerator(packer.size(), packer.getProductArray().size()).size();
 		
 			console.log("Start Packer optimization: #" + piece_size);
-			this.sendPieceData(invoke, piece_size);
+			this.sendSegmentData(invoke, piece_size);
 		}
 
 		protected replyOptimization(xml: library.XML): void
@@ -58,7 +58,10 @@ namespace packer_master
 			// IF ALL TASKS ARE DONE, REPORT TO THE CHIEF
 			if (++this.completed_count == this.requested_size)
 			{
-				console.log("An optimization has fully finished");
+				console.log("An optimization has fully completed. Performance index of each slave is: ");
+				for (let i: number = 0; i < this.size(); i++)
+					console.log(library.StringUtil.substitute("\t{1}. {2}", i + 1, this.at(i).getPerformance()));
+
 				this.chief.sendData(new protocol.Invoke("printPacker", this.best_packer.toXML()));
 			}
 		}

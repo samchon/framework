@@ -9,35 +9,30 @@ namespace protocol
 {
 namespace parallel
 {
-	class PRInvokeHistory : public InvokeHistory
+	class PRInvokeHistory : public protocol::InvokeHistory
 	{
 	private:
-		typedef InvokeHistory super;
+		typedef protocol::InvokeHistory super;
 
-	public:
+	private:
 		size_t first_;
 		size_t last_;
 
+	public:
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		PRInvokeHistory() : super()
 		{
 		};
+
 		PRInvokeHistory(std::shared_ptr<Invoke> invoke) : super(invoke)
 		{
 			this->first_ = invoke->get("piece_first")->getValue<size_t>();
 			this->last_ = invoke->get("piece_last")->getValue<size_t>();
 		};
+
 		virtual ~PRInvokeHistory() = default;
-
-		virtual void construct(std::shared_ptr<library::XML> xml) override
-		{
-			super::construct(xml);
-
-			first_ = xml->getProperty<size_t>("first");
-			last_ = xml->getProperty<size_t>("last");
-		};
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -54,6 +49,16 @@ namespace parallel
 		auto computeSize() const -> size_t
 		{
 			return last_ - first_;
+		};
+
+		void setFirst(size_t val)
+		{
+			first_ = val;
+		};
+
+		void setLast(size_t val)
+		{
+			last_ = val;
 		};
 	};
 };

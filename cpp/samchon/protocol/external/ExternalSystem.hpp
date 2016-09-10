@@ -15,12 +15,14 @@ namespace protocol
 namespace external
 {
 	class ExternalSystemArray;
+	class ExternalServer;
 	
 	class SAMCHON_FRAMEWORK_API ExternalSystem 
 		: public SharedEntityDeque<ExternalSystemRole>,
 		public virtual IProtocol
 	{
 		friend class ExternalClientArray;
+		friend class ExternalServer;
 
 	private:
 		typedef SharedEntityDeque<ExternalSystemRole> super;
@@ -45,9 +47,6 @@ namespace external
 
 		virtual void construct(std::shared_ptr<library::XML> xml) override;
 
-	private:
-		void handle_close();
-
 	public:
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -55,7 +54,7 @@ namespace external
 		auto getSystemArray() const -> ExternalSystemArray*
 		{
 			return system_array_;
-		}
+		};
 		
 		virtual auto key() const -> std::string
 		{
@@ -67,6 +66,7 @@ namespace external
 			return name;
 		};
 
+	public:
 		/* ---------------------------------------------------------
 			NETWORK & MESSAGE CHAIN
 		--------------------------------------------------------- */

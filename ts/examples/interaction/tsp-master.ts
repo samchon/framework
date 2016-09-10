@@ -39,7 +39,7 @@ namespace tsp_master
 			let invoke: protocol.Invoke = new protocol.Invoke("optimize", travel.toXML());
 			let case_size: number = new library.FactorialGenerator(travel.size()).size();
 
-			this.sendPieceData(invoke, case_size);
+			this.sendSegmentData(invoke, case_size);
 		}
 
 		protected replyOptimization(xml: library.XML): void
@@ -59,7 +59,10 @@ namespace tsp_master
 			// IF ALL TASKS ARE DONE, REPORT TO THE CHIEF
 			if (++this.completed_count == this.requested_size)
 			{
-				console.log("An optimization has fully finished");
+				console.log("An optimization has fully completed. Performance index of each slave is: ");
+				for (let i: number = 0; i < this.size(); i++)
+					console.log(library.StringUtil.substitute("\t{1}. {2}", i + 1, this.at(i).getPerformance()));
+
 				this.chief.sendData(new protocol.Invoke("printTSP", this.best_travel.toXML()));
 			}
 		}

@@ -4,6 +4,7 @@
 #include <samchon/protocol/external/ExternalServer.hpp>
 
 #include <samchon/protocol/Communicator.hpp>
+#include <samchon/protocol/ClientDriver.hpp>
 
 using namespace std;
 using namespace samchon;
@@ -14,10 +15,25 @@ using namespace samchon::protocol::external;
 /* ---------------------------------------------------------
 	CONSTRUCTORS
 --------------------------------------------------------- */
-ExternalSystem::ExternalSystem() 
+ExternalSystem::ExternalSystem(ExternalSystemArray *systemArray) 
 	: super()
 {
+	this->system_array_ = systemArray;
 }
+ExternalSystem::ExternalSystem(ExternalSystemArray *systemArray, shared_ptr<ClientDriver> driver)
+	: ExternalSystem(systemArray)
+{
+	this->communicator_ = driver;
+	driver->listen(this);
+	
+	for (size_t i = 0; i < systemArray->size(); i++)
+		if (systemArray->at(i).get() == this)
+		{
+			systemArray->erase(systemArray->begin() + i);
+			break;
+		}
+}
+
 ExternalSystem::~ExternalSystem()
 {
 }
@@ -37,8 +53,13 @@ void ExternalSystem::construct(shared_ptr<XML> xml)
 }
 
 /* ---------------------------------------------------------
-	MESSAGE CHAIN
+	NETWORK & MESSAGE CHAIN
 --------------------------------------------------------- */
+void ExternalSystem::close()
+{
+	communicator_->close();
+}
+
 void ExternalSystem::sendData(shared_ptr<Invoke> invoke)
 {
 	communicator_->sendData(invoke);

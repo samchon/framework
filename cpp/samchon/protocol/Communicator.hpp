@@ -23,6 +23,8 @@ namespace protocol
 		Communicator();
 		virtual ~Communicator();
 
+		virtual void close();
+
 	protected:
 		virtual void listen_message();
 

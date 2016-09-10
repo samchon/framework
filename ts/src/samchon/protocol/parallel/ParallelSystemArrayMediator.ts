@@ -34,7 +34,7 @@ namespace samchon.protocol.parallel
 		}
 
 		/* ---------------------------------------------------------
-			ACCESSOR
+			ACCESSORS
 		--------------------------------------------------------- */
 		public getMediator(): MediatorSystem
 		{
@@ -42,13 +42,13 @@ namespace samchon.protocol.parallel
 		}
 
 		/* ---------------------------------------------------------
-			MESSAGE CHAIN
+			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
-		protected _Notify_end(history: PRInvokeHistory): boolean
+		protected _Complete_history(history: PRInvokeHistory): boolean
 		{
-			let ret: boolean = super._Notify_end(history);
+			let ret: boolean = super._Complete_history(history);
 			if (ret == true)
-				this.mediator_["notify_end"](history.getUID());
+				this.mediator_["complete_history"](history.getUID());
 
 			return ret;
 		}

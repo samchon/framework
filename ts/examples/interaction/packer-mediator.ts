@@ -63,17 +63,18 @@ namespace packer_mediator
 		--------------------------------------------------------- */
 		// SEND-DATA
 		//--------
-		public sendData(invoke: protocol.Invoke): void
+		public sendPieceData(invoke: protocol.Invoke, first: number, last: number): void
 		{
 			if (invoke.getListener() == "optimize")
 			{
-				// INTERCEPT SEND_DATA FROM MASTER TO MY SLAVES
+				console.log("Intercepted optimize message");
+
 				this.best_packer = null;
 				this.requested_size = this.size();
 				this.completed_count = 0;
 			}
 
-			super.sendData(invoke);
+			super.sendPieceData(invoke, first, last);
 		}
 
 		//--------
@@ -113,7 +114,10 @@ namespace packer_mediator
 			// IF ALL TASKS ARE DONE, REPLY (REPORT) TO ITS MASTER
 			if (++this.completed_count == this.requested_size)
 			{
-				console.log("An optimization has fully finished");
+				console.log("An optimization has fully completed. Performance index of each slave is: ");
+				for (let i: number = 0; i < this.size(); i++)
+					console.log(library.StringUtil.substitute("\t{1}. {2}", i + 1, this.at(i).getPerformance()));
+
 				this.getMediator().sendData(new protocol.Invoke("replyOptimization", this.best_packer.toXML()));
 			}
 		}
@@ -143,7 +147,7 @@ namespace packer_mediator
 		{
 			super.sendData(invoke);
 
-			(this.getSystemArray() as PackerMediator)["monitor"].notifySendData(this.uid, invoke);
+			(this.getMediator() as PackerMediator)["monitor"].notifySendData(this.uid, invoke);
 		}
 		private set_master_uid(val: number): void
 		{

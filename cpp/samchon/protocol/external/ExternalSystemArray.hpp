@@ -35,7 +35,7 @@ namespace external
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		auto hasRole(const std::string &key) const -> bool
+		virtual auto hasRole(const std::string &key) const -> bool
 		{
 			for (size_t i = 0; i < size(); i++)
 				for (size_t j = 0; j < at(i)->size(); j++)
@@ -45,7 +45,7 @@ namespace external
 			return false;
 		};
 
-		auto getRole(const std::string &key) const -> std::shared_ptr<ExternalSystemRole>
+		virtual auto getRole(const std::string &key) const -> std::shared_ptr<ExternalSystemRole>
 		{
 			for (size_t i = 0; i < size(); i++)
 				for (size_t j = 0; j < at(i)->size(); j++)

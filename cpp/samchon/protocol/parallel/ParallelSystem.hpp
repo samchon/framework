@@ -14,16 +14,21 @@ namespace protocol
 
 namespace parallel
 {
+	class ParallelSystemArray;
+
 	class SAMCHON_FRAMEWORK_API ParallelSystem
 		: public external::ExternalSystem,
 		public virtual IListener
 	{
+		friend class ParallelSystemArray;
+
 	private:
 		typedef external::ExternalSystem super;
 
-		HashMap<size_t, std::shared_ptr<InvokeHistory>> progress_list_;
+		HashMap<size_t, std::pair<std::shared_ptr<Invoke>, std::shared_ptr<InvokeHistory>>> progress_list_;
 		HashMap<size_t, std::shared_ptr<InvokeHistory>> history_list_;
 
+	protected:
 		double performance_{ 1.0 };
 
 	public:
@@ -40,6 +45,16 @@ namespace parallel
 
 		virtual void construct(std::shared_ptr<library::XML>) override;
 
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		auto getSystemArray() const -> ParallelSystemArray*;
+
+		auto getPerformance() const -> double
+		{
+			return performance_;
+		};
+
 	private:
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN
@@ -48,7 +63,7 @@ namespace parallel
 
 		virtual void _replyData(std::shared_ptr<Invoke>) override;
 
-		void report_invoke_history(std::shared_ptr<library::XML>);
+		virtual void _Report_history(std::shared_ptr<library::XML>);
 
 	public:
 		/* ---------------------------------------------------------

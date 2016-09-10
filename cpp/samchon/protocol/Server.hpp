@@ -63,9 +63,10 @@ namespace protocol
 		 */
 		virtual void close();
 
-	protected:
-		virtual void handleConnection(std::shared_ptr<Socket> socket);
+	private:
+		virtual void handle_connection(std::shared_ptr<Socket> socket);
 
+	protected:
 		/**
 		 * @brief Handling connection of a physical client
 		 */

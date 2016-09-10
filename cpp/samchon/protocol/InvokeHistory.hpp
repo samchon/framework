@@ -15,7 +15,7 @@ namespace protocol
 	private:
 		typedef Entity super;
 
-	protected:
+	private:
 		size_t uid_;
 
 		std::string listener_;
@@ -44,9 +44,11 @@ namespace protocol
 
 		virtual void construct(std::shared_ptr<library::XML> xml) override
 		{
+			// UID AND LISTENER
 			uid_ = xml->getProperty<size_t>("uid");
 			listener_ = xml->getProperty("listener");
 
+			// START AND END TIME
 			start_time_ = std::chrono::system_clock::from_time_t(0);
 			end_time_ = std::chrono::system_clock::from_time_t(0);
 
@@ -82,7 +84,7 @@ namespace protocol
 			return end_time_;
 		};
 
-		auto getElapsedTime() const -> long long
+		auto computeElapsedTime() const -> long long
 		{
 			return (end_time_ - start_time_).count();
 		};
@@ -108,7 +110,7 @@ namespace protocol
 
 		virtual auto toInvoke() const -> std::shared_ptr<Invoke>
 		{
-			return std::make_shared<Invoke>("report_invoke_history", this->toXML());
+			return std::make_shared<Invoke>("_Report_history", this->toXML());
 		};
 	};
 };

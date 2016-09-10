@@ -1,51 +1,52 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/protocol/master/ParallelSystemArray.hpp>
+#include <samchon/protocol/parallel/ParallelSystemArray.hpp>
 
 namespace samchon
 {
 namespace protocol
 {
-namespace master
+namespace parallel
 {
 	class MediatorSystem;
 
 	class SAMCHON_FRAMEWORK_API ParallelSystemArrayMediator
-		: public ParallelSystemArray
+		: public virtual ParallelSystemArray
 	{
 	private:
-		typedef ParallelSystemArray super;
-
-		std::unique_ptr<MediatorSystem> mediator;
+		std::unique_ptr<MediatorSystem> mediator_;
 
 	public:
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * @brief Default Constructor.
+		 */
 		ParallelSystemArrayMediator();
+
 		virtual ~ParallelSystemArrayMediator();
 
 	protected:
 		virtual auto createMediator() -> MediatorSystem* = 0;
 
-	public:
-		/* ---------------------------------------------------------
-			NETWORK INITIALIZATION
-		--------------------------------------------------------- */
-	protected:
-		void start_mediator();
+		void startMediator();
 
 	public:
 		/* ---------------------------------------------------------
-			MESSAGE CHAIN
+			ACCESSORS
 		--------------------------------------------------------- */
-		virtual void sendData(std::shared_ptr<Invoke>) override;
+		auto getMediator() const -> MediatorSystem*
+		{
+			return mediator_.get();
+		};
 
-		virtual void sendPieceData(std::shared_ptr<Invoke> invoke, size_t index, size_t count);
-		
 	private:
-		virtual auto notify_end(std::shared_ptr<PRInvokeHistory>) -> bool;
+		/* ---------------------------------------------------------
+			INVOKE MESSAGE CHAIN
+		--------------------------------------------------------- */
+		virtual auto _Notify_end(std::shared_ptr<InvokeHistory>) -> bool override;
 	};
 };
 };

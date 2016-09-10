@@ -42,8 +42,8 @@ namespace samchon.protocol.parallel
 			}
 			else
 			{
-				this.first = invoke.get("piece_first").getValue() as number;
-				this.last = invoke.get("piece_last").getValue() as number;
+				this.first = invoke.get("_Piece_first").getValue() as number;
+				this.last = invoke.get("_Piece_last").getValue() as number;
 			}
 		}
 		

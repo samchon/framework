@@ -135,8 +135,8 @@ namespace samchon.protocol.parallel
 			let my_invoke: Invoke = new Invoke(invoke.getListener());
 			{
 				my_invoke.assign(invoke.begin(), invoke.end());
-				my_invoke.push_back(new InvokeParameter("piece_first", first));
-				my_invoke.push_back(new InvokeParameter("piece_last", last));
+				my_invoke.push_back(new InvokeParameter("_Piece_first", first));
+				my_invoke.push_back(new InvokeParameter("_Piece_last", last));
 			}
 
 			// REGISTER THE UID AS PROGRESS
@@ -167,17 +167,22 @@ namespace samchon.protocol.parallel
 		 * 
 		 * @param xml
 		 * 
-		 * @see {@link ParallelSystemArray.notify_end}
+		 * @see {@link ParallelSystemArray.notify_complete}
 		 */
 		protected _Report_history(xml: library.XML): void
 		{
-			///////
+			//--------
 			// CONSTRUCT HISTORY
-			///////
+			//--------
 			let history: PRInvokeHistory = new PRInvokeHistory();
 			history.construct(xml);
 
+			// IF THE HISTORY IS NOT EXIST IN PROGRESS, THEN TERMINATE REPORTING
 			let progress_it = this.progress_list_.find(history.getUID());
+			if (progress_it.equal_to(this.progress_list_.end()) == true)
+				return;
+
+			// ARCHIVE FIRST AND LAST INDEX
 			history["first"] = (progress_it.second.second as PRInvokeHistory).getFirst();
 			history["last"] = (progress_it.second.second as PRInvokeHistory).computeSize();
 
@@ -186,7 +191,7 @@ namespace samchon.protocol.parallel
 			this.history_list_.insert([history.getUID(), history]);
 
 			// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
-			this.getSystemArray()["_Notify_end"](history);
+			this.getSystemArray()["_Complete_history"](history);
 		}
 	}
 }

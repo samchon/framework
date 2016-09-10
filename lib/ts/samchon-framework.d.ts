@@ -4393,7 +4393,7 @@ declare namespace samchon.protocol {
         constructor();
         constructor(invoke: Invoke);
         construct(xml: library.XML): void;
-        notifyEnd(): void;
+        complete(): void;
         key(): number;
         getUID(): number;
         getListener(): string;
@@ -5010,7 +5010,7 @@ declare namespace samchon.protocol.external {
          * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
          * {@link name} should be unique in an {@link ExternalSystemArray}.
          */
-        private name;
+        protected name: string;
         /**
          * Constructor from a system.
          *
@@ -5062,7 +5062,7 @@ declare namespace samchon.protocol.distributed {
         getSystemArray(): DistributedSystemArray;
         getPerformance(): number;
         sendData(invoke: protocol.Invoke): void;
-        private report_invoke_history(history);
+        private report_history(history);
     }
 }
 /**
@@ -5185,11 +5185,15 @@ declare namespace samchon.protocol.parallel {
          */
         constructor();
         /**
+         * @inheritdoc
+         */
+        at(index: number): ParallelSystem;
+        /**
          *
          * @param invoke An invoke message requesting parallel process.
          * @param size Number of pieces.
          */
-        sendPieceData(invoke: Invoke, size: number): void;
+        sendSegmentData(invoke: Invoke, size: number): void;
         /**
          *
          *
@@ -5205,10 +5209,8 @@ declare namespace samchon.protocol.parallel {
          * @param history
          *
          * @return Whether the processes with same uid are all fininsed.
-         *
-         * @see {@link ParallelSystem.report_invoke_history}, {@link normalize_performance}
          */
-        protected _Notify_end(history: InvokeHistory): boolean;
+        protected _Complete_history(history: InvokeHistory): boolean;
         /**
          * @see {@link ParallelSystem.performance}
          */
@@ -5229,6 +5231,10 @@ declare namespace samchon.protocol.distributed {
         abstract createRole(xml: library.XML): DistributedSystemRole;
         private handle_role_insert(event);
         private handle_role_erase(event);
+        /**
+         * @inheritdoc
+         */
+        at(index: number): DistributedSystem;
         getRoleMap(): std.HashMap<string, DistributedSystemRole>;
         /**
          * @inheritdoc
@@ -5290,7 +5296,7 @@ declare namespace samchon.protocol.distributed {
         protected abstract createMediator(): parallel.MediatorSystem;
         protected start_mediator(): void;
         getMediator(): parallel.MediatorSystem;
-        protected _Notify_end(history: parallel.PRInvokeHistory): boolean;
+        protected _Complete_history(history: parallel.PRInvokeHistory): boolean;
     }
 }
 declare namespace samchon.protocol.distributed {
@@ -5517,7 +5523,7 @@ declare namespace samchon.protocol.parallel {
          *
          * @param xml
          *
-         * @see {@link ParallelSystemArray.notify_end}
+         * @see {@link ParallelSystemArray.notify_complete}
          */
         protected _Report_history(xml: library.XML): void;
     }
@@ -6032,12 +6038,12 @@ declare namespace samchon.protocol.slave {
 }
 declare namespace samchon.protocol.parallel {
     abstract class MediatorSystem extends slave.SlaveSystem {
-        private system_array_mediator_;
+        private mediator_;
         private progress_list_;
-        constructor(systemArray: ParallelSystemArrayMediator);
+        constructor(systemArray: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator);
         abstract start(): void;
-        getSystemArray(): ParallelSystemArrayMediator;
-        private notify_end(uid);
+        getMediator(): ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator;
+        private complete_history(uid);
         protected _replyData(invoke: Invoke): void;
         replyData(invoke: protocol.Invoke): void;
     }
@@ -6168,7 +6174,7 @@ declare namespace samchon.protocol.parallel {
         protected abstract createMediator(): MediatorSystem;
         protected start_mediator(): void;
         getMediator(): MediatorSystem;
-        protected _Notify_end(history: PRInvokeHistory): boolean;
+        protected _Complete_history(history: PRInvokeHistory): boolean;
     }
 }
 declare namespace samchon.protocol.parallel {

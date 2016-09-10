@@ -38,7 +38,7 @@ void Server::open(int port)
 		if (error)
 			break;
 
-		thread(&Server::handleConnection, this, socket).detach();
+		thread(&Server::handle_connection, this, socket).detach();
 	}
 }
 
@@ -51,7 +51,7 @@ void Server::close()
 	acceptor->close();
 }
 
-void Server::handleConnection(shared_ptr<Socket> socket)
+void Server::handle_connection(shared_ptr<Socket> socket)
 {
 	addClient(make_shared<ClientDriver>(this, socket));
 }

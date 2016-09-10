@@ -56,7 +56,7 @@ namespace samchon.protocol.external
 		 * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
 		 * {@link name} should be unique in an {@link ExternalSystemArray}.
 		 */
-		private name: string;
+		protected name: string;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

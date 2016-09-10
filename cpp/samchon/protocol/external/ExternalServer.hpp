@@ -27,7 +27,7 @@ namespace external
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		ExternalServer();
+		ExternalServer(ExternalSystemArray*);
 		virtual ~ExternalServer();
 
 	protected:

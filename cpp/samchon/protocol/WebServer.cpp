@@ -26,7 +26,7 @@ WebServer::~WebServer()
 {
 }
 
-void WebServer::handleConnection(shared_ptr<Socket> socket)
+void WebServer::handle_connection(shared_ptr<Socket> socket)
 {
 	array<char, 1000> byte_array;
 	boost::system::error_code error;

@@ -48,7 +48,7 @@ namespace samchon.protocol
 			}
 			else
 			{
-				this.uid = invoke.get("invoke_history_uid").getValue();
+				this.uid = invoke.get("_History_uid").getValue();
 				this.listener = invoke.getListener();
 
 				this.start_time_ = new Date();
@@ -63,7 +63,7 @@ namespace samchon.protocol
 			this.end_time_ = new Date(parseInt(xml.getProperty("endTime")));
 		}
 
-		public notifyEnd(): void
+		public complete(): void
 		{
 			this.end_time_ = new Date();
 		}
@@ -109,7 +109,7 @@ namespace samchon.protocol
 		 */
 		public TAG(): string
 		{
-			return "invokeHistory";
+			return "history";
 		}
 
 		/**

@@ -6,7 +6,7 @@
 
 namespace example.chat {
 	export class ServicesApplication extends Application {
-		
+
 		// try ServicesApplication 
 
 		/* ---------------------------------------------------------
@@ -15,56 +15,117 @@ namespace example.chat {
 		public render(): JSX.Element {
 
 			return <div>
-			
-			<div id="wrapper">
-				<div id="sidebar-wrapper">
-					<ul className="sidebar-nav">
-						<li className="sidebar-brand">
-							<div className="talk-title">
-								<h2> SamchonTalk </h2>
+
+				<div id="wrapper">
+					<div id="sidebar-wrapper">
+						<ul className="sidebar-nav">
+							<li className="sidebar-brand">
+								<div className="talk-title">
+									<h2> SamchonTalk </h2>
+								</div>
+							</li>
+							<br/><br/>
+							<li>
+								<a href="list.html">Dashboard</a>
+							</li>
+							<li>
+								<a href="video.html">Video</a>
+							</li>
+							<li>
+								<a href="overview.html">Overview</a>
+							</li>
+							<li>
+								<a href="#">Events</a>
+							</li>
+							<li>
+								<a href="aboutus.html">About</a>
+							</li>
+							<li>
+								<a href="services.html">Services</a>
+							</li>
+							<li>
+								<a href="contact.html">Contact</a>
+							</li>
+						</ul>
+
+						<div className="user-info">
+							<h3> INFORMATION </h3>
+							<h5>Account ID: {this.id}</h5>
+							<h5>Name: {this.name}</h5>
+						</div>
+					</div>
+
+					<div id="page-content-wrapper">
+						<div className="container-fluid">
+							<div className="row">
+								<div className="col-lg-12 text-center">
+									<h2 className="section-heading">Services</h2>
+									<h3 className="section-subheading text-muted">SamchonFramework Services</h3>
+								</div>
 							</div>
-						</li>
-						<br/><br/>
-						<li>
-							<a href="list.html">Dashboard</a>
-						</li>
-						<li>
-							<a href="#">Shortcuts</a>
-						</li>
-						<li>
-							<a href="overview.html">Overview</a>
-						</li>
-						<li>
-							<a href="#">Events</a>
-						</li>
-						<li>
-							<a href="aboutus.html">About</a>
-						</li>
-						<li>
-							<a href="services.html">Services</a>
-						</li>
-						<li>
-							<a href="contact.html">Contact</a>
-						</li>
-					</ul>
-
-					<div className="user-info">
-						<h3> INFORMATION </h3>
-						<h5>Account ID: {this.id}</h5>
-						<h5>Name: {this.name}</h5>
+							<br/>
+							<br/>
+							<div className="row">
+								<div className="col-md-4 col-sm-6 portfolio-item">
+									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
+										<img src="img/img.png" className="img-responsive" alt />
+									</a>
+									<div className="portfolio-caption text-center">
+										<h4>Round Icons</h4>
+										<p className="text-muted">Graphic Design</p>
+									</div>
+								</div>
+								<div className="col-md-4 col-sm-6 portfolio-item">
+									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
+										<img src="img/img.png" className="img-responsive" alt />
+									</a>
+									<div className="portfolio-caption text-center">
+										<h4>Round Icons</h4>
+										<p className="text-muted">Graphic Design</p>
+									</div>
+								</div>
+								<div className="col-md-4 col-sm-6 portfolio-item">
+									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
+										<img src="img/img.png" className="img-responsive" alt />
+									</a>
+									<div className="portfolio-caption text-center">
+										<h4>Round Icons</h4>
+										<p className="text-muted">Graphic Design</p>
+									</div>
+								</div>
+								<div className="col-md-4 col-sm-6 portfolio-item">
+									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
+										<img src="img/img.png" className="img-responsive" alt />
+									</a>
+									<div className="portfolio-caption text-center">
+										<h4>Round Icons</h4>
+										<p className="text-muted">Graphic Design</p>
+									</div>
+								</div>
+								<div className="col-md-4 col-sm-6 portfolio-item">
+									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
+										<img src="img/img.png" className="img-responsive" alt />
+									</a>
+									<div className="portfolio-caption text-center">
+										<h4>Round Icons</h4>
+										<p className="text-muted">Graphic Design</p>
+									</div>
+								</div>
+							<div className="col-md-4 col-sm-6 portfolio-item">
+									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
+										<img src="img/img.png" className="img-responsive" alt />
+									</a>
+									<div className="portfolio-caption text-center">
+										<h4>Round Icons</h4>
+										<p className="text-muted">Graphic Design</p>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
+
 				</div>
-
-				<div id="page-content-wrapper">
-					<div className="container-fluid">
-					
-						ServicesApplication Page
-
-					</div>
-				</div>
-
-			</div>
-		</div>;
+			</div>;
 
 		}
 

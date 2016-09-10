@@ -52,8 +52,7 @@ namespace example.chat {
 						</div>
 					</div>
 
-					<div id="page-content-wrapper">
-						<div className="container-fluid">
+						<div className="container-fluid bg-light-gray">
 							<div className="row">
 								<div className="col-lg-12 text-center">
 									<h2 className="section-heading">Services</h2>
@@ -119,7 +118,7 @@ namespace example.chat {
 								</div>
 							</div>
 						</div>
-					</div>
+					
 
 				</div>
 			</div>;

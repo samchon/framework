@@ -129,14 +129,16 @@ namespace example.chat {
 					// 	</div>
 					// </div>
 
-					<div className="col-sm-4 col-md-3">
-						<div className="thumbnail">
+					<div className="col-sm-6 col-md-4">
+					<div className="card-room-container">
+						<div className="thumbnail card-room">
 							<img src={imageList[(room.getUID()-1)%4]} alt="..."></img>
 							<div className="caption">
 								<h3>{room.getTitle()}</h3>
 								<p>{participant_elements}</p>
 								<p><a href={link_address} target="_blank" className="btn btn-default">참여</a></p>
 							</div>
+						</div>
 						</div>
 					</div>
 

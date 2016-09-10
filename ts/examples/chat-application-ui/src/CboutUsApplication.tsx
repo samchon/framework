@@ -6,7 +6,7 @@
 
 namespace example.chat {
 	export class CboutUsApplication extends Application {
-		
+
 		// try ContactApplication 
 
 		/* ---------------------------------------------------------
@@ -15,48 +15,46 @@ namespace example.chat {
 		public render(): JSX.Element {
 
 			return <div>
-			
-			<div id="wrapper">
-				<div id="sidebar-wrapper">
-					<ul className="sidebar-nav">
-						<li className="sidebar-brand">
-							<div className="talk-title">
-								<h2> SamchonTalk </h2>
-							</div>
-						</li>
-						<br/><br/>
-						<li>
-							<a href="list.html">Dashboard</a>
-						</li>
-						<li>
-							<a href="video.html">Video</a>
-						</li>
-						<li>
-							<a href="overview.html">Overview</a>
-						</li>
-						<li>
-							<a href="aboutus.html">About</a>
-						</li>
-						<li>
-							<a href="services.html">Services</a>
-						</li>
-						<li>
-							<a href="contact.html">Contact</a>
-						</li>
-					</ul>
 
-					<div className="user-info">
-						<h3> INFORMATION </h3>
-						<h5>Account ID: {this.id}</h5>
-						<h5>Name: {this.name}</h5>
+				<div id="wrapper">
+					<div id="sidebar-wrapper">
+						<ul className="sidebar-nav">
+							<li className="sidebar-brand">
+								<div className="talk-title">
+									<h2> SamchonTalk </h2>
+								</div>
+							</li>
+							<br/><br/>
+							<li>
+								<a href="list.html">Dashboard</a>
+							</li>
+							<li>
+								<a href="video.html">Video</a>
+							</li>
+							<li>
+								<a href="overview.html">Overview</a>
+							</li>
+							<li>
+								<a href="aboutus.html">About</a>
+							</li>
+							<li>
+								<a href="services.html">Services</a>
+							</li>
+							<li>
+								<a href="contact.html">Contact</a>
+							</li>
+						</ul>
+
+						<div className="user-info">
+							<h3> INFORMATION </h3>
+							<h5>Account ID: {this.id}</h5>
+							<h5>Name: {this.name}</h5>
+						</div>
 					</div>
-				</div>
 
-				<div id="page-content-wrapper">
-					<div className="container-fluid">
-				
-						<section id="team" className="bg-light-gray">
-							<div className="container">
+					<div>
+						<div>
+							<div className="container bg-light-gray">
 								<div className="row">
 									<div className="col-lg-12 text-center">
 										<h2 className="section-heading">About Us</h2>
@@ -64,8 +62,8 @@ namespace example.chat {
 									</div>
 								</div>
 
-							<div className="row">
-								<div className="col-sm-12">
+								<div className="row">
+									<div className="col-sm-12">
 										<div className="team-member">
 											<img src="https://avatars2.githubusercontent.com/u/13158709?v=3&s=280" className="img-responsive img-circle" alt=""/>
 											<h4>남정호</h4>
@@ -113,10 +111,10 @@ namespace example.chat {
 											</ul>
 										</div>
 									</div>
-									
+
 								</div>
-							
-							<div className="row">
+
+								<div className="row">
 									<div className="col-sm-6">
 										<div className="team-member">
 											<img src="https://avatars2.githubusercontent.com/u/13158709?v=3&s=200" className="img-responsive img-circle" alt=""/>
@@ -147,21 +145,18 @@ namespace example.chat {
 											</ul>
 										</div>
 									</div>
-									
+
 								</div>
 								<div className="row">
 									<div className="col-lg-8 col-lg-offset-2 text-center">
-										<p className="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+										<p className="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit.Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
 									</div>
 								</div>
 							</div>
-						</section>
-
+						</div>
 					</div>
 				</div>
-
-			</div>
-		</div>;
+			</div>;
 
 		}
 

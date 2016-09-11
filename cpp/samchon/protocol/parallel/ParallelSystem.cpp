@@ -58,13 +58,13 @@ void ParallelSystem::send_piece_data(shared_ptr<Invoke> invoke, size_t first, si
 	{
 		// DUPLICATE INVOKE AND ATTACH PIECE INFO
 		my_invoke->assign(invoke->begin(), invoke->end());
-		my_invoke->emplace_back(new InvokeParameter("piece_first", first));
-		my_invoke->emplace_back(new InvokeParameter("piece_last", last));
+		my_invoke->emplace_back(new InvokeParameter("_Piece_first", first));
+		my_invoke->emplace_back(new InvokeParameter("_Piece_last", last));
 	}
 
 	// REGISTER THE UID AS PROGRESS
 	shared_ptr<protocol::InvokeHistory> history(new PRInvokeHistory(my_invoke));
-	progress_list_.insert({ history->getUID(), {my_invoke, history} });
+	progress_list_.emplace(history->getUID(), make_pair(my_invoke, history));
 
 	// SEND DATA
 	sendData(my_invoke);
@@ -92,15 +92,15 @@ void ParallelSystem::_Report_history(shared_ptr<XML> xml)
 		return;
 	
 	// ARCHIVE FIRST AND LAST INDEX
-	history->setFirst(dynamic_pointer_cast<PRInvokeHistory>(progress_it->second.second)->getFirst());
-	history->setLast(dynamic_pointer_cast<PRInvokeHistory>(progress_it->second.second)->getLast());
+	history->first_ = dynamic_pointer_cast<PRInvokeHistory>(progress_it->second.second)->getFirst();
+	history->last_ = dynamic_pointer_cast<PRInvokeHistory>(progress_it->second.second)->getLast();
 
 	// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 	progress_list_.erase(progress_it);
 	history_list_.insert({history->getUID(), history});
 
 	// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
-	getSystemArray()->_Notify_end(history);
+	getSystemArray()->_Complete_history(history);
 }
 
 /* ---------------------------------------------------------

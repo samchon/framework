@@ -5229,8 +5229,6 @@ declare namespace samchon.protocol.distributed {
         constructor();
         construct(xml: library.XML): void;
         abstract createRole(xml: library.XML): DistributedSystemRole;
-        private handle_role_insert(event);
-        private handle_role_erase(event);
         /**
          * @inheritdoc
          */
@@ -5244,6 +5242,7 @@ declare namespace samchon.protocol.distributed {
          * @inheritdoc
          */
         getRole(name: string): DistributedSystemRole;
+        toXML(): library.XML;
     }
 }
 declare namespace samchon.protocol.distributed {
@@ -5294,7 +5293,7 @@ declare namespace samchon.protocol.distributed {
          */
         constructor();
         protected abstract createMediator(): parallel.MediatorSystem;
-        protected start_mediator(): void;
+        protected startMediator(): void;
         getMediator(): parallel.MediatorSystem;
         protected _Complete_history(history: parallel.PRInvokeHistory): boolean;
     }
@@ -5423,7 +5422,7 @@ declare namespace samchon.protocol.external {
          */
         sendData(invoke: Invoke): void;
         /**
-         * Handle an {@Invoke} message have received.
+         * Handle an {@Invoke} message has received.
          *
          * @param invoke An {@link Invoke} message have received.
          */
@@ -5530,10 +5529,7 @@ declare namespace samchon.protocol.parallel {
 }
 declare namespace samchon.protocol.distributed {
     abstract class DistributedSystem extends parallel.ParallelSystem {
-        constructor(systemArray: DistributedSystemArray);
-        constructor(systemArray: DistributedSystemArray, driver: IClientDriver);
         destructor(): void;
-        construct(xml: library.XML): void;
         createChild(xml: library.XML): external.ExternalSystemRole;
         /**
          * Get manager of this object.
@@ -5541,6 +5537,15 @@ declare namespace samchon.protocol.distributed {
          * @return A manager containing this {@link DistributedSystem} objects.
          */
         getSystemArray(): DistributedSystemArray;
+        /**
+         * @inheritdoc
+         */
+        has(key: string): boolean;
+        /**
+         * @inheritdoc
+         */
+        get(key: string): DistributedSystemRole;
+        replyData(invoke: protocol.Invoke): void;
         protected _Report_history(xml: library.XML): void;
     }
 }

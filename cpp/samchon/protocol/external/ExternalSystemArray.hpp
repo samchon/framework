@@ -15,8 +15,6 @@ namespace external
 		: public SharedEntityDeque<ExternalSystem>,
 		public virtual IProtocol
 	{
-		friend class ExternalSystem;
-
 	private:
 		typedef SharedEntityDeque<ExternalSystem> super;
 
@@ -35,7 +33,7 @@ namespace external
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		virtual auto hasRole(const std::string &key) const -> bool
+		auto hasRole(const std::string &key) const -> bool
 		{
 			for (size_t i = 0; i < size(); i++)
 				for (size_t j = 0; j < at(i)->size(); j++)
@@ -45,7 +43,7 @@ namespace external
 			return false;
 		};
 
-		virtual auto getRole(const std::string &key) const -> std::shared_ptr<ExternalSystemRole>
+		auto getRole(const std::string &key) const -> std::shared_ptr<ExternalSystemRole>
 		{
 			for (size_t i = 0; i < size(); i++)
 				for (size_t j = 0; j < at(i)->size(); j++)

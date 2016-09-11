@@ -85,7 +85,7 @@ namespace samchon.protocol.external
 			this.communicator = communicator;
 
 			if (communicator != null)
-				(communicator as IClientDriver).listen(this);
+				communicator.listen(this);
 
 			this.name = "";
 			this.erasing_ = false;
@@ -168,7 +168,7 @@ namespace samchon.protocol.external
 		}
 		
 		/**
-		 * Handle an {@Invoke} message have received.
+		 * Handle an {@Invoke} message has received.
 		 * 
 		 * @param invoke An {@link Invoke} message have received.
 		 */
@@ -177,9 +177,10 @@ namespace samchon.protocol.external
 			if (invoke.apply(this) == true)
 				return;
 
-			if (this.system_array_ != null)
-				this.system_array_.replyData(invoke);
+			// SHIFT TO SYSTEM_ARRAY
+			this.system_array_.replyData(invoke);
 
+			// SHIFT TO ROLES
 			for (let i: number = 0; i < this.size(); i++)
 				this.at(i).replyData(invoke);
 		}

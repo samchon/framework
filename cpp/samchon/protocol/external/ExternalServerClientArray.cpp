@@ -14,8 +14,3 @@ ExternalServerClientArray::ExternalServerClientArray()
 ExternalServerClientArray::~ExternalServerClientArray()
 {
 }
-
-auto ExternalServerClientArray::createChild(shared_ptr<XML> xml) -> ExternalSystem*
-{
-	return createExternalServer(xml);
-}

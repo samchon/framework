@@ -1,7 +1,7 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/protocol/slave/MasterSystem.hpp>
+#include <samchon/protocol/slave/SlaveSystem.hpp>
 
 namespace samchon
 {
@@ -11,15 +11,15 @@ namespace protocol
 
 namespace slave
 {
-	class SAMCHON_FRAMEWORK_API MasterServer
-		: public virtual MasterSystem
+	class SAMCHON_FRAMEWORK_API SlaveClient
+		: public virtual SlaveSystem
 	{
 	public:
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		MasterServer();
-		virtual ~MasterServer();
+		SlaveClient();
+		virtual ~SlaveClient();
 
 	protected:
 		virtual auto createServerConnector() -> ServerConnector*;

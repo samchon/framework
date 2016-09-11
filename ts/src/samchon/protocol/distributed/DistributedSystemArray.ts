@@ -9,7 +9,7 @@ namespace samchon.protocol.distributed
 		/**
 		 * @hidden
 		 */
-		private role_map_: collection.HashMapCollection<string, DistributedSystemRole>;
+		private role_map_: std.HashMap<string, DistributedSystemRole>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -22,9 +22,7 @@ namespace samchon.protocol.distributed
 			super();
 
 			// CREATE ROLE MAP AND ENROLL COLLECTION EVENT LISTENRES
-			this.role_map_ = new collection.HashMapCollection<string, DistributedSystemRole>();
-			this.role_map_.addEventListener("insert", this.handle_role_insert, this);
-			this.role_map_.addEventListener("erase", this.handle_role_erase, this);
+			this.role_map_ = new std.HashMap<string, DistributedSystemRole>();
 		}
 
 		public construct(xml: library.XML): void
@@ -60,22 +58,6 @@ namespace samchon.protocol.distributed
 
 		public abstract createRole(xml: library.XML): DistributedSystemRole;
 
-		private handle_role_insert(event: collection.MapCollectionEvent<string, DistributedSystemRole>): void
-		{
-			for (let it = event.first; !it.equal_to(event.last); it = it.next())
-				for (let i: number = 0; i < this.size(); i++)
-					this.at(i).push_back(it.second);
-		}
-		private handle_role_erase(event: collection.MapCollectionEvent<string, DistributedSystemRole>): void
-		{
-			for (let it = event.first; !it.equal_to(event.last); it = it.next())
-				for (let i: number = 0; i < this.size(); i++)
-				{
-					let system: DistributedSystem = this.at(i) as DistributedSystem;
-					std.remove(system.begin(), system.end(), it.second as external.ExternalSystemRole);
-				}
-		}
-
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
@@ -106,6 +88,25 @@ namespace samchon.protocol.distributed
 		public getRole(name: string): DistributedSystemRole
 		{
 			return this.role_map_.get(name);
+		}
+
+		/* ---------------------------------------------------------
+			EXPORTERS
+		--------------------------------------------------------- */
+		public toXML(): library.XML
+		{
+			let xml: library.XML = super.toXML();
+			if (this.role_map_.empty() == true)
+				return xml;
+
+			let roles_xml: library.XML = new library.XML();
+			{
+				roles_xml.setTag("roles");
+				for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
+					roles_xml.push(it.second.toXML());
+			}
+			xml.push(roles_xml);
+			return xml;
 		}
 	}
 }

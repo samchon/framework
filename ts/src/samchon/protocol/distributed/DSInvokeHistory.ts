@@ -51,10 +51,10 @@ namespace samchon.protocol.distributed
 
 			let role_name: string = xml.getProperty("role");
 
-			if (this.system_.has(role_name) == false)
-				this.role_ == null;
-			else
+			if (this.system_.has(role_name) == true)
 				this.role_ = this.system_.get(role_name) as DistributedSystemRole;
+			else
+				this.role_ = null;
 		}
 
 		/* ---------------------------------------------------------

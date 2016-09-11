@@ -15,8 +15,6 @@ namespace external
 		: public SharedEntityDeque<ExternalSystem>,
 		public virtual IProtocol
 	{
-		friend class ExternalSystem;
-
 	private:
 		typedef SharedEntityDeque<ExternalSystem> super;
 

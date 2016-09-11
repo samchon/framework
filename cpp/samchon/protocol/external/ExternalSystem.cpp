@@ -15,6 +15,11 @@ using namespace samchon::protocol::external;
 /* ---------------------------------------------------------
 	CONSTRUCTORS
 --------------------------------------------------------- */
+ExternalSystem::ExternalSystem()
+	: ExternalSystem(nullptr)
+{
+}
+
 ExternalSystem::ExternalSystem(ExternalSystemArray *systemArray) 
 	: super()
 {
@@ -24,14 +29,6 @@ ExternalSystem::ExternalSystem(ExternalSystemArray *systemArray, shared_ptr<Clie
 	: ExternalSystem(systemArray)
 {
 	this->communicator_ = driver;
-	driver->listen(this);
-	
-	for (size_t i = 0; i < systemArray->size(); i++)
-		if (systemArray->at(i).get() == this)
-		{
-			systemArray->erase(systemArray->begin() + i);
-			break;
-		}
 }
 
 ExternalSystem::~ExternalSystem()

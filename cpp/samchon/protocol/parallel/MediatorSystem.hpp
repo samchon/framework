@@ -1,7 +1,7 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/protocol/slave/MasterSystem.hpp>
+#include <samchon/protocol/slave/SlaveSystem.hpp>
 #include <samchon/protocol/IListener.hpp>
 
 #include <samchon/HashMap.hpp>
@@ -12,34 +12,50 @@ namespace protocol
 {
 	class InvokeHistory;
 
+namespace distributed
+{
+	class DistributedSystem;
+};
+
 namespace parallel
 {
 	class ParallelSystemArrayMediator;
 
-	class SAMCHON_FRAMEWORK_API MasterSystem
-		: public slave::MasterSystem,
-		public IListener
+	class SAMCHON_FRAMEWORK_API MediatorSystem
+		: public virtual slave::SlaveSystem,
+		public virtual IListener
 	{
-	private:
-		typedef slave::MasterSystem super;
+		friend class ParallelSystemArrayMediator;
+		friend class distributed::DistributedSystem;
 
-		ParallelSystemArrayMediator *mediator_;
+	private:
+		typedef slave::SlaveSystem super;
+
+		ParallelSystemArrayMediator *system_array_;
 		HashMap<size_t, std::shared_ptr<InvokeHistory>> progress_list_;
 
 	public:
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		MasterSystem(ParallelSystemArrayMediator*);
-		virtual ~MasterSystem();
+		MediatorSystem(ParallelSystemArrayMediator*);
+		virtual ~MediatorSystem();
 
 		virtual void start() = 0;
+
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		auto getSystemArray() const -> ParallelSystemArrayMediator*
+		{
+			return system_array_;
+		};
 
 	private:
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
-		void notify_end(size_t uid);
+		void complete_history(size_t uid);
 
 		virtual void _replyData(std::shared_ptr<Invoke>) override;
 

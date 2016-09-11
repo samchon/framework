@@ -11,7 +11,7 @@ namespace protocol
 {
 namespace slave
 {
-	class SAMCHON_FRAMEWORK_API MasterSystem
+	class SAMCHON_FRAMEWORK_API SlaveSystem
 		: public virtual IListener
 	{
 	protected:
@@ -21,8 +21,8 @@ namespace slave
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		MasterSystem();
-		virtual ~MasterSystem();
+		SlaveSystem();
+		virtual ~SlaveSystem();
 
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN

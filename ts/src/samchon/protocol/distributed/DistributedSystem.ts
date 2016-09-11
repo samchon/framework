@@ -10,24 +10,13 @@ namespace samchon.protocol.distributed
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(systemArray: DistributedSystemArray);
-
-		public constructor(systemArray: DistributedSystemArray, driver: IClientDriver);
-
-		public constructor(systemArray: DistributedSystemArray, driver: IClientDriver = null)
-		{
-			super(systemArray, driver);
-
-			let roles: std.HashMap<string, DistributedSystemRole> = systemArray.getRoleMap();
-			for (let it = roles.begin(); !it.equal_to(roles.end()); it = it.next())
-				this.push_back(it.second);
-		}
+		// using super::constructor
 
 		public destructor(): void
 		{
 			super.destructor();
 
-			// SHIFT PARALLEL INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVES
+			// SHIFT INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVE
 			for (let it = this["progress_list_"].begin(); !it.equal_to(this["progress_list_"].end()); it = it.next())
 			{
 				// A HISTORY HAD PROGRESSED
@@ -42,17 +31,6 @@ namespace samchon.protocol.distributed
 				// SEND-DATA VIA ROLE
 				role.sendData(invoke);
 			}
-		}
-
-		public construct(xml: library.XML): void
-		{
-			super.construct(xml);
-
-			// FETCH ALL DistributedSystemRole OBJECTS FROM THE DistributedSystemArray.getRoleMap()
-			let role_map: std.HashMap<string, DistributedSystemRole> = this.getSystemArray().getRoleMap();
-			
-			for (let it = role_map.begin(); !it.equal_to(role_map.end()); it = it.next())
-				this.push_back(it.second);
 		}
 
 		public createChild(xml: library.XML): external.ExternalSystemRole
@@ -72,10 +50,40 @@ namespace samchon.protocol.distributed
 		{
 			return super.getSystemArray() as DistributedSystemArray;
 		}
+		
+		/**
+		 * @inheritdoc
+		 */
+		public has(key: string): boolean
+		{
+			return this.getSystemArray().hasRole(key);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public get(key: string): DistributedSystemRole
+		{
+			return this.getSystemArray().getRole(key);
+		}
 
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
+		public replyData(invoke: protocol.Invoke): void
+		{
+			if (invoke.apply(this) == true)
+				return;
+
+			// SHIFT TO SYSTEM_ARRAY
+			this.getSystemArray().replyData(invoke);
+
+			// SHIFT TO ROLES
+			let role_map = this.getSystemArray().getRoleMap();
+			for (let it = role_map.begin(); !it.equal_to(role_map.end()); it = it.next())
+				it.second.replyData(invoke);
+		}
+		
 		protected _Report_history(xml: library.XML): void
 		{
 			if (xml.hasProperty("_Piece_first") == true)
@@ -109,8 +117,11 @@ namespace samchon.protocol.distributed
 
 				// IF SYSTEM_ARRAY IS A TYPE OF DistributedSystemArrayMediator, 
 				// THEN ALSO NOTIFY TO ITS MASTER
-				let mediator: parallel.MediatorSystem = (this.getSystemArray() as DistributedSystemArrayMediator)["mediator_"];
-				mediator["complete_history"](history.getUID()); // NOTIFY END TO MASTER
+				if (this.getSystemArray() instanceof DistributedSystemArrayMediator)
+				{
+					let mediator: parallel.MediatorSystem = (this.getSystemArray() as DistributedSystemArrayMediator)["mediator_"];
+					mediator["complete_history"](history.getUID()); // NOTIFY END TO MASTER
+				}
 			}
 		}
 	}

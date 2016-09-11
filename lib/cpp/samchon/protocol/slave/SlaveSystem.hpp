@@ -1,7 +1,9 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/protocol/external/ExternalSystem.hpp>
+#include <samchon/protocol/IListener.hpp>
+
+#include <samchon/protocol/Communicator.hpp>
 
 namespace samchon
 {
@@ -10,16 +12,25 @@ namespace protocol
 namespace slave
 {
 	class SAMCHON_FRAMEWORK_API SlaveSystem
-		: public virtual external::ExternalSystem
+		: public virtual IListener
 	{
-	private:
-		typedef external::ExternalSystem super;
+	protected:
+		std::shared_ptr<Communicator> communicator_;
 
 	public:
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		SlaveSystem();
 		virtual ~SlaveSystem();
 
-		virtual void replyData(std::shared_ptr<Invoke>) override;
+		/* ---------------------------------------------------------
+			INVOKE MESSAGE CHAIN
+		--------------------------------------------------------- */
+		void sendData(std::shared_ptr<Invoke>) override;
+		
+	private:
+		virtual void _replyData(std::shared_ptr<Invoke>) override;
 	};
 };
 };

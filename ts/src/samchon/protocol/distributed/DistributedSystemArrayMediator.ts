@@ -24,7 +24,7 @@ namespace samchon.protocol.distributed
 
 		protected abstract createMediator(): parallel.MediatorSystem;
 
-		protected start_mediator(): void
+		protected startMediator(): void
 		{
 			if (this.mediator_ != null)
 				return;

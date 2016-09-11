@@ -1,7 +1,7 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/protocol/slave/MasterSystem.hpp>
+#include <samchon/protocol/slave/SlaveSystem.hpp>
 #include <samchon/protocol/Server.hpp>
 
 namespace samchon
@@ -10,14 +10,14 @@ namespace protocol
 {
 namespace slave
 {
-	class MasterClient
-		: public virtual MasterSystem,
+	class SlaveServer
+		: public virtual SlaveSystem,
 		public virtual Server
 
 	{
 	public:
-		MasterClient();
-		virtual ~MasterClient();
+		SlaveServer();
+		virtual ~SlaveServer();
 
 	protected:
 		virtual void addClient(std::shared_ptr<ClientDriver> driver) override final;

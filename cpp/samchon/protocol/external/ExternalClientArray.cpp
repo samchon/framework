@@ -16,14 +16,21 @@ ExternalClientArray::~ExternalClientArray()
 
 void ExternalClientArray::addClient(shared_ptr<ClientDriver> driver)
 {
-	ExternalSystem *system = createExternalClient(driver);
+	std::shared_ptr<ExternalSystem> system(createExternalClient(driver));
 	if (system == nullptr)
 		return;
 	
 	system->communicator_ = driver;
 	
-	emplace_back(system);
-	driver->listen(system);
+	push_back(system);
+	driver->listen(system.get());
+
+	for (size_t i = 0; i < size(); i++)
+		if (at(i) == system)
+		{
+			erase(begin() + i);
+			break;
+		}
 }
 auto ExternalClientArray::createChild(shared_ptr<XML> xml) -> ExternalSystem*
 {

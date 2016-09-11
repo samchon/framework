@@ -25,14 +25,14 @@ ParallelSystemArray::~ParallelSystemArray()
 --------------------------------------------------------- */
 void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t first, size_t last)
 {
-	if (invoke->has("invoke_history_uid") == false)
-		invoke->emplace_back(new InvokeParameter("invoke_history_uid", ++history_sequence));
+	if (invoke->has("_History_uid") == false)
+		invoke->emplace_back(new InvokeParameter("_History_uid", ++history_sequence));
 	else
 	{
 		// INVOKE MESSAGE ALREADY HAS ITS OWN UNIQUE ID
 		//	- THIS IS A TYPE OF ParallelSystemArrayMediator. THE MESSAGE HAS COME FROM ITS MASTER
 		//	- A ParallelSystem HAS DISCONNECTED. THE SYSTEM SHIFTED ITS CHAIN TO OTHER SLAVES.
-		size_t uid = invoke->get("invoke_history_uid")->getValue<size_t>();
+		size_t uid = invoke->get("_History_uid")->getValue<size_t>();
 
 		// FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
 		if (uid > history_sequence)
@@ -57,7 +57,7 @@ void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t first,
 	}
 }
 
-auto ParallelSystemArray::_Notify_end(shared_ptr<InvokeHistory> history) -> bool
+auto ParallelSystemArray::_Complete_history(shared_ptr<InvokeHistory> history) -> bool
 {
 	size_t uid = history->getUID();
 
@@ -86,7 +86,7 @@ auto ParallelSystemArray::_Notify_end(shared_ptr<InvokeHistory> history) -> bool
 		double performance_index = my_history->computeSize() / my_history->computeElapsedTime();
 
 		// PUSH TO SYSTEM PAIRS AND ADD TO AVERAGE
-		system_pairs.emplace_back(my_history, performance_index);
+		system_pairs.emplace_back(system, performance_index);
 		performance_index_average += performance_index;
 	}
 	performance_index_average /= system_pairs.size();

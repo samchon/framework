@@ -1,4 +1,4 @@
-#include <samchon/protocol/slave/MasterServer.hpp>
+#include <samchon/protocol/slave/SlaveClient.hpp>
 
 #include <samchon/protocol/ServerConnector.hpp>
 
@@ -11,15 +11,15 @@ using namespace samchon::protocol::slave;
 /* ---------------------------------------------------------
 	CONSTRUCTORS
 --------------------------------------------------------- */
-MasterServer::MasterServer()
-	: MasterSystem()
+SlaveClient::SlaveClient()
+	: SlaveSystem()
 {
 }
-MasterServer::~MasterServer()
+SlaveClient::~SlaveClient()
 {
 }
 
-auto MasterServer::createServerConnector() -> ServerConnector*
+auto SlaveClient::createServerConnector() -> ServerConnector*
 {
 	return new ServerConnector(this);
 }
@@ -27,7 +27,7 @@ auto MasterServer::createServerConnector() -> ServerConnector*
 /* ---------------------------------------------------------
 	METHOD OF CONNECTOR
 --------------------------------------------------------- */
-void MasterServer::connect(const string &ip, int port)
+void SlaveClient::connect(const string &ip, int port)
 {
 	shared_ptr<ServerConnector> connector(createServerConnector());
 	this->communicator_ = connector;

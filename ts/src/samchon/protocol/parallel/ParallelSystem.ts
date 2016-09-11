@@ -72,9 +72,6 @@ namespace samchon.protocol.parallel
 
 		public destructor(): void
 		{
-			// MAY DO NOTHING
-			super.destructor();
-			
 			for (let it = this.progress_list_.begin(); !it.equal_to(this.progress_list_.end()); it = it.next())
 			{
 				// A HISTORY HAD PROGRESSED

@@ -28,10 +28,10 @@ namespace external
 		typedef SharedEntityDeque<ExternalSystemRole> super;
 
 	protected:
+		ExternalSystemArray *system_array_;
 		std::string name;
 
 	private:
-		ExternalSystemArray *system_array_;
 		std::shared_ptr<Communicator> communicator_;
 
 	public:
@@ -46,6 +46,9 @@ namespace external
 		virtual ~ExternalSystem();
 
 		virtual void construct(std::shared_ptr<library::XML> xml) override;
+
+	protected:
+		ExternalSystem();
 
 	public:
 		/* ---------------------------------------------------------

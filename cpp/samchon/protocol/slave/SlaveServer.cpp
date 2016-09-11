@@ -1,4 +1,4 @@
-#include <samchon/protocol/slave/MasterClient.hpp>
+#include <samchon/protocol/slave/SlaveServer.hpp>
 
 #include <samchon/protocol/ClientDriver.hpp>
 
@@ -11,15 +11,15 @@ using namespace samchon::protocol::slave;
 /* ---------------------------------------------------------
 	CONSTRUCTORS
 --------------------------------------------------------- */
-MasterClient::MasterClient()
-	: MasterSystem(), Server()
+SlaveServer::SlaveServer()
+	: SlaveSystem(), Server()
 {
 }
-MasterClient::~MasterClient()
+SlaveServer::~SlaveServer()
 {
 }
 
-void MasterClient::addClient(shared_ptr<ClientDriver> driver)
+void SlaveServer::addClient(shared_ptr<ClientDriver> driver)
 {
 	this->communicator_ = driver;
 	driver->listen(this);

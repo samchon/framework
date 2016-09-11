@@ -2,28 +2,33 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/slave/SlaveSystem.hpp>
-#include <samchon/protocol/external/ExternalServer.hpp>
-
-#include <samchon/protocol/ClientDriver.hpp>
 
 namespace samchon
 {
 namespace protocol
 {
+	class ServerConnector;
+
 namespace slave
 {
-	class SlaveClient
-		: public virtual SlaveSystem,
-		public virtual external::ExternalServer
-
+	class SAMCHON_FRAMEWORK_API SlaveClient
+		: public virtual SlaveSystem
 	{
 	public:
-		SlaveClient() : 
-			SlaveSystem(), 
-			external::ExternalServer()
-		{
-		};
-		virtual ~SlaveClient() = default;
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
+		SlaveClient();
+		virtual ~SlaveClient();
+
+	protected:
+		virtual auto createServerConnector() -> ServerConnector*;
+
+	public:
+		/* ---------------------------------------------------------
+			METHOD OF CONNECTOR
+		--------------------------------------------------------- */
+		void connect(const std::string &ip, int port);
 	};
 };
 };

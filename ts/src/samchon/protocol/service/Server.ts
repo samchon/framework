@@ -46,6 +46,14 @@ namespace samchon.protocol.service
 			return this.account_map_.get(account);
 		}
 
+		/**
+		 * @hidden
+		 */
+		public _Get_account_map(): std.HashMap<string, User>
+		{
+			return this.account_map_;
+		}
+
 		/* ------------------------------------------------------------------
 			MESSAGE CHAIN
 		------------------------------------------------------------------ */
@@ -77,8 +85,7 @@ namespace samchon.protocol.service
 			else
 			{
 				user = this.createUser();
-				user["server_"] = this;
-				user["session_id_"] = driver.getSessionID();
+				user._Set_session_id(driver.getSessionID());
 
 				this.session_map_.insert(std.make_pair(driver.getSessionID(), user));
 			}
@@ -86,23 +93,15 @@ namespace samchon.protocol.service
 			/////
 			// CLIENT
 			/////
-			let client: Client = user["createClient"](driver);
-			client["user_"] = user;
-			client["no_"] = ++user["sequence_"];
-			client["communicator_"] = driver;
+			let client: Client = user._Create_child(driver);
+			client._Set_no(user._Fetch_sequence());
 			
-			user.insert(std.make_pair(client["no_"], client));
+			user.insert(std.make_pair(client.getNo(), client));
 
 			/////
 			// SERVICE
 			/////
-			let service: Service = client["createService"](driver.getPath());
-			if (service != null)
-			{
-				service["client_"] = client;
-				service["path_"] = driver.getPath();
-			}
-			client["service_"] = service;
+			let service: Service = client.getService();
 			
 			///////
 			// START COMMUNICATION
@@ -112,20 +111,15 @@ namespace samchon.protocol.service
 			{
 				// WHEN DISCONNECTED, THEN ERASE THE CLIENT.
 				// OF COURSE, IT CAN CAUSE DELETION OF THE RELATED USER.
-				user.erase(client["no_"]);
+				user.erase(client.getNo());
 
 				// ALSO, DESTRUCTOR OF THE SERVICE IS CALLED.
-				if (client["service_"] != null)
-					client["service_"].destructor();
+				if (client.getService() != null)
+					client.getService().destructor();
 			}
-
-			// PRECAUTION FOR IDIOTS
-			client["communicator_"] = driver;
-			if (driver["listening_"] == false)
-				driver.listen(client);
 		}
 
-		private erase_user(user: User): void
+		public _Erase_user(user: User): void
 		{
 			// USER DOESN'T BE ERASED AT THAT TIME
 			// IT WAITS UNTIL 30 SECONDS TO KEEP SESSION
@@ -138,7 +132,7 @@ namespace samchon.protocol.service
 						return; // USER IS NOT EMPTY, THEN RETURNS
 						
 					// ERASE USER FROM
-					server.session_map_.erase(user["session_id_"]); // SESSION-ID MAP
+					server.session_map_.erase(user._Get_session_id()); // SESSION-ID MAP
 					if (user.getAccountID() != "") // AND ACCOUNT-ID MAP
 						server.account_map_.erase(user.getAccountID()); 
 				}.bind(this),

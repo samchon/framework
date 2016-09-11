@@ -56,6 +56,15 @@ namespace samchon.protocol.parallel
 			return this.last;
 		}
 
+		public _Set_first(val: number): void
+		{
+			this.first = val;
+		}
+		public _Set_last(val: number): void
+		{
+			this.last = val;
+		}
+
 		/**
 		 * Compute number of allocated pieces.
 		 */

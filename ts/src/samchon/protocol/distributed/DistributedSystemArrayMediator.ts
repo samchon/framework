@@ -44,11 +44,11 @@ namespace samchon.protocol.distributed
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		protected _Complete_history(history: parallel.PRInvokeHistory): boolean
+		public _Complete_history(history: parallel.PRInvokeHistory): boolean
 		{
 			let ret: boolean = super._Complete_history(history);
 			if (ret == true)
-				this.mediator_["complete_history"](history.getUID());
+				this.mediator_._Complete_history(history.getUID());
 
 			return ret;
 		}

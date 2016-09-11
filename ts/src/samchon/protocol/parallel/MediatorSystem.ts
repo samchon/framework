@@ -34,7 +34,7 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		private complete_history(uid: number): void
+		public _Complete_history(uid: number): void
 		{
 			if (this.progress_list_.has(uid) == false)
 				return; // NO SUCH HISTORY; THE PROCESS HAD DONE ONLY IN THIS MEDIATOR LEVEL.

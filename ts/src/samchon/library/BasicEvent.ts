@@ -41,8 +41,8 @@ namespace samchon.library
 		/* -------------------------------------------------------------------
 			MEMBERS
 		------------------------------------------------------------------- */
-		private type_: string;
-		private target_: IEventDispatcher;
+		protected type_: string;
+		protected target_: IEventDispatcher;
 		private currentTarget_: IEventDispatcher;
 
 		protected trusted_: boolean;
@@ -200,6 +200,11 @@ namespace samchon.library
 		public get returnValue(): boolean
 		{
 			return false;
+		}
+
+		public set target(obj: IEventDispatcher)
+		{
+			this.target_ = obj;
 		}
 	}
 

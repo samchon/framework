@@ -55,9 +55,6 @@ namespace samchon.protocol.distributed
 			if (system == null)
 				return;
 
-			if (system["communicator"] == null)
-				system["communicator"] = driver;
-
 			this.push_back(system);
 		}
 

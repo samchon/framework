@@ -32,20 +32,7 @@ namespace samchon.protocol.external
 	 */
 	export interface IExternalServer extends ExternalSystem
 	{
-		/**
-		 * Connect to the external system.
-		 */
 		connect(): void;
-
-		/**
-		 * Get ip address.
-		 */
-		getIP(): string;
-
-		/**
-		 * Get port number.
-		 */
-		getPort(): number;
 	}
 
 	/**

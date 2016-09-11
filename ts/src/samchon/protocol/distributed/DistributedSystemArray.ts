@@ -90,6 +90,16 @@ namespace samchon.protocol.distributed
 			return this.role_map_.get(name);
 		}
 
+		public insertRole(role: DistributedSystemRole): void
+		{
+			this.role_map_.insert([role.getName(), role]);
+		}
+
+		public eraseRole(name: string): void
+		{
+			this.role_map_.erase(name);
+		}
+
 		/* ---------------------------------------------------------
 			EXPORTERS
 		--------------------------------------------------------- */

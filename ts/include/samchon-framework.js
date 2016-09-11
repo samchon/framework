@@ -141,13 +141,6 @@ var samchon;
                 ERASE
             --------------------------------------------------------- */
             /**
-             * @inheritdoc
-             */
-            ArrayCollection.prototype.pop_back = function () {
-                this.notify_erase(this.end().prev(), this.end());
-                _super.prototype.pop_back.call(this);
-            };
-            /**
              * @hidden
              */
             ArrayCollection.prototype._Erase_by_range = function (first, last) {
@@ -161,15 +154,13 @@ var samchon;
              * @hidden
              */
             ArrayCollection.prototype.notify_insert = function (first, last) {
-                if (this.hasEventListener(collection.CollectionEvent.INSERT))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
             };
             /**
              * @hidden
              */
             ArrayCollection.prototype.notify_erase = function (first, last) {
-                if (this.hasEventListener(collection.CollectionEvent.ERASE))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
             };
             /* =========================================================
                 EVENT_DISPATCHER
@@ -343,6 +334,9 @@ var samchon;
                 get: function () {
                     return this.target_;
                 },
+                set: function (obj) {
+                    this.target_ = obj;
+                },
                 enumerable: true,
                 configurable: true
             });
@@ -483,7 +477,7 @@ var samchon;
                  * Get associative target, the container.
                  */
                 get: function () {
-                    return this["target_"];
+                    return this.target_;
                 },
                 enumerable: true,
                 configurable: true
@@ -660,15 +654,13 @@ var samchon;
              * @hidden
              */
             DequeCollection.prototype.notify_insert = function (first, last) {
-                if (this.hasEventListener(collection.CollectionEvent.INSERT))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
             };
             /**
              * @hidden
              */
             DequeCollection.prototype.notify_erase = function (first, last) {
-                if (this.hasEventListener(collection.CollectionEvent.ERASE))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
             };
             /* =========================================================
                 EVENT_DISPATCHER
@@ -778,16 +770,14 @@ var samchon;
              */
             HashMapCollection.prototype._Handle_insert = function (first, last) {
                 _super.prototype._Handle_insert.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.INSERT))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
+                collection.ICollection._Dispatch_MapCollectionEvent(this, "insert", first, last);
             };
             /**
              * @inheritdoc
              */
             HashMapCollection.prototype._Handle_erase = function (first, last) {
                 _super.prototype._Handle_erase.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.ERASE))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
+                collection.ICollection._Dispatch_MapCollectionEvent(this, "erase", first, last);
             };
             /* =========================================================
                 EVENT_DISPATCHER
@@ -890,16 +880,14 @@ var samchon;
              */
             HashMultiMapCollection.prototype._Handle_insert = function (first, last) {
                 _super.prototype._Handle_insert.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.INSERT))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
+                collection.ICollection._Dispatch_MapCollectionEvent(this, "insert", first, last);
             };
             /**
              * @inheritdoc
              */
             HashMultiMapCollection.prototype._Handle_erase = function (first, last) {
                 _super.prototype._Handle_erase.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.ERASE))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
+                collection.ICollection._Dispatch_MapCollectionEvent(this, "erase", first, last);
             };
             /* =========================================================
                 EVENT_DISPATCHER
@@ -991,6 +979,26 @@ var samchon;
                 CONSTRUCTORS
             --------------------------------------------------------- */
             // using super::constructor
+            /* =========================================================
+                ELEMENTS I/O
+                    - HANDLE_INSERT & HANDLE_ERASE
+            ============================================================
+                HANDLE_INSERT & HANDLE_ERASE
+            --------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            HashMultiSetCollection.prototype._Handle_insert = function (first, last) {
+                _super.prototype._Handle_insert.call(this, first, last);
+                collection.ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
+            };
+            /**
+             * @inheritdoc
+             */
+            HashMultiSetCollection.prototype._Handle_erase = function (first, last) {
+                _super.prototype._Handle_erase.call(this, first, last);
+                collection.ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
+            };
             /* =========================================================
                 EVENT_DISPATCHER
                     - ACCESSORS
@@ -1093,16 +1101,14 @@ var samchon;
              */
             HashSetCollection.prototype._Handle_insert = function (first, last) {
                 _super.prototype._Handle_insert.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.INSERT))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
             };
             /**
              * @inheritdoc
              */
             HashSetCollection.prototype._Handle_erase = function (first, last) {
                 _super.prototype._Handle_erase.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.ERASE))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
             };
             /* =========================================================
                 EVENT_DISPATCHER
@@ -1159,6 +1165,36 @@ var samchon;
     })(collection = samchon.collection || (samchon.collection = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
+var samchon;
+(function (samchon) {
+    var collection;
+    (function (collection_1) {
+        /**
+         * @hidden
+         */
+        var ICollection;
+        (function (ICollection) {
+            function _Dispatch_CollectionEvent(collection, type, first, last) {
+                if (collection.hasEventListener(type) == false)
+                    return;
+                var event = new collection_1.CollectionEvent(type, first, last);
+                setTimeout(function () {
+                    collection.dispatchEvent(event);
+                });
+            }
+            ICollection._Dispatch_CollectionEvent = _Dispatch_CollectionEvent;
+            function _Dispatch_MapCollectionEvent(collection, type, first, last) {
+                if (collection.hasEventListener(type) == false)
+                    return;
+                var event = new collection_1.MapCollectionEvent(type, first, last);
+                setTimeout(function () {
+                    collection.dispatchEvent(event);
+                });
+            }
+            ICollection._Dispatch_MapCollectionEvent = _Dispatch_MapCollectionEvent;
+        })(ICollection = collection_1.ICollection || (collection_1.ICollection = {}));
+    })(collection = samchon.collection || (samchon.collection = {}));
+})(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
@@ -1293,15 +1329,13 @@ var samchon;
              * @hidden
              */
             ListCollection.prototype.notify_insert = function (first, last) {
-                if (this.hasEventListener(collection.CollectionEvent.INSERT))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
             };
             /**
              * @hidden
              */
             ListCollection.prototype.notify_erase = function (first, last) {
-                if (this.hasEventListener(collection.CollectionEvent.ERASE))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
             };
             /* =========================================================
                 EVENT_DISPATCHER
@@ -1448,16 +1482,14 @@ var samchon;
              */
             TreeMapCollection.prototype._Handle_insert = function (first, last) {
                 _super.prototype._Handle_insert.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.INSERT))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
+                collection.ICollection._Dispatch_MapCollectionEvent(this, "insert", first, last);
             };
             /**
              * @inheritdoc
              */
             TreeMapCollection.prototype._Handle_erase = function (first, last) {
                 _super.prototype._Handle_erase.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.ERASE))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
+                collection.ICollection._Dispatch_MapCollectionEvent(this, "erase", first, last);
             };
             /* =========================================================
                 EVENT_DISPATCHER
@@ -1560,16 +1592,14 @@ var samchon;
              */
             TreeMultiMapCollection.prototype._Handle_insert = function (first, last) {
                 _super.prototype._Handle_insert.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.INSERT))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
+                collection.ICollection._Dispatch_MapCollectionEvent(this, "insert", first, last);
             };
             /**
              * @inheritdoc
              */
             TreeMultiMapCollection.prototype._Handle_erase = function (first, last) {
                 _super.prototype._Handle_erase.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.ERASE))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
+                collection.ICollection._Dispatch_MapCollectionEvent(this, "erase", first, last);
             };
             /* =========================================================
                 EVENT_DISPATCHER
@@ -1672,16 +1702,14 @@ var samchon;
              */
             TreeMultiSetCollection.prototype._Handle_insert = function (first, last) {
                 _super.prototype._Handle_insert.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.INSERT))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
             };
             /**
              * @inheritdoc
              */
             TreeMultiSetCollection.prototype._Handle_erase = function (first, last) {
                 _super.prototype._Handle_erase.call(this, first, last);
-                if (this.hasEventListener(collection.CollectionEvent.ERASE))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
             };
             /* =========================================================
                 EVENT_DISPATCHER
@@ -1774,6 +1802,26 @@ var samchon;
                 CONSTRUCTORS
             --------------------------------------------------------- */
             // using super::constructor
+            /* =========================================================
+                ELEMENTS I/O
+                    - HANDLE_INSERT & HANDLE_ERASE
+            ============================================================
+                HANDLE_INSERT & HANDLE_ERASE
+            --------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            TreeSetCollection.prototype._Handle_insert = function (first, last) {
+                _super.prototype._Handle_insert.call(this, first, last);
+                collection.ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
+            };
+            /**
+             * @inheritdoc
+             */
+            TreeSetCollection.prototype._Handle_erase = function (first, last) {
+                _super.prototype._Handle_erase.call(this, first, last);
+                collection.ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
+            };
             /* =========================================================
                 EVENT_DISPATCHER
                     - ACCESSORS
@@ -2597,15 +2645,13 @@ var samchon;
              * @hidden
              */
             XMLListCollection.prototype.notify_insert = function (first, last) {
-                if (this.hasEventListener(collection.CollectionEvent.INSERT))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.INSERT, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
             };
             /**
              * @hidden
              */
             XMLListCollection.prototype.notify_erase = function (first, last) {
-                if (this.hasEventListener(collection.CollectionEvent.ERASE))
-                    this.dispatchEvent(new collection.CollectionEvent(collection.CollectionEvent.ERASE, first, last));
+                collection.ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
             };
             /* =========================================================
                 EVENT_DISPATCHER
@@ -2891,7 +2937,7 @@ var samchon;
              * @inheritdoc
              */
             EventDispatcher.prototype.dispatchEvent = function (event) {
-                event["target_"] = this.event_dispatcher_;
+                event.target = this.event_dispatcher_;
                 if (this.event_listeners_.has(event.type) == false)
                     return false;
                 var listenerSet = this.event_listeners_.get(event.type);
@@ -3098,6 +3144,12 @@ var samchon;
                 enumerable: true,
                 configurable: true
             });
+            /**
+             * @hidden
+             */
+            FileReference.prototype._Set_file = function (val) {
+                this.file_ = val;
+            };
             /* =========================================================
                 PROCEDURES
                     - OPEN FILE
@@ -3338,7 +3390,7 @@ var samchon;
                     this_.file_list.clear();
                     for (var i = 0; i < fileList.length; i++) {
                         var reference = new FileReference();
-                        reference["file_"] = fileList[i];
+                        reference._Set_file(fileList[i]);
                         this_.file_list.push(reference);
                     }
                     this_.dispatchEvent(new library.BasicEvent("select"));
@@ -3429,16 +3481,16 @@ var samchon;
              */
             GeneticAlgorithm.prototype.evolvePopulation = function (population, compare) {
                 if (compare === void 0) { compare = std.greater; }
-                var size = population["children"].size();
+                var size = population._Get_children().size();
                 var evolved = new GAPopulation(size);
                 // ELITICISM
-                evolved["children"].set(0, population.fitTest());
+                evolved._Get_children().set(0, population.fitTest());
                 for (var i = 1; i < size; i++) {
                     var gene1 = this.selection(population);
                     var gene2 = this.selection(population);
                     var child = this.crossover(gene1, gene2);
                     this.mutate(child);
-                    evolved["children"].set(i, child);
+                    evolved._Get_children().set(i, child);
                 }
                 return evolved;
             };
@@ -3474,13 +3526,13 @@ var samchon;
              * @reference https://en.wikipedia.org/wiki/Selection_(genetic_algorithm)
              */
             GeneticAlgorithm.prototype.selection = function (population) {
-                var size = population["children"].size();
+                var size = population._Get_children().size();
                 var tournament = new GAPopulation(size);
                 for (var i = 0; i < size; i++) {
                     var random_index = Math.floor(Math.random() * size);
                     if (random_index == size)
                         random_index--;
-                    tournament["children"].set(i, population["children"].at(random_index));
+                    tournament._Get_children().set(i, population._Get_children().at(random_index));
                 }
                 return tournament.fitTest();
             };
@@ -3597,41 +3649,44 @@ var samchon;
                     args[_i - 0] = arguments[_i];
                 }
                 if (args.length == 1) {
-                    this.children = new std.Vector();
-                    this.children.length = args[0];
+                    this.children_ = new std.Vector();
+                    this.children_.length = args[0];
                 }
                 else {
                     var geneArray = args[0];
                     var size = args[1];
                     var compare = (args.length == 2) ? std.greater : args[2];
-                    this.children = new std.Vector();
-                    this.children.length = args[1];
-                    this.compare = compare;
+                    this.children_ = new std.Vector();
+                    this.children_.length = args[1];
+                    this.compare_ = compare;
                     for (var i = 0; i < size; i++) {
                         var child = this.clone(geneArray);
                         if (i > 0)
                             std.random_shuffle(child.begin(), child.end());
-                        this.children[i] = child;
+                        this.children_[i] = child;
                     }
                 }
             }
+            GAPopulation.prototype._Get_children = function () {
+                return this.children_;
+            };
             /**
              * Test fitness of each <i>GeneArray</i> in the {@link population}.
              *
              * @return The best <i>GeneArray</i> in the {@link population}.
              */
             GAPopulation.prototype.fitTest = function () {
-                var best = this.children.front();
-                for (var i = 1; i < this.children.size(); i++)
-                    if (this.compare(this.children.at(i), best) == true)
-                        best = this.children.at(i);
+                var best = this.children_.front();
+                for (var i = 1; i < this.children_.size(); i++)
+                    if (this.compare_(this.children_.at(i), best) == true)
+                        best = this.children_.at(i);
                 return best;
             };
             /**
              * @hidden
              */
             GAPopulation.prototype.clone = function (obj) {
-                var ret = obj.constructor();
+                var ret = eval("new obj.constructor()");
                 for (var key in obj)
                     if (obj.hasOwnProperty(key) == true)
                         ret[key] = obj[key];
@@ -4965,7 +5020,7 @@ var samchon;
                     var uid;
                     if (invoke.has("_History_uid") == false) {
                         // ISSUE UID AND ATTACH IT TO INVOKE'S LAST PARAMETER
-                        uid = ++this.system_array_["history_sequence"];
+                        uid = this.system_array_._Fetch_history_sequence();
                         invoke.push_back(new protocol.InvokeParameter("_History_uid", uid));
                     }
                     else {
@@ -4974,8 +5029,7 @@ var samchon;
                         //	- A Distributed HAS DISCONNECTED. THE SYSTEM SHIFTED ITS CHAIN TO ANOTHER SLAVE.
                         uid = invoke.get("_History_uid").getValue();
                         // FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
-                        if (uid > this.system_array_["history_sequence"])
-                            this.system_array_["history_sequence"] = uid;
+                        this.system_array_._Set_history_sequence(uid);
                         // FOR CASE 2. ERASE ORDINARY PROGRESSIVE HISTORY FROM THE DISCONNECTED
                         this.progress_list_.erase(uid);
                     }
@@ -4987,18 +5041,18 @@ var samchon;
                     for (var i = 0; i < this.system_array_.size(); i++) {
                         var system = this.system_array_.at(i);
                         if (idle_system == null
-                            || system["progress_list_"].size() < idle_system["progress_list_"].size()
+                            || system._Get_progress_list().size() < idle_system._Get_progress_list().size()
                             || system.getPerformance() < idle_system.getPerformance())
                             idle_system = system;
                     }
                     // ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)
                     var history = new distributed.DSInvokeHistory(idle_system, this, invoke);
                     this.progress_list_.insert([uid, history]);
-                    idle_system["progress_list_"].insert([uid, std.make_pair(invoke, history)]);
+                    idle_system._Get_progress_list().insert([uid, std.make_pair(invoke, history)]);
                     // SEND DATA
                     idle_system.sendData(invoke);
                 };
-                DistributedSystemRole.prototype.report_history = function (history) {
+                DistributedSystemRole.prototype._Report_history = function (history) {
                     // ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
                     this.progress_list_.erase(history.getUID());
                     this.history_list_.insert([history.getUID(), history]);
@@ -5268,13 +5322,8 @@ var samchon;
                  * @hidden
                  */
                 ExternalSystemArray.prototype.handle_system_erase = function (event) {
-                    for (var it = event.first; !it.equal_to(event.last); it = it.next()) {
-                        if (it.value["erasing_"] == true)
-                            continue;
-                        it.value["erasing_"] = true;
-                        it.value.close();
-                        setTimeout(it.value.destructor.bind(it.value), 0);
-                    }
+                    for (var it = event.first; !it.equal_to(event.last); it = it.next())
+                        it.value.destructor();
                 };
                 /* ---------------------------------------------------------
                     ACCESSORS
@@ -5377,13 +5426,30 @@ var samchon;
                  */
                 function ParallelSystemArray() {
                     _super.call(this);
-                    this.history_sequence = 0;
+                    this.history_sequence_ = 0;
                 }
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
                 /**
                  * @inheritdoc
                  */
                 ParallelSystemArray.prototype.at = function (index) {
                     return _super.prototype.at.call(this, index);
+                };
+                /**
+                 * @hidden
+                 */
+                ParallelSystemArray.prototype._Fetch_history_sequence = function () {
+                    return ++this.history_sequence_;
+                };
+                /**
+                 * @hidden
+                 */
+                ParallelSystemArray.prototype._Set_history_sequence = function (val) {
+                    if (val <= this.history_sequence_)
+                        return;
+                    this.history_sequence_ = val;
                 };
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN
@@ -5407,15 +5473,14 @@ var samchon;
                  */
                 ParallelSystemArray.prototype.sendPieceData = function (invoke, first, last) {
                     if (invoke.has("_History_uid") == false)
-                        invoke.push_back(new protocol.InvokeParameter("_History_uid", ++this.history_sequence));
+                        invoke.push_back(new protocol.InvokeParameter("_History_uid", this._Fetch_history_sequence()));
                     else {
                         // INVOKE MESSAGE ALREADY HAS ITS OWN UNIQUE ID
                         //	- THIS IS A TYPE OF ParallelSystemArrayMediator. THE MESSAGE HAS COME FROM ITS MASTER
                         //	- A ParallelSystem HAS DISCONNECTED. THE SYSTEM SHIFTED ITS CHAIN TO OTHER SLAVES.
                         var uid = invoke.get("_History_uid").getValue();
                         // FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
-                        if (uid > this.history_sequence)
-                            this.history_sequence = uid;
+                        this._Set_history_sequence(uid);
                     }
                     var size = last - first;
                     for (var i = 0; i < this.size(); i++) {
@@ -5427,7 +5492,7 @@ var samchon;
                         if (piece_size == 0)
                             continue;
                         // SEND DATA WITH PIECE INDEXES
-                        system["send_piece_data"](invoke, first, first + piece_size);
+                        system._Send_piece_data(invoke, first, first + piece_size);
                         first += piece_size; // FOR THE NEXT STEP
                     }
                 };
@@ -5441,7 +5506,7 @@ var samchon;
                     var uid = history.getUID();
                     // ALL THE SUB-TASKS ARE DONE?
                     for (var i = 0; i < this.size(); i++)
-                        if (this.at(i)["progress_list_"].has(uid) == true)
+                        if (this.at(i)._Get_progress_list().has(uid) == true)
                             return false; // IT'S ON A PROCESS IN SOME SYSTEM.
                     //--------
                     // RE-CALCULATE PERFORMANCE INDEX
@@ -5451,10 +5516,10 @@ var samchon;
                     var performance_index_average = 0.0;
                     for (var i = 0; i < this.size(); i++) {
                         var system = this.at(i);
-                        if (system["history_list_"].has(uid) == false)
+                        if (system._Get_history_list().has(uid) == false)
                             continue; // NO HISTORY (HAVE NOT PARTICIPATED IN THE PARALLEL PROCESS)
                         // COMPUTE PERFORMANCE INDEX BASIS ON EXECUTION TIME OF THIS PARALLEL PROCESS
-                        var my_history = system["history_list_"].get(uid);
+                        var my_history = system._Get_history_list().get(uid);
                         var performance_index = my_history.computeSize() / my_history.computeElapsedTime();
                         // PUSH TO SYSTEM PAIRS AND ADD TO AVERAGE
                         system_pairs.push_back(std.make_pair(system, performance_index));
@@ -5468,18 +5533,18 @@ var samchon;
                         var new_performance = system_pairs.at(i).second / performance_index_average;
                         // DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX
                         var ordinary_ratio = void 0;
-                        if (system["history_list_"].size() < 2)
+                        if (system._Get_history_list().size() < 2)
                             ordinary_ratio = .3;
                         else
-                            ordinary_ratio = Math.min(0.7, 1.0 / (system["history_list_"].size() - 1.0));
-                        system["performance"] = (system["performance"] * ordinary_ratio) + (new_performance * (1 - ordinary_ratio));
+                            ordinary_ratio = Math.min(0.7, 1.0 / (system._Get_history_list().size() - 1.0));
+                        system._Set_performance((system.getPerformance() * ordinary_ratio) + (new_performance * (1 - ordinary_ratio)));
                     }
                     // AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SLAVE SYSTEMS
                     this.normalize_performance();
                     return true;
                 };
                 /**
-                 * @see {@link ParallelSystem.performance}
+                 * @hidden
                  */
                 ParallelSystemArray.prototype.normalize_performance = function () {
                     // CALC AVERAGE
@@ -5488,8 +5553,10 @@ var samchon;
                         average += this.at(i).getPerformance();
                     average /= this.size();
                     // DIVIDE FROM THE AVERAGE
-                    for (var i = 0; i < this.size(); i++)
-                        this.at(i)["performance"] /= average;
+                    for (var i = 0; i < this.size(); i++) {
+                        var system = this.at(i);
+                        system._Set_performance(system.getPerformance() / average);
+                    }
                 };
                 return ParallelSystemArray;
             }(protocol.external.ExternalSystemArray));
@@ -5565,6 +5632,12 @@ var samchon;
                 DistributedSystemArray.prototype.getRole = function (name) {
                     return this.role_map_.get(name);
                 };
+                DistributedSystemArray.prototype.insertRole = function (role) {
+                    this.role_map_.insert([role.getName(), role]);
+                };
+                DistributedSystemArray.prototype.eraseRole = function (name) {
+                    this.role_map_.erase(name);
+                };
                 /* ---------------------------------------------------------
                     EXPORTERS
                 --------------------------------------------------------- */
@@ -5617,8 +5690,6 @@ var samchon;
                     var system = this.createExternalClient(driver);
                     if (system == null)
                         return;
-                    if (system["communicator"] == null)
-                        system["communicator"] = driver;
                     this.push_back(system);
                 };
                 DistributedClientArray.prototype.createChild = function (xml) { return null; };
@@ -5687,7 +5758,7 @@ var samchon;
                 DistributedSystemArrayMediator.prototype._Complete_history = function (history) {
                     var ret = _super.prototype._Complete_history.call(this, history);
                     if (ret == true)
-                        this.mediator_["complete_history"](history.getUID());
+                        this.mediator_._Complete_history(history.getUID());
                     return ret;
                 };
                 return DistributedSystemArrayMediator;
@@ -5726,8 +5797,6 @@ var samchon;
                     var system = this.createExternalClient(driver);
                     if (system == null)
                         return;
-                    if (system["communicator"] == null)
-                        system["communicator"] = driver;
                     this.push_back(system);
                 };
                 DistributedClientArrayMediator.prototype.createChild = function (xml) { return null; };
@@ -5814,21 +5883,22 @@ var samchon;
                     if (communicator != null)
                         communicator.listen(this);
                     this.name = "";
-                    this.erasing_ = false;
                 }
                 /**
                  * Default Destructor.
                  */
                 ExternalSystem.prototype.destructor = function () {
+                    if (this.communicator != null && this.communicator.isConnected() == true) {
+                        this.communicator.onClose = null;
+                        this.communicator.close();
+                    }
                 };
                 /**
                  * @hidden
                  */
                 ExternalSystem.prototype.handle_close = function () {
-                    if (this.erasing_ == true)
-                        return;
                     if (this.system_array_ == null)
-                        this.destructor();
+                        return;
                     else
                         std.remove(this.system_array_.begin(), this.system_array_.end(), this);
                 };
@@ -5941,6 +6011,7 @@ var samchon;
                     this.history_list_ = new std.HashMap();
                 }
                 ParallelSystem.prototype.destructor = function () {
+                    _super.prototype.destructor.call(this);
                     for (var it = this.progress_list_.begin(); !it.equal_to(this.progress_list_.end()); it = it.next()) {
                         // A HISTORY HAD PROGRESSED
                         var history_1 = it.second.second;
@@ -5973,21 +6044,22 @@ var samchon;
                 ParallelSystem.prototype.getPerformance = function () {
                     return this.performance;
                 };
+                ParallelSystem.prototype._Get_progress_list = function () {
+                    return this.progress_list_;
+                };
+                ParallelSystem.prototype._Get_history_list = function () {
+                    return this.history_list_;
+                };
+                ParallelSystem.prototype._Set_performance = function (val) {
+                    this.performance = val;
+                };
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
                 /**
-                 * Send an {@link Invoke} message with index of segmentation.
-                 *
-                 * @param invoke An invoke message requesting parallel process.
-                 * @param first Initial piece's index in a section.
-                 * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
-                 *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
-                 *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
-                 *
-                 * @see {@link ParallelSystemArray.sendPieceData}
+                 * @hidden
                  */
-                ParallelSystem.prototype.send_piece_data = function (invoke, first, last) {
+                ParallelSystem.prototype._Send_piece_data = function (invoke, first, last) {
                     // DUPLICATE INVOKE AND ATTACH PIECE INFO
                     var my_invoke = new protocol.Invoke(invoke.getListener());
                     {
@@ -6031,13 +6103,13 @@ var samchon;
                     if (progress_it.equal_to(this.progress_list_.end()) == true)
                         return;
                     // ARCHIVE FIRST AND LAST INDEX
-                    history["first"] = progress_it.second.second.getFirst();
-                    history["last"] = progress_it.second.second.computeSize();
+                    history._Set_first(progress_it.second.second.getFirst());
+                    history._Set_last(progress_it.second.second.computeSize());
                     // ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
                     this.progress_list_.erase(progress_it);
                     this.history_list_.insert([history.getUID(), history]);
                     // NOTIFY TO THE MANAGER, SYSTEM_ARRAY
-                    this.getSystemArray()["_Complete_history"](history);
+                    this.getSystemArray()._Complete_history(history);
                 };
                 return ParallelSystem;
             }(protocol.external.ExternalSystem));
@@ -6065,7 +6137,7 @@ var samchon;
                 DistributedSystem.prototype.destructor = function () {
                     _super.prototype.destructor.call(this);
                     // SHIFT INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVE
-                    for (var it = this["progress_list_"].begin(); !it.equal_to(this["progress_list_"].end()); it = it.next()) {
+                    for (var it = this._Get_progress_list().begin(); !it.equal_to(this._Get_progress_list().end()); it = it.next()) {
                         // A HISTORY HAD PROGRESSED
                         var history_2 = it.second.second;
                         if (history_2 instanceof distributed.DSInvokeHistory == false)
@@ -6131,20 +6203,21 @@ var samchon;
                         var history_3 = new distributed.DSInvokeHistory(this);
                         history_3.construct(xml);
                         // IF THE HISTORY IS NOT EXIST IN PROGRESS, THEN TERMINATE REPORTING
-                        var progress_it = this["progress_list_"].find(history_3.getUID());
-                        if (progress_it.equal_to(this["progress_list_"].end()) == true)
+                        var progress_it = this._Get_progress_list().find(history_3.getUID());
+                        if (progress_it.equal_to(this._Get_progress_list().end()) == true)
                             return;
                         // ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
-                        this["progress_list_"].erase(progress_it);
-                        this["history_list_"].insert([history_3.getUID(), history_3]);
+                        this._Get_progress_list().erase(progress_it);
+                        this._Get_history_list().insert([history_3.getUID(), history_3]);
                         // ALSO NOTIFY TO THE ROLE
                         if (history_3.getRole() != null)
-                            history_3.getRole()["report_history"](history_3);
+                            history_3.getRole()._Report_history(history_3);
                         // IF SYSTEM_ARRAY IS A TYPE OF DistributedSystemArrayMediator, 
                         // THEN ALSO NOTIFY TO ITS MASTER
-                        if (this.getSystemArray() instanceof distributed.DistributedSystemArrayMediator) {
-                            var mediator = this.getSystemArray()["mediator_"];
-                            mediator["complete_history"](history_3.getUID()); // NOTIFY END TO MASTER
+                        var system_array_mediator = this.getSystemArray();
+                        if (system_array_mediator instanceof distributed.DistributedSystemArrayMediator) {
+                            var mediator = system_array_mediator.getMediator();
+                            mediator._Complete_history(history_3.getUID()); // NOTIFY END TO MASTER
                         }
                     }
                 };
@@ -6812,9 +6885,6 @@ var samchon;
                     var system = this.createExternalClient(driver);
                     if (system == null)
                         return;
-                    // SOME IDIOTS FORGOT TO ENROLLING THIS COMMUNICATOR
-                    if (system["communicator"] == null)
-                        system["communicator"] = driver;
                     this.push_back(system);
                 };
                 /**
@@ -7414,7 +7484,7 @@ var samchon;
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
-                MediatorSystem.prototype.complete_history = function (uid) {
+                MediatorSystem.prototype._Complete_history = function (uid) {
                     if (this.progress_list_.has(uid) == false)
                         return; // NO SUCH HISTORY; THE PROCESS HAD DONE ONLY IN THIS MEDIATOR LEVEL.
                     // COMPLETE THE HISTORY
@@ -7641,8 +7711,6 @@ var samchon;
                     var system = this.createExternalClient(driver);
                     if (system == null)
                         return;
-                    if (system["communicator"] == null)
-                        system["communicator"] = driver;
                     this.push_back(system);
                 };
                 ParallelClientArray.prototype.createChild = function (xml) { return null; };
@@ -7711,7 +7779,7 @@ var samchon;
                 ParallelSystemArrayMediator.prototype._Complete_history = function (history) {
                     var ret = _super.prototype._Complete_history.call(this, history);
                     if (ret == true)
-                        this.mediator_["complete_history"](history.getUID());
+                        this.mediator_._Complete_history(history.getUID());
                     return ret;
                 };
                 return ParallelSystemArrayMediator;
@@ -7750,10 +7818,6 @@ var samchon;
                     var system = this.createExternalClient(driver);
                     if (system == null)
                         return;
-                    if (system["communicator"] == null) {
-                        system["communicator"] = driver;
-                        driver.listen(system);
-                    }
                     this.push_back(system);
                 };
                 ParallelClientArrayMediator.prototype.createChild = function (xml) { return null; };
@@ -7995,6 +8059,12 @@ var samchon;
                 };
                 PRInvokeHistory.prototype.getLast = function () {
                     return this.last;
+                };
+                PRInvokeHistory.prototype._Set_first = function (val) {
+                    this.first = val;
+                };
+                PRInvokeHistory.prototype._Set_last = function (val) {
+                    this.last = val;
                 };
                 /**
                  * Compute number of allocated pieces.
@@ -8488,7 +8558,8 @@ var samchon;
                     this.user_ = user;
                     this.communicator_ = driver;
                     this.communicator_.listen(this);
-                    this.service_ = null;
+                    this.service_ = this.createService(driver.getPath());
+                    ;
                 }
                 Client.prototype.close = function () {
                     this.user_.erase(this.no_);
@@ -8501,6 +8572,12 @@ var samchon;
                 };
                 Client.prototype.getService = function () {
                     return this.service_;
+                };
+                Client.prototype.getNo = function () {
+                    return this.no_;
+                };
+                Client.prototype._Set_no = function (val) {
+                    this.no_ = val;
                 };
                 /* ------------------------------------------------------------------
                     MESSAGE CHAIN
@@ -8518,10 +8595,6 @@ var samchon;
                     if (this.service_ != null)
                         this.service_.destructor();
                     this.service_ = this.createService(path);
-                    if (this.service_ != null) {
-                        this.service_["client_"] = this;
-                        this.service_["path_"] = path;
-                    }
                 };
                 return Client;
             }());
@@ -8560,6 +8633,12 @@ var samchon;
                 Server.prototype.get = function (account) {
                     return this.account_map_.get(account);
                 };
+                /**
+                 * @hidden
+                 */
+                Server.prototype._Get_account_map = function () {
+                    return this.account_map_;
+                };
                 /* ------------------------------------------------------------------
                     MESSAGE CHAIN
                 ------------------------------------------------------------------ */
@@ -8584,27 +8663,19 @@ var samchon;
                         user = this.session_map_.get(driver.getSessionID());
                     else {
                         user = this.createUser();
-                        user["server_"] = this;
-                        user["session_id_"] = driver.getSessionID();
+                        user._Set_session_id(driver.getSessionID());
                         this.session_map_.insert(std.make_pair(driver.getSessionID(), user));
                     }
                     /////
                     // CLIENT
                     /////
-                    var client = user["createClient"](driver);
-                    client["user_"] = user;
-                    client["no_"] = ++user["sequence_"];
-                    client["communicator_"] = driver;
-                    user.insert(std.make_pair(client["no_"], client));
+                    var client = user._Create_child(driver);
+                    client._Set_no(user._Fetch_sequence());
+                    user.insert(std.make_pair(client.getNo(), client));
                     /////
                     // SERVICE
                     /////
-                    var service = client["createService"](driver.getPath());
-                    if (service != null) {
-                        service["client_"] = client;
-                        service["path_"] = driver.getPath();
-                    }
-                    client["service_"] = service;
+                    var service = client.getService();
                     ///////
                     // START COMMUNICATION
                     ///////
@@ -8612,17 +8683,13 @@ var samchon;
                     driver.onClose = function () {
                         // WHEN DISCONNECTED, THEN ERASE THE CLIENT.
                         // OF COURSE, IT CAN CAUSE DELETION OF THE RELATED USER.
-                        user.erase(client["no_"]);
+                        user.erase(client.getNo());
                         // ALSO, DESTRUCTOR OF THE SERVICE IS CALLED.
-                        if (client["service_"] != null)
-                            client["service_"].destructor();
+                        if (client.getService() != null)
+                            client.getService().destructor();
                     };
-                    // PRECAUTION FOR IDIOTS
-                    client["communicator_"] = driver;
-                    if (driver["listening_"] == false)
-                        driver.listen(client);
                 };
-                Server.prototype.erase_user = function (user) {
+                Server.prototype._Erase_user = function (user) {
                     // USER DOESN'T BE ERASED AT THAT TIME
                     // IT WAITS UNTIL 30 SECONDS TO KEEP SESSION
                     setTimeout(function () {
@@ -8630,7 +8697,7 @@ var samchon;
                         if (user.empty() == false)
                             return; // USER IS NOT EMPTY, THEN RETURNS
                         // ERASE USER FROM
-                        server.session_map_.erase(user["session_id_"]); // SESSION-ID MAP
+                        server.session_map_.erase(user._Get_session_id()); // SESSION-ID MAP
                         if (user.getAccountID() != "")
                             server.account_map_.erase(user.getAccountID());
                     }.bind(this), 30000 // KEEP USER 30 SECONDS
@@ -8716,11 +8783,20 @@ var samchon;
                     this.authority_ = 0;
                     this.addEventListener("erase", this.handle_erase_client, this);
                 }
+                /**
+                 * @hidden
+                 */
+                User.prototype._Create_child = function (driver) {
+                    return this.createClient(driver);
+                };
+                /**
+                 * @hidden
+                 */
                 User.prototype.handle_erase_client = function (event) {
                     for (var it = event.first; !it.equal_to(event.last); it = it.next())
                         it.second.close();
                     if (this.empty() == true)
-                        this.server_["erase_user"](this);
+                        this.server_._Erase_user(this);
                 };
                 /* ---------------------------------------------------------
                     ACCESSORS
@@ -8738,12 +8814,30 @@ var samchon;
                     if (this.account_id_ == id)
                         return;
                     else if (this.account_id_ != "")
-                        this.server_["account_map_"].erase(this.account_id_); // ERASE FROM ORDINARY ACCOUNT_MAP
+                        this.server_._Get_account_map().erase(this.account_id_); // ERASE FROM ORDINARY ACCOUNT_MAP
                     // SET
                     this.account_id_ = id;
                     this.authority_ = authority;
                     // REGISTER TO ACCOUNT_MAP IN ITS SERVER
-                    this.server_["account_map_"].set(id, this);
+                    this.server_._Get_account_map().set(id, this);
+                };
+                /**
+                 * @hidden
+                 */
+                User.prototype._Get_session_id = function () {
+                    return this.session_id_;
+                };
+                /**
+                 * @hidden
+                 */
+                User.prototype._Fetch_sequence = function () {
+                    return ++this.sequence_;
+                };
+                /**
+                 * @hidden
+                 */
+                User.prototype._Set_session_id = function (val) {
+                    this.session_id_ = val;
                 };
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN
@@ -8847,4 +8941,26 @@ var samchon;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
+/// <reference path="../API.ts" />
+var samchon;
+(function (samchon) {
+    var test;
+    (function (test) {
+        function test_collection() {
+            var container = new samchon.collection.DequeCollection();
+            container.addEventListener("insert", handle_event);
+            container.addEventListener("erase", handle_event);
+            container.push(1, 2, 3, 4, 5, 6, 7);
+            container.pop_back();
+            std.remove(container.begin(), container.end(), 5);
+        }
+        test.test_collection = test_collection;
+        function handle_event(event) {
+            console.log("Handle Event:", event.type);
+            for (var it = event.first; !it.equal_to(event.last); it = it.next())
+                console.log("\t" + it.value);
+            console.log();
+        }
+    })(test = samchon.test || (samchon.test = {}));
+})(samchon || (samchon = {}));
 //# sourceMappingURL=samchon-framework.js.map

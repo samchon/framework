@@ -72,6 +72,8 @@ namespace samchon.protocol.parallel
 
 		public destructor(): void
 		{
+			super.destructor();
+
 			for (let it = this.progress_list_.begin(); !it.equal_to(this.progress_list_.end()); it = it.next())
 			{
 				// A HISTORY HAD PROGRESSED
@@ -112,21 +114,28 @@ namespace samchon.protocol.parallel
 			return this.performance;
 		}
 
+		public _Get_progress_list(): std.HashMap<number, std.Pair<Invoke, InvokeHistory>>
+		{
+			return this.progress_list_;
+		}
+
+		public _Get_history_list(): std.HashMap<number, InvokeHistory>
+		{
+			return this.history_list_;
+		}
+
+		public _Set_performance(val: number): void
+		{
+			this.performance = val;
+		}
+
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
 		/**
-		 * Send an {@link Invoke} message with index of segmentation.
-		 * 
-		 * @param invoke An invoke message requesting parallel process.
-		 * @param first Initial piece's index in a section.
-		 * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
-		 *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
-		 *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
-		 * 
-		 * @see {@link ParallelSystemArray.sendPieceData}
+		 * @hidden
 		 */
-		private send_piece_data(invoke: Invoke, first: number, last: number): void
+		public _Send_piece_data(invoke: Invoke, first: number, last: number): void
 		{
 			// DUPLICATE INVOKE AND ATTACH PIECE INFO
 			let my_invoke: Invoke = new Invoke(invoke.getListener());
@@ -180,15 +189,15 @@ namespace samchon.protocol.parallel
 				return;
 
 			// ARCHIVE FIRST AND LAST INDEX
-			history["first"] = (progress_it.second.second as PRInvokeHistory).getFirst();
-			history["last"] = (progress_it.second.second as PRInvokeHistory).computeSize();
+			history._Set_first((progress_it.second.second as PRInvokeHistory).getFirst());
+			history._Set_last((progress_it.second.second as PRInvokeHistory).computeSize());
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list_.erase(progress_it);
 			this.history_list_.insert([history.getUID(), history]);
 
 			// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
-			this.getSystemArray()["_Complete_history"](history);
+			this.getSystemArray()._Complete_history(history);
 		}
 	}
 }

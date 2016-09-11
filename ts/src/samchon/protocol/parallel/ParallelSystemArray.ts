@@ -15,9 +15,9 @@ namespace samchon.protocol.parallel
 		extends external.ExternalSystemArray
 	{
 		/**
-		 * @see {@link ParallelSystem.progress_list}, {@link ParallelSystem.history_list}
+		 * @hidden
 		 */
-		private history_sequence: number;
+		private history_sequence_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -29,15 +29,37 @@ namespace samchon.protocol.parallel
 		{
 			super();
 
-			this.history_sequence = 0;
+			this.history_sequence_ = 0;
 		}
 
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
 		/**
 		 * @inheritdoc
 		 */
 		public at(index: number): ParallelSystem
 		{
 			return super.at(index) as ParallelSystem;
+		}
+
+		/**
+		 * @hidden
+		 */
+		public _Fetch_history_sequence(): number
+		{
+			return ++this.history_sequence_;
+		}
+
+		/**
+		 * @hidden
+		 */
+		public _Set_history_sequence(val: number): void
+		{
+			if (val <= this.history_sequence_)
+				return;
+
+			this.history_sequence_ = val;
 		}
 
 		/* ---------------------------------------------------------
@@ -65,7 +87,7 @@ namespace samchon.protocol.parallel
 		public sendPieceData(invoke: Invoke, first: number, last: number): void
 		{
 			if (invoke.has("_History_uid") == false)
-				invoke.push_back(new InvokeParameter("_History_uid", ++this.history_sequence));
+				invoke.push_back(new InvokeParameter("_History_uid", this._Fetch_history_sequence()));
 			else
 			{
 				// INVOKE MESSAGE ALREADY HAS ITS OWN UNIQUE ID
@@ -74,8 +96,7 @@ namespace samchon.protocol.parallel
 				let uid: number = invoke.get("_History_uid").getValue();
 
 				// FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
-				if (uid > this.history_sequence)
-					this.history_sequence = uid;
+				this._Set_history_sequence(uid);
 			}
 
 			let size: number = last - first;
@@ -92,7 +113,7 @@ namespace samchon.protocol.parallel
 					continue;
 
 				// SEND DATA WITH PIECE INDEXES
-				system["send_piece_data"](invoke, first, first + piece_size);
+				system._Send_piece_data(invoke, first, first + piece_size);
 				first += piece_size; // FOR THE NEXT STEP
 			}
 		}
@@ -103,13 +124,13 @@ namespace samchon.protocol.parallel
 		 * 
 		 * @return Whether the processes with same uid are all fininsed.
 		 */
-		protected _Complete_history(history: InvokeHistory): boolean
+		public _Complete_history(history: InvokeHistory): boolean
 		{
 			let uid: number = history.getUID();
 
 			// ALL THE SUB-TASKS ARE DONE?
 			for (let i: number = 0; i < this.size(); i++)
-				if ((this.at(i) as ParallelSystem)["progress_list_"].has(uid) == true)
+				if ((this.at(i) as ParallelSystem)._Get_progress_list().has(uid) == true)
 					return false; // IT'S ON A PROCESS IN SOME SYSTEM.
 
 			//--------
@@ -122,11 +143,11 @@ namespace samchon.protocol.parallel
 			for (let i: number = 0; i < this.size(); i++)
 			{
 				let system: ParallelSystem = this.at(i) as ParallelSystem;
-				if (system["history_list_"].has(uid) == false)
+				if (system._Get_history_list().has(uid) == false)
 					continue; // NO HISTORY (HAVE NOT PARTICIPATED IN THE PARALLEL PROCESS)
 
 				// COMPUTE PERFORMANCE INDEX BASIS ON EXECUTION TIME OF THIS PARALLEL PROCESS
-				let my_history: PRInvokeHistory = system["history_list_"].get(uid) as PRInvokeHistory;
+				let my_history: PRInvokeHistory = system._Get_history_list().get(uid) as PRInvokeHistory;
 				let performance_index: number = my_history.computeSize() / my_history.computeElapsedTime();
 
 				// PUSH TO SYSTEM PAIRS AND ADD TO AVERAGE
@@ -144,12 +165,12 @@ namespace samchon.protocol.parallel
 
 				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX
 				let ordinary_ratio: number;
-				if (system["history_list_"].size() < 2)
+				if (system._Get_history_list().size() < 2)
 					ordinary_ratio = .3;
 				else
-					ordinary_ratio = Math.min(0.7, 1.0 / (system["history_list_"].size() - 1.0));
+					ordinary_ratio = Math.min(0.7, 1.0 / (system._Get_history_list().size() - 1.0));
 				
-				system["performance"] = (system["performance"] * ordinary_ratio) + (new_performance * (1 - ordinary_ratio));
+				system._Set_performance((system.getPerformance() * ordinary_ratio) + (new_performance * (1 - ordinary_ratio)));
 			}
 
 			// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SLAVE SYSTEMS
@@ -159,7 +180,7 @@ namespace samchon.protocol.parallel
 		}
 
 		/**
-		 * @see {@link ParallelSystem.performance}
+		 * @hidden
 		 */
 		private normalize_performance(): void
 		{
@@ -167,12 +188,16 @@ namespace samchon.protocol.parallel
 			let average: number = 0.0;
 
 			for (let i: number = 0; i < this.size(); i++)
-				average += (this.at(i) as ParallelSystem).getPerformance();
+				average += this.at(i).getPerformance();
 			average /= this.size();
 
 			// DIVIDE FROM THE AVERAGE
 			for (let i: number = 0; i < this.size(); i++)
-				(this.at(i) as ParallelSystem)["performance"] /= average;
+			{
+				let system: ParallelSystem = this.at(i);
+
+				system._Set_performance(system.getPerformance() / average);
+			}
 		}
 	}
 }

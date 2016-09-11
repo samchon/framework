@@ -185,6 +185,8 @@ namespace chief
 		}
 		public destructor(): void
 		{
+			super.destructor();
+
 			if (this.uid != -1)
 				this.chief["monitor"].sendSystemStructure();
 		}

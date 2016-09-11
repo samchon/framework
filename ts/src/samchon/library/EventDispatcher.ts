@@ -257,7 +257,7 @@ namespace samchon.library
 		 */
 		public dispatchEvent(event: library.BasicEvent): boolean
 		{
-			event["target_"] = this.event_dispatcher_;
+			event.target = this.event_dispatcher_;
 			if (this.event_listeners_.has(event.type) == false)
 				return false;
 
@@ -266,7 +266,7 @@ namespace samchon.library
 			{
 				if (event.defaultPrevented == true)
 					continue;
-
+				
 				it.value.first.apply(it.value.second, [event]);
 			}
 			return true;

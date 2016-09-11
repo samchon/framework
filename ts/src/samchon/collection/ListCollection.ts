@@ -159,8 +159,7 @@ namespace samchon.collection
 		 */
 		private notify_insert(first: std.ListIterator<T>, last: std.ListIterator<T>): void
 		{
-			if (this.hasEventListener(CollectionEvent.INSERT))
-				this.dispatchEvent(new CollectionEvent(CollectionEvent.INSERT, first, last));
+			ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
 		}
 
 		/**
@@ -168,8 +167,7 @@ namespace samchon.collection
 		 */
 		private notify_erase(first: std.ListIterator<T>, last: std.ListIterator<T>): void
 		{
-			if (this.hasEventListener(CollectionEvent.ERASE))
-				this.dispatchEvent(new CollectionEvent(CollectionEvent.ERASE, first, last));
+			ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
 		}
 
 		/* =========================================================

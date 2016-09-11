@@ -105,16 +105,6 @@ namespace samchon.collection
 			ERASE
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
-		 */
-		public pop_back(): void
-		{
-			this.notify_erase(this.end().prev(), this.end());
-			
-			super.pop_back();
-		}
-
-		/**
 		 * @hidden
 		 */
 		protected _Erase_by_range(first: std.VectorIterator<T>, last: std.VectorIterator<T>): std.VectorIterator<T>
@@ -132,8 +122,7 @@ namespace samchon.collection
 		 */
 		private notify_insert(first: std.VectorIterator<T>, last: std.VectorIterator<T>): void
 		{
-			if (this.hasEventListener(CollectionEvent.INSERT))
-				this.dispatchEvent(new CollectionEvent(CollectionEvent.INSERT, first, last));
+			ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
 		}
 
 		/**
@@ -141,8 +130,7 @@ namespace samchon.collection
 		 */
 		private notify_erase(first: std.VectorIterator<T>, last: std.VectorIterator<T>): void
 		{
-			if (this.hasEventListener(CollectionEvent.ERASE))
-				this.dispatchEvent(new CollectionEvent(CollectionEvent.ERASE, first, last));
+			ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
 		}
 
 		/* =========================================================

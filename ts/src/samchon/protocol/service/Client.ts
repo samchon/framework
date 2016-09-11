@@ -23,7 +23,7 @@ namespace samchon.protocol.service
 			this.communicator_ = driver;
 			this.communicator_.listen(this);
 
-			this.service_ = null;
+			this.service_ = this.createService(driver.getPath());;
 		}
 
 		protected abstract createService(path: string): Service;
@@ -40,9 +40,20 @@ namespace samchon.protocol.service
 		{
 			return this.user_;
 		}
+
 		public getService(): Service
 		{
 			return this.service_;
+		}
+
+		public getNo(): number
+		{
+			return this.no_;
+		}
+
+		public _Set_no(val: number): void
+		{
+			this.no_ = val;
 		}
 
 		/* ------------------------------------------------------------------
@@ -67,11 +78,6 @@ namespace samchon.protocol.service
 				this.service_.destructor();
 
 			this.service_ = this.createService(path);
-			if (this.service_ != null)
-			{
-				this.service_["client_"] = this;
-				this.service_["path_"] = path;
-			}
 		}
 	}
 }

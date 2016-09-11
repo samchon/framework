@@ -105,11 +105,11 @@ namespace samchon.library
 				compare: (left: T, right: T) => boolean = std.greater
 			): GAPopulation<T, GeneArray>
 		{
-			let size: number = population["children"].size();
+			let size: number = population._Get_children().size();
 			let evolved = new GAPopulation<T, GeneArray>(size);
 
 			// ELITICISM
-			evolved["children"].set(0, population.fitTest());
+			evolved._Get_children().set(0, population.fitTest());
 
 			for (let i: number = 1; i < size; i++)
 			{
@@ -119,7 +119,7 @@ namespace samchon.library
 				let child: GeneArray = this.crossover(gene1, gene2);
 				this.mutate(child);
 
-				evolved["children"].set(i, child);
+				evolved._Get_children().set(i, child);
 			}
 
 			return evolved;
@@ -159,7 +159,7 @@ namespace samchon.library
 		private selection<T, GeneArray extends std.base.IArrayContainer<T>>
 			(population: GAPopulation<T, GeneArray>): GeneArray
 		{
-			let size: number = population["children"].size();
+			let size: number = population._Get_children().size();
 			let tournament: GAPopulation<T, GeneArray> = new GAPopulation<T, GeneArray>(size);
 
 			for (let i: number = 0; i < size; i++)
@@ -168,7 +168,7 @@ namespace samchon.library
 				if (random_index == size)
 					random_index--;
 
-				tournament["children"].set(i, population["children"].at(random_index));
+				tournament._Get_children().set(i, population._Get_children().at(random_index));
 			}
 			return tournament.fitTest();
 		}
@@ -298,7 +298,7 @@ namespace samchon.library
 		/**
 		 * Genes representing the population.
 		 */
-		private children: std.Vector<GeneArray>;
+		private children_: std.Vector<GeneArray>;
 
 		/**
 		 * <p> A comparison function returns whether left gene is more optimal, greater. </p>
@@ -318,7 +318,7 @@ namespace samchon.library
 		 * <p> If you don't want to follow the rule or want a custom comparison function, you have to realize a 
 		 * comparison function. </p>
 		 */
-		private compare: (left: GeneArray, right: GeneArray) => boolean;
+		private compare_: (left: GeneArray, right: GeneArray) => boolean;
 		
 		/**
 		 * <p> Private constructor with population. </p>
@@ -362,8 +362,8 @@ namespace samchon.library
 		{
 			if (args.length == 1)
 			{
-				this.children = new std.Vector<GeneArray>();
-				this.children.length = args[0] as number;
+				this.children_ = new std.Vector<GeneArray>();
+				this.children_.length = args[0] as number;
 			}
 			else
 			{
@@ -371,9 +371,9 @@ namespace samchon.library
 				let size: number = args[1];
 				let compare: (left: GeneArray, right: GeneArray) => boolean = (args.length == 2) ? std.greater : args[2];
 
-				this.children = new std.Vector<GeneArray>();
-				this.children.length = args[1] as number;
-				this.compare = compare;
+				this.children_ = new std.Vector<GeneArray>();
+				this.children_.length = args[1] as number;
+				this.compare_ = compare;
 
 				for (let i: number = 0; i < size; i++)
 				{
@@ -385,9 +385,14 @@ namespace samchon.library
 							child.begin() as std.base.IArrayIterator<T>,
 							child.end() as std.base.IArrayIterator<T>
 						);
-					this.children[i] = child;
+					this.children_[i] = child;
 				}
 			}
+		}
+
+		public _Get_children(): std.Vector<GeneArray>
+		{
+			return this.children_;
 		}
 
 		/**
@@ -397,11 +402,11 @@ namespace samchon.library
 		 */
 		public fitTest(): GeneArray
 		{
-			let best: GeneArray = this.children.front();
+			let best: GeneArray = this.children_.front();
 
-			for (let i: number = 1; i < this.children.size(); i++)
-				if (this.compare(this.children.at(i), best) == true)
-					best = this.children.at(i);
+			for (let i: number = 1; i < this.children_.size(); i++)
+				if (this.compare_(this.children_.at(i), best) == true)
+					best = this.children_.at(i);
 
 			return best;
 		}
@@ -411,7 +416,7 @@ namespace samchon.library
 		 */
 		private clone(obj: GeneArray): GeneArray
 		{
-			var ret: GeneArray = obj.constructor();
+			var ret: GeneArray = eval("new obj.constructor()");
 
 			for (let key in obj)
 				if (obj.hasOwnProperty(key) == true)

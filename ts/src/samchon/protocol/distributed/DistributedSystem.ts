@@ -17,7 +17,7 @@ namespace samchon.protocol.distributed
 			super.destructor();
 
 			// SHIFT INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVE
-			for (let it = this["progress_list_"].begin(); !it.equal_to(this["progress_list_"].end()); it = it.next())
+			for (let it = this._Get_progress_list().begin(); !it.equal_to(this._Get_progress_list().end()); it = it.next())
 			{
 				// A HISTORY HAD PROGRESSED
 				let history: DSInvokeHistory = it.second.second as DSInvokeHistory;
@@ -103,24 +103,25 @@ namespace samchon.protocol.distributed
 				history.construct(xml);
 
 				// IF THE HISTORY IS NOT EXIST IN PROGRESS, THEN TERMINATE REPORTING
-				let progress_it = this["progress_list_"].find(history.getUID());
-				if (progress_it.equal_to(this["progress_list_"].end()) == true)
+				let progress_it = this._Get_progress_list().find(history.getUID());
+				if (progress_it.equal_to(this._Get_progress_list().end()) == true)
 					return;
 
 				// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
-				this["progress_list_"].erase(progress_it);
-				this["history_list_"].insert([history.getUID(), history]);
+				this._Get_progress_list().erase(progress_it);
+				this._Get_history_list().insert([history.getUID(), history]);
 
 				// ALSO NOTIFY TO THE ROLE
 				if (history.getRole() != null)
-					history.getRole()["report_history"](history);
+					history.getRole()._Report_history(history);
 
 				// IF SYSTEM_ARRAY IS A TYPE OF DistributedSystemArrayMediator, 
 				// THEN ALSO NOTIFY TO ITS MASTER
-				if (this.getSystemArray() instanceof DistributedSystemArrayMediator)
+				let system_array_mediator: DistributedSystemArrayMediator = this.getSystemArray() as DistributedSystemArrayMediator;
+				if (system_array_mediator instanceof DistributedSystemArrayMediator)
 				{
-					let mediator: parallel.MediatorSystem = (this.getSystemArray() as DistributedSystemArrayMediator)["mediator_"];
-					mediator["complete_history"](history.getUID()); // NOTIFY END TO MASTER
+					let mediator: parallel.MediatorSystem = system_array_mediator.getMediator();
+					mediator._Complete_history(history.getUID()); // NOTIFY END TO MASTER
 				}
 			}
 		}

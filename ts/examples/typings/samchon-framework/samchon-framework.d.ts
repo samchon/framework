@@ -1,4 +1,4 @@
-// Type definitions for Samchon Framework v2.0.0-beta.1
+// Type definitions for Samchon Framework v2.0.0-beta.8
 // Project: https://github.com/samchon/framework
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -88,10 +88,6 @@ declare namespace samchon.collection {
          */
         protected _Insert_by_range<U extends T, InputIterator extends std.Iterator<U>>(position: std.VectorIterator<T>, begin: InputIterator, end: InputIterator): std.VectorIterator<T>;
         /**
-         * @inheritdoc
-         */
-        pop_back(): void;
-        /**
          * @hidden
          */
         protected _Erase_by_range(first: std.VectorIterator<T>, last: std.VectorIterator<T>): std.VectorIterator<T>;
@@ -177,8 +173,8 @@ declare namespace samchon.library {
      * @author Jeongho Nam <http://samchon.org>
      */
     class BasicEvent {
-        private type_;
-        private target_;
+        protected type_: string;
+        protected target_: IEventDispatcher;
         private currentTarget_;
         protected trusted_: boolean;
         protected bubbles_: boolean;
@@ -620,6 +616,14 @@ declare namespace samchon.collection {
         /**
          * @inheritdoc
          */
+        protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
         hasEventListener(type: string): boolean;
         /**
          * @inheritdoc
@@ -849,6 +853,13 @@ declare namespace samchon.collection {
         removeEventListener(type: "insert", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
+    }
+    /**
+     * @hidden
+     */
+    namespace ICollection {
+        function _Dispatch_CollectionEvent<T>(collection: ICollection<T>, type: string, first: std.Iterator<T>, last: std.Iterator<T>): void;
+        function _Dispatch_MapCollectionEvent<Key, T>(collection: ICollection<std.Pair<Key, T>>, type: string, first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
     }
 }
 declare namespace samchon.collection {
@@ -1268,6 +1279,14 @@ declare namespace samchon.collection {
          * A chain object taking responsibility of dispatching events.
          */
         private event_dispatcher_;
+        /**
+         * @inheritdoc
+         */
+        protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -2267,6 +2286,10 @@ declare namespace samchon.library {
          */
         modificationDate: Date;
         /**
+         * @hidden
+         */
+        _Set_file(val: File): void;
+        /**
          * <p> Displays a file-browsing dialog box that lets the user select a file to upload. The dialog box is native
          * to the user's browser system. The user can select a file on the local computer or from other systems, for
          * example, through a UNC path on Windows. </p>
@@ -2586,7 +2609,7 @@ declare namespace samchon.library {
         /**
          * Genes representing the population.
          */
-        private children;
+        private children_;
         /**
          * <p> A comparison function returns whether left gene is more optimal, greater. </p>
          *
@@ -2605,7 +2628,7 @@ declare namespace samchon.library {
          * <p> If you don't want to follow the rule or want a custom comparison function, you have to realize a
          * comparison function. </p>
          */
-        private compare;
+        private compare_;
         /**
          * <p> Private constructor with population. </p>
          *
@@ -2641,6 +2664,7 @@ declare namespace samchon.library {
          * @param compare A comparison function returns whether left gene is more optimal.
          */
         constructor(geneArray: GeneArray, size: number, compare: (left: GeneArray, right: GeneArray) => boolean);
+        _Get_children(): std.Vector<GeneArray>;
         /**
          * Test fitness of each <i>GeneArray</i> in the {@link population}.
          *
@@ -5062,7 +5086,7 @@ declare namespace samchon.protocol.distributed {
         getSystemArray(): DistributedSystemArray;
         getPerformance(): number;
         sendData(invoke: protocol.Invoke): void;
-        private report_history(history);
+        _Report_history(history: DSInvokeHistory): void;
     }
 }
 /**
@@ -5177,9 +5201,9 @@ declare namespace samchon.protocol.parallel {
      */
     abstract class ParallelSystemArray extends external.ExternalSystemArray {
         /**
-         * @see {@link ParallelSystem.progress_list}, {@link ParallelSystem.history_list}
+         * @hidden
          */
-        private history_sequence;
+        private history_sequence_;
         /**
          * Default Constructor.
          */
@@ -5188,6 +5212,14 @@ declare namespace samchon.protocol.parallel {
          * @inheritdoc
          */
         at(index: number): ParallelSystem;
+        /**
+         * @hidden
+         */
+        _Fetch_history_sequence(): number;
+        /**
+         * @hidden
+         */
+        _Set_history_sequence(val: number): void;
         /**
          *
          * @param invoke An invoke message requesting parallel process.
@@ -5210,9 +5242,9 @@ declare namespace samchon.protocol.parallel {
          *
          * @return Whether the processes with same uid are all fininsed.
          */
-        protected _Complete_history(history: InvokeHistory): boolean;
+        _Complete_history(history: InvokeHistory): boolean;
         /**
-         * @see {@link ParallelSystem.performance}
+         * @hidden
          */
         private normalize_performance();
     }
@@ -5242,6 +5274,8 @@ declare namespace samchon.protocol.distributed {
          * @inheritdoc
          */
         getRole(name: string): DistributedSystemRole;
+        insertRole(role: DistributedSystemRole): void;
+        eraseRole(name: string): void;
         toXML(): library.XML;
     }
 }
@@ -5295,7 +5329,7 @@ declare namespace samchon.protocol.distributed {
         protected abstract createMediator(): parallel.MediatorSystem;
         protected startMediator(): void;
         getMediator(): parallel.MediatorSystem;
-        protected _Complete_history(history: parallel.PRInvokeHistory): boolean;
+        _Complete_history(history: parallel.PRInvokeHistory): boolean;
     }
 }
 declare namespace samchon.protocol.distributed {
@@ -5390,10 +5424,6 @@ declare namespace samchon.protocol.external {
          * @hidden
          */
         private communicator_;
-        /**
-         * @hidden
-         */
-        private erasing_;
         constructor(systemArray: ExternalSystemArray);
         constructor(systemArray: ExternalSystemArray, communicator: IClientDriver);
         /**
@@ -5501,18 +5531,13 @@ declare namespace samchon.protocol.parallel {
          * A performance index that indicates how much fast the connected parallel system is.
          */
         getPerformance(): number;
+        _Get_progress_list(): std.HashMap<number, std.Pair<Invoke, InvokeHistory>>;
+        _Get_history_list(): std.HashMap<number, InvokeHistory>;
+        _Set_performance(val: number): void;
         /**
-         * Send an {@link Invoke} message with index of segmentation.
-         *
-         * @param invoke An invoke message requesting parallel process.
-         * @param first Initial piece's index in a section.
-         * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
-         *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
-         *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
-         *
-         * @see {@link ParallelSystemArray.sendPieceData}
+         * @hidden
          */
-        private send_piece_data(invoke, first, last);
+        _Send_piece_data(invoke: Invoke, first: number, last: number): void;
         /**
          * @hidden
          */
@@ -5550,11 +5575,19 @@ declare namespace samchon.protocol.distributed {
     }
 }
 declare namespace samchon.protocol.distributed {
-    interface IDistributedServer extends external.IExternalServer, DistributedSystem {
+    interface IDistributedServer extends DistributedSystem, external.IExternalServer {
         /**
          * @inheritdoc
          */
         getSystemArray(): DistributedSystemArray;
+        /**
+         * @inheritdoc
+         */
+        has(key: string): boolean;
+        /**
+         * @inheritdoc
+         */
+        get(key: string): DistributedSystemRole;
     }
     abstract class DistributedServer extends DistributedSystem implements external.IExternalServer {
         protected ip: string;
@@ -5763,18 +5796,7 @@ declare namespace samchon.protocol.external {
      * @author Jeongho Nam <http://samchon.org>
      */
     interface IExternalServer extends ExternalSystem {
-        /**
-         * Connect to the external system.
-         */
         connect(): void;
-        /**
-         * Get ip address.
-         */
-        getIP(): string;
-        /**
-         * Get port number.
-         */
-        getPort(): number;
     }
     /**
      * <p> An external server driver. </p>
@@ -6048,7 +6070,7 @@ declare namespace samchon.protocol.parallel {
         constructor(systemArray: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator);
         abstract start(): void;
         getMediator(): ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator;
-        private complete_history(uid);
+        _Complete_history(uid: number): void;
         protected _replyData(invoke: Invoke): void;
         replyData(invoke: protocol.Invoke): void;
     }
@@ -6123,6 +6145,8 @@ declare namespace samchon.protocol.parallel {
         constructor(invoke: Invoke);
         getFirst(): number;
         getLast(): number;
+        _Set_first(val: number): void;
+        _Set_last(val: number): void;
         /**
          * Compute number of allocated pieces.
          */
@@ -6179,7 +6203,7 @@ declare namespace samchon.protocol.parallel {
         protected abstract createMediator(): MediatorSystem;
         protected start_mediator(): void;
         getMediator(): MediatorSystem;
-        protected _Complete_history(history: PRInvokeHistory): boolean;
+        _Complete_history(history: PRInvokeHistory): boolean;
     }
 }
 declare namespace samchon.protocol.parallel {
@@ -6293,6 +6317,8 @@ declare namespace samchon.protocol.service {
         close(): void;
         getUser(): User;
         getService(): Service;
+        getNo(): number;
+        _Set_no(val: number): void;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
         protected changeService(path: string): void;
@@ -6314,10 +6340,14 @@ declare namespace samchon.protocol.service {
         protected abstract createUser(): User;
         has(account: string): boolean;
         get(account: string): User;
+        /**
+         * @hidden
+         */
+        _Get_account_map(): std.HashMap<string, User>;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
         addClient(driver: WebClientDriver): void;
-        private erase_user(user);
+        _Erase_user(user: User): void;
     }
 }
 declare namespace samchon.protocol.service {
@@ -6353,11 +6383,30 @@ declare namespace samchon.protocol.service {
          */
         constructor(server: Server);
         protected abstract createClient(driver: WebClientDriver): Client;
+        /**
+         * @hidden
+         */
+        _Create_child(driver: WebClientDriver): Client;
+        /**
+         * @hidden
+         */
         private handle_erase_client(event);
         getServer(): Server;
         getAccountID(): string;
         getAuthority(): number;
         setAccount(id: string, authority: number): void;
+        /**
+         * @hidden
+         */
+        _Get_session_id(): string;
+        /**
+         * @hidden
+         */
+        _Fetch_sequence(): number;
+        /**
+         * @hidden
+         */
+        _Set_session_id(val: string): void;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
     }
@@ -6392,4 +6441,7 @@ declare namespace samchon.protocol.slave {
         close(): void;
         addClient(driver: IClientDriver): void;
     }
+}
+declare namespace samchon.test {
+    function test_collection(): void;
 }

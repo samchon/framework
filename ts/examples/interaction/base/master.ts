@@ -92,6 +92,10 @@ namespace master
 		}
 		public destructor(): void
 		{
+			super.destructor();
+			
+			console.log("A slave has disconnected");
+
 			if (this.uid != -1)
 				this.master["monitor"].sendSystemStructure();
 		}

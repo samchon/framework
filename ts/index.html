@@ -3,12 +3,8 @@
     <title>TypeScript HTML App</title>
     <script src="include/typescript-stl.js"></script>
     <script src="include/samchon-framework.js"></script>
-	<script>
-        var invoke = new samchon.protocol.Invoke("talk", "Hello friends?");
-        console.log(invoke.toXML().toString());
-	</script>
 </head>
-<body>
+<body onload="samchon.test.test_collection();">
     <h1>TypeScript HTML App</h1>
 </body>
 </html>

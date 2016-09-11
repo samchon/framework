@@ -35,6 +35,32 @@ namespace samchon.collection
 		// using super::constructor
 
 		/* =========================================================
+			ELEMENTS I/O
+				- HANDLE_INSERT & HANDLE_ERASE
+		============================================================
+			HANDLE_INSERT & HANDLE_ERASE
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void
+		{
+			super._Handle_insert(first, last);
+
+			ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void
+		{
+			super._Handle_erase(first, last);
+
+			ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
+		}
+
+		/* =========================================================
 			EVENT_DISPATCHER
 				- ACCESSORS
 				- ADD

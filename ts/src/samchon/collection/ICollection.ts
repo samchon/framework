@@ -118,4 +118,42 @@ namespace samchon.collection
 		removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
 		removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
 	}
+
+	/**
+	 * @hidden
+	 */
+	export namespace ICollection
+	{
+		export function _Dispatch_CollectionEvent<T>
+			(
+				collection: ICollection<T>, type: string, 
+				first: std.Iterator<T>, last: std.Iterator<T>
+			): void
+		{
+			if (collection.hasEventListener(type) == false)
+				return;
+
+			let event: CollectionEvent<T> = new CollectionEvent<T>(type, first, last);
+			setTimeout(function ()
+			{
+				collection.dispatchEvent(event);
+			});
+		}
+
+		export function _Dispatch_MapCollectionEvent<Key, T>
+			(
+				collection: ICollection<std.Pair<Key, T>>, type: string,
+				first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>
+			): void
+		{
+			if (collection.hasEventListener(type) == false)
+				return;
+
+			let event: MapCollectionEvent<Key, T> = new MapCollectionEvent<Key, T>(type, first, last);
+			setTimeout(function ()
+			{
+				collection.dispatchEvent(event);
+			});
+		}
+	}
 }

@@ -63,13 +63,6 @@ namespace samchon.protocol.external
 		 */
 		private communicator_: ICommunicator;
 
-		// COLLECTION EVENT ON ARRAY AND DEQUE IS PRE-PROCESS
-		// FLAG FOR EARSING IS REQUIRED TO ANTICIPATE INFINITE RECURSION
-		/**
-		 * @hidden
-		 */
-		private erasing_: boolean;
-
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
@@ -88,7 +81,6 @@ namespace samchon.protocol.external
 				communicator.listen(this);
 
 			this.name = "";
-			this.erasing_ = false;
 		}
 
 		/**
@@ -96,6 +88,11 @@ namespace samchon.protocol.external
 		 */
 		public destructor(): void
 		{
+			if (this.communicator != null && this.communicator.isConnected() == true)
+			{
+				this.communicator.onClose = null;
+				this.communicator.close();
+			}
 		}
 
 		/**
@@ -103,11 +100,8 @@ namespace samchon.protocol.external
 		 */
 		private handle_close(): void
 		{
-			if (this.erasing_ == true)
-				return;
-
 			if (this.system_array_ == null)
-				this.destructor();
+				return;
 			else
 				std.remove(this.system_array_.begin(), this.system_array_.end(), this as ExternalSystem);
 		}

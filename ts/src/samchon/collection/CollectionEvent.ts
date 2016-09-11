@@ -72,7 +72,7 @@ namespace samchon.collection
 		 */
 		public get target(): ICollection<T>
 		{
-			return this["target_"] as ICollection<T>;
+			return this.target_ as ICollection<T>;
 		}
 
 		/**

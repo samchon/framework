@@ -55,7 +55,7 @@ namespace samchon.protocol.distributed
 			if (invoke.has("_History_uid") == false)
 			{
 				// ISSUE UID AND ATTACH IT TO INVOKE'S LAST PARAMETER
-				uid = ++this.system_array_["history_sequence"];
+				uid = this.system_array_._Fetch_history_sequence();
 				invoke.push_back(new InvokeParameter("_History_uid", uid));
 			}
 			else
@@ -66,8 +66,7 @@ namespace samchon.protocol.distributed
 				uid = invoke.get("_History_uid").getValue();
 
 				// FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
-				if (uid > this.system_array_["history_sequence"])
-					this.system_array_["history_sequence"] = uid;
+				this.system_array_._Set_history_sequence(uid);
 
 				// FOR CASE 2. ERASE ORDINARY PROGRESSIVE HISTORY FROM THE DISCONNECTED
 				this.progress_list_.erase(uid);
@@ -85,7 +84,7 @@ namespace samchon.protocol.distributed
 				let system: DistributedSystem = this.system_array_.at(i) as DistributedSystem;
 
 				if (idle_system == null 
-					|| system["progress_list_"].size() < idle_system["progress_list_"].size()
+					|| system._Get_progress_list().size() < idle_system._Get_progress_list().size()
 					|| system.getPerformance() < idle_system.getPerformance())
 					idle_system = system;
 			}
@@ -94,13 +93,13 @@ namespace samchon.protocol.distributed
 			let history: DSInvokeHistory = new DSInvokeHistory(idle_system, this, invoke);
 
 			this.progress_list_.insert([uid, history]);
-			idle_system["progress_list_"].insert([uid, std.make_pair(invoke, history)]);
+			idle_system._Get_progress_list().insert([uid, std.make_pair(invoke, history)]);
 
 			// SEND DATA
 			idle_system.sendData(invoke);
 		}
 
-		private report_history(history: DSInvokeHistory): void
+		public _Report_history(history: DSInvokeHistory): void
 		{
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list_.erase(history.getUID());

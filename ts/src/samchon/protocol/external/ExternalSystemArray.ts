@@ -77,15 +77,7 @@ namespace samchon.protocol.external
 		private handle_system_erase(event: collection.CollectionEvent<ExternalSystem>): void
 		{
 			for (let it = event.first; !it.equal_to(event.last); it = it.next())
-			{
-				if (it.value["erasing_"] == true)
-					continue;
-
-				it.value["erasing_"] = true;
-				it.value.close();
-
-				setTimeout(it.value.destructor.bind(it.value), 0);
-			}
+				it.value.destructor();
 		}
 
 		/* ---------------------------------------------------------

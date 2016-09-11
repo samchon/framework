@@ -47,8 +47,7 @@ namespace samchon.collection
 		{
 			super._Handle_insert(first, last);
 			
-			if (this.hasEventListener(CollectionEvent.INSERT))
-				this.dispatchEvent(new CollectionEvent(CollectionEvent.INSERT, first, last));
+			ICollection._Dispatch_MapCollectionEvent(this, "insert", first, last);
 		}
 
 		/**
@@ -58,8 +57,7 @@ namespace samchon.collection
 		{
 			super._Handle_erase(first, last);
 
-			if (this.hasEventListener(CollectionEvent.ERASE))
-				this.dispatchEvent(new CollectionEvent(CollectionEvent.ERASE, first, last));
+			ICollection._Dispatch_MapCollectionEvent(this, "erase", first, last);
 		}
 
 		/* =========================================================

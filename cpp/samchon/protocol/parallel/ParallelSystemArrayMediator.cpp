@@ -36,7 +36,7 @@ auto ParallelSystemArrayMediator::_Complete_history(shared_ptr<InvokeHistory> hi
 {
 	bool ret = super::_Complete_history(history);
 	if (ret == true)
-		mediator_->complete_history(history->getUID());
+		mediator_->_Complete_history(history->getUID());
 
 	return ret;
 }

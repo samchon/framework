@@ -59,6 +59,10 @@ void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t first,
 
 auto ParallelSystemArray::_Complete_history(shared_ptr<InvokeHistory> history) -> bool
 {
+	// WRONG TYPE
+	if (dynamic_pointer_cast<PRInvokeHistory>(history) == nullptr)
+		return false;
+
 	size_t uid = history->getUID();
 
 	// ALL THE SUB-TASKS ARE DONE?
@@ -109,12 +113,12 @@ auto ParallelSystemArray::_Complete_history(shared_ptr<InvokeHistory> history) -
 	}
 
 	// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SLAVE SYSTEMS
-	normalize_performance();
+	_Normalize_performance();
 
 	return true;
 }
 
-void ParallelSystemArray::normalize_performance()
+void ParallelSystemArray::_Normalize_performance()
 {
 	// CALC AVERAGE
 	double average = 0.0;

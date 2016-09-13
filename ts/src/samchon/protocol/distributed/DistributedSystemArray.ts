@@ -56,7 +56,7 @@ namespace samchon.protocol.distributed
 			super.construct(xml);
 		}
 
-		public abstract createRole(xml: library.XML): DistributedSystemRole;
+		protected abstract createRole(xml: library.XML): DistributedSystemRole;
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -98,6 +98,154 @@ namespace samchon.protocol.distributed
 		public eraseRole(name: string): void
 		{
 			this.role_map_.erase(name);
+		}
+
+		/* ---------------------------------------------------------
+			HISTORY HANDLER - PERFORMANCE ESTIMATION
+		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
+		public _Complete_history(history: InvokeHistory): boolean
+		{
+			if (history instanceof DSInvokeHistory)
+			{
+				//--------
+				// DistributedSystemRole's history -> DSInvokeHistory
+				//--------
+				// NO ROLE, THEN FAILED TO COMPLETE
+				if (history.getRole() == null)
+					return false;
+
+				// ESTIMATE PERFORMANCE INDEXES
+				this.estimate_system_performance(history); // ESTIMATE SYSTEMS' INDEX
+				this.estimate_system_performance(history); // ESTIMATE ROLE' INDEX
+
+				// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SYSTEMS AND ROLES
+				this._Normalize_performance();
+				return true;
+			}
+			else
+			{
+				// ParallelSystem's history -> PRInvokeHistory
+				return super._Complete_history(history);
+			}
+		}
+
+		/**
+		 * @hidden
+		 */
+		private estimate_role_performance(history: DSInvokeHistory): void
+		{
+			let role: DistributedSystemRole = history.getRole();
+
+			let average_elapsed_time_of_others: number = 0;
+			let denominator: number = 0;
+
+			// COMPUTE AVERAGE ELAPSED TIME
+			for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
+			{
+				let my_role: DistributedSystemRole = it.second;
+				if (my_role == history.getRole() || my_role._Get_history_list().empty() == true)
+					continue;
+
+				average_elapsed_time_of_others += my_role._Compute_average_elapsed_time() * my_role.getResource();
+				denominator++;
+			}
+
+			// COMPARE WITH THIS HISTORY'S ELAPSED TIME
+			if (denominator != 0)
+			{
+				// DIVE WITH DENOMINATOR
+				average_elapsed_time_of_others /= denominator;
+
+				// DEDUCT NEW PERFORMANCE INDEX BASED ON THE EXECUTION TIME
+				//	- ROLE'S PERFORMANCE MEANS; HOW MUCH TIME THE ROLE NEEDS
+				//	- ELAPSED TIME IS LONGER, THEN PERFORMANCE IS HIGHER
+				let new_performance: number = history.computeElapsedTime() / average_elapsed_time_of_others;
+
+				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 15%
+				let ordinary_ratio: number;
+				if (role._Get_history_list().size() < 2)
+					ordinary_ratio = .15;
+				else
+					ordinary_ratio = Math.min(.85, 1.0 / (role._Get_history_list().size() - 1.0));
+
+				// DEFINE NEW PERFORMANCE
+				role.setResource
+				(
+					(role.getResource() * ordinary_ratio) 
+					+ (new_performance * (1 - ordinary_ratio))
+				);
+			}
+		}
+
+		/**
+		 * @hidden
+		 */
+		private estimate_system_performance(history: DSInvokeHistory): void
+		{
+			let system: DistributedSystem = history.getSystem();
+
+			let average_elapsed_time_of_others: number = 0;
+			let denominator: number = 0;
+
+			// COMPUTE AVERAGE ELAPSED TIME
+			for (let i: number = 0; i < this.size(); i++)
+			{
+				let system: DistributedSystem = this.at(i);
+
+				let avg: number = system._Compute_average_elapsed_time();
+				if (avg == -1)
+					continue;
+
+				average_elapsed_time_of_others += avg;
+				denominator++;
+			}
+			
+			// COMPARE WITH THIS HISTORY'S ELAPSED TIME
+			if (denominator != 0)
+			{
+				// DIVE WITH DENOMINATOR
+				average_elapsed_time_of_others /= denominator;
+
+				// DEDUCT NEW PERFORMANCE INDEX BASED ON THE EXECUTION TIME
+				//	- SYSTEM'S PERFORMANCE MEANS; HOW FAST THE SYSTEM IS
+				//	- ELAPSED TIME IS LOWER, THEN PERFORMANCE IS HIGHER
+				let new_performance: number = average_elapsed_time_of_others / history.computeElapsedTime();
+
+				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 30%
+				let ordinary_ratio: number;
+				if (system._Get_history_list().size() < 2)
+					ordinary_ratio = .3;
+				else
+					ordinary_ratio = Math.min(0.7, 1.0 / (system._Get_history_list().size() - 1.0));
+
+				// DEFINE NEW PERFORMANCE
+				system.setPerformance
+				(
+					(system.getPerformance() * ordinary_ratio)
+					+ (new_performance * (1 - ordinary_ratio))
+				);
+			}
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected _Normalize_performance(): void
+		{
+			// NORMALIZE SYSTEMS' PERFORMANCE INDEXES
+			super._Normalize_performance();
+
+			// NORMALIZE ROLES' PERFORMANCE INDEXES
+			let average: number = 0;
+			for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
+				average += it.second.getResource();
+			average /= this.role_map_.size();
+
+			for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
+				it.second.setResource(it.second.getResource() / average);
 		}
 
 		/* ---------------------------------------------------------

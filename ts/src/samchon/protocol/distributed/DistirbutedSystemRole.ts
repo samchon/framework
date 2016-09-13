@@ -12,7 +12,7 @@ namespace samchon.protocol.distributed
 		private progress_list_: std.HashMap<number, DSInvokeHistory>;
 		private history_list_: std.HashMap<number, DSInvokeHistory>;
 
-		protected performance: number;
+		protected resource: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -24,7 +24,7 @@ namespace samchon.protocol.distributed
 			this.system_array_ = systemArray;
 
 			// PERFORMANCE INDEX
-			this.performance = 1.0;
+			this.resource = 1.0;
 			this.progress_list_ = new std.HashMap<number, DSInvokeHistory>();
 			this.history_list_ = new std.HashMap<number, DSInvokeHistory>();
 		}
@@ -37,9 +37,39 @@ namespace samchon.protocol.distributed
 			return this.system_array_;
 		}
 
-		public getPerformance(): number
+		public getResource(): number
 		{
-			return this.performance;
+			return this.resource;
+		}
+
+		public setResource(val: number): void
+		{
+			this.resource = val;
+		}
+
+		public _Get_process_list(): std.HashMap<number, DSInvokeHistory>
+		{
+			return this.progress_list_;
+		}
+		public _Get_history_list(): std.HashMap<number, DSInvokeHistory>
+		{
+			return this.history_list_;
+		}
+
+		public _Compute_average_elapsed_time(): number
+		{
+			let sum: number = 0;
+			
+			for (let it = this.history_list_.begin(); !it.equal_to(this.history_list_.end()); it = it.next())
+			{
+				let history: DSInvokeHistory = it.second;
+
+				// THE SYSTEM'S PERFORMANCE IS 5. THE SYSTEM CAN HANDLE A PROCESS VERY QUICKLY
+				// AND ELAPSED TIME OF THE PROCESS IS 3 SECONDS
+				// THEN I CONSIDER THE ELAPSED TIME AS 15 SECONDS.
+				sum += history.computeElapsedTime() * history.getSystem().getPerformance();
+			}
+			return sum / this.history_list_.size();
 		}
 
 		/* ---------------------------------------------------------
@@ -105,8 +135,45 @@ namespace samchon.protocol.distributed
 			this.progress_list_.erase(history.getUID());
 			this.history_list_.insert([history.getUID(), history]);
 
-			// ESTIMATE REQUIRED PERFORMANCE OF THIS ROLE
-			
+			////--------
+			//// ESTIMATE PERFORMANCE OF THIS ROLE
+			////--------
+			//let role_map: std.HashMap<string, DistributedSystemRole> = this.system_array_.getRoleMap();
+			//let average_elapsed_time_of_others: number = 0;
+			//let denominator: number = 0;
+
+			//// COMPUTE AVERAGE ELAPSED TIME OF OTHER ROLES
+			//for (let it = role_map.begin(); !it.equal_to(role_map.end()); it = it.next())
+			//{
+			//	let role: DistributedSystemRole = it.second;
+			//	if (this == role || role.history_list_.empty() == true)
+			//		continue;
+
+			//	average_elapsed_time_of_others += role._Compute_average_elapsed_time() * role.performance;
+			//	denominator++;
+			//}
+
+			//// COMPARE WITH THIS HISTORY'S ELAPSED TIME
+			//if (denominator != 0)
+			//{
+			//	average_elapsed_time_of_others /= denominator; // DIVE WITH DENOMINATOR
+
+			//	// DEDUCT NEW PERFORMANCE INDEX BASED ON THE EXECUTION TIME
+			//	//	- ROLE'S PERFORMANCE MEANS; HOW MUCH TIME THE ROLE NEEDS
+			//	//	- ELAPSED TIME IS LONGER, THEN PERFORMANCE IS HIGHER
+			//	let new_performance: number = history.computeElapsedTime() / average_elapsed_time_of_others;
+
+			//	// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 15%
+			//	let ordinary_ratio: number;
+			//	if (this.history_list_.size() < 2)
+			//		ordinary_ratio = .15;
+			//	else
+			//		ordinary_ratio = Math.min(0.85, 1.0 / (this.history_list_.size() - 1.0));
+
+			//	// DEFINE NEW PERFORMANCE
+			//	this.performance = (this.performance * ordinary_ratio) 
+			//		+ (new_performance * (1 - ordinary_ratio));
+			//}
 		}
 	}
 }

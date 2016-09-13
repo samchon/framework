@@ -64,8 +64,12 @@ void ExternalSystem::sendData(shared_ptr<Invoke> invoke)
 
 void ExternalSystem::replyData(shared_ptr<Invoke> invoke)
 {
+	// SHIFT TO ROLES
 	for (size_t i = 0; i < size(); i++)
 		at(i)->replyData(invoke);
+
+	// SHIFT TO SYSTEM_ARRAY
+	system_array_->replyData(invoke);
 }
 
 /* ---------------------------------------------------------

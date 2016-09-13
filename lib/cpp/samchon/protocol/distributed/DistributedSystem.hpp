@@ -15,6 +15,8 @@ namespace distributed
 	class SAMCHON_FRAMEWORK_API DistributedSystem
 		: public virtual parallel::ParallelSystem
 	{
+		friend class DistributedSystemArray;
+
 	private:
 		typedef parallel::ParallelSystem super;
 
@@ -38,10 +40,16 @@ namespace distributed
 		auto getSystemArray() const -> DistributedSystemArray*;
 
 	private:
+		auto compute_average_elapsed_time() const -> double;
+
+	public:
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
-		virtual void _Report_history(std::shared_ptr<library::XML>);
+		virtual void replyData(std::shared_ptr<Invoke>) override;
+
+	protected:
+		virtual void _Report_history(std::shared_ptr<library::XML>) override;
 	};
 };
 };

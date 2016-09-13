@@ -114,6 +114,11 @@ namespace samchon.protocol.parallel
 			return this.performance;
 		}
 
+		public setPerformance(val: number): void
+		{
+			this.performance = val;
+		}
+
 		public _Get_progress_list(): std.HashMap<number, std.Pair<Invoke, InvokeHistory>>
 		{
 			return this.progress_list_;
@@ -122,11 +127,6 @@ namespace samchon.protocol.parallel
 		public _Get_history_list(): std.HashMap<number, InvokeHistory>
 		{
 			return this.history_list_;
-		}
-
-		public _Set_performance(val: number): void
-		{
-			this.performance = val;
 		}
 
 		/* ---------------------------------------------------------

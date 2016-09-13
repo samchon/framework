@@ -5,10 +5,11 @@ namespace samchon.protocol.service
 	export abstract class Client implements protocol.IProtocol
 	{
 		private user_: User;
-		private service_: Service;
+		private no_: number;
+
 		private communicator_: WebClientDriver;
 
-		private no_: number;
+		private service_: Service;
 
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -19,15 +20,34 @@ namespace samchon.protocol.service
 		public constructor(user: User, driver: WebClientDriver)
 		{
 			this.user_ = user;
+			this.no_ = -1;
 
+			// ENROLL COMMUNICATOR
 			this.communicator_ = driver;
 			this.communicator_.listen(this);
-
-			this.service_ = this.createService(driver.getPath());;
+			
+			// CREATE SERVICE DIRECLTY
+			this.service_ = this.createService(driver.getPath());
 		}
 
+		/**
+		 * Default Destructor.
+		 */
+		public destructor(): void
+		{
+		}
+
+		/**
+		 * Factory method creating {@link Service} object.
+		 * 
+		 * @param path Requested path.
+		 * @return A new {@link Service} typed object or ```null```.
+		 */
 		protected abstract createService(path: string): Service;
 
+		/**
+		 * Close connection.
+		 */
 		public close(): void
 		{
 			this.user_.erase(this.no_);
@@ -53,22 +73,35 @@ namespace samchon.protocol.service
 
 		public _Set_no(val: number): void
 		{
+			if (this.no_ != -1)
+				return;
+
 			this.no_ = val;
 		}
 
 		/* ------------------------------------------------------------------
 			MESSAGE CHAIN
 		------------------------------------------------------------------ */
+		/**
+		 * @inheritdoc
+		 */
 		public sendData(invoke: protocol.Invoke): void
 		{
 			this.communicator_.sendData(invoke);
 		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public replyData(invoke: protocol.Invoke): void
 		{
-			invoke.apply(this);
-			this.user_.replyData(invoke);
+			// THIS CLIENT OBJECT HAS THE MATCHED LISTENER?
+			if (invoke.apply(this) == true)
+				return;
 
-			if (this.service_ != null)
+			// SHIFT CHAIN TO USER
+			this.user_.replyData(invoke);
+			if (this.service_ != null) // AND SERVICE
 				this.service_.replyData(invoke);
 		}
 

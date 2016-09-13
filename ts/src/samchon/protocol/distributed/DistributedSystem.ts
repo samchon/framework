@@ -67,6 +67,27 @@ namespace samchon.protocol.distributed
 			return this.getSystemArray().getRole(key);
 		}
 
+		public _Compute_average_elapsed_time(): number
+		{
+			let sum: number = 0;
+			let denominator: number = 0;
+
+			for (let it = this._Get_history_list().begin(); !it.equal_to(this._Get_history_list().end()); it = it.next())
+			{
+				let history: DSInvokeHistory = it.second as DSInvokeHistory;
+				if (history instanceof parallel.PRInvokeHistory)
+					continue;
+
+				sum += history.computeElapsedTime() / history.getRole().getResource();
+				denominator++;
+			}
+
+			if (denominator == 0)
+				return -1;
+			else
+				return sum / denominator;
+		}
+
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
@@ -86,44 +107,32 @@ namespace samchon.protocol.distributed
 		
 		protected _Report_history(xml: library.XML): void
 		{
+			// ParallelSystem's history -> PRInvokeHistory
 			if (xml.hasProperty("_Piece_first") == true)
-			{
-				//--------
-				// ParallelSystem's history -> PRInvokeHistory
-				//--------
-				super._Report_history(xml);
-			}
-			else
-			{
-				//--------
-				// DistributedSystemRole's history -> DSInvokeHistory
-				//--------
-				// CONSTRUCT HISTORY
-				let history: DSInvokeHistory = new DSInvokeHistory(this);
-				history.construct(xml);
+				return super._Report_history(xml);
 
-				// IF THE HISTORY IS NOT EXIST IN PROGRESS, THEN TERMINATE REPORTING
-				let progress_it = this._Get_progress_list().find(history.getUID());
-				if (progress_it.equal_to(this._Get_progress_list().end()) == true)
-					return;
+			//--------
+			// DistributedSystemRole's history -> DSInvokeHistory
+			//--------
+			// CONSTRUCT HISTORY
+			let history: DSInvokeHistory = new DSInvokeHistory(this);
+			history.construct(xml);
 
-				// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
-				this._Get_progress_list().erase(progress_it);
-				this._Get_history_list().insert([history.getUID(), history]);
+			// IF THE HISTORY HAS NOT EXISTED IN PROGRESS, THEN TERMINATE REPORTING
+			let progress_it = this._Get_progress_list().find(history.getUID());
+			if (progress_it.equal_to(this._Get_progress_list().end()) == true)
+				return;
 
-				// ALSO NOTIFY TO THE ROLE
-				if (history.getRole() != null)
-					history.getRole()._Report_history(history);
+			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
+			this._Get_progress_list().erase(progress_it);
+			this._Get_history_list().insert([history.getUID(), history]);
 
-				// IF SYSTEM_ARRAY IS A TYPE OF DistributedSystemArrayMediator, 
-				// THEN ALSO NOTIFY TO ITS MASTER
-				let system_array_mediator: DistributedSystemArrayMediator = this.getSystemArray() as DistributedSystemArrayMediator;
-				if (system_array_mediator instanceof DistributedSystemArrayMediator)
-				{
-					let mediator: parallel.MediatorSystem = system_array_mediator.getMediator();
-					mediator._Complete_history(history.getUID()); // NOTIFY END TO MASTER
-				}
-			}
+			// REPORT TO THE ROLE
+			if (history.getRole() != null)
+				history.getRole()._Report_history(history);
+				
+			// COMPLETE THE HISTORY IN THE BELONGED SYSTEM_ARRAY
+			this.getSystemArray()._Complete_history(history);
 		}
 	}
 }

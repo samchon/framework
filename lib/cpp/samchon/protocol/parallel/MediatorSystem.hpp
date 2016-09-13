@@ -12,11 +12,6 @@ namespace protocol
 {
 	class InvokeHistory;
 
-namespace distributed
-{
-	class DistributedSystem;
-};
-
 namespace parallel
 {
 	class ParallelSystemArrayMediator;
@@ -25,9 +20,6 @@ namespace parallel
 		: public virtual slave::SlaveSystem,
 		public virtual IListener
 	{
-		friend class ParallelSystemArrayMediator;
-		friend class distributed::DistributedSystem;
-
 	private:
 		typedef slave::SlaveSystem super;
 
@@ -51,12 +43,12 @@ namespace parallel
 			return system_array_;
 		};
 
-	private:
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
-		void complete_history(size_t uid);
+		void _Complete_history(size_t uid);
 
+	private:
 		virtual void _replyData(std::shared_ptr<Invoke>) override;
 
 	public:

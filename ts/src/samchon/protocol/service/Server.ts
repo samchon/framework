@@ -93,7 +93,7 @@ namespace samchon.protocol.service
 			/////
 			// CLIENT
 			/////
-			let client: Client = user._Create_child(driver);
+			let client: Client = user._Create_client(driver);
 			client._Set_no(user._Fetch_sequence());
 			
 			user.insert(std.make_pair(client.getNo(), client));
@@ -101,7 +101,7 @@ namespace samchon.protocol.service
 			/////
 			// SERVICE
 			/////
-			let service: Service = client.getService();
+			// let service: Service = client.getService();
 			
 			///////
 			// START COMMUNICATION
@@ -113,9 +113,11 @@ namespace samchon.protocol.service
 				// OF COURSE, IT CAN CAUSE DELETION OF THE RELATED USER.
 				user.erase(client.getNo());
 
-				// ALSO, DESTRUCTOR OF THE SERVICE IS CALLED.
+				// ALSO, DESTRUCTORS OF THE SERVICE ARE CALLED.
 				if (client.getService() != null)
-					client.getService().destructor();
+					client.getService().destructor(); // SERVICE
+
+				client.destructor(); // AND CLIENT
 			}
 		}
 
@@ -135,6 +137,8 @@ namespace samchon.protocol.service
 					server.session_map_.erase(user._Get_session_id()); // SESSION-ID MAP
 					if (user.getAccountID() != "") // AND ACCOUNT-ID MAP
 						server.account_map_.erase(user.getAccountID()); 
+
+					user.destructor();
 				}.bind(this),
 				30000 // KEEP USER 30 SECONDS
 			);

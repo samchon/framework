@@ -38,7 +38,7 @@ void ParallelSystem::construct(shared_ptr<XML> xml)
 {
 	super::construct(xml);
 
-	performance_ = xml->getProperty<double>("performance");
+	performance_ = xml->getProperty<double>("resource");
 }
 
 /* ---------------------------------------------------------
@@ -109,7 +109,7 @@ void ParallelSystem::_Report_history(shared_ptr<XML> xml)
 auto ParallelSystem::toXML() const -> shared_ptr<XML>
 {
 	shared_ptr<XML> &xml = super::toXML();
-	xml->setProperty("performance", performance_);
+	xml->setProperty("resource", performance_);
 
 	return xml;
 }

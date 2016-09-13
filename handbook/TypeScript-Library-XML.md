@@ -2,23 +2,22 @@
 Tree-structured XML parser and generator. It's the most concise and eledic XML library.
 
 ## References
-#### API Documents
+### API Documents
   - [XML](http://samchon.github.io/framework/api/ts/classes/samchon.library.xml.html)
   - [XMLList](http://samchon.github.io/framework/api/ts/classes/samchon.library.xmllist.html)
 
-#### Conception, Header of XML objects
+### Class Diagram
 ``` typescript
 class XML extends std.HashMap<string, XMLList>
 {
-	protected tag: string;
-	protected value: string;
-	protected properties: std.HashMap<string, string>;
+	protected tag_: string;
+	protected value_: string;
+	protected property_map_: std.HashMap<string, string>;
 }
 
 class XMLList extends std.Deque<XML>;
 ```
 
-#### Class Diagram
 ![Library - Utils](http://samchon.github.io/framework/images/design/ts_class_diagram/library_utils.png)
 
 XML and XMLList are on right side.

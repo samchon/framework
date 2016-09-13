@@ -49,8 +49,7 @@ namespace parallel
 	protected:
 		virtual auto _Complete_history(std::shared_ptr<InvokeHistory>) -> bool;
 
-	private:
-		void normalize_performance();
+		virtual void _Normalize_performance();
 	};
 };
 };

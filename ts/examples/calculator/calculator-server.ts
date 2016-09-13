@@ -31,6 +31,11 @@ class CalculatorServer extends protocol.Server
 		this.clients.insert(client);
 	}
 
+	public eraseClient(val: CalculatorClient): void
+	{
+		this.clients.erase(val);
+	}
+
 	/* ------------------------------------------------------------------
 		INVOKE MESSAGE CHAIN
 	------------------------------------------------------------------ */
@@ -87,7 +92,7 @@ class CalculatorClient implements protocol.IProtocol
 	public destructor(): void
 	{
 		// WHEN DISCONNECTED, THEN ERASE THIS OBJECT FROM CalculatorServer.clients.
-		this.server["clients"].erase(this);
+		this.server.eraseClient(this);
 	}
 
 	/* ------------------------------------------------------------------

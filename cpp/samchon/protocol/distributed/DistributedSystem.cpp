@@ -41,9 +41,41 @@ auto DistributedSystem::getSystemArray() const -> DistributedSystemArray*
 	return dynamic_cast<DistributedSystemArray*>(super::getSystemArray());
 }
 
+auto DistributedSystem::compute_average_elapsed_time() const -> double
+{
+	double sum = 0.0;
+	size_t denominator = 0;
+
+	for (auto it = history_list_.begin(); it != history_list_.end(); it++)
+	{
+		shared_ptr<DSInvokeHistory> history = dynamic_pointer_cast<DSInvokeHistory>(it->second);
+		if (history == nullptr)
+			continue;
+
+		sum += history->computeElapsedTime() / history->getRole()->getResource();
+		denominator++;
+	}
+
+	if (denominator == 0)
+		return -1;
+	else
+		return sum / denominator;
+}
+
 /* ---------------------------------------------------------
 	INVOKE MESSAGE CHAIN
 --------------------------------------------------------- */
+void DistributedSystem::replyData(shared_ptr<Invoke> invoke)
+{
+	// SHIFT TO ROLES
+	auto role_map = getSystemArray()->getRoleMap();
+	for (auto it = role_map.begin(); it != role_map.end(); it++)
+		it->second->replyData(invoke);
+
+	// SHIFT TO MASTER
+	getSystemArray()->replyData(invoke);
+}
+
 void DistributedSystem::_Report_history(shared_ptr<XML> xml)
 {
 	if (xml->hasProperty("_Piece_first") == true)
@@ -75,13 +107,7 @@ void DistributedSystem::_Report_history(shared_ptr<XML> xml)
 		if (history->getRole() != nullptr)
 			history->getRole()->report_history(history);
 
-		// IF SYSTEM_ARRAY IS A TYPE OF DistributedSystemArrayMediator, 
-		// THEN ALSO NOTIFY TO ITS MASTER
-		DistributedSystemArrayMediator* system_array_mediator = dynamic_cast<DistributedSystemArrayMediator*>(getSystemArray());
-		if (system_array_mediator != nullptr)
-		{
-			parallel::MediatorSystem *mediator = system_array_mediator->getMediator();
-			mediator->complete_history(history->getUID()); // NOTIFY END TO MASTER
-		}
+		// COMPLETE THE HISTORY IN THE BELONGED SYSTEM_ARRAY
+		getSystemArray()->_Complete_history(history);
 	}
 }

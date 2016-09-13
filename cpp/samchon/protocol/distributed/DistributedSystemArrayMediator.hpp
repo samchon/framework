@@ -15,8 +15,17 @@ namespace distributed
 		public virtual parallel::ParallelSystemArrayMediator
 	{
 	public:
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		DistributedSystemArrayMediator();
 		virtual ~DistributedSystemArrayMediator();
+
+	protected:
+		/* ---------------------------------------------------------
+			INVOKE MESSAGE CHAIN
+		--------------------------------------------------------- */
+		virtual auto _Complete_history(std::shared_ptr<InvokeHistory>) -> bool override;
 	};
 };
 };

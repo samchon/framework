@@ -315,7 +315,7 @@ namespace samchon.protocol
 		extends SharedWorkerCommunicator
 		implements IClientDriver
 	{
-		private listening: boolean;
+		private listening_: boolean;
 
 		public constructor(port: MessagePort)
 		{
@@ -323,7 +323,7 @@ namespace samchon.protocol
 
 			this.port_ = port;
 			this.connected_ = true;
-			this.listening = false;
+			this.listening_ = false;
 		}
 
 		/**
@@ -333,9 +333,9 @@ namespace samchon.protocol
 		{
 			this.listener_ = listener;
 
-			if (this.listening == true)
+			if (this.listening_ == true)
 				return;
-			this.listening = true;
+			this.listening_ = true;
 
 			this.port_.onmessage = this.handle_message.bind(this);
 		}

@@ -24,7 +24,7 @@ MediatorSystem::~MediatorSystem()
 /* ---------------------------------------------------------
 	INVOKE MESSAGE CHAIN
 --------------------------------------------------------- */
-void MediatorSystem::complete_history(size_t uid)
+void MediatorSystem::_Complete_history(size_t uid)
 {
 	if (progress_list_.has(uid) == false)
 		return; // NO SUCH HISTORY; THE PROCESS HAD DONE ONLY IN THIS MEDIATOR LEVEL.

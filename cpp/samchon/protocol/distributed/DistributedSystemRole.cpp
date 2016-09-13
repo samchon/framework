@@ -11,16 +11,49 @@ using namespace samchon::library;
 using namespace samchon::protocol;
 using namespace samchon::protocol::distributed;
 
+/* ---------------------------------------------------------
+	CONSTRUCTORS
+--------------------------------------------------------- */
 DistributedSystemRole::DistributedSystemRole(DistributedSystemArray *systemArray)
 	: super(nullptr)
 {
 	this->system_array_ = systemArray;
-	performance = 1.0;
+	resource = 1.0;
 }
+
 DistributedSystemRole::~DistributedSystemRole()
 {
 }
 
+void DistributedSystemRole::construct(shared_ptr<XML> xml)
+{
+	super::construct(xml);
+
+	resource = xml->getProperty<double>("resource");
+}
+
+/* ---------------------------------------------------------
+	ACCESSORS
+--------------------------------------------------------- */
+auto DistributedSystemRole::compute_average_elapsed_time() const -> double
+{
+	double sum = 0.0;
+	
+	for (auto it = history_list_.begin(); it != history_list_.end(); it++)
+	{
+		shared_ptr<DSInvokeHistory> history = it->second;
+
+		// THE SYSTEM'S PERFORMANCE IS 5. THE SYSTEM CAN HANDLE A PROCESS VERY QUICKLY
+		// AND ELAPSED TIME OF THE PROCESS IS 3 SECONDS
+		// THEN I CONSIDER THE ELAPSED TIME AS 15 SECONDS.
+		sum += history->computeElapsedTime() * history->getSystem()->getPerformance();
+	}
+	return sum / history_list_.size();
+}
+
+/* ---------------------------------------------------------
+	INVOKE MESSAGE CHAIN
+--------------------------------------------------------- */
 void DistributedSystemRole::sendData(shared_ptr<Invoke> invoke)
 {
 	if (system_array_->empty() == true)
@@ -81,7 +114,15 @@ void DistributedSystemRole::report_history(shared_ptr<DSInvokeHistory> history)
 	// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 	progress_list_.erase(history->getUID());
 	history_list_.emplace(history->getUID(), history);
+}
 
-	// ESTIMATE REQUIRED PERFORMANCE OF THIS ROLE
+/* ---------------------------------------------------------
+	EXPORTERS
+--------------------------------------------------------- */
+auto DistributedSystemRole::toXML() const -> shared_ptr<XML>
+{
+	shared_ptr<XML> &xml = super::toXML();
+	xml->setProperty("resource", resource);
 
+	return xml;
 }

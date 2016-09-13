@@ -14,6 +14,7 @@ namespace protocol
 
 namespace distributed
 {
+	class DistributedSystemArray;
 	class DistributedSystem;
 	class DistributedSystemRole;
 };
@@ -27,6 +28,7 @@ namespace parallel
 		public virtual IListener
 	{
 		friend class ParallelSystemArray;
+		friend class distributed::DistributedSystemArray;
 		friend class distributed::DistributedSystem;
 		friend class distributed::DistributedSystemRole;
 
@@ -61,6 +63,11 @@ namespace parallel
 		auto getPerformance() const -> double
 		{
 			return performance_;
+		};
+
+		void setPerformance(double val)
+		{
+			performance_ = val;
 		};
 
 	private:

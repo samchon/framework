@@ -3572,7 +3572,7 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     class SharedWorkerClientDriver extends SharedWorkerCommunicator implements IClientDriver {
-        private listening;
+        private listening_;
         constructor(port: MessagePort);
         /**
          * @inheritdoc
@@ -5081,10 +5081,14 @@ declare namespace samchon.protocol.distributed {
         private system_array_;
         private progress_list_;
         private history_list_;
-        protected performance: number;
+        protected resource: number;
         constructor(systemArray: DistributedSystemArray);
         getSystemArray(): DistributedSystemArray;
-        getPerformance(): number;
+        getResource(): number;
+        setResource(val: number): void;
+        _Get_process_list(): std.HashMap<number, DSInvokeHistory>;
+        _Get_history_list(): std.HashMap<number, DSInvokeHistory>;
+        _Compute_average_elapsed_time(): number;
         sendData(invoke: protocol.Invoke): void;
         _Report_history(history: DSInvokeHistory): void;
     }
@@ -5237,16 +5241,13 @@ declare namespace samchon.protocol.parallel {
          */
         sendPieceData(invoke: Invoke, first: number, last: number): void;
         /**
-         *
-         * @param history
-         *
-         * @return Whether the processes with same uid are all fininsed.
+         * @hidden
          */
         _Complete_history(history: InvokeHistory): boolean;
         /**
          * @hidden
          */
-        private normalize_performance();
+        protected _Normalize_performance(): void;
     }
 }
 declare namespace samchon.protocol.distributed {
@@ -5260,7 +5261,7 @@ declare namespace samchon.protocol.distributed {
          */
         constructor();
         construct(xml: library.XML): void;
-        abstract createRole(xml: library.XML): DistributedSystemRole;
+        protected abstract createRole(xml: library.XML): DistributedSystemRole;
         /**
          * @inheritdoc
          */
@@ -5276,6 +5277,22 @@ declare namespace samchon.protocol.distributed {
         getRole(name: string): DistributedSystemRole;
         insertRole(role: DistributedSystemRole): void;
         eraseRole(name: string): void;
+        /**
+         * @hidden
+         */
+        _Complete_history(history: InvokeHistory): boolean;
+        /**
+         * @hidden
+         */
+        private estimate_role_performance(history);
+        /**
+         * @hidden
+         */
+        private estimate_system_performance(history);
+        /**
+         * @hidden
+         */
+        protected _Normalize_performance(): void;
         toXML(): library.XML;
     }
 }
@@ -5531,9 +5548,9 @@ declare namespace samchon.protocol.parallel {
          * A performance index that indicates how much fast the connected parallel system is.
          */
         getPerformance(): number;
+        setPerformance(val: number): void;
         _Get_progress_list(): std.HashMap<number, std.Pair<Invoke, InvokeHistory>>;
         _Get_history_list(): std.HashMap<number, InvokeHistory>;
-        _Set_performance(val: number): void;
         /**
          * @hidden
          */
@@ -5570,6 +5587,7 @@ declare namespace samchon.protocol.distributed {
          * @inheritdoc
          */
         get(key: string): DistributedSystemRole;
+        _Compute_average_elapsed_time(): number;
         replyData(invoke: protocol.Invoke): void;
         protected _Report_history(xml: library.XML): void;
     }
@@ -6306,20 +6324,39 @@ declare namespace samchon.protocol.parallel {
 declare namespace samchon.protocol.service {
     abstract class Client implements protocol.IProtocol {
         private user_;
-        private service_;
-        private communicator_;
         private no_;
+        private communicator_;
+        private service_;
         /**
          * Construct from an User and WebClientDriver.
          */
         constructor(user: User, driver: WebClientDriver);
+        /**
+         * Default Destructor.
+         */
+        destructor(): void;
+        /**
+         * Factory method creating {@link Service} object.
+         *
+         * @param path Requested path.
+         * @return A new {@link Service} typed object or ```null```.
+         */
         protected abstract createService(path: string): Service;
+        /**
+         * Close connection.
+         */
         close(): void;
         getUser(): User;
         getService(): Service;
         getNo(): number;
         _Set_no(val: number): void;
+        /**
+         * @inheritdoc
+         */
         sendData(invoke: protocol.Invoke): void;
+        /**
+         * @inheritdoc
+         */
         replyData(invoke: protocol.Invoke): void;
         protected changeService(path: string): void;
     }
@@ -6382,11 +6419,12 @@ declare namespace samchon.protocol.service {
          * Construct from a Server.
          */
         constructor(server: Server);
+        destructor(): void;
         protected abstract createClient(driver: WebClientDriver): Client;
         /**
          * @hidden
          */
-        _Create_child(driver: WebClientDriver): Client;
+        _Create_client(driver: WebClientDriver): Client;
         /**
          * @hidden
          */

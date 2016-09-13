@@ -30,12 +30,17 @@ namespace samchon.protocol.service
 			super();
 
 			this.server_ = server;
-			
-			this.sequence_ = 0;
 			this.account_id_ = "guest";
 			this.authority_ = 0;
 
+			this.session_id_ = "";
+			this.sequence_ = 0;
+
 			this.addEventListener("erase", this.handle_erase_client, this);
+		}
+
+		public destructor(): void
+		{
 		}
 
 		protected abstract createClient(driver: WebClientDriver): Client;
@@ -43,7 +48,7 @@ namespace samchon.protocol.service
 		/**
 		 * @hidden
 		 */
-		public _Create_child(driver: WebClientDriver): Client
+		public _Create_client(driver: WebClientDriver): Client
 		{
 			return this.createClient(driver);
 		}
@@ -113,6 +118,9 @@ namespace samchon.protocol.service
 		 */
 		public _Set_session_id(val: string): void
 		{
+			if (this.session_id_ != "")
+				return;
+
 			this.session_id_ = val;
 		}
 

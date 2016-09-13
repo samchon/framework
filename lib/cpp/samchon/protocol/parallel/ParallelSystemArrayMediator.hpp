@@ -46,7 +46,7 @@ namespace parallel
 
 	protected:
 		/* ---------------------------------------------------------
-			INVOKE MESSAGE CHAIN
+			HISTORY HANDLER
 		--------------------------------------------------------- */
 		virtual auto _Complete_history(std::shared_ptr<InvokeHistory>) -> bool override;
 	};

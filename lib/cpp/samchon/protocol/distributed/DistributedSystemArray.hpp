@@ -14,6 +14,8 @@ namespace distributed
 	class SAMCHON_FRAMEWORK_API DistributedSystemArray
 		: public virtual parallel::ParallelSystemArray
 	{
+		friend class DistributedSystem;
+
 	private:
 		typedef parallel::ParallelSystemArray super;
 
@@ -60,6 +62,19 @@ namespace distributed
 			role_map_.erase(name);
 		};
 
+	protected:
+		/* ---------------------------------------------------------
+			HISTORY HANDLER - PERFORMANCE ESTIMATION
+		--------------------------------------------------------- */
+		virtual auto _Complete_history(std::shared_ptr<InvokeHistory>) -> bool override;
+
+		virtual void _Normalize_performance() override;
+
+	private:
+		void estimate_role_performance(std::shared_ptr<DSInvokeHistory>);
+		void estimate_system_performance(std::shared_ptr<DSInvokeHistory>);
+
+	public:
 		/* ---------------------------------------------------------
 			EXPORTERS
 		--------------------------------------------------------- */

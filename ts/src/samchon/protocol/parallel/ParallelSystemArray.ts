@@ -62,8 +62,12 @@ namespace samchon.protocol.parallel
 			this.history_sequence_ = val;
 		}
 
-		/* ---------------------------------------------------------
-			MESSAGE CHAIN
+		/* =========================================================
+			INVOKE MESSAGE CHAIN
+				- SEND DATA
+				- PERFORMANCE ESTIMATION
+		============================================================
+			SEND & REPLY DATA
 		--------------------------------------------------------- */
 		/**
 		 * 
@@ -118,14 +122,18 @@ namespace samchon.protocol.parallel
 			}
 		}
 
+		/* ---------------------------------------------------------
+			PERFORMANCE ESTIMATION
+		--------------------------------------------------------- */
 		/**
-		 * 
-		 * @param history 
-		 * 
-		 * @return Whether the processes with same uid are all fininsed.
+		 * @hidden
 		 */
 		public _Complete_history(history: InvokeHistory): boolean
 		{
+			// WRONG TYPE
+			if ((history instanceof PRInvokeHistory) == false)
+				return false;
+
 			let uid: number = history.getUID();
 
 			// ALL THE SUB-TASKS ARE DONE?
@@ -163,26 +171,26 @@ namespace samchon.protocol.parallel
 				let system: ParallelSystem = system_pairs.at(i).first;
 				let new_performance: number = system_pairs.at(i).second / performance_index_average;
 
-				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX
+				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 30%
 				let ordinary_ratio: number;
 				if (system._Get_history_list().size() < 2)
 					ordinary_ratio = .3;
 				else
 					ordinary_ratio = Math.min(0.7, 1.0 / (system._Get_history_list().size() - 1.0));
 				
-				system._Set_performance((system.getPerformance() * ordinary_ratio) + (new_performance * (1 - ordinary_ratio)));
+				// DEFINE NEW PERFORMANCE
+				system.setPerformance((system.getPerformance() * ordinary_ratio) + (new_performance * (1 - ordinary_ratio)));
 			}
 
-			// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SLAVE SYSTEMS
-			this.normalize_performance();
-
+			// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SYSTEMS
+			this._Normalize_performance();
 			return true;
 		}
 
 		/**
 		 * @hidden
 		 */
-		private normalize_performance(): void
+		protected _Normalize_performance(): void
 		{
 			// CALC AVERAGE
 			let average: number = 0.0;
@@ -195,8 +203,7 @@ namespace samchon.protocol.parallel
 			for (let i: number = 0; i < this.size(); i++)
 			{
 				let system: ParallelSystem = this.at(i);
-
-				system._Set_performance(system.getPerformance() / average);
+				system.setPerformance(system.getPerformance() / average);
 			}
 		}
 	}

@@ -26,7 +26,7 @@ Samchon Framework supports two languages; **C++** and **TypeScript/NodeJs**. Not
   4. Utilize libraries independent on operating systems
     - Enable to cross-compile
 
-![Interaction Movie](http://samchon.github.io/framework/images/example/interaction/demo.gif)
+![Interaction Movie](http://samchon.github.io/framework/images/example/interaction/demo.gif?ver=2)
 
 
 ## References

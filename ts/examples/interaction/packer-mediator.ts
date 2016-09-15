@@ -147,7 +147,7 @@ namespace packer_mediator
 		{
 			super.sendData(invoke);
 
-			(this.getMediator() as PackerMediator)["monitor"].notifySendData(this.uid, invoke);
+			(this.getMediator() as PackerMediator)["monitor"].reportSendData(this.uid, invoke);
 		}
 		private set_master_uid(val: number): void
 		{

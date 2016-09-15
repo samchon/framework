@@ -19,6 +19,8 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "interaction", "examples\int
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "interaction-console", "examples\interaction-console\interaction-console.njsproj", "{390074C3-3152-40EB-8900-B9FE17D5E869}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "interaction-viewer", "examples\interaction-viewer\interaction-viewer.csproj", "{ED668499-C4C2-491C-B914-7EEFC1A1335F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{390074C3-3152-40EB-8900-B9FE17D5E869}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{390074C3-3152-40EB-8900-B9FE17D5E869}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{390074C3-3152-40EB-8900-B9FE17D5E869}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED668499-C4C2-491C-B914-7EEFC1A1335F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED668499-C4C2-491C-B914-7EEFC1A1335F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED668499-C4C2-491C-B914-7EEFC1A1335F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED668499-C4C2-491C-B914-7EEFC1A1335F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,5 +70,6 @@ Global
 		{BD790087-20FD-4526-8942-3EBD92CA9A42} = {62828809-965A-4CC3-B1E8-7CC2B3FCFE90}
 		{E4DE4DC3-2ACE-4B62-8A04-67FACCD1A586} = {62828809-965A-4CC3-B1E8-7CC2B3FCFE90}
 		{390074C3-3152-40EB-8900-B9FE17D5E869} = {62828809-965A-4CC3-B1E8-7CC2B3FCFE90}
+		{ED668499-C4C2-491C-B914-7EEFC1A1335F} = {62828809-965A-4CC3-B1E8-7CC2B3FCFE90}
 	EndGlobalSection
 EndGlobal

@@ -21,5 +21,7 @@ start cmd /k "color 2F & node packer-master" & timeout 1
 	start cmd /k "color 6F & node packer-mediator" & timeout 1
 		start cmd /k "color A0 & node packer-slave 2"
 		start cmd /k "color A0 & node packer-slave 2"
+		start cmd /k "color A0 & node packer-slave 2"
+		start cmd /k "color A0 & node packer-slave 2"
 	start cmd /k "color A0 & node packer-slave 1"
 	start cmd /k "color A0 & node packer-slave 1"

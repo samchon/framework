@@ -41,12 +41,12 @@ namespace monitor
 			this.connector.sendData(invoke);
 		}
 
-		public notifySendData(to: number, invoke: protocol.Invoke): void
+		public reportSendData(to: number, invoke: protocol.Invoke): void
 		{
 			if (this.system["uid"] == -1 || to == -1)
 				return;
 
-			this.sendData(new protocol.Invoke("notifySendData", this.system["uid"], to, invoke.getListener()));
+			this.sendData(new protocol.Invoke("reportSendData", to, invoke.getListener()));
 		}
 
 		public sendSystemStructure(): void

@@ -23,7 +23,7 @@ namespace tsp_slave
 
 		protected optimize(xml: library.XML, first: number, last: number): void
 		{
-			console.log("A packing optimization command has received");
+			console.log("A packing optimization command has received", first, last);
 
 			// CONSTRUCT TRAVEL
 			let packer: pack.Packer = new pack.Packer();

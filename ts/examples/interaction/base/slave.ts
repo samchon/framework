@@ -58,7 +58,7 @@ namespace slave
 			super.sendData(invoke);
 
 			// NOTIFY SEND_DATA
-			this.monitor.notifySendData(this.master_uid, invoke);
+			this.monitor.reportSendData(this.master_uid, invoke);
 		}
 
 		protected abstract optimize(xml: library.XML, index: number, size: number): void;

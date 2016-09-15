@@ -86,7 +86,7 @@ namespace monitor
 		public static main(): void
 		{
 			let monitor = new Monitor();
-			monitor.open(37900);-
+			monitor.open(37900);
 			monitor.getReporter().open(37950);
 		}
 	}
@@ -191,10 +191,12 @@ namespace monitor
 				console.log(invoke.toXML().toString());
 		}
 
-		private notifySendData(to: number, listener: string): void
+		private reportSendData(to: number, listener: string): void
 		{
 			let viewers: Reporter = this.monitor.getReporter();
-			viewers.sendData(new protocol.Invoke("notifySendData", this.uid, to, listener));
+			let invoke: protocol.Invoke = new protocol.Invoke("printSendData", this.uid, to, listener);
+			
+			viewers.sendData(invoke);
 		}
 
 		public TAG(): string
@@ -264,6 +266,8 @@ namespace monitor
 		{
 			super(reporter, driver);
 
+			console.log("A viewer has connected.");
+
 			//--------
 			// WHEN CONNECTED, THEN SEND SYSTEM STRUCTURE
 			//--------
@@ -273,6 +277,10 @@ namespace monitor
 
 			// SEND SYSTEM STRUCTURE OF ROOT.
 			this.sendData(new protocol.Invoke("setSystems", root_system.toXML()));
+		}
+		public destructor(): void
+		{
+			console.log("A viewer has disconnected");
 		}
 
 		public createChild(xml: library.XML): protocol.external.ExternalSystemRole

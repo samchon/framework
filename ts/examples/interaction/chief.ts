@@ -135,9 +135,11 @@ namespace chief
 				new pack.Product("Eraser", 500, 10, 70),
 				new pack.Product("Pencil", 400, 30, 35),
 				new pack.Product("Book", 8000, 150, 300),
+				new pack.Product("Book", 8000, 150, 300),
 				new pack.Product("Drink", 1000, 75, 250),
 				new pack.Product("Umbrella", 4000, 200, 1000),
 				new pack.Product("Notebook-PC", 800000, 150, 850),
+				//new pack.Product("Notebook-PC", 800000, 150, 850),
 				new pack.Product("Tablet-PC", 600000, 120, 450)
 			);
 
@@ -181,7 +183,7 @@ namespace chief
 
 			this.uid = -1;
 			if (chief["uid"] != -1)
-				this.sendData(new protocol.Invoke("set_master_uid", chief["uid"]));
+				this.sendData(new protocol.Invoke("set_chief_uid", chief["uid"]));
 		}
 		public destructor(): void
 		{
@@ -210,7 +212,7 @@ namespace chief
 		{
 			super.sendData(invoke);
 
-			this.chief["monitor"].notifySendData(this.uid, invoke);
+			this.chief["monitor"].reportSendData(this.uid, invoke);
 		}
 	}
 }

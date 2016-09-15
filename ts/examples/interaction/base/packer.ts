@@ -406,12 +406,9 @@ namespace pack
 
 				for (var i: number = 0; i < packer.length; i++)
 					this.push
-						(
-						new WrapperArray
-							(
-							packer[i].getSample()
-							)
-						);
+					(
+						new WrapperArray(packer[i].getSample())
+					);
 			}
 			else
 				throw "invalid argument";

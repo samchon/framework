@@ -121,7 +121,7 @@ namespace master
 			super.sendData(invoke);
 
 			// NOTIFY SEND_DATA
-			this.master["monitor"].notifySendData(this.uid, invoke);
+			this.master["monitor"].reportSendData(this.uid, invoke);
 		}
 
 		private replyOptimization(xml: library.XML): void
@@ -163,7 +163,8 @@ namespace master
 			this.connector.sendData(invoke);
 
 			// NOTIFY SEND_DATA
-			this.master["monitor"].notifySendData(this.uid, invoke);
+			console.log("report", this.uid);
+			this.master["monitor"].reportSendData(this.uid, invoke);
 		}
 		public replyData(invoke: protocol.Invoke): void
 		{

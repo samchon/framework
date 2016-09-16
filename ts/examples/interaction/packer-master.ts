@@ -60,7 +60,8 @@ namespace packer_master
 			{
 				console.log("An optimization has fully completed. Performance index of each slave is: ");
 				for (let i: number = 0; i < this.size(); i++)
-					console.log(library.StringUtil.substitute("\t{1}. {2}", i + 1, this.at(i).getPerformance()));
+					console.log(library.StringUtil.substitute("\t{1}. {2} -> {3}", 
+						i + 1, this.at(i).getName(), this.at(i).getPerformance()));
 
 				this.chief.sendData(new protocol.Invoke("printPacker", this.best_packer.toXML()));
 			}

@@ -277,43 +277,54 @@ namespace pack
 		 */
 		public optimize(): void
 		{
-			if (this.reserved.length == 0)
-				return;
-
-			var factorial: library.FactorialGenerator = new library.FactorialGenerator(this.reserved.length);
-			var minWrapperArray: WrapperArray;
-
-			for (var i: number = 0; i < factorial.size(); i++)
+			for (let i: number = 0; i < this.reserved.length; i++)
 			{
-				var wrapperArray: WrapperArray = new WrapperArray(this.sample);
-				var row: number[] = factorial.at(i);
-
-				for (var j: number = 0; j < row.length; j++)
+				let product: Product = this.reserved[i];
+				
+				if (this.empty() == true || this.back().tryInsert(product) == false)
 				{
-					var product: Product = this.reserved[row[j]];
-
-					if (wrapperArray.length == 0 ||
-						wrapperArray[wrapperArray.length - 1].tryInsert(product) == false)
-					{
-						var wrapper: Wrapper = new Wrapper(this.sample);
-						wrapper.tryInsert(product);
-
-						wrapperArray.push(wrapper);
-					}
-				}
-
-				if (minWrapperArray == null ||
-					wrapperArray.calcPrice() < minWrapperArray.calcPrice())
-				{
-					minWrapperArray = wrapperArray;
+					this.push_back(new Wrapper(this.sample));
+					this.back().tryInsert(product);
 				}
 			}
 
-			//REPLACE TO MIN_WRAPPER_ARRAY
-			this.splice(0, this.length);
+			//if (this.reserved.length == 0)
+			//	return;
 
-			for (var i: number = 0; i < minWrapperArray.length; i++)
-				this.push(minWrapperArray[i]);
+			//var factorial: library.FactorialGenerator = new library.FactorialGenerator(this.reserved.length);
+			//var minWrapperArray: WrapperArray;
+
+			//for (var i: number = 0; i < factorial.size(); i++)
+			//{
+			//	var wrapperArray: WrapperArray = new WrapperArray(this.sample);
+			//	var row: number[] = factorial.at(i);
+
+			//	for (var j: number = 0; j < row.length; j++)
+			//	{
+			//		var product: Product = this.reserved[row[j]];
+
+			//		if (wrapperArray.length == 0 ||
+			//			wrapperArray[wrapperArray.length - 1].tryInsert(product) == false)
+			//		{
+			//			var wrapper: Wrapper = new Wrapper(this.sample);
+			//			wrapper.tryInsert(product);
+
+			//			wrapperArray.push(wrapper);
+			//		}
+			//	}
+
+			//	if (minWrapperArray == null ||
+			//		wrapperArray.calcPrice() < minWrapperArray.calcPrice())
+			//	{
+			//		minWrapperArray = wrapperArray;
+			//	}
+			//}
+
+			////REPLACE TO MIN_WRAPPER_ARRAY
+			//this.splice(0, this.length);
+
+			//for (var i: number = 0; i < minWrapperArray.length; i++)
+			//	this.push(minWrapperArray[i]);
 		}
 
 		/* --------------------------------------------------------------------

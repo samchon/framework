@@ -137,9 +137,11 @@ namespace chief
 				new pack.Product("Book", 8000, 150, 300),
 				new pack.Product("Book", 8000, 150, 300),
 				new pack.Product("Drink", 1000, 75, 250),
+				new pack.Product("Drink", 1000, 75, 250),
 				new pack.Product("Umbrella", 4000, 200, 1000),
 				new pack.Product("Notebook-PC", 800000, 150, 850),
-				//new pack.Product("Notebook-PC", 800000, 150, 850),
+				new pack.Product("Notebook-PC", 800000, 150, 850),
+				new pack.Product("Tablet-PC", 600000, 120, 450),
 				new pack.Product("Tablet-PC", 600000, 120, 450)
 			);
 

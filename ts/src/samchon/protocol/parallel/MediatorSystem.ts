@@ -7,7 +7,7 @@ namespace samchon.protocol.parallel
 	export abstract class MediatorSystem
 		extends slave.SlaveSystem
 	{
-		private mediator_: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator;
+		private system_array_: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator;
 		private progress_list_: std.HashMap<number, InvokeHistory>;
 
 		/* ---------------------------------------------------------
@@ -17,7 +17,7 @@ namespace samchon.protocol.parallel
 		{
 			super();
 
-			this.mediator_ = systemArray;
+			this.system_array_ = systemArray;
 			this.progress_list_ = new std.HashMap<number, InvokeHistory>();
 		}
 
@@ -26,15 +26,15 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			ACCESSOR
 		--------------------------------------------------------- */
-		public getMediator(): ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator
+		public getSystemArray(): ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator
 		{
-			return this.mediator_;
+			return this.system_array_;
 		}
 
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		public _Complete_history(uid: number): void
+		private complete_history(uid: number): void
 		{
 			if (this.progress_list_.has(uid) == false)
 				return; // NO SUCH HISTORY; THE PROCESS HAD DONE ONLY IN THIS MEDIATOR LEVEL.
@@ -65,14 +65,14 @@ namespace samchon.protocol.parallel
 					let last: number = invoke.get("_Piece_last").getValue();
 
 					invoke.erase(invoke.end().advance(-2), invoke.end());
-					this.mediator_.sendPieceData(invoke, first, last);
+					this.system_array_.sendPieceData(invoke, first, last);
 				}
-				else if (this.mediator_ instanceof distributed.DistributedSystemArrayMediator
+				else if (this.system_array_ instanceof distributed.DistributedSystemArrayMediator
 					&& invoke.has("_Role_name") == true)
 				{
 					// DISTRIBUTED PROCESS
 					let ds_mediator: distributed.DistributedSystemArrayMediator 
-						= this.mediator_ as distributed.DistributedSystemArrayMediator;
+						= this.system_array_ as distributed.DistributedSystemArrayMediator;
 
 					// FIND THE MATCHED ROLE
 					let role_name: string = invoke.get("_Role_name").getValue();
@@ -93,7 +93,7 @@ namespace samchon.protocol.parallel
 			if (invoke.apply(this) == true)
 				return;
 			else
-				this.mediator_.sendData(invoke);
+				this.system_array_.sendData(invoke);
 		}
 	}
 }

@@ -46,14 +46,6 @@ namespace samchon.protocol.service
 			return this.account_map_.get(account);
 		}
 
-		/**
-		 * @hidden
-		 */
-		public _Get_account_map(): std.HashMap<string, User>
-		{
-			return this.account_map_;
-		}
-
 		/* ------------------------------------------------------------------
 			MESSAGE CHAIN
 		------------------------------------------------------------------ */
@@ -85,7 +77,7 @@ namespace samchon.protocol.service
 			else
 			{
 				user = this.createUser();
-				user._Set_session_id(driver.getSessionID());
+				user["session_id_"] = (driver.getSessionID());
 
 				this.session_map_.insert(std.make_pair(driver.getSessionID(), user));
 			}
@@ -93,9 +85,7 @@ namespace samchon.protocol.service
 			/////
 			// CLIENT
 			/////
-			let client: Client = user._Create_client(driver);
-			client._Set_no(user._Fetch_sequence());
-			
+			let client: Client = user["createClient"](driver);
 			user.insert(std.make_pair(client.getNo(), client));
 
 			/////
@@ -121,7 +111,7 @@ namespace samchon.protocol.service
 			}
 		}
 
-		public _Erase_user(user: User): void
+		private erase_user(user: User): void
 		{
 			// USER DOESN'T BE ERASED AT THAT TIME
 			// IT WAITS UNTIL 30 SECONDS TO KEEP SESSION
@@ -134,10 +124,11 @@ namespace samchon.protocol.service
 						return; // USER IS NOT EMPTY, THEN RETURNS
 						
 					// ERASE USER FROM
-					server.session_map_.erase(user._Get_session_id()); // SESSION-ID MAP
+					server.session_map_.erase(user["session_id_"]); // SESSION-ID MAP
 					if (user.getAccountID() != "") // AND ACCOUNT-ID MAP
 						server.account_map_.erase(user.getAccountID()); 
 
+					// CALL DESTRUCTOR
 					user.destructor();
 				}.bind(this),
 				30000 // KEEP USER 30 SECONDS

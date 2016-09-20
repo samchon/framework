@@ -17,7 +17,7 @@ namespace samchon.protocol.distributed
 			super.destructor();
 
 			// SHIFT INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVE
-			for (let it = this._Get_progress_list().begin(); !it.equal_to(this._Get_progress_list().end()); it = it.next())
+			for (let it = this["progress_list_"].begin(); !it.equal_to(this["progress_list_"].end()); it = it.next())
 			{
 				// A HISTORY HAD PROGRESSED
 				let history: DSInvokeHistory = it.second.second as DSInvokeHistory;
@@ -67,12 +67,12 @@ namespace samchon.protocol.distributed
 			return this.getSystemArray().getRole(key);
 		}
 
-		public _Compute_average_elapsed_time(): number
+		private compute_average_elapsed_time(): number
 		{
 			let sum: number = 0;
 			let denominator: number = 0;
 
-			for (let it = this._Get_history_list().begin(); !it.equal_to(this._Get_history_list().end()); it = it.next())
+			for (let it = this["history_list_"].begin(); !it.equal_to(this["history_list_"].end()); it = it.next())
 			{
 				let history: DSInvokeHistory = it.second as DSInvokeHistory;
 				if (history instanceof parallel.PRInvokeHistory)
@@ -105,6 +105,9 @@ namespace samchon.protocol.distributed
 				it.second.replyData(invoke);
 		}
 		
+		/**
+		 * @hidden
+		 */
 		protected _Report_history(xml: library.XML): void
 		{
 			// ParallelSystem's history -> PRInvokeHistory
@@ -119,20 +122,20 @@ namespace samchon.protocol.distributed
 			history.construct(xml);
 
 			// IF THE HISTORY HAS NOT EXISTED IN PROGRESS, THEN TERMINATE REPORTING
-			let progress_it = this._Get_progress_list().find(history.getUID());
-			if (progress_it.equal_to(this._Get_progress_list().end()) == true)
+			let progress_it = this["progress_list_"].find(history.getUID());
+			if (progress_it.equal_to(this["progress_list_"].end()) == true)
 				return;
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
-			this._Get_progress_list().erase(progress_it);
-			this._Get_history_list().insert([history.getUID(), history]);
+			this["progress_list_"].erase(progress_it);
+			this["history_list_"].insert([history.getUID(), history]);
 
 			// REPORT TO THE ROLE
 			if (history.getRole() != null)
-				history.getRole()._Report_history(history);
+				history.getRole()["complete_history"](history);
 				
 			// COMPLETE THE HISTORY IN THE BELONGED SYSTEM_ARRAY
-			this.getSystemArray()._Complete_history(history);
+			this.getSystemArray()["_Complete_history"](history);
 		}
 	}
 }

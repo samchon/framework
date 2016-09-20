@@ -106,7 +106,7 @@ namespace samchon.protocol.distributed
 		/**
 		 * @hidden
 		 */
-		public _Complete_history(history: InvokeHistory): boolean
+		protected _Complete_history(history: InvokeHistory): boolean
 		{
 			if (history instanceof DSInvokeHistory)
 			{
@@ -146,10 +146,10 @@ namespace samchon.protocol.distributed
 			for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
 			{
 				let my_role: DistributedSystemRole = it.second;
-				if (my_role == history.getRole() || my_role._Get_history_list().empty() == true)
+				if (my_role == history.getRole() || my_role["history_list_"].empty() == true)
 					continue;
 
-				average_elapsed_time_of_others += my_role._Compute_average_elapsed_time() * my_role.getResource();
+				average_elapsed_time_of_others += my_role["compute_average_elapsed_time"]() * my_role.getResource();
 				denominator++;
 			}
 
@@ -166,10 +166,10 @@ namespace samchon.protocol.distributed
 
 				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 15%
 				let ordinary_ratio: number;
-				if (role._Get_history_list().size() < 2)
+				if (role["history_list_"].size() < 2)
 					ordinary_ratio = .15;
 				else
-					ordinary_ratio = Math.min(.85, 1.0 / (role._Get_history_list().size() - 1.0));
+					ordinary_ratio = Math.min(.85, 1.0 / (role["history_list_"].size() - 1.0));
 
 				// DEFINE NEW PERFORMANCE
 				role.setResource
@@ -195,7 +195,7 @@ namespace samchon.protocol.distributed
 			{
 				let system: DistributedSystem = this.at(i);
 
-				let avg: number = system._Compute_average_elapsed_time();
+				let avg: number = system["compute_average_elapsed_time"]();
 				if (avg == -1)
 					continue;
 
@@ -216,10 +216,10 @@ namespace samchon.protocol.distributed
 
 				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 30%
 				let ordinary_ratio: number;
-				if (system._Get_history_list().size() < 2)
+				if (system["history_list_"].size() < 2)
 					ordinary_ratio = .3;
 				else
-					ordinary_ratio = Math.min(0.7, 1.0 / (system._Get_history_list().size() - 1.0));
+					ordinary_ratio = Math.min(0.7, 1.0 / (system["history_list_"].size() - 1.0));
 
 				// DEFINE NEW PERFORMANCE
 				system.setPerformance

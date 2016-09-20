@@ -20,7 +20,7 @@ namespace samchon.protocol.service
 		public constructor(user: User, driver: WebClientDriver)
 		{
 			this.user_ = user;
-			this.no_ = -1;
+			this.no_ = ++user["sequence_"];
 
 			// ENROLL COMMUNICATOR
 			this.communicator_ = driver;
@@ -69,14 +69,6 @@ namespace samchon.protocol.service
 		public getNo(): number
 		{
 			return this.no_;
-		}
-
-		public _Set_no(val: number): void
-		{
-			if (this.no_ != -1)
-				return;
-
-			this.no_ = val;
 		}
 
 		/* ------------------------------------------------------------------

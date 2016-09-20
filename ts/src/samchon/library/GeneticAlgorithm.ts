@@ -105,11 +105,11 @@ namespace samchon.library
 				compare: (left: T, right: T) => boolean = std.greater
 			): GAPopulation<T, GeneArray>
 		{
-			let size: number = population._Get_children().size();
+			let size: number = population.children().size();
 			let evolved = new GAPopulation<T, GeneArray>(size);
 
 			// ELITICISM
-			evolved._Get_children().set(0, population.fitTest());
+			evolved.children().set(0, population.fitTest());
 
 			for (let i: number = 1; i < size; i++)
 			{
@@ -119,7 +119,7 @@ namespace samchon.library
 				let child: GeneArray = this.crossover(gene1, gene2);
 				this.mutate(child);
 
-				evolved._Get_children().set(i, child);
+				evolved.children().set(i, child);
 			}
 
 			return evolved;
@@ -159,7 +159,7 @@ namespace samchon.library
 		private selection<T, GeneArray extends std.base.IArrayContainer<T>>
 			(population: GAPopulation<T, GeneArray>): GeneArray
 		{
-			let size: number = population._Get_children().size();
+			let size: number = population.children().size();
 			let tournament: GAPopulation<T, GeneArray> = new GAPopulation<T, GeneArray>(size);
 
 			for (let i: number = 0; i < size; i++)
@@ -168,7 +168,7 @@ namespace samchon.library
 				if (random_index == size)
 					random_index--;
 
-				tournament._Get_children().set(i, population._Get_children().at(random_index));
+				tournament.children().set(i, population.children().at(random_index));
 			}
 			return tournament.fitTest();
 		}
@@ -390,7 +390,7 @@ namespace samchon.library
 			}
 		}
 
-		public _Get_children(): std.Vector<GeneArray>
+		public children(): std.Vector<GeneArray>
 		{
 			return this.children_;
 		}

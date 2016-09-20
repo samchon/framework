@@ -47,16 +47,7 @@ namespace samchon.protocol.distributed
 			this.resource = val;
 		}
 
-		public _Get_process_list(): std.HashMap<number, DSInvokeHistory>
-		{
-			return this.progress_list_;
-		}
-		public _Get_history_list(): std.HashMap<number, DSInvokeHistory>
-		{
-			return this.history_list_;
-		}
-
-		public _Compute_average_elapsed_time(): number
+		private compute_average_elapsed_time(): number
 		{
 			let sum: number = 0;
 			
@@ -114,7 +105,7 @@ namespace samchon.protocol.distributed
 				let system: DistributedSystem = this.system_array_.at(i) as DistributedSystem;
 
 				if (idle_system == null 
-					|| system._Get_progress_list().size() < idle_system._Get_progress_list().size()
+					|| system["progress_list_"].size() < idle_system["progress_list_"].size()
 					|| system.getPerformance() < idle_system.getPerformance())
 					idle_system = system;
 			}
@@ -123,13 +114,13 @@ namespace samchon.protocol.distributed
 			let history: DSInvokeHistory = new DSInvokeHistory(idle_system, this, invoke);
 
 			this.progress_list_.insert([uid, history]);
-			idle_system._Get_progress_list().insert([uid, std.make_pair(invoke, history)]);
+			idle_system["progress_list_"].insert([uid, std.make_pair(invoke, history)]);
 
 			// SEND DATA
 			idle_system.sendData(invoke);
 		}
 
-		public _Report_history(history: DSInvokeHistory): void
+		private complete_history(history: DSInvokeHistory): void
 		{
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list_.erase(history.getUID());

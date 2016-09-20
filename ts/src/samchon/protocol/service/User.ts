@@ -48,21 +48,13 @@ namespace samchon.protocol.service
 		/**
 		 * @hidden
 		 */
-		public _Create_client(driver: WebClientDriver): Client
-		{
-			return this.createClient(driver);
-		}
-
-		/**
-		 * @hidden
-		 */
 		private handle_erase_client(event: collection.MapCollectionEvent<number, Client>): void
 		{
 			for (let it = event.first; !it.equal_to(event.last); it = it.next())
 				it.second.close();
 			
 			if (this.empty() == true)
-				this.server_._Erase_user(this);
+				this.server_["erase_user"](this);
 		}
 
 		/* ---------------------------------------------------------
@@ -87,41 +79,14 @@ namespace samchon.protocol.service
 			if (this.account_id_ == id) // SAME WITH BEFORE
 				return;
 			else if (this.account_id_ != "") // ACCOUTN IS CHANGED
-				this.server_._Get_account_map().erase(this.account_id_); // ERASE FROM ORDINARY ACCOUNT_MAP
+				this.server_["account_map_"].erase(this.account_id_); // ERASE FROM ORDINARY ACCOUNT_MAP
 
 			// SET
 			this.account_id_ = id;
 			this.authority_ = authority;
 
 			// REGISTER TO ACCOUNT_MAP IN ITS SERVER
-			this.server_._Get_account_map().set(id, this);
-		}
-
-		/**
-		 * @hidden
-		 */
-		public _Get_session_id(): string
-		{
-			return this.session_id_;
-		}
-
-		/**
-		 * @hidden
-		 */
-		public _Fetch_sequence(): number
-		{
-			return ++this.sequence_;
-		}
-
-		/**
-		 * @hidden
-		 */
-		public _Set_session_id(val: string): void
-		{
-			if (this.session_id_ != "")
-				return;
-
-			this.session_id_ = val;
+			this.server_["account_map_"].set(id, this);
 		}
 
 		/* ---------------------------------------------------------

@@ -166,14 +166,6 @@
 			return this.file_.lastModifiedDate;
 		}
 
-		/**
-		 * @hidden
-		 */
-		public _Set_file(val: File): void
-		{
-			this.file_ = val;
-		}
-
 		/* =========================================================
 			PROCEDURES
 				- OPEN FILE
@@ -441,7 +433,7 @@
 				for (let i: number = 0; i < fileList.length; i++)
 				{
 					let reference: FileReference = new FileReference();
-					reference._Set_file(fileList[i]);
+					reference["file_"] = fileList[i];
 
 					this_.file_list.push(reference);
 				}

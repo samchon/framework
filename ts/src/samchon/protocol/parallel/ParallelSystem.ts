@@ -119,23 +119,13 @@ namespace samchon.protocol.parallel
 			this.performance = val;
 		}
 
-		public _Get_progress_list(): std.HashMap<number, std.Pair<Invoke, InvokeHistory>>
-		{
-			return this.progress_list_;
-		}
-
-		public _Get_history_list(): std.HashMap<number, InvokeHistory>
-		{
-			return this.history_list_;
-		}
-
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
 		/**
 		 * @hidden
 		 */
-		public _Send_piece_data(invoke: Invoke, first: number, last: number): void
+		private send_piece_data(invoke: Invoke, first: number, last: number): void
 		{
 			// DUPLICATE INVOKE AND ATTACH PIECE INFO
 			let my_invoke: Invoke = new Invoke(invoke.getListener());
@@ -169,11 +159,7 @@ namespace samchon.protocol.parallel
 		}
 		
 		/**
-		 * 
-		 * 
-		 * @param xml
-		 * 
-		 * @see {@link ParallelSystemArray.notify_complete}
+		 * @hidden
 		 */
 		protected _Report_history(xml: library.XML): void
 		{
@@ -197,7 +183,7 @@ namespace samchon.protocol.parallel
 			this.history_list_.insert([history.getUID(), history]);
 
 			// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
-			this.getSystemArray()._Complete_history(history);
+			this.getSystemArray()["_Complete_history"](history);
 		}
 	}
 }

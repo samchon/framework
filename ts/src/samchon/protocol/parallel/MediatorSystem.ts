@@ -36,12 +36,32 @@ namespace samchon.protocol.parallel
 		--------------------------------------------------------- */
 		private complete_history(uid: number): void
 		{
+			// NO SUCH HISTORY; THE PROCESS HAD DONE ONLY IN THIS MEDIATOR LEVEL.
 			if (this.progress_list_.has(uid) == false)
-				return; // NO SUCH HISTORY; THE PROCESS HAD DONE ONLY IN THIS MEDIATOR LEVEL.
+				return;
 
 			// COMPLETE THE HISTORY
 			let history: InvokeHistory = this.progress_list_.get(uid);
-			history.complete();
+			let start_time: Date = null;
+			let end_time: Date = null;
+
+			// DETERMINE WHEN STARTED AND COMPLETED TIME
+			for (let i: number = 0; i < this.system_array_.size(); i++)
+			{
+				let system: ParallelSystem = this.system_array_.at(i);
+				
+				let it: std.MapIterator<number, InvokeHistory> = system["history_list_"].find(uid);
+				if (it.equal_to(system["history_list_"].end()) == true)
+					continue;
+				
+				let my_history: InvokeHistory = it.second;
+				if (start_time == null || my_history.getStartTime() < start_time)
+					start_time = my_history.getStartTime();
+				if (end_time == null || my_history.getEndTime() > end_time)
+					end_time = my_history.getEndTime();
+			}
+			history["start_time_"] = start_time;
+			history["end_time_"] = end_time;
 			
 			// ERASE THE HISTORY ON PROGRESS LIST
 			this.progress_list_.erase(uid);
@@ -54,8 +74,17 @@ namespace samchon.protocol.parallel
 		{
 			if (invoke.has("_History_uid") == true)
 			{
-				// REGISTER THIS PROCESS ON HISTORY LIST
+				// INIT HISTORY OBJECT
 				let history: InvokeHistory = new InvokeHistory(invoke);
+
+				if (this.system_array_.empty() == true)
+				{
+					// NO BELONGED SLAVE, THEN SEND BACK
+					this.sendData(new Invoke("_Send_back_history", history.getUID()));
+					return;
+				}
+
+				// REGISTER THIS PROCESS ON HISTORY LIST
 				this.progress_list_.insert([history.getUID(), history]);
 
 				if (invoke.has("_Piece_first") == true)
@@ -71,16 +100,16 @@ namespace samchon.protocol.parallel
 					&& invoke.has("_Role_name") == true)
 				{
 					// DISTRIBUTED PROCESS
-					let ds_mediator: distributed.DistributedSystemArrayMediator 
+					let ds_system_array: distributed.DistributedSystemArrayMediator 
 						= this.system_array_ as distributed.DistributedSystemArrayMediator;
 
 					// FIND THE MATCHED ROLE
 					let role_name: string = invoke.get("_Role_name").getValue();
-					if (ds_mediator.hasRole(role_name) == false)
+					if (ds_system_array.hasRole(role_name) == false)
 						return;
 
 					// SEND DATA VIA THE ROLE
-					let role: distributed.DistributedSystemRole = ds_mediator.getRole(role_name);
+					let role: distributed.DistributedSystemRole = ds_system_array.getRole(role_name);
 					role.sendData(invoke);
 				}
 			}

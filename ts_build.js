@@ -47,6 +47,11 @@ function remove_dynamics()
 			'file_', // FileReference.file_
 
 			//--------
+			// PROTOCOL MODULE
+			//--------
+			'_replyData',		// IProtocol._replyData
+
+			//--------
 			// SERVICE MODULE
 			//--------
 			'erase_user',		// Server.erase_user
@@ -61,15 +66,19 @@ function remove_dynamics()
 			//--------
 			'history_sequence_',	// ParallelSystemArray.history_sequence_
 			'_Complete_history',	// ParallelSystemArray._Complete_history
+
 			'progress_list_',		// (ParallelSystem | DistributedSystemRole).progress_list_
 			'history_list_',		// (ParallelSystem | DistributedSystemRole).history_list_
-			'send_piece_data',		// ParallelSystem.send_piece_data
-			
+			'send_piece_data',		// ParallelSystem.send_piece_dat
+
+			'complete_history',		// MediatorSystem.complete_history
+			'start_time_',			// InvokeHistory.start_time_
+			'end_time_',			// InvokeHistory.end_time_
+
 			//--------
 			// DISTRIBUTED SYSTEM MODULE
 			//--------
-			'compute_average_elapsed_time',	// (DistributedSystem | DistributedSystemRole).compute_average_elapsed_time
-			'complete_history'				// DistributedSystemRole.complete_history
+			'compute_average_elapsed_time'	// (DistributedSystem | DistributedSystemRole).compute_average_elapsed_time
 		];
 
 	var text = fs.readFileSync(JS_FILE, "utf8");

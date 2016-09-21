@@ -5,7 +5,7 @@
 
 declare module "typescript-stl"
 {
-        export = std;
+	export = std;
 }
 
 /**
@@ -4580,7 +4580,6 @@ declare namespace std.base {
          * Return the number of elements in the map.
          */
         size(): number;
-        protected _Get_data(): List<Pair<Key, T>>;
         /**
          * @inheritdoc
          */
@@ -4975,50 +4974,6 @@ declare namespace std.base {
          * @param val Value, the item.
          */
         set(key: Key, val: T): void;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param key Key value of the element whose mapped value is accessed.
-         *
-         * @return A {@link Pair} containing the value pointed to by <i>key</i>.
-         */
-        extract(key: Key): Pair<Key, T>;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param it An iterator pointing an element to extract.
-         *
-         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
-         *		   erased. If no such element exists,returns {@link end end()}.
-         */
-        extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param it An iterator pointing an element to extract.
-         *
-         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
-         *		   erased. If no such element exists,returns {@link end end()}.
-         */
-        extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
-        /**
-         * @hidden
-         */
-        private extract_by_key(key);
-        /**
-         * @hidden
-         */
-        private extract_by_iterator(it);
-        /**
-         * @hidden
-         */
-        private extract_by_reverse_iterator(it);
         /**
          * <p> Insert an element. </p>
          *
@@ -5745,10 +5700,6 @@ declare namespace std.base {
          */
         size(): number;
         /**
-         * @hidden
-         */
-        _Get_data(): List<T>;
-        /**
          * @inheritdoc
          */
         push<U extends T>(...args: U[]): number;
@@ -6276,50 +6227,6 @@ declare namespace std.base {
          * @inheritdoc
          */
         count(key: T): number;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>val</i> and erases it from the {@link UniqueSet}. </p>
-         *
-         * @param val Value to be extracted.
-         *
-         * @return A value.
-         */
-        extract(val: T): T;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param it An iterator pointing an element to extract.
-         *
-         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
-         *		   erased. If no such element exists,returns {@link end end()}.
-         */
-        extract(it: SetIterator<T>): SetIterator<T>;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param it An iterator pointing an element to extract.
-         *
-         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
-         *		   erased. If no such element exists,returns {@link end end()}.
-         */
-        extract(it: SetReverseIterator<T>): SetReverseIterator<T>;
-        /**
-         * @hidden
-         */
-        private extract_by_key(val);
-        /**
-         * @hidden
-         */
-        private extract_by_iterator(it);
-        /**
-         * @hidden
-         */
-        private extract_by_reverse_iterator(it);
         /**
          * <p> Insert an element. </p>
          *
@@ -7166,8 +7073,17 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class ListIterator<T> extends Iterator<T> {
+        /**
+         * @hidden
+         */
         private prev_;
+        /**
+         * @hidden
+         */
         private next_;
+        /**
+         * @hidden
+         */
         private value_;
         /**
          * <p> Construct from the source {@link List container}. </p>
@@ -7204,14 +7120,6 @@ declare namespace std {
          * @param val Value to set.
          */
         value: T;
-        /**
-         * @hidden
-         */
-        _Set_prev(it: ListIterator<T>): void;
-        /**
-         * @hidden
-         */
-        _Set_next(it: ListIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -8615,10 +8523,6 @@ declare namespace std {
          * @inheritdoc
          */
         equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>;
-        /**
-         * @hidden
-         */
-        _Get_tree(): base.AtomicTree<T>;
         /**
          * @hidden
          */
@@ -11440,7 +11344,6 @@ declare namespace std.base {
          * Default Constructor.
          */
         constructor(map: TreeMap<Key, T> | TreeMultiMap<Key, T>, compare?: (x: Key, y: Key) => boolean);
-        _Set_compare(val: (x: Key, y: Key) => boolean): void;
         find(key: Key): XTreeNode<MapIterator<Key, T>>;
         find(it: MapIterator<Key, T>): XTreeNode<MapIterator<Key, T>>;
         /**
@@ -11741,7 +11644,6 @@ declare namespace std.base {
          * Default Constructor.
          */
         constructor(set: TreeSet<T> | TreeMultiSet<T>, compare?: (x: T, y: T) => boolean);
-        _Set_compare(val: (x: T, y: T) => boolean): void;
         find(val: T): XTreeNode<SetIterator<T>>;
         find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
         /**

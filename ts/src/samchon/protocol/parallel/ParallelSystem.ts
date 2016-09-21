@@ -25,6 +25,16 @@ namespace samchon.protocol.parallel
 		private history_list_: std.HashMap<number, InvokeHistory>;
 
 		/**
+		 * @hidden
+		 */
+		private enforced_: boolean;
+
+		/**
+		 * @hidden
+		 */
+		private exclude_: boolean;
+
+		/**
 		 * <p> Performance index. </p>
 		 * 
 		 * <p> A performance index that indicates how much fast the connected parallel system is. </p>
@@ -51,7 +61,7 @@ namespace samchon.protocol.parallel
 		 * then {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()} also cause the re-calculation.
 		 * </p>
 		 */
-		protected performance: number;
+		private performance: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -64,10 +74,15 @@ namespace samchon.protocol.parallel
 		{
 			super(systemArray, communicator);
 			
-			// PERFORMANCE INDEX
-			this.performance = 1.0;
+			// HIDDEN MEMBERS
 			this.progress_list_ = new std.HashMap<number, std.Pair<Invoke, InvokeHistory>>();
 			this.history_list_ = new std.HashMap<number, InvokeHistory>();
+			
+			this.enforced_ = false;
+			this.exclude_ = false;
+
+			// PERFORMANCE INDEX
+			this.performance = 1.0;
 		}
 
 		public destructor(): void
@@ -76,18 +91,11 @@ namespace samchon.protocol.parallel
 
 			for (let it = this.progress_list_.begin(); !it.equal_to(this.progress_list_.end()); it = it.next())
 			{
-				// A HISTORY HAD PROGRESSED
-				let history: PRInvokeHistory = it.second.second as PRInvokeHistory;
-				if (history instanceof PRInvokeHistory == false)
-					continue;
-
-				// INVOKE MESSAGE TO RESEND TO OTHER SLAVES
+				// AN INVOKE AND HISTORY HAD PROGRESSED
 				let invoke: Invoke = it.second.first;
-				let first: number = history.getFirst();
-				let last: number = history.getLast();
-
-				// SEND-PIECE-DATA
-				this.getSystemArray().sendPieceData(invoke, first, last);
+				let history: PRInvokeHistory = it.second.second as PRInvokeHistory;
+				
+				this._Send_back_history(invoke, history);
 			}
 		}
 
@@ -117,6 +125,13 @@ namespace samchon.protocol.parallel
 		public setPerformance(val: number): void
 		{
 			this.performance = val;
+			this.enforced_ = false;
+		}
+
+		public enforcePerformance(val: number): void
+		{
+			this.performance = val;
+			this.enforced_ = true;
 		}
 
 		/* ---------------------------------------------------------
@@ -153,7 +168,20 @@ namespace samchon.protocol.parallel
 		private _replyData(invoke: protocol.Invoke): void
 		{
 			if (invoke.getListener() == "_Report_history")
+			{
 				this._Report_history(invoke.front().getValue() as library.XML);
+			}
+			else if (invoke.getListener() == "_Send_back_history")
+			{
+				let uid: number = invoke.front().getValue();
+				let it = this.progress_list_.find(uid);
+
+				if (it.equal_to(this.progress_list_.end()) == true)
+					return;
+
+				this._Send_back_history(it.second.first, it.second.second);
+				this.progress_list_.erase(uid);
+			}
 			else
 				this.replyData(invoke);
 		}
@@ -184,6 +212,32 @@ namespace samchon.protocol.parallel
 
 			// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
 			this.getSystemArray()["_Complete_history"](history);
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected _Send_back_history(invoke: Invoke, history: InvokeHistory): void
+		{
+			if (history instanceof PRInvokeHistory)
+			{
+				// REMOVE UID AND FIRST, LAST INDEXES
+				std.remove_if(invoke.begin(), invoke.end(),
+					function (param: InvokeParameter): boolean
+					{
+						return param.getName() == "_History_uid"
+							|| param.getName() == "_Piece_first"
+							|| param.getName() == "_Piece_last";
+					});
+
+				// RE-SEND (DISTRIBUTE) THE PIECE TO OTHER SLAVES
+				this.getSystemArray().sendPieceData
+				(
+					invoke, 
+					history.getFirst(), 
+					history.getLast()
+				);
+			}
 		}
 	}
 }

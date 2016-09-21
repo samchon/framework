@@ -7,7 +7,7 @@
 
 declare module "samchon-framework"
 {
-        export = samchon;
+	export = samchon;
 }
 
 /**
@@ -2286,10 +2286,6 @@ declare namespace samchon.library {
          */
         modificationDate: Date;
         /**
-         * @hidden
-         */
-        _Set_file(val: File): void;
-        /**
          * <p> Displays a file-browsing dialog box that lets the user select a file to upload. The dialog box is native
          * to the user's browser system. The user can select a file on the local computer or from other systems, for
          * example, through a UNC path on Windows. </p>
@@ -2664,7 +2660,7 @@ declare namespace samchon.library {
          * @param compare A comparison function returns whether left gene is more optimal.
          */
         constructor(geneArray: GeneArray, size: number, compare: (left: GeneArray, right: GeneArray) => boolean);
-        _Get_children(): std.Vector<GeneArray>;
+        children(): std.Vector<GeneArray>;
         /**
          * Test fitness of each <i>GeneArray</i> in the {@link population}.
          *
@@ -5086,11 +5082,9 @@ declare namespace samchon.protocol.distributed {
         getSystemArray(): DistributedSystemArray;
         getResource(): number;
         setResource(val: number): void;
-        _Get_process_list(): std.HashMap<number, DSInvokeHistory>;
-        _Get_history_list(): std.HashMap<number, DSInvokeHistory>;
-        _Compute_average_elapsed_time(): number;
+        private compute_average_elapsed_time();
         sendData(invoke: protocol.Invoke): void;
-        _Report_history(history: DSInvokeHistory): void;
+        private complete_history(history);
     }
 }
 /**
@@ -5243,7 +5237,7 @@ declare namespace samchon.protocol.parallel {
         /**
          * @hidden
          */
-        _Complete_history(history: InvokeHistory): boolean;
+        protected _Complete_history(history: InvokeHistory): boolean;
         /**
          * @hidden
          */
@@ -5280,7 +5274,7 @@ declare namespace samchon.protocol.distributed {
         /**
          * @hidden
          */
-        _Complete_history(history: InvokeHistory): boolean;
+        protected _Complete_history(history: InvokeHistory): boolean;
         /**
          * @hidden
          */
@@ -5346,7 +5340,7 @@ declare namespace samchon.protocol.distributed {
         protected abstract createMediator(): parallel.MediatorSystem;
         protected startMediator(): void;
         getMediator(): parallel.MediatorSystem;
-        _Complete_history(history: parallel.PRInvokeHistory): boolean;
+        protected _Complete_history(history: parallel.PRInvokeHistory): boolean;
     }
 }
 declare namespace samchon.protocol.distributed {
@@ -5506,6 +5500,14 @@ declare namespace samchon.protocol.parallel {
          */
         private history_list_;
         /**
+         * @hidden
+         */
+        private enforced_;
+        /**
+         * @hidden
+         */
+        private exclude_;
+        /**
          * <p> Performance index. </p>
          *
          * <p> A performance index that indicates how much fast the connected parallel system is. </p>
@@ -5532,7 +5534,7 @@ declare namespace samchon.protocol.parallel {
          * then {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()} also cause the re-calculation.
          * </p>
          */
-        protected performance: number;
+        private performance;
         constructor(systemArray: ParallelSystemArray);
         constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
         destructor(): void;
@@ -5549,29 +5551,27 @@ declare namespace samchon.protocol.parallel {
          */
         getPerformance(): number;
         setPerformance(val: number): void;
-        _Get_progress_list(): std.HashMap<number, std.Pair<Invoke, InvokeHistory>>;
-        _Get_history_list(): std.HashMap<number, InvokeHistory>;
+        enforcePerformance(val: number): void;
         /**
          * @hidden
          */
-        _Send_piece_data(invoke: Invoke, first: number, last: number): void;
+        private send_piece_data(invoke, first, last);
         /**
          * @hidden
          */
         private _replyData(invoke);
         /**
-         *
-         *
-         * @param xml
-         *
-         * @see {@link ParallelSystemArray.notify_complete}
+         * @hidden
          */
         protected _Report_history(xml: library.XML): void;
+        /**
+         * @hidden
+         */
+        protected _Send_back_history(invoke: Invoke, history: InvokeHistory): void;
     }
 }
 declare namespace samchon.protocol.distributed {
     abstract class DistributedSystem extends parallel.ParallelSystem {
-        destructor(): void;
         createChild(xml: library.XML): external.ExternalSystemRole;
         /**
          * Get manager of this object.
@@ -5587,9 +5587,16 @@ declare namespace samchon.protocol.distributed {
          * @inheritdoc
          */
         get(key: string): DistributedSystemRole;
-        _Compute_average_elapsed_time(): number;
+        private compute_average_elapsed_time();
         replyData(invoke: protocol.Invoke): void;
+        /**
+         * @hidden
+         */
         protected _Report_history(xml: library.XML): void;
+        /**
+         * @hidden
+         */
+        protected _Send_back_history(invoke: Invoke, history: InvokeHistory): void;
     }
 }
 declare namespace samchon.protocol.distributed {
@@ -6083,12 +6090,12 @@ declare namespace samchon.protocol.slave {
 }
 declare namespace samchon.protocol.parallel {
     abstract class MediatorSystem extends slave.SlaveSystem {
-        private mediator_;
+        private system_array_;
         private progress_list_;
         constructor(systemArray: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator);
         abstract start(): void;
-        getMediator(): ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator;
-        _Complete_history(uid: number): void;
+        getSystemArray(): ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator;
+        private complete_history(uid);
         protected _replyData(invoke: Invoke): void;
         replyData(invoke: protocol.Invoke): void;
     }
@@ -6221,7 +6228,7 @@ declare namespace samchon.protocol.parallel {
         protected abstract createMediator(): MediatorSystem;
         protected start_mediator(): void;
         getMediator(): MediatorSystem;
-        _Complete_history(history: PRInvokeHistory): boolean;
+        protected _Complete_history(history: PRInvokeHistory): boolean;
     }
 }
 declare namespace samchon.protocol.parallel {
@@ -6349,7 +6356,6 @@ declare namespace samchon.protocol.service {
         getUser(): User;
         getService(): Service;
         getNo(): number;
-        _Set_no(val: number): void;
         /**
          * @inheritdoc
          */
@@ -6377,14 +6383,10 @@ declare namespace samchon.protocol.service {
         protected abstract createUser(): User;
         has(account: string): boolean;
         get(account: string): User;
-        /**
-         * @hidden
-         */
-        _Get_account_map(): std.HashMap<string, User>;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
         addClient(driver: WebClientDriver): void;
-        _Erase_user(user: User): void;
+        private erase_user(user);
     }
 }
 declare namespace samchon.protocol.service {
@@ -6424,27 +6426,11 @@ declare namespace samchon.protocol.service {
         /**
          * @hidden
          */
-        _Create_client(driver: WebClientDriver): Client;
-        /**
-         * @hidden
-         */
         private handle_erase_client(event);
         getServer(): Server;
         getAccountID(): string;
         getAuthority(): number;
         setAccount(id: string, authority: number): void;
-        /**
-         * @hidden
-         */
-        _Get_session_id(): string;
-        /**
-         * @hidden
-         */
-        _Fetch_sequence(): number;
-        /**
-         * @hidden
-         */
-        _Set_session_id(val: string): void;
         sendData(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
     }

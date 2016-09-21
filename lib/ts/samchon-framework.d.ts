@@ -5500,6 +5500,14 @@ declare namespace samchon.protocol.parallel {
          */
         private history_list_;
         /**
+         * @hidden
+         */
+        private enforced_;
+        /**
+         * @hidden
+         */
+        private exclude_;
+        /**
          * <p> Performance index. </p>
          *
          * <p> A performance index that indicates how much fast the connected parallel system is. </p>
@@ -5526,7 +5534,7 @@ declare namespace samchon.protocol.parallel {
          * then {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()} also cause the re-calculation.
          * </p>
          */
-        protected performance: number;
+        private performance;
         constructor(systemArray: ParallelSystemArray);
         constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
         destructor(): void;
@@ -5543,6 +5551,7 @@ declare namespace samchon.protocol.parallel {
          */
         getPerformance(): number;
         setPerformance(val: number): void;
+        enforcePerformance(val: number): void;
         /**
          * @hidden
          */
@@ -5555,11 +5564,14 @@ declare namespace samchon.protocol.parallel {
          * @hidden
          */
         protected _Report_history(xml: library.XML): void;
+        /**
+         * @hidden
+         */
+        protected _Send_back_history(invoke: Invoke, history: InvokeHistory): void;
     }
 }
 declare namespace samchon.protocol.distributed {
     abstract class DistributedSystem extends parallel.ParallelSystem {
-        destructor(): void;
         createChild(xml: library.XML): external.ExternalSystemRole;
         /**
          * Get manager of this object.
@@ -5581,6 +5593,10 @@ declare namespace samchon.protocol.distributed {
          * @hidden
          */
         protected _Report_history(xml: library.XML): void;
+        /**
+         * @hidden
+         */
+        protected _Send_back_history(invoke: Invoke, history: InvokeHistory): void;
     }
 }
 declare namespace samchon.protocol.distributed {

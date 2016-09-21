@@ -6162,24 +6162,21 @@ var samchon;
                 function ParallelSystem(systemArray, communicator) {
                     if (communicator === void 0) { communicator = null; }
                     _super.call(this, systemArray, communicator);
-                    // PERFORMANCE INDEX
-                    this.performance = 1.0;
+                    // HIDDEN MEMBERS
                     this.progress_list_ = new std.HashMap();
                     this.history_list_ = new std.HashMap();
+                    this.enforced_ = false;
+                    this.exclude_ = false;
+                    // PERFORMANCE INDEX
+                    this.performance = 1.0;
                 }
                 ParallelSystem.prototype.destructor = function () {
                     _super.prototype.destructor.call(this);
                     for (var it = this.progress_list_.begin(); !it.equal_to(this.progress_list_.end()); it = it.next()) {
-                        // A HISTORY HAD PROGRESSED
-                        var history_2 = it.second.second;
-                        if (history_2 instanceof parallel.PRInvokeHistory == false)
-                            continue;
-                        // INVOKE MESSAGE TO RESEND TO OTHER SLAVES
+                        // AN INVOKE AND HISTORY HAD PROGRESSED
                         var invoke = it.second.first;
-                        var first = history_2.getFirst();
-                        var last = history_2.getLast();
-                        // SEND-PIECE-DATA
-                        this.getSystemArray().sendPieceData(invoke, first, last);
+                        var history_2 = it.second.second;
+                        this._Send_back_history(invoke, history_2);
                     }
                 };
                 /* ---------------------------------------------------------
@@ -6203,6 +6200,11 @@ var samchon;
                 };
                 ParallelSystem.prototype.setPerformance = function (val) {
                     this.performance = val;
+                    this.enforced_ = false;
+                };
+                ParallelSystem.prototype.enforcePerformance = function (val) {
+                    this.performance = val;
+                    this.enforced_ = true;
                 };
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN
@@ -6231,8 +6233,17 @@ var samchon;
                  * @hidden
                  */
                 ParallelSystem.prototype._replyData = function (invoke) {
-                    if (invoke.getListener() == "_Report_history")
+                    if (invoke.getListener() == "_Report_history") {
                         this._Report_history(invoke.front().getValue());
+                    }
+                    else if (invoke.getListener() == "_Send_back_history") {
+                        var uid = invoke.front().getValue();
+                        var it = this.progress_list_.find(uid);
+                        if (it.equal_to(this.progress_list_.end()) == true)
+                            return;
+                        this._Send_back_history(it.second.first, it.second.second);
+                        this.progress_list_.erase(uid);
+                    }
                     else
                         this.replyData(invoke);
                 };
@@ -6258,6 +6269,21 @@ var samchon;
                     // NOTIFY TO THE MANAGER, SYSTEM_ARRAY
                     this.getSystemArray()["_Complete_history"](history);
                 };
+                /**
+                 * @hidden
+                 */
+                ParallelSystem.prototype._Send_back_history = function (invoke, history) {
+                    if (history instanceof parallel.PRInvokeHistory) {
+                        // REMOVE UID AND FIRST, LAST INDEXES
+                        std.remove_if(invoke.begin(), invoke.end(), function (param) {
+                            return param.getName() == "_History_uid"
+                                || param.getName() == "_Piece_first"
+                                || param.getName() == "_Piece_last";
+                        });
+                        // RE-SEND (DISTRIBUTE) THE PIECE TO OTHER SLAVES
+                        this.getSystemArray().sendPieceData(invoke, history.getFirst(), history.getLast());
+                    }
+                };
                 return ParallelSystem;
             }(protocol.external.ExternalSystem));
             parallel.ParallelSystem = ParallelSystem;
@@ -6281,21 +6307,7 @@ var samchon;
                     CONSTRUCTORS
                 --------------------------------------------------------- */
                 // using super::constructor
-                DistributedSystem.prototype.destructor = function () {
-                    _super.prototype.destructor.call(this);
-                    // SHIFT INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVE
-                    for (var it = this["progress_list_"].begin(); !it.equal_to(this["progress_list_"].end()); it = it.next()) {
-                        // A HISTORY HAD PROGRESSED
-                        var history_3 = it.second.second;
-                        if (history_3 instanceof distributed.DSInvokeHistory == false)
-                            continue;
-                        // INVOKE MESSAGE TO RESEND TO ANOTHER SLAVE VIA ROLE
-                        var invoke = it.second.first;
-                        var role = history_3.getRole();
-                        // SEND-DATA VIA ROLE
-                        role.sendData(invoke);
-                    }
-                };
+                // using super::destructor
                 DistributedSystem.prototype.createChild = function (xml) {
                     return null;
                 };
@@ -6326,10 +6338,10 @@ var samchon;
                     var sum = 0;
                     var denominator = 0;
                     for (var it = this["history_list_"].begin(); !it.equal_to(this["history_list_"].end()); it = it.next()) {
-                        var history_4 = it.second;
-                        if (history_4 instanceof protocol.parallel.PRInvokeHistory)
+                        var history_3 = it.second;
+                        if (history_3 instanceof protocol.parallel.PRInvokeHistory)
                             continue;
-                        sum += history_4.computeElapsedTime() / history_4.getRole().getResource();
+                        sum += history_3.computeElapsedTime() / history_3.getRole().getResource();
                         denominator++;
                     }
                     if (denominator == 0)
@@ -6375,6 +6387,17 @@ var samchon;
                         history.getRole()["complete_history"](history);
                     // COMPLETE THE HISTORY IN THE BELONGED SYSTEM_ARRAY
                     this.getSystemArray()["_Complete_history"](history);
+                };
+                /**
+                 * @hidden
+                 */
+                DistributedSystem.prototype._Send_back_history = function (invoke, history) {
+                    if (history instanceof distributed.DSInvokeHistory) {
+                        // RE-SEND INVOKE MESSAGE TO ANOTHER SLAVE VIA ROLE
+                        history.getRole().sendData(invoke);
+                    }
+                    else
+                        _super.prototype._Send_back_history.call(this, invoke, history);
                 };
                 return DistributedSystem;
             }(protocol.parallel.ParallelSystem));
@@ -7457,7 +7480,7 @@ var samchon;
                     // INTERCEPT INVOKE MESSAGE
                     if (invoke.has("_History_uid")) {
                         // INIT HISTORY - WITH START TIME
-                        var history_5 = new protocol.InvokeHistory(invoke);
+                        var history_4 = new protocol.InvokeHistory(invoke);
                         std.remove_if(invoke.begin(), invoke.end(), function (parameter) {
                             return parameter.getName() == "_History_uid"
                                 || parameter.getName() == "_Role_name";
@@ -7465,8 +7488,8 @@ var samchon;
                         // MAIN PROCESS - REPLY_DATA
                         this.replyData(invoke);
                         // NOTIFY - WITH END TIME
-                        history_5.complete();
-                        this.sendData(history_5.toInvoke());
+                        history_4.complete();
+                        this.sendData(history_4.toInvoke());
                     }
                     else
                         this.replyData(invoke);
@@ -7508,11 +7531,27 @@ var samchon;
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
                 MediatorSystem.prototype.complete_history = function (uid) {
+                    // NO SUCH HISTORY; THE PROCESS HAD DONE ONLY IN THIS MEDIATOR LEVEL.
                     if (this.progress_list_.has(uid) == false)
-                        return; // NO SUCH HISTORY; THE PROCESS HAD DONE ONLY IN THIS MEDIATOR LEVEL.
+                        return;
                     // COMPLETE THE HISTORY
                     var history = this.progress_list_.get(uid);
-                    history.complete();
+                    var start_time = null;
+                    var end_time = null;
+                    // DETERMINE WHEN STARTED AND COMPLETED TIME
+                    for (var i = 0; i < this.system_array_.size(); i++) {
+                        var system = this.system_array_.at(i);
+                        var it = system["history_list_"].find(uid);
+                        if (it.equal_to(system["history_list_"].end()) == true)
+                            continue;
+                        var my_history = it.second;
+                        if (start_time == null || my_history.getStartTime() < start_time)
+                            start_time = my_history.getStartTime();
+                        if (end_time == null || my_history.getEndTime() > end_time)
+                            end_time = my_history.getEndTime();
+                    }
+                    history["start_time_"] = start_time;
+                    history["end_time_"] = end_time;
                     // ERASE THE HISTORY ON PROGRESS LIST
                     this.progress_list_.erase(uid);
                     // REPORT THE HISTORY TO MASTER
@@ -7520,9 +7559,15 @@ var samchon;
                 };
                 MediatorSystem.prototype._replyData = function (invoke) {
                     if (invoke.has("_History_uid") == true) {
+                        // INIT HISTORY OBJECT
+                        var history_5 = new protocol.InvokeHistory(invoke);
+                        if (this.system_array_.empty() == true) {
+                            // NO BELONGED SLAVE, THEN SEND BACK
+                            this.sendData(new protocol.Invoke("_Send_back_history", history_5.getUID()));
+                            return;
+                        }
                         // REGISTER THIS PROCESS ON HISTORY LIST
-                        var history_6 = new protocol.InvokeHistory(invoke);
-                        this.progress_list_.insert([history_6.getUID(), history_6]);
+                        this.progress_list_.insert([history_5.getUID(), history_5]);
                         if (invoke.has("_Piece_first") == true) {
                             // PARALLEL PROCESS
                             var first = invoke.get("_Piece_first").getValue();
@@ -7533,13 +7578,13 @@ var samchon;
                         else if (this.system_array_ instanceof protocol.distributed.DistributedSystemArrayMediator
                             && invoke.has("_Role_name") == true) {
                             // DISTRIBUTED PROCESS
-                            var ds_mediator = this.system_array_;
+                            var ds_system_array = this.system_array_;
                             // FIND THE MATCHED ROLE
                             var role_name = invoke.get("_Role_name").getValue();
-                            if (ds_mediator.hasRole(role_name) == false)
+                            if (ds_system_array.hasRole(role_name) == false)
                                 return;
                             // SEND DATA VIA THE ROLE
-                            var role = ds_mediator.getRole(role_name);
+                            var role = ds_system_array.getRole(role_name);
                             role.sendData(invoke);
                         }
                     }

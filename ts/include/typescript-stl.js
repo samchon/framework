@@ -1049,7 +1049,7 @@ var std;
      */
     function reverse(first, last) {
         // first != last && first != --last
-        while (first.equal_to(last) == false && !first.equal_to((last = last.prev())) == false) {
+        while (first.equal_to(last) == false && first.equal_to((last = last.prev())) == false) {
             first.swap(last);
             first = first.next();
         }
@@ -4021,9 +4021,6 @@ var std;
             MapContainer.prototype.size = function () {
                 return this.data_.size();
             };
-            MapContainer.prototype._Get_data = function () {
-                return this.data_;
-            };
             MapContainer.prototype.push = function () {
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
@@ -4786,7 +4783,7 @@ var std;
             if (it.equal_to(this.end()) == false)
                 return std.make_pair(it, false);
             // INSERT
-            this._Get_data().push_back(pair);
+            this.data_.push_back(pair);
             it = it.prev();
             // POST-PROCESS
             this._Handle_insert(it, it.next());
@@ -4800,7 +4797,7 @@ var std;
             if (this.has(pair.first) == true)
                 return this.end();
             // INSERT
-            var list_it = this._Get_data().insert(hint.get_list_iterator(), pair);
+            var list_it = this.data_.insert(hint.get_list_iterator(), pair);
             // POST-PROCESS
             var it = new std.MapIterator(this, list_it);
             this._Handle_insert(it, it.next());
@@ -4818,7 +4815,7 @@ var std;
                 if (this.has(first.value.first))
                     continue;
                 // INSERTS
-                this._Get_data().push_back(std.make_pair(first.value.first, first.value.second));
+                this.data_.push_back(std.make_pair(first.value.first, first.value.second));
                 size++;
             }
             my_first = my_first.next();
@@ -5059,7 +5056,7 @@ var std;
          */
         HashMultiMap.prototype._Insert_by_pair = function (pair) {
             // INSERT
-            var it = new std.MapIterator(this, this._Get_data().insert(this._Get_data().end(), pair));
+            var it = new std.MapIterator(this, this.data_.insert(this.data_.end(), pair));
             this._Handle_insert(it, it.next()); // POST-PROCESS
             return it;
         };
@@ -5068,7 +5065,7 @@ var std;
          */
         HashMultiMap.prototype._Insert_by_hint = function (hint, pair) {
             // INSERT
-            var list_it = this._Get_data().insert(hint.get_list_iterator(), pair);
+            var list_it = this.data_.insert(hint.get_list_iterator(), pair);
             // POST-PROCESS
             var it = new std.MapIterator(this, list_it);
             this._Handle_insert(it, it.next());
@@ -5079,7 +5076,7 @@ var std;
          */
         HashMultiMap.prototype._Insert_by_range = function (first, last) {
             // INSERT ELEMENTS
-            var list_iterator = this._Get_data().insert(this._Get_data().end(), first, last);
+            var list_iterator = this.data_.insert(this.data_.end(), first, last);
             var my_first = new std.MapIterator(this, list_iterator);
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
             if (this.size() > this.hash_buckets_.item_size() * std.base.Hash.MAX_RATIO)
@@ -5233,12 +5230,13 @@ var std;
             SetContainer.prototype.size = function () {
                 return this.data_.size();
             };
-            /**
-             * @hidden
-             */
-            SetContainer.prototype._Get_data = function () {
-                return this.data_;
-            };
+            ///**
+            // * @hidden
+            // */
+            //protected _Get_data(): List<T>
+            //{
+            //	return this.data_;
+            //}
             /* =========================================================
                 ELEMENTS I/O
                     - INSERT
@@ -5763,7 +5761,7 @@ var std;
          */
         HashMultiSet.prototype._Insert_by_val = function (val) {
             // INSERT
-            var it = new std.SetIterator(this, this._Get_data().insert(this._Get_data().end(), val));
+            var it = new std.SetIterator(this, this.data_.insert(this.data_.end(), val));
             this._Handle_insert(it, it.next()); // POST-PROCESS
             return it;
         };
@@ -5772,7 +5770,7 @@ var std;
          */
         HashMultiSet.prototype._Insert_by_hint = function (hint, val) {
             // INSERT
-            var list_iterator = this._Get_data().insert(hint.get_list_iterator(), val);
+            var list_iterator = this.data_.insert(hint.get_list_iterator(), val);
             // POST-PROCESS
             var it = new std.SetIterator(this, list_iterator);
             this._Handle_insert(it, it.next());
@@ -5783,7 +5781,7 @@ var std;
          */
         HashMultiSet.prototype._Insert_by_range = function (first, last) {
             // INSERT ELEMENTS
-            var list_iterator = this._Get_data().insert(this._Get_data().end(), first, last);
+            var list_iterator = this.data_.insert(this.data_.end(), first, last);
             var my_first = new std.SetIterator(this, list_iterator);
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
             if (this.size() > this.hash_buckets_.item_size() * std.base.Hash.MAX_RATIO)
@@ -6116,7 +6114,7 @@ var std;
             if (it.equal_to(this.end()) == false)
                 return std.make_pair(it, false);
             // INSERT
-            this._Get_data().push_back(val);
+            this.data_.push_back(val);
             it = it.prev();
             // POST-PROCESS
             this._Handle_insert(it, it.next());
@@ -6130,7 +6128,7 @@ var std;
             if (this.has(val) == true)
                 return this.end();
             // INSERT
-            var list_iterator = this._Get_data().insert(hint.get_list_iterator(), val);
+            var list_iterator = this.data_.insert(hint.get_list_iterator(), val);
             // POST-PROCESS
             var it = new std.SetIterator(this, list_iterator);
             this._Handle_insert(it, it.next());
@@ -6147,7 +6145,7 @@ var std;
                 if (this.has(first.value))
                     continue;
                 // INSERTS
-                this._Get_data().push_back(first.value);
+                this.data_.push_back(first.value);
                 size++;
             }
             my_first = my_first.next();
@@ -6246,8 +6244,8 @@ var std;
             _super.call(this);
             // INIT MEMBERS
             this.end_ = new std.ListIterator(this, null, null, null);
-            this.end_._Set_prev(this.end_);
-            this.end_._Set_next(this.end_);
+            this.end_.prev_ = (this.end_);
+            this.end_.next_ = (this.end_);
             this.begin_ = this.end_;
             this.size_ = 0;
             // BRANCHES
@@ -6282,8 +6280,8 @@ var std;
         List.prototype.clear = function () {
             // DISCONNECT NODES
             this.begin_ = this.end_;
-            this.end_._Set_prev(this.end_);
-            this.end_._Set_next(this.end_);
+            this.end_.prev_ = (this.end_);
+            this.end_.next_ = (this.end_);
             // RE-SIZE -> 0
             this.size_ = 0;
         };
@@ -6356,15 +6354,15 @@ var std;
                 var item = new std.ListIterator(this, prev, null, items[i]);
                 if (i == 0)
                     first = item;
-                prev._Set_next(item);
+                prev.next_ = (item);
                 prev = item;
             }
             // IF WAS EMPTY, VAL IS THE BEGIN
             if (this.empty() == true || first.prev().equal_to(this.end()) == true)
                 this.begin_ = first;
             // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-            prev._Set_next(this.end_);
-            this.end_._Set_prev(prev);
+            prev.next_ = (this.end_);
+            this.end_.prev_ = (prev);
             this.size_ += items.length;
             return this.size();
         };
@@ -6438,7 +6436,7 @@ var std;
                 var item = new std.ListIterator(this, prev, null, val);
                 if (i == 0)
                     first = item;
-                prev._Set_next(item);
+                prev.next_ = (item);
                 // SHIFT ITEM LEFT TO BE PREV
                 prev = item;
             }
@@ -6446,8 +6444,8 @@ var std;
             if (this.empty() == true || first.prev().equal_to(this.end()) == true)
                 this.begin_ = first;
             // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-            prev._Set_next(position);
-            position._Set_prev(prev);
+            prev.next_ = (position);
+            position.prev_ = (prev);
             this.size_ += size;
             return first;
         };
@@ -6467,7 +6465,7 @@ var std;
                 if (size == 0)
                     first = item;
                 if (prev != null)
-                    prev._Set_next(item);
+                    prev.next_ = (item);
                 // SHIFT CURRENT ITEM TO PREVIOUS
                 prev = item;
                 size++;
@@ -6476,8 +6474,8 @@ var std;
             if (this.empty() == true)
                 this.begin_ = first;
             // CONNECT BETWEEN LAST AND POSITION
-            prev._Set_next(position);
-            position._Set_prev(prev);
+            prev.next_ = (position);
+            position.prev_ = (prev);
             this.size_ += size;
             return first;
         };
@@ -6510,8 +6508,8 @@ var std;
             // CALCULATE THE SIZE
             var size = std.distance(first, last);
             // SHRINK
-            prev._Set_next(last);
-            last._Set_prev(prev);
+            prev.next_ = (last);
+            last.prev_ = (prev);
             this.size_ -= size;
             if (first == this.begin_)
                 this.begin_ = last;
@@ -6736,18 +6734,20 @@ var std;
             enumerable: true,
             configurable: true
         });
-        /**
-         * @hidden
-         */
-        ListIterator.prototype._Set_prev = function (it) {
-            this.prev_ = it;
-        };
-        /**
-         * @hidden
-         */
-        ListIterator.prototype._Set_next = function (it) {
-            this.next_ = it;
-        };
+        ///**
+        // * @hidden
+        // */
+        //public _Set_prev(it: ListIterator<T>): void
+        //{
+        //	this.prev_ = it;
+        //}
+        ///**
+        // * @hidden
+        // */
+        //public _Set_next(it: ListIterator<T>): void
+        //{
+        //	this.next_ = it;
+        //}
         /* ---------------------------------------------------------------
             COMPARISON
         --------------------------------------------------------------- */
@@ -6892,14 +6892,14 @@ var std;
                 // COPY CONSTRUCTOR
                 var container = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.container_._Get_tree()._Set_compare(args[1]);
+                    this.container_.tree_.compare_ = (args[1]);
                 this.container_.assign(container.begin(), container.end());
             }
             else if (args.length >= 1 && args[0] instanceof Array) {
                 // INITIALIZER LIST CONSTRUCTOR
                 var items = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.container_._Get_tree()._Set_compare(args[1]);
+                    this.container_.tree_.compare_ = (args[1]);
                 (_a = this.container_).push.apply(_a, items);
             }
             else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -6907,12 +6907,12 @@ var std;
                 var first = args[0]; // PARAMETER 1
                 var last = args[1]; // PARAMETER 2
                 if (args.length == 2)
-                    this.container_._Get_tree()._Set_compare(args[2]);
+                    this.container_.tree_.compare_ = (args[2]);
                 this.container_.assign(first, last);
             }
             else if (args.length == 1) {
                 // DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-                this.container_._Get_tree()._Set_compare(args[0]);
+                this.container_.tree_.compare_ = (args[0]);
             }
             var _a;
         }
@@ -7701,14 +7701,14 @@ var std;
                 // COPY CONSTRUCTOR
                 var container = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[1]);
+                    this.tree_.compare_ = (args[1]);
                 this.assign(container.begin(), container.end());
             }
             else if (args.length >= 1 && args[0] instanceof Array) {
                 // INITIALIZER LIST CONSTRUCTOR
                 var items = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[1]);
+                    this.tree_.compare_ = (args[1]);
                 this.push.apply(this, items);
             }
             else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -7716,12 +7716,12 @@ var std;
                 var first = args[0]; // PARAMETER 1
                 var last = args[1]; // PARAMETER 2
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[2]);
+                    this.tree_.compare_ = (args[2]);
                 this.assign(first, last);
             }
             else if (args.length == 1) {
                 // DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-                this.tree_._Set_compare(args[0]);
+                this.tree_.compare_ = (args[0]);
             }
         }
         /* ---------------------------------------------------------
@@ -7802,7 +7802,7 @@ var std;
             else
                 it = node.value;
             // ITERATOR TO RETURN
-            it = new std.MapIterator(this, this._Get_data().insert(it.get_list_iterator(), pair));
+            it = new std.MapIterator(this, this.data_.insert(it.get_list_iterator(), pair));
             this._Handle_insert(it, it.next()); // POST-PROCESS
             return std.make_pair(it, true);
         };
@@ -7823,7 +7823,7 @@ var std;
                 // RIGHT HINT
                 ///////
                 // INSERT
-                ret = new std.MapIterator(this, this._Get_data().insert(hint.get_list_iterator(), pair));
+                ret = new std.MapIterator(this, this.data_.insert(hint.get_list_iterator(), pair));
                 // POST-PROCESS
                 this._Handle_insert(ret, ret.next());
             }
@@ -7949,14 +7949,14 @@ var std;
                 // COPY CONSTRUCTOR
                 var container = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[1]);
+                    this.tree_.compare_ = (args[1]);
                 this.assign(container.begin(), container.end());
             }
             else if (args.length >= 1 && args[0] instanceof Array) {
                 // INITIALIZER LIST CONSTRUCTOR
                 var items = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[1]);
+                    this.tree_.compare_ = (args[1]);
                 this.push.apply(this, items);
             }
             else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -7964,12 +7964,12 @@ var std;
                 var first = args[0]; // PARAMETER 1
                 var last = args[1]; // PARAMETER 2
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[2]);
+                    this.tree_.compare_ = (args[2]);
                 this.assign(first, last);
             }
             else if (args.length == 1) {
                 // DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-                this.tree_._Set_compare(args[0]);
+                this.tree_.compare_ = (args[0]);
             }
         }
         /* ---------------------------------------------------------
@@ -8063,7 +8063,7 @@ var std;
             else
                 it = node.value;
             // ITERATOR TO RETURN
-            it = new std.MapIterator(this, this._Get_data().insert(it.get_list_iterator(), pair));
+            it = new std.MapIterator(this, this.data_.insert(it.get_list_iterator(), pair));
             this._Handle_insert(it, it.next()); // POST-PROCESS
             return it;
         };
@@ -8084,7 +8084,7 @@ var std;
                 // RIGHT HINT
                 ///////
                 // INSERT
-                ret = new std.MapIterator(this, this._Get_data().insert(hint.get_list_iterator(), pair));
+                ret = new std.MapIterator(this, this.data_.insert(hint.get_list_iterator(), pair));
                 // POST-PROCESS
                 this._Handle_insert(ret, ret.next());
             }
@@ -8204,14 +8204,14 @@ var std;
                 // COPY CONSTRUCTOR
                 var container = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[1]);
+                    this.tree_.compare_ = (args[1]);
                 this.assign(container.begin(), container.end());
             }
             else if (args.length >= 1 && args[0] instanceof Array) {
                 // INITIALIZER LIST CONSTRUCTOR
                 var items = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[1]);
+                    this.tree_.compare_ = (args[1]);
                 this.push.apply(this, items);
             }
             else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -8219,12 +8219,12 @@ var std;
                 var first = args[0]; // PARAMETER 1
                 var last = args[1]; // PARAMETER 2
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[2]);
+                    this.tree_.compare_ = (args[2]);
                 this.assign(first, last);
             }
             else if (args.length == 1) {
                 // DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-                this.tree_._Set_compare(args[0]);
+                this.tree_.compare_ = (args[0]);
             }
         }
         /* ---------------------------------------------------------
@@ -8290,12 +8290,13 @@ var std;
         TreeMultiSet.prototype.equal_range = function (val) {
             return this.tree_.equal_range(val);
         };
-        /**
-         * @hidden
-         */
-        TreeMultiSet.prototype._Get_tree = function () {
-            return this.tree_;
-        };
+        ///**
+        // * @hidden
+        // */
+        //public _Get_tree(): base.AtomicTree<T>
+        //{
+        //	return this.tree_;
+        //}
         /* =========================================================
             ELEMENTS I/O
                 - INSERT
@@ -8328,7 +8329,7 @@ var std;
             /////
             // INSERTS
             /////
-            it = new std.SetIterator(this, this._Get_data().insert(it.get_list_iterator(), val));
+            it = new std.SetIterator(this, this.data_.insert(it.get_list_iterator(), val));
             this._Handle_insert(it, it.next()); // POST-PROCESS
             return it;
         };
@@ -8346,7 +8347,7 @@ var std;
                 // RIGHT HINT
                 ///////
                 // INSERT
-                ret = new std.SetIterator(this, this._Get_data().insert(hint.get_list_iterator(), val));
+                ret = new std.SetIterator(this, this.data_.insert(hint.get_list_iterator(), val));
                 // POST-PROCESS
                 this._Handle_insert(ret, ret.next());
             }
@@ -8462,14 +8463,14 @@ var std;
                 // COPY CONSTRUCTOR
                 var container = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[1]);
+                    this.tree_.compare_ = (args[1]);
                 this.assign(container.begin(), container.end());
             }
             else if (args.length >= 1 && args[0] instanceof Array) {
                 // INITIALIZER LIST CONSTRUCTOR
                 var items = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[1]);
+                    this.tree_.compare_ = (args[1]);
                 this.push.apply(this, items);
             }
             else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -8477,12 +8478,12 @@ var std;
                 var first = args[0]; // PARAMETER 1
                 var last = args[1]; // PARAMETER 2
                 if (args.length == 2)
-                    this.tree_._Set_compare(args[2]);
+                    this.tree_.compare_ = (args[2]);
                 this.assign(first, last);
             }
             else if (args.length == 1) {
                 // DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-                this.tree_._Set_compare(args[0]);
+                this.tree_.compare_ = (args[0]);
             }
         }
         /* ---------------------------------------------------------
@@ -8565,7 +8566,7 @@ var std;
             /////
             // INSERTS
             /////
-            it = new std.SetIterator(this, this._Get_data().insert(it.get_list_iterator(), val));
+            it = new std.SetIterator(this, this.data_.insert(it.get_list_iterator(), val));
             this._Handle_insert(it, it.next()); // POST-PROCESS
             return std.make_pair(it, true);
         };
@@ -8583,7 +8584,7 @@ var std;
                 // RIGHT HINT
                 ///////
                 // INSERT
-                ret = new std.SetIterator(this, this._Get_data().insert(hint.get_list_iterator(), val));
+                ret = new std.SetIterator(this, this.data_.insert(hint.get_list_iterator(), val));
                 // POST-PROCESS
                 this._Handle_insert(ret, ret.next());
             }
@@ -10363,11 +10364,6 @@ var std;
                 this.map_ = map;
                 this.compare_ = compare;
             }
-            PairTree.prototype._Set_compare = function (val) {
-                if (this.map_.empty() == false)
-                    return;
-                this.compare_ = val;
-            };
             PairTree.prototype.find = function (val) {
                 if (val instanceof std.MapIterator && val.first instanceof std.SetIterator == false)
                     return _super.prototype.find.call(this, val);
@@ -10584,11 +10580,6 @@ var std;
                 this.set_ = set;
                 this.compare_ = compare;
             }
-            AtomicTree.prototype._Set_compare = function (val) {
-                if (this.set_.empty() == false)
-                    return;
-                this.compare_ = val;
-            };
             AtomicTree.prototype.find = function (val) {
                 if (val instanceof std.SetIterator && val.value instanceof std.SetIterator == false)
                     return _super.prototype.find.call(this, val);

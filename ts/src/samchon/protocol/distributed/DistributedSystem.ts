@@ -12,26 +12,7 @@ namespace samchon.protocol.distributed
 		--------------------------------------------------------- */
 		// using super::constructor
 
-		public destructor(): void
-		{
-			super.destructor();
-
-			// SHIFT INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVE
-			for (let it = this["progress_list_"].begin(); !it.equal_to(this["progress_list_"].end()); it = it.next())
-			{
-				// A HISTORY HAD PROGRESSED
-				let history: DSInvokeHistory = it.second.second as DSInvokeHistory;
-				if (history instanceof DSInvokeHistory == false)
-					continue;
-
-				// INVOKE MESSAGE TO RESEND TO ANOTHER SLAVE VIA ROLE
-				let invoke: Invoke = it.second.first;
-				let role: DistributedSystemRole = history.getRole();
-
-				// SEND-DATA VIA ROLE
-				role.sendData(invoke);
-			}
-		}
+		// using super::destructor
 
 		public createChild(xml: library.XML): external.ExternalSystemRole
 		{
@@ -136,6 +117,20 @@ namespace samchon.protocol.distributed
 				
 			// COMPLETE THE HISTORY IN THE BELONGED SYSTEM_ARRAY
 			this.getSystemArray()["_Complete_history"](history);
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected _Send_back_history(invoke: Invoke, history: InvokeHistory): void
+		{
+			if (history instanceof DSInvokeHistory)
+			{
+				// RE-SEND INVOKE MESSAGE TO ANOTHER SLAVE VIA ROLE
+				history.getRole().sendData(invoke);
+			}
+			else
+				super._Send_back_history(invoke, history);
 		}
 	}
 }

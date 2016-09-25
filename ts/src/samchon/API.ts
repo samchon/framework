@@ -1,17 +1,17 @@
 ﻿/**
  * <h1> Samchon-Framework </h1>
  * 
- * <p> <a href="https://nodei.co/npm/samchon-framework">
- *	<img src="https://nodei.co/npm/samchon-framework.png?downloads=true&downloadRank=true&stars=true"> </a> </p>
+ * <a href="https://nodei.co/npm/samchon-framework">
+ *	<img src="https://nodei.co/npm/samchon-framework.png?downloads=true&downloadRank=true&stars=true"> </a>
  * 
- * <p> Samchon, a SDN (Software Defined Network) framework. </p>
+ * Samchon, a SDN (Software Defined Network) framework.
  * 
- * <p> With Samchon Framework, you can implement distributed processing system within framework of OOD like
+ * With Samchon Framework, you can implement distributed processing system within framework of OOD like
  * handling S/W objects (classes). You can realize cloud and distributed system very easily with provided
- * system templates and even integration with C++ is possible. </p>
+ * system templates and even integration with C++ is possible.
  * 
- * <p> The goal, ultimate utilization model of Samchon Framework is, building cloud system with NodeJS and 
- * takING heavy works to C++ distributed systems with provided modules (those are system templates). </p>
+ * The goal, ultimate utilization model of Samchon Framework is, building cloud system with NodeJS and 
+ * takING heavy works to C++ distributed systems with provided modules (those are system templates).
  * 
  * @git https://github.com/samchon/framework
  * @author Jeongho Nam <http://samchon.org>
@@ -19,9 +19,9 @@
 namespace samchon
 {
 	/**
-	 * <p> Running on Node. </p>
+	 * Running on Node.
 	 * 
-	 * <p> Test whether the JavaScript is running on Node. </p>
+	 * Test whether the JavaScript is running on Node.
 	 * 
 	 * @references http://stackoverflow.com/questions/17575790/environment-detection-node-js-or-browser
 	 */

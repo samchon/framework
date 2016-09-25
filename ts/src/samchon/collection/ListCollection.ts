@@ -5,31 +5,70 @@ namespace samchon.collection
 	/**
 	 * A {@link List} who can detect element I/O events.
 	 * 
-	 * <ul>
-	 *	<li> <i>insert</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link insert} </li>
-	 *		<li> {@link push} </li>
-	 *		<li> {@link push_front} </li>
-	 *		<li> {@link push_back} </li>
-	 *		<li> {@link merge} </li>
-	 *	</ul></li>
-	 *	<li> <i>erase</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link clear} </li>
-	 *		<li> {@link erase} </li>
-	 *		<li> {@link pop_front} </li>
-	 *		<li> {@link pop_back} </li>
-	 *		<li> {@link unique} </li>
-	 *		<li> {@link remove} </li>
-	 *		<li> {@link remove_if} </li>
-	 *		<li> {@link splice} </li>
-	 *	</ul></li>
-	 *	<li> <i>erase</i> typed events: <ul>
-	 *		<li> {@link sort} </li>
-	 *	</ul></li>
-	 * </ul>
+	 * Below is the list of methods who are dispatching {@link CollectionEvent}:
+	 *	- *insert* typed events:
+	 *   - {@link assign}
+	 *   - {@link insert}
+	 *   - {@link push}
+	 *   - {@link push_front}
+	 *   - {@link push_back}
+	 *   - {@link merge}
+	 * - *erase* typed events:
+	 *   - {@link assign}
+	 *   - {@link clear}
+	 *   - {@link erase}
+	 *   - {@link pop_front}
+	 *   - {@link pop_back}
+	 *   - {@link unique}
+	 *   - {@link remove}
+	 *   - {@link remove_if}
+	 *   - {@link splice}
+	 * - *refresh* typed events:
+	 *   - {@link refresh}
+	 *   - {@link sort}
 	 * 
+	 * #### [Inherited]
+	 * {@link List Lists} are sequence containers that allow constant time insert and erase operations anywhere within 
+	 * the sequence, and iteration in both directions.
+	 *
+	 * List containers are implemented as doubly-linked lists; Doubly linked lists can store each of the elements they
+	 * contain in different and unrelated storage locations. The ordering is kept internally by the association to 
+	 * each element of a link to the element preceding it and a link to the element following it.
+	 *
+	 * They are very similar to forward_list: The main difference being that forward_list objects are single-linked
+	 * lists, and thus they can only be iterated forwards, in exchange for being somewhat smaller and more efficient.
+	 *
+	 * Compared to other base standard sequence containers (array, vector and deque), lists perform generally better
+	 * in inserting, extracting and moving elements in any position within the container for which an iterator has 
+	 * already been obtained, and therefore also in algorithms that make intensive use of these, like sorting 
+	 * algorithms.
+	 *
+	 * The main drawback of lists and forward_lists compared to these other sequence containers is that they lack 
+	 * direct access to the elements by their position; For example, to access the sixth element in a list, one has to
+	 * iterate from a known position (like the beginning or the end) to that position, which takes linear time in the
+	 * distance between these. They also consume some extra memory to keep the linking information associated to each
+	 * element (which may be an important factor for large lists of small-sized elements).
+	 *
+	 * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
+	 * </a>
+	 *
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 * 	<dt> Sequence </dt>
+	 * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are accessed by
+	 *		 their position in this sequence. </dd>
+	 *
+	 * 	<dt> Doubly-linked list </dt>
+	 *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing constant time
+	 *		 insert and erase operations before or after a specific element (even of entire ranges), but no direct random
+	 *		 access. </dd>
+	 * </dl>
+	 *
+	 * @param <T> Type of the elements.
+	 *
+	 * @reference http://www.cplusplus.com/reference/list/list/
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ListCollection<T>
@@ -57,7 +96,7 @@ namespace samchon.collection
 		/**
 		 * @inheritdoc
 		 */
-		public push<U extends T>(...items: T[]): number
+		public push(...items: T[]): number
 		{
 			let ret = super.push(...items);
 

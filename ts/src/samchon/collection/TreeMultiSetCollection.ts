@@ -5,18 +5,63 @@ namespace samchon.collection
 	/**
 	 * A {@link TreeMultiSet} who can detect element I/O events.
 	 * 
-	 * <ul>
-	 *	<li> <i>insert</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link insert} </li>
-	 *		<li> {@link push} </li>
-	 *	</ul></li>
-	 *	<li> <i>erase</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link clear} </li>
-	 *		<li> {@link erase} </li>
-	 *	</ul></li>
-	 * </ul>
+	 * Below is the list of methods who are dispatching {@link CollectionEvent}:
+	 * - *insert* typed events: 
+	 *   - {@link assign}
+	 *   - {@link insert}
+	 *   - {@link push}
+	 * - *erase* typed events: 
+	 *   - {@link assign}
+	 *   - {@link clear}
+	 *   - {@link erase}
+	 * - *refresh* typed events:
+	 *   - {@link refresh}
+	 * 
+	 * #### [Inherited]
+	 * {@link TreeMultiSet TreeMultiSets} are containers that store elements following a specific order, and where 
+	 * multiple elements can have equivalent values.
+	 *
+	 * In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself the *key*, of type 
+	 * *T*). The value of the elements in a {@link TreeMultiSet} cannot be modified once in the container (the 
+	 * elements are always const), but they can be inserted or removed from the container.
+	 *
+	 * Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict weak 
+	 * ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}).
+	 *
+	 * {@link TreeMultiSet} containers are generally slower than {@link HashMultiSet} containers to access individual 
+	 * elements by their *key*, but they allow the direct iteration on subsets based on their order.
+	 *
+	 * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
+	 *
+	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /> </a></p>
+	 *
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 *	<dt> Associative </dt>
+	 *	<dd>
+	 *		Elements in associative containers are referenced by their *key* and not by their absolute
+	 *		position in the container.
+	 *	</dd>
+	 *
+	 *	<dt> Ordered </dt>
+	 *	<dd>
+	 *		The elements in the container follow a strict order at all times. All inserted elements are
+	 *		given a position in this order.
+	 *	</dd>
+	 *
+	 *	<dt> Set </dt>
+	 *	<dd> The value of an element is also the *key* used to identify it. </dd>
+	 *
+	 *	<dt> Multiple equivalent keys </dt>
+	 *	<dd> Multiple elements in the container can have equivalent *keys*. </dd>
+	 * </dl>
+	 *
+	 * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified
+	 *			  by this value (each value is itself also the element's *key*).
+	 *
+	 * @reference http://www.cplusplus.com/reference/set/multiset
+	 * @author Jeongho Nam <http://samchon.org>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

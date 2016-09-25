@@ -5,16 +5,16 @@
 namespace samchon.protocol.external
 {
 	/**
-	 * <p> An interface for an {@link ExternalSystemArray} accepts {@link ExternalSystem external clients} as a
-	 * {@link IServer server} and connects to {@link IExternalServer} as <b>client</b>, at the same time. </p>
+	 * An interface for an {@link ExternalSystemArray} accepts {@link ExternalSystem external clients} as a
+	 * {@link IServer server} and connects to {@link IExternalServer} as **client**, at the same time.
 	 * 
-	 * <p> The easiest way to defining an {@link IExternalServerClientArray} who opens server, accepts
+	 * The easiest way to defining an {@link IExternalServerClientArray} who opens server, accepts
 	 * {@link ExternalSystem external clients} and connects to {@link IExternalServer external servers} is to extending 
 	 * one of below, who are derived from this interface {@link IExternalServerClientArray}. However, if you can't 
 	 * specify an {@link ExternalSystemArray} to be whether server or client or even can both them, then make a class 
-	 * (let's name it as <b>BaseSystemArray</b>) extending {@link ExternalSystemArray} and make a new class (now, I name 
-	 * it <b>BaseServerClientArray</b>) extending <b>BaseSystemArray</b> and implementing this interface 
-	 * {@link IExternalServerClientArray}. Define the <b>BaseServerClientArray</b> following those codes on below:
+	 * (let's name it as **BaseSystemArray**) extending {@link ExternalSystemArray} and make a new class (now, I name 
+	 * it **BaseServerClientArray**) extending **BaseSystemArray** and implementing this interface 
+	 * {@link IExternalServerClientArray}. Define the **BaseServerClientArray** following those codes on below:
 	 * 
 	 * <ul>
 	 *	<li> {@link ExternalServerClientArray}:
@@ -39,27 +39,27 @@ namespace samchon.protocol.external
 	}
 
 	/**
-	 * <p> An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a <b>client</b> and
-	 * accepts {@link ExternalSystem external clients} as a {@link IServer server}. </p>
+	 * An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a **client** and
+	 * accepts {@link ExternalSystem external clients} as a {@link IServer server}.
 	 * 
-	 * <p> {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers, 
+	 * {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers, 
 	 * {@link IExternalServer} objects and accepts external client drivers {@link ExternalSyste} obejcts as a 
-	 * <b>client</b> and a {@link IServer server} at the same time. </p>
+	 * **client** and a {@link IServer server} at the same time.
 	 *
-	 * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
 	 *		 style="max-width: 100%" />
-	 * </a> </p>
+	 * </a>
 	 *
 	 * <h4> Proxy Pattern </h4>
-	 * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
+	 * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
 	 * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-	 * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+	 * important. Only interested in user's perspective is *which can be done*.
 	 *
-	 * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+	 * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
 	 * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
 	 *
 	 * <ul>
 	 *	<li>
@@ -71,7 +71,7 @@ namespace samchon.protocol.external
 	 *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
 	 *		external system.
 	 *	</li>
-	 *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+	 *	<li> Those strategy is called *Proxy Pattern*. </li>
 	 * </ul>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
@@ -92,10 +92,10 @@ namespace samchon.protocol.external
 		}
 
 		/**
-		 * <p> Factory method of a child Entity. </p>
+		 * Factory method of a child Entity.
 		 *
-		 * <p> This method is migrated to {@link createExternalServer createExternalServer()}. Override the
-		 * {@link createExternalServer createExternalServer()}. </p>
+		 * This method is migrated to {@link createExternalServer createExternalServer()}. Override the
+		 * {@link createExternalServer createExternalServer()}.
 		 *
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
 		 * 

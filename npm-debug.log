@@ -1,0 +1,1652 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   '-g' ]
+2 info using npm@2.15.1
+3 info using node@v4.4.4
+4 verbose install initial load of C:\Users\Jeongho Nam\AppData\Roaming\npm\package.json
+5 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\package.json
+6 silly cache add args [ '.', null ]
+7 verbose cache add spec .
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: '.',
+8 silly cache add   scope: null,
+8 silly cache add   name: null,
+8 silly cache add   rawSpec: '.',
+8 silly cache add   spec: 'D:\\OneDrive\\Project\\Samchon\\framework',
+8 silly cache add   type: 'directory' }
+9 verbose addLocalDirectory C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\samchon-framework\2.0.0-rc.2\package.tgz not in flight; packing
+10 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+11 verbose tar pack [ 'C:\\Users\\Jeongho Nam\\AppData\\Roaming\\npm-cache\\samchon-framework\\2.0.0-rc.2\\package.tgz',
+11 verbose tar pack   'D:\\OneDrive\\Project\\Samchon\\framework' ]
+12 verbose tarball C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\samchon-framework\2.0.0-rc.2\package.tgz
+13 verbose folder D:\OneDrive\Project\Samchon\framework
+14 info prepublish samchon-framework@2.0.0-rc.2
+15 verbose addLocalTarball adding from inside cache C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\samchon-framework\2.0.0-rc.2\package.tgz
+16 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+17 silly cache afterAdd samchon-framework@2.0.0-rc.2
+18 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\samchon-framework\2.0.0-rc.2\package\package.json not in flight; writing
+19 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+20 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\samchon-framework\2.0.0-rc.2\package\package.json written
+21 silly install resolved [ { name: 'samchon-framework',
+21 silly install resolved     description: 'Samchon, a OON (Object Oriented Network) Framework with C++ and TypeScript',
+21 silly install resolved     author:
+21 silly install resolved      { name: 'Jeongho Nam',
+21 silly install resolved        email: 'samchon@samchon.org',
+21 silly install resolved        url: 'http://samchon.org' },
+21 silly install resolved     version: '2.0.0-rc.2',
+21 silly install resolved     main: './lib/ts/samchon-framework.js',
+21 silly install resolved     homepage: 'http://samchon.org/framework',
+21 silly install resolved     repository:
+21 silly install resolved      { type: 'git',
+21 silly install resolved        url: 'git+https://github.com/samchon/framework.git' },
+21 silly install resolved     bugs: { url: 'https://github.com/samchon/framework/issues' },
+21 silly install resolved     dependencies: { 'typescript-stl': '~1.1.0', websocket: '~1.0.x' },
+21 silly install resolved     licenses: [ [Object] ],
+21 silly install resolved     keywords:
+21 silly install resolved      [ 'samchon framework',
+21 silly install resolved        'OON',
+21 silly install resolved        'object oriented network',
+21 silly install resolved        'interaction',
+21 silly install resolved        'cloud system',
+21 silly install resolved        'distributed processing system',
+21 silly install resolved        'parallel processing system',
+21 silly install resolved        'C++',
+21 silly install resolved        'TypeScript',
+21 silly install resolved        'XML',
+21 silly install resolved        'Entity' ],
+21 silly install resolved     readme: '# Samchon Framework\r\n\r\n[![NPM](https://nodei.co/npm/samchon-framework.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/samchon-framework)\r\n\r\nGitHub Repository: https://github.com/samchon/framework\r\n\r\n## Introduction\r\n#### Samchon Framework is\r\nSamchon framework is an **OON**<sup id="a_oon">[1](#f_oon)</sup> framework; who can build network system within framework of **OOD**<sup id="a_ood">[2](#f_ood)</sup>, like *cloud system* and *distributed* & *parallel processing systems*, even how the system is enormously complicate.\r\n\r\nSamchon Framework supports two languages; **C++** and **TypeScript/NodeJs**. Not only connecting to an external server, but also opening a server is also possible both in *C++* and *TypeScript/NodeJS*. In my case, I prefer to build a cloud server with *TypeScript & NodeJS* quickly. When the cloud server grows up and lots of traffic occurs, I let the cloud server to deliver heavy processes to Distributed systems built via *C++*.\r\n\r\n[![Supported Languages Diagram](http://samchon.github.io/framework/images/accessory/language_diagram.png)](#interaction)\r\n\r\n#### What can we do\r\n  1. Build [Cloud Server](https://github.com/samchon/framework/wiki/Conception-Modules-Service)\r\n  2. Integrate systems with standard ~\r\n    - Message protocol: [Invoke](https://github.com/samchon/framework/wiki/Conception-Message_Protocol#invoke)\r\n    - Data expression method: [Entity](https://github.com/samchon/framework/wiki/Conception-Message_Protocol#entity)\r\n  3. Construct complicate network system\r\n    - Like\r\n      - Interaction with [External Systems](https://github.com/samchon/framework/wiki/Conception-External_System)\r\n      - (Tree-structured) [Parallel Processing System](https://github.com/samchon/framework/wiki/Conception-Parallel_System)\r\n      - (Tree-structured) [Distributed Processing System](https://github.com/samchon/framework/wiki/Conception-Distributed_System)\r\n    - Easily within framework of OOD<sup>[2](#f_ood)</sup>, by considering a system as a object (class), via [Basic Components](https://github.com/samchon/framework/wiki/Conception-Modules-Basic_Components)\r\n  4. Utilize libraries independent on operating systems\r\n    - Enable to cross-compile\r\n\r\n![Interaction Movie](http://samchon.github.io/framework/images/example/interaction/demo.gif?ver=2)\r\n\r\n\r\n## References\r\n#### API Documents\r\n  - [C++ API Documents](http://samchon.github.io/framework/api/cpp)\r\n  - [TypeScript API Documents](http://samchon.github.io/framework/api/ts)\r\n  - ~~[Flex API Documents](http://samchon.github.io/framework/api/flex)~~\r\n\r\n#### Architecture Designs\r\n  - [C++ Class Diagram](http://samchon.github.io/framework/design/cpp_class_diagram.pdf)\r\n  - [TypeScript Class Diagram](http://samchon.github.io/framework/design/ts_class_diagram.pdf)\r\n  - [Sequence Diagram](http://samchon.github.io/framework/design/sequence_diagram.pdf)\r\n\r\n#### Guide Documents\r\nSamchon Framework provides guide documents in [Wiki Page](https://github.com/samchon/framework/wiki)\r\n\r\nThe contents in the guide documents are such below:\r\n  1. [Outline](https://github.com/samchon/framework/wiki/Home)\r\n  2. [C++](https://github.com/samchon/framework/wiki/CPP)\r\n  3. [TypeScript](https://github.com/samchon/framework/wiki/TypeScript)\r\n  4. [Example Projects](https://github.com/samchon/framework/wiki/Examples)\r\n\r\n\r\n## License\r\n#### BSD License\r\n*Samchon Framework* follows [BSD-3-Clause](http://spdx.org/licenses/BSD-3-Clause) license.\r\n\r\n#### Dependencies\r\n- C++\r\n  - [Boost.Asio](http://www.boost.org/doc/libs/1_61_0/doc/html/boost_asio.html)\r\n  - [ODBC](https://support.microsoft.com/en-us/kb/110093)\r\n- TypeScript\r\n  - [TypeScript-STL](https://github.com/samchon/typescript-stl)\r\n  - [WebSocket](https://github.com/theturtle32/WebSocket-Node)\r\n\r\n\r\n## Installation\r\n#### C++\r\nSamchon Framework has two dependencies in C++, **Boost libraries** and **ODBC**.\r\n  - Install **Boost libraries** and enroll path of the *Boost libraries* in **environment variable\'s PATH**.\r\n  - Install **ODBC** and enroll path of the *ODBC* in **environment variable\'s PATH**.\r\n\r\nAfter installation and configuration of those dependencies, download or fork this repository. And follow those steps:\r\n  * Go to the path *./cpp/samchon*.\r\n  * Compile all *cpp* files.\r\n\r\n#### TypeScript (NodeJS)\r\nInstalling *Samchon-Framework* in **NodeJS** is very easy. Just install with **npm**.\r\n```bash\r\n# Install Samchon-Framework from NPM modules\r\nnpm install -g samchon-framework\r\n\r\n# Fetch definition (header) file from TSD\r\n# If TSD is not installed, then type "npm install -g tsd"\r\ntsd install samchon-framework\r\n```\r\n\r\nWhen importing *Samchon Framework*, don\'t forget to referencing the header file ```samchon-framework.d.ts```\r\n```typescript\r\n/// <reference path="typings/samchon-framework/samchon-framework.d.ts" />\r\nimport samchon = require("samchon-framework");\r\n```\r\n\r\n##### TypeScript (Browser)\r\n*Samchon Framework* follows **commonjs** module. Thus, you can\'t use ~~RequireJS~~. However, using **Browserify** is possible.\r\n\r\nIf you want to include directly without the *Browserify*, then you\'ve to include **TypeScript-STL** first and Samchon-Framework laster.\r\n\r\n```javascript\r\n<head>\r\n\t<title> Samchon-Framework requires TypeScript-STL </title>\r\n\t<script src="include/typescript-stl.js"></script> <!-- MUST BE INCLUDED FIRST -->\r\n\t<script src="include/samchon-framework.js"></script> <!-- MUST BE INCLUDED AFTER TYPESCRIPT-STL -->\r\n</head>\r\n```\r\n\r\n-------------------------------\r\n\r\n<b id="f_oon">[[1]](#a_oon)</b> Object-Oriented Network <br />\r\n<b id="f_ood">[[2]](#f_ood)</b> Object-Oriented Design\r\n',
+21 silly install resolved     readmeFilename: 'README.md',
+21 silly install resolved     gitHead: '7f5728b80a88bc793e021649a6e3dc76c1756835',
+21 silly install resolved     _id: 'samchon-framework@2.0.0-rc.2',
+21 silly install resolved     scripts: {},
+21 silly install resolved     _shasum: 'd2431c7c754531cf8b07461675184e98ca85fedb',
+21 silly install resolved     _from: 'D:\\OneDrive\\Project\\Samchon\\framework',
+21 silly install resolved     _resolved: 'file:D:\\OneDrive\\Project\\Samchon\\framework' } ]
+22 info install samchon-framework@2.0.0-rc.2 into C:\Users\Jeongho Nam\AppData\Roaming\npm
+23 info installOne samchon-framework@2.0.0-rc.2
+24 verbose installOne of samchon-framework to C:\Users\Jeongho Nam\AppData\Roaming\npm not in flight; installing
+25 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+26 verbose lock using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\samchon-framework-df48d27b660e360f.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework
+27 silly install write writing samchon-framework 2.0.0-rc.2 to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework
+28 verbose unbuild node_modules\samchon-framework
+29 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework is being purged from base C:\Users\Jeongho Nam\AppData\Roaming\npm
+30 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework
+31 verbose tar unpack C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\samchon-framework\2.0.0-rc.2\package.tgz
+32 verbose tar unpacking to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework
+33 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework is being purged
+34 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework
+35 silly gunzTarPerm modes [ '777', '666' ]
+36 silly gunzTarPerm extractEntry package.json
+37 silly gunzTarPerm extractEntry README.md
+38 silly gunzTarPerm extractEntry LICENSE
+39 silly gunzTarPerm extractEntry ts_build.js
+40 silly gunzTarPerm extractEntry lib/ts/samchon-framework.js
+41 silly gunzTarPerm extractEntry lib/ts/samchon-framework.min.js
+42 verbose write writing to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\package.json
+43 info preinstall samchon-framework@2.0.0-rc.2
+44 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\package.json
+45 silly prepareForInstallMany adding typescript-stl@~1.1.0 from samchon-framework dependencies
+46 silly prepareForInstallMany adding websocket@~1.0.x from samchon-framework dependencies
+47 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\package.json
+48 silly cache add args [ 'typescript-stl@~1.1.0', null ]
+49 verbose cache add spec typescript-stl@~1.1.0
+50 silly cache add args [ 'websocket@~1.0.x', null ]
+51 verbose cache add spec websocket@~1.0.x
+52 silly cache add parsed spec Result {
+52 silly cache add   raw: 'typescript-stl@~1.1.0',
+52 silly cache add   scope: null,
+52 silly cache add   name: 'typescript-stl',
+52 silly cache add   rawSpec: '~1.1.0',
+52 silly cache add   spec: '>=1.1.0 <1.2.0',
+52 silly cache add   type: 'range' }
+53 silly addNamed typescript-stl@>=1.1.0 <1.2.0
+54 verbose addNamed ">=1.1.0 <1.2.0" is a valid semver range for typescript-stl
+55 silly addNameRange { name: 'typescript-stl',
+55 silly addNameRange   range: '>=1.1.0 <1.2.0',
+55 silly addNameRange   hasData: false }
+56 silly mapToRegistry name typescript-stl
+57 silly mapToRegistry using default registry
+58 silly mapToRegistry registry https://registry.npmjs.org/
+59 silly mapToRegistry data Result {
+59 silly mapToRegistry   raw: 'typescript-stl',
+59 silly mapToRegistry   scope: null,
+59 silly mapToRegistry   name: 'typescript-stl',
+59 silly mapToRegistry   rawSpec: '',
+59 silly mapToRegistry   spec: 'latest',
+59 silly mapToRegistry   type: 'tag' }
+60 silly mapToRegistry uri https://registry.npmjs.org/typescript-stl
+61 verbose addNameRange registry:https://registry.npmjs.org/typescript-stl not in flight; fetching
+62 silly cache add parsed spec Result {
+62 silly cache add   raw: 'websocket@~1.0.x',
+62 silly cache add   scope: null,
+62 silly cache add   name: 'websocket',
+62 silly cache add   rawSpec: '~1.0.x',
+62 silly cache add   spec: '>=1.0.0 <1.1.0',
+62 silly cache add   type: 'range' }
+63 silly addNamed websocket@>=1.0.0 <1.1.0
+64 verbose addNamed ">=1.0.0 <1.1.0" is a valid semver range for websocket
+65 silly addNameRange { name: 'websocket', range: '>=1.0.0 <1.1.0', hasData: false }
+66 silly mapToRegistry name websocket
+67 silly mapToRegistry using default registry
+68 silly mapToRegistry registry https://registry.npmjs.org/
+69 silly mapToRegistry data Result {
+69 silly mapToRegistry   raw: 'websocket',
+69 silly mapToRegistry   scope: null,
+69 silly mapToRegistry   name: 'websocket',
+69 silly mapToRegistry   rawSpec: '',
+69 silly mapToRegistry   spec: 'latest',
+69 silly mapToRegistry   type: 'tag' }
+70 silly mapToRegistry uri https://registry.npmjs.org/websocket
+71 verbose addNameRange registry:https://registry.npmjs.org/websocket not in flight; fetching
+72 verbose request uri https://registry.npmjs.org/typescript-stl
+73 verbose request no auth needed
+74 info attempt registry request try #1 at 20:17:09
+75 verbose request using bearer token for auth
+76 verbose request id b3ed4967bd7e5faf
+77 http request GET https://registry.npmjs.org/typescript-stl
+78 verbose request uri https://registry.npmjs.org/websocket
+79 verbose request no auth needed
+80 info attempt registry request try #1 at 20:17:09
+81 verbose request using bearer token for auth
+82 verbose etag "77OW63RP8TWSA3Z98Y8I93UHE"
+83 http request GET https://registry.npmjs.org/websocket
+84 http 304 https://registry.npmjs.org/websocket
+85 verbose headers { 'cache-control': 'max-age=300',
+85 verbose headers   'accept-ranges': 'bytes',
+85 verbose headers   date: 'Sat, 24 Sep 2016 11:17:09 GMT',
+85 verbose headers   via: '1.1 varnish',
+85 verbose headers   connection: 'keep-alive',
+85 verbose headers   'x-served-by': 'cache-nrt6125-NRT',
+85 verbose headers   'x-cache': 'MISS',
+85 verbose headers   'x-cache-hits': '0',
+85 verbose headers   'x-timer': 'S1474715829.358515,VS0,VE576',
+85 verbose headers   vary: 'Accept-Encoding' }
+86 silly get cb [ 304,
+86 silly get   { 'cache-control': 'max-age=300',
+86 silly get     'accept-ranges': 'bytes',
+86 silly get     date: 'Sat, 24 Sep 2016 11:17:09 GMT',
+86 silly get     via: '1.1 varnish',
+86 silly get     connection: 'keep-alive',
+86 silly get     'x-served-by': 'cache-nrt6125-NRT',
+86 silly get     'x-cache': 'MISS',
+86 silly get     'x-cache-hits': '0',
+86 silly get     'x-timer': 'S1474715829.358515,VS0,VE576',
+86 silly get     vary: 'Accept-Encoding' } ]
+87 verbose etag https://registry.npmjs.org/websocket from cache
+88 verbose get saving websocket to C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\registry.npmjs.org\websocket\.cache.json
+89 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+90 silly addNameRange number 2 { name: 'websocket', range: '>=1.0.0 <1.1.0', hasData: true }
+91 silly addNameRange versions [ 'websocket',
+91 silly addNameRange   [ '0.0.1',
+91 silly addNameRange     '0.0.2',
+91 silly addNameRange     '0.0.3',
+91 silly addNameRange     '0.0.4',
+91 silly addNameRange     '0.0.5',
+91 silly addNameRange     '0.0.6',
+91 silly addNameRange     '0.0.7',
+91 silly addNameRange     '0.0.8',
+91 silly addNameRange     '0.0.9',
+91 silly addNameRange     '0.0.10',
+91 silly addNameRange     '0.0.11',
+91 silly addNameRange     '0.0.12',
+91 silly addNameRange     '0.0.13',
+91 silly addNameRange     '0.0.14',
+91 silly addNameRange     '0.0.15',
+91 silly addNameRange     '0.0.16',
+91 silly addNameRange     '0.0.17',
+91 silly addNameRange     '0.0.18',
+91 silly addNameRange     '0.0.19',
+91 silly addNameRange     '0.0.20',
+91 silly addNameRange     '1.0.0',
+91 silly addNameRange     '1.0.1',
+91 silly addNameRange     '1.0.2',
+91 silly addNameRange     '1.0.3',
+91 silly addNameRange     '1.0.4',
+91 silly addNameRange     '1.0.5',
+91 silly addNameRange     '1.0.6',
+91 silly addNameRange     '1.0.7',
+91 silly addNameRange     '1.0.8',
+91 silly addNameRange     '1.0.9',
+91 silly addNameRange     '1.0.10',
+91 silly addNameRange     '1.0.11',
+91 silly addNameRange     '1.0.12',
+91 silly addNameRange     '1.0.13',
+91 silly addNameRange     '1.0.14',
+91 silly addNameRange     '1.0.15',
+91 silly addNameRange     '1.0.16',
+91 silly addNameRange     '1.0.17',
+91 silly addNameRange     '1.0.18',
+91 silly addNameRange     '1.0.19',
+91 silly addNameRange     '1.0.20',
+91 silly addNameRange     '1.0.21',
+91 silly addNameRange     '1.0.22',
+91 silly addNameRange     '1.0.23' ] ]
+92 silly addNamed websocket@1.0.23
+93 verbose addNamed "1.0.23" is a plain semver version for websocket
+94 silly cache afterAdd websocket@1.0.23
+95 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\websocket\1.0.23\package\package.json not in flight; writing
+96 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+97 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\websocket\1.0.23\package\package.json written
+98 http 200 https://registry.npmjs.org/typescript-stl
+99 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+99 verbose headers   etag: '"2AZVHUJUTLZNBT2QQJXBJLA6S"',
+99 verbose headers   'content-type': 'application/json',
+99 verbose headers   'content-encoding': 'gzip',
+99 verbose headers   'cache-control': 'max-age=300',
+99 verbose headers   'transfer-encoding': 'chunked',
+99 verbose headers   'accept-ranges': 'bytes',
+99 verbose headers   date: 'Sat, 24 Sep 2016 11:17:09 GMT',
+99 verbose headers   via: '1.1 varnish',
+99 verbose headers   connection: 'keep-alive',
+99 verbose headers   'x-served-by': 'cache-nrt6127-NRT',
+99 verbose headers   'x-cache': 'MISS',
+99 verbose headers   'x-cache-hits': '0',
+99 verbose headers   'x-timer': 'S1474715829.356074,VS0,VE627',
+99 verbose headers   vary: 'Accept-Encoding' }
+100 silly get cb [ 200,
+100 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+100 silly get     etag: '"2AZVHUJUTLZNBT2QQJXBJLA6S"',
+100 silly get     'content-type': 'application/json',
+100 silly get     'content-encoding': 'gzip',
+100 silly get     'cache-control': 'max-age=300',
+100 silly get     'transfer-encoding': 'chunked',
+100 silly get     'accept-ranges': 'bytes',
+100 silly get     date: 'Sat, 24 Sep 2016 11:17:09 GMT',
+100 silly get     via: '1.1 varnish',
+100 silly get     connection: 'keep-alive',
+100 silly get     'x-served-by': 'cache-nrt6127-NRT',
+100 silly get     'x-cache': 'MISS',
+100 silly get     'x-cache-hits': '0',
+100 silly get     'x-timer': 'S1474715829.356074,VS0,VE627',
+100 silly get     vary: 'Accept-Encoding' } ]
+101 verbose get saving typescript-stl to C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\registry.npmjs.org\typescript-stl\.cache.json
+102 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+103 silly addNameRange number 2 { name: 'typescript-stl',
+103 silly addNameRange   range: '>=1.1.0 <1.2.0',
+103 silly addNameRange   hasData: true }
+104 silly addNameRange versions [ 'typescript-stl',
+104 silly addNameRange   [ '0.9.3',
+104 silly addNameRange     '0.9.4',
+104 silly addNameRange     '0.9.5',
+104 silly addNameRange     '0.9.5-b',
+104 silly addNameRange     '0.9.6',
+104 silly addNameRange     '0.9.7',
+104 silly addNameRange     '0.9.7-a',
+104 silly addNameRange     '0.9.7-b',
+104 silly addNameRange     '0.9.8',
+104 silly addNameRange     '0.9.8-a',
+104 silly addNameRange     '0.9.8-b',
+104 silly addNameRange     '0.9.8-c',
+104 silly addNameRange     '0.9.8-e',
+104 silly addNameRange     '0.9.9',
+104 silly addNameRange     '0.9.10',
+104 silly addNameRange     '1.0.0-rc.1',
+104 silly addNameRange     '1.0.0-rc.2',
+104 silly addNameRange     '1.0.0-rc.4',
+104 silly addNameRange     '1.0.0-rc.4-a',
+104 silly addNameRange     '1.0.0-rc.4-b',
+104 silly addNameRange     '1.0.0-rc.5',
+104 silly addNameRange     '1.0.0-rc.5-a',
+104 silly addNameRange     '1.0.0-rc.5-b',
+104 silly addNameRange     '1.0.0-rc.6',
+104 silly addNameRange     '1.0.0-rc.7',
+104 silly addNameRange     '1.0.0-rc.8',
+104 silly addNameRange     '1.0.0',
+104 silly addNameRange     '1.0.0-a',
+104 silly addNameRange     '1.0.0-b',
+104 silly addNameRange     '1.0.1',
+104 silly addNameRange     '1.0.2',
+104 silly addNameRange     '1.0.3',
+104 silly addNameRange     '1.0.4',
+104 silly addNameRange     '1.0.6',
+104 silly addNameRange     '1.0.7',
+104 silly addNameRange     '1.0.8',
+104 silly addNameRange     '1.0.9',
+104 silly addNameRange     '1.0.10',
+104 silly addNameRange     '1.0.11',
+104 silly addNameRange     '1.0.12',
+104 silly addNameRange     '1.1.0',
+104 silly addNameRange     '1.1.1' ] ]
+105 silly addNamed typescript-stl@1.1.1
+106 verbose addNamed "1.1.1" is a plain semver version for typescript-stl
+107 silly cache afterAdd typescript-stl@1.1.1
+108 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.1.1\package\package.json not in flight; writing
+109 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+110 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.1.1\package\package.json written
+111 silly install resolved [ { name: 'websocket',
+111 silly install resolved     description: 'Websocket Client & Server Library implementing the WebSocket protocol as specified in RFC 6455.',
+111 silly install resolved     keywords:
+111 silly install resolved      [ 'websocket',
+111 silly install resolved        'websockets',
+111 silly install resolved        'socket',
+111 silly install resolved        'networking',
+111 silly install resolved        'comet',
+111 silly install resolved        'push',
+111 silly install resolved        'RFC-6455',
+111 silly install resolved        'realtime',
+111 silly install resolved        'server',
+111 silly install resolved        'client' ],
+111 silly install resolved     author:
+111 silly install resolved      { name: 'Brian McKelvey',
+111 silly install resolved        email: 'brian@worlize.com',
+111 silly install resolved        url: 'https://www.worlize.com/' },
+111 silly install resolved     contributors: [ [Object] ],
+111 silly install resolved     version: '1.0.23',
+111 silly install resolved     repository:
+111 silly install resolved      { type: 'git',
+111 silly install resolved        url: 'git+https://github.com/theturtle32/WebSocket-Node.git' },
+111 silly install resolved     homepage: 'https://github.com/theturtle32/WebSocket-Node',
+111 silly install resolved     engines: { node: '>=0.8.0' },
+111 silly install resolved     dependencies:
+111 silly install resolved      { debug: '^2.2.0',
+111 silly install resolved        nan: '^2.3.3',
+111 silly install resolved        'typedarray-to-buffer': '^3.1.2',
+111 silly install resolved        yaeti: '^0.0.4' },
+111 silly install resolved     devDependencies:
+111 silly install resolved      { 'buffer-equal': '^0.0.1',
+111 silly install resolved        faucet: '^0.0.1',
+111 silly install resolved        gulp: 'git+https://github.com/gulpjs/gulp.git#4.0',
+111 silly install resolved        'gulp-jshint': '^1.11.2',
+111 silly install resolved        'jshint-stylish': '^1.0.2',
+111 silly install resolved        tape: '^4.0.1' },
+111 silly install resolved     config: { verbose: false },
+111 silly install resolved     scripts:
+111 silly install resolved      { install: '(node-gyp rebuild 2> builderror.log) || (exit 0)',
+111 silly install resolved        test: 'faucet test/unit',
+111 silly install resolved        gulp: 'gulp' },
+111 silly install resolved     main: 'index',
+111 silly install resolved     directories: { lib: './lib' },
+111 silly install resolved     browser: 'lib/browser.js',
+111 silly install resolved     license: 'Apache-2.0',
+111 silly install resolved     gitHead: 'ba2fa7e9676c456bcfb12ad160655319af66faed',
+111 silly install resolved     bugs: { url: 'https://github.com/theturtle32/WebSocket-Node/issues' },
+111 silly install resolved     _id: 'websocket@1.0.23',
+111 silly install resolved     _shasum: '20de8ec4a7126b09465578cd5dbb29a9c296aac6',
+111 silly install resolved     _from: 'websocket@>=1.0.0 <1.1.0',
+111 silly install resolved     _npmVersion: '2.15.1',
+111 silly install resolved     _nodeVersion: '0.10.45',
+111 silly install resolved     _npmUser: { name: 'theturtle32', email: 'brian@worlize.com' },
+111 silly install resolved     maintainers: [ [Object] ],
+111 silly install resolved     dist:
+111 silly install resolved      { shasum: '20de8ec4a7126b09465578cd5dbb29a9c296aac6',
+111 silly install resolved        tarball: 'https://registry.npmjs.org/websocket/-/websocket-1.0.23.tgz' },
+111 silly install resolved     _npmOperationalInternal:
+111 silly install resolved      { host: 'packages-16-east.internal.npmjs.com',
+111 silly install resolved        tmp: 'tmp/websocket-1.0.23.tgz_1463625793005_0.4532310354989022' },
+111 silly install resolved     _resolved: 'https://registry.npmjs.org/websocket/-/websocket-1.0.23.tgz',
+111 silly install resolved     readme: 'ERROR: No README data found!' },
+111 silly install resolved   { name: 'typescript-stl',
+111 silly install resolved     description: 'TypeScript-STL (Standard Template Library, migrated from C++)',
+111 silly install resolved     author:
+111 silly install resolved      { name: 'Jeongho Nam',
+111 silly install resolved        email: 'samchon@samchon.org',
+111 silly install resolved        url: 'http://samchon.org' },
+111 silly install resolved     main: './lib/typescript-stl.js',
+111 silly install resolved     version: '1.1.1',
+111 silly install resolved     homepage: 'https://github.com/samchon/typescript-stl',
+111 silly install resolved     repository:
+111 silly install resolved      { type: 'git',
+111 silly install resolved        url: 'git+https://github.com/samchon/typescript-stl.git' },
+111 silly install resolved     bugs: { url: 'https://github.com/samchon/typescript-stl/issues' },
+111 silly install resolved     licenses: [ [Object] ],
+111 silly install resolved     keywords:
+111 silly install resolved      [ 'stl',
+111 silly install resolved        'standard template library',
+111 silly install resolved        'typescript',
+111 silly install resolved        'standard',
+111 silly install resolved        'template',
+111 silly install resolved        'container',
+111 silly install resolved        'library',
+111 silly install resolved        'vector',
+111 silly install resolved        'deque',
+111 silly install resolved        'list',
+111 silly install resolved        'queue',
+111 silly install resolved        'stack',
+111 silly install resolved        'hash',
+111 silly install resolved        'tree',
+111 silly install resolved        'map',
+111 silly install resolved        'set',
+111 silly install resolved        'iterator' ],
+111 silly install resolved     readme: '# TypeScript-STL\r\n\r\n[![NPM](https://nodei.co/npm/typescript-stl.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/typescript-stl)\r\n\r\nGitHub Repository: https://github.com/samchon/typescript-stl\r\n\r\n## Introduction\r\nSTL (Standard Template Library) Containers and Algorithms for TypeScript\r\n\r\nTypeScript-STL is an open-source JavaScript library providing containers and algorithms migrated from C++ STL. You can enjoy STL containers and algorithms in JavaScript. If TypeScript, you will be much happier feeling like using originla STL with type restriction and template programming.\r\n\r\n![Abstract Containers](http://samchon.github.io/typescript-stl/images/design/class_diagram/abstract_containers.png)\r\n\r\n##### Containers\r\n  - [**Linear containers**](http://samchon.github.io/typescript-stl/api/interfaces/std.base.container.ilinearcontainer.html)\r\n    - [Vector](http://samchon.github.io/typescript-stl/api/classes/std.vector.html)\r\n    - [List](http://samchon.github.io/typescript-stl/api/classes/std.list.html)\r\n    - [Deque](http://samchon.github.io/typescript-stl/api/classes/std.deque.html)\r\n  - **Associative Containers**\r\n    - [**Tree-structured Containers**](http://samchon.github.io/typescript-stl/api/classes/std.base.tree.rbtree.html)\r\n      - [TreeSet](http://samchon.github.io/typescript-stl/api/classes/std.treeset.html)\r\n      - [TreeMap](http://samchon.github.io/typescript-stl/api/classes/std.treemap.html)\r\n      - [TreeMultiSet](http://samchon.github.io/typescript-stl/api/classes/std.treemultiset.html)\r\n      - [TreeMultiMap](http://samchon.github.io/typescript-stl/api/classes/std.treemultimap.html)\r\n    - [**Hashed Containers**](http://samchon.github.io/typescript-stl/api/classes/std.base.hash.hashbuckets.html)\r\n      - [HashSet](http://samchon.github.io/typescript-stl/api/classes/std.hashset.html)\r\n      - [HashMap](http://samchon.github.io/typescript-stl/api/classes/std.hashmap.html)\r\n      - [HashMultiSet](http://samchon.github.io/typescript-stl/api/classes/std.hashmultiset.html)\r\n      - [HashMultiMap](http://samchon.github.io/typescript-stl/api/classes/std.hashmultimap.html)\r\n  - **Adaptor Containers**\r\n    - [Queue](http://samchon.github.io/typescript-stl/api/classes/std.queue.html)\r\n    - [Stack](http://samchon.github.io/typescript-stl/api/classes/std.stack.html)\r\n    - [PriorityQueue](http://samchon.github.io/typescript-stl/api/classes/std.priorityqueue.html)\r\n\r\n##### Global Functions\r\n  - [&lt;algorithm&gt;](http://www.cplusplus.com/reference/algorithm)\r\n  - [&lt;exception&gt;](http://www.cplusplus.com/reference/exception)\r\n  - [&lt;functional&gt;](http://www.cplusplus.com/reference/functional)\r\n    - [std.bind](http://samchon.github.io/typescript-stl/api/modules/std.html#bind)\r\n  - [&lt;utility&gt;](http://www.cplusplus.com/reference/utility)\r\n    - [std.Pair](http://samchon.github.io/typescript-stl/api/classes/std.pair.html)\r\n\r\n\r\n\r\n## References\r\nYou can learn and explore about TypeScript-STL more deeply with such below:\r\n\r\n  - [Guidebook (wiki)](https://github.com/samchon/typescript-stl/wiki)\r\n  - [API Documents](http://samchon.github.io/typescript-stl/api)\r\n  - [Class Diagram](https://samchon.github.io/typescript-stl/design/class_diagram.pdf)\r\n\r\n\r\n\r\n## Installation\r\nInstalling *TypeScript-STL* in **node** is very easy. Just install with **npm** and **tsd**.\r\n\r\n#### Node\r\n``` bash\r\n# Install TypeScript-STL from NPM modules\r\nnpm install -g typescript-stl \r\n\r\n# Fetch definition (header) file from TSD\r\n# If TSD is not installed, then type "npm install -g tsd"\r\ntsd install typescript-stl\r\n```\r\n\r\n#### TypeScript\r\nDon\'t forget to referencing header files, ```typescript-stl.d.ts```.\r\n\r\n``` typescript\r\n/// <reference path="typings/typescript-stl/typescript-stl.d.ts" />\r\n\r\nimport std = require("typescript-stl");\r\nlet map: std.TreeMap<string, number> = new std.TreeMap<string, number>();\r\n\r\nmap.insert(std.make_pair("First", 1));\r\nmap.insert(["Second", 2]);\r\nmap.insert_or_assign("Third", 3); // C++17 Feature.\r\nmap.set("Fourth", 4); // Non-standard Feature.\r\n\r\nfor (let it = map.begin(); !it.equal_to(map.end()); it = it.next())\r\n\tconsole.log(it.first, it.second); // key => string, value => number\r\n```\r\n\r\n#### Browser\r\n*TypeScript-STL* follows *CommonJS* module. You can\'t use ```require``` statement of *RequireJS*, which is following *AMD* module. Just include *TypeScript-STL*\'s *js file* with ```<script>``` tag.\r\n\r\n###### In HTML Document\r\n``` javascript\r\n<script src="typescript-stl.js"></script>\r\n```\r\n\r\n\r\n\r\n## Index of Guidance, Wiki.\r\n\r\n  - [**Outline**](https://github.com/samchon/typescript-stl/wiki/Home)\r\n    - [Introduction](https://github.com/samchon/typescript-stl/wiki/Home#introduction)\r\n    - [References](https://github.com/samchon/typescript-stl/wiki/Home#references)\r\n    - [Installation](https://github.com/samchon/typescript-stl/wiki/Home#installation)\r\n  - [**Differences between C++**](https://github.com/samchon/typescript-stl/wiki/Differences)\r\n    - [Naming Convention](https://github.com/samchon/typescript-stl/wiki/Differences#naming-convention)\r\n    - [Operator Overriding](https://github.com/samchon/typescript-stl/wiki/Differences#operator-overriding)\r\n    - [Iterator](https://github.com/samchon/typescript-stl/wiki/Differences#iterator)\r\n    - [Tree Container](https://github.com/samchon/typescript-stl/wiki/Differences#tree-container)\r\n    - [Hash Container](https://github.com/samchon/typescript-stl/wiki/Differences#hash-container)\r\n  - [**Tutorial**](https://github.com/samchon/typescript-stl/wiki/Tutorial)\r\n    - [Linear Container](https://github.com/samchon/typescript-stl/wiki/Tutorial#linear-container)\r\n    - [Tree Container](https://github.com/samchon/typescript-stl/wiki/Tutorial#tree-container)\r\n    - [Hash Container](https://github.com/samchon/typescript-stl/wiki/Tutorial#hash-container)\r\n    - [Miscellaneous](https://github.com/samchon/typescript-stl/wiki/Tutorial-Miscellaneous)\r\n      - [Algorithm](https://github.com/samchon/typescript-stl/wiki/Tutorial-Miscellaneous#algorithm)\r\n      - [Functional](https://github.com/samchon/typescript-stl/wiki/Tutorial-Miscellaneous#functional)',
+111 silly install resolved     readmeFilename: 'README.md',
+111 silly install resolved     gitHead: 'd84bbf15df6996f9a98561f568d7ad1de567f228',
+111 silly install resolved     _id: 'typescript-stl@1.1.1',
+111 silly install resolved     scripts: {},
+111 silly install resolved     _shasum: '2f223f1dbee4145ec068ed58928f565c3ec06d7c',
+111 silly install resolved     _from: 'typescript-stl@>=1.1.0 <1.2.0' } ]
+112 info install websocket@1.0.23 into C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework
+113 info install typescript-stl@1.1.1 into C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework
+114 info installOne websocket@1.0.23
+115 verbose installOne of websocket to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework not in flight; installing
+116 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+117 info installOne typescript-stl@1.1.1
+118 verbose installOne of typescript-stl to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework not in flight; installing
+119 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+120 verbose lock using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\websocket-a33dff86e07aec95.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+121 silly install write writing websocket 1.0.23 to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+122 verbose lock using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\typescript-stl-8c43752e0d5fbeab.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl
+123 silly install write writing typescript-stl 1.1.1 to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl
+124 verbose unbuild node_modules\samchon-framework\node_modules\websocket
+125 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket is being purged from base C:\Users\Jeongho Nam\AppData\Roaming\npm
+126 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+127 verbose unbuild node_modules\samchon-framework\node_modules\typescript-stl
+128 verbose tar unpack C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\websocket\1.0.23\package.tgz
+129 verbose tar unpacking to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+130 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket is being purged
+131 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+132 silly gunzTarPerm modes [ '777', '666' ]
+133 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl is being purged from base C:\Users\Jeongho Nam\AppData\Roaming\npm
+134 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl
+135 verbose tar unpack C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.1.1\package.tgz
+136 verbose tar unpacking to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl
+137 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl is being purged
+138 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl
+139 silly gunzTarPerm modes [ '777', '666' ]
+140 silly gunzTarPerm extractEntry package.json
+141 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+142 silly gunzTarPerm extractEntry package.json
+143 silly gunzTarPerm extractEntry README.md
+144 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+145 silly gunzTarPerm extractEntry LICENSE
+146 silly gunzTarPerm modified mode [ 'LICENSE', 420, 438 ]
+147 silly gunzTarPerm extractEntry README.md
+148 silly gunzTarPerm extractEntry LICENSE
+149 silly gunzTarPerm extractEntry gulpfile.js
+150 silly gunzTarPerm modified mode [ 'gulpfile.js', 420, 438 ]
+151 silly gunzTarPerm extractEntry lib/typescript-stl.js
+152 silly gunzTarPerm extractEntry lib/typescript-stl.min.js
+153 silly gunzTarPerm extractEntry index.js
+154 silly gunzTarPerm modified mode [ 'index.js', 420, 438 ]
+155 silly gunzTarPerm extractEntry docs/W3CWebSocket.md
+156 silly gunzTarPerm modified mode [ 'docs/W3CWebSocket.md', 420, 438 ]
+157 silly gunzTarPerm extractEntry docs/WebSocketClient.md
+158 silly gunzTarPerm modified mode [ 'docs/WebSocketClient.md', 420, 438 ]
+159 silly gunzTarPerm extractEntry docs/WebSocketConnection.md
+160 silly gunzTarPerm modified mode [ 'docs/WebSocketConnection.md', 420, 438 ]
+161 silly gunzTarPerm extractEntry docs/WebSocketFrame.md
+162 silly gunzTarPerm modified mode [ 'docs/WebSocketFrame.md', 420, 438 ]
+163 silly gunzTarPerm extractEntry docs/WebSocketRequest.md
+164 silly gunzTarPerm modified mode [ 'docs/WebSocketRequest.md', 420, 438 ]
+165 silly gunzTarPerm extractEntry docs/WebSocketServer.md
+166 silly gunzTarPerm modified mode [ 'docs/WebSocketServer.md', 420, 438 ]
+167 silly gunzTarPerm extractEntry docs/index.md
+168 silly gunzTarPerm modified mode [ 'docs/index.md', 420, 438 ]
+169 silly gunzTarPerm extractEntry binding.gyp
+170 silly gunzTarPerm modified mode [ 'binding.gyp', 420, 438 ]
+171 silly gunzTarPerm extractEntry builderror.log
+172 silly gunzTarPerm modified mode [ 'builderror.log', 420, 438 ]
+173 silly gunzTarPerm extractEntry .jshintrc
+174 silly gunzTarPerm modified mode [ '.jshintrc', 420, 438 ]
+175 silly gunzTarPerm extractEntry Makefile
+176 silly gunzTarPerm modified mode [ 'Makefile', 420, 438 ]
+177 silly gunzTarPerm extractEntry lib/BufferUtil.fallback.js
+178 silly gunzTarPerm modified mode [ 'lib/BufferUtil.fallback.js', 420, 438 ]
+179 silly gunzTarPerm extractEntry lib/W3CWebSocket.js
+180 silly gunzTarPerm modified mode [ 'lib/W3CWebSocket.js', 420, 438 ]
+181 silly gunzTarPerm extractEntry lib/WebSocketClient.js
+182 silly gunzTarPerm modified mode [ 'lib/WebSocketClient.js', 420, 438 ]
+183 silly gunzTarPerm extractEntry lib/WebSocketConnection.js
+184 silly gunzTarPerm modified mode [ 'lib/WebSocketConnection.js', 420, 438 ]
+185 silly gunzTarPerm extractEntry lib/Validation.js
+186 silly gunzTarPerm modified mode [ 'lib/Validation.js', 420, 438 ]
+187 silly gunzTarPerm extractEntry lib/WebSocketRequest.js
+188 silly gunzTarPerm modified mode [ 'lib/WebSocketRequest.js', 420, 438 ]
+189 silly gunzTarPerm extractEntry lib/WebSocketRouter.js
+190 silly gunzTarPerm modified mode [ 'lib/WebSocketRouter.js', 420, 438 ]
+191 silly gunzTarPerm extractEntry lib/WebSocketRouterRequest.js
+192 silly gunzTarPerm modified mode [ 'lib/WebSocketRouterRequest.js', 420, 438 ]
+193 silly gunzTarPerm extractEntry lib/WebSocketServer.js
+194 silly gunzTarPerm modified mode [ 'lib/WebSocketServer.js', 420, 438 ]
+195 silly gunzTarPerm extractEntry lib/browser.js
+196 silly gunzTarPerm modified mode [ 'lib/browser.js', 420, 438 ]
+197 verbose write writing to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl\package.json
+198 silly gunzTarPerm extractEntry lib/Validation.fallback.js
+199 silly gunzTarPerm modified mode [ 'lib/Validation.fallback.js', 420, 438 ]
+200 silly gunzTarPerm extractEntry lib/utils.js
+201 silly gunzTarPerm modified mode [ 'lib/utils.js', 420, 438 ]
+202 silly gunzTarPerm extractEntry lib/Deprecation.js
+203 silly gunzTarPerm modified mode [ 'lib/Deprecation.js', 420, 438 ]
+204 silly gunzTarPerm extractEntry lib/version.js
+205 silly gunzTarPerm modified mode [ 'lib/version.js', 420, 438 ]
+206 info preinstall typescript-stl@1.1.1
+207 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl\package.json
+208 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl\package.json
+209 silly install resolved []
+210 verbose about to build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl
+211 info build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl
+212 info linkStuff typescript-stl@1.1.1
+213 silly linkStuff typescript-stl@1.1.1 has C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules as its parent node_modules
+214 silly linkStuff typescript-stl@1.1.1 is part of a global install
+215 silly linkStuff typescript-stl@1.1.1 is installed into a global node_modules
+216 silly gunzTarPerm extractEntry lib/BufferUtil.js
+217 silly gunzTarPerm modified mode [ 'lib/BufferUtil.js', 420, 438 ]
+218 silly gunzTarPerm extractEntry lib/websocket.js
+219 silly gunzTarPerm modified mode [ 'lib/websocket.js', 420, 438 ]
+220 verbose linkBins typescript-stl@1.1.1
+221 verbose linkMans typescript-stl@1.1.1
+222 verbose rebuildBundles typescript-stl@1.1.1
+223 info install typescript-stl@1.1.1
+224 info postinstall typescript-stl@1.1.1
+225 silly gunzTarPerm extractEntry lib/WebSocketFrame.js
+226 silly gunzTarPerm modified mode [ 'lib/WebSocketFrame.js', 420, 438 ]
+227 silly gunzTarPerm extractEntry CHANGELOG.md
+228 silly gunzTarPerm modified mode [ 'CHANGELOG.md', 420, 438 ]
+229 verbose unlock done using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\typescript-stl-8c43752e0d5fbeab.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\typescript-stl
+230 silly gunzTarPerm extractEntry src/bufferutil.cc
+231 silly gunzTarPerm modified mode [ 'src/bufferutil.cc', 420, 438 ]
+232 silly gunzTarPerm extractEntry src/validation.cc
+233 silly gunzTarPerm modified mode [ 'src/validation.cc', 420, 438 ]
+234 silly gunzTarPerm extractEntry vendor/FastBufferList.js
+235 silly gunzTarPerm modified mode [ 'vendor/FastBufferList.js', 420, 438 ]
+236 verbose write writing to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\package.json
+237 info preinstall websocket@1.0.23
+238 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\package.json
+239 silly prepareForInstallMany adding debug@^2.2.0 from websocket dependencies
+240 silly prepareForInstallMany adding nan@^2.3.3 from websocket dependencies
+241 silly prepareForInstallMany adding typedarray-to-buffer@^3.1.2 from websocket dependencies
+242 silly prepareForInstallMany adding yaeti@^0.0.4 from websocket dependencies
+243 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\package.json
+244 silly cache add args [ 'debug@^2.2.0', null ]
+245 verbose cache add spec debug@^2.2.0
+246 silly cache add args [ 'nan@^2.3.3', null ]
+247 verbose cache add spec nan@^2.3.3
+248 silly cache add parsed spec Result {
+248 silly cache add   raw: 'debug@^2.2.0',
+248 silly cache add   scope: null,
+248 silly cache add   name: 'debug',
+248 silly cache add   rawSpec: '^2.2.0',
+248 silly cache add   spec: '>=2.2.0 <3.0.0',
+248 silly cache add   type: 'range' }
+249 silly addNamed debug@>=2.2.0 <3.0.0
+250 verbose addNamed ">=2.2.0 <3.0.0" is a valid semver range for debug
+251 silly addNameRange { name: 'debug', range: '>=2.2.0 <3.0.0', hasData: false }
+252 silly mapToRegistry name debug
+253 silly mapToRegistry using default registry
+254 silly mapToRegistry registry https://registry.npmjs.org/
+255 silly mapToRegistry data Result {
+255 silly mapToRegistry   raw: 'debug',
+255 silly mapToRegistry   scope: null,
+255 silly mapToRegistry   name: 'debug',
+255 silly mapToRegistry   rawSpec: '',
+255 silly mapToRegistry   spec: 'latest',
+255 silly mapToRegistry   type: 'tag' }
+256 silly mapToRegistry uri https://registry.npmjs.org/debug
+257 verbose addNameRange registry:https://registry.npmjs.org/debug not in flight; fetching
+258 silly cache add parsed spec Result {
+258 silly cache add   raw: 'nan@^2.3.3',
+258 silly cache add   scope: null,
+258 silly cache add   name: 'nan',
+258 silly cache add   rawSpec: '^2.3.3',
+258 silly cache add   spec: '>=2.3.3 <3.0.0',
+258 silly cache add   type: 'range' }
+259 silly addNamed nan@>=2.3.3 <3.0.0
+260 verbose addNamed ">=2.3.3 <3.0.0" is a valid semver range for nan
+261 silly addNameRange { name: 'nan', range: '>=2.3.3 <3.0.0', hasData: false }
+262 silly mapToRegistry name nan
+263 silly mapToRegistry using default registry
+264 silly mapToRegistry registry https://registry.npmjs.org/
+265 silly mapToRegistry data Result {
+265 silly mapToRegistry   raw: 'nan',
+265 silly mapToRegistry   scope: null,
+265 silly mapToRegistry   name: 'nan',
+265 silly mapToRegistry   rawSpec: '',
+265 silly mapToRegistry   spec: 'latest',
+265 silly mapToRegistry   type: 'tag' }
+266 silly mapToRegistry uri https://registry.npmjs.org/nan
+267 verbose addNameRange registry:https://registry.npmjs.org/nan not in flight; fetching
+268 silly cache add args [ 'typedarray-to-buffer@^3.1.2', null ]
+269 verbose cache add spec typedarray-to-buffer@^3.1.2
+270 silly cache add parsed spec Result {
+270 silly cache add   raw: 'typedarray-to-buffer@^3.1.2',
+270 silly cache add   scope: null,
+270 silly cache add   name: 'typedarray-to-buffer',
+270 silly cache add   rawSpec: '^3.1.2',
+270 silly cache add   spec: '>=3.1.2 <4.0.0',
+270 silly cache add   type: 'range' }
+271 silly addNamed typedarray-to-buffer@>=3.1.2 <4.0.0
+272 verbose addNamed ">=3.1.2 <4.0.0" is a valid semver range for typedarray-to-buffer
+273 silly addNameRange { name: 'typedarray-to-buffer',
+273 silly addNameRange   range: '>=3.1.2 <4.0.0',
+273 silly addNameRange   hasData: false }
+274 silly mapToRegistry name typedarray-to-buffer
+275 silly mapToRegistry using default registry
+276 silly mapToRegistry registry https://registry.npmjs.org/
+277 silly mapToRegistry data Result {
+277 silly mapToRegistry   raw: 'typedarray-to-buffer',
+277 silly mapToRegistry   scope: null,
+277 silly mapToRegistry   name: 'typedarray-to-buffer',
+277 silly mapToRegistry   rawSpec: '',
+277 silly mapToRegistry   spec: 'latest',
+277 silly mapToRegistry   type: 'tag' }
+278 silly mapToRegistry uri https://registry.npmjs.org/typedarray-to-buffer
+279 verbose addNameRange registry:https://registry.npmjs.org/typedarray-to-buffer not in flight; fetching
+280 silly cache add args [ 'yaeti@^0.0.4', null ]
+281 verbose cache add spec yaeti@^0.0.4
+282 silly cache add parsed spec Result {
+282 silly cache add   raw: 'yaeti@^0.0.4',
+282 silly cache add   scope: null,
+282 silly cache add   name: 'yaeti',
+282 silly cache add   rawSpec: '^0.0.4',
+282 silly cache add   spec: '>=0.0.4 <0.0.5',
+282 silly cache add   type: 'range' }
+283 silly addNamed yaeti@>=0.0.4 <0.0.5
+284 verbose addNamed ">=0.0.4 <0.0.5" is a valid semver range for yaeti
+285 silly addNameRange { name: 'yaeti', range: '>=0.0.4 <0.0.5', hasData: false }
+286 silly mapToRegistry name yaeti
+287 silly mapToRegistry using default registry
+288 silly mapToRegistry registry https://registry.npmjs.org/
+289 silly mapToRegistry data Result {
+289 silly mapToRegistry   raw: 'yaeti',
+289 silly mapToRegistry   scope: null,
+289 silly mapToRegistry   name: 'yaeti',
+289 silly mapToRegistry   rawSpec: '',
+289 silly mapToRegistry   spec: 'latest',
+289 silly mapToRegistry   type: 'tag' }
+290 silly mapToRegistry uri https://registry.npmjs.org/yaeti
+291 verbose addNameRange registry:https://registry.npmjs.org/yaeti not in flight; fetching
+292 verbose request uri https://registry.npmjs.org/typedarray-to-buffer
+293 verbose request no auth needed
+294 info attempt registry request try #1 at 20:17:11
+295 verbose request using bearer token for auth
+296 verbose etag "9O98DBVVMHFCQ6OVRKN34XR75"
+297 http request GET https://registry.npmjs.org/typedarray-to-buffer
+298 verbose request uri https://registry.npmjs.org/debug
+299 verbose request no auth needed
+300 info attempt registry request try #1 at 20:17:11
+301 verbose request using bearer token for auth
+302 verbose etag "CY61AGCDV20VBK02I5N8AUBKF"
+303 http request GET https://registry.npmjs.org/debug
+304 verbose request uri https://registry.npmjs.org/yaeti
+305 verbose request no auth needed
+306 info attempt registry request try #1 at 20:17:11
+307 verbose request using bearer token for auth
+308 verbose etag "4LS250R5VPRTE32ZLRUAL481F"
+309 http request GET https://registry.npmjs.org/yaeti
+310 verbose request uri https://registry.npmjs.org/nan
+311 verbose request no auth needed
+312 info attempt registry request try #1 at 20:17:11
+313 verbose request using bearer token for auth
+314 verbose etag "1YJEPM5V4XH0MZT0HV3B8R9BB"
+315 http request GET https://registry.npmjs.org/nan
+316 http 304 https://registry.npmjs.org/typedarray-to-buffer
+317 verbose headers { 'cache-control': 'max-age=300',
+317 verbose headers   'accept-ranges': 'bytes',
+317 verbose headers   date: 'Sat, 24 Sep 2016 11:17:10 GMT',
+317 verbose headers   via: '1.1 varnish',
+317 verbose headers   connection: 'keep-alive',
+317 verbose headers   'x-served-by': 'cache-nrt6125-NRT',
+317 verbose headers   'x-cache': 'MISS',
+317 verbose headers   'x-cache-hits': '0',
+317 verbose headers   'x-timer': 'S1474715830.616781,VS0,VE158',
+317 verbose headers   vary: 'Accept-Encoding' }
+318 silly get cb [ 304,
+318 silly get   { 'cache-control': 'max-age=300',
+318 silly get     'accept-ranges': 'bytes',
+318 silly get     date: 'Sat, 24 Sep 2016 11:17:10 GMT',
+318 silly get     via: '1.1 varnish',
+318 silly get     connection: 'keep-alive',
+318 silly get     'x-served-by': 'cache-nrt6125-NRT',
+318 silly get     'x-cache': 'MISS',
+318 silly get     'x-cache-hits': '0',
+318 silly get     'x-timer': 'S1474715830.616781,VS0,VE158',
+318 silly get     vary: 'Accept-Encoding' } ]
+319 verbose etag https://registry.npmjs.org/typedarray-to-buffer from cache
+320 verbose get saving typedarray-to-buffer to C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\registry.npmjs.org\typedarray-to-buffer\.cache.json
+321 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+322 silly addNameRange number 2 { name: 'typedarray-to-buffer',
+322 silly addNameRange   range: '>=3.1.2 <4.0.0',
+322 silly addNameRange   hasData: true }
+323 silly addNameRange versions [ 'typedarray-to-buffer',
+323 silly addNameRange   [ '1.0.0',
+323 silly addNameRange     '1.0.1',
+323 silly addNameRange     '1.0.2',
+323 silly addNameRange     '1.0.3',
+323 silly addNameRange     '1.0.4',
+323 silly addNameRange     '2.0.0',
+323 silly addNameRange     '3.0.0',
+323 silly addNameRange     '3.0.1',
+323 silly addNameRange     '3.0.2',
+323 silly addNameRange     '3.0.3',
+323 silly addNameRange     '3.0.4',
+323 silly addNameRange     '3.0.5',
+323 silly addNameRange     '3.1.0',
+323 silly addNameRange     '3.1.1',
+323 silly addNameRange     '3.1.2' ] ]
+324 silly addNamed typedarray-to-buffer@3.1.2
+325 verbose addNamed "3.1.2" is a plain semver version for typedarray-to-buffer
+326 silly cache afterAdd typedarray-to-buffer@3.1.2
+327 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typedarray-to-buffer\3.1.2\package\package.json not in flight; writing
+328 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+329 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typedarray-to-buffer\3.1.2\package\package.json written
+330 http 304 https://registry.npmjs.org/debug
+331 verbose headers { 'cache-control': 'max-age=300',
+331 verbose headers   'accept-ranges': 'bytes',
+331 verbose headers   date: 'Sat, 24 Sep 2016 11:17:11 GMT',
+331 verbose headers   via: '1.1 varnish',
+331 verbose headers   connection: 'keep-alive',
+331 verbose headers   'x-served-by': 'cache-nrt6127-NRT',
+331 verbose headers   'x-cache': 'MISS',
+331 verbose headers   'x-cache-hits': '0',
+331 verbose headers   'x-timer': 'S1474715830.615408,VS0,VE723',
+331 verbose headers   vary: 'Accept-Encoding' }
+332 silly get cb [ 304,
+332 silly get   { 'cache-control': 'max-age=300',
+332 silly get     'accept-ranges': 'bytes',
+332 silly get     date: 'Sat, 24 Sep 2016 11:17:11 GMT',
+332 silly get     via: '1.1 varnish',
+332 silly get     connection: 'keep-alive',
+332 silly get     'x-served-by': 'cache-nrt6127-NRT',
+332 silly get     'x-cache': 'MISS',
+332 silly get     'x-cache-hits': '0',
+332 silly get     'x-timer': 'S1474715830.615408,VS0,VE723',
+332 silly get     vary: 'Accept-Encoding' } ]
+333 verbose etag https://registry.npmjs.org/debug from cache
+334 verbose get saving debug to C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\registry.npmjs.org\debug\.cache.json
+335 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+336 silly addNameRange number 2 { name: 'debug', range: '>=2.2.0 <3.0.0', hasData: true }
+337 silly addNameRange versions [ 'debug',
+337 silly addNameRange   [ '0.0.1',
+337 silly addNameRange     '0.1.0',
+337 silly addNameRange     '0.2.0',
+337 silly addNameRange     '0.3.0',
+337 silly addNameRange     '0.4.0',
+337 silly addNameRange     '0.4.1',
+337 silly addNameRange     '0.5.0',
+337 silly addNameRange     '0.6.0',
+337 silly addNameRange     '0.7.0',
+337 silly addNameRange     '0.7.1',
+337 silly addNameRange     '0.7.2',
+337 silly addNameRange     '0.7.3',
+337 silly addNameRange     '0.7.4',
+337 silly addNameRange     '0.8.0',
+337 silly addNameRange     '0.8.1',
+337 silly addNameRange     '1.0.0',
+337 silly addNameRange     '1.0.1',
+337 silly addNameRange     '1.0.2',
+337 silly addNameRange     '1.0.3',
+337 silly addNameRange     '1.0.4',
+337 silly addNameRange     '2.0.0',
+337 silly addNameRange     '2.1.0',
+337 silly addNameRange     '2.1.1',
+337 silly addNameRange     '2.1.2',
+337 silly addNameRange     '2.1.3',
+337 silly addNameRange     '2.2.0' ] ]
+338 silly addNamed debug@2.2.0
+339 verbose addNamed "2.2.0" is a plain semver version for debug
+340 silly cache afterAdd debug@2.2.0
+341 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\debug\2.2.0\package\package.json not in flight; writing
+342 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+343 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\debug\2.2.0\package\package.json written
+344 http 304 https://registry.npmjs.org/nan
+345 verbose headers { 'cache-control': 'max-age=300',
+345 verbose headers   'accept-ranges': 'bytes',
+345 verbose headers   date: 'Sat, 24 Sep 2016 11:17:11 GMT',
+345 verbose headers   via: '1.1 varnish',
+345 verbose headers   connection: 'keep-alive',
+345 verbose headers   'x-served-by': 'cache-nrt6128-NRT',
+345 verbose headers   'x-cache': 'MISS',
+345 verbose headers   'x-cache-hits': '0',
+345 verbose headers   'x-timer': 'S1474715830.743530,VS0,VE615',
+345 verbose headers   vary: 'Accept-Encoding' }
+346 silly get cb [ 304,
+346 silly get   { 'cache-control': 'max-age=300',
+346 silly get     'accept-ranges': 'bytes',
+346 silly get     date: 'Sat, 24 Sep 2016 11:17:11 GMT',
+346 silly get     via: '1.1 varnish',
+346 silly get     connection: 'keep-alive',
+346 silly get     'x-served-by': 'cache-nrt6128-NRT',
+346 silly get     'x-cache': 'MISS',
+346 silly get     'x-cache-hits': '0',
+346 silly get     'x-timer': 'S1474715830.743530,VS0,VE615',
+346 silly get     vary: 'Accept-Encoding' } ]
+347 verbose etag https://registry.npmjs.org/nan from cache
+348 verbose get saving nan to C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\registry.npmjs.org\nan\.cache.json
+349 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+350 silly addNameRange number 2 { name: 'nan', range: '>=2.3.3 <3.0.0', hasData: true }
+351 silly addNameRange versions [ 'nan',
+351 silly addNameRange   [ '0.3.0-wip',
+351 silly addNameRange     '0.3.0-wip2',
+351 silly addNameRange     '0.3.0',
+351 silly addNameRange     '0.3.1',
+351 silly addNameRange     '0.3.2',
+351 silly addNameRange     '0.4.0',
+351 silly addNameRange     '0.4.1',
+351 silly addNameRange     '0.4.2',
+351 silly addNameRange     '0.4.3',
+351 silly addNameRange     '0.4.4',
+351 silly addNameRange     '0.5.0',
+351 silly addNameRange     '0.5.1',
+351 silly addNameRange     '0.5.2',
+351 silly addNameRange     '0.6.0',
+351 silly addNameRange     '0.7.0',
+351 silly addNameRange     '0.7.1',
+351 silly addNameRange     '0.8.0',
+351 silly addNameRange     '1.0.0',
+351 silly addNameRange     '1.1.0',
+351 silly addNameRange     '1.1.1',
+351 silly addNameRange     '1.1.2',
+351 silly addNameRange     '1.2.0',
+351 silly addNameRange     '1.3.0',
+351 silly addNameRange     '1.4.0',
+351 silly addNameRange     '1.4.1',
+351 silly addNameRange     '1.5.0',
+351 silly addNameRange     '1.4.2',
+351 silly addNameRange     '1.4.3',
+351 silly addNameRange     '1.5.1',
+351 silly addNameRange     '1.5.2',
+351 silly addNameRange     '1.6.0',
+351 silly addNameRange     '1.5.3',
+351 silly addNameRange     '1.6.1',
+351 silly addNameRange     '1.6.2',
+351 silly addNameRange     '1.7.0',
+351 silly addNameRange     '1.8.0',
+351 silly addNameRange     '1.8.1',
+351 silly addNameRange     '1.8.2',
+351 silly addNameRange     '1.8.3',
+351 silly addNameRange     '1.8.4',
+351 silly addNameRange     '1.9.0',
+351 silly addNameRange     '2.0.0',
+351 silly addNameRange     '2.0.1',
+351 silly addNameRange     '2.0.2',
+351 silly addNameRange     '2.0.3',
+351 silly addNameRange     '2.0.4',
+351 silly addNameRange     '2.0.5',
+351 silly addNameRange     '2.0.6',
+351 silly addNameRange     '2.0.7',
+351 silly addNameRange     '2.0.8',
+351 silly addNameRange     '2.0.9',
+351 silly addNameRange     '2.1.0',
+351 silly addNameRange     '2.2.0',
+351 silly addNameRange     '2.2.1',
+351 silly addNameRange     '2.3.0',
+351 silly addNameRange     '2.3.1',
+351 silly addNameRange     '2.3.2',
+351 silly addNameRange     '2.3.3',
+351 silly addNameRange     '2.3.4',
+351 silly addNameRange     '2.3.5',
+351 silly addNameRange     '2.4.0' ] ]
+352 silly addNamed nan@2.4.0
+353 verbose addNamed "2.4.0" is a plain semver version for nan
+354 silly cache afterAdd nan@2.4.0
+355 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\nan\2.4.0\package\package.json not in flight; writing
+356 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+357 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\nan\2.4.0\package\package.json written
+358 http 304 https://registry.npmjs.org/yaeti
+359 verbose headers { 'cache-control': 'max-age=300',
+359 verbose headers   'accept-ranges': 'bytes',
+359 verbose headers   date: 'Sat, 24 Sep 2016 11:17:11 GMT',
+359 verbose headers   via: '1.1 varnish',
+359 verbose headers   connection: 'keep-alive',
+359 verbose headers   'x-served-by': 'cache-nrt6128-NRT',
+359 verbose headers   'x-cache': 'MISS',
+359 verbose headers   'x-cache-hits': '0',
+359 verbose headers   'x-timer': 'S1474715830.743411,VS0,VE777',
+359 verbose headers   vary: 'Accept-Encoding' }
+360 silly get cb [ 304,
+360 silly get   { 'cache-control': 'max-age=300',
+360 silly get     'accept-ranges': 'bytes',
+360 silly get     date: 'Sat, 24 Sep 2016 11:17:11 GMT',
+360 silly get     via: '1.1 varnish',
+360 silly get     connection: 'keep-alive',
+360 silly get     'x-served-by': 'cache-nrt6128-NRT',
+360 silly get     'x-cache': 'MISS',
+360 silly get     'x-cache-hits': '0',
+360 silly get     'x-timer': 'S1474715830.743411,VS0,VE777',
+360 silly get     vary: 'Accept-Encoding' } ]
+361 verbose etag https://registry.npmjs.org/yaeti from cache
+362 verbose get saving yaeti to C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\registry.npmjs.org\yaeti\.cache.json
+363 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+364 silly addNameRange number 2 { name: 'yaeti', range: '>=0.0.4 <0.0.5', hasData: true }
+365 silly addNameRange versions [ 'yaeti',
+365 silly addNameRange   [ '0.0.1', '0.0.2', '0.0.3', '0.0.4', '0.0.5', '0.0.6' ] ]
+366 silly addNamed yaeti@0.0.4
+367 verbose addNamed "0.0.4" is a plain semver version for yaeti
+368 silly cache afterAdd yaeti@0.0.4
+369 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\yaeti\0.0.4\package\package.json not in flight; writing
+370 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+371 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\yaeti\0.0.4\package\package.json written
+372 silly install resolved [ { name: 'typedarray-to-buffer',
+372 silly install resolved     description: 'Convert a typed array to a Buffer without a copy',
+372 silly install resolved     version: '3.1.2',
+372 silly install resolved     author:
+372 silly install resolved      { name: 'Feross Aboukhadijeh',
+372 silly install resolved        email: 'feross@feross.org',
+372 silly install resolved        url: 'http://feross.org/' },
+372 silly install resolved     bugs: { url: 'https://github.com/feross/typedarray-to-buffer/issues' },
+372 silly install resolved     dependencies: { 'is-typedarray': '^1.0.0' },
+372 silly install resolved     devDependencies: { standard: '^6.0.4', tape: '^4.0.0', zuul: '^3.0.0' },
+372 silly install resolved     homepage: 'http://feross.org',
+372 silly install resolved     keywords:
+372 silly install resolved      [ 'buffer',
+372 silly install resolved        'typed array',
+372 silly install resolved        'convert',
+372 silly install resolved        'no copy',
+372 silly install resolved        'uint8array',
+372 silly install resolved        'uint16array',
+372 silly install resolved        'uint32array',
+372 silly install resolved        'int16array',
+372 silly install resolved        'int32array',
+372 silly install resolved        'float32array',
+372 silly install resolved        'float64array',
+372 silly install resolved        'browser',
+372 silly install resolved        'arraybuffer',
+372 silly install resolved        'dataview' ],
+372 silly install resolved     license: 'MIT',
+372 silly install resolved     main: 'index.js',
+372 silly install resolved     repository:
+372 silly install resolved      { type: 'git',
+372 silly install resolved        url: 'git://github.com/feross/typedarray-to-buffer.git' },
+372 silly install resolved     scripts:
+372 silly install resolved      { test: 'standard && npm run test-node && npm run test-browser',
+372 silly install resolved        'test-browser': 'zuul -- test/*.js',
+372 silly install resolved        'test-browser-local': 'zuul --local -- test/*.js',
+372 silly install resolved        'test-node': 'tape test/*.js' },
+372 silly install resolved     gitHead: 'f020396a951e83dd576a8173769b67164d9dd017',
+372 silly install resolved     _id: 'typedarray-to-buffer@3.1.2',
+372 silly install resolved     _shasum: '1017b32d984ff556eba100f501589aba1ace2e04',
+372 silly install resolved     _from: 'typedarray-to-buffer@>=3.1.2 <4.0.0',
+372 silly install resolved     _npmVersion: '2.14.12',
+372 silly install resolved     _nodeVersion: '4.3.0',
+372 silly install resolved     _npmUser: { name: 'feross', email: 'feross@feross.org' },
+372 silly install resolved     dist:
+372 silly install resolved      { shasum: '1017b32d984ff556eba100f501589aba1ace2e04',
+372 silly install resolved        tarball: 'https://registry.npmjs.org/typedarray-to-buffer/-/typedarray-to-buffer-3.1.2.tgz' },
+372 silly install resolved     maintainers: [ [Object] ],
+372 silly install resolved     _npmOperationalInternal:
+372 silly install resolved      { host: 'packages-6-west.internal.npmjs.com',
+372 silly install resolved        tmp: 'tmp/typedarray-to-buffer-3.1.2.tgz_1455142238822_0.33011502446606755' },
+372 silly install resolved     directories: {},
+372 silly install resolved     _resolved: 'https://registry.npmjs.org/typedarray-to-buffer/-/typedarray-to-buffer-3.1.2.tgz',
+372 silly install resolved     readme: 'ERROR: No README data found!' },
+372 silly install resolved   { name: 'debug',
+372 silly install resolved     version: '2.2.0',
+372 silly install resolved     repository: { type: 'git', url: 'git://github.com/visionmedia/debug.git' },
+372 silly install resolved     description: 'small debugging utility',
+372 silly install resolved     keywords: [ 'debug', 'log', 'debugger' ],
+372 silly install resolved     author: { name: 'TJ Holowaychuk', email: 'tj@vision-media.ca' },
+372 silly install resolved     contributors: [ [Object] ],
+372 silly install resolved     license: 'MIT',
+372 silly install resolved     dependencies: { ms: '0.7.1' },
+372 silly install resolved     devDependencies: { browserify: '9.0.3', mocha: '*' },
+372 silly install resolved     main: './node.js',
+372 silly install resolved     browser: './browser.js',
+372 silly install resolved     component: { scripts: [Object] },
+372 silly install resolved     gitHead: 'b38458422b5aa8aa6d286b10dfe427e8a67e2b35',
+372 silly install resolved     bugs: { url: 'https://github.com/visionmedia/debug/issues' },
+372 silly install resolved     homepage: 'https://github.com/visionmedia/debug',
+372 silly install resolved     _id: 'debug@2.2.0',
+372 silly install resolved     scripts: {},
+372 silly install resolved     _shasum: 'f87057e995b1a1f6ae6a4960664137bc56f039da',
+372 silly install resolved     _from: 'debug@>=2.2.0 <3.0.0',
+372 silly install resolved     _npmVersion: '2.7.4',
+372 silly install resolved     _nodeVersion: '0.12.2',
+372 silly install resolved     _npmUser: { name: 'tootallnate', email: 'nathan@tootallnate.net' },
+372 silly install resolved     maintainers: [ [Object], [Object] ],
+372 silly install resolved     dist:
+372 silly install resolved      { shasum: 'f87057e995b1a1f6ae6a4960664137bc56f039da',
+372 silly install resolved        tarball: 'https://registry.npmjs.org/debug/-/debug-2.2.0.tgz' },
+372 silly install resolved     directories: {},
+372 silly install resolved     _resolved: 'https://registry.npmjs.org/debug/-/debug-2.2.0.tgz',
+372 silly install resolved     readme: 'ERROR: No README data found!' },
+372 silly install resolved   { name: 'nan',
+372 silly install resolved     version: '2.4.0',
+372 silly install resolved     description: 'Native Abstractions for Node.js: C++ header for Node 0.8 -> 6 compatibility',
+372 silly install resolved     main: 'include_dirs.js',
+372 silly install resolved     repository: { type: 'git', url: 'git://github.com/nodejs/nan.git' },
+372 silly install resolved     scripts:
+372 silly install resolved      { test: 'tap --gc --stderr test/js/*-test.js',
+372 silly install resolved        'rebuild-tests': 'node-gyp rebuild --msvs_version=2013 --directory test',
+372 silly install resolved        docs: 'doc/.build.sh' },
+372 silly install resolved     contributors:
+372 silly install resolved      [ [Object],
+372 silly install resolved        [Object],
+372 silly install resolved        [Object],
+372 silly install resolved        [Object],
+372 silly install resolved        [Object],
+372 silly install resolved        [Object],
+372 silly install resolved        [Object] ],
+372 silly install resolved     devDependencies:
+372 silly install resolved      { bindings: '~1.2.1',
+372 silly install resolved        commander: '^2.8.1',
+372 silly install resolved        glob: '^5.0.14',
+372 silly install resolved        'node-gyp': '~3.0.1',
+372 silly install resolved        'readable-stream': '^2.1.4',
+372 silly install resolved        tap: '~0.7.1',
+372 silly install resolved        xtend: '~4.0.0' },
+372 silly install resolved     license: 'MIT',
+372 silly install resolved     bugs: { url: 'https://github.com/nodejs/nan/issues' },
+372 silly install resolved     homepage: 'https://github.com/nodejs/nan#readme',
+372 silly install resolved     _id: 'nan@2.4.0',
+372 silly install resolved     _shasum: 'fb3c59d45fe4effe215f0b890f8adf6eb32d2232',
+372 silly install resolved     _resolved: 'https://registry.npmjs.org/nan/-/nan-2.4.0.tgz',
+372 silly install resolved     _from: 'nan@>=2.3.3 <3.0.0',
+372 silly install resolved     _npmVersion: '3.3.6',
+372 silly install resolved     _nodeVersion: '5.0.0',
+372 silly install resolved     _npmUser: { name: 'kkoopa', email: 'bbyholm@abo.fi' },
+372 silly install resolved     dist:
+372 silly install resolved      { shasum: 'fb3c59d45fe4effe215f0b890f8adf6eb32d2232',
+372 silly install resolved        tarball: 'https://registry.npmjs.org/nan/-/nan-2.4.0.tgz' },
+372 silly install resolved     maintainers: [ [Object], [Object] ],
+372 silly install resolved     _npmOperationalInternal:
+372 silly install resolved      { host: 'packages-16-east.internal.npmjs.com',
+372 silly install resolved        tmp: 'tmp/nan-2.4.0.tgz_1468158679820_0.6951719264034182' },
+372 silly install resolved     directories: {},
+372 silly install resolved     readme: 'ERROR: No README data found!' },
+372 silly install resolved   { name: 'yaeti',
+372 silly install resolved     version: '0.0.4',
+372 silly install resolved     description: 'Yet Another EventTarget Implementation',
+372 silly install resolved     author: { name: 'Iñaki Baz Castillo', email: 'ibc@aliax.net' },
+372 silly install resolved     license: 'MIT',
+372 silly install resolved     main: 'index.js',
+372 silly install resolved     browser: { './lib/Event.js': './lib/Event.browser.js' },
+372 silly install resolved     repository: { type: 'git', url: 'git+https://github.com/ibc/yaeti.git' },
+372 silly install resolved     devDependencies:
+372 silly install resolved      { gulp: 'git+https://github.com/gulpjs/gulp.git#4.0',
+372 silly install resolved        'gulp-jscs': '^1.6.0',
+372 silly install resolved        'gulp-jscs-stylish': '^1.1.0',
+372 silly install resolved        'gulp-jshint': '^1.11.2',
+372 silly install resolved        'jshint-stylish': '~1.0.2' },
+372 silly install resolved     engines: { node: '>=0.10.32' },
+372 silly install resolved     gitHead: 'c28b35176dbbe10e9452fccf12e4cca850a611ae',
+372 silly install resolved     bugs: { url: 'https://github.com/ibc/yaeti/issues' },
+372 silly install resolved     homepage: 'https://github.com/ibc/yaeti',
+372 silly install resolved     _id: 'yaeti@0.0.4',
+372 silly install resolved     scripts: {},
+372 silly install resolved     _shasum: '89fe739c45ac4491028973193262a837693a66b6',
+372 silly install resolved     _from: 'yaeti@>=0.0.4 <0.0.5',
+372 silly install resolved     _npmVersion: '2.5.1',
+372 silly install resolved     _nodeVersion: '0.12.0',
+372 silly install resolved     _npmUser: { name: 'ibc', email: 'ibc@aliax.net' },
+372 silly install resolved     dist:
+372 silly install resolved      { shasum: '89fe739c45ac4491028973193262a837693a66b6',
+372 silly install resolved        tarball: 'https://registry.npmjs.org/yaeti/-/yaeti-0.0.4.tgz' },
+372 silly install resolved     maintainers: [ [Object] ],
+372 silly install resolved     directories: {},
+372 silly install resolved     _resolved: 'https://registry.npmjs.org/yaeti/-/yaeti-0.0.4.tgz',
+372 silly install resolved     readme: 'ERROR: No README data found!' } ]
+373 info install typedarray-to-buffer@3.1.2 into C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+374 info install debug@2.2.0 into C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+375 info install nan@2.4.0 into C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+376 info install yaeti@0.0.4 into C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+377 info installOne typedarray-to-buffer@3.1.2
+378 verbose installOne of typedarray-to-buffer to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket not in flight; installing
+379 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+380 info installOne debug@2.2.0
+381 verbose installOne of debug to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket not in flight; installing
+382 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+383 info installOne nan@2.4.0
+384 verbose installOne of nan to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket not in flight; installing
+385 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+386 info installOne yaeti@0.0.4
+387 verbose installOne of yaeti to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket not in flight; installing
+388 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+389 verbose lock using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\typedarray-to-buffer-5ecea98f3dc7ea3a.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer
+390 verbose lock using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\debug-ad90f09557dfd6cf.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug
+391 silly install write writing typedarray-to-buffer 3.1.2 to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer
+392 silly install write writing debug 2.2.0 to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug
+393 verbose lock using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\nan-7c9378741ee97b42.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan
+394 silly install write writing nan 2.4.0 to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan
+395 verbose lock using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\yaeti-b6adb6c00a486d44.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti
+396 silly install write writing yaeti 0.0.4 to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti
+397 verbose unbuild node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer
+398 verbose unbuild node_modules\samchon-framework\node_modules\websocket\node_modules\debug
+399 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer is being purged from base C:\Users\Jeongho Nam\AppData\Roaming\npm
+400 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer
+401 verbose unbuild node_modules\samchon-framework\node_modules\websocket\node_modules\nan
+402 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug is being purged from base C:\Users\Jeongho Nam\AppData\Roaming\npm
+403 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug
+404 verbose tar unpack C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typedarray-to-buffer\3.1.2\package.tgz
+405 verbose tar unpacking to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer
+406 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer is being purged
+407 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer
+408 verbose unbuild node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti
+409 verbose tar unpack C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\debug\2.2.0\package.tgz
+410 verbose tar unpacking to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug
+411 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug is being purged
+412 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug
+413 silly gunzTarPerm modes [ '777', '666' ]
+414 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan is being purged from base C:\Users\Jeongho Nam\AppData\Roaming\npm
+415 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan
+416 silly gunzTarPerm modes [ '777', '666' ]
+417 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti is being purged from base C:\Users\Jeongho Nam\AppData\Roaming\npm
+418 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti
+419 verbose tar unpack C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\nan\2.4.0\package.tgz
+420 verbose tar unpacking to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan
+421 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan is being purged
+422 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan
+423 verbose tar unpack C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\yaeti\0.0.4\package.tgz
+424 verbose tar unpacking to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti
+425 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti is being purged
+426 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti
+427 silly gunzTarPerm modes [ '777', '666' ]
+428 silly gunzTarPerm modes [ '777', '666' ]
+429 silly gunzTarPerm extractEntry package.json
+430 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+431 silly gunzTarPerm extractEntry package.json
+432 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+433 silly gunzTarPerm extractEntry package.json
+434 silly gunzTarPerm modified mode [ 'package.json', 436, 438 ]
+435 silly gunzTarPerm extractEntry package.json
+436 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+437 silly gunzTarPerm extractEntry README.md
+438 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+439 silly gunzTarPerm extractEntry LICENSE
+440 silly gunzTarPerm modified mode [ 'LICENSE', 420, 438 ]
+441 silly gunzTarPerm extractEntry .npmignore
+442 silly gunzTarPerm modified mode [ '.npmignore', 420, 438 ]
+443 silly gunzTarPerm extractEntry node.js
+444 silly gunzTarPerm modified mode [ 'node.js', 420, 438 ]
+445 silly gunzTarPerm extractEntry README.md
+446 silly gunzTarPerm modified mode [ 'README.md', 436, 438 ]
+447 silly gunzTarPerm extractEntry .npmignore
+448 silly gunzTarPerm modified mode [ '.npmignore', 420, 438 ]
+449 silly gunzTarPerm extractEntry README.md
+450 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+451 silly gunzTarPerm extractEntry include_dirs.js
+452 silly gunzTarPerm modified mode [ 'include_dirs.js', 436, 438 ]
+453 silly gunzTarPerm extractEntry LICENSE
+454 silly gunzTarPerm modified mode [ 'LICENSE', 420, 438 ]
+455 silly gunzTarPerm extractEntry gulpfile.js
+456 silly gunzTarPerm modified mode [ 'gulpfile.js', 420, 438 ]
+457 silly gunzTarPerm extractEntry debug.js
+458 silly gunzTarPerm modified mode [ 'debug.js', 420, 438 ]
+459 silly gunzTarPerm extractEntry browser.js
+460 silly gunzTarPerm modified mode [ 'browser.js', 420, 438 ]
+461 silly gunzTarPerm extractEntry nan_callbacks_pre_12_inl.h
+462 silly gunzTarPerm modified mode [ 'nan_callbacks_pre_12_inl.h', 436, 438 ]
+463 silly gunzTarPerm extractEntry CHANGELOG.md
+464 silly gunzTarPerm modified mode [ 'CHANGELOG.md', 436, 438 ]
+465 silly gunzTarPerm extractEntry LICENSE.md
+466 silly gunzTarPerm modified mode [ 'LICENSE.md', 436, 438 ]
+467 silly gunzTarPerm extractEntry index.js
+468 silly gunzTarPerm modified mode [ 'index.js', 420, 438 ]
+469 silly gunzTarPerm extractEntry .travis.yml
+470 silly gunzTarPerm modified mode [ '.travis.yml', 420, 438 ]
+471 silly gunzTarPerm extractEntry doc/node_misc.md
+472 silly gunzTarPerm modified mode [ 'doc/node_misc.md', 436, 438 ]
+473 silly gunzTarPerm extractEntry Readme.md
+474 silly gunzTarPerm modified mode [ 'Readme.md', 420, 438 ]
+475 silly gunzTarPerm extractEntry index.js
+476 silly gunzTarPerm modified mode [ 'index.js', 420, 438 ]
+477 silly gunzTarPerm extractEntry .jshintrc
+478 silly gunzTarPerm modified mode [ '.jshintrc', 420, 438 ]
+479 silly gunzTarPerm extractEntry doc/asyncworker.md
+480 silly gunzTarPerm modified mode [ 'doc/asyncworker.md', 436, 438 ]
+481 silly gunzTarPerm extractEntry doc/callback.md
+482 silly gunzTarPerm modified mode [ 'doc/callback.md', 436, 438 ]
+483 silly gunzTarPerm extractEntry .zuul.yml
+484 silly gunzTarPerm modified mode [ '.zuul.yml', 420, 438 ]
+485 silly gunzTarPerm extractEntry test/basic.js
+486 silly gunzTarPerm modified mode [ 'test/basic.js', 420, 438 ]
+487 silly gunzTarPerm extractEntry .jscsrc
+488 silly gunzTarPerm modified mode [ '.jscsrc', 420, 438 ]
+489 silly gunzTarPerm extractEntry lib/Event.browser.js
+490 silly gunzTarPerm modified mode [ 'lib/Event.browser.js', 420, 438 ]
+491 silly gunzTarPerm extractEntry doc/converters.md
+492 silly gunzTarPerm modified mode [ 'doc/converters.md', 436, 438 ]
+493 silly gunzTarPerm extractEntry doc/errors.md
+494 silly gunzTarPerm modified mode [ 'doc/errors.md', 436, 438 ]
+495 silly gunzTarPerm extractEntry bower.json
+496 silly gunzTarPerm modified mode [ 'bower.json', 420, 438 ]
+497 silly gunzTarPerm extractEntry .jshintrc
+498 silly gunzTarPerm modified mode [ '.jshintrc', 420, 438 ]
+499 silly gunzTarPerm extractEntry lib/Event.js
+500 silly gunzTarPerm modified mode [ 'lib/Event.js', 420, 438 ]
+501 silly gunzTarPerm extractEntry lib/EventTarget.js
+502 silly gunzTarPerm modified mode [ 'lib/EventTarget.js', 420, 438 ]
+503 silly gunzTarPerm extractEntry doc/maybe_types.md
+504 silly gunzTarPerm modified mode [ 'doc/maybe_types.md', 436, 438 ]
+505 silly gunzTarPerm extractEntry doc/methods.md
+506 silly gunzTarPerm modified mode [ 'doc/methods.md', 436, 438 ]
+507 silly gunzTarPerm extractEntry component.json
+508 silly gunzTarPerm modified mode [ 'component.json', 420, 438 ]
+509 silly gunzTarPerm extractEntry Makefile
+510 silly gunzTarPerm modified mode [ 'Makefile', 420, 438 ]
+511 silly gunzTarPerm extractEntry doc/new.md
+512 silly gunzTarPerm modified mode [ 'doc/new.md', 436, 438 ]
+513 silly gunzTarPerm extractEntry doc/buffers.md
+514 silly gunzTarPerm modified mode [ 'doc/buffers.md', 436, 438 ]
+515 silly gunzTarPerm extractEntry doc/object_wrappers.md
+516 silly gunzTarPerm modified mode [ 'doc/object_wrappers.md', 436, 438 ]
+517 silly gunzTarPerm extractEntry doc/persistent.md
+518 silly gunzTarPerm modified mode [ 'doc/persistent.md', 436, 438 ]
+519 silly gunzTarPerm extractEntry History.md
+520 silly gunzTarPerm modified mode [ 'History.md', 420, 438 ]
+521 verbose write writing to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\package.json
+522 silly gunzTarPerm extractEntry doc/scopes.md
+523 silly gunzTarPerm modified mode [ 'doc/scopes.md', 436, 438 ]
+524 silly gunzTarPerm extractEntry doc/script.md
+525 silly gunzTarPerm modified mode [ 'doc/script.md', 436, 438 ]
+526 info preinstall typedarray-to-buffer@3.1.2
+527 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\package.json
+528 silly prepareForInstallMany adding is-typedarray@^1.0.0 from typedarray-to-buffer dependencies
+529 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\package.json
+530 silly gunzTarPerm extractEntry doc/string_bytes.md
+531 silly gunzTarPerm modified mode [ 'doc/string_bytes.md', 436, 438 ]
+532 silly gunzTarPerm extractEntry doc/v8_internals.md
+533 silly gunzTarPerm modified mode [ 'doc/v8_internals.md', 436, 438 ]
+534 silly cache add args [ 'is-typedarray@^1.0.0', null ]
+535 verbose cache add spec is-typedarray@^1.0.0
+536 silly cache add parsed spec Result {
+536 silly cache add   raw: 'is-typedarray@^1.0.0',
+536 silly cache add   scope: null,
+536 silly cache add   name: 'is-typedarray',
+536 silly cache add   rawSpec: '^1.0.0',
+536 silly cache add   spec: '>=1.0.0 <2.0.0',
+536 silly cache add   type: 'range' }
+537 silly addNamed is-typedarray@>=1.0.0 <2.0.0
+538 verbose addNamed ">=1.0.0 <2.0.0" is a valid semver range for is-typedarray
+539 silly addNameRange { name: 'is-typedarray',
+539 silly addNameRange   range: '>=1.0.0 <2.0.0',
+539 silly addNameRange   hasData: false }
+540 silly mapToRegistry name is-typedarray
+541 silly mapToRegistry using default registry
+542 silly mapToRegistry registry https://registry.npmjs.org/
+543 silly mapToRegistry data Result {
+543 silly mapToRegistry   raw: 'is-typedarray',
+543 silly mapToRegistry   scope: null,
+543 silly mapToRegistry   name: 'is-typedarray',
+543 silly mapToRegistry   rawSpec: '',
+543 silly mapToRegistry   spec: 'latest',
+543 silly mapToRegistry   type: 'tag' }
+544 silly mapToRegistry uri https://registry.npmjs.org/is-typedarray
+545 verbose addNameRange registry:https://registry.npmjs.org/is-typedarray not in flight; fetching
+546 verbose request uri https://registry.npmjs.org/is-typedarray
+547 verbose request no auth needed
+548 info attempt registry request try #1 at 20:17:12
+549 verbose request using bearer token for auth
+550 verbose etag "A6APATMKGAWT16SSARJSIFFQD"
+551 http request GET https://registry.npmjs.org/is-typedarray
+552 silly gunzTarPerm extractEntry doc/v8_misc.md
+553 silly gunzTarPerm modified mode [ 'doc/v8_misc.md', 436, 438 ]
+554 silly gunzTarPerm extractEntry nan.h
+555 silly gunzTarPerm modified mode [ 'nan.h', 436, 438 ]
+556 verbose write writing to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti\package.json
+557 silly gunzTarPerm extractEntry nan_callbacks.h
+558 silly gunzTarPerm modified mode [ 'nan_callbacks.h', 436, 438 ]
+559 silly gunzTarPerm extractEntry nan_callbacks_12_inl.h
+560 silly gunzTarPerm modified mode [ 'nan_callbacks_12_inl.h', 436, 438 ]
+561 info preinstall yaeti@0.0.4
+562 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti\package.json
+563 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti\package.json
+564 silly gunzTarPerm extractEntry nan_converters.h
+565 silly gunzTarPerm modified mode [ 'nan_converters.h', 436, 438 ]
+566 silly gunzTarPerm extractEntry nan_converters_43_inl.h
+567 silly gunzTarPerm modified mode [ 'nan_converters_43_inl.h', 436, 438 ]
+568 silly gunzTarPerm extractEntry nan_converters_pre_43_inl.h
+569 silly gunzTarPerm modified mode [ 'nan_converters_pre_43_inl.h', 436, 438 ]
+570 silly install resolved []
+571 verbose about to build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti
+572 info build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti
+573 silly gunzTarPerm extractEntry nan_implementation_12_inl.h
+574 silly gunzTarPerm modified mode [ 'nan_implementation_12_inl.h', 436, 438 ]
+575 info linkStuff yaeti@0.0.4
+576 silly linkStuff yaeti@0.0.4 has C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules as its parent node_modules
+577 silly linkStuff yaeti@0.0.4 is part of a global install
+578 silly linkStuff yaeti@0.0.4 is installed into a global node_modules
+579 verbose linkBins yaeti@0.0.4
+580 verbose linkMans yaeti@0.0.4
+581 verbose rebuildBundles yaeti@0.0.4
+582 info install yaeti@0.0.4
+583 info postinstall yaeti@0.0.4
+584 verbose unlock done using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\yaeti-b6adb6c00a486d44.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\yaeti
+585 verbose write writing to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\package.json
+586 silly gunzTarPerm extractEntry nan_implementation_pre_12_inl.h
+587 silly gunzTarPerm modified mode [ 'nan_implementation_pre_12_inl.h', 436, 438 ]
+588 silly gunzTarPerm extractEntry nan_maybe_43_inl.h
+589 silly gunzTarPerm modified mode [ 'nan_maybe_43_inl.h', 436, 438 ]
+590 silly gunzTarPerm extractEntry nan_maybe_pre_43_inl.h
+591 silly gunzTarPerm modified mode [ 'nan_maybe_pre_43_inl.h', 436, 438 ]
+592 silly gunzTarPerm extractEntry nan_new.h
+593 silly gunzTarPerm modified mode [ 'nan_new.h', 436, 438 ]
+594 info preinstall debug@2.2.0
+595 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\package.json
+596 silly prepareForInstallMany adding ms@0.7.1 from debug dependencies
+597 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\package.json
+598 silly cache add args [ 'ms@0.7.1', null ]
+599 verbose cache add spec ms@0.7.1
+600 silly cache add parsed spec Result {
+600 silly cache add   raw: 'ms@0.7.1',
+600 silly cache add   scope: null,
+600 silly cache add   name: 'ms',
+600 silly cache add   rawSpec: '0.7.1',
+600 silly cache add   spec: '0.7.1',
+600 silly cache add   type: 'version' }
+601 silly addNamed ms@0.7.1
+602 verbose addNamed "0.7.1" is a plain semver version for ms
+603 silly mapToRegistry name ms
+604 silly mapToRegistry using default registry
+605 silly mapToRegistry registry https://registry.npmjs.org/
+606 silly mapToRegistry data Result {
+606 silly mapToRegistry   raw: 'ms',
+606 silly mapToRegistry   scope: null,
+606 silly mapToRegistry   name: 'ms',
+606 silly mapToRegistry   rawSpec: '',
+606 silly mapToRegistry   spec: 'latest',
+606 silly mapToRegistry   type: 'tag' }
+607 silly mapToRegistry uri https://registry.npmjs.org/ms
+608 verbose addNameVersion registry:https://registry.npmjs.org/ms not in flight; fetching
+609 verbose request uri https://registry.npmjs.org/ms
+610 verbose request no auth needed
+611 info attempt registry request try #1 at 20:17:12
+612 verbose request using bearer token for auth
+613 verbose etag "598AK31E6JXAIJ7VU5G79WQ2Y"
+614 http request GET https://registry.npmjs.org/ms
+615 silly gunzTarPerm extractEntry nan_object_wrap.h
+616 silly gunzTarPerm modified mode [ 'nan_object_wrap.h', 436, 438 ]
+617 silly gunzTarPerm extractEntry nan_persistent_12_inl.h
+618 silly gunzTarPerm modified mode [ 'nan_persistent_12_inl.h', 436, 438 ]
+619 silly gunzTarPerm extractEntry nan_persistent_pre_12_inl.h
+620 silly gunzTarPerm modified mode [ 'nan_persistent_pre_12_inl.h', 436, 438 ]
+621 silly gunzTarPerm extractEntry nan_string_bytes.h
+622 silly gunzTarPerm modified mode [ 'nan_string_bytes.h', 436, 438 ]
+623 silly gunzTarPerm extractEntry nan_typedarray_contents.h
+624 silly gunzTarPerm modified mode [ 'nan_typedarray_contents.h', 436, 438 ]
+625 silly gunzTarPerm extractEntry nan_weak.h
+626 silly gunzTarPerm modified mode [ 'nan_weak.h', 436, 438 ]
+627 silly gunzTarPerm extractEntry tools/package.json
+628 silly gunzTarPerm modified mode [ 'tools/package.json', 436, 438 ]
+629 silly gunzTarPerm extractEntry tools/README.md
+630 silly gunzTarPerm modified mode [ 'tools/README.md', 436, 438 ]
+631 silly gunzTarPerm extractEntry tools/1to2.js
+632 silly gunzTarPerm modified mode [ 'tools/1to2.js', 509, 511 ]
+633 verbose write writing to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan\package.json
+634 info preinstall nan@2.4.0
+635 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan\package.json
+636 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan\package.json
+637 silly install resolved []
+638 verbose about to build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan
+639 info build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan
+640 info linkStuff nan@2.4.0
+641 silly linkStuff nan@2.4.0 has C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules as its parent node_modules
+642 silly linkStuff nan@2.4.0 is part of a global install
+643 silly linkStuff nan@2.4.0 is installed into a global node_modules
+644 verbose linkBins nan@2.4.0
+645 verbose linkMans nan@2.4.0
+646 verbose rebuildBundles nan@2.4.0
+647 info install nan@2.4.0
+648 info postinstall nan@2.4.0
+649 verbose unlock done using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\nan-7c9378741ee97b42.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\nan
+650 http 304 https://registry.npmjs.org/ms
+651 verbose headers { 'cache-control': 'max-age=300',
+651 verbose headers   'accept-ranges': 'bytes',
+651 verbose headers   date: 'Sat, 24 Sep 2016 11:17:11 GMT',
+651 verbose headers   via: '1.1 varnish',
+651 verbose headers   connection: 'keep-alive',
+651 verbose headers   'x-served-by': 'cache-nrt6127-NRT',
+651 verbose headers   'x-cache': 'MISS',
+651 verbose headers   'x-cache-hits': '0',
+651 verbose headers   'x-timer': 'S1474715831.766389,VS0,VE179',
+651 verbose headers   vary: 'Accept-Encoding' }
+652 silly get cb [ 304,
+652 silly get   { 'cache-control': 'max-age=300',
+652 silly get     'accept-ranges': 'bytes',
+652 silly get     date: 'Sat, 24 Sep 2016 11:17:11 GMT',
+652 silly get     via: '1.1 varnish',
+652 silly get     connection: 'keep-alive',
+652 silly get     'x-served-by': 'cache-nrt6127-NRT',
+652 silly get     'x-cache': 'MISS',
+652 silly get     'x-cache-hits': '0',
+652 silly get     'x-timer': 'S1474715831.766389,VS0,VE179',
+652 silly get     vary: 'Accept-Encoding' } ]
+653 verbose etag https://registry.npmjs.org/ms from cache
+654 verbose get saving ms to C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\registry.npmjs.org\ms\.cache.json
+655 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+656 silly cache afterAdd ms@0.7.1
+657 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\ms\0.7.1\package\package.json not in flight; writing
+658 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+659 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\ms\0.7.1\package\package.json written
+660 silly install resolved [ { name: 'ms',
+660 silly install resolved     version: '0.7.1',
+660 silly install resolved     description: 'Tiny ms conversion utility',
+660 silly install resolved     repository: { type: 'git', url: 'git://github.com/guille/ms.js.git' },
+660 silly install resolved     main: './index',
+660 silly install resolved     devDependencies: { mocha: '*', 'expect.js': '*', serve: '*' },
+660 silly install resolved     component: { scripts: [Object] },
+660 silly install resolved     gitHead: '713dcf26d9e6fd9dbc95affe7eff9783b7f1b909',
+660 silly install resolved     bugs: { url: 'https://github.com/guille/ms.js/issues' },
+660 silly install resolved     homepage: 'https://github.com/guille/ms.js',
+660 silly install resolved     _id: 'ms@0.7.1',
+660 silly install resolved     scripts: {},
+660 silly install resolved     _shasum: '9cd13c03adbff25b65effde7ce864ee952017098',
+660 silly install resolved     _from: 'ms@0.7.1',
+660 silly install resolved     _npmVersion: '2.7.5',
+660 silly install resolved     _nodeVersion: '0.12.2',
+660 silly install resolved     _npmUser: { name: 'rauchg', email: 'rauchg@gmail.com' },
+660 silly install resolved     maintainers: [ [Object] ],
+660 silly install resolved     dist:
+660 silly install resolved      { shasum: '9cd13c03adbff25b65effde7ce864ee952017098',
+660 silly install resolved        tarball: 'https://registry.npmjs.org/ms/-/ms-0.7.1.tgz' },
+660 silly install resolved     directories: {},
+660 silly install resolved     _resolved: 'https://registry.npmjs.org/ms/-/ms-0.7.1.tgz',
+660 silly install resolved     readme: 'ERROR: No README data found!' } ]
+661 info install ms@0.7.1 into C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug
+662 info installOne ms@0.7.1
+663 verbose installOne of ms to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug not in flight; installing
+664 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+665 verbose lock using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\ms-68367cb015ca0fe5.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms
+666 silly install write writing ms 0.7.1 to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms
+667 verbose unbuild node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms
+668 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms is being purged from base C:\Users\Jeongho Nam\AppData\Roaming\npm
+669 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms
+670 verbose tar unpack C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\ms\0.7.1\package.tgz
+671 verbose tar unpacking to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms
+672 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms is being purged
+673 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms
+674 silly gunzTarPerm modes [ '777', '666' ]
+675 silly gunzTarPerm extractEntry package.json
+676 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+677 silly gunzTarPerm extractEntry .npmignore
+678 silly gunzTarPerm modified mode [ '.npmignore', 420, 438 ]
+679 silly gunzTarPerm extractEntry README.md
+680 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+681 silly gunzTarPerm extractEntry LICENSE
+682 silly gunzTarPerm modified mode [ 'LICENSE', 420, 438 ]
+683 silly gunzTarPerm extractEntry index.js
+684 silly gunzTarPerm modified mode [ 'index.js', 420, 438 ]
+685 silly gunzTarPerm extractEntry History.md
+686 silly gunzTarPerm modified mode [ 'History.md', 420, 438 ]
+687 verbose write writing to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms\package.json
+688 info preinstall ms@0.7.1
+689 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms\package.json
+690 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms\package.json
+691 silly install resolved []
+692 verbose about to build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms
+693 info build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms
+694 info linkStuff ms@0.7.1
+695 silly linkStuff ms@0.7.1 has C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules as its parent node_modules
+696 silly linkStuff ms@0.7.1 is part of a global install
+697 silly linkStuff ms@0.7.1 is installed into a global node_modules
+698 verbose linkBins ms@0.7.1
+699 verbose linkMans ms@0.7.1
+700 verbose rebuildBundles ms@0.7.1
+701 info install ms@0.7.1
+702 info postinstall ms@0.7.1
+703 verbose unlock done using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\ms-68367cb015ca0fe5.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug\node_modules\ms
+704 verbose about to build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug
+705 info build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug
+706 info linkStuff debug@2.2.0
+707 silly linkStuff debug@2.2.0 has C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules as its parent node_modules
+708 silly linkStuff debug@2.2.0 is part of a global install
+709 silly linkStuff debug@2.2.0 is installed into a global node_modules
+710 verbose linkBins debug@2.2.0
+711 verbose linkMans debug@2.2.0
+712 verbose rebuildBundles debug@2.2.0
+713 verbose rebuildBundles [ 'ms' ]
+714 info install debug@2.2.0
+715 info postinstall debug@2.2.0
+716 verbose unlock done using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\debug-ad90f09557dfd6cf.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\debug
+717 http 304 https://registry.npmjs.org/is-typedarray
+718 verbose headers { 'cache-control': 'max-age=300',
+718 verbose headers   'accept-ranges': 'bytes',
+718 verbose headers   date: 'Sat, 24 Sep 2016 11:17:12 GMT',
+718 verbose headers   via: '1.1 varnish',
+718 verbose headers   connection: 'keep-alive',
+718 verbose headers   'x-served-by': 'cache-nrt6125-NRT',
+718 verbose headers   'x-cache': 'MISS',
+718 verbose headers   'x-cache-hits': '0',
+718 verbose headers   'x-timer': 'S1474715831.710447,VS0,VE729',
+718 verbose headers   vary: 'Accept-Encoding' }
+719 silly get cb [ 304,
+719 silly get   { 'cache-control': 'max-age=300',
+719 silly get     'accept-ranges': 'bytes',
+719 silly get     date: 'Sat, 24 Sep 2016 11:17:12 GMT',
+719 silly get     via: '1.1 varnish',
+719 silly get     connection: 'keep-alive',
+719 silly get     'x-served-by': 'cache-nrt6125-NRT',
+719 silly get     'x-cache': 'MISS',
+719 silly get     'x-cache-hits': '0',
+719 silly get     'x-timer': 'S1474715831.710447,VS0,VE729',
+719 silly get     vary: 'Accept-Encoding' } ]
+720 verbose etag https://registry.npmjs.org/is-typedarray from cache
+721 verbose get saving is-typedarray to C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\registry.npmjs.org\is-typedarray\.cache.json
+722 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+723 silly addNameRange number 2 { name: 'is-typedarray', range: '>=1.0.0 <2.0.0', hasData: true }
+724 silly addNameRange versions [ 'is-typedarray', [ '0.0.0', '1.0.0' ] ]
+725 silly addNamed is-typedarray@1.0.0
+726 verbose addNamed "1.0.0" is a plain semver version for is-typedarray
+727 silly cache afterAdd is-typedarray@1.0.0
+728 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\is-typedarray\1.0.0\package\package.json not in flight; writing
+729 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+730 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\is-typedarray\1.0.0\package\package.json written
+731 silly install resolved [ { name: 'is-typedarray',
+731 silly install resolved     version: '1.0.0',
+731 silly install resolved     description: 'Detect whether or not an object is a Typed Array',
+731 silly install resolved     main: 'index.js',
+731 silly install resolved     scripts: { test: 'node test' },
+731 silly install resolved     author:
+731 silly install resolved      { name: 'Hugh Kennedy',
+731 silly install resolved        email: 'hughskennedy@gmail.com',
+731 silly install resolved        url: 'http://hughsk.io/' },
+731 silly install resolved     license: 'MIT',
+731 silly install resolved     dependencies: {},
+731 silly install resolved     devDependencies: { tape: '^2.13.1' },
+731 silly install resolved     repository:
+731 silly install resolved      { type: 'git',
+731 silly install resolved        url: 'git://github.com/hughsk/is-typedarray.git' },
+731 silly install resolved     keywords: [ 'typed', 'array', 'detect', 'is', 'util' ],
+731 silly install resolved     bugs: { url: 'https://github.com/hughsk/is-typedarray/issues' },
+731 silly install resolved     homepage: 'https://github.com/hughsk/is-typedarray',
+731 silly install resolved     gitHead: '0617cfa871686cf541af62b144f130488f44f6fe',
+731 silly install resolved     _id: 'is-typedarray@1.0.0',
+731 silly install resolved     _shasum: 'e479c80858df0c1b11ddda6940f96011fcda4a9a',
+731 silly install resolved     _from: 'is-typedarray@>=1.0.0 <2.0.0',
+731 silly install resolved     _npmVersion: '2.7.5',
+731 silly install resolved     _nodeVersion: '0.10.36',
+731 silly install resolved     _npmUser: { name: 'hughsk', email: 'hughskennedy@gmail.com' },
+731 silly install resolved     dist:
+731 silly install resolved      { shasum: 'e479c80858df0c1b11ddda6940f96011fcda4a9a',
+731 silly install resolved        tarball: 'https://registry.npmjs.org/is-typedarray/-/is-typedarray-1.0.0.tgz' },
+731 silly install resolved     maintainers: [ [Object] ],
+731 silly install resolved     directories: {},
+731 silly install resolved     _resolved: 'https://registry.npmjs.org/is-typedarray/-/is-typedarray-1.0.0.tgz',
+731 silly install resolved     readme: 'ERROR: No README data found!' } ]
+732 info install is-typedarray@1.0.0 into C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer
+733 info installOne is-typedarray@1.0.0
+734 verbose installOne of is-typedarray to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer not in flight; installing
+735 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+736 verbose lock using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\is-typedarray-6e88d19da6d264cc.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray
+737 silly install write writing is-typedarray 1.0.0 to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray
+738 verbose unbuild node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray
+739 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray is being purged from base C:\Users\Jeongho Nam\AppData\Roaming\npm
+740 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray
+741 verbose tar unpack C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\is-typedarray\1.0.0\package.tgz
+742 verbose tar unpacking to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray
+743 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray is being purged
+744 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray
+745 silly gunzTarPerm modes [ '777', '666' ]
+746 silly gunzTarPerm extractEntry package.json
+747 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+748 silly gunzTarPerm extractEntry README.md
+749 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+750 silly gunzTarPerm extractEntry index.js
+751 silly gunzTarPerm modified mode [ 'index.js', 420, 438 ]
+752 silly gunzTarPerm extractEntry test.js
+753 silly gunzTarPerm modified mode [ 'test.js', 420, 438 ]
+754 silly gunzTarPerm extractEntry LICENSE.md
+755 silly gunzTarPerm modified mode [ 'LICENSE.md', 420, 438 ]
+756 verbose write writing to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray\package.json
+757 info preinstall is-typedarray@1.0.0
+758 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray\package.json
+759 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray\package.json
+760 silly install resolved []
+761 verbose about to build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray
+762 info build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray
+763 info linkStuff is-typedarray@1.0.0
+764 silly linkStuff is-typedarray@1.0.0 has C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules as its parent node_modules
+765 silly linkStuff is-typedarray@1.0.0 is part of a global install
+766 silly linkStuff is-typedarray@1.0.0 is installed into a global node_modules
+767 verbose linkBins is-typedarray@1.0.0
+768 verbose linkMans is-typedarray@1.0.0
+769 verbose rebuildBundles is-typedarray@1.0.0
+770 info install is-typedarray@1.0.0
+771 info postinstall is-typedarray@1.0.0
+772 verbose unlock done using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\is-typedarray-6e88d19da6d264cc.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer\node_modules\is-typedarray
+773 verbose about to build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer
+774 info build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer
+775 info linkStuff typedarray-to-buffer@3.1.2
+776 silly linkStuff typedarray-to-buffer@3.1.2 has C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules as its parent node_modules
+777 silly linkStuff typedarray-to-buffer@3.1.2 is part of a global install
+778 silly linkStuff typedarray-to-buffer@3.1.2 is installed into a global node_modules
+779 verbose linkBins typedarray-to-buffer@3.1.2
+780 verbose linkMans typedarray-to-buffer@3.1.2
+781 verbose rebuildBundles typedarray-to-buffer@3.1.2
+782 verbose rebuildBundles [ 'is-typedarray' ]
+783 info install typedarray-to-buffer@3.1.2
+784 info postinstall typedarray-to-buffer@3.1.2
+785 verbose unlock done using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\typedarray-to-buffer-5ecea98f3dc7ea3a.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket\node_modules\typedarray-to-buffer
+786 verbose about to build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+787 info build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+788 info linkStuff websocket@1.0.23
+789 silly linkStuff websocket@1.0.23 has C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules as its parent node_modules
+790 silly linkStuff websocket@1.0.23 is part of a global install
+791 silly linkStuff websocket@1.0.23 is installed into a global node_modules
+792 verbose linkBins websocket@1.0.23
+793 verbose linkMans websocket@1.0.23
+794 verbose rebuildBundles websocket@1.0.23
+795 verbose rebuildBundles [ 'debug', 'nan', 'typedarray-to-buffer', 'yaeti' ]
+796 info install websocket@1.0.23
+797 verbose unsafe-perm in lifecycle true
+798 info postinstall websocket@1.0.23
+799 verbose unlock done using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\websocket-a33dff86e07aec95.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework\node_modules\websocket
+800 verbose about to build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework
+801 info build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework
+802 info linkStuff samchon-framework@2.0.0-rc.2
+803 silly linkStuff samchon-framework@2.0.0-rc.2 has C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules as its parent node_modules
+804 silly linkStuff samchon-framework@2.0.0-rc.2 is part of a global install
+805 silly linkStuff samchon-framework@2.0.0-rc.2 is installed into a global node_modules
+806 silly linkStuff samchon-framework@2.0.0-rc.2 is installed into the top-level global node_modules
+807 verbose linkBins samchon-framework@2.0.0-rc.2
+808 verbose linkMans samchon-framework@2.0.0-rc.2
+809 verbose rebuildBundles samchon-framework@2.0.0-rc.2
+810 verbose rebuildBundles [ 'typescript-stl', 'websocket' ]
+811 info install samchon-framework@2.0.0-rc.2
+812 info postinstall samchon-framework@2.0.0-rc.2
+813 verbose unlock done using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\samchon-framework-df48d27b660e360f.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\samchon-framework
+814 verbose validateInstall loading C:\Users\Jeongho Nam\AppData\Roaming\npm\package.json for validation
+815 verbose stack Error: The package react@15.3.1 does not satisfy its siblings' peerDependencies requirements!
+815 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:125:32
+815 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:268:7
+815 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:142:5
+815 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+815 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+815 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+815 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+815 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+815 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+815 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+816 verbose cwd D:\OneDrive\Project\Samchon\framework
+817 error Windows_NT 10.0.14393
+818 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "-g"
+819 error node v4.4.4
+820 error npm  v2.15.1
+821 error code EPEERINVALID
+822 error peerinvalid The package react@15.3.1 does not satisfy its siblings' peerDependencies requirements!
+822 error peerinvalid Peer react-contextmenu@1.6.2 wants react@^0.14.0 || ^15.0.0
+822 error peerinvalid Peer react-dnd@2.1.4 wants react@^0.14.0 || ^15.0.0-0
+822 error peerinvalid Peer react-select@1.0.0-rc.1 wants react@^0.14 || ^15.0.0-rc || ^15.0
+822 error peerinvalid Peer ron-react-autocomplete@3.0.1 wants react@~0.14.6
+822 error peerinvalid Peer react-dom@0.14.8 wants react@^0.14.8
+823 verbose exit [ 1, true ]

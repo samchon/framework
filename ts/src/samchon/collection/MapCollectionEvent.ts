@@ -6,6 +6,11 @@ namespace samchon.collection
 {
 	export type MapCollectionEventListener<Key, T> = (event: MapCollectionEvent<Key, T>) => void;
 
+	/**
+	 * An event occured in a {@link MapContainer map container} object.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class MapCollectionEvent<Key, T> 
 		extends CollectionEvent<std.Pair<Key, T>>
 	{
@@ -16,7 +21,7 @@ namespace samchon.collection
 		 */
 		public get first(): std.MapIterator<Key, T>
 		{
-			return this.first_ as std.MapIterator<Key, T>;
+			return this["first_"] as std.MapIterator<Key, T>;
 		}
 
 		/**
@@ -24,7 +29,7 @@ namespace samchon.collection
 		 */
 		public get last(): std.MapIterator<Key, T>
 		{
-			return this.last_ as std.MapIterator<Key, T>;
+			return this["last_"] as std.MapIterator<Key, T>;
 		}
 	}
 }

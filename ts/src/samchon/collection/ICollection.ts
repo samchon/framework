@@ -5,19 +5,17 @@ namespace samchon.collection
 	/**
 	 * An interface for {@link IContainer containers} who can detect element I/O events.
 	 * 
-	 * <p> Below are list of methods who are dispatching {@link CollectionEvent}: </p>
-	 * 
-	 * <ul>
-	 *	<li> <i>insert</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link insert} </li>
-	 *		<li> {@link push} </li>
-	 *	</ul></li>
-	 *	<li> <i>erase</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link clear} </li>
-	 *		<li> {@link erase} </li>
-	 *	</ul></li>
+	 * Below are list of methods who are dispatching {@link CollectionEvent}:
+	 * - *insert* typed events:
+	 *	 - {@link assign}
+	 *   - {@link insert}
+	 *	 - {@link push}
+	 * - *erase* typed events:
+	 *   - {@link assign}
+	 *   - {@link clear}
+	 *   - {@link erase}
+	 * - *refresh* typed events:
+	 *   - {@link refresh}
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -28,55 +26,55 @@ namespace samchon.collection
 			REFRESH
 		--------------------------------------------------------- */
 		/**
-		 * <p> Dispatch a {@link CollectionEvent} with <i>refresh</i> typed. </p>
+		 * Dispatch a {@link CollectionEvent} with *refresh* typed.
 		 * 
-		 * <p> {@link ICollection} dispatches {@link CollectionEvent} typed <i>insert</i> or <i>erase</i> whenever 
-		 * elements I/O has occured. However, unlike those elements I/O events, content change in element level can't be 
-		 * detected. There's no way to detect those events automatically by {@link IContainer}. </p>
+		 * {@link ICollection} dispatches {@link CollectionEvent} typed *insert* or *erase* whenever elements I/O has 
+		 * occured. However, unlike those elements I/O events, content change in element level can't be detected. 
+		 * There's no way to detect those events automatically by {@link IContainer}.
 		 * 
-		 * <p> If you want to dispatch those typed events (notifying change on contents in element level), you've to 
-		 * dispatch <i>refresh</i> typed event manually, by yourself. Call {@link refresh refresh()} with specified 
+		 * If you want to dispatch those typed events (notifying change on contents in element level), you've to 
+		 * dispatch *refresh* typed event manually, by yourself. Call {@link refresh refresh()} with specified 
 		 * iterators who're pointing the elements whose content have changed. Then a {@link CollectionEvent} with 
-		 * <i>refresh</i> typed will be dispatched. </p>
+		 * *refresh* typed will be dispatched.
 		 * 
-		 * <p> If you don't specify any iterator, then the range of the <i>refresh<i> event will be all elements in this
-		 * {@link ICollection collection}; {@link begin begin()} to {@link end end()}. </p>
+		 * If you don't specify any iterator, then the range of the *refresh* event will be all elements in this
+		 * {@link ICollection collection}; {@link begin begin()} to {@link end end()}.
 		 */
 		refresh(): void;
 
 		/**
-		 * <p> Dispatch a {@link CollectionEvent} with <i>refresh</i> typed. </p>
+		 * Dispatch a {@link CollectionEvent} with *refresh* typed.
 		 *
-		 * <p> {@link ICollection} dispatches {@link CollectionEvent} typed <i>insert</i> or <i>erase</i> whenever
-		 * elements I/O has occured. However, unlike those elements I/O events, content change in element level can't be
-		 * detected. There's no way to detect those events automatically by {@link IContainer}. </p>
+		 * {@link ICollection} dispatches {@link CollectionEvent} typed *insert* or *erase* whenever elements I/O has 
+		 * occured. However, unlike those elements I/O events, content change in element level can't be detected. 
+		 * There's no way to detect those events automatically by {@link IContainer}.
 		 *
-		 * <p> If you want to dispatch those typed events (notifying change on contents in element level), you've to
-		 * dispatch <i>refresh</i> typed event manually, by yourself. Call {@link refresh refresh()} with specified
+		 * If you want to dispatch those typed events (notifying change on contents in element level), you've to
+		 * dispatch *refresh* typed event manually, by yourself. Call {@link refresh refresh()} with specified
 		 * iterators who're pointing the elements whose content have changed. Then a {@link CollectionEvent} with
-		 * <i>refresh</i> typed will be dispatched. </p>
+		 * *refresh* typed will be dispatched.
 		 * 
 		 * @param it An iterator targeting the content changed element.
 		 */
 		refresh(it: std.Iterator<T>): void;
 
 		/**
-		 * <p> Dispatch a {@link CollectionEvent} with <i>refresh</i> typed. </p>
+		 * Dispatch a {@link CollectionEvent} with *refresh* typed.
 		 *
-		 * <p> {@link ICollection} dispatches {@link CollectionEvent} typed <i>insert</i> or <i>erase</i> whenever
-		 * elements I/O has occured. However, unlike those elements I/O events, content change in element level can't be
-		 * detected. There's no way to detect those events automatically by {@link IContainer}. </p>
+		 * {@link ICollection} dispatches {@link CollectionEvent} typed *insert* or *erase* whenever elements I/O has 
+		 * occured. However, unlike those elements I/O events, content change in element level can't be detected. 
+		 * There's no way to detect those events automatically by {@link IContainer}.
 		 *
-		 * <p> If you want to dispatch those typed events (notifying change on contents in element level), you've to
-		 * dispatch <i>refresh</i> typed event manually, by yourself. Call {@link refresh refresh()} with specified
+		 * If you want to dispatch those typed events (notifying change on contents in element level), you've to
+		 * dispatch *refresh* typed event manually, by yourself. Call {@link refresh refresh()} with specified
 		 * iterators who're pointing the elements whose content have changed. Then a {@link CollectionEvent} with
-		 * <i>refresh</i> typed will be dispatched. </p>
+		 * *refresh* typed will be dispatched.
 		 * 
 		 * @param first An Iterator to the initial position in a sequence of the content changed elmeents.
 		 * @param last An {@link Iterator} to the final position in a sequence of the content changed elements. The range 
-		 *			   used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and 
-		 *			   <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by 
-		 *			   <i>last</i>.
+		 *			   used is [*first*, *last*), which contains all the elements between *first* and 
+		 *			   *last*, including the element pointed by *first* but not the element pointed by 
+		 *			   *last*.
 		 */
 		refresh(first: std.Iterator<T>, last: std.Iterator<T>): void;
 
@@ -124,6 +122,9 @@ namespace samchon.collection
 	 */
 	export namespace ICollection
 	{
+		/**
+		 * @hidden
+		 */
 		export function _Dispatch_CollectionEvent<T>
 			(
 				collection: ICollection<T>, type: string, 
@@ -140,6 +141,9 @@ namespace samchon.collection
 			});
 		}
 
+		/**
+		 * @hidden
+		 */
 		export function _Dispatch_MapCollectionEvent<Key, T>
 			(
 				collection: ICollection<std.Pair<Key, T>>, type: string,

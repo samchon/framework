@@ -3,16 +3,16 @@
 namespace samchon.library
 {
 	/**
-	 * <p> A genetic algorithm class. </p>
+	 * A genetic algorithm class.
 	 * 
 	 * @details
-	 * <p> In the field of artificial intelligence, a genetic algorithm (GA) is a search heuristic that mimics the 
+	 * In the field of artificial intelligence, a genetic algorithm (GA) is a search heuristic that mimics the 
 	 * process of natural selection. This heuristic (also sometimes called a metaheuristic) is routinely used to generate 
-	 * useful solutions to optimization and search problems. </p>
+	 * useful solutions to optimization and search problems.
 	 *
-	 * <p> Genetic algorithms belong to the larger class of evolutionary algorithms (EA), which generate solutions to 
+	 * Genetic algorithms belong to the larger class of evolutionary algorithms (EA), which generate solutions to 
 	 * optimization problems using techniques inspired by natural evolution, such as inheritance, {@link mutate mutation}, 
-	 * {@link selection}, and {@link crossover}. </p>
+	 * {@link selection}, and {@link crossover}.
 	 * 
 	 * @reference https://en.wikipedia.org/wiki/Genetic_algorithm
 	 * @author Jeongho Nam <http://samchon.org>
@@ -62,16 +62,16 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Evolove <i>GeneArray</i>. </p>
+		 * Evolove *GeneArray*.
 		 * 
-		 * <p> Convenient method accessing to {@link evolvePopulation evolvePopulation()}. </p>
+		 * Convenient method accessing to {@link evolvePopulation evolvePopulation()}.
 		 * 
 		 * @param individual An initial set of genes; sequence listing.
 		 * @param population Size of population in a generation.
 		 * @param generation Size of generation in evolution.
 		 * @param compare A comparison function returns whether left gene is more optimal.
 		 * 
-		 * @return An evolved <i>GeneArray</i>, optimally.
+		 * @return An evolved *GeneArray*, optimally.
 		 * 
 		 * @see {@link GAPopulation.compare}
 		 */
@@ -90,7 +90,7 @@ namespace samchon.library
 		}
 
 		/**
-		 * Evolve <i>population</i>, a mass of <i>GeneArraies</i>.
+		 * Evolve *population*, a mass of *GeneArraies*.
 		 * 
 		 * @param population An initial population.
 		 * @param compare A comparison function returns whether left gene is more optimal.
@@ -129,11 +129,11 @@ namespace samchon.library
 			MAIN LOGICS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Select the best GeneArray in <i>population</i> from tournament. </p>
+		 * Select the best GeneArray in *population* from tournament.
 		 *
-		 * <p> {@link selection Selection} is the stage of a genetic algorithm in which individual genomes are chosen 
+		 * {@link selection Selection} is the stage of a genetic algorithm in which individual genomes are chosen 
 		 * from a population for later breeding (using {@linlk crossover} operator). A generic {@link selection} 
-		 * procedure may be implemented as follows: </p>
+		 * procedure may be implemented as follows:
 		 *
 		 * <ol>
 		 *	<li>
@@ -174,14 +174,14 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Create a new GeneArray by crossing over two <i>GeneArray</i>(s). </p>
+		 * Create a new GeneArray by crossing over two *GeneArray*(s).
 		 *
-		 * <p> {@link crossover} is a genetic operator used to vary the programming of a chromosome or chromosomes from 
+		 * {@link crossover} is a genetic operator used to vary the programming of a chromosome or chromosomes from 
 		 * one generation to the next. It is analogous to reproduction and biological crossover, upon which genetic 
-		 * algorithms are based. </p>
+		 * algorithms are based.
 		 *
-		 * <p> {@link crossover Cross over} is a process of taking more than one parent solutions and producing a child 
-		 * solution from them. There are methods for selection of the chromosomes. </p>
+		 * {@link crossover Cross over} is a process of taking more than one parent solutions and producing a child 
+		 * solution from them. There are methods for selection of the chromosomes.
 		 *
 		 * @param parent1 A parent sequence listing
 		 * @param parent2 A parent sequence listing
@@ -234,25 +234,25 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Cause a mutation on the <i>GeneArray</i>. </p>
+		 * Cause a mutation on the *GeneArray*.
 		 * 
-		 * <p> {@link mutate Mutation} is a genetic operator used to maintain genetic diversity from one generation of a 
-		 * population of genetic algorithm chromosomes to the next. It is analogous to biological mutation. </p>
+		 * {@link mutate Mutation} is a genetic operator used to maintain genetic diversity from one generation of a 
+		 * population of genetic algorithm chromosomes to the next. It is analogous to biological mutation.
 		 *
-		 * <p> {@link mutate Mutation} alters one or more gene values in a chromosome from its initial state. In 
+		 * {@link mutate Mutation} alters one or more gene values in a chromosome from its initial state. In 
 		 * {@link mutate mutation}, the solution may change entirely from the previous solution. Hence GA can come to
-		 * better solution by using {@link mutate mutation}. </p>
+		 * better solution by using {@link mutate mutation}.
 		 *
-		 * <p> {@link mutate Mutation} occurs during evolution according to a user-definable mutation probability. This 
-		 * probability should be set low. If it is set too high, the search will turn into a primitive random search. </p>
+		 * {@link mutate Mutation} occurs during evolution according to a user-definable mutation probability. This 
+		 * probability should be set low. If it is set too high, the search will turn into a primitive random search.
 		 *
 		 * <h4> Note </h4>
-		 * <p> Muttion is pursuing diversity. Mutation is useful for avoiding the following problem. </p>
+		 * Muttion is pursuing diversity. Mutation is useful for avoiding the following problem.
 		 *
-		 * <p> When initial set of genes(GeneArray) is far away from optimail, without mutation (only with selection and 
-		 * crossover), the genetic algorithm has a tend to wandering outside of the optimal. </p>
+		 * When initial set of genes(GeneArray) is far away from optimail, without mutation (only with selection and 
+		 * crossover), the genetic algorithm has a tend to wandering outside of the optimal.
 		 *
-		 * <p> Genes in the GeneArray will be swapped following percentage of the {@link mutation_rate}. </p>
+		 * Genes in the GeneArray will be swapped following percentage of the {@link mutation_rate}.
 		 *
 		 * @param individual A container of genes to mutate
 		 * 
@@ -275,18 +275,18 @@ namespace samchon.library
 	}
 
 	/**
-	 * <p> A population in a generation. </p>
+	 * A population in a generation.
 	 * 
-	 * <p> {@link GAPopulation} is a class representing population of candidate genes (sequence listing) having an array 
+	 * {@link GAPopulation} is a class representing population of candidate genes (sequence listing) having an array 
 	 * of GeneArray as a member. {@link GAPopulation} also manages initial set of genes and handles fitting test direclty 
-	 * by the method {@link fitTest fitTest()}. </p>
+	 * by the method {@link fitTest fitTest()}.
 	 *
-	 * <p> The success of evolution of genetic algorithm is depend on the {@link GAPopulation}'s initial set and fitting 
-	 * test. (<i>GeneArray</i> and {@link compare}.) </p>
+	 * The success of evolution of genetic algorithm is depend on the {@link GAPopulation}'s initial set and fitting 
+	 * test. (*GeneArray* and {@link compare}.)
 	 * 
 	 * <h4> Warning </h4>
-	 * <p> Be careful for the mistakes of direction or position of the {@link compare}. </p>
-	 * <p> Most of logical errors failed to access optimal solution are occured from those mistakes. </p>
+	 * Be careful for the mistakes of direction or position of the {@link compare}.
+	 * Most of logical errors failed to access optimal solution are occured from those mistakes.
 	 * 
 	 * @param <T> Type of gene elements.
 	 * @param <GeneArray> An array containing genes as elments; sequnce listing.
@@ -301,10 +301,10 @@ namespace samchon.library
 		private children_: std.Vector<GeneArray>;
 
 		/**
-		 * <p> A comparison function returns whether left gene is more optimal, greater. </p>
+		 * A comparison function returns whether left gene is more optimal, greater.
 		 * 
-		 * <p> Default value of this {@link compare} is {@link std.greater}. It means to compare two array 
-		 * (GeneArray must be a type of {@link std.base.IArrayContainer}). Thus, you've to keep follwing rule. </p>
+		 * Default value of this {@link compare} is {@link std.greater}. It means to compare two array 
+		 * (GeneArray must be a type of {@link std.base.IArrayContainer}). Thus, you've to keep follwing rule.
 		 *
 		 * <ul>
 		 *	<li> GeneArray is implemented from {@link std.base.IArrayContainer}. </li>
@@ -315,30 +315,30 @@ namespace samchon.library
 		 *	<li> GeneArray has custom <code>public less(obj: T): boolean;</code> function. </li>
 		 * </ul>
 		 *
-		 * <p> If you don't want to follow the rule or want a custom comparison function, you have to realize a 
-		 * comparison function. </p>
+		 * If you don't want to follow the rule or want a custom comparison function, you have to realize a 
+		 * comparison function.
 		 */
 		private compare_: (left: GeneArray, right: GeneArray) => boolean;
 		
 		/**
-		 * <p> Private constructor with population. </p>
+		 * Private constructor with population.
 		 * 
-		 * <p> Private constructor of GAPopulation does not create {@link children}. (candidate genes) but only assigns
-		 * <i>null</i> repeatedly following the <i>population size</i>. </p>
+		 * Private constructor of GAPopulation does not create {@link children}. (candidate genes) but only assigns
+		 * *null* repeatedly following the *population size*.
 		 * 
-		 * <p> This private constructor is designed only for {@link GeneticAlgorithm}. Don't create {@link GAPopulation}
-		 * with this constructor, by yourself. </p>
+		 * This private constructor is designed only for {@link GeneticAlgorithm}. Don't create {@link GAPopulation}
+		 * with this constructor, by yourself.
 		 * 
 		 * @param size Size of the population.
 		 */
 		public constructor(size: number);
 
 		/**
-		 * <p> Construct from a {@link GeneArray} and <i>size of the population</i>. </p>
+		 * Construct from a {@link GeneArray} and *size of the population*.
 		 * 
-		 * <p> This public constructor creates <i>GeneArray(s)</i> as population (size) having shuffled genes which are 
-		 * came from the initial set of genes (<i>geneArray</i>). It uses {@link std.greater} as default comparison function. 
-		 * </p>
+		 * This public constructor creates *GeneArray(s)* as population (size) having shuffled genes which are 
+		 * came from the initial set of genes (*geneArray*). It uses {@link std.greater} as default comparison function. 
+		 *
 		 * 
 		 * @param geneArray An initial sequence listing.
 		 * @param size The size of population to have as children.
@@ -346,11 +346,11 @@ namespace samchon.library
 		public constructor(geneArray: GeneArray, size: number);
 
 		/**
-		 * <p> Constructor from a GeneArray, size of the poluation and custom comparison function. </p>
+		 * Constructor from a GeneArray, size of the poluation and custom comparison function.
 		 * 
-		 * <p> This public constructor creates <i>GeneArray(s)</i> as population (size) having shuffled genes which are
-		 * came from the initial set of genes (<i>geneArray</i>). The <i>compare</i> is used for comparison function. 
-		 * </p>
+		 * This public constructor creates *GeneArray(s)* as population (size) having shuffled genes which are
+		 * came from the initial set of genes (*geneArray*). The *compare* is used for comparison function. 
+		 *
 		 * 
 		 * @param geneArray An initial sequence listing.
 		 * @param size The size of population to have as children.
@@ -396,9 +396,9 @@ namespace samchon.library
 		}
 
 		/**
-		 * Test fitness of each <i>GeneArray</i> in the {@link population}.
+		 * Test fitness of each *GeneArray* in the {@link population}.
 		 * 
-		 * @return The best <i>GeneArray</i> in the {@link population}.
+		 * @return The best *GeneArray* in the {@link population}.
 		 */
 		public fitTest(): GeneArray
 		{

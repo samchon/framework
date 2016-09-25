@@ -14,24 +14,24 @@ namespace samchon.protocol
 			CONSTRUCTORS
 		------------------------------------------------------------------ */
 		/**
-		 * <p> Construct data of the Entity from an XML object. </p>
+		 * Construct data of the Entity from an XML object.
 		 *
-		 * <p> Constructs the EntityArray's own member variables only from the input XML object. </p>
+		 * Constructs the EntityArray's own member variables only from the input XML object.
 		 *
-		 * <p> Do not consider about constructing children Entity objects' data in EntityArray::construct(). 
+		 * Do not consider about constructing children Entity objects' data in EntityArray::construct(). 
 		 * Those children Entity objects' data will constructed by their own construct() method. Even insertion 
-		 * of XML objects representing children are done by abstract method of EntityArray::toXML(). </p>
+		 * of XML objects representing children are done by abstract method of EntityArray::toXML().
 		 *
-		 * <p> Constructs only data of EntityArray's own. </p>
+		 * Constructs only data of EntityArray's own.
 		 */
 		construct(xml: library.XML): void;
 
 		/**
-		 * <p> Factory method of a child Entity. </p>
+		 * Factory method of a child Entity.
 		 *
-		 * <p> EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
+		 * EntityArray::createChild() is a factory method creating a new child Entity which is belonged 
 		 * to the EntityArray. This method is called by EntityArray::construct(). The children construction
-		 * methods Entity::construct() will be called by abstract method of the EntityArray::construct(). </p>
+		 * methods Entity::construct() will be called by abstract method of the EntityArray::construct().
 		 *
 		 * @return A new child Entity belongs to EntityArray.
 		 */
@@ -41,27 +41,27 @@ namespace samchon.protocol
 			GETTERS
 		------------------------------------------------------------------ */
 		/**
-		 * <p> Get iterator to element. </p>
+		 * Get iterator to element.
 		 * 
-		 * <p> Searches the container for an element with a identifier equivalent to <i>key</i> and returns an 
-		 * iterator to it if found, otherwise it returns an iterator to {@link end end()}. </p>
+		 * Searches the container for an element with a identifier equivalent to *key* and returns an 
+		 * iterator to it if found, otherwise it returns an iterator to {@link end end()}.
 		 *
-		 * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively 
-		 * (i.e., no matter the order in which the elements are passed as arguments). </p>
+		 * Two keys are considered equivalent if the container's comparison object returns false reflexively 
+		 * (i.e., no matter the order in which the elements are passed as arguments).
 		 *
-		 * <p> Another member functions, {@link has has()} and {@link count count()}, can be used to just check 
-		 * whether a particular <i>key</i> exists. </p>
+		 * Another member functions, {@link has has()} and {@link count count()}, can be used to just check 
+		 * whether a particular *key* exists.
 		 *
 		 * @param key Key to be searched for
-		 * @return An iterator to the element, if an element with specified <i>key</i> is found, or 
+		 * @return An iterator to the element, if an element with specified *key* is found, or 
 		 *		   {@link end end()} otherwise.
 		 */
 		// find(key: any): std.Iterator<T>;
 
 		/**
-		 * <p> Whether have the item or not. </p>
+		 * Whether have the item or not.
 		 * 
-		 * <p> Indicates whether a map has an item having the specified identifier. </p>
+		 * Indicates whether a map has an item having the specified identifier.
 		 *
 		 * @param key Key value of the element whose mapped value is accessed.
 		 *
@@ -70,20 +70,20 @@ namespace samchon.protocol
 		has(key: any): boolean;
 
 		/**
-		 * <p> Count elements with a specific key. </p>
+		 * Count elements with a specific key.
 		 * 
-		 * <p> Searches the container for elements whose key is <i>key</i> and returns the number of elements found. </p>
+		 * Searches the container for elements whose key is *key* and returns the number of elements found.
 		 *
 		 * @param key Key value to be searched for.
 		 *
-		 * @return The number of elements in the container with a <i>key</i>.
+		 * @return The number of elements in the container with a *key*.
 		 */
 		count(key: any): number;
 
 		/**
-		 * <p> Get an element </p>
+		 * Get an element
 		 *
-		 * <p> Returns a reference to the mapped value of the element identified with <i>key</i>. </p>
+		 * Returns a reference to the mapped value of the element identified with *key*.
 		 *
 		 * @param key Key value of the element whose mapped value is accessed.
 		 * 
@@ -97,21 +97,21 @@ namespace samchon.protocol
 			EXPORTERS
 		------------------------------------------------------------------ */
 		/**
-		 * <p> A tag name of children objects. </p>
+		 * A tag name of children objects.
 		 */
 		CHILD_TAG(): string;
 
 		/**
-		 * <p> Get an XML object represents the EntityArray. </p>
+		 * Get an XML object represents the EntityArray.
 		 *
-		 * <p> Archives the EntityArray's own member variables only to the returned XML object. </p>
+		 * Archives the EntityArray's own member variables only to the returned XML object.
 		 *
-		 * <p> Do not consider about archiving children Entity objects' data in EntityArray::toXML(). 
+		 * Do not consider about archiving children Entity objects' data in EntityArray::toXML(). 
 		 * Those children Entity objects will converted to XML object by their own toXML() method. The 
 		 * insertion of XML objects representing children are done by abstract method of 
-		 * EntityArray::toXML(). </p>
+		 * EntityArray::toXML().
 		 *
-		 * <p> Archives only data of EntityArray's own. </p>
+		 * Archives only data of EntityArray's own.
 		 */
 		toXML(): library.XML;
 	}

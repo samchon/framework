@@ -8,12 +8,12 @@
 namespace samchon.protocol.external
 {
 	/**
-	 * <p> An array and manager of {@link ExternalSystem external systems}. </p>
+	 * An array and manager of {@link ExternalSystem external systems}.
 	 * 
-	 * <p> {@link ExternalSystemArray} is an abstract class contains and manages external system drivers, 
+	 * {@link ExternalSystemArray} is an abstract class contains and manages external system drivers, 
 	 * {@link ExternalSystem} objects. You can specify this {@link ExternalSystemArray} to be a server accepting 
 	 * {@link ExternalSystem external clients} or a client connecting to {@link IExternalServer external servers}. Even 
-	 * both of them is also possible. </p>
+	 * both of them is also possible.
 	 * 
 	 * <ul>
 	 *	<li> A server accepting external clients: {@link IExternalClientArray} </li>
@@ -24,20 +24,20 @@ namespace samchon.protocol.external
 	 *	</li>
 	 * </ul>
 	 * 
-	 * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
 	 *		 style="max-width: 100%" />
-	 * </a> </p>
+	 * </a>
 	 * 
 	 * <h4> Proxy Pattern </h4>
-	 * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
+	 * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
 	 * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-	 * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+	 * important. Only interested in user's perspective is *which can be done*.
 	 * 
-	 * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+	 * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
 	 * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
 	 * 
 	 * <ul>
 	 *	<li>
@@ -49,7 +49,7 @@ namespace samchon.protocol.external
 	 *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
 	 *		external system.
 	 *	</li>
-	 *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+	 *	<li> Those strategy is called *Proxy Pattern*. </li>
 	 * </ul>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
@@ -121,7 +121,7 @@ namespace samchon.protocol.external
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
 		/**
-		 * <p> Send an {@link Invoke} message. </p>
+		 * Send an {@link Invoke} message.
 		 * 
 		 * @param invoke An {@link Invoke} message to send.
 		 */
@@ -132,7 +132,7 @@ namespace samchon.protocol.external
 		}
 
 		/**
-		 * <p> Handle an {@Invoke} message have received. </p>
+		 * Handle an {@Invoke} message have received.
 		 * 
 		 * @param invoke An {@link Invoke} message have received.
 		 */
@@ -147,7 +147,7 @@ namespace samchon.protocol.external
 		/**
 		 * Tag name of the {@link ExternalSytemArray} in {@link XML}.
 		 *
-		 * @return <i>systemArray</i>.
+		 * @return *systemArray*.
 		 */
 		public TAG(): string
 		{
@@ -157,7 +157,7 @@ namespace samchon.protocol.external
 		/**
 		 * Tag name of {@link ExternalSystem children elements} belonged to the {@link ExternalSytemArray} in {@link XML}.
 		 * 
-		 * @return <i>system</i>.
+		 * @return *system*.
 		 */
 		public CHILD_TAG(): string
 		{

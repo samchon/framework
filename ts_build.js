@@ -1,28 +1,19 @@
 const fs = require("fs");
-const exec = require('child_process').exec;
+const process = require('child_process');
+const minifier = require('minifier');
 
 compile();
+attach_header();
+remove_dynamics();
+minify();
 
 function compile()
 {
-	exec
-	(
-		// DO COMPILE
-		"tsc -p ts/tsconfig.json", 
-		(err, stdout, stderr) => 
-		{
-			if (err || stderr)
-			{
-				// ERROR ON COMPILE
-				console.log(err);
-				return;
-			}
-
-			// POST-PROCESS
-			attach_header();
-			remove_dynamics();
-		}
-	);
+	try
+	{
+		process.execSync("tsc -p ts/tsconfig.json");
+	}
+	catch (exception) {}
 }
 
 function attach_header()
@@ -50,6 +41,8 @@ function remove_dynamics()
 			// PROTOCOL MODULE
 			//--------
 			'_replyData',		// IProtocol._replyData
+			'start_time_',			// InvokeHistory.start_time_
+			'end_time_',			// InvokeHistory.end_time_
 
 			//--------
 			// SERVICE MODULE
@@ -67,13 +60,14 @@ function remove_dynamics()
 			'history_sequence_',	// ParallelSystemArray.history_sequence_
 			'_Complete_history',	// ParallelSystemArray._Complete_history
 
-			'progress_list_',		// (ParallelSystem | DistributedSystemRole).progress_list_
-			'history_list_',		// (ParallelSystem | DistributedSystemRole).history_list_
+			'progress_list_',		// ParallelSystem.progress_list_
+			'history_list_',		// ParallelSystem.history_list_
+			'exclude_',				// ParallelSystem.exclude_
 			'send_piece_data',		// ParallelSystem.send_piece_dat
 
 			'complete_history',		// MediatorSystem.complete_history
-			'start_time_',			// InvokeHistory.start_time_
-			'end_time_',			// InvokeHistory.end_time_
+			'first',				// PRInokeHistory.first
+			'last',					// PRInvokeHistory.last
 
 			//--------
 			// DISTRIBUTED SYSTEM MODULE
@@ -86,4 +80,9 @@ function remove_dynamics()
 		text = text.split('["' + REPLACES[i] + '"]').join('.' + REPLACES[i]);
 
 	fs.writeFileSync(JS_FILE, text, "utf8");
+}
+
+function minify()
+{
+	minifier.minify("lib/ts/samchon-framework.js");
 }

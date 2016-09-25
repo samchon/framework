@@ -14,4 +14,8 @@ lib\cpp
 lib\flex
 
 *.bat
+*.log
 *.*ignore
+
+*.d.ts
+build.js

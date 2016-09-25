@@ -3,9 +3,9 @@
 namespace samchon.library
 {
 	/**
-	 * <p> Case generator. </p>
+	 * Case generator.
 	 * 
-	 * <p> {@link CaseGenerator} is an abstract case generator being used like a matrix. </p>
+	 * {@link CaseGenerator} is an abstract case generator being used like a matrix.
 	 * <ul>
 	 *  <li> n¢³r(n^r) -> {@link CombinedPermutationGenerator} </li>
 	 *  <li> nPr -> {@link PermutationGenerator} </li>
@@ -17,17 +17,17 @@ namespace samchon.library
 	export abstract class CaseGenerator
 	{
 		/**
-		 * <p> Size, the number of all cases. </p>
+		 * Size, the number of all cases.
 		 */
 		protected size_: number;
 
 		/**
-		 * <p> N, size of the candidates. </p>
+		 * N, size of the candidates.
 		 */
 		protected n_: number;
 
 		/**
-		 * <p> R, size of elements of each case. </p>
+		 * R, size of elements of each case.
 		 */
 		protected r_: number;
 
@@ -35,7 +35,7 @@ namespace samchon.library
 			CONSTRUCTORS
 		--------------------------------------------------------------- */
 		/**
-		 * <p> Construct from size of N and R. </p>
+		 * Construct from size of N and R.
 		 * 
 		 * @param n Size of candidates.
 		 * @param r Size of elements of each case.
@@ -50,7 +50,7 @@ namespace samchon.library
 			ACCESSORS
 		--------------------------------------------------------------- */
 		/**
-		 * <p> Get size of all cases. </p>
+		 * Get size of all cases.
 		 *
 		 * @return Get a number of the all cases.
 		 */
@@ -60,7 +60,7 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Get size of the N. </p>
+		 * Get size of the N.
 		 */
 		public n(): number
 		{
@@ -68,7 +68,7 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Get size of the R. </p>
+		 * Get size of the R.
 		 */
 		public r(): number
 		{
@@ -76,7 +76,7 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Get index'th case. </p>
+		 * Get index'th case.
 		 *
 		 * @param index Index number
 		 * @return The row of the index'th in combined permuation case
@@ -85,9 +85,9 @@ namespace samchon.library
 	}
 
 	/**
-	 * <p> A combined-permutation case generator. </p>
+	 * A combined-permutation case generator.
 	 * 
-	 * <p> <sub>n</sub>¢³<sub>r</sub> </p>
+	 * <sub>n</sub>¢³<sub>r</sub>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -95,7 +95,7 @@ namespace samchon.library
 		extends CaseGenerator
 	{
 		/**
-		 * <p> An array using for dividing each element index. </p>
+		 * An array using for dividing each element index.
 		 */
 		private divider_array: Array<number>;
 
@@ -103,7 +103,7 @@ namespace samchon.library
 			CONSTRUCTORS
 		--------------------------------------------------------------- */
 		/**
-		 * <p> Construct from size of N and R. </p>
+		 * Construct from size of N and R.
 		 * 
 		 * @param n Size of candidates.
 		 * @param r Size of elements of each case.
@@ -138,9 +138,9 @@ namespace samchon.library
 	}
 
 	/**
-	 * <p> A permutation case generator. </p>
+	 * A permutation case generator.
 	 * 
-	 * <p> <sub>n</sub>P<sub>r</sub> </p>
+	 * <sub>n</sub>P<sub>r</sub>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -151,7 +151,7 @@ namespace samchon.library
 			CONSTRUCTORS
 		--------------------------------------------------------------- */
 		/**
-		 * <p> Construct from size of N and R. </p>
+		 * Construct from size of N and R.
 		 * 
 		 * @param n Size of candidates.
 		 * @param r Size of elements of each case.
@@ -189,9 +189,9 @@ namespace samchon.library
 	}
 
 	/**
-	 * <p> Factorial case generator. </p>
+	 * Factorial case generator.
 	 * 
-	 * <p> n! = <sub>n</sub>P<sub>n</sub> </p>
+	 * n! = <sub>n</sub>P<sub>n</sub>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

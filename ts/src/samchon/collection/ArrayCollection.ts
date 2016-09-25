@@ -5,28 +5,75 @@ namespace samchon.collection
 	/**
 	 * A {@link Vector} who can detect element I/O events. 
 	 * 
-	 * <ul>
-	 *	<li> <i>insert</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link insert} </li>
-	 *		<li> {@link push} </li>
-	 *		<li> {@link push_back} </li>
-	 *		<li> {@link unshift} </li>
-	 *	</ul></li>
-	 *	<li> <i>erase</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link clear} </li>
-	 *		<li> {@link erase} </li>
-	 *		<li> {@link pop_back} </li>
-	 *		<li> {@link shift} </li>
-	 *		<li> {@link pop} </li>
-	 *		<li> {@link splice} </li>
-	 *	</ul></li>
-	 *	<li> <i>erase</i> typed events: <ul>
-	 *		<li> {@link sort} </li>
-	 *	</ul></li>
-	 * </ul>
+	 * Below is the list of methods who are dispatching {@link CollectionEvent}:
+	 * - *insert* typed events:
+	 *   - {@link assign} 
+	 *   -  {@link insert} 
+	 *   -  {@link push} 
+	 *   -  {@link push_back} 
+	 *   -  {@link unshift} 
+	 * - *erase* typed events:
+	 *   -  {@link assign} 
+	 *   -  {@link clear} 
+	 *   -  {@link erase} 
+	 *   - {@link pop_back} 
+	 *   - {@link shift} 
+	 *   - {@link pop} 
+	 *   - {@link splice} 
+	 * - *refresh* typed events:
+	 *   - {@link refresh}
 	 * 
+	 * #### [Inherited]
+	 * {@link Vector Vectors}s are sequence containers representing arrays that can change in size.
+	 *
+	 * Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that their 
+	 * elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently as in 
+	 * arrays. But unlike arrays, their size can change dynamically, with their storage being handled automatically 
+	 * by the container.
+	 *
+	 * Internally, {@link Vector}s use a dynamically allocated array to store their elements. This array may need to
+	 * be reallocated in order to grow in size when new elements are inserted, which implies allocating a new array 
+	 * and moving all elements to it. This is a relatively expensive task in terms of processing time, and thus, 
+	 * {@link Vector}s do not reallocate each time an element is added to the container.
+	 *
+	 * Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible growth, and 
+	 * thus the container may have an actual {@link capacity} greater than the storage strictly needed to contain its
+	 * elements (i.e., its {@link size}). Libraries can implement different strategies for growth to balance between
+	 * memory usage and reallocations, but in any case, reallocations should only happen at logarithmically growing
+	 * intervals of {@link size} so that the insertion of individual elements at the end of the {@link Vector} can be
+	 * provided with amortized constant time complexity (see {@link push_back push_back()}).
+	 *
+	 * Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability to manage 
+	 * storage and grow dynamically in an efficient way.
+	 *
+	 * Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s), {@link Vector Vectors} are
+	 * very efficient accessing its elements (just like arrays) and relatively efficient adding or removing elements 
+	 * from its end. For operations that involve inserting or removing elements at positions other than the end, they 
+	 * perform worse than the others, and have less consistent iterators and references than {@link List}s.
+	 *
+	 * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
+	 * </a>
+	 *
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 *	<dt> Sequence </dt>
+	 *	<dd>
+	 *		Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
+	 *		accessed by their position in this sequence.
+	 *	</dd>
+	 *
+	 *	<dt> Dynamic array </dt>
+	 *	<dd>
+	 *		Allows direct access to any element in the sequence, even through pointer arithmetics, and provides
+	 *		relatively fast addition/removal of elements at the end of the sequence.
+	 *	</dd>
+	 * </dl>
+	 *
+	 * @param <T> Type of the elements.
+	 *
+	 * @reference http://www.cplusplus.com/reference/vector/vector
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ArrayCollection<T>
@@ -54,7 +101,7 @@ namespace samchon.collection
 		/**
 		 * @inheritdoc
 		 */
-		public push<U extends T>(...items: U[]): number
+		public push(...items: T[]): number
 		{
 			let ret = super.push(...items);
 			
@@ -117,6 +164,7 @@ namespace samchon.collection
 		/* ---------------------------------------------------------
 			NOTIFIER
 		--------------------------------------------------------- */
+
 		/**
 		 * @hidden
 		 */

@@ -5,12 +5,12 @@
 namespace samchon.protocol
 {
 	/**
-	 * <p> An interface for substitute server classes. </p>
+	 * An interface for substitute server classes.
 	 * 
-	 * <p> {@link IServerBase} is an interface for substitue server classes who subrogate server's role. </p>
+	 * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
 	 * 
-	 * <p> The easiest way to defining a server class is to extending one of them, who are derived from the 
-	 * {@link IServer}. </p>
+	 * The easiest way to defining a server class is to extending one of them, who are derived from the 
+	 * {@link IServer}.
 	 * 
 	 * <ul>
 	 *	<li> {@link Server} </li>
@@ -18,11 +18,11 @@ namespace samchon.protocol
 	 *	<li> {@link SharedWorkerServer} </li>
 	 * </ul>
 	 * 
-	 * <p> However, it is impossible (that is, if the class is already extending another class), you can instead implement
+	 * However, it is impossible (that is, if the class is already extending another class), you can instead implement
 	 * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into the 
-	 * aggregated {@link IServerBase}. </p>
+	 * aggregated {@link IServerBase}.
 	 * 
-	 * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
+	 * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
 	 * <ul>
 	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
 	 * </ul>
@@ -61,16 +61,16 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	/**
-	 * <p> A substitute {@link Server}. </p>
+	 * A substitute {@link Server}.
 	 * 
-	 * <p> {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility. </p>
+	 * {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility.
 	 * 
-	 * <p> The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
+	 * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
 	 * {@link Server}. However, it is impossible (that is, if the class is already extending another class), you can
 	 * instead implement the {@link IServer} interface, create a {@link ServerBase} member, and write simple hooks 
-	 * to route calls into the aggregated {@link ServerBase}. </p>
+	 * to route calls into the aggregated {@link ServerBase}.
 	 * 
-	 * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
+	 * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
 	 * <ul>
 	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
 	 * </ul>
@@ -120,16 +120,16 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	/**
-	 * <p> A substitute {@link WebServer}. </p>
+	 * A substitute {@link WebServer}.
 	 * 
-	 * <p> {@link WebServerBase} is a substitute class who subrogates {@link WebServer}'s responsibility. </p>
+	 * {@link WebServerBase} is a substitute class who subrogates {@link WebServer}'s responsibility.
 	 * 
-	 * <p> The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
+	 * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
 	 * {@link WebServer}. However, it is impossible (that is, if the class is already extending another class), you can
 	 * instead implement the {@link IServer} interface, create a {@link WebServerBase} member, and write simple hooks to
-	 * route calls into the aggregated {@link WebServerBase}. </p>
+	 * route calls into the aggregated {@link WebServerBase}.
 	 * 
-	 * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
+	 * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
 	 * <ul>
 	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
 	 * </ul>
@@ -179,17 +179,17 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	/**
-	 * <p> A substitute {@link SharedWorkerServer}. </p>
+	 * A substitute {@link SharedWorkerServer}.
 	 * 
-	 * <p> {@link SharedWorkerServerBase} is a substitute class who subrogates {@link SharedWorkerServer}'s 
-	 * responsibility. </p>
+	 * {@link SharedWorkerServerBase} is a substitute class who subrogates {@link SharedWorkerServer}'s 
+	 * responsibility.
 	 * 
-	 * <p> The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
+	 * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
 	 * {@link SharedWorkerServer}. However, it is impossible (that is, if the class is already extending another class), 
 	 * you can instead implement the {@link IServer} interface, create a {@link SharedWorkerServerBase} member, and write 
-	 * simple hooks to route calls into the aggregated {@link SharedWorkerServerBase}. </p>
+	 * simple hooks to route calls into the aggregated {@link SharedWorkerServerBase}.
 	 * 
-	 * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
+	 * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
 	 * <ul>
 	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
 	 * </ul>

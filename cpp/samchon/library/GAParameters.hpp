@@ -21,10 +21,10 @@ namespace library
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class GAParameters
-		: public protocol::Entity
+		: public protocol::Entity<>
 	{
 	private:
-		typedef protocol::Entity super;
+		typedef protocol::Entity<> super;
 
 	protected:
 		/**

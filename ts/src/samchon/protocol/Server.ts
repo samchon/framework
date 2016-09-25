@@ -3,12 +3,12 @@
 namespace samchon.protocol
 {
 	/**
-	 * <p> An interface for a physical server. </p>
+	 * An interface for a physical server.
 	 * 
-	 * <p> {@link IServer} provides methods for opening a server. Extends one of them who are derived from this 
+	 * {@link IServer} provides methods for opening a server. Extends one of them who are derived from this 
 	 * {@link IServer} and open the server with method {@link open IServer.open()}. Override 
 	 * {@link addClient IServer.addClient()} who accepts a newly connected client with {@link IClientDriver}. 
-	 * If you're embarrased because your class already extended another one, then use {@link IServerBase}. </p>
+	 * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
 	 * 
 	 * <ul>
 	 *	<li> {@link Server} </li>
@@ -16,20 +16,20 @@ namespace samchon.protocol
 	 *	<li> {@link SharedWorkerServer} </li>
 	 * </ul>
 	 * 
-	 * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
 	 *		 style="max-width: 100%" />
-	 * </a> </p>
+	 * </a>
 	 * 
 	 * <h2> Basic Components </h2>
 	 * <h4> What Basic Components are </h4>
-	 * <p> <b>Basic Components</b> are the smallest unit of network communication in this <i>Samchon Framework</i>. With
-	 * <b>Basic Components</b>, you can construct any type of network system, even how the network system is enormously
-	 * scaled and complicated, by just combinating the <b>Basic Components</b>. </p>
+	 * **Basic Components** are the smallest unit of network communication in this *Samchon Framework*. With
+	 * **Basic Components**, you can construct any type of network system, even how the network system is enormously
+	 * scaled and complicated, by just combinating the **Basic Components**.
 	 *
-	 * <p> All the system templates in this framework are also being implemented by utilization of the
-	 * <b>Basic Compoonents</b>. </p>
+	 * All the system templates in this framework are also being implemented by utilization of the
+	 * **Basic Compoonents**.
 	 *
 	 * <ul>
 	 *	<li> {@link service Service} </il>
@@ -38,9 +38,9 @@ namespace samchon.protocol
 	 *	<li> {@link distributed Distributed System} </il>
 	 * </ul>
 	 *
-	 * <p> Note that, whatever the network system what you've to construct is, just concentrate on role of each system
-	 * and attach matched <b>Basic Components</b> to the role, within framework of the <b>Object-Oriented Design</b>.
-	 * Then construction of the network system will be much easier. </p>
+	 * Note that, whatever the network system what you've to construct is, just concentrate on role of each system
+	 * and attach matched **Basic Components** to the role, within framework of the **Object-Oriented Design**.
+	 * Then construction of the network system will be much easier.
 	 *
 	 * <ul>
 	 *	<li> A system is a server, then use {@link IServer} or {@link IServerBase}. </li>
@@ -50,8 +50,8 @@ namespace samchon.protocol
 	 * </ul>
 	 *
 	 * <h4> Example - System Templates </h4>
-	 * <p> Learning and understanding <i>Basic Components</i> of Samchon Framework, reading source codes and design of
-	 * <b>System Templates</b>' modules will be very helpful. </p>
+	 * Learning and understanding *Basic Components* of Samchon Framework, reading source codes and design of
+	 * **System Templates**' modules will be very helpful.
 	 *
 	 * <table>
 	 *	<tr>
@@ -225,11 +225,11 @@ namespace samchon.protocol
 		public abstract addClient(driver: WebClientDriver): void;
 
 		/**
-		 * <p> Handle request from a client system. </p>
+		 * Handle request from a client system.
 		 * 
-		 * <p> This method {@link handle_request} will be called when a client is connected. It will call an abstract 
+		 * This method {@link handle_request} will be called when a client is connected. It will call an abstract 
 		 * method method {@link addClient addClient()} who handles an accepted client. If the newly connected client 
-		 * doesn't have its own session id, then a new session id will be issued. </p>
+		 * doesn't have its own session id, then a new session id will be issued.
 		 * 
 		 * @param request Requested header.
 		 */
@@ -249,10 +249,10 @@ namespace samchon.protocol
 		}
 
 		/**
-		 * <p> Get session id from a newly connected. </p>
+		 * Get session id from a newly connected.
 		 * 
-		 * <p> Queries ordinary session id from cookies of a newly connected client. If the client has not, a new 
-		 * session id will be issued. </p>
+		 * Queries ordinary session id from cookies of a newly connected client. If the client has not, a new 
+		 * session id will be issued.
 		 * 
 		 * @param cookies Cookies from the remote client.
 		 */

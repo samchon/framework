@@ -111,6 +111,9 @@
     <ClInclude Include="..\samchon\protocol\slave\SlaveClient.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\SlaveServer.hpp" />
     <ClInclude Include="..\samchon\protocol\slave\SlaveSystem.hpp" />
+    <ClInclude Include="..\samchon\protocol\StaticEntityDeque.hpp" />
+    <ClInclude Include="..\samchon\protocol\StaticEntityGroup.hpp" />
+    <ClInclude Include="..\samchon\protocol\UniqueEntityDeque.hpp" />
     <ClInclude Include="..\samchon\protocol\WebClientDriver.hpp" />
     <ClInclude Include="..\samchon\protocol\WebCommunicator.hpp" />
     <ClInclude Include="..\samchon\protocol\WebServer.hpp" />
@@ -123,7 +126,7 @@
     <ClInclude Include="..\samchon\protocol\StaticEntityArray.hpp" />
     <ClInclude Include="..\samchon\protocol\EntityGroup.hpp" />
     <ClInclude Include="..\samchon\protocol\StaticEntityList.hpp" />
-    <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp" />
+    <ClInclude Include="..\samchon\protocol\EntityGroupBase.hpp" />
     <ClInclude Include="..\samchon\protocol\IHTMLEntity.hpp" />
     <ClInclude Include="..\samchon\protocol\Invoke.hpp" />
     <ClInclude Include="..\samchon\protocol\InvokeParameter.hpp" />

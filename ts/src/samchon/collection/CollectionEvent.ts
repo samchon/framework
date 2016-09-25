@@ -13,6 +13,9 @@ namespace samchon.collection
 namespace samchon.collection
 {	
 	/**
+	 * An event occured in a {@link ICollection collection} object.
+	 * 
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class CollectionEvent<T>
@@ -21,23 +24,29 @@ namespace samchon.collection
 		/**
 		 * @hidden
 		 */
-		protected first_: std.Iterator<T>;
+		private first_: std.Iterator<T>;
 
 		/**
 		 * @hidden
 		 */
-		protected last_: std.Iterator<T>;
+		private last_: std.Iterator<T>;
 
+		/**
+		 * @hidden
+		 */
 		private temporary_container_: std.Vector<T>;
 
+		/**
+		 * @hidden
+		 */
 		private origin_first_: std.Iterator<T>;
 
 		/**
 		 * Initialization Constructor.
 		 * 
 		 * @param type Type of collection event.
-		 * @param first 
-		 * @param last 
+		 * @param first An {@link Iterator} to the initial position in this {@link CollectionEvent}.
+		 * @param last An {@link Iterator} to the final position in this {@link CollectionEvent}.
 		 */
 		public constructor(type: string, first: std.Iterator<T>, last: std.Iterator<T>);
 
@@ -68,7 +77,7 @@ namespace samchon.collection
 		}
 
 		/**
-		 * Get associative target, the container.
+		 * Associative target, the {@link ICollection collection}.
 		 */
 		public get target(): ICollection<T>
 		{
@@ -76,7 +85,7 @@ namespace samchon.collection
 		}
 
 		/**
-		 * Get range of the first.
+		 * An {@link Iterator} to the initial position in this {@link CollectionEvent}.
 		 */
 		public get first(): std.Iterator<T>
 		{
@@ -84,7 +93,7 @@ namespace samchon.collection
 		}
 
 		/**
-		 * Get range of the last.
+		 * An {@link Iterator} to the final position in this {@link CollectionEvent}.
 		 */
 		public get last(): std.Iterator<T>
 		{

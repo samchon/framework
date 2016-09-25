@@ -5,25 +5,69 @@ namespace samchon.collection
 	/**
 	 * A {@link Deque} who can detect element I/O events.
 	 * 
-	 * <p> Below are list of methods who are dispatching {@link CollectionEvent}: </p>
+	 * Below is the list of methods who are dispatching {@link CollectionEvent}:
+	 * - *insert* typed events: 
+	 *   - {@link assign}
+	 *   - {@link insert}
+	 *   - {@link push}
+	 *   - {@link push_front}
+	 *   - {@link push_back}
+	 * - *erase* typed events: 
+	 *   - {@link assign}
+	 *   - {@link clear}
+	 *   - {@link erase}
+	 *   - {@link pop_front}
+	 *   - {@link pop_back}
+	 * - *refresh* typed events:
+	 *   - {@link refresh}
 	 * 
-	 * <ul>
-	 *	<li> <i>insert</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link insert} </li>
-	 *		<li> {@link push} </li>
-	 *		<li> {@link push_front} </li>
-	 *		<li> {@link push_back} </li>
-	 *	</ul></li>
-	 *	<li> <i>erase</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link clear} </li>
-	 *		<li> {@link erase} </li>
-	 *		<li> {@link pop_front} </li>
-	 *		<li> {@link pop_back} </li>
-	 *	</ul></li>
-	 * </ul>
-	 * 
+	 * #### [Inherited]
+	 * {@link Deque} (usually pronounced like "*deck*") is an irregular acronym of **d**ouble-**e**nded **q**ueue. 
+	 * Double-ended queues are sequence containers with dynamic sizes that can be expanded or contracted on both ends 
+	 * (either its front or its back).
+	 *
+	 * Specific libraries may implement deques in different ways, generally as some form of dynamic array. But in any
+	 * case, they allow for the individual elements to be accessed directly through random access iterators, with 
+	 * storage handled automatically by expanding and contracting the container as needed.
+	 *
+	 * Therefore, they provide a functionality similar to vectors, but with efficient insertion and deletion of 
+	 * elements also at the beginning of the sequence, and not only at its end. But, unlike {@link Vector Vectors},
+	 * {@link Deque Deques} are not guaranteed to store all its elements in contiguous storage locations: accessing
+	 * elements in a <u>deque</u> by offsetting a pointer to another element causes undefined behavior. 
+	 *
+	 * Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for similar purposes,
+	 * but internally both work in quite different ways: While {@link Vector}s use a single array that needs to be
+	 * occasionally reallocated for growth, the elements of a {@link Deque} can be scattered in different chunks of
+	 * storage, with the container keeping the necessary information internally to provide direct access to any of its
+	 * elements in constant time and with a uniform sequential interface (through iterators). Therefore,
+	 * {@link Deque Deques} are a little more complex internally than {@link Vector}s, but this allows them to grow 
+	 * more efficiently under certain circumstances, especially with very long sequences, where reallocations become 
+	 * more expensive.
+	 *
+	 * For operations that involve frequent insertion or removals of elements at positions other than the beginning or
+	 * the end, {@link Deque Deques} perform worse and have less consistent iterators and references than
+	 * {@link List Lists}.
+	 *
+	 * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
+	 * </a>
+	 *
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 *	<dt> Sequence </dt>
+	 *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements
+	 *		 are accessed by their position in this sequence. </dd>
+	 *
+	 *	<dt> Dynamic array </dt>
+	 *	<dd> Generally implemented as a dynamic array, it allows direct access to any element in the
+	 *		 sequence and provides relatively fast addition/removal of elements at the beginning or the end
+	 *		 of the sequence. </dd>
+	 * </dl>
+	 *
+	 * @param <T> Type of the elements.
+	 *
+	 * @reference http://www.cplusplus.com/reference/deque/deque/
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class DequeCollection<T>
@@ -51,7 +95,7 @@ namespace samchon.collection
 		/**
 		 * @inheritdoc
 		 */
-		public push<U extends T>(...items: U[]): number
+		public push(...items: T[]): number
 		{
 			let ret = super.push(...items);
 

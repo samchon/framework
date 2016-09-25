@@ -5,14 +5,14 @@
 namespace samchon.protocol
 {
 	/**
-	 * <p> An interface for server connector. </p>
+	 * An interface for server connector.
 	 * 
-	 * <p> {@link IServerConnector} is an interface for server connector classes who ca connect to an external server
-	 * as a client. </p>
+	 * {@link IServerConnector} is an interface for server connector classes who ca connect to an external server
+	 * as a client.
 	 * 
-	 * <p> Of course, {@link IServerConnector} is extended from the {@link ICommunicator}, thus, it also takes full
+	 * Of course, {@link IServerConnector} is extended from the {@link ICommunicator}, thus, it also takes full
 	 * charge of network communication and delivers replied message to {@link WebCommunicator.listener listener}'s
-	 * {@link IProtocol.replyData replyData()} method. </p>
+	 * {@link IProtocol.replyData replyData()} method.
 	 * 
 	 * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector"
 	 *			 target="_blank"> Basic Components - IServerConnector </a>
@@ -29,17 +29,17 @@ namespace samchon.protocol
 		//constructor(listener: IProtocol);
 
 		/**
-		 * <p> Connect to a server. </p>
+		 * Connect to a server.
 		 * 
-		 * <p> Connects to a server with specified <i>host</i> address and <i>port</i> number. After the connection has
+		 * Connects to a server with specified *host* address and *port* number. After the connection has
 		 * succeeded, callback function {@link onConnect} is called. Listening data from the connected server also begins.
 		 * Replied messages from the connected server will be converted to {@link Invoke} classes and will be shifted to
-		 * the {@link WebCommunicator.listener listener}'s {@link IProtocol.replyData replyData()} method. </p>
+		 * the {@link WebCommunicator.listener listener}'s {@link IProtocol.replyData replyData()} method.
 		 * 
-		 * <p> If the connection fails immediately, either an event is dispatched or an exception is thrown: an error 
+		 * If the connection fails immediately, either an event is dispatched or an exception is thrown: an error 
 		 * event is dispatched if a host was specified, and an exception is thrown if no host was specified. Otherwise, 
 		 * the status of the connection is reported by an event. If the socket is already connected, the existing 
-		 * connection is closed first. </p>
+		 * connection is closed first.
 		 * 
 		 * @param ip The name or IP address of the host to connect to. 
 		 *			 If no host is specified, the host that is contacted is the host where the calling file resides. 
@@ -96,7 +96,7 @@ namespace samchon.protocol
 	declare var websocket: typeof __websocket;
 
 	/**
-	 * <p> A server connector for web-socket protocol. </p>
+	 * A server connector for web-socket protocol.
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -108,9 +108,9 @@ namespace samchon.protocol
 		// WEB-BROWSER
 		///////
 		/**
-		 * <p> A socket for network I/O. </p>
+		 * A socket for network I/O.
 		 * 
-		 * <p> Note that, {@link socket} is only used in web-browser environment. </p>
+		 * Note that, {@link socket} is only used in web-browser environment.
 		 */
 		private browser_socket_: WebSocket;
 
@@ -118,9 +118,9 @@ namespace samchon.protocol
 		// NODE CLIENT
 		///////
 		/**
-		 * <p> A driver for server connection. </p>
+		 * A driver for server connection.
 		 * 
-		 * <p> Note that, {@link node_client} is only used in NodeJS environment. </p>
+		 * Note that, {@link node_client} is only used in NodeJS environment.
 		 */
 		private node_client_: websocket.client;
 

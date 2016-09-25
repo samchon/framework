@@ -11,10 +11,10 @@ namespace samchon
 namespace protocol
 {
 	class SAMCHON_FRAMEWORK_API InvokeHistory 
-		: public Entity
+		: public Entity<size_t>
 	{
 	private:
-		typedef Entity super;
+		typedef Entity<size_t> super;
 
 	private:
 		size_t uid_;
@@ -37,6 +37,11 @@ namespace protocol
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		virtual auto key() const -> size_t override
+		{
+			return uid_;
+		};
+
 		auto getUID() const -> size_t
 		{
 			return uid_;

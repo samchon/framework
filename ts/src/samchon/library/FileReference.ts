@@ -1,15 +1,15 @@
 ﻿namespace samchon.library
 {
 	/**
-	 * <p> The {@link FileReference} class provides a means to load and save files in browser level. </p>
+	 * The {@link FileReference} class provides a means to load and save files in browser level.
 	 * 
-	 * <p> The {@link FileReference} class provides a means to {@link load} and {@link save} files in browser level. A
+	 * The {@link FileReference} class provides a means to {@link load} and {@link save} files in browser level. A
 	 * browser-system dialog box prompts the user to select a file to {@link load} or a location for {@link svae}. Each 
 	 * {@link FileReference} object refers to a single file on the user's disk and has properties that contain 
 	 * information about the file's size, type, name, creation date, modification date, and creator type (Macintosh only). 
-	 * </p>
+	 *
 	 * 
-	 * <p> FileReference instances are created in the following ways: </p>
+	 * FileReference instances are created in the following ways:
 	 * <ul>
 	 *	<li> 
 	 *		When you use the new operator with the {@link FileReference} constructor: 
@@ -21,23 +21,23 @@
 	 *	</li>
 	 * </ul>
 	 * 
-	 * <p> During a load operation, all the properties of a {@link FileReference} object are populated by calls to the 
+	 * During a load operation, all the properties of a {@link FileReference} object are populated by calls to the 
 	 * {@link FileReference.browse} or {@link FileReferenceList.browse} methods. During a save operation, the name 
 	 * property is populated when the select event is dispatched; all other properties are populated when the complete 
-	 * event is dispatched. </p>
+	 * event is dispatched.
 	 * 
-	 * <p> The {@link browse browse()} method opens an browser-system dialog box that prompts the user to select a file 
+	 * The {@link browse browse()} method opens an browser-system dialog box that prompts the user to select a file 
 	 * for {@link load}. The {@link FileReference.browse} method lets the user select a single file; the 
 	 * {@link FileReferenceList.browse} method lets the user select multiple files. After a successful call to the 
 	 * {@link browse browse()} method, call the {@link FileReference.load} method to load one file at a time. The 
 	 * {@link FileReference.save} method prompts the user for a location to save the file and initiates downloading from 
-	 * a binary or string data. </p>
+	 * a binary or string data.
 	 * 
-	 * <p> The {@link FileReference} and {@link FileReferenceList} classes do not let you set the default file location 
+	 * The {@link FileReference} and {@link FileReferenceList} classes do not let you set the default file location 
 	 * for the dialog box that the {@link browse} or {@link save} methods generate. The default location shown in the 
 	 * dialog box is the most recently browsed folder, if that location can be determined, or the desktop. The classes do 
 	 * not allow you to read from or write to the transferred file. They do not allow the browser that initiated the 
-	 * {@link load} or {@link save} to access the loaded or saved file or the file's location on the user's disk. </p>
+	 * {@link load} or {@link save} to access the loaded or saved file or the file's location on the user's disk.
 	 * 
 	 * @references http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/FileReference.html
 	 * @author Jeongho Nam <http://samchon.org>
@@ -70,13 +70,13 @@
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> The data from the loaded file after a successful call to the {@link load load()} method. </p>
+		 * The data from the loaded file after a successful call to the {@link load load()} method.
 		 * 
-		 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
-		 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+		 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
+		 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
 		 *
-		 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-		 * </p>
+		 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+		 *
 		 */
 		public get data(): any
 		{
@@ -84,13 +84,13 @@
 		}
 
 		/**
-		 * <p> The name of the file on the local disk. </p>
+		 * The name of the file on the local disk.
 		 * 
-		 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}), 
-		 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+		 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}), 
+		 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
 		 * 
-		 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-		 * </p>
+		 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+		 *
 		 */
 		public get name(): string
 		{
@@ -103,16 +103,16 @@
 		}
 
 		/**
-		 * <p> The filename extension. </p>
+		 * The filename extension.
 		 * 
-		 * <p> A file's extension is the part of the name following (and not including) the final dot (&quot;.&quot;). If 
-		 * there is no dot in the filename, the extension is <code>null</code>. </p>
+		 * A file's extension is the part of the name following (and not including) the final dot (&quot;.&quot;). If 
+		 * there is no dot in the filename, the extension is <code>null</code>.
 		 *
-		 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
-		 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+		 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
+		 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
 		 *
-		 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-		 * </p>
+		 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+		 *
 		 */
 		public get extension(): string
 		{
@@ -125,13 +125,13 @@
 		}
 
 		/**
-		 * <p> The file type, metadata of the {@link extension}. </p>
+		 * The file type, metadata of the {@link extension}.
 		 * 
-		 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
-		 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+		 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
+		 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
 		 *
-		 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-		 * </p>
+		 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+		 *
 		 */
 		public get type(): string
 		{
@@ -139,13 +139,13 @@
 		}
 
 		/**
-		 * <p> The size of the file on the local disk in bytes. </p>
+		 * The size of the file on the local disk in bytes.
 		 * 
-		 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
-		 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+		 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
+		 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
 		 *
-		 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-		 * </p>
+		 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+		 *
 		 */
 		public get size(): number
 		{
@@ -153,13 +153,13 @@
 		}
 
 		/**
-		 * <p> The date that the file on the local disk was last modified. </p>
+		 * The date that the file on the local disk was last modified.
 		 * 
-		 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
-		 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+		 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
+		 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
 		 *
-		 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-		 * </p>
+		 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+		 *
 		 */
 		public get modificationDate(): Date
 		{
@@ -174,17 +174,17 @@
 			OPEN FILE
 		--------------------------------------------------------- */
 		/**
-		 * <p> Displays a file-browsing dialog box that lets the user select a file to upload. The dialog box is native 
+		 * Displays a file-browsing dialog box that lets the user select a file to upload. The dialog box is native 
 		 * to the user's browser system. The user can select a file on the local computer or from other systems, for 
-		 * example, through a UNC path on Windows. </p>
+		 * example, through a UNC path on Windows.
 		 * 
-		 * <p> When you call this method and the user successfully selects a file, the properties of this 
+		 * When you call this method and the user successfully selects a file, the properties of this 
 		 * {@link FileReference} object are populated with the properties of that file. Each subsequent time that the 
 		 * {@link FileReference.browse} method is called, the {@link FileReference} object's properties are reset to 
 		 * the file that the user selects in the dialog box. Only one {@link browse browse()} can be performed at a time 
-		 * (because only one dialog box can be invoked at a time). </p>
+		 * (because only one dialog box can be invoked at a time).
 		 * 
-		 * <p> Using the <i>typeFilter parameter</i>, you can determine which files the dialog box displays. </p>
+		 * Using the *typeFilter parameter*, you can determine which files the dialog box displays.
 		 * 
 		 * @param typeFilter An array of filter strings used to filter the files that are displayed in the dialog box.
 		 *					 If you omit this parameter, all files are displayed.
@@ -220,17 +220,17 @@
 		}
 
 		/**
-		 * <p> Starts the load of a local file selected by a user. </p>
+		 * Starts the load of a local file selected by a user.
 		 * 
-		 * <p> You must call the {@link FileReference.browse} or {@link FileReferenceList.browse} method before you call 
-		 * the {@link load load()} method. </p>
+		 * You must call the {@link FileReference.browse} or {@link FileReferenceList.browse} method before you call 
+		 * the {@link load load()} method.
 		 * 
-		 * <p> Listeners receive events to indicate the progress, success, or failure of the load. Although you can use 
+		 * Listeners receive events to indicate the progress, success, or failure of the load. Although you can use 
 		 * the {@link FileReferenceList} object to let users select multiple files to load, you must {@link load} the 
 		 * {@link FileReferenceList files} one by one. To {@link load} the files one by one, iterate through the 
-		 * {@link FileReferenceList.fileList} array of {@link FileReference} objects. </p>
+		 * {@link FileReferenceList.fileList} array of {@link FileReference} objects.
 		 *
-		 * <p> If the file finishes loading successfully, its contents are stored in the {@link data} property. </p>
+		 * If the file finishes loading successfully, its contents are stored in the {@link data} property.
 		 */
 		public load(): void
 		{
@@ -249,25 +249,25 @@
 			SAVE FILE
 		--------------------------------------------------------- */
 		/**
-		 * <p> Save a file to local filesystem. </p>
+		 * Save a file to local filesystem.
 		 * 
-		 * <p> {@link FileReference.save} implemented the save function by downloading a file from a hidden anchor tag.
-		 * However, the plan, future's {@link FileReference} will follow such rule: </p>
+		 * {@link FileReference.save} implemented the save function by downloading a file from a hidden anchor tag.
+		 * However, the plan, future's {@link FileReference} will follow such rule:
 		 * 
-		 * <p> Opens a dialog box that lets the user save a file to the local filesystem. </p>
+		 * Opens a dialog box that lets the user save a file to the local filesystem.
 		 * 
-		 * <p> The {@link save save()} method first opens an browser-system dialog box that asks the user to enter a
+		 * The {@link save save()} method first opens an browser-system dialog box that asks the user to enter a
 		 * filename and select a location on the local computer to save the file. When the user selects a location and 
 		 * confirms the save operation (for example, by clicking Save), the save process begins. Listeners receive events 
 		 * to indicate the progress, success, or failure of the save operation. To ascertain the status of the dialog box 
 		 * and the save operation after calling {@link save save()}, your code must listen for events such as cancel, 
-		 * open, progress, and complete. </p>
+		 * open, progress, and complete.
 		 * 
-		 * <p> When the file is saved successfully, the properties of the {@link FileReference} object are populated with 
-		 * the properties of the local file. The complete event is dispatched if the save is successful. </p>
+		 * When the file is saved successfully, the properties of the {@link FileReference} object are populated with 
+		 * the properties of the local file. The complete event is dispatched if the save is successful.
 		 * 
-		 * <p> Only one {@link browse browse()} or {@link save()} session can be performed at a time (because only one 
-		 * dialog box can be invoked at a time). </p>
+		 * Only one {@link browse browse()} or {@link save()} session can be performed at a time (because only one 
+		 * dialog box can be invoked at a time).
 		 * 
 		 * @param data The data to be saved. The data can be in one of several formats, and will be treated appropriately.
 		 * @param fileName File name to be saved.
@@ -278,25 +278,25 @@
 		}
 
 		/**
-		 * <p> Save a file to local filesystem. </p>
+		 * Save a file to local filesystem.
 		 * 
-		 * <p> {@link FileReference.save} implemented the save function by downloading a file from a hidden anchor tag.
-		 * However, the plan, future's {@link FileReference} will follow such rule: </p>
+		 * {@link FileReference.save} implemented the save function by downloading a file from a hidden anchor tag.
+		 * However, the plan, future's {@link FileReference} will follow such rule:
 		 * 
-		 * <p> Opens a dialog box that lets the user save a file to the local filesystem. </p>
+		 * Opens a dialog box that lets the user save a file to the local filesystem.
 		 * 
-		 * <p> The {@link save save()} method first opens an browser-system dialog box that asks the user to enter a
+		 * The {@link save save()} method first opens an browser-system dialog box that asks the user to enter a
 		 * filename and select a location on the local computer to save the file. When the user selects a location and 
 		 * confirms the save operation (for example, by clicking Save), the save process begins. Listeners receive events 
 		 * to indicate the progress, success, or failure of the save operation. To ascertain the status of the dialog box 
 		 * and the save operation after calling {@link save save()}, your code must listen for events such as cancel, 
-		 * open, progress, and complete. </p>
+		 * open, progress, and complete.
 		 * 
-		 * <p> When the file is saved successfully, the properties of the {@link FileReference} object are populated with 
-		 * the properties of the local file. The complete event is dispatched if the save is successful. </p>
+		 * When the file is saved successfully, the properties of the {@link FileReference} object are populated with 
+		 * the properties of the local file. The complete event is dispatched if the save is successful.
 		 * 
-		 * <p> Only one {@link browse browse()} or {@link save()} session can be performed at a time (because only one 
-		 * dialog box can be invoked at a time). </p>
+		 * Only one {@link browse browse()} or {@link save()} session can be performed at a time (because only one 
+		 * dialog box can be invoked at a time).
 		 * 
 		 * @param data The data to be saved. The data can be in one of several formats, and will be treated appropriately.
 		 * @param fileName File name to be saved.
@@ -336,13 +336,13 @@
 	}
 
 	/**
-	 * <p> The {@link FileReferenceList} class provides a means to let users select one or more files for 
+	 * The {@link FileReferenceList} class provides a means to let users select one or more files for 
 	 * {@link FileReference.load loading}. A {@link FileReferenceList} object represents a group of one or more local 
 	 * files on the user's disk as an array of {@link FileReference} objects. For detailed information and important 
 	 * considerations about {@link FileReference} objects and the FileReference class, which you use with 
-	 * {@link FileReferenceList}, see the {@link FileReference} class. </p>
+	 * {@link FileReferenceList}, see the {@link FileReference} class.
 	 * 
-	 * <p> To work with the {@link FileReferenceList} class: </p>
+	 * To work with the {@link FileReferenceList} class:
 	 * <ul>
 	 *	<li> Instantiate the class: <code>var myFileRef = new FileReferenceList();</code> </li>
 	 *	<li>
@@ -356,8 +356,8 @@
 	 *	<li> Call {@link FileReference.load} on each element in the {@link fileList} array. </li>
 	 * </ul>
 	 * 
-	 * <p> The {@link FileReferenceList} class includes a {@link browse browse()} method and a {@link fileList} property 
-	 * for working with multiple files. </p>
+	 * The {@link FileReferenceList} class includes a {@link browse browse()} method and a {@link fileList} property 
+	 * for working with multiple files.
 	 * 
 	 * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/FileReferenceList.html
 	 * @author Jeongho Nam <http://samchon.org>
@@ -380,14 +380,14 @@
 		}
 
 		/**
-		 * <p> An array of {@link FileReference} objects. </p>
+		 * An array of {@link FileReference} objects.
 		 *
-		 * <p> When the {@link FileReferenceList.browse} method is called and the user has selected one or more files 
+		 * When the {@link FileReferenceList.browse} method is called and the user has selected one or more files 
 		 * from the dialog box that the {@link browse browse()} method opens, this property is populated with an array of
-		 * {@link FileReference} objects, each of which represents the files the user selected. </p>
+		 * {@link FileReference} objects, each of which represents the files the user selected.
 		 *
-		 * <p> The {@link fileList} property is populated anew each time {@link browse browse()} is called on that
-		 * {@link FileReferenceList} object. </p>
+		 * The {@link fileList} property is populated anew each time {@link browse browse()} is called on that
+		 * {@link FileReferenceList} object.
 		 */
 		public get fileList(): std.Vector<FileReference>
 		{
@@ -395,20 +395,20 @@
 		}
 
 		/**
-		 * <p> Displays a file-browsing dialog box that lets the user select one or more local files to upload. The 
-		 * dialog box is native to the user's browser system.  </p>
+		 * Displays a file-browsing dialog box that lets the user select one or more local files to upload. The 
+		 * dialog box is native to the user's browser system. 
 		 *
-		 * <p> When you call this method and the user successfully selects files, the {@link fileList} property of this 
+		 * When you call this method and the user successfully selects files, the {@link fileList} property of this 
 		 * {@link FileReferenceList} object is populated with an array of {@link FileReference} objects, one for each 
 		 * file that the user selects. Each subsequent time that the {@link FileReferenceList.browse} method is called, 
 		 * the {@link FileReferenceList.fileList} property is reset to the file(s) that the user selects in the dialog 
-		 * box. </p>
+		 * box.
 		 *
-		 * <p> Using the <i>typeFilter</i> parameter, you can determine which files the dialog box displays. </p>
+		 * Using the *typeFilter* parameter, you can determine which files the dialog box displays.
 		 * 
-		 * <p> Only one {@link FileReference.browse}, {@link FileReference.load}, or {@link FileReferenceList.browse} 
+		 * Only one {@link FileReference.browse}, {@link FileReference.load}, or {@link FileReferenceList.browse} 
 		 * session can be performed at a time on a {@link FileReferenceList} object (because only one dialog box can be 
-		 * opened at a time). </p>
+		 * opened at a time).
 		 *
 		 * @param typeFilter An array of filter strings used to filter the files that are displayed in the dialog box. 
 		 *					 If you omit this parameter, all files are displayed.

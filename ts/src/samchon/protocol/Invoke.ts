@@ -6,23 +6,23 @@
 namespace samchon.protocol
 {
 	/**
-	 * <p> Standard message of network I/O. </p>
+	 * Standard message of network I/O.
 	 * 
-	 * <p> {@link Invoke} is a class used in network I/O in protocol package of Samchon Framework. </p>
+	 * {@link Invoke} is a class used in network I/O in protocol package of Samchon Framework.
 	 *
-	 * <p> The Invoke message has an XML structure like the result screen of provided example in below. 
+	 * The Invoke message has an XML structure like the result screen of provided example in below. 
 	 * We can enjoy lots of benefits by the normalized and standardized message structure used in
-	 * network I/O. </p>
+	 * network I/O.
 	 *
-	 * <p> The greatest advantage is that we can make any type of network system, even how the system 
+	 * The greatest advantage is that we can make any type of network system, even how the system 
 	 * is enourmously complicated. As network communication message is standardized, we only need to
 	 * concentrate on logical relationships between network systems. We can handle each network system 
 	 * like a object (class) in OOD. And those relationships can be easily designed by using design
-	 * pattern. </p>
+	 * pattern.
 	 *
-	 * <p> In Samchon Framework, you can make any type of network system with basic componenets
+	 * In Samchon Framework, you can make any type of network system with basic componenets
 	 * (IProtocol, IServer and ICommunicator) by implemens or inherits them, like designing
-	 * classes of S/W architecture. </p>
+	 * classes of S/W architecture.
 	 *
 	 * @see IProtocol
 	 * @author Jeongho Nam <http://samchon.org>
@@ -31,7 +31,7 @@ namespace samchon.protocol
 		extends EntityArray<InvokeParameter>
 	{
 		/**
-		 * <p> Listener, represent function's name. </p>
+		 * Listener, represent function's name.
 		 */
 		private listener: string = "";
 
@@ -97,7 +97,7 @@ namespace samchon.protocol
 		}
 
 		/**
-		 * <p> Get arguments for Function.apply(). </p>
+		 * Get arguments for Function.apply().
 		 *
 		 * @return An array containing values of the contained parameters.
 		 */
@@ -118,7 +118,7 @@ namespace samchon.protocol
 			APPLY BY FUNCTION POINTER
 		------------------------------------------------------------------- */
 		/**
-		 * <p> Apply to a matched function. </p>
+		 * Apply to a matched function.
 		 */
 		public apply(obj: IProtocol): boolean
 		{
@@ -165,19 +165,19 @@ namespace samchon.protocol
 		extends Entity
 	{
 		/**
-		 * <p> Name of the parameter. </p>
+		 * Name of the parameter.
 		 *
 		 * @details Optional property, can be omitted.
 		 */
 		protected name: string = "";
 
 		/**
-		 * <p> Type of the parameter. </p>
+		 * Type of the parameter.
 		 */
 		protected type: string = "";
 
 		/** 
-		 * <p> Value of the parameter. </p>
+		 * Value of the parameter.
 		 */
 		protected value: string | number | library.XML | Uint8Array = null;
 

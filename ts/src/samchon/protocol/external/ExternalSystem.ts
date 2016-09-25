@@ -5,27 +5,27 @@
 namespace samchon.protocol.external
 {
 	/**
-	 * <p> An external system driver. </p>
+	 * An external system driver.
 	 * 
-	 * <p> The {@link ExternalSystem} class represents an external system, connected and interact with this system. 
+	 * The {@link ExternalSystem} class represents an external system, connected and interact with this system. 
 	 * {@link ExternalSystem} takes full charge of network communication with external system have connected.
 	 * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
-	 * class, {@link ExternalSystemRole} objects. </p>
+	 * class, {@link ExternalSystemRole} objects.
 	 * 
-	 * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
 	 *		 style="max-width: 100%" /> 
-	 * </a> </p>
+	 * </a>
 	 * 
 	 * <h4> Bridge & Proxy Pattern </h4>
-	 * <p> The {@link ExternalSystem} class can be a <i>bridge</i> for <i>logical proxy</i>. In framework within user, 
+	 * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user, 
 	 * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-	 * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+	 * important. Only interested in user's perspective is *which can be done*.
 	 *
-	 * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+	 * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
 	 * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
 	 *
 	 * <ul>
 	 *	<li>
@@ -37,7 +37,7 @@ namespace samchon.protocol.external
 	 *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the 
 	 *		external system.
 	 *	</li>
-	 *	<li> Those strategy is called <i>Bridge Pattern</i> and <i>Proxy Pattern</i>. </li>
+	 *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
 	 * </ul>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
@@ -185,7 +185,7 @@ namespace samchon.protocol.external
 		/**
 		 * Tag name of the {@link ExternalSytem} in {@link XML}.
 		 *
-		 * @return <i>system</i>.
+		 * @return *system*.
 		 */
 		public TAG(): string
 		{
@@ -195,7 +195,7 @@ namespace samchon.protocol.external
 		/**
 		 * Tag name of {@link ExternalSystemRole children elements} belonged to the {@link ExternalSytem} in {@link XML}.
 		 * 
-		 * @return <i>role</i>.
+		 * @return *role*.
 		 */
 		public CHILD_TAG(): string
 		{

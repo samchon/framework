@@ -3,28 +3,28 @@
 namespace samchon.protocol
 {
 	/**
-	 * <p> An interface for {@link Invoke} message chain. </p>
+	 * An interface for {@link Invoke} message chain.
 	 * 
-	 * <p> {@link IProtocol} is an interface for {@link Invoke} message, which is standard message of network I/O in 
-	 * <i>Samchon Framework</i>, chain. The {@link IProtocol} interface is used to network drivers and some classes 
-	 * which are in a relationship of <i>Chain of Responsibility Pattern</i> with those network drivers. </p>
+	 * {@link IProtocol} is an interface for {@link Invoke} message, which is standard message of network I/O in 
+	 * *Samchon Framework*, chain. The {@link IProtocol} interface is used to network drivers and some classes 
+	 * which are in a relationship of *Chain of Responsibility Pattern* with those network drivers.
 	 * 
-	 * <p> Implements {@link IProtocol} if the class sends and handles {@link Invoke} message. Looking around source 
-	 * codes of <i>Samchon Framework</i>, especially <i>System Templates</i>, you can find out that all the classes and 
+	 * Implements {@link IProtocol} if the class sends and handles {@link Invoke} message. Looking around source 
+	 * codes of *Samchon Framework*, especially *System Templates*, you can find out that all the classes and 
 	 * modules handling {@link Invoke} messages are always implementing this {@link IProtocol} . Yes, {@link IProtocol}, 
-	 * this is the main role you've to follow in this <i>Samchon Framework</i>. </p>
+	 * this is the main role you've to follow in this *Samchon Framework*.
 	 * 
-	 * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
 	 *		 style="max-width: 100%" />
-	 * </a> </p>
+	 * </a>
 	 * 
 	 * 
 	 * <h2> Utilization Case </h2>
-	 * <p> Below pseudo code and class diagram represents {@link service Service Module}, who can build a cloud server. 
+	 * Below pseudo code and class diagram represents {@link service Service Module}, who can build a cloud server. 
 	 * All the classes in the pseudo code are implementing the {@link IProtocol} because all of them are handling
-	 * {@link Invoke} message. </p>
+	 * {@link Invoke} message.
 	 * 
 	 * <ul>
 	 *	<li> Server: Represents a server literally </li>
@@ -41,11 +41,11 @@ namespace samchon.protocol
 	 *	<li> Service: Represents a service, domain logic. </li>
 	 * </ul>
 	 * 
-	 * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
 	 *		 style="max-width: 100%" />
-	 * </a> </p>
+	 * </a>
 	 *
 	 * <code>
 	/// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
@@ -152,12 +152,12 @@ namespace samchon.protocol
 	 * 
 	 * <h2> Basic Components </h2>
 	 * <h4> What Basic Components are </h4>
-	 * <p> <b>Basic Components</b> are the smallest unit of network communication in this <i>Samchon Framework</i>. With
-	 * <b>Basic Components</b>, you can construct any type of network system, even how the network system is enormously
-	 * scaled and complicated, by just combinating the <b>Basic Components</b>. </p>
+	 * **Basic Components** are the smallest unit of network communication in this *Samchon Framework*. With
+	 * **Basic Components**, you can construct any type of network system, even how the network system is enormously
+	 * scaled and complicated, by just combinating the **Basic Components**.
 	 * 
-	 * <p> All the system templates in this framework are also being implemented by utilization of the 
-	 * <b>Basic Compoonents</b>. </p>
+	 * All the system templates in this framework are also being implemented by utilization of the 
+	 * **Basic Compoonents**.
 	 * 
 	 * <ul> 
 	 *	<li> {@link service Service} </il>
@@ -166,9 +166,9 @@ namespace samchon.protocol
 	 *	<li> {@link distributed Distributed System} </il>
 	 * </ul>
 	 *
-	 * <p> Note that, whatever the network system what you've to construct is, just concentrate on role of each system 
-	 * and attach matched <b>Basic Components</b> to the role, within framework of the <b>Object-Oriented Design</b>. 
-	 * Then construction of the network system will be much easier. </p>
+	 * Note that, whatever the network system what you've to construct is, just concentrate on role of each system 
+	 * and attach matched **Basic Components** to the role, within framework of the **Object-Oriented Design**. 
+	 * Then construction of the network system will be much easier.
 	 * 
 	 * <ul>
 	 *	<li> A system is a server, then use {@link IServer} or {@link IServerBase}. </li>
@@ -178,8 +178,8 @@ namespace samchon.protocol
 	 * </ul>
 	 * 
 	 * <h4> Example - System Templates </h4>
-	 * <p> Learning and understanding <i>Basic Components</i> of Samchon Framework, reading source codes and design of
-	 * <b>System Templates</b>' modules will be very helpful. </p>
+	 * Learning and understanding *Basic Components* of Samchon Framework, reading source codes and design of
+	 * **System Templates**' modules will be very helpful.
 	 * 
 	 * <table>
 	 *	<tr>
@@ -240,16 +240,16 @@ namespace samchon.protocol
 	export interface IProtocol
 	{
 		/**
-		 * <p> Sending message. </p>
-		 * <p> Sends message to related system or shifts the responsibility to chain. </p>
+		 * Sending message.
+		 * Sends message to related system or shifts the responsibility to chain.
 		 *
 		 * @param invoke Invoke message to send
 		 */
 		replyData(invoke: Invoke): void;
 
 		/**
-		 * <p> Handling replied message. </p>
-		 * <p> Handles replied message or shifts the responsibility to chain. </p>
+		 * Handling replied message.
+		 * Handles replied message or shifts the responsibility to chain.
 		 *
 		 * @param invoke An {@link Invoke} message has received.
 		 */

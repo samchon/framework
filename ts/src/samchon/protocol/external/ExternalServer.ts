@@ -5,13 +5,13 @@
 namespace samchon.protocol.external
 {
 	/**
-	 * <p> An interface for an external server driver. </p>
+	 * An interface for an external server driver.
 	 * 
-	 * <p> The easiest way to defining an external server driver is to extending one of below, who are derived from this
+	 * The easiest way to defining an external server driver is to extending one of below, who are derived from this
 	 * interface {@link IExternalServer}. However, if you've to interact with an external system who can be both server 
-	 * and client, then make a class (let's name it as <b>BaseSystem</b>) extending {@link ExternalSystem} and make a 
-	 * new class (now, I name it <b>BaseServer</b>) extending <b>BaseSystem</b> and implementing this interface
-	 * {@link IExternalServer}. Define the <b>BaseServer</b> following those codes on below:  
+	 * and client, then make a class (let's name it as **BaseSystem**) extending {@link ExternalSystem} and make a 
+	 * new class (now, I name it **BaseServer**) extending **BaseSystem** and implementing this interface
+	 * {@link IExternalServer}. Define the **BaseServer** following those codes on below:  
 	 * 
 	 * <ul>
 	 *	<li> {@link ExternalServer}: 
@@ -36,27 +36,27 @@ namespace samchon.protocol.external
 	}
 
 	/**
-	 * <p> An external server driver. </p>
+	 * An external server driver.
 	 * 
-	 * <p> The {@link ExternalServer} class represents an external server, connected and interact with this system.
+	 * The {@link ExternalServer} class represents an external server, connected and interact with this system.
 	 * {@link ExternalServer} takes full charge of network communication with external server have connected.
 	 * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
-	 * class, {@link ExternalSystemRole} objects. </p>
+	 * class, {@link ExternalSystemRole} objects.
 	 * 
-	 * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
 	 *		 style="max-width: 100%" /> 
-	 * </a> </p>
+	 * </a>
 	 * 
 	 * <h4> Bridge & Proxy Pattern </h4>
-	 * <p> The {@link ExternalSystem} class can be a <i>bridge</i> for <i>logical proxy</i>. In framework within user,
+	 * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
 	 * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-	 * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+	 * important. Only interested in user's perspective is *which can be done*.
 	 *
-	 * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+	 * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
 	 * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
 	 *
 	 * <ul>
 	 *	<li>
@@ -68,7 +68,7 @@ namespace samchon.protocol.external
 	 *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
 	 *		external system.
 	 *	</li>
-	 *	<li> Those strategy is called <i>Bridge Pattern</i> and <i>Proxy Pattern</i>. </li>
+	 *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
 	 * </ul>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>

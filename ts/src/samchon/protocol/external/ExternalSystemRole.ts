@@ -5,25 +5,25 @@
 namespace samchon.protocol.external
 {
 	/**
-	 * <p> A role of an external system. </p>
+	 * A role of an external system.
 	 * 
-	 * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}. 
-	 * Extends this class and writes some methods related to the role. </p>
+	 * The {@link ExternalSystemRole} class represents a role, *what to do* in an {@link ExternalSystem}. 
+	 * Extends this class and writes some methods related to the role.
 	 * 
-	 * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
 	 *		 style="max-width: 100%" />
-	 * </a> </p>
+	 * </a>
 	 * 
 	 * <h4> Proxy Pattern </h4>
-	 * <p> The {@link ExternalSystemRole} class can be an <i>logical proxy</i>. In framework within user, which 
+	 * The {@link ExternalSystemRole} class can be an *logical proxy*. In framework within user, which 
 	 * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not 
-	 * important. Only interested in user's perspective is <i>which can be done</i>. </p> 
+	 * important. Only interested in user's perspective is *which can be done*. 
 	 * 
-	 * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged 
+	 * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged 
 	 * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}. 
-	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
 	 * 
 	 * <ul>
 	 *	<li>
@@ -35,7 +35,7 @@ namespace samchon.protocol.external
 	 *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
 	 *		external system.
 	 *	</li>
-	 *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+	 *	<li> Those strategy is called *Proxy Pattern*. </li>
 	 * </ul>
 	 *  
 	 * @author Jeongho Nam <http://samchon.org>
@@ -50,9 +50,9 @@ namespace samchon.protocol.external
 		private system: ExternalSystem;
 		
 		/**
-		 * <p> A name, represents and identifies this {@link ExternalSystemRole role}. </p>
+		 * A name, represents and identifies this {@link ExternalSystemRole role}.
 		 * 
-		 * <p> This {@link name} is an identifier represents this {@link ExternalSystemRole role}. This {@link name} is
+		 * This {@link name} is an identifier represents this {@link ExternalSystemRole role}. This {@link name} is
 		 * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
 		 * {@link name} should be unique in an {@link ExternalSystemArray}.
 		 */
@@ -113,10 +113,10 @@ namespace samchon.protocol.external
 		}
 
 		/**
-		 * <p> Handle replied {@link Invoke message} from the {@link system external system} belonged to. </p>
+		 * Handle replied {@link Invoke message} from the {@link system external system} belonged to.
 		 * 
-		 * <p> This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}. 
-		 * in the <i>invoke</i>. </p>
+		 * This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}. 
+		 * in the *invoke*.
 		 * 
 		 * @param invoke An {@link Invoke} message received from the {@link system external system}.
 		 */
@@ -131,7 +131,7 @@ namespace samchon.protocol.external
 		/**
 		 * Tag name of the {@link ExternalSytemRole} in {@link XML}.
 		 *
-		 * @return <i>role</i>.
+		 * @return *role*.
 		 */
 		public TAG(): string
 		{

@@ -5,19 +5,70 @@ namespace samchon.collection
 	/**
 	 * A {@link TreeMultiMap} who can detect element I/O events.
 	 * 
-	 * <ul>
-	 *	<li> <i>insert</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link insert} </li>
-	 *		<li> {@link push} </li>
-	 *	</ul></li>
-	 *	<li> <i>erase</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link clear} </li>
-	 *		<li> {@link erase} </li>
-	 *	</ul></li>
-	 * </ul>
+	 * Below is the list of methods who are dispatching {@link MapCollectionEvent}:
+	 * - *insert* typed events: 
+	 *   - {@link assign}
+	 *   - {@link insert}
+	 *   - {@link emplace}
+	 *   - {@link push}
+	 * - *erase* typed events: 
+	 *   - {@link assign}
+	 *   - {@link clear}
+	 *   - {@link erase}
+	 * - *refresh* typed events:
+	 *   - {@link refresh}
 	 * 
+	 * #### [Inherited]
+	 * {@link TreeMultiMap TreeMultiMaps} are associative containers that store elements formed by a combination of a 
+	 * *key value* and a *mapped value*, following a specific order, and where multiple elements can have equivalent 
+	 * keys. 
+	 *
+	 * In a {@link TreeMultiMap}, the *key values* are generally used to sort and uniquely identify the elements, 
+	 * while the *mapped values* store the content associated to this *key*. The types of *key* and *mapped value* may 
+	 * differ, and are grouped together in member type ```value_type```, which is a {@link Pair} type combining both: 
+	 *
+	 * ```typedef Pair<const Key, T> value_type;``` 
+	 *
+	 * Internally, the elements in a {@link TreeMultiMap}are always sorted by its key following a strict weak ordering 
+	 * criterion indicated by its internal comparison method (of {@link less}). 
+	 *
+	 * {@link TreeMultiMap}containers are generally slower than {@link HashMap} containers to access individual 
+	 * elements by their *key*, but they allow the direct iteration on subsets based on their order. 
+	 *
+	 * {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees. 
+	 *
+	 * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank"> <
+	 * img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> 
+	 * </a>
+	 *
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 *	<dt> Associative </dt>
+	 *	<dd>
+	 *		Elements in associative containers are referenced by their *key* and not by their absolute
+	 *		position in the container.
+	 *	</dd>
+	 *
+	 *	<dt> Ordered </dt>
+	 *	<dd>
+	 *		The elements in the container follow a strict order at all times. All inserted elements are
+	 *		given a position in this order.
+	 *	</dd>
+	 *
+	 *	<dt> Map </dt>
+	 *	<dd>
+	 *		Each element associates a *key* to a *mapped value*:
+	 *		*Keys* are meant to identify the elements whose main content is the *mapped value*.
+	 *	</dd>
+	 *
+	 *	<dt> Multiple equivalent keys </dt>
+	 *	<dd> Multiple elements in the container can have equivalent *keys*. </dd>
+	 * </dl>
+	 *
+	 * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
+	 * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
+	 *
+	 * @reference http://www.cplusplus.com/reference/map/multimap
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMultiMapCollection<Key, T>

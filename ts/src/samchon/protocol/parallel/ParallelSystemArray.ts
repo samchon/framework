@@ -5,7 +5,7 @@
 namespace samchon.protocol.parallel
 {
 	/**
-	 * <p> A manager containing {@link ParallelSystem} objects. </p>
+	 * A manager containing {@link ParallelSystem} objects.
 	 * 
 	 * 
 	 * 
@@ -43,25 +43,6 @@ namespace samchon.protocol.parallel
 			return super.at(index) as ParallelSystem;
 		}
 
-		/**
-		 * @hidden
-		 */
-		public _Fetch_history_sequence(): number
-		{
-			return ++this.history_sequence_;
-		}
-
-		/**
-		 * @hidden
-		 */
-		public _Set_history_sequence(val: number): void
-		{
-			if (val <= this.history_sequence_)
-				return;
-
-			this.history_sequence_ = val;
-		}
-
 		/* =========================================================
 			INVOKE MESSAGE CHAIN
 				- SEND DATA
@@ -84,14 +65,14 @@ namespace samchon.protocol.parallel
 		 * 
 		 * @param invoke An invoke message requesting parallel process.
 		 * @param first Initial piece's index in a section.
-		 * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains 
-		 *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
-		 *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
+		 * @param last Final piece's index in a section. The ranged used is [*first*, *last*), which contains 
+		 *			   all the pieces' indices between *first* and *last*, including the piece pointed by index
+		 *			   *first*, but not the piece pointed by the index *last*.
 		 */
 		public sendPieceData(invoke: Invoke, first: number, last: number): void
 		{
 			if (invoke.has("_History_uid") == false)
-				invoke.push_back(new InvokeParameter("_History_uid", this._Fetch_history_sequence()));
+				invoke.push_back(new InvokeParameter("_History_uid", ++this.history_sequence_));
 			else
 			{
 				// INVOKE MESSAGE ALREADY HAS ITS OWN UNIQUE ID
@@ -100,19 +81,26 @@ namespace samchon.protocol.parallel
 				let uid: number = invoke.get("_History_uid").getValue();
 
 				// FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
-				this._Set_history_sequence(uid);
+				this.history_sequence_ = uid;
 			}
 
-			let size: number = last - first;
+			let segment_size: number = last - first;
+			let system_size: number = 0;
+
+			for (let i: number = 0; i < this.size(); i++)
+				if (this.at(i)["exclude_"] == false)
+					system_size++;
 
 			for (let i: number = 0; i < this.size(); i++)
 			{
 				let system: ParallelSystem = this.at(i) as ParallelSystem;
+				if (system["exclude_"] == true)
+					continue;
 
 				// COMPUTE FIRST AND LAST INDEX TO ALLOCATE
 				let piece_size: number = (i == this.size() - 1) 
-					? size - first
-					: Math.floor(size / this.size() * system.getPerformance());
+					? segment_size - first
+					: Math.floor(segment_size / system_size * system.getPerformance());
 				if (piece_size == 0)
 					continue;
 

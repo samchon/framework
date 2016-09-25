@@ -76,7 +76,7 @@ namespace samchon.protocol.distributed
 			if (invoke.has("_History_uid") == false)
 			{
 				// ISSUE UID AND ATTACH IT TO INVOKE'S LAST PARAMETER
-				uid = this.system_array_._Fetch_history_sequence();
+				uid = ++this.system_array_["history_sequence_"];
 				invoke.push_back(new InvokeParameter("_History_uid", uid));
 			}
 			else
@@ -87,7 +87,7 @@ namespace samchon.protocol.distributed
 				uid = invoke.get("_History_uid").getValue();
 
 				// FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
-				this.system_array_._Set_history_sequence(uid);
+				this.system_array_["history_sequence_"] = uid;
 
 				// FOR CASE 2. ERASE ORDINARY PROGRESSIVE HISTORY FROM THE DISCONNECTED
 				this.progress_list_.erase(uid);
@@ -103,6 +103,8 @@ namespace samchon.protocol.distributed
 			for (let i: number = 0; i < this.system_array_.size(); i++)
 			{
 				let system: DistributedSystem = this.system_array_.at(i) as DistributedSystem;
+				if (system["exclude_"] == true)
+					continue;
 
 				if (idle_system == null 
 					|| system["progress_list_"].size() < idle_system["progress_list_"].size()

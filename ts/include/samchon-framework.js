@@ -1,17 +1,17 @@
 /**
  * <h1> Samchon-Framework </h1>
  *
- * <p> <a href="https://nodei.co/npm/samchon-framework">
- *	<img src="https://nodei.co/npm/samchon-framework.png?downloads=true&downloadRank=true&stars=true"> </a> </p>
+ * <a href="https://nodei.co/npm/samchon-framework">
+ *	<img src="https://nodei.co/npm/samchon-framework.png?downloads=true&downloadRank=true&stars=true"> </a>
  *
- * <p> Samchon, a SDN (Software Defined Network) framework. </p>
+ * Samchon, a SDN (Software Defined Network) framework.
  *
- * <p> With Samchon Framework, you can implement distributed processing system within framework of OOD like
+ * With Samchon Framework, you can implement distributed processing system within framework of OOD like
  * handling S/W objects (classes). You can realize cloud and distributed system very easily with provided
- * system templates and even integration with C++ is possible. </p>
+ * system templates and even integration with C++ is possible.
  *
- * <p> The goal, ultimate utilization model of Samchon Framework is, building cloud system with NodeJS and
- * takING heavy works to C++ distributed systems with provided modules (those are system templates). </p>
+ * The goal, ultimate utilization model of Samchon Framework is, building cloud system with NodeJS and
+ * takING heavy works to C++ distributed systems with provided modules (those are system templates).
  *
  * @git https://github.com/samchon/framework
  * @author Jeongho Nam <http://samchon.org>
@@ -19,9 +19,9 @@
 var samchon;
 (function (samchon) {
     /**
-     * <p> Running on Node. </p>
+     * Running on Node.
      *
-     * <p> Test whether the JavaScript is running on Node. </p>
+     * Test whether the JavaScript is running on Node.
      *
      * @references http://stackoverflow.com/questions/17575790/environment-detection-node-js-or-browser
      */
@@ -55,28 +55,75 @@ var samchon;
         /**
          * A {@link Vector} who can detect element I/O events.
          *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *		<li> {@link push_back} </li>
-         *		<li> {@link unshift} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *		<li> {@link pop_back} </li>
-         *		<li> {@link shift} </li>
-         *		<li> {@link pop} </li>
-         *		<li> {@link splice} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link sort} </li>
-         *	</ul></li>
-         * </ul>
+         * Below is the list of methods who are dispatching {@link CollectionEvent}:
+         * - *insert* typed events:
+         *   - {@link assign}
+         *   -  {@link insert}
+         *   -  {@link push}
+         *   -  {@link push_back}
+         *   -  {@link unshift}
+         * - *erase* typed events:
+         *   -  {@link assign}
+         *   -  {@link clear}
+         *   -  {@link erase}
+         *   - {@link pop_back}
+         *   - {@link shift}
+         *   - {@link pop}
+         *   - {@link splice}
+         * - *refresh* typed events:
+         *   - {@link refresh}
          *
+         * #### [Inherited]
+         * {@link Vector Vectors}s are sequence containers representing arrays that can change in size.
+         *
+         * Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that their
+         * elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently as in
+         * arrays. But unlike arrays, their size can change dynamically, with their storage being handled automatically
+         * by the container.
+         *
+         * Internally, {@link Vector}s use a dynamically allocated array to store their elements. This array may need to
+         * be reallocated in order to grow in size when new elements are inserted, which implies allocating a new array
+         * and moving all elements to it. This is a relatively expensive task in terms of processing time, and thus,
+         * {@link Vector}s do not reallocate each time an element is added to the container.
+         *
+         * Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible growth, and
+         * thus the container may have an actual {@link capacity} greater than the storage strictly needed to contain its
+         * elements (i.e., its {@link size}). Libraries can implement different strategies for growth to balance between
+         * memory usage and reallocations, but in any case, reallocations should only happen at logarithmically growing
+         * intervals of {@link size} so that the insertion of individual elements at the end of the {@link Vector} can be
+         * provided with amortized constant time complexity (see {@link push_back push_back()}).
+         *
+         * Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability to manage
+         * storage and grow dynamically in an efficient way.
+         *
+         * Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s), {@link Vector Vectors} are
+         * very efficient accessing its elements (just like arrays) and relatively efficient adding or removing elements
+         * from its end. For operations that involve inserting or removing elements at positions other than the end, they
+         * perform worse than the others, and have less consistent iterators and references than {@link List}s.
+         *
+         * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
+         * </a>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         *	<dt> Sequence </dt>
+         *	<dd>
+         *		Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
+         *		accessed by their position in this sequence.
+         *	</dd>
+         *
+         *	<dt> Dynamic array </dt>
+         *	<dd>
+         *		Allows direct access to any element in the sequence, even through pointer arithmetics, and provides
+         *		relatively fast addition/removal of elements at the end of the sequence.
+         *	</dd>
+         * </dl>
+         *
+         * @param <T> Type of the elements.
+         *
+         * @reference http://www.cplusplus.com/reference/vector/vector
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var ArrayCollection = (function (_super) {
@@ -453,6 +500,9 @@ var samchon;
     var collection;
     (function (collection) {
         /**
+         * An event occured in a {@link ICollection collection} object.
+         *
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var CollectionEvent = (function (_super) {
@@ -474,7 +524,7 @@ var samchon;
             }
             Object.defineProperty(CollectionEvent.prototype, "target", {
                 /**
-                 * Get associative target, the container.
+                 * Associative target, the {@link ICollection collection}.
                  */
                 get: function () {
                     return this.target_;
@@ -484,7 +534,7 @@ var samchon;
             });
             Object.defineProperty(CollectionEvent.prototype, "first", {
                 /**
-                 * Get range of the first.
+                 * An {@link Iterator} to the initial position in this {@link CollectionEvent}.
                  */
                 get: function () {
                     return this.first_;
@@ -494,7 +544,7 @@ var samchon;
             });
             Object.defineProperty(CollectionEvent.prototype, "last", {
                 /**
-                 * Get range of the last.
+                 * An {@link Iterator} to the final position in this {@link CollectionEvent}.
                  */
                 get: function () {
                     return this.last_;
@@ -551,25 +601,69 @@ var samchon;
         /**
          * A {@link Deque} who can detect element I/O events.
          *
-         * <p> Below are list of methods who are dispatching {@link CollectionEvent}: </p>
+         * Below is the list of methods who are dispatching {@link CollectionEvent}:
+         * - *insert* typed events:
+         *   - {@link assign}
+         *   - {@link insert}
+         *   - {@link push}
+         *   - {@link push_front}
+         *   - {@link push_back}
+         * - *erase* typed events:
+         *   - {@link assign}
+         *   - {@link clear}
+         *   - {@link erase}
+         *   - {@link pop_front}
+         *   - {@link pop_back}
+         * - *refresh* typed events:
+         *   - {@link refresh}
          *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *		<li> {@link push_front} </li>
-         *		<li> {@link push_back} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *		<li> {@link pop_front} </li>
-         *		<li> {@link pop_back} </li>
-         *	</ul></li>
-         * </ul>
+         * #### [Inherited]
+         * {@link Deque} (usually pronounced like "*deck*") is an irregular acronym of **d**ouble-**e**nded **q**ueue.
+         * Double-ended queues are sequence containers with dynamic sizes that can be expanded or contracted on both ends
+         * (either its front or its back).
          *
+         * Specific libraries may implement deques in different ways, generally as some form of dynamic array. But in any
+         * case, they allow for the individual elements to be accessed directly through random access iterators, with
+         * storage handled automatically by expanding and contracting the container as needed.
+         *
+         * Therefore, they provide a functionality similar to vectors, but with efficient insertion and deletion of
+         * elements also at the beginning of the sequence, and not only at its end. But, unlike {@link Vector Vectors},
+         * {@link Deque Deques} are not guaranteed to store all its elements in contiguous storage locations: accessing
+         * elements in a <u>deque</u> by offsetting a pointer to another element causes undefined behavior.
+         *
+         * Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for similar purposes,
+         * but internally both work in quite different ways: While {@link Vector}s use a single array that needs to be
+         * occasionally reallocated for growth, the elements of a {@link Deque} can be scattered in different chunks of
+         * storage, with the container keeping the necessary information internally to provide direct access to any of its
+         * elements in constant time and with a uniform sequential interface (through iterators). Therefore,
+         * {@link Deque Deques} are a little more complex internally than {@link Vector}s, but this allows them to grow
+         * more efficiently under certain circumstances, especially with very long sequences, where reallocations become
+         * more expensive.
+         *
+         * For operations that involve frequent insertion or removals of elements at positions other than the beginning or
+         * the end, {@link Deque Deques} perform worse and have less consistent iterators and references than
+         * {@link List Lists}.
+         *
+         * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
+         * </a>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         *	<dt> Sequence </dt>
+         *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements
+         *		 are accessed by their position in this sequence. </dd>
+         *
+         *	<dt> Dynamic array </dt>
+         *	<dd> Generally implemented as a dynamic array, it allows direct access to any element in the
+         *		 sequence and provides relatively fast addition/removal of elements at the beginning or the end
+         *		 of the sequence. </dd>
+         * </dl>
+         *
+         * @param <T> Type of the elements.
+         *
+         * @reference http://www.cplusplus.com/reference/deque/deque/
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var DequeCollection = (function (_super) {
@@ -724,26 +818,68 @@ var samchon;
         /**
          * A {@link HashMap} who can detect element I/O events.
          *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *		<li> {@link set} </li>
-         *		<li> {@link insert_or_assign} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *		<li> {@link extract} </li>
-         *	</ul></li>
-         *	<li> <i>refresh</i> typed events: <ul>
-         *		<li> {@link set} </li>
-         *		<li> {@link insert_or_assign} </li>
-         *	</ul></li>
-         * </ul>
+         * Below is the list of methods who are dispatching {@link MapCollectionEvent}:
+         * - *insert* typed events:
+         *   - {@link assign}
+         *   - {@link insert}
+         *   - {@link insert_or_assign}
+         *   - {@link emplace}
+         *   - {@link set}
+         *   - {@link push}
+         * - *erase* typed events:
+         *   - {@link assign}
+         *   - {@link clear}
+         *   - {@link erase}
+         *   - {@link extract}
+         * - *refresh* typed events:
+         *   - {@link refresh}
          *
+         * #### [Inherited]
+         * {@link HashMap HashMaps} are associative containers that store elements formed by the combination of a
+         * *key value* and a *mapped value*, and which allows for fast retrieval of individual elements based on their
+         * *keys*.
+         *
+         * In an {@link HashMap}, the *key value* is generally used to uniquely identify the element, while the
+         * *mapped value* is an object with the content associated to this *key*. Types of *key* and *mapped value* may
+         * differ.
+         *
+         * Internally, the elements in the {@link HashMap} are not sorted in any particular order with respect to either
+         * their *key* or *mapped values*, but organized into *buckets* depending on their hash values to allow for fast
+         * access to individual elements directly by their *key values* (with a constant average time complexity on
+         * average).
+         *
+         * {@link HashMap} containers are faster than {@link TreeMap} containers to access individual elements by their
+         * *key*, although they are generally less efficient for range iteration through a subset of their elements.
+         *
+         *  <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" />
+         * </a>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         * 	<dt> Associative </dt>
+         * 	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
+         *		 position in the container. </dd>
+         *
+         * 	<dt> Hashed </dt>
+         * 	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+         *		 by their *key*. </dd>
+         *
+         * 	<dt> Map </dt>
+         * 	<dd> Each element associates a *key* to a *mapped value*:
+         *		 *Keys* are meant to identify the elements whose main content is the *mapped value*. </dd>
+         *
+         * 	<dt> Unique keys </dt>
+         * 	<dd> No two elements in the container can have equivalent keys. </dd>
+         * </dl>
+         *
+         * @param <Key> Type of the key values.
+         *				Each element in an {@link HashMap} is uniquely identified by its key value.
+         * @param <T> Type of the mapped value.
+         *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
+         *
+         * @reference http://www.cplusplus.com/reference/unordered_map/unordered_map
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var HashMapCollection = (function (_super) {
@@ -841,19 +977,65 @@ var samchon;
         /**
          * A {@link HashMultiMap} who can detect element I/O events.
          *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *	</ul></li>
-         * </ul>
+         * Below is the list of methods who are dispatching {@link MapCollectionEvent}:
+         * - *insert* typed events:
+         *   - {@link assign}
+         *   - {@link insert}
+         *   - {@link emplace}
+         *   - {@link push}
+         * - *erase* typed events:
+         *   - {@link assign}
+         *   - {@link clear}
+         *   - {@link erase}
+         * - *refresh* typed events:
+         *   - {@link refresh}
          *
+         * #### [Inherited]
+         * {@link HashMultiMap HashMultiMap}s are associative containers that store elements formed by the combination of
+         * a *key value* and a *mapped value*, much like {@link HashMultiMap} containers, but allowing different elements
+         * to have equivalent *keys*.
+         *
+         * In an {@link HashMultiMap}, the *key value* is generally used to uniquely identify the element, while the
+         * *mapped value* is an object with the content associated to this *key*. Types of *key* and *mapped value* may
+         * differ.
+         *
+         * Internally, the elements in the {@link HashMultiMap} are not sorted in any particular order with respect to
+         * either their *key* or *mapped values*, but organized into *buckets* depending on their hash values to allow for
+         * fast access to individual elements directly by their *key values* (with a constant average time complexity on
+         * average).
+         *
+         * Elements with equivalent *keys* are grouped together in the same bucket and in such a way that an iterator can
+         * iterate through all of them. Iterators in the container are doubly linked iterators.
+         *
+         * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" />
+         * </a>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         *	<dt> Associative </dt>
+         *	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
+         *		 position in the container. </dd>
+         *
+         *	<dt> Hashed </dt>
+         *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+         *		 by their *key*. </dd>
+         *
+         *	<dt> Map </dt>
+         *	<dd> Each element associates a *key* to a *mapped value*:
+         *		 *Keys* are meant to identify the elements whose main content is the *mapped value*. </dd>
+         *
+         *	<dt> Multiple equivalent keys </dt>
+         *	<dd> The container can hold multiple elements with equivalent *keys*. </dd>
+         * </dl>
+         *
+         * @param <Key> Type of the key values.
+         *				Each element in an {@link HashMultiMap} is identified by a key value.
+         * @param <T> Type of the mapped value.
+         *			  Each element in an {@link HashMultiMap} is used to store some data as its mapped value.
+         *
+         * @reference http://www.cplusplus.com/reference/unordered_map/unordered_multimap
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var HashMultiMapCollection = (function (_super) {
@@ -951,19 +1133,60 @@ var samchon;
         /**
          * A {@link HashMultiSet} who can detect element I/O events.
          *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *	</ul></li>
-         * </ul>
+         * Below is the list of methods who are dispatching {@link CollectionEvent}:
+         * - *insert* typed events:
+         *   - {@link assign}
+         *   - {@link insert}
+         *   - {@link push}
+         * - *erase* typed events:
+         *   - {@link assign}
+         *   - {@link clear}
+         *   - {@link erase}
+         * - *refresh* typed events:
+         *   - {@link refresh}
          *
+         * #### [Inherited]
+         * {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
+         * retrieval of individual elements based on their value, much like {@link HashMultiSet} containers, but allowing
+         * different elements to have equivalent values.
+         *
+         * In an {@link HashMultiSet}, the value of an element is at the same time its *key*, used to identify it. *Keys*
+         * are immutable, therefore, the elements in an {@link HashMultiSet} cannot be modified once in the container -
+         * they can be inserted and removed, though.
+         *
+         * Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but organized into
+         * *buckets* depending on their hash values to allow for fast access to individual elements directly by their
+         * *values* (with a constant average time complexity on average).
+         *
+         * Elements with equivalent values are grouped together in the same bucket and in such a way that an iterator can
+         * iterate through all of them. Iterators in the container are doubly linked iterators.
+         *
+         * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" />
+         * </a>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         *	<dt> Associative </dt>
+         *	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
+         *		 position in the container. </dd>
+         *
+         *	<dt> Hashed </dt>
+         *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+         *		 by their *key*. </dd>
+         *
+         *	<dt> Set </dt>
+         *	<dd> The value of an element is also the *key* used to identify it. </dd>
+         *
+         *	<dt> Multiple equivalent keys </dt>
+         *	<dd> The container can hold multiple elements with equivalent *keys*. </dd>
+         * </dl>
+         *
+         * @param <T> Type of the elements.
+         *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
+         *
+         * @reference http://www.cplusplus.com/reference/unordered_set/unordered_multiset
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var HashMultiSetCollection = (function (_super) {
@@ -1061,20 +1284,61 @@ var samchon;
         /**
          * A {@link HashSet} who can detect element I/O events.
          *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *		<li> {@link extract} </li>
-         *	</ul></li>
-         * </ul>
+         * Below is the list of methods who are dispatching {@link CollectionEvent}:
+         * - *insert* typed events:
+         *   - {@link assign}
+         *   - {@link insert}
+         *   - {@link push}
+         *   - {@link insert_or_assign}
+         * - *erase* typed events:
+         *   - {@link assign}
+         *   - {@link clear}
+         *   - {@link erase}
+         *   - {@link extract}
+         * - *refresh* typed events:
+         *   - {@link refresh}
          *
+         * #### [Inherited]
+         * {@link HashSet HashSets} are containers that store unique elements in no particular order, and which allow for
+         * fast retrieval of individual elements based on their value.
+         *
+         * In an {@link HashSet}, the value of an element is at the same time its *key*, that identifies it uniquely.
+         * Keys are immutable, therefore, the elements in an {@link HashSet} cannot be modified once in the container -
+         * they can be inserted and removed, though.
+         *
+         * Internally, the elements in the {@link HashSet} are not sorted in any particular order, but organized into
+         * buckets depending on their hash values to allow for fast access to individual elements directly by their
+         * *values* (with a constant average time complexity on average).
+         *
+         * {@link HashSet} containers are faster than {@link TreeSet} containers to access individual elements by their
+         * *key*, although they are generally less efficient for range iteration through a subset of their elements.
+         *
+         * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" />
+         * </a>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         *	<dt> Associative </dt>
+         *	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
+         *		 position in the container. </dd>
+         *
+         *	<dt> Hashed </dt>
+         *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+         *		 by their *key*. </dd>
+         *
+         *	<dt> Set </dt>
+         *	<dd> The value of an element is also the *key* used to identify it. </dd>
+         *
+         *	<dt> Unique keys </dt>
+         *	<dd> No two elements in the container can have equivalent *keys*. </dd>
+         * </dl>
+         *
+         * @param <T> Type of the elements.
+         *			  Each element in an {@link HashSet} is also uniquely identified by this value.
+         *
+         * @reference http://www.cplusplus.com/reference/unordered_set/unordered_set
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var HashSetCollection = (function (_super) {
@@ -1174,6 +1438,9 @@ var samchon;
          */
         var ICollection;
         (function (ICollection) {
+            /**
+             * @hidden
+             */
             function _Dispatch_CollectionEvent(collection, type, first, last) {
                 if (collection.hasEventListener(type) == false)
                     return;
@@ -1183,6 +1450,9 @@ var samchon;
                 });
             }
             ICollection._Dispatch_CollectionEvent = _Dispatch_CollectionEvent;
+            /**
+             * @hidden
+             */
             function _Dispatch_MapCollectionEvent(collection, type, first, last) {
                 if (collection.hasEventListener(type) == false)
                     return;
@@ -1203,31 +1473,70 @@ var samchon;
         /**
          * A {@link List} who can detect element I/O events.
          *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *		<li> {@link push_front} </li>
-         *		<li> {@link push_back} </li>
-         *		<li> {@link merge} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *		<li> {@link pop_front} </li>
-         *		<li> {@link pop_back} </li>
-         *		<li> {@link unique} </li>
-         *		<li> {@link remove} </li>
-         *		<li> {@link remove_if} </li>
-         *		<li> {@link splice} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link sort} </li>
-         *	</ul></li>
-         * </ul>
+         * Below is the list of methods who are dispatching {@link CollectionEvent}:
+         *	- *insert* typed events:
+         *   - {@link assign}
+         *   - {@link insert}
+         *   - {@link push}
+         *   - {@link push_front}
+         *   - {@link push_back}
+         *   - {@link merge}
+         * - *erase* typed events:
+         *   - {@link assign}
+         *   - {@link clear}
+         *   - {@link erase}
+         *   - {@link pop_front}
+         *   - {@link pop_back}
+         *   - {@link unique}
+         *   - {@link remove}
+         *   - {@link remove_if}
+         *   - {@link splice}
+         * - *refresh* typed events:
+         *   - {@link refresh}
+         *   - {@link sort}
          *
+         * #### [Inherited]
+         * {@link List Lists} are sequence containers that allow constant time insert and erase operations anywhere within
+         * the sequence, and iteration in both directions.
+         *
+         * List containers are implemented as doubly-linked lists; Doubly linked lists can store each of the elements they
+         * contain in different and unrelated storage locations. The ordering is kept internally by the association to
+         * each element of a link to the element preceding it and a link to the element following it.
+         *
+         * They are very similar to forward_list: The main difference being that forward_list objects are single-linked
+         * lists, and thus they can only be iterated forwards, in exchange for being somewhat smaller and more efficient.
+         *
+         * Compared to other base standard sequence containers (array, vector and deque), lists perform generally better
+         * in inserting, extracting and moving elements in any position within the container for which an iterator has
+         * already been obtained, and therefore also in algorithms that make intensive use of these, like sorting
+         * algorithms.
+         *
+         * The main drawback of lists and forward_lists compared to these other sequence containers is that they lack
+         * direct access to the elements by their position; For example, to access the sixth element in a list, one has to
+         * iterate from a known position (like the beginning or the end) to that position, which takes linear time in the
+         * distance between these. They also consume some extra memory to keep the linking information associated to each
+         * element (which may be an important factor for large lists of small-sized elements).
+         *
+         * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
+         * </a>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         * 	<dt> Sequence </dt>
+         * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are accessed by
+         *		 their position in this sequence. </dd>
+         *
+         * 	<dt> Doubly-linked list </dt>
+         *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing constant time
+         *		 insert and erase operations before or after a specific element (even of entire ranges), but no direct random
+         *		 access. </dd>
+         * </dl>
+         *
+         * @param <T> Type of the elements.
+         *
+         * @reference http://www.cplusplus.com/reference/list/list/
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var ListCollection = (function (_super) {
@@ -1397,6 +1706,11 @@ var samchon;
 (function (samchon) {
     var collection;
     (function (collection) {
+        /**
+         * An event occured in a {@link MapContainer map container} object.
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var MapCollectionEvent = (function (_super) {
             __extends(MapCollectionEvent, _super);
             function MapCollectionEvent() {
@@ -1408,7 +1722,7 @@ var samchon;
                  * @inheritdoc
                  */
                 get: function () {
-                    return this.first_;
+                    return this["first_"];
                 },
                 enumerable: true,
                 configurable: true
@@ -1418,7 +1732,7 @@ var samchon;
                  * @inheritdoc
                  */
                 get: function () {
-                    return this.last_;
+                    return this["last_"];
                 },
                 enumerable: true,
                 configurable: true
@@ -1436,26 +1750,66 @@ var samchon;
         /**
          * A {@link TreeMap} who can detect element I/O events.
          *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *		<li> {@link set} </li>
-         *		<li> {@link insert_or_assign} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *		<li> {@link extract} </li>
-         *	</ul></li>
-         *	<li> <i>refresh</i> typed events: <ul>
-         *		<li> {@link set} </li>
-         *		<li> {@link insert_or_assign} </li>
-         *	</ul></li>
-         * </ul>
+         * Below is the list of methods who are dispatching {@link MapCollectionEvent}:
+         * - *insert* typed events:
+         *   - {@link assign}
+         *   - {@link insert}
+         *   - {@link insert_or_assign}
+         *   - {@link emplace}
+         *   - {@link set}
+         *   - {@link push}
+         * - *erase* typed events:
+         *   - {@link assign}
+         *   - {@link clear}
+         *   - {@link erase}
+         *   - {@link extract}
+         * - *refresh* typed events:
+         *   - {@link refresh}
          *
+         * #### [Inherited]
+         * {@link TreeMap TreeMaps} are associative containers that store elements formed by a combination of a
+         * *key value* (*Key*) and a *mapped value* (*T*), following order.
+         *
+         * In a {@link TreeMap}, the *key values* are generally used to sort and uniquely identify the elements, while the
+         * *mapped values* store the content associated to this key. The types of *key* and *mapped value* may differ, and
+         * are grouped together in member type *value_type*, which is a {@link Pair} type combining both:
+         *
+         * ```typedef Pair<Key, T> value_type;```
+         *
+         * Internally, the elements in a {@link TreeMap} are always sorted by its *key* following a *strict weak ordering*
+         * criterion indicated by its internal comparison method {@link less}.
+         *
+         * {@link TreeMap} containers are generally slower than {@link HashMap HashMap} containers to access individual
+         * elements by their *key*, but they allow the direct iteration on subsets based on their order.
+         *
+         * {@link TreeMap}s are typically implemented as binary search trees.
+         *
+         * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" />
+         * </a>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         *	<dt> Associative </dt>
+         *	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
+         *		 position in the container. </dd>
+         *
+         *	<dt> Ordered </dt>
+         *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
+         *		 given a position in this order. </dd>
+         *
+         *	<dt> Map </dt>
+         *	<dd> Each element associates a *key* to a *mapped value*:
+         *		 *Keys* are meant to identify the elements whose main content is the *mapped value*. </dd>
+         *
+         *	<dt> Unique keys </dt>
+         *	<dd> No two elements in the container can have equivalent *keys*. </dd>
+         * </dl>
+         *
+         * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
+         * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
+         *
+         * @reference http://www.cplusplus.com/reference/map/map
          * @author Jeongho Nam <http://samchon.org>
          */
         var TreeMapCollection = (function (_super) {
@@ -1553,19 +1907,70 @@ var samchon;
         /**
          * A {@link TreeMultiMap} who can detect element I/O events.
          *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *	</ul></li>
-         * </ul>
+         * Below is the list of methods who are dispatching {@link MapCollectionEvent}:
+         * - *insert* typed events:
+         *   - {@link assign}
+         *   - {@link insert}
+         *   - {@link emplace}
+         *   - {@link push}
+         * - *erase* typed events:
+         *   - {@link assign}
+         *   - {@link clear}
+         *   - {@link erase}
+         * - *refresh* typed events:
+         *   - {@link refresh}
          *
+         * #### [Inherited]
+         * {@link TreeMultiMap TreeMultiMaps} are associative containers that store elements formed by a combination of a
+         * *key value* and a *mapped value*, following a specific order, and where multiple elements can have equivalent
+         * keys.
+         *
+         * In a {@link TreeMultiMap}, the *key values* are generally used to sort and uniquely identify the elements,
+         * while the *mapped values* store the content associated to this *key*. The types of *key* and *mapped value* may
+         * differ, and are grouped together in member type ```value_type```, which is a {@link Pair} type combining both:
+         *
+         * ```typedef Pair<const Key, T> value_type;```
+         *
+         * Internally, the elements in a {@link TreeMultiMap}are always sorted by its key following a strict weak ordering
+         * criterion indicated by its internal comparison method (of {@link less}).
+         *
+         * {@link TreeMultiMap}containers are generally slower than {@link HashMap} containers to access individual
+         * elements by their *key*, but they allow the direct iteration on subsets based on their order.
+         *
+         * {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees.
+         *
+         * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank"> <
+         * img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" />
+         * </a>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         *	<dt> Associative </dt>
+         *	<dd>
+         *		Elements in associative containers are referenced by their *key* and not by their absolute
+         *		position in the container.
+         *	</dd>
+         *
+         *	<dt> Ordered </dt>
+         *	<dd>
+         *		The elements in the container follow a strict order at all times. All inserted elements are
+         *		given a position in this order.
+         *	</dd>
+         *
+         *	<dt> Map </dt>
+         *	<dd>
+         *		Each element associates a *key* to a *mapped value*:
+         *		*Keys* are meant to identify the elements whose main content is the *mapped value*.
+         *	</dd>
+         *
+         *	<dt> Multiple equivalent keys </dt>
+         *	<dd> Multiple elements in the container can have equivalent *keys*. </dd>
+         * </dl>
+         *
+         * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
+         * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
+         *
+         * @reference http://www.cplusplus.com/reference/map/multimap
          * @author Jeongho Nam <http://samchon.org>
          */
         var TreeMultiMapCollection = (function (_super) {
@@ -1663,18 +2068,63 @@ var samchon;
         /**
          * A {@link TreeMultiSet} who can detect element I/O events.
          *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *	</ul></li>
-         * </ul>
+         * Below is the list of methods who are dispatching {@link CollectionEvent}:
+         * - *insert* typed events:
+         *   - {@link assign}
+         *   - {@link insert}
+         *   - {@link push}
+         * - *erase* typed events:
+         *   - {@link assign}
+         *   - {@link clear}
+         *   - {@link erase}
+         * - *refresh* typed events:
+         *   - {@link refresh}
+         *
+         * #### [Inherited]
+         * {@link TreeMultiSet TreeMultiSets} are containers that store elements following a specific order, and where
+         * multiple elements can have equivalent values.
+         *
+         * In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself the *key*, of type
+         * *T*). The value of the elements in a {@link TreeMultiSet} cannot be modified once in the container (the
+         * elements are always const), but they can be inserted or removed from the container.
+         *
+         * Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict weak
+         * ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}).
+         *
+         * {@link TreeMultiSet} containers are generally slower than {@link HashMultiSet} containers to access individual
+         * elements by their *key*, but they allow the direct iteration on subsets based on their order.
+         *
+         * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
+         *
+         * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /> </a></p>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         *	<dt> Associative </dt>
+         *	<dd>
+         *		Elements in associative containers are referenced by their *key* and not by their absolute
+         *		position in the container.
+         *	</dd>
+         *
+         *	<dt> Ordered </dt>
+         *	<dd>
+         *		The elements in the container follow a strict order at all times. All inserted elements are
+         *		given a position in this order.
+         *	</dd>
+         *
+         *	<dt> Set </dt>
+         *	<dd> The value of an element is also the *key* used to identify it. </dd>
+         *
+         *	<dt> Multiple equivalent keys </dt>
+         *	<dd> Multiple elements in the container can have equivalent *keys*. </dd>
+         * </dl>
+         *
+         * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified
+         *			  by this value (each value is itself also the element's *key*).
+         *
+         * @reference http://www.cplusplus.com/reference/set/multiset
+         * @author Jeongho Nam <http://samchon.org>
          *
          * @author Jeongho Nam <http://samchon.org>
          */
@@ -1773,20 +2223,64 @@ var samchon;
         /**
          * A {@link TreeMap} who can detect element I/O events.
          *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *		<li> {@link extract} </li>
-         *	</ul></li>
-         * </ul>
+         * Below is the list of methods who are dispatching {@link CollectionEvent}:
+         * - *insert* typed events:
+         *   - {@link assign}
+         *   - {@link insert}
+         *   - {@link insert_or_assign}
+         *   - {@link push}
+         * - *erase* typed events:
+         *   - {@link assign}
+         *   - {@link clear}
+         *   - {@link erase}
+         *   - {@link extract}
+         * - *refresh* typed events:
+         *   - {@link refresh}
          *
+         * #### [Inherited]
+         * {@link TreeSet TreeSets} are containers that store unique elements following a specific order.
+         *
+         * In a {@link TreeSet}, the value of an element also identifies it (the value is itself the *key*, of type *T*),
+         * and each value must be unique. The value of the elements in a {@link TreeSet} cannot be modified once in the
+         * container (the elements are always const), but they can be inserted or removed from the container.
+         *
+         * Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak ordering
+         * criterion indicated by its internal comparison method (of {@link less}).
+         *
+         * {@link TreeSet} containers are generally slower than {@link HashSet} containers to access individual elements
+         * by their *key*, but they allow the direct iteration on subsets based on their order.
+         *
+         * {@link TreeSet}s are typically implemented as binary search trees.
+         *
+         * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+         * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" />
+         * </a>
+         *
+         * <h3> Container properties </h3>
+         * <dl>
+         *	<dt> Associative </dt>
+         *	<dd>
+         *		Elements in associative containers are referenced by their *key* and not by their absolute
+         *		position in the container.
+         *	</dd>
+         *
+         *	<dt> Ordered </dt>
+         *	<dd>
+         *		The elements in the container follow a strict order at all times. All inserted elements are
+         *		given a position in this order.
+         *	</dd>
+         *
+         *	<dt> Set </dt>
+         *	<dd> The value of an element is also the *key* used to identify it. </dd>
+         *
+         *	<dt> Unique keys </dt>
+         *	<dd> No two elements in the container can have equivalent *keys*. </dd>
+         * </dl>
+         *
+         * @param <T> Type of the elements.
+         *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
+         *
+         * @reference http://www.cplusplus.com/reference/set/set
          * @author Jeongho Nam <http://samchon.org>
          */
         var TreeSetCollection = (function (_super) {
@@ -1882,842 +2376,11 @@ var samchon;
     var library;
     (function (library) {
         /**
-         * <p> XML is a class representing a tree structued xml objects. </p>
-         * <p> The XML class provides methods and properties for working with XML objects. </p>
+         * Case generator.
          *
-         * <p> The XML class (along with the XMLList and Namespace) implements
-         * the powerful XML-handling standard defined in ECMAScript for XML (E4X) specification. </p>
-         *
-         * <p> XML class has a recursive, hierarchical relationship. </p>
-         *
-         * <p> Relationships between XML and XMLList </p>
+         * {@link CaseGenerator} is an abstract case generator being used like a matrix.
          * <ul>
-         *	<li> XML is <code>std.HashMap<string, XMLList></code> </li>
-         *  <li> XMLList is <code>std.Deque<XML></code> </li>
-         * </ul>
-         *
-         * <h4> Note </h4>
-         * <p> Do not abuse values for expressing member variables. </p>
-         *
-         * <table>
-         *	<tr>
-         *		<th>Standard Usage</th>
-         *		<th>Non-standard usage abusing value</th>
-         *	</tr>
-         *	<tr>
-         *		<td>
-         * <code>
-         * <memberList>
-         *	<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' />
-         *	<member id='master' name='Administartor' birthdate='2011-07-28' />
-         * </memberList>
-         * </code>
-         *		</td>
-         *		<td>
-         * <code>
-         * <memberList>
-         *	<member>
-         *		<id>jhnam88</id>
-         *		<name>Jeongho Nam</name>
-         *		<birthdate>1988-03-11</birthdate>
-         *	</member>
-         *	<member>
-         *		<id>master</id>
-         *		<name>Administartor</name>
-         *		<birthdate>2011-07-28</birthdate>
-         *	</member>
-         * </memberList>
-         * </code>
-         *		</td>
-         *	</tr>
-         * </table>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var XML = (function (_super) {
-            __extends(XML, _super);
-            /* -------------------------------------------------------------
-                CONSTRUCTORS
-            ------------------------------------------------------------- */
-            /**
-             * <p> Default Constructor. </p>
-             *
-             * <p> If the string parameter is not omitted, constructs its tag, value and
-             * properties by parsing the string. If there's children, then construct the
-             * children XML, XMLList objects, too. </p>
-             *
-             * @param str A string to be parsed
-             */
-            function XML(str) {
-                if (str === void 0) { str = ""; }
-                _super.call(this);
-                this.property_map_ = new std.HashMap();
-                this.value_ = "";
-                if (str.indexOf("<") == -1)
-                    return;
-                var start;
-                var end;
-                //ERASE HEADER OF XML
-                if ((start = str.indexOf("<?xml")) != -1) {
-                    end = str.indexOf("?>", start);
-                    if (end != -1)
-                        str = str.substr(end + 2);
-                }
-                //ERASE COMMENTS
-                while ((start = str.indexOf("<!--")) != -1) {
-                    end = str.indexOf("-->", start);
-                    if (end != -1)
-                        break;
-                    str = str.substr(0, start) + str.substr(end + 3);
-                }
-                //BEGIN PARSING
-                this.construct(str);
-            }
-            /**
-             * <p> Construct XML objects by parsing a string. </p>
-             */
-            XML.prototype.construct = function (str) {
-                this.parseTag(str);
-                this.parseProperty(str);
-                var res = this.parseValue(str);
-                if (res.second == true)
-                    this.parseChildren(res.first);
-            };
-            /**
-             * <p> Parse and fetch a tag. </p>
-             */
-            XML.prototype.parseTag = function (str) {
-                var start = str.indexOf("<") + 1;
-                var end = this.calcMinIndex(str.indexOf(" ", start), str.indexOf("\r\n", start), str.indexOf("\n", start), str.indexOf("\t", start), str.indexOf(">", start), str.indexOf("/", start));
-                if (start == 0 || end == -1)
-                    return;
-                this.tag_ = str.substring(start, end);
-            };
-            /**
-             * <p> Parse and fetch properties. </p>
-             */
-            XML.prototype.parseProperty = function (str) {
-                var start = str.indexOf("<" + this.tag_) + this.tag_.length + 1;
-                var end = this.calcMinIndex(str.lastIndexOf("/"), str.indexOf(">", start));
-                if (start == -1 || end == -1 || start >= end)
-                    return;
-                //<comp label='ABCD' /> : " label='ABCD' "
-                var line = str.substring(start, end);
-                if (line.indexOf("=") == -1)
-                    return;
-                var label;
-                var value;
-                var helpers = [];
-                var inQuote = false;
-                var quoteType;
-                var equal;
-                //INDEXING
-                for (var i = 0; i < line.length; i++) {
-                    //Start of quote
-                    if (inQuote == false && (line.charAt(i) == "'" || line.charAt(i) == "\"")) {
-                        inQuote = true;
-                        start = i;
-                        if (line.charAt(i) == "'")
-                            quoteType = 1;
-                        else if (line.charAt(i) == "\"")
-                            quoteType = 2;
-                    }
-                    else if (inQuote == true &&
-                        ((quoteType == 1 && line.charAt(i) == "'") ||
-                            (quoteType == 2 && line.charAt(i) == "\""))) {
-                        helpers.push({ type: quoteType, start: start, end: i });
-                        inQuote = false;
-                    }
-                }
-                //CONSTRUCTING
-                for (var i = 0; i < helpers.length; i++) {
-                    var quote = helpers[i];
-                    if (i == 0) {
-                        equal = line.indexOf("=");
-                        label = line.substring(0, equal).trim();
-                    }
-                    else {
-                        equal = line.indexOf("=", helpers[i - 1].end + 1);
-                        label = line.substring(helpers[i - 1].end + 1, equal).trim();
-                    }
-                    value = line.substring(helpers[i].start + 1, helpers[i].end);
-                    this.setProperty(label, XML.decodeProperty(value));
-                }
-            };
-            /**
-             * <p> Parse and fetch a value. </p>
-             */
-            XML.prototype.parseValue = function (str) {
-                var end_slash = str.lastIndexOf("/");
-                var end_block = str.indexOf(">");
-                if (end_slash < end_block || end_slash + 1 == str.lastIndexOf("<")) {
-                    //STATEMENT1: <TAG />
-                    //STATEMENT2: <TAG></TAG> -> SAME WITH STATEMENT1: <TAG />
-                    this.value_ = "";
-                    return new std.Pair(str, false);
-                }
-                var start = end_block + 1;
-                var end = str.lastIndexOf("<");
-                str = str.substring(start, end); //REDEFINE WEAK_STRING -> IN TO THE TAG
-                if (str.indexOf("<") == -1)
-                    this.value_ = XML.decodeValue(str.trim());
-                else
-                    this.value_ = "";
-                return new std.Pair(str, true);
-            };
-            /**
-             * <p> Parse and construct children XML objects. </p>
-             */
-            XML.prototype.parseChildren = function (str) {
-                if (str.indexOf("<") == -1)
-                    return;
-                var start = str.indexOf("<");
-                var end = str.lastIndexOf(">") + 1;
-                str = str.substring(start, end);
-                var blockStart = 0;
-                var blockEnd = 0;
-                start = 0;
-                for (var i = 0; i < str.length; i++) {
-                    if (str.charAt(i) == "<" && str.substr(i, 2) != "</")
-                        blockStart++;
-                    else if (str.substr(i, 2) == "/>" || str.substr(i, 2) == "</")
-                        blockEnd++;
-                    if (blockStart >= 1 && blockStart == blockEnd) {
-                        end = str.indexOf(">", i);
-                        var xmlList = void 0;
-                        var xml = new XML();
-                        xml.construct(str.substring(start, end + 1));
-                        if (this.has(xml.tag_) == true)
-                            xmlList = this.get(xml.tag_);
-                        else {
-                            xmlList = new XMLList();
-                            this.set(xml.tag_, xmlList);
-                        }
-                        xmlList.push(xml);
-                        i = end;
-                        start = end + 1;
-                        blockStart = 0;
-                        blockEnd = 0;
-                    }
-                }
-            };
-            /* -------------------------------------------------------------
-                ACCESSORS
-            ------------------------------------------------------------- */
-            /**
-             * <p> Get tag. </p>
-             */
-            XML.prototype.getTag = function () {
-                return this.tag_;
-            };
-            /**
-             * <p> Get value. </p>
-             */
-            XML.prototype.getValue = function () {
-                return this.value_;
-            };
-            /**
-             * <p> Test whether a property exists or not. </p>
-             */
-            XML.prototype.hasProperty = function (key) {
-                return this.property_map_.has(key);
-            };
-            /**
-             * <p> Get property by its key. </p>
-             */
-            XML.prototype.getProperty = function (key) {
-                return this.property_map_.get(key);
-            };
-            XML.prototype.getPropertyMap = function () {
-                return this.property_map_;
-            };
-            /* -------------------------------------------------------------
-                SETTERS
-            ------------------------------------------------------------- */
-            /**
-             * <p> Set tag (identifier) of the XML. </p>
-             */
-            XML.prototype.setTag = function (str) {
-                this.tag_ = str;
-            };
-            /**
-             * <p> Set value of the XML. </p>
-             *
-             * <p> Do not abuse values for expressing member variables. </p>
-             * <table>
-             *	<tr>
-             *		<th>Standard Usage</th>
-             *		<th>Non-standard usage abusing value</th>
-             *	</tr>
-             *	<tr>
-             *		<td>
-             *			\<memberList\>\n
-             *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
-             *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
-             *			\</memberList\>
-             *		</td>
-             *		<td>
-             *			\<member\>\n
-             *				\<id\>jhnam88\</id\>\n
-             *				\<name\>Jeongho+Nam\</name\>\n
-             *				\<birthdate\>1988-03-11\</birthdate\>\n
-             *			\</member\>
-             *		</td>
-             *	</tr>
-             * </table>
-             *
-             * @param val A value to set
-             */
-            XML.prototype.setValue = function (str) {
-                this.value_ = str;
-            };
-            /**
-             * <p> Set a property with its key. </p>
-             */
-            XML.prototype.setProperty = function (key, value) {
-                this.property_map_.set(key, value);
-            };
-            /**
-             * <p> Erase a property by its key. </p>
-             *
-             * @param key The key of the property to erase
-             * @throw exception out of range
-             */
-            XML.prototype.eraseProperty = function (key) {
-                if (this.property_map_.has(key) == false)
-                    throw Error("out of range");
-                else
-                    this.property_map_.erase(key);
-            };
-            XML.prototype.push = function () {
-                var items = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    items[_i - 0] = arguments[_i];
-                }
-                for (var i = 0; i < items.length; i++) {
-                    if (items[i] instanceof XML) {
-                        var xml = items[i];
-                        if (this.has(xml.tag_) == true)
-                            this.get(xml.tag_).push(xml);
-                        else {
-                            var xmlList = new XMLList();
-                            xmlList.push(xml);
-                            this.set(xml.tag_, xmlList);
-                        }
-                    }
-                    else if (items[i] instanceof XMLList) {
-                        var xmlList = items[i];
-                        if (xmlList.empty() == true)
-                            continue;
-                        if (this.has(xmlList.getTag()) == true) {
-                            var myXMLList = this.get(xmlList.getTag());
-                            myXMLList.insert(myXMLList.end(), xmlList.begin(), xmlList.end());
-                        }
-                        else
-                            this.set(xmlList.getTag(), xmlList);
-                    }
-                    else
-                        _super.prototype.push.call(this, items[i]);
-                }
-                return this.size();
-            };
-            XML.prototype.addAllProperties = function (xml) {
-                for (var it = xml.property_map_.begin(); it.equal_to(xml.property_map_.end()) == false; it = it.next())
-                    this.setProperty(it.first, it.second);
-            };
-            XML.prototype.clearProperties = function () {
-                this.property_map_.clear();
-            };
-            /* -------------------------------------------------------------
-                FILTERS
-            ------------------------------------------------------------- */
-            XML.prototype.calcMinIndex = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                var min = args[0];
-                for (var i = 1; i < args.length; i++) {
-                    if (args[i] == -1)
-                        continue;
-                    if (min == -1 || args[i] < min)
-                        min = args[i];
-                }
-                return min;
-            };
-            /**
-             * <p> Decode a value. </p>
-             *
-             * <table>
-             *	<tr>
-             *		<th>Encoded</th>
-             *		<th>Decoded</th>
-             *	</tr>
-             *	<tr>
-             *		<td>\&amp;</td>
-             *		<td>\&</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\&lt;</td>
-             *		<td>\<</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\&gt;</td>
-             *		<td>\></td>
-             *	</tr>
-             * </table>
-             *
-             * @return A decoded string represents a value
-             */
-            XML.decodeValue = function (str) {
-                var pairs = [
-                    new std.Pair("&amp;", "&"),
-                    new std.Pair("&lt;", "<"),
-                    new std.Pair("&gt;", ">")
-                ];
-                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
-            };
-            /**
-             * <p> Encode a value. </p>
-             *
-             * <table>
-             *	<tr>
-             *		<th>Original</th>
-             *		<th>Encoded</th>
-             *	</tr>
-             *	<tr>
-             *		<td>\&</td>
-             *		<td>\&amp;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\<</td>
-             *		<td>\&lt;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\></td>
-             *		<td>\&gt;</td>
-             *	</tr>
-             * </table>
-             *
-             * @return A encoded string represents a value
-             */
-            XML.encodeValue = function (str) {
-                var pairs = [
-                    new std.Pair("&", "&amp;"),
-                    new std.Pair("<", "&lt;"),
-                    new std.Pair(">", "&gt;")
-                ];
-                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
-            };
-            /**
-              * <p> Decode a property. </p>
-              *
-              * <table>
-              *	<tr>
-              *		<th>Encoded</th>
-              *		<th>Decoded</th>
-              *	</tr>
-              *	<tr>
-              *		<td>\&amp;</td>
-              *		<td>\&</td>
-              *	</tr>
-              *	<tr>
-              *		<td>\&lt;</td>
-              *		<td>\<</td>
-              *	</tr>
-              *	<tr>
-              *		<td>\&gt;</td>
-              *		<td>\></td>
-              *	</tr>
-              *	<tr>
-              *		<td>&quot;</td>
-              *		<td>\"</td>
-              *	</tr>
-              *	<tr>
-              *		<td>&apos;</td>
-              *		<td>'</td>
-              *	</tr>
-              *	<tr>
-              *		<td>&#x9;</td>
-              *		<td>'</td>
-              *	</tr>
-              *	<tr>
-              *		<td>&apos;</td>
-              *		<td>\\t</td>
-              *	</tr>
-              *	<tr>
-              *		<td>&#xA;</td>
-              *		<td>\\n</td>
-              *	</tr>
-              *	<tr>
-              *		<td>&#xD;</td>
-              *		<td>\\r</td>
-              *	</tr>
-              * </table>
-              *
-              * @return A decoded string represents a property
-              */
-            XML.decodeProperty = function (str) {
-                var pairs = [
-                    new std.Pair("&amp;", "&"),
-                    new std.Pair("&lt;", "<"),
-                    new std.Pair("&gt;", ">"),
-                    new std.Pair("&quot;", "\""),
-                    new std.Pair("&apos;", "'"),
-                    new std.Pair("&#x9;", "\t"),
-                    new std.Pair("&#xA;", "\n"),
-                    new std.Pair("&#xD;", "\r"),
-                ];
-                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
-            };
-            /**
-             * <p> Decode a property. </p>
-             *
-             * <table>
-             *	<tr>
-             *		<th>Original</th>
-             *		<th>Encoded</th>
-             *	</tr>
-             *	<tr>
-             *		<td>\&</td>
-             *		<td>\&amp;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\<</td>
-             *		<td>\&lt;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\></td>
-             *		<td>\&gt;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\"</td>
-             *		<td>&quot;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>'</td>
-             *		<td>&apos;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>'</td>
-             *		<td>&#x9;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\\t</td>
-             *		<td>&apos;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\\n</td>
-             *		<td>&#xA;</td>
-             *	</tr>
-             *	<tr>
-             *		<td>\\r</td>
-             *		<td>&#xD;</td>
-             *	</tr>
-             * </table>
-             *
-             * @return A encoded string represents a property
-             */
-            XML.encodeProperty = function (str) {
-                var pairs = [
-                    new std.Pair("&", "&amp;"),
-                    new std.Pair("<", "&lt;"),
-                    new std.Pair(">", "&gt;"),
-                    new std.Pair("\"", "&quot;"),
-                    new std.Pair("'", "&apos;"),
-                    new std.Pair("\t", "&#x9;"),
-                    new std.Pair("\n", "&#xA;"),
-                    new std.Pair("\r", "&#xD;"),
-                ];
-                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
-            };
-            /* -------------------------------------------------------------
-                EXPORTS
-            ------------------------------------------------------------- */
-            /**
-             * <p> Convert the XML to a string. </p>
-             */
-            XML.prototype.toString = function (level) {
-                if (level === void 0) { level = 0; }
-                var str = library.StringUtil.repeat("\t", level) + "<" + this.tag_;
-                var children_str = "";
-                //PROPERTIES
-                for (var p_it = this.property_map_.begin(); p_it.equal_to(this.property_map_.end()) == false; p_it = p_it.next())
-                    str += " " + p_it.first + "=\"" + XML.encodeProperty(String(p_it.second)) + "\"";
-                if (this.size() == 0) {
-                    // VALUE
-                    if (this.value_ != "")
-                        str += ">" + XML.encodeValue(String(this.value_)) + "</" + this.tag_ + ">";
-                    else
-                        str += " />";
-                }
-                else {
-                    // CHILDREN
-                    str += ">\n";
-                    for (var x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
-                        str += x_it.second.toString(level + 1);
-                    str += library.StringUtil.repeat("\t", level) + "</" + this.tag_ + ">";
-                }
-                return str;
-            };
-            /**
-             * <p> Convert the XML to HTML string. </p>
-             */
-            XML.prototype.toHTML = function (level) {
-                if (level === void 0) { level = 0; }
-                var str = library.StringUtil.repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level) + "&lt;" + this.tag_;
-                var childrenString = "";
-                //PROPERTIES
-                for (var p_it = this.property_map_.begin(); p_it.equal_to(this.property_map_.end()) == false; p_it = p_it.next())
-                    str += " " + p_it.first + "=&quot;" + XML.encodeProperty(String(p_it.second)) + "&quot;";
-                if (this.size() == 0) {
-                    if (this.value_ != "")
-                        str += "&gt;" + XML.encodeValue(String(this.value_)) + "</" + this.tag_ + ">";
-                    else
-                        str += " /&gt;";
-                }
-                else {
-                    str += "&gt;<br>\n";
-                    for (var x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
-                        str += x_it.second.toHTML(level + 1);
-                    str += library.StringUtil.repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level) + "&lt;/" + this.tag_ + "&gt;";
-                }
-                return str;
-            };
-            return XML;
-        }(std.HashMap));
-        library.XML = XML;
-        /**
-         * <p> List of XML(s) having same tag. </p>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var XMLList = (function (_super) {
-            __extends(XMLList, _super);
-            function XMLList() {
-                _super.apply(this, arguments);
-            }
-            // using super::constructor
-            XMLList.prototype.getTag = function () {
-                if (this.size() == 0)
-                    return null;
-                else
-                    return this.at(0).getTag();
-            };
-            /**
-             * <p> Convert XMLList to string. </p>
-             *
-             * @param level Level(depth) of the XMLList.
-             */
-            XMLList.prototype.toString = function (level) {
-                if (level === void 0) { level = 0; }
-                var str = "";
-                for (var i = 0; i < this.size(); i++)
-                    str += this.at(i).toString(level) + "\n";
-                return str;
-            };
-            /**
-             * <p> Convert XMLList to HTML string. </p>
-             *
-             * @param level Level(depth) of the XMLList.
-             */
-            XMLList.prototype.toHTML = function (level) {
-                if (level === void 0) { level = 0; }
-                var str = "";
-                for (var i = 0; i < this.size(); i++)
-                    str += this.at(i).toHTML(level) + "<br>\n";
-                return str;
-            };
-            return XMLList;
-        }(std.Deque));
-        library.XMLList = XMLList;
-    })(library = samchon.library || (samchon.library = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="../library/XML.ts" />
-var samchon;
-(function (samchon) {
-    var collection;
-    (function (collection) {
-        /**
-         * An {@link XMLList} who can detect element I/O events.
-         *
-         * <p> Below are list of methods who are dispatching {@link CollectionEvent}: </p>
-         *
-         * <ul>
-         *	<li> <i>insert</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link insert} </li>
-         *		<li> {@link push} </li>
-         *		<li> {@link push_front} </li>
-         *		<li> {@link push_back} </li>
-         *	</ul></li>
-         *	<li> <i>erase</i> typed events: <ul>
-         *		<li> {@link assign} </li>
-         *		<li> {@link clear} </li>
-         *		<li> {@link erase} </li>
-         *		<li> {@link pop_front} </li>
-         *		<li> {@link pop_back} </li>
-         *	</ul></li>
-         * </ul>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var XMLListCollection = (function (_super) {
-            __extends(XMLListCollection, _super);
-            function XMLListCollection() {
-                _super.apply(this, arguments);
-                /**
-                 * A chain object taking responsibility of dispatching events.
-                 */
-                this.event_dispatcher_ = new samchon.library.EventDispatcher(this);
-            }
-            /* ---------------------------------------------------------
-                CONSTRUCTORS
-            --------------------------------------------------------- */
-            // using super::constructor
-            /* =========================================================
-                ELEMENTS I/O
-                    - INSERT
-                    - ERASE
-                    - NOTIFIER
-            ============================================================
-                INSERT
-            --------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            XMLListCollection.prototype.push = function () {
-                var items = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    items[_i - 0] = arguments[_i];
-                }
-                var ret = _super.prototype.push.apply(this, items);
-                this.notify_insert(this.end().advance(-items.length), this.end());
-                return ret;
-            };
-            /**
-             * @inheritdoc
-             */
-            XMLListCollection.prototype.push_back = function (val) {
-                _super.prototype.push.call(this, val);
-                this.notify_insert(this.end().prev(), this.end());
-            };
-            /**
-             * @hidden
-             */
-            XMLListCollection.prototype._Insert_by_repeating_val = function (position, n, val) {
-                var ret = _super.prototype._Insert_by_repeating_val.call(this, position, n, val);
-                this.notify_insert(ret, ret.advance(n));
-                return ret;
-            };
-            /**
-             * @hidden
-             */
-            XMLListCollection.prototype._Insert_by_range = function (position, begin, end) {
-                var n = this.size();
-                var ret = _super.prototype._Insert_by_range.call(this, position, begin, end);
-                n = this.size() - n;
-                this.notify_insert(ret, ret.advance(n));
-                return ret;
-            };
-            /* ---------------------------------------------------------
-                ERASE
-            --------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            XMLListCollection.prototype.pop_back = function () {
-                this.notify_erase(this.end().prev(), this.end());
-                _super.prototype.pop_back.call(this);
-            };
-            /**
-             * @hidden
-             */
-            XMLListCollection.prototype._Erase_by_range = function (first, last) {
-                this.notify_erase(first, last);
-                return _super.prototype._Erase_by_range.call(this, first, last);
-            };
-            /* ---------------------------------------------------------
-                NOTIFIER
-            --------------------------------------------------------- */
-            /**
-             * @hidden
-             */
-            XMLListCollection.prototype.notify_insert = function (first, last) {
-                collection.ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
-            };
-            /**
-             * @hidden
-             */
-            XMLListCollection.prototype.notify_erase = function (first, last) {
-                collection.ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
-            };
-            /* =========================================================
-                EVENT_DISPATCHER
-                    - ACCESSORS
-                    - ADD
-                    - REMOVE
-            ============================================================
-                ACCESSORS
-            --------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            XMLListCollection.prototype.hasEventListener = function (type) {
-                return this.event_dispatcher_.hasEventListener(type);
-            };
-            /**
-             * @inheritdoc
-             */
-            XMLListCollection.prototype.dispatchEvent = function (event) {
-                return this.event_dispatcher_.dispatchEvent(event);
-            };
-            XMLListCollection.prototype.refresh = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                var first;
-                var last;
-                if (args.length == 0) {
-                    first = this.begin();
-                    last = this.end();
-                }
-                else if (args.length == 1) {
-                    first = args[0];
-                    last = first.next();
-                }
-                else {
-                    first = args[0];
-                    last = args[1];
-                }
-                this.dispatchEvent(new collection.CollectionEvent("refresh", first, last));
-            };
-            XMLListCollection.prototype.addEventListener = function (type, listener, thisArg) {
-                if (thisArg === void 0) { thisArg = null; }
-                this.event_dispatcher_.addEventListener(type, listener, thisArg);
-            };
-            XMLListCollection.prototype.removeEventListener = function (type, listener, thisArg) {
-                if (thisArg === void 0) { thisArg = null; }
-                this.event_dispatcher_.removeEventListener(type, listener, thisArg);
-            };
-            return XMLListCollection;
-        }(samchon.library.XMLList));
-        collection.XMLListCollection = XMLListCollection;
-    })(collection = samchon.collection || (samchon.collection = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-var samchon;
-(function (samchon) {
-    var library;
-    (function (library) {
-        /**
-         * <p> Case generator. </p>
-         *
-         * <p> {@link CaseGenerator} is an abstract case generator being used like a matrix. </p>
-         * <ul>
-         *  <li> n��r(n^r) -> {@link CombinedPermutationGenerator} </li>
+         *  <li> n∏r(n^r) -> {@link CombinedPermutationGenerator} </li>
          *  <li> nPr -> {@link PermutationGenerator} </li>
          *  <li> n! -> {@link FactorialGenerator} </li>
          * </ul>
@@ -2729,7 +2392,7 @@ var samchon;
                 CONSTRUCTORS
             --------------------------------------------------------------- */
             /**
-             * <p> Construct from size of N and R. </p>
+             * Construct from size of N and R.
              *
              * @param n Size of candidates.
              * @param r Size of elements of each case.
@@ -2742,7 +2405,7 @@ var samchon;
                 ACCESSORS
             --------------------------------------------------------------- */
             /**
-             * <p> Get size of all cases. </p>
+             * Get size of all cases.
              *
              * @return Get a number of the all cases.
              */
@@ -2750,13 +2413,13 @@ var samchon;
                 return this.size_;
             };
             /**
-             * <p> Get size of the N. </p>
+             * Get size of the N.
              */
             CaseGenerator.prototype.n = function () {
                 return this.n_;
             };
             /**
-             * <p> Get size of the R. </p>
+             * Get size of the R.
              */
             CaseGenerator.prototype.r = function () {
                 return this.r_;
@@ -2765,9 +2428,9 @@ var samchon;
         }());
         library.CaseGenerator = CaseGenerator;
         /**
-         * <p> A combined-permutation case generator. </p>
+         * A combined-permutation case generator.
          *
-         * <p> <sub>n</sub>��<sub>r</sub> </p>
+         * <sub>n</sub>∏<sub>r</sub>
          *
          * @author Jeongho Nam <http://samchon.org>
          */
@@ -2777,7 +2440,7 @@ var samchon;
                 CONSTRUCTORS
             --------------------------------------------------------------- */
             /**
-             * <p> Construct from size of N and R. </p>
+             * Construct from size of N and R.
              *
              * @param n Size of candidates.
              * @param r Size of elements of each case.
@@ -2804,9 +2467,9 @@ var samchon;
         }(CaseGenerator));
         library.CombinedPermutationGenerator = CombinedPermutationGenerator;
         /**
-         * <p> A permutation case generator. </p>
+         * A permutation case generator.
          *
-         * <p> <sub>n</sub>P<sub>r</sub> </p>
+         * <sub>n</sub>P<sub>r</sub>
          *
          * @author Jeongho Nam <http://samchon.org>
          */
@@ -2816,7 +2479,7 @@ var samchon;
                 CONSTRUCTORS
             --------------------------------------------------------------- */
             /**
-             * <p> Construct from size of N and R. </p>
+             * Construct from size of N and R.
              *
              * @param n Size of candidates.
              * @param r Size of elements of each case.
@@ -2847,9 +2510,9 @@ var samchon;
         }(CaseGenerator));
         library.PermuationGenerator = PermuationGenerator;
         /**
-         * <p> Factorial case generator. </p>
+         * Factorial case generator.
          *
-         * <p> n! = <sub>n</sub>P<sub>n</sub> </p>
+         * n! = <sub>n</sub>P<sub>n</sub>
          *
          * @author Jeongho Nam <http://samchon.org>
          */
@@ -2874,47 +2537,24 @@ var samchon;
     var library;
     (function (library) {
         /**
-         * <p> Registers an event listener object with an EventDispatcher object so that the listener
-         * receives notification of an event. You can register event listeners on all nodes in the display
-         * list for a specific type of event, phase, and priority. </p>
+         * The {@link EventDispatcher} class is the base class for all classes that dispatch events. The
+         * {@link EventDispatcher} class implements the {@link IEventDispatcher} interface and is the base class for the
+         * {@link DisplayObject} class. The {@link EventDispatcher} class allows any object on the display list to be an
+         * event target and as such, to use the methods of the {@link IEventDispatcher} interface.
          *
-         * <p> After you successfully register an event listener, you cannot change its priority through
-         * additional calls to addEventListener(). To change a listener's priority, you must first call
-         * removeListener(). Then you can register the listener again with the new priority level. </p>
+         * The event target serves as the local point for how events flow through the display list hierarchy. When an
+         * event such as a mouse click or a key press occurs, an event object is dispatched into the event flow from the
+         * root of the display list. The event object makes a round-trip journey to the event target, which is
+         * conceptually divided into three phases: the capture phase includes the journey from the root to the last node
+         * before the event target's node; the target phase includes only the event target node; and the bubbling phase
+         * includes any subsequent nodes encountered on the return trip to the root of the display list.
          *
-         * Keep in mind that after the listener is registered, subsequent calls to <code>addEventListener()</code>
-         * with a different type or useCapture value result in the creation of a separate listener registration.
-         * For example, if you first register a listener with useCapture set to true, it listens only during the
-         * capture phase. If you call addEventListener() again using the same listener object, but with
-         * useCapture set to false, you have two separate listeners: one that listens during the capture
-         * phase and another that listens during the target and bubbling phases.
+         * In general, the easiest way for a user-defined class to gain event dispatching capabilities is to extend
+         * {@link EventDispatcher}. If this is impossible (that is, if the class is already extending another class), you
+         * can instead implement the {@link IEventDispatcher} interface, create an {@link EventDispatcher} member, and
+         * write simple hooks to route calls into the aggregated {@link EventDispatcher}.
          *
-         * <p> You cannot register an event listener for only the target phase or the bubbling phase. Those
-         * phases are coupled during registration because bubbling applies only to the ancestors of the
-         * target node. </p>
-         *
-         * <p> If you no longer need an event listener, remove it by calling <code>removeEventListener()</code>,
-         * or memory problems could result. Event listeners are not automatically removed from memory
-         * because the garbage collector does not remove the listener as long as the dispatching object
-         * exists (unless the useWeakReference parameter is set to true). </p>
-         *
-         * <p> Copying an EventDispatcher instance does not copy the event listeners attached to it. (If your
-         * newly created node needs an event listener, you must attach the listener after creating the
-         * node.) However, if you move an EventDispatcher instance, the event listeners attached to it move
-         * along with it. </p>
-         *
-         * <p> If the event listener is being registered on a node while an event is being processed on
-         * this node, the event listener is not triggered during the current phase but can be triggered
-         * during a later phase in the event flow, such as the bubbling phase. </p>
-         *
-         * <p> If an event listener is removed from a node while an event is being processed on the node, it is
-         * still triggered by the current actions. After it is removed, the event listener is never invoked
-         * again (unless registered again for future processing). </p>
-         *
-         * <ul>
-         *  <li> Made by AS3 - http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/events/EventDispatcher.html
-         * </ul>
-         *
+         * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/events/EventDispatcher.html
          * @author Migrated by Jeongho Nam <http://samchon.org>
          */
         var EventDispatcher = (function () {
@@ -2983,15 +2623,15 @@ var samchon;
     var library;
     (function (library) {
         /**
-         * <p> The {@link FileReference} class provides a means to load and save files in browser level. </p>
+         * The {@link FileReference} class provides a means to load and save files in browser level.
          *
-         * <p> The {@link FileReference} class provides a means to {@link load} and {@link save} files in browser level. A
+         * The {@link FileReference} class provides a means to {@link load} and {@link save} files in browser level. A
          * browser-system dialog box prompts the user to select a file to {@link load} or a location for {@link svae}. Each
          * {@link FileReference} object refers to a single file on the user's disk and has properties that contain
          * information about the file's size, type, name, creation date, modification date, and creator type (Macintosh only).
-         * </p>
          *
-         * <p> FileReference instances are created in the following ways: </p>
+         *
+         * FileReference instances are created in the following ways:
          * <ul>
          *	<li>
          *		When you use the new operator with the {@link FileReference} constructor:
@@ -3003,23 +2643,23 @@ var samchon;
          *	</li>
          * </ul>
          *
-         * <p> During a load operation, all the properties of a {@link FileReference} object are populated by calls to the
+         * During a load operation, all the properties of a {@link FileReference} object are populated by calls to the
          * {@link FileReference.browse} or {@link FileReferenceList.browse} methods. During a save operation, the name
          * property is populated when the select event is dispatched; all other properties are populated when the complete
-         * event is dispatched. </p>
+         * event is dispatched.
          *
-         * <p> The {@link browse browse()} method opens an browser-system dialog box that prompts the user to select a file
+         * The {@link browse browse()} method opens an browser-system dialog box that prompts the user to select a file
          * for {@link load}. The {@link FileReference.browse} method lets the user select a single file; the
          * {@link FileReferenceList.browse} method lets the user select multiple files. After a successful call to the
          * {@link browse browse()} method, call the {@link FileReference.load} method to load one file at a time. The
          * {@link FileReference.save} method prompts the user for a location to save the file and initiates downloading from
-         * a binary or string data. </p>
+         * a binary or string data.
          *
-         * <p> The {@link FileReference} and {@link FileReferenceList} classes do not let you set the default file location
+         * The {@link FileReference} and {@link FileReferenceList} classes do not let you set the default file location
          * for the dialog box that the {@link browse} or {@link save} methods generate. The default location shown in the
          * dialog box is the most recently browsed folder, if that location can be determined, or the desktop. The classes do
          * not allow you to read from or write to the transferred file. They do not allow the browser that initiated the
-         * {@link load} or {@link save} to access the loaded or saved file or the file's location on the user's disk. </p>
+         * {@link load} or {@link save} to access the loaded or saved file or the file's location on the user's disk.
          *
          * @references http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/FileReference.html
          * @author Jeongho Nam <http://samchon.org>
@@ -3039,13 +2679,13 @@ var samchon;
                     ACCESSORS
                 --------------------------------------------------------- */
                 /**
-                 * <p> The data from the loaded file after a successful call to the {@link load load()} method. </p>
+                 * The data from the loaded file after a successful call to the {@link load load()} method.
                  *
-                 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
-                 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+                 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
+                 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
                  *
-                 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-                 * </p>
+                 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+                 *
                  */
                 get: function () {
                     return this.data_;
@@ -3055,13 +2695,13 @@ var samchon;
             });
             Object.defineProperty(FileReference.prototype, "name", {
                 /**
-                 * <p> The name of the file on the local disk. </p>
+                 * The name of the file on the local disk.
                  *
-                 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
-                 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+                 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
+                 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
                  *
-                 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-                 * </p>
+                 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+                 *
                  */
                 get: function () {
                     var index = this.file_.name.lastIndexOf(".");
@@ -3075,16 +2715,16 @@ var samchon;
             });
             Object.defineProperty(FileReference.prototype, "extension", {
                 /**
-                 * <p> The filename extension. </p>
+                 * The filename extension.
                  *
-                 * <p> A file's extension is the part of the name following (and not including) the final dot (&quot;.&quot;). If
-                 * there is no dot in the filename, the extension is <code>null</code>. </p>
+                 * A file's extension is the part of the name following (and not including) the final dot (&quot;.&quot;). If
+                 * there is no dot in the filename, the extension is <code>null</code>.
                  *
-                 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
-                 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+                 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
+                 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
                  *
-                 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-                 * </p>
+                 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+                 *
                  */
                 get: function () {
                     var index = this.file_.name.lastIndexOf(".");
@@ -3098,13 +2738,13 @@ var samchon;
             });
             Object.defineProperty(FileReference.prototype, "type", {
                 /**
-                 * <p> The file type, metadata of the {@link extension}. </p>
+                 * The file type, metadata of the {@link extension}.
                  *
-                 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
-                 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+                 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
+                 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
                  *
-                 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-                 * </p>
+                 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+                 *
                  */
                 get: function () {
                     return this.file_.type;
@@ -3114,13 +2754,13 @@ var samchon;
             });
             Object.defineProperty(FileReference.prototype, "size", {
                 /**
-                 * <p> The size of the file on the local disk in bytes. </p>
+                 * The size of the file on the local disk in bytes.
                  *
-                 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
-                 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+                 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
+                 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
                  *
-                 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-                 * </p>
+                 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+                 *
                  */
                 get: function () {
                     return this.file_.size;
@@ -3130,13 +2770,13 @@ var samchon;
             });
             Object.defineProperty(FileReference.prototype, "modificationDate", {
                 /**
-                 * <p> The date that the file on the local disk was last modified. </p>
+                 * The date that the file on the local disk was last modified.
                  *
-                 * <p> If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
-                 * an {@link LogicError exception} will be thrown when you try to get the value of this property. </p>
+                 * If the {@link FileReference} object was not populated (by a valid call to {@link FileReference.browse}),
+                 * an {@link LogicError exception} will be thrown when you try to get the value of this property.
                  *
-                 * <p> All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
-                 * </p>
+                 * All the properties of a {@link FileReference} object are populated by calling the {@link browse browse()}.
+                 *
                  */
                 get: function () {
                     return this.file_.lastModifiedDate;
@@ -3152,17 +2792,17 @@ var samchon;
                 OPEN FILE
             --------------------------------------------------------- */
             /**
-             * <p> Displays a file-browsing dialog box that lets the user select a file to upload. The dialog box is native
+             * Displays a file-browsing dialog box that lets the user select a file to upload. The dialog box is native
              * to the user's browser system. The user can select a file on the local computer or from other systems, for
-             * example, through a UNC path on Windows. </p>
+             * example, through a UNC path on Windows.
              *
-             * <p> When you call this method and the user successfully selects a file, the properties of this
+             * When you call this method and the user successfully selects a file, the properties of this
              * {@link FileReference} object are populated with the properties of that file. Each subsequent time that the
              * {@link FileReference.browse} method is called, the {@link FileReference} object's properties are reset to
              * the file that the user selects in the dialog box. Only one {@link browse browse()} can be performed at a time
-             * (because only one dialog box can be invoked at a time). </p>
+             * (because only one dialog box can be invoked at a time).
              *
-             * <p> Using the <i>typeFilter parameter</i>, you can determine which files the dialog box displays. </p>
+             * Using the *typeFilter parameter*, you can determine which files the dialog box displays.
              *
              * @param typeFilter An array of filter strings used to filter the files that are displayed in the dialog box.
              *					 If you omit this parameter, all files are displayed.
@@ -3193,17 +2833,17 @@ var samchon;
                 input.click();
             };
             /**
-             * <p> Starts the load of a local file selected by a user. </p>
+             * Starts the load of a local file selected by a user.
              *
-             * <p> You must call the {@link FileReference.browse} or {@link FileReferenceList.browse} method before you call
-             * the {@link load load()} method. </p>
+             * You must call the {@link FileReference.browse} or {@link FileReferenceList.browse} method before you call
+             * the {@link load load()} method.
              *
-             * <p> Listeners receive events to indicate the progress, success, or failure of the load. Although you can use
+             * Listeners receive events to indicate the progress, success, or failure of the load. Although you can use
              * the {@link FileReferenceList} object to let users select multiple files to load, you must {@link load} the
              * {@link FileReferenceList files} one by one. To {@link load} the files one by one, iterate through the
-             * {@link FileReferenceList.fileList} array of {@link FileReference} objects. </p>
+             * {@link FileReferenceList.fileList} array of {@link FileReference} objects.
              *
-             * <p> If the file finishes loading successfully, its contents are stored in the {@link data} property. </p>
+             * If the file finishes loading successfully, its contents are stored in the {@link data} property.
              */
             FileReference.prototype.load = function () {
                 var this_ = this;
@@ -3218,25 +2858,25 @@ var samchon;
                 SAVE FILE
             --------------------------------------------------------- */
             /**
-             * <p> Save a file to local filesystem. </p>
+             * Save a file to local filesystem.
              *
-             * <p> {@link FileReference.save} implemented the save function by downloading a file from a hidden anchor tag.
-             * However, the plan, future's {@link FileReference} will follow such rule: </p>
+             * {@link FileReference.save} implemented the save function by downloading a file from a hidden anchor tag.
+             * However, the plan, future's {@link FileReference} will follow such rule:
              *
-             * <p> Opens a dialog box that lets the user save a file to the local filesystem. </p>
+             * Opens a dialog box that lets the user save a file to the local filesystem.
              *
-             * <p> The {@link save save()} method first opens an browser-system dialog box that asks the user to enter a
+             * The {@link save save()} method first opens an browser-system dialog box that asks the user to enter a
              * filename and select a location on the local computer to save the file. When the user selects a location and
              * confirms the save operation (for example, by clicking Save), the save process begins. Listeners receive events
              * to indicate the progress, success, or failure of the save operation. To ascertain the status of the dialog box
              * and the save operation after calling {@link save save()}, your code must listen for events such as cancel,
-             * open, progress, and complete. </p>
+             * open, progress, and complete.
              *
-             * <p> When the file is saved successfully, the properties of the {@link FileReference} object are populated with
-             * the properties of the local file. The complete event is dispatched if the save is successful. </p>
+             * When the file is saved successfully, the properties of the {@link FileReference} object are populated with
+             * the properties of the local file. The complete event is dispatched if the save is successful.
              *
-             * <p> Only one {@link browse browse()} or {@link save()} session can be performed at a time (because only one
-             * dialog box can be invoked at a time). </p>
+             * Only one {@link browse browse()} or {@link save()} session can be performed at a time (because only one
+             * dialog box can be invoked at a time).
              *
              * @param data The data to be saved. The data can be in one of several formats, and will be treated appropriately.
              * @param fileName File name to be saved.
@@ -3245,25 +2885,25 @@ var samchon;
                 FileReference.save(data, fileName);
             };
             /**
-             * <p> Save a file to local filesystem. </p>
+             * Save a file to local filesystem.
              *
-             * <p> {@link FileReference.save} implemented the save function by downloading a file from a hidden anchor tag.
-             * However, the plan, future's {@link FileReference} will follow such rule: </p>
+             * {@link FileReference.save} implemented the save function by downloading a file from a hidden anchor tag.
+             * However, the plan, future's {@link FileReference} will follow such rule:
              *
-             * <p> Opens a dialog box that lets the user save a file to the local filesystem. </p>
+             * Opens a dialog box that lets the user save a file to the local filesystem.
              *
-             * <p> The {@link save save()} method first opens an browser-system dialog box that asks the user to enter a
+             * The {@link save save()} method first opens an browser-system dialog box that asks the user to enter a
              * filename and select a location on the local computer to save the file. When the user selects a location and
              * confirms the save operation (for example, by clicking Save), the save process begins. Listeners receive events
              * to indicate the progress, success, or failure of the save operation. To ascertain the status of the dialog box
              * and the save operation after calling {@link save save()}, your code must listen for events such as cancel,
-             * open, progress, and complete. </p>
+             * open, progress, and complete.
              *
-             * <p> When the file is saved successfully, the properties of the {@link FileReference} object are populated with
-             * the properties of the local file. The complete event is dispatched if the save is successful. </p>
+             * When the file is saved successfully, the properties of the {@link FileReference} object are populated with
+             * the properties of the local file. The complete event is dispatched if the save is successful.
              *
-             * <p> Only one {@link browse browse()} or {@link save()} session can be performed at a time (because only one
-             * dialog box can be invoked at a time). </p>
+             * Only one {@link browse browse()} or {@link save()} session can be performed at a time (because only one
+             * dialog box can be invoked at a time).
              *
              * @param data The data to be saved. The data can be in one of several formats, and will be treated appropriately.
              * @param fileName File name to be saved.
@@ -3296,13 +2936,13 @@ var samchon;
         }(library.EventDispatcher));
         library.FileReference = FileReference;
         /**
-         * <p> The {@link FileReferenceList} class provides a means to let users select one or more files for
+         * The {@link FileReferenceList} class provides a means to let users select one or more files for
          * {@link FileReference.load loading}. A {@link FileReferenceList} object represents a group of one or more local
          * files on the user's disk as an array of {@link FileReference} objects. For detailed information and important
          * considerations about {@link FileReference} objects and the FileReference class, which you use with
-         * {@link FileReferenceList}, see the {@link FileReference} class. </p>
+         * {@link FileReferenceList}, see the {@link FileReference} class.
          *
-         * <p> To work with the {@link FileReferenceList} class: </p>
+         * To work with the {@link FileReferenceList} class:
          * <ul>
          *	<li> Instantiate the class: <code>var myFileRef = new FileReferenceList();</code> </li>
          *	<li>
@@ -3316,8 +2956,8 @@ var samchon;
          *	<li> Call {@link FileReference.load} on each element in the {@link fileList} array. </li>
          * </ul>
          *
-         * <p> The {@link FileReferenceList} class includes a {@link browse browse()} method and a {@link fileList} property
-         * for working with multiple files. </p>
+         * The {@link FileReferenceList} class includes a {@link browse browse()} method and a {@link fileList} property
+         * for working with multiple files.
          *
          * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/FileReferenceList.html
          * @author Jeongho Nam <http://samchon.org>
@@ -3333,14 +2973,14 @@ var samchon;
             }
             Object.defineProperty(FileReferenceList.prototype, "fileList", {
                 /**
-                 * <p> An array of {@link FileReference} objects. </p>
+                 * An array of {@link FileReference} objects.
                  *
-                 * <p> When the {@link FileReferenceList.browse} method is called and the user has selected one or more files
+                 * When the {@link FileReferenceList.browse} method is called and the user has selected one or more files
                  * from the dialog box that the {@link browse browse()} method opens, this property is populated with an array of
-                 * {@link FileReference} objects, each of which represents the files the user selected. </p>
+                 * {@link FileReference} objects, each of which represents the files the user selected.
                  *
-                 * <p> The {@link fileList} property is populated anew each time {@link browse browse()} is called on that
-                 * {@link FileReferenceList} object. </p>
+                 * The {@link fileList} property is populated anew each time {@link browse browse()} is called on that
+                 * {@link FileReferenceList} object.
                  */
                 get: function () {
                     return this.file_list;
@@ -3349,20 +2989,20 @@ var samchon;
                 configurable: true
             });
             /**
-             * <p> Displays a file-browsing dialog box that lets the user select one or more local files to upload. The
-             * dialog box is native to the user's browser system.  </p>
+             * Displays a file-browsing dialog box that lets the user select one or more local files to upload. The
+             * dialog box is native to the user's browser system.
              *
-             * <p> When you call this method and the user successfully selects files, the {@link fileList} property of this
+             * When you call this method and the user successfully selects files, the {@link fileList} property of this
              * {@link FileReferenceList} object is populated with an array of {@link FileReference} objects, one for each
              * file that the user selects. Each subsequent time that the {@link FileReferenceList.browse} method is called,
              * the {@link FileReferenceList.fileList} property is reset to the file(s) that the user selects in the dialog
-             * box. </p>
+             * box.
              *
-             * <p> Using the <i>typeFilter</i> parameter, you can determine which files the dialog box displays. </p>
+             * Using the *typeFilter* parameter, you can determine which files the dialog box displays.
              *
-             * <p> Only one {@link FileReference.browse}, {@link FileReference.load}, or {@link FileReferenceList.browse}
+             * Only one {@link FileReference.browse}, {@link FileReference.load}, or {@link FileReferenceList.browse}
              * session can be performed at a time on a {@link FileReferenceList} object (because only one dialog box can be
-             * opened at a time). </p>
+             * opened at a time).
              *
              * @param typeFilter An array of filter strings used to filter the files that are displayed in the dialog box.
              *					 If you omit this parameter, all files are displayed.
@@ -3409,16 +3049,16 @@ var samchon;
     var library;
     (function (library) {
         /**
-         * <p> A genetic algorithm class. </p>
+         * A genetic algorithm class.
          *
          * @details
-         * <p> In the field of artificial intelligence, a genetic algorithm (GA) is a search heuristic that mimics the
+         * In the field of artificial intelligence, a genetic algorithm (GA) is a search heuristic that mimics the
          * process of natural selection. This heuristic (also sometimes called a metaheuristic) is routinely used to generate
-         * useful solutions to optimization and search problems. </p>
+         * useful solutions to optimization and search problems.
          *
-         * <p> Genetic algorithms belong to the larger class of evolutionary algorithms (EA), which generate solutions to
+         * Genetic algorithms belong to the larger class of evolutionary algorithms (EA), which generate solutions to
          * optimization problems using techniques inspired by natural evolution, such as inheritance, {@link mutate mutation},
-         * {@link selection}, and {@link crossover}. </p>
+         * {@link selection}, and {@link crossover}.
          *
          * @reference https://en.wikipedia.org/wiki/Genetic_algorithm
          * @author Jeongho Nam <http://samchon.org>
@@ -3443,16 +3083,16 @@ var samchon;
                 this.tournament_ = tournament;
             }
             /**
-             * <p> Evolove <i>GeneArray</i>. </p>
+             * Evolove *GeneArray*.
              *
-             * <p> Convenient method accessing to {@link evolvePopulation evolvePopulation()}. </p>
+             * Convenient method accessing to {@link evolvePopulation evolvePopulation()}.
              *
              * @param individual An initial set of genes; sequence listing.
              * @param population Size of population in a generation.
              * @param generation Size of generation in evolution.
              * @param compare A comparison function returns whether left gene is more optimal.
              *
-             * @return An evolved <i>GeneArray</i>, optimally.
+             * @return An evolved *GeneArray*, optimally.
              *
              * @see {@link GAPopulation.compare}
              */
@@ -3464,7 +3104,7 @@ var samchon;
                 return ga_population.fitTest();
             };
             /**
-             * Evolve <i>population</i>, a mass of <i>GeneArraies</i>.
+             * Evolve *population*, a mass of *GeneArraies*.
              *
              * @param population An initial population.
              * @param compare A comparison function returns whether left gene is more optimal.
@@ -3492,11 +3132,11 @@ var samchon;
                 MAIN LOGICS
             --------------------------------------------------------- */
             /**
-             * <p> Select the best GeneArray in <i>population</i> from tournament. </p>
+             * Select the best GeneArray in *population* from tournament.
              *
-             * <p> {@link selection Selection} is the stage of a genetic algorithm in which individual genomes are chosen
+             * {@link selection Selection} is the stage of a genetic algorithm in which individual genomes are chosen
              * from a population for later breeding (using {@linlk crossover} operator). A generic {@link selection}
-             * procedure may be implemented as follows: </p>
+             * procedure may be implemented as follows:
              *
              * <ol>
              *	<li>
@@ -3531,14 +3171,14 @@ var samchon;
                 return tournament.fitTest();
             };
             /**
-             * <p> Create a new GeneArray by crossing over two <i>GeneArray</i>(s). </p>
+             * Create a new GeneArray by crossing over two *GeneArray*(s).
              *
-             * <p> {@link crossover} is a genetic operator used to vary the programming of a chromosome or chromosomes from
+             * {@link crossover} is a genetic operator used to vary the programming of a chromosome or chromosomes from
              * one generation to the next. It is analogous to reproduction and biological crossover, upon which genetic
-             * algorithms are based. </p>
+             * algorithms are based.
              *
-             * <p> {@link crossover Cross over} is a process of taking more than one parent solutions and producing a child
-             * solution from them. There are methods for selection of the chromosomes. </p>
+             * {@link crossover Cross over} is a process of taking more than one parent solutions and producing a child
+             * solution from them. There are methods for selection of the chromosomes.
              *
              * @param parent1 A parent sequence listing
              * @param parent2 A parent sequence listing
@@ -3580,25 +3220,25 @@ var samchon;
                 var _a;
             };
             /**
-             * <p> Cause a mutation on the <i>GeneArray</i>. </p>
+             * Cause a mutation on the *GeneArray*.
              *
-             * <p> {@link mutate Mutation} is a genetic operator used to maintain genetic diversity from one generation of a
-             * population of genetic algorithm chromosomes to the next. It is analogous to biological mutation. </p>
+             * {@link mutate Mutation} is a genetic operator used to maintain genetic diversity from one generation of a
+             * population of genetic algorithm chromosomes to the next. It is analogous to biological mutation.
              *
-             * <p> {@link mutate Mutation} alters one or more gene values in a chromosome from its initial state. In
+             * {@link mutate Mutation} alters one or more gene values in a chromosome from its initial state. In
              * {@link mutate mutation}, the solution may change entirely from the previous solution. Hence GA can come to
-             * better solution by using {@link mutate mutation}. </p>
+             * better solution by using {@link mutate mutation}.
              *
-             * <p> {@link mutate Mutation} occurs during evolution according to a user-definable mutation probability. This
-             * probability should be set low. If it is set too high, the search will turn into a primitive random search. </p>
+             * {@link mutate Mutation} occurs during evolution according to a user-definable mutation probability. This
+             * probability should be set low. If it is set too high, the search will turn into a primitive random search.
              *
              * <h4> Note </h4>
-             * <p> Muttion is pursuing diversity. Mutation is useful for avoiding the following problem. </p>
+             * Muttion is pursuing diversity. Mutation is useful for avoiding the following problem.
              *
-             * <p> When initial set of genes(GeneArray) is far away from optimail, without mutation (only with selection and
-             * crossover), the genetic algorithm has a tend to wandering outside of the optimal. </p>
+             * When initial set of genes(GeneArray) is far away from optimail, without mutation (only with selection and
+             * crossover), the genetic algorithm has a tend to wandering outside of the optimal.
              *
-             * <p> Genes in the GeneArray will be swapped following percentage of the {@link mutation_rate}. </p>
+             * Genes in the GeneArray will be swapped following percentage of the {@link mutation_rate}.
              *
              * @param individual A container of genes to mutate
              *
@@ -3618,18 +3258,18 @@ var samchon;
         }());
         library.GeneticAlgorithm = GeneticAlgorithm;
         /**
-         * <p> A population in a generation. </p>
+         * A population in a generation.
          *
-         * <p> {@link GAPopulation} is a class representing population of candidate genes (sequence listing) having an array
+         * {@link GAPopulation} is a class representing population of candidate genes (sequence listing) having an array
          * of GeneArray as a member. {@link GAPopulation} also manages initial set of genes and handles fitting test direclty
-         * by the method {@link fitTest fitTest()}. </p>
+         * by the method {@link fitTest fitTest()}.
          *
-         * <p> The success of evolution of genetic algorithm is depend on the {@link GAPopulation}'s initial set and fitting
-         * test. (<i>GeneArray</i> and {@link compare}.) </p>
+         * The success of evolution of genetic algorithm is depend on the {@link GAPopulation}'s initial set and fitting
+         * test. (*GeneArray* and {@link compare}.)
          *
          * <h4> Warning </h4>
-         * <p> Be careful for the mistakes of direction or position of the {@link compare}. </p>
-         * <p> Most of logical errors failed to access optimal solution are occured from those mistakes. </p>
+         * Be careful for the mistakes of direction or position of the {@link compare}.
+         * Most of logical errors failed to access optimal solution are occured from those mistakes.
          *
          * @param <T> Type of gene elements.
          * @param <GeneArray> An array containing genes as elments; sequnce listing.
@@ -3665,9 +3305,9 @@ var samchon;
                 return this.children_;
             };
             /**
-             * Test fitness of each <i>GeneArray</i> in the {@link population}.
+             * Test fitness of each *GeneArray* in the {@link population}.
              *
-             * @return The best <i>GeneArray</i> in the {@link population}.
+             * @return The best *GeneArray* in the {@link population}.
              */
             GAPopulation.prototype.fitTest = function () {
                 var best = this.children_.front();
@@ -3697,11 +3337,11 @@ var samchon;
     var library;
     (function (library) {
         /**
-         * <p> A utility class supporting static methods of string. </p>
+         * A utility class supporting static methods of string.
          *
-         * <p> The {@link StringUtil} utility class is an all-static class with methods for working with string objects within
-         * Samchon Framework. You do not create instances of {@link StringUtil}; instead you call methods such as the
-         * <code>StringUtil.substitute()</code> method. </p>
+         * The {@link StringUtil} utility class is an all-static class with methods for working with string objects.
+         * You do not create instances of {@link StringUtil}; instead you call methods such as the
+         * ```StringUtil.substitute()``` method.
          *
          * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/utils/StringUtil.html
          * @author Jeongho Nam <http://samchon.org>
@@ -3717,21 +3357,19 @@ var samchon;
                 BETWEEN(s)
             ------------------------------------------------------------------ */
             /**
-             * <p> Generate a substring. </p>
+             * Generate a substring.
              *
-             * <p> Extracts a substring consisting of the characters from specified start to end.
-             * It's same with str.substring( ? = (str.find(start) + start.size()), str.find(end, ?) ) </p>
+             * Extracts a substring consisting of the characters from specified start to end.
+             * It's same with str.substring( ? = (str.find(start) + start.size()), str.find(end, ?) )
              *
-             * <code>
-             let str = between("ABCD[EFGH]IJK", "[", "]");
-             console.log(str); // PRINTS "EFGH"
-             * </code>
+             * ```typescript
+             * let str: string = StringUtil.between("ABCD(EFGH)IJK", "(", ")");
+             * console.log(str); // PRINTS "EFGH"
+             * ```
              *
-             * <ul>
-             *	<li> If start is not specified, extracts from begin of the string to end. </li>
-             *	<li> If end is not specified, extracts from start to end of the string. </li>
-             *	<li> If start and end are all omitted, returns str, itself. </li>
-             * </ul>
+             * - If start is not specified, extracts from begin of the string to end. </li>
+             * - If end is not specified, extracts from start to end of the string. </li>
+             * - If start and end are all omitted, returns str, itself. </li>
              *
              * @param str Target string to be applied between.
              * @param start A string for separating substring at the front.
@@ -3756,15 +3394,15 @@ var samchon;
                 }
             };
             /**
-             * <p> Fetch substrings. </p>
+             * Fetch substrings.
              *
-             * <p> Splits a string into an array of substrings dividing by specified delimeters of start and end.
-             * It's the array of substrings adjusted the between. </p>
+             * Splits a string into an array of substrings dividing by specified delimeters of start and end.
+             * It's the array of substrings adjusted the between.
              *
              * <ul>
              *	<li> If startStr is omitted, it's same with the split by endStr not having last item. </li>
              *	<li> If endStr is omitted, it's same with the split by startStr not having first item. </li>
-             *	<li> If startStr and endStar are all omitted, returns <i>str</i>. </li>
+             *	<li> If startStr and endStar are all omitted, returns *str*. </li>
              * </ul>
              *
              * @param str Target string to split by between.
@@ -3901,7 +3539,7 @@ var samchon;
              * @param format The string to make substitutions in. This string can contain special tokens of the form
              *				 <code>{n}</code>, where <code>n</code> is a zero based index, that will be replaced with the
              *				 additional parameters found at that index if specified.
-             * @param args Additional parameters that can be substituted in the <i>format</i> parameter at each
+             * @param args Additional parameters that can be substituted in the *format* parameter at each
              *			   <code>{n}</code> location, where <code>n</code> is an integer (zero based) index value into
              *			   the array of values specified.
              *
@@ -3962,9 +3600,9 @@ var samchon;
                 return StringUtil.replaceAll(str, new std.Pair("&nbsp;", " "), new std.Pair("\t", " "), new std.Pair("  ", " "));
             };
             /**
-             * <p> Repeat a string. </p>
+             * Repeat a string.
              *
-             * <p> Returns a string consisting of a specified string concatenated with itself a specified number of times. </p>
+             * Returns a string consisting of a specified string concatenated with itself a specified number of times.
              *
              * @param str The string to be repeated.
              * @param n The repeat count.
@@ -3985,9 +3623,9 @@ var samchon;
                 NUMBER
             ------------------------------------------------------------------ */
             /**
-             * <p> Number to formatted string with &quot;,&quot; sign. </p>
+             * Number to formatted string with &quot;,&quot; sign.
              *
-             * <p> Returns a string converted from the number rounded off from specified precision with &quot;,&quot; symbols. </p>
+             * Returns a string converted from the number rounded off from specified precision with &quot;,&quot; symbols.
              *
              * @param val A number wants to convert to string.
              * @param precision Target precision of round off.
@@ -4055,14 +3693,12 @@ var samchon;
     var library;
     (function (library) {
         /**
-         * <p> URLVariables class is for representing variables of HTTP. </p>
+         * URLVariables class is for representing variables of HTTP.
          *
-         * <p> URLVariables class allows you to transfer variables between an application and server.
-         * When transfering, URLVariables will be converted to a URI string. </p>
+         * {@link URLVariables} class allows you to transfer variables between an application and server.
          *
-         * <ul>
-         *	<li> URI: Uniform Resource Identifier </li>
-         * </ul>
+         * When transfering, {@link URLVariables} will be converted to a *URI* string.
+         * - URI: Uniform Resource Identifier
          *
          * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/URLVariables.html
          * @author Migrated by Jeongho Nam <http://samchon.org>
@@ -4097,9 +3733,9 @@ var samchon;
                     }
                     else {
                         key = var_pairs[i].substr(0, equal_index);
-                        name = decodeURIComponent(var_pairs[i].substr(equal_index + 1));
+                        value = decodeURIComponent(var_pairs[i].substr(equal_index + 1));
                     }
-                    this.insert([key, name]);
+                    this.insert([key, value]);
                 }
             };
             /**
@@ -4117,6 +3753,472 @@ var samchon;
             return URLVariables;
         }(std.HashMap));
         library.URLVariables = URLVariables;
+    })(library = samchon.library || (samchon.library = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+var samchon;
+(function (samchon) {
+    var library;
+    (function (library) {
+        /**
+         * A tree-structured XML object.
+         *
+         * The {@link XML| class contains methods and properties for working with XML objects. The {@link XML} class (along
+         * with the {@link XMLList}) implements the powerful XML-handling standards defined in ECMAScript for XML (E4X)
+         * specification (ECMA-357 edition 2).
+         *
+         * An XML object, it is composed with three members; {@link getTag tag}, {@link getProperty properties} and
+         * {@link getValue value}. As you know, XML is a tree structured data expression method. The tree-stucture;
+         * {@link XML} class realizes it by extending ```std.HashMap<string, XMLList>```. Child {@link XML} objects are
+         * contained in the matched {@link XMLList} object being grouped by their {@link getTag tag name}. The
+         * {@link XMLList} objects, they're stored in the {@link std.HashMap} ({@link XML} itself) with its **key**; common
+         * {@link getTag tag name} of children {@link XML} objects.
+         *
+         * ```typescript
+         * class XML extends std.HashMap<string, XMLList>
+         * {
+         *	private tag_: string;
+         *	private properties_: std.HashMap<string, string>;
+         *	private value_: string;
+         * }
+         * ```
+         *
+         * ```xml
+         * <?xml version="1.0" ?>
+         * <TAG property_name={property_value}>
+         *	<!--
+         *		The cchild XML objects with "CHILD_TAG", They're contained in an XMLList object.
+         *		The XMLList object, it is stored in std.HashMap (XML class itself) with its key "CHILD_TAG"
+         *	-->
+         *	<CHILD_TAG property_name={property_value}>{value}</CHILD_TAG>
+         *  <CHILD_TAG property_name={property_value}>{value}</CHILD_TAG>
+         *	<CHILD_TAG property_name={property_value}>{value}</CHILD_TAG>
+         *
+         *	<!--
+         *		The child XML object named "ANOTHER_TAG", it also belonged to an XMLList ojbect.
+         *		And the XMLList is also being contained in the std.HashMap with its key "ANOTHER_TAG"
+         *	-->
+         *	<ANOTHER_TAG />
+         * </TAG>
+         * ```
+         *
+         * Use the {@link toString toString()} method to return a string representation of the {@link XML} object regardless
+         * of whether the {@link XML} object has simple content or complex content.
+         *
+         * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/XML.html
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-Library-XML
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var XML = (function (_super) {
+            __extends(XML, _super);
+            function XML(str) {
+                if (str === void 0) { str = ""; }
+                _super.call(this);
+                this.property_map_ = new std.HashMap();
+                this.value_ = "";
+                if (str.indexOf("<") == -1)
+                    return;
+                var start;
+                var end;
+                //ERASE HEADER OF XML
+                if ((start = str.indexOf("<?xml")) != -1) {
+                    end = str.indexOf("?>", start);
+                    if (end != -1)
+                        str = str.substr(end + 2);
+                }
+                //ERASE COMMENTS
+                while ((start = str.indexOf("<!--")) != -1) {
+                    end = str.indexOf("-->", start);
+                    if (end != -1)
+                        break;
+                    str = str.substr(0, start) + str.substr(end + 3);
+                }
+                //BEGIN PARSING
+                this.parse(str);
+            }
+            /**
+             * @hidden
+             */
+            XML.prototype.parse = function (str) {
+                this.parse_tag(str);
+                this.parse_properties(str);
+                var res = this.parse_value(str);
+                if (res.second == true)
+                    this.parse_children(res.first);
+            };
+            /**
+             * @hidden
+             */
+            XML.prototype.parse_tag = function (str) {
+                var start = str.indexOf("<") + 1;
+                var end = this.compute_min_index(str.indexOf(" ", start), str.indexOf("\r\n", start), str.indexOf("\n", start), str.indexOf("\t", start), str.indexOf(">", start), str.indexOf("/", start));
+                if (start == 0 || end == -1)
+                    return;
+                this.tag_ = str.substring(start, end);
+            };
+            /**
+             * @hidden
+             */
+            XML.prototype.parse_properties = function (str) {
+                var start = str.indexOf("<" + this.tag_) + this.tag_.length + 1;
+                var end = this.compute_min_index(str.lastIndexOf("/"), str.indexOf(">", start));
+                if (start == -1 || end == -1 || start >= end)
+                    return;
+                //<comp label='ABCD' /> : " label='ABCD' "
+                var line = str.substring(start, end);
+                if (line.indexOf("=") == -1)
+                    return;
+                var label;
+                var value;
+                var helpers = [];
+                var inQuote = false;
+                var quoteType;
+                var equal;
+                //INDEXING
+                for (var i = 0; i < line.length; i++) {
+                    //Start of quote
+                    if (inQuote == false && (line.charAt(i) == "'" || line.charAt(i) == "\"")) {
+                        inQuote = true;
+                        start = i;
+                        if (line.charAt(i) == "'")
+                            quoteType = 1;
+                        else if (line.charAt(i) == "\"")
+                            quoteType = 2;
+                    }
+                    else if (inQuote == true &&
+                        ((quoteType == 1 && line.charAt(i) == "'") ||
+                            (quoteType == 2 && line.charAt(i) == "\""))) {
+                        helpers.push({ type: quoteType, start: start, end: i });
+                        inQuote = false;
+                    }
+                }
+                //CONSTRUCTING
+                for (var i = 0; i < helpers.length; i++) {
+                    var quote = helpers[i];
+                    if (i == 0) {
+                        equal = line.indexOf("=");
+                        label = line.substring(0, equal).trim();
+                    }
+                    else {
+                        equal = line.indexOf("=", helpers[i - 1].end + 1);
+                        label = line.substring(helpers[i - 1].end + 1, equal).trim();
+                    }
+                    value = line.substring(helpers[i].start + 1, helpers[i].end);
+                    this.setProperty(label, this.decode_property(value));
+                }
+            };
+            /**
+             * @hidden
+             */
+            XML.prototype.parse_value = function (str) {
+                var end_slash = str.lastIndexOf("/");
+                var end_block = str.indexOf(">");
+                if (end_slash < end_block || end_slash + 1 == str.lastIndexOf("<")) {
+                    //STATEMENT1: <TAG />
+                    //STATEMENT2: <TAG></TAG> -> SAME WITH STATEMENT1: <TAG />
+                    this.value_ = "";
+                    return new std.Pair(str, false);
+                }
+                var start = end_block + 1;
+                var end = str.lastIndexOf("<");
+                str = str.substring(start, end); //REDEFINE WEAK_STRING -> IN TO THE TAG
+                if (str.indexOf("<") == -1)
+                    this.value_ = this.decode_value(str.trim());
+                else
+                    this.value_ = "";
+                return new std.Pair(str, true);
+            };
+            /**
+             * @hidden
+             */
+            XML.prototype.parse_children = function (str) {
+                if (str.indexOf("<") == -1)
+                    return;
+                var start = str.indexOf("<");
+                var end = str.lastIndexOf(">") + 1;
+                str = str.substring(start, end);
+                var blockStart = 0;
+                var blockEnd = 0;
+                start = 0;
+                for (var i = 0; i < str.length; i++) {
+                    if (str.charAt(i) == "<" && str.substr(i, 2) != "</")
+                        blockStart++;
+                    else if (str.substr(i, 2) == "/>" || str.substr(i, 2) == "</")
+                        blockEnd++;
+                    if (blockStart >= 1 && blockStart == blockEnd) {
+                        end = str.indexOf(">", i);
+                        var xmlList = void 0;
+                        var xml = new XML();
+                        xml.parse(str.substring(start, end + 1));
+                        if (this.has(xml.tag_) == true)
+                            xmlList = this.get(xml.tag_);
+                        else {
+                            xmlList = new XMLList();
+                            this.set(xml.tag_, xmlList);
+                        }
+                        xmlList.push(xml);
+                        i = end;
+                        start = end + 1;
+                        blockStart = 0;
+                        blockEnd = 0;
+                    }
+                }
+            };
+            /* -------------------------------------------------------------
+                ACCESSORS
+            ------------------------------------------------------------- */
+            /**
+             * Get tag.
+             */
+            XML.prototype.getTag = function () {
+                return this.tag_;
+            };
+            /**
+             * Get value.
+             */
+            XML.prototype.getValue = function () {
+                return this.value_;
+            };
+            /**
+             * Test whether a property exists or not.
+             */
+            XML.prototype.hasProperty = function (key) {
+                return this.property_map_.has(key);
+            };
+            /**
+             * Get property by its key.
+             */
+            XML.prototype.getProperty = function (key) {
+                return this.property_map_.get(key);
+            };
+            /**
+             * Get property map.
+             */
+            XML.prototype.getPropertyMap = function () {
+                return this.property_map_;
+            };
+            /* -------------------------------------------------------------
+                SETTERS
+            ------------------------------------------------------------- */
+            /**
+             * Set tag (identifier) of the XML.
+             */
+            XML.prototype.setTag = function (str) {
+                this.tag_ = str;
+            };
+            /**
+             * Set value.
+             *
+             * @param val A value to set
+             */
+            XML.prototype.setValue = function (str) {
+                this.value_ = str;
+            };
+            /**
+             * Set a property with its key.
+             */
+            XML.prototype.setProperty = function (key, value) {
+                this.property_map_.set(key, value);
+            };
+            /**
+             * Erase a property by its key.
+             *
+             * @param key The key of the property to erase
+             * @throw exception out of range
+             */
+            XML.prototype.eraseProperty = function (key) {
+                if (this.property_map_.has(key) == false)
+                    throw Error("out of range");
+                else
+                    this.property_map_.erase(key);
+            };
+            XML.prototype.push = function () {
+                var items = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    items[_i - 0] = arguments[_i];
+                }
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i] instanceof XML) {
+                        var xml = items[i];
+                        if (this.has(xml.tag_) == true)
+                            this.get(xml.tag_).push(xml);
+                        else {
+                            var xmlList = new XMLList();
+                            xmlList.push(xml);
+                            this.set(xml.tag_, xmlList);
+                        }
+                    }
+                    else if (items[i] instanceof XMLList) {
+                        var xmlList = items[i];
+                        if (xmlList.empty() == true)
+                            continue;
+                        if (this.has(xmlList.getTag()) == true) {
+                            var myXMLList = this.get(xmlList.getTag());
+                            myXMLList.insert(myXMLList.end(), xmlList.begin(), xmlList.end());
+                        }
+                        else
+                            this.set(xmlList.getTag(), xmlList);
+                    }
+                    else
+                        _super.prototype.push.call(this, items[i]);
+                }
+                return this.size();
+            };
+            XML.prototype.addAllProperties = function (xml) {
+                for (var it = xml.property_map_.begin(); it.equal_to(xml.property_map_.end()) == false; it = it.next())
+                    this.setProperty(it.first, it.second);
+            };
+            XML.prototype.clearProperties = function () {
+                this.property_map_.clear();
+            };
+            /* -------------------------------------------------------------
+                FILTERS
+            ------------------------------------------------------------- */
+            /**
+             * @hidden
+             */
+            XML.prototype.compute_min_index = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                var min = args[0];
+                for (var i = 1; i < args.length; i++) {
+                    if (args[i] == -1)
+                        continue;
+                    if (min == -1 || args[i] < min)
+                        min = args[i];
+                }
+                return min;
+            };
+            /**
+             * @hidden
+             */
+            XML.prototype.decode_value = function (str) {
+                var pairs = [
+                    new std.Pair("&amp;", "&"),
+                    new std.Pair("&lt;", "<"),
+                    new std.Pair("&gt;", ">")
+                ];
+                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
+            };
+            /**
+             * @hidden
+             */
+            XML.prototype.encode_value = function (str) {
+                var pairs = [
+                    new std.Pair("&", "&amp;"),
+                    new std.Pair("<", "&lt;"),
+                    new std.Pair(">", "&gt;")
+                ];
+                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
+            };
+            /**
+             * @hidden
+             */
+            XML.prototype.decode_property = function (str) {
+                var pairs = [
+                    new std.Pair("&amp;", "&"),
+                    new std.Pair("&lt;", "<"),
+                    new std.Pair("&gt;", ">"),
+                    new std.Pair("&quot;", "\""),
+                    new std.Pair("&apos;", "'"),
+                    new std.Pair("&#x9;", "\t"),
+                    new std.Pair("&#xA;", "\n"),
+                    new std.Pair("&#xD;", "\r"),
+                ];
+                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
+            };
+            /**
+             * @hidden
+             */
+            XML.prototype.encode_property = function (str) {
+                var pairs = [
+                    new std.Pair("&", "&amp;"),
+                    new std.Pair("<", "&lt;"),
+                    new std.Pair(">", "&gt;"),
+                    new std.Pair("\"", "&quot;"),
+                    new std.Pair("'", "&apos;"),
+                    new std.Pair("\t", "&#x9;"),
+                    new std.Pair("\n", "&#xA;"),
+                    new std.Pair("\r", "&#xD;"),
+                ];
+                return library.StringUtil.replaceAll.apply(library.StringUtil, [str].concat(pairs));
+            };
+            /* -------------------------------------------------------------
+                EXPORTS
+            ------------------------------------------------------------- */
+            /**
+             * {@link XML} object to xml string.
+             *
+             * Returns a string representation of the {@link XML} object.
+             *
+             * @param tab Number of tabs to spacing.
+             * @return The string representation of the {@link XML} object.
+             */
+            XML.prototype.toString = function (tab) {
+                if (tab === void 0) { tab = 0; }
+                var str = library.StringUtil.repeat("\t", tab) + "<" + this.tag_;
+                var children_str = "";
+                //PROPERTIES
+                for (var p_it = this.property_map_.begin(); p_it.equal_to(this.property_map_.end()) == false; p_it = p_it.next())
+                    str += " " + p_it.first + "=\"" + this.encode_property(p_it.second) + "\"";
+                if (this.size() == 0) {
+                    // VALUE
+                    if (this.value_ != "")
+                        str += ">" + this.encode_value(this.value_) + "</" + this.tag_ + ">";
+                    else
+                        str += " />";
+                }
+                else {
+                    // CHILDREN
+                    str += ">\n";
+                    for (var x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
+                        str += x_it.second.toString(tab + 1);
+                    str += library.StringUtil.repeat("\t", tab) + "</" + this.tag_ + ">";
+                }
+                return str;
+            };
+            return XML;
+        }(std.HashMap));
+        library.XML = XML;
+        /**
+         * List of {@link XML} objects with same tag.
+         *
+         * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/XMLList.html
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-Library-XML
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var XMLList = (function (_super) {
+            __extends(XMLList, _super);
+            function XMLList() {
+                _super.apply(this, arguments);
+            }
+            // using super::constructor
+            /**
+             * Get tag.
+             */
+            XMLList.prototype.getTag = function () {
+                return this.front().getTag();
+            };
+            /**
+             * {@link XMLList XML objects} to string.
+             *
+             * Returns a string representation of the {@link XMLList XML objects}.
+             *
+             * @param tab Number of tabs to spacing.
+             * @return The string representation of the {@link XMLList XML objects}.
+             */
+            XMLList.prototype.toString = function (level) {
+                if (level === void 0) { level = 0; }
+                var str = "";
+                for (var i = 0; i < this.size(); i++)
+                    str += this.at(i).toString(level) + "\n";
+                return str;
+            };
+            return XMLList;
+        }(std.Deque));
+        library.XMLList = XMLList;
     })(library = samchon.library || (samchon.library = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
@@ -4190,26 +4292,26 @@ var samchon;
             IEntity.toXML = toXML;
         })(IEntity = protocol.IEntity || (protocol.IEntity = {}));
         /**
-         * <p> An entity, a standard data class. </p>
+         * An entity, a standard data class.
          *
-         * <p> Entity is a class for standardization of expression method using on network I/O by XML. If
+         * Entity is a class for standardization of expression method using on network I/O by XML. If
          * Invoke is a standard message protocol of Samchon Framework which must be kept, Entity is a
          * recommended semi-protocol of message for expressing a data class. Following the semi-protocol
-         * Entity is not imposed but encouraged. </p>
+         * Entity is not imposed but encouraged.
          *
-         * <p> As we could get advantages from standardization of message for network I/O with Invoke,
+         * As we could get advantages from standardization of message for network I/O with Invoke,
          * we can get additional advantage from standardizing expression method of data class with Entity.
          * We do not need to know a part of network communication. Thus, with the Entity, we can only
          * concentrate on entity's own logics and relationships between another entities. Entity does not
-         * need to how network communications are being done. </p>
+         * need to how network communications are being done.
          *
-         * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
+         * I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi
          * protocol for network I/O but not a essential protocol must be kept. The expression method of
-         * Entity, using on network I/O, is expressed by XML string. </p>
+         * Entity, using on network I/O, is expressed by XML string.
          *
-         * <p> If your own network system has a critical performance issue on communication data class,
+         * If your own network system has a critical performance issue on communication data class,
          * it would be better to using binary communication (with ByteArray).
-         * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray). </p>
+         * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray).
          *
          * @author Jeongho Nam <http://samchon.org>
          */
@@ -4507,16 +4609,16 @@ var samchon;
     var protocol;
     (function (protocol) {
         /**
-         * <p> Base class for web-communicator, {@link WebClientDriver} and {@link WebServerConnector}. </p>
+         * Base class for web-communicator, {@link WebClientDriver} and {@link WebServerConnector}.
          *
-         * <p> This class {@link WebCommunicatorBase} subrogates network communication for web-communicator classes,
+         * This class {@link WebCommunicatorBase} subrogates network communication for web-communicator classes,
          * {@link WebClinetDriver} and {@link WebServerConnector}. The web-communicator and this class
-         * {@link WebCommunicatorBase} share same interface {@link IProtocol} and have a <b>chain of responsibily</b>
-         * relationship. </p>
+         * {@link WebCommunicatorBase} share same interface {@link IProtocol} and have a **chain of responsibily**
+         * relationship.
          *
-         * <p> When an {@link Invoke} message was delivered from the connected remote system, then this class calls
+         * When an {@link Invoke} message was delivered from the connected remote system, then this class calls
          * web-communicator's {@link WebServerConnector.replyData replyData()} method. Also, when called web-communicator's
-         * {@link WebClientDriver.sendData sendData()}, then {@link sendData sendData()} of this class will be caleed. </p>
+         * {@link WebClientDriver.sendData sendData()}, then {@link sendData sendData()} of this class will be caleed.
          *
          * <ul>
          *	<li> this.replyData() -> communicator.replyData() </li>
@@ -4558,10 +4660,10 @@ var samchon;
                         this.connection_.sendBytes(invoke.at(i).getValue());
             };
             /**
-             * <p> Handle raw-data received from the remote system. </p>
+             * Handle raw-data received from the remote system.
              *
-             * <p> Queries raw-data received from the remote system. When the raw-data represents an formal {@link Invoke}
-             * message, then it will be sent to the {@link replyData}. </p>
+             * Queries raw-data received from the remote system. When the raw-data represents an formal {@link Invoke}
+             * message, then it will be sent to the {@link replyData}.
              *
              * @param message A raw-data received from the remote system.
              */
@@ -4865,25 +4967,25 @@ var samchon;
         var external;
         (function (external) {
             /**
-             * <p> A role of an external system. </p>
+             * A role of an external system.
              *
-             * <p> The {@link ExternalSystemRole} class represents a role, <i>what to do</i> in an {@link ExternalSystem}.
-             * Extends this class and writes some methods related to the role. </p>
+             * The {@link ExternalSystemRole} class represents a role, *what to do* in an {@link ExternalSystem}.
+             * Extends this class and writes some methods related to the role.
              *
-             * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		  target="_blank">
              *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		 style="max-width: 100%" />
-             * </a> </p>
+             * </a>
              *
              * <h4> Proxy Pattern </h4>
-             * <p> The {@link ExternalSystemRole} class can be an <i>logical proxy</i>. In framework within user, which
+             * The {@link ExternalSystemRole} class can be an *logical proxy*. In framework within user, which
              * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-             * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+             * important. Only interested in user's perspective is *which can be done*.
              *
-             * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
              * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
              *
              * <ul>
              *	<li>
@@ -4895,7 +4997,7 @@ var samchon;
              *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
              *		external system.
              *	</li>
-             *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+             *	<li> Those strategy is called *Proxy Pattern*. </li>
              * </ul>
              *
              * @author Jeongho Nam <http://samchon.org>
@@ -4947,10 +5049,10 @@ var samchon;
                     this.system.sendData(invoke);
                 };
                 /**
-                 * <p> Handle replied {@link Invoke message} from the {@link system external system} belonged to. </p>
+                 * Handle replied {@link Invoke message} from the {@link system external system} belonged to.
                  *
-                 * <p> This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}.
-                 * in the <i>invoke</i>. </p>
+                 * This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}.
+                 * in the *invoke*.
                  *
                  * @param invoke An {@link Invoke} message received from the {@link system external system}.
                  */
@@ -4963,7 +5065,7 @@ var samchon;
                 /**
                  * Tag name of the {@link ExternalSytemRole} in {@link XML}.
                  *
-                 * @return <i>role</i>.
+                 * @return *role*.
                  */
                 ExternalSystemRole.prototype.TAG = function () {
                     return "role";
@@ -5028,7 +5130,7 @@ var samchon;
                     var uid;
                     if (invoke.has("_History_uid") == false) {
                         // ISSUE UID AND ATTACH IT TO INVOKE'S LAST PARAMETER
-                        uid = this.system_array_._Fetch_history_sequence();
+                        uid = ++this.system_array_["history_sequence_"];
                         invoke.push_back(new protocol.InvokeParameter("_History_uid", uid));
                     }
                     else {
@@ -5037,7 +5139,7 @@ var samchon;
                         //	- A Distributed HAS DISCONNECTED. THE SYSTEM SHIFTED ITS CHAIN TO ANOTHER SLAVE.
                         uid = invoke.get("_History_uid").getValue();
                         // FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
-                        this.system_array_._Set_history_sequence(uid);
+                        this.system_array_["history_sequence_"] = uid;
                         // FOR CASE 2. ERASE ORDINARY PROGRESSIVE HISTORY FROM THE DISCONNECTED
                         this.progress_list_.erase(uid);
                     }
@@ -5048,6 +5150,8 @@ var samchon;
                     var idle_system = null;
                     for (var i = 0; i < this.system_array_.size(); i++) {
                         var system = this.system_array_.at(i);
+                        if (system["exclude_"] == true)
+                            continue;
                         if (idle_system == null
                             || system["progress_list_"].size() < idle_system["progress_list_"].size()
                             || system.getPerformance() < idle_system.getPerformance())
@@ -5300,12 +5404,12 @@ var samchon;
         var external;
         (function (external) {
             /**
-             * <p> An array and manager of {@link ExternalSystem external systems}. </p>
+             * An array and manager of {@link ExternalSystem external systems}.
              *
-             * <p> {@link ExternalSystemArray} is an abstract class contains and manages external system drivers,
+             * {@link ExternalSystemArray} is an abstract class contains and manages external system drivers,
              * {@link ExternalSystem} objects. You can specify this {@link ExternalSystemArray} to be a server accepting
              * {@link ExternalSystem external clients} or a client connecting to {@link IExternalServer external servers}. Even
-             * both of them is also possible. </p>
+             * both of them is also possible.
              *
              * <ul>
              *	<li> A server accepting external clients: {@link IExternalClientArray} </li>
@@ -5316,20 +5420,20 @@ var samchon;
              *	</li>
              * </ul>
              *
-             * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		  target="_blank">
              *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		 style="max-width: 100%" />
-             * </a> </p>
+             * </a>
              *
              * <h4> Proxy Pattern </h4>
-             * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
+             * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
              * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-             * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+             * important. Only interested in user's perspective is *which can be done*.
              *
-             * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
              * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
              *
              * <ul>
              *	<li>
@@ -5341,7 +5445,7 @@ var samchon;
              *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
              *		external system.
              *	</li>
-             *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+             *	<li> Those strategy is called *Proxy Pattern*. </li>
              * </ul>
              *
              * @author Jeongho Nam <http://samchon.org>
@@ -5400,7 +5504,7 @@ var samchon;
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
                 /**
-                 * <p> Send an {@link Invoke} message. </p>
+                 * Send an {@link Invoke} message.
                  *
                  * @param invoke An {@link Invoke} message to send.
                  */
@@ -5409,7 +5513,7 @@ var samchon;
                         this.at(i).sendData(invoke);
                 };
                 /**
-                 * <p> Handle an {@Invoke} message have received. </p>
+                 * Handle an {@Invoke} message have received.
                  *
                  * @param invoke An {@link Invoke} message have received.
                  */
@@ -5422,7 +5526,7 @@ var samchon;
                 /**
                  * Tag name of the {@link ExternalSytemArray} in {@link XML}.
                  *
-                 * @return <i>systemArray</i>.
+                 * @return *systemArray*.
                  */
                 ExternalSystemArray.prototype.TAG = function () {
                     return "systemArray";
@@ -5430,7 +5534,7 @@ var samchon;
                 /**
                  * Tag name of {@link ExternalSystem children elements} belonged to the {@link ExternalSytemArray} in {@link XML}.
                  *
-                 * @return <i>system</i>.
+                 * @return *system*.
                  */
                 ExternalSystemArray.prototype.CHILD_TAG = function () {
                     return "system";
@@ -5450,7 +5554,7 @@ var samchon;
         var parallel;
         (function (parallel) {
             /**
-             * <p> A manager containing {@link ParallelSystem} objects. </p>
+             * A manager containing {@link ParallelSystem} objects.
              *
              *
              *
@@ -5477,20 +5581,6 @@ var samchon;
                 ParallelSystemArray.prototype.at = function (index) {
                     return _super.prototype.at.call(this, index);
                 };
-                /**
-                 * @hidden
-                 */
-                ParallelSystemArray.prototype._Fetch_history_sequence = function () {
-                    return ++this.history_sequence_;
-                };
-                /**
-                 * @hidden
-                 */
-                ParallelSystemArray.prototype._Set_history_sequence = function (val) {
-                    if (val <= this.history_sequence_)
-                        return;
-                    this.history_sequence_ = val;
-                };
                 /* =========================================================
                     INVOKE MESSAGE CHAIN
                         - SEND DATA
@@ -5511,28 +5601,34 @@ var samchon;
                  *
                  * @param invoke An invoke message requesting parallel process.
                  * @param first Initial piece's index in a section.
-                 * @param last Final piece's index in a section. The ranged used is [<i>first</i>, <i>last</i>), which contains
-                 *			   all the pieces' indices between <i>first</i> and <i>last</i>, including the piece pointed by index
-                 *			   <i>first</i>, but not the piece pointed by the index <i>last</i>.
+                 * @param last Final piece's index in a section. The ranged used is [*first*, *last*), which contains
+                 *			   all the pieces' indices between *first* and *last*, including the piece pointed by index
+                 *			   *first*, but not the piece pointed by the index *last*.
                  */
                 ParallelSystemArray.prototype.sendPieceData = function (invoke, first, last) {
                     if (invoke.has("_History_uid") == false)
-                        invoke.push_back(new protocol.InvokeParameter("_History_uid", this._Fetch_history_sequence()));
+                        invoke.push_back(new protocol.InvokeParameter("_History_uid", ++this.history_sequence_));
                     else {
                         // INVOKE MESSAGE ALREADY HAS ITS OWN UNIQUE ID
                         //	- THIS IS A TYPE OF ParallelSystemArrayMediator. THE MESSAGE HAS COME FROM ITS MASTER
                         //	- A ParallelSystem HAS DISCONNECTED. THE SYSTEM SHIFTED ITS CHAIN TO OTHER SLAVES.
                         var uid = invoke.get("_History_uid").getValue();
                         // FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
-                        this._Set_history_sequence(uid);
+                        this.history_sequence_ = uid;
                     }
-                    var size = last - first;
+                    var segment_size = last - first;
+                    var system_size = 0;
+                    for (var i = 0; i < this.size(); i++)
+                        if (this.at(i)["exclude_"] == false)
+                            system_size++;
                     for (var i = 0; i < this.size(); i++) {
                         var system = this.at(i);
+                        if (system["exclude_"] == true)
+                            continue;
                         // COMPUTE FIRST AND LAST INDEX TO ALLOCATE
                         var piece_size = (i == this.size() - 1)
-                            ? size - first
-                            : Math.floor(size / this.size() * system.getPerformance());
+                            ? segment_size - first
+                            : Math.floor(segment_size / system_size * system.getPerformance());
                         if (piece_size == 0)
                             continue;
                         // SEND DATA WITH PIECE INDEXES
@@ -5993,27 +6089,27 @@ var samchon;
         var external;
         (function (external) {
             /**
-             * <p> An external system driver. </p>
+             * An external system driver.
              *
-             * <p> The {@link ExternalSystem} class represents an external system, connected and interact with this system.
+             * The {@link ExternalSystem} class represents an external system, connected and interact with this system.
              * {@link ExternalSystem} takes full charge of network communication with external system have connected.
              * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
-             * class, {@link ExternalSystemRole} objects. </p>
+             * class, {@link ExternalSystemRole} objects.
              *
-             * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		  target="_blank">
              *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		 style="max-width: 100%" />
-             * </a> </p>
+             * </a>
              *
              * <h4> Bridge & Proxy Pattern </h4>
-             * <p> The {@link ExternalSystem} class can be a <i>bridge</i> for <i>logical proxy</i>. In framework within user,
+             * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
              * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-             * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+             * important. Only interested in user's perspective is *which can be done*.
              *
-             * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
              * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
              *
              * <ul>
              *	<li>
@@ -6025,7 +6121,7 @@ var samchon;
              *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
              *		external system.
              *	</li>
-             *	<li> Those strategy is called <i>Bridge Pattern</i> and <i>Proxy Pattern</i>. </li>
+             *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
              * </ul>
              *
              * @author Jeongho Nam <http://samchon.org>
@@ -6123,7 +6219,7 @@ var samchon;
                 /**
                  * Tag name of the {@link ExternalSytem} in {@link XML}.
                  *
-                 * @return <i>system</i>.
+                 * @return *system*.
                  */
                 ExternalSystem.prototype.TAG = function () {
                     return "system";
@@ -6131,7 +6227,7 @@ var samchon;
                 /**
                  * Tag name of {@link ExternalSystemRole children elements} belonged to the {@link ExternalSytem} in {@link XML}.
                  *
-                 * @return <i>role</i>.
+                 * @return *role*.
                  */
                 ExternalSystem.prototype.CHILD_TAG = function () {
                     return "role";
@@ -6151,7 +6247,7 @@ var samchon;
         var parallel;
         (function (parallel) {
             /**
-             * <p> An external parallel system driver. </p>
+             * An external parallel system driver.
              *
              *
              *
@@ -6261,8 +6357,8 @@ var samchon;
                     if (progress_it.equal_to(this.progress_list_.end()) == true)
                         return;
                     // ARCHIVE FIRST AND LAST INDEX
-                    history._Set_first(progress_it.second.second.getFirst());
-                    history._Set_last(progress_it.second.second.computeSize());
+                    history["first"] = progress_it.second.second.getFirst();
+                    history["last"] = progress_it.second.second.computeSize();
                     // ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
                     this.progress_list_.erase(progress_it);
                     this.history_list_.insert([history.getUID(), history]);
@@ -7005,25 +7101,25 @@ var samchon;
         var external;
         (function (external) {
             /**
-             * <p> An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}. </p>
+             * An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}.
              *
-             * <p> {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers,
-             * {@link IExternalServer} objects, as a {@link IServer server}. </p>
+             * {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers,
+             * {@link IExternalServer} objects, as a {@link IServer server}.
              *
-             * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		  target="_blank">
              *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		 style="max-width: 100%" />
-             * </a> </p>
+             * </a>
              *
              * <h4> Proxy Pattern </h4>
-             * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
+             * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
              * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-             * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+             * important. Only interested in user's perspective is *which can be done*.
              *
-             * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
              * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
              *
              * <ul>
              *	<li>
@@ -7035,7 +7131,7 @@ var samchon;
              *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
              *		external system.
              *	</li>
-             *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+             *	<li> Those strategy is called *Proxy Pattern*. </li>
              * </ul>
              *
              * @author Jeongho Nam <http://samchon.org>
@@ -7099,7 +7195,7 @@ var samchon;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
-/// <reference path="ExternalSystemArray.ts" />
+/// <reference path="ExternalSystem.ts" />
 var samchon;
 (function (samchon) {
     var protocol;
@@ -7107,25 +7203,27 @@ var samchon;
         var external;
         (function (external) {
             /**
-             * <p> An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a <b>client</b>. </p>
+             * An external server driver.
              *
-             * <p> {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
-             * {@link IExternalServer} objects, as a <b>client</b>. </p>
+             * The {@link ExternalServer} class represents an external server, connected and interact with this system.
+             * {@link ExternalServer} takes full charge of network communication with external server have connected.
+             * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
+             * class, {@link ExternalSystemRole} objects.
              *
-             * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		  target="_blank">
              *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		 style="max-width: 100%" />
-             * </a> </p>
+             * </a>
              *
-             * <h4> Proxy Pattern </h4>
-             * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
-             * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-             * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+             * <h4> Bridge & Proxy Pattern </h4>
+             * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
+             * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+             * important. Only interested in user's perspective is *which can be done*.
              *
-             * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
              * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
              *
              * <ul>
              *	<li>
@@ -7137,7 +7235,86 @@ var samchon;
              *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
              *		external system.
              *	</li>
-             *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+             *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
+             * </ul>
+             *
+             * @author Jeongho Nam <http://samchon.org>
+             */
+            var ExternalServer = (function (_super) {
+                __extends(ExternalServer, _super);
+                /**
+                 * Default Constructor.
+                 */
+                function ExternalServer(systemArray) {
+                    _super.call(this, systemArray);
+                    this.ip = "";
+                    this.port = 0;
+                }
+                /**
+                 * @inheritdoc
+                 */
+                ExternalServer.prototype.connect = function () {
+                    this.communicator = this.createServerConnector();
+                    this.communicator.connect(this.ip, this.port);
+                };
+                /**
+                 * @inheritdoc
+                 */
+                ExternalServer.prototype.getIP = function () {
+                    return this.ip;
+                };
+                /**
+                 * @inheritdoc
+                 */
+                ExternalServer.prototype.getPort = function () {
+                    return this.port;
+                };
+                return ExternalServer;
+            }(external.ExternalSystem));
+            external.ExternalServer = ExternalServer;
+        })(external = protocol.external || (protocol.external = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="ExternalSystemArray.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var external;
+        (function (external) {
+            /**
+             * An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a **client**.
+             *
+             * {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
+             * {@link IExternalServer} objects, as a **client**.
+             *
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+             *		  target="_blank">
+             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+             *		 style="max-width: 100%" />
+             * </a>
+             *
+             * <h4> Proxy Pattern </h4>
+             * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+             * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+             * important. Only interested in user's perspective is *which can be done*.
+             *
+             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+             * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+             *
+             * <ul>
+             *	<li>
+             *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+             *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+             *	</li>
+             *	<li>
+             *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+             *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+             *		external system.
+             *	</li>
+             *	<li> Those strategy is called *Proxy Pattern*. </li>
              * </ul>
              *
              * @author Jeongho Nam <http://samchon.org>
@@ -7182,27 +7359,27 @@ var samchon;
         var external;
         (function (external) {
             /**
-             * <p> An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a <b>client</b> and
-             * accepts {@link ExternalSystem external clients} as a {@link IServer server}. </p>
+             * An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a **client** and
+             * accepts {@link ExternalSystem external clients} as a {@link IServer server}.
              *
-             * <p> {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
+             * {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
              * {@link IExternalServer} objects and accepts external client drivers {@link ExternalSyste} obejcts as a
-             * <b>client</b> and a {@link IServer server} at the same time. </p>
+             * **client** and a {@link IServer server} at the same time.
              *
-             * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		  target="_blank">
              *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		 style="max-width: 100%" />
-             * </a> </p>
+             * </a>
              *
              * <h4> Proxy Pattern </h4>
-             * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
+             * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
              * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-             * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+             * important. Only interested in user's perspective is *which can be done*.
              *
-             * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
              * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
              *
              * <ul>
              *	<li>
@@ -7214,7 +7391,7 @@ var samchon;
              *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
              *		external system.
              *	</li>
-             *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+             *	<li> Those strategy is called *Proxy Pattern*. </li>
              * </ul>
              *
              * @author Jeongho Nam <http://samchon.org>
@@ -7231,10 +7408,10 @@ var samchon;
                     _super.call(this);
                 }
                 /**
-                 * <p> Factory method of a child Entity. </p>
+                 * Factory method of a child Entity.
                  *
-                 * <p> This method is migrated to {@link createExternalServer createExternalServer()}. Override the
-                 * {@link createExternalServer createExternalServer()}. </p>
+                 * This method is migrated to {@link createExternalServer createExternalServer()}. Override the
+                 * {@link createExternalServer createExternalServer()}.
                  *
                  * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
                  *
@@ -7263,195 +7440,246 @@ var samchon;
         })(external = protocol.external || (protocol.external = {}));
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="ExternalSystem.ts" />
+/// <reference path="../API.ts" />
+/// <reference path="EntityArray.ts" />
+/// <reference path="Entity.ts" />
 var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
-        var external;
-        (function (external) {
+        /**
+         * Standard message of network I/O.
+         *
+         * {@link Invoke} is a class used in network I/O in protocol package of Samchon Framework.
+         *
+         * The Invoke message has an XML structure like the result screen of provided example in below.
+         * We can enjoy lots of benefits by the normalized and standardized message structure used in
+         * network I/O.
+         *
+         * The greatest advantage is that we can make any type of network system, even how the system
+         * is enourmously complicated. As network communication message is standardized, we only need to
+         * concentrate on logical relationships between network systems. We can handle each network system
+         * like a object (class) in OOD. And those relationships can be easily designed by using design
+         * pattern.
+         *
+         * In Samchon Framework, you can make any type of network system with basic componenets
+         * (IProtocol, IServer and ICommunicator) by implemens or inherits them, like designing
+         * classes of S/W architecture.
+         *
+         * @see IProtocol
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var Invoke = (function (_super) {
+            __extends(Invoke, _super);
+            function Invoke() {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                _super.call(this);
+                /**
+                 * Listener, represent function's name.
+                 */
+                this.listener = "";
+                if (args.length == 0) {
+                    this.listener = "";
+                }
+                else {
+                    this.listener = args[0];
+                    for (var i = 1; i < args.length; i++)
+                        this.push_back(new protocol.InvokeParameter(args[i]));
+                }
+            }
             /**
-             * <p> An external server driver. </p>
-             *
-             * <p> The {@link ExternalServer} class represents an external server, connected and interact with this system.
-             * {@link ExternalServer} takes full charge of network communication with external server have connected.
-             * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
-             * class, {@link ExternalSystemRole} objects. </p>
-             *
-             * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-             *		  target="_blank">
-             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-             *		 style="max-width: 100%" />
-             * </a> </p>
-             *
-             * <h4> Bridge & Proxy Pattern </h4>
-             * <p> The {@link ExternalSystem} class can be a <i>bridge</i> for <i>logical proxy</i>. In framework within user,
-             * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-             * important. Only interested in user's perspective is <i>which can be done</i>. </p>
-             *
-             * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
-             * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
-             *
-             * <ul>
-             *	<li>
-             *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-             *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-             *	</li>
-             *	<li>
-             *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-             *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-             *		external system.
-             *	</li>
-             *	<li> Those strategy is called <i>Bridge Pattern</i> and <i>Proxy Pattern</i>. </li>
-             * </ul>
-             *
-             * @author Jeongho Nam <http://samchon.org>
+             * @inheritdoc
              */
-            var ExternalServer = (function (_super) {
-                __extends(ExternalServer, _super);
-                /**
-                 * Default Constructor.
-                 */
-                function ExternalServer(systemArray) {
-                    _super.call(this, systemArray);
-                    this.ip = "";
-                    this.port = 0;
-                }
-                /**
-                 * @inheritdoc
-                 */
-                ExternalServer.prototype.connect = function () {
-                    this.communicator = this.createServerConnector();
-                    this.communicator.connect(this.ip, this.port);
-                };
-                /**
-                 * @inheritdoc
-                 */
-                ExternalServer.prototype.getIP = function () {
-                    return this.ip;
-                };
-                /**
-                 * @inheritdoc
-                 */
-                ExternalServer.prototype.getPort = function () {
-                    return this.port;
-                };
-                return ExternalServer;
-            }(external.ExternalSystem));
-            external.ExternalServer = ExternalServer;
-        })(external = protocol.external || (protocol.external = {}));
+            Invoke.prototype.createChild = function (xml) {
+                return new protocol.InvokeParameter();
+            };
+            /* -------------------------------------------------------------------
+                GETTERS
+            ------------------------------------------------------------------- */
+            /**
+             * Get listener.
+             */
+            Invoke.prototype.getListener = function () {
+                return this.listener;
+            };
+            /**
+             * Get arguments for Function.apply().
+             *
+             * @return An array containing values of the contained parameters.
+             */
+            Invoke.prototype.getArguments = function () {
+                var args = [];
+                for (var i = 0; i < this.size(); i++)
+                    if (this[i].getName() == "_History_uid")
+                        continue;
+                    else
+                        args.push(this[i].getValue());
+                return args;
+            };
+            /* -------------------------------------------------------------------
+                APPLY BY FUNCTION POINTER
+            ------------------------------------------------------------------- */
+            /**
+             * Apply to a matched function.
+             */
+            Invoke.prototype.apply = function (obj) {
+                if (!(this.listener in obj && obj[this.listener] instanceof Function))
+                    return false;
+                var func = obj[this.listener];
+                var args = this.getArguments();
+                func.apply(obj, args);
+                return true;
+            };
+            /* -------------------------------------------------------------------
+                EXPORTERS
+            ------------------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            Invoke.prototype.TAG = function () {
+                return "invoke";
+            };
+            /**
+             * @inheritdoc
+             */
+            Invoke.prototype.CHILD_TAG = function () {
+                return "parameter";
+            };
+            return Invoke;
+        }(protocol.EntityArray));
+        protocol.Invoke = Invoke;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="ParallelSystemArray".ts" />
 var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
-        var parallel;
-        (function (parallel) {
-            var ParallelSystemArrayMediator = (function (_super) {
-                __extends(ParallelSystemArrayMediator, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                /**
-                 * Default Constructor.
-                 */
-                function ParallelSystemArrayMediator() {
-                    _super.call(this);
-                    this.mediator_ = null;
+        /**
+         * A parameter belongs to an Invoke.
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var InvokeParameter = (function (_super) {
+            __extends(InvokeParameter, _super);
+            /* -------------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------------- */
+            function InvokeParameter() {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
                 }
-                ParallelSystemArrayMediator.prototype.start_mediator = function () {
-                    if (this.mediator_ != null)
-                        return;
-                    this.mediator_ = this.createMediator();
-                    this.mediator_.start();
-                };
-                /* ---------------------------------------------------------
-                    ACCESSORS
-                --------------------------------------------------------- */
-                ParallelSystemArrayMediator.prototype.getMediator = function () {
-                    return this.mediator_;
-                };
-                /* ---------------------------------------------------------
-                    INVOKE MESSAGE CHAIN
-                --------------------------------------------------------- */
-                ParallelSystemArrayMediator.prototype._Complete_history = function (history) {
-                    var ret = _super.prototype._Complete_history.call(this, history);
-                    if (ret == true)
-                        this.mediator_["complete_history"](history.getUID());
-                    return ret;
-                };
-                return ParallelSystemArrayMediator;
-            }(parallel.ParallelSystemArray));
-            parallel.ParallelSystemArrayMediator = ParallelSystemArrayMediator;
-        })(parallel = protocol.parallel || (protocol.parallel = {}));
+                _super.call(this);
+                /**
+                 * Name of the parameter.
+                 *
+                 * @details Optional property, can be omitted.
+                 */
+                this.name = "";
+                /**
+                 * Type of the parameter.
+                 */
+                this.type = "";
+                /**
+                 * Value of the parameter.
+                 */
+                this.value = null;
+                // DEFAULT CONSTRUCTOR
+                if (args.length == 0)
+                    return;
+                // INITIALIZATION CONSTRUCTOR
+                if (args.length == 1) {
+                    this.name = "";
+                    this.setValue(args[0]);
+                }
+                else {
+                    this.name = args[0];
+                    this.setValue(args[1]);
+                }
+            }
+            /**
+             * @inheritdoc
+             */
+            InvokeParameter.prototype.construct = function (xml) {
+                this.name = (xml.hasProperty("name")) ? xml.getProperty("name") : "";
+                this.type = xml.getProperty("type");
+                if (this.type == "XML")
+                    this.value = xml.begin().second.front();
+                else if (this.type == "number")
+                    this.value = Number(xml.getValue());
+                else if (this.type == "string")
+                    this.value = xml.getValue();
+            };
+            InvokeParameter.prototype.setValue = function (value) {
+                this.value = value;
+                if (value instanceof samchon.library.XML)
+                    this.type = "XML";
+                else if (value instanceof Uint8Array)
+                    this.type = "ByteArray";
+                else
+                    this.type = typeof value;
+            };
+            /* -------------------------------------------------------------------
+                GETTERS
+            ------------------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            InvokeParameter.prototype.key = function () {
+                return this.name;
+            };
+            /**
+             * Get name.
+             */
+            InvokeParameter.prototype.getName = function () {
+                return this.name;
+            };
+            /**
+             * Get type.
+             */
+            InvokeParameter.prototype.getType = function () {
+                return this.type;
+            };
+            /**
+             * Get value.
+             */
+            InvokeParameter.prototype.getValue = function () {
+                return this.value;
+            };
+            /* -------------------------------------------------------------------
+                EXPORTERS
+            ------------------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            InvokeParameter.prototype.TAG = function () {
+                return "parameter";
+            };
+            /**
+             * @inheritdoc
+             */
+            InvokeParameter.prototype.toXML = function () {
+                var xml = new samchon.library.XML();
+                xml.setTag(this.TAG());
+                if (this.name != "")
+                    xml.setProperty("name", this.name);
+                xml.setProperty("type", this.type);
+                // NOT CONSIDERED ABOUT THE BINARY DATA
+                if (this.type == "XML")
+                    xml.push(this.value);
+                else if (this.type != "ByteArray")
+                    xml.setValue(this.value + "");
+                return xml;
+            };
+            return InvokeParameter;
+        }(protocol.Entity));
+        protocol.InvokeParameter = InvokeParameter;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="ParallelSystemArrayMediator.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var parallel;
-        (function (parallel) {
-            var ParallelClientArrayMediator = (function (_super) {
-                __extends(ParallelClientArrayMediator, _super);
-                /* =========================================================
-                    CONSTRUCTORS
-                        - MEMBER
-                        - FACTORY METHOD FOR CHILDREN
-                ============================================================
-                    MEMBER
-                --------------------------------------------------------- */
-                /**
-                 * Default Constructor.
-                 */
-                function ParallelClientArrayMediator() {
-                    _super.call(this);
-                }
-                /* ---------------------------------------------------------
-                    FACTORY METHOD FOR CHILDREN
-                --------------------------------------------------------- */
-                ParallelClientArrayMediator.prototype.addClient = function (driver) {
-                    var system = this.createExternalClient(driver);
-                    if (system == null)
-                        return;
-                    this.push_back(system);
-                };
-                ParallelClientArrayMediator.prototype.createChild = function (xml) { return null; };
-                /* ---------------------------------------------------------
-                    SERVER's METHOD
-                --------------------------------------------------------- */
-                /**
-                 * @inheritdoc
-                 */
-                ParallelClientArrayMediator.prototype.open = function (port) {
-                    this.server_base_ = this.createServerBase();
-                    if (this.server_base_ == null)
-                        return;
-                    this.server_base_.open(port);
-                    this.start_mediator();
-                };
-                /**
-                 * @inheritdoc
-                 */
-                ParallelClientArrayMediator.prototype.close = function () {
-                    if (this.server_base_ == null)
-                        return;
-                    this.server_base_.close();
-                    this.clear();
-                };
-                return ParallelClientArrayMediator;
-            }(parallel.ParallelSystemArrayMediator));
-            parallel.ParallelClientArrayMediator = ParallelClientArrayMediator;
-        })(parallel = protocol.parallel || (protocol.parallel = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
 /// <reference path="../../API.ts" />
 /// <reference path="../external/ExternalSystem.ts" />
 var samchon;
@@ -7810,6 +8038,114 @@ var samchon;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
+/// <reference path="ParallelSystemArray".ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var parallel;
+        (function (parallel) {
+            var ParallelSystemArrayMediator = (function (_super) {
+                __extends(ParallelSystemArrayMediator, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function ParallelSystemArrayMediator() {
+                    _super.call(this);
+                    this.mediator_ = null;
+                }
+                ParallelSystemArrayMediator.prototype.start_mediator = function () {
+                    if (this.mediator_ != null)
+                        return;
+                    this.mediator_ = this.createMediator();
+                    this.mediator_.start();
+                };
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                ParallelSystemArrayMediator.prototype.getMediator = function () {
+                    return this.mediator_;
+                };
+                /* ---------------------------------------------------------
+                    INVOKE MESSAGE CHAIN
+                --------------------------------------------------------- */
+                ParallelSystemArrayMediator.prototype._Complete_history = function (history) {
+                    var ret = _super.prototype._Complete_history.call(this, history);
+                    if (ret == true)
+                        this.mediator_["complete_history"](history.getUID());
+                    return ret;
+                };
+                return ParallelSystemArrayMediator;
+            }(parallel.ParallelSystemArray));
+            parallel.ParallelSystemArrayMediator = ParallelSystemArrayMediator;
+        })(parallel = protocol.parallel || (protocol.parallel = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="ParallelSystemArrayMediator.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var parallel;
+        (function (parallel) {
+            var ParallelClientArrayMediator = (function (_super) {
+                __extends(ParallelClientArrayMediator, _super);
+                /* =========================================================
+                    CONSTRUCTORS
+                        - MEMBER
+                        - FACTORY METHOD FOR CHILDREN
+                ============================================================
+                    MEMBER
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function ParallelClientArrayMediator() {
+                    _super.call(this);
+                }
+                /* ---------------------------------------------------------
+                    FACTORY METHOD FOR CHILDREN
+                --------------------------------------------------------- */
+                ParallelClientArrayMediator.prototype.addClient = function (driver) {
+                    var system = this.createExternalClient(driver);
+                    if (system == null)
+                        return;
+                    this.push_back(system);
+                };
+                ParallelClientArrayMediator.prototype.createChild = function (xml) { return null; };
+                /* ---------------------------------------------------------
+                    SERVER's METHOD
+                --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
+                ParallelClientArrayMediator.prototype.open = function (port) {
+                    this.server_base_ = this.createServerBase();
+                    if (this.server_base_ == null)
+                        return;
+                    this.server_base_.open(port);
+                    this.start_mediator();
+                };
+                /**
+                 * @inheritdoc
+                 */
+                ParallelClientArrayMediator.prototype.close = function () {
+                    if (this.server_base_ == null)
+                        return;
+                    this.server_base_.close();
+                    this.clear();
+                };
+                return ParallelClientArrayMediator;
+            }(parallel.ParallelSystemArrayMediator));
+            parallel.ParallelClientArrayMediator = ParallelClientArrayMediator;
+        })(parallel = protocol.parallel || (protocol.parallel = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
 /// <reference path="ParallelSystem.ts" />
 var samchon;
 (function (samchon) {
@@ -8020,12 +8356,6 @@ var samchon;
                 PRInvokeHistory.prototype.getLast = function () {
                     return this.last;
                 };
-                PRInvokeHistory.prototype._Set_first = function (val) {
-                    this.first = val;
-                };
-                PRInvokeHistory.prototype._Set_last = function (val) {
-                    this.last = val;
-                };
                 /**
                  * Compute number of allocated pieces.
                  */
@@ -8097,11 +8427,11 @@ var samchon;
                 this.http_server_.close();
             };
             /**
-             * <p> Handle request from a client system. </p>
+             * Handle request from a client system.
              *
-             * <p> This method {@link handle_request} will be called when a client is connected. It will call an abstract
+             * This method {@link handle_request} will be called when a client is connected. It will call an abstract
              * method method {@link addClient addClient()} who handles an accepted client. If the newly connected client
-             * doesn't have its own session id, then a new session id will be issued. </p>
+             * doesn't have its own session id, then a new session id will be issued.
              *
              * @param request Requested header.
              */
@@ -8113,10 +8443,10 @@ var samchon;
                 this.addClient(driver);
             };
             /**
-             * <p> Get session id from a newly connected. </p>
+             * Get session id from a newly connected.
              *
-             * <p> Queries ordinary session id from cookies of a newly connected client. If the client has not, a new
-             * session id will be issued. </p>
+             * Queries ordinary session id from cookies of a newly connected client. If the client has not, a new
+             * session id will be issued.
              *
              * @param cookies Cookies from the remote client.
              */
@@ -8177,16 +8507,16 @@ var samchon;
     var protocol;
     (function (protocol) {
         /**
-         * <p> A substitute {@link Server}. </p>
+         * A substitute {@link Server}.
          *
-         * <p> {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility. </p>
+         * {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility.
          *
-         * <p> The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
+         * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
          * {@link Server}. However, it is impossible (that is, if the class is already extending another class), you can
          * instead implement the {@link IServer} interface, create a {@link ServerBase} member, and write simple hooks
-         * to route calls into the aggregated {@link ServerBase}. </p>
+         * to route calls into the aggregated {@link ServerBase}.
          *
-         * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
+         * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
          * <ul>
          *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
          * </ul>
@@ -8233,16 +8563,16 @@ var samchon;
     var protocol;
     (function (protocol) {
         /**
-         * <p> A substitute {@link WebServer}. </p>
+         * A substitute {@link WebServer}.
          *
-         * <p> {@link WebServerBase} is a substitute class who subrogates {@link WebServer}'s responsibility. </p>
+         * {@link WebServerBase} is a substitute class who subrogates {@link WebServer}'s responsibility.
          *
-         * <p> The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
+         * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
          * {@link WebServer}. However, it is impossible (that is, if the class is already extending another class), you can
          * instead implement the {@link IServer} interface, create a {@link WebServerBase} member, and write simple hooks to
-         * route calls into the aggregated {@link WebServerBase}. </p>
+         * route calls into the aggregated {@link WebServerBase}.
          *
-         * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
+         * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
          * <ul>
          *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
          * </ul>
@@ -8289,17 +8619,17 @@ var samchon;
     var protocol;
     (function (protocol) {
         /**
-         * <p> A substitute {@link SharedWorkerServer}. </p>
+         * A substitute {@link SharedWorkerServer}.
          *
-         * <p> {@link SharedWorkerServerBase} is a substitute class who subrogates {@link SharedWorkerServer}'s
-         * responsibility. </p>
+         * {@link SharedWorkerServerBase} is a substitute class who subrogates {@link SharedWorkerServer}'s
+         * responsibility.
          *
-         * <p> The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
+         * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
          * {@link SharedWorkerServer}. However, it is impossible (that is, if the class is already extending another class),
          * you can instead implement the {@link IServer} interface, create a {@link SharedWorkerServerBase} member, and write
-         * simple hooks to route calls into the aggregated {@link SharedWorkerServerBase}. </p>
+         * simple hooks to route calls into the aggregated {@link SharedWorkerServerBase}.
          *
-         * <p> {@link ExternalClientArray} can be a good example using this {@link IServerBase}. </p>
+         * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
          * <ul>
          *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
          * </ul>
@@ -8379,7 +8709,7 @@ var samchon;
     var protocol;
     (function (protocol) {
         /**
-         * <p> A server connector for web-socket protocol. </p>
+         * A server connector for web-socket protocol.
          *
          * @author Jeongho Nam <http://samchon.org>
          */
@@ -8815,6 +9145,43 @@ var samchon;
     (function (protocol) {
         var slave;
         (function (slave) {
+            var SlaveClient = (function (_super) {
+                __extends(SlaveClient, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function SlaveClient() {
+                    _super.call(this);
+                }
+                /* ---------------------------------------------------------
+                    METHOD OF CONNECTOR
+                --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
+                SlaveClient.prototype.connect = function (ip, port) {
+                    if (this.communicator_ != null)
+                        return;
+                    this.communicator_ = this.createServerConnector();
+                    this.communicator_.connect(ip, port);
+                };
+                return SlaveClient;
+            }(slave.SlaveSystem));
+            slave.SlaveClient = SlaveClient;
+        })(slave = protocol.slave || (protocol.slave = {}));
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="SlaveSystem.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        var slave;
+        (function (slave) {
             var SlaveServer = (function (_super) {
                 __extends(SlaveServer, _super);
                 /* =========================================================
@@ -8854,43 +9221,6 @@ var samchon;
         })(slave = protocol.slave || (protocol.slave = {}));
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="SlaveSystem.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        var slave;
-        (function (slave) {
-            var SlaveClient = (function (_super) {
-                __extends(SlaveClient, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                /**
-                 * Default Constructor.
-                 */
-                function SlaveClient() {
-                    _super.call(this);
-                }
-                /* ---------------------------------------------------------
-                    METHOD OF CONNECTOR
-                --------------------------------------------------------- */
-                /**
-                 * @inheritdoc
-                 */
-                SlaveClient.prototype.connect = function (ip, port) {
-                    if (this.communicator_ != null)
-                        return;
-                    this.communicator_ = this.createServerConnector();
-                    this.communicator_.connect(ip, port);
-                };
-                return SlaveClient;
-            }(slave.SlaveSystem));
-            slave.SlaveClient = SlaveClient;
-        })(slave = protocol.slave || (protocol.slave = {}));
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
 /// <reference path="../API.ts" />
 var samchon;
@@ -8914,244 +9244,4 @@ var samchon;
         }
     })(test = samchon.test || (samchon.test = {}));
 })(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="EntityArray.ts" />
-/// <reference path="Entity.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * <p> Standard message of network I/O. </p>
-         *
-         * <p> {@link Invoke} is a class used in network I/O in protocol package of Samchon Framework. </p>
-         *
-         * <p> The Invoke message has an XML structure like the result screen of provided example in below.
-         * We can enjoy lots of benefits by the normalized and standardized message structure used in
-         * network I/O. </p>
-         *
-         * <p> The greatest advantage is that we can make any type of network system, even how the system
-         * is enourmously complicated. As network communication message is standardized, we only need to
-         * concentrate on logical relationships between network systems. We can handle each network system
-         * like a object (class) in OOD. And those relationships can be easily designed by using design
-         * pattern. </p>
-         *
-         * <p> In Samchon Framework, you can make any type of network system with basic componenets
-         * (IProtocol, IServer and ICommunicator) by implemens or inherits them, like designing
-         * classes of S/W architecture. </p>
-         *
-         * @see IProtocol
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var Invoke = (function (_super) {
-            __extends(Invoke, _super);
-            function Invoke() {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                _super.call(this);
-                /**
-                 * <p> Listener, represent function's name. </p>
-                 */
-                this.listener = "";
-                if (args.length == 0) {
-                    this.listener = "";
-                }
-                else {
-                    this.listener = args[0];
-                    for (var i = 1; i < args.length; i++)
-                        this.push_back(new protocol.InvokeParameter(args[i]));
-                }
-            }
-            /**
-             * @inheritdoc
-             */
-            Invoke.prototype.createChild = function (xml) {
-                return new protocol.InvokeParameter();
-            };
-            /* -------------------------------------------------------------------
-                GETTERS
-            ------------------------------------------------------------------- */
-            /**
-             * Get listener.
-             */
-            Invoke.prototype.getListener = function () {
-                return this.listener;
-            };
-            /**
-             * <p> Get arguments for Function.apply(). </p>
-             *
-             * @return An array containing values of the contained parameters.
-             */
-            Invoke.prototype.getArguments = function () {
-                var args = [];
-                for (var i = 0; i < this.size(); i++)
-                    if (this[i].getName() == "_History_uid")
-                        continue;
-                    else
-                        args.push(this[i].getValue());
-                return args;
-            };
-            /* -------------------------------------------------------------------
-                APPLY BY FUNCTION POINTER
-            ------------------------------------------------------------------- */
-            /**
-             * <p> Apply to a matched function. </p>
-             */
-            Invoke.prototype.apply = function (obj) {
-                if (!(this.listener in obj && obj[this.listener] instanceof Function))
-                    return false;
-                var func = obj[this.listener];
-                var args = this.getArguments();
-                func.apply(obj, args);
-                return true;
-            };
-            /* -------------------------------------------------------------------
-                EXPORTERS
-            ------------------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            Invoke.prototype.TAG = function () {
-                return "invoke";
-            };
-            /**
-             * @inheritdoc
-             */
-            Invoke.prototype.CHILD_TAG = function () {
-                return "parameter";
-            };
-            return Invoke;
-        }(protocol.EntityArray));
-        protocol.Invoke = Invoke;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A parameter belongs to an Invoke.
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var InvokeParameter = (function (_super) {
-            __extends(InvokeParameter, _super);
-            /* -------------------------------------------------------------------
-                CONSTRUCTORS
-            ------------------------------------------------------------------- */
-            function InvokeParameter() {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                _super.call(this);
-                /**
-                 * <p> Name of the parameter. </p>
-                 *
-                 * @details Optional property, can be omitted.
-                 */
-                this.name = "";
-                /**
-                 * <p> Type of the parameter. </p>
-                 */
-                this.type = "";
-                /**
-                 * <p> Value of the parameter. </p>
-                 */
-                this.value = null;
-                // DEFAULT CONSTRUCTOR
-                if (args.length == 0)
-                    return;
-                // INITIALIZATION CONSTRUCTOR
-                if (args.length == 1) {
-                    this.name = "";
-                    this.setValue(args[0]);
-                }
-                else {
-                    this.name = args[0];
-                    this.setValue(args[1]);
-                }
-            }
-            /**
-             * @inheritdoc
-             */
-            InvokeParameter.prototype.construct = function (xml) {
-                this.name = (xml.hasProperty("name")) ? xml.getProperty("name") : "";
-                this.type = xml.getProperty("type");
-                if (this.type == "XML")
-                    this.value = xml.begin().second.front();
-                else if (this.type == "number")
-                    this.value = Number(xml.getValue());
-                else if (this.type == "string")
-                    this.value = xml.getValue();
-            };
-            InvokeParameter.prototype.setValue = function (value) {
-                this.value = value;
-                if (value instanceof samchon.library.XML)
-                    this.type = "XML";
-                else if (value instanceof Uint8Array)
-                    this.type = "ByteArray";
-                else
-                    this.type = typeof value;
-            };
-            /* -------------------------------------------------------------------
-                GETTERS
-            ------------------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            InvokeParameter.prototype.key = function () {
-                return this.name;
-            };
-            /**
-             * Get name.
-             */
-            InvokeParameter.prototype.getName = function () {
-                return this.name;
-            };
-            /**
-             * Get type.
-             */
-            InvokeParameter.prototype.getType = function () {
-                return this.type;
-            };
-            /**
-             * Get value.
-             */
-            InvokeParameter.prototype.getValue = function () {
-                return this.value;
-            };
-            /* -------------------------------------------------------------------
-                EXPORTERS
-            ------------------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            InvokeParameter.prototype.TAG = function () {
-                return "parameter";
-            };
-            /**
-             * @inheritdoc
-             */
-            InvokeParameter.prototype.toXML = function () {
-                var xml = new samchon.library.XML();
-                xml.setTag(this.TAG());
-                if (this.name != "")
-                    xml.setProperty("name", this.name);
-                xml.setProperty("type", this.type);
-                // NOT CONSIDERED ABOUT THE BINARY DATA
-                if (this.type == "XML")
-                    xml.push(this.value);
-                else if (this.type != "ByteArray")
-                    xml.setValue(this.value + "");
-                return xml;
-            };
-            return InvokeParameter;
-        }(protocol.Entity));
-        protocol.InvokeParameter = InvokeParameter;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
 //# sourceMappingURL=samchon-framework.js.map

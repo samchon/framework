@@ -166,6 +166,12 @@
     <Filter Include="Header Files\protocol\distributed\system_array_mediator">
       <UniqueIdentifier>{7ab5ca4c-3ff4-417c-b537-bb498293b785}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\protocol\common\entity\deriveds">
+      <UniqueIdentifier>{c1ddd57f-ad80-415e-8b0a-fa421ee92574}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol\common\entity\utils">
+      <UniqueIdentifier>{3236de7e-9c4f-45c9-9b2a-76e8cb4259d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\ByteArray.hpp">
@@ -288,15 +294,6 @@
     <ClInclude Include="..\samchon\protocol\EntityGroup.hpp">
       <Filter>Header Files\protocol\common\entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntityGroup.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IHTMLEntity.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\ISQLEntity.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\Invoke.hpp">
       <Filter>Header Files\protocol\common\invoke</Filter>
     </ClInclude>
@@ -308,18 +305,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\ServerConnector.hpp">
       <Filter>Header Files\protocol\common\basic components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\SharedEntityList.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\SharedEntityArray.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\UniqueEntityArray.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\UniqueEntityList.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library.hpp">
       <Filter>Header Files</Filter>
@@ -341,9 +326,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\TreeMap.hpp">
       <Filter>Header Files\basic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\IEntityChain.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\SharedAcquire.hpp">
       <Filter>Header Files\library\data\common\critical section\unique &amp; shared lock</Filter>
@@ -408,16 +390,7 @@
     <ClInclude Include="..\samchon\protocol\service\Server.hpp">
       <Filter>Header Files\protocol\service</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\protocol\StaticEntityArray.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\StaticEntityList.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\protocol\Entity.hpp">
-      <Filter>Header Files\protocol\common\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\protocol\SharedEntityDeque.hpp">
       <Filter>Header Files\protocol\common\entity</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\InvokeHistory.hpp">
@@ -533,6 +506,48 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\distributed\DistributedServerArrayMediator.hpp">
       <Filter>Header Files\protocol\distributed\system_array_mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\SharedEntityArray.hpp">
+      <Filter>Header Files\protocol\common\entity\deriveds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\SharedEntityDeque.hpp">
+      <Filter>Header Files\protocol\common\entity\deriveds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\SharedEntityList.hpp">
+      <Filter>Header Files\protocol\common\entity\deriveds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\StaticEntityArray.hpp">
+      <Filter>Header Files\protocol\common\entity\deriveds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\StaticEntityList.hpp">
+      <Filter>Header Files\protocol\common\entity\deriveds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\UniqueEntityArray.hpp">
+      <Filter>Header Files\protocol\common\entity\deriveds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\UniqueEntityList.hpp">
+      <Filter>Header Files\protocol\common\entity\deriveds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\StaticEntityGroup.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\ISQLEntity.hpp">
+      <Filter>Header Files\protocol\common\entity\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IHTMLEntity.hpp">
+      <Filter>Header Files\protocol\common\entity\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\IEntityChain.hpp">
+      <Filter>Header Files\protocol\common\entity\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\EntityGroupBase.hpp">
+      <Filter>Header Files\protocol\common\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\StaticEntityDeque.hpp">
+      <Filter>Header Files\protocol\common\entity\deriveds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\protocol\UniqueEntityDeque.hpp">
+      <Filter>Header Files\protocol\common\entity\deriveds</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

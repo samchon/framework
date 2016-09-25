@@ -5,7 +5,7 @@
 namespace samchon.protocol.parallel
 {
 	/**
-	 * <p> An external parallel system driver. </p>
+	 * An external parallel system driver.
 	 * 
 	 * 
 	 * 
@@ -35,31 +35,31 @@ namespace samchon.protocol.parallel
 		private exclude_: boolean;
 
 		/**
-		 * <p> Performance index. </p>
+		 * Performance index.
 		 * 
-		 * <p> A performance index that indicates how much fast the connected parallel system is. </p>
+		 * A performance index that indicates how much fast the connected parallel system is.
 		 * 
-		 * <p> If this {@link ParallelSystem parallel system} hasn't any {@link Invoke} message had handled, then the
+		 * If this {@link ParallelSystem parallel system} hasn't any {@link Invoke} message had handled, then the
 		 * {@link performance performance index} will be 1, which means default and average value between all
-		 * {@link ParallelSystem} instances (belonged to a same {@link ParallelSystemArray} object). </p>
+		 * {@link ParallelSystem} instances (belonged to a same {@link ParallelSystemArray} object).
 		 * 
-		 * <p> You can specify this {@link performance} by yourself, but notice that, if the 
+		 * You can specify this {@link performance} by yourself, but notice that, if the 
 		 * {@link performance performance index} is higher then other {@link ParallelSystem} objects, then this 
 		 * {@link ParallelSystem parallel system} will ordered to handle more processes than other
 		 * {@link ParallelSystem} objects. Otherwise, the {@link performance performance index) is lower than others,
-		 * of course, less processes will be delivered. </p>
+		 * of course, less processes will be delivered.
 		 * 
-		 * <p> This {@link performance index} is always re-calculated whenever {@link ParallelSystemArray} calls one of 
-		 * them below. </p>
+		 * This {@link performance index} is always re-calculated whenever {@link ParallelSystemArray} calls one of 
+		 * them below.
 		 * 
 		 * <ul>
 		 *	<li> {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()} </li>
 		 *	<li> {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()} </li>
 		 * </ul>
 		 * 
-		 * <p> If this class is a type of {@link DistributedSystem} derived class from the {@link ParallelSystem}, 
+		 * If this class is a type of {@link DistributedSystem} derived class from the {@link ParallelSystem}, 
 		 * then {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()} also cause the re-calculation.
-		 * </p>
+		 *
 		 */
 		private performance: number;
 
@@ -203,8 +203,8 @@ namespace samchon.protocol.parallel
 				return;
 
 			// ARCHIVE FIRST AND LAST INDEX
-			history._Set_first((progress_it.second.second as PRInvokeHistory).getFirst());
-			history._Set_last((progress_it.second.second as PRInvokeHistory).computeSize());
+			history["first"] = (progress_it.second.second as PRInvokeHistory).getFirst();
+			history["last"] = (progress_it.second.second as PRInvokeHistory).computeSize();
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list_.erase(progress_it);

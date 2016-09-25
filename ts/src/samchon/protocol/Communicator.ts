@@ -3,14 +3,14 @@
 namespace samchon.protocol
 {
 	/**
-	 * <p> An interface taking full charge of network communication. </p>
+	 * An interface taking full charge of network communication.
 	 * 
-	 * <p> {@link ICommunicator} is an interface for communicator classes who take full charge of network communication
-	 * with external system, without reference to whether the external system is a server or a client. </p>
+	 * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication
+	 * with external system, without reference to whether the external system is a server or a client.
 	 * 
-	 * <p> Whenever a replied message comes from the external system, the message will be converted to an
+	 * Whenever a replied message comes from the external system, the message will be converted to an
 	 * {@link Invoke} class and will be shifted to the {@link WebCommunicator.listener listener}'s 
-	 * {@link IProtocol.replyData replyData()} method. </p>
+	 * {@link IProtocol.replyData replyData()} method.
 	 * 
 	 * <code>
 	interface ICommmunicator
@@ -35,21 +35,21 @@ namespace samchon.protocol
 	}
 	 * </code>
 	 * 
-	 * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
 	 *		 style="max-width: 100%" />
-	 * </a> </p>
+	 * </a>
 	 * 
 	 * 
 	 * <h2> Basic Components </h2>
 	 * <h4> What Basic Components are </h4>
-	 * <p> <b>Basic Components</b> are the smallest unit of network communication in this <i>Samchon Framework</i>. With
-	 * <b>Basic Components</b>, you can construct any type of network system, even how the network system is enormously
-	 * scaled and complicated, by just combinating the <b>Basic Components</b>. </p>
+	 * **Basic Components** are the smallest unit of network communication in this *Samchon Framework*. With
+	 * **Basic Components**, you can construct any type of network system, even how the network system is enormously
+	 * scaled and complicated, by just combinating the **Basic Components**.
 	 *
-	 * <p> All the system templates in this framework are also being implemented by utilization of the
-	 * <b>Basic Compoonents</b>. </p>
+	 * All the system templates in this framework are also being implemented by utilization of the
+	 * **Basic Compoonents**.
 	 *
 	 * <ul>
 	 *	<li> {@link service Service} </il>
@@ -58,9 +58,9 @@ namespace samchon.protocol
 	 *	<li> {@link distributed Distributed System} </il>
 	 * </ul>
 	 *
-	 * <p> Note that, whatever the network system what you've to construct is, just concentrate on role of each system
-	 * and attach matched <b>Basic Components</b> to the role, within framework of the <b>Object-Oriented Design</b>.
-	 * Then construction of the network system will be much easier. </p>
+	 * Note that, whatever the network system what you've to construct is, just concentrate on role of each system
+	 * and attach matched **Basic Components** to the role, within framework of the **Object-Oriented Design**.
+	 * Then construction of the network system will be much easier.
 	 *
 	 * <ul>
 	 *	<li> A system is a server, then use {@link IServer} or {@link IServerBase}. </li>
@@ -70,8 +70,8 @@ namespace samchon.protocol
 	 * </ul>
 	 *
 	 * <h4> Example - System Templates </h4>
-	 * <p> Learning and understanding <i>Basic Components</i> of Samchon Framework, reading source codes and design of
-	 * <b>System Templates</b>' modules will be very helpful. </p>
+	 * Learning and understanding *Basic Components* of Samchon Framework, reading source codes and design of
+	 * **System Templates**' modules will be very helpful.
 	 *
 	 * <table>
 	 *	<tr>
@@ -191,7 +191,7 @@ namespace samchon.protocol
 		public constructor();
 
 		/**
-		 * Construct from <i>listener</i>.
+		 * Construct from *listener*.
 		 * 
 		 * @param listener An {@link IProtocol} object to listen {@link Invoke} messages.
 		 */
@@ -545,16 +545,16 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	/**
-	 * <p> Base class for web-communicator, {@link WebClientDriver} and {@link WebServerConnector}. </p>
+	 * Base class for web-communicator, {@link WebClientDriver} and {@link WebServerConnector}.
 	 * 
-	 * <p> This class {@link WebCommunicatorBase} subrogates network communication for web-communicator classes, 
+	 * This class {@link WebCommunicatorBase} subrogates network communication for web-communicator classes, 
 	 * {@link WebClinetDriver} and {@link WebServerConnector}. The web-communicator and this class 
-	 * {@link WebCommunicatorBase} share same interface {@link IProtocol} and have a <b>chain of responsibily</b> 
-	 * relationship. </p>
+	 * {@link WebCommunicatorBase} share same interface {@link IProtocol} and have a **chain of responsibily** 
+	 * relationship.
 	 * 
-	 * <p> When an {@link Invoke} message was delivered from the connected remote system, then this class calls 
+	 * When an {@link Invoke} message was delivered from the connected remote system, then this class calls 
 	 * web-communicator's {@link WebServerConnector.replyData replyData()} method. Also, when called web-communicator's 
-	 * {@link WebClientDriver.sendData sendData()}, then {@link sendData sendData()} of this class will be caleed. </p>
+	 * {@link WebClientDriver.sendData sendData()}, then {@link sendData sendData()} of this class will be caleed.
 	 * 
 	 * <ul>
 	 *	<li> this.replyData() -> communicator.replyData() </li>
@@ -601,10 +601,10 @@ namespace samchon.protocol
 		}
 
 		/**
-		 * <p> Handle raw-data received from the remote system. </p>
+		 * Handle raw-data received from the remote system.
 		 * 
-		 * <p> Queries raw-data received from the remote system. When the raw-data represents an formal {@link Invoke} 
-		 * message, then it will be sent to the {@link replyData}. </p> 
+		 * Queries raw-data received from the remote system. When the raw-data represents an formal {@link Invoke} 
+		 * message, then it will be sent to the {@link replyData}. 
 		 * 
 		 * @param message A raw-data received from the remote system.
 		 */

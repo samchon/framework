@@ -54,12 +54,12 @@ namespace protocol
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class InvokeParameter
-		: public virtual Entity
+		: public virtual Entity<>
 	{
 		friend class Invoke;
 
 	protected:
-		typedef Entity super;
+		typedef Entity<std::string> super;
 
 		/**
 		 * @brief A name can represent the parameter

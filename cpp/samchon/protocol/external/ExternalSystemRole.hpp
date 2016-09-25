@@ -13,11 +13,11 @@ namespace external
 	class ExternalSystem;
 
 	class SAMCHON_FRAMEWORK_API ExternalSystemRole
-		: public virtual Entity,
+		: public virtual Entity<>,
 		public virtual IProtocol
 	{
 	private:
-		typedef Entity super;
+		typedef Entity<std::string> super;
 
 	protected:
 		ExternalSystem *system;

@@ -2,6 +2,9 @@
 
 namespace samchon.library
 {
+	/**
+	 * @hidden
+	 */
 	interface XMLQuote
 	{
 		type: number;
@@ -10,92 +13,69 @@ namespace samchon.library
 	}
 
 	/**
-	 * <p> XML is a class representing a tree structued xml objects. </p>
-	 * <p> The XML class provides methods and properties for working with XML objects. </p>
+	 * A tree-structured XML object.
 	 * 
-	 * <p> The XML class (along with the XMLList and Namespace) implements 
-	 * the powerful XML-handling standard defined in ECMAScript for XML (E4X) specification. </p>
-	 *
-	 * <p> XML class has a recursive, hierarchical relationship. </p>
+	 * The {@link XML| class contains methods and properties for working with XML objects. The {@link XML} class (along 
+	 * with the {@link XMLList}) implements the powerful XML-handling standards defined in ECMAScript for XML (E4X) 
+	 * specification (ECMA-357 edition 2).
 	 * 
-	 * <p> Relationships between XML and XMLList </p>
-	 * <ul>
-	 *	<li> XML is <code>std.HashMap<string, XMLList></code> </li>
-	 *  <li> XMLList is <code>std.Deque<XML></code> </li>
-	 * </ul> 
-	 *
-	 * <h4> Note </h4>
-	 * <p> Do not abuse values for expressing member variables. </p>
-	 *
-	 * <table>
-	 *	<tr>
-	 *		<th>Standard Usage</th>
-	 *		<th>Non-standard usage abusing value</th>
-	 *	</tr>
-	 *	<tr>
-	 *		<td>
-	 * <code>
-	 * <memberList>
-	 *	<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' />
-	 *	<member id='master' name='Administartor' birthdate='2011-07-28' />
-	 * </memberList>
-	 * </code>
-	 *		</td>
-	 *		<td>
-	 * <code>
-	 * <memberList>
-	 *	<member>
-	 *		<id>jhnam88</id>
-	 *		<name>Jeongho Nam</name>
-	 *		<birthdate>1988-03-11</birthdate>
-	 *	</member>
-	 *	<member>
-	 *		<id>master</id>
-	 *		<name>Administartor</name>
-	 *		<birthdate>2011-07-28</birthdate>
-	 *	</member>
-	 * </memberList>
-	 * </code>
-	 *		</td>
-	 *	</tr>
-	 * </table>
+	 * An XML object, it is composed with three members; {@link getTag tag}, {@link getProperty properties} and 
+	 * {@link getValue value}. As you know, XML is a tree structured data expression method. The tree-stucture; 
+	 * {@link XML} class realizes it by extending ```std.HashMap<string, XMLList>```. Child {@link XML} objects are 
+	 * contained in the matched {@link XMLList} object being grouped by their {@link getTag tag name}. The 
+	 * {@link XMLList} objects, they're stored in the {@link std.HashMap} ({@link XML} itself) with its **key**; common 
+	 * {@link getTag tag name} of children {@link XML} objects. 
 	 * 
+	 * ```typescript
+	 * class XML extends std.HashMap<string, XMLList>
+	 * {
+	 *	private tag_: string;
+	 *	private properties_: std.HashMap<string, string>;
+	 *	private value_: string;
+	 * }
+	 * ```
+	 * 
+	 * ```xml
+	 * <?xml version="1.0" ?>
+	 * <TAG property_name={property_value}>
+	 *	<!-- 
+	 *		The cchild XML objects with "CHILD_TAG", They're contained in an XMLList object. 
+	 *		The XMLList object, it is stored in std.HashMap (XML class itself) with its key "CHILD_TAG" 
+	 *	--> 
+	 *	<CHILD_TAG property_name={property_value}>{value}</CHILD_TAG>
+	 *  <CHILD_TAG property_name={property_value}>{value}</CHILD_TAG>
+	 *	<CHILD_TAG property_name={property_value}>{value}</CHILD_TAG>
+	 * 
+	 *	<!-- 
+	 *		The child XML object named "ANOTHER_TAG", it also belonged to an XMLList ojbect.
+	 *		And the XMLList is also being contained in the std.HashMap with its key "ANOTHER_TAG"
+	 *	-->
+	 *	<ANOTHER_TAG />
+	 * </TAG>
+	 * ```
+	 * 
+	 * Use the {@link toString toString()} method to return a string representation of the {@link XML} object regardless 
+	 * of whether the {@link XML} object has simple content or complex content.
+	 * 
+	 * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/XML.html
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-Library-XML
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class XML
 		extends std.HashMap<string, XMLList>
 	{
 		/**
-		 * <p> Tag name of the XML. </p>
-		 *
-		 * <ul>
-		 *	<li> \<<b>tag</b> label='property' /\>: tag => \"tag\" </li>
-		 *  <li> \<<b>price</b> high='1500' low='1300' open='1450' close='1320' /\>: tag => \"price\" </li>
-		 * </ul>
+		 * @hidden
 		 */
 		private tag_: string;
 
 		/**
-		 * <p> Value of the XML. </p>
-		 * 
-		 * <ul>
-		 *  <li> \<parameter name='age' type='int'\><b>26</b>\</parameter\>: value => 26 </li>
-		 *	<li> \<price high='1500' low='1300' open='1450' close='1320' /\>: value => null </li>
-		 * </ul>
+		 * @hidden
 		 */
 		private value_: string;
 
 		/**
-		 * <p> Properties belongs to the XML. </p>
-		 * <p> A Dictionary of properties accessing each property by its key. </p>
-		 *
-		 * <ul>
-		 *	<li> \<price <b>high='1500' low='1300' open='1450' close='1320'</b> /\>: 
-		 *		propertyMap => {{\"high\": 1500}, {\"low\": 1300}, {\"open\": 1450}, {\"close\", 1320}} </li>
-		 *	<li> \<member <b>id='jhnam88' name='Jeongho+Nam' comment='Hello.+My+name+is+Jeongho+Nam'</b> \>: 
-		 *		propertyMap => {{\"id\", \"jhnam88\"}, {\"name\", \"Jeongho Nam <http://samchon.org>\"}, 
-		 *					 {\"comment\", \"Hello. My name is Jeongho Nam <http://samchon.org>\"}} </li>
-		 * </ul>
+		 * @hidden
 		 */
 		private property_map_: std.HashMap<string, string>;
 	
@@ -103,14 +83,19 @@ namespace samchon.library
 			CONSTRUCTORS
 		------------------------------------------------------------- */
 		/**
-		 * <p> Default Constructor. </p>
-		 *
-		 * <p> If the string parameter is not omitted, constructs its tag, value and 
-		 * properties by parsing the string. If there's children, then construct the 
-		 * children XML, XMLList objects, too. </p>
-		 *
-		 * @param str A string to be parsed
+		 * Default Constructor.
 		 */
+		public constructor();
+
+		/**
+		 * Construct from string.
+		 * 
+		 * Creates {@link XML} object by parsing a string who represents xml structure.
+		 * 
+		 * @param str A string represents XML structure.
+		 */
+		public constructor(str: string);
+
 		public constructor(str: string = "")
 		{
 			super();
@@ -144,30 +129,30 @@ namespace samchon.library
 			}
 		
 			//BEGIN PARSING
-			this.construct(str);
+			this.parse(str);
 		}
 
 		/**
-		 * <p> Construct XML objects by parsing a string. </p>
+		 * @hidden
 		 */
-		private construct(str: string): void
+		private parse(str: string): void
 		{
-			this.parseTag(str);
-			this.parseProperty(str);
+			this.parse_tag(str);
+			this.parse_properties(str);
 
-			let res = this.parseValue(str);
+			let res = this.parse_value(str);
 			if (res.second == true)
-				this.parseChildren(res.first);
+				this.parse_children(res.first);
 		}
 
 		/**
-		 * <p> Parse and fetch a tag. </p>
+		 * @hidden
 		 */
-		private parseTag(str: string): void
+		private parse_tag(str: string): void
 		{
 			let start: number = str.indexOf("<") + 1;
 			let end: number =
-				this.calcMinIndex
+				this.compute_min_index
 					(
 						str.indexOf(" ", start),
 						str.indexOf("\r\n", start),
@@ -183,12 +168,12 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Parse and fetch properties. </p>
+		 * @hidden
 		 */
-		private parseProperty(str: string): void
+		private parse_properties(str: string): void
 		{
 			let start: number = str.indexOf("<" + this.tag_) + this.tag_.length + 1;
-			let end: number = this.calcMinIndex(str.lastIndexOf("/"), str.indexOf(">", start));
+			let end: number = this.compute_min_index(str.lastIndexOf("/"), str.indexOf(">", start));
 
 			if (start == -1 || end == -1 || start >= end)
 				return;
@@ -251,14 +236,14 @@ namespace samchon.library
 				}
 				value = line.substring(helpers[i].start + 1, helpers[i].end);
 			
-				this.setProperty(label, XML.decodeProperty(value));
+				this.setProperty(label, this.decode_property(value));
 			}
 		}
 
 		/**
-		 * <p> Parse and fetch a value. </p>
+		 * @hidden
 		 */
-		private parseValue(str: string): std.Pair<string, boolean>
+		private parse_value(str: string): std.Pair<string, boolean>
 		{
 			let end_slash: number = str.lastIndexOf("/");
 			let end_block: number = str.indexOf(">");
@@ -277,7 +262,7 @@ namespace samchon.library
 			str = str.substring(start, end); //REDEFINE WEAK_STRING -> IN TO THE TAG
 
 			if (str.indexOf("<") == -1)
-				this.value_ = XML.decodeValue( str.trim() );
+				this.value_ = this.decode_value(str.trim());
 			else
 				this.value_ = "";
 
@@ -285,9 +270,9 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Parse and construct children XML objects. </p>
+		 * @hidden
 		 */
-		private parseChildren(str: string): void
+		private parse_children(str: string): void
 		{
 			if (str.indexOf("<") == -1)
 				return;
@@ -313,7 +298,7 @@ namespace samchon.library
 
 					let xmlList: XMLList;
 					let xml: XML = new XML();
-					xml.construct( str.substring(start, end + 1) );
+					xml.parse( str.substring(start, end + 1) );
 
 					if (this.has(xml.tag_) == true)
 						xmlList = this.get(xml.tag_);
@@ -336,14 +321,14 @@ namespace samchon.library
 			ACCESSORS
 		------------------------------------------------------------- */
 		/**
-		 * <p> Get tag. </p>
+		 * Get tag.
 		 */
 		public getTag(): string
 		{
 			return this.tag_;
 		}
 		/** 
-		 * <p> Get value. </p>
+		 * Get value.
 		 */
 		public getValue(): string
 		{
@@ -351,7 +336,7 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Test whether a property exists or not. </p>
+		 * Test whether a property exists or not.
 		 */
 		public hasProperty(key: string): boolean
 		{
@@ -359,13 +344,16 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Get property by its key. </p>
+		 * Get property by its key.
 		 */
 		public getProperty(key: string): string
 		{
 			return this.property_map_.get(key);
 		}
 
+		/**
+		 * Get property map.
+		 */
 		public getPropertyMap(): std.HashMap<string, string>
 		{
 			return this.property_map_;
@@ -375,7 +363,7 @@ namespace samchon.library
 			SETTERS
 		------------------------------------------------------------- */
 		/**
-		 * <p> Set tag (identifier) of the XML. </p>
+		 * Set tag (identifier) of the XML.
 		 */
 		public setTag(str: string): void
 		{
@@ -383,30 +371,7 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Set value of the XML. </p>
-		 *
-		 * <p> Do not abuse values for expressing member variables. </p>
-		 * <table>
-		 *	<tr>
-		 *		<th>Standard Usage</th>
-		 *		<th>Non-standard usage abusing value</th>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>
-		 *			\<memberList\>\n
-		 *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
-		 *			&nbsp;&nbsp;&nbsp;&nbsp;\<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
-		 *			\</memberList\>
-		 *		</td>
-		 *		<td>
-		 *			\<member\>\n
-		 *				\<id\>jhnam88\</id\>\n
-		 *				\<name\>Jeongho+Nam\</name\>\n
-		 *				\<birthdate\>1988-03-11\</birthdate\>\n
-		 *			\</member\>
-		 *		</td>
-		 *	</tr>
-		 * </table>
+		 * Set value.
 		 *
 		 * @param val A value to set
 		 */
@@ -416,7 +381,7 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Set a property with its key. </p>
+		 * Set a property with its key.
 		 */
 		public setProperty(key: string, value: string): void
 		{
@@ -424,12 +389,12 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Erase a property by its key. </p>
+		 * Erase a property by its key.
 		 *
 		 * @param key The key of the property to erase
 		 * @throw exception out of range
 		 */
-		public eraseProperty(key: string): void 
+		public eraseProperty(key: string): void
 		{
 			if(this.property_map_.has(key) == false)
 				throw Error("out of range");
@@ -437,9 +402,20 @@ namespace samchon.library
 				this.property_map_.erase(key);
 		}
 
-		public push<L extends string, U extends XMLList>(...args: std.Pair<L, U>[]): number;
-		public push<L extends string, U extends XMLList>(...args: [L, U][]): number;
+		/**
+		 * @hidden
+		 */
+		public push(...args: std.Pair<string, XMLList>[]): number;
+		
+		/**
+		 * @hidden
+		 */
+		public push(...args: [string, XMLList][]): number;
+		
+
 		public push(...xmls: XML[]): number;
+		
+
 		public push(...xmlLists: XMLList[]): number;
 
 		public push(...items: any[]): number
@@ -497,7 +473,10 @@ namespace samchon.library
 		/* -------------------------------------------------------------
 			FILTERS
 		------------------------------------------------------------- */
-		private calcMinIndex(...args: number[]): number 
+		/**
+		 * @hidden
+		 */
+		private compute_min_index(...args: number[]): number 
 		{
 			let min: number = args[0];
 
@@ -513,30 +492,9 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Decode a value. </p>
-		 *
-		 * <table>
-		 *	<tr>
-		 *		<th>Encoded</th>
-		 *		<th>Decoded</th>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\&amp;</td>
-		 *		<td>\&</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\&lt;</td>
-		 *		<td>\<</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\&gt;</td>
-		 *		<td>\></td>
-		 *	</tr>
-		 * </table>
-		 *
-		 * @return A decoded string represents a value
+		 * @hidden
 		 */
-		public static decodeValue(str: string): string 
+		private decode_value(str: string): string 
 		{
 			let pairs: Array<std.Pair<string, string>> =
 				[
@@ -549,30 +507,9 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Encode a value. </p>
-		 *
-		 * <table>
-		 *	<tr>
-		 *		<th>Original</th>
-		 *		<th>Encoded</th>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\&</td>
-		 *		<td>\&amp;</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\<</td>
-		 *		<td>\&lt;</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\></td>
-		 *		<td>\&gt;</td>
-		 *	</tr>
-		 * </table>
-		 *
-		 * @return A encoded string represents a value
+		 * @hidden
 		 */
-		public static encodeValue(str: string): string 
+		private encode_value(str: string): string 
 		{
 			let pairs: Array<std.Pair<string, string>> =
 				[
@@ -583,55 +520,10 @@ namespace samchon.library
 			return StringUtil.replaceAll(str, ...pairs);
 		}
 
-	   /**
-		 * <p> Decode a property. </p>
-		 *
-		 * <table>
-		 *	<tr>
-		 *		<th>Encoded</th>
-		 *		<th>Decoded</th>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\&amp;</td>
-		 *		<td>\&</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\&lt;</td>
-		 *		<td>\<</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\&gt;</td>
-		 *		<td>\></td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>&quot;</td>
-		 *		<td>\"</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>&apos;</td>
-		 *		<td>'</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>&#x9;</td>
-		 *		<td>'</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>&apos;</td>
-		 *		<td>\\t</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>&#xA;</td>
-		 *		<td>\\n</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>&#xD;</td>
-		 *		<td>\\r</td>
-		 *	</tr>
-		 * </table>
-		 *
-		 * @return A decoded string represents a property
+		/**
+		 * @hidden
 		 */
-		public static decodeProperty(str: string): string 
+		private decode_property(str: string): string 
 		{
 			let pairs: Array<std.Pair<string, string>> =
 				[
@@ -648,54 +540,9 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Decode a property. </p>
-		 *
-		 * <table>
-		 *	<tr>
-		 *		<th>Original</th>
-		 *		<th>Encoded</th>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\&</td>
-		 *		<td>\&amp;</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\<</td>
-		 *		<td>\&lt;</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\></td>
-		 *		<td>\&gt;</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\"</td>
-		 *		<td>&quot;</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>'</td>
-		 *		<td>&apos;</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>'</td>
-		 *		<td>&#x9;</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\\t</td>
-		 *		<td>&apos;</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\\n</td>
-		 *		<td>&#xA;</td>
-		 *	</tr>
-		 *	<tr>
-		 *		<td>\\r</td>
-		 *		<td>&#xD;</td>
-		 *	</tr>
-		 * </table>
-		 *
-		 * @return A encoded string represents a property
+		 * @hidden
 		 */
-		public static encodeProperty(str: string): string 
+		private encode_property(str: string): string 
 		{
 			let pairs: Array<std.Pair<string, string>> =
 				[
@@ -715,22 +562,27 @@ namespace samchon.library
 			EXPORTS
 		------------------------------------------------------------- */
 		/**
-		 * <p> Convert the XML to a string. </p>
+		 * {@link XML} object to xml string.
+		 * 
+		 * Returns a string representation of the {@link XML} object.
+		 * 
+		 * @param tab Number of tabs to spacing.
+		 * @return The string representation of the {@link XML} object.
 		 */
-		public toString(level: number = 0): string
+		public toString(tab: number = 0): string
 		{
-			let str: string = StringUtil.repeat("\t", level) + "<" + this.tag_;
+			let str: string = StringUtil.repeat("\t", tab) + "<" + this.tag_;
 			let children_str: string = "";
 
 			//PROPERTIES
 			for (let p_it = this.property_map_.begin(); p_it.equal_to(this.property_map_.end()) == false; p_it = p_it.next())
-				str += " " + p_it.first + "=\"" + XML.encodeProperty(String(p_it.second)) + "\"";
+				str += " " + p_it.first + "=\"" + this.encode_property(p_it.second) + "\"";
 		
 			if (this.size() == 0) 
 			{
 				// VALUE
 				if (this.value_ != "")
-					str += ">" + XML.encodeValue(String(this.value_)) + "</" + this.tag_ + ">";
+					str += ">" + this.encode_value(this.value_) + "</" + this.tag_ + ">";
 				else
 					str += " />";
 			} 
@@ -740,46 +592,19 @@ namespace samchon.library
 				str += ">\n";
 
 				for (let x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
-					str += x_it.second.toString(level + 1);
+					str += x_it.second.toString(tab + 1);
 			
-				str += StringUtil.repeat("\t", level) + "</" + this.tag_ + ">";
-			}
-			return str;
-		}
-
-		/**
-		 * <p> Convert the XML to HTML string. </p>
-		 */
-		public toHTML(level: number = 0): string
-		{
-			let str: string = StringUtil.repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level) + "&lt;" + this.tag_;
-			let childrenString: string = "";
-
-			//PROPERTIES
-			for (let p_it = this.property_map_.begin(); p_it.equal_to(this.property_map_.end()) == false; p_it = p_it.next())
-				str += " " + p_it.first + "=&quot;" + XML.encodeProperty(String(p_it.second)) + "&quot;";
-
-			if (this.size() == 0) {
-				if (this.value_ != "")
-					str += "&gt;" + XML.encodeValue(String(this.value_)) + "</" + this.tag_ + ">";
-				else
-					str += " /&gt;";
-			}
-			else {
-				str += "&gt;<br>\n";
-
-				for (let x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
-					str += x_it.second.toHTML(level + 1);
-
-				str += StringUtil.repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level) + "&lt;/" + this.tag_ + "&gt;";
+				str += StringUtil.repeat("\t", tab) + "</" + this.tag_ + ">";
 			}
 			return str;
 		}
 	}
 	
 	/**
-	 * <p> List of XML(s) having same tag. </p>
-	 *
+	 * List of {@link XML} objects with same tag.
+	 * 
+	 * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/XMLList.html
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-Library-XML
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class XMLList
@@ -787,18 +612,21 @@ namespace samchon.library
 	{
 		// using super::constructor
 
+		/**
+		 * Get tag.
+		 */
 		public getTag(): string
 		{
-			if (this.size() == 0)
-				return null;
-			else
-				return this.at(0).getTag();
+			return this.front().getTag();
 		}
 
 		/**
-		 * <p> Convert XMLList to string. </p>
-		 *
-		 * @param level Level(depth) of the XMLList.
+		 * {@link XMLList XML objects} to string.
+		 * 
+		 * Returns a string representation of the {@link XMLList XML objects}.
+		 * 
+		 * @param tab Number of tabs to spacing.
+		 * @return The string representation of the {@link XMLList XML objects}.
 		 */
 		public toString(level: number = 0): string 
 		{
@@ -806,21 +634,6 @@ namespace samchon.library
 			
 			for (let i: number = 0; i < this.size(); i++)
 				str += this.at(i).toString(level) + "\n";
-
-			return str;
-		}
-
-		/**
-		 * <p> Convert XMLList to HTML string. </p>
-		 * 
-		 * @param level Level(depth) of the XMLList.
-		 */
-		public toHTML(level: number = 0): string
-		{
-			let str: string = "";
-
-			for (let i: number = 0; i < this.size(); i++)
-				str += this.at(i).toHTML(level) + "<br>\n";
 
 			return str;
 		}

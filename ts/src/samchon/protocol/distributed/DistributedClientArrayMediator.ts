@@ -29,13 +29,13 @@ namespace samchon.protocol.distributed
 		}
 
 		/**
-		 * <p> Factory method creating {@link IServerBase} object. </p>
+		 * Factory method creating {@link IServerBase} object.
 		 * 
-		 * <p> This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
+		 * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
 		 * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who 
-		 * may connect to {@link ExternalClientArray this server} must follow the specified protocol. </p>
+		 * may connect to {@link ExternalClientArray this server} must follow the specified protocol.
 		 * 
-		 * <p> Creates and returns one of them: </p>
+		 * Creates and returns one of them:
 		 * <ul>
 		 *	<li> {@link ServerBase} </li>
 		 *	<li> {@link WebServerBase} </li>

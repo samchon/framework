@@ -3,11 +3,11 @@
 namespace samchon.library
 {
 	/**
-	 * <p> A utility class supporting static methods of string. </p>
+	 * A utility class supporting static methods of string.
 	 * 
-	 * <p> The {@link StringUtil} utility class is an all-static class with methods for working with string objects within 
-	 * Samchon Framework. You do not create instances of {@link StringUtil}; instead you call methods such as the 
-	 * <code>StringUtil.substitute()</code> method. </p>
+	 * The {@link StringUtil} utility class is an all-static class with methods for working with string objects. 
+	 * You do not create instances of {@link StringUtil}; instead you call methods such as the 
+	 * ```StringUtil.substitute()``` method.
 	 *
 	 * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/utils/StringUtil.html
 	 * @author Jeongho Nam <http://samchon.org>
@@ -22,21 +22,19 @@ namespace samchon.library
 			BETWEEN(s)
 		------------------------------------------------------------------ */
 		/**
-		 * <p> Generate a substring. </p>
+		 * Generate a substring.
 		 *
-		 * <p> Extracts a substring consisting of the characters from specified start to end.
-		 * It's same with str.substring( ? = (str.find(start) + start.size()), str.find(end, ?) ) </p>
+		 * Extracts a substring consisting of the characters from specified start to end.
+		 * It's same with str.substring( ? = (str.find(start) + start.size()), str.find(end, ?) )
 		 *
-		 * <code>
-		 let str = between("ABCD[EFGH]IJK", "[", "]");
-		 console.log(str); // PRINTS "EFGH"
-		 * </code>
+		 * ```typescript
+		 * let str: string = StringUtil.between("ABCD(EFGH)IJK", "(", ")");
+		 * console.log(str); // PRINTS "EFGH"
+		 * ```
 		 *
-		 * <ul>
-		 *	<li> If start is not specified, extracts from begin of the string to end. </li>
-		 *	<li> If end is not specified, extracts from start to end of the string. </li>
-		 *	<li> If start and end are all omitted, returns str, itself. </li>
-		 * </ul>
+		 * - If start is not specified, extracts from begin of the string to end. </li>
+		 * - If end is not specified, extracts from start to end of the string. </li>
+		 * - If start and end are all omitted, returns str, itself. </li>
 		 *
 		 * @param str Target string to be applied between.
 		 * @param start A string for separating substring at the front.
@@ -67,15 +65,15 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Fetch substrings. </p>
+		 * Fetch substrings.
 		 *
-		 * <p> Splits a string into an array of substrings dividing by specified delimeters of start and end.
-		 * It's the array of substrings adjusted the between. </p>
+		 * Splits a string into an array of substrings dividing by specified delimeters of start and end.
+		 * It's the array of substrings adjusted the between.
 		 *
 		 * <ul>
 		 *	<li> If startStr is omitted, it's same with the split by endStr not having last item. </li>
 		 *	<li> If endStr is omitted, it's same with the split by startStr not having first item. </li>
-		 *	<li> If startStr and endStar are all omitted, returns <i>str</i>. </li>
+		 *	<li> If startStr and endStar are all omitted, returns *str*. </li>
 		 * </ul>
 		 *
 		 * @param str Target string to split by between.
@@ -239,7 +237,7 @@ namespace samchon.library
 		 * @param format The string to make substitutions in. This string can contain special tokens of the form
 		 *				 <code>{n}</code>, where <code>n</code> is a zero based index, that will be replaced with the 
 		 *				 additional parameters found at that index if specified.
-		 * @param args Additional parameters that can be substituted in the <i>format</i> parameter at each 
+		 * @param args Additional parameters that can be substituted in the *format* parameter at each 
 		 *			   <code>{n}</code> location, where <code>n</code> is an integer (zero based) index value into 
 		 *			   the array of values specified.
 		 *
@@ -340,9 +338,9 @@ namespace samchon.library
 		}
 
 		/**
-		 * <p> Repeat a string. </p>
+		 * Repeat a string.
 		 * 
-		 * <p> Returns a string consisting of a specified string concatenated with itself a specified number of times. </p>
+		 * Returns a string consisting of a specified string concatenated with itself a specified number of times.
 		 * 
 		 * @param str The string to be repeated.
 		 * @param n The repeat count.
@@ -366,9 +364,9 @@ namespace samchon.library
 			NUMBER
 		------------------------------------------------------------------ */
 		/**
-		 * <p> Number to formatted string with &quot;,&quot; sign. </p>
+		 * Number to formatted string with &quot;,&quot; sign.
 		 * 
-		 * <p> Returns a string converted from the number rounded off from specified precision with &quot;,&quot; symbols. </p>
+		 * Returns a string converted from the number rounded off from specified precision with &quot;,&quot; symbols.
 		 * 
 		 * @param val A number wants to convert to string.
 		 * @param precision Target precision of round off.

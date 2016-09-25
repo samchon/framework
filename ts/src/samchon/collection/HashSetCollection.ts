@@ -5,20 +5,61 @@ namespace samchon.collection
 	/**
 	 * A {@link HashSet} who can detect element I/O events.
 	 * 
-	 * <ul>
-	 *	<li> <i>insert</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link insert} </li>
-	 *		<li> {@link push} </li>
-	 *	</ul></li>
-	 *	<li> <i>erase</i> typed events: <ul>
-	 *		<li> {@link assign} </li>
-	 *		<li> {@link clear} </li>
-	 *		<li> {@link erase} </li>
-	 *		<li> {@link extract} </li>
-	 *	</ul></li>
-	 * </ul>
+	 * Below is the list of methods who are dispatching {@link CollectionEvent}:
+	 * - *insert* typed events: 
+	 *   - {@link assign}
+	 *   - {@link insert}
+	 *   - {@link push}
+	 *   - {@link insert_or_assign}
+	 * - *erase* typed events: 
+	 *   - {@link assign}
+	 *   - {@link clear}
+	 *   - {@link erase}
+	 *   - {@link extract}
+	 * - *refresh* typed events:
+	 *   - {@link refresh}
 	 * 
+	 * #### [Inherited]
+	 * {@link HashSet HashSets} are containers that store unique elements in no particular order, and which allow for 
+	 * fast retrieval of individual elements based on their value.
+	 *
+	 * In an {@link HashSet}, the value of an element is at the same time its *key*, that identifies it uniquely. 
+	 * Keys are immutable, therefore, the elements in an {@link HashSet} cannot be modified once in the container - 
+	 * they can be inserted and removed, though. 
+	 *
+	 * Internally, the elements in the {@link HashSet} are not sorted in any particular order, but organized into 
+	 * buckets depending on their hash values to allow for fast access to individual elements directly by their 
+	 * *values* (with a constant average time complexity on average). 
+	 *
+	 * {@link HashSet} containers are faster than {@link TreeSet} containers to access individual elements by their 
+	 * *key*, although they are generally less efficient for range iteration through a subset of their elements. 
+	 *
+	 * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" />
+	 * </a> 
+	 *
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 *	<dt> Associative </dt>
+	 *	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
+	 *		 position in the container. </dd>
+	 *
+	 *	<dt> Hashed </dt>
+	 *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+	 *		 by their *key*. </dd>
+	 *
+	 *	<dt> Set </dt>
+	 *	<dd> The value of an element is also the *key* used to identify it. </dd>
+	 *
+	 *	<dt> Unique keys </dt>
+	 *	<dd> No two elements in the container can have equivalent *keys*. </dd>
+	 * </dl>
+	 *
+	 * @param <T> Type of the elements.
+	 *			  Each element in an {@link HashSet} is also uniquely identified by this value.
+	 *
+	 * @reference http://www.cplusplus.com/reference/unordered_set/unordered_set
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class HashSetCollection<T>

@@ -28,10 +28,10 @@ namespace protocol
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class IEntityGroup
+	class EntityGroupBase
 	{
 	public:
-		virtual ~IEntityGroup() = default;
+		virtual ~EntityGroupBase() = default;
 
 	public:
 		/**

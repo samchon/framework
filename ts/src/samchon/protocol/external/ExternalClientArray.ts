@@ -5,15 +5,15 @@
 namespace samchon.protocol.external
 {
 	/**
-	 * <p> An interface for an {@link ExternalSystemArray} accepts {@link ExternalSystem external clients} as a
-	 * {@link IServer server}. </p>
+	 * An interface for an {@link ExternalSystemArray} accepts {@link ExternalSystem external clients} as a
+	 * {@link IServer server}.
 	 * 
-	 * <p> The easiest way to defining an {@link ExternalSystemArray} who opens server and accepts 
+	 * The easiest way to defining an {@link ExternalSystemArray} who opens server and accepts 
 	 * {@link ExternalSystem external clients} is to extending one of below, who are derived from this interface 
 	 * {@link IExternalClientArray}. However, if you can't specify an {@link ExternalSystemArray} to be whether server or
-	 * client, then make a class (let's name it as <b>BaseSystemArray</b>) extending {@link ExternalSystemArray} and make
-	 * a new class (now, I name it <b>BaseClientArray</b>) extending <b>BaseSystemArray</b> and implementing this 
-	 * interface {@link IExternalClientArray}. Define the <b>BaseClientArray</b> following those codes on below:
+	 * client, then make a class (let's name it as **BaseSystemArray**) extending {@link ExternalSystemArray} and make
+	 * a new class (now, I name it **BaseClientArray**) extending **BaseSystemArray** and implementing this 
+	 * interface {@link IExternalClientArray}. Define the **BaseClientArray** following those codes on below:
 	 * 
 	 * <ul>
 	 *	<li> {@link ExternalClientArray}:
@@ -39,25 +39,25 @@ namespace samchon.protocol.external
 	}
 
 	/**
-	 * <p> An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}. </p>
+	 * An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}.
 	 * 
-	 * <p> {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers, 
-	 * {@link IExternalServer} objects, as a {@link IServer server}. </p>
+	 * {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers, 
+	 * {@link IExternalServer} objects, as a {@link IServer server}.
 	 *
-	 * <p> <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
 	 *		 style="max-width: 100%" />
-	 * </a> </p>
+	 * </a>
 	 *
 	 * <h4> Proxy Pattern </h4>
-	 * <p> The {@link ExternalSystemArray} class can use <i>Proxy Pattern</i>. In framework within user, which
+	 * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
 	 * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-	 * important. Only interested in user's perspective is <i>which can be done</i>. </p>
+	 * important. Only interested in user's perspective is *which can be done*.
 	 *
-	 * <p> By using the <i>logical proxy</i>, user dont't need to know which {@link ExternalSystemRole role} is belonged
+	 * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
 	 * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}. </p>
+	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
 	 *
 	 * <ul>
 	 *	<li>
@@ -69,7 +69,7 @@ namespace samchon.protocol.external
 	 *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
 	 *		external system.
 	 *	</li>
-	 *	<li> Those strategy is called <i>Proxy Pattern</i>. </li>
+	 *	<li> Those strategy is called *Proxy Pattern*. </li>
 	 * </ul>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
@@ -101,13 +101,13 @@ namespace samchon.protocol.external
 		}
 
 		/**
-		 * <p> Factory method creating {@link IServerBase} object. </p>
+		 * Factory method creating {@link IServerBase} object.
 		 * 
-		 * <p> This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
+		 * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
 		 * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who 
-		 * may connect to {@link ExternalClientArray this server} must follow the specified protocol. </p>
+		 * may connect to {@link ExternalClientArray this server} must follow the specified protocol.
 		 * 
-		 * <p> Creates and returns one of them: </p>
+		 * Creates and returns one of them:
 		 * <ul>
 		 *	<li> {@link ServerBase} </li>
 		 *	<li> {@link WebServerBase} </li>

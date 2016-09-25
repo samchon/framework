@@ -3,14 +3,12 @@
 namespace samchon.library
 {
 	/**
-	 * <p> URLVariables class is for representing variables of HTTP. </p>
+	 * URLVariables class is for representing variables of HTTP.
 	 * 
-	 * <p> URLVariables class allows you to transfer variables between an application and server.
-	 * When transfering, URLVariables will be converted to a URI string. </p>
+	 * {@link URLVariables} class allows you to transfer variables between an application and server.
 	 * 
-	 * <ul>
-	 *	<li> URI: Uniform Resource Identifier </li>
-	 * </ul>
+	 * When transfering, {@link URLVariables} will be converted to a *URI* string.
+	 * - URI: Uniform Resource Identifier
 	 * 
 	 * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/URLVariables.html
 	 * @author Migrated by Jeongho Nam <http://samchon.org>
@@ -24,9 +22,9 @@ namespace samchon.library
 		public constructor();
 
 		/**
-		 * <p> Construct from a URL-encoded string. </p>
+		 * Construct from a URL-encoded string.
 		 * 
-		 * <p> The {@link decode decode()} method is automatically called to convert the string to properties of the {@link URLVariables} object. </p>
+		 * The {@link decode decode()} method is automatically called to convert the string to properties of the {@link URLVariables} object.
 		 * 
 		 * @param str A URL-encoded string containing name/value pairs.
 		 */
@@ -69,10 +67,10 @@ namespace samchon.library
 				else
 				{
 					key = var_pairs[i].substr(0, equal_index);
-					name = decodeURIComponent(var_pairs[i].substr(equal_index + 1));
+					value = decodeURIComponent(var_pairs[i].substr(equal_index + 1));
 				}
 
-				this.insert([key, name]);
+				this.insert([key, value]);
 			}
 		}
 

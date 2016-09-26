@@ -61,8 +61,7 @@ namespace samchon.collection
 	 *			  by this value (each value is itself also the element's *key*).
 	 *
 	 * @reference http://www.cplusplus.com/reference/set/multiset
-	 * @author Jeongho Nam <http://samchon.org>
-	 * 
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMultiSetCollection<T>

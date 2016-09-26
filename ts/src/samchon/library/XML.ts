@@ -78,7 +78,7 @@ namespace samchon.library
 		 * @hidden
 		 */
 		private property_map_: std.HashMap<string, string>;
-	
+
 		/* -------------------------------------------------------------
 			CONSTRUCTORS
 		------------------------------------------------------------- */
@@ -127,7 +127,7 @@ namespace samchon.library
 
 				str = str.substr(0, start) + str.substr(end + 3);
 			}
-		
+
 			//BEGIN PARSING
 			this.parse(str);
 		}
@@ -154,16 +154,16 @@ namespace samchon.library
 			let end: number =
 				this.compute_min_index
 					(
-						str.indexOf(" ", start),
-						str.indexOf("\r\n", start),
-						str.indexOf("\n", start),
-						str.indexOf("\t", start),
-						str.indexOf(">", start),
-						str.indexOf("/", start)
+					str.indexOf(" ", start),
+					str.indexOf("\r\n", start),
+					str.indexOf("\n", start),
+					str.indexOf("\t", start),
+					str.indexOf(">", start),
+					str.indexOf("/", start)
 					);
-			if (start == 0 || end == -1) 
+			if (start == 0 || end == -1)
 				return;
-		
+
 			this.tag_ = str.substring(start, end);
 		}
 
@@ -177,12 +177,12 @@ namespace samchon.library
 
 			if (start == -1 || end == -1 || start >= end)
 				return;
-		
+
 			//<comp label='ABCD' /> : " label='ABCD' "
 			let line: string = str.substring(start, end);
-			if (line.indexOf("=") == -1) 
+			if (line.indexOf("=") == -1)
 				return;
-		
+
 			let label: string;
 			let value: string;
 			let helpers: XMLQuote[] = [];
@@ -207,12 +207,12 @@ namespace samchon.library
 				}
 				else if
 					(
-						inQuote == true &&
-						(
-							(quoteType == 1 && line.charAt(i) == "'") ||
-							(quoteType == 2 && line.charAt(i) == "\"")
-						)
-					) 
+					inQuote == true &&
+					(
+						(quoteType == 1 && line.charAt(i) == "'") ||
+						(quoteType == 2 && line.charAt(i) == "\"")
+					)
+				) 
 				{
 					helpers.push({ type: quoteType, start: start, end: i });
 					inQuote = false;
@@ -235,7 +235,7 @@ namespace samchon.library
 					label = line.substring(helpers[i - 1].end + 1, equal).trim();
 				}
 				value = line.substring(helpers[i].start + 1, helpers[i].end);
-			
+
 				this.setProperty(label, this.decode_property(value));
 			}
 		}
@@ -253,7 +253,7 @@ namespace samchon.library
 				//STATEMENT1: <TAG />
 				//STATEMENT2: <TAG></TAG> -> SAME WITH STATEMENT1: <TAG />
 				this.value_ = "";
-			
+
 				return new std.Pair<string, boolean>(str, false);
 			}
 
@@ -276,7 +276,7 @@ namespace samchon.library
 		{
 			if (str.indexOf("<") == -1)
 				return;
-		
+
 			let start: number = str.indexOf("<");
 			let end: number = str.lastIndexOf(">") + 1;
 			str = str.substring(start, end);
@@ -298,7 +298,7 @@ namespace samchon.library
 
 					let xmlList: XMLList;
 					let xml: XML = new XML();
-					xml.parse( str.substring(start, end + 1) );
+					xml.parse(str.substring(start, end + 1));
 
 					if (this.has(xml.tag_) == true)
 						xmlList = this.get(xml.tag_);
@@ -308,7 +308,7 @@ namespace samchon.library
 						this.set(xml.tag_, xmlList);
 					}
 					xmlList.push(xml);
-				
+
 					i = end;
 					start = end + 1;
 					blockStart = 0;
@@ -322,13 +322,26 @@ namespace samchon.library
 		------------------------------------------------------------- */
 		/**
 		 * Get tag.
+		 * 
+		 * ```xml
+		 * <TAG property_key={property_value}>{value}</TAG>
+		 * ```
+		 * 
+		 * @return tag.
 		 */
 		public getTag(): string
 		{
 			return this.tag_;
 		}
+
 		/** 
 		 * Get value.
+		 * 
+		 * ```xml
+		 * <tag property_key={property_value}>{VALUE}</tag>
+		 * ```
+		 * 
+		 * @return value.
 		 */
 		public getValue(): string
 		{
@@ -336,7 +349,13 @@ namespace samchon.library
 		}
 
 		/**
-		 * Test whether a property exists or not.
+		 * Test whether a property exists.
+		 * 
+		 * ```xml
+		 * <tag PROPERTY_KEY={property_value}>{value}</tag>
+		 * ```
+		 * 
+		 * @return Whether a property has the *key* exists or not.
 		 */
 		public hasProperty(key: string): boolean
 		{
@@ -344,7 +363,21 @@ namespace samchon.library
 		}
 
 		/**
-		 * Get property by its key.
+		 * Get property.
+		 * 
+		 * Get property by its *key*, property name. If the matched *key* does not exist, then exception
+		 * {@link std.OutOfRange} is thrown. Thus, it would better to test whether the *key* exits or not by calling the
+		 * {@link hasProperty hasProperty()} method before calling this {@link getProperty getProperty()}.
+		 * 
+		 * This method can be substituted by {@link getPropertyMap getPropertyMap()} such below:
+		 * - ```getPropertyMap().get(key, value);```
+		 * - ```getPropertyMap().find(key).second;```
+		 * 
+		 * ```xml
+		 * <tag PROPERTY_KEY={PROPERTY_VALUE}>{value}</tag>
+		 * ```
+		 * 
+		 * @return Value of the matched property.
 		 */
 		public getProperty(key: string): string
 		{
@@ -353,6 +386,14 @@ namespace samchon.library
 
 		/**
 		 * Get property map.
+		 * 
+		 * ```xml
+		 * <tag PROPERTY_KEY1={PROPERTY_VALUE1}
+		 *		PROPERTY_KEY2={PROPERTY_VALUE2}
+		 *		PROPERTY_KEY3={PROPERTY_VALUE3}>{value}</tag>
+		 * ```
+		 * 
+		 * @return {@link HashMap} containing properties' keys and values.
 		 */
 		public getPropertyMap(): std.HashMap<string, string>
 		{
@@ -363,25 +404,58 @@ namespace samchon.library
 			SETTERS
 		------------------------------------------------------------- */
 		/**
-		 * Set tag (identifier) of the XML.
+		 * Set tag.
+		 * 
+		 * Set tag name, identifier of this {@link XML} object.
+		 * 
+		 * If this {@link XML} object is belonged to, a child of, an {@link XMLList} and its related {@link XML} objects, 
+		 * then calling this {@link setTag setTag()} method direclty is not recommended. Erase this {@link XML} object
+		 * from parent objects and insert this object again.
+		 * 
+		 * ```xml
+		 * <TAG property_key={property_value}>{value}</TAG>
+		 * ```
+		 * 
+		 * @param val To be new {@link getTag tag}.
 		 */
-		public setTag(str: string): void
+		public setTag(val: string): void
 		{
-			this.tag_ = str;
+			this.tag_ = val;
 		}
 
 		/**
 		 * Set value.
 		 *
-		 * @param val A value to set
+		 * ```xml
+		 * <tag property_key={property_value}>{VALUE}</tag>
+		 * ```
+		 * 
+		 * @param val To be new {@link getValue value}.
 		 */
-		public setValue(str: string): void
+		public setValue(val: string): void
 		{
-			this.value_ = str;
+			this.value_ = val;
 		}
 
 		/**
-		 * Set a property with its key.
+		 * Set property.
+		 * 
+		 * Set a property *value* with its *key*. If the *key* already exists, then the *value* will be overwritten to 
+		 * the property. Otherwise the *key* is not exist yet, then insert the *key* and *value* {@link Pair pair} to 
+		 * {@link getPropertyMao property map}.
+		 * 
+		 * This method can be substituted by {@link getPropertyMap getPropertyMap()} such below:
+		 * - ```getPropertyMap().set(key, value);```
+		 * - ```getPropertyMap().emplace(key, value);```
+		 * - ```getPropertyMap().insert([key, value]);```
+		 * - ```getPropertyMap().insert(std.make_pair(key, value));```
+		 * 
+		 * ```xml
+		 * <tag PROPERTY_KEY={PROPERTY_VALUE}>{value}</tag>
+		 * ```
+		 * 
+		 * @param key Key, identifier of property to be newly inserted.
+		 * @param value Value of new property to be newly inserted.
 		 */
 		public setProperty(key: string, value: string): void
 		{
@@ -389,32 +463,43 @@ namespace samchon.library
 		}
 
 		/**
-		 * Erase a property by its key.
-		 *
-		 * @param key The key of the property to erase
-		 * @throw exception out of range
+		 * Erase property.
+		 * 
+		 * Erases a property by its *key*, property name. If the matched *key* does not exist, then exception 
+		 * {@link std.OutOfRange} is thrown. Thus, it would better to test whether the *key* exits or not by calling the
+		 * {@link hasProperty hasProperty()} method before calling this {@link eraseProperty eraseProperty()}.
+		 * 
+		 * This method can be substituted by ``getPropertyMap().erase(key)````.
+		 * 
+		 * ```xml
+		 * <tag PROPERTY_KEY={property_value}>{value}</tag>
+		 * ```
+		 * 
+		 * @param key Key of the property to erase
+		 * @throw {@link std.OutOfRange}
 		 */
 		public eraseProperty(key: string): void
 		{
-			if(this.property_map_.has(key) == false)
+			let it = this.property_map_.find(key);
+			if (it.equal_to(this.property_map_.end()) == true)
 				throw Error("out of range");
-			else
-				this.property_map_.erase(key);
+
+			this.property_map_.erase(it);
 		}
 
 		/**
 		 * @hidden
 		 */
 		public push(...args: std.Pair<string, XMLList>[]): number;
-		
+
 		/**
 		 * @hidden
 		 */
 		public push(...args: [string, XMLList][]): number;
-		
+
 
 		public push(...xmls: XML[]): number;
-		
+
 
 		public push(...xmlLists: XMLList[]): number;
 
@@ -439,7 +524,7 @@ namespace samchon.library
 				else if (items[i] instanceof XMLList)
 				{
 					let xmlList: XMLList = items[i];
-					
+
 					if (xmlList.empty() == true)
 						continue;
 
@@ -459,12 +544,47 @@ namespace samchon.library
 			return this.size();
 		}
 
-		public addAllProperties(xml: XML): void
+		/**
+		 * Add all properties from other {@link XML} object.
+		 * 
+		 * All the properties in the *obj* are copied to this {@link XML} object. If this {@link XML} object has same
+		 * property key in the *obj*, then value of the property will be replaced to *obj*'s own. If you don't want to 
+		 * overwrite properties with same key, then use {@link getPropertyMap getPropertyMap()} method.
+		 * 
+		 * ```typescript
+		 * let x: library.XML;
+		 * let y: library.XML;
+		 * 
+		 * x.addAllProperties(y); // duplicated key exists, then overwrites
+		 * x.getPropertyMap().insert(y.getPropertyMap().begin(), y.getPropertyMap().end()); 
+		 *	// ducpliated key, then ignores. only non-duplicateds are copied.
+		 * ```
+		 * 
+		 * ```xml
+		 * <tag PROPERTY_KEY1={property_value1}
+		 *		PROPERTY_KEY2={property_value2}
+		 *		PROPERTY_KEY3={property_value3}>{value}</tag>
+		 * ```
+		 * 
+		 * @param obj Target {@link XML} object to copy properties.
+		 */
+		public addAllProperties(obj: XML): void
 		{
-			for (let it = xml.property_map_.begin(); it.equal_to(xml.property_map_.end()) == false; it = it.next())
+			for (let it = obj.property_map_.begin(); it.equal_to(obj.property_map_.end()) == false; it = it.next())
 				this.setProperty(it.first, it.second);
 		}
 
+		/**
+		 * Clear properties.
+		 * 
+		 * Remove all properties. It's same with calling ```getPropertyMap().clear()```.
+		 * 
+		 * ```xml
+		 * <tag PROPERTY_KEY1={property_value1}
+		 *		PROPERTY_KEY2={property_value2}
+		 *		PROPERTY_KEY3={property_value3}>{value}</tag>
+		 * ```
+		 */
 		public clearProperties(): void
 		{
 			this.property_map_.clear();
@@ -577,7 +697,7 @@ namespace samchon.library
 			//PROPERTIES
 			for (let p_it = this.property_map_.begin(); p_it.equal_to(this.property_map_.end()) == false; p_it = p_it.next())
 				str += " " + p_it.first + "=\"" + this.encode_property(p_it.second) + "\"";
-		
+
 			if (this.size() == 0) 
 			{
 				// VALUE
@@ -585,7 +705,7 @@ namespace samchon.library
 					str += ">" + this.encode_value(this.value_) + "</" + this.tag_ + ">";
 				else
 					str += " />";
-			} 
+			}
 			else 
 			{
 				// CHILDREN
@@ -593,13 +713,16 @@ namespace samchon.library
 
 				for (let x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
 					str += x_it.second.toString(tab + 1);
-			
+
 				str += StringUtil.repeat("\t", tab) + "</" + this.tag_ + ">";
 			}
 			return str;
 		}
 	}
-	
+}
+
+namespace samchon.library
+{	
 	/**
 	 * List of {@link XML} objects with same tag.
 	 * 

@@ -21,6 +21,7 @@ namespace samchon.library
 	 * write simple hooks to route calls into the aggregated {@link EventDispatcher}.
 	 *
 	 * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/events/IEventDispatcher.html
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-Library-EventDispatcher
 	 * @author Migrated by Jeongho Nam <http://samchon.org>
 	 */
 	export interface IEventDispatcher

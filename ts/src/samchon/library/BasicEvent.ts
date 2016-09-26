@@ -6,6 +6,7 @@ namespace samchon.library
 	 * A basic event class of Samchon Framework.
 	 *
 	 * @reference https://developer.mozilla.org/en-US/docs/Web/API/Event
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-Library-EventDispatcher
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class BasicEvent

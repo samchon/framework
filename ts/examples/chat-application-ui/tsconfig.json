@@ -1,7 +1,0 @@
-{
-    "compilerOptions": {
-        "target": "es5",
-        "outFile": "include/chat-application.js",
-        "jsx": "react"
-    }
-}

@@ -5,35 +5,14 @@ namespace samchon.protocol
 	/**
 	 * An interface taking full charge of network communication.
 	 * 
-	 * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication
-	 * with external system, without reference to whether the external system is a server or a client.
+	 * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication with 
+	 * remote system, without reference to whether the remote system is a server or a client. Type of the 
+	 * {@link ICommunicator} is specified to {@link IServerConnector} and {@link IClientDriver} whether the remote system 
+	 * is a server (that I've to connect) or a client (a client connected to my server).
 	 * 
-	 * Whenever a replied message comes from the external system, the message will be converted to an
-	 * {@link Invoke} class and will be shifted to the {@link WebCommunicator.listener listener}'s 
-	 * {@link IProtocol.replyData replyData()} method.
-	 * 
-	 * <code>
-	interface ICommmunicator
-	{
-		private socket: SomeSocketClass;
-
-		// LISTENER LISTENS INVOKE MESSAGE BY IT'S IProtocol.replyData() METHOD
-		protected listener: IProtocol;
-
-		// YOU CAN DETECT DISCONNECTION BY ENROLLING FUNCTION POINTER TO HERE.
-		public onClose: Function;
-
-		public sendData(invoke: Invoke): void
-		{
-			this.socket.write(invoke);
-		}
-		public replyData(invoke: Invoke): void
-		{
-			// WHENEVER COMMUNICATOR GETS MESSAGE, THEN SHIFT IT TO LISTENER'S replyData() METHOD.
-			this.listener.replyData(invoke);
-		}
-	}
-	 * </code>
+	 * Whenever a replied message comes from the remote system, the message will be converted to an {@link Invoke} class 
+	 * and the {@link Invoke} object will be shifted to the {@link IProtocol listener}'s 
+	 * {@link IProtocol.replyData IProtocol.replyData()} method.
 	 * 
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
 	 *		  target="_blank">
@@ -41,92 +20,8 @@ namespace samchon.protocol
 	 *		 style="max-width: 100%" />
 	 * </a>
 	 * 
-	 * 
-	 * <h2> Basic Components </h2>
-	 * <h4> What Basic Components are </h4>
-	 * **Basic Components** are the smallest unit of network communication in this *Samchon Framework*. With
-	 * **Basic Components**, you can construct any type of network system, even how the network system is enormously
-	 * scaled and complicated, by just combinating the **Basic Components**.
-	 *
-	 * All the system templates in this framework are also being implemented by utilization of the
-	 * **Basic Compoonents**.
-	 *
-	 * <ul>
-	 *	<li> {@link service Service} </il>
-	 *	<li> {@link external External System} </il>
-	 *	<li> {@link parallel Parallel System} </il>
-	 *	<li> {@link distributed Distributed System} </il>
-	 * </ul>
-	 *
-	 * Note that, whatever the network system what you've to construct is, just concentrate on role of each system
-	 * and attach matched **Basic Components** to the role, within framework of the **Object-Oriented Design**.
-	 * Then construction of the network system will be much easier.
-	 *
-	 * <ul>
-	 *	<li> A system is a server, then use {@link IServer} or {@link IServerBase}. </li>
-	 *	<li> A server wants to handle a client has connected, then use {@link IClientDriver}. </li>
-	 *	<li> A system is a client connecting to an external server, then use {@link IServerConnector}. </li>
-	 *	<li> </li>
-	 * </ul>
-	 *
-	 * <h4> Example - System Templates </h4>
-	 * Learning and understanding *Basic Components* of Samchon Framework, reading source codes and design of
-	 * **System Templates**' modules will be very helpful.
-	 *
-	 * <table>
-	 *	<tr>
-	 *		<th> Name </th>
-	 *		<th> Source </th>
-	 *		<th> API Documents </th>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Cloud Service </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service"
-	 *				target="_blank"> protocol/service </a> </td>
-	 *		<td> {@link protocol.service} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> External System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external"
-	 *				target="_blank"> protocol/external </a> </td>
-	 *		<td> {@link protocol.external} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Parallel System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel"
-	 *				target="_blank"> protocol/parallel </a> </td>
-	 *		<td> {@link protocol.parallel} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Distributed System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed"
-	 *				target="_blank"> protocol/distributed </a> </td>
-	 *		<td> {@link protocol.distributed} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Slave System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave"
-	 *				target="_blank"> protocol/slave </a> </td>
-	 *		<td> {@link protocol.slave} </td>
-	 *	</tr>
-	 * </table>
-	 *
-	 * <h4> Example - Projects </h4>
-	 * <ul>
-	 *	<li>
-	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Calculator" target="_blank"> Calculator </a>
-	 *	</li>
-	 *	<li>
-	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Chatting" target="_blank"> Chatting </a>
-	 *	</li>
-	 *	<li>
-	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Interaction" target="_blank"> Interaction </a>
-	 *	</li>
-	 * </ul>
-	 * 
-	 * @see {@link IClientDriver}, {@link IServerConnector}
-	 * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator"
-	 *			 target="_blank"> Basic Components - ICommunicator </a>
+	 * @see {@link IClientDriver}, {@link IServerConnector}, {@link IProtocol}
+	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface ICommunicator extends IProtocol
@@ -141,17 +36,73 @@ namespace samchon.protocol
 		 */
 		close(): void;
 
+		/**
+		 * Test connection.
+		 * 
+		 * Test whether this {@link ICommunicator communicator} object is connected with the remote system. If the 
+		 * connection is alive, then returns ```true```. Otherwise, the connection is not alive or this 
+		 * {@link ICommunicator communicator has not connected with the remote system yet, then returns ```false```.
+		 * 
+		 * @return true if connected, otherwise false.
+		 */
 		isConnected(): boolean;
 
+		/**
+		 * Send message.
+		 * 
+		 * Send {@link Invoke} message to remote system.
+		 *
+		 * @param invoke An {@link Invoke} message to send.
+		 */
 		sendData(invoke: protocol.Invoke): void;
 
+		/** 
+		 * Handle replied message.
+		 * 
+		 * Handles replied {@link Invoke} message recived from remove system. The {@link Invoke} message will be shifted
+		 * to the {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} by this method.
+		 *
+		 * @param invoke An {@link Invoke} message received from remote system.
+		 */
 		replyData(invoke: protocol.Invoke): void;
 	}
 }
 
 namespace samchon.protocol
 {
-	export abstract class CommunicatorBase implements ICommunicator
+	/**
+	 * An abstract, basic class for communicators.
+	 * 
+	 * {@link CommunicatorBase} is an abstract class implemented from the {@link ICommunicator}. Mechanism of converting
+	 * raw data to {@link Invoke} messag has realized in this abstract class. Type of this {@link CommunicatorBase} class 
+	 * is specified to as below following which protocol is used.
+	 * 
+	 * - {@link Communicator}: Samchon Framework's own protocool.
+	 * - {@link WebCommunicator}: Web-socket protocol
+	 * - {@link SharedWorkerCommunicator}: SharedWorker's message protocol.
+	 * 
+	 * #### [Inherited] {@link ICommunicator}
+	 * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication with
+	 * remote system, without reference to whether the remote system is a server or a client. Type of the
+	 * {@link ICommunicator} is specified to {@link IServerConnector} and {@link IClientDriver} whether the remote system
+	 * is a server (that I've to connect) or a client (a client connected to my server).
+	 *
+	 * Whenever a replied message comes from the remote system, the message will be converted to an {@link Invoke} class
+	 * and the {@link Invoke} object will be shifted to the {@link IProtocol listener}'s
+	 * {@link IProtocol.replyData IProtocol.replyData()} method.
+	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 * 
+	 * @see {@link IClientDriver}, {@link IServerConnector}, {@link IProtocol}
+	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export abstract class CommunicatorBase 
+		implements ICommunicator
 	{
 		// BASIC MEMBERS
 		/**
@@ -164,6 +115,9 @@ namespace samchon.protocol
 		 */
 		public onClose: Function;
 
+		/**
+		 * @hidden
+		 */
 		protected connected_: boolean;
 
 		// BINARY INVOKE MEMBERS
@@ -226,40 +180,25 @@ namespace samchon.protocol
 			return this.connected_;
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected is_binary_invoke(): boolean
 		{
 			return (this.binary_invoke_ != null);
 		}
 
-		///**
-		// * An IProtocol object who gets Invoke messages to its replyData().
-		// */
-		//protected get listener(): IProtocol
-		//{
-		//	return this.listener_;
-		//}
-
-		///**
-		// * An IProtocol object who gets Invoke messages to its replyData().
-		// */
-		//protected set listener(val: IProtocol)
-		//{
-		//	this.listener_ = val;
-
-		//	if (this.unhandled_invokes.empty() == false)
-		//	{
-		//		for (let it = this.unhandled_invokes.begin(); !it.equal_to(this.unhandled_invokes.end()); it = it.next())
-		//			this.listener_.replyData(it.value);
-
-		//		this.unhandled_invokes.clear();
-		//	}
-		//}
-
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE GENERATOR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public abstract sendData(invoke: Invoke): void;
 		
+		/**
+		 * @inheritdoc
+		 */
 		public replyData(invoke: Invoke): void
 		{
 			if (this.listener_ == null)
@@ -273,6 +212,9 @@ namespace samchon.protocol
 			}
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected handle_string(str: string): void
 		{
 			// REPLIED DATA IS CLEARY BE AN INVOKE MESSAGE
@@ -295,6 +237,9 @@ namespace samchon.protocol
 				this.replyData(invoke);
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected handle_binary(binary: Uint8Array): void
 		{
 			// FETCH A PARAMETER
@@ -319,6 +264,37 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	/**
+	 * A communicator following Samchon Framework's own protocol.
+	 * 
+	 * {@link Communicator} is an abstract class following Samchon Framework's own protocol. This {@link Communicator}
+	 * class is specified to {@link ServerConnector} and {@link ClientDriver} whether the remote system is a server (that 
+	 * my system is connecting to) or a client (a client conneting to to my server).
+	 * 
+	 * Note that, if one of this or remote system is web-browser based, then you don't have to use this 
+	 * {@link Communicator} class who follows Samchon Framework's own protocol. Web-browser supports only Web-socket
+	 * protocol. Thus in that case, you have to use {@link WebCommunicator} instead.
+	 * 
+	 * #### [Inherited] {@link ICommunicator}
+	 * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication with
+	 * remote system, without reference to whether the remote system is a server or a client. Type of the
+	 * {@link ICommunicator} is specified to {@link IServerConnector} and {@link IClientDriver} whether the remote system
+	 * is a server (that I've to connect) or a client (a client connected to my server).
+	 *
+	 * Whenever a replied message comes from the remote system, the message will be converted to an {@link Invoke} class
+	 * and the {@link Invoke} object will be shifted to the {@link IProtocol listener}'s
+	 * {@link IProtocol.replyData IProtocol.replyData()} method.
+	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @see {@link ClientDriver}, {@link ServerConnector}, {@link IProtocol}
+	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class Communicator
 		extends CommunicatorBase
 	{
@@ -545,22 +521,33 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	/**
-	 * Base class for web-communicator, {@link WebClientDriver} and {@link WebServerConnector}.
+	 * A communicator following Web-socket protocol.
 	 * 
-	 * This class {@link WebCommunicatorBase} subrogates network communication for web-communicator classes, 
-	 * {@link WebClinetDriver} and {@link WebServerConnector}. The web-communicator and this class 
-	 * {@link WebCommunicatorBase} share same interface {@link IProtocol} and have a **chain of responsibily** 
-	 * relationship.
+	 * {@link WebCommunicator} is an abstract class following Web-socket protocol. This {@link WebCommunicator} class is
+	 * specified to {@link WebServerConnector} and {@link WebClientDriver} whether the remote system is a server (that my
+	 * system is connecting to) or a client (a client conneting to to my server).
 	 * 
-	 * When an {@link Invoke} message was delivered from the connected remote system, then this class calls 
-	 * web-communicator's {@link WebServerConnector.replyData replyData()} method. Also, when called web-communicator's 
-	 * {@link WebClientDriver.sendData sendData()}, then {@link sendData sendData()} of this class will be caleed.
+	 * Note that, one of this or remote system is web-browser based, then there's not any alternative choice. Web browser
+	 * supports only Web-socket protocol. In that case, you've use this {@link WebCommunicator} class.
 	 * 
-	 * <ul>
-	 *	<li> this.replyData() -> communicator.replyData() </li>
-	 *	<li> communicator.sendData() -> this.sendData() </li>
-	 * </ul>
+	 * #### [Inherited] {@link ICommunicator}
+	 * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication with
+	 * remote system, without reference to whether the remote system is a server or a client. Type of the
+	 * {@link ICommunicator} is specified to {@link IServerConnector} and {@link IClientDriver} whether the remote system
+	 * is a server (that I've to connect) or a client (a client connected to my server).
+	 *
+	 * Whenever a replied message comes from the remote system, the message will be converted to an {@link Invoke} class
+	 * and the {@link Invoke} object will be shifted to the {@link IProtocol listener}'s
+	 * {@link IProtocol.replyData IProtocol.replyData()} method.
 	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @see {@link WebClientDriver}, {@link WebServerConnector}, {@link IProtocol}
+	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class WebCommunicator
@@ -568,7 +555,7 @@ namespace samchon.protocol
 	{
 		// SOCKET MEMBER
 		/**
-		 * Connection driver, a socket for web-socket.
+		 * @hidden
 		 */
 		protected connection_: websocket.connection = null;
 
@@ -578,7 +565,7 @@ namespace samchon.protocol
 		// using super::constructor
 
 		/**
-		 * Close the connection.
+		 * @inheritdoc
 		 */
 		public close(): void
 		{
@@ -601,12 +588,7 @@ namespace samchon.protocol
 		}
 
 		/**
-		 * Handle raw-data received from the remote system.
-		 * 
-		 * Queries raw-data received from the remote system. When the raw-data represents an formal {@link Invoke} 
-		 * message, then it will be sent to the {@link replyData}. 
-		 * 
-		 * @param message A raw-data received from the remote system.
+		 * @hidden
 		 */
 		protected handle_message(message: websocket.IMessage)
 		{
@@ -620,6 +602,9 @@ namespace samchon.protocol
 				this.handle_binary(message.binaryData);
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected handle_close(): void
 		{
 			this.connected_ = false;
@@ -632,9 +617,54 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	/**
+	 * A communicator for shared worker.
+	 * 
+	 * {@link SharedWorkerCommunicator} is an abstract class for communication between SharedWorker and Web-browser. This
+	 * {@link SharedWorkerCommunicator} is specified to {@link SharedWorkerServerConnector} and 
+	 * {@link SharedWorkerClientDriver} whether the remote system is a server (that my system is connecting to) or a client 
+	 * (a client conneting to to my server).
+	 * 
+	 * Note that, SharedWorker is a conception only existed in web-browser. This {@link SharedWorkerCommunicator} is not
+	 * supported in NodeJS. Only web-browser environment can utilize this {@link SharedWorkerCommunicator}.
+	 * 
+	 * #### Why SharedWorker be a server?
+	 * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
+	 * or multiple browsers. To integrate them, messages are being sent and received. Doesn't it seem like a relationship 
+	 * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as 
+	 * clients. 
+	 * 
+	 * This class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a 
+	 * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the 
+	 * server and clients with this {@link SharedWorkerCommunicator}.
+	 * 
+	 * #### [Inherited] {@link ICommunicator}
+	 * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication with
+	 * remote system, without reference to whether the remote system is a server or a client. Type of the
+	 * {@link ICommunicator} is specified to {@link IServerConnector} and {@link IClientDriver} whether the remote system
+	 * is a server (that I've to connect) or a client (a client connected to my server).
+	 *
+	 * Whenever a replied message comes from the remote system, the message will be converted to an {@link Invoke} class
+	 * and the {@link Invoke} object will be shifted to the {@link IProtocol listener}'s
+	 * {@link IProtocol.replyData IProtocol.replyData()} method.
+	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 * 
+	 * @see {@link SharedWorkerClientDriver}, {@link SharedWorkerServerConnector}, {@link IProtocol}
+	 * @reference https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker
+	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class SharedWorkerCommunicator
 		extends CommunicatorBase
 	{
+		/**
+		 * @hidden
+		 */
 		protected port_: MessagePort;
 
 		/* ---------------------------------------------------------
@@ -642,6 +672,9 @@ namespace samchon.protocol
 		--------------------------------------------------------- */
 		// using super::constructor
 
+		/**
+		 * @inheritdoc
+		 */
 		public close(): void
 		{
 			this.connected_ = false;
@@ -666,6 +699,9 @@ namespace samchon.protocol
 					this.port_.postMessage(invoke.at(i).getValue());
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected handle_message(event: MessageEvent): void
 		{
 			if (this.is_binary_invoke() == false)

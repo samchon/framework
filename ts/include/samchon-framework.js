@@ -317,6 +317,7 @@ var samchon;
          * A basic event class of Samchon Framework.
          *
          * @reference https://developer.mozilla.org/en-US/docs/Web/API/Event
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-Library-EventDispatcher
          * @author Jeongho Nam <http://samchon.org>
          */
         var BasicEvent = (function () {
@@ -1709,6 +1710,7 @@ var samchon;
         /**
          * An event occured in a {@link MapContainer map container} object.
          *
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var MapCollectionEvent = (function (_super) {
@@ -1810,6 +1812,7 @@ var samchon;
          * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
          *
          * @reference http://www.cplusplus.com/reference/map/map
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var TreeMapCollection = (function (_super) {
@@ -1971,6 +1974,7 @@ var samchon;
          * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
          *
          * @reference http://www.cplusplus.com/reference/map/multimap
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var TreeMultiMapCollection = (function (_super) {
@@ -2124,8 +2128,7 @@ var samchon;
          *			  by this value (each value is itself also the element's *key*).
          *
          * @reference http://www.cplusplus.com/reference/set/multiset
-         * @author Jeongho Nam <http://samchon.org>
-         *
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var TreeMultiSetCollection = (function (_super) {
@@ -2281,6 +2284,7 @@ var samchon;
          *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
          *
          * @reference http://www.cplusplus.com/reference/set/set
+         * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
          * @author Jeongho Nam <http://samchon.org>
          */
         var TreeSetCollection = (function (_super) {
@@ -2635,7 +2639,7 @@ var samchon;
          * <ul>
          *	<li>
          *		When you use the new operator with the {@link FileReference} constructor:
-         *		<code>var myFileReference = new FileReference();</code>
+         *		<code>let myFileReference: FileReference = new FileReference();</code>
          *	</li>
          *	<li>
          *		When you call the {@link FileReferenceList.browse} method, which creates an array of {@link FileReference}
@@ -3051,7 +3055,6 @@ var samchon;
         /**
          * A genetic algorithm class.
          *
-         * @details
          * In the field of artificial intelligence, a genetic algorithm (GA) is a search heuristic that mimics the
          * process of natural selection. This heuristic (also sometimes called a metaheuristic) is routinely used to generate
          * useful solutions to optimization and search problems.
@@ -3953,7 +3956,7 @@ var samchon;
                         if (this.has(xml.tag_) == true)
                             xmlList = this.get(xml.tag_);
                         else {
-                            xmlList = new XMLList();
+                            xmlList = new library.XMLList();
                             this.set(xml.tag_, xmlList);
                         }
                         xmlList.push(xml);
@@ -3969,30 +3972,70 @@ var samchon;
             ------------------------------------------------------------- */
             /**
              * Get tag.
+             *
+             * ```xml
+             * <TAG property_key={property_value}>{value}</TAG>
+             * ```
+             *
+             * @return tag.
              */
             XML.prototype.getTag = function () {
                 return this.tag_;
             };
             /**
              * Get value.
+             *
+             * ```xml
+             * <tag property_key={property_value}>{VALUE}</tag>
+             * ```
+             *
+             * @return value.
              */
             XML.prototype.getValue = function () {
                 return this.value_;
             };
             /**
-             * Test whether a property exists or not.
+             * Test whether a property exists.
+             *
+             * ```xml
+             * <tag PROPERTY_KEY={property_value}>{value}</tag>
+             * ```
+             *
+             * @return Whether a property has the *key* exists or not.
              */
             XML.prototype.hasProperty = function (key) {
                 return this.property_map_.has(key);
             };
             /**
-             * Get property by its key.
+             * Get property.
+             *
+             * Get property by its *key*, property name. If the matched *key* does not exist, then exception
+             * {@link std.OutOfRange} is thrown. Thus, it would better to test whether the *key* exits or not by calling the
+             * {@link hasProperty hasProperty()} method before calling this {@link getProperty getProperty()}.
+             *
+             * This method can be substituted by {@link getPropertyMap getPropertyMap()} such below:
+             * - ```getPropertyMap().get(key, value);```
+             * - ```getPropertyMap().find(key).second;```
+             *
+             * ```xml
+             * <tag PROPERTY_KEY={PROPERTY_VALUE}>{value}</tag>
+             * ```
+             *
+             * @return Value of the matched property.
              */
             XML.prototype.getProperty = function (key) {
                 return this.property_map_.get(key);
             };
             /**
              * Get property map.
+             *
+             * ```xml
+             * <tag PROPERTY_KEY1={PROPERTY_VALUE1}
+             *		PROPERTY_KEY2={PROPERTY_VALUE2}
+             *		PROPERTY_KEY3={PROPERTY_VALUE3}>{value}</tag>
+             * ```
+             *
+             * @return {@link HashMap} containing properties' keys and values.
              */
             XML.prototype.getPropertyMap = function () {
                 return this.property_map_;
@@ -4001,36 +4044,79 @@ var samchon;
                 SETTERS
             ------------------------------------------------------------- */
             /**
-             * Set tag (identifier) of the XML.
+             * Set tag.
+             *
+             * Set tag name, identifier of this {@link XML} object.
+             *
+             * If this {@link XML} object is belonged to, a child of, an {@link XMLList} and its related {@link XML} objects,
+             * then calling this {@link setTag setTag()} method direclty is not recommended. Erase this {@link XML} object
+             * from parent objects and insert this object again.
+             *
+             * ```xml
+             * <TAG property_key={property_value}>{value}</TAG>
+             * ```
+             *
+             * @param val To be new {@link getTag tag}.
              */
-            XML.prototype.setTag = function (str) {
-                this.tag_ = str;
+            XML.prototype.setTag = function (val) {
+                this.tag_ = val;
             };
             /**
              * Set value.
              *
-             * @param val A value to set
+             * ```xml
+             * <tag property_key={property_value}>{VALUE}</tag>
+             * ```
+             *
+             * @param val To be new {@link getValue value}.
              */
-            XML.prototype.setValue = function (str) {
-                this.value_ = str;
+            XML.prototype.setValue = function (val) {
+                this.value_ = val;
             };
             /**
-             * Set a property with its key.
+             * Set property.
+             *
+             * Set a property *value* with its *key*. If the *key* already exists, then the *value* will be overwritten to
+             * the property. Otherwise the *key* is not exist yet, then insert the *key* and *value* {@link Pair pair} to
+             * {@link getPropertyMao property map}.
+             *
+             * This method can be substituted by {@link getPropertyMap getPropertyMap()} such below:
+             * - ```getPropertyMap().set(key, value);```
+             * - ```getPropertyMap().emplace(key, value);```
+             * - ```getPropertyMap().insert([key, value]);```
+             * - ```getPropertyMap().insert(std.make_pair(key, value));```
+             *
+             * ```xml
+             * <tag PROPERTY_KEY={PROPERTY_VALUE}>{value}</tag>
+             * ```
+             *
+             * @param key Key, identifier of property to be newly inserted.
+             * @param value Value of new property to be newly inserted.
              */
             XML.prototype.setProperty = function (key, value) {
                 this.property_map_.set(key, value);
             };
             /**
-             * Erase a property by its key.
+             * Erase property.
              *
-             * @param key The key of the property to erase
-             * @throw exception out of range
+             * Erases a property by its *key*, property name. If the matched *key* does not exist, then exception
+             * {@link std.OutOfRange} is thrown. Thus, it would better to test whether the *key* exits or not by calling the
+             * {@link hasProperty hasProperty()} method before calling this {@link eraseProperty eraseProperty()}.
+             *
+             * This method can be substituted by ``getPropertyMap().erase(key)````.
+             *
+             * ```xml
+             * <tag PROPERTY_KEY={property_value}>{value}</tag>
+             * ```
+             *
+             * @param key Key of the property to erase
+             * @throw {@link std.OutOfRange}
              */
             XML.prototype.eraseProperty = function (key) {
-                if (this.property_map_.has(key) == false)
+                var it = this.property_map_.find(key);
+                if (it.equal_to(this.property_map_.end()) == true)
                     throw Error("out of range");
-                else
-                    this.property_map_.erase(key);
+                this.property_map_.erase(it);
             };
             XML.prototype.push = function () {
                 var items = [];
@@ -4043,12 +4129,12 @@ var samchon;
                         if (this.has(xml.tag_) == true)
                             this.get(xml.tag_).push(xml);
                         else {
-                            var xmlList = new XMLList();
+                            var xmlList = new library.XMLList();
                             xmlList.push(xml);
                             this.set(xml.tag_, xmlList);
                         }
                     }
-                    else if (items[i] instanceof XMLList) {
+                    else if (items[i] instanceof library.XMLList) {
                         var xmlList = items[i];
                         if (xmlList.empty() == true)
                             continue;
@@ -4064,10 +4150,45 @@ var samchon;
                 }
                 return this.size();
             };
-            XML.prototype.addAllProperties = function (xml) {
-                for (var it = xml.property_map_.begin(); it.equal_to(xml.property_map_.end()) == false; it = it.next())
+            /**
+             * Add all properties from other {@link XML} object.
+             *
+             * All the properties in the *obj* are copied to this {@link XML} object. If this {@link XML} object has same
+             * property key in the *obj*, then value of the property will be replaced to *obj*'s own. If you don't want to
+             * overwrite properties with same key, then use {@link getPropertyMap getPropertyMap()} method.
+             *
+             * ```typescript
+             * let x: library.XML;
+             * let y: library.XML;
+             *
+             * x.addAllProperties(y); // duplicated key exists, then overwrites
+             * x.getPropertyMap().insert(y.getPropertyMap().begin(), y.getPropertyMap().end());
+             *	// ducpliated key, then ignores. only non-duplicateds are copied.
+             * ```
+             *
+             * ```xml
+             * <tag PROPERTY_KEY1={property_value1}
+             *		PROPERTY_KEY2={property_value2}
+             *		PROPERTY_KEY3={property_value3}>{value}</tag>
+             * ```
+             *
+             * @param obj Target {@link XML} object to copy properties.
+             */
+            XML.prototype.addAllProperties = function (obj) {
+                for (var it = obj.property_map_.begin(); it.equal_to(obj.property_map_.end()) == false; it = it.next())
                     this.setProperty(it.first, it.second);
             };
+            /**
+             * Clear properties.
+             *
+             * Remove all properties. It's same with calling ```getPropertyMap().clear()```.
+             *
+             * ```xml
+             * <tag PROPERTY_KEY1={property_value1}
+             *		PROPERTY_KEY2={property_value2}
+             *		PROPERTY_KEY3={property_value3}>{value}</tag>
+             * ```
+             */
             XML.prototype.clearProperties = function () {
                 this.property_map_.clear();
             };
@@ -4182,6 +4303,12 @@ var samchon;
             return XML;
         }(std.HashMap));
         library.XML = XML;
+    })(library = samchon.library || (samchon.library = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var library;
+    (function (library) {
         /**
          * List of {@link XML} objects with same tag.
          *
@@ -4354,6 +4481,37 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        /**
+         * An abstract, basic class for communicators.
+         *
+         * {@link CommunicatorBase} is an abstract class implemented from the {@link ICommunicator}. Mechanism of converting
+         * raw data to {@link Invoke} messag has realized in this abstract class. Type of this {@link CommunicatorBase} class
+         * is specified to as below following which protocol is used.
+         *
+         * - {@link Communicator}: Samchon Framework's own protocool.
+         * - {@link WebCommunicator}: Web-socket protocol
+         * - {@link SharedWorkerCommunicator}: SharedWorker's message protocol.
+         *
+         * #### [Inherited] {@link ICommunicator}
+         * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication with
+         * remote system, without reference to whether the remote system is a server or a client. Type of the
+         * {@link ICommunicator} is specified to {@link IServerConnector} and {@link IClientDriver} whether the remote system
+         * is a server (that I've to connect) or a client (a client connected to my server).
+         *
+         * Whenever a replied message comes from the remote system, the message will be converted to an {@link Invoke} class
+         * and the {@link Invoke} object will be shifted to the {@link IProtocol listener}'s
+         * {@link IProtocol.replyData IProtocol.replyData()} method.
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link IClientDriver}, {@link IServerConnector}, {@link IProtocol}
+         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var CommunicatorBase = (function () {
             function CommunicatorBase(listener) {
                 if (listener === void 0) { listener = null; }
@@ -4374,9 +4532,15 @@ var samchon;
             CommunicatorBase.prototype.isConnected = function () {
                 return this.connected_;
             };
+            /**
+             * @hidden
+             */
             CommunicatorBase.prototype.is_binary_invoke = function () {
                 return (this.binary_invoke_ != null);
             };
+            /**
+             * @inheritdoc
+             */
             CommunicatorBase.prototype.replyData = function (invoke) {
                 if (this.listener_ == null)
                     this.unhandled_invokes.push_back(invoke);
@@ -4387,6 +4551,9 @@ var samchon;
                         this.listener_.replyData(invoke);
                 }
             };
+            /**
+             * @hidden
+             */
             CommunicatorBase.prototype.handle_string = function (str) {
                 // REPLIED DATA IS CLEARY BE AN INVOKE MESSAGE
                 var invoke = new protocol.Invoke();
@@ -4403,6 +4570,9 @@ var samchon;
                 if (this.binary_invoke_ == null)
                     this.replyData(invoke);
             };
+            /**
+             * @hidden
+             */
             CommunicatorBase.prototype.handle_binary = function (binary) {
                 // FETCH A PARAMETER
                 var parameter = this.binary_parameters_.front();
@@ -4427,6 +4597,37 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        /**
+         * A communicator following Samchon Framework's own protocol.
+         *
+         * {@link Communicator} is an abstract class following Samchon Framework's own protocol. This {@link Communicator}
+         * class is specified to {@link ServerConnector} and {@link ClientDriver} whether the remote system is a server (that
+         * my system is connecting to) or a client (a client conneting to to my server).
+         *
+         * Note that, if one of this or remote system is web-browser based, then you don't have to use this
+         * {@link Communicator} class who follows Samchon Framework's own protocol. Web-browser supports only Web-socket
+         * protocol. Thus in that case, you have to use {@link WebCommunicator} instead.
+         *
+         * #### [Inherited] {@link ICommunicator}
+         * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication with
+         * remote system, without reference to whether the remote system is a server or a client. Type of the
+         * {@link ICommunicator} is specified to {@link IServerConnector} and {@link IClientDriver} whether the remote system
+         * is a server (that I've to connect) or a client (a client connected to my server).
+         *
+         * Whenever a replied message comes from the remote system, the message will be converted to an {@link Invoke} class
+         * and the {@link Invoke} object will be shifted to the {@link IProtocol listener}'s
+         * {@link IProtocol.replyData IProtocol.replyData()} method.
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link ClientDriver}, {@link ServerConnector}, {@link IProtocol}
+         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var Communicator = (function (_super) {
             __extends(Communicator, _super);
             function Communicator() {
@@ -4609,22 +4810,33 @@ var samchon;
     var protocol;
     (function (protocol) {
         /**
-         * Base class for web-communicator, {@link WebClientDriver} and {@link WebServerConnector}.
+         * A communicator following Web-socket protocol.
          *
-         * This class {@link WebCommunicatorBase} subrogates network communication for web-communicator classes,
-         * {@link WebClinetDriver} and {@link WebServerConnector}. The web-communicator and this class
-         * {@link WebCommunicatorBase} share same interface {@link IProtocol} and have a **chain of responsibily**
-         * relationship.
+         * {@link WebCommunicator} is an abstract class following Web-socket protocol. This {@link WebCommunicator} class is
+         * specified to {@link WebServerConnector} and {@link WebClientDriver} whether the remote system is a server (that my
+         * system is connecting to) or a client (a client conneting to to my server).
          *
-         * When an {@link Invoke} message was delivered from the connected remote system, then this class calls
-         * web-communicator's {@link WebServerConnector.replyData replyData()} method. Also, when called web-communicator's
-         * {@link WebClientDriver.sendData sendData()}, then {@link sendData sendData()} of this class will be caleed.
+         * Note that, one of this or remote system is web-browser based, then there's not any alternative choice. Web browser
+         * supports only Web-socket protocol. In that case, you've use this {@link WebCommunicator} class.
          *
-         * <ul>
-         *	<li> this.replyData() -> communicator.replyData() </li>
-         *	<li> communicator.sendData() -> this.sendData() </li>
-         * </ul>
+         * #### [Inherited] {@link ICommunicator}
+         * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication with
+         * remote system, without reference to whether the remote system is a server or a client. Type of the
+         * {@link ICommunicator} is specified to {@link IServerConnector} and {@link IClientDriver} whether the remote system
+         * is a server (that I've to connect) or a client (a client connected to my server).
          *
+         * Whenever a replied message comes from the remote system, the message will be converted to an {@link Invoke} class
+         * and the {@link Invoke} object will be shifted to the {@link IProtocol listener}'s
+         * {@link IProtocol.replyData IProtocol.replyData()} method.
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link WebClientDriver}, {@link WebServerConnector}, {@link IProtocol}
+         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
          * @author Jeongho Nam <http://samchon.org>
          */
         var WebCommunicator = (function (_super) {
@@ -4633,7 +4845,7 @@ var samchon;
                 _super.apply(this, arguments);
                 // SOCKET MEMBER
                 /**
-                 * Connection driver, a socket for web-socket.
+                 * @hidden
                  */
                 this.connection_ = null;
             }
@@ -4642,7 +4854,7 @@ var samchon;
             --------------------------------------------------------- */
             // using super::constructor
             /**
-             * Close the connection.
+             * @inheritdoc
              */
             WebCommunicator.prototype.close = function () {
                 this.connection_.close();
@@ -4660,12 +4872,7 @@ var samchon;
                         this.connection_.sendBytes(invoke.at(i).getValue());
             };
             /**
-             * Handle raw-data received from the remote system.
-             *
-             * Queries raw-data received from the remote system. When the raw-data represents an formal {@link Invoke}
-             * message, then it will be sent to the {@link replyData}.
-             *
-             * @param message A raw-data received from the remote system.
+             * @hidden
              */
             WebCommunicator.prototype.handle_message = function (message) {
                 // EXCEPTION HANDLING IS REQUIRED
@@ -4676,6 +4883,9 @@ var samchon;
                 else
                     this.handle_binary(message.binaryData);
             };
+            /**
+             * @hidden
+             */
             WebCommunicator.prototype.handle_close = function () {
                 this.connected_ = false;
                 if (this.onClose != null)
@@ -4690,6 +4900,48 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        /**
+         * A communicator for shared worker.
+         *
+         * {@link SharedWorkerCommunicator} is an abstract class for communication between SharedWorker and Web-browser. This
+         * {@link SharedWorkerCommunicator} is specified to {@link SharedWorkerServerConnector} and
+         * {@link SharedWorkerClientDriver} whether the remote system is a server (that my system is connecting to) or a client
+         * (a client conneting to to my server).
+         *
+         * Note that, SharedWorker is a conception only existed in web-browser. This {@link SharedWorkerCommunicator} is not
+         * supported in NodeJS. Only web-browser environment can utilize this {@link SharedWorkerCommunicator}.
+         *
+         * #### Why SharedWorker be a server?
+         * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
+         * or multiple browsers. To integrate them, messages are being sent and received. Doesn't it seem like a relationship
+         * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
+         * clients.
+         *
+         * This class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+         * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
+         * server and clients with this {@link SharedWorkerCommunicator}.
+         *
+         * #### [Inherited] {@link ICommunicator}
+         * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication with
+         * remote system, without reference to whether the remote system is a server or a client. Type of the
+         * {@link ICommunicator} is specified to {@link IServerConnector} and {@link IClientDriver} whether the remote system
+         * is a server (that I've to connect) or a client (a client connected to my server).
+         *
+         * Whenever a replied message comes from the remote system, the message will be converted to an {@link Invoke} class
+         * and the {@link Invoke} object will be shifted to the {@link IProtocol listener}'s
+         * {@link IProtocol.replyData IProtocol.replyData()} method.
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link SharedWorkerClientDriver}, {@link SharedWorkerServerConnector}, {@link IProtocol}
+         * @reference https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker
+         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var SharedWorkerCommunicator = (function (_super) {
             __extends(SharedWorkerCommunicator, _super);
             function SharedWorkerCommunicator() {
@@ -4699,6 +4951,9 @@ var samchon;
                 CONSTRUCTORS
             --------------------------------------------------------- */
             // using super::constructor
+            /**
+             * @inheritdoc
+             */
             SharedWorkerCommunicator.prototype.close = function () {
                 this.connected_ = false;
                 this.port_.close();
@@ -4717,6 +4972,9 @@ var samchon;
                     if (invoke.at(i).getType() == "ByteaArray")
                         this.port_.postMessage(invoke.at(i).getValue());
             };
+            /**
+             * @hidden
+             */
             SharedWorkerCommunicator.prototype.handle_message = function (event) {
                 if (this.is_binary_invoke() == false)
                     this.handle_string(event.data);
@@ -4734,8 +4992,51 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        /**
+         * Communicator with remote client.
+         *
+         * {@link ClientDriver} is a class taking full charge of network communication with remote client who follows Samchon
+         * Framework's own protocol. This {@link ClientDriver} object is always created by {@link Server} class. When you got
+         * this {@link ClientDriver} object from the {@link Server.addClient Server.addClient()}, then specify
+         * {@link IProtocol listener} with the {@link ClientDriver.listen ClientDriver.listen()} method.
+         *
+         * #### [Inherited] {@link IClientDriver}
+         * {@link IClientDriver} is a type of {@link ICommunicator}, specified for communication with remote client who has
+         * connected in a {@link IServer server}. It takes full charge of network communication with the remote client.
+         *
+         * The {@link IClientDriver} object is created and delivered from {@link IServer} and
+         * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
+         * created by the matched {@link IServer} object.
+         *
+         * Derived Type | Created By
+         * -------------|-------------------------
+         * {@link ClientDriver} | {@link Server}
+         * {@link WebClientDriver} | {@link WebServer}
+         * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+         *
+         * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
+         * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
+         * from the remote system, the message will be converted to an {@link Invoke} class and the {@link Invoke} object
+         * will be shifted to the {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+         * Below code is an example specifying and managing the {@link IProtocol listener} objects.
+         *
+         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link Server}, {@link IProtocol}
+         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var ClientDriver = (function (_super) {
             __extends(ClientDriver, _super);
+            /**
+             * Construct from a socket.
+             */
             function ClientDriver(socket) {
                 _super.call(this);
                 this.socket_ = socket;
@@ -4757,6 +5058,53 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        /**
+         * Communicator with remote web-client.
+         *
+         * {@link WebClientDriver} is a class taking full charge of network communication with remote client who follows
+         * Web-socket protocol. This {@link WebClientDriver} object is always created by {@link WebServer} class. When you
+         * got this {@link WebClientDriver} object from the {@link WebServer.addClient WebServer.addClient()}, then specify
+         * {@link IProtocol listener} with the {@link WebClientDriver.listen WebClientDriver.listen()} method.
+         *
+         * Unlike other protocol, Web-socket protocol's clients notify two parameters on their connection;
+         * {@link getSessionID session-id} and {@link getPath path}. The {@link getSessionID session-id} can be used to
+         * identify *user* of each client, and the {@link getPath path} can be used which type of *service* that client wants.
+         * In {@link service} module, you can see the best utilization case of them.
+         * - {@link service.User}: utlization of the {@link getSessionID session-id}.
+         * - {@link service.Service}: utilization of the {@link getPath path}.
+         *
+         * #### [Inherited] {@link IClientDriver}
+         * {@link IClientDriver} is a type of {@link ICommunicator}, specified for communication with remote client who has
+         * connected in a {@link IServer server}. It takes full charge of network communication with the remote client.
+         *
+         * The {@link IClientDriver} object is created and delivered from {@link IServer} and
+         * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
+         * created by the matched {@link IServer} object.
+         *
+         * Derived Type | Created By
+         * -------------|-------------------------
+         * {@link ClientDriver} | {@link Server}
+         * {@link WebClientDriver} | {@link WebServer}
+         * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+         *
+         * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
+         * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
+         * from the remote system, the message will be converted to an {@link Invoke} class and the {@link Invoke} object
+         * will be shifted to the {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+         * Below code is an example specifying and managing the {@link IProtocol listener} objects.
+         *
+         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link WebServer}, {@link IProtocol}
+         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var WebClientDriver = (function (_super) {
             __extends(WebClientDriver, _super);
             /**
@@ -4806,8 +5154,62 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        /**
+         * Communicator with remote web-browser.
+         *
+         * {@link SharedWorkerClientDriver} is a class taking full charge of network communication with web browsers. This
+         * {@link SharedWorkerClientDriver} object is always created by {@link SharedWorkerServer} class. When you got this
+         * {@link SharedWorkerClientDriver} object from {@link SharedWorkerServer.addClient SharedWorkerServer.addClient()},
+         * then specify {@link IProtocol listener} with the
+         * {@link SharedWorkerClientDriver.listen SharedWorkerClientDriver.listen()} method.
+         *
+         * #### Why SharedWorker be a server?
+         * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
+         * or multiple browsers. To integrate them, messages are being sent and received. Doesn't it seem like a relationship
+         * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
+         * clients.
+         *
+         * This class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+         * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
+         * server and clients with this {@link SharedWorkerCommunicator}.
+         *
+         * #### [Inherited] {@link IClientDriver}
+         * {@link IClientDriver} is a type of {@link ICommunicator}, specified for communication with remote client who has
+         * connected in a {@link IServer server}. It takes full charge of network communication with the remote client.
+         *
+         * The {@link IClientDriver} object is created and delivered from {@link IServer} and
+         * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
+         * created by the matched {@link IServer} object.
+         *
+         * Derived Type | Created By
+         * -------------|-------------------------
+         * {@link ClientDriver} | {@link Server}
+         * {@link WebClientDriver} | {@link WebServer}
+         * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+         *
+         * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
+         * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
+         * from the remote system, the message will be converted to an {@link Invoke} class and the {@link Invoke} object
+         * will be shifted to the {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+         * Below code is an example specifying and managing the {@link IProtocol listener} objects.
+         *
+         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link SharedWorkerServer}, {@link IProtocol}
+         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var SharedWorkerClientDriver = (function (_super) {
             __extends(SharedWorkerClientDriver, _super);
+            /**
+             * Construct from a MessagePort object.
+             */
             function SharedWorkerClientDriver(port) {
                 _super.call(this);
                 this.port_ = port;
@@ -8677,8 +9079,50 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        /**
+         * Server connnector.
+         *
+         * {@link ServerConnector} is a class connecting to remote server who follows Samchon Framework's own protocol and
+         * taking full charge of network communication with the remote server. Create a {@link ServerConnector} instance from
+         * the {@IProtocol listener} and call the {@link connect connect()} method.
+         *
+         * #### [Inherited] {@link IServerConnector}
+         * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
+         * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
+         * charge of network communication with the remote server.
+         *
+         * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
+         * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
+         * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
+         * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+         *
+         * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
+         * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
+         *
+         * Protocol | Derived Type | Connect to
+         * ---------|--------------|---------------
+         * Samchon Framework's own | {@link ServerConnector} | {@link Server}
+         * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
+         * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link Server}, {@link IProtocol}
+         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var ServerConnector = (function (_super) {
             __extends(ServerConnector, _super);
+            /**
+             * Construct from *listener*.
+             *
+             * @param listener A listener object to listen replied message from newly connected client in
+             *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
+             */
             function ServerConnector(listener) {
                 _super.call(this, listener);
                 this.connected_ = false;
@@ -8689,6 +9133,9 @@ var samchon;
             ServerConnector.prototype.connect = function (ip, port) {
                 this.socket_ = net.connect({ host: ip, port: port }, this.handle_connect.bind(this));
             };
+            /**
+             * @hidden
+             */
             ServerConnector.prototype.handle_connect = function () {
                 var arg = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
@@ -8711,6 +9158,37 @@ var samchon;
         /**
          * A server connector for web-socket protocol.
          *
+         * {@link WebServerConnector} is a class connecting to remote server who follows Web-socket protocol and taking full
+         * charge of network communication with the remote server. Create an {@link WebServerConnector} instance from the
+         * {@IProtocol listener} and call the {@link connect connect()} method.
+         *
+         * #### [Inherited] {@link IServerConnector}
+         * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
+         * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
+         * charge of network communication with the remote server.
+         *
+         * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
+         * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
+         * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
+         * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+         *
+         * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
+         * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
+         *
+         * Protocol | Derived Type | Connect to
+         * ---------|--------------|---------------
+         * Samchon Framework's own | {@link ServerConnector} | {@link Server}
+         * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
+         * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link WebServer}, {@link IProtocol}
+         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
          * @author Jeongho Nam <http://samchon.org>
          */
         var WebServerConnector = (function (_super) {
@@ -8718,6 +9196,12 @@ var samchon;
             /* ----------------------------------------------------
                 CONSTRUCTORS
             ---------------------------------------------------- */
+            /**
+             * Construct from *listener*.
+             *
+             * @param listener A listener object to listen replied message from newly connected client in
+             *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
+             */
             function WebServerConnector(listener) {
                 _super.call(this, listener);
                 this.browser_socket_ = null;
@@ -8726,7 +9210,24 @@ var samchon;
                 this.onConnect = null;
             }
             /**
-             * @inheritdoc
+             * Connect to a web server.
+             *
+             * Connects to a server with specified *host* address, *port* number and *path*. After the connection has
+             * succeeded, callback function {@link onConnect} is called. Listening data from the connected server also begins.
+             * Replied messages from the connected server will be converted to {@link Invoke} classes and will be shifted to
+             * the {@link WebCommunicator.listener listener}'s {@link IProtocol.replyData replyData()} method.
+             *
+             * If the connection fails immediately, either an event is dispatched or an exception is thrown: an error
+             * event is dispatched if a host was specified, and an exception is thrown if no host was specified. Otherwise,
+             * the status of the connection is reported by an event. If the socket is already connected, the existing
+             * connection is closed first.
+             *
+             * @param ip The name or IP address of the host to connect to.
+             *			 If no host is specified, the host that is contacted is the host where the calling file resides.
+             *			 If you do not specify a host, use an event listener to determine whether the connection was
+             *			 successful.
+             * @param port The port number to connect to.
+             * @param path Path of service which you want.
              */
             WebServerConnector.prototype.connect = function (ip, port, path) {
                 if (path === void 0) { path = ""; }
@@ -8775,17 +9276,26 @@ var samchon;
                     _super.prototype.sendData.call(this, invoke);
                 }
             };
+            /**
+             * @hidden
+             */
             WebServerConnector.prototype.handle_browser_connect = function (event) {
                 this.connected_ = true;
                 if (this.onConnect != null)
                     this.onConnect();
             };
+            /**
+             * @hidden
+             */
             WebServerConnector.prototype.handle_browser_message = function (event) {
                 if (this.is_binary_invoke() == false)
                     this.handle_string(event.data);
                 else
                     this.handle_binary(event.data);
             };
+            /**
+             * @hidden
+             */
             WebServerConnector.prototype.handle_node_connect = function (connection) {
                 this.connected_ = true;
                 this.connection_ = connection;
@@ -8804,16 +9314,85 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        /**
+         * A server connector for SharedWorker.
+         *
+         * {@link SharedWorkerServerConnector} is a class connecting to SharedWorker and taking full charge of network
+         * communication with the SharedWorker. Create an {@link SharedWorkerServerConnector} instance from the
+         * {@IProtocol listener} and call the {@link connect connect()} method.
+         *
+         * #### Why SharedWorker be a server?
+         * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
+         * or multiple browsers. To integrate them, messages are being sent and received. Doesn't it seem like a relationship
+         * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
+         * clients.
+         *
+         * This class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+         * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
+         * server and clients with this {@link SharedWorkerCommunicator}.
+         *
+         * #### [Inherited] {@link IServerConnector}
+         * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
+         * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
+         * charge of network communication with the remote server.
+         *
+         * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
+         * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
+         * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
+         * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+         *
+         * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
+         * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
+         *
+         * Protocol | Derived Type | Connect to
+         * ---------|--------------|---------------
+         * Samchon Framework's own | {@link ServerConnector} | {@link Server}
+         * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
+         * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link SharedWorkerServer}, {@link IProtocol}
+         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var SharedWorkerServerConnector = (function (_super) {
             __extends(SharedWorkerServerConnector, _super);
             /* ---------------------------------------------------------
                 CONSTRUCTORS AND CONNECTORS
             --------------------------------------------------------- */
+            /**
+             * Construct from *listener*.
+             *
+             * @param listener A listener object to listen replied message from newly connected client in
+             *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
+             */
             function SharedWorkerServerConnector(listener) {
                 _super.call(this, listener);
                 this.connected_ = false;
                 this.onConnect = null;
             }
+            /**
+             * Connect to a SharedWorker.
+             *
+             * Connects to a server with specified *jstFile* path. If a SharedWorker instance of the *jsFile* is not
+             * constructed yet, then the SharedWorker will be newly constructed. Otherwise the SharedWorker already exists,
+             * then connect to the SharedWorker. After those processes, callback function {@link onConnect} is called.
+             * Listening data from the connected server also begins. Replied messages from the connected server will be
+             * converted to {@link Invoke} classes and will be shifted to the {@link WebCommunicator.listener listener}'s
+             * {@link IProtocol.replyData replyData()} method.
+             *
+             * If the connection fails immediately, either an event is dispatched or an exception is thrown: an error
+             * event is dispatched if a host was specified, and an exception is thrown if no host was specified. Otherwise,
+             * the status of the connection is reported by an event. If the socket is already connected, the existing
+             * connection is closed first.
+             *
+             * @param jsFile Path of JavaScript file to execute who defines SharedWorker.
+             */
             SharedWorkerServerConnector.prototype.connect = function (jsFile) {
                 // CONSTRUCT AND START SHARED-WORKER-SERVER
                 var worker = new SharedWorker(jsFile);

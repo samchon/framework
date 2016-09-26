@@ -5,7 +5,6 @@ namespace samchon.library
 	/**
 	 * A genetic algorithm class.
 	 * 
-	 * @details
 	 * In the field of artificial intelligence, a genetic algorithm (GA) is a search heuristic that mimics the 
 	 * process of natural selection. This heuristic (also sometimes called a metaheuristic) is routinely used to generate 
 	 * useful solutions to optimization and search problems.

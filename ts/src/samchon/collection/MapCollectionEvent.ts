@@ -9,6 +9,7 @@ namespace samchon.collection
 	/**
 	 * An event occured in a {@link MapContainer map container} object.
 	 * 
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class MapCollectionEvent<Key, T> 

@@ -65,6 +65,7 @@ namespace samchon.collection
 	 * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
 	 *
 	 * @reference http://www.cplusplus.com/reference/map/map
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMapCollection<Key, T>

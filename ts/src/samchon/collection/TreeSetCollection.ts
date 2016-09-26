@@ -63,6 +63,7 @@ namespace samchon.collection
 	 *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
 	 *
 	 * @reference http://www.cplusplus.com/reference/set/set
+	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeSetCollection<T>

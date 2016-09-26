@@ -13,7 +13,7 @@
 	 * <ul>
 	 *	<li> 
 	 *		When you use the new operator with the {@link FileReference} constructor: 
-	 *		<code>var myFileReference = new FileReference();</code>
+	 *		<code>let myFileReference: FileReference = new FileReference();</code>
 	 *	</li>
 	 *	<li> 
 	 *		When you call the {@link FileReferenceList.browse} method, which creates an array of {@link FileReference} 

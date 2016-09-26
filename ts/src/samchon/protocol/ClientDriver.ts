@@ -5,196 +5,37 @@
 namespace samchon.protocol
 {
 	/**
-	 * An interface for communicator with connected client.
+	 * An interface for communicator with remote client. 
 	 * 
-	 * {@link IClientDriver} is a type of {@link ICommunicator}, specified for communication with connected client
-	 * in a server. It takes full charge of network communication with the connected client.
+	 * {@link IClientDriver} is a type of {@link ICommunicator}, specified for communication with remote client who has
+	 * connected in a {@link IServer server}. It takes full charge of network communication with the remote client. 
 	 * 
-	 * {@link IClientDriver} is created in {@link IServer} and delivered via 
+	 * The {@link IClientDriver} object is created and delivered from {@link IServer} and 
 	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being 
-	 * created by matched {@link IServer} object.
+	 * created by the matched {@link IServer} object.
 	 * 
-	 * <table>
-	 *	<tr>
-	 *		<th> Derived Type </th>
-	 *		<th> Created By </th>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> {@link ClientDrvier} </td>
-	 *		<td> {@link Server} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> {@link WebClientDrvier} </td>
-	 *		<td> {@link WebServer} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> {@link SharedWorkerClientDrvier} </td>
-	 *		<td> {@link SharedWorkerServer} </td>
-	 *	</tr>
-	 * </table>
-	 *
+	 * Derived Type | Created By
+	 * -------------|-------------------------
+	 * {@link ClientDriver} | {@link Server}
+	 * {@link WebClientDriver} | {@link WebServer}
+	 * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 * 
+	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then 
+	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes 
+	 * from the remote system, the message will be converted to an {@link Invoke} class and the {@link Invoke} object 
+	 * will be shifted to the {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method. 
+	 * Below code is an example specifying and managing the {@link IProtocol listener} objects.
+	 * 
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+	 * 
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
 	 *		 style="max-width: 100%" />
 	 * </a>
 	 * 
-	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
-	 * specify {@link CommunicatorBase.listener listener} with {@link IClient.listen IClient.listen()}. Below codes are 
-	 * an example specifying and managing the {@link CommunicatorBase.listener listener} objects.
-	 * 
-	 * <code>
-	/// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
-	/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
-
-	// IMPORTS
-	import std = require("typescript-stl");
-	import samchon = require("samchon-framework");
-
-	// SHORTCUTS
-	import library = samchon.library;
-	import protocol = samchon.protocol;
-
-	class CalculatorServer extends protocol.Server
-	{
-		private clients: std.HashSet<CalculatorClient>;
-
-		// WHEN A CLIENT HAS CONNECTED
-		public addClient(driver: IClientDriver): void
-		{
-			let client: CalculatorClient = new CalculatorClient(this, driver);
-			this.clients.insert(client);
-		}
-	}
-
-	class CalculatorClient extends protocol.IProtocol
-	{
-		// PARENT SERVER INSTANCE
-		private server: CalculatorServer;
-
-		// COMMUNICATOR, SENDS AND RECEIVES NETWORK MESSAGE WITH CONNECTED CLIENT
-		private driver: protocol.IClientDriver;
-
-		/////
-		// CONSTRUCTORS
-		/////
-		public constructor(server: CalculatorServer, driver: protocol.IClientDriver)
-		{
-			this.server = server;
-			this.driver = driver;
-
-			// START LISTENING AND RESPOND CLOSING EVENT
-			this.driver.listen(this); // INVOKE MESSAGE WILL COME TO HERE
-			this.driver.onClose = this.destructor.bind(this); // DISCONNECTED HANDLER
-		}
-		public destructor(): void
-		{
-			// WHEN DISCONNECTED, THEN ERASE THIS OBJECT FROM CalculatorServer.clients.
-			this.server["clients"].erase(this);
-		}
-
-		/////
-		// INVOKE MESSAGE CHAIN
-		/////
-		public sendData(invoke: protocol.Invoke): void
-		{
-			// CALL ICommunicator.sendData(), WHO PHYSICALLY SEND NETWORK MESSAGE
-			this.driver.sendData(invoke);
-		}
-		public replyData(invoke: protocol.Invoke): void
-		{
-			// FIND MATCHED MEMBER FUNCTION NAMED EQUAL TO THE invoke.getListener()
-			invoke.apply(this);
-		}
-	}
-	 * </code>
-	 * 
-	 * 
-	 * <h2> Basic Components </h2>
-	 * <h4> What Basic Components are </h4>
-	 * **Basic Components** are the smallest unit of network communication in this *Samchon Framework*. With
-	 * **Basic Components**, you can construct any type of network system, even how the network system is enormously
-	 * scaled and complicated, by just combinating the **Basic Components**.
-	 *
-	 * All the system templates in this framework are also being implemented by utilization of the
-	 * **Basic Compoonents**.
-	 *
-	 * <ul>
-	 *	<li> {@link service Service} </il>
-	 *	<li> {@link external External System} </il>
-	 *	<li> {@link parallel Parallel System} </il>
-	 *	<li> {@link distributed Distributed System} </il>
-	 * </ul>
-	 *
-	 * Note that, whatever the network system what you've to construct is, just concentrate on role of each system
-	 * and attach matched **Basic Components** to the role, within framework of the **Object-Oriented Design**.
-	 * Then construction of the network system will be much easier.
-	 *
-	 * <ul>
-	 *	<li> A system is a server, then use {@link IServer} or {@link IServerBase}. </li>
-	 *	<li> A server wants to handle a client has connected, then use {@link IClientDriver}. </li>
-	 *	<li> A system is a client connecting to an external server, then use {@link IServerConnector}. </li>
-	 *	<li> </li>
-	 * </ul>
-	 *
-	 * <h4> Example - System Templates </h4>
-	 * Learning and understanding *Basic Components* of Samchon Framework, reading source codes and design of
-	 * **System Templates**' modules will be very helpful.
-	 *
-	 * <table>
-	 *	<tr>
-	 *		<th> Name </th>
-	 *		<th> Source </th>
-	 *		<th> API Documents </th>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Cloud Service </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service"
-	 *				target="_blank"> protocol/service </a> </td>
-	 *		<td> {@link protocol.service} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> External System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external"
-	 *				target="_blank"> protocol/external </a> </td>
-	 *		<td> {@link protocol.external} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Parallel System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel"
-	 *				target="_blank"> protocol/parallel </a> </td>
-	 *		<td> {@link protocol.parallel} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Distributed System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed"
-	 *				target="_blank"> protocol/distributed </a> </td>
-	 *		<td> {@link protocol.distributed} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Slave System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave"
-	 *				target="_blank"> protocol/slave </a> </td>
-	 *		<td> {@link protocol.slave} </td>
-	 *	</tr>
-	 * </table>
-	 *
-	 * <h4> Example - Projects </h4>
-	 * <ul>
-	 *	<li>
-	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Calculator" target="_blank"> Calculator </a>
-	 *	</li>
-	 *	<li>
-	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Chatting" target="_blank"> Chatting </a>
-	 *	</li>
-	 *	<li>
-	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Interaction" target="_blank"> Interaction </a>
-	 *	</li>
-	 * </ul>
-	 * 
-	 * @see {@link IServer} 
-	 * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver"
-	 *			 target="_blank"> Basic Components - IClientDriver </a>
+	 * @see {@link IServer}, {@link IProtocol}
+	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IClientDriver extends ICommunicator
@@ -202,12 +43,12 @@ namespace samchon.protocol
 		/**
 		 * Listen message from the newly connected client.
 		 * 
-		 * Starts listening message from the newly connected client. Replied message from the connected client will
-		 * be converted to {@link Invoke} classes and shifted to the *listener*'s 
-		 * {@link IProtocol.replyData replyData()} method.
+		 * Starts listening message from the newly connected client. Replied message from the connected client will be 
+		 * converted to {@link Invoke} classes and shifted to the *listener*'s {@link IProtocol.replyData replyData()} 
+		 * method. 
 		 * 
 		 * @param listener A listener object to listen replied message from newly connected client in 
-		 *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} message.
+		 *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
 		 */
 		listen(listener: IProtocol): void;
 	}
@@ -215,10 +56,53 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	/**
+	 * Communicator with remote client.
+	 * 
+	 * {@link ClientDriver} is a class taking full charge of network communication with remote client who follows Samchon
+	 * Framework's own protocol. This {@link ClientDriver} object is always created by {@link Server} class. When you got 
+	 * this {@link ClientDriver} object from the {@link Server.addClient Server.addClient()}, then specify 
+	 * {@link IProtocol listener} with the {@link ClientDriver.listen ClientDriver.listen()} method.
+	 * 
+	 * #### [Inherited] {@link IClientDriver}
+	 * {@link IClientDriver} is a type of {@link ICommunicator}, specified for communication with remote client who has
+	 * connected in a {@link IServer server}. It takes full charge of network communication with the remote client.
+	 *
+	 * The {@link IClientDriver} object is created and delivered from {@link IServer} and
+	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
+	 * created by the matched {@link IServer} object.
+	 *
+	 * Derived Type | Created By
+	 * -------------|-------------------------
+	 * {@link ClientDriver} | {@link Server}
+	 * {@link WebClientDriver} | {@link WebServer}
+	 * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 *
+	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
+	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
+	 * from the remote system, the message will be converted to an {@link Invoke} class and the {@link Invoke} object
+	 * will be shifted to the {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+	 * Below code is an example specifying and managing the {@link IProtocol listener} objects.
+	 *
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 * 
+	 * @see {@link Server}, {@link IProtocol}
+	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class ClientDriver
 		extends Communicator
 		implements IClientDriver
 	{
+		/**
+		 * Construct from a socket.
+		 */
 		public constructor(socket: socket.socket)
 		{
 			super();
@@ -241,20 +125,70 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	/**
+	 * Communicator with remote web-client.
+	 * 
+	 * {@link WebClientDriver} is a class taking full charge of network communication with remote client who follows 
+	 * Web-socket protocol. This {@link WebClientDriver} object is always created by {@link WebServer} class. When you 
+	 * got this {@link WebClientDriver} object from the {@link WebServer.addClient WebServer.addClient()}, then specify
+	 * {@link IProtocol listener} with the {@link WebClientDriver.listen WebClientDriver.listen()} method.
+	 * 
+	 * Unlike other protocol, Web-socket protocol's clients notify two parameters on their connection; 
+	 * {@link getSessionID session-id} and {@link getPath path}. The {@link getSessionID session-id} can be used to 
+	 * identify *user* of each client, and the {@link getPath path} can be used which type of *service* that client wants.
+	 * In {@link service} module, you can see the best utilization case of them.
+	 * - {@link service.User}: utlization of the {@link getSessionID session-id}.
+	 * - {@link service.Service}: utilization of the {@link getPath path}.
+	 * 
+	 * #### [Inherited] {@link IClientDriver}
+	 * {@link IClientDriver} is a type of {@link ICommunicator}, specified for communication with remote client who has
+	 * connected in a {@link IServer server}. It takes full charge of network communication with the remote client.
+	 *
+	 * The {@link IClientDriver} object is created and delivered from {@link IServer} and
+	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
+	 * created by the matched {@link IServer} object.
+	 *
+	 * Derived Type | Created By
+	 * -------------|-------------------------
+	 * {@link ClientDriver} | {@link Server}
+	 * {@link WebClientDriver} | {@link WebServer}
+	 * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 *
+	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
+	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
+	 * from the remote system, the message will be converted to an {@link Invoke} class and the {@link Invoke} object
+	 * will be shifted to the {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+	 * Below code is an example specifying and managing the {@link IProtocol listener} objects.
+	 *
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 * 
+	 * @see {@link WebServer}, {@link IProtocol}
+	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class WebClientDriver
 		extends WebCommunicator
 		implements IClientDriver
 	{
 		/**
-		 * Requested path.
+		 * @hidden
 		 */
 		private path_: string;
 
 		/**
-		 * Session ID, an identifier of the remote client.
+		 * @hidden
 		 */
 		private session_id_: string;
 
+		/**
+		 * @hidden
+		 */
 		private listening_: boolean;
 
 		/**
@@ -311,12 +245,66 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	/**
+	 * Communicator with remote web-browser.
+	 * 
+	 * {@link SharedWorkerClientDriver} is a class taking full charge of network communication with web browsers. This 
+	 * {@link SharedWorkerClientDriver} object is always created by {@link SharedWorkerServer} class. When you got this 
+	 * {@link SharedWorkerClientDriver} object from {@link SharedWorkerServer.addClient SharedWorkerServer.addClient()}, 
+	 * then specify {@link IProtocol listener} with the 
+	 * {@link SharedWorkerClientDriver.listen SharedWorkerClientDriver.listen()} method.
+	 * 
+	 * #### Why SharedWorker be a server?
+	 * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
+	 * or multiple browsers. To integrate them, messages are being sent and received. Doesn't it seem like a relationship
+	 * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
+	 * clients.
+	 *
+	 * This class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+	 * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
+	 * server and clients with this {@link SharedWorkerCommunicator}.
+	 * 
+	 * #### [Inherited] {@link IClientDriver}
+	 * {@link IClientDriver} is a type of {@link ICommunicator}, specified for communication with remote client who has
+	 * connected in a {@link IServer server}. It takes full charge of network communication with the remote client.
+	 *
+	 * The {@link IClientDriver} object is created and delivered from {@link IServer} and
+	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
+	 * created by the matched {@link IServer} object.
+	 *
+	 * Derived Type | Created By
+	 * -------------|-------------------------
+	 * {@link ClientDriver} | {@link Server}
+	 * {@link WebClientDriver} | {@link WebServer}
+	 * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 *
+	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
+	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
+	 * from the remote system, the message will be converted to an {@link Invoke} class and the {@link Invoke} object
+	 * will be shifted to the {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+	 * Below code is an example specifying and managing the {@link IProtocol listener} objects.
+	 *
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 * 
+	 * @see {@link SharedWorkerServer}, {@link IProtocol}
+	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class SharedWorkerClientDriver 
 		extends SharedWorkerCommunicator
 		implements IClientDriver
 	{
 		private listening_: boolean;
 
+		/** 
+		 * Construct from a MessagePort object.
+		 */
 		public constructor(port: MessagePort)
 		{
 			super();

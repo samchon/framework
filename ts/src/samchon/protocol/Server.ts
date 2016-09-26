@@ -3,119 +3,68 @@
 namespace samchon.protocol
 {
 	/**
-	 * An interface for a physical server.
+	 * An interface for a server.
 	 * 
-	 * {@link IServer} provides methods for opening a server. Extends one of them who are derived from this 
-	 * {@link IServer} and open the server with method {@link open IServer.open()}. Override 
-	 * {@link addClient IServer.addClient()} who accepts a newly connected client with {@link IClientDriver}. 
+	 * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and 
+	 * {@link IClientDriver accepting clients}.
+	 * 
+	 * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+	 * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+	 * object. Then at last, call {@link open()} method with specified port number. Below code will be a good example for 
+	 * opening a server and handling remote clients using {@link IServer}.
+	 * 
+	 * Protocol | Derived Type 
+	 * ---------|--------------
+	 * Samchon Framework's own | {@link ServerConnector}
+	 * Web-socket protocol | {@link WebServerConnector}
+	 * SharedWorker | {@link SharedWorkerServerConnector}
+	 *  
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+	 * 
 	 * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
-	 * 
-	 * <ul>
-	 *	<li> {@link Server} </li>
-	 *	<li> {@link WebServer} </li>
-	 *	<li> {@link SharedWorkerServer} </li>
-	 * </ul>
 	 * 
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
 	 *		 style="max-width: 100%" />
 	 * </a>
-	 * 
-	 * <h2> Basic Components </h2>
-	 * <h4> What Basic Components are </h4>
-	 * **Basic Components** are the smallest unit of network communication in this *Samchon Framework*. With
-	 * **Basic Components**, you can construct any type of network system, even how the network system is enormously
-	 * scaled and complicated, by just combinating the **Basic Components**.
 	 *
-	 * All the system templates in this framework are also being implemented by utilization of the
-	 * **Basic Compoonents**.
-	 *
-	 * <ul>
-	 *	<li> {@link service Service} </il>
-	 *	<li> {@link external External System} </il>
-	 *	<li> {@link parallel Parallel System} </il>
-	 *	<li> {@link distributed Distributed System} </il>
-	 * </ul>
-	 *
-	 * Note that, whatever the network system what you've to construct is, just concentrate on role of each system
-	 * and attach matched **Basic Components** to the role, within framework of the **Object-Oriented Design**.
-	 * Then construction of the network system will be much easier.
-	 *
-	 * <ul>
-	 *	<li> A system is a server, then use {@link IServer} or {@link IServerBase}. </li>
-	 *	<li> A server wants to handle a client has connected, then use {@link IClientDriver}. </li>
-	 *	<li> A system is a client connecting to an external server, then use {@link IServerConnector}. </li>
-	 *	<li> </li>
-	 * </ul>
-	 *
-	 * <h4> Example - System Templates </h4>
-	 * Learning and understanding *Basic Components* of Samchon Framework, reading source codes and design of
-	 * **System Templates**' modules will be very helpful.
-	 *
-	 * <table>
-	 *	<tr>
-	 *		<th> Name </th>
-	 *		<th> Source </th>
-	 *		<th> API Documents </th>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Cloud Service </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service"
-	 *				target="_blank"> protocol/service </a> </td>
-	 *		<td> {@link protocol.service} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> External System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external"
-	 *				target="_blank"> protocol/external </a> </td>
-	 *		<td> {@link protocol.external} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Parallel System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel"
-	 *				target="_blank"> protocol/parallel </a> </td>
-	 *		<td> {@link protocol.parallel} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Distributed System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed"
-	 *				target="_blank"> protocol/distributed </a> </td>
-	 *		<td> {@link protocol.distributed} </td>
-	 *	</tr>
-	 *	<tr>
-	 *		<td> Slave System </td>
-	 *		<td> <a href="https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave"
-	 *				target="_blank"> protocol/slave </a> </td>
-	 *		<td> {@link protocol.slave} </td>
-	 *	</tr>
-	 * </table>
-	 *
-	 * <h4> Example - Projects </h4>
-	 * <ul>
-	 *	<li>
-	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Calculator" target="_blank"> Calculator </a>
-	 *	</li>
-	 *	<li>
-	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Chatting" target="_blank"> Chatting </a>
-	 *	</li>
-	 *	<li>
-	 *		<a href="https://github.com/samchon/framework/wiki/Examples-Interaction" target="_blank"> Interaction </a>
-	 *	</li>
-	 * </ul>
-	 *
-	 * @see {@link IClientDriver}
-	 * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver"
-	 *			 target="_blank"> Basic Components - IServer </a>
+	 * @see {@link IClientDriver}, {@link IServerBase}
+	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IServer
 	{
+		/**
+		 * Open server.
+		 * 
+		 * @param port Port number to open.
+		 */
 		open(port: number): void;
 
+		/**
+		 * Close server. 
+		 * 
+		 * Close opened server. All remote clients, have connected with this server, are also closed and their call back 
+		 * functions, for closed connection, {@link IClientDriver.onClose} are also called.
+		 */
 		close(): void;
 
-		addClient(clientDriver: IClientDriver): void;
+		/**
+		 * Add a newly connected remote client.
+		 * 
+		 * Overrides this method and defines what to do with the *driver*, a newly connected remote client. Below modules
+		 * and example codes may be good examples how to utilize this {@link addClient addClient()} method.
+		 * 
+		 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+		 * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+		 * - {@link service.Server.addClient}
+		 * - {@link external.ExternalClientArray.addClient}
+		 * - {@link slave.SlaveServer.addClient}
+		 * 
+		 * @param driver A {@link ICommunicator communicator} with (newly connected) remote client.
+		 */
+		addClient(driver: IClientDriver): void;
 	}
 }
 
@@ -128,6 +77,9 @@ namespace samchon.protocol
 
 	export abstract class Server implements IServer
 	{
+		/**
+		 * @hidden
+		 */
 		private server: socket.server;
 
 		/**

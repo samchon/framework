@@ -103,9 +103,11 @@ namespace example.chat {
 		private printTalk(senderID: string, message: string): void {
 			let sender: Participant = this.room.get(senderID);
 
+
+
 			this.messages += library.StringUtil.substitute
 				(
-				"<p> <b>{1}</b>: {2} </p>",
+					(senderID == this.id) ? "<ol><li class='me'><b>{1}<b>: {2} </li></ol><br>" : "<ol><li class='you'> <b>{1}</b>: {2} </li></ol><br>" ,
 				sender.getName(),
 				message
 				);

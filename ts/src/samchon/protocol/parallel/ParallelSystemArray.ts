@@ -157,6 +157,9 @@ namespace samchon.protocol.parallel
 			{
 				// SYSTEM AND NEW PERFORMANCE INDEX BASIS ON THE EXECUTION TIME
 				let system: ParallelSystem = system_pairs.at(i).first;
+				if (system["enforced_"] == true)
+					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
+
 				let new_performance: number = system_pairs.at(i).second / performance_index_average;
 
 				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 30%
@@ -180,17 +183,28 @@ namespace samchon.protocol.parallel
 		 */
 		protected _Normalize_performance(): void
 		{
-			// CALC AVERAGE
+			// COMPUTE AVERAGE
 			let average: number = 0.0;
+			let denominator: number = 0;
 
 			for (let i: number = 0; i < this.size(); i++)
-				average += this.at(i).getPerformance();
-			average /= this.size();
+			{
+				let system: ParallelSystem = this.at(i);
+				if (system["enforced_"] == true)
+					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
+
+				average += system.getPerformance();
+				denominator++;
+			}
+			average /= denominator;
 
 			// DIVIDE FROM THE AVERAGE
 			for (let i: number = 0; i < this.size(); i++)
 			{
 				let system: ParallelSystem = this.at(i);
+				if (system["enforced_"] == true)
+					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
+				
 				system.setPerformance(system.getPerformance() / average);
 			}
 		}

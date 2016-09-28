@@ -27,7 +27,7 @@ namespace samchon.collection
 	 *   - {@link refresh}
 	 *   - {@link sort}
 	 * 
-	 * #### [Inherited]
+	 * #### [Inherited] {@link List}
 	 * {@link List Lists} are sequence containers that allow constant time insert and erase operations anywhere within 
 	 * the sequence, and iteration in both directions.
 	 *

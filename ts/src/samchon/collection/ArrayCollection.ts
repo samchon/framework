@@ -23,7 +23,7 @@ namespace samchon.collection
 	 * - *refresh* typed events:
 	 *   - {@link refresh}
 	 * 
-	 * #### [Inherited]
+	 * #### [Inherited] {@link Vector}
 	 * {@link Vector Vectors}s are sequence containers representing arrays that can change in size.
 	 *
 	 * Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that their 

@@ -1,5 +1,8 @@
 ﻿/// <reference path="../API.ts" />
 
+/**
+ * @hidden
+ */
 namespace samchon.test
 {
 	export function test_collection(): void

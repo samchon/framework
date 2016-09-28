@@ -8,8 +8,8 @@ namespace samchon.protocol.external
 	 * An external system driver.
 	 * 
 	 * The {@link ExternalSystem} class represents an external system, connected and interact with this system. 
-	 * {@link ExternalSystem} takes full charge of network communication with external system have connected.
-	 * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
+	 * {@link ExternalSystem} takes full charge of network communication with the remote, external system have connected.
+	 * Replied {@link Invoke} messages from the external system is shifted to and processed in, children elements of this
 	 * class, {@link ExternalSystemRole} objects.
 	 * 
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
@@ -18,7 +18,7 @@ namespace samchon.protocol.external
 	 *		 style="max-width: 100%" /> 
 	 * </a>
 	 * 
-	 * <h4> Bridge & Proxy Pattern </h4>
+	 * #### Bridge & Proxy Pattern
 	 * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user, 
 	 * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
 	 * important. Only interested in user's perspective is *which can be done*.
@@ -116,6 +116,8 @@ namespace samchon.protocol.external
 
 		/**
 		 * Identifier of {@link ExternalSystem} is its {@link name}.
+		 * 
+		 * @return name.
 		 */
 		public key(): string
 		{
@@ -130,6 +132,9 @@ namespace samchon.protocol.external
 			return this.name;
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected set communicator(val: protocol.ICommunicator)
 		{
 			this.communicator_ = val;
@@ -138,6 +143,9 @@ namespace samchon.protocol.external
 				this.communicator.onClose = this.handle_close.bind(this);
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected get communicator(): protocol.ICommunicator
 		{
 			return this.communicator_;
@@ -168,9 +176,6 @@ namespace samchon.protocol.external
 		 */
 		public replyData(invoke: Invoke): void
 		{
-			if (invoke.apply(this) == true)
-				return;
-
 			// SHIFT TO SYSTEM_ARRAY
 			this.system_array_.replyData(invoke);
 
@@ -201,26 +206,5 @@ namespace samchon.protocol.external
 		{
 			return "role";
 		}
-
-		/* ---------------------------------------------------------
-			HIDDEN MEMBERS AND SETTERS
-		--------------------------------------------------------- */
-		///**
-		// * @hidden
-		// */
-		//private set external_system_array(system_array: ExternalSystemArray)
-		//{
-		//	////////
-		//	// SOME WEIRDO DEVELOPER CLOSES COMMUNICATOR ON CONSTRUCTION LEVEL
-		//	// THUS, IT REQUIRES THOSE INSPECTIONS
-		//	////////
-		//	// IF THE CONNECTION WAS CLOSED BY USER IN CONSTRUCTION LEVEL
-		//	if (this.erasing_ == true && this.external_system_array_ == null)
-		//	{
-		//		// ERASE THIS SYSTEM IMMEDIATELY
-		//		std.remove(system_array.begin(), system_array.end(), this as ExternalSystem);
-		//	}
-		//	this.external_system_array_ = system_array;
-		//}
 	}
 }

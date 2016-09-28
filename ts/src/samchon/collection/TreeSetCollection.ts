@@ -19,7 +19,7 @@ namespace samchon.collection
 	 * - *refresh* typed events:
 	 *   - {@link refresh}
 	 * 
-	 * #### [Inherited]
+	 * #### [Inherited] {@link TreeSet}
 	 * {@link TreeSet TreeSets} are containers that store unique elements following a specific order.
 	 *
 	 * In a {@link TreeSet}, the value of an element also identifies it (the value is itself the *key*, of type *T*), 

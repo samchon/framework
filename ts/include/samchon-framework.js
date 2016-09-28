@@ -73,7 +73,7 @@ var samchon;
          * - *refresh* typed events:
          *   - {@link refresh}
          *
-         * #### [Inherited]
+         * #### [Inherited] {@link Vector}
          * {@link Vector Vectors}s are sequence containers representing arrays that can change in size.
          *
          * Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that their
@@ -618,7 +618,7 @@ var samchon;
          * - *refresh* typed events:
          *   - {@link refresh}
          *
-         * #### [Inherited]
+         * #### [Inherited] {@link Deque}
          * {@link Deque} (usually pronounced like "*deck*") is an irregular acronym of **d**ouble-**e**nded **q**ueue.
          * Double-ended queues are sequence containers with dynamic sizes that can be expanded or contracted on both ends
          * (either its front or its back).
@@ -835,7 +835,7 @@ var samchon;
          * - *refresh* typed events:
          *   - {@link refresh}
          *
-         * #### [Inherited]
+         * #### [Inherited] {@link HashMap}
          * {@link HashMap HashMaps} are associative containers that store elements formed by the combination of a
          * *key value* and a *mapped value*, and which allows for fast retrieval of individual elements based on their
          * *keys*.
@@ -991,7 +991,7 @@ var samchon;
          * - *refresh* typed events:
          *   - {@link refresh}
          *
-         * #### [Inherited]
+         * #### [Inherited] {@link HashMultiMap}
          * {@link HashMultiMap HashMultiMap}s are associative containers that store elements formed by the combination of
          * a *key value* and a *mapped value*, much like {@link HashMultiMap} containers, but allowing different elements
          * to have equivalent *keys*.
@@ -1146,7 +1146,7 @@ var samchon;
          * - *refresh* typed events:
          *   - {@link refresh}
          *
-         * #### [Inherited]
+         * #### [Inherited] {@link HashMultiSet}
          * {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
          * retrieval of individual elements based on their value, much like {@link HashMultiSet} containers, but allowing
          * different elements to have equivalent values.
@@ -1299,7 +1299,7 @@ var samchon;
          * - *refresh* typed events:
          *   - {@link refresh}
          *
-         * #### [Inherited]
+         * #### [Inherited] {@link HashSet}
          * {@link HashSet HashSets} are containers that store unique elements in no particular order, and which allow for
          * fast retrieval of individual elements based on their value.
          *
@@ -1496,7 +1496,7 @@ var samchon;
          *   - {@link refresh}
          *   - {@link sort}
          *
-         * #### [Inherited]
+         * #### [Inherited] {@link List}
          * {@link List Lists} are sequence containers that allow constant time insert and erase operations anywhere within
          * the sequence, and iteration in both directions.
          *
@@ -1768,7 +1768,7 @@ var samchon;
          * - *refresh* typed events:
          *   - {@link refresh}
          *
-         * #### [Inherited]
+         * #### [Inherited] {@link TreeMap}
          * {@link TreeMap TreeMaps} are associative containers that store elements formed by a combination of a
          * *key value* (*Key*) and a *mapped value* (*T*), following order.
          *
@@ -1923,7 +1923,7 @@ var samchon;
          * - *refresh* typed events:
          *   - {@link refresh}
          *
-         * #### [Inherited]
+         * #### [Inherited] {@link TreeMultiMap}
          * {@link TreeMultiMap TreeMultiMaps} are associative containers that store elements formed by a combination of a
          * *key value* and a *mapped value*, following a specific order, and where multiple elements can have equivalent
          * keys.
@@ -2084,7 +2084,7 @@ var samchon;
          * - *refresh* typed events:
          *   - {@link refresh}
          *
-         * #### [Inherited]
+         * #### [Inherited] {@link TreeMultiSet}
          * {@link TreeMultiSet TreeMultiSets} are containers that store elements following a specific order, and where
          * multiple elements can have equivalent values.
          *
@@ -2240,7 +2240,7 @@ var samchon;
          * - *refresh* typed events:
          *   - {@link refresh}
          *
-         * #### [Inherited]
+         * #### [Inherited] {@link TreeSet}
          * {@link TreeSet TreeSets} are containers that store unique elements following a specific order.
          *
          * In a {@link TreeSet}, the value of an element also identifies it (the value is itself the *key*, of type *T*),
@@ -4509,7 +4509,7 @@ var samchon;
          * </a>
          *
          * @see {@link IClientDriver}, {@link IServerConnector}, {@link IProtocol}
-         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
          * @author Jeongho Nam <http://samchon.org>
          */
         var CommunicatorBase = (function () {
@@ -4625,7 +4625,7 @@ var samchon;
          * </a>
          *
          * @see {@link ClientDriver}, {@link ServerConnector}, {@link IProtocol}
-         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
          * @author Jeongho Nam <http://samchon.org>
          */
         var Communicator = (function (_super) {
@@ -4836,7 +4836,7 @@ var samchon;
          * </a>
          *
          * @see {@link WebClientDriver}, {@link WebServerConnector}, {@link IProtocol}
-         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
          * @author Jeongho Nam <http://samchon.org>
          */
         var WebCommunicator = (function (_super) {
@@ -4917,7 +4917,7 @@ var samchon;
          * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
          * clients.
          *
-         * This class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+         * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
          * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
          * server and clients with this {@link SharedWorkerCommunicator}.
          *
@@ -4939,7 +4939,7 @@ var samchon;
          *
          * @see {@link SharedWorkerClientDriver}, {@link SharedWorkerServerConnector}, {@link IProtocol}
          * @reference https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker
-         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
          * @author Jeongho Nam <http://samchon.org>
          */
         var SharedWorkerCommunicator = (function (_super) {
@@ -5008,11 +5008,11 @@ var samchon;
          * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
          * created by the matched {@link IServer} object.
          *
-         * Derived Type | Created By
-         * -------------|-------------------------
-         * {@link ClientDriver} | {@link Server}
-         * {@link WebClientDriver} | {@link WebServer}
-         * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+         * Protocol | Derived Type | Created By
+         * ---------|--------------|------------
+         * Samchon Framework's own | {@link ClientDriver} | {@link Server}
+         * Web-socket protocol | {@link WebClientDriver} | {@link WebServer}
+         * SharedWorker | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
          *
          * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
          * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -5029,7 +5029,7 @@ var samchon;
          * </a>
          *
          * @see {@link Server}, {@link IProtocol}
-         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
          * @author Jeongho Nam <http://samchon.org>
          */
         var ClientDriver = (function (_super) {
@@ -5081,11 +5081,11 @@ var samchon;
          * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
          * created by the matched {@link IServer} object.
          *
-         * Derived Type | Created By
-         * -------------|-------------------------
-         * {@link ClientDriver} | {@link Server}
-         * {@link WebClientDriver} | {@link WebServer}
-         * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+         * Protocol | Derived Type | Created By
+         * ---------|--------------|------------
+         * Samchon Framework's own | {@link ClientDriver} | {@link Server}
+         * Web-socket protocol | {@link WebClientDriver} | {@link WebServer}
+         * SharedWorker | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
          *
          * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
          * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -5102,7 +5102,7 @@ var samchon;
          * </a>
          *
          * @see {@link WebServer}, {@link IProtocol}
-         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
          * @author Jeongho Nam <http://samchon.org>
          */
         var WebClientDriver = (function (_super) {
@@ -5169,7 +5169,7 @@ var samchon;
          * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
          * clients.
          *
-         * This class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+         * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
          * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
          * server and clients with this {@link SharedWorkerCommunicator}.
          *
@@ -5181,11 +5181,11 @@ var samchon;
          * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
          * created by the matched {@link IServer} object.
          *
-         * Derived Type | Created By
-         * -------------|-------------------------
-         * {@link ClientDriver} | {@link Server}
-         * {@link WebClientDriver} | {@link WebServer}
-         * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+         * Protocol | Derived Type | Created By
+         * ---------|--------------|------------
+         * Samchon Framework's own | {@link ClientDriver} | {@link Server}
+         * Web-socket protocol | {@link WebClientDriver} | {@link WebServer}
+         * SharedWorker | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
          *
          * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
          * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -5202,7 +5202,7 @@ var samchon;
          * </a>
          *
          * @see {@link SharedWorkerServer}, {@link IProtocol}
-         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
          * @author Jeongho Nam <http://samchon.org>
          */
         var SharedWorkerClientDriver = (function (_super) {
@@ -5372,7 +5372,7 @@ var samchon;
              * A role of an external system.
              *
              * The {@link ExternalSystemRole} class represents a role, *what to do* in an {@link ExternalSystem}.
-             * Extends this class and writes some methods related to the role.
+             * Extends this class and writes some methods related to the *role*.
              *
              * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		  target="_blank">
@@ -5380,7 +5380,7 @@ var samchon;
              *		 style="max-width: 100%" />
              * </a>
              *
-             * <h4> Proxy Pattern </h4>
+             * #### Proxy Pattern
              * The {@link ExternalSystemRole} class can be an *logical proxy*. In framework within user, which
              * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
              * important. Only interested in user's perspective is *which can be done*.
@@ -5392,7 +5392,7 @@ var samchon;
              * <ul>
              *	<li>
              *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-             *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+             *		from {@link ExternalSystem} object, via {@link ExternalSystemArray.getRole ExternalSystemArray.getRole()}.
              *	</li>
              *	<li>
              *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
@@ -5427,6 +5427,9 @@ var samchon;
                 ExternalSystemRole.prototype.key = function () {
                     return this.name;
                 };
+                ExternalSystemRole.prototype.getSystemArray = function () {
+                    return this.system.getSystemArray();
+                };
                 /**
                  * Get external system, this role is belonged to.
                  */
@@ -5443,23 +5446,14 @@ var samchon;
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
                 /**
-                 * Send an {@link Invoke} message to the external system via {@link system}.
+                 * Send an {@link Invoke} message.
+                 *
+                 * Sends an {@link Invoke} message to remote system through the related {@link ExternalSystem} object.
                  *
                  * @param invoke An {@link Invoke} message to send to the external system.
                  */
                 ExternalSystemRole.prototype.sendData = function (invoke) {
                     this.system.sendData(invoke);
-                };
-                /**
-                 * Handle replied {@link Invoke message} from the {@link system external system} belonged to.
-                 *
-                 * This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}.
-                 * in the *invoke*.
-                 *
-                 * @param invoke An {@link Invoke} message received from the {@link system external system}.
-                 */
-                ExternalSystemRole.prototype.replyData = function (invoke) {
-                    invoke.apply(this);
                 };
                 /* ---------------------------------------------------------
                     EXPORTERS
@@ -5491,6 +5485,11 @@ var samchon;
                 /* ---------------------------------------------------------
                     CONSTRUCTORS
                 --------------------------------------------------------- */
+                /**
+                 * Constrct from parent {@link DistributedSystemArray} object.
+                 *
+                 * @param systemArray
+                 */
                 function DistributedSystemRole(systemArray) {
                     _super.call(this, null);
                     this.system_array_ = systemArray;
@@ -5505,12 +5504,90 @@ var samchon;
                 DistributedSystemRole.prototype.getSystemArray = function () {
                     return this.system_array_;
                 };
+                /**
+                 * Get resource index.
+                 *
+                 * Get *resource index* that indicates how much this {@link DistributedSystemRole role} is heavy.
+                 *
+                 * If this {@link DistributedSystemRole role} does not have any	{@link Invoke} message had handled, then the
+                 * *resource index* will be ```1.0```, which means default and average value between all
+                 * {@link DistributedSystemRole} instances (that are belonged to a same {@link DistributedSystemArray} object).
+                 *
+                 * You can specify the *resource index* by yourself, but notice that, if the *resource index* is higher than
+                 * other {@link DistributedSystemRole} objects, then this {@link DistributedSystemRole role} will be ordered to
+                 * handle less processes than other {@link DistributedSystemRole} objects. Otherwise, the *resource index* is
+                 * lower than others, of course, much processes will be requested.
+                 *
+                 * - {@link setResource setResource()}
+                 * - {@link enforceResource enforceResource()}
+                 *
+                 * Unless {@link enforceResource enforceResource()} is called, This *resource index* is **revaluated** whenever
+                 * {@link sendData sendData()} is called.
+                 *
+                 * @return Resource index.
+                 */
                 DistributedSystemRole.prototype.getResource = function () {
                     return this.resource;
                 };
+                /**
+                 * Set resource index.
+                 *
+                 * Set *resource index* that indicates how much this {@link DistributedSystemRole role} is heavy. This
+                 * *resource index* can be **revaulated**.
+                 *
+                 * Note that, initial and average *resource index* of {@link DistributedSystemRole} objects are ```1.0```. If the
+                 * *resource index* is higher than other {@link DistributedSystemRole} objects, then this
+                 * {@link DistributedSystemRole} will be ordered to handle more processes than other {@link DistributedSystemRole}
+                 * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
+                 *
+                 * Unlike {@link enforceResource}, configuring *resource index* by this {@link setResource} allows the
+                 * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the
+                 * *resource index*. The {@link DistributedSystemRole role} is much heavier than any other, but you estimated it
+                 * to the lightest one. It looks like a terrible case that causes
+                 * {@link DistributedSystemArray entire distributed processing system} to be slower, however, don't mind. The
+                 * {@link DistributedSystemRole role} will the direct to the *propriate resource index* eventually with the
+                 * **revaluation**.
+                 *
+                 * - The **revaluation** is caused by the {@link sendData sendData()} method.
+                 *
+                 * @param val New resource index, but can be revaluated.
+                 */
                 DistributedSystemRole.prototype.setResource = function (val) {
                     this.resource = val;
+                    this.enforced_ = false;
                 };
+                /**
+                 * Enforce resource index.
+                 *
+                 * Enforce *resource index* that indicates how much heavy the {@link DistributedSystemRole role is}. The
+                 * *resource index* will be fixed, never be **revaluated**.
+                 *
+                 * Note that, initial and average *resource index* of {@link DistributedSystemRole} objects are ```1.0```. If the
+                 * *resource index* is higher than other {@link DistributedSystemRole} objects, then this
+                 * {@link DistributedSystemRole} will be ordered to handle more processes than other {@link DistributedSystemRole}
+                 * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
+                 *
+                 * The difference between {@link setResource} and this {@link enforceResource} is allowing **revaluation** or not.
+                 * This {@link enforceResource} does not allow the **revaluation**. The *resource index* is clearly fixed and
+                 * never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the **mis-valuation**
+                 * with this {@link enforceResource}.
+                 *
+                 * For example, there's a {@link DistributedSystemRole role} much heavier than any other, but you
+                 * **mis-estimated** it to the lightest. In that case, there's no way. The
+                 * {@link DistributedSystemArray entire distributed processing system} will be slower by the **mis-valuation**.
+                 * By the reason, using {@link enforceResource}, it's recommended only when you can clearly certain the
+                 * *resource index*. If you can't certain the *resource index* but want to recommend, then use {@link setResource}
+                 * instead.
+                 *
+                 * @param val New resource index to be fixed.
+                 */
+                DistributedSystemRole.prototype.enforceResource = function (val) {
+                    this.resource = val;
+                    this.enforced_ = true;
+                };
+                /**
+                 * @hidden
+                 */
                 DistributedSystemRole.prototype.compute_average_elapsed_time = function () {
                     var sum = 0;
                     for (var it = this.history_list_.begin(); !it.equal_to(this.history_list_.end()); it = it.next()) {
@@ -5525,6 +5602,9 @@ var samchon;
                 /* ---------------------------------------------------------
                     INVOKE MESSAGE CHAIN
                 --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
                 DistributedSystemRole.prototype.sendData = function (invoke) {
                     if (this.system_array_.empty() == true)
                         return;
@@ -5553,12 +5633,14 @@ var samchon;
                     for (var i = 0; i < this.system_array_.size(); i++) {
                         var system = this.system_array_.at(i);
                         if (system["exclude_"] == true)
-                            continue;
+                            continue; // BEING REMOVED SYSTEM
                         if (idle_system == null
                             || system["progress_list_"].size() < idle_system["progress_list_"].size()
                             || system.getPerformance() < idle_system.getPerformance())
                             idle_system = system;
                     }
+                    if (idle_system == null)
+                        throw new std.OutOfRange("No remote system to send data");
                     // ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)
                     var history = new distributed.DSInvokeHistory(idle_system, this, invoke);
                     this.progress_list_.insert([uid, history]);
@@ -5566,43 +5648,13 @@ var samchon;
                     // SEND DATA
                     idle_system.sendData(invoke);
                 };
+                /**
+                 * @hidden
+                 */
                 DistributedSystemRole.prototype.complete_history = function (history) {
                     // ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
                     this.progress_list_.erase(history.getUID());
                     this.history_list_.insert([history.getUID(), history]);
-                    ////--------
-                    //// ESTIMATE PERFORMANCE OF THIS ROLE
-                    ////--------
-                    //let role_map: std.HashMap<string, DistributedSystemRole> = this.system_array_.getRoleMap();
-                    //let average_elapsed_time_of_others: number = 0;
-                    //let denominator: number = 0;
-                    //// COMPUTE AVERAGE ELAPSED TIME OF OTHER ROLES
-                    //for (let it = role_map.begin(); !it.equal_to(role_map.end()); it = it.next())
-                    //{
-                    //	let role: DistributedSystemRole = it.second;
-                    //	if (this == role || role.history_list_.empty() == true)
-                    //		continue;
-                    //	average_elapsed_time_of_others += role._Compute_average_elapsed_time() * role.performance;
-                    //	denominator++;
-                    //}
-                    //// COMPARE WITH THIS HISTORY'S ELAPSED TIME
-                    //if (denominator != 0)
-                    //{
-                    //	average_elapsed_time_of_others /= denominator; // DIVE WITH DENOMINATOR
-                    //	// DEDUCT NEW PERFORMANCE INDEX BASED ON THE EXECUTION TIME
-                    //	//	- ROLE'S PERFORMANCE MEANS; HOW MUCH TIME THE ROLE NEEDS
-                    //	//	- ELAPSED TIME IS LONGER, THEN PERFORMANCE IS HIGHER
-                    //	let new_performance: number = history.computeElapsedTime() / average_elapsed_time_of_others;
-                    //	// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 15%
-                    //	let ordinary_ratio: number;
-                    //	if (this.history_list_.size() < 2)
-                    //		ordinary_ratio = .15;
-                    //	else
-                    //		ordinary_ratio = Math.min(0.85, 1.0 / (this.history_list_.size() - 1.0));
-                    //	// DEFINE NEW PERFORMANCE
-                    //	this.performance = (this.performance * ordinary_ratio) 
-                    //		+ (new_performance * (1 - ordinary_ratio));
-                    //}
                 };
                 return DistributedSystemRole;
             }(protocol.external.ExternalSystemRole));
@@ -6075,6 +6127,8 @@ var samchon;
                     for (var i = 0; i < system_pairs.size(); i++) {
                         // SYSTEM AND NEW PERFORMANCE INDEX BASIS ON THE EXECUTION TIME
                         var system = system_pairs.at(i).first;
+                        if (system["enforced_"] == true)
+                            continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
                         var new_performance = system_pairs.at(i).second / performance_index_average;
                         // DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 30%
                         var ordinary_ratio = void 0;
@@ -6093,14 +6147,22 @@ var samchon;
                  * @hidden
                  */
                 ParallelSystemArray.prototype._Normalize_performance = function () {
-                    // CALC AVERAGE
+                    // COMPUTE AVERAGE
                     var average = 0.0;
-                    for (var i = 0; i < this.size(); i++)
-                        average += this.at(i).getPerformance();
-                    average /= this.size();
+                    var denominator = 0;
+                    for (var i = 0; i < this.size(); i++) {
+                        var system = this.at(i);
+                        if (system["enforced_"] == true)
+                            continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
+                        average += system.getPerformance();
+                        denominator++;
+                    }
+                    average /= denominator;
                     // DIVIDE FROM THE AVERAGE
                     for (var i = 0; i < this.size(); i++) {
                         var system = this.at(i);
+                        if (system["enforced_"] == true)
+                            continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
                         system.setPerformance(system.getPerformance() / average);
                     }
                 };
@@ -6131,6 +6193,9 @@ var samchon;
                     // CREATE ROLE MAP AND ENROLL COLLECTION EVENT LISTENRES
                     this.role_map_ = new std.HashMap();
                 }
+                /**
+                 * @inheritdoc
+                 */
                 DistributedSystemArray.prototype.construct = function (xml) {
                     //--------
                     // CONSTRUCT ROLES
@@ -6200,7 +6265,7 @@ var samchon;
                             return false;
                         // ESTIMATE PERFORMANCE INDEXES
                         this.estimate_system_performance(history); // ESTIMATE SYSTEMS' INDEX
-                        this.estimate_system_performance(history); // ESTIMATE ROLE' INDEX
+                        this.estimate_role_performance(history); // ESTIMATE ROLE' INDEX
                         // AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SYSTEMS AND ROLES
                         this._Normalize_performance();
                         return true;
@@ -6215,6 +6280,8 @@ var samchon;
                  */
                 DistributedSystemArray.prototype.estimate_role_performance = function (history) {
                     var role = history.getRole();
+                    if (role["enforced_"] == true)
+                        return; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
                     var average_elapsed_time_of_others = 0;
                     var denominator = 0;
                     // COMPUTE AVERAGE ELAPSED TIME
@@ -6249,6 +6316,8 @@ var samchon;
                  */
                 DistributedSystemArray.prototype.estimate_system_performance = function (history) {
                     var system = history.getSystem();
+                    if (system["enforced_"] == true)
+                        return; // THE PERFORMANCE INDEX IS ENFORCED. IT DOESN'T PERMIT REVALUATION
                     var average_elapsed_time_of_others = 0;
                     var denominator = 0;
                     // COMPUTE AVERAGE ELAPSED TIME
@@ -6285,17 +6354,31 @@ var samchon;
                 DistributedSystemArray.prototype._Normalize_performance = function () {
                     // NORMALIZE SYSTEMS' PERFORMANCE INDEXES
                     _super.prototype._Normalize_performance.call(this);
-                    // NORMALIZE ROLES' PERFORMANCE INDEXES
-                    var average = 0;
-                    for (var it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
-                        average += it.second.getResource();
+                    // COMPUTE AVERAGE
+                    var average = 0.0;
+                    var denominator = 0;
+                    for (var it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next()) {
+                        var role = it.second;
+                        if (role["enforced_"] == true)
+                            continue; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
+                        average += role.getResource();
+                        denominator++;
+                    }
                     average /= this.role_map_.size();
-                    for (var it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
-                        it.second.setResource(it.second.getResource() / average);
+                    // DIVIDE FROM THE AVERAGE
+                    for (var it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next()) {
+                        var role = it.second;
+                        if (role["enforced_"] == true)
+                            continue; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
+                        role.setResource(role.getResource() / average);
+                    }
                 };
                 /* ---------------------------------------------------------
                     EXPORTERS
                 --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
                 DistributedSystemArray.prototype.toXML = function () {
                     var xml = _super.prototype.toXML.call(this);
                     if (this.role_map_.empty() == true)
@@ -6410,6 +6493,9 @@ var samchon;
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
+                /**
+                 * @hidden
+                 */
                 DistributedSystemArrayMediator.prototype._Complete_history = function (history) {
                     var ret = _super.prototype._Complete_history.call(this, history);
                     if (ret == true)
@@ -6494,8 +6580,8 @@ var samchon;
              * An external system driver.
              *
              * The {@link ExternalSystem} class represents an external system, connected and interact with this system.
-             * {@link ExternalSystem} takes full charge of network communication with external system have connected.
-             * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
+             * {@link ExternalSystem} takes full charge of network communication with the remote, external system have connected.
+             * Replied {@link Invoke} messages from the external system is shifted to and processed in, children elements of this
              * class, {@link ExternalSystemRole} objects.
              *
              * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
@@ -6504,7 +6590,7 @@ var samchon;
              *		 style="max-width: 100%" />
              * </a>
              *
-             * <h4> Bridge & Proxy Pattern </h4>
+             * #### Bridge & Proxy Pattern
              * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
              * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
              * important. Only interested in user's perspective is *which can be done*.
@@ -6565,6 +6651,8 @@ var samchon;
                 };
                 /**
                  * Identifier of {@link ExternalSystem} is its {@link name}.
+                 *
+                 * @return name.
                  */
                 ExternalSystem.prototype.key = function () {
                     return this.name;
@@ -6576,9 +6664,15 @@ var samchon;
                     return this.name;
                 };
                 Object.defineProperty(ExternalSystem.prototype, "communicator", {
+                    /**
+                     * @hidden
+                     */
                     get: function () {
                         return this.communicator_;
                     },
+                    /**
+                     * @hidden
+                     */
                     set: function (val) {
                         this.communicator_ = val;
                         if (this.communicator_ != null)
@@ -6607,8 +6701,6 @@ var samchon;
                  * @param invoke An {@link Invoke} message have received.
                  */
                 ExternalSystem.prototype.replyData = function (invoke) {
-                    if (invoke.apply(this) == true)
-                        return;
                     // SHIFT TO SYSTEM_ARRAY
                     this.system_array_.replyData(invoke);
                     // SHIFT TO ROLES
@@ -6670,6 +6762,7 @@ var samchon;
                 }
                 ParallelSystem.prototype.destructor = function () {
                     _super.prototype.destructor.call(this);
+                    this.exclude_ = true;
                     for (var it = this.progress_list_.begin(); !it.equal_to(this.progress_list_.end()); it = it.next()) {
                         // AN INVOKE AND HISTORY HAD PROGRESSED
                         var invoke = it.second.first;
@@ -6681,7 +6774,7 @@ var samchon;
                     ACCESSORS
                 --------------------------------------------------------- */
                 /**
-                 * Get manager of this object, {@link systemArray}.
+                 * Get manager of this object.
                  *
                  * @return A manager containing this {@link ParallelSystem} object.
                  */
@@ -6689,17 +6782,86 @@ var samchon;
                     return _super.prototype.getSystemArray.call(this);
                 };
                 /**
-                 * Get {@link performant performance index}.
+                 * Get performance index.
                  *
-                 * A performance index that indicates how much fast the connected parallel system is.
+                 * Get *performance index* that indicates how much fast the remote system is.
+                 *
+                 * If this {@link ParallelSystem parallel system} does not have any {@link Invoke} message had handled, then the
+                 * *performance index* will be ```1.0```, which means default and average value between all {@link ParallelSystem}
+                 * instances (that are belonged to a same {@link ParallelSystemArray} object).
+                 *
+                 * You can specify this *performance index* by yourself but notice that, if the *performance index* is higher
+                 * than other {@link ParallelSystem} objects, then this {@link ParallelSystem parallel system} will be ordered to
+                 * handle more processes than other {@link ParallelSystem} objects. Otherwise, the *performance index* is lower
+                 * than others, of course, less processes will be delivered.
+                 *
+                 * - {@link setPerformance setPerformance()}
+                 * - {@link enforcePerformance enforcePerformance()}
+                 *
+                 * Unless {@link enforcePerformance enforcePerformance()} is called, This *performance index* is **revaluated**
+                 * whenever user calls one of them below.
+                 *
+                 * - {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()}
+                 * - {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()}
+                 * - {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()}.
+                 *
+                 * @return Performance index.
                  */
                 ParallelSystem.prototype.getPerformance = function () {
                     return this.performance;
                 };
+                /**
+                 * Set performance index.
+                 *
+                 * Set *performance index* that indicates how much fast the remote system is. This *performance index* can be
+                 * **revaulated**.
+                 *
+                 * Note that, initial and average *performance index* of {@link ParallelSystem} objects are ```1.0```. If the
+                 * *performance index* is higher than other {@link ParallelSystem} objects, then this {@link ParallelSystem} will
+                 * be ordered to handle more processes than other {@link ParallelSystem} objects. Otherwise, the
+                 * *performance index* is lower than others, of course, less processes will be delivered.
+                 *
+                 * Unlike {@link enforcePerformance}, configuring *performance index* by this {@link setPerformance} allows
+                 * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the
+                 * *performance index*. The remote system is much faster than any other, but you estimated it to the slowest one.
+                 * It looks like a terrible case that causes {@link ParallelSystemArray entire parallel systems} to be slower,
+                 * however, don't mind. The system will direct to the *propriate performance index* eventually with the
+                 * **revaluation** by following methods.
+                 *
+                 * - {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()}
+                 * - {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()}
+                 * - {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()}.
+                 *
+                 * @param val New performance index, but can be revaluated.
+                 */
                 ParallelSystem.prototype.setPerformance = function (val) {
                     this.performance = val;
                     this.enforced_ = false;
                 };
+                /**
+                 * Enforce performance index.
+                 *
+                 * Enforce *performance index* that indicates how much fast the remote system is. The *performance index* will be
+                 * fixed, never be **revaluated**.
+                 *
+                 * Note that, initial and average *performance index* of {@link ParallelSystem} objects are ```1.0```. If the
+                 * *performance index* is higher than other {@link ParallelSystem} objects, then this {@link ParallelSystem} will
+                 * be ordered to handle more processes than other {@link ParallelSystem} objects. Otherwise, the
+                 * *performance index* is lower than others, of course, less processes will be delivered.
+                 *
+                 * The difference between {@link setPerformance} and this {@link enforcePerformance} is allowing **revaluation**
+                 * or not. This {@link enforcePerformance} does not allow the **revaluation**. The *performance index* is clearly
+                 * fixed and never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the
+                 * **mis-valuation** with this {@link enforcePerformance}.
+                 *
+                 * For example, there's a remote system much faster than any other, but you **mis-estimated** it to the slowest.
+                 * In that case, there's no way. The {@link ParalllelSystemArray entire parallel systems} will be slower by the
+                 * **mis-valuation**. By the reason, using {@link enforcePerformance}, it's recommended only when you can clearly
+                 * certain the *performance index*. If you can't certain the *performance index* but want to recommend, then use
+                 * {@link setPerformance} instead.
+                 *
+                 * @param val New performance index to be fixed.
+                 */
                 ParallelSystem.prototype.enforcePerformance = function (val) {
                     this.performance = val;
                     this.enforced_ = true;
@@ -6796,16 +6958,27 @@ var samchon;
     (function (protocol) {
         var distributed;
         (function (distributed) {
+            /**
+             * @author Jeongho Nam <http://samchon.org>
+             */
             var DistributedSystem = (function (_super) {
                 __extends(DistributedSystem, _super);
-                function DistributedSystem() {
-                    _super.apply(this, arguments);
+                function DistributedSystem(systemArray, communicator) {
+                    if (communicator === void 0) { communicator = null; }
+                    _super.call(this, systemArray, communicator);
                 }
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                // using super::constructor
                 // using super::destructor
+                /**
+                 * (Deprecated) Factory method creating {@link ExternalSystemRole child} object.
+                 *
+                 * In {@link distributed} module, the {@link DistributedSystem} class does not possess
+                 * {@link DistributedSystemRole} objects. No composition relationship between two classes more. The
+                 * {@link DistributedSystem} and {@link DistributedSystemRole} classes are only belonged to the
+                 * {@link DistributedSystemArray} class.
+                 *
+                 * @param xml {@link XML} represents the {@link ExternalSystemRole child} object.
+                 * @return null
+                 */
                 DistributedSystem.prototype.createChild = function (xml) {
                     return null;
                 };
@@ -6832,12 +7005,15 @@ var samchon;
                 DistributedSystem.prototype.get = function (key) {
                     return this.getSystemArray().getRole(key);
                 };
+                /**
+                 * @hidden
+                 */
                 DistributedSystem.prototype.compute_average_elapsed_time = function () {
                     var sum = 0;
                     var denominator = 0;
                     for (var it = this["history_list_"].begin(); !it.equal_to(this["history_list_"].end()); it = it.next()) {
                         var history_3 = it.second;
-                        if (history_3 instanceof protocol.parallel.PRInvokeHistory)
+                        if (history_3 instanceof distributed.DSInvokeHistory == false)
                             continue;
                         sum += history_3.computeElapsedTime() / history_3.getRole().getResource();
                         denominator++;
@@ -6850,9 +7026,10 @@ var samchon;
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
                 DistributedSystem.prototype.replyData = function (invoke) {
-                    if (invoke.apply(this) == true)
-                        return;
                     // SHIFT TO SYSTEM_ARRAY
                     this.getSystemArray().replyData(invoke);
                     // SHIFT TO ROLES
@@ -7660,13 +7837,13 @@ var samchon;
                     this.communicator.connect(this.ip, this.port);
                 };
                 /**
-                 * @inheritdoc
+                 * Get IP address of external system to connect.
                  */
                 ExternalServer.prototype.getIP = function () {
                     return this.ip;
                 };
                 /**
-                 * @inheritdoc
+                 * Get port number of external system to connect.
                  */
                 ExternalServer.prototype.getPort = function () {
                     return this.port;
@@ -8775,6 +8952,46 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        /**
+         * A server.
+         *
+         * The {@link Server} is an abstract class designed to open a server and accept clients who are following Samchon
+         * Framework's own protocol. Extends this {@link Server} class and overrides {@link addClient addClient()} method to
+         * define what to do with newly connected {@link ClientDriver remote clients}.
+         *
+         * #### [Inherited] {@link IServer}
+         * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
+         * {@link IClientDriver accepting clients}.
+         *
+         * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+         * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+         * object. Then at last, call {@link open open()} method with specified port number.
+         *
+         * Protocol | Derived Type | Related {@link IClientDriver}
+         * ---------|--------------|-------------------------------
+         * Samchon Framework's own | {@link Server} | {@link ClientDriver}
+         * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
+         * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
+         *
+         * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+         * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+         * - {@link service.Server}
+         * - {@link external.ExternalClientArray}
+         * - {@link slave.SlaveServer}
+         *
+         * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link ClientDriver}, {@link ServerBase}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var Server = (function () {
             function Server() {
             }
@@ -8791,6 +9008,9 @@ var samchon;
             Server.prototype.close = function () {
                 this.server.close();
             };
+            /**
+             * @hidden
+             */
             Server.prototype.handle_connect = function (socket) {
                 var clientDriver = new protocol.ClientDriver(socket);
                 ;
@@ -8805,6 +9025,46 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        /**
+         * A web server.
+         *
+         * The {@link WebServer} is an abstract class designed to open a server and accept clients who are following
+         * web-socket protocol. Extends this {@link WebServer} class and overrides {@link addClient addClient()} method to
+         * define what to do with newly connected {@link WebClientDriver remote clients}.
+         *
+         * #### [Inherited] {@link IServer}
+         * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
+         * {@link IClientDriver accepting clients}.
+         *
+         * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+         * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+         * object. Then at last, call {@link open open()} method with specified port number.
+         *
+         * Protocol | Derived Type | Related {@link IClientDriver}
+         * ---------|--------------|-------------------------------
+         * Samchon Framework's own | {@link Server} | {@link ClientDriver}
+         * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
+         * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
+         *
+         * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+         * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+         * - {@link service.Server}
+         * - {@link external.ExternalClientArray}
+         * - {@link slave.SlaveServer}
+         *
+         * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link WebClientDriver}, {@link WebServerBase}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var WebServer = (function () {
             /**
              * Default Constructor.
@@ -8829,15 +9089,18 @@ var samchon;
                 this.http_server_.close();
             };
             /**
-             * Handle request from a client system.
-             *
-             * This method {@link handle_request} will be called when a client is connected. It will call an abstract
-             * method method {@link addClient addClient()} who handles an accepted client. If the newly connected client
-             * doesn't have its own session id, then a new session id will be issued.
-             *
-             * @param request Requested header.
+             * @hidden
              */
             WebServer.prototype.handle_request = function (request) {
+                //--------
+                // Handle request from a client system.
+                // 
+                // This method "handle_request()" will be called when a client is connected. It will call an abstract method 
+                // "addClient()" who handles an accepted client. If the newly connected client doesn't have its own session 
+                // id, then a new session id will be issued.
+                // 
+                // @param request Requested header.
+                //--------
                 var path = request.resource.substr(1);
                 var session_id = this.get_session_id(request.cookies);
                 var connection = request.accept("", request.origin, [{ name: "SESSION_ID", value: session_id }]);
@@ -8845,23 +9108,28 @@ var samchon;
                 this.addClient(driver);
             };
             /**
-             * Get session id from a newly connected.
-             *
-             * Queries ordinary session id from cookies of a newly connected client. If the client has not, a new
-             * session id will be issued.
-             *
-             * @param cookies Cookies from the remote client.
+             * @hidden
              */
             WebServer.prototype.get_session_id = function (cookies) {
+                //--------
+                // Get session id from a newly connected.
+                // 
+                // Queries ordinary session id from cookies of a newly connected client. If the client has not, a new session 
+                // id will be issued.
+                // 
+                // @param cookies Cookies from the remote client.
+                // @return Session id
+                //--------
                 for (var i = 0; i < cookies.length; i++)
                     if (cookies[i].name == "SESSION_ID")
                         return cookies[i].value;
                 return this.issue_session_id();
             };
             /**
-             * Issue a new session id.
+             * @hidden
              */
             WebServer.prototype.issue_session_id = function () {
+                // Issue a new session id.
                 var port = this.my_port_;
                 var uid = ++this.sequence_;
                 var linux_time = new Date().getTime();
@@ -8877,6 +9145,56 @@ var samchon;
 (function (samchon) {
     var protocol;
     (function (protocol) {
+        /**
+         * A SharedWorker server.
+         *
+         * The {@link SharedWorker} is an abstract class is realized to open a SharedWorker server and accept web-browser
+         * clients. Extends this {@link SharedWorkerServer} class and overrides {@link addClient addClient()} method to
+         * define what to do with newly connected {@link ClientDriver remote clients}.
+         *
+         * #### Why SharedWorker be a server?
+         * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
+         * or multiple browsers. To integrate them, messages are being sent and received. Doesn't it seem like a relationship
+         * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
+         * clients.
+         *
+         * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+         * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
+         * server and clients with this {@link SharedWorkerCommunicator}.
+         *
+         * #### [Inherited] {@link IServer}
+         * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
+         * {@link IClientDriver accepting clients}.
+         *
+         * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+         * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+         * object. Then at last, call {@link open open()} method with specified port number.
+         *
+         * Protocol | Derived Type | Related {@link IClientDriver}
+         * ---------|--------------|-------------------------------
+         * Samchon Framework's own | {@link Server} | {@link ClientDriver}
+         * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
+         * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
+         *
+         * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+         * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+         * - {@link service.Server}
+         * - {@link external.ExternalClientArray}
+         * - {@link slave.SlaveServer}
+         *
+         * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link SharedWorkerClientDriver}, {@link SharedWorkerServerBase}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
+         * @author Jeongho Nam <http://samchon.org>
+         */
         var SharedWorkerServer = (function () {
             function SharedWorkerServer() {
             }
@@ -8892,6 +9210,9 @@ var samchon;
             SharedWorkerServer.prototype.close = function () {
                 // MAY IMPOSSIBLE
             };
+            /**
+             * @hidden
+             */
             SharedWorkerServer.prototype.handle_connect = function (event) {
                 var port = event.ports[event.ports.length - 1];
                 var driver = new protocol.SharedWorkerClientDriver(port);
@@ -8911,49 +9232,67 @@ var samchon;
         /**
          * A substitute {@link Server}.
          *
-         * {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility.
+         * The {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility.
          *
-         * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
-         * {@link Server}. However, it is impossible (that is, if the class is already extending another class), you can
-         * instead implement the {@link IServer} interface, create a {@link ServerBase} member, and write simple hooks
-         * to route calls into the aggregated {@link ServerBase}.
+         * #### [Inherited] {@link IServerBase}
+         * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
          *
-         * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
-         * <ul>
-         *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
-         * </ul>
+         * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
+         * However, it is impossible (that is, if the class is already extending another class), you can instead implement
+         * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
+         * the aggregated {@link IServerBase}.
          *
-         * <code>
-        class MyServer extends Something implements IServer
-        {
-            private server_base: ServerBase = new ServerBase(this);
-    
-            public addClient(driver: ClientDriver): void
-            {
-                // WHAT TO DO WHEN A CLIENT HAS CONNECTED
-            }
-    
-            public open(port: number): void
-            {
-                this.server_base.open();
-            }
-            public close(): void
-            {
-                this.server_base.close();
-            }
-        }
-         * </code>
+         * Protocol | {@link IServer} | {@link IServerBase} | {@link IClientDriver}
+         * ---------|-----------------|---------------------|-----------------------
+         * Samchon Framework's own | {@link Server} | {@link ServerBase} | {@link ClientDriver}
+         * Web-socket protocol | {@link WebServer} | {@link WebServerBase} | {@link WebClientDriver}
+         * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerServerBase} | {@link SharedWorkerClientDriver}
          *
+         * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
+         * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
+         * specified port number.
+         *
+         * ```typescript
+         * class MyServer extends Something implements IServer
+         * {
+         * 	private server_base_: IServerBase = new WebServerBase(this);
+         *
+         * 	public addClient(driver: IClientDriver): void
+         * 	{
+         * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
+         * 	}
+         *
+         * 	public open(port: number): void
+         * 	{
+         * 		this.server_base_.open();
+         * 	}
+         * 	public close(): void
+         * 	{
+         * 		this.server_base_.close();
+         * 	}
+         * }
+         * ```
+         *
+         * @see {@link Server}, {@link ClientDriver}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
          * @author Jeongho Nam <http://samchon.org>
          */
         var ServerBase = (function (_super) {
             __extends(ServerBase, _super);
-            function ServerBase(target) {
+            /**
+             * Construct from a *hooker*.
+             *
+             * @param hooker A hooker throwing responsibility of server's role.
+             */
+            function ServerBase(hooker) {
                 _super.call(this);
-                this.target_ = target;
+                this.hooker_ = hooker;
             }
+            /**
+             * @inheritdoc
+             */
             ServerBase.prototype.addClient = function (driver) {
-                this.target_.addClient(driver);
+                this.hooker_.addClient(driver);
             };
             return ServerBase;
         }(protocol.Server));
@@ -8967,49 +9306,66 @@ var samchon;
         /**
          * A substitute {@link WebServer}.
          *
-         * {@link WebServerBase} is a substitute class who subrogates {@link WebServer}'s responsibility.
+         * The {@link WebServerBase} is a substitute class who subrogates {@link WebServer}'s responsibility.
          *
-         * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
-         * {@link WebServer}. However, it is impossible (that is, if the class is already extending another class), you can
-         * instead implement the {@link IServer} interface, create a {@link WebServerBase} member, and write simple hooks to
-         * route calls into the aggregated {@link WebServerBase}.
+         * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
          *
-         * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
-         * <ul>
-         *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
-         * </ul>
+         * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
+         * However, it is impossible (that is, if the class is already extending another class), you can instead implement
+         * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
+         * the aggregated {@link IServerBase}.
          *
-         * <code>
-        class MyServer extends Something implements IServer
-        {
-            private server_base: WebServerBase = new WebServerBase(this);
-    
-            public addClient(driver: WebClientDriver): void
-            {
-                // WHAT TO DO WHEN A CLIENT HAS CONNECTED
-            }
-    
-            public open(port: number): void
-            {
-                this.server_base.open();
-            }
-            public close(): void
-            {
-                this.server_base.close();
-            }
-        }
-         * </code>
+         * Protocol | {@link IServer} | {@link IServerBase} | {@link IClientDriver}
+         * ---------|-----------------|---------------------|-----------------------
+         * Samchon Framework's own | {@link Server} | {@link ServerBase} | {@link ClientDriver}
+         * Web-socket protocol | {@link WebServer} | {@link WebServerBase} | {@link WebClientDriver}
+         * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerServerBase} | {@link SharedWorkerClientDriver}
          *
+         * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
+         * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
+         * specified port number.
+         *
+         * ```typescript
+         * class MyServer extends Something implements IServer
+         * {
+         * 	private server_base_: IServerBase = new WebServerBase(this);
+         *
+         * 	public addClient(driver: IClientDriver): void
+         * 	{
+         * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
+         * 	}
+         *
+         * 	public open(port: number): void
+         * 	{
+         * 		this.server_base_.open();
+         * 	}
+         * 	public close(): void
+         * 	{
+         * 		this.server_base_.close();
+         * 	}
+         * }
+         * ```
+         *
+         * @see {@link WebServer}, {@link WebClientDriver}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
          * @author Jeongho Nam <http://samchon.org>
          */
         var WebServerBase = (function (_super) {
             __extends(WebServerBase, _super);
-            function WebServerBase(target) {
+            /**
+             * Construct from a *hooker*.
+             *
+             * @param hooker A hooker throwing responsibility of server's role.
+             */
+            function WebServerBase(hooker) {
                 _super.call(this);
-                this.target_ = target;
+                this.hooker_ = hooker;
             }
+            /**
+             * @inheritdoc
+             */
             WebServerBase.prototype.addClient = function (driver) {
-                this.target_.addClient(driver);
+                this.hooker_.addClient(driver);
             };
             return WebServerBase;
         }(protocol.WebServer));
@@ -9023,50 +9379,67 @@ var samchon;
         /**
          * A substitute {@link SharedWorkerServer}.
          *
-         * {@link SharedWorkerServerBase} is a substitute class who subrogates {@link SharedWorkerServer}'s
+         * The {@link SharedWorkerServerBase} is a substitute class who subrogates {@link SharedWorkerServer}'s
          * responsibility.
          *
-         * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
-         * {@link SharedWorkerServer}. However, it is impossible (that is, if the class is already extending another class),
-         * you can instead implement the {@link IServer} interface, create a {@link SharedWorkerServerBase} member, and write
-         * simple hooks to route calls into the aggregated {@link SharedWorkerServerBase}.
+         * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
          *
-         * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
-         * <ul>
-         *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
-         * </ul>
+         * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
+         * However, it is impossible (that is, if the class is already extending another class), you can instead implement
+         * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
+         * the aggregated {@link IServerBase}.
          *
-         * <code>
-        class MyServer extends Something implements IServer
-        {
-            private server_base: SharedWorkerServerBase = new SharedWorkerServerBase(this);
-    
-            public addClient(driver: SharedWorkerClientDriver): void
-            {
-                // WHAT TO DO WHEN A CLIENT HAS CONNECTED
-            }
-    
-            public open(port: number): void
-            {
-                this.server_base.open();
-            }
-            public close(): void
-            {
-                this.server_base.close();
-            }
-        }
-         * </code>
+         * Protocol | {@link IServer} | {@link IServerBase} | {@link IClientDriver}
+         * ---------|-----------------|---------------------|-----------------------
+         * Samchon Framework's own | {@link Server} | {@link ServerBase} | {@link ClientDriver}
+         * Web-socket protocol | {@link WebServer} | {@link WebServerBase} | {@link WebClientDriver}
+         * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerServerBase} | {@link SharedWorkerClientDriver}
          *
+         * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
+         * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
+         * specified port number.
+         *
+         * ```typescript
+         * class MyServer extends Something implements IServer
+         * {
+         * 	private server_base_: IServerBase = new WebServerBase(this);
+         *
+         * 	public addClient(driver: IClientDriver): void
+         * 	{
+         * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
+         * 	}
+         *
+         * 	public open(port: number): void
+         * 	{
+         * 		this.server_base_.open();
+         * 	}
+         * 	public close(): void
+         * 	{
+         * 		this.server_base_.close();
+         * 	}
+         * }
+         * ```
+         *
+         * @see {@link SharedWorkerServer}, {@link SharedWorkerClientDriver}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
          * @author Jeongho Nam <http://samchon.org>
          */
         var SharedWorkerServerBase = (function (_super) {
             __extends(SharedWorkerServerBase, _super);
-            function SharedWorkerServerBase(target) {
+            /**
+             * Construct from a *hooker*.
+             *
+             * @param hooker A hooker throwing responsibility of server's role.
+             */
+            function SharedWorkerServerBase(hooker) {
                 _super.call(this);
-                this.target_ = target;
+                this.hooker_ = hooker;
             }
+            /**
+             * @inheritdoc
+             */
             SharedWorkerServerBase.prototype.addClient = function (driver) {
-                this.target_.addClient(driver);
+                this.hooker_.addClient(driver);
             };
             return SharedWorkerServerBase;
         }(protocol.SharedWorkerServer));
@@ -9112,7 +9485,7 @@ var samchon;
          * </a>
          *
          * @see {@link Server}, {@link IProtocol}
-         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
          * @author Jeongho Nam <http://samchon.org>
          */
         var ServerConnector = (function (_super) {
@@ -9188,7 +9561,7 @@ var samchon;
          * </a>
          *
          * @see {@link WebServer}, {@link IProtocol}
-         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
          * @author Jeongho Nam <http://samchon.org>
          */
         var WebServerConnector = (function (_super) {
@@ -9327,7 +9700,7 @@ var samchon;
          * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
          * clients.
          *
-         * This class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+         * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
          * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
          * server and clients with this {@link SharedWorkerCommunicator}.
          *
@@ -9357,7 +9730,7 @@ var samchon;
          * </a>
          *
          * @see {@link SharedWorkerServer}, {@link IProtocol}
-         * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
          * @author Jeongho Nam <http://samchon.org>
          */
         var SharedWorkerServerConnector = (function (_super) {
@@ -9416,6 +9789,9 @@ var samchon;
     (function (protocol) {
         var service;
         (function (service) {
+            /**
+             * @author Jeongho Nam <http://samchon.org>
+             */
             var Client = (function () {
                 /* ------------------------------------------------------------------
                     CONSTRUCTORS
@@ -9455,31 +9831,23 @@ var samchon;
                 Client.prototype.getNo = function () {
                     return this.no_;
                 };
-                /* ------------------------------------------------------------------
-                    MESSAGE CHAIN
-                ------------------------------------------------------------------ */
-                /**
-                 * @inheritdoc
-                 */
-                Client.prototype.sendData = function (invoke) {
-                    this.communicator_.sendData(invoke);
-                };
-                /**
-                 * @inheritdoc
-                 */
-                Client.prototype.replyData = function (invoke) {
-                    // THIS CLIENT OBJECT HAS THE MATCHED LISTENER?
-                    if (invoke.apply(this) == true)
-                        return;
-                    // SHIFT CHAIN TO USER
-                    this.user_.replyData(invoke);
-                    if (this.service_ != null)
-                        this.service_.replyData(invoke);
-                };
                 Client.prototype.changeService = function (path) {
                     if (this.service_ != null)
                         this.service_.destructor();
                     this.service_ = this.createService(path);
+                };
+                /* ------------------------------------------------------------------
+                    MESSAGE CHAIN
+                ------------------------------------------------------------------ */
+                Client.prototype.sendData = function (invoke) {
+                    this.communicator_.sendData(invoke);
+                };
+                Client.prototype.replyData = function (invoke) {
+                    // SHIFT CHAIN TO USER
+                    this.user_.replyData(invoke);
+                    // AND SERVICE
+                    if (this.service_ != null)
+                        this.service_.replyData(invoke);
                 };
                 return Client;
             }());
@@ -9495,6 +9863,25 @@ var samchon;
     (function (protocol) {
         var service;
         (function (service) {
+            /**
+             * A cloud server.
+             *
+             * The {@link Server} is an abstract class, who can build a real-time cloud server, that is following the web-socket
+             * protocol. Extends this {@link Server} and related classes and overrides abstract methods under below. After the
+             * overridings, open this {@link Server cloud server} by using the {@link open open()} method.
+             *
+             * - Factory methods
+             *   - {@link Server.createUser Server.createUser()}
+             *   - {@link User.createClient User.createClient()}
+             *   - {@liok Client.createService Client.createService()}
+             * - {@link Invoke} message chains; {@link IProtocol.replyData replyData}
+             *   - {@link Server.replyData}
+             *   - {@link User.replyData}
+             *   - {@link Client.replyData}
+             *   - {@link Service.replyData}
+             *
+             * @author Jeongho Nam <http://samchon.org>
+             */
             var Server = (function (_super) {
                 __extends(Server, _super);
                 /* ------------------------------------------------------------------
@@ -9512,29 +9899,79 @@ var samchon;
                 /* ------------------------------------------------------------------
                     ACCESSORS
                 ------------------------------------------------------------------ */
-                Server.prototype.has = function (account) {
-                    return this.account_map_.has(account);
+                /**
+                 * Test wheter an {@link User} exists with the *accountID*.
+                 *
+                 * @param accountID Account id of {@link User} to find.
+                 * @return Exists or not.
+                 */
+                Server.prototype.has = function (accountID) {
+                    return this.account_map_.has(accountID);
                 };
-                Server.prototype.get = function (account) {
-                    return this.account_map_.get(account);
+                /**
+                 * Get an {@link User} object by its *accountID*.
+                 *
+                 * @param accountID Account id of {@link User} to get.
+                 * @return An {@link User} object.
+                 */
+                Server.prototype.get = function (accountID) {
+                    return this.account_map_.get(accountID);
                 };
                 /* ------------------------------------------------------------------
                     MESSAGE CHAIN
                 ------------------------------------------------------------------ */
+                /**
+                 * Send an {@link Invoke} message.
+                 *
+                 * Sends an {@link Invoke} message to all remote clients through the belonged {@link User} and {@link Client}
+                 * objects. Sending the {@link Invoke} message to all remote clients, it's came true by passing through
+                 * {@link User.sendData User.sendData()}. And the {@link User.sendData} also pass through the
+                 * {@link Client.sendData Client.sendData()}.
+                 *
+                 * ```typescript
+                 * class Server
+                 * {
+                 *     public sendData(invoke: Invoke): void
+                 *     {
+                 *         for (user: User in this)
+                 *             for (client: Client in user)
+                 *                 client.sendData(invoke);
+                 *     }
+                 * }
+                 * ```
+                 *
+                 * @param invoke {@link Invoke} message to send to all remote clients.
+                 */
                 Server.prototype.sendData = function (invoke) {
                     for (var it = this.session_map_.begin(); !it.equal_to(this.session_map_.end()); it = it.next())
                         it.second.sendData(invoke);
                 };
-                Server.prototype.replyData = function (invoke) {
-                    invoke.apply(this);
-                };
                 /* ------------------------------------------------------------------
                     CLIENT I/O
                 ------------------------------------------------------------------ */
+                /**
+                 * Add a newly connected remote client.
+                 *
+                 * When a {@link WebClientDriver remote client} connects to this cloud server, then {@link Server} queries the
+                 * {WebClientDriver.getSessionID session id} of the {@link WebClientDriver remote client}. If the
+                 * {WebClientDriver.getSessionID session id} is new one, then creates a new {@link User} object.
+                 *
+                 * At next, creates a {@link Client} object who represents the newly connected remote client and insert the
+                 * {@link Client} object to the matched {@link User} object which is new or ordinary one following the
+                 * {WebClientDriver.getSessionID session id}. At last, a {@link Service} object can be created with referencing
+                 * the {@link WebClientDriver.getPath path}.
+                 *
+                 * List of objects can be created by this method.
+                 * - {@link User} by {@link createUser createUser()}.
+                 * - {@link Client} by {@link User.createClient User.createClient()}.
+                 * - {@link Service} by {@link Client.createService Client.createService()}.
+                 *
+                 * @param driver A web communicator for remote client.
+                 */
                 Server.prototype.addClient = function (driver) {
-                    /////////////////////////////////////////////
+                    //--------
                     // CREATE CHILDREN OBJECTS
-                    /////////////////////////////////////////////
+                    //--------
                     // USER
                     /////
                     var user;
@@ -9545,18 +9982,12 @@ var samchon;
                         user["session_id_"] = (driver.getSessionID());
                         this.session_map_.insert(std.make_pair(driver.getSessionID(), user));
                     }
-                    /////
+                    //--------
                     // CLIENT
-                    /////
+                    //--------
+                    // SERVICE IS CREEATED IN CLIENT'S CONSTRUCTOR
                     var client = user["createClient"](driver);
                     user.insert(std.make_pair(client.getNo(), client));
-                    /////
-                    // SERVICE
-                    /////
-                    // let service: Service = client.getService();
-                    ///////
-                    // START COMMUNICATION
-                    ///////
                     // CLOSE HANDLER
                     driver.onClose = function () {
                         // WHEN DISCONNECTED, THEN ERASE THE CLIENT.
@@ -9568,6 +9999,9 @@ var samchon;
                         client.destructor(); // AND CLIENT
                     };
                 };
+                /**
+                 * @hidden
+                 */
                 Server.prototype.erase_user = function (user) {
                     // USER DOESN'T BE ERASED AT THAT TIME
                     // IT WAITS UNTIL 30 SECONDS TO KEEP SESSION
@@ -9597,6 +10031,9 @@ var samchon;
     (function (protocol) {
         var service;
         (function (service) {
+            /**
+             * @author Jeongho Nam <http://samchon.org>
+             */
             var Service = (function () {
                 /* ------------------------------------------------------------------
                     CONSTRUCTORS
@@ -9608,6 +10045,9 @@ var samchon;
                     this.client_ = client;
                     this.path_ = path;
                 }
+                /**
+                 * Default Destructor.
+                 */
                 Service.prototype.destructor = function () {
                 };
                 /* ------------------------------------------------------------------
@@ -9631,9 +10071,6 @@ var samchon;
                 Service.prototype.sendData = function (invoke) {
                     return this.client_.sendData(invoke);
                 };
-                Service.prototype.replyData = function (invoke) {
-                    invoke.apply(this);
-                };
                 return Service;
             }());
             service.Service = Service;
@@ -9648,13 +10085,16 @@ var samchon;
     (function (protocol) {
         var service;
         (function (service) {
+            /**
+             * @author Jeongho Nam <http://samchon.org>
+             */
             var User = (function (_super) {
                 __extends(User, _super);
                 /* ---------------------------------------------------------
                     CONSTRUCTORS
                 --------------------------------------------------------- */
                 /**
-                 * Construct from a Server.
+                 * Construct from a {@link Server}.
                  */
                 function User(server) {
                     _super.call(this);
@@ -9665,6 +10105,9 @@ var samchon;
                     this.sequence_ = 0;
                     this.addEventListener("erase", this.handle_erase_client, this);
                 }
+                /**
+                 * Default Destructor.
+                 */
                 User.prototype.destructor = function () {
                 };
                 /**
@@ -9679,15 +10122,30 @@ var samchon;
                 /* ---------------------------------------------------------
                     ACCESSORS
                 --------------------------------------------------------- */
+                /**
+                 * Get server.
+                 */
                 User.prototype.getServer = function () {
                     return this.server_;
                 };
+                /**
+                 * Get account id.
+                 */
                 User.prototype.getAccountID = function () {
                     return this.account_id_;
                 };
+                /**
+                 * Get authority.
+                 */
                 User.prototype.getAuthority = function () {
                     return this.authority_;
                 };
+                /**
+                 * Set account.
+                 *
+                 * @param id Account id of this {@link User}.
+                 * @param authority Authority of this {@link User}.
+                 */
                 User.prototype.setAccount = function (id, authority) {
                     if (this.account_id_ == id)
                         return;
@@ -9702,12 +10160,36 @@ var samchon;
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN
                 --------------------------------------------------------- */
+                /**
+                 * Send an {@link Invoke} message.
+                 *
+                 * Sends an {@link Invoke} message to all remote clients through the belonged {@link Client} objects. Sending the
+                 * {@link Invoke} message to all remote clients, it's came true by passing through the
+                 * {@link Client.sendData Client.sendData()} methods.
+                 *
+                 * ```typescript
+                 * class User
+                 * {
+                 *     public sendData(invoke: Invoke): void
+                 *     {
+                 *         for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+                 *             it.second.sendData(invoke);
+                 *     }
+                 * }
+                 * ```
+                 *
+                 * @param invoke {@link Invoke} message to send to all remote clients.
+                 */
                 User.prototype.sendData = function (invoke) {
                     for (var it = this.begin(); !it.equal_to(this.end()); it = it.next())
                         it.second.sendData(invoke);
                 };
+                /**
+                 * Handle a replied {@link Invoke} message.
+                 *
+                 * @param invoke
+                 */
                 User.prototype.replyData = function (invoke) {
-                    invoke.apply(this);
                     this.server_.replyData(invoke);
                 };
                 return User;
@@ -9802,6 +10284,9 @@ var samchon;
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
 /// <reference path="../API.ts" />
+/**
+ * @hidden
+ */
 var samchon;
 (function (samchon) {
     var test;

@@ -138,7 +138,7 @@ namespace samchon.protocol.external
 		public createChild(xml: library.XML): ExternalSystem { return null; }
 
 		/**
-		 * Factory method creating {@link ExternalSystem} object.
+		 * Factory method creating a child {@link ExternalSystem} object.
 		 * 
 		 * @param driver A communicator with connected client.
 		 * @return A newly created {@link ExternalSystem} object.

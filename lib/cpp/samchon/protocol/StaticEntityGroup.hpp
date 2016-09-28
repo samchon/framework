@@ -30,9 +30,9 @@ namespace protocol
 				return;
 
 			std::shared_ptr<library::XMLList> &xml_list = xml->get(CHILD_TAG());
-			size_t i;
+			size_t i = 0;
 
-			assign(xml_list->size(), T());
+			assign(xml_list->size(), container_type::value_type());
 			for (auto it = begin(); it != end(); it++)
 				it->construct(xml_list->at(i++));
 		};
@@ -42,7 +42,7 @@ namespace protocol
 		------------------------------------------------------------------------------------ */
 		using container_type::erase;
 
-		void erase(const typename child_type::key_type &key)
+		void erase(const typename container_type::value_type::key_type &key)
 		{
 			for (auto it = begin(); it != end(); )
 				if (it->key() == key)

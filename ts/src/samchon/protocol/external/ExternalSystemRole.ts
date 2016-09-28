@@ -8,7 +8,7 @@ namespace samchon.protocol.external
 	 * A role of an external system.
 	 * 
 	 * The {@link ExternalSystemRole} class represents a role, *what to do* in an {@link ExternalSystem}. 
-	 * Extends this class and writes some methods related to the role.
+	 * Extends this class and writes some methods related to the *role*.
 	 * 
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
 	 *		  target="_blank">
@@ -16,7 +16,7 @@ namespace samchon.protocol.external
 	 *		 style="max-width: 100%" />
 	 * </a>
 	 * 
-	 * <h4> Proxy Pattern </h4>
+	 * #### Proxy Pattern
 	 * The {@link ExternalSystemRole} class can be an *logical proxy*. In framework within user, which 
 	 * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not 
 	 * important. Only interested in user's perspective is *which can be done*. 
@@ -28,7 +28,7 @@ namespace samchon.protocol.external
 	 * <ul>
 	 *	<li>
 	 *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-	 *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+	 *		from {@link ExternalSystem} object, via {@link ExternalSystemArray.getRole ExternalSystemArray.getRole()}.
 	 *	</li>
 	 *	<li>
 	 *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
@@ -83,6 +83,11 @@ namespace samchon.protocol.external
 			return this.name;
 		}
 
+		public getSystemArray(): ExternalSystemArray
+		{
+			return this.system.getSystemArray();
+		}
+
 		/**
 		 * Get external system, this role is belonged to.
 		 */
@@ -103,7 +108,9 @@ namespace samchon.protocol.external
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
 		/**
-		 * Send an {@link Invoke} message to the external system via {@link system}.
+		 * Send an {@link Invoke} message.
+		 * 
+		 * Sends an {@link Invoke} message to remote system through the related {@link ExternalSystem} object.
 		 * 
 		 * @param invoke An {@link Invoke} message to send to the external system.
 		 */
@@ -113,17 +120,15 @@ namespace samchon.protocol.external
 		}
 
 		/**
-		 * Handle replied {@link Invoke message} from the {@link system external system} belonged to.
+		 * Handle replied {@link Invoke} message.
 		 * 
-		 * This {@link replyData replyData()} will call a member method named following {@link Invoke.listener}. 
-		 * in the *invoke*.
+		 * {@link ExternalSystemRole.replyData ExternalSystemRole.replyData()} is an abstract method handling a replied 
+		 * {@link Invoke message} gotten from remote system via related {@link ExternalSyste} object. Overrides this 
+		 * method and defines what to do with the {@link Invoke message}.
 		 * 
 		 * @param invoke An {@link Invoke} message received from the {@link system external system}.
 		 */
-		public replyData(invoke: Invoke): void
-		{
-			invoke.apply(this);
-		}
+		public abstract replyData(invoke: Invoke): void;
 
 		/* ---------------------------------------------------------
 			EXPORTERS

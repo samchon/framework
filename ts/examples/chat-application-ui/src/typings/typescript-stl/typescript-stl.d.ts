@@ -8760,8 +8760,8 @@ declare namespace std {
      * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that
      * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram" style="max-width: 100%" /> </a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * <h3> Container properties </h3>
@@ -10035,12 +10035,12 @@ declare namespace std {
      * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that
      * their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently
      * as in arrays. But unlike arrays, their size can change dynamically, with their storage being handled
-     * automatically by the  </p>
+     * automatically by the container. </p>
      *
      * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This array may need
      * to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new
      * array and moving all elements to it. This is a relatively expensive task in terms of processing time, and
-     * thus, {@link Vector}s do not reallocate each time an element is added to the  </p>
+     * thus, {@link Vector}s do not reallocate each time an element is added to the container. </p>
      *
      * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible growth, and
      * thus the container may have an actual {@link capacity} greater than the storage strictly needed to contain its
@@ -10844,7 +10844,7 @@ declare namespace std {
      * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the
      * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a
      * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
-     * can be inserted or removed from the  </p>
+     * can be inserted or removed from the container. </p>
      *
      * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak
      * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
@@ -11216,7 +11216,7 @@ declare namespace std {
      * <p> In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself
      * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link TreeMultiSet} cannot
      * be modified once in the container (the elements are always const), but they can be inserted or removed
-     * from the  </p>
+     * from the container. </p>
      *
      * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict
      * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>

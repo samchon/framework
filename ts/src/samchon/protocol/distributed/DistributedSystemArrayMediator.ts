@@ -7,6 +7,9 @@ namespace samchon.protocol.distributed
 	export abstract class DistributedSystemArrayMediator
 		extends DistributedSystemArray
 	{
+		/**
+		 * @hidden
+		 */
 		private mediator_: parallel.MediatorSystem;
 
 		/* ---------------------------------------------------------
@@ -44,6 +47,9 @@ namespace samchon.protocol.distributed
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
 		protected _Complete_history(history: parallel.PRInvokeHistory): boolean
 		{
 			let ret: boolean = super._Complete_history(history);

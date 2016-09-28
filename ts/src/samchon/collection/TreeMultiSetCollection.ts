@@ -17,7 +17,7 @@ namespace samchon.collection
 	 * - *refresh* typed events:
 	 *   - {@link refresh}
 	 * 
-	 * #### [Inherited]
+	 * #### [Inherited] {@link TreeMultiSet}
 	 * {@link TreeMultiSet TreeMultiSets} are containers that store elements following a specific order, and where 
 	 * multiple elements can have equivalent values.
 	 *

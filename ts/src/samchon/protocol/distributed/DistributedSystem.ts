@@ -4,16 +4,48 @@
 
 namespace samchon.protocol.distributed
 {
+	/**
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class DistributedSystem
 		extends parallel.ParallelSystem
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		// using super::constructor
+		/**
+		 * 
+		 * 
+		 * @param systemArray
+		 */
+		public constructor(systemArray: DistributedSystemArray);
+
+		/**
+		 * 
+		 * 
+		 * @param systemArray
+		 * @param communicator A communicator communicates with remote, the external system.
+		 */
+		public constructor(systemArray: DistributedSystemArray, communicator: IClientDriver);
+
+		public constructor(systemArray: DistributedSystemArray, communicator: IClientDriver = null)
+		{
+			super(systemArray, communicator);
+		}
 
 		// using super::destructor
 
+		/**
+		 * (Deprecated) Factory method creating {@link ExternalSystemRole child} object.
+		 * 
+		 * In {@link distributed} module, the {@link DistributedSystem} class does not possess 
+		 * {@link DistributedSystemRole} objects. No composition relationship between two classes more. The 
+		 * {@link DistributedSystem} and {@link DistributedSystemRole} classes are only belonged to the 
+		 * {@link DistributedSystemArray} class.
+		 * 
+		 * @param xml {@link XML} represents the {@link ExternalSystemRole child} object.
+		 * @return null
+		 */
 		public createChild(xml: library.XML): external.ExternalSystemRole
 		{
 			return null;
@@ -48,6 +80,9 @@ namespace samchon.protocol.distributed
 			return this.getSystemArray().getRole(key);
 		}
 
+		/**
+		 * @hidden
+		 */
 		private compute_average_elapsed_time(): number
 		{
 			let sum: number = 0;
@@ -56,7 +91,7 @@ namespace samchon.protocol.distributed
 			for (let it = this["history_list_"].begin(); !it.equal_to(this["history_list_"].end()); it = it.next())
 			{
 				let history: DSInvokeHistory = it.second as DSInvokeHistory;
-				if (history instanceof parallel.PRInvokeHistory)
+				if (history instanceof DSInvokeHistory == false)
 					continue;
 
 				sum += history.computeElapsedTime() / history.getRole().getResource();
@@ -72,11 +107,11 @@ namespace samchon.protocol.distributed
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public replyData(invoke: protocol.Invoke): void
 		{
-			if (invoke.apply(this) == true)
-				return;
-
 			// SHIFT TO SYSTEM_ARRAY
 			this.getSystemArray().replyData(invoke);
 

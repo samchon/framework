@@ -27,47 +27,32 @@ namespace samchon.protocol.parallel
 		/**
 		 * @hidden
 		 */
-		private enforced_: boolean;
+		private exclude_: boolean;
+		
+		/**
+		 * @hidden
+		 */
+		private performance: number;
 
 		/**
 		 * @hidden
 		 */
-		private exclude_: boolean;
-
-		/**
-		 * Performance index.
-		 * 
-		 * A performance index that indicates how much fast the connected parallel system is.
-		 * 
-		 * If this {@link ParallelSystem parallel system} hasn't any {@link Invoke} message had handled, then the
-		 * {@link performance performance index} will be 1, which means default and average value between all
-		 * {@link ParallelSystem} instances (belonged to a same {@link ParallelSystemArray} object).
-		 * 
-		 * You can specify this {@link performance} by yourself, but notice that, if the 
-		 * {@link performance performance index} is higher then other {@link ParallelSystem} objects, then this 
-		 * {@link ParallelSystem parallel system} will ordered to handle more processes than other
-		 * {@link ParallelSystem} objects. Otherwise, the {@link performance performance index) is lower than others,
-		 * of course, less processes will be delivered.
-		 * 
-		 * This {@link performance index} is always re-calculated whenever {@link ParallelSystemArray} calls one of 
-		 * them below.
-		 * 
-		 * <ul>
-		 *	<li> {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()} </li>
-		 *	<li> {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()} </li>
-		 * </ul>
-		 * 
-		 * If this class is a type of {@link DistributedSystem} derived class from the {@link ParallelSystem}, 
-		 * then {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()} also cause the re-calculation.
-		 *
-		 */
-		private performance: number;
+		private enforced_: boolean;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * 
+		 * @param systemArray
+		 */
 		public constructor(systemArray: ParallelSystemArray);
 
+		/**
+		 * 
+		 * @param systemArray 
+		 * @param communicator A communicator communicates with remote, the external system.
+		 */
 		public constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
 
 		public constructor(systemArray: ParallelSystemArray, communicator: IClientDriver = null)
@@ -89,6 +74,8 @@ namespace samchon.protocol.parallel
 		{
 			super.destructor();
 
+			this.exclude_ = true;
+
 			for (let it = this.progress_list_.begin(); !it.equal_to(this.progress_list_.end()); it = it.next())
 			{
 				// AN INVOKE AND HISTORY HAD PROGRESSED
@@ -103,7 +90,7 @@ namespace samchon.protocol.parallel
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * Get manager of this object, {@link systemArray}.
+		 * Get manager of this object.
 		 * 
 		 * @return A manager containing this {@link ParallelSystem} object.
 		 */
@@ -113,21 +100,90 @@ namespace samchon.protocol.parallel
 		}
 
 		/**
-		 * Get {@link performant performance index}.
+		 * Get performance index.
 		 * 
-		 * A performance index that indicates how much fast the connected parallel system is.
+		 * Get *performance index* that indicates how much fast the remote system is.
+		 *
+		 * If this {@link ParallelSystem parallel system} does not have any {@link Invoke} message had handled, then the
+		 * *performance index* will be ```1.0```, which means default and average value between all {@link ParallelSystem} 
+		 * instances (that are belonged to a same {@link ParallelSystemArray} object).
+		 *
+		 * You can specify this *performance index* by yourself but notice that, if the *performance index* is higher 
+		 * than other {@link ParallelSystem} objects, then this {@link ParallelSystem parallel system} will be ordered to 
+		 * handle more processes than other {@link ParallelSystem} objects. Otherwise, the *performance index* is lower 
+		 * than others, of course, less processes will be delivered.
+		 * 
+		 * - {@link setPerformance setPerformance()}
+		 * - {@link enforcePerformance enforcePerformance()}
+		 *
+		 * Unless {@link enforcePerformance enforcePerformance()} is called, This *performance index* is **revaluated**
+		 * whenever user calls one of them below.
+		 *
+		 * - {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()}
+		 * - {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()}
+		 * - {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()}.
+		 * 
+		 * @return Performance index.
 		 */
 		public getPerformance(): number
 		{
 			return this.performance;
 		}
 
+		/**
+		 * Set performance index.
+		 * 
+		 * Set *performance index* that indicates how much fast the remote system is. This *performance index* can be 
+		 * **revaulated**.
+		 * 
+		 * Note that, initial and average *performance index* of {@link ParallelSystem} objects are ```1.0```. If the 
+		 * *performance index* is higher than other {@link ParallelSystem} objects, then this {@link ParallelSystem} will
+		 * be ordered to handle more processes than other {@link ParallelSystem} objects. Otherwise, the 
+		 * *performance index* is lower than others, of course, less processes will be delivered.
+		 * 
+		 * Unlike {@link enforcePerformance}, configuring *performance index* by this {@link setPerformance} allows 
+		 * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the
+		 * *performance index*. The remote system is much faster than any other, but you estimated it to the slowest one. 
+		 * It looks like a terrible case that causes {@link ParallelSystemArray entire parallel systems} to be slower, 
+		 * however, don't mind. The system will direct to the *propriate performance index* eventually with the 
+		 * **revaluation** by following methods.
+		 * 
+		 * - {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()}
+		 * - {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()}
+		 * - {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()}.
+		 * 
+		 * @param val New performance index, but can be revaluated.
+		 */
 		public setPerformance(val: number): void
 		{
 			this.performance = val;
 			this.enforced_ = false;
 		}
 
+		/**
+		 * Enforce performance index.
+		 * 
+		 * Enforce *performance index* that indicates how much fast the remote system is. The *performance index* will be
+		 * fixed, never be **revaluated**.
+		 *
+		 * Note that, initial and average *performance index* of {@link ParallelSystem} objects are ```1.0```. If the
+		 * *performance index* is higher than other {@link ParallelSystem} objects, then this {@link ParallelSystem} will
+		 * be ordered to handle more processes than other {@link ParallelSystem} objects. Otherwise, the
+		 * *performance index* is lower than others, of course, less processes will be delivered.
+		 * 
+		 * The difference between {@link setPerformance} and this {@link enforcePerformance} is allowing **revaluation**
+		 * or not. This {@link enforcePerformance} does not allow the **revaluation**. The *performance index* is clearly
+		 * fixed and never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the 
+		 * **mis-valuation** with this {@link enforcePerformance}. 
+		 * 
+		 * For example, there's a remote system much faster than any other, but you **mis-estimated** it to the slowest. 
+		 * In that case, there's no way. The {@link ParalllelSystemArray entire parallel systems} will be slower by the 
+		 * **mis-valuation**. By the reason, using {@link enforcePerformance}, it's recommended only when you can clearly
+		 * certain the *performance index*. If you can't certain the *performance index* but want to recommend, then use 
+		 * {@link setPerformance} instead.
+		 * 
+		 * @param val New performance index to be fixed.
+		 */
 		public enforcePerformance(val: number): void
 		{
 			this.performance = val;

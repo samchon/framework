@@ -18,7 +18,7 @@ namespace samchon.collection
 	 * - *refresh* typed events:
 	 *   - {@link refresh}
 	 * 
-	 * #### [Inherited]
+	 * #### [Inherited] {@link HashMultiMap}
 	 * {@link HashMultiMap HashMultiMap}s are associative containers that store elements formed by the combination of
 	 * a *key value* and a *mapped value*, much like {@link HashMultiMap} containers, but allowing different elements 
 	 * to have equivalent *keys*. 

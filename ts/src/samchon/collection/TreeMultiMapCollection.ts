@@ -18,7 +18,7 @@ namespace samchon.collection
 	 * - *refresh* typed events:
 	 *   - {@link refresh}
 	 * 
-	 * #### [Inherited]
+	 * #### [Inherited] {@link TreeMultiMap}
 	 * {@link TreeMultiMap TreeMultiMaps} are associative containers that store elements formed by a combination of a 
 	 * *key value* and a *mapped value*, following a specific order, and where multiple elements can have equivalent 
 	 * keys. 

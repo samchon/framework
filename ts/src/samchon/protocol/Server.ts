@@ -10,16 +10,20 @@ namespace samchon.protocol
 	 * 
 	 * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
 	 * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
-	 * object. Then at last, call {@link open()} method with specified port number. Below code will be a good example for 
-	 * opening a server and handling remote clients using {@link IServer}.
+	 * object. Then at last, call {@link open open()} method with specified port number.
 	 * 
-	 * Protocol | Derived Type 
-	 * ---------|--------------
-	 * Samchon Framework's own | {@link ServerConnector}
-	 * Web-socket protocol | {@link WebServerConnector}
-	 * SharedWorker | {@link SharedWorkerServerConnector}
+	 * Protocol | Derived Type | Related {@link IClientDriver}
+	 * ---------|--------------|-------------------------------
+	 * Samchon Framework's own | {@link Server} | {@link ClientDriver}
+	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
+	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
 	 *  
+	 * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients. 
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+	 * - {@link service.Server}
+	 * - {@link external.ExternalClientArray}
+	 * - {@link slave.SlaveServer}
 	 * 
 	 * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
 	 * 
@@ -30,7 +34,7 @@ namespace samchon.protocol
 	 * </a>
 	 *
 	 * @see {@link IClientDriver}, {@link IServerBase}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IServer
@@ -53,8 +57,11 @@ namespace samchon.protocol
 		/**
 		 * Add a newly connected remote client.
 		 * 
-		 * Overrides this method and defines what to do with the *driver*, a newly connected remote client. Below modules
-		 * and example codes may be good examples how to utilize this {@link addClient addClient()} method.
+		 * The {@link addClient addClient()} is an abstract method being called when a remote client is newly connected 
+		 * with {@link IClientDriver} object who communicates with the remote system. Overrides this method and defines 
+		 * what to do with the *driver*, a newly connected remote client. 
+		 * 
+		 * Below methods and example codes may be good for comprehending how to utilize this {@link addClient} method.
 		 * 
 		 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
 		 * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
@@ -75,6 +82,46 @@ namespace samchon.protocol
 	 */
 	declare var net: typeof NodeJS.net;
 
+	/**
+	 * A server.
+	 * 
+	 * The {@link Server} is an abstract class designed to open a server and accept clients who are following Samchon
+	 * Framework's own protocol. Extends this {@link Server} class and overrides {@link addClient addClient()} method to
+	 * define what to do with newly connected {@link ClientDriver remote clients}.
+	 *
+	 * #### [Inherited] {@link IServer}
+	 * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
+	 * {@link IClientDriver accepting clients}.
+	 *
+	 * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+	 * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+	 * object. Then at last, call {@link open open()} method with specified port number.
+	 *
+	 * Protocol | Derived Type | Related {@link IClientDriver}
+	 * ---------|--------------|-------------------------------
+	 * Samchon Framework's own | {@link Server} | {@link ClientDriver}
+	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
+	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
+	 *
+	 * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+	 * - {@link service.Server}
+	 * - {@link external.ExternalClientArray}
+	 * - {@link slave.SlaveServer}
+	 *
+	 * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @see {@link ClientDriver}, {@link ServerBase}
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class Server implements IServer
 	{
 		/**
@@ -104,6 +151,9 @@ namespace samchon.protocol
 			this.server.close();
 		}
 
+		/**
+		 * @hidden
+		 */
 		private handle_connect(socket: socket.server): void
 		{
 			let clientDriver: ClientDriver = new ClientDriver(socket);;
@@ -124,17 +174,57 @@ namespace samchon.protocol
 	 */
 	declare var websocket: typeof __websocket;
 
+	/**
+	 * A web server.
+	 *
+	 * The {@link WebServer} is an abstract class designed to open a server and accept clients who are following 
+	 * web-socket protocol. Extends this {@link WebServer} class and overrides {@link addClient addClient()} method to
+	 * define what to do with newly connected {@link WebClientDriver remote clients}.
+	 * 
+	 * #### [Inherited] {@link IServer}
+	 * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
+	 * {@link IClientDriver accepting clients}.
+	 *
+	 * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+	 * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+	 * object. Then at last, call {@link open open()} method with specified port number.
+	 *
+	 * Protocol | Derived Type | Related {@link IClientDriver}
+	 * ---------|--------------|-------------------------------
+	 * Samchon Framework's own | {@link Server} | {@link ClientDriver}
+	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
+	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
+	 *
+	 * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+	 * - {@link service.Server}
+	 * - {@link external.ExternalClientArray}
+	 * - {@link slave.SlaveServer}
+	 *
+	 * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @see {@link WebClientDriver}, {@link WebServerBase}
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class WebServer implements IServer
 	{
 		/**
-		 * A server handler.
+		 * @hidden
 		 */
 		private http_server_: socket.http_server;
-
-		/** 
-		 * Sequence number for issuing session id.
+		
+		/**
+		 * @hidden
 		 */
-		private sequence_: number;
+		private sequence_: number; // Sequence number for issuing session id.
 
 		/**
 		 * @hidden
@@ -175,18 +265,21 @@ namespace samchon.protocol
 		 * @inheritdoc
 		 */
 		public abstract addClient(driver: WebClientDriver): void;
-
+		
 		/**
-		 * Handle request from a client system.
-		 * 
-		 * This method {@link handle_request} will be called when a client is connected. It will call an abstract 
-		 * method method {@link addClient addClient()} who handles an accepted client. If the newly connected client 
-		 * doesn't have its own session id, then a new session id will be issued.
-		 * 
-		 * @param request Requested header.
+		 * @hidden
 		 */
 		private handle_request(request: websocket.request): void
 		{
+			//--------
+			// Handle request from a client system.
+			// 
+			// This method "handle_request()" will be called when a client is connected. It will call an abstract method 
+			// "addClient()" who handles an accepted client. If the newly connected client doesn't have its own session 
+			// id, then a new session id will be issued.
+			// 
+			// @param request Requested header.
+			//--------
 			let path: string = request.resource.substr(1);
 			let session_id: string = this.get_session_id(request.cookies);
 
@@ -201,15 +294,19 @@ namespace samchon.protocol
 		}
 
 		/**
-		 * Get session id from a newly connected.
-		 * 
-		 * Queries ordinary session id from cookies of a newly connected client. If the client has not, a new 
-		 * session id will be issued.
-		 * 
-		 * @param cookies Cookies from the remote client.
+		 * @hidden
 		 */
 		private get_session_id(cookies: websocket.ICookie[]): string
 		{
+			//--------
+			// Get session id from a newly connected.
+			// 
+			// Queries ordinary session id from cookies of a newly connected client. If the client has not, a new session 
+			// id will be issued.
+			// 
+			// @param cookies Cookies from the remote client.
+			// @return Session id
+			//--------
 			for (let i: number = 0; i < cookies.length; i++)
 				if (cookies[i].name == "SESSION_ID")
 					return cookies[i].value;
@@ -218,10 +315,11 @@ namespace samchon.protocol
 		}
 
 		/**
-		 * Issue a new session id.
+		 * @hidden
 		 */
 		private issue_session_id(): string
 		{
+			// Issue a new session id.
 			let port: number = this.my_port_;
 			let uid: number = ++this.sequence_;
 			let linux_time: number = new Date().getTime();
@@ -234,6 +332,56 @@ namespace samchon.protocol
 
 namespace samchon.protocol
 {
+	/**
+	 * A SharedWorker server.
+	 *
+	 * The {@link SharedWorker} is an abstract class is realized to open a SharedWorker server and accept web-browser 
+	 * clients. Extends this {@link SharedWorkerServer} class and overrides {@link addClient addClient()} method to 
+	 * define what to do with newly connected {@link ClientDriver remote clients}.
+	 * 
+	 * #### Why SharedWorker be a server?
+	 * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
+	 * or multiple browsers. To integrate them, messages are being sent and received. Doesn't it seem like a relationship
+	 * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
+	 * clients.
+	 *
+	 * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+	 * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
+	 * server and clients with this {@link SharedWorkerCommunicator}.
+	 * 
+	 * #### [Inherited] {@link IServer}
+	 * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
+	 * {@link IClientDriver accepting clients}.
+	 *
+	 * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+	 * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+	 * object. Then at last, call {@link open open()} method with specified port number.
+	 *
+	 * Protocol | Derived Type | Related {@link IClientDriver}
+	 * ---------|--------------|-------------------------------
+	 * Samchon Framework's own | {@link Server} | {@link ClientDriver}
+	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
+	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
+	 *
+	 * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+	 * - {@link service.Server}
+	 * - {@link external.ExternalClientArray}
+	 * - {@link slave.SlaveServer}
+	 *
+	 * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @see {@link SharedWorkerClientDriver}, {@link SharedWorkerServerBase}
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class SharedWorkerServer implements IServer
 	{
 		/**
@@ -257,6 +405,9 @@ namespace samchon.protocol
 			// MAY IMPOSSIBLE
 		}
 
+		/**
+		 * @hidden
+		 */
 		private handle_connect(event: {ports: MessagePort[]}): void
 		{
 			let port: MessagePort = event.ports[event.ports.length - 1];

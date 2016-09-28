@@ -32,6 +32,9 @@ namespace samchon.protocol.external
 	 */
 	export interface IExternalServer extends ExternalSystem
 	{
+		/**
+		 * Connect to external server.
+		 */
 		connect(): void;
 	}
 
@@ -113,7 +116,7 @@ namespace samchon.protocol.external
 		}
 
 		/**
-		 * @inheritdoc
+		 * Get IP address of external system to connect.
 		 */
 		public getIP(): string
 		{
@@ -121,7 +124,7 @@ namespace samchon.protocol.external
 		}
 
 		/**
-		 * @inheritdoc
+		 * Get port number of external system to connect.
 		 */
 		public getPort(): number
 		{

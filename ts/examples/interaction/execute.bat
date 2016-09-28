@@ -2,7 +2,10 @@
 :: MONITOR AND CHIEF SYSTEM
 :::::::::::::::::::::::::::::::::
 :: MONITOR
-::start cmd /k "color F0 & node monitor" & timeout 1
+start cmd /k "color F0 & node monitor" & timeout 1
+
+:: VIEWER
+start cmd /k ..\interaction-viewer\index.html
 
 :: CHIEF
 start cmd /k "color 0F & node chief" & timeout 1

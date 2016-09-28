@@ -21,7 +21,7 @@ namespace samchon.protocol
 	 * </a>
 	 * 
 	 * @see {@link IClientDriver}, {@link IServerConnector}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface ICommunicator extends IProtocol
@@ -98,7 +98,7 @@ namespace samchon.protocol
 	 * </a>
 	 * 
 	 * @see {@link IClientDriver}, {@link IServerConnector}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class CommunicatorBase 
@@ -292,7 +292,7 @@ namespace samchon.protocol
 	 * </a>
 	 *
 	 * @see {@link ClientDriver}, {@link ServerConnector}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class Communicator
@@ -547,7 +547,7 @@ namespace samchon.protocol
 	 * </a>
 	 *
 	 * @see {@link WebClientDriver}, {@link WebServerConnector}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class WebCommunicator
@@ -634,7 +634,7 @@ namespace samchon.protocol
 	 * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as 
 	 * clients. 
 	 * 
-	 * This class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a 
+	 * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a 
 	 * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the 
 	 * server and clients with this {@link SharedWorkerCommunicator}.
 	 * 
@@ -656,7 +656,7 @@ namespace samchon.protocol
 	 * 
 	 * @see {@link SharedWorkerClientDriver}, {@link SharedWorkerServerConnector}, {@link IProtocol}
 	 * @reference https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class SharedWorkerCommunicator

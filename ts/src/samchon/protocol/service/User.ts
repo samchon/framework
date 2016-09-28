@@ -4,26 +4,46 @@
 
 namespace samchon.protocol.service
 {
+	/**
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class User
 		extends collection.HashMapCollection<number, Client>
 		implements protocol.IProtocol
 	{
 		// RELATED OBJECTS
+		/**
+		 * @hidden
+		 */
 		private server_: Server;
 
 		// KEY
+		/**
+		 * @hidden
+		 */
 		private session_id_: string;
+		
+		/**
+		 * @hidden
+		 */
 		private sequence_: number;
 
 		// ACCOUNT
+		/**
+		 * @hidden
+		 */
 		private account_id_: string;
+		
+		/**
+		 * @hidden
+		 */
 		private authority_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		/**
-		 * Construct from a Server.
+		 * Construct from a {@link Server}.
 		 */
 		public constructor(server: Server)
 		{
@@ -39,10 +59,19 @@ namespace samchon.protocol.service
 			this.addEventListener("erase", this.handle_erase_client, this);
 		}
 
+		/**
+		 * Default Destructor.
+		 */
 		public destructor(): void
 		{
 		}
 
+		/**
+		 * Factory method creating a {@link Client} object.
+		 * 
+		 * @param driver A web communicator for remote client.
+		 * @return A newly created {@link Client} object.
+		 */
 		protected abstract createClient(driver: WebClientDriver): Client;
 
 		/**
@@ -60,20 +89,36 @@ namespace samchon.protocol.service
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * Get server.
+		 */
 		public getServer(): Server
 		{
 			return this.server_;
 		}
 
+		/**
+		 * Get account id.
+		 */
 		public getAccountID(): string
 		{
 			return this.account_id_;
 		}
+
+		/**
+		 * Get authority.
+		 */
 		public getAuthority(): number
 		{
 			return this.authority_;
 		}
 
+		/**
+		 * Set account.
+		 * 
+		 * @param id Account id of this {@link User}.
+		 * @param authority Authority of this {@link User}.
+		 */
 		public setAccount(id: string, authority: number): void
 		{
 			if (this.account_id_ == id) // SAME WITH BEFORE
@@ -92,14 +137,39 @@ namespace samchon.protocol.service
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
-		public sendData(invoke: protocol.Invoke): void
+		/**
+		 * Send an {@link Invoke} message.
+		 * 
+		 * Sends an {@link Invoke} message to all remote clients through the belonged {@link Client} objects. Sending the
+		 * {@link Invoke} message to all remote clients, it's came true by passing through the 
+		 * {@link Client.sendData Client.sendData()} methods.
+		 * 
+		 * ```typescript
+		 * class User
+		 * {
+		 *     public sendData(invoke: Invoke): void
+		 *     {
+		 *         for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+		 *             it.second.sendData(invoke);
+		 *     }
+		 * }
+		 * ```
+		 * 
+		 * @param invoke {@link Invoke} message to send to all remote clients.
+		 */
+		public sendData(invoke: Invoke): void
 		{
 			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
 				it.second.sendData(invoke);
 		}
-		public replyData(invoke: protocol.Invoke): void
+
+		/**
+		 * Handle a replied {@link Invoke} message.
+		 * 
+		 * @param invoke 
+		 */
+		public replyData(invoke: Invoke): void
 		{
-			invoke.apply(this);
 			this.server_.replyData(invoke);
 		}
 	}

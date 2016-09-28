@@ -9,48 +9,44 @@ namespace samchon.protocol
 	 * 
 	 * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
 	 * 
-	 * The easiest way to defining a server class is to extending one of them, who are derived from the 
-	 * {@link IServer}.
+	 * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}. 
+	 * However, it is impossible (that is, if the class is already extending another class), you can instead implement 
+	 * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into 
+	 * the aggregated {@link IServerBase}.
 	 * 
-	 * <ul>
-	 *	<li> {@link Server} </li>
-	 *	<li> {@link WebServer} </li>
-	 *	<li> {@link SharedWorkerServer} </li>
-	 * </ul>
+	 * Protocol | {@link IServer} | {@link IServerBase} | {@link IClientDriver}
+	 * ---------|-----------------|---------------------|-----------------------
+	 * Samchon Framework's own | {@link Server} | {@link ServerBase} | {@link ClientDriver}
+	 * Web-socket protocol | {@link WebServer} | {@link WebServerBase} | {@link WebClientDriver}
+	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerServerBase} | {@link SharedWorkerClientDriver}
 	 * 
-	 * However, it is impossible (that is, if the class is already extending another class), you can instead implement
-	 * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into the 
-	 * aggregated {@link IServerBase}.
+	 * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who 
+	 * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with 
+	 * specified port number.
 	 * 
-	 * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
-	 * <ul>
-	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
-	 * </ul>
+	 * ```typescript
+	 * class MyServer extends Something implements IServer
+	 * {
+	 * 	private server_base_: IServerBase = new WebServerBase(this);
+	 *
+	 * 	public addClient(driver: IClientDriver): void
+	 * 	{
+	 * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
+	 * 	}
+	 *
+	 * 	public open(port: number): void
+	 * 	{
+	 * 		this.server_base_.open();
+	 * 	}
+	 * 	public close(): void
+	 * 	{
+	 * 		this.server_base_.close();
+	 * 	}
+	 * }
+	 * ```
 	 * 
-	 * <code>
-	class MyServer extends Something implements IServer
-	{ 
-		private server_base: IServerBase = new WebServerBase(this); 
-	
-		public addClient(driver: IClientDriver): void
-		{
-			// WHAT TO DO WHEN A CLIENT HAS CONNECTED
-		} 
-	
-		public open(port: number): void
-		{
-			this.server_base.open();
-		} 
-		public close(): void
-		{
-			this.server_base.close();
-		} 
-	}
-	 * </code>
-	 * 
-	 * @see {@link IServer}
-	 * @handbook <a href="https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase"
-	 *			 target="_blank"> Basic Components - IServerBase </a>
+	 * @see {@link IServer}, {@link IClientDriver}
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IServerBase extends IServer
@@ -63,56 +59,77 @@ namespace samchon.protocol
 	/**
 	 * A substitute {@link Server}.
 	 * 
-	 * {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility.
+	 * The {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility.
 	 * 
-	 * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
-	 * {@link Server}. However, it is impossible (that is, if the class is already extending another class), you can
-	 * instead implement the {@link IServer} interface, create a {@link ServerBase} member, and write simple hooks 
-	 * to route calls into the aggregated {@link ServerBase}.
-	 * 
-	 * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
-	 * <ul>
-	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
-	 * </ul>
-	 * 
-	 * <code>
-	class MyServer extends Something implements IServer
-	{
-		private server_base: ServerBase = new ServerBase(this);
-
-		public addClient(driver: ClientDriver): void
-		{
-			// WHAT TO DO WHEN A CLIENT HAS CONNECTED
-		}
-
-		public open(port: number): void
-		{
-			this.server_base.open();
-		}
-		public close(): void
-		{
-			this.server_base.close();
-		}
-	}
-	 * </code>
-	 * 
+	 * #### [Inherited] {@link IServerBase}
+	 * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
+	 *
+	 * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
+	 * However, it is impossible (that is, if the class is already extending another class), you can instead implement
+	 * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
+	 * the aggregated {@link IServerBase}.
+	 *
+	 * Protocol | {@link IServer} | {@link IServerBase} | {@link IClientDriver}
+	 * ---------|-----------------|---------------------|-----------------------
+	 * Samchon Framework's own | {@link Server} | {@link ServerBase} | {@link ClientDriver}
+	 * Web-socket protocol | {@link WebServer} | {@link WebServerBase} | {@link WebClientDriver}
+	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerServerBase} | {@link SharedWorkerClientDriver}
+	 *
+	 * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
+	 * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
+	 * specified port number.
+	 *
+	 * ```typescript
+	 * class MyServer extends Something implements IServer
+	 * {
+	 * 	private server_base_: IServerBase = new WebServerBase(this);
+	 *
+	 * 	public addClient(driver: IClientDriver): void
+	 * 	{
+	 * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
+	 * 	}
+	 *
+	 * 	public open(port: number): void
+	 * 	{
+	 * 		this.server_base_.open();
+	 * 	}
+	 * 	public close(): void
+	 * 	{
+	 * 		this.server_base_.close();
+	 * 	}
+	 * }
+	 * ```
+	 *
+	 * @see {@link Server}, {@link ClientDriver}
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ServerBase
 		extends Server
 		implements IServerBase
 	{
-		private target_: IServer;
+		/**
+		 * @hidden
+		 */
+		private hooker_: IServer;
 
-		public constructor(target: IServer)
+		/**
+		 * Construct from a *hooker*.
+		 * 
+		 * @param hooker A hooker throwing responsibility of server's role.
+		 */
+		public constructor(hooker: IServer)
 		{
 			super();
-			this.target_ = target;
+			this.hooker_ = hooker;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public addClient(driver: IClientDriver): void
 		{
-			this.target_.addClient(driver);
+			this.hooker_.addClient(driver);
 		}
 	}
 }
@@ -122,56 +139,76 @@ namespace samchon.protocol
 	/**
 	 * A substitute {@link WebServer}.
 	 * 
-	 * {@link WebServerBase} is a substitute class who subrogates {@link WebServer}'s responsibility.
+	 * The {@link WebServerBase} is a substitute class who subrogates {@link WebServer}'s responsibility.
 	 * 
-	 * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
-	 * {@link WebServer}. However, it is impossible (that is, if the class is already extending another class), you can
-	 * instead implement the {@link IServer} interface, create a {@link WebServerBase} member, and write simple hooks to
-	 * route calls into the aggregated {@link WebServerBase}.
-	 * 
-	 * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
-	 * <ul>
-	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
-	 * </ul>
-	 * 
-	 * <code>
-	class MyServer extends Something implements IServer
-	{
-		private server_base: WebServerBase = new WebServerBase(this);
-
-		public addClient(driver: WebClientDriver): void
-		{
-			// WHAT TO DO WHEN A CLIENT HAS CONNECTED
-		}
-
-		public open(port: number): void
-		{
-			this.server_base.open();
-		}
-		public close(): void
-		{
-			this.server_base.close();
-		}
-	}
-	 * </code>
-	 * 
+	 * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
+	 *
+	 * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
+	 * However, it is impossible (that is, if the class is already extending another class), you can instead implement
+	 * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
+	 * the aggregated {@link IServerBase}.
+	 *
+	 * Protocol | {@link IServer} | {@link IServerBase} | {@link IClientDriver}
+	 * ---------|-----------------|---------------------|-----------------------
+	 * Samchon Framework's own | {@link Server} | {@link ServerBase} | {@link ClientDriver}
+	 * Web-socket protocol | {@link WebServer} | {@link WebServerBase} | {@link WebClientDriver}
+	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerServerBase} | {@link SharedWorkerClientDriver}
+	 *
+	 * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
+	 * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
+	 * specified port number.
+	 *
+	 * ```typescript
+	 * class MyServer extends Something implements IServer
+	 * {
+	 * 	private server_base_: IServerBase = new WebServerBase(this);
+	 *
+	 * 	public addClient(driver: IClientDriver): void
+	 * 	{
+	 * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
+	 * 	}
+	 *
+	 * 	public open(port: number): void
+	 * 	{
+	 * 		this.server_base_.open();
+	 * 	}
+	 * 	public close(): void
+	 * 	{
+	 * 		this.server_base_.close();
+	 * 	}
+	 * }
+	 * ```
+	 *
+	 * @see {@link WebServer}, {@link WebClientDriver}
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class WebServerBase
 		extends WebServer
 		implements IServerBase
 	{
-		private target_: IServer;
+		/**
+		 * @hidden
+		 */
+		private hooker_: IServer;
 
-		public constructor(target: IServer)
+		/**
+		 * Construct from a *hooker*.
+		 * 
+		 * @param hooker A hooker throwing responsibility of server's role.
+		 */
+		public constructor(hooker: IServer)
 		{
 			super();
-			this.target_ = target;
+			this.hooker_ = hooker;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public addClient(driver: IClientDriver): void
 		{
-			this.target_.addClient(driver);
+			this.hooker_.addClient(driver);
 		}
 	}
 }
@@ -181,57 +218,77 @@ namespace samchon.protocol
 	/**
 	 * A substitute {@link SharedWorkerServer}.
 	 * 
-	 * {@link SharedWorkerServerBase} is a substitute class who subrogates {@link SharedWorkerServer}'s 
+	 * The {@link SharedWorkerServerBase} is a substitute class who subrogates {@link SharedWorkerServer}'s 
 	 * responsibility.
 	 * 
-	 * The easiest way to defning a server class following normal protocol of Samchon Framework is to extending
-	 * {@link SharedWorkerServer}. However, it is impossible (that is, if the class is already extending another class), 
-	 * you can instead implement the {@link IServer} interface, create a {@link SharedWorkerServerBase} member, and write 
-	 * simple hooks to route calls into the aggregated {@link SharedWorkerServerBase}.
-	 * 
-	 * {@link ExternalClientArray} can be a good example using this {@link IServerBase}.
-	 * <ul>
-	 *	<li> https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts </li>
-	 * </ul>
-	 * 
-	 * <code>
-	class MyServer extends Something implements IServer
-	{
-		private server_base: SharedWorkerServerBase = new SharedWorkerServerBase(this);
-
-		public addClient(driver: SharedWorkerClientDriver): void
-		{
-			// WHAT TO DO WHEN A CLIENT HAS CONNECTED
-		}
-
-		public open(port: number): void
-		{
-			this.server_base.open();
-		}
-		public close(): void
-		{
-			this.server_base.close();
-		}
-	}
-	 * </code>
-	 * 
+	 * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
+	 *
+	 * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
+	 * However, it is impossible (that is, if the class is already extending another class), you can instead implement
+	 * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
+	 * the aggregated {@link IServerBase}.
+	 *
+	 * Protocol | {@link IServer} | {@link IServerBase} | {@link IClientDriver}
+	 * ---------|-----------------|---------------------|-----------------------
+	 * Samchon Framework's own | {@link Server} | {@link ServerBase} | {@link ClientDriver}
+	 * Web-socket protocol | {@link WebServer} | {@link WebServerBase} | {@link WebClientDriver}
+	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerServerBase} | {@link SharedWorkerClientDriver}
+	 *
+	 * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
+	 * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
+	 * specified port number.
+	 *
+	 * ```typescript
+	 * class MyServer extends Something implements IServer
+	 * {
+	 * 	private server_base_: IServerBase = new WebServerBase(this);
+	 *
+	 * 	public addClient(driver: IClientDriver): void
+	 * 	{
+	 * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
+	 * 	}
+	 *
+	 * 	public open(port: number): void
+	 * 	{
+	 * 		this.server_base_.open();
+	 * 	}
+	 * 	public close(): void
+	 * 	{
+	 * 		this.server_base_.close();
+	 * 	}
+	 * }
+	 * ```
+	 *
+	 * @see {@link SharedWorkerServer}, {@link SharedWorkerClientDriver}
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SharedWorkerServerBase
 		extends SharedWorkerServer
 		implements IServerBase
 	{
-		private target_: IServer;
+		/**
+		 * @hidden
+		 */
+		private hooker_: IServer;
 
-		public constructor(target: IServer)
+		/**
+		 * Construct from a *hooker*.
+		 * 
+		 * @param hooker A hooker throwing responsibility of server's role.
+		 */
+		public constructor(hooker: IServer)
 		{
 			super();
-			this.target_ = target;
+			this.hooker_ = hooker;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public addClient(driver: IClientDriver): void
 		{
-			this.target_.addClient(driver);
+			this.hooker_.addClient(driver);
 		}
 	}
 }

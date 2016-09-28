@@ -21,7 +21,7 @@ namespace samchon.collection
 	 * - *refresh* typed events:
 	 *   - {@link refresh}
 	 * 
-	 * #### [Inherited]
+	 * #### [Inherited] {@link Deque}
 	 * {@link Deque} (usually pronounced like "*deck*") is an irregular acronym of **d**ouble-**e**nded **q**ueue. 
 	 * Double-ended queues are sequence containers with dynamic sizes that can be expanded or contracted on both ends 
 	 * (either its front or its back).

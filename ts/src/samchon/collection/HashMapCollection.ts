@@ -21,7 +21,7 @@ namespace samchon.collection
 	 * - *refresh* typed events:
 	 *   - {@link refresh}
 	 * 
-	 * #### [Inherited]
+	 * #### [Inherited] {@link HashMap}
 	 * {@link HashMap HashMaps} are associative containers that store elements formed by the combination of a 
 	 * *key value* and a *mapped value*, and which allows for fast retrieval of individual elements based on their 
 	 * *keys*.

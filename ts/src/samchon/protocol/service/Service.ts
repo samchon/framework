@@ -2,10 +2,20 @@
 
 namespace samchon.protocol.service
 {
+	/**
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class Service 
 		implements protocol.IProtocol
 	{
+		/**
+		 * @hidden
+		 */
 		private client_: Client;
+		
+		/**
+		 * @hidden
+		 */
 		private path_: string;
 
 		/* ------------------------------------------------------------------
@@ -20,6 +30,9 @@ namespace samchon.protocol.service
 			this.path_ = path;
 		}
 
+		/**
+		 * Default Destructor.
+		 */
 		public destructor(): void
 		{
 		}
@@ -46,13 +59,11 @@ namespace samchon.protocol.service
 		/* ------------------------------------------------------------------
 			MESSAGE CHAIN
 		------------------------------------------------------------------ */
-		public sendData(invoke: protocol.Invoke): void
+		public sendData(invoke: Invoke): void
 		{
 			return this.client_.sendData(invoke);
 		}
-		public replyData(invoke: protocol.Invoke): void
-		{
-			invoke.apply(this);
-		}
+
+		public abstract replyData(invoke: Invoke): void;
 	}
 }

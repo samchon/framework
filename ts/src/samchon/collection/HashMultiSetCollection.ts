@@ -17,7 +17,7 @@ namespace samchon.collection
 	 * - *refresh* typed events:
 	 *   - {@link refresh}
 	 * 
-	 * #### [Inherited]
+	 * #### [Inherited] {@link HashMultiSet}
 	 * {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
 	 * retrieval of individual elements based on their value, much like {@link HashMultiSet} containers, but allowing 
 	 * different elements to have equivalent values.

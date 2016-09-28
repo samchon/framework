@@ -35,7 +35,7 @@ namespace samchon.protocol
 	 * </a>
 	 * 
 	 * @see {@link IServer}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IServerConnector
@@ -115,7 +115,7 @@ namespace samchon.protocol
 	 * </a>
 	 *
 	 * @see {@link Server}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ServerConnector
@@ -203,7 +203,7 @@ namespace samchon.protocol
 	 * </a>
 	 *
 	 * @see {@link WebServer}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class WebServerConnector
@@ -388,7 +388,7 @@ namespace samchon.protocol
 	 * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
 	 * clients.
 	 *
-	 * This class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+	 * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
 	 * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
 	 * server and clients with this {@link SharedWorkerCommunicator}.
 	 * 
@@ -418,7 +418,7 @@ namespace samchon.protocol
 	 * </a>
 	 *
 	 * @see {@link SharedWorkerServer}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SharedWorkerServerConnector

@@ -25,6 +25,9 @@ namespace samchon.protocol.distributed
 			this.role_map_ = new std.HashMap<string, DistributedSystemRole>();
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public construct(xml: library.XML): void
 		{
 			//--------
@@ -56,6 +59,12 @@ namespace samchon.protocol.distributed
 			super.construct(xml);
 		}
 
+		/**
+		 * Factory method creating a child {@link DistributedSystemRole role} object.
+		 * 
+		 * @param xml {@link XML} represents the {@link DistributedSystemRole child} object.
+		 * @return A new {@link DistributedSystemRole} object.
+		 */
 		protected abstract createRole(xml: library.XML): DistributedSystemRole;
 
 		/* ---------------------------------------------------------
@@ -119,7 +128,7 @@ namespace samchon.protocol.distributed
 
 				// ESTIMATE PERFORMANCE INDEXES
 				this.estimate_system_performance(history); // ESTIMATE SYSTEMS' INDEX
-				this.estimate_system_performance(history); // ESTIMATE ROLE' INDEX
+				this.estimate_role_performance(history); // ESTIMATE ROLE' INDEX
 
 				// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SYSTEMS AND ROLES
 				this._Normalize_performance();
@@ -138,6 +147,8 @@ namespace samchon.protocol.distributed
 		private estimate_role_performance(history: DSInvokeHistory): void
 		{
 			let role: DistributedSystemRole = history.getRole();
+			if (role["enforced_"] == true)
+				return; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
 
 			let average_elapsed_time_of_others: number = 0;
 			let denominator: number = 0;
@@ -186,6 +197,8 @@ namespace samchon.protocol.distributed
 		private estimate_system_performance(history: DSInvokeHistory): void
 		{
 			let system: DistributedSystem = history.getSystem();
+			if (system["enforced_"] == true)
+				return; // THE PERFORMANCE INDEX IS ENFORCED. IT DOESN'T PERMIT REVALUATION
 
 			let average_elapsed_time_of_others: number = 0;
 			let denominator: number = 0;
@@ -238,19 +251,38 @@ namespace samchon.protocol.distributed
 			// NORMALIZE SYSTEMS' PERFORMANCE INDEXES
 			super._Normalize_performance();
 
-			// NORMALIZE ROLES' PERFORMANCE INDEXES
-			let average: number = 0;
-			for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
-				average += it.second.getResource();
-			average /= this.role_map_.size();
+			// COMPUTE AVERAGE
+			let average: number = 0.0;
+			let denominator: number = 0;
 
 			for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
-				it.second.setResource(it.second.getResource() / average);
+			{
+				let role: DistributedSystemRole = it.second;
+				if (role["enforced_"] == true)
+					continue; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
+
+				average += role.getResource();
+				denominator++;
+			}
+			average /= this.role_map_.size();
+
+			// DIVIDE FROM THE AVERAGE
+			for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
+			{
+				let role: DistributedSystemRole = it.second;
+				if (role["enforced_"] == true)
+					continue; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
+
+				role.setResource(role.getResource() / average);
+			}
 		}
 
 		/* ---------------------------------------------------------
 			EXPORTERS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public toXML(): library.XML
 		{
 			let xml: library.XML = super.toXML();

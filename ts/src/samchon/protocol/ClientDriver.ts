@@ -14,11 +14,11 @@ namespace samchon.protocol
 	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being 
 	 * created by the matched {@link IServer} object.
 	 * 
-	 * Derived Type | Created By
-	 * -------------|-------------------------
-	 * {@link ClientDriver} | {@link Server}
-	 * {@link WebClientDriver} | {@link WebServer}
-	 * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 * Protocol | Derived Type | Created By
+	 * ---------|--------------|------------
+	 * Samchon Framework's own | {@link ClientDriver} | {@link Server}
+	 * Web-socket protocol | {@link WebClientDriver} | {@link WebServer}
+	 * SharedWorker | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
 	 * 
 	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then 
 	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes 
@@ -35,7 +35,7 @@ namespace samchon.protocol
 	 * </a>
 	 * 
 	 * @see {@link IServer}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IClientDriver extends ICommunicator
@@ -72,11 +72,11 @@ namespace samchon.protocol
 	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
 	 * created by the matched {@link IServer} object.
 	 *
-	 * Derived Type | Created By
-	 * -------------|-------------------------
-	 * {@link ClientDriver} | {@link Server}
-	 * {@link WebClientDriver} | {@link WebServer}
-	 * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 * Protocol | Derived Type | Created By
+	 * ---------|--------------|------------
+	 * Samchon Framework's own | {@link ClientDriver} | {@link Server}
+	 * Web-socket protocol | {@link WebClientDriver} | {@link WebServer}
+	 * SharedWorker | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
 	 *
 	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
 	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -93,7 +93,7 @@ namespace samchon.protocol
 	 * </a>
 	 * 
 	 * @see {@link Server}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ClientDriver
@@ -148,11 +148,11 @@ namespace samchon.protocol
 	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
 	 * created by the matched {@link IServer} object.
 	 *
-	 * Derived Type | Created By
-	 * -------------|-------------------------
-	 * {@link ClientDriver} | {@link Server}
-	 * {@link WebClientDriver} | {@link WebServer}
-	 * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 * Protocol | Derived Type | Created By
+	 * ---------|--------------|------------
+	 * Samchon Framework's own | {@link ClientDriver} | {@link Server}
+	 * Web-socket protocol | {@link WebClientDriver} | {@link WebServer}
+	 * SharedWorker | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
 	 *
 	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
 	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -169,7 +169,7 @@ namespace samchon.protocol
 	 * </a>
 	 * 
 	 * @see {@link WebServer}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class WebClientDriver
@@ -260,7 +260,7 @@ namespace samchon.protocol
 	 * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
 	 * clients.
 	 *
-	 * This class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+	 * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
 	 * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
 	 * server and clients with this {@link SharedWorkerCommunicator}.
 	 * 
@@ -272,11 +272,11 @@ namespace samchon.protocol
 	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
 	 * created by the matched {@link IServer} object.
 	 *
-	 * Derived Type | Created By
-	 * -------------|-------------------------
-	 * {@link ClientDriver} | {@link Server}
-	 * {@link WebClientDriver} | {@link WebServer}
-	 * {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 * Protocol | Derived Type | Created By
+	 * ---------|--------------|------------
+	 * Samchon Framework's own | {@link ClientDriver} | {@link Server}
+	 * Web-socket protocol | {@link WebClientDriver} | {@link WebServer}
+	 * SharedWorker | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
 	 *
 	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
 	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -293,7 +293,7 @@ namespace samchon.protocol
 	 * </a>
 	 * 
 	 * @see {@link SharedWorkerServer}, {@link IProtocol}
-	 * @handbook [Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SharedWorkerClientDriver 

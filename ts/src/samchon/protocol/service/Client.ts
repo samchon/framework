@@ -2,13 +2,29 @@
 
 namespace samchon.protocol.service
 {
+	/**
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class Client implements protocol.IProtocol
 	{
+		/**
+		 * @hidden
+		 */
 		private user_: User;
+		
+		/**
+		 * @hidden
+		 */
 		private no_: number;
 
+		/**
+		 * @hidden
+		 */
 		private communicator_: WebClientDriver;
-
+		
+		/**
+		 * @hidden
+		 */
 		private service_: Service;
 
 		/* ------------------------------------------------------------------
@@ -41,7 +57,7 @@ namespace samchon.protocol.service
 		 * Factory method creating {@link Service} object.
 		 * 
 		 * @param path Requested path.
-		 * @return A new {@link Service} typed object or ```null```.
+		 * @return A newly created {@link Service} object or ```null```.
 		 */
 		protected abstract createService(path: string): Service;
 
@@ -71,38 +87,30 @@ namespace samchon.protocol.service
 			return this.no_;
 		}
 
-		/* ------------------------------------------------------------------
-			MESSAGE CHAIN
-		------------------------------------------------------------------ */
-		/**
-		 * @inheritdoc
-		 */
-		public sendData(invoke: protocol.Invoke): void
-		{
-			this.communicator_.sendData(invoke);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public replyData(invoke: protocol.Invoke): void
-		{
-			// THIS CLIENT OBJECT HAS THE MATCHED LISTENER?
-			if (invoke.apply(this) == true)
-				return;
-
-			// SHIFT CHAIN TO USER
-			this.user_.replyData(invoke);
-			if (this.service_ != null) // AND SERVICE
-				this.service_.replyData(invoke);
-		}
-
 		protected changeService(path: string): void
 		{
 			if (this.service_ != null)
 				this.service_.destructor();
 
 			this.service_ = this.createService(path);
+		}
+
+		/* ------------------------------------------------------------------
+			MESSAGE CHAIN
+		------------------------------------------------------------------ */
+		public sendData(invoke: Invoke): void
+		{
+			this.communicator_.sendData(invoke);
+		}
+		
+		public replyData(invoke: protocol.Invoke): void
+		{
+			// SHIFT CHAIN TO USER
+			this.user_.replyData(invoke);
+			
+			// AND SERVICE
+			if (this.service_ != null) 
+				this.service_.replyData(invoke);
 		}
 	}
 }

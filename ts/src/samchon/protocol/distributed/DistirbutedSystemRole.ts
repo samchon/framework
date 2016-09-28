@@ -7,16 +7,39 @@ namespace samchon.protocol.distributed
 	export abstract class DistributedSystemRole
 		extends external.ExternalSystemRole
 	{
+		/**
+		 * @hidden
+		 */
 		private system_array_: DistributedSystemArray;
 
+		/**
+		 * @hidden
+		 */
 		private progress_list_: std.HashMap<number, DSInvokeHistory>;
+		
+		/**
+		 * @hidden
+		 */
 		private history_list_: std.HashMap<number, DSInvokeHistory>;
 
-		protected resource: number;
+		/**
+		 * @hidden
+		 */
+		private resource: number;
+
+		/**
+		 * @hidden
+		 */
+		private enforced_: boolean;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Constrct from parent {@link DistributedSystemArray} object.
+		 * 
+		 * @param systemArray
+		 */
 		public constructor(systemArray: DistributedSystemArray)
 		{
 			super(null);
@@ -37,16 +60,96 @@ namespace samchon.protocol.distributed
 			return this.system_array_;
 		}
 
+		/**
+		 * Get resource index.
+		 * 
+		 * Get *resource index* that indicates how much this {@link DistributedSystemRole role} is heavy.
+		 * 
+		 * If this {@link DistributedSystemRole role} does not have any	{@link Invoke} message had handled, then the
+		 * *resource index* will be ```1.0```, which means default and average value between all 
+		 * {@link DistributedSystemRole} instances (that are belonged to a same {@link DistributedSystemArray} object).
+		 * 
+		 * You can specify the *resource index* by yourself, but notice that, if the *resource index* is higher than 
+		 * other {@link DistributedSystemRole} objects, then this {@link DistributedSystemRole role} will be ordered to
+		 * handle less processes than other {@link DistributedSystemRole} objects. Otherwise, the *resource index* is 
+		 * lower than others, of course, much processes will be requested.
+		 * 
+		 * - {@link setResource setResource()}
+		 * - {@link enforceResource enforceResource()}
+		 * 
+		 * Unless {@link enforceResource enforceResource()} is called, This *resource index* is **revaluated** whenever
+		 * {@link sendData sendData()} is called.
+		 * 
+		 * @return Resource index.
+		 */
 		public getResource(): number
 		{
 			return this.resource;
 		}
 
+		/**
+		 * Set resource index.
+		 * 
+		 * Set *resource index* that indicates how much this {@link DistributedSystemRole role} is heavy. This 
+		 * *resource index* can be **revaulated**.
+		 * 
+		 * Note that, initial and average *resource index* of {@link DistributedSystemRole} objects are ```1.0```. If the 
+		 * *resource index* is higher than other {@link DistributedSystemRole} objects, then this 
+		 * {@link DistributedSystemRole} will be ordered to handle more processes than other {@link DistributedSystemRole} 
+		 * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
+		 * 
+		 * Unlike {@link enforceResource}, configuring *resource index* by this {@link setResource} allows the 
+		 * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the 
+		 * *resource index*. The {@link DistributedSystemRole role} is much heavier than any other, but you estimated it 
+		 * to the lightest one. It looks like a terrible case that causes 
+		 * {@link DistributedSystemArray entire distributed processing system} to be slower, however, don't mind. The 
+		 * {@link DistributedSystemRole role} will the direct to the *propriate resource index* eventually with the 
+		 * **revaluation**.
+		 * 
+		 * - The **revaluation** is caused by the {@link sendData sendData()} method.
+		 * 
+		 * @param val New resource index, but can be revaluated.
+		 */
 		public setResource(val: number): void
 		{
 			this.resource = val;
+			this.enforced_ = false;
 		}
 
+		/**
+		 * Enforce resource index.
+		 * 
+		 * Enforce *resource index* that indicates how much heavy the {@link DistributedSystemRole role is}. The 
+		 * *resource index* will be fixed, never be **revaluated**.
+		 *
+		 * Note that, initial and average *resource index* of {@link DistributedSystemRole} objects are ```1.0```. If the
+		 * *resource index* is higher than other {@link DistributedSystemRole} objects, then this
+		 * {@link DistributedSystemRole} will be ordered to handle more processes than other {@link DistributedSystemRole}
+		 * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
+		 * 
+		 * The difference between {@link setResource} and this {@link enforceResource} is allowing **revaluation** or not. 
+		 * This {@link enforceResource} does not allow the **revaluation**. The *resource index* is clearly fixed and 
+		 * never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the **mis-valuation** 
+		 * with this {@link enforceResource}.
+		 * 
+		 * For example, there's a {@link DistributedSystemRole role} much heavier than any other, but you 
+		 * **mis-estimated** it to the lightest. In that case, there's no way. The 
+		 * {@link DistributedSystemArray entire distributed processing system} will be slower by the **mis-valuation**. 
+		 * By the reason, using {@link enforceResource}, it's recommended only when you can clearly certain the 
+		 * *resource index*. If you can't certain the *resource index* but want to recommend, then use {@link setResource} 
+		 * instead.
+		 * 
+		 * @param val New resource index to be fixed.
+		 */
+		public enforceResource(val: number): void 
+		{
+			this.resource = val;
+			this.enforced_ = true;
+		}
+
+		/**
+		 * @hidden
+		 */
 		private compute_average_elapsed_time(): number
 		{
 			let sum: number = 0;
@@ -66,6 +169,9 @@ namespace samchon.protocol.distributed
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public sendData(invoke: protocol.Invoke): void
 		{
 			if (this.system_array_.empty() == true)
@@ -104,13 +210,16 @@ namespace samchon.protocol.distributed
 			{
 				let system: DistributedSystem = this.system_array_.at(i) as DistributedSystem;
 				if (system["exclude_"] == true)
-					continue;
+					continue; // BEING REMOVED SYSTEM
 
 				if (idle_system == null 
 					|| system["progress_list_"].size() < idle_system["progress_list_"].size()
 					|| system.getPerformance() < idle_system.getPerformance())
 					idle_system = system;
 			}
+
+			if (idle_system == null)
+				throw new std.OutOfRange("No remote system to send data");
 
 			// ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)
 			let history: DSInvokeHistory = new DSInvokeHistory(idle_system, this, invoke);
@@ -122,51 +231,14 @@ namespace samchon.protocol.distributed
 			idle_system.sendData(invoke);
 		}
 
+		/**
+		 * @hidden
+		 */
 		private complete_history(history: DSInvokeHistory): void
 		{
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list_.erase(history.getUID());
 			this.history_list_.insert([history.getUID(), history]);
-
-			////--------
-			//// ESTIMATE PERFORMANCE OF THIS ROLE
-			////--------
-			//let role_map: std.HashMap<string, DistributedSystemRole> = this.system_array_.getRoleMap();
-			//let average_elapsed_time_of_others: number = 0;
-			//let denominator: number = 0;
-
-			//// COMPUTE AVERAGE ELAPSED TIME OF OTHER ROLES
-			//for (let it = role_map.begin(); !it.equal_to(role_map.end()); it = it.next())
-			//{
-			//	let role: DistributedSystemRole = it.second;
-			//	if (this == role || role.history_list_.empty() == true)
-			//		continue;
-
-			//	average_elapsed_time_of_others += role._Compute_average_elapsed_time() * role.performance;
-			//	denominator++;
-			//}
-
-			//// COMPARE WITH THIS HISTORY'S ELAPSED TIME
-			//if (denominator != 0)
-			//{
-			//	average_elapsed_time_of_others /= denominator; // DIVE WITH DENOMINATOR
-
-			//	// DEDUCT NEW PERFORMANCE INDEX BASED ON THE EXECUTION TIME
-			//	//	- ROLE'S PERFORMANCE MEANS; HOW MUCH TIME THE ROLE NEEDS
-			//	//	- ELAPSED TIME IS LONGER, THEN PERFORMANCE IS HIGHER
-			//	let new_performance: number = history.computeElapsedTime() / average_elapsed_time_of_others;
-
-			//	// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 15%
-			//	let ordinary_ratio: number;
-			//	if (this.history_list_.size() < 2)
-			//		ordinary_ratio = .15;
-			//	else
-			//		ordinary_ratio = Math.min(0.85, 1.0 / (this.history_list_.size() - 1.0));
-
-			//	// DEFINE NEW PERFORMANCE
-			//	this.performance = (this.performance * ordinary_ratio) 
-			//		+ (new_performance * (1 - ordinary_ratio));
-			//}
 		}
 	}
 }

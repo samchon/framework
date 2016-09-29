@@ -187,15 +187,7 @@ namespace example.chat {
 
 					<div id="page-content-wrapper">
 						<div className="container-fluid">
-							<div className="row">
-								<div className="col-lg-12">
-									<h1>Welcome Samchon Talk</h1>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.Blanditiis animi voluptatum voluptate quam rerum facere quis, sapiente minima.Necessitatibus voluptatibus laudantium rem, porro corrupti dolorum voluptatum autem numquam recusandae error.</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.Magnam ratione reprehenderit laboriosam mollitia vel, deleniti sunt consectetur asperiores molestias natus repellat ducimus soluta, possimus.Voluptate tempora voluptatibus fugit pariatur rem earum ipsa ut, aspernatur animi quaerat, architecto nobis alias itaque necessitatibus deleniti dolores voluptates at, id ab libero explicabo.Vel dolorem veniam, provident recusandae odio voluptatum quidem earum.<code>#채팅방</code><code>#오픈채팅</code><code>#방만들어</code>.</p>
-								</div>
-							</div>
-							<hr/>
-							<br/>
+
 							<div>
 								<div className="create-room input-group">
 									<h2> Create Room </h2>

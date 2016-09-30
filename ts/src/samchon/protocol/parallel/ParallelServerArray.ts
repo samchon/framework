@@ -23,11 +23,11 @@ namespace samchon.protocol.parallel
 		{
 			for (let i: number = 0; i < this.size(); i++)
 			{
-				let system: external.ExternalSystem = this.at(i);
-				if ((system as external.IExternalServer).connect == undefined)
+				let system: IParallelServer = this.at(i) as IParallelServer;
+				if (system.connect == undefined)
 					continue;
 
-				(system as external.IExternalServer).connect();
+				system.connect();
 			}
 		}
 	}

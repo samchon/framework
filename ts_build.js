@@ -44,6 +44,8 @@ function remove_dynamics()
 			'start_time_',			// InvokeHistory.start_time_
 			'end_time_',			// InvokeHistory.end_time_
 
+			'destructor',		// {System Templates}.destructor
+
 			//--------
 			// SERVICE MODULE
 			//--------

@@ -3,26 +3,25 @@
 /// <reference path="../EntityCollection.ts" />
 
 /**
- * [[include: https://raw.githubusercontent.com/samchon/framework/master/handbook/TypeScript-Protocol-External_System.md]]
+ * [[include: TypeScript-Protocol-External_System.md]]
  */
 namespace samchon.protocol.external
 {
 	/**
-	 * An array and manager of {@link ExternalSystem external systems}.
+	 * An array and manager of {@link ExternalSystem external system drivers}.
 	 * 
-	 * {@link ExternalSystemArray} is an abstract class contains and manages external system drivers, 
-	 * {@link ExternalSystem} objects. You can specify this {@link ExternalSystemArray} to be a server accepting 
-	 * {@link ExternalSystem external clients} or a client connecting to {@link IExternalServer external servers}. Even 
-	 * both of them is also possible.
+	 * The {@link ExternalSystemArray} is an abstract class containing and managing external system drivers, 
+	 * {@link ExternalSystem} objects. Within framewokr of network, {@link ExternalSystemArray} represents your system 
+	 * and children {@link ExternalSystem} objects represent remote, external systems connected with your system. 
+	 * With this {@link ExternalSystemArray}, you can manage multiple external systems as a group. 
 	 * 
-	 * <ul>
-	 *	<li> A server accepting external clients: {@link IExternalClientArray} </li>
-	 *	<li> A client connecting to external servers: {@link IExternalServerArray} </li>
-	 *	<li> 
-	 *		Accepts external clients & Connects to external servers at the same time: 
-	 *		{@link IExternalServerClientArray}
-	 *	</li>
-	 * </ul>
+	 * You can specify this {@link ExternalSystemArray} class to be *a server accepting external clients* or 
+	 * *a client connecting to external servers*. Even both of them is also possible. 
+	 * 
+	 * - {@link ExternalClientArray}: A server accepting {@link ExternalSystem external clients}.
+	 * - {@link ExternalServerArray}: A client connecting to {@link ExternalServer external servers}.
+	 * - {@link ExternalServerClientArray}: Both of them. Accepts {@link ExternalSystem external clients} and connects to 
+	 *                                      {@link ExternalServer external servers} at the same time.
 	 * 
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
 	 *		  target="_blank">
@@ -30,7 +29,7 @@ namespace samchon.protocol.external
 	 *		 style="max-width: 100%" />
 	 * </a>
 	 * 
-	 * <h4> Proxy Pattern </h4>
+	 * #### Proxy Pattern
 	 * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
 	 * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
 	 * important. Only interested in user's perspective is *which can be done*.
@@ -77,7 +76,7 @@ namespace samchon.protocol.external
 		private handle_system_erase(event: collection.CollectionEvent<ExternalSystem>): void
 		{
 			for (let it = event.first; !it.equal_to(event.last); it = it.next())
-				it.value.destructor();
+				it.value["destructor"]();
 		}
 
 		/* ---------------------------------------------------------

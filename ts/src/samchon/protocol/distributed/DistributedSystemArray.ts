@@ -2,6 +2,9 @@
 
 /// <reference path="../parallel/ParallelSystemArray.ts" />
 
+/**
+ * [[include: TypeScript-Protocol-Distributed_System.md]]
+ */
 namespace samchon.protocol.distributed
 {
 	export abstract class DistributedSystemArray extends parallel.ParallelSystemArray

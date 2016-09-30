@@ -2,25 +2,34 @@
 
 /// <reference path="../Server.ts" />
 
+/**
+ * [[include: TypeScript-Protocol-Service.md]]
+ */
 namespace samchon.protocol.service
 {
-	/** 
+	/**
 	 * A cloud server.
 	 * 
-	 * The {@link Server} is an abstract class, who can build a real-time cloud server, that is following the web-socket 
-	 * protocol. Extends this {@link Server} and related classes and overrides abstract methods under below. After the 
-	 * overridings, open this {@link Server cloud server} by using the {@link open open()} method.
+	 * The {@link Server} is an abstract server class, who can build a real-time cloud server, that is following the 
+	 * web-socket protocol. Extends this {@link Server} and related classes and overrides abstract methods under below. 
+	 * After the overridings, open this {@link Server cloud server} by using the {@link open open()} method.
 	 * 
-	 * - Factory methods
-	 *   - {@link Server.createUser Server.createUser()}
-	 *   - {@link User.createClient User.createClient()}
-	 *   - {@liok Client.createService Client.createService()}
+	 * - Objects in composite relationship and their factory methods
+	 *   - {@link User}: {@link Server.createUser Server.createUser()}
+	 *   - {@link Client}: {@link User.createClient User.createClient()}
+	 *   - {@link Service}: {@liok Client.createService Client.createService()}
 	 * - {@link Invoke} message chains; {@link IProtocol.replyData replyData}
 	 *   - {@link Server.replyData}
 	 *   - {@link User.replyData}
 	 *   - {@link Client.replyData}
 	 *   - {@link Service.replyData}
 	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png" target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @handbook [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Service)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class Server
@@ -96,7 +105,7 @@ namespace samchon.protocol.service
 		 * {@link Client.sendData Client.sendData()}.
 		 * 
 		 * ```typescript
-		 * class Server
+		 * class protocol.service.Server
 		 * {
 		 *     public sendData(invoke: Invoke): void
 		 *     {
@@ -154,7 +163,6 @@ namespace samchon.protocol.service
 			// CREATE CHILDREN OBJECTS
 			//--------
 			// USER
-			/////
 			let user: User;
 
 			if (this.session_map_.has(driver.getSessionID()) == true)
@@ -183,9 +191,9 @@ namespace samchon.protocol.service
 
 				// ALSO, DESTRUCTORS OF THE SERVICE ARE CALLED.
 				if (client.getService() != null)
-					client.getService().destructor(); // SERVICE
+					client.getService()["destructor"](); // SERVICE
 
-				client.destructor(); // AND CLIENT
+				client["destructor"](); // AND CLIENT
 			}
 		}
 
@@ -210,7 +218,7 @@ namespace samchon.protocol.service
 						server.account_map_.erase(user.getAccountID()); 
 
 					// CALL DESTRUCTOR
-					user.destructor();
+					user["destructor"]();
 				}.bind(this),
 				30000 // KEEP USER 30 SECONDS
 			);

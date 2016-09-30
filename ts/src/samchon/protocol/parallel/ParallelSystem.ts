@@ -70,10 +70,8 @@ namespace samchon.protocol.parallel
 			this.performance = 1.0;
 		}
 
-		public destructor(): void
+		protected destructor(): void
 		{
-			super.destructor();
-
 			this.exclude_ = true;
 
 			for (let it = this.progress_list_.begin(); !it.equal_to(this.progress_list_.end()); it = it.next())
@@ -84,6 +82,8 @@ namespace samchon.protocol.parallel
 				
 				this._Send_back_history(invoke, history);
 			}
+
+			super.destructor();
 		}
 
 		/* ---------------------------------------------------------

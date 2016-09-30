@@ -6,12 +6,12 @@
  *
  * Samchon, a SDN (Software Defined Network) framework.
  *
- * With Samchon Framework, you can implement distributed processing system within framework of OOD like
- * handling S/W objects (classes). You can realize cloud and distributed system very easily with provided
- * system templates and even integration with C++ is possible.
+ * With Samchon Framework, you can implement distributed processing system within framework of OOD like handling S/W
+ * objects (classes). You can realize cloud and distributed system very easily with provided system templates and even
+ * integration with C++ is possible.
  *
- * The goal, ultimate utilization model of Samchon Framework is, building cloud system with NodeJS and
- * takING heavy works to C++ distributed systems with provided modules (those are system templates).
+ * The goal, ultimate utilization model of Samchon Framework is, building cloud system with NodeJS and taking heavy works
+ * to C++ distributed systems with provided modules (those are system templates).
  *
  * @git https://github.com/samchon/framework
  * @author Jeongho Nam <http://samchon.org>
@@ -5849,7 +5849,7 @@ var samchon;
 /// <reference path="../../API.ts" />
 /// <reference path="../EntityCollection.ts" />
 /**
- * [[include: https://raw.githubusercontent.com/samchon/framework/master/handbook/TypeScript-Protocol-External_System.md]]
+ * [[include: TypeScript-Protocol-External_System.md]]
  */
 var samchon;
 (function (samchon) {
@@ -5858,21 +5858,20 @@ var samchon;
         var external;
         (function (external) {
             /**
-             * An array and manager of {@link ExternalSystem external systems}.
+             * An array and manager of {@link ExternalSystem external system drivers}.
              *
-             * {@link ExternalSystemArray} is an abstract class contains and manages external system drivers,
-             * {@link ExternalSystem} objects. You can specify this {@link ExternalSystemArray} to be a server accepting
-             * {@link ExternalSystem external clients} or a client connecting to {@link IExternalServer external servers}. Even
-             * both of them is also possible.
+             * The {@link ExternalSystemArray} is an abstract class containing and managing external system drivers,
+             * {@link ExternalSystem} objects. Within framewokr of network, {@link ExternalSystemArray} represents your system
+             * and children {@link ExternalSystem} objects represent remote, external systems connected with your system.
+             * With this {@link ExternalSystemArray}, you can manage multiple external systems as a group.
              *
-             * <ul>
-             *	<li> A server accepting external clients: {@link IExternalClientArray} </li>
-             *	<li> A client connecting to external servers: {@link IExternalServerArray} </li>
-             *	<li>
-             *		Accepts external clients & Connects to external servers at the same time:
-             *		{@link IExternalServerClientArray}
-             *	</li>
-             * </ul>
+             * You can specify this {@link ExternalSystemArray} class to be *a server accepting external clients* or
+             * *a client connecting to external servers*. Even both of them is also possible.
+             *
+             * - {@link ExternalClientArray}: A server accepting {@link ExternalSystem external clients}.
+             * - {@link ExternalServerArray}: A client connecting to {@link ExternalServer external servers}.
+             * - {@link ExternalServerClientArray}: Both of them. Accepts {@link ExternalSystem external clients} and connects to
+             *                                      {@link ExternalServer external servers} at the same time.
              *
              * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
              *		  target="_blank">
@@ -5880,7 +5879,7 @@ var samchon;
              *		 style="max-width: 100%" />
              * </a>
              *
-             * <h4> Proxy Pattern </h4>
+             * #### Proxy Pattern
              * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
              * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
              * important. Only interested in user's perspective is *which can be done*.
@@ -5921,7 +5920,7 @@ var samchon;
                  */
                 ExternalSystemArray.prototype.handle_system_erase = function (event) {
                     for (var it = event.first; !it.equal_to(event.last); it = it.next())
-                        it.value.destructor();
+                        it.value["destructor"]();
                 };
                 /* ---------------------------------------------------------
                     ACCESSORS
@@ -6001,6 +6000,9 @@ var samchon;
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
 /// <reference path="../external/ExternalSystemArray.ts" />
+/**
+ * [[include: TypeScript-Protocol-Parallel_System.md]]
+ */
 var samchon;
 (function (samchon) {
     var protocol;
@@ -6174,6 +6176,9 @@ var samchon;
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
 /// <reference path="../parallel/ParallelSystemArray.ts" />
+/**
+ * [[include: TypeScript-Protocol-Distributed_System.md]]
+ */
 var samchon;
 (function (samchon) {
     var protocol;
@@ -6684,6 +6689,9 @@ var samchon;
                 /* ---------------------------------------------------------
                     NETWORK & MESSAGE CHAIN
                 --------------------------------------------------------- */
+                /**
+                 * Close connection.
+                 */
                 ExternalSystem.prototype.close = function () {
                     this.communicator.close();
                 };
@@ -6761,7 +6769,6 @@ var samchon;
                     this.performance = 1.0;
                 }
                 ParallelSystem.prototype.destructor = function () {
-                    _super.prototype.destructor.call(this);
                     this.exclude_ = true;
                     for (var it = this.progress_list_.begin(); !it.equal_to(this.progress_list_.end()); it = it.next()) {
                         // AN INVOKE AND HISTORY HAD PROGRESSED
@@ -6769,6 +6776,7 @@ var samchon;
                         var history_2 = it.second.second;
                         this._Send_back_history(invoke, history_2);
                     }
+                    _super.prototype.destructor.call(this);
                 };
                 /* ---------------------------------------------------------
                     ACCESSORS
@@ -9788,8 +9796,26 @@ var samchon;
     var protocol;
     (function (protocol) {
         var service;
-        (function (service) {
+        (function (service_1) {
             /**
+             * A driver of remote client.
+             *
+             * The {@link Client} is an abstract class representing and interacting with a remote client. It deals the network
+             * communication with the remote client and shifts {@link Invoke} message to related {@link User} and {@link Service}
+             * objects.
+             *
+             * Extends this {@link Client} class and override the {@link createService} method, a factory method creating a child
+             * {@link Service} object. Note that, {@link Client} represents a remote client, not *an user*, a specific *web page*
+             * or *service*. Do not define logics about user or account information. It must be declared in the parent
+             * {@link User} class. Also, don't define processes of a specific a web page or service. Defines them in the child
+             * {@link Service} class.
+             *
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png" target="_blank">
+             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+             *		 style="max-width: 100%" />
+             * </a>
+             *
+             * @handbook [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Service)
              * @author Jeongho Nam <http://samchon.org>
              */
             var Client = (function () {
@@ -9797,7 +9823,10 @@ var samchon;
                     CONSTRUCTORS
                 ------------------------------------------------------------------ */
                 /**
-                 * Construct from an User and WebClientDriver.
+                 * Construct from parent {@link User} and communicator.
+                 *
+                 * @param user Parent {@link User} object.
+                 * @param driver Communicator with remote client.
                  */
                 function Client(user, driver) {
                     this.user_ = user;
@@ -9810,8 +9839,33 @@ var samchon;
                 }
                 /**
                  * Default Destructor.
+                 *
+                 * This {@link destructor destructor()} method is called when the {@link Client} object is destructed and this
+                 * {@link Client} object is destructed when connection with the remote client is closed or this {@link Client}
+                 * object is {@link User.erase erased} from its parent {@link User} object.
+                 *
+                 * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
+                 * by those *destruction* cases. Also, if your derived {@link Client} class has something to do on the
+                 * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
+                 * Overriding this {@ink destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
+                 *
+                 * ```typescript
+                 * class MyUser extends protocol.service.Client
+                 * {
+                 *     protected destructor(): void
+                 *     {
+                 *         // DO SOMETHING
+                 *         this.do_something();
+                 *
+                 *         // CALL SUPER.DESTRUCTOR() ON TAIL. DON'T FORGET THIS
+                 *         super.destructor();
+                 *     }
+                 * }
+                 * ```
                  */
                 Client.prototype.destructor = function () {
+                    if (this.service_ != null)
+                        this.service_["destructor"]();
                 };
                 /**
                  * Close connection.
@@ -9822,26 +9876,96 @@ var samchon;
                 /* ------------------------------------------------------------------
                     ACCESSORS
                 ------------------------------------------------------------------ */
+                /**
+                 * Get parent {@link User} object.
+                 *
+                 * Get the parent {@link User} object, who is groupping {@link Client} objects with same session id.
+                 *
+                 * @return The parent {@link User} object.
+                 */
                 Client.prototype.getUser = function () {
                     return this.user_;
                 };
+                /**
+                 * Get child {@link Service} object.
+                 *
+                 * @return The child {@link Service} object.
+                 */
                 Client.prototype.getService = function () {
                     return this.service_;
                 };
+                /**
+                 * Get sequence number.
+                 *
+                 * Get sequence number of this {@link Client} object in the parent {@link User} object. This sequence number also
+                 * be a *key* in the parent {@link User} object, who extended the ```std.HashMap<number, Client>```.
+                 *
+                 * @return Sequence number.
+                 */
                 Client.prototype.getNo = function () {
                     return this.no_;
                 };
-                Client.prototype.changeService = function (path) {
+                Client.prototype.changeService = function (arg) {
                     if (this.service_ != null)
-                        this.service_.destructor();
-                    this.service_ = this.createService(path);
+                        this.service_["destructor"]();
+                    if (arg instanceof service_1.Service)
+                        this.service_ = arg;
+                    else
+                        this.service_ = this.createService(arg);
                 };
                 /* ------------------------------------------------------------------
                     MESSAGE CHAIN
                 ------------------------------------------------------------------ */
+                /**
+                 * Send an {@link Invoke} message.
+                 *
+                 * Sends an {@link Invoke} message to remote client.
+                 *
+                 * @param invoke An {@link Invoke} messgae to send to remote client.
+                 */
                 Client.prototype.sendData = function (invoke) {
                     this.communicator_.sendData(invoke);
                 };
+                /**
+                 * Handle a replied {@link Invoke} message.
+                 *
+                 * The default {@link Client.replyData Client.replyData()} shifts chain to its parent {@link User} and belonged
+                 * {@link Service} objects, by calling the the {@link User.replyData User.replyData()} and
+                 * {@link Service.replyData Service.replyData()} methods.
+                 *
+                 * Note that, {@link Client} represents a remote client, not *an user*, a specific *web page* or *service*. Do not
+                 * define logics about user or account information. It must be declared in the parent {@link User} class. Also,
+                 * don't define processes of a specific a web page or service. Defines them in the child {@link Service} class.
+                 *
+                 * ```typescript
+                 * class protocol.service.Client
+                 * {
+                 *     public replyData(invoke: protocol.Invoke): void
+                 *     {
+                 *         // SHIFT TO PARENT USER
+                 *         // THE PARENT USER ALSO MAY SHIFT TO ITS PARENT SERVER
+                 *         this.getUser().replyData(invoke);
+                 *
+                 *         // SHIFT TO BELOGED SERVICE
+                 *         if (this.getService() != null)
+                 *             this.getService().replyData(invoke);
+                 *     }
+                 * }
+                 *
+                 * class MyClient extends protocol.service.Client
+                 * {
+                 *     public replyData(invoke: protocol.Invoke): void
+                 *     {
+                 *         if (invoke.getListener() == "do_something_in_client_level")
+                 *             this.do_something_in_client_level();
+                 *         else
+                 *             super.replyData(invoke);
+                 *     }
+                 * }
+                 * ```
+                 *
+                 * @param invoke An {@link Invoke invoke} message to be handled in {@link Client} level.
+                 */
                 Client.prototype.replyData = function (invoke) {
                     // SHIFT CHAIN TO USER
                     this.user_.replyData(invoke);
@@ -9851,12 +9975,15 @@ var samchon;
                 };
                 return Client;
             }());
-            service.Client = Client;
+            service_1.Client = Client;
         })(service = protocol.service || (protocol.service = {}));
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
 /// <reference path="../Server.ts" />
+/**
+ * [[include: TypeScript-Protocol-Service.md]]
+ */
 var samchon;
 (function (samchon) {
     var protocol;
@@ -9866,20 +9993,26 @@ var samchon;
             /**
              * A cloud server.
              *
-             * The {@link Server} is an abstract class, who can build a real-time cloud server, that is following the web-socket
-             * protocol. Extends this {@link Server} and related classes and overrides abstract methods under below. After the
-             * overridings, open this {@link Server cloud server} by using the {@link open open()} method.
+             * The {@link Server} is an abstract server class, who can build a real-time cloud server, that is following the
+             * web-socket protocol. Extends this {@link Server} and related classes and overrides abstract methods under below.
+             * After the overridings, open this {@link Server cloud server} by using the {@link open open()} method.
              *
-             * - Factory methods
-             *   - {@link Server.createUser Server.createUser()}
-             *   - {@link User.createClient User.createClient()}
-             *   - {@liok Client.createService Client.createService()}
+             * - Objects in composite relationship and their factory methods
+             *   - {@link User}: {@link Server.createUser Server.createUser()}
+             *   - {@link Client}: {@link User.createClient User.createClient()}
+             *   - {@link Service}: {@liok Client.createService Client.createService()}
              * - {@link Invoke} message chains; {@link IProtocol.replyData replyData}
              *   - {@link Server.replyData}
              *   - {@link User.replyData}
              *   - {@link Client.replyData}
              *   - {@link Service.replyData}
              *
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png" target="_blank">
+             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+             *		 style="max-width: 100%" />
+             * </a>
+             *
+             * @handbook [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Service)
              * @author Jeongho Nam <http://samchon.org>
              */
             var Server = (function (_super) {
@@ -9929,7 +10062,7 @@ var samchon;
                  * {@link Client.sendData Client.sendData()}.
                  *
                  * ```typescript
-                 * class Server
+                 * class protocol.service.Server
                  * {
                  *     public sendData(invoke: Invoke): void
                  *     {
@@ -9973,7 +10106,6 @@ var samchon;
                     // CREATE CHILDREN OBJECTS
                     //--------
                     // USER
-                    /////
                     var user;
                     if (this.session_map_.has(driver.getSessionID()) == true)
                         user = this.session_map_.get(driver.getSessionID());
@@ -9995,8 +10127,8 @@ var samchon;
                         user.erase(client.getNo());
                         // ALSO, DESTRUCTORS OF THE SERVICE ARE CALLED.
                         if (client.getService() != null)
-                            client.getService().destructor(); // SERVICE
-                        client.destructor(); // AND CLIENT
+                            client.getService()["destructor"](); // SERVICE
+                        client["destructor"](); // AND CLIENT
                     };
                 };
                 /**
@@ -10014,7 +10146,7 @@ var samchon;
                         if (user.getAccountID() != "")
                             server.account_map_.erase(user.getAccountID());
                         // CALL DESTRUCTOR
-                        user.destructor();
+                        user["destructor"]();
                     }.bind(this), 30000 // KEEP USER 30 SECONDS
                     );
                 };
@@ -10032,6 +10164,21 @@ var samchon;
         var service;
         (function (service) {
             /**
+             * A service.
+             *
+             * The {@link Service} is an abstract class who represents a service, that is providing functions a specific page.
+             *
+             * Extends the {@link Service} class and defines its own service, which to be provided for the specific weg page,
+             * by overriding the {@link replyData replyData()} method. Note that, the service, functions for the specific page
+             * should be defined in this {@link Service} class, not its parent {@link Client} class who represents a remote client
+             * and takes communication responsibility.
+             *
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png" target="_blank">
+             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+             *		 style="max-width: 100%" />
+             * </a>
+             *
+             * @handbook [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Service)
              * @author Jeongho Nam <http://samchon.org>
              */
             var Service = (function () {
@@ -10039,7 +10186,10 @@ var samchon;
                     CONSTRUCTORS
                 ------------------------------------------------------------------ */
                 /**
-                 * Default Constructor.
+                 * Construct from parent {@link Client} and requested path.
+                 *
+                 * @param client Driver of remote client.
+                 * @param path Requested path that identifies this {@link Service}.
                  */
                 function Service(client, path) {
                     this.client_ = client;
@@ -10047,6 +10197,15 @@ var samchon;
                 }
                 /**
                  * Default Destructor.
+                 *
+                 * This {@link destructor destructor()} method is call when the {@link Service} object is destructed and the
+                 * {@link Service} object is destructed when its parent {@link Client} object has
+                 * {@link Client.destructor destructed} or the {@link Client} object {@link Client.changeService changed} its
+                 * child {@link Service service} object to another one.
+                 *
+                 * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
+                 * by those *destruction* cases. Also, if your derived {@link Service} class has something to do on the
+                 * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
                  */
                 Service.prototype.destructor = function () {
                 };
@@ -10060,7 +10219,7 @@ var samchon;
                     return this.client_;
                 };
                 /**
-                 * Get path.
+                 * Get requested path.
                  */
                 Service.prototype.getPath = function () {
                     return this.path_;
@@ -10068,6 +10227,13 @@ var samchon;
                 /* ------------------------------------------------------------------
                     MESSAGE CHAIN
                 ------------------------------------------------------------------ */
+                /**
+                 * Send an {@link Invoke} message.
+                 *
+                 * Sends an {@link Invoke} message to remote system through parent {@link Client} object ({@link Client.sendData}).
+                 *
+                 * @param invoke An {@link Invoke} message to send to the remte system.
+                 */
                 Service.prototype.sendData = function (invoke) {
                     return this.client_.sendData(invoke);
                 };
@@ -10086,6 +10252,33 @@ var samchon;
         var service;
         (function (service) {
             /**
+             * An user.
+             *
+             * The {@link User} is an abstract class groupping {@link Client} objects, who communicates with remote client, with
+             * same *session id*. This {link User} represents a *remote user* literally. Within framework of remote system,
+             * an {@link User} corresponds to a web-browser and a {@link Client} represents a window in the web-browser.
+             *
+             * Extends this {@link User} class and override the {@link createClient} method, a factory method creating a child
+             * {@link Client} object. I repeat, the {@link User} class represents a *remote user*, groupping {@link Client}
+             * objects with same *session id*. If your cloud server has some processes to be handled in the **user level**, then
+             * defines method in this {@link User} class. Methods managing **account** under below are some of them:
+             *
+             * - {@link setAccount setAccount()}
+             * - {@link getAccountID getAccountID()}
+             * - {@link getAuthority getAuthority()}
+             *
+             * The children {@link Client} objects, they're contained with their key, the {@link Client.getNo sequence number}.
+             * If you {@link User.erase erase} the children {@link Client} object by yourself, then their connection with the
+             * remote clients will be {@link Client.close closed} and their {@link Client.destructor destruction method} will be
+             * called. If you remove {@link clear all children}, then this {@link User} object will be also
+             * {@link destructor destructed} and erased from the parent {@link Server} object.
+             *
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png" target="_blank">
+             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+             *		 style="max-width: 100%" />
+             * </a>
+             *
+             * @handbook [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Service)
              * @author Jeongho Nam <http://samchon.org>
              */
             var User = (function (_super) {
@@ -10094,7 +10287,9 @@ var samchon;
                     CONSTRUCTORS
                 --------------------------------------------------------- */
                 /**
-                 * Construct from a {@link Server}.
+                 * Construct from its parent {@link Server}.
+                 *
+                 * @param server The parent {@link Server} object.
                  */
                 function User(server) {
                     _super.call(this);
@@ -10107,6 +10302,30 @@ var samchon;
                 }
                 /**
                  * Default Destructor.
+                 *
+                 * This {@link destructor destructor()} method is called when the {@link User} object is destructed. The
+                 * {@link User} object is destructed when connections with the remote clients are all closed, that is all the
+                 * children {@link Client} objects are all removed, and 30 seconds has left. If some remote client connects
+                 * within the 30 seconds, then the {@link User} object doesn't be destructed.
+                 *
+                 * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
+                 * by those *destruction* cases. Also, if your derived {@link User} class has something to do on the
+                 * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
+                 * Overriding this {@ink destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
+                 *
+                 * ```typescript
+                 * class MyUser extends protocol.service.User
+                 * {
+                 *     protected destructor(): void
+                 *     {
+                 *         // DO SOMETHING
+                 *         this.do_something();
+                 *
+                 *         // CALL SUPER.DESTRUCTOR() ON TAIL. DON'T FORGET THIS
+                 *         super.destructor();
+                 *     }
+                 * }
+                 * ```
                  */
                 User.prototype.destructor = function () {
                 };
@@ -10123,28 +10342,46 @@ var samchon;
                     ACCESSORS
                 --------------------------------------------------------- */
                 /**
-                 * Get server.
+                 * Get parent {@lin Server} object.
+                 *
+                 * @return Parent {@link Server} object.
                  */
                 User.prototype.getServer = function () {
                     return this.server_;
                 };
                 /**
                  * Get account id.
+                 *
+                 * @return Account ID.
                  */
                 User.prototype.getAccountID = function () {
                     return this.account_id_;
                 };
                 /**
                  * Get authority.
+                 *
+                 * @return Authority
                  */
                 User.prototype.getAuthority = function () {
                     return this.authority_;
                 };
                 /**
-                 * Set account.
+                 * Set *account id* and *authority*.
                  *
-                 * @param id Account id of this {@link User}.
-                 * @param authority Authority of this {@link User}.
+                 * The {@link setAccount setAccount()} is a method configuring *account id* and *authority* of this {@link User}.
+                 *
+                 * After the configuring, the {@link getAccountID account id} is enrolled into the parent {@link Server} as a
+                 * **key** for this {@link User} object. You can test existence and access this {@link User} object from
+                 * {@link Server.has Server.has()} and {@link Server.get Server.get()} with the {@link getAccountID account id}.
+                 * Of course, if ordinary {@link getAccountID account id} had existed, then the ordinary **key** will be
+                 * replaced.
+                 *
+                 * As you suggest, this {@link setAccount setAccount()} is something like a **log-in** function. If what you want
+                 * is not **logging-in**, but **logging-out**, then configure the *account id* to empty string ``""```` or call
+                 * the {@link lgout logout()} method.
+                 *
+                 * @param id To be account id.
+                 * @param authority To be authority.
                  */
                 User.prototype.setAccount = function (id, authority) {
                     if (this.account_id_ == id)
@@ -10155,7 +10392,21 @@ var samchon;
                     this.account_id_ = id;
                     this.authority_ = authority;
                     // REGISTER TO ACCOUNT_MAP IN ITS SERVER
-                    this.server_["account_map_"].set(id, this);
+                    if (id != "")
+                        this.server_["account_map_"].set(id, this);
+                };
+                /**
+                 * Log-out.
+                 *
+                 * This {@link logout logout()} method configures {@link getAccountID account id} to empty string and
+                 * {@link getAuthority authority} to zero.
+                 *
+                 * The ordinary {@link getAccountID account id} will be also erased from the parent {@link Server} object. You
+                 * can't access this {@link User} object from {@link Server.has Server.has()} and {@link Server.get Server.get()}
+                 * with the ordinary {@link getAccountID account id} more.
+                 */
+                User.prototype.logout = function () {
+                    this.setAccount("", 0);
                 };
                 /* ---------------------------------------------------------
                     MESSAGE CHAIN
@@ -10168,7 +10419,7 @@ var samchon;
                  * {@link Client.sendData Client.sendData()} methods.
                  *
                  * ```typescript
-                 * class User
+                 * class protocol.service.User
                  * {
                  *     public sendData(invoke: Invoke): void
                  *     {
@@ -10187,7 +10438,31 @@ var samchon;
                 /**
                  * Handle a replied {@link Invoke} message.
                  *
-                 * @param invoke
+                 * The default {@link User.replyData User.replyData()} shifts chain to its parent {@link Server} object, by
+                 * calling the {@link Server.replyData Server.replyData()} method. If there're some {@link Invoke} message to be
+                 * handled in this {@link User} level, then override this method and defines what to do with the {@link Invoke}
+                 * message in this {@link User} level.
+                 *
+                 * ```typescript
+                 * class protocol.service.User
+                 * {
+                 *     public replyData(invoke: protocol.Invoke): void
+                 *     {
+                 *         this.getServer().replyData(invoke);
+                 *     }
+                 * }
+                 *
+                 * class MyUser extends protocol.service.User
+                 * {
+                 *     public replyData(invoke: protocol.Invoke): void
+                 *     {
+                 *          if (invoke.apply(this) == false) // IS TARGET TO BE HANDLED IN THIS USER LEVEL
+                 *              super.replyData(invoke); // SHIFT TO SERVER
+                 *     }
+                 * }
+                 * ```
+                 *
+                 * @param invoke An {@link Invoke invoke} message to be handled in {@link User} level.
                  */
                 User.prototype.replyData = function (invoke) {
                     this.server_.replyData(invoke);

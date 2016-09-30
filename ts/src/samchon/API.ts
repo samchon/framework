@@ -6,12 +6,12 @@
  * 
  * Samchon, a SDN (Software Defined Network) framework.
  * 
- * With Samchon Framework, you can implement distributed processing system within framework of OOD like
- * handling S/W objects (classes). You can realize cloud and distributed system very easily with provided
- * system templates and even integration with C++ is possible.
+ * With Samchon Framework, you can implement distributed processing system within framework of OOD like handling S/W 
+ * objects (classes). You can realize cloud and distributed system very easily with provided system templates and even 
+ * integration with C++ is possible.
  * 
- * The goal, ultimate utilization model of Samchon Framework is, building cloud system with NodeJS and 
- * takING heavy works to C++ distributed systems with provided modules (those are system templates).
+ * The goal, ultimate utilization model of Samchon Framework is, building cloud system with NodeJS and taking heavy works 
+ * to C++ distributed systems with provided modules (those are system templates).
  * 
  * @git https://github.com/samchon/framework
  * @author Jeongho Nam <http://samchon.org>

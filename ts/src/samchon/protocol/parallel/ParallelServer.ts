@@ -5,12 +5,12 @@
 namespace samchon.protocol.parallel
 {
 	export interface IParallelServer
-		extends external.IExternalServer, ParallelSystem 
+		extends ParallelSystem
 	{
 		/**
-		 * @inheritdoc
+		 * Connect to external server.
 		 */
-		getSystemArray(): ParallelSystemArray;
+		connect(): void;
 	}
 
 	export abstract class ParallelServer

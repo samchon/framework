@@ -66,8 +66,18 @@ namespace samchon.protocol.external
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Construct from parent {@link ExternalSystemArray}.
+		 * 
+		 * @param systemArray The parent {@link ExternalSystemArray} object.
+		 */
 		public constructor(systemArray: ExternalSystemArray);
 		
+		/**
+		 * 
+		 * @param systemArray
+		 * @param communicator
+		 */
 		public constructor(systemArray: ExternalSystemArray, communicator: IClientDriver);
 
 		public constructor(systemArray: ExternalSystemArray, communicator: IClientDriver = null)
@@ -86,7 +96,7 @@ namespace samchon.protocol.external
 		/**
 		 * Default Destructor.
 		 */
-		public destructor(): void
+		protected destructor(): void
 		{
 			if (this.communicator != null && this.communicator.isConnected() == true)
 			{
@@ -154,6 +164,9 @@ namespace samchon.protocol.external
 		/* ---------------------------------------------------------
 			NETWORK & MESSAGE CHAIN
 		--------------------------------------------------------- */
+		/**
+		 * Close connection.
+		 */
 		public close(): void
 		{
 			this.communicator.close();

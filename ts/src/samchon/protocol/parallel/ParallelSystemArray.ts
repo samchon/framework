@@ -2,6 +2,9 @@
 
 /// <reference path="../external/ExternalSystemArray.ts" />
 
+/**
+ * [[include: TypeScript-Protocol-Parallel_System.md]]
+ */
 namespace samchon.protocol.parallel
 {
 	/**

@@ -5,22 +5,12 @@
 namespace samchon.protocol.distributed
 {
 	export interface IDistributedServer
-		extends DistributedSystem, external.IExternalServer
+		extends DistributedSystem
 	{
 		/**
-		 * @inheritdoc
+		 * Connect to external server.
 		 */
-		getSystemArray(): DistributedSystemArray;
-
-		/**
-		 * @inheritdoc
-		 */
-		has(key: string): boolean;
-
-		/**
-		 * @inheritdoc
-		 */
-		get(key: string): DistributedSystemRole;
+		connect(): void;
 	}
 
 	export abstract class DistributedServer

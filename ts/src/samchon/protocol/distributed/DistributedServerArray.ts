@@ -29,11 +29,11 @@ namespace samchon.protocol.distributed
 		{
 			for (let i: number = 0; i < this.size(); i++)
 			{
-				let system: DistributedSystem = this.at(i);
-				if ((system as IDistributedServer).connect == undefined)
+				let system: IDistributedServer = this.at(i) as IDistributedServer;
+				if (system.connect == undefined)
 					continue;
 
-				(system as IDistributedServer).connect();
+				system.connect();
 			}
 		}
 	}

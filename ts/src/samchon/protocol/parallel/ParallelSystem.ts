@@ -131,7 +131,7 @@ namespace samchon.protocol.parallel
 		 * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
 		 * by those *destruction* cases. Also, if your derived {@link ParallelSystem} class has something to do on the
 		 * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
-		 * Overriding this {@ink destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
+		 * Overriding this {@link destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
 		 *
 		 * ```typescript
 		 * class SomeSystem extends protocol.external.ExternalSystem
@@ -254,7 +254,7 @@ namespace samchon.protocol.parallel
 		 * **mis-valuation** with this {@link enforcePerformance}. 
 		 * 
 		 * For example, there's a remote system much faster than any other, but you **mis-estimated** it to the slowest. 
-		 * In that case, there's no way. The {@link ParalllelSystemArray entire parallel systems} will be slower by the 
+		 * In that case, there's no way. The {@link ParallelSystemArray entire parallel systems} will be slower by the 
 		 * **mis-valuation**. By the reason, using {@link enforcePerformance}, it's recommended only when you can clearly
 		 * certain the *performance index*. If you can't certain the *performance index* but want to recommend, then use 
 		 * {@link setPerformance} instead.

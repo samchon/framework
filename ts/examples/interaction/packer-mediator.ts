@@ -80,6 +80,11 @@ namespace packer_mediator
 		//--------
 		// REPLY-DATA
 		//--------
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this);
+		}
+		
 		private set_uid(val: number): void
 		{
 			this.uid = val;
@@ -149,6 +154,13 @@ namespace packer_mediator
 
 			(this.getSystemArray() as PackerMediator)["monitor"].reportSendData(this.uid, invoke);
 		}
+
+		public replyData(invoke: protocol.Invoke): void
+		{
+			if (invoke.apply(this) == false)
+				super.replyData(invoke);
+		}
+
 		private set_master_uid(val: number): void
 		{
 			this.uid = val;

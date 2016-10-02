@@ -99,7 +99,7 @@ namespace samchon.protocol.service
 		 * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
 		 * by those *destruction* cases. Also, if your derived {@link User} class has something to do on the
 		 * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
-		 * Overriding this {@ink destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
+		 * Overriding this {@link destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
 		 * 
 		 * ```typescript
 		 * class MyUser extends protocol.service.User

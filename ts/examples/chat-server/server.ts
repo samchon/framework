@@ -41,6 +41,11 @@ namespace server
 		{
 			return this.rooms;
 		}
+
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this);
+		}
 	}
 
 	export class ChatUser extends protocol.service.User
@@ -134,7 +139,8 @@ namespace server
 		{
 			console.log("REPLIED DATA: " + invoke.toXML().toString());
 			
-			super.replyData(invoke);
+			if (invoke.apply(this) == false)
+				super.replyData(invoke);
 		}
 
 		private login(id: string, name: string): void

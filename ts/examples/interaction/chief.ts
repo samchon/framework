@@ -76,6 +76,11 @@ namespace chief
 		--------------------------------------------------------- */
 		// REPLY DATA
 		//--------
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this);
+		}
+
 		private set_uid(val: number): void
 		{
 			this.uid = val;
@@ -215,6 +220,12 @@ namespace chief
 			super.sendData(invoke);
 
 			this.chief["monitor"].reportSendData(this.uid, invoke);
+		}
+
+		public replyData(invoke: protocol.Invoke): void
+		{
+			if (invoke.apply(this) == false)
+				super.replyData(invoke);
 		}
 	}
 }

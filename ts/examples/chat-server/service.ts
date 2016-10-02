@@ -76,6 +76,11 @@ namespace service
 		/* ---------------------------------------------------------
 			REPLY DATA
 		--------------------------------------------------------- */
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this);
+		}
+		
 		private createRoom(name: string): void
 		{
 			let rooms: room.ChatRoomList = this.getClient().getUser().getServer().getRooms();
@@ -151,7 +156,7 @@ namespace service
 			if (this.room == null)
 				return;
 			
-			super.replyData(invoke);
+			invoke.apply(this);
 		}
 
 		private talk(message: string): void

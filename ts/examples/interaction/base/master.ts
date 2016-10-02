@@ -49,6 +49,11 @@ namespace master
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN - REPLY_DATA
 		--------------------------------------------------------- */
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this);
+		}
+
 		private set_uid(val: number): void
 		{
 			this.uid = val;
@@ -124,6 +129,11 @@ namespace master
 			this.master["monitor"].reportSendData(this.uid, invoke);
 		}
 
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this);
+		}
+
 		private replyOptimization(xml: library.XML): void
 		{
 			this.master["replyOptimization"](xml);
@@ -166,6 +176,7 @@ namespace master
 			console.log("report", this.uid);
 			this.master["monitor"].reportSendData(this.uid, invoke);
 		}
+		
 		public replyData(invoke: protocol.Invoke): void
 		{
 			if (invoke.apply(this) == false)

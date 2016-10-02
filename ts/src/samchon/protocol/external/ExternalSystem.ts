@@ -105,7 +105,7 @@ namespace samchon.protocol.external
 		 * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
 		 * by those *destruction* cases. Also, if your derived {@link ExternalSystem} class has something to do on the
 		 * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
-		 * Overriding this {@ink destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
+		 * Overriding this {@link destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
 		 *
 		 * ```typescript
 		 * class SomeSystem extends protocol.external.ExternalSystem
@@ -226,7 +226,7 @@ namespace samchon.protocol.external
 			EXPORTERS
 		--------------------------------------------------------- */
 		/**
-		 * Tag name of the {@link ExternalSytem} in {@link XML}.
+		 * Tag name of the {@link ExternalSystem} in {@link XML}.
 		 *
 		 * @return *system*.
 		 */
@@ -236,7 +236,7 @@ namespace samchon.protocol.external
 		}
 
 		/**
-		 * Tag name of {@link ExternalSystemRole children elements} belonged to the {@link ExternalSytem} in {@link XML}.
+		 * Tag name of {@link ExternalSystemRole children elements} belonged to the {@link ExternalSystem} in {@link XML}.
 		 * 
 		 * @return *role*.
 		 */

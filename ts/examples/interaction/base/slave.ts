@@ -61,6 +61,11 @@ namespace slave
 			this.monitor.reportSendData(this.master_uid, invoke);
 		}
 
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this);
+		}
+
 		protected abstract optimize(xml: library.XML, index: number, size: number): void;
 
 		public set_uid(val: number): void

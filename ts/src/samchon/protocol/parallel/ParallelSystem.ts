@@ -7,11 +7,23 @@ namespace samchon.protocol.parallel
 	/**
 	 * A driver for a parallel slave system.
 	 * 
-	 * The {@link ParallelSystem} is an abstract class represents a slave system in *Parallel Processing System*, 
-	 * connected with this system. {@link ParallelSystem} takes full charge of network communication with the remote, 
-	 * parallel slave system have connected.
+	 * The {@link ParallelSystem} is an abstract class represents a **slave** system in *Parallel Processing System*, 
+	 * connected with this **master** system. This {@link ParallelSystem} takes full charge of network communication with 
+	 * the remote, parallel **slave** system has connected.
 	 * 
+	 * When a *parallel process* is requested (by {@link ParallelSystemArray.sendSegementData} or 
+	 * {@link ParallelSystemArray.sendPieceData}), the number of pieces to be allocated to a {@link ParallelSystem} is 
+	 * turn on its {@link getPerformance performance index}. Higher {@link getPerformance performance index}, then 
+	 * more pieces are requested. The {@link getPerformance performance index} is revaluated whenever a *parallel process* 
+	 * has completed, basic on the execution time and number of pieces. You can sugguest or enforce the 
+	 * {@link getPerformance performance index} with {@link setPerformance} or {@link enforcePerformance}.
 	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
 	 * #### Bridge & Proxy Pattern
 	 * This class {@link ParallelSystem} is derived from the {@link ExternalSystem} class. Thus, you can take advantage 
 	 * of the *Bridge & Proxy Pattern* in this {@link ParallelSystem} class. If a process to request is not the
@@ -39,6 +51,7 @@ namespace samchon.protocol.parallel
 	 *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
 	 * </ul>
 	 * 
+	 * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class ParallelSystem 
@@ -156,7 +169,7 @@ namespace samchon.protocol.parallel
 		/**
 		 * Get manager of this object.
 		 * 
-		 * @return A manager containing this {@link ParallelSystem} object.
+		 * @return The parent {@link ParallelSystemArray} object.
 		 */
 		public getSystemArray(): ParallelSystemArray
 		{

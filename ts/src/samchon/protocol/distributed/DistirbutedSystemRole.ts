@@ -4,6 +4,35 @@
 
 namespace samchon.protocol.distributed
 {
+	/**
+	 * A role of Distributed Processing System.
+	 * 
+	 * The {@link DistributedSystemRole} is an abstract class who represents a **role**, *WHAT TO DO* in a Distributed 
+	 * Processing System. Overrides the {@link DistributedSystemRole} and defines the *WHAT TO DO*.
+	 * 
+	 * Relationship between {@link DistributedSystem} and {@link DistributedSystemRole} objects are **M: N Associative**.
+	 * Unlike {@link ExternalSystemRole}, the {@link DistributedSystemRole} objects are not belonged to a specific 
+	 * {@link DistributedSystem} object. The {@link DistributedSystemRole} objects are belonged to the 
+	 * {@link DistributedSystemArrayMediator} directly.
+	 * 
+	 * When you need the **distributed process**, then call {@link sendData sendData()}. The {@link sendData} will find
+	 * the most idle {@link DistributedSystem slave system} considering not only number of processes on progress, but also
+	 * {@link DistributedSystem.getPerformance performance index} of each {@link DistributedSystem} object and 
+	 * {@link getResource resource index} of this {@link DistributedSystemRole} object. The {@link Invoke} message 
+	 * requesting the **distributed process** will be sent to the most idle {@link DistributedSystem slave system}. 
+	 * 
+	 * Those {@link DistributedSystem.getPerformance performance index} and {@link getResource resource index} are 
+	 * revaluated whenever the **distributed process** has completed basis on the execution time.
+	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 * 
+	 * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class DistributedSystemRole
 		extends external.ExternalSystemRole
 	{
@@ -38,7 +67,7 @@ namespace samchon.protocol.distributed
 		/**
 		 * Constrct from parent {@link DistributedSystemArray} object.
 		 * 
-		 * @param systemArray
+		 * @param systemArray The parent {@link DistributedSystemArray} object.
 		 */
 		public constructor(systemArray: DistributedSystemArray)
 		{
@@ -56,7 +85,9 @@ namespace samchon.protocol.distributed
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * Get parent {@link DistributedSystemArray} object.
+		 * 
+		 * @return The parent {@link DistributedSystemArray} object.
 		 */
 		public getSystemArray(): DistributedSystemArray
 		{
@@ -173,7 +204,18 @@ namespace samchon.protocol.distributed
 			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * Send an {@link Invoke} message.
+		 * 
+		 * Sends an {@link Invoke} message requesting a **distributed process**. The {@link Invoke} message will be sent
+		 * to the most idle {@link DistributedSystem} object, which represents a slave system, and the most idle 
+		 * {@link DistributedSystem} object will be returned.
+		 * 
+		 * When the **distributed process** has completed, then the {@link DistributedSystemArray} object will revaluate
+		 * {@link getResource resource index} and {@link DistributedSystem.getPerformance performance index} of this
+		 * {@link DistributedSystem} and the most idle {@link DistributedSystem} objects basis on the execution time. 
+		 * 
+		 * @param invoke An {@link Invoke} message requesting distributed process.
+		 * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
 		 */
 		public sendData(invoke: Invoke): DistributedSystem
 		{

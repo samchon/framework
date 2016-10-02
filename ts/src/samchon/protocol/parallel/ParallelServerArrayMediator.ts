@@ -7,11 +7,11 @@ namespace samchon.protocol.parallel
 	/**
 	 * Mediator of Parallel Processing System, a client connecting to slave servers.
 	 *
-	 * The {@link ParallelServerArrayMediator} is an abstract class, derived from the {@link ParallelSystemArrayMedidator} 
+	 * The {@link ParallelServerArrayMediator} is an abstract class, derived from the {@link ParallelSystemArrayMediator} 
 	 * class, connecting to {@link IParallelServer parallel servers}.
 	 *
 	 * Extends this {@link ParallelServerArrayMediator} and overrides {@link createChild createChild()} method creating 
-	 * child {@link IParallelSystem} object. After the extending and overriding, construct children 
+	 * child {@link IParallelServer} object. After the extending and overriding, construct children
 	 * {@link IParallelServer} objects and call the {@lionk connect connect()} method.
 	 * 
 	 * #### [Inherited] {@link ParallelSystemArrayMediator}
@@ -44,10 +44,11 @@ namespace samchon.protocol.parallel
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * #### [Inherited] {@link ParallelSystemArray}
-	 * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel slave system drivers,
-	 * {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your system,
-	 * a *Master* of *Parallel Processing System* that requesting *parallel process* to slave systems and the children
-	 * {@link ParallelSystem} objects represent the remote slave systems, who is being requested the *parallel processes*.
+	 * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+	 * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+	 * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+	 * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+	 * *parallel processes*.
 	 *
 	 * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
 	 * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s

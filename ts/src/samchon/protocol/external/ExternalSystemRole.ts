@@ -133,9 +133,9 @@ namespace samchon.protocol.external
 		 * 
 		 * {@link ExternalSystemRole.replyData ExternalSystemRole.replyData()} is an abstract method handling a replied 
 		 * {@link Invoke message} gotten from remote system via parent {@link ExternalSystem} object. Overrides this 
-		 * method and defines what to do with the {@link Invoke message}.
+		 * method and defines the *WHAT TO DO* with the {@link Invoke message}.
 		 * 
-		 * @param invoke An {@link Invoke} message received from the {@link system external system}.
+		 * @param invoke An {@link Invoke} message received from the {@link ExternalSystem external system}.
 		 */
 		public abstract replyData(invoke: Invoke): void;
 

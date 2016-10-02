@@ -8,7 +8,57 @@
 namespace samchon.protocol.distributed
 {
 	/**
-	 * @author Jeongho Nam <
+	 * Master of Distributed Processing System.
+	 * 
+	 * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
+	 * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
+	 * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
+	 * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
+	 * requested the *distributed processes*.
+	 *
+	 * You can specify this {@link DistributedSystemArray} class to be *a server accepting distributed clients* or
+	 * *a client connecting to distributed servers*. Even both of them is possible. Extends one of them below and overrides
+	 * abstract factory method(s) creating the child {@link DistributedSystem} object.
+	 *
+	 * - {@link DistributedClientArray}: A server accepting {@link DistributedSystem distributed clients}.
+	 * - {@link DistributedServerArray}: A client connecting to {@link DistributedServer distributed servers}.
+	 * - {@link DistributedServerClientArray}: Both of them. Accepts {@link DistributedSystem distributed clients} and 
+	 *                                         connects to {@link DistributedServer distributed servers} at the same time.
+	 * 
+	 * The {@link DistributedSystemArray} contains {@link DistributedSystemRole} objects directly. You can request a
+	 * **distributed process** through the {@link DistributedSystemRole} object. You can access the
+	 * {@link DistributedSystemRole} object(s) with those methods:
+	 *
+	 * - {@link hasRole}
+	 * - {@link getRole}
+	 * - {@link insertRole}
+	 * - {@link eraseRole}
+	 * - {@link getRoleMap}
+	 *
+	 * When you need the **distributed process**, call the {@link DistributedSystemRole.sendData} method. Then the
+	 * {@link DistributedSystemRole} will find the most idle {@link DistributedSystem} object who represents a distributed
+	 * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
+	 * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
+	 * {@link DistributedSystemRole.getResource resource index} of related objects will be revaluated.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * #### Parallel Process
+	 * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
+	 * a **parallel process**, too.
+	 *
+	 * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+	 * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
+	 * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
+	 * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
+	 * each {@link DistributedSystem}.
+	 * 
+	 * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class DistributedSystemArray 
 		extends parallel.ParallelSystemArray
@@ -85,13 +135,24 @@ namespace samchon.protocol.distributed
 			return super.at(index) as DistributedSystem;
 		}
 
+		/**
+		 * Get role map. 
+		 * 
+		 * Gets an {@link HashMap} containing {@link DistributedSystemRole} objects with their *key*.
+		 * 
+		 * @return An {@link HasmMap> containing pairs of string and {@link DistributedSystemRole} object.
+		 */
 		public getRoleMap(): std.HashMap<string, DistributedSystemRole>
 		{
 			return this.role_map_;
 		}
 
 		/**
-		 * @inheritdoc
+		 * Test whether the role exists.
+		 * 
+		 * @param name Name, identifier of target {@link DistributedSystemRole role}.
+		 * 
+		 * @return Whether the role has or not.
 		 */
 		public hasRole(name: string): boolean
 		{
@@ -99,21 +160,38 @@ namespace samchon.protocol.distributed
 		}
 
 		/**
-		 * @inheritdoc
+		 * Get a role.
+		 * 
+		 * @param name Name, identifier of target {@link DistributedSystemRole role}.
+		 * 
+		 * @return The specified role.
 		 */
 		public getRole(name: string): DistributedSystemRole
 		{
 			return this.role_map_.get(name);
 		}
 
-		public insertRole(role: DistributedSystemRole): void
+		/**
+		 * Insert a role.
+		 * 
+		 * @param role A role to be inserted.
+		 * @return Success flag.
+		 */
+		public insertRole(role: DistributedSystemRole): boolean
 		{
-			this.role_map_.insert([role.getName(), role]);
+			return this.role_map_.insert([role.getName(), role]).second;
 		}
 
-		public eraseRole(name: string): void
+		/**
+		 * Erase a role.
+		 * 
+		 * @param name Name, identifier of target {@link DistributedSystemRole role}.
+		 */
+		public eraseRole(name: string): boolean
 		{
-			this.role_map_.erase(name);
+			let prev_size: number = this.role_map_.size();
+			
+			return (this.role_map_.erase(name) != prev_size);
 		}
 
 		/* ---------------------------------------------------------

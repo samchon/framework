@@ -36,10 +36,11 @@ namespace samchon.protocol.parallel
 	 *   - {@link MediatorSharedWorkerServer}
 	 * 
 	 * #### [Inherited] {@link ParallelSystemArray}
-	 * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel slave system drivers,
-	 * {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your system,
-	 * a *Master* of *Parallel Processing System* that requesting *parallel process* to slave systems and the children
-	 * {@link ParallelSystem} objects represent the remote slave systems, who is being requested the *parallel processes*.
+	 * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+	 * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+	 * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+	 * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+	 * *parallel processes*.
 	 *
 	 * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
 	 * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s

@@ -10,10 +10,11 @@ namespace samchon.protocol.parallel
 	/**
 	 * Master of Parallel Processing System.
 	 * 
-	 * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel slave system drivers, 
-	 * {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your system, 
-	 * a *Master* of *Parallel Processing System* that requesting *parallel process* to slave systems and the children 
-	 * {@link ParallelSystem} objects represent the remote slave systems, who is being requested the *parallel processes*.
+	 * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system 
+	 * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your 
+	 * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to **slave** systems and the 
+	 * children {@link ParallelSystem} objects represent the remote **slave** systems, who is being requested the 
+	 * *parallel processes*.
 	 * 
 	 * You can specify this {@link ParallelSystemArray} class to be *a server accepting parallel clients* or 
 	 * *a client connecting to parallel servers*. Even both of them is possible. Extends one of them below and overrides 
@@ -157,7 +158,7 @@ namespace samchon.protocol.parallel
 		 * 
 		 * @param invoke An {@link Invoke} message requesting parallel process.
 		 * @param first Initial piece's index in a section.
-		 * @param last Final piece's index in a section. The ranged used is [*first*, *last*), which contains 
+		 * @param last Final piece's index in a section. The range used is [*first*, *last*), which contains 
 		 *			   all the pieces' indices between *first* and *last*, including the piece pointed by index
 		 *			   *first*, but not the piece pointed by the index *last*.
 		 * 

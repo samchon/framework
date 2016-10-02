@@ -83,7 +83,7 @@ namespace samchon.protocol.external
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * Test whether this system array has the role.
+		 * Test whether the role exists.
 		 * 
 		 * @param name Name, identifier of target {@link ExternalSystemRole role}.
 		 * 

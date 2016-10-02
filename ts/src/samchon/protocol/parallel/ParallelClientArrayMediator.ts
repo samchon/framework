@@ -7,7 +7,7 @@ namespace samchon.protocol.parallel
 	/**
 	 * Mediator of Parallel Processing System, a server accepting slave clients.
 	 * 
-	 * The {@link ParallelClientArrayMediator} is an abstract class, derived from the {@link ParallelSystemArrayMedidator} 
+	 * The {@link ParallelClientArrayMediator} is an abstract class, derived from the {@link ParallelSystemArrayMediator} 
 	 * class, opening a server accepting {@link ParallelSystem parallel clients} as a **master**.
 	 *
 	 * Extends this {@link ParallelClientArrayMediator}, overrides {@link createServerBase createServerBase()} to 
@@ -36,10 +36,11 @@ namespace samchon.protocol.parallel
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * #### [Inherited] {@link ParallelSystemArray}
-	 * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel slave system drivers,
-	 * {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your system,
-	 * a *Master* of *Parallel Processing System* that requesting *parallel process* to slave systems and the children
-	 * {@link ParallelSystem} objects represent the remote slave systems, who is being requested the *parallel processes*.
+	 * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+	 * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+	 * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+	 * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+	 * *parallel processes*.
 	 *
 	 * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
 	 * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
@@ -131,7 +132,7 @@ namespace samchon.protocol.parallel
 		 * Add a newly connected remote client.
 		 * 
 		 * When a {@link IClientDriver remote client} connects to this *master server of parallel processing system*, 
-		 * then this {@link ParallelClientArray<ediator} creates a child {@link ParallelSystem parallel client} object 
+		 * then this {@link ParallelClientArrayMediator} creates a child {@link ParallelSystem parallel client} object 
 		 * through the {@link createExternalClient createExternalClient()} method and {@link insert inserts} it.
 		 * 
 		 * @param driver A communicator for parallel client.
@@ -169,7 +170,7 @@ namespace samchon.protocol.parallel
 		 * Overrides this {@link createExternalClient} method and creates a type of {@link ParallelSystem} object with 
 		 * the *driver* that communicates with the parallel client. After the creation, returns the {@link ParallelSystem}
 		 * object. Then whenever a parallel client has connected, matched {@link ParallelSystem} object will be 
-		 * constructed and {@link insert inserted} into this {@link ParallelClientArray} object.
+		 * constructed and {@link insert inserted} into this {@link ParallelClientArrayMediator} object.
 		 * 
 		 * @param driver A communicator with the parallel client.
 		 * @return A newly created {@link ParallelSystem} object.

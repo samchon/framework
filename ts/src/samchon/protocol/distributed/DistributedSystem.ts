@@ -5,8 +5,42 @@
 namespace samchon.protocol.distributed
 {
 	/**
+	 * A driver for a distributed slave system.
 	 * 
+	 * The {@link DistributedSystem} is an abstract class represents a **slave** system in *Distributed Processing System*,
+	 * connected with this **master** system. This {@link DistributedSystem} takes full charge of network communication 
+	 * with the remote, distributed **slave** system has connected.
 	 * 
+	 * This {@link DistributedSystem} has a {@link getPerformance performance index} that indicates how much the **slave** 
+	 * system is fast. The {@link getPerformance performance index} is referenced and revaluated whenever those methods 
+	 * are called:
+	 * 
+	 * - Requesting a *parallel process*
+	 *   - {@link DistributedSystemArray.sendSegmentData}
+	 *   - {@link DistributedSystemArray.sendPieceData}
+	 * - Requesting a *distributed process*: {@link DistributedSystemRole.sendData}
+	 * 
+	 * Note that, this {@link DistributedSystem} class derived from the {@link ExternalSystem} class. Thus, this 
+	 * {@link DistributedSystem} can also have children {@link ExternalSystemRole} objects exclusively. However, the 
+	 * children {@link ExternalSystemRole roles} objects are different with the {@link DistributedSystemRole}. The 
+	 * domestic {@link ExternalSystemRole roles} are belonged to only a specific {@link DistributedSystem} object. 
+	 * Otherwise, the {@link DistributedSystemRole} objects are belonged to a {@link DistributedSystemArray} object. 
+	 * Furthermore, the relationship between this {@link DistributedSystem} and {@link DistributedSystemRole} classes are 
+	 * **M: N Associative**.
+	 * 
+	 *  Articles     | {@link DistributedSystemRole}  | {@link ExternalSystemRole}
+	 * --------------|--------------------------------|----------------------
+	 *  Belonged to  | {@link DistributedSystemArray} | {@link DistributedSystem}
+	 *  Relationship | M: N Associative               | 1: N Composite
+	 *  Ownership    | References                     | Exclusive possession
+	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 * 
+	 * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class DistributedSystem
@@ -38,15 +72,21 @@ namespace samchon.protocol.distributed
 		// using super::destructor
 
 		/**
-		 * (Deprecated) Factory method creating {@link ExternalSystemRole child} object.
+		 * Factory method creating a {@link ExternalSystemRole child} object.
 		 * 
-		 * In {@link distributed} module, the {@link DistributedSystem} class does not possess 
-		 * {@link DistributedSystemRole} objects. No composition relationship between two classes more. The 
-		 * {@link DistributedSystem} and {@link DistributedSystemRole} classes are only belonged to the 
-		 * {@link DistributedSystemArray} class.
+		 * In {@link distributed} module, the role class {@link DistributedSystemRole} is not belonged to a specific 
+		 * {@link DistributedSystem} object. It only belongs to a {@link DistributedSystemArray} object and has a 
+		 * **M: N Associative Relationship** between this {@link DistributedSystem} class.
+		 * 
+		 * By that reason, it's the normal case that the {@link DistributedSystem} object does not have any children 
+		 * {@link ExternalSystemRole} object. Thus, default {@link createChild} returns ```null```.
+		 * 
+		 * However, if you want a {@link DistributedSystem} to have its own domestic {@link ExternalSystemRole} objects
+		 * without reference to the {@link DistributedSystemRole} objects, it is possible. Creates and returns the 
+		 * domestic {@link ExternalSystemRole} object.
 		 * 
 		 * @param xml {@link XML} represents the {@link ExternalSystemRole child} object.
-		 * @return null
+		 * @return A newly created {@link ExternalSystemRole} object or ```null```.
 		 */
 		public createChild(xml: library.XML): external.ExternalSystemRole
 		{
@@ -57,29 +97,13 @@ namespace samchon.protocol.distributed
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * Get manager of this object.
+		 * Get parent {@link DistributedSystemArray} object.
 		 *
-		 * @return A manager containing this {@link DistributedSystem} objects.
+		 * @return The parent {@link DistributedSystemArray} object.
 		 */
 		public getSystemArray(): DistributedSystemArray
 		{
 			return super.getSystemArray() as DistributedSystemArray;
-		}
-		
-		/**
-		 * @inheritdoc
-		 */
-		public has(key: string): boolean
-		{
-			return this.getSystemArray().hasRole(key);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public get(key: string): DistributedSystemRole
-		{
-			return this.getSystemArray().getRole(key);
 		}
 
 		/**
@@ -114,13 +138,13 @@ namespace samchon.protocol.distributed
 		 */
 		public replyData(invoke: protocol.Invoke): void
 		{
-			// SHIFT TO SYSTEM_ARRAY
-			this.getSystemArray().replyData(invoke);
-
 			// SHIFT TO ROLES
 			let role_map = this.getSystemArray().getRoleMap();
 			for (let it = role_map.begin(); !it.equal_to(role_map.end()); it = it.next())
 				it.second.replyData(invoke);
+
+			// SHIFT TO PARENT AND CHIILDREN, EXCLUSIVE ROLES
+			super.replyData(invoke);
 		}
 		
 		/**

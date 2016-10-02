@@ -42,9 +42,9 @@ namespace samchon.protocol.external
 	 * An external server driver.
 	 * 
 	 * The {@link ExternalServer} class represents an external server, connected and interact with this system.
-	 * {@link ExternalServer} takes full charge of network communication with external server have connected.
-	 * Replied {@link Invoke messages} from the external system is shifted to and processed in, children elements of this
-	 * class, {@link ExternalSystemRole} objects.
+	 * {@link ExternalServer} takes full charge of network communication with external server has connected. Replied 
+	 * {@link Invoke messages} from the external system is shifted to and processed in, children elements of this class, 
+	 * {@link ExternalSystemRole} objects.
 	 * 
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
 	 *		  target="_blank">
@@ -102,7 +102,17 @@ namespace samchon.protocol.external
 		}
 
 		/**
-		 * Factory method creating server connector.
+		 * Factory method creating {@link IServerConnector} object.
+		 * 
+		 * The {@link createServerConnector createServerConnector()} is an abstract method creating 
+		 * {@link IServerConnector} object. Overrides and returns one of them, considering which protocol the external
+		 * system follows:
+		 * 
+		 * - {@link ServerConnector}
+		 * - {@link WebServerConnector}
+		 * - {@link SharedWorkerServerConnector}
+		 * 
+		 * @return A newly created {@link IServerConnector} object.
 		 */
 		protected abstract createServerConnector(): IServerConnector;
 

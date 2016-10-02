@@ -27,6 +27,7 @@ namespace samchon.protocol
 	{
 		/**
 		 * Sending message.
+		 * 
 		 * Sends message to related system or shifts the responsibility to chain.
 		 *
 		 * @param invoke Invoke message to send
@@ -35,6 +36,7 @@ namespace samchon.protocol
 
 		/**
 		 * Handling replied message.
+		 * 
 		 * Handles replied message or shifts the responsibility to chain.
 		 *
 		 * @param invoke An {@link Invoke} message has received.

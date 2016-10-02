@@ -12,13 +12,14 @@ namespace samchon.protocol.parallel
 	 * 
 	 * Extends this {@link ParallelClientArray}, overrides {@link createServerBase createServerBase()} to determine which 
 	 * protocol to follow and {@link createExternalClient createExternalClient()} creating child {@link ParallelSystem} 
-	 * object. After the extending and overridings, open this server using the {@lionk open open()} method.
+	 * object. After the extending and overridings, open this server using the {@link open open()} method.
 	 * 
 	 * #### [Inherited] {@link ParallelSystemArray}
-	 * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel system drivers,
-	 * {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your system,
-	 * a *Master* of *Parallel Processing System* that requesting *parallel process* to slave systems and the children
-	 * {@link ParallelSystem} objects represent the remote slave systems, who is being requested the *parallel processes*.
+	 * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+	 * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+	 * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+	 * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+	 * *parallel processes*.
 	 *
 	 * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
 	 * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
@@ -132,7 +133,7 @@ namespace samchon.protocol.parallel
 		 * There's no way to creating the {@link ParallelSystem parallel clients} in advance before opening the server.
 		 * 
 		 * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
-		 * @return null
+		 * @return ```null```
 		 */
 		public createChild(xml: library.XML): ParallelSystem { return null; }
 

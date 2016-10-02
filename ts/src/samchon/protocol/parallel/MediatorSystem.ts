@@ -4,6 +4,41 @@
 
 namespace samchon.protocol.parallel
 {
+	/**
+	 * A mediator, the master driver.
+	 * 
+	 * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave** 
+	 * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+	 * 
+	 * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+	 * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which  
+	 * type and protocol the **master** system follows:
+	 * 
+	 * - A client slave connecting to master server:
+	 *   - {@link MediatorClient}
+	 *   - {@link MediatorWebClient}
+	 *   - {@link MediatorSharedWorkerClient}
+	 * - A server slave accepting master client:
+	 *   - {@link MediatorServer}
+	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorSharedWorkerServer}
+	 * 
+	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the 
+	 * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The 
+	 * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+	 * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the 
+	 * result to its **master**.
+	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 * 
+	 * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
+	 *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class MediatorSystem
 		extends slave.SlaveSystem
 	{
@@ -20,6 +55,20 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Construct from parent {@link ParallelSystemArrayMediator} object.
+		 * 
+		 * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
+		 */
+		public constructor(systemArray: ParallelSystemArrayMediator);
+
+		/**
+		 * Construct from parent {@link DistributedSystemArrayMediator} object.
+		 * 
+		 * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
+		 */
+		public constructor(systemArray: distributed.DistributedSystemArrayMediator)
+		
 		public constructor(systemArray: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator)
 		{
 			super();
@@ -28,11 +77,21 @@ namespace samchon.protocol.parallel
 			this.progress_list_ = new std.HashMap<number, InvokeHistory>();
 		}
 
+		/**
+		 * Start interaction.
+		 * 
+		 * The {@link start start()} is an abstract method starting interaction with the **master** system. If the 
+		 * **master** is a server, then connects to the **master**. Otherwise, the **master** is client, then this 
+		 * {@link MediatorSystem} object wil open a server accepting the **master**.
+		 */
 		public abstract start(): void;
 		
 		/* ---------------------------------------------------------
 			ACCESSOR
 		--------------------------------------------------------- */
+		/**
+		 * Get parent {@link ParallelSystemArrayMediator} object.
+		 */
 		public getSystemArray(): ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator
 		{
 			return this.system_array_;
@@ -142,6 +201,45 @@ namespace samchon.protocol.parallel
 
 namespace samchon.protocol.parallel
 {
+	/**
+	 * A mediator server, driver for the master client.
+	 * 
+	 * The {@link MediatorServer} is a class opening a server accepting the **master** client, following the protocol of 
+	 * Samchon Framework's own.
+	 * 
+	 * #### [Inherited] {@link MediatorSystem}
+	 * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+	 * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+	 *
+	 * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+	 * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+	 * type and protocol the **master** system follows:
+	 *
+	 * - A client slave connecting to master server:
+	 *   - {@link MediatorClient}
+	 *   - {@link MediatorWebClient}
+	 *   - {@link MediatorSharedWorkerClient}
+	 * - A server slave accepting master client:
+	 *   - {@link MediatorServer}
+	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorSharedWorkerServer}
+	 *
+	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+	 * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+	 * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+	 * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+	 * result to its **master**.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
+	 *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class MediatorServer
 		extends MediatorSystem
 		implements slave.ISlaveServer
@@ -159,17 +257,59 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(systemArray: ParallelSystemArrayMediator, port: number)
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
+		 * @param port Port number of server to open.
+		 */
+		public constructor(systemArray: ParallelSystemArrayMediator, port: number);
+
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
+		 * @param port Port number of server to open.
+		 */
+		public constructor(systemArray: distributed.DistributedSystemArrayMediator, port: number);
+
+		public constructor
+			(
+				systemArray: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator, 
+				port: number
+			)
 		{
-			super(systemArray);
+			super(systemArray as ParallelSystemArrayMediator);
 			this.port = port;
 		}
 
+		/**
+		 * Factory method creating {@link IServerBase} object.
+		 * 
+		 * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
+		 * {@link MediatorServer}. Note that, **slave** (this {@link MediatorServer} object) must follow the **master**'s 
+		 * protocol.
+		 *
+		 * Overrides and return one of them considering the which protocol to follow:
+		 *
+		 * - {@link ServerBase}
+		 * - {@link WebServerBase}
+		 * - {@link SharedWorkerServerBase}
+		 */
 		protected createServerBase(): IServerBase
 		{
 			return new ServerBase(this);
 		}
 
+		/**
+		 * Add a newly connected remote client.
+		 * 
+		 * {@link MediatorServer} represents a **slave** dedicating to its **master**. In that reason, the
+		 * {@link MediatorServer} does not accept multiple **master** clients. It accepts only one. Thus, *listener* of
+		 * the *communicator* is {@link MediatorSystem} object, itself.
+		 * 
+		 * @param driver A communicator with remote client.
+		 */
 		public addClient(driver: IClientDriver): void
 		{
 			this.communicator_ = driver;
@@ -179,11 +319,17 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			SERVER's METHOD
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public start(): void
 		{
 			this.open(this.port);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public open(port: number): void
 		{
 			this.server_base_ = this.createServerBase();
@@ -193,6 +339,9 @@ namespace samchon.protocol.parallel
 			this.server_base_.open(port);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public close(): void
 		{
 			if (this.server_base_ != null)
@@ -200,6 +349,45 @@ namespace samchon.protocol.parallel
 		}
 	}
 
+	/**
+	 * A mediator server, driver for the master client.
+	 * 
+	 * The {@link MediatorWebServer} is a class opening a server accepting the **master** client, following the 
+	 * web-socket protocol.
+	 * 
+	 * #### [Inherited] {@link MediatorSystem}
+	 * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+	 * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+	 *
+	 * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+	 * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+	 * type and protocol the **master** system follows:
+	 *
+	 * - A client slave connecting to master server:
+	 *   - {@link MediatorClient}
+	 *   - {@link MediatorWebClient}
+	 *   - {@link MediatorSharedWorkerClient}
+	 * - A server slave accepting master client:
+	 *   - {@link MediatorServer}
+	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorSharedWorkerServer}
+	 *
+	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+	 * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+	 * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+	 * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+	 * result to its **master**.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
+	 *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class MediatorWebServer extends MediatorServer
 	{
 		/**
@@ -211,6 +399,45 @@ namespace samchon.protocol.parallel
 		}
 	}
 
+	/**
+	 * A mediator server, driver for the master client.
+	 * 
+	 * The {@link MediatorSharedWorkerServer} is a class opening a server accepting the **master** client, following the
+	 * SharedWorker's protocol.
+	 * 
+	 * #### [Inherited] {@link MediatorSystem}
+	 * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+	 * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+	 *
+	 * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+	 * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+	 * type and protocol the **master** system follows:
+	 *
+	 * - A client slave connecting to master server:
+	 *   - {@link MediatorClient}
+	 *   - {@link MediatorWebClient}
+	 *   - {@link MediatorSharedWorkerClient}
+	 * - A server slave accepting master client:
+	 *   - {@link MediatorServer}
+	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorSharedWorkerServer}
+	 *
+	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+	 * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+	 * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+	 * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+	 * result to its **master**.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
+	 *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class MediatorSharedWorkerServer extends MediatorServer
 	{
 		/**
@@ -225,6 +452,45 @@ namespace samchon.protocol.parallel
 
 namespace samchon.protocol.parallel
 {
+	/**
+	 * A mediator client, driver for the master server.
+	 * 
+	 * The {@link MediatorServer} is a class being a client connecting to the **master** server, following the protocol 
+	 * of Samchon Framework's own.
+	 * 
+	 * #### [Inherited] {@link MediatorSystem}
+	 * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+	 * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+	 *
+	 * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+	 * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+	 * type and protocol the **master** system follows:
+	 *
+	 * - A client slave connecting to master server:
+	 *   - {@link MediatorClient}
+	 *   - {@link MediatorWebClient}
+	 *   - {@link MediatorSharedWorkerClient}
+	 * - A server slave accepting master client:
+	 *   - {@link MediatorServer}
+	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorSharedWorkerServer}
+	 *
+	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+	 * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+	 * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+	 * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+	 * result to its **master**.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
+	 *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class MediatorClient
 		extends MediatorSystem
 		implements slave.ISlaveClient
@@ -242,39 +508,68 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(systemArray: ParallelSystemArrayMediator, ip: string, port: number)
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
+		 * @param ip IP address to connect.
+		 * @param port Port number to connect.
+		 */
+		public constructor(systemArray: ParallelSystemArrayMediator, ip: string, port: number);
+
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
+		 * @param ip IP address to connect.
+		 * @param port Port number to connect.
+		 */
+		public constructor(systemArray: distributed.DistributedSystemArrayMediator, ip: string, port: number);
+
+		public constructor
+			(
+				systemArray: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator, 
+				ip: string, port: number
+			)
 		{
-			super(systemArray);
+			super(systemArray as ParallelSystemArrayMediator);
 
 			this.ip = ip;
 			this.port = port;
 		}
 
+		/**
+		 * Factory method creating {@link IServerConnector} object.
+		 * 
+		 * The {@link createServerConnector createServerConnector()} is an abstract method creating 
+		 * {@link IServerConnector} object. Overrides and returns one of them, considering which protocol the **master** 
+		 * server follows:
+		 * 
+		 * - {@link ServerConnector}
+		 * - {@link WebServerConnector}
+		 * - {@link SharedWorkerServerConnector}
+		 * 
+		 * @return A newly created {@link IServerConnector} object.
+		 */
 		protected createServerConnector(): IServerConnector
 		{
 			return new ServerConnector(this);
 		}
 
 		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		public getIP(): string
-		{
-			return this.ip;
-		}
-		public getPort(): number
-		{
-			return this.port;
-		}
-
-		/* ---------------------------------------------------------
 			METHOD OF CONNECTOR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public start(): void
 		{
 			this.connect();
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public connect(): void
 		{
 			if (this.communicator_ != null)
@@ -285,6 +580,45 @@ namespace samchon.protocol.parallel
 		}
 	}
 
+	/**
+	 * A mediator client, driver for the master server.
+	 * 
+	 * The {@link MediatorWebClient} is a class being a client connecting to the **master** server, following the 
+	 * web-socket protocol.
+	 * 
+	 * #### [Inherited] {@link MediatorSystem}
+	 * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+	 * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+	 *
+	 * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+	 * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+	 * type and protocol the **master** system follows:
+	 *
+	 * - A client slave connecting to master server:
+	 *   - {@link MediatorClient}
+	 *   - {@link MediatorWebClient}
+	 *   - {@link MediatorSharedWorkerClient}
+	 * - A server slave accepting master client:
+	 *   - {@link MediatorServer}
+	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorSharedWorkerServer}
+	 *
+	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+	 * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+	 * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+	 * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+	 * result to its **master**.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
+	 *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class MediatorWebClient
 		extends MediatorClient
 	{
@@ -297,6 +631,45 @@ namespace samchon.protocol.parallel
 		}
 	}
 
+	/**
+	 * A mediator client, driver for the master server.
+	 * 
+	 * The {@link MediatorSharedWorkerClient} is a class being a client connecting to the **master** server, following 
+	 * the SharedWorker's protocol.
+	 * 
+	 * #### [Inherited] {@link MediatorSystem}
+	 * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+	 * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+	 *
+	 * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+	 * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+	 * type and protocol the **master** system follows:
+	 *
+	 * - A client slave connecting to master server:
+	 *   - {@link MediatorClient}
+	 *   - {@link MediatorWebClient}
+	 *   - {@link MediatorSharedWorkerClient}
+	 * - A server slave accepting master client:
+	 *   - {@link MediatorServer}
+	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorSharedWorkerServer}
+	 *
+	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+	 * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+	 * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+	 * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+	 * result to its **master**.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
+	 *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class MediatorSharedWorkerClient
 		extends MediatorClient
 	{

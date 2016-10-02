@@ -12,7 +12,7 @@ namespace samchon.protocol.service
 	 * 
 	 * The {@link Server} is an abstract server class, who can build a real-time cloud server, that is following the 
 	 * web-socket protocol. Extends this {@link Server} and related classes and overrides abstract methods under below. 
-	 * After the overridings, open this {@link Server cloud server} by using the {@link open open()} method.
+	 * After the overridings, open this {@link Server cloud server} using the {@link open open()} method.
 	 * 
 	 * - Objects in composite relationship and their factory methods
 	 *   - {@link User}: {@link Server.createUser Server.createUser()}

@@ -131,9 +131,15 @@ namespace samchon.protocol.external
 		}
 
 		/**
-		 * This method is deprecated. Don't use and override this.
+		 * (Deprecated) Factory method creating child object.
 		 * 
-		 * @return null.
+		 * The method {@link createChild createChild()} is deprecated. Don't use and override this. 
+		 * 
+		 * Note that, the {@link ExternalClientArray} is a server accepting {@link ExternalSystem external clients}.
+		 * There's no way to creating the {@link ExternalSystem external clients} in advance before opening the server.
+		 * 
+		 * @param xml An {@link XML} object represents the child {@link ExternalSystem} object.
+		 * @return null
 		 */
 		public createChild(xml: library.XML): ExternalSystem { return null; }
 
@@ -169,7 +175,6 @@ namespace samchon.protocol.external
 				return;
 
 			this.server_base_.close();
-			this.clear();
 		}
 	}
 }

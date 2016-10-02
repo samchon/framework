@@ -74,7 +74,7 @@ namespace example.chat {
 			)
 
 			this.room_tabs.push(
-				<div id={uid} className="tab-pane fade">
+				<div id={String(uid)} className="tab-pane fade">
 					<iframe src={chatRoomUrl} height="100%" width="100%" />
 				</div>
 			)

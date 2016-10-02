@@ -55,6 +55,9 @@ namespace samchon.protocol.distributed
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public getSystemArray(): DistributedSystemArray
 		{
 			return this.system_array_;
@@ -172,7 +175,7 @@ namespace samchon.protocol.distributed
 		/**
 		 * @inheritdoc
 		 */
-		public sendData(invoke: protocol.Invoke): void
+		public sendData(invoke: Invoke): DistributedSystem
 		{
 			if (this.system_array_.empty() == true)
 				return;
@@ -229,6 +232,9 @@ namespace samchon.protocol.distributed
 
 			// SEND DATA
 			idle_system.sendData(invoke);
+
+			// RETURN THE IDLE SYSTEM, WHO SENT THE INVOKE MESSAGE.
+			return idle_system;
 		}
 
 		/**

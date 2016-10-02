@@ -5,6 +5,8 @@
 namespace samchon.protocol.distributed
 {
 	/**
+	 * 
+	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class DistributedSystem
@@ -14,16 +16,16 @@ namespace samchon.protocol.distributed
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		/**
+		 * Construct from parent {@link DistributedSystemArray}.
 		 * 
-		 * 
-		 * @param systemArray
+		 * @param systemArray The parent {@link DistributedSystemArray} object.
 		 */
 		public constructor(systemArray: DistributedSystemArray);
 
 		/**
+		 * Constrct from parent {@link DistributedSystemArray} and communicator.
 		 * 
-		 * 
-		 * @param systemArray
+		 * @param systemArray The parent {@link DistributedSystemArray} object.
 		 * @param communicator A communicator communicates with remote, the external system.
 		 */
 		public constructor(systemArray: DistributedSystemArray, communicator: IClientDriver);

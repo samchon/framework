@@ -5,25 +5,26 @@
 
 namespace samchon.protocol
 {
-	export class InvokeHistory extends Entity
+	export class InvokeHistory 
+		extends Entity
 	{
 		/**
-		 *
+		 * @hidden
 		 */
 		private uid: number;
 		
 		/**
-		 * @see {@link Invoke.listener}
+		 * @hidden
 		 */
 		private listener: string;
 		
 		/**
-		 * 
+		 * @hidden
 		 */
 		private start_time_: Date;
 		
 		/**
-		 *
+		 * @hidden
 		 */
 		private end_time_: Date;
 
@@ -43,11 +44,13 @@ namespace samchon.protocol
 
 			if (invoke == null)
 			{
+				// DEFAULT CONSTRUCTOR
 				this.uid = 0;
 				this.listener = "";
 			}
 			else
 			{
+				// CONSTRUCT FROM AN INVOKE MESSAGE
 				this.uid = invoke.get("_History_uid").getValue();
 				this.listener = invoke.getListener();
 

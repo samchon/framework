@@ -15,9 +15,16 @@ namespace samchon.protocol.parallel
 
 	export abstract class ParallelServer
 		extends ParallelSystem
-		implements external.IExternalServer
+		implements IParallelServer
 	{
+		/**
+		 * IP address of target external system to connect.
+		 */
 		protected ip: string;
+		
+		/**
+		 * Port number of target external system to connect.
+		 */
 		protected port: number;
 
 		public constructor(systemArray: ParallelSystemArray)
@@ -28,8 +35,14 @@ namespace samchon.protocol.parallel
 			this.port = 0;
 		}
 
+		/**
+		 * Factory method creating server connector.
+		 */
 		protected abstract createServerConnector(): IServerConnector;
 
+		/**
+		 * @inheritdoc
+		 */
 		public connect(): void
 		{
 			if (this.communicator != null)
@@ -37,15 +50,6 @@ namespace samchon.protocol.parallel
 
 			this.communicator = this.createServerConnector();
 			(this.communicator as IServerConnector).connect(this.ip, this.port);
-		}
-
-		public getIP(): string
-		{
-			return this.ip;
-		}
-		public getPort(): number
-		{
-			return this.port;
 		}
 	}
 }

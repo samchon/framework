@@ -5,9 +5,39 @@
 namespace samchon.protocol.parallel
 {
 	/**
-	 * An external parallel system driver.
+	 * A driver for a parallel slave system.
+	 * 
+	 * The {@link ParallelSystem} is an abstract class represents a slave system in *Parallel Processing System*, 
+	 * connected with this system. {@link ParallelSystem} takes full charge of network communication with the remote, 
+	 * parallel slave system have connected.
 	 * 
 	 * 
+	 * #### Bridge & Proxy Pattern
+	 * This class {@link ParallelSystem} is derived from the {@link ExternalSystem} class. Thus, you can take advantage 
+	 * of the *Bridge & Proxy Pattern* in this {@link ParallelSystem} class. If a process to request is not the
+	 * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+	 * may better to utilizing the *Bridge & Proxy Pattern*:
+	 * 
+	 * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
+	 * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+	 * important. Only interested in user's perspective is *which can be done*.
+	 *
+	 * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+	 * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+	 *
+	 * <ul>
+	 *	<li>
+	 *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+	 *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+	 *	</li>
+	 *	<li>
+	 *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+	 *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+	 *		external system.
+	 *	</li>
+	 *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
+	 * </ul>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -43,14 +73,16 @@ namespace samchon.protocol.parallel
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		/**
+		 * Construct from parent {@link ParallelSystemArray}.
 		 * 
-		 * @param systemArray
+		 * @param systemArray The parent {@link ParallelSystemArray} object.
 		 */
 		public constructor(systemArray: ParallelSystemArray);
 
 		/**
+		 * Construct from parent {@link ParallelSystemArray} and communicator.
 		 * 
-		 * @param systemArray 
+		 * @param systemArray The parent {@link ParallelSystemArray} object.
 		 * @param communicator A communicator communicates with remote, the external system.
 		 */
 		public constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
@@ -70,6 +102,38 @@ namespace samchon.protocol.parallel
 			this.performance = 1.0;
 		}
 
+		/**
+		 * Default Destructor.
+		 * 
+		 * This {@link destructor destructor()} method is called when the {@link ParallelSystem} object is destructed and
+		 * the {@link ParallelSystem} object is destructed when connection with the remote system is closed or this
+		 * {@link ParallelSystem} object is {@link ParallelSystemArray.erase erased} from its parent 
+		 * {@link ParallelSystemArray} object.
+		 * 
+		 * You may think if there're some *parallel processes* have requested but not completed yet, then it would be a
+		 * critical problem because the *parallel processes* will not complete forever. Do not worry. The critical problem
+		 * does not happen. After the destruction, the remained *parallel processes* will be shifted to and proceeded in 
+		 * other {@link ParallelSystem} objects.
+		 * 
+		 * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
+		 * by those *destruction* cases. Also, if your derived {@link ParallelSystem} class has something to do on the
+		 * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
+		 * Overriding this {@ink destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
+		 *
+		 * ```typescript
+		 * class SomeSystem extends protocol.external.ExternalSystem
+		 * {
+		 *     protected destructor(): void
+		 *     {
+		 *         // DO SOMETHING
+		 *         this.do_something();
+		 *
+		 *         // CALL SUPER.DESTRUCTOR() ON TAIL. DON'T FORGET THIS
+		 *         super.destructor();
+		 *     }
+		 * }
+		 * ```
+		 */
 		protected destructor(): void
 		{
 			this.exclude_ = true;

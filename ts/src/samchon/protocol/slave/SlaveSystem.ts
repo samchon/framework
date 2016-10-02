@@ -7,6 +7,9 @@ namespace samchon.protocol.slave
 	export abstract class SlaveSystem
 		implements protocol.IProtocol
 	{
+		/**
+		 * @hidden
+		 */
 		protected communicator_: ICommunicator;
 
 		/* ---------------------------------------------------------
@@ -28,6 +31,9 @@ namespace samchon.protocol.slave
 			this.communicator_.sendData(invoke);
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected _replyData(invoke: Invoke): void
 		{
 			// INTERCEPT INVOKE MESSAGE

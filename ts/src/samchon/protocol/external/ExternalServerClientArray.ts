@@ -94,11 +94,9 @@ namespace samchon.protocol.external
 		/**
 		 * Factory method of a child Entity.
 		 *
-		 * This method is migrated to {@link createExternalServer createExternalServer()}. Override the
-		 * {@link createExternalServer createExternalServer()}.
+		 * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
 		 *
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-		 * 
 		 * @return A new child Entity via {@link createExternalServer createExternalServer()}.
 		 */
 		public createChild(xml: library.XML): ExternalSystem
@@ -110,7 +108,6 @@ namespace samchon.protocol.external
 		 * Factory method creating an {@link IExternalServer} object.
 		 *
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-		 * 
 		 * @return A newly created {@link IExternalServer} object.
 		 */
 		protected abstract createExternalServer(xml: library.XML): IExternalServer;

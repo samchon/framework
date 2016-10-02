@@ -74,6 +74,7 @@ namespace samchon.protocol.external
 		public constructor(systemArray: ExternalSystemArray);
 		
 		/**
+		 * Constrct from parent {@link ExternalSystemArray} and communicator.
 		 * 
 		 * @param systemArray
 		 * @param communicator
@@ -95,6 +96,30 @@ namespace samchon.protocol.external
 
 		/**
 		 * Default Destructor.
+		 * 
+		 * This {@link destructor destructor()} method is called when the {@link ExternalSystem} object is destructed and
+		 * the {@link ExternalSystem} object is destructed when connection with the remote system is closed or this 
+		 * {@link ExternalSystem} object is {@link ExternalSystemArray.erase erased} from its parent 
+		 * {@link ExternalSystemArray} object.
+		 * 
+		 * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
+		 * by those *destruction* cases. Also, if your derived {@link ExternalSystem} class has something to do on the
+		 * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
+		 * Overriding this {@ink destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
+		 *
+		 * ```typescript
+		 * class SomeSystem extends protocol.external.ExternalSystem
+		 * {
+		 *     protected destructor(): void
+		 *     {
+		 *         // DO SOMETHING
+		 *         this.do_something();
+		 *
+		 *         // CALL SUPER.DESTRUCTOR() ON TAIL. DON'T FORGET THIS
+		 *         super.destructor();
+		 *     }
+		 * }
+		 * ```
 		 */
 		protected destructor(): void
 		{

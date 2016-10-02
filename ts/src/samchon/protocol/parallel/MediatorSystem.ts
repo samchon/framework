@@ -7,7 +7,14 @@ namespace samchon.protocol.parallel
 	export abstract class MediatorSystem
 		extends slave.SlaveSystem
 	{
+		/**
+		 * @hidden
+		 */
 		private system_array_: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator;
+		
+		/**
+		 * @hidden
+		 */
 		private progress_list_: std.HashMap<number, InvokeHistory>;
 
 		/* ---------------------------------------------------------
@@ -34,6 +41,9 @@ namespace samchon.protocol.parallel
 		/* ---------------------------------------------------------
 			MESSAGE CHAIN
 		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
 		private complete_history(uid: number): void
 		{
 			// NO SUCH HISTORY; THE PROCESS HAD DONE ONLY IN THIS MEDIATOR LEVEL.
@@ -70,6 +80,9 @@ namespace samchon.protocol.parallel
 			this.sendData(history.toInvoke());
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected _replyData(invoke: Invoke): void
 		{
 			if (invoke.has("_History_uid") == true)
@@ -117,12 +130,12 @@ namespace samchon.protocol.parallel
 				this.replyData(invoke);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public replyData(invoke: protocol.Invoke): void
 		{
-			if (invoke.apply(this) == true)
-				return;
-			else
-				this.system_array_.sendData(invoke);
+			this.system_array_.sendData(invoke);
 		}
 	}
 }
@@ -133,7 +146,14 @@ namespace samchon.protocol.parallel
 		extends MediatorSystem
 		implements slave.ISlaveServer
 	{
+		/**
+		 * @hidden
+		 */
 		private server_base_: IServerBase;
+		
+		/**
+		 * @hidden
+		 */
 		private port: number;
 
 		/* ---------------------------------------------------------
@@ -209,8 +229,15 @@ namespace samchon.protocol.parallel
 		extends MediatorSystem
 		implements slave.ISlaveClient
 	{
-		protected ip: string;
-		protected port: number;
+		/**
+		 * @hidden
+		 */
+		private ip: string;
+		
+		/**
+		 * @hidden
+		 */
+		private port: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

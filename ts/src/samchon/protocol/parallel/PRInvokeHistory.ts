@@ -4,15 +4,16 @@
 
 namespace samchon.protocol.parallel
 {
-	export class PRInvokeHistory extends InvokeHistory
+	export class PRInvokeHistory 
+		extends InvokeHistory
 	{
 		/**
-		 * Index number of initial piece.
+		 * @hidden
 		 */
 		private first: number;
 		
 		/**
-		 * Index number of final piece.
+		 * @hidden
 		 */
 		private last: number;
 
@@ -51,6 +52,7 @@ namespace samchon.protocol.parallel
 		{
 			return this.first;
 		}
+
 		public getLast(): number
 		{
 			return this.last;

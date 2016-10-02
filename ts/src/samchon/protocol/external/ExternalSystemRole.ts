@@ -7,8 +7,9 @@ namespace samchon.protocol.external
 	/**
 	 * A role of an external system.
 	 * 
-	 * The {@link ExternalSystemRole} class represents a role, *what to do* in an {@link ExternalSystem}. 
-	 * Extends this class and writes some methods related to the *role*.
+	 * The {@link ExternalSystemRole} class represents a role, *WHAT TO DO*. Extends the {@link ExternalSystemRole} class 
+	 * and overrides {@link replyData replyData()} to define the *WHAT TO DO*. And assign this {@link ExternalSystemRole}
+	 * object to related {@link ExternalSystem} object. 
 	 * 
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png" 
 	 *		  target="_blank">
@@ -83,6 +84,14 @@ namespace samchon.protocol.external
 			return this.name;
 		}
 
+		/**
+		 * Get grandparent {@link ExternalSystemArray}.
+		 * 
+		 * Get the grandparent {@link ExternalSystemArray} object through this parent {@link ExternalSystem}, 
+		 * {@link ExternalSystem.getSystemArray ExternalSystem.getSystemArray()}.
+		 * 
+		 * @return The grandparent {@link ExternalSystemArray} object.
+		 */
 		public getSystemArray(): ExternalSystemArray
 		{
 			return this.system.getSystemArray();
@@ -110,7 +119,7 @@ namespace samchon.protocol.external
 		/**
 		 * Send an {@link Invoke} message.
 		 * 
-		 * Sends an {@link Invoke} message to remote system through the related {@link ExternalSystem} object.
+		 * Sends an {@link Invoke} message to remote system through the parent {@link ExternalSystem} object.
 		 * 
 		 * @param invoke An {@link Invoke} message to send to the external system.
 		 */
@@ -123,7 +132,7 @@ namespace samchon.protocol.external
 		 * Handle replied {@link Invoke} message.
 		 * 
 		 * {@link ExternalSystemRole.replyData ExternalSystemRole.replyData()} is an abstract method handling a replied 
-		 * {@link Invoke message} gotten from remote system via related {@link ExternalSyste} object. Overrides this 
+		 * {@link Invoke message} gotten from remote system via parent {@link ExternalSystem} object. Overrides this 
 		 * method and defines what to do with the {@link Invoke message}.
 		 * 
 		 * @param invoke An {@link Invoke} message received from the {@link system external system}.

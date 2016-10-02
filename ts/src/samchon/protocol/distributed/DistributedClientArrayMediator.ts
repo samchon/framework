@@ -31,16 +31,16 @@ namespace samchon.protocol.distributed
 		/**
 		 * Factory method creating {@link IServerBase} object.
 		 * 
-		 * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
-		 * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who 
-		 * may connect to {@link ExternalClientArray this server} must follow the specified protocol.
+		 * This method {@link createServerBase createServerBase()} determines which protocol is used in this 
+		 * {@link DistributedClientArrayMediator} object as a **master**. If the protocol is determined, then 
+		 * {@link ParallelSystem parallel clients} who may connect to {@link DistributedClientArrayMediator this server} 
+		 * must follow the specified protocol.
 		 * 
-		 * Creates and returns one of them:
-		 * <ul>
-		 *	<li> {@link ServerBase} </li>
-		 *	<li> {@link WebServerBase} </li>
-		 *	<li> {@link SharedWorkerServerBase} </li>
-		 * </ul>
+		 * Overrides the {@link createServerBase createServerBase()} method to create and return one of them:
+		 * 
+		 * - {@link ServerBase}
+		 * - {@link WebServerBase}
+		 * - {@link SharedWorkerServerBase}
 		 * 
 		 * @return A new {@link IServerBase} object.
 		 */
@@ -49,6 +49,15 @@ namespace samchon.protocol.distributed
 		/* ---------------------------------------------------------
 			FACTORY METHOD FOR CHILDREN
 		--------------------------------------------------------- */
+		/**
+		 * Add a newly connected remote client.
+		 * 
+		 * When a {@link IClientDriver remote client} connects to this *master server of parallel processing system*, 
+		 * then this {@link ParallelClientArray} creates a child {@link ParallelSystem parallel client} object through 
+		 * the {@link createExternalClient createExternalClient()} method.
+		 * 
+		 * @param driver A communicator for external client.
+		 */
 		public addClient(driver: IClientDriver): void
 		{
 			let system: DistributedSystem = this.createExternalClient(driver);

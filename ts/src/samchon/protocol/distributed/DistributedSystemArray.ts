@@ -7,7 +7,11 @@
  */
 namespace samchon.protocol.distributed
 {
-	export abstract class DistributedSystemArray extends parallel.ParallelSystemArray
+	/**
+	 * @author Jeongho Nam <
+	 */
+	export abstract class DistributedSystemArray 
+		extends parallel.ParallelSystemArray
 	{
 		/**
 		 * @hidden

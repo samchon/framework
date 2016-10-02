@@ -114,21 +114,5 @@ namespace samchon.protocol.external
 			this.communicator = this.createServerConnector();
 			(this.communicator as IServerConnector).connect(this.ip, this.port);
 		}
-
-		/**
-		 * Get IP address of external system to connect.
-		 */
-		public getIP(): string
-		{
-			return this.ip;
-		}
-
-		/**
-		 * Get port number of external system to connect.
-		 */
-		public getPort(): number
-		{
-			return this.port;
-		}
 	}
 }

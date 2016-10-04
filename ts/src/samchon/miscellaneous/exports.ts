@@ -1,8 +1,9 @@
 ﻿/// <reference path="../API.ts" />
 
 /// <reference path="../library/XML.ts" />
-/// <reference path="../collection/ArrayCollection.ts" />
+/// <reference path="../collections/ArrayCollection.ts" />
 /// <reference path="../protocol/Entity.ts" />
+/// <reference path="../templates/distributed/DistributedSystemArrayMediator.ts" />
 
 try
 {

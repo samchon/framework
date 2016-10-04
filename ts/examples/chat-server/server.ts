@@ -3,9 +3,10 @@
 import std = require("typescript-stl");
 import samchon = require("samchon-framework");
 
-import collection = samchon.collection;
+import collections = samchon.collections;
 import library = samchon.library;
 import protocol = samchon.protocol;
+import templates = samchon.templates;
 
 import room = require("./room");
 import service = require("./service");
@@ -15,7 +16,7 @@ import service = require("./service");
 ================================================================= */
 namespace server
 {
-	export class ChatServer extends protocol.service.Server
+	export class ChatServer extends templates.service.Server
 	{
 		private rooms: room.ChatRoomList;
 
@@ -29,7 +30,7 @@ namespace server
 			this.rooms = new room.ChatRoomList();
 		}
 
-		protected createUser(): protocol.service.User
+		protected createUser(): templates.service.User
 		{
 			return new ChatUser(this);
 		}
@@ -48,7 +49,7 @@ namespace server
 		}
 	}
 
-	export class ChatUser extends protocol.service.User
+	export class ChatUser extends templates.service.User
 	{
 		private name: string = "";
 
@@ -60,7 +61,7 @@ namespace server
 			super(server);
 		}
 
-		public createClient(driver: protocol.WebClientDriver): protocol.service.Client
+		public createClient(driver: protocol.WebClientDriver): templates.service.Client
 		{
 			return new ChatClient(this, driver);
 		}
@@ -83,7 +84,7 @@ namespace server
 		}
 	}
 
-	export class ChatClient extends protocol.service.Client
+	export class ChatClient extends templates.service.Client
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -96,7 +97,7 @@ namespace server
 				this.send_account_info();
 		}
 
-		protected createService(path: string): protocol.service.Service
+		protected createService(path: string): templates.service.Service
 		{
 			if (path == "list")
 				return new service.ListService(this, path);

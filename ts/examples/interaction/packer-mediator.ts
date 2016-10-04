@@ -15,9 +15,10 @@ namespace packer_mediator
 {
 	export import library = samchon.library;
 	export import protocol = samchon.protocol;
+	export import templates = samchon.templates;
 
 	export class PackerMediator
-		extends protocol.parallel.ParallelClientArrayMediator
+		extends templates.parallel.ParallelClientArrayMediator
 		implements monitor.ISystem
 	{
 		private uid: number;
@@ -48,11 +49,11 @@ namespace packer_mediator
 		{
 			return new protocol.ServerBase(this);
 		}
-		protected createMediator(): protocol.parallel.MediatorSystem
+		protected createMediator(): templates.parallel.MediatorSystem
 		{
 			return new PackerMasterDriver(this, "127.0.0.1", 37200);
 		}
-		protected createExternalClient(driver: protocol.IClientDriver): protocol.parallel.ParallelSystem
+		protected createExternalClient(driver: protocol.IClientDriver): templates.parallel.ParallelSystem
 		{
 			console.log("A new slave has connected.");
 			return new master.SlaveDriver(this, driver);
@@ -137,7 +138,7 @@ namespace packer_mediator
 		}
 	}
 
-	export class PackerMasterDriver extends protocol.parallel.MediatorClient
+	export class PackerMasterDriver extends templates.parallel.MediatorClient
 	{
 		private uid: number;
 

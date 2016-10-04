@@ -10,7 +10,7 @@ namespace samchon.protocol
 	 * in a relationship of *Chain of Responsibility Pattern* with those network drivers.
 	 * 
 	 * Implements {@link IProtocol} if the class sends and handles {@link Invoke} messages. Looking around source codes of 
-	 * the *Samchon Framework*, especially *System Templates*, you can find out that all the classes and modules handling 
+	 * the *Samchon Framework*, especially *Templates*, you can find out that all the classes and modules handling 
 	 * {@link Invoke} messages are always implementing this {@link IProtocol}.
 	 * 
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"

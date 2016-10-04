@@ -12,6 +12,7 @@ namespace monitor
 {
 	export import library = samchon.library;
 	export import protocol = samchon.protocol;
+	export import templates = samchon.templates;
 }
 
 namespace monitor
@@ -212,7 +213,7 @@ namespace monitor
 
 namespace monitor
 {
-	export class Reporter extends protocol.external.ExternalClientArray
+	export class Reporter extends templates.external.ExternalClientArray
 	{
 		private monitor: Monitor;
 
@@ -230,7 +231,7 @@ namespace monitor
 		{
 			return new protocol.WebServerBase(this);
 		}
-		protected createExternalClient(driver: protocol.IClientDriver): protocol.external.ExternalSystem
+		protected createExternalClient(driver: protocol.IClientDriver): templates.external.ExternalSystem
 		{
 			return new Viewer(this, driver);
 		}
@@ -257,7 +258,7 @@ namespace monitor
 		}
 	}
 
-	export class Viewer extends protocol.external.ExternalSystem
+	export class Viewer extends templates.external.ExternalSystem
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -283,7 +284,7 @@ namespace monitor
 			console.log("A viewer has disconnected");
 		}
 
-		public createChild(xml: library.XML): protocol.external.ExternalSystemRole
+		public createChild(xml: library.XML): templates.external.ExternalSystemRole
 		{ // NO ROLE
 			return null;
 		}

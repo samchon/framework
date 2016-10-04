@@ -13,7 +13,7 @@ namespace chief
 {
 	export import library = samchon.library;
 	export import protocol = samchon.protocol;
-	export import external = samchon.protocol.external;
+	export import external = samchon.templates.external;
 
 	export class Chief
 		extends external.ExternalClientArray

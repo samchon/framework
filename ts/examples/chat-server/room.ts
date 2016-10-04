@@ -3,7 +3,7 @@
 import std = require("typescript-stl");
 import samchon = require("samchon-framework");
 
-import collection = samchon.collection;
+import collections = samchon.collections;
 import library = samchon.library;
 import protocol = samchon.protocol;
 
@@ -13,7 +13,7 @@ import service = require("./service");
 namespace room
 {
 	export class ChatRoomList 
-		extends collection.HashMapCollection<number, ChatRoom>
+		extends collections.HashMapCollection<number, ChatRoom>
 	{
 		private sequence: number = 0; // AUTO_INCREMENT FOR ChatRoom.uid
 
@@ -49,7 +49,7 @@ namespace room
 	}
 
 	export class ChatRoom 
-		extends collection.HashMapCollection<string, service.ChatService>
+		extends collections.HashMapCollection<string, service.ChatService>
 		// implements protocol.IProtocol
 	{
 		private rooms: ChatRoomList;
@@ -74,7 +74,7 @@ namespace room
 		/* ---------------------------------------------------------
 			SEND DATA
 		--------------------------------------------------------- */
-		private handle_change(event: collection.MapCollectionEvent<string, service.ChatService>): void
+		private handle_change(event: collections.MapCollectionEvent<string, service.ChatService>): void
 		{
 			if (event.type == "erase" && this.empty() == true)
 			{

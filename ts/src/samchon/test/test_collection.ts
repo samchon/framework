@@ -7,7 +7,7 @@ namespace samchon.test
 {
 	export function test_collection(): void
 	{
-		let container = new collection.DequeCollection<number>();
+		let container = new collections.DequeCollection<number>();
 		container.addEventListener("insert", handle_event);
 		container.addEventListener("erase", handle_event);
 
@@ -17,7 +17,7 @@ namespace samchon.test
 		std.remove(container.begin(), container.end(), 5);
 	}
 
-	function handle_event(event: collection.CollectionEvent<number>): void
+	function handle_event(event: collections.CollectionEvent<number>): void
 	{
 		console.log("Handle Event:", event.type);
 

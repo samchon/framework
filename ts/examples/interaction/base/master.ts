@@ -9,9 +9,10 @@ namespace master
 {
 	export import library = samchon.library;
 	export import protocol = samchon.protocol;
+	export import templates = samchon.templates;
 
 	export abstract class Master 
-		extends protocol.parallel.ParallelClientArray
+		extends templates.parallel.ParallelClientArray
 		implements monitor.ISystem
 	{
 		private uid: number;
@@ -40,7 +41,7 @@ namespace master
 		{
 			return new protocol.ServerBase(this);
 		}
-		protected createExternalClient(driver: protocol.IClientDriver): protocol.parallel.ParallelSystem
+		protected createExternalClient(driver: protocol.IClientDriver): templates.parallel.ParallelSystem
 		{
 			console.log("A new slave has connected.");
 			return new SlaveDriver(this, driver);
@@ -75,7 +76,7 @@ namespace master
 	}
 
 	export class SlaveDriver
-		extends protocol.parallel.ParallelSystem
+		extends templates.parallel.ParallelSystem
 	{
 		private uid: number;
 
@@ -87,7 +88,7 @@ namespace master
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(master: protocol.parallel.ParallelSystemArray, driver: protocol.IClientDriver)
+		public constructor(master: templates.parallel.ParallelSystemArray, driver: protocol.IClientDriver)
 		{
 			super(master, driver);
 
@@ -112,7 +113,7 @@ namespace master
 			if (this.uid != -1)
 				this.master["monitor"].sendSystemStructure();
 		}
-		public createChild(xml: library.XML): protocol.external.ExternalSystemRole
+		public createChild(xml: library.XML): templates.external.ExternalSystemRole
 		{
 			// DO NOT CREATE CHILDREN, EXTERNAL_SYSTEM_ROLE
 			return null;

@@ -3,16 +3,17 @@
 import std = require("typescript-stl");
 import samchon = require("samchon-framework");
 
-import collection = samchon.collection;
+import collections = samchon.collections;
 import library = samchon.library;
 import protocol = samchon.protocol;
+import templates = samchon.templates;
 
 import server = require("./server");
 import room = require("./room");
 
 namespace service
 {
-	export class ListService extends protocol.service.Service
+	export class ListService extends templates.service.Service
 	{
 		private get rooms(): room.ChatRoomList
 		{
@@ -53,13 +54,13 @@ namespace service
 		/* ---------------------------------------------------------
 			SEND DATA
 		--------------------------------------------------------- */
-		private handle_room_change(event: collection.MapCollectionEvent<number, room.ChatRoom>): void
+		private handle_room_change(event: collections.MapCollectionEvent<number, room.ChatRoom>): void
 		{
 			// SEND LIST OF CHATTING ROOMS WHENEVER PARTICIPANTS JOIN OR GO OUT
 			this.send_rooms();
 		}
 
-		private handle_participant_change(event: collection.MapCollectionEvent<number, room.ChatRoom>): void
+		private handle_participant_change(event: collections.MapCollectionEvent<number, room.ChatRoom>): void
 		{
 			let room: room.ChatRoom = event.first.second;
 
@@ -89,7 +90,7 @@ namespace service
 		}
 	}
 
-	export class ChatService extends protocol.service.Service
+	export class ChatService extends templates.service.Service
 	{
 		private room: room.ChatRoom;
 

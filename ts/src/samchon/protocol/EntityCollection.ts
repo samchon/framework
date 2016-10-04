@@ -1,8 +1,8 @@
 ﻿/// <reference path="../API.ts" />
 
-/// <reference path="../collection/ArrayCollection.ts" />
-/// <reference path="../collection/ListCollection.ts" />
-/// <reference path="../collection/DequeCollection.ts" />
+/// <reference path="../collections/ArrayCollection.ts" />
+/// <reference path="../collections/ListCollection.ts" />
+/// <reference path="../collections/DequeCollection.ts" />
 
 namespace samchon.protocol
 {
@@ -10,7 +10,7 @@ namespace samchon.protocol
 	 * @inheritdoc
 	 */
 	export interface IEntityCollection<T extends IEntity>
-		extends IEntityGroup<T>, collection.ICollection<T>
+		extends IEntityGroup<T>, collections.ICollection<T>
 	{
 	}
 }
@@ -21,7 +21,7 @@ namespace samchon.protocol
 	 * @inheritdoc
 	 */
 	export abstract class EntityArrayCollection<T extends IEntity>
-		extends collection.ArrayCollection<T>
+		extends collections.ArrayCollection<T>
 		implements IEntityCollection<T>
 	{
 		/* ------------------------------------------------------------------
@@ -106,7 +106,7 @@ namespace samchon.protocol
 	 * @inheritdoc
 	 */
 	export abstract class EntityListCollection<T extends IEntity>
-		extends collection.ListCollection<T>
+		extends collections.ListCollection<T>
 		implements IEntityCollection<T>
 	{
 		/* ------------------------------------------------------------------
@@ -191,7 +191,7 @@ namespace samchon.protocol
 	 * @inheritdoc
 	 */
 	export abstract class EntityDequeCollection<T extends IEntity>
-		extends collection.DequeCollection<T>
+		extends collections.DequeCollection<T>
 		implements IEntityCollection<T>
 	{
 		/* ------------------------------------------------------------------

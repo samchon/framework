@@ -1,7 +1,7 @@
 ﻿namespace interaction.viewer
 {
 	export import library = samchon.library;
-	export import collection = samchon.collection;
+	export import collections = samchon.collections;
 	export import protocol = samchon.protocol;
 	
 	export const INTERVAL: number = 1;

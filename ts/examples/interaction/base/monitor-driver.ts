@@ -6,6 +6,7 @@ namespace monitor
 {
 	import library = samchon.library;
 	import protocol = samchon.protocol;
+	import templates = samchon.templates;
 
 	export interface ISystem extends protocol.IProtocol, protocol.IEntity
 	{
@@ -56,9 +57,9 @@ namespace monitor
 
 			let xml: library.XML = this.system.toXML();
 
-			if (this.system instanceof protocol.external.ExternalSystemArray)
+			if (this.system instanceof templates.external.ExternalSystemArray)
 			{
-				let system_array: protocol.external.ExternalSystemArray = this.system as protocol.external.ExternalSystemArray;
+				let system_array: templates.external.ExternalSystemArray = this.system as templates.external.ExternalSystemArray;
 
 				for (let i: number = 0; i < system_array.size(); i++)
 					if (system_array.at(i)["uid"] == -1)

@@ -38,7 +38,7 @@ declare namespace samchon {
      */
     function is_node(): boolean;
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * A {@link Vector} who can detect element I/O events.
      *
@@ -110,7 +110,7 @@ declare namespace samchon.collection {
      * @param <T> Type of the elements.
      *
      * @reference http://www.cplusplus.com/reference/vector/vector
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class ArrayCollection<T> extends std.Vector<T> implements ICollection<T> {
@@ -296,17 +296,17 @@ declare namespace samchon.library {
         readonly returnValue: boolean;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * Type of function pointer for listener of {@link CollectionEvent CollectionEvents}.
      */
     type CollectionEventListener<T> = (event: CollectionEvent<T>) => void;
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * An event occured in a {@link ICollection collection} object.
      *
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class CollectionEvent<T> extends library.BasicEvent {
@@ -358,12 +358,12 @@ declare namespace samchon.collection {
 /**
  * @hidden
  */
-declare namespace samchon.collection.CollectionEvent {
+declare namespace samchon.collections.CollectionEvent {
     const INSERT: "insert";
     const ERASE: "erase";
     const REFRESH: "refresh";
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * A {@link Deque} who can detect element I/O events.
      *
@@ -429,7 +429,7 @@ declare namespace samchon.collection {
      * @param <T> Type of the elements.
      *
      * @reference http://www.cplusplus.com/reference/deque/deque/
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class DequeCollection<T> extends std.Deque<T> implements ICollection<T> {
@@ -519,7 +519,7 @@ declare namespace samchon.collection {
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * A {@link HashMap} who can detect element I/O events.
      *
@@ -584,7 +584,7 @@ declare namespace samchon.collection {
      *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
      * @reference http://www.cplusplus.com/reference/unordered_map/unordered_map
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
@@ -650,7 +650,7 @@ declare namespace samchon.collection {
         removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * A {@link HashMultiMap} who can detect element I/O events.
      *
@@ -712,7 +712,7 @@ declare namespace samchon.collection {
      *			  Each element in an {@link HashMultiMap} is used to store some data as its mapped value.
      *
      * @reference http://www.cplusplus.com/reference/unordered_map/unordered_multimap
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashMultiMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
@@ -778,7 +778,7 @@ declare namespace samchon.collection {
         removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * A {@link HashMultiSet} who can detect element I/O events.
      *
@@ -835,7 +835,7 @@ declare namespace samchon.collection {
      *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
      *
      * @reference http://www.cplusplus.com/reference/unordered_set/unordered_multiset
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashMultiSetCollection<T> extends std.HashMultiSet<T> implements ICollection<T> {
@@ -901,7 +901,7 @@ declare namespace samchon.collection {
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * A {@link HashSet} who can detect element I/O events.
      *
@@ -959,7 +959,7 @@ declare namespace samchon.collection {
      *			  Each element in an {@link HashSet} is also uniquely identified by this value.
      *
      * @reference http://www.cplusplus.com/reference/unordered_set/unordered_set
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashSetCollection<T> extends std.HashSet<T> implements ICollection<T> {
@@ -1025,7 +1025,7 @@ declare namespace samchon.collection {
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * An interface for {@link IContainer containers} who can detect element I/O events.
      *
@@ -1137,7 +1137,7 @@ declare namespace samchon.collection {
         function _Dispatch_MapCollectionEvent<Key, T>(collection: ICollection<std.Pair<Key, T>>, type: string, first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * A {@link List} who can detect element I/O events.
      *
@@ -1204,7 +1204,7 @@ declare namespace samchon.collection {
      * @param <T> Type of the elements.
      *
      * @reference http://www.cplusplus.com/reference/list/list/
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class ListCollection<T> extends std.List<T> implements ICollection<T> {
@@ -1302,12 +1302,12 @@ declare namespace samchon.collection {
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     type MapCollectionEventListener<Key, T> = (event: MapCollectionEvent<Key, T>) => void;
     /**
      * An event occured in a {@link MapContainer map container} object.
      *
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class MapCollectionEvent<Key, T> extends CollectionEvent<std.Pair<Key, T>> {
@@ -1321,7 +1321,7 @@ declare namespace samchon.collection {
         readonly last: std.MapIterator<Key, T>;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * A {@link TreeMap} who can detect element I/O events.
      *
@@ -1385,7 +1385,7 @@ declare namespace samchon.collection {
      * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
      * @reference http://www.cplusplus.com/reference/map/map
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class TreeMapCollection<Key, T> extends std.TreeMap<Key, T> implements ICollection<std.Pair<Key, T>> {
@@ -1451,7 +1451,7 @@ declare namespace samchon.collection {
         removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * A {@link TreeMultiMap} who can detect element I/O events.
      *
@@ -1519,7 +1519,7 @@ declare namespace samchon.collection {
      * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
      * @reference http://www.cplusplus.com/reference/map/multimap
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class TreeMultiMapCollection<Key, T> extends std.TreeMultiMap<Key, T> implements ICollection<std.Pair<Key, T>> {
@@ -1585,7 +1585,7 @@ declare namespace samchon.collection {
         removeEventListener(type: "refresh", listener: MapCollectionEventListener<Key, T>, thisArg: Object): void;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * A {@link TreeMultiSet} who can detect element I/O events.
      *
@@ -1645,7 +1645,7 @@ declare namespace samchon.collection {
      *			  by this value (each value is itself also the element's *key*).
      *
      * @reference http://www.cplusplus.com/reference/set/multiset
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class TreeMultiSetCollection<T> extends std.TreeMultiSet<T> implements ICollection<T> {
@@ -1711,7 +1711,7 @@ declare namespace samchon.collection {
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
 }
-declare namespace samchon.collection {
+declare namespace samchon.collections {
     /**
      * A {@link TreeMap} who can detect element I/O events.
      *
@@ -1773,7 +1773,7 @@ declare namespace samchon.collection {
      *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
      *
      * @reference http://www.cplusplus.com/reference/set/set
-     * @handbook https://github.com/samchon/framework/wiki/TypeScript-STL#collection
+     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
      * @author Jeongho Nam <http://samchon.org>
      */
     class TreeSetCollection<T> extends std.TreeSet<T> implements ICollection<T> {
@@ -3336,6 +3336,670 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     /**
+     * @inheritdoc
+     */
+    interface IEntityCollection<T extends IEntity> extends IEntityGroup<T>, collections.ICollection<T> {
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityArrayCollection<T extends IEntity> extends collections.ArrayCollection<T> implements IEntityCollection<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: any): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityListCollection<T extends IEntity> extends collections.ListCollection<T> implements IEntityCollection<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: any): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+}
+declare namespace samchon.protocol {
+    /**
+     * @inheritdoc
+     */
+    abstract class EntityDequeCollection<T extends IEntity> extends collections.DequeCollection<T> implements IEntityCollection<T> {
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * @inheritdoc
+         */
+        abstract createChild(xml: library.XML): T;
+        /**
+         * @inheritdoc
+         */
+        key(): any;
+        /**
+         * @inheritdoc
+         */
+        has(key: any): boolean;
+        /**
+         * @inheritdoc
+         */
+        count(key: any): number;
+        /**
+         * @inheritdoc
+         */
+        get(key: any): T;
+        /**
+         * @inheritdoc
+         */
+        abstract TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        abstract CHILD_TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+}
+/**
+ * A template for External Systems Manager.
+ *
+ * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+ * @author Jeongho Nam <http://samchon.org>
+ */
+declare namespace samchon.templates.external {
+    /**
+     * An array and manager of {@link ExternalSystem external system drivers}.
+     *
+     * The {@link ExternalSystemArray} is an abstract class containing and managing external system drivers,
+     * {@link ExternalSystem} objects. Within framewokr of network, {@link ExternalSystemArray} represents your system
+     * and children {@link ExternalSystem} objects represent remote, external systems connected with your system.
+     * With this {@link ExternalSystemArray}, you can manage multiple external systems as a group.
+     *
+     * You can specify this {@link ExternalSystemArray} class to be *a server accepting external clients* or
+     * *a client connecting to external servers*. Even both of them is also possible.
+     *
+     * - {@link ExternalClientArray}: A server accepting {@link ExternalSystem external clients}.
+     * - {@link ExternalServerArray}: A client connecting to {@link ExternalServer external servers}.
+     * - {@link ExternalServerClientArray}: Both of them. Accepts {@link ExternalSystem external clients} and connects to
+     *                                      {@link ExternalServer external servers} at the same time.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Proxy Pattern
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalSystemArray extends protocol.EntityDequeCollection<ExternalSystem> implements protocol.IProtocol {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @hidden
+         */
+        private handle_system_erase(event);
+        /**
+         * Test whether the role exists.
+         *
+         * @param name Name, identifier of target {@link ExternalSystemRole role}.
+         *
+         * @return Whether the role has or not.
+         */
+        hasRole(name: string): boolean;
+        /**
+         * Get a role.
+         *
+         * @param name Name, identifier of target {@link ExternalSystemRole role}.
+         *
+         * @return The specified role.
+         */
+        getRole(name: string): ExternalSystemRole;
+        /**
+         * Send an {@link Invoke} message.
+         *
+         * @param invoke An {@link Invoke} message to send.
+         */
+        sendData(invoke: protocol.Invoke): void;
+        /**
+         * Handle an {@Invoke} message have received.
+         *
+         * @param invoke An {@link Invoke} message have received.
+         */
+        replyData(invoke: protocol.Invoke): void;
+        /**
+         * Tag name of the {@link ExternalSytemArray} in {@link XML}.
+         *
+         * @return *systemArray*.
+         */
+        TAG(): string;
+        /**
+         * Tag name of {@link ExternalSystem children elements} belonged to the {@link ExternalSytemArray} in {@link XML}.
+         *
+         * @return *system*.
+         */
+        CHILD_TAG(): string;
+    }
+}
+/**
+ * A template for Parallel Processing System.
+ *
+ * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+ * @author Jeongho Nam <http://samchon.org>
+ */
+declare namespace samchon.templates.parallel {
+    /**
+     * Master of Parallel Processing System.
+     *
+     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to **slave** systems and the
+     * children {@link ParallelSystem} objects represent the remote **slave** systems, who is being requested the
+     * *parallel processes*.
+     *
+     * You can specify this {@link ParallelSystemArray} class to be *a server accepting parallel clients* or
+     * *a client connecting to parallel servers*. Even both of them is possible. Extends one of them below and overrides
+     * abstract factory method(s) creating the child {@link ParallelSystem} object.
+     *
+     * - {@link ParallelClientArray}: A server accepting {@link ParallelSystem parallel clients}.
+     * - {@link ParallelServerArray}: A client connecting to {@link ParallelServer parallel servers}.
+     * - {@link ParallelServerClientArray}: Both of them. Accepts {@link ParallelSystem parallel clients} and connects to
+     *                                      {@link ParallelServer parallel servers} at the same time.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
+     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Proxy Pattern
+     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelSystemArray extends external.ExternalSystemArray {
+        /**
+         * @hidden
+         */
+        private history_sequence_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        at(index: number): ParallelSystem;
+        /**
+         * Send an {@link Invoke} message with segment size.
+         *
+         * Sends an {@link Invoke} message requesting a **parallel process** with its *segment size*. The {@link Invoke}
+         * message will be delivered to children {@link ParallelSystem} objects with the *piece size*, which is divided
+         * from the *segment size*, basis on their {@link ParallelSystem.getPerformance performance indices}.
+         *
+         * - If segment size is 100,
+         * - The segment will be allocated such below:
+         *
+         * Name    | Performance index | Number of pieces to be allocated | Formula
+         * --------|-------------------|----------------------------------|--------------
+         * Snail   |                 1 |                               10 | 100 / 10 * 1
+         * Cheetah |                 4 |                               40 | 100 / 10 * 4
+         * Rabbit  |                 3 |                               30 | 100 / 10 * 3
+         * Turtle  |                 2 |                               20 | 100 / 10 * 2
+         *
+         * When the **parallel process** has completed, then this {@link ParallelSystemArraY} will estimate
+         * {@link ParallelSystem.getPerformance performance indices} of {@link ParallelSystem} objects basis on their
+         * execution time.
+         *
+         * @param invoke An {@link Invoke} message requesting parallel process.
+         * @param size Number of pieces to segment.
+         *
+         * @see {@link sendPieceData}, {@link ParallelSystem.getPerformacen}
+         */
+        sendSegmentData(invoke: protocol.Invoke, size: number): void;
+        /**
+         * Send an {@link Invoke} message with range of pieces.
+         *
+         * Sends an {@link Invoke} message requesting a **parallel process** with its *range of pieces [first, last)*.
+         * The {@link Invoke} will be delivered to children {@link ParallelSystem} objects with the newly computed
+         * *range of sub-pieces*, which is divided from the *range of pieces (first to last)*, basis on their
+         * {@link ParallelSystem.getPerformance performance indices}.
+         *
+         * - If indices of pieces are 0 to 50,
+         * - The sub-pieces will be allocated such below:
+         *
+         * Name    | Performance index | Range of sub-pieces to be allocated | Formula
+         * --------|-------------------|-------------------------------------|------------------------
+         * Snail   |                 1 |                            ( 0,  5] | (50 - 0) / 10 * 1
+         * Cheetah |                 4 |                            ( 5, 25] | (50 - 0) / 10 * 4 + 5
+         * Rabbit  |                 3 |                            (25, 40] | (50 - 0) / 10 * 3 + 25
+         * Turtle  |                 2 |                            (40, 50] | (50 - 0) / 10 * 2 + 40
+         *
+         * When the **parallel process** has completed, then this {@link ParallelSystemArraY} will estimate
+         * {@link ParallelSystem.getPerformance performance indices} of {@link ParallelSystem} objects basis on their
+         * execution time.
+         *
+         * @param invoke An {@link Invoke} message requesting parallel process.
+         * @param first Initial piece's index in a section.
+         * @param last Final piece's index in a section. The range used is [*first*, *last*), which contains
+         *			   all the pieces' indices between *first* and *last*, including the piece pointed by index
+         *			   *first*, but not the piece pointed by the index *last*.
+         *
+         * @see {@link sendSegmentData}, {@link ParallelSystem.getPerformacen}
+         */
+        sendPieceData(invoke: protocol.Invoke, first: number, last: number): void;
+        /**
+         * @hidden
+         */
+        protected _Complete_history(history: InvokeHistory): boolean;
+        /**
+         * @hidden
+         */
+        protected _Normalize_performance(): void;
+    }
+}
+/**
+ * A template for Distributed Processing System.
+ *
+ * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+ * @author Jeongho Nam <http://samchon.org>
+ */
+declare namespace samchon.templates.distributed {
+    /**
+     * Master of Distributed Processing System.
+     *
+     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
+     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
+     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
+     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
+     * requested the *distributed processes*.
+     *
+     * You can specify this {@link DistributedSystemArray} class to be *a server accepting distributed clients* or
+     * *a client connecting to distributed servers*. Even both of them is possible. Extends one of them below and overrides
+     * abstract factory method(s) creating the child {@link DistributedSystem} object.
+     *
+     * - {@link DistributedClientArray}: A server accepting {@link DistributedSystem distributed clients}.
+     * - {@link DistributedServerArray}: A client connecting to {@link DistributedServer distributed servers}.
+     * - {@link DistributedServerClientArray}: Both of them. Accepts {@link DistributedSystem distributed clients} and
+     *                                         connects to {@link DistributedServer distributed servers} at the same time.
+     *
+     * The {@link DistributedSystemArray} contains {@link DistributedProcess} objects directly. You can request a
+     * **distributed process** through the {@link DistributedProcess} object. You can access the
+     * {@link DistributedProcess} object(s) with those methods:
+     *
+     * - {@link hasRole}
+     * - {@link getRole}
+     * - {@link insertRole}
+     * - {@link eraseRole}
+     * - {@link getRoleMap}
+     *
+     * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
+     * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
+     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
+     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
+     * {@link DistributedProcess.getResource resource index} of related objects will be revaluated.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Parallel Process
+     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
+     * a **parallel process**, too.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
+     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
+     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
+     * each {@link DistributedSystem}.
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class DistributedSystemArray extends parallel.ParallelSystemArray {
+        /**
+         * @hidden
+         */
+        private role_map_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * Factory method creating a child {@link DistributedProcess process} object.
+         *
+         * @param xml {@link XML} represents the {@link DistributedProcess child} object.
+         * @return A new {@link DistributedProcess} object.
+         */
+        protected abstract createProcess(xml: library.XML): DistributedProcess;
+        /**
+         * @inheritdoc
+         */
+        at(index: number): DistributedSystem;
+        /**
+         * Get process map.
+         *
+         * Gets an {@link HashMap} containing {@link DistributedProcess} objects with their *key*.
+         *
+         * @return An {@link HasmMap> containing pairs of string and {@link DistributedProcess} object.
+         */
+        getProcessMap(): std.HashMap<string, DistributedProcess>;
+        /**
+         * Test whether the process exists.
+         *
+         * @param name Name, identifier of target {@link DistributedProcess process}.
+         *
+         * @return Whether the process has or not.
+         */
+        hasProcess(name: string): boolean;
+        /**
+         * Get a process.
+         *
+         * @param name Name, identifier of target {@link DistributedProcess process}.
+         *
+         * @return The specified process.
+         */
+        getProcess(name: string): DistributedProcess;
+        /**
+         * Insert a process.
+         *
+         * @param process A process to be inserted.
+         * @return Success flag.
+         */
+        insertProcess(process: DistributedProcess): boolean;
+        /**
+         * Erase a process.
+         *
+         * @param name Name, identifier of target {@link DistributedProcess process}.
+         */
+        eraseProcess(name: string): boolean;
+        /**
+         * @hidden
+         */
+        protected _Complete_history(history: InvokeHistory): boolean;
+        /**
+         * @hidden
+         */
+        private estimate_role_performance(history);
+        /**
+         * @hidden
+         */
+        private estimate_system_performance(history);
+        /**
+         * @hidden
+         */
+        protected _Normalize_performance(): void;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+}
+declare namespace samchon.templates.distributed {
+    /**
+     * Mediator of Distributed Processing System.
+     *
+     * The {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a slave to its master
+     * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
+     * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
+     * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
+     * derived from the {@link SlavSystem} class.
+     *
+     * As a master, you can specify this {@link DistributedSystemArrayMediator} class to be <i>a master server accepting
+     * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
+     * of them below and overrides abstract factory method(s) creating the child {@link DistributedSystem} object.
+     *
+     * - {@link DistributedClientArrayMediator}: A server accepting {@link DistributedSystem distributed clients}.
+     * - {@link DistributedServerArrayMediator}: A client connecting to {@link DistributedServer distributed servers}.
+     * - {@link DistributedServerClientArrayMediator}: Both of them. Accepts {@link DistributedSystem distributed clients} and
+     *                                                 connects to {@link DistributedServer distributed servers} at the
+     *                                                 same time.
+     *
+     * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
+     * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
+     * Overrides the {@link createMediator createMediator()} method and return one of them:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * #### [Inherited] {@link DistributedSystemArray}
+     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
+     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
+     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
+     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
+     * requested the *distributed processes*.
+     *
+     * The {@link DistributedSystemArray} contains {@link DistributedProcess} objects directly. You can request a
+     * **distributed process** through the {@link DistributedProcess} object. You can access the
+     * {@link DistributedProcess} object(s) with those methods:
+     *
+     * - {@link hasRole}
+     * - {@link getRole}
+     * - {@link insertRole}
+     * - {@link eraseRole}
+     * - {@link getRoleMap}
+     *
+     * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
+     * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
+     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
+     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
+     * {@link DistributedProcess.getResource resource index} of related objects will be revaluated.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Parallel Process
+     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
+     * a **parallel process**, too.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
+     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
+     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
+     * each {@link DistributedSystem}.
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class DistributedSystemArrayMediator extends DistributedSystemArray {
+        /**
+         * @hidden
+         */
+        private mediator_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Factory method creating a {@link MediatorSystem} object.
+         *
+         * The {@link createMediator createMediator()} is an abstract method creating the {@link MediatorSystem} object.
+         *
+         * You know what? this {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a
+         * slave to its master system at the same time. The {@link MediatorSystem} object makes it possible; be a slave
+         * system. This {@link createMediator} determines specific type of the {@link MediatorSystem}.
+         *
+         * Overrides the {@link createMediator createMediator()} method to create and return one of them following which
+         * protocol and which type of remote connection (server or client) will be used:
+         *
+         * - A client slave connecting to master server:
+         *   - {@link MediatorClient}
+         *   - {@link MediatorWebClient}
+         *   - {@link MediatorSharedWorkerClient}
+         * - A server slave accepting master client:
+         *   - {@link MediatorServer}
+         *   - {@link MediatorWebServer}
+         *   - {@link MediatorSharedWorkerServer}
+         *
+         * @return A newly created {@link MediatorSystem} object.
+         */
+        protected abstract createMediator(): parallel.MediatorSystem;
+        /**
+         * Start mediator.
+         *
+         * If the {@link getMediator mediator} is a type of server, then opens the server accepting master client.
+         * Otherwise, the {@link getMediator mediator} is a type of client, then connects the master server.
+         */
+        protected startMediator(): void;
+        /**
+         * Get {@link MediatorSystem} object.
+         *
+         * When you need to send an {@link Invoke} message to the master system of this
+         * {@link DistributedSystemArrayMediator}, then send to the {@link MediatorSystem} through this
+         * {@link getMediator}.
+         *
+         * ```typescript
+         * this.getMediator().sendData(...);
+         * ```
+         */
+        getMediator(): parallel.MediatorSystem;
+        /**
+         * @hidden
+         */
+        protected _Complete_history(history: parallel.PRInvokeHistory): boolean;
+    }
+}
+declare namespace samchon.protocol {
+    /**
      * An interface taking full charge of network communication.
      *
      * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication with
@@ -3706,11 +4370,11 @@ declare namespace samchon.protocol {
      * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
      * created by the matched {@link IServer} object.
      *
-     * Protocol | Derived Type | Created By
-     * ---------|--------------|------------
-     * Samchon Framework's own | {@link ClientDriver} | {@link Server}
-     * Web-socket protocol | {@link WebClientDriver} | {@link WebServer}
-     * SharedWorker | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+     * Protocol                | Derived Type                     | Created By
+     * ------------------------|----------------------------------|----------------------------
+     * Samchon Framework's own | {@link ClientDriver}             | {@link Server}
+     * Web-socket protocol     | {@link WebClientDriver}          | {@link WebServer}
+     * SharedWorker            | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
      *
      * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
      * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -3761,11 +4425,11 @@ declare namespace samchon.protocol {
      * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
      * created by the matched {@link IServer} object.
      *
-     * Protocol | Derived Type | Created By
-     * ---------|--------------|------------
-     * Samchon Framework's own | {@link ClientDriver} | {@link Server}
-     * Web-socket protocol | {@link WebClientDriver} | {@link WebServer}
-     * SharedWorker | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+     * Protocol                | Derived Type                     | Created By
+     * ------------------------|----------------------------------|----------------------------
+     * Samchon Framework's own | {@link ClientDriver}             | {@link Server}
+     * Web-socket protocol     | {@link WebClientDriver}          | {@link WebServer}
+     * SharedWorker            | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
      *
      * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
      * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -3820,11 +4484,11 @@ declare namespace samchon.protocol {
      * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
      * created by the matched {@link IServer} object.
      *
-     * Protocol | Derived Type | Created By
-     * ---------|--------------|------------
-     * Samchon Framework's own | {@link ClientDriver} | {@link Server}
-     * Web-socket protocol | {@link WebClientDriver} | {@link WebServer}
-     * SharedWorker | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+     * Protocol                | Derived Type                     | Created By
+     * ------------------------|----------------------------------|----------------------------
+     * Samchon Framework's own | {@link ClientDriver}             | {@link Server}
+     * Web-socket protocol     | {@link WebClientDriver}          | {@link WebServer}
+     * SharedWorker            | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
      *
      * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
      * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -3907,11 +4571,11 @@ declare namespace samchon.protocol {
      * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
      * created by the matched {@link IServer} object.
      *
-     * Protocol | Derived Type | Created By
-     * ---------|--------------|------------
-     * Samchon Framework's own | {@link ClientDriver} | {@link Server}
-     * Web-socket protocol | {@link WebClientDriver} | {@link WebServer}
-     * SharedWorker | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+     * Protocol                | Derived Type                     | Created By
+     * ------------------------|----------------------------------|----------------------------
+     * Samchon Framework's own | {@link ClientDriver}             | {@link Server}
+     * Web-socket protocol     | {@link WebClientDriver}          | {@link WebServer}
+     * SharedWorker            | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
      *
      * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
      * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -3977,2110 +4641,6 @@ declare namespace samchon.protocol {
         sendData(invoke: Invoke): void;
         replyData(invoke: Invoke): void;
         private handle_message(event);
-    }
-}
-declare namespace samchon.protocol.external {
-    /**
-     * A role of an external system.
-     *
-     * The {@link ExternalSystemRole} class represents a role, *WHAT TO DO*. Extends the {@link ExternalSystemRole} class
-     * and overrides {@link replyData replyData()} to define the *WHAT TO DO*. And assign this {@link ExternalSystemRole}
-     * object to related {@link ExternalSystem} object.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Proxy Pattern
-     * The {@link ExternalSystemRole} class can be an *logical proxy*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem} object, via {@link ExternalSystemArray.getRole ExternalSystemArray.getRole()}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalSystemRole extends Entity implements IProtocol {
-        /**
-         * An {@link ExternalSystem external system} containing this {@link ExternalSystemRole role}.
-         */
-        private system;
-        /**
-         * A name, represents and identifies this {@link ExternalSystemRole role}.
-         *
-         * This {@link name} is an identifier represents this {@link ExternalSystemRole role}. This {@link name} is
-         * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
-         * {@link name} should be unique in an {@link ExternalSystemArray}.
-         */
-        protected name: string;
-        /**
-         * Constructor from a system.
-         *
-         * @param system An external system containing this role.
-         */
-        constructor(system: ExternalSystem);
-        /**
-         * Identifier of {@link ExternalSystemRole} is its {@link name}.
-         */
-        key(): string;
-        /**
-         * Get grandparent {@link ExternalSystemArray}.
-         *
-         * Get the grandparent {@link ExternalSystemArray} object through this parent {@link ExternalSystem},
-         * {@link ExternalSystem.getSystemArray ExternalSystem.getSystemArray()}.
-         *
-         * @return The grandparent {@link ExternalSystemArray} object.
-         */
-        getSystemArray(): ExternalSystemArray;
-        /**
-         * Get external system, this role is belonged to.
-         */
-        getSystem(): ExternalSystem;
-        /**
-         * Get name, who represents and identifies this role.
-         */
-        getName(): string;
-        /**
-         * Send an {@link Invoke} message.
-         *
-         * Sends an {@link Invoke} message to remote system through the parent {@link ExternalSystem} object.
-         *
-         * @param invoke An {@link Invoke} message to send to the external system.
-         */
-        sendData(invoke: Invoke): void;
-        /**
-         * Handle replied {@link Invoke} message.
-         *
-         * {@link ExternalSystemRole.replyData ExternalSystemRole.replyData()} is an abstract method handling a replied
-         * {@link Invoke message} gotten from remote system via parent {@link ExternalSystem} object. Overrides this
-         * method and defines the *WHAT TO DO* with the {@link Invoke message}.
-         *
-         * @param invoke An {@link Invoke} message received from the {@link ExternalSystem external system}.
-         */
-        abstract replyData(invoke: Invoke): void;
-        /**
-         * Tag name of the {@link ExternalSytemRole} in {@link XML}.
-         *
-         * @return *role*.
-         */
-        TAG(): string;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    /**
-     * A role of Distributed Processing System.
-     *
-     * The {@link DistributedSystemRole} is an abstract class who represents a **role**, *WHAT TO DO* in a Distributed
-     * Processing System. Overrides the {@link DistributedSystemRole} and defines the *WHAT TO DO*.
-     *
-     * Relationship between {@link DistributedSystem} and {@link DistributedSystemRole} objects are **M: N Associative**.
-     * Unlike {@link ExternalSystemRole}, the {@link DistributedSystemRole} objects are not belonged to a specific
-     * {@link DistributedSystem} object. The {@link DistributedSystemRole} objects are belonged to the
-     * {@link DistributedSystemArrayMediator} directly.
-     *
-     * When you need the **distributed process**, then call {@link sendData sendData()}. The {@link sendData} will find
-     * the most idle {@link DistributedSystem slave system} considering not only number of processes on progress, but also
-     * {@link DistributedSystem.getPerformance performance index} of each {@link DistributedSystem} object and
-     * {@link getResource resource index} of this {@link DistributedSystemRole} object. The {@link Invoke} message
-     * requesting the **distributed process** will be sent to the most idle {@link DistributedSystem slave system}.
-     *
-     * Those {@link DistributedSystem.getPerformance performance index} and {@link getResource resource index} are
-     * revaluated whenever the **distributed process** has completed basis on the execution time.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class DistributedSystemRole extends external.ExternalSystemRole {
-        /**
-         * @hidden
-         */
-        private system_array_;
-        /**
-         * @hidden
-         */
-        private progress_list_;
-        /**
-         * @hidden
-         */
-        private history_list_;
-        /**
-         * @hidden
-         */
-        private resource;
-        /**
-         * @hidden
-         */
-        private enforced_;
-        /**
-         * Constrct from parent {@link DistributedSystemArray} object.
-         *
-         * @param systemArray The parent {@link DistributedSystemArray} object.
-         */
-        constructor(systemArray: DistributedSystemArray);
-        /**
-         * Get parent {@link DistributedSystemArray} object.
-         *
-         * @return The parent {@link DistributedSystemArray} object.
-         */
-        getSystemArray(): DistributedSystemArray;
-        /**
-         * Get resource index.
-         *
-         * Get *resource index* that indicates how much this {@link DistributedSystemRole role} is heavy.
-         *
-         * If this {@link DistributedSystemRole role} does not have any	{@link Invoke} message had handled, then the
-         * *resource index* will be ```1.0```, which means default and average value between all
-         * {@link DistributedSystemRole} instances (that are belonged to a same {@link DistributedSystemArray} object).
-         *
-         * You can specify the *resource index* by yourself, but notice that, if the *resource index* is higher than
-         * other {@link DistributedSystemRole} objects, then this {@link DistributedSystemRole role} will be ordered to
-         * handle less processes than other {@link DistributedSystemRole} objects. Otherwise, the *resource index* is
-         * lower than others, of course, much processes will be requested.
-         *
-         * - {@link setResource setResource()}
-         * - {@link enforceResource enforceResource()}
-         *
-         * Unless {@link enforceResource enforceResource()} is called, This *resource index* is **revaluated** whenever
-         * {@link sendData sendData()} is called.
-         *
-         * @return Resource index.
-         */
-        getResource(): number;
-        /**
-         * Set resource index.
-         *
-         * Set *resource index* that indicates how much this {@link DistributedSystemRole role} is heavy. This
-         * *resource index* can be **revaulated**.
-         *
-         * Note that, initial and average *resource index* of {@link DistributedSystemRole} objects are ```1.0```. If the
-         * *resource index* is higher than other {@link DistributedSystemRole} objects, then this
-         * {@link DistributedSystemRole} will be ordered to handle more processes than other {@link DistributedSystemRole}
-         * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
-         *
-         * Unlike {@link enforceResource}, configuring *resource index* by this {@link setResource} allows the
-         * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the
-         * *resource index*. The {@link DistributedSystemRole role} is much heavier than any other, but you estimated it
-         * to the lightest one. It looks like a terrible case that causes
-         * {@link DistributedSystemArray entire distributed processing system} to be slower, however, don't mind. The
-         * {@link DistributedSystemRole role} will the direct to the *propriate resource index* eventually with the
-         * **revaluation**.
-         *
-         * - The **revaluation** is caused by the {@link sendData sendData()} method.
-         *
-         * @param val New resource index, but can be revaluated.
-         */
-        setResource(val: number): void;
-        /**
-         * Enforce resource index.
-         *
-         * Enforce *resource index* that indicates how much heavy the {@link DistributedSystemRole role is}. The
-         * *resource index* will be fixed, never be **revaluated**.
-         *
-         * Note that, initial and average *resource index* of {@link DistributedSystemRole} objects are ```1.0```. If the
-         * *resource index* is higher than other {@link DistributedSystemRole} objects, then this
-         * {@link DistributedSystemRole} will be ordered to handle more processes than other {@link DistributedSystemRole}
-         * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
-         *
-         * The difference between {@link setResource} and this {@link enforceResource} is allowing **revaluation** or not.
-         * This {@link enforceResource} does not allow the **revaluation**. The *resource index* is clearly fixed and
-         * never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the **mis-valuation**
-         * with this {@link enforceResource}.
-         *
-         * For example, there's a {@link DistributedSystemRole role} much heavier than any other, but you
-         * **mis-estimated** it to the lightest. In that case, there's no way. The
-         * {@link DistributedSystemArray entire distributed processing system} will be slower by the **mis-valuation**.
-         * By the reason, using {@link enforceResource}, it's recommended only when you can clearly certain the
-         * *resource index*. If you can't certain the *resource index* but want to recommend, then use {@link setResource}
-         * instead.
-         *
-         * @param val New resource index to be fixed.
-         */
-        enforceResource(val: number): void;
-        /**
-         * @hidden
-         */
-        private compute_average_elapsed_time();
-        /**
-         * Send an {@link Invoke} message.
-         *
-         * Sends an {@link Invoke} message requesting a **distributed process**. The {@link Invoke} message will be sent
-         * to the most idle {@link DistributedSystem} object, which represents a slave system, and the most idle
-         * {@link DistributedSystem} object will be returned.
-         *
-         * When the **distributed process** has completed, then the {@link DistributedSystemArray} object will revaluate
-         * {@link getResource resource index} and {@link DistributedSystem.getPerformance performance index} of this
-         * {@link DistributedSystem} and the most idle {@link DistributedSystem} objects basis on the execution time.
-         *
-         * @param invoke An {@link Invoke} message requesting distributed process.
-         * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
-         */
-        sendData(invoke: Invoke): DistributedSystem;
-        /**
-         * @hidden
-         */
-        private complete_history(history);
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * @inheritdoc
-     */
-    interface IEntityCollection<T extends IEntity> extends IEntityGroup<T>, collection.ICollection<T> {
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * @inheritdoc
-     */
-    abstract class EntityArrayCollection<T extends IEntity> extends collection.ArrayCollection<T> implements IEntityCollection<T> {
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * @inheritdoc
-         */
-        abstract createChild(xml: library.XML): T;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
-        /**
-         * @inheritdoc
-         */
-        has(key: any): boolean;
-        /**
-         * @inheritdoc
-         */
-        count(key: any): number;
-        /**
-         * @inheritdoc
-         */
-        get(key: any): T;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        abstract CHILD_TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * @inheritdoc
-     */
-    abstract class EntityListCollection<T extends IEntity> extends collection.ListCollection<T> implements IEntityCollection<T> {
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * @inheritdoc
-         */
-        abstract createChild(xml: library.XML): T;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
-        /**
-         * @inheritdoc
-         */
-        has(key: any): boolean;
-        /**
-         * @inheritdoc
-         */
-        count(key: any): number;
-        /**
-         * @inheritdoc
-         */
-        get(key: any): T;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        abstract CHILD_TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * @inheritdoc
-     */
-    abstract class EntityDequeCollection<T extends IEntity> extends collection.DequeCollection<T> implements IEntityCollection<T> {
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * @inheritdoc
-         */
-        abstract createChild(xml: library.XML): T;
-        /**
-         * @inheritdoc
-         */
-        key(): any;
-        /**
-         * @inheritdoc
-         */
-        has(key: any): boolean;
-        /**
-         * @inheritdoc
-         */
-        count(key: any): number;
-        /**
-         * @inheritdoc
-         */
-        get(key: any): T;
-        /**
-         * @inheritdoc
-         */
-        abstract TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        abstract CHILD_TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-    }
-}
-/**
- * [[include: TypeScript-Protocol-External_System.md]]
- */
-declare namespace samchon.protocol.external {
-    /**
-     * An array and manager of {@link ExternalSystem external system drivers}.
-     *
-     * The {@link ExternalSystemArray} is an abstract class containing and managing external system drivers,
-     * {@link ExternalSystem} objects. Within framewokr of network, {@link ExternalSystemArray} represents your system
-     * and children {@link ExternalSystem} objects represent remote, external systems connected with your system.
-     * With this {@link ExternalSystemArray}, you can manage multiple external systems as a group.
-     *
-     * You can specify this {@link ExternalSystemArray} class to be *a server accepting external clients* or
-     * *a client connecting to external servers*. Even both of them is also possible.
-     *
-     * - {@link ExternalClientArray}: A server accepting {@link ExternalSystem external clients}.
-     * - {@link ExternalServerArray}: A client connecting to {@link ExternalServer external servers}.
-     * - {@link ExternalServerClientArray}: Both of them. Accepts {@link ExternalSystem external clients} and connects to
-     *                                      {@link ExternalServer external servers} at the same time.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Proxy Pattern
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalSystemArray extends EntityDequeCollection<ExternalSystem> implements IProtocol {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @hidden
-         */
-        private handle_system_erase(event);
-        /**
-         * Test whether the role exists.
-         *
-         * @param name Name, identifier of target {@link ExternalSystemRole role}.
-         *
-         * @return Whether the role has or not.
-         */
-        hasRole(name: string): boolean;
-        /**
-         * Get a role.
-         *
-         * @param name Name, identifier of target {@link ExternalSystemRole role}.
-         *
-         * @return The specified role.
-         */
-        getRole(name: string): ExternalSystemRole;
-        /**
-         * Send an {@link Invoke} message.
-         *
-         * @param invoke An {@link Invoke} message to send.
-         */
-        sendData(invoke: Invoke): void;
-        /**
-         * Handle an {@Invoke} message have received.
-         *
-         * @param invoke An {@link Invoke} message have received.
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * Tag name of the {@link ExternalSytemArray} in {@link XML}.
-         *
-         * @return *systemArray*.
-         */
-        TAG(): string;
-        /**
-         * Tag name of {@link ExternalSystem children elements} belonged to the {@link ExternalSytemArray} in {@link XML}.
-         *
-         * @return *system*.
-         */
-        CHILD_TAG(): string;
-    }
-}
-/**
- * [[include: TypeScript-Protocol-Parallel_System.md]]
- */
-declare namespace samchon.protocol.parallel {
-    /**
-     * Master of Parallel Processing System.
-     *
-     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
-     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
-     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to **slave** systems and the
-     * children {@link ParallelSystem} objects represent the remote **slave** systems, who is being requested the
-     * *parallel processes*.
-     *
-     * You can specify this {@link ParallelSystemArray} class to be *a server accepting parallel clients* or
-     * *a client connecting to parallel servers*. Even both of them is possible. Extends one of them below and overrides
-     * abstract factory method(s) creating the child {@link ParallelSystem} object.
-     *
-     * - {@link ParallelClientArray}: A server accepting {@link ParallelSystem parallel clients}.
-     * - {@link ParallelServerArray}: A client connecting to {@link ParallelServer parallel servers}.
-     * - {@link ParallelServerClientArray}: Both of them. Accepts {@link ParallelSystem parallel clients} and connects to
-     *                                      {@link ParallelServer parallel servers} at the same time.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
-     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
-     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Proxy Pattern
-     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
-     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
-     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-     * may better to utilizing the *Proxy Pattern*:
-     *
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelSystemArray extends external.ExternalSystemArray {
-        /**
-         * @hidden
-         */
-        private history_sequence_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        at(index: number): ParallelSystem;
-        /**
-         * Send an {@link Invoke} message with segment size.
-         *
-         * Sends an {@link Invoke} message requesting a **parallel process** with its *segment size*. The {@link Invoke}
-         * message will be delivered to children {@link ParallelSystem} objects with the *piece size*, which is divided
-         * from the *segment size*, basis on their {@link ParallelSystem.getPerformance performance indices}.
-         *
-         * - If segment size is 100,
-         * - The segment will be allocated such below:
-         *     Name    | Performance index | Number of pieces to be allocated | Formula
-         *     --------|-------------------|----------------------------------|--------------
-         *     Snail   |                 1 |                               10 | 100 / 10 * 1
-         *     Cheetah |                 4 |                               40 | 100 / 10 * 4
-         *     Rabbit  |                 3 |                               30 | 100 / 10 * 3
-         *     Turtle  |                 2 |                               20 | 100 / 10 * 2
-         *
-         * When the **parallel process** has completed, then this {@link ParallelSystemArraY} will estimate
-         * {@link ParallelSystem.getPerformance performance indices} of {@link ParallelSystem} objects basis on their
-         * execution time.
-         *
-         * @param invoke An {@link Invoke} message requesting parallel process.
-         * @param size Number of pieces to segment.
-         *
-         * @see {@link sendPieceData}, {@link ParallelSystem.getPerformacen}
-         */
-        sendSegmentData(invoke: Invoke, size: number): void;
-        /**
-         * Send an {@link Invoke} message with range of pieces.
-         *
-         * Sends an {@link Invoke} message requesting a **parallel process** with its *range of pieces [first, last)*.
-         * The {@link Invoke} will be delivered to children {@link ParallelSystem} objects with the newly computed
-         * *range of sub-pieces*, which is divided from the *range of pieces (first to last)*, basis on their
-         * {@link ParallelSystem.getPerformance performance indices}.
-         *
-         * - If indices of pieces are 0 to 50,
-         * - The sub-pieces will be allocated such below:
-         *      Name    | Performance index | Range of sub-pieces to be allocated | Formula
-         *     ---------|-------------------|-------------------------------------|------------------------
-         *      Snail   |                 1 |                            ( 0,  5] | (50 - 0) / 10 * 1
-         *      Cheetah |                 4 |                            ( 5, 25] | (50 - 0) / 10 * 4 + 5
-         *      Rabbit  |                 3 |                            (25, 40] | (50 - 0) / 10 * 3 + 25
-         *      Turtle  |                 2 |                            (40, 50] | (50 - 0) / 10 * 2 + 40
-         *
-         * When the **parallel process** has completed, then this {@link ParallelSystemArraY} will estimate
-         * {@link ParallelSystem.getPerformance performance indices} of {@link ParallelSystem} objects basis on their
-         * execution time.
-         *
-         * @param invoke An {@link Invoke} message requesting parallel process.
-         * @param first Initial piece's index in a section.
-         * @param last Final piece's index in a section. The range used is [*first*, *last*), which contains
-         *			   all the pieces' indices between *first* and *last*, including the piece pointed by index
-         *			   *first*, but not the piece pointed by the index *last*.
-         *
-         * @see {@link sendSegmentData}, {@link ParallelSystem.getPerformacen}
-         */
-        sendPieceData(invoke: Invoke, first: number, last: number): void;
-        /**
-         * @hidden
-         */
-        protected _Complete_history(history: InvokeHistory): boolean;
-        /**
-         * @hidden
-         */
-        protected _Normalize_performance(): void;
-    }
-}
-/**
- * [[include: TypeScript-Protocol-Distributed_System.md]]
- */
-declare namespace samchon.protocol.distributed {
-    /**
-     * Master of Distributed Processing System.
-     *
-     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
-     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
-     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
-     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
-     * requested the *distributed processes*.
-     *
-     * You can specify this {@link DistributedSystemArray} class to be *a server accepting distributed clients* or
-     * *a client connecting to distributed servers*. Even both of them is possible. Extends one of them below and overrides
-     * abstract factory method(s) creating the child {@link DistributedSystem} object.
-     *
-     * - {@link DistributedClientArray}: A server accepting {@link DistributedSystem distributed clients}.
-     * - {@link DistributedServerArray}: A client connecting to {@link DistributedServer distributed servers}.
-     * - {@link DistributedServerClientArray}: Both of them. Accepts {@link DistributedSystem distributed clients} and
-     *                                         connects to {@link DistributedServer distributed servers} at the same time.
-     *
-     * The {@link DistributedSystemArray} contains {@link DistributedSystemRole} objects directly. You can request a
-     * **distributed process** through the {@link DistributedSystemRole} object. You can access the
-     * {@link DistributedSystemRole} object(s) with those methods:
-     *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
-     *
-     * When you need the **distributed process**, call the {@link DistributedSystemRole.sendData} method. Then the
-     * {@link DistributedSystemRole} will find the most idle {@link DistributedSystem} object who represents a distributed
-     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
-     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
-     * {@link DistributedSystemRole.getResource resource index} of related objects will be revaluated.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Parallel Process
-     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
-     * a **parallel process**, too.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class DistributedSystemArray extends parallel.ParallelSystemArray {
-        /**
-         * @hidden
-         */
-        private role_map_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * Factory method creating a child {@link DistributedSystemRole role} object.
-         *
-         * @param xml {@link XML} represents the {@link DistributedSystemRole child} object.
-         * @return A new {@link DistributedSystemRole} object.
-         */
-        protected abstract createRole(xml: library.XML): DistributedSystemRole;
-        /**
-         * @inheritdoc
-         */
-        at(index: number): DistributedSystem;
-        /**
-         * Get role map.
-         *
-         * Gets an {@link HashMap} containing {@link DistributedSystemRole} objects with their *key*.
-         *
-         * @return An {@link HasmMap> containing pairs of string and {@link DistributedSystemRole} object.
-         */
-        getRoleMap(): std.HashMap<string, DistributedSystemRole>;
-        /**
-         * Test whether the role exists.
-         *
-         * @param name Name, identifier of target {@link DistributedSystemRole role}.
-         *
-         * @return Whether the role has or not.
-         */
-        hasRole(name: string): boolean;
-        /**
-         * Get a role.
-         *
-         * @param name Name, identifier of target {@link DistributedSystemRole role}.
-         *
-         * @return The specified role.
-         */
-        getRole(name: string): DistributedSystemRole;
-        /**
-         * Insert a role.
-         *
-         * @param role A role to be inserted.
-         * @return Success flag.
-         */
-        insertRole(role: DistributedSystemRole): boolean;
-        /**
-         * Erase a role.
-         *
-         * @param name Name, identifier of target {@link DistributedSystemRole role}.
-         */
-        eraseRole(name: string): boolean;
-        /**
-         * @hidden
-         */
-        protected _Complete_history(history: InvokeHistory): boolean;
-        /**
-         * @hidden
-         */
-        private estimate_role_performance(history);
-        /**
-         * @hidden
-         */
-        private estimate_system_performance(history);
-        /**
-         * @hidden
-         */
-        protected _Normalize_performance(): void;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    /**
-     * Master of Distributed Processing System, a server accepting slave clients.
-     *
-     * The {@link DistributedClientArray} is an abstract class, derived from the {@link DistributedSystemArray} class,
-     * opening a server accepting {@link DistributedSystem distributed clients}.
-     *
-     * Extends this {@link DistributedClientArray}, overrides {@link createServerBase createServerBase()} to determine
-     * which protocol to follow and {@link createExternalClient createExternalClient()} creating child
-     * {@link DistributedSystem} object. After the extending and overridings, open this server using the
-     * {@liok open open()} method.
-     *
-     * #### [Inherited] {@link DistributedSystemArray}
-     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
-     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
-     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
-     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
-     * requested the *distributed processes*.
-     *
-     * The {@link DistributedSystemArray} contains {@link DistributedSystemRole} objects directly. You can request a
-     * **distributed process** through the {@link DistributedSystemRole} object. You can access the
-     * {@link DistributedSystemRole} object(s) with those methods:
-     *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
-     *
-     * When you need the **distributed process**, call the {@link DistributedSystemRole.sendData} method. Then the
-     * {@link DistributedSystemRole} will find the most idle {@link DistributedSystem} object who represents a distributed
-     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
-     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
-     * {@link DistributedSystemRole.getResource resource index} of related objects will be revaluated.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Parallel Process
-     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
-     * a **parallel process**, too.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class DistributedClientArray extends DistributedSystemArray implements external.IExternalClientArray {
-        /**
-         * @hidden
-         */
-        private server_base_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Factory method creating {@link IServerBase} object.
-         *
-         * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
-         * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who
-         * may connect to {@link ExternalClientArray this server} must follow the specified protocol.
-         *
-         * Overrides the {@link createServerBase createServerBase()} method to create and return one of them:
-         *
-         * - {@link ServerBase}
-         * - {@link WebServerBase}
-         * - {@link SharedWorkerServerBase}
-         *
-         * @return A new {@link IServerBase} object.
-         */
-        protected abstract createServerBase(): IServerBase;
-        /**
-         * Add a newly connected remote client.
-         *
-         * When a {@link IClientDriver remote client} connects to this *master server of parallel processing system*,
-         * then this {@link ParallelClientArray} creates a child {@link ParallelSystem parallel client} object through
-         * the {@link createExternalClient createExternalClient()} method and {@link insert inserts} it.
-         *
-         * @param driver A communicator for external client.
-         */
-        addClient(driver: IClientDriver): void;
-        /**
-         * (Deprecated) Factory method creating child object.
-         *
-         * The method {@link createChild createChild()} is deprecated. Don't use and override this.
-         *
-         * Note that, the {@link ParallelClientArray} is a server accepting {@link ParallelSystem parallel clients}.
-         * There's no way to creating the {@link ParallelSystem parallel clients} in advance before opening the server.
-         *
-         * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
-         * @return ```null```
-         */
-        createChild(xml: library.XML): DistributedSystem;
-        /**
-         * Factory method creating {@link DistributedSystem} object.
-         *
-         * The method {@link createExternalClient createExternalClient()} is a factory method creating a child
-         * {@link ParallelSystem} object, that is called whenever a parallel client has connected, by
-         * {@link addClient addClient()}.
-         *
-         * Overrides this {@link createExternalClient} method and creates a type of {@link DistributedSystem} object with
-         * the *driver* that communicates with the parallel client. After the creation, returns the object. Then whenever
-         * a parallel client has connected, matched {@link DistributedSystem} object will be constructed and
-         * {@link insert inserted} into this {@link DistributedSystemArray} object.
-         *
-         * @param driver A communicator with the parallel client.
-         * @return A newly created {@link ParallelSystem} object.
-         */
-        protected abstract createExternalClient(driver: IClientDriver): DistributedSystem;
-        /**
-         * @inheritdoc
-         */
-        open(port: number): void;
-        /**
-         * @inheritdoc
-         */
-        close(): void;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    /**
-     * Mediator of Distributed Processing System.
-     *
-     * The {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a slave to its master
-     * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
-     * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
-     * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
-     *
-     * As a master, you can specify this {@link DistributedSystemArrayMediator} class to be <i>a master server accepting
-     * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
-     * of them below and overrides abstract factory method(s) creating the child {@link DistributedSystem} object.
-     *
-     * - {@link DistributedClientArrayMediator}: A server accepting {@link DistributedSystem distributed clients}.
-     * - {@link DistributedServerArrayMediator}: A client connecting to {@link DistributedServer distributed servers}.
-     * - {@link DistributedServerClientArrayMediator}: Both of them. Accepts {@link DistributedSystem distributed clients} and
-     *                                                 connects to {@link DistributedServer distributed servers} at the
-     *                                                 same time.
-     *
-     * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
-     * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
-     * Overrides the {@link createMediator createMediator()} method and return one of them:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * #### [Inherited] {@link DistributedSystemArray}
-     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
-     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
-     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
-     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
-     * requested the *distributed processes*.
-     *
-     * The {@link DistributedSystemArray} contains {@link DistributedSystemRole} objects directly. You can request a
-     * **distributed process** through the {@link DistributedSystemRole} object. You can access the
-     * {@link DistributedSystemRole} object(s) with those methods:
-     *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
-     *
-     * When you need the **distributed process**, call the {@link DistributedSystemRole.sendData} method. Then the
-     * {@link DistributedSystemRole} will find the most idle {@link DistributedSystem} object who represents a distributed
-     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
-     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
-     * {@link DistributedSystemRole.getResource resource index} of related objects will be revaluated.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Parallel Process
-     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
-     * a **parallel process**, too.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class DistributedSystemArrayMediator extends DistributedSystemArray {
-        /**
-         * @hidden
-         */
-        private mediator_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Factory method creating a {@link MediatorSystem} object.
-         *
-         * The {@link createMediator createMediator()} is an abstract method creating the {@link MediatorSystem} object.
-         *
-         * You know what? this {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a
-         * slave to its master system at the same time. The {@link MediatorSystem} object makes it possible; be a slave
-         * system. This {@link createMediator} determines specific type of the {@link MediatorSystem}.
-         *
-         * Overrides the {@link createMediator createMediator()} method to create and return one of them following which
-         * protocol and which type of remote connection (server or client) will be used:
-         *
-         * - A client slave connecting to master server:
-         *   - {@link MediatorClient}
-         *   - {@link MediatorWebClient}
-         *   - {@link MediatorSharedWorkerClient}
-         * - A server slave accepting master client:
-         *   - {@link MediatorServer}
-         *   - {@link MediatorWebServer}
-         *   - {@link MediatorSharedWorkerServer}
-         *
-         * @return A newly created {@link MediatorSystem} object.
-         */
-        protected abstract createMediator(): parallel.MediatorSystem;
-        /**
-         * Start mediator.
-         *
-         * If the {@link getMediator mediator} is a type of server, then opens the server accepting master client.
-         * Otherwise, the {@link getMediator mediator} is a type of client, then connects the master server.
-         */
-        protected startMediator(): void;
-        /**
-         * Get {@link MediatorSystem} object.
-         *
-         * When you need to send an {@link Invoke} message to the master system of this
-         * {@link DistributedSystemArrayMediator}, then send to the {@link MediatorSystem} through this
-         * {@link getMediator}.
-         *
-         * ```typescript
-         * this.getMediator().sendData(...);
-         * ```
-         */
-        getMediator(): parallel.MediatorSystem;
-        /**
-         * @hidden
-         */
-        protected _Complete_history(history: parallel.PRInvokeHistory): boolean;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    /**
-     * Mediator of Distributed Processing System, a server accepting slave clients.
-     *
-     * The {@link DistributedClientArrayMediator} is an abstract class, derived from {@link DistributedSystemArrayMediator}
-     * class, opening a server accepting {@link DistributedSystem distributed clients} as a **master**.
-     *
-     * Extends this {@link DistributedClientArrayMediator}, overrides {@link createServerBase createServerBase()} to
-     * determine which protocol to follow and {@link createExternalClient createExternalClient()} creating child
-     * {@link DistributedSystem} object. After the extending and overridings, open this server using the
-     * {@lionk open open()} method.
-     *
-     * #### [Inherited] {@link DistributedSystemArrayMediator}
-     * The {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a slave to its master
-     * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
-     * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
-     * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
-     *
-     * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
-     * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
-     * Overrides the {@link createMediator createMediator()} method and return one of them:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * #### [Inherited] {@link DistributedSystemArray}
-     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
-     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
-     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
-     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
-     * requested the *distributed processes*.
-     *
-     * The {@link DistributedSystemArray} contains {@link DistributedSystemRole} objects directly. You can request a
-     * **distributed process** through the {@link DistributedSystemRole} object. You can access the
-     * {@link DistributedSystemRole} object(s) with those methods:
-     *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
-     *
-     * When you need the **distributed process**, call the {@link DistributedSystemRole.sendData} method. Then the
-     * {@link DistributedSystemRole} will find the most idle {@link DistributedSystem} object who represents a distributed
-     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
-     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
-     * {@link DistributedSystemRole.getResource resource index} of related objects will be revaluated.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Parallel Process
-     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
-     * a **parallel process**, too.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class DistributedClientArrayMediator extends DistributedSystemArrayMediator implements external.IExternalClientArray {
-        /**
-         * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
-         */
-        private server_base_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Factory method creating {@link IServerBase} object.
-         *
-         * This method {@link createServerBase createServerBase()} determines which protocol is used in this
-         * {@link DistributedClientArrayMediator} object as a **master**. If the protocol is determined, then
-         * {@link DistributedSystem distributed clients} who may connect to {@link DistributedClientArrayMediator this
-         * server} must follow the specified protocol.
-         *
-         * Overrides the {@link createServerBase createServerBase()} method to create and return one of them:
-         *
-         * - {@link ServerBase}
-         * - {@link WebServerBase}
-         * - {@link SharedWorkerServerBase}
-         *
-         * @return A new {@link IServerBase} object.
-         */
-        protected abstract createServerBase(): IServerBase;
-        /**
-         * Add a newly connected remote client.
-         *
-         * When a {@link IClientDriver remote client} connects to this *master server of distributed processing system*,
-         * then this {@link DistributedClientArrayMediator} creates a child {@link Distributed distributed client} object
-         * through the {@link createExternalClient createExternalClient()} method.
-         *
-         * @param driver A communicator for external client.
-         */
-        addClient(driver: IClientDriver): void;
-        /**
-         * (Deprecated) Factory method creating child object.
-         *
-         * The method {@link createChild createChild()} is deprecated. Don't use and override this.
-         *
-         * Note that, the {@link DistributedClientArrayMediator} is a server accepting {@link DistributedSystem distributed
-         * clients} as a master. There's no way to creating the {@link DistributedSystem distributed clients} in advance
-         * before opening the server.
-         *
-         * @param xml An {@link XML} object represents the child {@link DistributedSystem} object.
-         * @return null
-         */
-        createChild(xml: library.XML): DistributedSystem;
-        /**
-         * Factory method creating {@link DistributedSystem} object.
-         *
-         * The method {@link createExternalClient createExternalClient()} is a factory method creating a child
-         * {@link DistributedSystem} object, that is called whenever a distributed client has connected, by
-         * {@link addClient addClient()}.
-         *
-         * Overrides this {@link createExternalClient} method and creates a type of {@link DistributedSystem} object with
-         * the *driver* that communicates with the distributed client. After the creation, returns the object. Then whenever
-         * a distributed client has connected, matched {@link DistributedSystem} object will be constructed and
-         * {@link insert inserted} into this {@link DistributedClientArrayMediator} object.
-         *
-         * @param driver A communicator with the distributed client.
-         * @return A newly created {@link DistributedSystem} object.
-         */
-        protected abstract createExternalClient(driver: IClientDriver): DistributedSystem;
-        /**
-         * @inheritdoc
-         */
-        open(port: number): void;
-        /**
-         * @inheritdoc
-         */
-        close(): void;
-    }
-}
-declare namespace samchon.protocol.external {
-    /**
-     * An external system driver.
-     *
-     * The {@link ExternalSystem} class represents an external system, connected and interact with this system.
-     * {@link ExternalSystem} takes full charge of network communication with the remote, external system have connected.
-     * Replied {@link Invoke} messages from the external system is shifted to and processed in, children elements of this
-     * class, {@link ExternalSystemRole} objects.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Bridge & Proxy Pattern
-     * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
-     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalSystem extends EntityDequeCollection<ExternalSystemRole> implements IProtocol {
-        /**
-         * The name represents external system have connected.
-         */
-        protected name: string;
-        /**
-         * @hidden
-         */
-        private system_array_;
-        /**
-         * @hidden
-         */
-        private communicator_;
-        /**
-         * Construct from parent {@link ExternalSystemArray}.
-         *
-         * @param systemArray The parent {@link ExternalSystemArray} object.
-         */
-        constructor(systemArray: ExternalSystemArray);
-        /**
-         * Constrct from parent {@link ExternalSystemArray} and communicator.
-         *
-         * @param systemArray
-         * @param communicator
-         */
-        constructor(systemArray: ExternalSystemArray, communicator: IClientDriver);
-        /**
-         * Default Destructor.
-         *
-         * This {@link destructor destructor()} method is called when the {@link ExternalSystem} object is destructed and
-         * the {@link ExternalSystem} object is destructed when connection with the remote system is closed or this
-         * {@link ExternalSystem} object is {@link ExternalSystemArray.erase erased} from its parent
-         * {@link ExternalSystemArray} object.
-         *
-         * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
-         * by those *destruction* cases. Also, if your derived {@link ExternalSystem} class has something to do on the
-         * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
-         * Overriding this {@link destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
-         *
-         * ```typescript
-         * class SomeSystem extends protocol.external.ExternalSystem
-         * {
-         *     protected destructor(): void
-         *     {
-         *         // DO SOMETHING
-         *         this.do_something();
-         *
-         *         // CALL SUPER.DESTRUCTOR() ON TAIL. DON'T FORGET THIS
-         *         super.destructor();
-         *     }
-         * }
-         * ```
-         */
-        protected destructor(): void;
-        /**
-         * @hidden
-         */
-        private handle_close();
-        getSystemArray(): ExternalSystemArray;
-        /**
-         * Identifier of {@link ExternalSystem} is its {@link name}.
-         *
-         * @return name.
-         */
-        key(): string;
-        /**
-         * Get {@link name}.
-         */
-        getName(): string;
-        /**
-         * @hidden
-         */
-        /**
-         * @hidden
-         */
-        protected communicator: protocol.ICommunicator;
-        /**
-         * Close connection.
-         */
-        close(): void;
-        /**
-         * Send {@link Invoke} message to external system.
-         *
-         * @param invoke An {@link Invoke} message to send.
-         */
-        sendData(invoke: Invoke): void;
-        /**
-         * Handle an {@Invoke} message has received.
-         *
-         * @param invoke An {@link Invoke} message have received.
-         */
-        replyData(invoke: Invoke): void;
-        /**
-         * Tag name of the {@link ExternalSystem} in {@link XML}.
-         *
-         * @return *system*.
-         */
-        TAG(): string;
-        /**
-         * Tag name of {@link ExternalSystemRole children elements} belonged to the {@link ExternalSystem} in {@link XML}.
-         *
-         * @return *role*.
-         */
-        CHILD_TAG(): string;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * A driver for a parallel slave system.
-     *
-     * The {@link ParallelSystem} is an abstract class represents a **slave** system in *Parallel Processing System*,
-     * connected with this **master** system. This {@link ParallelSystem} takes full charge of network communication with
-     * the remote, parallel **slave** system has connected.
-     *
-     * When a *parallel process* is requested (by {@link ParallelSystemArray.sendSegementData} or
-     * {@link ParallelSystemArray.sendPieceData}), the number of pieces to be allocated to a {@link ParallelSystem} is
-     * turn on its {@link getPerformance performance index}. Higher {@link getPerformance performance index}, then
-     * more pieces are requested. The {@link getPerformance performance index} is revaluated whenever a *parallel process*
-     * has completed, basic on the execution time and number of pieces. You can sugguest or enforce the
-     * {@link getPerformance performance index} with {@link setPerformance} or {@link enforcePerformance}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Bridge & Proxy Pattern
-     * This class {@link ParallelSystem} is derived from the {@link ExternalSystem} class. Thus, you can take advantage
-     * of the *Bridge & Proxy Pattern* in this {@link ParallelSystem} class. If a process to request is not the
-     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-     * may better to utilizing the *Bridge & Proxy Pattern*:
-     *
-     * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
-     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelSystem extends external.ExternalSystem {
-        /**
-         * @hidden
-         */
-        private progress_list_;
-        /**
-         * @hidden
-         */
-        private history_list_;
-        /**
-         * @hidden
-         */
-        private exclude_;
-        /**
-         * @hidden
-         */
-        private performance;
-        /**
-         * @hidden
-         */
-        private enforced_;
-        /**
-         * Construct from parent {@link ParallelSystemArray}.
-         *
-         * @param systemArray The parent {@link ParallelSystemArray} object.
-         */
-        constructor(systemArray: ParallelSystemArray);
-        /**
-         * Construct from parent {@link ParallelSystemArray} and communicator.
-         *
-         * @param systemArray The parent {@link ParallelSystemArray} object.
-         * @param communicator A communicator communicates with remote, the external system.
-         */
-        constructor(systemArray: ParallelSystemArray, communicator: IClientDriver);
-        /**
-         * Default Destructor.
-         *
-         * This {@link destructor destructor()} method is called when the {@link ParallelSystem} object is destructed and
-         * the {@link ParallelSystem} object is destructed when connection with the remote system is closed or this
-         * {@link ParallelSystem} object is {@link ParallelSystemArray.erase erased} from its parent
-         * {@link ParallelSystemArray} object.
-         *
-         * You may think if there're some *parallel processes* have requested but not completed yet, then it would be a
-         * critical problem because the *parallel processes* will not complete forever. Do not worry. The critical problem
-         * does not happen. After the destruction, the remained *parallel processes* will be shifted to and proceeded in
-         * other {@link ParallelSystem} objects.
-         *
-         * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
-         * by those *destruction* cases. Also, if your derived {@link ParallelSystem} class has something to do on the
-         * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
-         * Overriding this {@link destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
-         *
-         * ```typescript
-         * class SomeSystem extends protocol.external.ExternalSystem
-         * {
-         *     protected destructor(): void
-         *     {
-         *         // DO SOMETHING
-         *         this.do_something();
-         *
-         *         // CALL SUPER.DESTRUCTOR() ON TAIL. DON'T FORGET THIS
-         *         super.destructor();
-         *     }
-         * }
-         * ```
-         */
-        protected destructor(): void;
-        /**
-         * Get manager of this object.
-         *
-         * @return The parent {@link ParallelSystemArray} object.
-         */
-        getSystemArray(): ParallelSystemArray;
-        /**
-         * Get performance index.
-         *
-         * Get *performance index* that indicates how much fast the remote system is.
-         *
-         * If this {@link ParallelSystem parallel system} does not have any {@link Invoke} message had handled, then the
-         * *performance index* will be ```1.0```, which means default and average value between all {@link ParallelSystem}
-         * instances (that are belonged to a same {@link ParallelSystemArray} object).
-         *
-         * You can specify this *performance index* by yourself but notice that, if the *performance index* is higher
-         * than other {@link ParallelSystem} objects, then this {@link ParallelSystem parallel system} will be ordered to
-         * handle more processes than other {@link ParallelSystem} objects. Otherwise, the *performance index* is lower
-         * than others, of course, less processes will be delivered.
-         *
-         * - {@link setPerformance setPerformance()}
-         * - {@link enforcePerformance enforcePerformance()}
-         *
-         * Unless {@link enforcePerformance enforcePerformance()} is called, This *performance index* is **revaluated**
-         * whenever user calls one of them below.
-         *
-         * - {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()}
-         * - {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()}
-         * - {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()}.
-         *
-         * @return Performance index.
-         */
-        getPerformance(): number;
-        /**
-         * Set performance index.
-         *
-         * Set *performance index* that indicates how much fast the remote system is. This *performance index* can be
-         * **revaulated**.
-         *
-         * Note that, initial and average *performance index* of {@link ParallelSystem} objects are ```1.0```. If the
-         * *performance index* is higher than other {@link ParallelSystem} objects, then this {@link ParallelSystem} will
-         * be ordered to handle more processes than other {@link ParallelSystem} objects. Otherwise, the
-         * *performance index* is lower than others, of course, less processes will be delivered.
-         *
-         * Unlike {@link enforcePerformance}, configuring *performance index* by this {@link setPerformance} allows
-         * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the
-         * *performance index*. The remote system is much faster than any other, but you estimated it to the slowest one.
-         * It looks like a terrible case that causes {@link ParallelSystemArray entire parallel systems} to be slower,
-         * however, don't mind. The system will direct to the *propriate performance index* eventually with the
-         * **revaluation** by following methods.
-         *
-         * - {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()}
-         * - {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()}
-         * - {@link DistributedSystemRole.sendData DistributedSystemRole.sendData()}.
-         *
-         * @param val New performance index, but can be revaluated.
-         */
-        setPerformance(val: number): void;
-        /**
-         * Enforce performance index.
-         *
-         * Enforce *performance index* that indicates how much fast the remote system is. The *performance index* will be
-         * fixed, never be **revaluated**.
-         *
-         * Note that, initial and average *performance index* of {@link ParallelSystem} objects are ```1.0```. If the
-         * *performance index* is higher than other {@link ParallelSystem} objects, then this {@link ParallelSystem} will
-         * be ordered to handle more processes than other {@link ParallelSystem} objects. Otherwise, the
-         * *performance index* is lower than others, of course, less processes will be delivered.
-         *
-         * The difference between {@link setPerformance} and this {@link enforcePerformance} is allowing **revaluation**
-         * or not. This {@link enforcePerformance} does not allow the **revaluation**. The *performance index* is clearly
-         * fixed and never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the
-         * **mis-valuation** with this {@link enforcePerformance}.
-         *
-         * For example, there's a remote system much faster than any other, but you **mis-estimated** it to the slowest.
-         * In that case, there's no way. The {@link ParallelSystemArray entire parallel systems} will be slower by the
-         * **mis-valuation**. By the reason, using {@link enforcePerformance}, it's recommended only when you can clearly
-         * certain the *performance index*. If you can't certain the *performance index* but want to recommend, then use
-         * {@link setPerformance} instead.
-         *
-         * @param val New performance index to be fixed.
-         */
-        enforcePerformance(val: number): void;
-        /**
-         * @hidden
-         */
-        private send_piece_data(invoke, first, last);
-        /**
-         * @hidden
-         */
-        private _replyData(invoke);
-        /**
-         * @hidden
-         */
-        protected _Report_history(xml: library.XML): void;
-        /**
-         * @hidden
-         */
-        protected _Send_back_history(invoke: Invoke, history: InvokeHistory): void;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    /**
-     * A driver for a distributed slave system.
-     *
-     * The {@link DistributedSystem} is an abstract class represents a **slave** system in *Distributed Processing System*,
-     * connected with this **master** system. This {@link DistributedSystem} takes full charge of network communication
-     * with the remote, distributed **slave** system has connected.
-     *
-     * This {@link DistributedSystem} has a {@link getPerformance performance index} that indicates how much the **slave**
-     * system is fast. The {@link getPerformance performance index} is referenced and revaluated whenever those methods
-     * are called:
-     *
-     * - Requesting a *parallel process*
-     *   - {@link DistributedSystemArray.sendSegmentData}
-     *   - {@link DistributedSystemArray.sendPieceData}
-     * - Requesting a *distributed process*: {@link DistributedSystemRole.sendData}
-     *
-     * Note that, this {@link DistributedSystem} class derived from the {@link ExternalSystem} class. Thus, this
-     * {@link DistributedSystem} can also have children {@link ExternalSystemRole} objects exclusively. However, the
-     * children {@link ExternalSystemRole roles} objects are different with the {@link DistributedSystemRole}. The
-     * domestic {@link ExternalSystemRole roles} are belonged to only a specific {@link DistributedSystem} object.
-     * Otherwise, the {@link DistributedSystemRole} objects are belonged to a {@link DistributedSystemArray} object.
-     * Furthermore, the relationship between this {@link DistributedSystem} and {@link DistributedSystemRole} classes are
-     * **M: N Associative**.
-     *
-     *  Articles     | {@link DistributedSystemRole}  | {@link ExternalSystemRole}
-     * --------------|--------------------------------|----------------------
-     *  Belonged to  | {@link DistributedSystemArray} | {@link DistributedSystem}
-     *  Relationship | M: N Associative               | 1: N Composite
-     *  Ownership    | References                     | Exclusive possession
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class DistributedSystem extends parallel.ParallelSystem {
-        /**
-         * Construct from parent {@link DistributedSystemArray}.
-         *
-         * @param systemArray The parent {@link DistributedSystemArray} object.
-         */
-        constructor(systemArray: DistributedSystemArray);
-        /**
-         * Constrct from parent {@link DistributedSystemArray} and communicator.
-         *
-         * @param systemArray The parent {@link DistributedSystemArray} object.
-         * @param communicator A communicator communicates with remote, the external system.
-         */
-        constructor(systemArray: DistributedSystemArray, communicator: IClientDriver);
-        /**
-         * Factory method creating a {@link ExternalSystemRole child} object.
-         *
-         * In {@link distributed} module, the role class {@link DistributedSystemRole} is not belonged to a specific
-         * {@link DistributedSystem} object. It only belongs to a {@link DistributedSystemArray} object and has a
-         * **M: N Associative Relationship** between this {@link DistributedSystem} class.
-         *
-         * By that reason, it's the normal case that the {@link DistributedSystem} object does not have any children
-         * {@link ExternalSystemRole} object. Thus, default {@link createChild} returns ```null```.
-         *
-         * However, if you want a {@link DistributedSystem} to have its own domestic {@link ExternalSystemRole} objects
-         * without reference to the {@link DistributedSystemRole} objects, it is possible. Creates and returns the
-         * domestic {@link ExternalSystemRole} object.
-         *
-         * @param xml {@link XML} represents the {@link ExternalSystemRole child} object.
-         * @return A newly created {@link ExternalSystemRole} object or ```null```.
-         */
-        createChild(xml: library.XML): external.ExternalSystemRole;
-        /**
-         * Get parent {@link DistributedSystemArray} object.
-         *
-         * @return The parent {@link DistributedSystemArray} object.
-         */
-        getSystemArray(): DistributedSystemArray;
-        /**
-         * @hidden
-         */
-        private compute_average_elapsed_time();
-        /**
-         * @inheritdoc
-         */
-        replyData(invoke: protocol.Invoke): void;
-        /**
-         * @hidden
-         */
-        protected _Report_history(xml: library.XML): void;
-        /**
-         * @hidden
-         */
-        protected _Send_back_history(invoke: Invoke, history: InvokeHistory): void;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    /**
-     * An interface for a distributed slave server driver.
-     *
-     * The easiest way to defining a driver for distributed **slave** server is extending {@link DistributedServer} class.
-     * However, if you've to interact with a prallel **slave** system who can be both server and client, them make a class
-     * (let's name it **BaseSystem**) extending the {@link DistributedServer} class. At next, make a new class (now, I name
-     * it **BaseServer**) extending the **BaseSystem** and implements this interface {@link IParallelServer}. Define the
-     * **BaseServer** following those codes on below:
-     *
-     * <ul>
-     *	<li> {@link ExternalServer}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalServer.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link ParallelServer}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedServer.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link DistributedServer}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelServer.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IDistributedServer extends DistributedSystem {
-        /**
-         * Connect to external server.
-         */
-        connect(): void;
-    }
-    /**
-     * A driver for distributed slave server.
-     *
-     * The {@link DistributedServer} is an abstract class, derived from the {@link DistributedSystem} class, connecting to
-     * remote, distributed **slave** server. Extends this {@link DistributedServer} class and overrides the
-     * {@link createServerConnector createServerConnector()} method following which protocol the **slave** server uses.
-     *
-     * #### [Inheritdoc] {@link DistributedSystem}
-     * The {@link DistributedSystem} is an abstract class represents a **slave** system in *Distributed Processing System*,
-     * connected with this **master** system. This {@link DistributedSystem} takes full charge of network communication
-     * with the remote, distributed **slave** system has connected.
-     *
-     * This {@link DistributedSystem} has a {@link getPerformance performance index} that indicates how much the **slave**
-     * system is fast. The {@link getPerformance performance index} is referenced and revaluated whenever those methods
-     * are called:
-     *
-     * - Requesting a *parallel process*
-     *   - {@link DistributedSystemArray.sendSegmentData}
-     *   - {@link DistributedSystemArray.sendPieceData}
-     * - Requesting a *distributed process*: {@link DistributedSystemRole.sendData}
-     *
-     * Note that, this {@link DistributedSystem} class derived from the {@link ExternalSystem} class. Thus, this
-     * {@link DistributedSystem} can also have children {@link ExternalSystemRole} objects exclusively. However, the
-     * children {@link ExternalSystemRole roles} objects are different with the {@link DistributedSystemRole}. The
-     * domestic {@link ExternalSystemRole roles} are belonged to only a specific {@link DistributedSystem} object.
-     * Otherwise, the {@link DistributedSystemRole} objects are belonged to a {@link DistributedSystemArray} object.
-     * Furthermore, the relationship between this {@link DistributedSystem} and {@link DistributedSystemRole} classes are
-     * **M: N Associative**.
-     *
-     *  Articles     | {@link DistributedSystemRole}  | {@link ExternalSystemRole}
-     * --------------|--------------------------------|----------------------
-     *  Belonged to  | {@link DistributedSystemArray} | {@link DistributedSystem}
-     *  Relationship | M: N Associative               | 1: N Composite
-     *  Ownership    | References                     | Exclusive possession
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class DistributedServer extends DistributedSystem implements external.IExternalServer {
-        /**
-         * IP address of target external system to connect.
-         */
-        protected ip: string;
-        /**
-         * Port number of target external system to connect.
-         */
-        protected port: number;
-        /**
-         * Construct from parent {@link DistributedSystemArray}.
-         *
-         * @param systemArray The parent {@link DistributedSystemArray} object.
-         */
-        constructor(systemArray: DistributedSystemArray);
-        /**
-         * Factory method creating {@link IServerConnector} object.
-         *
-         * The {@link createServerConnector createServerConnector()} is an abstract method creating
-         * {@link IServerConnector} object. Overrides and returns one of them, considering which protocol the slave server
-         * follows:
-         *
-         * - {@link ServerConnector}
-         * - {@link WebServerConnector}
-         * - {@link SharedWorkerServerConnector}
-         *
-         * @return A newly created {@link IServerConnector} object.
-         */
-        protected abstract createServerConnector(): IServerConnector;
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    /**
-     * Master of Distributed Processing System, a client connecting to slave servers.
-     *
-     * The {@link DistributedServerArray} is an abstract class, derived from the {@link DistributedSystemArray} class,
-     * connecting to {@link IDistributedServer distributed servers}.
-     *
-     * Extends this {@link DistributedServerArray} and overrides {@link createChild createChild()} method creating child
-     * {@link IDistributedServer} object. After the extending and overriding, construct children {@link IDistributedServer}
-     * objects and call the {@lionk connect connect()} method.
-     *
-     * #### [Inherited] {@link DistributedSystemArray}
-     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
-     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
-     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
-     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
-     * requested the *distributed processes*.
-     *
-     * The {@link DistributedSystemArray} contains {@link DistributedSystemRole} objects directly. You can request a
-     * **distributed process** through the {@link DistributedSystemRole} object. You can access the
-     * {@link DistributedSystemRole} object(s) with those methods:
-     *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
-     *
-     * When you need the **distributed process**, call the {@link DistributedSystemRole.sendData} method. Then the
-     * {@link DistributedSystemRole} will find the most idle {@link DistributedSystem} object who represents a distributed
-     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
-     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
-     * {@link DistributedSystemRole.getResource resource index} of related objects will be revaluated.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Parallel Process
-     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
-     * a **parallel process**, too.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class DistributedServerArray extends DistributedSystemArray implements external.IExternalServerArray {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    /**
-     * Mediator of Distributed Processing System, a client connecting to slave servers.
-     *
-     * The {@link DistributedServerArrayMediator} is an abstract class, derived from {@link DistributedSystemArrayMediator}
-     * class, connecting to {@link IDistributedServer distributed servers}.
-     *
-     * Extends this {@link DistributedServerArrayMediator} and overrides {@link createChild createChild()} method creating
-     * child {@link IDistributedServer} object. After the extending and overriding, construct children
-     * {@link IDistributedServer} objects and call the {@lionk connect connect()} method.
-     *
-     * #### [Inherited] {@link DistributedSystemArrayMediator}
-     * The {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a slave to its master
-     * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
-     * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
-     * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
-     *
-     * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
-     * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
-     * Overrides the {@link createMediator createMediator()} method and return one of them:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * #### [Inherited] {@link DistributedSystemArray}
-     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
-     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
-     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
-     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
-     * requested the *distributed processes*.
-     *
-     * The {@link DistributedSystemArray} contains {@link DistributedSystemRole} objects directly. You can request a
-     * **distributed process** through the {@link DistributedSystemRole} object. You can access the
-     * {@link DistributedSystemRole} object(s) with those methods:
-     *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
-     *
-     * When you need the **distributed process**, call the {@link DistributedSystemRole.sendData} method. Then the
-     * {@link DistributedSystemRole} will find the most idle {@link DistributedSystem} object who represents a distributed
-     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
-     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
-     * {@link DistributedSystemRole.getResource resource index} of related objects will be revaluated.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Parallel Process
-     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
-     * a **parallel process**, too.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class DistributedServerArrayMediator extends DistributedSystemArrayMediator implements external.IExternalServerArray {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    /**
-     * Master of Distributed Processing System, be a server and client at the same time.
-     *
-     * The {@link DistributedServerClientArray} is an abstract class, derived from the {@link DistributedSystemArray}
-     * class, opening a server accepting {@link Distributed distributed clients} and being a client connecting to
-     * {@link IDistributedServer distributed servers} at the same time.
-     *
-     * Extends this {@link DistributedServerClientArray} and overrides below methods. After the overridings, open server
-     * with {@link open open()} method and connect to {@link IDistributedServer distributed servers} through the
-     * {@link connect connect()} method.
-     *
-     * - {@link createServerBase createServerBase()}
-     * - {@link createExternalClient createExternalClient()}
-     * - {@link createExternalServer createExternalServer()}
-     *
-     * #### [Inherited] {@link DistributedSystemArray}
-     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
-     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
-     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
-     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
-     * requested the *distributed processes*.
-     *
-     * The {@link DistributedSystemArray} contains {@link DistributedSystemRole} objects directly. You can request a
-     * **distributed process** through the {@link DistributedSystemRole} object. You can access the
-     * {@link DistributedSystemRole} object(s) with those methods:
-     *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
-     *
-     * When you need the **distributed process**, call the {@link DistributedSystemRole.sendData} method. Then the
-     * {@link DistributedSystemRole} will find the most idle {@link DistributedSystem} object who represents a distributed
-     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
-     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
-     * {@link DistributedSystemRole.getResource resource index} of related objects will be revaluated.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Parallel Process
-     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
-     * a **parallel process**, too.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class DistributedServerClientArray extends DistributedClientArray implements external.IExternalServerClientArray {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Factory method of a child Entity.
-         *
-         * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
-         *
-         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-         * @return A new child Entity via {@link createExternalServer createExternalServer()}.
-         */
-        createChild(xml: library.XML): DistributedSystem;
-        /**
-         * Factory method creating an {@link IDistributedServer} object.
-         *
-         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-         * @return A newly created {@link IDistributedServer} object.
-         */
-        protected abstract createExternalServer(xml: library.XML): IDistributedServer;
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    /**
-     * Mediator of Distributed Processing System, be a server and client at the same time as a **master**.
-     *
-     * The {@link DistributedServerClientArrayMediator} is an abstract class, derived from the
-     * {@link DistributedSystemArrayMediator} class, opening a server accepting {@link DistributedSystem distributed
-     * clients} and being a client connecting to {@link IDistributedServer distributed servers} at the same time.
-     *
-     * Extends this {@link DistributedServerClientArrayMediator} and overrides below methods. After the overridings, open
-     * server with {@link open open()} method and connect to {@link IDistributedServer distributed servers} through the
-     * {@link connect connect()} method.
-     *
-     * - {@link createServerBase createServerBase()}
-     * - {@link createExternalClient createExternalClient()}
-     * - {@link createExternalServer createExternalServer()}
-     *
-     * #### [Inherited] {@link DistributedSystemArrayMediator}
-     * The {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a slave to its master
-     * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
-     * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
-     * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
-     *
-     * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
-     * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
-     * Overrides the {@link createMediator createMediator()} method and return one of them:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * #### [Inherited] {@link DistributedSystemArray}
-     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
-     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
-     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
-     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
-     * requested the *distributed processes*.
-     *
-     * The {@link DistributedSystemArray} contains {@link DistributedSystemRole} objects directly. You can request a
-     * **distributed process** through the {@link DistributedSystemRole} object. You can access the
-     * {@link DistributedSystemRole} object(s) with those methods:
-     *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
-     *
-     * When you need the **distributed process**, call the {@link DistributedSystemRole.sendData} method. Then the
-     * {@link DistributedSystemRole} will find the most idle {@link DistributedSystem} object who represents a distributed
-     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
-     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
-     * {@link DistributedSystemRole.getResource resource index} of related objects will be revaluated.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Parallel Process
-     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
-     * a **parallel process**, too.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class DistributedServerClientArrayMediator extends DistributedClientArrayMediator implements external.IExternalServerClientArray {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-     * Factory method of a child Entity.
-     *
-     * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
-     *
-     * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-     * @return A new child Entity via {@link createExternalServer createExternalServer()}.
-     */
-        createChild(xml: library.XML): DistributedSystem;
-        /**
-         * Factory method creating an {@link IDistributedServer} object.
-         *
-         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-         * @return A newly created {@link IDistributedServer} object.
-         */
-        protected abstract createExternalServer(xml: library.XML): IDistributedServer;
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
     }
 }
 declare namespace samchon.protocol {
@@ -6326,565 +4886,6 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     /**
-     * History of an {@link Invoke} message.
-     *
-     * The {@link InvokeHistory} is a class archiving history log of an {@link Invoke} message with elapsed time. This
-     * {@link InvokeHistory} class is used to report elapsed time of handling a requested process from **slave** to
-     * **master** system.
-     *
-     * The **master** system utilizes derived {@link InvokeHistory} objects to compute performance indices.
-     * - {@link ParallelSytem.getPerformance}
-     * - {@link DistributedSystemRole.getResource}
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class InvokeHistory extends Entity {
-        /**
-         * @hidden
-         */
-        private uid;
-        /**
-         * @hidden
-         */
-        private listener;
-        /**
-         * @hidden
-         */
-        private start_time_;
-        /**
-         * @hidden
-         */
-        private end_time_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from an {@link Invoke} message.
-         *
-         * @param invoke An {@link Invoke} message requesting a *parallel or distributed process*.
-         */
-        constructor(invoke: Invoke);
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * Complete the history.
-         *
-         * Completes the history and determines the {@link getEndTime end time}.
-         */
-        complete(): void;
-        key(): number;
-        /**
-         * Get unique ID.
-         */
-        getUID(): number;
-        /**
-         * Get {@link Invoke.getListener listener} of the {@link Invoke} message.
-         */
-        getListener(): string;
-        /**
-         * Get start time.
-         */
-        getStartTime(): Date;
-        /**
-         * Get end time.
-         */
-        getEndTime(): Date;
-        /**
-         * Compute elapsed time.
-         *
-         * @return milliseconds.
-         */
-        computeElapsedTime(): number;
-        /**
-         * @inheritdoc
-         */
-        TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-        /**
-         * Convert to an {@link Invoke} message.
-         *
-         * Creates and returns an {@link Invoke} message that is used to reporting to the **master**.
-         */
-        toInvoke(): Invoke;
-    }
-}
-declare namespace samchon.protocol.distributed {
-    /**
-     * History of an {@link Invoke} message.
-     *
-     * The {@link PRInvokeHistory} is a class archiving history log of an {@link Invoke} message which requests the
-     * *distributed process*, created whenever {@link DistributedSystemRole.sendData} is called.
-     *
-     * When the *distributed process* has completed, then {@link complete complete()} is called and the *elapsed time* is
-     * determined. The elapsed time is utilized for computation of {@link DistributedSystem.getPerformance performance index}
-     * and {@link DistributedSystemRole.getResource resource index} of related objects.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_distributed_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class DSInvokeHistory extends InvokeHistory {
-        /**
-         * @hidden
-         */
-        private system_;
-        /**
-         * @hidden
-         */
-        private role_;
-        /**
-         * Construct from a DistributedSystem.
-         *
-         * @param system The {@link DistributedSystem} object who sent the {@link Invoke} message.
-         */
-        constructor(system: DistributedSystem);
-        /**
-         * Initilizer Constructor.
-         *
-         * @param system The {@link DistributedSystem} object who sent the {@link Invoke} message.
-         * @param role The {@link DistributedSystemRole} object who sent the {@link Invoke} message.
-         * @param invoke An {@link Invoke} message requesting the *distributed process*.
-         */
-        constructor(system: DistributedSystem, role: DistributedSystemRole, invoke: Invoke);
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * Get the related {@link DistributedSystem} object.
-         */
-        getSystem(): DistributedSystem;
-        /**
-         * Get the related {@link DistributedSystemRole} object.
-         */
-        getRole(): DistributedSystemRole;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-    }
-}
-declare namespace samchon.protocol.external {
-    /**
-     * An interface for an {@link ExternalSystemArray} accepts {@link ExternalSystem external clients} as a
-     * {@link IServer server}.
-     *
-     * The easiest way to defining an {@link ExternalSystemArray} who opens server and accepts
-     * {@link ExternalSystem external clients} is to extending one of below, who are derived from this interface
-     * {@link IExternalClientArray}. However, if you can't specify an {@link ExternalSystemArray} to be whether server or
-     * client, then make a class (let's name it as **BaseSystemArray**) extending {@link ExternalSystemArray} and make
-     * a new class (now, I name it **BaseClientArray**) extending **BaseSystemArray** and implementing this
-     * interface {@link IExternalClientArray}. Define the **BaseClientArray** following those codes on below:
-     *
-     * <ul>
-     *	<li> {@link ExternalClientArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link ParallelClientArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelClientArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link DistributedClientArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedClientArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IExternalClientArray extends ExternalSystemArray, IServer {
-    }
-    /**
-     * An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}.
-     *
-     * {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers,
-     * {@link IExternalServer} objects, as a {@link IServer server}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * <h4> Proxy Pattern </h4>
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalClientArray extends ExternalSystemArray implements IExternalClientArray {
-        /**
-         * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
-         */
-        private server_base_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Factory method creating {@link IServerBase} object.
-         *
-         * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
-         * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who
-         * may connect to {@link ExternalClientArray this server} must follow the specified protocol.
-         *
-         * Creates and returns one of them:
-         * <ul>
-         *	<li> {@link ServerBase} </li>
-         *	<li> {@link WebServerBase} </li>
-         *	<li> {@link SharedWorkerServerBase} </li>
-         * </ul>
-         *
-         * @return A new {@link IServerBase} object.
-         */
-        protected abstract createServerBase(): IServerBase;
-        addClient(driver: IClientDriver): void;
-        /**
-         * (Deprecated) Factory method creating child object.
-         *
-         * The method {@link createChild createChild()} is deprecated. Don't use and override this.
-         *
-         * Note that, the {@link ExternalClientArray} is a server accepting {@link ExternalSystem external clients}.
-         * There's no way to creating the {@link ExternalSystem external clients} in advance before opening the server.
-         *
-         * @param xml An {@link XML} object represents the child {@link ExternalSystem} object.
-         * @return null
-         */
-        createChild(xml: library.XML): ExternalSystem;
-        /**
-         * Factory method creating a child {@link ExternalSystem} object.
-         *
-         * @param driver A communicator with connected client.
-         * @return A newly created {@link ExternalSystem} object.
-         */
-        protected abstract createExternalClient(driver: IClientDriver): ExternalSystem;
-        /**
-         * @inheritdoc
-         */
-        open(port: number): void;
-        /**
-         * @inheritdoc
-         */
-        close(): void;
-    }
-}
-declare namespace samchon.protocol.external {
-    /**
-     * An interface for an external server driver.
-     *
-     * The easiest way to defining an external server driver is to extending one of below, who are derived from this
-     * interface {@link IExternalServer}. However, if you've to interact with an external system who can be both server
-     * and client, then make a class (let's name it as **BaseSystem**) extending {@link ExternalSystem} and make a
-     * new class (now, I name it **BaseServer**) extending **BaseSystem** and implementing this interface
-     * {@link IExternalServer}. Define the **BaseServer** following those codes on below:
-     *
-     * <ul>
-     *	<li> {@link ExternalServer}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalServer.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link ParallelServer}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedServer.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link DistributedServer}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelServer.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IExternalServer extends ExternalSystem {
-        /**
-         * Connect to external server.
-         */
-        connect(): void;
-    }
-    /**
-     * An external server driver.
-     *
-     * The {@link ExternalServer} class represents an external server, connected and interact with this system.
-     * {@link ExternalServer} takes full charge of network communication with external server has connected. Replied
-     * {@link Invoke messages} from the external system is shifted to and processed in, children elements of this class,
-     * {@link ExternalSystemRole} objects.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * <h4> Bridge & Proxy Pattern </h4>
-     * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
-     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalServer extends ExternalSystem implements IExternalServer {
-        /**
-         * IP address of target external system to connect.
-         */
-        protected ip: string;
-        /**
-         * Port number of target external system to connect.
-         */
-        protected port: number;
-        /**
-         * Default Constructor.
-         */
-        constructor(systemArray: ExternalSystemArray);
-        /**
-         * Factory method creating {@link IServerConnector} object.
-         *
-         * The {@link createServerConnector createServerConnector()} is an abstract method creating
-         * {@link IServerConnector} object. Overrides and returns one of them, considering which protocol the external
-         * system follows:
-         *
-         * - {@link ServerConnector}
-         * - {@link WebServerConnector}
-         * - {@link SharedWorkerServerConnector}
-         *
-         * @return A newly created {@link IServerConnector} object.
-         */
-        protected abstract createServerConnector(): IServerConnector;
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol.external {
-    /**
-     * An interface for an {@link ExternalSystemArray} connects to {@link IExternalServer external servers} as a
-     * **client**.
-     *
-     * The easiest way to defining an {@link ExternalSystemArray} who connects to
-     * {@link IExternalServer external servers} is to extending one of below, who are derived from this interface
-     * {@link IExternalServerArray}. However, if you can't specify an {@link ExternalSystemArray} to be whether server or
-     * client, then make a class (let's name it as **BaseSystemArray**) extending {@link ExternalSystemArray} and make
-     * a new class (now, I name it **BaseServerArray**) extending **BaseSystemArray** and implementing this
-     * interface {@link IExternalServerArray}. Define the **BaseServerArray** following those codes on below:
-     *
-     * <ul>
-     *	<li> {@link ExternalServerArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalServerArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link ParallelServerArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelServerArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link DistributedServerArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedServerArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IExternalServerArray extends ExternalSystemArray {
-        /**
-         * Connect to {@link IExternalServer external servers}.
-         *
-         * This method calls children elements' method {@link IExternalServer.connect} gradually.
-         */
-        connect(): void;
-    }
-    /**
-     * An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a **client**.
-     *
-     * {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
-     * {@link IExternalServer} objects, as a **client**.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * <h4> Proxy Pattern </h4>
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalServerArray extends ExternalSystemArray {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol.external {
-    /**
-     * An interface for an {@link ExternalSystemArray} accepts {@link ExternalSystem external clients} as a
-     * {@link IServer server} and connects to {@link IExternalServer} as **client**, at the same time.
-     *
-     * The easiest way to defining an {@link IExternalServerClientArray} who opens server, accepts
-     * {@link ExternalSystem external clients} and connects to {@link IExternalServer external servers} is to extending
-     * one of below, who are derived from this interface {@link IExternalServerClientArray}. However, if you can't
-     * specify an {@link ExternalSystemArray} to be whether server or client or even can both them, then make a class
-     * (let's name it as **BaseSystemArray**) extending {@link ExternalSystemArray} and make a new class (now, I name
-     * it **BaseServerClientArray**) extending **BaseSystemArray** and implementing this interface
-     * {@link IExternalServerClientArray}. Define the **BaseServerClientArray** following those codes on below:
-     *
-     * <ul>
-     *	<li> {@link ExternalServerClientArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalServerClientArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link ParallelServerClientArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelServerClientArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link DistributedServerClientArray}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedServerClientArray.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IExternalServerClientArray extends IExternalServerArray, IExternalClientArray {
-    }
-    /**
-     * An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a **client** and
-     * accepts {@link ExternalSystem external clients} as a {@link IServer server}.
-     *
-     * {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
-     * {@link IExternalServer} objects and accepts external client drivers {@link ExternalSyste} obejcts as a
-     * **client** and a {@link IServer server} at the same time.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * <h4> Proxy Pattern </h4>
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ExternalServerClientArray extends ExternalClientArray implements IExternalServerClientArray {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Factory method of a child Entity.
-         *
-         * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
-         *
-         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-         * @return A new child Entity via {@link createExternalServer createExternalServer()}.
-         */
-        createChild(xml: library.XML): ExternalSystem;
-        /**
-         * Factory method creating an {@link IExternalServer} object.
-         *
-         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-         * @return A newly created {@link IExternalServer} object.
-         */
-        protected abstract createExternalServer(xml: library.XML): IExternalServer;
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol {
-    /**
      * Standard message of network I/O.
      *
      * {@link Invoke} is a class used in network I/O in protocol package of Samchon Framework.
@@ -7039,7 +5040,7 @@ declare namespace samchon.protocol {
      * in a relationship of *Chain of Responsibility Pattern* with those network drivers.
      *
      * Implements {@link IProtocol} if the class sends and handles {@link Invoke} messages. Looking around source codes of
-     * the *Samchon Framework*, especially *System Templates*, you can find out that all the classes and modules handling
+     * the *Samchon Framework*, especially *Templates*, you can find out that all the classes and modules handling
      * {@link Invoke} messages are always implementing this {@link IProtocol}.
      *
      * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
@@ -7069,1469 +5070,6 @@ declare namespace samchon.protocol {
          * @param invoke An {@link Invoke} message has received.
          */
         sendData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol.slave {
-    abstract class SlaveSystem implements protocol.IProtocol {
-        /**
-         * @hidden
-         */
-        protected communicator_: ICommunicator;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        sendData(invoke: Invoke): void;
-        /**
-         * @hidden
-         */
-        protected _replyData(invoke: Invoke): void;
-        replyData(invoke: Invoke): void;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * A mediator, the master driver.
-     *
-     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
-     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
-     *
-     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
-     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
-     * type and protocol the **master** system follows:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
-     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
-     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
-     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
-     * result to its **master**.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
-     *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class MediatorSystem extends slave.SlaveSystem {
-        /**
-         * @hidden
-         */
-        private system_array_;
-        /**
-         * @hidden
-         */
-        private progress_list_;
-        /**
-         * Construct from parent {@link ParallelSystemArrayMediator} object.
-         *
-         * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
-         */
-        constructor(systemArray: ParallelSystemArrayMediator);
-        /**
-         * Construct from parent {@link DistributedSystemArrayMediator} object.
-         *
-         * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
-         */
-        constructor(systemArray: distributed.DistributedSystemArrayMediator);
-        /**
-         * Start interaction.
-         *
-         * The {@link start start()} is an abstract method starting interaction with the **master** system. If the
-         * **master** is a server, then connects to the **master**. Otherwise, the **master** is client, then this
-         * {@link MediatorSystem} object wil open a server accepting the **master**.
-         */
-        abstract start(): void;
-        /**
-         * Get parent {@link ParallelSystemArrayMediator} object.
-         */
-        getSystemArray(): ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator;
-        /**
-         * @hidden
-         */
-        private complete_history(uid);
-        /**
-         * @hidden
-         */
-        protected _replyData(invoke: Invoke): void;
-        /**
-         * @inheritdoc
-         */
-        replyData(invoke: protocol.Invoke): void;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * A mediator server, driver for the master client.
-     *
-     * The {@link MediatorServer} is a class opening a server accepting the **master** client, following the protocol of
-     * Samchon Framework's own.
-     *
-     * #### [Inherited] {@link MediatorSystem}
-     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
-     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
-     *
-     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
-     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
-     * type and protocol the **master** system follows:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
-     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
-     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
-     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
-     * result to its **master**.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
-     *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class MediatorServer extends MediatorSystem implements slave.ISlaveServer {
-        /**
-         * @hidden
-         */
-        private server_base_;
-        /**
-         * @hidden
-         */
-        private port;
-        /**
-         * Initializer Constructor.
-         *
-         * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
-         * @param port Port number of server to open.
-         */
-        constructor(systemArray: ParallelSystemArrayMediator, port: number);
-        /**
-         * Initializer Constructor.
-         *
-         * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
-         * @param port Port number of server to open.
-         */
-        constructor(systemArray: distributed.DistributedSystemArrayMediator, port: number);
-        /**
-         * Factory method creating {@link IServerBase} object.
-         *
-         * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
-         * {@link MediatorServer}. Note that, **slave** (this {@link MediatorServer} object) must follow the **master**'s
-         * protocol.
-         *
-         * Overrides and return one of them considering the which protocol to follow:
-         *
-         * - {@link ServerBase}
-         * - {@link WebServerBase}
-         * - {@link SharedWorkerServerBase}
-         */
-        protected createServerBase(): IServerBase;
-        /**
-         * Add a newly connected remote client.
-         *
-         * {@link MediatorServer} represents a **slave** dedicating to its **master**. In that reason, the
-         * {@link MediatorServer} does not accept multiple **master** clients. It accepts only one. Thus, *listener* of
-         * the *communicator* is {@link MediatorSystem} object, itself.
-         *
-         * @param driver A communicator with remote client.
-         */
-        addClient(driver: IClientDriver): void;
-        /**
-         * @inheritdoc
-         */
-        start(): void;
-        /**
-         * @inheritdoc
-         */
-        open(port: number): void;
-        /**
-         * @inheritdoc
-         */
-        close(): void;
-    }
-    /**
-     * A mediator server, driver for the master client.
-     *
-     * The {@link MediatorWebServer} is a class opening a server accepting the **master** client, following the
-     * web-socket protocol.
-     *
-     * #### [Inherited] {@link MediatorSystem}
-     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
-     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
-     *
-     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
-     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
-     * type and protocol the **master** system follows:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
-     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
-     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
-     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
-     * result to its **master**.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
-     *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class MediatorWebServer extends MediatorServer {
-        /**
-         * @inheritdoc
-         */
-        protected createServerBase(): IServerBase;
-    }
-    /**
-     * A mediator server, driver for the master client.
-     *
-     * The {@link MediatorSharedWorkerServer} is a class opening a server accepting the **master** client, following the
-     * SharedWorker's protocol.
-     *
-     * #### [Inherited] {@link MediatorSystem}
-     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
-     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
-     *
-     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
-     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
-     * type and protocol the **master** system follows:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
-     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
-     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
-     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
-     * result to its **master**.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
-     *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class MediatorSharedWorkerServer extends MediatorServer {
-        /**
-         * @inheritdoc
-         */
-        protected createServerBase(): IServerBase;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * A mediator client, driver for the master server.
-     *
-     * The {@link MediatorServer} is a class being a client connecting to the **master** server, following the protocol
-     * of Samchon Framework's own.
-     *
-     * #### [Inherited] {@link MediatorSystem}
-     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
-     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
-     *
-     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
-     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
-     * type and protocol the **master** system follows:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
-     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
-     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
-     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
-     * result to its **master**.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
-     *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class MediatorClient extends MediatorSystem implements slave.ISlaveClient {
-        /**
-         * @hidden
-         */
-        private ip;
-        /**
-         * @hidden
-         */
-        private port;
-        /**
-         * Initializer Constructor.
-         *
-         * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
-         * @param ip IP address to connect.
-         * @param port Port number to connect.
-         */
-        constructor(systemArray: ParallelSystemArrayMediator, ip: string, port: number);
-        /**
-         * Initializer Constructor.
-         *
-         * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
-         * @param ip IP address to connect.
-         * @param port Port number to connect.
-         */
-        constructor(systemArray: distributed.DistributedSystemArrayMediator, ip: string, port: number);
-        /**
-         * Factory method creating {@link IServerConnector} object.
-         *
-         * The {@link createServerConnector createServerConnector()} is an abstract method creating
-         * {@link IServerConnector} object. Overrides and returns one of them, considering which protocol the **master**
-         * server follows:
-         *
-         * - {@link ServerConnector}
-         * - {@link WebServerConnector}
-         * - {@link SharedWorkerServerConnector}
-         *
-         * @return A newly created {@link IServerConnector} object.
-         */
-        protected createServerConnector(): IServerConnector;
-        /**
-         * @inheritdoc
-         */
-        start(): void;
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-    /**
-     * A mediator client, driver for the master server.
-     *
-     * The {@link MediatorWebClient} is a class being a client connecting to the **master** server, following the
-     * web-socket protocol.
-     *
-     * #### [Inherited] {@link MediatorSystem}
-     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
-     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
-     *
-     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
-     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
-     * type and protocol the **master** system follows:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
-     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
-     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
-     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
-     * result to its **master**.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
-     *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class MediatorWebClient extends MediatorClient {
-        /**
-         * @inheritdoc
-         */
-        protected createServerConnector(): IServerConnector;
-    }
-    /**
-     * A mediator client, driver for the master server.
-     *
-     * The {@link MediatorSharedWorkerClient} is a class being a client connecting to the **master** server, following
-     * the SharedWorker's protocol.
-     *
-     * #### [Inherited] {@link MediatorSystem}
-     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
-     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
-     *
-     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
-     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
-     * type and protocol the **master** system follows:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
-     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
-     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
-     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
-     * result to its **master**.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System),
-     *			 [Protocol - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Distributed_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class MediatorSharedWorkerClient extends MediatorClient {
-        /**
-         * @inheritdoc
-         */
-        protected createServerConnector(): IServerConnector;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * Master of Parallel Processing System, a server accepting slave clients.
-     *
-     * The {@link ParallelClientArray} is an abstract class, derived from the {@link ParallelSystemArray} class, opening
-     * a server accepting {@link ParallelSystem parallel clients}.
-     *
-     * Extends this {@link ParallelClientArray}, overrides {@link createServerBase createServerBase()} to determine which
-     * protocol to follow and {@link createExternalClient createExternalClient()} creating child {@link ParallelSystem}
-     * object. After the extending and overridings, open this server using the {@link open open()} method.
-     *
-     * #### [Inherited] {@link ParallelSystemArray}
-     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
-     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
-     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
-     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
-     * *parallel processes*.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
-     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
-     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Proxy Pattern
-     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
-     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
-     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-     * may better to utilizing the *Proxy Pattern*:
-     *
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelClientArray extends ParallelSystemArray implements external.IExternalClientArray {
-        /**
-         * @hidden
-         */
-        private server_base_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Factory method creating {@link IServerBase} object.
-         *
-         * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
-         * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who
-         * may connect to {@link ExternalClientArray this server} must follow the specified protocol.
-         *
-         * Overrides the {@link createServerBase createServerBase()} method to create and return one of them:
-         *
-         * - {@link ServerBase}
-         * - {@link WebServerBase}
-         * - {@link SharedWorkerServerBase}
-         *
-         * @return A new {@link IServerBase} object.
-         */
-        protected abstract createServerBase(): IServerBase;
-        /**
-         * Add a newly connected remote client.
-         *
-         * When a {@link IClientDriver remote client} connects to this *master server of parallel processing system*,
-         * then this {@link ParallelClientArray} creates a child {@link ParallelSystem parallel client} object through
-         * the {@link createExternalClient createExternalClient()} method and {@link insert inserts} it.
-         *
-         * @param driver A communicator for external client.
-         */
-        addClient(driver: IClientDriver): void;
-        /**
-         * (Deprecated) Factory method creating child object.
-         *
-         * The method {@link createChild createChild()} is deprecated. Don't use and override this.
-         *
-         * Note that, the {@link ParallelClientArray} is a server accepting {@link ParallelSystem parallel clients}.
-         * There's no way to creating the {@link ParallelSystem parallel clients} in advance before opening the server.
-         *
-         * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
-         * @return ```null```
-         */
-        createChild(xml: library.XML): ParallelSystem;
-        /**
-         * Factory method creating {@link ParallelSystem} object.
-         *
-         * The method {@link createExternalClient createExternalClient()} is a factory method creating a child
-         * {@link ParallelSystem} object, that is called whenever a parallel client has connected, by
-         * {@link addClient addClient()}.
-         *
-         * Overrides this {@link createExternalClient} method and creates a type of {@link ParallelSystem} object with
-         * the *driver* that communicates with the parallel client. After the creation, returns the {@link ParallelSystem}
-         * object. Then whenever a parallel client has connected, matched {@link ParallelSystem} object will be
-         * constructed and {@link insert inserted} into this {@link ParallelClientArray} object.
-         *
-         * @param driver A communicator with the parallel client.
-         * @return A newly created {@link ParallelSystem} object.
-         */
-        protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
-        /**
-         * @inheritdoc
-         */
-        open(port: number): void;
-        /**
-         * @inheritdoc
-         */
-        close(): void;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * Mediator of Parallel Processing System.
-     *
-     * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
-     * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
-     * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
-     * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
-     *
-     * As a **master**, you can specify this {@link ParallelSystemArrayMediator} class to be <i>a master server accepting
-     * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
-     * of them below and overrides abstract factory method(s) creating the child {@link ParallelSystem} object.
-     *
-     * - {@link ParallelClientArrayMediator}: A server accepting {@link ParallelSystem parallel clients}.
-     * - {@link ParallelServerArrayMediator}: A client connecting to {@link ParallelServer parallel servers}.
-     * - {@link ParallelServerClientArrayMediator}: Both of them. Accepts {@link ParallelSystem parallel clients} and
-     *                                              connects to {@link ParallelServer parallel servers} at the same time.
-     *
-     * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
-     * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
-     * Overrides the {@link createMediator createMediator()} method and return one of them:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * #### [Inherited] {@link ParallelSystemArray}
-     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
-     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
-     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
-     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
-     * *parallel processes*.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
-     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
-     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Proxy Pattern
-     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
-     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
-     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-     * may better to utilizing the *Proxy Pattern*:
-     *
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelSystemArrayMediator extends ParallelSystemArray {
-        /**
-         * @hidden
-         */
-        private mediator_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Factory method creating a {@link MediatorSystem} object.
-         *
-         * The {@link createMediator createMediator()} is an abstract method creating the {@link MediatorSystem} object.
-         *
-         * You know what? this {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a
-         * **slave** to its master system at the same time. The {@link MediatorSystem} object makes it possible; be a
-         * **slave** system. This {@link createMediator} determines specific type of the {@link MediatorSystem}.
-         *
-         * Overrides the {@link createMediator createMediator()} method to create and return one of them following which
-         * protocol and which type of remote connection (server or client) will be used:
-         *
-         * - A client slave connecting to master server:
-         *   - {@link MediatorClient}
-         *   - {@link MediatorWebClient}
-         *   - {@link MediatorSharedWorkerClient}
-         * - A server slave accepting master client:
-         *   - {@link MediatorServer}
-         *   - {@link MediatorWebServer}
-         *   - {@link MediatorSharedWorkerServer}
-         *
-         * @return A newly created {@link MediatorSystem} object.
-         */
-        protected abstract createMediator(): MediatorSystem;
-        /**
-         * Start mediator.
-         *
-         * If the {@link getMediator mediator} is a type of server, then opens the server accepting master client.
-         * Otherwise, the {@link getMediator mediator} is a type of client, then connects the master server.
-         */
-        protected startMediator(): void;
-        /**
-         * Get {@link MediatorSystem} object.
-         *
-         * When you need to send an {@link Invoke} message to the master system of this
-         * {@link ParallelSystemArrayMediator}, then send to the {@link MediatorSystem} through this {@link getMediator}.
-         *
-         * ```typescript
-         * this.getMediator().sendData(...);
-         * ```
-         */
-        getMediator(): MediatorSystem;
-        /**
-         * @hidden
-         */
-        protected _Complete_history(history: PRInvokeHistory): boolean;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * Mediator of Parallel Processing System, a server accepting slave clients.
-     *
-     * The {@link ParallelClientArrayMediator} is an abstract class, derived from the {@link ParallelSystemArrayMediator}
-     * class, opening a server accepting {@link ParallelSystem parallel clients} as a **master**.
-     *
-     * Extends this {@link ParallelClientArrayMediator}, overrides {@link createServerBase createServerBase()} to
-     * determine which protocol to follow and {@link createExternalClient createExternalClient()} creating child
-     * {@link ParallelSystem} object. After the extending and overridings, open this server using the
-     * {@lionk open open()} method.
-     *
-     * #### [Inherited] {@link ParallelSystemArrayMediator}
-     * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
-     * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
-     * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
-     * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
-     *
-     * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
-     * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
-     * Overrides the {@link createMediator createMediator()} method and return one of them:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * #### [Inherited] {@link ParallelSystemArray}
-     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
-     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
-     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
-     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
-     * *parallel processes*.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
-     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
-     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Proxy Pattern
-     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
-     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
-     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-     * may better to utilizing the *Proxy Pattern*:
-     *
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelClientArrayMediator extends ParallelSystemArrayMediator implements external.IExternalClientArray {
-        /**
-         * @hidden
-         */
-        private server_base_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Factory method creating {@link IServerBase} object.
-         *
-         * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
-         * {@link ParallelClientArrayMediator}. If the protocol is determined, then
-         * {@link ParallelSystem parallel clients} who may connect to {@link ParallelClientArrayMediator this server}
-         * must follow the specified protocol.
-         *
-         * Overrides the {@link createServerBase createServerBase()} method to create and return one of them:
-         *
-         * - {@link ServerBase}
-         * - {@link WebServerBase}
-         * - {@link SharedWorkerServerBase}
-         *
-         * @return A new {@link IServerBase} object.
-         */
-        protected abstract createServerBase(): IServerBase;
-        /**
-         * Add a newly connected remote client.
-         *
-         * When a {@link IClientDriver remote client} connects to this *master server of parallel processing system*,
-         * then this {@link ParallelClientArrayMediator} creates a child {@link ParallelSystem parallel client} object
-         * through the {@link createExternalClient createExternalClient()} method and {@link insert inserts} it.
-         *
-         * @param driver A communicator for parallel client.
-         */
-        addClient(driver: IClientDriver): void;
-        /**
-         * (Deprecated) Factory method creating child object.
-         *
-         * The method {@link createChild createChild()} is deprecated. Don't use and override this.
-         *
-         * Note that, the {@link ParallelClientArrayMediator} is a server accepting {@link ParallelSystem parallel
-         * clients} as a master. There's no way to creating the {@link ParallelSystem parallel clients} in advance before
-         * opening the server.
-         *
-         * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
-         * @return null
-         */
-        createChild(xml: library.XML): ParallelSystem;
-        /**
-         * Factory method creating {@link ParallelSystem} object.
-         *
-         * The method {@link createExternalClient createExternalClient()} is a factory method creating a child
-         * {@link ParallelSystem} object, that is called whenever a parallel client has connected, by
-         * {@link addClient addClient()}.
-         *
-         * Overrides this {@link createExternalClient} method and creates a type of {@link ParallelSystem} object with
-         * the *driver* that communicates with the parallel client. After the creation, returns the {@link ParallelSystem}
-         * object. Then whenever a parallel client has connected, matched {@link ParallelSystem} object will be
-         * constructed and {@link insert inserted} into this {@link ParallelClientArrayMediator} object.
-         *
-         * @param driver A communicator with the parallel client.
-         * @return A newly created {@link ParallelSystem} object.
-         */
-        protected abstract createExternalClient(driver: IClientDriver): ParallelSystem;
-        /**
-         * @inheritdoc
-         */
-        open(port: number): void;
-        /**
-         * @inheritdoc
-         */
-        close(): void;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * An interface for a parallel slave server driver.
-     *
-     * The easiest way to defining a driver for parallel **slave** server is extending {@link ParallelServer} class.
-     * However, if you've to interact with a prallel **slave** system who can be both server and client, them make a class
-     * (let's name it **BaseSystem**) extending the {@link ParallelSystem} class. At next, make a new class (now, I name it
-     * **BaseServer**) extending the **BaseSystem** and implements this interface {@link IParallelServer}. Define the
-     * **BaseServer** following those codes on below:
-     *
-     * <ul>
-     *	<li> {@link ExternalServer}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalServer.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link ParallelServer}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/DistributedServer.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     *	<li> {@link DistributedServer}:
-     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/master/ParallelServer.ts"
-     *		   target="_blank"> View source code on GitHub </a>
-     *	</li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IParallelServer extends ParallelSystem {
-        /**
-         * Connect to slave server.
-         */
-        connect(): void;
-    }
-    /**
-     * A driver for parallel slave server.
-     *
-     * The {@link ParallelServer} is an abstract class, derived from the {@link ParallelSystem} class, connecting to
-     * remote, parallel **slave** server. Extends this {@link ParallelServer} class and overrides the
-     * {@link createServerConnector createServerConnector()} method following which protocol the **slave** server uses.
-     *
-     * #### [Inherited] {@link ParallelSystem}
-     * The {@link ParallelSystem} is an abstract class represents a **slave** system in *Parallel Processing System*,
-     * connected with this **master** system. This {@link ParallelSystem} takes full charge of network communication with
-     * the remote, parallel **slave** system has connected.
-     *
-     * When a *parallel process* is requested (by {@link ParallelSystemArray.sendSegementData} or
-     * {@link ParallelSystemArray.sendPieceData}), the number of pieces to be allocated to a {@link ParallelSystem} is
-     * turn on its {@link getPerformance performance index}. Higher {@link getPerformance performance index}, then
-     * more pieces are requested. The {@link getPerformance performance index} is revaluated whenever a *parallel process*
-     * has completed, basic on the execution time and number of pieces. You can sugguest or enforce the
-     * {@link getPerformance performance index} with {@link setPerformance} or {@link enforcePerformance}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Bridge & Proxy Pattern
-     * This class {@link ParallelSystem} is derived from the {@link ExternalSystem} class. Thus, you can take advantage
-     * of the *Bridge & Proxy Pattern* in this {@link ParallelSystem} class. If a process to request is not the
-     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-     * may better to utilizing the *Bridge & Proxy Pattern*:
-     *
-     * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
-     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelServer extends ParallelSystem implements IParallelServer {
-        /**
-         * IP address of target external system to connect.
-         */
-        protected ip: string;
-        /**
-         * Port number of target external system to connect.
-         */
-        protected port: number;
-        /**
-         * Construct from parent {@link ParallelSystemArray}.
-         *
-         * @param systemArray The parent {@link ParallelSystemArray} object.
-         */
-        constructor(systemArray: ParallelSystemArray);
-        /**
-         * Factory method creating {@link IServerConnector} object.
-         *
-         * The {@link createServerConnector createServerConnector()} is an abstract method creating
-         * {@link IServerConnector} object. Overrides and returns one of them, considering which protocol the slave server
-         * follows:
-         *
-         * - {@link ServerConnector}
-         * - {@link WebServerConnector}
-         * - {@link SharedWorkerServerConnector}
-         *
-         * @return A newly created {@link IServerConnector} object.
-         */
-        protected abstract createServerConnector(): IServerConnector;
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * Master of Parallel Processing System, a client connecting to slave servers.
-     *
-     * The {@link ParallelServerArray} is an abstract class, derived from the {@link ParallelSystemArray} class,
-     * connecting to {@link IParallelServer parallel servers}.
-     *
-     * Extends this {@link ParallelServerArray} and overrides {@link createChild createChild()} method creating child
-     * {@link IParallelServer} object. After the extending and overriding, construct children {@link IParallelServer}
-     * objects and call the {@lionk connect connect()} method.
-     *
-     * #### [Inherited] {@link ParallelSystemArray}
-     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
-     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
-     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
-     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
-     * *parallel processes*.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
-     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
-     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Proxy Pattern
-     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
-     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
-     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-     * may better to utilizing the *Proxy Pattern*:
-     *
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelServerArray extends ParallelSystemArray implements external.IExternalServerArray {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * Mediator of Parallel Processing System, a client connecting to slave servers.
-     *
-     * The {@link ParallelServerArrayMediator} is an abstract class, derived from the {@link ParallelSystemArrayMediator}
-     * class, connecting to {@link IParallelServer parallel servers}.
-     *
-     * Extends this {@link ParallelServerArrayMediator} and overrides {@link createChild createChild()} method creating
-     * child {@link IParallelServer} object. After the extending and overriding, construct children
-     * {@link IParallelServer} objects and call the {@lionk connect connect()} method.
-     *
-     * #### [Inherited] {@link ParallelSystemArrayMediator}
-     * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
-     * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
-     * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
-     * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
-     *
-     * As a **master**, you can specify this {@link ParallelSystemArrayMediator} class to be <i>a master server accepting
-     * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
-     * of them below and overrides abstract factory method(s) creating the child {@link ParallelSystem} object.
-     *
-     * - {@link ParallelClientArrayMediator}: A server accepting {@link ParallelSystem parallel clients}.
-     * - {@link ParallelServerArrayMediator}: A client connecting to {@link ParallelServer parallel servers}.
-     * - {@link ParallelServerClientArrayMediator}: Both of them. Accepts {@link ParallelSystem parallel clients} and
-     *                                              connects to {@link ParallelServer parallel servers} at the same time.
-     *
-     * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
-     * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
-     * Overrides the {@link createMediator createMediator()} method and return one of them:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * #### [Inherited] {@link ParallelSystemArray}
-     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
-     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
-     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
-     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
-     * *parallel processes*.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
-     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
-     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Proxy Pattern
-     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
-     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
-     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-     * may better to utilizing the *Proxy Pattern*:
-     *
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelServerArrayMediator extends ParallelSystemArrayMediator implements external.IExternalServerArray {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * Master of Parallel Processing System, be a server and client at the same time.
-     *
-     * The {@link ParallelServerClientArray} is an abstract class, derived from the {@link ParallelSystemArray} class,
-     * opening a server accepting {@link ParallelSystem parallel clients} and being a client connecting to
-     * {@link IParallelServer parallel servers} at the same time.
-     *
-     * Extends this {@link ParallelServerClientArray} and overrides below methods. After the overridings, open server
-     * with {@link open open()} method and connect to {@link IParallelServer parallel servers} through the
-     * {@link connect connect()} method.
-     *
-     * - {@link createServerBase createServerBase()}
-     * - {@link createExternalClient createExternalClient()}
-     * - {@link createExternalServer createExternalServer()}
-     *
-     * #### [Inherited] {@link ParallelSystemArray}
-     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
-     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
-     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
-     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
-     * *parallel processes*.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
-     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
-     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Proxy Pattern
-     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
-     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
-     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-     * may better to utilizing the *Proxy Pattern*:
-     *
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelServerClientArray extends ParallelClientArray implements external.IExternalServerClientArray {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Factory method of a child Entity.
-         *
-         * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
-         *
-         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-         * @return A new child Entity via {@link createExternalServer createExternalServer()}.
-         */
-        createChild(xml: library.XML): IParallelServer;
-        /**
-         * Factory method creating an {@link IParallelServer} object.
-         *
-         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-         * @return A newly created {@link IParallelServer} object.
-         */
-        protected abstract createExternalServer(xml: library.XML): IParallelServer;
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * Mediator of Parallel Processing System, be a server and client at the same time as a **master**.
-     *
-     * The {@link ParallelServerClientArrayMediator} is an abstract class, derived from the
-     * {@link ParallelSystemArrayMediator} class, opening a server accepting {@link ParallelSystem parallel clients} and
-     * being a client connecting to {@link IParallelServer parallel servers} at the same time.
-     *
-     * Extends this {@link ParallelServerClientArrayMediator} and overrides below methods. After the overridings, open
-     * server with {@link open open()} method and connect to {@link IParallelServer parallel servers} through the
-     * {@link connect connect()} method.
-     *
-     * - {@link createServerBase createServerBase()}
-     * - {@link createExternalClient createExternalClient()}
-     * - {@link createExternalServer createExternalServer()}
-     *
-     * #### [Inherited] {@link ParallelSystemArrayMediator}
-     * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
-     * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
-     * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
-     * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
-     *
-     * As a **master**, you can specify this {@link ParallelSystemArrayMediator} class to be <i>a master server accepting
-     * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
-     * of them below and overrides abstract factory method(s) creating the child {@link ParallelSystem} object.
-     *
-     * - {@link ParallelClientArrayMediator}: A server accepting {@link ParallelSystem parallel clients}.
-     * - {@link ParallelServerArrayMediator}: A client connecting to {@link ParallelServer parallel servers}.
-     * - {@link ParallelServerClientArrayMediator}: Both of them. Accepts {@link ParallelSystem parallel clients} and
-     *                                              connects to {@link ParallelServer parallel servers} at the same time.
-     *
-     * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
-     * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
-     * Overrides the {@link createMediator createMediator()} method and return one of them:
-     *
-     * - A client slave connecting to master server:
-     *   - {@link MediatorClient}
-     *   - {@link MediatorWebClient}
-     *   - {@link MediatorSharedWorkerClient}
-     * - A server slave accepting master client:
-     *   - {@link MediatorServer}
-     *   - {@link MediatorWebServer}
-     *   - {@link MediatorSharedWorkerServer}
-     *
-     * #### [Inherited] {@link ParallelSystemArray}
-     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
-     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
-     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
-     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
-     * *parallel processes*.
-     *
-     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
-     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
-     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * #### Proxy Pattern
-     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
-     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
-     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-     * may better to utilizing the *Proxy Pattern*:
-     *
-     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-     * important. Only interested in user's perspective is *which can be done*.
-     *
-     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-     *
-     * <ul>
-     *	<li>
-     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-     *	</li>
-     *	<li>
-     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-     *		external system.
-     *	</li>
-     *	<li> Those strategy is called *Proxy Pattern*. </li>
-     * </ul>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ParallelServerClientArrayMediator extends ParallelClientArrayMediator implements external.IExternalServerClientArray {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Factory method of a child Entity.
-         *
-         * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
-         *
-         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-         * @return A new child Entity via {@link createExternalServer createExternalServer()}.
-         */
-        createChild(xml: library.XML): ParallelSystem;
-        /**
-         * Factory method creating an {@link IParallelServer} object.
-         *
-         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-         * @return A newly created {@link IParallelServer} object.
-         */
-        protected abstract createExternalServer(xml: library.XML): IParallelServer;
-        /**
-         * @inheritdoc
-         */
-        connect(): void;
-    }
-}
-declare namespace samchon.protocol.parallel {
-    /**
-     * History of an {@link Invoke} message.
-     *
-     * The {@link PRInvokeHistory} is a class archiving history log of an {@link Invoke} message which requests the
-     * *parallel process*, created whenever {@link ParallelSystemArray.sendSegmentData} or
-     * {@link ParallelSystemArray.sendSegmentData} is called.
-     *
-     * When the *parallel process* has completed, then {@link complete complete()} is called and the *elapsed time* is
-     * determined. The elapsed time is utilized for computation of {@link ParallelSystem.getPerformance performance index}
-     * of each {@link ParallelSystem parallel slave system}.
-     *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_parallel_system.png"
-     *		 style="max-width: 100%" />
-     * </a>
-     *
-     * @handbook [Protocol - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Parallel_System)
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class PRInvokeHistory extends InvokeHistory {
-        /**
-         * @hidden
-         */
-        private first;
-        /**
-         * @hidden
-         */
-        private last;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from an {@link Invoke} message.
-         *
-         * @param invoke An {@link Invoke} message requesting a *parallel process*.
-         */
-        constructor(invoke: Invoke);
-        /**
-         * Get initial piece's index.
-         *
-         * Returns initial piece's index in the section of requested *parallel process*.
-         *
-         * @return The initial index.
-         */
-        getFirst(): number;
-        /**
-         * Get final piece's index.
-         *
-         * Returns initial piece's index in the section of requested *parallel process*. The range used is
-         * [*first*, *last*), which contains all the pieces' indices between *first* and *last*, including the piece
-         * pointed by index *first*, but not the piece pointed by the index *last*.
-         *
-         * @return The final index.
-         */
-        getLast(): number;
-        /**
-         * Compute number of allocated pieces.
-         */
-        computeSize(): number;
     }
 }
 declare namespace samchon.protocol {
@@ -9372,7 +5910,3522 @@ declare namespace samchon.protocol {
         connect(jsFile: string): void;
     }
 }
-declare namespace samchon.protocol.service {
+declare namespace samchon.protocol {
+    /**
+     * @hidden
+     */
+    namespace socket {
+        type socket = any;
+        type server = any;
+        type http_server = any;
+    }
+    /**
+     * @hidden
+     */
+    namespace websocket {
+        type connection = any;
+        type request = any;
+        type IMessage = any;
+        type ICookie = any;
+        type client = any;
+    }
+}
+declare namespace samchon.templates.distributed {
+    /**
+     * Master of Distributed Processing System, a server accepting slave clients.
+     *
+     * The {@link DistributedClientArray} is an abstract class, derived from the {@link DistributedSystemArray} class,
+     * opening a server accepting {@link DistributedSystem distributed clients}.
+     *
+     * Extends this {@link DistributedClientArray}, overrides {@link createServerBase createServerBase()} to determine
+     * which protocol to follow and {@link createExternalClient createExternalClient()} creating child
+     * {@link DistributedSystem} object. After the extending and overridings, open this server using the
+     * {@liok open open()} method.
+     *
+     * #### [Inherited] {@link DistributedSystemArray}
+     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
+     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
+     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
+     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
+     * requested the *distributed processes*.
+     *
+     * The {@link DistributedSystemArray} contains {@link DistributedProcess} objects directly. You can request a
+     * **distributed process** through the {@link DistributedProcess} object. You can access the
+     * {@link DistributedProcess} object(s) with those methods:
+     *
+     * - {@link hasRole}
+     * - {@link getRole}
+     * - {@link insertRole}
+     * - {@link eraseRole}
+     * - {@link getRoleMap}
+     *
+     * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
+     * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
+     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
+     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
+     * {@link DistributedProcess.getResource resource index} of related objects will be revaluated.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Parallel Process
+     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
+     * a **parallel process**, too.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
+     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
+     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
+     * each {@link DistributedSystem}.
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class DistributedClientArray extends DistributedSystemArray implements external.IExternalClientArray {
+        /**
+         * @hidden
+         */
+        private server_base_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Factory method creating {@link IServerBase} object.
+         *
+         * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
+         * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who
+         * may connect to {@link ExternalClientArray this server} must follow the specified protocol.
+         *
+         * Overrides the {@link createServerBase createServerBase()} method to create and return one of them:
+         *
+         * - {@link ServerBase}
+         * - {@link WebServerBase}
+         * - {@link SharedWorkerServerBase}
+         *
+         * @return A new {@link IServerBase} object.
+         */
+        protected abstract createServerBase(): protocol.IServerBase;
+        /**
+         * Add a newly connected remote client.
+         *
+         * When a {@link IClientDriver remote client} connects to this *master server of parallel processing system*,
+         * then this {@link ParallelClientArray} creates a child {@link ParallelSystem parallel client} object through
+         * the {@link createExternalClient createExternalClient()} method and {@link insert inserts} it.
+         *
+         * @param driver A communicator for external client.
+         */
+        addClient(driver: protocol.IClientDriver): void;
+        /**
+         * (Deprecated) Factory method creating child object.
+         *
+         * The method {@link createChild createChild()} is deprecated. Don't use and override this.
+         *
+         * Note that, the {@link ParallelClientArray} is a server accepting {@link ParallelSystem parallel clients}.
+         * There's no way to creating the {@link ParallelSystem parallel clients} in advance before opening the server.
+         *
+         * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
+         * @return ```null```
+         */
+        createChild(xml: library.XML): DistributedSystem;
+        /**
+         * Factory method creating {@link DistributedSystem} object.
+         *
+         * The method {@link createExternalClient createExternalClient()} is a factory method creating a child
+         * {@link ParallelSystem} object, that is called whenever a parallel client has connected, by
+         * {@link addClient addClient()}.
+         *
+         * Overrides this {@link createExternalClient} method and creates a type of {@link DistributedSystem} object with
+         * the *driver* that communicates with the parallel client. After the creation, returns the object. Then whenever
+         * a parallel client has connected, matched {@link DistributedSystem} object will be constructed and
+         * {@link insert inserted} into this {@link DistributedSystemArray} object.
+         *
+         * @param driver A communicator with the parallel client.
+         * @return A newly created {@link ParallelSystem} object.
+         */
+        protected abstract createExternalClient(driver: protocol.IClientDriver): DistributedSystem;
+        /**
+         * @inheritdoc
+         */
+        open(port: number): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+    }
+}
+declare namespace samchon.templates.distributed {
+    /**
+     * Mediator of Distributed Processing System, a server accepting slave clients.
+     *
+     * The {@link DistributedClientArrayMediator} is an abstract class, derived from {@link DistributedSystemArrayMediator}
+     * class, opening a server accepting {@link DistributedSystem distributed clients} as a **master**.
+     *
+     * Extends this {@link DistributedClientArrayMediator}, overrides {@link createServerBase createServerBase()} to
+     * determine which protocol to follow and {@link createExternalClient createExternalClient()} creating child
+     * {@link DistributedSystem} object. After the extending and overridings, open this server using the
+     * {@lionk open open()} method.
+     *
+     * #### [Inherited] {@link DistributedSystemArrayMediator}
+     * The {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a slave to its master
+     * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
+     * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
+     * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
+     * derived from the {@link SlavSystem} class.
+     *
+     * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
+     * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
+     * Overrides the {@link createMediator createMediator()} method and return one of them:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * #### [Inherited] {@link DistributedSystemArray}
+     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
+     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
+     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
+     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
+     * requested the *distributed processes*.
+     *
+     * The {@link DistributedSystemArray} contains {@link DistributedProcess} objects directly. You can request a
+     * **distributed process** through the {@link DistributedProcess} object. You can access the
+     * {@link DistributedProcess} object(s) with those methods:
+     *
+     * - {@link hasRole}
+     * - {@link getRole}
+     * - {@link insertRole}
+     * - {@link eraseRole}
+     * - {@link getRoleMap}
+     *
+     * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
+     * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
+     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
+     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
+     * {@link DistributedProcess.getResource resource index} of related objects will be revaluated.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Parallel Process
+     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
+     * a **parallel process**, too.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
+     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
+     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
+     * each {@link DistributedSystem}.
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class DistributedClientArrayMediator extends DistributedSystemArrayMediator implements external.IExternalClientArray {
+        /**
+         * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
+         */
+        private server_base_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Factory method creating {@link IServerBase} object.
+         *
+         * This method {@link createServerBase createServerBase()} determines which protocol is used in this
+         * {@link DistributedClientArrayMediator} object as a **master**. If the protocol is determined, then
+         * {@link DistributedSystem distributed clients} who may connect to {@link DistributedClientArrayMediator this
+         * server} must follow the specified protocol.
+         *
+         * Overrides the {@link createServerBase createServerBase()} method to create and return one of them:
+         *
+         * - {@link ServerBase}
+         * - {@link WebServerBase}
+         * - {@link SharedWorkerServerBase}
+         *
+         * @return A new {@link IServerBase} object.
+         */
+        protected abstract createServerBase(): protocol.IServerBase;
+        /**
+         * Add a newly connected remote client.
+         *
+         * When a {@link IClientDriver remote client} connects to this *master server of distributed processing system*,
+         * then this {@link DistributedClientArrayMediator} creates a child {@link Distributed distributed client} object
+         * through the {@link createExternalClient createExternalClient()} method.
+         *
+         * @param driver A communicator for external client.
+         */
+        addClient(driver: protocol.IClientDriver): void;
+        /**
+         * (Deprecated) Factory method creating child object.
+         *
+         * The method {@link createChild createChild()} is deprecated. Don't use and override this.
+         *
+         * Note that, the {@link DistributedClientArrayMediator} is a server accepting {@link DistributedSystem distributed
+         * clients} as a master. There's no way to creating the {@link DistributedSystem distributed clients} in advance
+         * before opening the server.
+         *
+         * @param xml An {@link XML} object represents the child {@link DistributedSystem} object.
+         * @return null
+         */
+        createChild(xml: library.XML): DistributedSystem;
+        /**
+         * Factory method creating {@link DistributedSystem} object.
+         *
+         * The method {@link createExternalClient createExternalClient()} is a factory method creating a child
+         * {@link DistributedSystem} object, that is called whenever a distributed client has connected, by
+         * {@link addClient addClient()}.
+         *
+         * Overrides this {@link createExternalClient} method and creates a type of {@link DistributedSystem} object with
+         * the *driver* that communicates with the distributed client. After the creation, returns the object. Then whenever
+         * a distributed client has connected, matched {@link DistributedSystem} object will be constructed and
+         * {@link insert inserted} into this {@link DistributedClientArrayMediator} object.
+         *
+         * @param driver A communicator with the distributed client.
+         * @return A newly created {@link DistributedSystem} object.
+         */
+        protected abstract createExternalClient(driver: protocol.IClientDriver): DistributedSystem;
+        /**
+         * @inheritdoc
+         */
+        open(port: number): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+    }
+}
+declare namespace samchon.templates.distributed {
+    /**
+     * A role of Distributed Processing System.
+     *
+     * The {@link DistributedProcess} is an abstract class who represents a **process**, *SOMETHING TO DISTRIBUTE* in a Distributed
+     * Processing System. Overrides the {@link DistributedProcess} and defines the *SOMETHING TO DISTRIBUTE*.
+     *
+     * Relationship between {@link DistributedSystem} and {@link DistributedProcess} objects are **M: N Associative**.
+     * Unlike {@link ExternalSystemRole}, the {@link DistributedProcess} objects are not belonged to a specific
+     * {@link DistributedSystem} object. The {@link DistributedProcess} objects are belonged to the
+     * {@link DistributedSystemArrayMediator} directly.
+     *
+     * When you need the **distributed process**, then call {@link sendData sendData()}. The {@link sendData} will find
+     * the most idle {@link DistributedSystem slave system} considering not only number of processes on progress, but also
+     * {@link DistributedSystem.getPerformance performance index} of each {@link DistributedSystem} object and
+     * {@link getResource resource index} of this {@link DistributedProcess} object. The {@link Invoke} message
+     * requesting the **distributed process** will be sent to the most idle {@link DistributedSystem slave system}.
+     *
+     * Those {@link DistributedSystem.getPerformance performance index} and {@link getResource resource index} are
+     * revaluated whenever the **distributed process** has completed basis on the execution time.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class DistributedProcess extends protocol.Entity implements protocol.IProtocol {
+        /**
+         * @hidden
+         */
+        private system_array_;
+        protected name: string;
+        /**
+         * @hidden
+         */
+        private progress_list_;
+        /**
+         * @hidden
+         */
+        private history_list_;
+        /**
+         * @hidden
+         */
+        private resource;
+        /**
+         * @hidden
+         */
+        private enforced_;
+        /**
+         * Constrct from parent {@link DistributedSystemArray} object.
+         *
+         * @param systemArray The parent {@link DistributedSystemArray} object.
+         */
+        constructor(systemArray: DistributedSystemArray);
+        key(): string;
+        /**
+         * Get parent {@link DistributedSystemArray} object.
+         *
+         * @return The parent {@link DistributedSystemArray} object.
+         */
+        getSystemArray(): DistributedSystemArray;
+        getName(): string;
+        /**
+         * Get resource index.
+         *
+         * Get *resource index* that indicates how much this {@link DistributedProcess role} is heavy.
+         *
+         * If this {@link DistributedProcess role} does not have any	{@link Invoke} message had handled, then the
+         * *resource index* will be ```1.0```, which means default and average value between all
+         * {@link DistributedProcess} instances (that are belonged to a same {@link DistributedSystemArray} object).
+         *
+         * You can specify the *resource index* by yourself, but notice that, if the *resource index* is higher than
+         * other {@link DistributedProcess} objects, then this {@link DistributedProcess role} will be ordered to
+         * handle less processes than other {@link DistributedProcess} objects. Otherwise, the *resource index* is
+         * lower than others, of course, much processes will be requested.
+         *
+         * - {@link setResource setResource()}
+         * - {@link enforceResource enforceResource()}
+         *
+         * Unless {@link enforceResource enforceResource()} is called, This *resource index* is **revaluated** whenever
+         * {@link sendData sendData()} is called.
+         *
+         * @return Resource index.
+         */
+        getResource(): number;
+        /**
+         * Set resource index.
+         *
+         * Set *resource index* that indicates how much this {@link DistributedProcess role} is heavy. This
+         * *resource index* can be **revaulated**.
+         *
+         * Note that, initial and average *resource index* of {@link DistributedProcess} objects are ```1.0```. If the
+         * *resource index* is higher than other {@link DistributedProcess} objects, then this
+         * {@link DistributedProcess} will be ordered to handle more processes than other {@link DistributedProcess}
+         * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
+         *
+         * Unlike {@link enforceResource}, configuring *resource index* by this {@link setResource} allows the
+         * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the
+         * *resource index*. The {@link DistributedProcess role} is much heavier than any other, but you estimated it
+         * to the lightest one. It looks like a terrible case that causes
+         * {@link DistributedSystemArray entire distributed processing system} to be slower, however, don't mind. The
+         * {@link DistributedProcess role} will the direct to the *propriate resource index* eventually with the
+         * **revaluation**.
+         *
+         * - The **revaluation** is caused by the {@link sendData sendData()} method.
+         *
+         * @param val New resource index, but can be revaluated.
+         */
+        setResource(val: number): void;
+        /**
+         * Enforce resource index.
+         *
+         * Enforce *resource index* that indicates how much heavy the {@link DistributedProcess role is}. The
+         * *resource index* will be fixed, never be **revaluated**.
+         *
+         * Note that, initial and average *resource index* of {@link DistributedProcess} objects are ```1.0```. If the
+         * *resource index* is higher than other {@link DistributedProcess} objects, then this
+         * {@link DistributedProcess} will be ordered to handle more processes than other {@link DistributedProcess}
+         * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
+         *
+         * The difference between {@link setResource} and this {@link enforceResource} is allowing **revaluation** or not.
+         * This {@link enforceResource} does not allow the **revaluation**. The *resource index* is clearly fixed and
+         * never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the **mis-valuation**
+         * with this {@link enforceResource}.
+         *
+         * For example, there's a {@link DistributedProcess role} much heavier than any other, but you
+         * **mis-estimated** it to the lightest. In that case, there's no way. The
+         * {@link DistributedSystemArray entire distributed processing system} will be slower by the **mis-valuation**.
+         * By the reason, using {@link enforceResource}, it's recommended only when you can clearly certain the
+         * *resource index*. If you can't certain the *resource index* but want to recommend, then use {@link setResource}
+         * instead.
+         *
+         * @param val New resource index to be fixed.
+         */
+        enforceResource(val: number): void;
+        /**
+         * @hidden
+         */
+        private compute_average_elapsed_time();
+        /**
+         * @inheritdoc
+         */
+        abstract replyData(invoke: protocol.Invoke): void;
+        /**
+         * Send an {@link Invoke} message.
+         *
+         * Sends an {@link Invoke} message requesting a **distributed process**. The {@link Invoke} message will be sent
+         * to the most idle {@link DistributedSystem} object, which represents a slave system, and the most idle
+         * {@link DistributedSystem} object will be returned.
+         *
+         * When the **distributed process** has completed, then the {@link DistributedSystemArray} object will revaluate
+         * {@link getResource resource index} and {@link DistributedSystem.getPerformance performance index} of this
+         * {@link DistributedSystem} and the most idle {@link DistributedSystem} objects basis on the execution time.
+         *
+         * @param invoke An {@link Invoke} message requesting distributed process.
+         * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
+         */
+        sendData(invoke: protocol.Invoke): DistributedSystem;
+        /**
+         * @hidden
+         */
+        private complete_history(history);
+        /**
+         * @inheritdoc
+         */
+        TAG(): string;
+    }
+}
+declare namespace samchon.templates.external {
+    /**
+     * An external system driver.
+     *
+     * The {@link ExternalSystem} class represents an external system, connected and interact with this system.
+     * {@link ExternalSystem} takes full charge of network communication with the remote, external system have connected.
+     * Replied {@link Invoke} messages from the external system is shifted to and processed in, children elements of this
+     * class, {@link ExternalSystemRole} objects.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Bridge & Proxy Pattern
+     * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
+     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalSystem extends protocol.EntityDequeCollection<ExternalSystemRole> implements protocol.IProtocol {
+        /**
+         * The name represents external system have connected.
+         */
+        protected name: string;
+        /**
+         * @hidden
+         */
+        private system_array_;
+        /**
+         * @hidden
+         */
+        private communicator_;
+        /**
+         * Construct from parent {@link ExternalSystemArray}.
+         *
+         * @param systemArray The parent {@link ExternalSystemArray} object.
+         */
+        constructor(systemArray: ExternalSystemArray);
+        /**
+         * Constrct from parent {@link ExternalSystemArray} and communicator.
+         *
+         * @param systemArray
+         * @param communicator
+         */
+        constructor(systemArray: ExternalSystemArray, communicator: protocol.IClientDriver);
+        /**
+         * Default Destructor.
+         *
+         * This {@link destructor destructor()} method is called when the {@link ExternalSystem} object is destructed and
+         * the {@link ExternalSystem} object is destructed when connection with the remote system is closed or this
+         * {@link ExternalSystem} object is {@link ExternalSystemArray.erase erased} from its parent
+         * {@link ExternalSystemArray} object.
+         *
+         * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
+         * by those *destruction* cases. Also, if your derived {@link ExternalSystem} class has something to do on the
+         * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
+         * Overriding this {@link destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
+         *
+         * ```typescript
+         * class SomeSystem extends templates.external.ExternalSystem
+         * {
+         *     protected destructor(): void
+         *     {
+         *         // DO SOMETHING
+         *         this.do_something();
+         *
+         *         // CALL SUPER.DESTRUCTOR() ON TAIL. DON'T FORGET THIS
+         *         super.destructor();
+         *     }
+         * }
+         * ```
+         */
+        protected destructor(): void;
+        /**
+         * @hidden
+         */
+        private handle_close();
+        getSystemArray(): ExternalSystemArray;
+        /**
+         * Identifier of {@link ExternalSystem} is its {@link name}.
+         *
+         * @return name.
+         */
+        key(): string;
+        /**
+         * Get {@link name}.
+         */
+        getName(): string;
+        /**
+         * @hidden
+         */
+        /**
+         * @hidden
+         */
+        protected communicator: protocol.ICommunicator;
+        /**
+         * Close connection.
+         */
+        close(): void;
+        /**
+         * Send {@link Invoke} message to external system.
+         *
+         * @param invoke An {@link Invoke} message to send.
+         */
+        sendData(invoke: protocol.Invoke): void;
+        /**
+         * Handle an {@Invoke} message has received.
+         *
+         * @param invoke An {@link Invoke} message have received.
+         */
+        replyData(invoke: protocol.Invoke): void;
+        /**
+         * Tag name of the {@link ExternalSystem} in {@link XML}.
+         *
+         * @return *system*.
+         */
+        TAG(): string;
+        /**
+         * Tag name of {@link ExternalSystemRole children elements} belonged to the {@link ExternalSystem} in {@link XML}.
+         *
+         * @return *role*.
+         */
+        CHILD_TAG(): string;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * A driver for a parallel slave system.
+     *
+     * The {@link ParallelSystem} is an abstract class represents a **slave** system in *Parallel Processing System*,
+     * connected with this **master** system. This {@link ParallelSystem} takes full charge of network communication with
+     * the remote, parallel **slave** system has connected.
+     *
+     * When a *parallel process* is requested (by {@link ParallelSystemArray.sendSegementData} or
+     * {@link ParallelSystemArray.sendPieceData}), the number of pieces to be allocated to a {@link ParallelSystem} is
+     * turn on its {@link getPerformance performance index}. Higher {@link getPerformance performance index}, then
+     * more pieces are requested. The {@link getPerformance performance index} is revaluated whenever a *parallel process*
+     * has completed, basic on the execution time and number of pieces. You can sugguest or enforce the
+     * {@link getPerformance performance index} with {@link setPerformance} or {@link enforcePerformance}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Bridge & Proxy Pattern
+     * This class {@link ParallelSystem} is derived from the {@link ExternalSystem} class. Thus, you can take advantage
+     * of the *Bridge & Proxy Pattern* in this {@link ParallelSystem} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Bridge & Proxy Pattern*:
+     *
+     * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
+     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelSystem extends external.ExternalSystem {
+        /**
+         * @hidden
+         */
+        private progress_list_;
+        /**
+         * @hidden
+         */
+        private history_list_;
+        /**
+         * @hidden
+         */
+        private exclude_;
+        /**
+         * @hidden
+         */
+        private performance;
+        /**
+         * @hidden
+         */
+        private enforced_;
+        /**
+         * Construct from parent {@link ParallelSystemArray}.
+         *
+         * @param systemArray The parent {@link ParallelSystemArray} object.
+         */
+        constructor(systemArray: ParallelSystemArray);
+        /**
+         * Construct from parent {@link ParallelSystemArray} and communicator.
+         *
+         * @param systemArray The parent {@link ParallelSystemArray} object.
+         * @param communicator A communicator communicates with remote, the external system.
+         */
+        constructor(systemArray: ParallelSystemArray, communicator: protocol.IClientDriver);
+        /**
+         * Default Destructor.
+         *
+         * This {@link destructor destructor()} method is called when the {@link ParallelSystem} object is destructed and
+         * the {@link ParallelSystem} object is destructed when connection with the remote system is closed or this
+         * {@link ParallelSystem} object is {@link ParallelSystemArray.erase erased} from its parent
+         * {@link ParallelSystemArray} object.
+         *
+         * You may think if there're some *parallel processes* have requested but not completed yet, then it would be a
+         * critical problem because the *parallel processes* will not complete forever. Do not worry. The critical problem
+         * does not happen. After the destruction, the remained *parallel processes* will be shifted to and proceeded in
+         * other {@link ParallelSystem} objects.
+         *
+         * Note that, don't call this {@link destructor destructor()} method by yourself. It must be called automatically
+         * by those *destruction* cases. Also, if your derived {@link ParallelSystem} class has something to do on the
+         * *destruction*, then overrides this {@link destructor destructor()} method and defines the something to do.
+         * Overriding this {@link destructor destructor()}, don't forget to calling ```super.destructor();``` on tail.
+         *
+         * ```typescript
+         * class SomeSystem extends protocol.external.ExternalSystem
+         * {
+         *     protected destructor(): void
+         *     {
+         *         // DO SOMETHING
+         *         this.do_something();
+         *
+         *         // CALL SUPER.DESTRUCTOR() ON TAIL. DON'T FORGET THIS
+         *         super.destructor();
+         *     }
+         * }
+         * ```
+         */
+        protected destructor(): void;
+        /**
+         * Get manager of this object.
+         *
+         * @return The parent {@link ParallelSystemArray} object.
+         */
+        getSystemArray(): ParallelSystemArray;
+        /**
+         * Get performance index.
+         *
+         * Get *performance index* that indicates how much fast the remote system is.
+         *
+         * If this {@link ParallelSystem parallel system} does not have any {@link Invoke} message had handled, then the
+         * *performance index* will be ```1.0```, which means default and average value between all {@link ParallelSystem}
+         * instances (that are belonged to a same {@link ParallelSystemArray} object).
+         *
+         * You can specify this *performance index* by yourself but notice that, if the *performance index* is higher
+         * than other {@link ParallelSystem} objects, then this {@link ParallelSystem parallel system} will be ordered to
+         * handle more processes than other {@link ParallelSystem} objects. Otherwise, the *performance index* is lower
+         * than others, of course, less processes will be delivered.
+         *
+         * - {@link setPerformance setPerformance()}
+         * - {@link enforcePerformance enforcePerformance()}
+         *
+         * Unless {@link enforcePerformance enforcePerformance()} is called, This *performance index* is **revaluated**
+         * whenever user calls one of them below.
+         *
+         * - {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()}
+         * - {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()}
+         * - {@link DistributedProcess.sendData DistributedProcess.sendData()}.
+         *
+         * @return Performance index.
+         */
+        getPerformance(): number;
+        /**
+         * Set performance index.
+         *
+         * Set *performance index* that indicates how much fast the remote system is. This *performance index* can be
+         * **revaulated**.
+         *
+         * Note that, initial and average *performance index* of {@link ParallelSystem} objects are ```1.0```. If the
+         * *performance index* is higher than other {@link ParallelSystem} objects, then this {@link ParallelSystem} will
+         * be ordered to handle more processes than other {@link ParallelSystem} objects. Otherwise, the
+         * *performance index* is lower than others, of course, less processes will be delivered.
+         *
+         * Unlike {@link enforcePerformance}, configuring *performance index* by this {@link setPerformance} allows
+         * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the
+         * *performance index*. The remote system is much faster than any other, but you estimated it to the slowest one.
+         * It looks like a terrible case that causes {@link ParallelSystemArray entire parallel systems} to be slower,
+         * however, don't mind. The system will direct to the *propriate performance index* eventually with the
+         * **revaluation** by following methods.
+         *
+         * - {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()}
+         * - {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()}
+         * - {@link DistributedProcess.sendData DistributedProcess.sendData()}.
+         *
+         * @param val New performance index, but can be revaluated.
+         */
+        setPerformance(val: number): void;
+        /**
+         * Enforce performance index.
+         *
+         * Enforce *performance index* that indicates how much fast the remote system is. The *performance index* will be
+         * fixed, never be **revaluated**.
+         *
+         * Note that, initial and average *performance index* of {@link ParallelSystem} objects are ```1.0```. If the
+         * *performance index* is higher than other {@link ParallelSystem} objects, then this {@link ParallelSystem} will
+         * be ordered to handle more processes than other {@link ParallelSystem} objects. Otherwise, the
+         * *performance index* is lower than others, of course, less processes will be delivered.
+         *
+         * The difference between {@link setPerformance} and this {@link enforcePerformance} is allowing **revaluation**
+         * or not. This {@link enforcePerformance} does not allow the **revaluation**. The *performance index* is clearly
+         * fixed and never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the
+         * **mis-valuation** with this {@link enforcePerformance}.
+         *
+         * For example, there's a remote system much faster than any other, but you **mis-estimated** it to the slowest.
+         * In that case, there's no way. The {@link ParallelSystemArray entire parallel systems} will be slower by the
+         * **mis-valuation**. By the reason, using {@link enforcePerformance}, it's recommended only when you can clearly
+         * certain the *performance index*. If you can't certain the *performance index* but want to recommend, then use
+         * {@link setPerformance} instead.
+         *
+         * @param val New performance index to be fixed.
+         */
+        enforcePerformance(val: number): void;
+        /**
+         * @hidden
+         */
+        private send_piece_data(invoke, first, last);
+        /**
+         * @hidden
+         */
+        private _replyData(invoke);
+        /**
+         * @hidden
+         */
+        protected _Report_history(xml: library.XML): void;
+        /**
+         * @hidden
+         */
+        protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void;
+    }
+}
+declare namespace samchon.templates.distributed {
+    /**
+     * A driver for a distributed slave system.
+     *
+     * The {@link DistributedSystem} is an abstract class represents a **slave** system in *Distributed Processing System*,
+     * connected with this **master** system. This {@link DistributedSystem} takes full charge of network communication
+     * with the remote, distributed **slave** system has connected.
+     *
+     * This {@link DistributedSystem} has a {@link getPerformance performance index} that indicates how much the **slave**
+     * system is fast. The {@link getPerformance performance index} is referenced and revaluated whenever those methods
+     * are called:
+     *
+     * - Requesting a *parallel process*
+     *   - {@link DistributedSystemArray.sendSegmentData}
+     *   - {@link DistributedSystemArray.sendPieceData}
+     * - Requesting a *distributed process*: {@link DistributedProcess.sendData}
+     *
+     * Note that, this {@link DistributedSystem} class derived from the {@link ExternalSystem} class. Thus, this
+     * {@link DistributedSystem} can also have children {@link ExternalSystemRole} objects exclusively. However, the
+     * children {@link ExternalSystemRole roles} objects are different with the {@link DistributedProcess}. The
+     * domestic {@link ExternalSystemRole roles} are belonged to only a specific {@link DistributedSystem} object.
+     * Otherwise, the {@link DistributedProcess} objects are belonged to a {@link DistributedSystemArray} object.
+     * Furthermore, the relationship between this {@link DistributedSystem} and {@link DistributedProcess} classes are
+     * **M: N Associative**.
+     *
+     * Articles     | {@link DistributedProcess}     | {@link ExternalSystemRole}
+     * -------------|--------------------------------|----------------------------
+     * Belonged to  | {@link DistributedSystemArray} | {@link DistributedSystem}
+     * Relationship | M: N Associative               | 1: N Composite
+     * Ownership    | References                     | Exclusive possession
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class DistributedSystem extends parallel.ParallelSystem {
+        /**
+         * Construct from parent {@link DistributedSystemArray}.
+         *
+         * @param systemArray The parent {@link DistributedSystemArray} object.
+         */
+        constructor(systemArray: DistributedSystemArray);
+        /**
+         * Constrct from parent {@link DistributedSystemArray} and communicator.
+         *
+         * @param systemArray The parent {@link DistributedSystemArray} object.
+         * @param communicator A communicator communicates with remote, the external system.
+         */
+        constructor(systemArray: DistributedSystemArray, communicator: protocol.IClientDriver);
+        /**
+         * Factory method creating a {@link ExternalSystemRole child} object.
+         *
+         * In {@link distributed} module, the role class {@link DistributedProcess} is not belonged to a specific
+         * {@link DistributedSystem} object. It only belongs to a {@link DistributedSystemArray} object and has a
+         * **M: N Associative Relationship** between this {@link DistributedSystem} class.
+         *
+         * By that reason, it's the normal case that the {@link DistributedSystem} object does not have any children
+         * {@link ExternalSystemRole} object. Thus, default {@link createChild} returns ```null```.
+         *
+         * However, if you want a {@link DistributedSystem} to have its own domestic {@link ExternalSystemRole} objects
+         * without reference to the {@link DistributedProcess} objects, it is possible. Creates and returns the
+         * domestic {@link ExternalSystemRole} object.
+         *
+         * @param xml {@link XML} represents the {@link ExternalSystemRole child} object.
+         * @return A newly created {@link ExternalSystemRole} object or ```null```.
+         */
+        createChild(xml: library.XML): external.ExternalSystemRole;
+        /**
+         * Get parent {@link DistributedSystemArray} object.
+         *
+         * @return The parent {@link DistributedSystemArray} object.
+         */
+        getSystemArray(): DistributedSystemArray;
+        /**
+         * @hidden
+         */
+        private compute_average_elapsed_time();
+        /**
+         * @inheritdoc
+         */
+        replyData(invoke: protocol.Invoke): void;
+        /**
+         * @hidden
+         */
+        protected _Report_history(xml: library.XML): void;
+        /**
+         * @hidden
+         */
+        protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void;
+    }
+}
+declare namespace samchon.templates.distributed {
+    /**
+     * An interface for a distributed slave server driver.
+     *
+     * The easiest way to defining a driver for distributed **slave** server is extending {@link DistributedServer} class.
+     * However, if you've to interact with a prallel **slave** system who can be both server and client, them make a class
+     * (let's name it **BaseSystem**) extending the {@link DistributedServer} class. At next, make a new class (now, I name
+     * it **BaseServer**) extending the **BaseSystem** and implements this interface {@link IParallelServer}. Define the
+     * **BaseServer** following those codes on below:
+     *
+     * <ul>
+     *	<li> {@link ExternalServer}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalServer.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link ParallelServer}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/parallel/ParallelServer.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link DistributedServer}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/distributed/DistributedServer.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IDistributedServer extends DistributedSystem {
+        /**
+         * Connect to external server.
+         */
+        connect(): void;
+    }
+    /**
+     * A driver for distributed slave server.
+     *
+     * The {@link DistributedServer} is an abstract class, derived from the {@link DistributedSystem} class, connecting to
+     * remote, distributed **slave** server. Extends this {@link DistributedServer} class and overrides the
+     * {@link createServerConnector createServerConnector()} method following which protocol the **slave** server uses.
+     *
+     * #### [Inheritdoc] {@link DistributedSystem}
+     * The {@link DistributedSystem} is an abstract class represents a **slave** system in *Distributed Processing System*,
+     * connected with this **master** system. This {@link DistributedSystem} takes full charge of network communication
+     * with the remote, distributed **slave** system has connected.
+     *
+     * This {@link DistributedSystem} has a {@link getPerformance performance index} that indicates how much the **slave**
+     * system is fast. The {@link getPerformance performance index} is referenced and revaluated whenever those methods
+     * are called:
+     *
+     * - Requesting a *parallel process*
+     *   - {@link DistributedSystemArray.sendSegmentData}
+     *   - {@link DistributedSystemArray.sendPieceData}
+     * - Requesting a *distributed process*: {@link DistributedProcess.sendData}
+     *
+     * Note that, this {@link DistributedSystem} class derived from the {@link ExternalSystem} class. Thus, this
+     * {@link DistributedSystem} can also have children {@link ExternalSystemRole} objects exclusively. However, the
+     * children {@link ExternalSystemRole roles} objects are different with the {@link DistributedProcess}. The
+     * domestic {@link ExternalSystemRole roles} are belonged to only a specific {@link DistributedSystem} object.
+     * Otherwise, the {@link DistributedProcess} objects are belonged to a {@link DistributedSystemArray} object.
+     * Furthermore, the relationship between this {@link DistributedSystem} and {@link DistributedProcess} classes are
+     * **M: N Associative**.
+     *
+     * Articles     | {@link DistributedProcess}     | {@link ExternalSystemRole}
+     * -------------|--------------------------------|----------------------------
+     * Belonged to  | {@link DistributedSystemArray} | {@link DistributedSystem}
+     * Relationship | M: N Associative               | 1: N Composite
+     * Ownership    | References                     | Exclusive possession
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class DistributedServer extends DistributedSystem implements external.IExternalServer {
+        /**
+         * IP address of target external system to connect.
+         */
+        protected ip: string;
+        /**
+         * Port number of target external system to connect.
+         */
+        protected port: number;
+        /**
+         * Construct from parent {@link DistributedSystemArray}.
+         *
+         * @param systemArray The parent {@link DistributedSystemArray} object.
+         */
+        constructor(systemArray: DistributedSystemArray);
+        /**
+         * Factory method creating {@link IServerConnector} object.
+         *
+         * The {@link createServerConnector createServerConnector()} is an abstract method creating
+         * {@link IServerConnector} object. Overrides and returns one of them, considering which protocol the slave server
+         * follows:
+         *
+         * - {@link ServerConnector}
+         * - {@link WebServerConnector}
+         * - {@link SharedWorkerServerConnector}
+         *
+         * @return A newly created {@link IServerConnector} object.
+         */
+        protected abstract createServerConnector(): protocol.IServerConnector;
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.distributed {
+    /**
+     * Master of Distributed Processing System, a client connecting to slave servers.
+     *
+     * The {@link DistributedServerArray} is an abstract class, derived from the {@link DistributedSystemArray} class,
+     * connecting to {@link IDistributedServer distributed servers}.
+     *
+     * Extends this {@link DistributedServerArray} and overrides {@link createChild createChild()} method creating child
+     * {@link IDistributedServer} object. After the extending and overriding, construct children {@link IDistributedServer}
+     * objects and call the {@lionk connect connect()} method.
+     *
+     * #### [Inherited] {@link DistributedSystemArray}
+     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
+     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
+     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
+     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
+     * requested the *distributed processes*.
+     *
+     * The {@link DistributedSystemArray} contains {@link DistributedProcess} objects directly. You can request a
+     * **distributed process** through the {@link DistributedProcess} object. You can access the
+     * {@link DistributedProcess} object(s) with those methods:
+     *
+     * - {@link hasRole}
+     * - {@link getRole}
+     * - {@link insertRole}
+     * - {@link eraseRole}
+     * - {@link getRoleMap}
+     *
+     * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
+     * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
+     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
+     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
+     * {@link DistributedProcess.getResource resource index} of related objects will be revaluated.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Parallel Process
+     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
+     * a **parallel process**, too.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
+     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
+     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
+     * each {@link DistributedSystem}.
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class DistributedServerArray extends DistributedSystemArray implements external.IExternalServerArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.distributed {
+    /**
+     * Mediator of Distributed Processing System, a client connecting to slave servers.
+     *
+     * The {@link DistributedServerArrayMediator} is an abstract class, derived from {@link DistributedSystemArrayMediator}
+     * class, connecting to {@link IDistributedServer distributed servers}.
+     *
+     * Extends this {@link DistributedServerArrayMediator} and overrides {@link createChild createChild()} method creating
+     * child {@link IDistributedServer} object. After the extending and overriding, construct children
+     * {@link IDistributedServer} objects and call the {@lionk connect connect()} method.
+     *
+     * #### [Inherited] {@link DistributedSystemArrayMediator}
+     * The {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a slave to its master
+     * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
+     * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
+     * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
+     * derived from the {@link SlavSystem} class.
+     *
+     * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
+     * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
+     * Overrides the {@link createMediator createMediator()} method and return one of them:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * #### [Inherited] {@link DistributedSystemArray}
+     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
+     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
+     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
+     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
+     * requested the *distributed processes*.
+     *
+     * The {@link DistributedSystemArray} contains {@link DistributedProcess} objects directly. You can request a
+     * **distributed process** through the {@link DistributedProcess} object. You can access the
+     * {@link DistributedProcess} object(s) with those methods:
+     *
+     * - {@link hasRole}
+     * - {@link getRole}
+     * - {@link insertRole}
+     * - {@link eraseRole}
+     * - {@link getRoleMap}
+     *
+     * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
+     * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
+     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
+     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
+     * {@link DistributedProcess.getResource resource index} of related objects will be revaluated.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Parallel Process
+     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
+     * a **parallel process**, too.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
+     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
+     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
+     * each {@link DistributedSystem}.
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class DistributedServerArrayMediator extends DistributedSystemArrayMediator implements external.IExternalServerArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.distributed {
+    /**
+     * Master of Distributed Processing System, be a server and client at the same time.
+     *
+     * The {@link DistributedServerClientArray} is an abstract class, derived from the {@link DistributedSystemArray}
+     * class, opening a server accepting {@link Distributed distributed clients} and being a client connecting to
+     * {@link IDistributedServer distributed servers} at the same time.
+     *
+     * Extends this {@link DistributedServerClientArray} and overrides below methods. After the overridings, open server
+     * with {@link open open()} method and connect to {@link IDistributedServer distributed servers} through the
+     * {@link connect connect()} method.
+     *
+     * - {@link createServerBase createServerBase()}
+     * - {@link createExternalClient createExternalClient()}
+     * - {@link createExternalServer createExternalServer()}
+     *
+     * #### [Inherited] {@link DistributedSystemArray}
+     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
+     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
+     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
+     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
+     * requested the *distributed processes*.
+     *
+     * The {@link DistributedSystemArray} contains {@link DistributedProcess} objects directly. You can request a
+     * **distributed process** through the {@link DistributedProcess} object. You can access the
+     * {@link DistributedProcess} object(s) with those methods:
+     *
+     * - {@link hasRole}
+     * - {@link getRole}
+     * - {@link insertRole}
+     * - {@link eraseRole}
+     * - {@link getRoleMap}
+     *
+     * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
+     * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
+     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
+     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
+     * {@link DistributedProcess.getResource resource index} of related objects will be revaluated.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Parallel Process
+     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
+     * a **parallel process**, too.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
+     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
+     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
+     * each {@link DistributedSystem}.
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class DistributedServerClientArray extends DistributedClientArray implements external.IExternalServerClientArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Factory method of a child Entity.
+         *
+         * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
+         *
+         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+         * @return A new child Entity via {@link createExternalServer createExternalServer()}.
+         */
+        createChild(xml: library.XML): DistributedSystem;
+        /**
+         * Factory method creating an {@link IDistributedServer} object.
+         *
+         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+         * @return A newly created {@link IDistributedServer} object.
+         */
+        protected abstract createExternalServer(xml: library.XML): IDistributedServer;
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.distributed {
+    /**
+     * Mediator of Distributed Processing System, be a server and client at the same time as a **master**.
+     *
+     * The {@link DistributedServerClientArrayMediator} is an abstract class, derived from the
+     * {@link DistributedSystemArrayMediator} class, opening a server accepting {@link DistributedSystem distributed
+     * clients} and being a client connecting to {@link IDistributedServer distributed servers} at the same time.
+     *
+     * Extends this {@link DistributedServerClientArrayMediator} and overrides below methods. After the overridings, open
+     * server with {@link open open()} method and connect to {@link IDistributedServer distributed servers} through the
+     * {@link connect connect()} method.
+     *
+     * - {@link createServerBase createServerBase()}
+     * - {@link createExternalClient createExternalClient()}
+     * - {@link createExternalServer createExternalServer()}
+     *
+     * #### [Inherited] {@link DistributedSystemArrayMediator}
+     * The {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a slave to its master
+     * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
+     * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
+     * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
+     * derived from the {@link SlavSystem} class.
+     *
+     * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
+     * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
+     * Overrides the {@link createMediator createMediator()} method and return one of them:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * #### [Inherited] {@link DistributedSystemArray}
+     * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
+     * drivers, {@link DistributedSystem} objects. Within framework of network, {@link DistributedSystemArray} represents
+     * your system, a **Master** of *Distributed Processing System* that requesting *distributed process* to **slave**
+     * systems and the children {@link DistributedSystem} objects represent the remote **slave** systems, who is being
+     * requested the *distributed processes*.
+     *
+     * The {@link DistributedSystemArray} contains {@link DistributedProcess} objects directly. You can request a
+     * **distributed process** through the {@link DistributedProcess} object. You can access the
+     * {@link DistributedProcess} object(s) with those methods:
+     *
+     * - {@link hasRole}
+     * - {@link getRole}
+     * - {@link insertRole}
+     * - {@link eraseRole}
+     * - {@link getRoleMap}
+     *
+     * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
+     * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
+     * **slave **system. The {@link Invoke} message will be sent to the most idle {@link DistributedSystem} object. When
+     * the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
+     * {@link DistributedProcess.getResource resource index} of related objects will be revaluated.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Parallel Process
+     * This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
+     * a **parallel process**, too.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
+     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
+     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
+     * each {@link DistributedSystem}.
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class DistributedServerClientArrayMediator extends DistributedClientArrayMediator implements external.IExternalServerClientArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+     * Factory method of a child Entity.
+     *
+     * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
+     *
+     * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+     * @return A new child Entity via {@link createExternalServer createExternalServer()}.
+     */
+        createChild(xml: library.XML): DistributedSystem;
+        /**
+         * Factory method creating an {@link IDistributedServer} object.
+         *
+         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+         * @return A newly created {@link IDistributedServer} object.
+         */
+        protected abstract createExternalServer(xml: library.XML): IDistributedServer;
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates {
+    /**
+     * History of an {@link Invoke} message.
+     *
+     * The {@link InvokeHistory} is a class archiving history log of an {@link Invoke} message with elapsed time. This
+     * {@link InvokeHistory} class is used to report elapsed time of handling a requested process from **slave** to
+     * **master** system.
+     *
+     * The **master** system utilizes derived {@link InvokeHistory} objects to compute performance indices.
+     * - {@link ParallelSytem.getPerformance}
+     * - {@link DistributedProcess.getResource}
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class InvokeHistory extends protocol.Entity {
+        /**
+         * @hidden
+         */
+        private uid;
+        /**
+         * @hidden
+         */
+        private listener;
+        /**
+         * @hidden
+         */
+        private start_time_;
+        /**
+         * @hidden
+         */
+        private end_time_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from an {@link Invoke} message.
+         *
+         * @param invoke An {@link Invoke} message requesting a *parallel or distributed process*.
+         */
+        constructor(invoke: protocol.Invoke);
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * Complete the history.
+         *
+         * Completes the history and determines the {@link getEndTime end time}.
+         */
+        complete(): void;
+        key(): number;
+        /**
+         * Get unique ID.
+         */
+        getUID(): number;
+        /**
+         * Get {@link Invoke.getListener listener} of the {@link Invoke} message.
+         */
+        getListener(): string;
+        /**
+         * Get start time.
+         */
+        getStartTime(): Date;
+        /**
+         * Get end time.
+         */
+        getEndTime(): Date;
+        /**
+         * Compute elapsed time.
+         *
+         * @return milliseconds.
+         */
+        computeElapsedTime(): number;
+        /**
+         * @inheritdoc
+         */
+        TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+        /**
+         * Convert to an {@link Invoke} message.
+         *
+         * Creates and returns an {@link Invoke} message that is used to reporting to the **master**.
+         */
+        toInvoke(): protocol.Invoke;
+    }
+}
+declare namespace samchon.templates.distributed {
+    /**
+     * History of an {@link Invoke} message.
+     *
+     * The {@link PRInvokeHistory} is a class archiving history log of an {@link Invoke} message which requests the
+     * *distributed process*, created whenever {@link DistributedProcess.sendData} is called.
+     *
+     * When the *distributed process* has completed, then {@link complete complete()} is called and the *elapsed time* is
+     * determined. The elapsed time is utilized for computation of {@link DistributedSystem.getPerformance performance index}
+     * and {@link DistributedProcess.getResource resource index} of related objects.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class DSInvokeHistory extends InvokeHistory {
+        /**
+         * @hidden
+         */
+        private system_;
+        /**
+         * @hidden
+         */
+        private process_;
+        /**
+         * Construct from a DistributedSystem.
+         *
+         * @param system The {@link DistributedSystem} object who sent the {@link Invoke} message.
+         */
+        constructor(system: DistributedSystem);
+        /**
+         * Initilizer Constructor.
+         *
+         * @param system The {@link DistributedSystem} object who sent the {@link Invoke} message.
+         * @param process The {@link DistributedProcess} object who sent the {@link Invoke} message.
+         * @param invoke An {@link Invoke} message requesting the *distributed process*.
+         */
+        constructor(system: DistributedSystem, process: DistributedProcess, invoke: protocol.Invoke);
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * Get the related {@link DistributedSystem} object.
+         */
+        getSystem(): DistributedSystem;
+        /**
+         * Get the related {@link DistributedProcess} object.
+         */
+        getProcess(): DistributedProcess;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+    }
+}
+declare namespace samchon.templates.external {
+    /**
+     * An interface for an {@link ExternalSystemArray} accepts {@link ExternalSystem external clients} as a
+     * {@link IServer server}.
+     *
+     * The easiest way to defining an {@link ExternalSystemArray} who opens server and accepts
+     * {@link ExternalSystem external clients} is to extending one of below, who are derived from this interface
+     * {@link IExternalClientArray}. However, if you can't specify an {@link ExternalSystemArray} to be whether server or
+     * client, then make a class (let's name it as **BaseSystemArray**) extending {@link ExternalSystemArray} and make
+     * a new class (now, I name it **BaseClientArray**) extending **BaseSystemArray** and implementing this
+     * interface {@link IExternalClientArray}. Define the **BaseClientArray** following those codes on below:
+     *
+     * <ul>
+     *	<li> {@link ExternalClientArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalClientArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link ParallelClientArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/master/ParallelClientArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link DistributedClientArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/master/DistributedClientArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     * </ul>
+     *
+     * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IExternalClientArray extends ExternalSystemArray, protocol.IServer {
+    }
+    /**
+     * An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}.
+     *
+     * {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers,
+     * {@link IExternalServer} objects, as a {@link IServer server}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * <h4> Proxy Pattern </h4>
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalClientArray extends ExternalSystemArray implements IExternalClientArray {
+        /**
+         * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
+         */
+        private server_base_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Factory method creating {@link IServerBase} object.
+         *
+         * This method {@link createServerBase createServerBase()} determines which templates is used in this server,
+         * {@link ExternalClientArray}. If the templates is determined, then {@link ExternalSystem external clients} who
+         * may connect to {@link ExternalClientArray this server} must follow the specified templates.
+         *
+         * Creates and returns one of them:
+         * <ul>
+         *	<li> {@link ServerBase} </li>
+         *	<li> {@link WebServerBase} </li>
+         *	<li> {@link SharedWorkerServerBase} </li>
+         * </ul>
+         *
+         * @return A new {@link IServerBase} object.
+         */
+        protected abstract createServerBase(): protocol.IServerBase;
+        addClient(driver: protocol.IClientDriver): void;
+        /**
+         * (Deprecated) Factory method creating child object.
+         *
+         * The method {@link createChild createChild()} is deprecated. Don't use and override this.
+         *
+         * Note that, the {@link ExternalClientArray} is a server accepting {@link ExternalSystem external clients}.
+         * There's no way to creating the {@link ExternalSystem external clients} in advance before opening the server.
+         *
+         * @param xml An {@link XML} object represents the child {@link ExternalSystem} object.
+         * @return null
+         */
+        createChild(xml: library.XML): ExternalSystem;
+        /**
+         * Factory method creating a child {@link ExternalSystem} object.
+         *
+         * @param driver A communicator with connected client.
+         * @return A newly created {@link ExternalSystem} object.
+         */
+        protected abstract createExternalClient(driver: protocol.IClientDriver): ExternalSystem;
+        /**
+         * @inheritdoc
+         */
+        open(port: number): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+    }
+}
+declare namespace samchon.templates.external {
+    /**
+     * An interface for an external server driver.
+     *
+     * The easiest way to defining an external server driver is to extending one of below, who are derived from this
+     * interface {@link IExternalServer}. However, if you've to interact with an external system who can be both server
+     * and client, then make a class (let's name it as **BaseSystem**) extending {@link ExternalSystem} and make a
+     * new class (now, I name it **BaseServer**) extending **BaseSystem** and implementing this interface
+     * {@link IExternalServer}. Define the **BaseServer** following those codes on below:
+     *
+     * <ul>
+     *	<li> {@link ExternalServer}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalServer.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link ParallelServer}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/parallel/ParallelServer.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link DistributedServer}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/distributed/DistributedServer.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     * </ul>
+     *
+     * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IExternalServer extends ExternalSystem {
+        /**
+         * Connect to external server.
+         */
+        connect(): void;
+    }
+    /**
+     * An external server driver.
+     *
+     * The {@link ExternalServer} class represents an external server, connected and interact with this system.
+     * {@link ExternalServer} takes full charge of network communication with external server has connected. Replied
+     * {@link Invoke messages} from the external system is shifted to and processed in, children elements of this class,
+     * {@link ExternalSystemRole} objects.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * <h4> Bridge & Proxy Pattern </h4>
+     * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
+     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalServer extends ExternalSystem implements IExternalServer {
+        /**
+         * IP address of target external system to connect.
+         */
+        protected ip: string;
+        /**
+         * Port number of target external system to connect.
+         */
+        protected port: number;
+        /**
+         * Default Constructor.
+         */
+        constructor(systemArray: ExternalSystemArray);
+        /**
+         * Factory method creating {@link IServerConnector} object.
+         *
+         * The {@link createServerConnector createServerConnector()} is an abstract method creating
+         * {@link IServerConnector} object. Overrides and returns one of them, considering which templates the external
+         * system follows:
+         *
+         * - {@link ServerConnector}
+         * - {@link WebServerConnector}
+         * - {@link SharedWorkerServerConnector}
+         *
+         * @return A newly created {@link IServerConnector} object.
+         */
+        protected abstract createServerConnector(): protocol.IServerConnector;
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.external {
+    /**
+     * An interface for an {@link ExternalSystemArray} connects to {@link IExternalServer external servers} as a
+     * **client**.
+     *
+     * The easiest way to defining an {@link ExternalSystemArray} who connects to
+     * {@link IExternalServer external servers} is to extending one of below, who are derived from this interface
+     * {@link IExternalServerArray}. However, if you can't specify an {@link ExternalSystemArray} to be whether server or
+     * client, then make a class (let's name it as **BaseSystemArray**) extending {@link ExternalSystemArray} and make
+     * a new class (now, I name it **BaseServerArray**) extending **BaseSystemArray** and implementing this
+     * interface {@link IExternalServerArray}. Define the **BaseServerArray** following those codes on below:
+     *
+     * <ul>
+     *	<li> {@link ExternalServerArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalServerArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link ParallelServerArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/master/ParallelServerArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link DistributedServerArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/master/DistributedServerArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     * </ul>
+     *
+     * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IExternalServerArray extends ExternalSystemArray {
+        /**
+         * Connect to {@link IExternalServer external servers}.
+         *
+         * This method calls children elements' method {@link IExternalServer.connect} gradually.
+         */
+        connect(): void;
+    }
+    /**
+     * An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a **client**.
+     *
+     * {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
+     * {@link IExternalServer} objects, as a **client**.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * <h4> Proxy Pattern </h4>
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalServerArray extends ExternalSystemArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.external {
+    /**
+     * An interface for an {@link ExternalSystemArray} accepts {@link ExternalSystem external clients} as a
+     * {@link IServer server} and connects to {@link IExternalServer} as **client**, at the same time.
+     *
+     * The easiest way to defining an {@link IExternalServerClientArray} who opens server, accepts
+     * {@link ExternalSystem external clients} and connects to {@link IExternalServer external servers} is to extending
+     * one of below, who are derived from this interface {@link IExternalServerClientArray}. However, if you can't
+     * specify an {@link ExternalSystemArray} to be whether server or client or even can both them, then make a class
+     * (let's name it as **BaseSystemArray**) extending {@link ExternalSystemArray} and make a new class (now, I name
+     * it **BaseServerClientArray**) extending **BaseSystemArray** and implementing this interface
+     * {@link IExternalServerClientArray}. Define the **BaseServerClientArray** following those codes on below:
+     *
+     * <ul>
+     *	<li> {@link ExternalServerClientArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalServerClientArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link ParallelServerClientArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/master/ParallelServerClientArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link DistributedServerClientArray}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/master/DistributedServerClientArray.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     * </ul>
+     *
+     * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IExternalServerClientArray extends IExternalServerArray, IExternalClientArray {
+    }
+    /**
+     * An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a **client** and
+     * accepts {@link ExternalSystem external clients} as a {@link IServer server}.
+     *
+     * {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
+     * {@link IExternalServer} objects and accepts external client drivers {@link ExternalSyste} obejcts as a
+     * **client** and a {@link IServer server} at the same time.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * <h4> Proxy Pattern </h4>
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalServerClientArray extends ExternalClientArray implements IExternalServerClientArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Factory method of a child Entity.
+         *
+         * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
+         *
+         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+         * @return A new child Entity via {@link createExternalServer createExternalServer()}.
+         */
+        createChild(xml: library.XML): ExternalSystem;
+        /**
+         * Factory method creating an {@link IExternalServer} object.
+         *
+         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+         * @return A newly created {@link IExternalServer} object.
+         */
+        protected abstract createExternalServer(xml: library.XML): IExternalServer;
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.external {
+    /**
+     * A role of an external system.
+     *
+     * The {@link ExternalSystemRole} class represents a role, *WHAT TO DO*. Extends the {@link ExternalSystemRole} class
+     * and overrides {@link replyData replyData()} to define the *WHAT TO DO*. And assign this {@link ExternalSystemRole}
+     * object to related {@link ExternalSystem} object.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Proxy Pattern
+     * The {@link ExternalSystemRole} class can be an *logical proxy*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem} object, via {@link ExternalSystemArray.getRole ExternalSystemArray.getRole()}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ExternalSystemRole extends protocol.Entity implements protocol.IProtocol {
+        /**
+         * An {@link ExternalSystem external system} containing this {@link ExternalSystemRole role}.
+         */
+        private system;
+        /**
+         * A name, represents and identifies this {@link ExternalSystemRole role}.
+         *
+         * This {@link name} is an identifier represents this {@link ExternalSystemRole role}. This {@link name} is
+         * used in {@link ExternalSystemArray.getRole} and {@link ExternalSystem.get}, as a key elements. Thus, this
+         * {@link name} should be unique in an {@link ExternalSystemArray}.
+         */
+        protected name: string;
+        /**
+         * Constructor from a system.
+         *
+         * @param system An external system containing this role.
+         */
+        constructor(system: ExternalSystem);
+        /**
+         * Identifier of {@link ExternalSystemRole} is its {@link name}.
+         */
+        key(): string;
+        /**
+         * Get grandparent {@link ExternalSystemArray}.
+         *
+         * Get the grandparent {@link ExternalSystemArray} object through this parent {@link ExternalSystem},
+         * {@link ExternalSystem.getSystemArray ExternalSystem.getSystemArray()}.
+         *
+         * @return The grandparent {@link ExternalSystemArray} object.
+         */
+        getSystemArray(): ExternalSystemArray;
+        /**
+         * Get external system, this role is belonged to.
+         */
+        getSystem(): ExternalSystem;
+        /**
+         * Get name, who represents and identifies this role.
+         */
+        getName(): string;
+        /**
+         * Send an {@link Invoke} message.
+         *
+         * Sends an {@link Invoke} message to remote system through the parent {@link ExternalSystem} object.
+         *
+         * @param invoke An {@link Invoke} message to send to the external system.
+         */
+        sendData(invoke: protocol.Invoke): void;
+        /**
+         * Handle replied {@link Invoke} message.
+         *
+         * {@link ExternalSystemRole.replyData ExternalSystemRole.replyData()} is an abstract method handling a replied
+         * {@link Invoke message} gotten from remote system via parent {@link ExternalSystem} object. Overrides this
+         * method and defines the *WHAT TO DO* with the {@link Invoke message}.
+         *
+         * @param invoke An {@link Invoke} message received from the {@link ExternalSystem external system}.
+         */
+        abstract replyData(invoke: protocol.Invoke): void;
+        /**
+         * Tag name of the {@link ExternalSytemRole} in {@link XML}.
+         *
+         * @return *role*.
+         */
+        TAG(): string;
+    }
+}
+declare namespace samchon.templates.slave {
+    abstract class SlaveSystem implements protocol.IProtocol {
+        /**
+         * @hidden
+         */
+        protected communicator_: protocol.ICommunicator;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        sendData(invoke: protocol.Invoke): void;
+        /**
+         * @hidden
+         */
+        protected _replyData(invoke: protocol.Invoke): void;
+        replyData(invoke: protocol.Invoke): void;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * A mediator, the master driver.
+     *
+     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+     *
+     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+     * type and protocol the **master** system follows:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+     * result to its **master**.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System),
+     *			 [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class MediatorSystem extends slave.SlaveSystem {
+        /**
+         * @hidden
+         */
+        private system_array_;
+        /**
+         * @hidden
+         */
+        private progress_list_;
+        /**
+         * Construct from parent {@link ParallelSystemArrayMediator} object.
+         *
+         * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
+         */
+        constructor(systemArray: ParallelSystemArrayMediator);
+        /**
+         * Construct from parent {@link DistributedSystemArrayMediator} object.
+         *
+         * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
+         */
+        constructor(systemArray: distributed.DistributedSystemArrayMediator);
+        /**
+         * Start interaction.
+         *
+         * The {@link start start()} is an abstract method starting interaction with the **master** system. If the
+         * **master** is a server, then connects to the **master**. Otherwise, the **master** is client, then this
+         * {@link MediatorSystem} object wil open a server accepting the **master**.
+         */
+        abstract start(): void;
+        /**
+         * Get parent {@link ParallelSystemArrayMediator} object.
+         */
+        getSystemArray(): ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator;
+        /**
+         * @hidden
+         */
+        private complete_history(uid);
+        /**
+         * @hidden
+         */
+        protected _replyData(invoke: protocol.Invoke): void;
+        /**
+         * @inheritdoc
+         */
+        replyData(invoke: protocol.Invoke): void;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * A mediator server, driver for the master client.
+     *
+     * The {@link MediatorServer} is a class opening a server accepting the **master** client, following the protocol of
+     * Samchon Framework's own.
+     *
+     * #### [Inherited] {@link MediatorSystem}
+     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+     *
+     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+     * type and protocol the **master** system follows:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+     * result to its **master**.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System),
+     *			 [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class MediatorServer extends MediatorSystem implements slave.ISlaveServer {
+        /**
+         * @hidden
+         */
+        private server_base_;
+        /**
+         * @hidden
+         */
+        private port;
+        /**
+         * Initializer Constructor.
+         *
+         * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
+         * @param port Port number of server to open.
+         */
+        constructor(systemArray: ParallelSystemArrayMediator, port: number);
+        /**
+         * Initializer Constructor.
+         *
+         * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
+         * @param port Port number of server to open.
+         */
+        constructor(systemArray: distributed.DistributedSystemArrayMediator, port: number);
+        /**
+         * Factory method creating {@link IServerBase} object.
+         *
+         * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
+         * {@link MediatorServer}. Note that, **slave** (this {@link MediatorServer} object) must follow the **master**'s
+         * protocol.
+         *
+         * Overrides and return one of them considering the which protocol to follow:
+         *
+         * - {@link ServerBase}
+         * - {@link WebServerBase}
+         * - {@link SharedWorkerServerBase}
+         */
+        protected createServerBase(): protocol.IServerBase;
+        /**
+         * Add a newly connected remote client.
+         *
+         * {@link MediatorServer} represents a **slave** dedicating to its **master**. In that reason, the
+         * {@link MediatorServer} does not accept multiple **master** clients. It accepts only one. Thus, *listener* of
+         * the *communicator* is {@link MediatorSystem} object, itself.
+         *
+         * @param driver A communicator with remote client.
+         */
+        addClient(driver: protocol.IClientDriver): void;
+        /**
+         * @inheritdoc
+         */
+        start(): void;
+        /**
+         * @inheritdoc
+         */
+        open(port: number): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+    }
+    /**
+     * A mediator server, driver for the master client.
+     *
+     * The {@link MediatorWebServer} is a class opening a server accepting the **master** client, following the
+     * web-socket protocol.
+     *
+     * #### [Inherited] {@link MediatorSystem}
+     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+     *
+     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+     * type and protocol the **master** system follows:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+     * result to its **master**.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System),
+     *			 [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class MediatorWebServer extends MediatorServer {
+        /**
+         * @inheritdoc
+         */
+        protected createServerBase(): protocol.IServerBase;
+    }
+    /**
+     * A mediator server, driver for the master client.
+     *
+     * The {@link MediatorSharedWorkerServer} is a class opening a server accepting the **master** client, following the
+     * SharedWorker's protocol.
+     *
+     * #### [Inherited] {@link MediatorSystem}
+     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+     *
+     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+     * type and protocol the **master** system follows:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+     * result to its **master**.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System),
+     *			 [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class MediatorSharedWorkerServer extends MediatorServer {
+        /**
+         * @inheritdoc
+         */
+        protected createServerBase(): protocol.IServerBase;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * A mediator client, driver for the master server.
+     *
+     * The {@link MediatorServer} is a class being a client connecting to the **master** server, following the protocol
+     * of Samchon Framework's own.
+     *
+     * #### [Inherited] {@link MediatorSystem}
+     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+     *
+     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+     * type and protocol the **master** system follows:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+     * result to its **master**.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System),
+     *			 [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class MediatorClient extends MediatorSystem implements slave.ISlaveClient {
+        /**
+         * @hidden
+         */
+        private ip;
+        /**
+         * @hidden
+         */
+        private port;
+        /**
+         * Initializer Constructor.
+         *
+         * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
+         * @param ip IP address to connect.
+         * @param port Port number to connect.
+         */
+        constructor(systemArray: ParallelSystemArrayMediator, ip: string, port: number);
+        /**
+         * Initializer Constructor.
+         *
+         * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
+         * @param ip IP address to connect.
+         * @param port Port number to connect.
+         */
+        constructor(systemArray: distributed.DistributedSystemArrayMediator, ip: string, port: number);
+        /**
+         * Factory method creating {@link IServerConnector} object.
+         *
+         * The {@link createServerConnector createServerConnector()} is an abstract method creating
+         * {@link IServerConnector} object. Overrides and returns one of them, considering which protocol the **master**
+         * server follows:
+         *
+         * - {@link ServerConnector}
+         * - {@link WebServerConnector}
+         * - {@link SharedWorkerServerConnector}
+         *
+         * @return A newly created {@link IServerConnector} object.
+         */
+        protected createServerConnector(): protocol.IServerConnector;
+        /**
+         * @inheritdoc
+         */
+        start(): void;
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+    /**
+     * A mediator client, driver for the master server.
+     *
+     * The {@link MediatorWebClient} is a class being a client connecting to the **master** server, following the
+     * web-socket protocol.
+     *
+     * #### [Inherited] {@link MediatorSystem}
+     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+     *
+     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+     * type and protocol the **master** system follows:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+     * result to its **master**.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System),
+     *			 [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class MediatorWebClient extends MediatorClient {
+        /**
+         * @inheritdoc
+         */
+        protected createServerConnector(): protocol.IServerConnector;
+    }
+    /**
+     * A mediator client, driver for the master server.
+     *
+     * The {@link MediatorSharedWorkerClient} is a class being a client connecting to the **master** server, following
+     * the SharedWorker's protocol.
+     *
+     * #### [Inherited] {@link MediatorSystem}
+     * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+     * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+     *
+     * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+     * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+     * type and protocol the **master** system follows:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+     * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+     * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+     * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+     * result to its **master**.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System),
+     *			 [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class MediatorSharedWorkerClient extends MediatorClient {
+        /**
+         * @inheritdoc
+         */
+        protected createServerConnector(): protocol.IServerConnector;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * Master of Parallel Processing System, a server accepting slave clients.
+     *
+     * The {@link ParallelClientArray} is an abstract class, derived from the {@link ParallelSystemArray} class, opening
+     * a server accepting {@link ParallelSystem parallel clients}.
+     *
+     * Extends this {@link ParallelClientArray}, overrides {@link createServerBase createServerBase()} to determine which
+     * protocol to follow and {@link createExternalClient createExternalClient()} creating child {@link ParallelSystem}
+     * object. After the extending and overridings, open this server using the {@link open open()} method.
+     *
+     * #### [Inherited] {@link ParallelSystemArray}
+     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+     * *parallel processes*.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
+     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Proxy Pattern
+     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelClientArray extends ParallelSystemArray implements external.IExternalClientArray {
+        /**
+         * @hidden
+         */
+        private server_base_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Factory method creating {@link IServerBase} object.
+         *
+         * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
+         * {@link ExternalClientArray}. If the protocol is determined, then {@link ExternalSystem external clients} who
+         * may connect to {@link ExternalClientArray this server} must follow the specified protocol.
+         *
+         * Overrides the {@link createServerBase createServerBase()} method to create and return one of them:
+         *
+         * - {@link ServerBase}
+         * - {@link WebServerBase}
+         * - {@link SharedWorkerServerBase}
+         *
+         * @return A new {@link IServerBase} object.
+         */
+        protected abstract createServerBase(): protocol.IServerBase;
+        /**
+         * Add a newly connected remote client.
+         *
+         * When a {@link IClientDriver remote client} connects to this *master server of parallel processing system*,
+         * then this {@link ParallelClientArray} creates a child {@link ParallelSystem parallel client} object through
+         * the {@link createExternalClient createExternalClient()} method and {@link insert inserts} it.
+         *
+         * @param driver A communicator for external client.
+         */
+        addClient(driver: protocol.IClientDriver): void;
+        /**
+         * (Deprecated) Factory method creating child object.
+         *
+         * The method {@link createChild createChild()} is deprecated. Don't use and override this.
+         *
+         * Note that, the {@link ParallelClientArray} is a server accepting {@link ParallelSystem parallel clients}.
+         * There's no way to creating the {@link ParallelSystem parallel clients} in advance before opening the server.
+         *
+         * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
+         * @return ```null```
+         */
+        createChild(xml: library.XML): ParallelSystem;
+        /**
+         * Factory method creating {@link ParallelSystem} object.
+         *
+         * The method {@link createExternalClient createExternalClient()} is a factory method creating a child
+         * {@link ParallelSystem} object, that is called whenever a parallel client has connected, by
+         * {@link addClient addClient()}.
+         *
+         * Overrides this {@link createExternalClient} method and creates a type of {@link ParallelSystem} object with
+         * the *driver* that communicates with the parallel client. After the creation, returns the {@link ParallelSystem}
+         * object. Then whenever a parallel client has connected, matched {@link ParallelSystem} object will be
+         * constructed and {@link insert inserted} into this {@link ParallelClientArray} object.
+         *
+         * @param driver A communicator with the parallel client.
+         * @return A newly created {@link ParallelSystem} object.
+         */
+        protected abstract createExternalClient(driver: protocol.IClientDriver): ParallelSystem;
+        /**
+         * @inheritdoc
+         */
+        open(port: number): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * Mediator of Parallel Processing System.
+     *
+     * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
+     * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
+     * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
+     * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
+     * derived from the {@link SlavSystem} class.
+     *
+     * As a **master**, you can specify this {@link ParallelSystemArrayMediator} class to be <i>a master server accepting
+     * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
+     * of them below and overrides abstract factory method(s) creating the child {@link ParallelSystem} object.
+     *
+     * - {@link ParallelClientArrayMediator}: A server accepting {@link ParallelSystem parallel clients}.
+     * - {@link ParallelServerArrayMediator}: A client connecting to {@link ParallelServer parallel servers}.
+     * - {@link ParallelServerClientArrayMediator}: Both of them. Accepts {@link ParallelSystem parallel clients} and
+     *                                              connects to {@link ParallelServer parallel servers} at the same time.
+     *
+     * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
+     * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
+     * Overrides the {@link createMediator createMediator()} method and return one of them:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * #### [Inherited] {@link ParallelSystemArray}
+     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+     * *parallel processes*.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
+     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Proxy Pattern
+     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelSystemArrayMediator extends ParallelSystemArray {
+        /**
+         * @hidden
+         */
+        private mediator_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Factory method creating a {@link MediatorSystem} object.
+         *
+         * The {@link createMediator createMediator()} is an abstract method creating the {@link MediatorSystem} object.
+         *
+         * You know what? this {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a
+         * **slave** to its master system at the same time. The {@link MediatorSystem} object makes it possible; be a
+         * **slave** system. This {@link createMediator} determines specific type of the {@link MediatorSystem}.
+         *
+         * Overrides the {@link createMediator createMediator()} method to create and return one of them following which
+         * protocol and which type of remote connection (server or client) will be used:
+         *
+         * - A client slave connecting to master server:
+         *   - {@link MediatorClient}
+         *   - {@link MediatorWebClient}
+         *   - {@link MediatorSharedWorkerClient}
+         * - A server slave accepting master client:
+         *   - {@link MediatorServer}
+         *   - {@link MediatorWebServer}
+         *   - {@link MediatorSharedWorkerServer}
+         *
+         * @return A newly created {@link MediatorSystem} object.
+         */
+        protected abstract createMediator(): MediatorSystem;
+        /**
+         * Start mediator.
+         *
+         * If the {@link getMediator mediator} is a type of server, then opens the server accepting master client.
+         * Otherwise, the {@link getMediator mediator} is a type of client, then connects the master server.
+         */
+        protected startMediator(): void;
+        /**
+         * Get {@link MediatorSystem} object.
+         *
+         * When you need to send an {@link Invoke} message to the master system of this
+         * {@link ParallelSystemArrayMediator}, then send to the {@link MediatorSystem} through this {@link getMediator}.
+         *
+         * ```typescript
+         * this.getMediator().sendData(...);
+         * ```
+         */
+        getMediator(): MediatorSystem;
+        /**
+         * @hidden
+         */
+        protected _Complete_history(history: PRInvokeHistory): boolean;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * Mediator of Parallel Processing System, a server accepting slave clients.
+     *
+     * The {@link ParallelClientArrayMediator} is an abstract class, derived from the {@link ParallelSystemArrayMediator}
+     * class, opening a server accepting {@link ParallelSystem parallel clients} as a **master**.
+     *
+     * Extends this {@link ParallelClientArrayMediator}, overrides {@link createServerBase createServerBase()} to
+     * determine which protocol to follow and {@link createExternalClient createExternalClient()} creating child
+     * {@link ParallelSystem} object. After the extending and overridings, open this server using the
+     * {@lionk open open()} method.
+     *
+     * #### [Inherited] {@link ParallelSystemArrayMediator}
+     * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
+     * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
+     * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
+     * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
+     * derived from the {@link SlavSystem} class.
+     *
+     * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
+     * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
+     * Overrides the {@link createMediator createMediator()} method and return one of them:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * #### [Inherited] {@link ParallelSystemArray}
+     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+     * *parallel processes*.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
+     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Proxy Pattern
+     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelClientArrayMediator extends ParallelSystemArrayMediator implements external.IExternalClientArray {
+        /**
+         * @hidden
+         */
+        private server_base_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Factory method creating {@link IServerBase} object.
+         *
+         * This method {@link createServerBase createServerBase()} determines which protocol is used in this server,
+         * {@link ParallelClientArrayMediator}. If the protocol is determined, then
+         * {@link ParallelSystem parallel clients} who may connect to {@link ParallelClientArrayMediator this server}
+         * must follow the specified protocol.
+         *
+         * Overrides the {@link createServerBase createServerBase()} method to create and return one of them:
+         *
+         * - {@link ServerBase}
+         * - {@link WebServerBase}
+         * - {@link SharedWorkerServerBase}
+         *
+         * @return A new {@link IServerBase} object.
+         */
+        protected abstract createServerBase(): protocol.IServerBase;
+        /**
+         * Add a newly connected remote client.
+         *
+         * When a {@link IClientDriver remote client} connects to this *master server of parallel processing system*,
+         * then this {@link ParallelClientArrayMediator} creates a child {@link ParallelSystem parallel client} object
+         * through the {@link createExternalClient createExternalClient()} method and {@link insert inserts} it.
+         *
+         * @param driver A communicator for parallel client.
+         */
+        addClient(driver: protocol.IClientDriver): void;
+        /**
+         * (Deprecated) Factory method creating child object.
+         *
+         * The method {@link createChild createChild()} is deprecated. Don't use and override this.
+         *
+         * Note that, the {@link ParallelClientArrayMediator} is a server accepting {@link ParallelSystem parallel
+         * clients} as a master. There's no way to creating the {@link ParallelSystem parallel clients} in advance before
+         * opening the server.
+         *
+         * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
+         * @return null
+         */
+        createChild(xml: library.XML): ParallelSystem;
+        /**
+         * Factory method creating {@link ParallelSystem} object.
+         *
+         * The method {@link createExternalClient createExternalClient()} is a factory method creating a child
+         * {@link ParallelSystem} object, that is called whenever a parallel client has connected, by
+         * {@link addClient addClient()}.
+         *
+         * Overrides this {@link createExternalClient} method and creates a type of {@link ParallelSystem} object with
+         * the *driver* that communicates with the parallel client. After the creation, returns the {@link ParallelSystem}
+         * object. Then whenever a parallel client has connected, matched {@link ParallelSystem} object will be
+         * constructed and {@link insert inserted} into this {@link ParallelClientArrayMediator} object.
+         *
+         * @param driver A communicator with the parallel client.
+         * @return A newly created {@link ParallelSystem} object.
+         */
+        protected abstract createExternalClient(driver: protocol.IClientDriver): ParallelSystem;
+        /**
+         * @inheritdoc
+         */
+        open(port: number): void;
+        /**
+         * @inheritdoc
+         */
+        close(): void;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * An interface for a parallel slave server driver.
+     *
+     * The easiest way to defining a driver for parallel **slave** server is extending {@link ParallelServer} class.
+     * However, if you've to interact with a prallel **slave** system who can be both server and client, them make a class
+     * (let's name it **BaseSystem**) extending the {@link ParallelSystem} class. At next, make a new class (now, I name it
+     * **BaseServer**) extending the **BaseSystem** and implements this interface {@link IParallelServer}. Define the
+     * **BaseServer** following those codes on below:
+     *
+     * <ul>
+     *	<li> {@link ExternalServer}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalServer.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link ParallelServer}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/parallel/ParallelServer.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     *	<li> {@link DistributedServer}:
+     *		<a href="https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/distributed/DistributedServer.ts"
+     *		   target="_blank"> View source code on GitHub </a>
+     *	</li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    interface IParallelServer extends ParallelSystem {
+        /**
+         * Connect to slave server.
+         */
+        connect(): void;
+    }
+    /**
+     * A driver for parallel slave server.
+     *
+     * The {@link ParallelServer} is an abstract class, derived from the {@link ParallelSystem} class, connecting to
+     * remote, parallel **slave** server. Extends this {@link ParallelServer} class and overrides the
+     * {@link createServerConnector createServerConnector()} method following which protocol the **slave** server uses.
+     *
+     * #### [Inherited] {@link ParallelSystem}
+     * The {@link ParallelSystem} is an abstract class represents a **slave** system in *Parallel Processing System*,
+     * connected with this **master** system. This {@link ParallelSystem} takes full charge of network communication with
+     * the remote, parallel **slave** system has connected.
+     *
+     * When a *parallel process* is requested (by {@link ParallelSystemArray.sendSegementData} or
+     * {@link ParallelSystemArray.sendPieceData}), the number of pieces to be allocated to a {@link ParallelSystem} is
+     * turn on its {@link getPerformance performance index}. Higher {@link getPerformance performance index}, then
+     * more pieces are requested. The {@link getPerformance performance index} is revaluated whenever a *parallel process*
+     * has completed, basic on the execution time and number of pieces. You can sugguest or enforce the
+     * {@link getPerformance performance index} with {@link setPerformance} or {@link enforcePerformance}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Bridge & Proxy Pattern
+     * This class {@link ParallelSystem} is derived from the {@link ExternalSystem} class. Thus, you can take advantage
+     * of the *Bridge & Proxy Pattern* in this {@link ParallelSystem} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Bridge & Proxy Pattern*:
+     *
+     * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
+     * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelServer extends ParallelSystem implements IParallelServer {
+        /**
+         * IP address of target external system to connect.
+         */
+        protected ip: string;
+        /**
+         * Port number of target external system to connect.
+         */
+        protected port: number;
+        /**
+         * Construct from parent {@link ParallelSystemArray}.
+         *
+         * @param systemArray The parent {@link ParallelSystemArray} object.
+         */
+        constructor(systemArray: ParallelSystemArray);
+        /**
+         * Factory method creating {@link IServerConnector} object.
+         *
+         * The {@link createServerConnector createServerConnector()} is an abstract method creating
+         * {@link IServerConnector} object. Overrides and returns one of them, considering which protocol the slave server
+         * follows:
+         *
+         * - {@link ServerConnector}
+         * - {@link WebServerConnector}
+         * - {@link SharedWorkerServerConnector}
+         *
+         * @return A newly created {@link IServerConnector} object.
+         */
+        protected abstract createServerConnector(): protocol.IServerConnector;
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * Master of Parallel Processing System, a client connecting to slave servers.
+     *
+     * The {@link ParallelServerArray} is an abstract class, derived from the {@link ParallelSystemArray} class,
+     * connecting to {@link IParallelServer parallel servers}.
+     *
+     * Extends this {@link ParallelServerArray} and overrides {@link createChild createChild()} method creating child
+     * {@link IParallelServer} object. After the extending and overriding, construct children {@link IParallelServer}
+     * objects and call the {@lionk connect connect()} method.
+     *
+     * #### [Inherited] {@link ParallelSystemArray}
+     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+     * *parallel processes*.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
+     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Proxy Pattern
+     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelServerArray extends ParallelSystemArray implements external.IExternalServerArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * Mediator of Parallel Processing System, a client connecting to slave servers.
+     *
+     * The {@link ParallelServerArrayMediator} is an abstract class, derived from the {@link ParallelSystemArrayMediator}
+     * class, connecting to {@link IParallelServer parallel servers}.
+     *
+     * Extends this {@link ParallelServerArrayMediator} and overrides {@link createChild createChild()} method creating
+     * child {@link IParallelServer} object. After the extending and overriding, construct children
+     * {@link IParallelServer} objects and call the {@lionk connect connect()} method.
+     *
+     * #### [Inherited] {@link ParallelSystemArrayMediator}
+     * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
+     * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
+     * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
+     * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
+     * derived from the {@link SlavSystem} class.
+     *
+     * As a **master**, you can specify this {@link ParallelSystemArrayMediator} class to be <i>a master server accepting
+     * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
+     * of them below and overrides abstract factory method(s) creating the child {@link ParallelSystem} object.
+     *
+     * - {@link ParallelClientArrayMediator}: A server accepting {@link ParallelSystem parallel clients}.
+     * - {@link ParallelServerArrayMediator}: A client connecting to {@link ParallelServer parallel servers}.
+     * - {@link ParallelServerClientArrayMediator}: Both of them. Accepts {@link ParallelSystem parallel clients} and
+     *                                              connects to {@link ParallelServer parallel servers} at the same time.
+     *
+     * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
+     * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
+     * Overrides the {@link createMediator createMediator()} method and return one of them:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * #### [Inherited] {@link ParallelSystemArray}
+     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+     * *parallel processes*.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
+     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Proxy Pattern
+     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelServerArrayMediator extends ParallelSystemArrayMediator implements external.IExternalServerArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * Master of Parallel Processing System, be a server and client at the same time.
+     *
+     * The {@link ParallelServerClientArray} is an abstract class, derived from the {@link ParallelSystemArray} class,
+     * opening a server accepting {@link ParallelSystem parallel clients} and being a client connecting to
+     * {@link IParallelServer parallel servers} at the same time.
+     *
+     * Extends this {@link ParallelServerClientArray} and overrides below methods. After the overridings, open server
+     * with {@link open open()} method and connect to {@link IParallelServer parallel servers} through the
+     * {@link connect connect()} method.
+     *
+     * - {@link createServerBase createServerBase()}
+     * - {@link createExternalClient createExternalClient()}
+     * - {@link createExternalServer createExternalServer()}
+     *
+     * #### [Inherited] {@link ParallelSystemArray}
+     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+     * *parallel processes*.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
+     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Proxy Pattern
+     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelServerClientArray extends ParallelClientArray implements external.IExternalServerClientArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Factory method of a child Entity.
+         *
+         * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
+         *
+         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+         * @return A new child Entity via {@link createExternalServer createExternalServer()}.
+         */
+        createChild(xml: library.XML): IParallelServer;
+        /**
+         * Factory method creating an {@link IParallelServer} object.
+         *
+         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+         * @return A newly created {@link IParallelServer} object.
+         */
+        protected abstract createExternalServer(xml: library.XML): IParallelServer;
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * Mediator of Parallel Processing System, be a server and client at the same time as a **master**.
+     *
+     * The {@link ParallelServerClientArrayMediator} is an abstract class, derived from the
+     * {@link ParallelSystemArrayMediator} class, opening a server accepting {@link ParallelSystem parallel clients} and
+     * being a client connecting to {@link IParallelServer parallel servers} at the same time.
+     *
+     * Extends this {@link ParallelServerClientArrayMediator} and overrides below methods. After the overridings, open
+     * server with {@link open open()} method and connect to {@link IParallelServer parallel servers} through the
+     * {@link connect connect()} method.
+     *
+     * - {@link createServerBase createServerBase()}
+     * - {@link createExternalClient createExternalClient()}
+     * - {@link createExternalServer createExternalServer()}
+     *
+     * #### [Inherited] {@link ParallelSystemArrayMediator}
+     * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
+     * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
+     * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
+     * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
+     * derived from the {@link SlavSystem} class.
+     *
+     * As a **master**, you can specify this {@link ParallelSystemArrayMediator} class to be <i>a master server accepting
+     * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
+     * of them below and overrides abstract factory method(s) creating the child {@link ParallelSystem} object.
+     *
+     * - {@link ParallelClientArrayMediator}: A server accepting {@link ParallelSystem parallel clients}.
+     * - {@link ParallelServerArrayMediator}: A client connecting to {@link ParallelServer parallel servers}.
+     * - {@link ParallelServerClientArrayMediator}: Both of them. Accepts {@link ParallelSystem parallel clients} and
+     *                                              connects to {@link ParallelServer parallel servers} at the same time.
+     *
+     * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
+     * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
+     * Overrides the {@link createMediator createMediator()} method and return one of them:
+     *
+     * - A client slave connecting to master server:
+     *   - {@link MediatorClient}
+     *   - {@link MediatorWebClient}
+     *   - {@link MediatorSharedWorkerClient}
+     * - A server slave accepting master client:
+     *   - {@link MediatorServer}
+     *   - {@link MediatorWebServer}
+     *   - {@link MediatorSharedWorkerServer}
+     *
+     * #### [Inherited] {@link ParallelSystemArray}
+     * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+     * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+     * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+     * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+     * *parallel processes*.
+     *
+     * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
+     * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * #### Proxy Pattern
+     * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ParallelServerClientArrayMediator extends ParallelClientArrayMediator implements external.IExternalServerClientArray {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Factory method of a child Entity.
+         *
+         * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
+         *
+         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+         * @return A new child Entity via {@link createExternalServer createExternalServer()}.
+         */
+        createChild(xml: library.XML): ParallelSystem;
+        /**
+         * Factory method creating an {@link IParallelServer} object.
+         *
+         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+         * @return A newly created {@link IParallelServer} object.
+         */
+        protected abstract createExternalServer(xml: library.XML): IParallelServer;
+        /**
+         * @inheritdoc
+         */
+        connect(): void;
+    }
+}
+declare namespace samchon.templates.parallel {
+    /**
+     * History of an {@link Invoke} message.
+     *
+     * The {@link PRInvokeHistory} is a class archiving history log of an {@link Invoke} message which requests the
+     * *parallel process*, created whenever {@link ParallelSystemArray.sendSegmentData} or
+     * {@link ParallelSystemArray.sendSegmentData} is called.
+     *
+     * When the *parallel process* has completed, then {@link complete complete()} is called and the *elapsed time* is
+     * determined. The elapsed time is utilized for computation of {@link ParallelSystem.getPerformance performance index}
+     * of each {@link ParallelSystem parallel slave system}.
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
+     * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class PRInvokeHistory extends InvokeHistory {
+        /**
+         * @hidden
+         */
+        private first;
+        /**
+         * @hidden
+         */
+        private last;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from an {@link Invoke} message.
+         *
+         * @param invoke An {@link Invoke} message requesting a *parallel process*.
+         */
+        constructor(invoke: protocol.Invoke);
+        /**
+         * Get initial piece's index.
+         *
+         * Returns initial piece's index in the section of requested *parallel process*.
+         *
+         * @return The initial index.
+         */
+        getFirst(): number;
+        /**
+         * Get final piece's index.
+         *
+         * Returns initial piece's index in the section of requested *parallel process*. The range used is
+         * [*first*, *last*), which contains all the pieces' indices between *first* and *last*, including the piece
+         * pointed by index *first*, but not the piece pointed by the index *last*.
+         *
+         * @return The final index.
+         */
+        getLast(): number;
+        /**
+         * Compute number of allocated pieces.
+         */
+        computeSize(): number;
+    }
+}
+declare namespace samchon.templates.service {
     /**
      * A driver of remote client.
      *
@@ -9386,12 +9439,12 @@ declare namespace samchon.protocol.service {
      * {@link User} class. Also, don't define processes of a specific a web page or service. Defines them in the child
      * {@link Service} class.
      *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png" target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_cloud_service.png" target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_cloud_service.png"
      *		 style="max-width: 100%" />
      * </a>
      *
-     * @handbook [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Service)
+     * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Templates-Cloud_Service)
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class Client implements protocol.IProtocol {
@@ -9417,7 +9470,7 @@ declare namespace samchon.protocol.service {
          * @param user Parent {@link User} object.
          * @param driver Communicator with remote client.
          */
-        constructor(user: User, driver: WebClientDriver);
+        constructor(user: User, driver: protocol.WebClientDriver);
         /**
          * Default Destructor.
          *
@@ -9498,7 +9551,7 @@ declare namespace samchon.protocol.service {
          *
          * @param invoke An {@link Invoke} messgae to send to remote client.
          */
-        sendData(invoke: Invoke): void;
+        sendData(invoke: protocol.Invoke): void;
         /**
          * Handle a replied {@link Invoke} message.
          *
@@ -9543,9 +9596,12 @@ declare namespace samchon.protocol.service {
     }
 }
 /**
- * [[include: TypeScript-Protocol-Service.md]]
+ * A system template for Cloud Service.
+ *
+ * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Templates-Cloud_Service)
+ * @author Jeongho Nam <http://samchon.org>
  */
-declare namespace samchon.protocol.service {
+declare namespace samchon.templates.service {
     /**
      * A cloud server.
      *
@@ -9563,15 +9619,15 @@ declare namespace samchon.protocol.service {
      *   - {@link Client.replyData}
      *   - {@link Service.replyData}
      *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png" target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_cloud_service.png" target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_cloud_service.png"
      *		 style="max-width: 100%" />
      * </a>
      *
-     * @handbook [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Service)
+     * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Templates-Cloud_Service)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class Server extends protocol.WebServer implements IProtocol {
+    abstract class Server extends protocol.WebServer implements protocol.IProtocol {
         /**
          * @hidden
          */
@@ -9626,7 +9682,7 @@ declare namespace samchon.protocol.service {
          *
          * @param invoke {@link Invoke} message to send to all remote clients.
          */
-        sendData(invoke: Invoke): void;
+        sendData(invoke: protocol.Invoke): void;
         /**
          * Handle a replied {@link Invoke} message.
          *
@@ -9636,7 +9692,7 @@ declare namespace samchon.protocol.service {
          *
          * @param invoke An {@link Invoke invoke} message to be handled in {@link Server} level.
          */
-        abstract replyData(invoke: Invoke): void;
+        abstract replyData(invoke: protocol.Invoke): void;
         /**
          * Add a newly connected remote client.
          *
@@ -9656,14 +9712,14 @@ declare namespace samchon.protocol.service {
          *
          * @param driver A web communicator for remote client.
          */
-        addClient(driver: WebClientDriver): void;
+        addClient(driver: protocol.WebClientDriver): void;
         /**
          * @hidden
          */
         private erase_user(user);
     }
 }
-declare namespace samchon.protocol.service {
+declare namespace samchon.templates.service {
     /**
      * A service.
      *
@@ -9674,12 +9730,12 @@ declare namespace samchon.protocol.service {
      * should be defined in this {@link Service} class, not its parent {@link Client} class who represents a remote client
      * and takes communication responsibility.
      *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png" target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_cloud_service.png" target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_cloud_service.png"
      *		 style="max-width: 100%" />
      * </a>
      *
-     * @handbook [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Service)
+     * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Templates-Cloud_Service)
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class Service implements protocol.IProtocol {
@@ -9726,15 +9782,15 @@ declare namespace samchon.protocol.service {
          *
          * @param invoke An {@link Invoke} message to send to the remte system.
          */
-        sendData(invoke: Invoke): void;
+        sendData(invoke: protocol.Invoke): void;
         /**
          *
          * @param invoke An {@link Invoke} message to be handled in this {@link Service} level.
          */
-        abstract replyData(invoke: Invoke): void;
+        abstract replyData(invoke: protocol.Invoke): void;
     }
 }
-declare namespace samchon.protocol.service {
+declare namespace samchon.templates.service {
     /**
      * An user.
      *
@@ -9757,15 +9813,15 @@ declare namespace samchon.protocol.service {
      * called. If you remove {@link clear all children}, then this {@link User} object will be also
      * {@link destructor destructed} and erased from the parent {@link Server} object.
      *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png" target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png"
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_cloud_service.png" target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_cloud_service.png"
      *		 style="max-width: 100%" />
      * </a>
      *
-     * @handbook [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Service)
+     * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Templates-Cloud_Service)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class User extends collection.HashMapCollection<number, Client> implements protocol.IProtocol {
+    abstract class User extends collections.HashMapCollection<number, Client> implements protocol.IProtocol {
         /**
          * @hidden
          */
@@ -9826,7 +9882,7 @@ declare namespace samchon.protocol.service {
          * @param driver A web communicator for remote client.
          * @return A newly created {@link Client} object.
          */
-        protected abstract createClient(driver: WebClientDriver): Client;
+        protected abstract createClient(driver: protocol.WebClientDriver): Client;
         /**
          * @hidden
          */
@@ -9899,7 +9955,7 @@ declare namespace samchon.protocol.service {
          *
          * @param invoke {@link Invoke} message to send to all remote clients.
          */
-        sendData(invoke: Invoke): void;
+        sendData(invoke: protocol.Invoke): void;
         /**
          * Handle a replied {@link Invoke} message.
          *
@@ -9929,10 +9985,10 @@ declare namespace samchon.protocol.service {
          *
          * @param invoke An {@link Invoke invoke} message to be handled in {@link User} level.
          */
-        replyData(invoke: Invoke): void;
+        replyData(invoke: protocol.Invoke): void;
     }
 }
-declare namespace samchon.protocol.slave {
+declare namespace samchon.templates.slave {
     interface ISlaveClient extends SlaveSystem {
         connect(ip: string, port: number): void;
     }
@@ -9944,42 +10000,22 @@ declare namespace samchon.protocol.slave {
         /**
          * @inheritdoc
          */
-        protected abstract createServerConnector(): IServerConnector;
+        protected abstract createServerConnector(): protocol.IServerConnector;
         /**
          * @inheritdoc
          */
         connect(ip: string, port: number): void;
     }
 }
-declare namespace samchon.protocol.slave {
-    interface ISlaveServer extends SlaveSystem, IServer {
+declare namespace samchon.templates.slave {
+    interface ISlaveServer extends SlaveSystem, protocol.IServer {
     }
     abstract class SlaveServer extends SlaveSystem implements ISlaveServer {
         private server_base_;
         constructor();
-        protected abstract createServerBase(): IServerBase;
+        protected abstract createServerBase(): protocol.IServerBase;
         open(port: number): void;
         close(): void;
-        addClient(driver: IClientDriver): void;
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * @hidden
-     */
-    namespace socket {
-        type socket = any;
-        type server = any;
-        type http_server = any;
-    }
-    /**
-     * @hidden
-     */
-    namespace websocket {
-        type connection = any;
-        type request = any;
-        type IMessage = any;
-        type ICookie = any;
-        type client = any;
+        addClient(driver: protocol.IClientDriver): void;
     }
 }

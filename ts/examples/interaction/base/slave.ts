@@ -9,9 +9,10 @@ namespace slave
 {
 	export import library = samchon.library;
 	export import protocol = samchon.protocol;
+	export import templates = samchon.templates;
 
 	export abstract class Slave
-		extends protocol.slave.SlaveClient
+		extends templates.slave.SlaveClient
 		implements monitor.ISystem, protocol.IEntity
 	{
 		private uid: number;
@@ -45,7 +46,7 @@ namespace slave
 		{
 			return new protocol.ServerConnector(this);
 		}
-		public createChild(xml: library.XML): protocol.external.ExternalSystemRole
+		public createChild(xml: library.XML): templates.external.ExternalSystemRole
 		{
 			return null;
 		}

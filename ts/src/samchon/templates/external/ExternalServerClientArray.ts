@@ -40,12 +40,25 @@ namespace samchon.templates.external
 	}
 
 	/**
-	 * An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a **client** and
-	 * accepts {@link ExternalSystem external clients} as a {@link IServer server}.
+	 * An array and manager of {@link IExternalServer external servers} and {@link ExternalSystem external clients}.
 	 * 
-	 * {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers, 
-	 * {@link IExternalServer} objects and accepts external client drivers {@link ExternalSyste} obejcts as a 
-	 * **client** and a {@link IServer server} at the same time.
+	 * The {@link ExternalServerClientArray} is an abstract class, derived from the {@link ExternalSystemArray} class,
+	 * opening a server accepting {@link ExternalSystem external clients} and being a client connecting to
+	 * {@link IExternalServer external servers} at the same time.
+	 *
+	 * Extends this {@link ExternalServerClientArray} and overrides below methods. After the overridings, open server
+	 * with {@link open open()} method and connect to {@link IExternalServer external servers} through the
+	 * {@link connect connect()} method.
+	 *
+	 * - {@link createServerBase createServerBase()}
+	 * - {@link createExternalClient createExternalClient()}
+	 * - {@link createExternalServer createExternalServer()}
+	 * 
+	 * #### [Inherited] {@link ExternalSystemArray}
+	 * The {@link ExternalSystemArray} is an abstract class containing and managing external system drivers,
+	 * {@link ExternalSystem} objects. Within framewokr of network, {@link ExternalSystemArray} represents your system
+	 * and children {@link ExternalSystem} objects represent remote, external systems connected with your system.
+	 * With this {@link ExternalSystemArray}, you can manage multiple external systems as a group.
 	 *
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
 	 *		  target="_blank">
@@ -53,7 +66,7 @@ namespace samchon.templates.external
 	 *		 style="max-width: 100%" />
 	 * </a>
 	 *
-	 * <h4> Proxy Pattern </h4>
+	 * #### Proxy Pattern
 	 * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
 	 * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
 	 * important. Only interested in user's perspective is *which can be done*.

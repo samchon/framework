@@ -36,7 +36,7 @@ namespace samchon.templates.parallel
 	 * </a>
 	 * 
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System),
-	 *			 [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+	 *			 [Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class MediatorSystem
@@ -50,7 +50,7 @@ namespace samchon.templates.parallel
 		/**
 		 * @hidden
 		 */
-		private progress_list_: std.HashMap<number, InvokeHistory>;
+		private progress_list_: std.HashMap<number, protocol.InvokeHistory>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -74,7 +74,7 @@ namespace samchon.templates.parallel
 			super();
 
 			this.system_array_ = systemArray;
-			this.progress_list_ = new std.HashMap<number, InvokeHistory>();
+			this.progress_list_ = new std.HashMap<number, protocol.InvokeHistory>();
 		}
 
 		/**
@@ -110,7 +110,7 @@ namespace samchon.templates.parallel
 				return;
 
 			// COMPLETE THE HISTORY
-			let history: InvokeHistory = this.progress_list_.get(uid);
+			let history: protocol.InvokeHistory = this.progress_list_.get(uid);
 			let start_time: Date = null;
 			let end_time: Date = null;
 
@@ -119,11 +119,11 @@ namespace samchon.templates.parallel
 			{
 				let system: ParallelSystem = this.system_array_.at(i);
 				
-				let it: std.MapIterator<number, InvokeHistory> = system["history_list_"].find(uid);
+				let it: std.MapIterator<number, protocol.InvokeHistory> = system["history_list_"].find(uid);
 				if (it.equal_to(system["history_list_"].end()) == true)
 					continue;
 				
-				let my_history: InvokeHistory = it.second;
+				let my_history: protocol.InvokeHistory = it.second;
 				if (start_time == null || my_history.getStartTime() < start_time)
 					start_time = my_history.getStartTime();
 				if (end_time == null || my_history.getEndTime() > end_time)
@@ -147,7 +147,7 @@ namespace samchon.templates.parallel
 			if (invoke.has("_History_uid") == true)
 			{
 				// INIT HISTORY OBJECT
-				let history: InvokeHistory = new InvokeHistory(invoke);
+				let history: protocol.InvokeHistory = new protocol.InvokeHistory(invoke);
 
 				if (this.system_array_.empty() == true)
 				{
@@ -169,19 +169,19 @@ namespace samchon.templates.parallel
 					this.system_array_.sendPieceData(invoke, first, last);
 				}
 				else if (this.system_array_ instanceof distributed.DistributedSystemArrayMediator
-					&& invoke.has("_Role_name") == true)
+					&& invoke.has("_Process_name") == true)
 				{
 					// DISTRIBUTED PROCESS
 					let ds_system_array: distributed.DistributedSystemArrayMediator 
 						= this.system_array_ as distributed.DistributedSystemArrayMediator;
 
 					// FIND THE MATCHED ROLE
-					let role_name: string = invoke.get("_Role_name").getValue();
-					if (ds_system_array.hasProcess(role_name) == false)
+					let process_name: string = invoke.get("_Process_name").getValue();
+					if (ds_system_array.hasProcess(process_name) == false)
 						return;
 
 					// SEND DATA VIA THE ROLE
-					let process: distributed.DistributedProcess = ds_system_array.getProcess(role_name);
+					let process: distributed.DistributedProcess = ds_system_array.getProcess(process_name);
 					process.sendData(invoke);
 				}
 			}

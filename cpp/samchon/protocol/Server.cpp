@@ -13,7 +13,7 @@ Server::Server()
 }
 Server::~Server()
 {
-	if (acceptor == nullptr || acceptor->is_open() == false)
+	if (_Acceptor == nullptr || _Acceptor->is_open() == false)
 		return;
 
 	close();
@@ -21,19 +21,19 @@ Server::~Server()
 
 void Server::open(int port)
 {
-	if (acceptor != nullptr && acceptor->is_open())
+	if (_Acceptor != nullptr && _Acceptor->is_open())
 		return;
 
 	boost::asio::io_service io_service;
 	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
 	boost::system::error_code error;
 
-	acceptor.reset(new boost::asio::ip::tcp::acceptor(io_service, endpoint));
+	_Acceptor.reset(new boost::asio::ip::tcp::acceptor(io_service, endpoint));
 
 	while (true)
 	{
 		shared_ptr<Socket> socket(new boost::asio::ip::tcp::socket(io_service));
-		acceptor->accept(*socket);
+		_Acceptor->accept(*socket);
 
 		if (error)
 			break;
@@ -44,11 +44,11 @@ void Server::open(int port)
 
 void Server::close()
 {
-	if (acceptor == nullptr)
+	if (_Acceptor == nullptr)
 		return;
 
-	acceptor->cancel();
-	acceptor->close();
+	_Acceptor->cancel();
+	_Acceptor->close();
 }
 
 void Server::handle_connection(shared_ptr<Socket> socket)

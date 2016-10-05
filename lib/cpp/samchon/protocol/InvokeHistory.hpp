@@ -10,7 +10,20 @@ namespace samchon
 {
 namespace protocol
 {
-	class SAMCHON_FRAMEWORK_API InvokeHistory 
+	/**
+	 * History of an {@link Invoke} message.
+	 * 
+	 * The {@link InvokeHistory} is a class archiving history log of an {@link Invoke} message with elapsed time. This 
+	 * {@link InvokeHistory} class is used to report elapsed time of handling a requested process from **slave** to 
+	 * **master** system. 
+	 * 
+	 * The **master** system utilizes derived {@link InvokeHistory} objects to compute performance indices.
+	 * - {@link ParallelSytem.getPerformance}
+	 * - {@link DistributedProcess.getResource}
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	class InvokeHistory 
 		: public Entity<size_t>
 	{
 	private:
@@ -27,12 +40,46 @@ namespace protocol
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		InvokeHistory();
-		InvokeHistory(std::shared_ptr<Invoke> invoke);
+		/**
+		 * Default Constructor.
+		 */
+		InvokeHistory() : super()
+		{
+		};
 
-		virtual ~InvokeHistory();
+		/**
+		 * Construct from an {@link Invoke} message.
+		 * 
+		 * @param invoke An {@link Invoke} message requesting a *parallel or distributed process*.
+		 */
+		InvokeHistory(std::shared_ptr<Invoke> invoke)
+			: super()
+		{
+			uid_ = invoke->get("_History_uid")->getValue<size_t>();
+			listener_ = invoke->getListener();
 
-		virtual void construct(std::shared_ptr<library::XML> xml) override;
+			start_time_ = std::chrono::system_clock::now();
+		};
+
+		virtual ~InvokeHistory() = default;
+
+		virtual void construct(std::shared_ptr<library::XML> xml) override
+		{
+			// UID AND LISTENER
+			uid_ = xml->getProperty<size_t>("uid");
+			listener_ = xml->getProperty("listener");
+
+			//--------
+			// START AND END TIME
+			//--------
+			// INIT TIMES TO DEFAULT (0; 1970-01-01 09:00:00
+			start_time_ = std::chrono::system_clock::from_time_t(0);
+			end_time_ = std::chrono::system_clock::from_time_t(0);
+
+			// ADD NUMBERS WHO REPRESENT LINUX_TIME
+			start_time_ += std::chrono::duration<long long, std::ratio_multiply<std::ratio<100i64, 1i64>, std::nano>>(xml->getProperty<long long>("startTime"));
+			end_time_ += std::chrono::duration<long long, std::ratio_multiply<std::ratio<100i64, 1i64>, std::nano>>(xml->getProperty<long long>("endTime"));
+		};
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -42,28 +89,66 @@ namespace protocol
 			return uid_;
 		};
 
+		/**
+		 * Get end time.
+		 */
 		auto getUID() const -> size_t
 		{
 			return uid_;
 		};
 
+		/**
+		 * Get {@link Invoke.getListener listener} of the {@link Invoke} message.
+		 */
 		auto getListener() const -> std::string
 		{
 			return listener_;
 		};
 
-		auto computeElapsedTime() const -> long long;
+		/**
+		 * Compute elapsed time.
+		 * 
+		 * @return nanoseconds.
+		 */
+		auto computeElapsedTime() const -> long long
+		{
+			return (end_time_ - start_time_).count();
+		};
 
-		void complete();
+		/**
+		 * Complete the history.
+		 * 
+		 * Completes the history and determines the {@link getEndTime end time}.
+		 */
+		void complete()
+		{
+			end_time_ = std::chrono::system_clock::now();
+		};
 
 		/* ---------------------------------------------------------
 			EXPORTERS
 		--------------------------------------------------------- */
-		virtual auto TAG() const -> std::string;
+		virtual auto TAG() const -> std::string
+		{
+			return "history";
+		};
 
-		virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override
+		{
+			std::shared_ptr<library::XML> &xml = super::toXML();
+			xml->setProperty("uid", uid_);
+			xml->setProperty("listener", listener_);
 
-		auto toInvoke() const -> std::shared_ptr<Invoke>;
+			xml->setProperty("startTime", start_time_.time_since_epoch().count());
+			xml->setProperty("endTime", end_time_.time_since_epoch().count());
+
+			return xml;
+		};
+
+		auto toInvoke() const -> std::shared_ptr<Invoke>
+		{
+			return std::make_shared<Invoke>("_Report_history", toXML());
+		};
 	};
 };
 };

@@ -12,7 +12,7 @@ namespace samchon.templates.parallel
 	 * 
 	 * Extends this {@link ParallelServerArray} and overrides {@link createChild createChild()} method creating child 
 	 * {@link IParallelServer} object. After the extending and overriding, construct children {@link IParallelServer}
-	 * objects and call the {@lionk connect connect()} method.
+	 * objects and call the {@link connect connect()} method.
 	 * 
 	 * #### [Inherited] {@link ParallelSystemArray}
 	 * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system

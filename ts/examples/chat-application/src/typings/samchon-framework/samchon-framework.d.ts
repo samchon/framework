@@ -3715,7 +3715,7 @@ declare namespace samchon.templates.parallel {
         /**
          * @hidden
          */
-        protected _Complete_history(history: InvokeHistory): boolean;
+        protected _Complete_history(history: protocol.InvokeHistory): boolean;
         /**
          * @hidden
          */
@@ -3774,10 +3774,36 @@ declare namespace samchon.templates.distributed {
      * a **parallel process**, too.
      *
      * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices will
+     * be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * #### Proxy Pattern
+     * This class {@link DistributedSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link DistributedSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
      *
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
@@ -3786,7 +3812,7 @@ declare namespace samchon.templates.distributed {
         /**
          * @hidden
          */
-        private role_map_;
+        private process_map_;
         /**
          * Default Constructor.
          */
@@ -3846,7 +3872,7 @@ declare namespace samchon.templates.distributed {
         /**
          * @hidden
          */
-        protected _Complete_history(history: InvokeHistory): boolean;
+        protected _Complete_history(history: protocol.InvokeHistory): boolean;
         /**
          * @hidden
          */
@@ -3932,10 +3958,36 @@ declare namespace samchon.templates.distributed {
      * a **parallel process**, too.
      *
      * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices will
+     * be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * #### Proxy Pattern
+     * This class {@link DistributedSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link DistributedSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
      *
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
@@ -3990,6 +4042,8 @@ declare namespace samchon.templates.distributed {
          * ```typescript
          * this.getMediator().sendData(...);
          * ```
+         *
+         * @return The {@link MediatorSystem} object.
          */
         getMediator(): parallel.MediatorSystem;
         /**
@@ -5033,6 +5087,96 @@ declare namespace samchon.protocol {
 }
 declare namespace samchon.protocol {
     /**
+     * History of an {@link Invoke} message.
+     *
+     * The {@link InvokeHistory} is a class archiving history log of an {@link Invoke} message with elapsed time. This
+     * {@link InvokeHistory} class is used to report elapsed time of handling a requested process from **slave** to
+     * **master** system.
+     *
+     * The **master** system utilizes derived {@link InvokeHistory} objects to compute performance indices.
+     * - {@link ParallelSytem.getPerformance}
+     * - {@link DistributedProcess.getResource}
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class InvokeHistory extends protocol.Entity {
+        /**
+         * @hidden
+         */
+        private uid;
+        /**
+         * @hidden
+         */
+        private listener;
+        /**
+         * @hidden
+         */
+        private start_time_;
+        /**
+         * @hidden
+         */
+        private end_time_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from an {@link Invoke} message.
+         *
+         * @param invoke An {@link Invoke} message requesting a *parallel or distributed process*.
+         */
+        constructor(invoke: protocol.Invoke);
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * Complete the history.
+         *
+         * Completes the history and determines the {@link getEndTime end time}.
+         */
+        complete(): void;
+        key(): number;
+        /**
+         * Get unique ID.
+         */
+        getUID(): number;
+        /**
+         * Get {@link Invoke.getListener listener} of the {@link Invoke} message.
+         */
+        getListener(): string;
+        /**
+         * Get start time.
+         */
+        getStartTime(): Date;
+        /**
+         * Get end time.
+         */
+        getEndTime(): Date;
+        /**
+         * Compute elapsed time.
+         *
+         * @return nanoseconds.
+         */
+        computeElapsedTime(): number;
+        /**
+         * @inheritdoc
+         */
+        TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+        /**
+         * Convert to an {@link Invoke} message.
+         *
+         * Creates and returns an {@link Invoke} message that is used to reporting to the **master**.
+         */
+        toInvoke(): protocol.Invoke;
+    }
+}
+declare namespace samchon.protocol {
+    /**
      * An interface for {@link Invoke} message chain.
      *
      * {@link IProtocol} is an interface for {@link Invoke} message, which is standard message of network I/O in
@@ -5089,7 +5233,7 @@ declare namespace samchon.protocol {
      * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
      * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
      *
-     * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+     * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
      * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
      * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
      * - {@link service.Server}
@@ -5164,7 +5308,7 @@ declare namespace samchon.protocol {
      * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
      * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
      *
-     * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+     * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
      * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
      * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
      * - {@link service.Server}
@@ -5228,7 +5372,7 @@ declare namespace samchon.protocol {
      * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
      * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
      *
-     * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+     * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
      * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
      * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
      * - {@link service.Server}
@@ -5322,7 +5466,7 @@ declare namespace samchon.protocol {
      * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
      * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
      *
-     * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+     * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
      * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
      * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
      * - {@link service.Server}
@@ -5616,7 +5760,7 @@ declare namespace samchon.protocol {
      *
      * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
      * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
-     * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
+     * be converted to an {@link Invoke} object and the {@link Invoke} object will be shifted to the
      * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method. Below code is an example
      * connecting to remote server and interacting with it.
      *
@@ -5687,7 +5831,7 @@ declare namespace samchon.protocol {
      *
      * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
      * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
-     * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
+     * be converted to an {@link Invoke} object and the {@link Invoke} object will be shifted to the
      * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
      *
      * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
@@ -5976,10 +6120,36 @@ declare namespace samchon.templates.distributed {
      * a **parallel process**, too.
      *
      * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices will
+     * be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * #### Proxy Pattern
+     * This class {@link DistributedSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link DistributedSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
      *
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
@@ -6067,7 +6237,7 @@ declare namespace samchon.templates.distributed {
      * Extends this {@link DistributedClientArrayMediator}, overrides {@link createServerBase createServerBase()} to
      * determine which protocol to follow and {@link createExternalClient createExternalClient()} creating child
      * {@link DistributedSystem} object. After the extending and overridings, open this server using the
-     * {@lionk open open()} method.
+     * {@link open open()} method.
      *
      * #### [Inherited] {@link DistributedSystemArrayMediator}
      * The {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a slave to its master
@@ -6123,10 +6293,36 @@ declare namespace samchon.templates.distributed {
      * a **parallel process**, too.
      *
      * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices will
+     * be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * #### Proxy Pattern
+     * This class {@link DistributedSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link DistributedSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
      *
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
@@ -6241,6 +6437,13 @@ declare namespace samchon.templates.distributed {
          * @hidden
          */
         private system_array_;
+        /**
+         * A name, represents and identifies this {@link DistributedProcess process}.
+         *
+         * This {@link name} is an identifier represents this {@link DistributedProcess process}. This {@link name} is
+         * used in {@link DistributedSystemArray.getProcess} and {@link DistributedSystemArray.getProcess}, as a key elements.
+         * Thus, this {@link name} should be unique in its parent {@link DistributedSystemArray} object.
+         */
         protected name: string;
         /**
          * @hidden
@@ -6264,6 +6467,9 @@ declare namespace samchon.templates.distributed {
          * @param systemArray The parent {@link DistributedSystemArray} object.
          */
         constructor(systemArray: DistributedSystemArray);
+        /**
+         * Identifier of {@link ParallelProcess} is its {@link name}.
+         */
         key(): string;
         /**
          * Get parent {@link DistributedSystemArray} object.
@@ -6271,6 +6477,9 @@ declare namespace samchon.templates.distributed {
          * @return The parent {@link DistributedSystemArray} object.
          */
         getSystemArray(): DistributedSystemArray;
+        /**
+         * Get name, who represents and identifies this process.
+         */
         getName(): string;
         /**
          * Get resource index.
@@ -6440,8 +6649,8 @@ declare namespace samchon.templates.external {
         /**
          * Constrct from parent {@link ExternalSystemArray} and communicator.
          *
-         * @param systemArray
-         * @param communicator
+         * @param systemArray The parent {@link ExternalSystemArray} object.
+         * @param communicator Communicator with the remote, external system.
          */
         constructor(systemArray: ExternalSystemArray, communicator: protocol.IClientDriver);
         /**
@@ -6476,6 +6685,9 @@ declare namespace samchon.templates.external {
          * @hidden
          */
         private handle_close();
+        /**
+         * Get parent {@link ExternalSystemArray} object.
+         */
         getSystemArray(): ExternalSystemArray;
         /**
          * Identifier of {@link ExternalSystem} is its {@link name}.
@@ -6740,7 +6952,7 @@ declare namespace samchon.templates.parallel {
         /**
          * @hidden
          */
-        protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void;
+        protected _Send_back_history(invoke: protocol.Invoke, history: protocol.InvokeHistory): void;
     }
 }
 declare namespace samchon.templates.distributed {
@@ -6800,7 +7012,7 @@ declare namespace samchon.templates.distributed {
         /**
          * Factory method creating a {@link ExternalSystemRole child} object.
          *
-         * In {@link distributed} module, the role class {@link DistributedProcess} is not belonged to a specific
+         * In {@link distributed} module, the process class {@link DistributedProcess} is not belonged to a specific
          * {@link DistributedSystem} object. It only belongs to a {@link DistributedSystemArray} object and has a
          * **M: N Associative Relationship** between this {@link DistributedSystem} class.
          *
@@ -6836,7 +7048,7 @@ declare namespace samchon.templates.distributed {
         /**
          * @hidden
          */
-        protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void;
+        protected _Send_back_history(invoke: protocol.Invoke, history: protocol.InvokeHistory): void;
     }
 }
 declare namespace samchon.templates.distributed {
@@ -6961,7 +7173,7 @@ declare namespace samchon.templates.distributed {
      *
      * Extends this {@link DistributedServerArray} and overrides {@link createChild createChild()} method creating child
      * {@link IDistributedServer} object. After the extending and overriding, construct children {@link IDistributedServer}
-     * objects and call the {@lionk connect connect()} method.
+     * objects and call the {@link connect connect()} method.
      *
      * #### [Inherited] {@link DistributedSystemArray}
      * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
@@ -6997,10 +7209,36 @@ declare namespace samchon.templates.distributed {
      * a **parallel process**, too.
      *
      * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices will
+     * be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * #### Proxy Pattern
+     * This class {@link DistributedSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link DistributedSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
      *
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
@@ -7025,7 +7263,7 @@ declare namespace samchon.templates.distributed {
      *
      * Extends this {@link DistributedServerArrayMediator} and overrides {@link createChild createChild()} method creating
      * child {@link IDistributedServer} object. After the extending and overriding, construct children
-     * {@link IDistributedServer} objects and call the {@lionk connect connect()} method.
+     * {@link IDistributedServer} objects and call the {@link connect connect()} method.
      *
      * #### [Inherited] {@link DistributedSystemArrayMediator}
      * The {@link DistributedSystemArrayMediator} class be a master for its slave systems, and be a slave to its master
@@ -7081,10 +7319,36 @@ declare namespace samchon.templates.distributed {
      * a **parallel process**, too.
      *
      * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices will
+     * be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * #### Proxy Pattern
+     * This class {@link DistributedSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link DistributedSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
      *
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
@@ -7150,10 +7414,36 @@ declare namespace samchon.templates.distributed {
      * a **parallel process**, too.
      *
      * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices will
+     * be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * #### Proxy Pattern
+     * This class {@link DistributedSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link DistributedSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
      *
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
@@ -7255,10 +7545,36 @@ declare namespace samchon.templates.distributed {
      * a **parallel process**, too.
      *
      * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-     * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-     * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-     * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-     * each {@link DistributedSystem}.
+     * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+     * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices will
+     * be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+     *
+     * #### Proxy Pattern
+     * This class {@link DistributedSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+     * advantage of the *Proxy Pattern* in the {@link DistributedSystemArray} class. If a process to request is not the
+     * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+     * may better to utilizing the *Proxy Pattern*:
+     *
+     * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+     * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+     * important. Only interested in user's perspective is *which can be done*.
+     *
+     * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+     * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+     * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+     *
+     * <ul>
+     *	<li>
+     *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+     *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+     *	</li>
+     *	<li>
+     *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+     *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+     *		external system.
+     *	</li>
+     *	<li> Those strategy is called *Proxy Pattern*. </li>
+     * </ul>
      *
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
@@ -7269,13 +7585,13 @@ declare namespace samchon.templates.distributed {
          */
         constructor();
         /**
-     * Factory method of a child Entity.
-     *
-     * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
-     *
-     * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
-     * @return A new child Entity via {@link createExternalServer createExternalServer()}.
-     */
+         * Factory method of a child Entity.
+         *
+         * This method is migrated to {@link createExternalServer}. Override the {@link createExternalServer} method.
+         *
+         * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
+         * @return A new child Entity via {@link createExternalServer createExternalServer()}.
+         */
         createChild(xml: library.XML): DistributedSystem;
         /**
          * Factory method creating an {@link IDistributedServer} object.
@@ -7288,96 +7604,6 @@ declare namespace samchon.templates.distributed {
          * @inheritdoc
          */
         connect(): void;
-    }
-}
-declare namespace samchon.templates {
-    /**
-     * History of an {@link Invoke} message.
-     *
-     * The {@link InvokeHistory} is a class archiving history log of an {@link Invoke} message with elapsed time. This
-     * {@link InvokeHistory} class is used to report elapsed time of handling a requested process from **slave** to
-     * **master** system.
-     *
-     * The **master** system utilizes derived {@link InvokeHistory} objects to compute performance indices.
-     * - {@link ParallelSytem.getPerformance}
-     * - {@link DistributedProcess.getResource}
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class InvokeHistory extends protocol.Entity {
-        /**
-         * @hidden
-         */
-        private uid;
-        /**
-         * @hidden
-         */
-        private listener;
-        /**
-         * @hidden
-         */
-        private start_time_;
-        /**
-         * @hidden
-         */
-        private end_time_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from an {@link Invoke} message.
-         *
-         * @param invoke An {@link Invoke} message requesting a *parallel or distributed process*.
-         */
-        constructor(invoke: protocol.Invoke);
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * Complete the history.
-         *
-         * Completes the history and determines the {@link getEndTime end time}.
-         */
-        complete(): void;
-        key(): number;
-        /**
-         * Get unique ID.
-         */
-        getUID(): number;
-        /**
-         * Get {@link Invoke.getListener listener} of the {@link Invoke} message.
-         */
-        getListener(): string;
-        /**
-         * Get start time.
-         */
-        getStartTime(): Date;
-        /**
-         * Get end time.
-         */
-        getEndTime(): Date;
-        /**
-         * Compute elapsed time.
-         *
-         * @return milliseconds.
-         */
-        computeElapsedTime(): number;
-        /**
-         * @inheritdoc
-         */
-        TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-        /**
-         * Convert to an {@link Invoke} message.
-         *
-         * Creates and returns an {@link Invoke} message that is used to reporting to the **master**.
-         */
-        toInvoke(): protocol.Invoke;
     }
 }
 declare namespace samchon.templates.distributed {
@@ -7400,7 +7626,7 @@ declare namespace samchon.templates.distributed {
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    class DSInvokeHistory extends InvokeHistory {
+    class DSInvokeHistory extends protocol.InvokeHistory {
         /**
          * @hidden
          */
@@ -7474,10 +7700,20 @@ declare namespace samchon.templates.external {
     interface IExternalClientArray extends ExternalSystemArray, protocol.IServer {
     }
     /**
-     * An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}.
+     * An array and manager of {@link ExternalSystem external clients} as a server.
      *
-     * {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers,
-     * {@link IExternalServer} objects, as a {@link IServer server}.
+     * The {@link ExternalClientArray} is an abstract class, derived from the {@link ExternalSystemArray} class, opening
+     * a server accepting {@link ExternalSystem external clients}.
+     *
+     * Extends this {@link ExternalClientArray}, overrides {@link createServerBase createServerBase()} to determine which
+     * protocol to follow and {@link createExternalClient createExternalClient()} creating child {@link ExternalSystem}
+     * object. After the extending and overridings, open this server using the {@link open open()} method.
+     *
+     * #### [Inherited] {@link ExternalSystemArray}
+     * The {@link ExternalSystemArray} is an abstract class containing and managing external system drivers,
+     * {@link ExternalSystem} objects. Within framewokr of network, {@link ExternalSystemArray} represents your system
+     * and children {@link ExternalSystem} objects represent remote, external systems connected with your system.
+     * With this {@link ExternalSystemArray}, you can manage multiple external systems as a group.
      *
      * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
      *		  target="_blank">
@@ -7485,7 +7721,7 @@ declare namespace samchon.templates.external {
      *		 style="max-width: 100%" />
      * </a>
      *
-     * <h4> Proxy Pattern </h4>
+     * #### Proxy Pattern
      * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
      * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
      * important. Only interested in user's perspective is *which can be done*.
@@ -7512,7 +7748,7 @@ declare namespace samchon.templates.external {
      */
     abstract class ExternalClientArray extends ExternalSystemArray implements IExternalClientArray {
         /**
-         * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
+         * @hidden
          */
         private server_base_;
         /**
@@ -7536,6 +7772,15 @@ declare namespace samchon.templates.external {
          * @return A new {@link IServerBase} object.
          */
         protected abstract createServerBase(): protocol.IServerBase;
+        /**
+         * Add a newly connected remote client.
+         *
+         * When a {@link IClientDriver remote client} connects to this *server* {@link ExternalClientArray} object,
+         * then this {@link ExternalClientArray} creates a child {@link ExternalSystem external client} object through
+         * the {@link createExternalClient createExternalClient()} method and {@link insert inserts} it.
+         *
+         * @param driver A communicator for external client.
+         */
         addClient(driver: protocol.IClientDriver): void;
         /**
          * (Deprecated) Factory method creating child object.
@@ -7603,10 +7848,15 @@ declare namespace samchon.templates.external {
     /**
      * An external server driver.
      *
-     * The {@link ExternalServer} class represents an external server, connected and interact with this system.
-     * {@link ExternalServer} takes full charge of network communication with external server has connected. Replied
-     * {@link Invoke messages} from the external system is shifted to and processed in, children elements of this class,
-     * {@link ExternalSystemRole} objects.
+     * The {@link ExternalServer} is an abstract class, derived from the {@link ExternalSystem} class, connecting to
+     * remote, external server. Extends this {@link ExternalServer} class and overrides the
+     * {@link createServerConnector createServerConnector()} method following which protocol the external server uses.
+     *
+     * #### [Inherited] {@link ExternalSystem}
+     * The {@link ExternalSystem} class represents an external system, connected and interact with this system.
+     * {@link ExternalSystem} takes full charge of network communication with the remote, external system have connected.
+     * Replied {@link Invoke} messages from the external system is shifted to and processed in, children elements of this
+     * class, {@link ExternalSystemRole} objects.
      *
      * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
      *		  target="_blank">
@@ -7614,7 +7864,7 @@ declare namespace samchon.templates.external {
      *		 style="max-width: 100%" />
      * </a>
      *
-     * <h4> Bridge & Proxy Pattern </h4>
+     * #### Bridge & Proxy Pattern
      * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
      * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
      * important. Only interested in user's perspective is *which can be done*.
@@ -7649,7 +7899,9 @@ declare namespace samchon.templates.external {
          */
         protected port: number;
         /**
-         * Default Constructor.
+         * Construct from parent {@link ExternalSystemArray}.
+         *
+         * @param systemArray The parent {@link ExternalSystemArray} object.
          */
         constructor(systemArray: ExternalSystemArray);
         /**
@@ -7711,10 +7963,20 @@ declare namespace samchon.templates.external {
         connect(): void;
     }
     /**
-     * An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a **client**.
+     * An array and manager of {@link IExternalServer external servers}.
      *
-     * {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
-     * {@link IExternalServer} objects, as a **client**.
+     * The {@link ExternalServerArray} is an abstract class, derived from the {@link ExternalSystemArray} class,
+     * connecting to {@link IExternalServer external servers}.
+     *
+     * Extends this {@link ExternalServerArray} and overrides {@link createChild createChild()} method creating child
+     * {@link IExternalServer} object. After the extending and overriding, construct children {@link IExternalServer}
+     * objects and call the {@link connect connect()} method.
+     *
+     * #### [Inherited] {@link ExternalSystemArray}
+     * The {@link ExternalSystemArray} is an abstract class containing and managing external system drivers,
+     * {@link ExternalSystem} objects. Within framewokr of network, {@link ExternalSystemArray} represents your system
+     * and children {@link ExternalSystem} objects represent remote, external systems connected with your system.
+     * With this {@link ExternalSystemArray}, you can manage multiple external systems as a group.
      *
      * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
      *		  target="_blank">
@@ -7722,7 +7984,7 @@ declare namespace samchon.templates.external {
      *		 style="max-width: 100%" />
      * </a>
      *
-     * <h4> Proxy Pattern </h4>
+     * #### Proxy Pattern
      * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
      * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
      * important. Only interested in user's perspective is *which can be done*.
@@ -7792,12 +8054,25 @@ declare namespace samchon.templates.external {
     interface IExternalServerClientArray extends IExternalServerArray, IExternalClientArray {
     }
     /**
-     * An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a **client** and
-     * accepts {@link ExternalSystem external clients} as a {@link IServer server}.
+     * An array and manager of {@link IExternalServer external servers} and {@link ExternalSystem external clients}.
      *
-     * {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers,
-     * {@link IExternalServer} objects and accepts external client drivers {@link ExternalSyste} obejcts as a
-     * **client** and a {@link IServer server} at the same time.
+     * The {@link ExternalServerClientArray} is an abstract class, derived from the {@link ExternalSystemArray} class,
+     * opening a server accepting {@link ExternalSystem external clients} and being a client connecting to
+     * {@link IExternalServer external servers} at the same time.
+     *
+     * Extends this {@link ExternalServerClientArray} and overrides below methods. After the overridings, open server
+     * with {@link open open()} method and connect to {@link IExternalServer external servers} through the
+     * {@link connect connect()} method.
+     *
+     * - {@link createServerBase createServerBase()}
+     * - {@link createExternalClient createExternalClient()}
+     * - {@link createExternalServer createExternalServer()}
+     *
+     * #### [Inherited] {@link ExternalSystemArray}
+     * The {@link ExternalSystemArray} is an abstract class containing and managing external system drivers,
+     * {@link ExternalSystem} objects. Within framewokr of network, {@link ExternalSystemArray} represents your system
+     * and children {@link ExternalSystem} objects represent remote, external systems connected with your system.
+     * With this {@link ExternalSystemArray}, you can manage multiple external systems as a group.
      *
      * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
      *		  target="_blank">
@@ -7805,7 +8080,7 @@ declare namespace samchon.templates.external {
      *		 style="max-width: 100%" />
      * </a>
      *
-     * <h4> Proxy Pattern </h4>
+     * #### Proxy Pattern
      * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
      * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
      * important. Only interested in user's perspective is *which can be done*.
@@ -7898,7 +8173,7 @@ declare namespace samchon.templates.external {
      */
     abstract class ExternalSystemRole extends protocol.Entity implements protocol.IProtocol {
         /**
-         * An {@link ExternalSystem external system} containing this {@link ExternalSystemRole role}.
+         * @hidden
          */
         private system;
         /**
@@ -7929,7 +8204,7 @@ declare namespace samchon.templates.external {
          */
         getSystemArray(): ExternalSystemArray;
         /**
-         * Get external system, this role is belonged to.
+         * Get parent {@link ExternalSystemRole} object.
          */
         getSystem(): ExternalSystem;
         /**
@@ -8013,7 +8288,7 @@ declare namespace samchon.templates.parallel {
      * </a>
      *
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System),
-     *			 [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+     *			 [Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class MediatorSystem extends slave.SlaveSystem {
@@ -8694,6 +8969,8 @@ declare namespace samchon.templates.parallel {
          * ```typescript
          * this.getMediator().sendData(...);
          * ```
+         *
+         * @return The {@link MediatorSystem} object.
          */
         getMediator(): MediatorSystem;
         /**
@@ -8712,7 +8989,7 @@ declare namespace samchon.templates.parallel {
      * Extends this {@link ParallelClientArrayMediator}, overrides {@link createServerBase createServerBase()} to
      * determine which protocol to follow and {@link createExternalClient createExternalClient()} creating child
      * {@link ParallelSystem} object. After the extending and overridings, open this server using the
-     * {@lionk open open()} method.
+     * {@link open open()} method.
      *
      * #### [Inherited] {@link ParallelSystemArrayMediator}
      * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
@@ -8990,7 +9267,7 @@ declare namespace samchon.templates.parallel {
      *
      * Extends this {@link ParallelServerArray} and overrides {@link createChild createChild()} method creating child
      * {@link IParallelServer} object. After the extending and overriding, construct children {@link IParallelServer}
-     * objects and call the {@lionk connect connect()} method.
+     * objects and call the {@link connect connect()} method.
      *
      * #### [Inherited] {@link ParallelSystemArray}
      * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
@@ -9060,7 +9337,7 @@ declare namespace samchon.templates.parallel {
      *
      * Extends this {@link ParallelServerArrayMediator} and overrides {@link createChild createChild()} method creating
      * child {@link IParallelServer} object. After the extending and overriding, construct children
-     * {@link IParallelServer} objects and call the {@lionk connect connect()} method.
+     * {@link IParallelServer} objects and call the {@link connect connect()} method.
      *
      * #### [Inherited] {@link ParallelSystemArrayMediator}
      * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
@@ -9382,7 +9659,7 @@ declare namespace samchon.templates.parallel {
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    class PRInvokeHistory extends InvokeHistory {
+    class PRInvokeHistory extends protocol.InvokeHistory {
         /**
          * @hidden
          */
@@ -9784,8 +10061,7 @@ declare namespace samchon.templates.service {
          */
         sendData(invoke: protocol.Invoke): void;
         /**
-         *
-         * @param invoke An {@link Invoke} message to be handled in this {@link Service} level.
+         * @inheritdoc
          */
         abstract replyData(invoke: protocol.Invoke): void;
     }

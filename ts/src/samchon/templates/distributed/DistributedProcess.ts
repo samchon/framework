@@ -42,6 +42,13 @@ namespace samchon.templates.distributed
 		 */
 		private system_array_: DistributedSystemArray;
 
+		/**
+		 * A name, represents and identifies this {@link DistributedProcess process}.
+		 * 
+		 * This {@link name} is an identifier represents this {@link DistributedProcess process}. This {@link name} is
+		 * used in {@link DistributedSystemArray.getProcess} and {@link DistributedSystemArray.getProcess}, as a key elements. 
+		 * Thus, this {@link name} should be unique in its parent {@link DistributedSystemArray} object.
+		 */
 		protected name: string;
 
 		/**
@@ -88,6 +95,9 @@ namespace samchon.templates.distributed
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * Identifier of {@link ParallelProcess} is its {@link name}.
+		 */
 		public key(): string
 		{
 			return this.name;
@@ -103,6 +113,9 @@ namespace samchon.templates.distributed
 			return this.system_array_;
 		}
 
+		/**
+		 * Get name, who represents and identifies this process.
+		 */
 		public getName(): string
 		{
 			return this.name;
@@ -264,8 +277,8 @@ namespace samchon.templates.distributed
 			}
 
 			// ADD ROLE NAME FOR MEDIATOR
-			if (invoke.has("_Role_name") == false)
-				invoke.push_back(new protocol.InvokeParameter("_Role_name", this.name));
+			if (invoke.has("_Process_name") == false)
+				invoke.push_back(new protocol.InvokeParameter("_Process_name", this.name));
 
 			// FIND THE MOST IDLE SYSTEM
 			let idle_system: DistributedSystem = null;

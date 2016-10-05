@@ -275,7 +275,7 @@ namespace protocol
 		/**
 		 * @brief Get name
 		 */
-		auto get_name() const->std::string
+		auto getName() const->std::string
 		{
 			return name;
 		};

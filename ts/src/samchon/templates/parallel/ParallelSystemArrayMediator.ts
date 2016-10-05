@@ -156,6 +156,8 @@ namespace samchon.templates.parallel
 		 * ```typescript
 		 * this.getMediator().sendData(...);
 		 * ```
+		 * 
+		 * @return The {@link MediatorSystem} object.
 		 */
 		public getMediator(): MediatorSystem
 		{

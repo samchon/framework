@@ -4165,7 +4165,7 @@ declare namespace std {
          *
          * @return A value of the iterator.
          */
-        readonly value: T;
+        readonly abstract value: T;
         abstract swap(obj: Iterator<T>): void;
     }
 }

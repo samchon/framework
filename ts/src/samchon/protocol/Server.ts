@@ -18,7 +18,7 @@ namespace samchon.protocol
 	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
 	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
 	 *  
-	 * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients. 
+	 * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients. 
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
 	 * - {@link service.Server}
@@ -103,7 +103,7 @@ namespace samchon.protocol
 	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
 	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
 	 *
-	 * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+	 * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
 	 * - {@link service.Server}
@@ -195,7 +195,7 @@ namespace samchon.protocol
 	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
 	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
 	 *
-	 * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+	 * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
 	 * - {@link service.Server}
@@ -363,7 +363,7 @@ namespace samchon.protocol
 	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
 	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
 	 *
-	 * Below codes and classes will be good examples for comprehending how to open a server and handleremote clients.
+	 * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
 	 * - {@link service.Server}

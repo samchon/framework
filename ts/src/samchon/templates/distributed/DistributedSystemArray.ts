@@ -55,10 +55,36 @@ namespace samchon.templates.distributed
 	 * a **parallel process**, too.
 	 *
 	 * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-	 * When the **parallel process** has completed, {@link DistributedSystemArray} estimates each
-	 * {@link DistributedSystem}'s {@link DistributedSystem.getPerformance performance index} basis on their execution
-	 * time. Those performance indices will be reflected to the next **parallel process**, how much pieces to allocate to
-	 * each {@link DistributedSystem}.
+	 * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s 
+	 * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices will 
+	 * be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+	 * 
+	 * #### Proxy Pattern
+	 * This class {@link DistributedSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+	 * advantage of the *Proxy Pattern* in the {@link DistributedSystemArray} class. If a process to request is not the
+	 * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+	 * may better to utilizing the *Proxy Pattern*:
+	 *
+	 * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+	 * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+	 * important. Only interested in user's perspective is *which can be done*.
+	 *
+	 * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+	 * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+	 *
+	 * <ul>
+	 *	<li>
+	 *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+	 *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+	 *	</li>
+	 *	<li>
+	 *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+	 *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+	 *		external system.
+	 *	</li>
+	 *	<li> Those strategy is called *Proxy Pattern*. </li>
+	 * </ul>
 	 * 
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
@@ -69,7 +95,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		private role_map_: std.HashMap<string, DistributedProcess>;
+		private process_map_: std.HashMap<string, DistributedProcess>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -82,7 +108,7 @@ namespace samchon.templates.distributed
 			super();
 
 			// CREATE ROLE MAP AND ENROLL COLLECTION EVENT LISTENRES
-			this.role_map_ = new std.HashMap<string, DistributedProcess>();
+			this.process_map_ = new std.HashMap<string, DistributedProcess>();
 		}
 
 		/**
@@ -94,7 +120,7 @@ namespace samchon.templates.distributed
 			// CONSTRUCT ROLES
 			//--------
 			// CLEAR ORDINARY ROLES
-			this.role_map_.clear();
+			this.process_map_.clear();
 
 			// CREATE ROLES
 			if (xml.has("processes") == true && xml.get("processes").front().has("process") == true)
@@ -109,7 +135,7 @@ namespace samchon.templates.distributed
 					process.construct(role_xml);
 
 					// AND INSERT TO ROLE_MAP
-					this.role_map_.insert([process.getName(), process]);
+					this.process_map_.insert([process.getName(), process]);
 				}
 			}
 
@@ -147,7 +173,7 @@ namespace samchon.templates.distributed
 		 */
 		public getProcessMap(): std.HashMap<string, DistributedProcess>
 		{
-			return this.role_map_;
+			return this.process_map_;
 		}
 
 		/**
@@ -159,7 +185,7 @@ namespace samchon.templates.distributed
 		 */
 		public hasProcess(name: string): boolean
 		{
-			return this.role_map_.has(name);
+			return this.process_map_.has(name);
 		}
 
 		/**
@@ -171,7 +197,7 @@ namespace samchon.templates.distributed
 		 */
 		public getProcess(name: string): DistributedProcess
 		{
-			return this.role_map_.get(name);
+			return this.process_map_.get(name);
 		}
 
 		/**
@@ -182,7 +208,7 @@ namespace samchon.templates.distributed
 		 */
 		public insertProcess(process: DistributedProcess): boolean
 		{
-			return this.role_map_.insert([process.getName(), process]).second;
+			return this.process_map_.insert([process.getName(), process]).second;
 		}
 
 		/**
@@ -192,9 +218,9 @@ namespace samchon.templates.distributed
 		 */
 		public eraseProcess(name: string): boolean
 		{
-			let prev_size: number = this.role_map_.size();
+			let prev_size: number = this.process_map_.size();
 			
-			return (this.role_map_.erase(name) != prev_size);
+			return (this.process_map_.erase(name) != prev_size);
 		}
 
 		/* ---------------------------------------------------------
@@ -203,7 +229,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		protected _Complete_history(history: InvokeHistory): boolean
+		protected _Complete_history(history: protocol.InvokeHistory): boolean
 		{
 			if (history instanceof DSInvokeHistory)
 			{
@@ -242,13 +268,13 @@ namespace samchon.templates.distributed
 			let denominator: number = 0;
 
 			// COMPUTE AVERAGE ELAPSED TIME
-			for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
+			for (let it = this.process_map_.begin(); !it.equal_to(this.process_map_.end()); it = it.next())
 			{
-				let my_role: DistributedProcess = it.second;
-				if (my_role == history.getProcess() || my_role["history_list_"].empty() == true)
+				let my_process: DistributedProcess = it.second;
+				if (my_process == history.getProcess() || my_process["history_list_"].empty() == true)
 					continue;
 
-				average_elapsed_time_of_others += my_role["compute_average_elapsed_time"]() * my_role.getResource();
+				average_elapsed_time_of_others += my_process["compute_average_elapsed_time"]() * my_process.getResource();
 				denominator++;
 			}
 
@@ -343,7 +369,7 @@ namespace samchon.templates.distributed
 			let average: number = 0.0;
 			let denominator: number = 0;
 
-			for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
+			for (let it = this.process_map_.begin(); !it.equal_to(this.process_map_.end()); it = it.next())
 			{
 				let process: DistributedProcess = it.second;
 				if (process["enforced_"] == true)
@@ -352,10 +378,10 @@ namespace samchon.templates.distributed
 				average += process.getResource();
 				denominator++;
 			}
-			average /= this.role_map_.size();
+			average /= denominator;
 
 			// DIVIDE FROM THE AVERAGE
-			for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
+			for (let it = this.process_map_.begin(); !it.equal_to(this.process_map_.end()); it = it.next())
 			{
 				let process: DistributedProcess = it.second;
 				if (process["enforced_"] == true)
@@ -374,16 +400,16 @@ namespace samchon.templates.distributed
 		public toXML(): library.XML
 		{
 			let xml: library.XML = super.toXML();
-			if (this.role_map_.empty() == true)
+			if (this.process_map_.empty() == true)
 				return xml;
 
-			let roles_xml: library.XML = new library.XML();
+			let processes_xml: library.XML = new library.XML();
 			{
-				roles_xml.setTag("processes");
-				for (let it = this.role_map_.begin(); !it.equal_to(this.role_map_.end()); it = it.next())
-					roles_xml.push(it.second.toXML());
+				processes_xml.setTag("processes");
+				for (let it = this.process_map_.begin(); !it.equal_to(this.process_map_.end()); it = it.next())
+					processes_xml.push(it.second.toXML());
 			}
-			xml.push(roles_xml);
+			xml.push(processes_xml);
 			return xml;
 		}
 	}

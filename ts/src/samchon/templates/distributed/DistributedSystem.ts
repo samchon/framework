@@ -74,7 +74,7 @@ namespace samchon.templates.distributed
 		/**
 		 * Factory method creating a {@link ExternalSystemRole child} object.
 		 * 
-		 * In {@link distributed} module, the role class {@link DistributedProcess} is not belonged to a specific 
+		 * In {@link distributed} module, the process class {@link DistributedProcess} is not belonged to a specific 
 		 * {@link DistributedSystem} object. It only belongs to a {@link DistributedSystemArray} object and has a 
 		 * **M: N Associative Relationship** between this {@link DistributedSystem} class.
 		 * 
@@ -183,15 +183,16 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void
+		protected _Send_back_history(invoke: protocol.Invoke, history: protocol.InvokeHistory): void
 		{
 			if (history instanceof DSInvokeHistory)
 			{
 				// RE-SEND INVOKE MESSAGE TO ANOTHER SLAVE VIA ROLE
 				history.getProcess().sendData(invoke);
 			}
-			else
-				super._Send_back_history(invoke, history);
+			
+			// ERASE THE HISTORY
+			super._Send_back_history(invoke, history);
 		}
 	}
 }

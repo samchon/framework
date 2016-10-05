@@ -33,16 +33,18 @@ function remove_dynamics()
 	const REPLACES = 
 		[
 			//--------
-			// FILE MODULE
+			// LIBRARY & COLLECTIONS
 			//--------
-			'file_', // FileReference.file_
+			'file_',	// FileReference.file_
+			'first_',	// CollectionEvent.first_
+			'last_',	// CollectionEvent.last_
 
 			//--------
 			// PROTOCOL MODULE
 			//--------
 			'_replyData',		// IProtocol._replyData
-			'start_time_',			// InvokeHistory.start_time_
-			'end_time_',			// InvokeHistory.end_time_
+			'start_time_',		// InvokeHistory.start_time_
+			'end_time_',		// InvokeHistory.end_time_
 
 			'destructor',		// {System Templates}.destructor
 
@@ -64,7 +66,8 @@ function remove_dynamics()
 
 			'progress_list_',		// ParallelSystem.progress_list_
 			'history_list_',		// ParallelSystem.history_list_
-			'exclude_',				// ParallelSystem.exclude_
+			'exclude_',				// ParallelSystem.exclude
+			'enforced_',			// ParallelSystem.enforced__
 			'send_piece_data',		// ParallelSystem.send_piece_dat
 
 			'complete_history',		// MediatorSystem.complete_history

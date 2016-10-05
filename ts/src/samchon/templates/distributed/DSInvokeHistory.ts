@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../InvokeHistory.ts" />
+/// <reference path="../../protocol/InvokeHistory.ts" />
 
 namespace samchon.templates.distributed
 {
@@ -24,7 +24,7 @@ namespace samchon.templates.distributed
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class DSInvokeHistory 
-		extends InvokeHistory
+		extends protocol.InvokeHistory
 	{
 		/**
 		 * @hidden

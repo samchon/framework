@@ -41,19 +41,24 @@ namespace samchon.templates.external
 
 	/**
 	 * An external server driver.
+	 *
+	 * The {@link ExternalServer} is an abstract class, derived from the {@link ExternalSystem} class, connecting to
+	 * remote, external server. Extends this {@link ExternalServer} class and overrides the
+	 * {@link createServerConnector createServerConnector()} method following which protocol the external server uses.
 	 * 
-	 * The {@link ExternalServer} class represents an external server, connected and interact with this system.
-	 * {@link ExternalServer} takes full charge of network communication with external server has connected. Replied 
-	 * {@link Invoke messages} from the external system is shifted to and processed in, children elements of this class, 
-	 * {@link ExternalSystemRole} objects.
-	 * 
-	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png" 
+	 * #### [Inherited] {@link ExternalSystem}
+	 * The {@link ExternalSystem} class represents an external system, connected and interact with this system.
+	 * {@link ExternalSystem} takes full charge of network communication with the remote, external system have connected.
+	 * Replied {@link Invoke} messages from the external system is shifted to and processed in, children elements of this
+	 * class, {@link ExternalSystemRole} objects.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
 	 *		  target="_blank">
-	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png" 
-	 *		 style="max-width: 100%" /> 
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+	 *		 style="max-width: 100%" />
 	 * </a>
-	 * 
-	 * <h4> Bridge & Proxy Pattern </h4>
+	 *
+	 * #### Bridge & Proxy Pattern
 	 * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
 	 * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
 	 * important. Only interested in user's perspective is *which can be done*.
@@ -74,7 +79,7 @@ namespace samchon.templates.external
 	 *	</li>
 	 *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
 	 * </ul>
-	 * 
+	 *
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -93,7 +98,9 @@ namespace samchon.templates.external
 		protected port: number;
 
 		/**
-		 * Default Constructor.
+		 * Construct from parent {@link ExternalSystemArray}.
+		 * 
+		 * @param systemArray The parent {@link ExternalSystemArray} object.
 		 */
 		public constructor(systemArray: ExternalSystemArray)
 		{

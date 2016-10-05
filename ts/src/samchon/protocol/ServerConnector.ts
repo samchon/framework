@@ -13,7 +13,7 @@ namespace samchon.protocol
 	 * 
 	 * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the 
 	 * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will 
-	 * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the 
+	 * be converted to an {@link Invoke} object and the {@link Invoke} object will be shifted to the 
 	 * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method. Below code is an example
 	 * connecting to remote server and interacting with it.
 	 * 
@@ -96,7 +96,7 @@ namespace samchon.protocol
 	 *
 	 * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
 	 * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
-	 * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
+	 * be converted to an {@link Invoke} object and the {@link Invoke} object will be shifted to the 
 	 * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
 	 *
 	 * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of

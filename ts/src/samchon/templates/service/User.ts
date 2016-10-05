@@ -218,6 +218,9 @@ namespace samchon.templates.service
 		 */
 		public logout(): void
 		{
+			if (this.account_id_ != "")
+				this.server_["account_map_"].erase(this.account_id_);
+
 			this.setAccount("", 0);
 		}
 

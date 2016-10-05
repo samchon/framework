@@ -181,30 +181,31 @@ namespace samchon.templates.parallel
 				let uid: number = invoke.get("_History_uid").getValue();
 
 				// FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
-				this.history_sequence_ = uid;
+				if (uid > this.history_sequence_)
+					this.history_sequence_ = uid;
 			}
 
-			let segment_size: number = last - first;
-			let system_size: number = 0;
+			let segment_size: number = last - first; // TOTAL NUMBER OF PIECES TO DIVIDE
+			let system_array: std.Vector<ParallelSystem> = new std.Vector<ParallelSystem>(); // SYSTEMS TO BE GET DIVIDED PROCESSES
 
+			// POP EXCLUDEDS
 			for (let i: number = 0; i < this.size(); i++)
 				if (this.at(i)["exclude_"] == false)
-					system_size++;
+					system_array.push(this.at(i));
 
-			for (let i: number = 0; i < this.size(); i++)
+			// ORDERS
+			for (let i: number = 0; i < system_array.size(); i++)
 			{
-				let system: ParallelSystem = this.at(i) as ParallelSystem;
-				if (system["exclude_"] == true)
-					continue;
-
+				let system: ParallelSystem = system_array.at(i) as ParallelSystem;
+				
 				// COMPUTE FIRST AND LAST INDEX TO ALLOCATE
-				let piece_size: number = (i == this.size() - 1) 
+				let piece_size: number = (i == system_array.size() - 1) 
 					? segment_size - first
-					: Math.floor(segment_size / system_size * system.getPerformance());
+					: Math.floor(segment_size / system_array.size() * system.getPerformance());
 				if (piece_size == 0)
 					continue;
 
-				// SEND DATA WITH PIECE INDEXES
+				// SEND DATA WITH PIECES' INDEXES
 				system["send_piece_data"](invoke, first, first + piece_size);
 				first += piece_size; // FOR THE NEXT STEP
 			}
@@ -216,7 +217,7 @@ namespace samchon.templates.parallel
 		/**
 		 * @hidden
 		 */
-		protected _Complete_history(history: InvokeHistory): boolean
+		protected _Complete_history(history: protocol.InvokeHistory): boolean
 		{
 			// WRONG TYPE
 			if ((history instanceof PRInvokeHistory) == false)

@@ -47,7 +47,7 @@ namespace samchon.templates.external
 		implements protocol.IProtocol
 	{
 		/**
-		 * An {@link ExternalSystem external system} containing this {@link ExternalSystemRole role}.
+		 * @hidden
 		 */
 		private system: ExternalSystem;
 		
@@ -99,7 +99,7 @@ namespace samchon.templates.external
 		}
 
 		/**
-		 * Get external system, this role is belonged to.
+		 * Get parent {@link ExternalSystemRole} object.
 		 */
 		public getSystem(): ExternalSystem
 		{

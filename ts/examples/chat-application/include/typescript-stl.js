@@ -2286,9 +2286,7 @@ var std;
              *
              * @return A value of the iterator.
              */
-            get: function () {
-                throw new std.LogicError("Have to be overriden.");
-            },
+            get: function () { },
             enumerable: true,
             configurable: true
         });

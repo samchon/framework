@@ -99,8 +99,7 @@ namespace samchon.templates.service
 		}
 
 		/**
-		 * 
-		 * @param invoke An {@link Invoke} message to be handled in this {@link Service} level.
+		 * @inheritdoc
 		 */
 		public abstract replyData(invoke: protocol.Invoke): void;
 	}

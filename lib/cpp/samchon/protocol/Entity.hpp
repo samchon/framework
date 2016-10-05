@@ -124,7 +124,7 @@ namespace protocol
 		typedef Key key_type;
 
 	public:
-		virtual ~Entity() {};
+		virtual ~Entity() = default;
 
 		/**
 		 * @brief Get a key that can identify the Entity uniquely.

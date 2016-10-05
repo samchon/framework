@@ -13,7 +13,7 @@ namespace samchon.templates.parallel
 	 * Extends this {@link ParallelClientArrayMediator}, overrides {@link createServerBase createServerBase()} to 
 	 * determine which protocol to follow and {@link createExternalClient createExternalClient()} creating child 
 	 * {@link ParallelSystem} object. After the extending and overridings, open this server using the 
-	 * {@lionk open open()} method.
+	 * {@link open open()} method.
 	 * 
 	 * #### [Inherited] {@link ParallelSystemArrayMediator}
 	 * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its

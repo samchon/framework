@@ -40,14 +40,14 @@ namespace samchon.templates.slave
 			if (invoke.has("_History_uid"))
 			{
 				// INIT HISTORY - WITH START TIME
-				let history: InvokeHistory = new InvokeHistory(invoke);
+				let history: protocol.InvokeHistory = new protocol.InvokeHistory(invoke);
 				std.remove_if
 				(
 					invoke.begin(), invoke.end(),
 					function (parameter: protocol.InvokeParameter): boolean
 					{
 						return parameter.getName() == "_History_uid" 
-							|| parameter.getName() == "_Role_name";
+							|| parameter.getName() == "_Process_name";
 					}
 				); // DETACH THE UID FOR FUNCTION AUTO-MATCHING
 

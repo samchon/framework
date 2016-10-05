@@ -77,8 +77,8 @@ namespace samchon.templates.external
 		/**
 		 * Constrct from parent {@link ExternalSystemArray} and communicator.
 		 * 
-		 * @param systemArray
-		 * @param communicator
+		 * @param systemArray The parent {@link ExternalSystemArray} object.
+		 * @param communicator Communicator with the remote, external system.
 		 */
 		public constructor(systemArray: ExternalSystemArray, communicator: protocol.IClientDriver);
 
@@ -145,6 +145,9 @@ namespace samchon.templates.external
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * Get parent {@link ExternalSystemArray} object.
+		 */
 		public getSystemArray(): ExternalSystemArray
 		{
 			return this.system_array_;

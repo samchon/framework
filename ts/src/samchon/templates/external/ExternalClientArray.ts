@@ -40,18 +40,28 @@ namespace samchon.templates.external
 	}
 
 	/**
-	 * An {@link ExternalSystemArray} acceepts {@link ExternalSystem external clients} as a {@link IServer server}.
+	 * An array and manager of {@link ExternalSystem external clients} as a server.
 	 * 
-	 * {@link ExternalServerArray} is an abstract class contains, manages and accepts external server drivers, 
-	 * {@link IExternalServer} objects, as a {@link IServer server}.
+	 * The {@link ExternalClientArray} is an abstract class, derived from the {@link ExternalSystemArray} class, opening
+	 * a server accepting {@link ExternalSystem external clients}.
 	 *
+	 * Extends this {@link ExternalClientArray}, overrides {@link createServerBase createServerBase()} to determine which
+	 * protocol to follow and {@link createExternalClient createExternalClient()} creating child {@link ExternalSystem}
+	 * object. After the extending and overridings, open this server using the {@link open open()} method.
+	 * 
+	 * #### [Inherited] {@link ExternalSystemArray}
+	 * The {@link ExternalSystemArray} is an abstract class containing and managing external system drivers,
+	 * {@link ExternalSystem} objects. Within framewokr of network, {@link ExternalSystemArray} represents your system
+	 * and children {@link ExternalSystem} objects represent remote, external systems connected with your system.
+	 * With this {@link ExternalSystemArray}, you can manage multiple external systems as a group.
+	 * 
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
 	 *		  target="_blank">
 	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
 	 *		 style="max-width: 100%" />
 	 * </a>
 	 *
-	 * <h4> Proxy Pattern </h4>
+	 * #### Proxy Pattern
 	 * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
 	 * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
 	 * important. Only interested in user's perspective is *which can be done*.
@@ -81,7 +91,7 @@ namespace samchon.templates.external
 		implements IExternalClientArray
 	{
 		/**
-		 * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
+		 * @hidden
 		 */
 		private server_base_: protocol.IServerBase;
 
@@ -123,6 +133,15 @@ namespace samchon.templates.external
 		/* ---------------------------------------------------------
 			FACTORY METHOD FOR CHILDREN
 		--------------------------------------------------------- */
+		/**
+		 * Add a newly connected remote client.
+		 * 
+		 * When a {@link IClientDriver remote client} connects to this *server* {@link ExternalClientArray} object, 
+		 * then this {@link ExternalClientArray} creates a child {@link ExternalSystem external client} object through 
+		 * the {@link createExternalClient createExternalClient()} method and {@link insert inserts} it.
+		 * 
+		 * @param driver A communicator for external client.
+		 */
 		public addClient(driver: protocol.IClientDriver): void
 		{
 			let system: ExternalSystem = this.createExternalClient(driver);

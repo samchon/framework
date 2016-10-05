@@ -60,12 +60,12 @@ namespace samchon.templates.parallel
 		/**
 		 * @hidden
 		 */
-		private progress_list_: std.HashMap<number, std.Pair<protocol.Invoke, InvokeHistory>>;
+		private progress_list_: std.HashMap<number, std.Pair<protocol.Invoke, protocol.InvokeHistory>>;
 		
 		/**
 		 * @hidden
 		 */
-		private history_list_: std.HashMap<number, InvokeHistory>;
+		private history_list_: std.HashMap<number, protocol.InvokeHistory>;
 
 		/**
 		 * @hidden
@@ -105,8 +105,8 @@ namespace samchon.templates.parallel
 			super(systemArray, communicator);
 			
 			// HIDDEN MEMBERS
-			this.progress_list_ = new std.HashMap<number, std.Pair<protocol.Invoke, InvokeHistory>>();
-			this.history_list_ = new std.HashMap<number, InvokeHistory>();
+			this.progress_list_ = new std.HashMap<number, std.Pair<protocol.Invoke, protocol.InvokeHistory>>();
+			this.history_list_ = new std.HashMap<number, protocol.InvokeHistory>();
 			
 			this.enforced_ = false;
 			this.exclude_ = false;
@@ -313,7 +313,6 @@ namespace samchon.templates.parallel
 					return;
 
 				this._Send_back_history(it.second.first, it.second.second);
-				this.progress_list_.erase(uid);
 			}
 			else
 				this.replyData(invoke);
@@ -350,7 +349,7 @@ namespace samchon.templates.parallel
 		/**
 		 * @hidden
 		 */
-		protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void
+		protected _Send_back_history(invoke: protocol.Invoke, history: protocol.InvokeHistory): void
 		{
 			if (history instanceof PRInvokeHistory)
 			{
@@ -371,6 +370,9 @@ namespace samchon.templates.parallel
 					history.getLast()
 				);
 			}
+
+			// ERASE FROM THE PROGRESS LIST
+			this.progress_list_.erase(history.getUID());
 		}
 	}
 }

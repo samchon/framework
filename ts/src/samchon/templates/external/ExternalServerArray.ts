@@ -45,10 +45,20 @@ namespace samchon.templates.external
 	}
 
 	/**
-	 * An {@link ExternalSystemArray} connecting to {@link IExternalServer external servers} as a **client**.
+	 * An array and manager of {@link IExternalServer external servers}.
+	 *
+	 * The {@link ExternalServerArray} is an abstract class, derived from the {@link ExternalSystemArray} class,
+	 * connecting to {@link IExternalServer external servers}.
+	 *
+	 * Extends this {@link ExternalServerArray} and overrides {@link createChild createChild()} method creating child
+	 * {@link IExternalServer} object. After the extending and overriding, construct children {@link IExternalServer}
+	 * objects and call the {@link connect connect()} method.
 	 * 
-	 * {@link ExternalServerArray} is an abstract class contains, manages and connects to external server drivers, 
-	 * {@link IExternalServer} objects, as a **client**.
+	 * #### [Inherited] {@link ExternalSystemArray}
+	 * The {@link ExternalSystemArray} is an abstract class containing and managing external system drivers,
+	 * {@link ExternalSystem} objects. Within framewokr of network, {@link ExternalSystemArray} represents your system
+	 * and children {@link ExternalSystem} objects represent remote, external systems connected with your system.
+	 * With this {@link ExternalSystemArray}, you can manage multiple external systems as a group.
 	 *
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
 	 *		  target="_blank">
@@ -56,7 +66,7 @@ namespace samchon.templates.external
 	 *		 style="max-width: 100%" />
 	 * </a>
 	 *
-	 * <h4> Proxy Pattern </h4>
+	 * #### Proxy Pattern
 	 * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
 	 * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
 	 * important. Only interested in user's perspective is *which can be done*.

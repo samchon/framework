@@ -1,6 +1,4 @@
-﻿/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
-
-// IMPORT
+﻿// IMPORT
 import samchon = require("samchon-framework");
 
 // SHORTCUTS

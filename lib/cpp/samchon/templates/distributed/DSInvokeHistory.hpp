@@ -30,11 +30,14 @@ namespace distributed
 	class SAMCHON_FRAMEWORK_API DSInvokeHistory
 		: public protocol::InvokeHistory
 	{
+		friend class DistributedSystem;
+
 	private:
 		typedef protocol::InvokeHistory super;
 
 		DistributedSystem *system_;
 		DistributedProcess *role_;
+		double weight_;
 
 	public:
 		/* ---------------------------------------------------------
@@ -53,8 +56,9 @@ namespace distributed
 		 * @param system The {@link DistributedSystem} object who sent the {@link Invoke} message.
 		 * @param process The {@link DistributedProcess} object who sent the {@link Invoke} message.
 		 * @param invoke An {@link Invoke} message requesting the *distributed process*.
+		 * @param weight Weight of resource which indicates how heavy this {@link Invoke} message is.
 		 */
-		DSInvokeHistory(DistributedSystem*, DistributedProcess*, std::shared_ptr<protocol::Invoke>);
+		DSInvokeHistory(DistributedSystem*, DistributedProcess*, std::shared_ptr<protocol::Invoke>, double weight);
 
 		virtual ~DSInvokeHistory();
 
@@ -77,6 +81,16 @@ namespace distributed
 		auto getProcess() const -> DistributedProcess*
 		{
 			return role_;
+		};
+
+		/**
+		 * Get weight.
+		 * 
+		 * Gets weight of resource which indicates how heavy this {@link Invoke} message is. Default is 1.
+		 */
+		auto getWeight() const -> double
+		{
+			return weight_;
 		};
 
 		/* ---------------------------------------------------------

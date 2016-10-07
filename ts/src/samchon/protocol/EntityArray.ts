@@ -5,6 +5,8 @@ namespace samchon.protocol
 	/**
 	 * A container of entity, and it's a type of entity, too.
 	 * 
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
+	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IEntityGroup<T extends IEntity>

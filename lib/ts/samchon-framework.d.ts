@@ -1,9 +1,9 @@
-// Type definitions for Samchon Framework v2.0.0-beta.8
+// Type definitions for Samchon Framework v2.0.0-gamma.5
 // Project: https://github.com/samchon/framework
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-/// <reference path="../typescript-stl/typescript-stl.d.ts" />
+/// <reference types="typescript-stl" />
 
 declare module "samchon-framework"
 {
@@ -1025,6 +1025,22 @@ declare namespace samchon.collections {
         removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
     }
 }
+/**
+ * STL Containers       | Collections
+ * ---------------------|-------------------
+ * {@link Vector}       | {@link ArrayCollection}
+ * {@link List}         | {@link ListCollection}
+ * {@link Deque}        | {@link DequeCollection}
+ *                      |
+ * {@link TreeSet}      | {@link TreeSetCollection}
+ * {@link HashSet}      | {@link HashSetCollection}
+ * {@link TreeMultiSet} | {@link TreeMultiSetCollection}
+ * {@link HashMultiSet} | {@link HashMultiSetCollection}
+ *                      |
+ * {@link TreeMultiMap} | {@link TreeMultiMapCollection}
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
 declare namespace samchon.collections {
     /**
      * An interface for {@link IContainer containers} who can detect element I/O events.
@@ -3205,6 +3221,8 @@ declare namespace samchon.protocol {
      * it would be better to using binary communication (with ByteArray).
      * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray).
      *
+     * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     interface IEntity {
@@ -3311,6 +3329,8 @@ declare namespace samchon.protocol {
      * If your own network system has a critical performance issue on communication data class,
      * it would be better to using binary communication (with ByteArray).
      * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray).
+     *
+     * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -3491,7 +3511,7 @@ declare namespace samchon.templates.external {
      * - {@link ExternalClientArray}: A server accepting {@link ExternalSystem external clients}.
      * - {@link ExternalServerArray}: A client connecting to {@link ExternalServer external servers}.
      * - {@link ExternalServerClientArray}: Both of them. Accepts {@link ExternalSystem external clients} and connects to
-     *                                      {@link ExternalServer external servers} at the same time.
+     *   {@link ExternalServer external servers} at the same time.
      *
      * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
      *		  target="_blank">
@@ -3598,7 +3618,7 @@ declare namespace samchon.templates.parallel {
      * - {@link ParallelClientArray}: A server accepting {@link ParallelSystem parallel clients}.
      * - {@link ParallelServerArray}: A client connecting to {@link ParallelServer parallel servers}.
      * - {@link ParallelServerClientArray}: Both of them. Accepts {@link ParallelSystem parallel clients} and connects to
-     *                                      {@link ParallelServer parallel servers} at the same time.
+     *   {@link ParallelServer parallel servers} at the same time.
      *
      * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
      * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
@@ -3745,7 +3765,7 @@ declare namespace samchon.templates.distributed {
      * - {@link DistributedClientArray}: A server accepting {@link DistributedSystem distributed clients}.
      * - {@link DistributedServerArray}: A client connecting to {@link DistributedServer distributed servers}.
      * - {@link DistributedServerClientArray}: Both of them. Accepts {@link DistributedSystem distributed clients} and
-     *                                         connects to {@link DistributedServer distributed servers} at the same time.
+     *   connects to {@link DistributedServer distributed servers} at the same time.
      *
      * The {@link DistributedSystemArray} contains {@link DistributedProcess} objects directly. You can request a
      * **distributed process** through the {@link DistributedProcess} object. You can access the
@@ -3876,7 +3896,7 @@ declare namespace samchon.templates.distributed {
         /**
          * @hidden
          */
-        private estimate_role_performance(history);
+        private estimate_process_resource(history);
         /**
          * @hidden
          */
@@ -3908,8 +3928,7 @@ declare namespace samchon.templates.distributed {
      * - {@link DistributedClientArrayMediator}: A server accepting {@link DistributedSystem distributed clients}.
      * - {@link DistributedServerArrayMediator}: A client connecting to {@link DistributedServer distributed servers}.
      * - {@link DistributedServerClientArrayMediator}: Both of them. Accepts {@link DistributedSystem distributed clients} and
-     *                                                 connects to {@link DistributedServer distributed servers} at the
-     *                                                 same time.
+     *   connects to {@link DistributedServer distributed servers} at the same time.
      *
      * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
      * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
@@ -4701,6 +4720,8 @@ declare namespace samchon.protocol {
     /**
      * A container of entity, and it's a type of entity, too.
      *
+     * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     interface IEntityGroup<T extends IEntity> extends IEntity, std.base.IContainer<T> {
@@ -4958,7 +4979,9 @@ declare namespace samchon.protocol {
      * (IProtocol, IServer and ICommunicator) by implemens or inherits them, like designing
      * classes of S/W architecture.
      *
-     * @see IProtocol
+     * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
+     *
+     * @see {@link IProtocol}
      * @author Jeongho Nam <http://samchon.org>
      */
     class Invoke extends EntityArray<InvokeParameter> {
@@ -5015,6 +5038,8 @@ declare namespace samchon.protocol {
 declare namespace samchon.protocol {
     /**
      * A parameter belongs to an Invoke.
+     *
+     * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -5546,6 +5571,12 @@ declare namespace samchon.protocol {
      * }
      * ```
      *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
      * @see {@link IServer}, {@link IClientDriver}
      * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
      * @author Jeongho Nam <http://samchon.org>
@@ -5597,6 +5628,13 @@ declare namespace samchon.protocol {
      * 	}
      * }
      * ```
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
      *
      * @see {@link Server}, {@link ClientDriver}
      * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
@@ -5662,6 +5700,12 @@ declare namespace samchon.protocol {
      * 	}
      * }
      * ```
+     *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		 style="max-width: 100%" />
+     * </a>
      *
      * @see {@link WebServer}, {@link WebClientDriver}
      * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
@@ -5729,6 +5773,12 @@ declare namespace samchon.protocol {
      * }
      * ```
      *
+     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		  target="_blank">
+     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+     *		 style="max-width: 100%" />
+     * </a>
+     *
      * @see {@link SharedWorkerServer}, {@link SharedWorkerClientDriver}
      * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
      * @author Jeongho Nam <http://samchon.org>
@@ -5775,11 +5825,7 @@ declare namespace samchon.protocol {
      * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
      * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
      *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-     *		 style="max-width: 100%" />
-     * </a>
+     * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
      *
      * @see {@link IServer}, {@link IProtocol}
      * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
@@ -5843,11 +5889,7 @@ declare namespace samchon.protocol {
      * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
      * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
      *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-     *		 style="max-width: 100%" />
-     * </a>
+     * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
      *
      * @see {@link Server}, {@link IProtocol}
      * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
@@ -5902,11 +5944,7 @@ declare namespace samchon.protocol {
      * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
      * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
      *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-     *		 style="max-width: 100%" />
-     * </a>
+     * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
      *
      * @see {@link WebServer}, {@link IProtocol}
      * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
@@ -6012,11 +6050,7 @@ declare namespace samchon.protocol {
      * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
      * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
      *
-     * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-     *		  target="_blank">
-     *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-     *		 style="max-width: 100%" />
-     * </a>
+     * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
      *
      * @see {@link SharedWorkerServer}, {@link IProtocol}
      * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
@@ -6576,7 +6610,23 @@ declare namespace samchon.templates.distributed {
          * @param invoke An {@link Invoke} message requesting distributed process.
          * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
          */
-        sendData(invoke: protocol.Invoke): DistributedSystem;
+        sendData(invoke: protocol.Invoke): void;
+        /**
+         * Send an {@link Invoke} message.
+         *
+         * Sends an {@link Invoke} message requesting a **distributed process**. The {@link Invoke} message will be sent
+         * to the most idle {@link DistributedSystem} object, which represents a slave system, and the most idle
+         * {@link DistributedSystem} object will be returned.
+         *
+         * When the **distributed process** has completed, then the {@link DistributedSystemArray} object will revaluate
+         * {@link getResource resource index} and {@link DistributedSystem.getPerformance performance index} of this
+         * {@link DistributedSystem} and the most idle {@link DistributedSystem} objects basis on the execution time.
+         *
+         * @param invoke An {@link Invoke} message requesting distributed process.
+         * @param weight Weight of resource which indicates how heavy this {@link Invoke} message is. Default is 1.
+         * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
+         */
+        sendData(invoke: protocol.Invoke, weight: number): void;
         /**
          * @hidden
          */
@@ -7636,6 +7686,10 @@ declare namespace samchon.templates.distributed {
          */
         private process_;
         /**
+         * @hidden
+         */
+        private weight_;
+        /**
          * Construct from a DistributedSystem.
          *
          * @param system The {@link DistributedSystem} object who sent the {@link Invoke} message.
@@ -7647,8 +7701,9 @@ declare namespace samchon.templates.distributed {
          * @param system The {@link DistributedSystem} object who sent the {@link Invoke} message.
          * @param process The {@link DistributedProcess} object who sent the {@link Invoke} message.
          * @param invoke An {@link Invoke} message requesting the *distributed process*.
+         * @param weight Weight of resource which indicates how heavy this {@link Invoke} message is.
          */
-        constructor(system: DistributedSystem, process: DistributedProcess, invoke: protocol.Invoke);
+        constructor(system: DistributedSystem, process: DistributedProcess, invoke: protocol.Invoke, weight: number);
         /**
          * @inheritdoc
          */
@@ -7661,6 +7716,12 @@ declare namespace samchon.templates.distributed {
          * Get the related {@link DistributedProcess} object.
          */
         getProcess(): DistributedProcess;
+        /**
+         * Get weight.
+         *
+         * Gets weight of resource which indicates how heavy this {@link Invoke} message is. Default is 1.
+         */
+        getWeight(): number;
         /**
          * @inheritdoc
          */
@@ -8857,7 +8918,7 @@ declare namespace samchon.templates.parallel {
      * - {@link ParallelClientArrayMediator}: A server accepting {@link ParallelSystem parallel clients}.
      * - {@link ParallelServerArrayMediator}: A client connecting to {@link ParallelServer parallel servers}.
      * - {@link ParallelServerClientArrayMediator}: Both of them. Accepts {@link ParallelSystem parallel clients} and
-     *                                              connects to {@link ParallelServer parallel servers} at the same time.
+     *   connects to {@link ParallelServer parallel servers} at the same time.
      *
      * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
      * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.

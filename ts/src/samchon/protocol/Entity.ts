@@ -24,6 +24,8 @@ namespace samchon.protocol
 	 * it would be better to using binary communication (with ByteArray).
 	 * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray).
 	 * 
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
+	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IEntity
@@ -198,6 +200,8 @@ namespace samchon.protocol
 	 * If your own network system has a critical performance issue on communication data class, 
 	 * it would be better to using binary communication (with ByteArray).
 	 * Don't worry about the problem! Invoke also provides methods for binary data (ByteArray).
+	 * 
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

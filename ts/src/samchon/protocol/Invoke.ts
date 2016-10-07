@@ -24,7 +24,9 @@ namespace samchon.protocol
 	 * (IProtocol, IServer and ICommunicator) by implemens or inherits them, like designing
 	 * classes of S/W architecture.
 	 *
-	 * @see IProtocol
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
+	 *
+	 * @see {@link IProtocol}
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Invoke
@@ -158,6 +160,8 @@ namespace samchon.protocol
 {
 	/**
 	 * A parameter belongs to an Invoke.
+	 * 
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

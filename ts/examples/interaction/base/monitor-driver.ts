@@ -1,4 +1,4 @@
-﻿/// <reference path="../../typings/samchon-framework/samchon-framework.d.ts" />
+﻿/// <reference types="samchon-framework" />
 
 import samchon = require("samchon-framework");
 

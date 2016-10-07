@@ -212,7 +212,27 @@ namespace distributed
 		 * @param invoke An {@link Invoke} message requesting distributed process.
 		 * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
 		 */
-		virtual void sendData(std::shared_ptr<protocol::Invoke>) override;
+		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
+		{
+			sendData(invoke, 1.0);
+		};
+
+		/**
+		 * Send an {@link Invoke} message.
+		 * 
+		 * Sends an {@link Invoke} message requesting a **distributed process**. The {@link Invoke} message will be sent
+		 * to the most idle {@link DistributedSystem} object, which represents a slave system, and the most idle 
+		 * {@link DistributedSystem} object will be returned.
+		 * 
+		 * When the **distributed process** has completed, then the {@link DistributedSystemArray} object will revaluate
+		 * {@link getResource resource index} and {@link DistributedSystem.getPerformance performance index} of this
+		 * {@link DistributedSystem} and the most idle {@link DistributedSystem} objects basis on the execution time. 
+		 * 
+		 * @param invoke An {@link Invoke} message requesting distributed process.
+		 * @param weight Weight of resource which indicates how heavy this {@link Invoke} message is. Default is 1.
+		 * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
+		 */
+		virtual void sendData(std::shared_ptr<protocol::Invoke>, double);
 
 	private:
 		void report_history(std::shared_ptr<DSInvokeHistory>);

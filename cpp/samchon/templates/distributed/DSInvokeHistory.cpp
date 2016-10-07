@@ -23,11 +23,13 @@ DSInvokeHistory::DSInvokeHistory
 	(
 		DistributedSystem *system, 
 		DistributedProcess *role,
-		shared_ptr<Invoke> invoke
+		shared_ptr<Invoke> invoke,
+		double weight
 	) : super(invoke)
 {
 	this->system_ = system;
 	this->role_ = role;
+	this->weight_ = weight;
 }
 
 DSInvokeHistory::~DSInvokeHistory()

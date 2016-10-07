@@ -10,6 +10,7 @@
     "exclude": 
     [
         "examples",
-        "src/samchon/test"
+        "src/samchon/test",
+        "src/typings/samchon-framework"
     ]
 }

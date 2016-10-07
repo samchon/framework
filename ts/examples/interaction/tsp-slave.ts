@@ -1,8 +1,7 @@
-﻿/// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
-/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+﻿/// <reference types="samchon-framework" />
 
-/// <reference path="../typings/node/node.d.ts" />
-/// <reference path="../typings/scanf/scanf.d.ts" />
+/// <reference types="node" />
+/// <reference types="scanf" />
 
 import std = require("typescript-stl");
 import samchon = require("samchon-framework");

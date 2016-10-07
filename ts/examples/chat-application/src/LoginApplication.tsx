@@ -10,7 +10,7 @@ namespace example.chat {
 		/* ---------------------------------------------------------
 			TRY LOGIN
 		--------------------------------------------------------- */
-		private handle_login_click(event: React.MouseEvent): void {
+		private handle_login_click(event: React.MouseEvent<EventTarget>): void {
 
 			// REMEMBER TEMPORARILY
 			this.id = (document.getElementById("id") as HTMLInputElement).value;
@@ -28,7 +28,7 @@ namespace example.chat {
 			this.communicator.connect(SERVER_HOST, SERVER_PORT);
 		}
 			
-		private handle_login_click2(event: React.KeyboardEvent): void {
+		private handle_login_click2(event: React.KeyboardEvent<EventTarget>): void {
 			if (event.charCode == 13) {
 				// REMEMBER TEMPORARILY
 				this.id = (document.getElementById("id") as HTMLInputElement).value;

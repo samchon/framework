@@ -31,7 +31,7 @@ namespace example.chat {
 		============================================================
 			SEND DATA
 		--------------------------------------------------------- */
-		private create_room(event: React.MouseEvent): void {
+		private create_room(event: React.MouseEvent<EventTarget>): void {
 			let name: string = (document.getElementById("create_room_input") as HTMLInputElement).value;
 
 			this.sendData(new protocol.Invoke("createRoom", name));

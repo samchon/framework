@@ -71,14 +71,14 @@ auto DistributedSystemArray::_Complete_history(shared_ptr<InvokeHistory> _histor
 
 	// ESTIMATE PERFORMANCE INDEXES
 	estimate_system_performance(history); // ESTIMATE SYSTEMS' INDEX
-	estimate_role_performance(history); // ESTIMATE ROLE' INDEX
+	estimate_process_resource(history); // ESTIMATE PROCESS' PERFORMANCE
 
 	// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SYSTEMS AND ROLES
 	_Normalize_performance();
 	return true;
 }
 
-void DistributedSystemArray::estimate_role_performance(shared_ptr<DSInvokeHistory> history)
+void DistributedSystemArray::estimate_process_resource(shared_ptr<DSInvokeHistory> history)
 {
 	DistributedProcess *process = history->getProcess();
 	if (process->enforced_ == true)
@@ -107,7 +107,8 @@ void DistributedSystemArray::estimate_role_performance(shared_ptr<DSInvokeHistor
 		// DEDUCT NEW PERFORMANCE INDEX BASED ON THE EXECUTION TIME
 		//	- ROLE'S PERFORMANCE MEANS; HOW MUCH TIME THE ROLE NEEDS
 		//	- ELAPSED TIME IS LONGER, THEN PERFORMANCE IS HIGHER
-		double new_performance = history->computeElapsedTime() / average_elapsed_time_of_others;
+		double elapsed_time = history->computeElapsedTime() / history->getWeight(); // CONSIDER WEIGHT
+		double new_performance = elapsed_time / average_elapsed_time_of_others; // THE NEW RESOURCE
 
 		// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 15%
 		double ordinary_ratio;
@@ -155,7 +156,8 @@ void DistributedSystemArray::estimate_system_performance(shared_ptr<DSInvokeHist
 		// DEDUCT NEW PERFORMANCE INDEX BASED ON THE EXECUTION TIME
 		//	- SYSTEM'S PERFORMANCE MEANS; HOW FAST THE SYSTEM IS
 		//	- ELAPSED TIME IS LOWER, THEN PERFORMANCE IS HIGHER
-		double new_performance = average_elapsed_time_of_others / history->computeElapsedTime();
+		double elapsed_time = history->computeElapsedTime() / history->getWeight();
+		double new_performance = average_elapsed_time_of_others / elapsed_time;
 
 		// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 30%
 		double ordinary_ratio;

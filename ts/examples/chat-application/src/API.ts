@@ -1,4 +1,8 @@
-﻿namespace example.chat
+﻿/// <reference types="samchon-framework" />
+/// <reference types="react" />
+/// <reference types="react-dom" />
+
+namespace example.chat
 {
 	export import library = samchon.library;
 	export import protocol = samchon.protocol;

@@ -64,7 +64,7 @@ namespace example.chat {
 							<div className="row">
 								<div className="col-md-4 col-sm-6 portfolio-item">
 									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
-										<img src="img/img.png" className="img-responsive" alt />
+										<img src="img/img.png" className="img-responsive" />
 									</a>
 									<div className="portfolio-caption text-center">
 										<h4>Round Icons</h4>
@@ -73,7 +73,7 @@ namespace example.chat {
 								</div>
 								<div className="col-md-4 col-sm-6 portfolio-item">
 									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
-										<img src="img/img.png" className="img-responsive" alt />
+										<img src="img/img.png" className="img-responsive" />
 									</a>
 									<div className="portfolio-caption text-center">
 										<h4>Round Icons</h4>
@@ -82,7 +82,7 @@ namespace example.chat {
 								</div>
 								<div className="col-md-4 col-sm-6 portfolio-item">
 									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
-										<img src="img/img.png" className="img-responsive" alt />
+										<img src="img/img.png" className="img-responsive" />
 									</a>
 									<div className="portfolio-caption text-center">
 										<h4>Round Icons</h4>
@@ -91,7 +91,7 @@ namespace example.chat {
 								</div>
 								<div className="col-md-4 col-sm-6 portfolio-item">
 									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
-										<img src="img/img.png" className="img-responsive" alt />
+										<img src="img/img.png" className="img-responsive" />
 									</a>
 									<div className="portfolio-caption text-center">
 										<h4>Round Icons</h4>
@@ -100,7 +100,7 @@ namespace example.chat {
 								</div>
 								<div className="col-md-4 col-sm-6 portfolio-item">
 									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
-										<img src="img/img.png" className="img-responsive" alt />
+										<img src="img/img.png" className="img-responsive" />
 									</a>
 									<div className="portfolio-caption text-center">
 										<h4>Round Icons</h4>
@@ -109,7 +109,7 @@ namespace example.chat {
 								</div>
 							<div className="col-md-4 col-sm-6 portfolio-item">
 									<a href="#portfolioModal1" className="portfolio-link" data-toggle="modal">
-										<img src="img/img.png" className="img-responsive" alt />
+										<img src="img/img.png" className="img-responsive" />
 									</a>
 									<div className="portfolio-caption text-center">
 										<h4>Round Icons</h4>

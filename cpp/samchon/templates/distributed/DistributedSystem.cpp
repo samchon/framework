@@ -52,7 +52,9 @@ auto DistributedSystem::compute_average_elapsed_time() const -> double
 		if (history == nullptr)
 			continue;
 
-		sum += history->computeElapsedTime() / history->getProcess()->getResource();
+		double elapsed_time = history->computeElapsedTime() / history->getWeight();
+
+		sum += elapsed_time / history->getProcess()->getResource();
 		denominator++;
 	}
 
@@ -98,6 +100,8 @@ void DistributedSystem::_Report_history(shared_ptr<XML> xml)
 		auto progress_it = progress_list_.find(history->getUID());
 		if (progress_it == progress_list_.end())
 			return;
+
+		history->weight_ = dynamic_pointer_cast<DSInvokeHistory>(progress_it->second.second)->getWeight();
 
 		// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 		progress_list_.erase(progress_it);

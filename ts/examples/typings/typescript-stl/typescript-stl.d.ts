@@ -1,4 +1,4 @@
-// Type definitions for TypeScript-STL v1.1.1
+// Type definitions for TypeScript-STL v1.1.4
 // Project: https://github.com/samchon/typescript-stl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -4165,7 +4165,7 @@ declare namespace std {
          *
          * @return A value of the iterator.
          */
-        readonly abstract value: T;
+        readonly value: T;
         abstract swap(obj: Iterator<T>): void;
     }
 }

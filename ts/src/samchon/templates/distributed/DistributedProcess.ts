@@ -218,11 +218,12 @@ namespace samchon.templates.distributed
 			for (let it = this.history_list_.begin(); !it.equal_to(this.history_list_.end()); it = it.next())
 			{
 				let history: DSInvokeHistory = it.second;
+				let elapsed_time: number = history.computeElapsedTime() / history.getWeight();
 
 				// THE SYSTEM'S PERFORMANCE IS 5. THE SYSTEM CAN HANDLE A PROCESS VERY QUICKLY
-				// AND ELAPSED TIME OF THE PROCESS IS 3 SECONDS
-				// THEN I CONSIDER THE ELAPSED TIME AS 15 SECONDS.
-				sum += history.computeElapsedTime() * history.getSystem().getPerformance();
+				//	AND ELAPSED TIME OF THE PROCESS IS 3 SECONDS
+				//	THEN I CONSIDER THE ELAPSED TIME AS 15 SECONDS.
+				sum += elapsed_time * history.getSystem().getPerformance();
 			}
 			return sum / this.history_list_.size();
 		}
@@ -249,7 +250,26 @@ namespace samchon.templates.distributed
 		 * @param invoke An {@link Invoke} message requesting distributed process.
 		 * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
 		 */
-		public sendData(invoke: protocol.Invoke): DistributedSystem
+		public sendData(invoke: protocol.Invoke): void;
+
+		/**
+		 * Send an {@link Invoke} message.
+		 * 
+		 * Sends an {@link Invoke} message requesting a **distributed process**. The {@link Invoke} message will be sent
+		 * to the most idle {@link DistributedSystem} object, which represents a slave system, and the most idle 
+		 * {@link DistributedSystem} object will be returned.
+		 * 
+		 * When the **distributed process** has completed, then the {@link DistributedSystemArray} object will revaluate
+		 * {@link getResource resource index} and {@link DistributedSystem.getPerformance performance index} of this
+		 * {@link DistributedSystem} and the most idle {@link DistributedSystem} objects basis on the execution time. 
+		 * 
+		 * @param invoke An {@link Invoke} message requesting distributed process.
+		 * @param weight Weight of resource which indicates how heavy this {@link Invoke} message is. Default is 1.
+		 * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
+		 */
+		public sendData(invoke: protocol.Invoke, weight: number): void;
+		
+		public sendData(invoke: protocol.Invoke, weight: number = 1.0): DistributedSystem
 		{
 			if (this.system_array_.empty() == true)
 				return;
@@ -299,7 +319,7 @@ namespace samchon.templates.distributed
 				throw new std.OutOfRange("No remote system to send data");
 
 			// ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)
-			let history: DSInvokeHistory = new DSInvokeHistory(idle_system, this, invoke);
+			let history: DSInvokeHistory = new DSInvokeHistory(idle_system, this, invoke, weight);
 
 			this.progress_list_.insert([uid, history]);
 			idle_system["progress_list_"].insert([uid, std.make_pair(invoke, history)]);

@@ -24,7 +24,7 @@ namespace samchon.templates.external
 	 * - {@link ExternalClientArray}: A server accepting {@link ExternalSystem external clients}.
 	 * - {@link ExternalServerArray}: A client connecting to {@link ExternalServer external servers}.
 	 * - {@link ExternalServerClientArray}: Both of them. Accepts {@link ExternalSystem external clients} and connects to 
-	 *                                      {@link ExternalServer external servers} at the same time.
+	 *   {@link ExternalServer external servers} at the same time.
 	 * 
 	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png" 
 	 *		  target="_blank">

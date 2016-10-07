@@ -1,6 +1,4 @@
-﻿/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
-
-// IMPORTS
+﻿// IMPORTS
 import std = require("typescript-stl");
 import samchon = require("samchon-framework");
 

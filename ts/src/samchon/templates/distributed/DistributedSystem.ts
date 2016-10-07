@@ -120,7 +120,9 @@ namespace samchon.templates.distributed
 				if (history instanceof DSInvokeHistory == false)
 					continue;
 
-				sum += history.computeElapsedTime() / history.getProcess().getResource();
+				let elapsed_time: number = history.computeElapsedTime() / history.getWeight();
+
+				sum += elapsed_time / history.getProcess().getResource();
 				denominator++;
 			}
 
@@ -167,6 +169,8 @@ namespace samchon.templates.distributed
 			let progress_it = this["progress_list_"].find(history.getUID());
 			if (progress_it.equal_to(this["progress_list_"].end()) == true)
 				return;
+
+			history["weight_"] = (progress_it.second.second as DSInvokeHistory).getWeight();
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this["progress_list_"].erase(progress_it);

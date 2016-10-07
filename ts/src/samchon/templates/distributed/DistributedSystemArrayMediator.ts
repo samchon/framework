@@ -20,8 +20,7 @@ namespace samchon.templates.distributed
 	 * - {@link DistributedClientArrayMediator}: A server accepting {@link DistributedSystem distributed clients}.
 	 * - {@link DistributedServerArrayMediator}: A client connecting to {@link DistributedServer distributed servers}.
 	 * - {@link DistributedServerClientArrayMediator}: Both of them. Accepts {@link DistributedSystem distributed clients} and
-	 *                                                 connects to {@link DistributedServer distributed servers} at the 
-	 *                                                 same time.
+	 *   connects to {@link DistributedServer distributed servers} at the same time.
 	 *
 	 * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
 	 * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.

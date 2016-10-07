@@ -105,6 +105,24 @@ namespace protocol
 			return listener_;
 		};
 
+		auto getStartTime() const -> library::Date
+		{
+			return start_time_;
+		};
+		auto getEndTime() const -> library::Date
+		{
+			return end_time_;
+		};
+
+		void setStartTime(const library::Date &val)
+		{
+			start_time_ = val;
+		};
+		void setEndTime(const library::Date &val)
+		{
+			end_time_ = val;
+		};
+
 		/**
 		 * Compute elapsed time.
 		 * 

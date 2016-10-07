@@ -45,6 +45,12 @@ namespace samchon.protocol
 	 * }
 	 * ```
 	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 * 
 	 * @see {@link IServer}, {@link IClientDriver}
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
 	 * @author Jeongho Nam <http://samchon.org>
@@ -99,6 +105,13 @@ namespace samchon.protocol
 	 * 	}
 	 * }
 	 * ```
+	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
 	 *
 	 * @see {@link Server}, {@link ClientDriver}
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
@@ -179,6 +192,12 @@ namespace samchon.protocol
 	 * }
 	 * ```
 	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
 	 * @see {@link WebServer}, {@link WebClientDriver}
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
 	 * @author Jeongho Nam <http://samchon.org>
@@ -258,6 +277,12 @@ namespace samchon.protocol
 	 * 	}
 	 * }
 	 * ```
+	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
 	 *
 	 * @see {@link SharedWorkerServer}, {@link SharedWorkerClientDriver}
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)

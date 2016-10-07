@@ -20,7 +20,7 @@ namespace samchon.templates.parallel
 	 * - {@link ParallelClientArrayMediator}: A server accepting {@link ParallelSystem parallel clients}.
 	 * - {@link ParallelServerArrayMediator}: A client connecting to {@link ParallelServer parallel servers}.
 	 * - {@link ParallelServerClientArrayMediator}: Both of them. Accepts {@link ParallelSystem parallel clients} and 
-	 *                                              connects to {@link ParallelServer parallel servers} at the same time.
+	 *   connects to {@link ParallelServer parallel servers} at the same time.
 	 * 
 	 * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
 	 * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.

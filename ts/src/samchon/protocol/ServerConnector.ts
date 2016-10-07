@@ -28,11 +28,7 @@ namespace samchon.protocol
 	 * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
 	 * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
 	 * 
-	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-	 *		  target="_blank">
-	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-	 *		 style="max-width: 100%" />
-	 * </a>
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
 	 * 
 	 * @see {@link IServer}, {@link IProtocol}
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
@@ -108,11 +104,7 @@ namespace samchon.protocol
 	 * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
 	 * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
 	 *
-	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-	 *		  target="_blank">
-	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-	 *		 style="max-width: 100%" />
-	 * </a>
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
 	 *
 	 * @see {@link Server}, {@link IProtocol}
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
@@ -196,11 +188,7 @@ namespace samchon.protocol
 	 * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
 	 * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
 	 *
-	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-	 *		  target="_blank">
-	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-	 *		 style="max-width: 100%" />
-	 * </a>
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
 	 *
 	 * @see {@link WebServer}, {@link IProtocol}
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
@@ -411,11 +399,7 @@ namespace samchon.protocol
 	 * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
 	 * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
 	 *
-	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-	 *		  target="_blank">
-	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-	 *		 style="max-width: 100%" />
-	 * </a>
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
 	 *
 	 * @see {@link SharedWorkerServer}, {@link IProtocol}
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)

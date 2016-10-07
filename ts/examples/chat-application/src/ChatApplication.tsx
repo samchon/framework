@@ -26,7 +26,7 @@ namespace example.chat {
 		============================================================
 			SEND DATA
 		--------------------------------------------------------- */
-		private send_message(event: React.MouseEvent): void {
+		private send_message(event: React.MouseEvent<EventTarget>): void {
 
 			let to: string = (document.getElementById("whisper") as HTMLButtonElement).innerText;
 			console.log(to);
@@ -47,7 +47,7 @@ namespace example.chat {
 			(document.getElementById("message_input") as HTMLInputElement).value = '';
 		}
 
-		private send_message2(event: React.KeyboardEvent): void {
+		private send_message2(event: React.KeyboardEvent<EventTarget>): void {
 			if (event.charCode == 13) {
 
 				let to: string = (document.getElementById("whisper") as HTMLButtonElement).innerText;

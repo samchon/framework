@@ -43,11 +43,12 @@ auto DistributedProcess::compute_average_elapsed_time() const -> double
 	for (auto it = history_list_.begin(); it != history_list_.end(); it++)
 	{
 		shared_ptr<DSInvokeHistory> history = it->second;
+		double elapsed_time = history->computeElapsedTime() / history->getWeight();
 
 		// THE SYSTEM'S PERFORMANCE IS 5. THE SYSTEM CAN HANDLE A PROCESS VERY QUICKLY
 		// AND ELAPSED TIME OF THE PROCESS IS 3 SECONDS
 		// THEN I CONSIDER THE ELAPSED TIME AS 15 SECONDS.
-		sum += history->computeElapsedTime() * history->getSystem()->getPerformance();
+		sum += elapsed_time * history->getSystem()->getPerformance();
 	}
 	return sum / history_list_.size();
 }
@@ -67,7 +68,7 @@ void DistributedProcess::enforceResource(double val)
 /* ---------------------------------------------------------
 	INVOKE MESSAGE CHAIN
 --------------------------------------------------------- */
-void DistributedProcess::sendData(shared_ptr<Invoke> invoke)
+void DistributedProcess::sendData(shared_ptr<Invoke> invoke, double weight)
 {
 	if (system_array_->empty() == true)
 		return;
@@ -115,7 +116,7 @@ void DistributedProcess::sendData(shared_ptr<Invoke> invoke)
 	}
 
 	// ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)
-	shared_ptr<DSInvokeHistory> history(new DSInvokeHistory(idle_system.get(), this, invoke));
+	shared_ptr<DSInvokeHistory> history(new DSInvokeHistory(idle_system.get(), this, invoke, weight));
 
 	progress_list_.emplace(uid, history);
 	idle_system->progress_list_.emplace(uid, make_pair(invoke, history));

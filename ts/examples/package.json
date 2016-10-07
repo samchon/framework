@@ -1,0 +1,28 @@
+{
+  "name": "samchon-framework-examples",
+  "version": "1.0.0",
+  "description": "Examples of Samchon Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samchon/framework.git"
+  },
+  "author": "Jeongho Nam",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/samchon/framework/issues"
+  },
+  "homepage": "https://github.com/samchon/framework#readme",
+  "dependencies": {
+    "@types/node": "^6.0.45",
+    "@types/react": "^0.14.39",
+    "@types/react-data-grid": "^1.0.4",
+    "@types/react-dom": "^0.14.17",
+    "@types/samchon-framework": "^2.0.8",
+    "@types/scanf": "0.0.5",
+    "@types/typescript-stl": "^1.1.8"
+  }
+}

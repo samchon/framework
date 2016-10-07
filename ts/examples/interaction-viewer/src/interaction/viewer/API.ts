@@ -1,4 +1,7 @@
-﻿namespace interaction.viewer
+﻿/// <reference types="typescript-stl" />
+/// <reference types="samchon-framework" />
+
+namespace interaction.viewer
 {
 	export import library = samchon.library;
 	export import collections = samchon.collections;

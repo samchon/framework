@@ -26,7 +26,7 @@ namespace samchon.templates.parallel
 	 * - {@link ParallelClientArray}: A server accepting {@link ParallelSystem parallel clients}.
 	 * - {@link ParallelServerArray}: A client connecting to {@link ParallelServer parallel servers}.
 	 * - {@link ParallelServerClientArray}: Both of them. Accepts {@link ParallelSystem parallel clients} and connects to
-	 *                                      {@link ParallelServer parallel servers} at the same time.
+	 *   {@link ParallelServer parallel servers} at the same time.
 	 * 
 	 * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
 	 * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s 

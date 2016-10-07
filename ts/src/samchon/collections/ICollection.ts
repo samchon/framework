@@ -1,5 +1,21 @@
 ﻿/// <reference path="../API.ts" />
 
+/**
+ * STL Containers       | Collections
+ * ---------------------|-------------------
+ * {@link Vector}       | {@link ArrayCollection}
+ * {@link List}         | {@link ListCollection}
+ * {@link Deque}        | {@link DequeCollection}
+ *                      | 
+ * {@link TreeSet}      | {@link TreeSetCollection}
+ * {@link HashSet}      | {@link HashSetCollection}
+ * {@link TreeMultiSet} | {@link TreeMultiSetCollection}
+ * {@link HashMultiSet} | {@link HashMultiSetCollection}
+ *                      |
+ * {@link TreeMultiMap} | {@link TreeMultiMapCollection}
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 namespace samchon.collections
 {
 	/**

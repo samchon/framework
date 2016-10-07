@@ -36,6 +36,11 @@ namespace samchon.templates.distributed
 		 */
 		private process_: DistributedProcess;
 
+		/**
+		 * @hidden
+		 */
+		private weight_: number;
+
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
@@ -52,15 +57,17 @@ namespace samchon.templates.distributed
 		 * @param system The {@link DistributedSystem} object who sent the {@link Invoke} message.
 		 * @param process The {@link DistributedProcess} object who sent the {@link Invoke} message.
 		 * @param invoke An {@link Invoke} message requesting the *distributed process*.
+		 * @param weight Weight of resource which indicates how heavy this {@link Invoke} message is.
 		 */
-		public constructor(system: DistributedSystem, process: DistributedProcess, invoke: protocol.Invoke);
+		public constructor(system: DistributedSystem, process: DistributedProcess, invoke: protocol.Invoke, weight: number);
 
-		public constructor(system: DistributedSystem, process: DistributedProcess = null, invoke: protocol.Invoke = null)
+		public constructor(system: DistributedSystem, process: DistributedProcess = null, invoke: protocol.Invoke = null, weight: number = 1)
 		{
 			super(invoke);
 
 			this.system_ = system;
 			this.process_ = process;
+			this.weight_ = weight;
 		}
 
 		/**
@@ -102,6 +109,16 @@ namespace samchon.templates.distributed
 		public getProcess(): DistributedProcess
 		{
 			return this.process_;
+		}
+
+		/**
+		 * Get weight.
+		 * 
+		 * Gets weight of resource which indicates how heavy this {@link Invoke} message is. Default is 1.
+		 */
+		public getWeight(): number
+		{
+			return this.weight_;
 		}
 
 		/* ---------------------------------------------------------

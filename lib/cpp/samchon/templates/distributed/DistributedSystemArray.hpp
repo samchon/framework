@@ -217,7 +217,7 @@ namespace distributed
 		virtual void _Normalize_performance() override;
 
 	private:
-		void estimate_role_performance(std::shared_ptr<DSInvokeHistory>);
+		void estimate_process_resource(std::shared_ptr<DSInvokeHistory>);
 		void estimate_system_performance(std::shared_ptr<DSInvokeHistory>);
 
 	public:

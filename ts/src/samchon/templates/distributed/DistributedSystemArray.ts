@@ -26,7 +26,7 @@ namespace samchon.templates.distributed
 	 * - {@link DistributedClientArray}: A server accepting {@link DistributedSystem distributed clients}.
 	 * - {@link DistributedServerArray}: A client connecting to {@link DistributedServer distributed servers}.
 	 * - {@link DistributedServerClientArray}: Both of them. Accepts {@link DistributedSystem distributed clients} and 
-	 *                                         connects to {@link DistributedServer distributed servers} at the same time.
+	 *   connects to {@link DistributedServer distributed servers} at the same time.
 	 * 
 	 * The {@link DistributedSystemArray} contains {@link DistributedProcess} objects directly. You can request a
 	 * **distributed process** through the {@link DistributedProcess} object. You can access the
@@ -242,7 +242,7 @@ namespace samchon.templates.distributed
 
 				// ESTIMATE PERFORMANCE INDEXES
 				this.estimate_system_performance(history); // ESTIMATE SYSTEMS' INDEX
-				this.estimate_role_performance(history); // ESTIMATE ROLE' INDEX
+				this.estimate_process_resource(history); // ESTIMATE PROCESS' RESOURCE
 
 				// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SYSTEMS AND ROLES
 				this._Normalize_performance();
@@ -258,7 +258,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		private estimate_role_performance(history: DSInvokeHistory): void
+		private estimate_process_resource(history: DSInvokeHistory): void
 		{
 			let process: DistributedProcess = history.getProcess();
 			if (process["enforced_"] == true)
@@ -287,7 +287,8 @@ namespace samchon.templates.distributed
 				// DEDUCT NEW PERFORMANCE INDEX BASED ON THE EXECUTION TIME
 				//	- ROLE'S PERFORMANCE MEANS; HOW MUCH TIME THE ROLE NEEDS
 				//	- ELAPSED TIME IS LONGER, THEN PERFORMANCE IS HIGHER
-				let new_performance: number = history.computeElapsedTime() / average_elapsed_time_of_others;
+				let elapsed_time: number = history.computeElapsedTime() / history.getWeight(); // CONSIDER WEIGHT
+				let new_resource: number = elapsed_time / average_elapsed_time_of_others; // NEW PERFORMANCE
 
 				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 15%
 				let ordinary_ratio: number;
@@ -300,7 +301,7 @@ namespace samchon.templates.distributed
 				process.setResource
 				(
 					(process.getResource() * ordinary_ratio) 
-					+ (new_performance * (1 - ordinary_ratio))
+					+ (new_resource * (1 - ordinary_ratio))
 				);
 			}
 		}
@@ -339,7 +340,8 @@ namespace samchon.templates.distributed
 				// DEDUCT NEW PERFORMANCE INDEX BASED ON THE EXECUTION TIME
 				//	- SYSTEM'S PERFORMANCE MEANS; HOW FAST THE SYSTEM IS
 				//	- ELAPSED TIME IS LOWER, THEN PERFORMANCE IS HIGHER
-				let new_performance: number = average_elapsed_time_of_others / history.computeElapsedTime();
+				let elapsed_time: number = history.computeElapsedTime() / history.getWeight(); // CONSIDER WEIGHT
+				let new_performance: number = average_elapsed_time_of_others / elapsed_time; // NEW PERFORMANCE
 
 				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 30%
 				let ordinary_ratio: number;

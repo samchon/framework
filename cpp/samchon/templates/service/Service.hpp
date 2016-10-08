@@ -25,9 +25,9 @@ namespace service
 	 * should be defined in this {@link Service} class, not its parent {@link Client} class who represents a remote client 
 	 * and takes communication responsibility.
 	 * 
-	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_cloud_service.png)
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_cloud_service.png)
 	 *
-	 * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Templates-Cloud_Service)
+	 * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/CPP-Templates-Cloud_Service)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API Service

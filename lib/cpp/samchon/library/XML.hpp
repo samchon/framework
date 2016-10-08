@@ -18,56 +18,52 @@ namespace library
 	typedef std::vector<std::shared_ptr<XML>> XMLList;
 
 	/**
-	 * @brief XML is a class representing xml object
-	 *
-	 * @details 
-	 * <p> The XML class provides methods and properties for working with XML objects. </p>
+	 * A tree-structured XML object.
 	 * 
-	 * <p> The XML class (along with the XMLList and Namespace) implements 
-	 * the powerful XML-handling standard defined in ECMAScript for XML (E4X) specification. </p>
-	 *
-	 * <p> XML class has a recursive, hierarchical relationship. </p>
+	 * The {@link XML| class contains methods and properties for working with XML objects. The {@link XML} class (along 
+	 * with the {@link XMLList}) implements the powerful XML-handling standards defined in ECMAScript for XML (E4X) 
+	 * specification (ECMA-357 edition 2).
 	 * 
-	 * <p> All XML objects're managed by shared_ptr. </p>
-	 *	\li XML contains XMLList from dictionary of shared pointer<XMLList>
-	 *  \li XMLList contains XML from vector of shared pointer<XML>
-	 *  \li Even if user creates an XML object directly, it's the basic principle to use shared pointer
+	 * An XML object, it is composed with three members; {@link getTag tag}, {@link getProperty properties} and 
+	 * {@link getValue value}. As you know, XML is a tree structured data expression method. The tree-stucture; 
+	 * {@link XML} class realizes it by extending ```std.HashMap<string, XMLList>```. Child {@link XML} objects are 
+	 * contained in the matched {@link XMLList} object being grouped by their {@link getTag tag name}. The 
+	 * {@link XMLList} objects, they're stored in the {@link std.HashMap} ({@link XML} itself) with its **key**; common 
+	 * {@link getTag tag name} of children {@link XML} objects. 
 	 * 
-	 * @image html cpp/subset/library_xml.png
-	 * @image latex cpp/subset/library_xml.png
-	 *
-	 * @note 
-	 * <p> Parsing comment is not supported yet. </p>
-	 * <p> It's not recommeded to creating an XML object which is not being managed by shared pointer. </p>
+	 * ```typescript
+	 * class XML extends std.HashMap<string, XMLList>
+	 * {
+	 *	private tag_: string;
+	 *	private properties_: std.HashMap<string, string>;
+	 *	private value_: string;
+	 * }
+	 * ```
 	 * 
-	 * @warning 
-	 * <p> Do not abuse values for expressing member variables. </p>
-	 *
-	 * <table>
-	 *	<tr>
-	 *		<th>Standard Usage</th>
-	 *		<th>Non-standard usage abusing value</th>
-	 *	</tr>
-	 *	<tr>
-	 *		<td>
-	 *			\<memberList\>\n
-	 *			&nbsp;&nbsp;&nbsp;&nbsp; \<member id='jhnam88' name='Jeongho+Nam' birthdate='1988-03-11' /\>\n
-	 *			&nbsp;&nbsp;&nbsp;&nbsp; \<member id='master' name='Administartor' birthdate='2011-07-28' /\>\n
-	 *			\</memberList\>
-	 *		</td>
-	 *		<td>
-	 *			\<member\>\n
-	 *			&nbsp;&nbsp;&nbsp;&nbsp; \<id\>jhnam88\</id\>\n
-	 *			&nbsp;&nbsp;&nbsp;&nbsp; \<name\>Jeongho+Nam\</name\>\n
-	 *			&nbsp;&nbsp;&nbsp;&nbsp; \<birthdate\>1988-03-11\</birthdate\>\n
-	 *			\</member\>
-	 *		</td>
-	 *	</tr>
-	 * </table>
+	 * ```xml
+	 * <?xml version="1.0" ?>
+	 * <TAG property_name={property_value}>
+	 *	<!-- 
+	 *		The cchild XML objects with "CHILD_TAG", They're contained in an XMLList object. 
+	 *		The XMLList object, it is stored in std.HashMap (XML class itself) with its key "CHILD_TAG" 
+	 *	--> 
+	 *	<CHILD_TAG property_name={property_value}>{value}</CHILD_TAG>
+	 *  <CHILD_TAG property_name={property_value}>{value}</CHILD_TAG>
+	 *	<CHILD_TAG property_name={property_value}>{value}</CHILD_TAG>
 	 * 
-	 * @includelineno example/xml/main.cpp
-	 *
-	 * @see samchon::library
+	 *	<!-- 
+	 *		The child XML object named "ANOTHER_TAG", it also belonged to an XMLList ojbect.
+	 *		And the XMLList is also being contained in the std.HashMap with its key "ANOTHER_TAG"
+	 *	-->
+	 *	<ANOTHER_TAG />
+	 * </TAG>
+	 * ```
+	 * 
+	 * Use the {@link toString toString()} method to return a string representation of the {@link XML} object regardless 
+	 * of whether the {@link XML} object has simple content or complex content.
+	 * 
+	 * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/XML.html
+	 * @handbook https://github.com/samchon/framework/wiki/CPP-Library-XML
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class XML

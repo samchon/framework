@@ -80,6 +80,8 @@
     <ClInclude Include="..\samchon\protocol\WebServer.hpp" />
     <ClInclude Include="..\samchon\protocol\WebServerConnector.hpp" />
     <ClInclude Include="..\samchon\protocol\WebSocketUtil.hpp" />
+    <ClInclude Include="..\samchon\templates.hpp" />
+    <ClInclude Include="..\samchon\templates\distributed.hpp" />
     <ClInclude Include="..\samchon\templates\distributed\DistributedClientArray.hpp" />
     <ClInclude Include="..\samchon\templates\distributed\DistributedClientArrayMediator.hpp" />
     <ClInclude Include="..\samchon\templates\distributed\DistributedServer.hpp" />
@@ -111,7 +113,7 @@
     <ClInclude Include="..\samchon\templates\parallel\ParallelSystem.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\ParallelSystemArray.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\ParallelSystemArrayMediator.hpp" />
-    <ClInclude Include="..\samchon\templates\parallel\ParallServer.hpp" />
+    <ClInclude Include="..\samchon\templates\parallel\ParallelServer.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\PRInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\templates\service.hpp" />
     <ClInclude Include="..\samchon\templates\service\Client.hpp" />

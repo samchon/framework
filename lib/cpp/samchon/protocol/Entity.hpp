@@ -97,13 +97,7 @@ namespace protocol
 	 * concentrate on entity's own logics and relationships between another entities. Entity does not
 	 * need to how network communications are being done. </p>
 	 *
-	 * <p> @image html  cpp/protocol_entity.png
-	 *	   @image latex cpp/protocol_entity.png </p>
-	 * 
-	 * \par Example Sources
-	 *	\li example::entity
-	 *	\li example::packer
-	 *	\li example::tsp
+	 * ![Basic Components](http://samchon.github.io/framework/images/design/cpp_class_diagram/protocol_entity.png)
 	 * 
 	 * @note
 	 * <p> I say repeatedly. Expression method of Entity is recommended, but not imposed. It's a semi

@@ -16,8 +16,8 @@ using namespace samchon::protocol;
 /* ---------------------------------------------------------
 	CONSTRUCTORS
 --------------------------------------------------------- */
-WebClientDriver::WebClientDriver(WebServer *server, shared_ptr<Socket> socket)
-	: super(server, socket),
+WebClientDriver::WebClientDriver(shared_ptr<Socket> socket)
+	: super(socket),
 	WebCommunicator(true)
 {
 }

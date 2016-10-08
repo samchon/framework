@@ -22,9 +22,9 @@ namespace distributed
 	 * determined. The elapsed time is utilized for computation of {@link DistributedSystem.getPerformance performance index}
 	 * and {@link DistributedProcess.getResource resource index} of related objects.
 	 * 
-	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png)
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_distributed_system.png)
 	 *
-	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/CPP-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API DSInvokeHistory
@@ -36,7 +36,7 @@ namespace distributed
 		typedef protocol::InvokeHistory super;
 
 		DistributedSystem *system_;
-		DistributedProcess *role_;
+		DistributedProcess *process_;
 		double weight_;
 
 	public:
@@ -80,7 +80,7 @@ namespace distributed
 		 */
 		auto getProcess() const -> DistributedProcess*
 		{
-			return role_;
+			return process_;
 		};
 
 		/**

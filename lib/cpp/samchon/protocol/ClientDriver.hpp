@@ -28,20 +28,17 @@ namespace protocol
 	 * Samchon Framework's own | {@link ClientDriver}    | {@link Server}
 	 * Web-socket protocol     | {@link WebClientDriver} | {@link WebServer}
 	 *
-	 * ![Basic Components](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+	 * ![Basic Components](http://samchon.github.io/framework/images/design/cpp_class_diagram/protocol_basic_components.png)
 	 * 
 	 * @see {@link Server}, {@link IProtocol}
-	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#clientdriver)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#clientdriver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API ClientDriver
 		: public virtual Communicator
 	{
-	protected:
-		Server *server;
-
 	public:
-		ClientDriver(Server *server, std::shared_ptr<Socket> socket);
+		ClientDriver(std::shared_ptr<Socket> socket);
 		virtual ~ClientDriver();
 
 		/**

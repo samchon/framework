@@ -37,10 +37,10 @@ namespace protocol
 	 * - {@link service.User}: utlization of the {@link getSessionID session-id}.
 	 * - {@link service.Service}: utilization of the {@link getPath path}.
 	 *
-	 * ![Basic Components](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+	 * ![Basic Components](http://samchon.github.io/framework/images/design/cpp_class_diagram/protocol_basic_components.png)
 	 * 
 	 * @see {@link WebServer}, {@link IProtocol}
-	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#clientdriver)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#clientdriver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API WebClientDriver
@@ -56,7 +56,7 @@ namespace protocol
 		std::string path;
 
 	public:
-		WebClientDriver(WebServer *server, std::shared_ptr<Socket> socket);
+		WebClientDriver(std::shared_ptr<Socket> socket);
 		virtual ~WebClientDriver();
 
 		/**

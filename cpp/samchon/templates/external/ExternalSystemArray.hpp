@@ -13,7 +13,7 @@ namespace templates
 /**
  * A template for External Systems Manager.
  * 
- * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+ * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/CPP-Templates-External_System)
  * @author Jeongho Nam <http://samchon.org>
  */
 namespace external
@@ -34,7 +34,7 @@ namespace external
 	 * - {@link ExternalServerClientArray}: Both of them. Accepts {@link ExternalSystem external clients} and connects to 
 	 *                                      {@link ExternalServer external servers} at the same time.
 	 * 
-	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png)
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_external_system.png)
 	 * 
 	 * #### Proxy Pattern
 	 * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
@@ -58,7 +58,7 @@ namespace external
 	 *	<li> Those strategy is called *Proxy Pattern*. </li>
 	 * </ul>
 	 * 
-	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/CPP-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API ExternalSystemArray

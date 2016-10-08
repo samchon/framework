@@ -18,10 +18,10 @@ namespace protocol
 	 * the *Samchon Framework*, especially *Templates*, you can find out that all the classes and modules handling
 	 * {@link Invoke} messages are always implementing this {@link IProtocol}.
 	 *
-	 * ![Basic Components](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+	 * ![Basic Components](http://samchon.github.io/framework/images/design/cpp_class_diagram/protocol_basic_components.png)
 	 *
 	 * @see {@link Invoke}
-	 * @handbook https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iprotocol
+	 * @handbook https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#iprotocol
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class IListener : public virtual IProtocol

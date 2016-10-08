@@ -11,13 +11,8 @@ namespace library
 	/**
 	 * @brief A http, web-page loader
 	 * 
-	 * @details
-	 * @image html cpp/subset/library_http.png
-	 * @image latex cpp/subset/library_http.png
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/library_data.png)
 	 *
-	 * @note Depreciated
-	 *
-	 * @see samchon::library
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API HTTPLoader

@@ -12,7 +12,7 @@ namespace templates
 /**
  * A template for Parallel Processing System.
  * 
- * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+ * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/CPP-Templates-Parallel_System)
  * @author Jeongho Nam <http://samchon.org>
  */
 namespace parallel
@@ -40,7 +40,7 @@ namespace parallel
 	 * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices 
 	 * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
 	 *
-	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png)
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_parallel_system.png)
 	 * 
 	 * #### Proxy Pattern
 	 * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take 
@@ -69,7 +69,7 @@ namespace parallel
 	 *	<li> Those strategy is called *Proxy Pattern*. </li>
 	 * </ul>
 	 * 
-	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/CPP-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API ParallelSystemArray

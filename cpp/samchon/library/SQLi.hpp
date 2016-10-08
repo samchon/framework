@@ -24,8 +24,7 @@ namespace library
 	 * the error, an execute of query from SQLStatement will lock a mutex of SQLi to ensure 
 	 * exclusiveness. </p>
 	 *
-	 * @image html cpp/subset/library_sql.png
-	 * @image latex cpp/subset/library_sql.png
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/library_data.png)
 	 *
 	 * @note
 	 * <p> To ensure the exclusiveness, you've to make SQLStatement from SQLi. Do not make SQLStatement 
@@ -36,7 +35,7 @@ namespace library
 	 * SQLStatement or call SQLStatement::free() method(). If you don't, the mutex will not be unlocked,
 	 * thus you can't do anything by the SQLi. </p>
 	 * 
-	 * @see samchon::library
+	 * @handbook [Library - SQL Driver](https://github.com/samchon/framework/wiki/CPP-Library-SQL_Driver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API SQLi

@@ -33,9 +33,9 @@ namespace service
 	 * {@link User} class. Also, don't define processes of a specific a web page or service. Defines them in the child
 	 * {@link Service} class.
 	 * 
-	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_cloud_service.png)
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_cloud_service.png)
 	 *
-	 * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Templates-Cloud_Service)
+	 * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/CPP-Templates-Cloud_Service)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API Client

@@ -22,9 +22,9 @@ namespace parallel
 	 * determined. The elapsed time is utilized for computation of {@link ParallelSystem.getPerformance performance index} 
 	 * of each {@link ParallelSystem parallel slave system}.
 	 * 
-	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png)
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_parallel_system.png)
 	 * 
-	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/CPP-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API PRInvokeHistory 

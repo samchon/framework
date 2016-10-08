@@ -34,10 +34,10 @@ namespace protocol
 	 * Samchon Framework's own | {@link ServerConnector}    | {@link Server}
 	 * Web-socket protocol     | {@link WebServerConnector} | {@link WebServer}
 	 *
-	 * ![Basic Components](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+	 * ![Basic Components](http://samchon.github.io/framework/images/design/cpp_class_diagram/protocol_basic_components.png)
 	 *
 	 * @see {@link WebServer}, {@link IProtocol}
-	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#serverconnector)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#serverconnector)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API WebServerConnector

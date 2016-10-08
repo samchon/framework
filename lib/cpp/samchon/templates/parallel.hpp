@@ -1,6 +1,14 @@
 #pragma once
 
-#include <samchon/protocol/parallel/ParallelSystemArray.hpp>
-#include <samchon/protocol/parallel/ParallelSystem.hpp>
-#include <samchon/protocol/parallel/ParallelSystemArrayMediator.hpp>
-#include <samchon/protocol/parallel/MediatorSystem.hpp>
+#include <samchon/templates/parallel/ParallelSystemArray.hpp>
+#	include <samchon/templates/parallel/ParallelClientArray.hpp>
+#	include <samchon/templates/parallel/ParallelServerArray.hpp>
+#	include <samchon/templates/parallel/ParallelServerClientArray.hpp>
+#include <samchon/templates/parallel/ParallelSystem.hpp>
+#	include <samchon/templates/parallel/ParallServer.hpp>
+
+#include <samchon/templates/parallel/ParallelSystemArrayMediator.hpp>
+#	include <samchon/templates/parallel/ParallelClientArrayMediator.hpp>
+#	include <samchon/templates/parallel/ParallelServerArrayMediator.hpp>
+#	include <samchon/templates/parallel/ParallelServerClientArrayMediator.hpp>
+#include <samchon/templates/parallel/MediatorSystem.hpp>

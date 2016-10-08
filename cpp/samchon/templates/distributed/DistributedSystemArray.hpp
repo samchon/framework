@@ -13,7 +13,7 @@ namespace templates
 /**
  * A template for Distributed Processing System.
  * 
- * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+ * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/CPP-Templates-Distributed_System)
  * @author Jeongho Nam <http://samchon.org>
  */
 namespace distributed
@@ -73,7 +73,7 @@ namespace distributed
 	* the **distributed process** has completed, then {@link DistributedSystem.getPerformance performance index} and
 	* {@link DistributedProcess.getResource resource index} of related objects will be revaluated.
 	*
-	* ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png)
+	* ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_distributed_system.png)
 	*
 	* #### Parallel Process
 	* This {@link DistributedSystemArray} class is derived from the {@link ParallelSystemArray} class, so you can request
@@ -111,7 +111,7 @@ namespace distributed
 	*	<li> Those strategy is called *Proxy Pattern*. </li>
 	* </ul>
 	*
-	* @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+	* @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/CPP-Templates-Distributed_System)
 	* @author Jeongho Nam <http://samchon.org>
 	*/
 	class SAMCHON_FRAMEWORK_API DistributedSystemArray
@@ -143,7 +143,7 @@ namespace distributed
 		 * @param xml {@link XML} represents the {@link DistributedProcess child} object.
 		 * @return A new {@link DistributedProcess} object.
 		 */
-		virtual auto createRole(std::shared_ptr<library::XML>) -> DistributedProcess* = 0;
+		virtual auto createProcess(std::shared_ptr<library::XML>) -> DistributedProcess* = 0;
 
 	public:
 		/* ---------------------------------------------------------

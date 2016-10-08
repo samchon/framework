@@ -37,7 +37,7 @@ void DistributedSystemArray::construct(shared_ptr<XML> xml)
 			shared_ptr<XML> &role_xml = role_xml_list->at(i);
 
 			// CONSTRUCT ROLE FROM XML
-			std::shared_ptr<DistributedProcess> role(createRole(role_xml));
+			std::shared_ptr<DistributedProcess> role(createProcess(role_xml));
 			role->construct(role_xml);
 
 			// AND INSERT TO ROLE_MAP

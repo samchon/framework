@@ -28,7 +28,7 @@ namespace external
 	 * Replied {@link Invoke} messages from the external system is shifted to and processed in, children elements of this
 	 * class, {@link ExternalSystemRole} objects.
 	 * 
-	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png)
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_external_system.png)
 	 * 
 	 * #### Bridge & Proxy Pattern
 	 * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user, 
@@ -52,7 +52,7 @@ namespace external
 	 *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
 	 * </ul>
 	 * 
-	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/CPP-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API ExternalSystem 

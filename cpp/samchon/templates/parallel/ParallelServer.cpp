@@ -1,4 +1,4 @@
-#include <samchon/templates/parallel/ParallServer.hpp>
+#include <samchon/templates/parallel/ParallelServer.hpp>
 
 #include <samchon/templates/parallel/ParallelSystemArray.hpp>
 

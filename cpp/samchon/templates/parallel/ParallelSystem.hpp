@@ -40,9 +40,9 @@ namespace parallel
 	 * has completed, basic on the execution time and number of pieces. You can sugguest or enforce the 
 	 * {@link getPerformance performance index} with {@link setPerformance} or {@link enforcePerformance}.
 	 * 
-	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+	 * <a href="http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_parallel_system.png"
 	 *		  target="_blank">
-	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+	 *	<img src="http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_parallel_system.png"
 	 *		 style="max-width: 100%" />
 	 * </a>
 	 *
@@ -60,9 +60,9 @@ namespace parallel
 	 * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
 	 * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
 	 *
-	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png)
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_parallel_system.png)
 	 * 
-	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/CPP-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API ParallelSystem

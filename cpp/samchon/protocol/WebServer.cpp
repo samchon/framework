@@ -113,7 +113,7 @@ void WebServer::handle_connection(shared_ptr<Socket> socket)
 	// ADD CLIENT
 	///////
 	// CREATE DRIVER
-	shared_ptr<WebClientDriver> driver(new WebClientDriver(this, socket));
+	shared_ptr<WebClientDriver> driver(new WebClientDriver(socket));
 	driver->session_id = session_id;
 	driver->path = path.str();
 

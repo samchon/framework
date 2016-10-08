@@ -12,7 +12,6 @@ namespace protocol
 	 * @brief An Entity and a container of children Entity objects.
 	 *
 	 * @tparam Container A type of container containing children entity objects.
-	 * @tparam T A type of children entity. It must be a class derived from an Entity class, or Entity class itself.
 	 *
 	 * @details
 	 * <p> EntityGroup is a template class for containinig children Entity objects, and also another type 
@@ -24,22 +23,11 @@ namespace protocol
 	 * those relationships are continued, continue to create classes dervied from EntityGroup. When those
 	 * relationshiop meets a terminal node, then make the terminal node to be an Entity. </p>
 	 *
-	 * <p> @image html  cpp/example_inspect.png
-	 *	   @image latex cpp/example_inspect.png </p>
+	 * ![Basic Components](http://samchon.github.io/framework/images/design/cpp_class_diagram/protocol_entity.png)
 	 * 
 	 * <p> EntityGroup is an Entity, and a container of children Entity objects at the same time. If
 	 * children type, of a class derived from an EntityGroup, is itself, you can realize hierarchical
 	 * and recursive relationship. The relationship is called as "Composite pattern". </p>
-	 *
-	 *	\li FTFolder extends FTInstance and SharedEntityArray<FTInstance>
-	 *	\li NTCriteria extends SharedEntityArray<NTCriteria>
-	 *
-	 * @note
-	 * <p> As a freelancer developer and architect I am, I even design DB I/O to follow the format 
-	 * representing Entity and EntityGroup by XML. Below T-SQL script also follows the standard format 
-	 * of expressing Entity with XML by procedure and "FOR XML AUTO" statement. </p>
-	 * 
-	 * @includelineno example/entity/goCandidateInspectList.sql
 	 *
 	 * @warning
 	 * <p> EntityGroup contains children entity elements as type of pointer. Because children entity

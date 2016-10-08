@@ -20,7 +20,7 @@ namespace external
 	 * and overrides {@link replyData replyData()} to define the *WHAT TO DO*. And assign this {@link ExternalSystemRole}
 	 * object to related {@link ExternalSystem} object. 
 	 * 
-	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png)
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/cpp_class_diagram/templates_external_system.png)
 	 * 
 	 * #### Proxy Pattern
 	 * The {@link ExternalSystemRole} class can be an *logical proxy*. In framework within user, which 
@@ -44,7 +44,7 @@ namespace external
 	 *	<li> Those strategy is called *Proxy Pattern*. </li>
 	 * </ul>
 	 *  
-	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/CPP-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API ExternalSystemRole

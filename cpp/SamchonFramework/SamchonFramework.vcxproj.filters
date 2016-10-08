@@ -474,9 +474,6 @@
     <ClInclude Include="..\samchon\templates\parallel\ParallelSystemArrayMediator.hpp">
       <Filter>Header Files\templates\parallel</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\templates\parallel\ParallServer.hpp">
-      <Filter>Header Files\templates\parallel</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\templates\parallel\PRInvokeHistory.hpp">
       <Filter>Header Files\templates\parallel</Filter>
     </ClInclude>
@@ -524,6 +521,15 @@
     </ClInclude>
     <ClInclude Include="..\samchon\templates\distributed\DistributedProcess.hpp">
       <Filter>Header Files\templates\distributed</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\distributed.hpp">
+      <Filter>Header Files\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\parallel\ParallelServer.hpp">
+      <Filter>Header Files\templates\parallel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

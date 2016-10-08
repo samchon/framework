@@ -53,5 +53,5 @@ void Server::close()
 
 void Server::handle_connection(shared_ptr<Socket> socket)
 {
-	addClient(make_shared<ClientDriver>(this, socket));
+	addClient(make_shared<ClientDriver>(socket));
 }

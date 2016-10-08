@@ -26,10 +26,10 @@ namespace protocol
 	 * class who follows the Samchon Framework's own protocol. Web-browser supports only Web-socket protocol. Thus in that 
 	 * case, you have to use {@link WebCommunicator} instead.
 	 *
-	 * ![Basic Components](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+	 * ![Basic Components](http://samchon.github.io/framework/images/design/cpp_class_diagram/protocol_basic_components.png)
 	 *
 	 * @see {@link ClientDriver}, {@link ServerConnector}, {@link IProtocol}
-	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#communicator)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#communicator)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API Communicator 

@@ -37,10 +37,10 @@ namespace protocol
 	 * Samchon Framework's own | {@link Server}    | {@link ClientDriver}
 	 * Web-socket protocol     | {@link WebServer} | {@link WebClientDriver}
 	 * 
-	 * ![Basic Components](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+	 * ![Basic Components](http://samchon.github.io/framework/images/design/cpp_class_diagram/protocol_basic_components.png)
 	 *
 	 * @see {@link ClientDriver}
-	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#server)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#server)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API Server

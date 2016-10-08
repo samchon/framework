@@ -22,10 +22,10 @@ namespace protocol
 	 * Note that, one of this or remote system is web-browser based, then there's not any alternative choice. Web browser
 	 * supports only Web-socket protocol. In that case, you've use a type of this {@link WebCommunicator} class.
 	 * 
-	 * ![Basic Components](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+	 * ![Basic Components](http://samchon.github.io/framework/images/design/cpp_class_diagram/protocol_basic_components.png)
 	 *
 	 * @see {@link WebClientDriver}, {@link WebServerConnector}, {@link IProtocol}
-	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#icommunicator)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API WebCommunicator 

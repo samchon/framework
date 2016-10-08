@@ -22,13 +22,13 @@ DSInvokeHistory::DSInvokeHistory(DistributedSystem *system)
 DSInvokeHistory::DSInvokeHistory
 	(
 		DistributedSystem *system, 
-		DistributedProcess *role,
+		DistributedProcess *process,
 		shared_ptr<Invoke> invoke,
 		double weight
 	) : super(invoke)
 {
 	this->system_ = system;
-	this->role_ = role;
+	this->process_ = process;
 	this->weight_ = weight;
 }
 
@@ -42,16 +42,16 @@ void DSInvokeHistory::construct(shared_ptr<XML> xml)
 
 	if (xml->hasProperty("process") == false)
 	{
-		role_ = nullptr;
+		process_ = nullptr;
 		return;
 	}
 
 	string &role_name = xml->getProperty("process");
 
 	if (system_->getSystemArray()->hasRole(role_name) == true)
-		role_ = system_->getSystemArray()->getProcess(role_name).get();
+		process_ = system_->getSystemArray()->getProcess(role_name).get();
 	else
-		role_ = nullptr;
+		process_ = nullptr;
 }
 
 /* ---------------------------------------------------------
@@ -60,8 +60,8 @@ void DSInvokeHistory::construct(shared_ptr<XML> xml)
 auto DSInvokeHistory::toXML() const -> shared_ptr<XML>
 {
 	shared_ptr<XML> &xml = super::toXML();
-	if (role_ != nullptr)
-		xml->setProperty("process", role_->getName());
+	if (process_ != nullptr)
+		xml->setProperty("process", process_->getName());
 
 	return xml;
 }

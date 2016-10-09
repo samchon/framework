@@ -20,7 +20,7 @@ namespace samchon.templates.parallel
 	 * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
 	 * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
 	 * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
-	 * derived from the {@link SlavSystem} class.
+	 * derived from the {@link SlaveSystem} class.
 	 *
 	 * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to 
 	 * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.

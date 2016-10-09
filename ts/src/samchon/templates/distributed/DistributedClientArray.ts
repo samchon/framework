@@ -13,7 +13,7 @@ namespace samchon.templates.distributed
 	 * Extends this {@link DistributedClientArray}, overrides {@link createServerBase createServerBase()} to determine 
 	 * which protocol to follow and {@link createExternalClient createExternalClient()} creating child 
 	 * {@link DistributedSystem} object. After the extending and overridings, open this server using the 
-	 * {@liok open open()} method.
+	 * {@link open open()} method.
 	 * 
 	 * #### [Inherited] {@link DistributedSystemArray}
 	 * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system

@@ -8,7 +8,7 @@ namespace samchon.templates.service
 	 * An user.
 	 * 
 	 * The {@link User} is an abstract class groupping {@link Client} objects, who communicates with remote client, with 
-	 * same *session id*. This {link User} represents a *remote user* literally. Within framework of remote system, 
+	 * same *session id*. This {@link User} represents a *remote user* literally. Within framework of remote system, 
 	 * an {@link User} corresponds to a web-browser and a {@link Client} represents a window in the web-browser.
 	 * 
 	 * Extends this {@link User} class and override the {@link createClient} method, a factory method creating a child 

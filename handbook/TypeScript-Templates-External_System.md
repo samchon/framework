@@ -6,30 +6,30 @@ Module *External System* provides interfaces for interaction with external netwo
 ![Conceptual Diagram](http://samchon.github.io/framework/images/design/conceptual_diagram/external_system.png)
 
 ### Class Diagram
-![Protocol - External System](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_external_system.png)
+![Protocol - External System](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png)
 
 ### API Documents
-  - [**ExternalSystemArray**](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.external.externalsystemarray.html)
+  - [**ExternalSystemArray**](http://samchon.github.io/framework/api/ts/classes/samchon.templates.external.externalsystemarray.html)
     - *Derived classes*
-      - [ExternalClientArray](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.external.externalclientarray.html)
-      - [ExternalServerArray](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.external.externalserverarray.html)
-      - [ExternalServerClientArray](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.external.externalserverclientarray.html)
+      - [ExternalClientArray](http://samchon.github.io/framework/api/ts/classes/samchon.templates.external.externalclientarray.html)
+      - [ExternalServerArray](http://samchon.github.io/framework/api/ts/classes/samchon.templates.external.externalserverarray.html)
+      - [ExternalServerClientArray](http://samchon.github.io/framework/api/ts/classes/samchon.templates.external.externalserverclientarray.html)
     - *Interfaces*
-      - [IExternalClientArray](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.external.iexternalclientarray.html)
-      - [IExternalServerArray](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.external.iexternalserverarray.html)
-  - [**ExternalSystem**](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.external.externalsystem.html)
-    - [IExternalServer](http://samchon.github.io/framework/api/ts/interfaces/samchon.protocol.external.iexternalserver.htm)
-    - [ExternalServer](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.external.externalserver.html)
-  - [**ExternalSystemRole**](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.external.externalsystemrole.html)
+      - [IExternalClientArray](http://samchon.github.io/framework/api/ts/interfaces/samchon.templates.external.iexternalclientarray.html)
+      - [IExternalServerArray](http://samchon.github.io/framework/api/ts/interfaces/samchon.templates.external.iexternalserverarray.html)
+  - [**ExternalSystem**](http://samchon.github.io/framework/api/ts/classes/samchon.templates.external.externalsystem.html)
+    - [IExternalServer](http://samchon.github.io/framework/api/ts/interfaces/samchon.templates.external.iexternalserver.htm)
+    - [ExternalServer](http://samchon.github.io/framework/api/ts/classes/samchon.templates.external.externalserver.html)
+  - [**ExternalSystemRole**](http://samchon.github.io/framework/api/ts/classes/samchon.templates.external.externalsystemrole.html)
 
 ### Source Codes
-  - [**ExternalSystemArray.ts**](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalSystemArray.ts)
-    - [ExternalClientArray.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalClientArray.ts)
-    - [ExternalServerArray.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalServerArray.ts)
-    - [ExternalServerClientArray.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalServerClientArray.ts)
-  - [**ExternalSystem.ts**](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalSystem.ts)
-    - [ExternalServer.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalServer.ts)
-  - [**ExternalSystemRole.ts**](https://github.com/samchon/framework/blob/master/ts/src/samchon/protocol/external/ExternalSystemRole.ts)
+  - [**ExternalSystemArray.ts**](https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalSystemArray.ts)
+    - [ExternalClientArray.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalClientArray.ts)
+    - [ExternalServerArray.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalServerArray.ts)
+    - [ExternalServerClientArray.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalServerClientArray.ts)
+  - [**ExternalSystem.ts**](https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalSystem.ts)
+    - [ExternalServer.ts](https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalServer.ts)
+  - [**ExternalSystemRole.ts**](https://github.com/samchon/framework/blob/master/ts/src/samchon/templates/external/ExternalSystemRole.ts)
 
 ## Basic Classes
 ### ExternalSystemArray
@@ -80,15 +80,16 @@ The **ExternalSystemRole** class represents a role, what to do. Extends this cla
 With the *Logical Proxy*, you can only concentrate on **ExternalSystemRole** itself, what to do with [Invoke messages](TypeScript-Protocol-Standard_Message#invoke), irrespective of the **ExternalSystemRole** is belonged to which [ExternalSystem](#externalsystem) object. Those pattern is called *Proxy Pattern*.
 
 ```typescript
-/// <reference path="typings/samchon-framework/samchon-framework.d.ts" />
+/// <reference types="samchon-framework.d.ts" />
 
 import samchon = require("samchon-framework");
 import protocol = samchon.protocol;
+import external = samchon.templates,external;
 
 //--------
 // MANAGER OF EXTERNAL FILE SERVERS' DRIVERS
 //--------
-var file_servers: protocol.external.ExternalSystemArray;
+var file_servers: external.ExternalSystemArray;
 
 var png_data: Uint8Array; // DATA TO SAVE
 var invoke: protocol.Invoke = new protocol.Invoke("save", "my_picture", "png", png_data); 
@@ -148,15 +149,16 @@ namespace samchon.protocol.external
 
 ###### An example sending [Invoke message](TypeScript-Protocol-Standard_Message#invoke) via Proxy Pattern.
 ```typescript
-/// <reference path="typings/samchon-framework/samchon-framework.d.ts" />
+/// <reference types="samchon-framework.d.ts" />
 
 import samchon = require("samchon-framework");
 import protocol = samchon.protocol;
+import external = samchon.templates,external;
 
 //--------
 // MANAGER OF EXTERNAL FILE SERVERS' DRIVERS
 //--------
-var file_servers: protocol.external.ExternalSystemArray;
+var file_servers: external.ExternalSystemArray;
 
 var png_data: Uint8Array; // DATA TO SAVE
 var invoke: protocol.Invoke = new protocol.Invoke("save", "my_picture", "png", png_data); 
@@ -190,7 +192,7 @@ Do you remember that; the easiest way to defining a server is to extending [prot
 The easiest way to defining an [ExternalSystemArray](#externalsystemarray) class **opening a server and accept external clients** is to extending the [**ExternalClientArray**](#externalclientarray) class. However, if you can't specify your derived [ExternalSystemArray](#externalsystemarray) to be server, client or both of them, then make an abstract class extending [ExternalSystemArray](#externalsystemarray) (Now, I name it *BaseSystemArray*). When you need a *BaseSystemArray* class **opening a server and accepting external clients**, make a new class to extening the *BaseSystemArray* and implements **IExternalClientArray** (Name it **BaseClientArray**). Fill the **BaseClientArray** following below code: 
 
 ```typescript
-namespace samchon.protocol.external
+namespace samchon.templates.external
 {
 	export interface IExternalClientArray 
 		extends ExternalSystemArray, IServer
@@ -248,8 +250,9 @@ If you already read [Entity](TypeScript-Protocol-Standard_Message#entity) module
 import samchon = require("samchon-framework");
 import library = samchon.library;
 import protocol = samchon.protocol;
+import external = samchon.templates.external;
 
-class FileServerArray extends protocol.external.ExternalServerArray
+class FileServerArray extends external.ExternalServerArray
 {
 	public createChild(xml: library.XML): protocol.external.ExternalServer
 	{
@@ -330,7 +333,7 @@ You can specify an [ExternalSystemArray](#externalsystemarray) object to be *a s
     - Called by [IEntityGroup.createChild()](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.ientitygroup.html#createchild) with XML message.
 
 ```typescript
-/// <reference path="typings/samchon-framework/samchon-framework.d.ts" />
+/// <reference types="samchon-framework" />
 
 import samchon = require("samchon-framework");
 import protocol = samchon.protocol;
@@ -474,7 +477,7 @@ You can specify an [ExternalSystem](#externalsystem) to be:
 You want to make an ExternalSystem class who handles external client connecting to my server, then just extends the ExternalSystem class and initialize with ```super.constructor(systemArray: protocol.external.SystemArray, driver: protocol.IClientDriver)```. The IClientDriver object, it comes from ExternalSystemArray.createExternalClient().
 
 ```typescript
-/// <reference path="typings/samchon-framework/samchon-framework.d.ts" />
+/// <reference types="samchon-framework" />
 
 import samchon = require("samchon-framework");
 import protocol = samchon.protocol;
@@ -520,7 +523,7 @@ The [createServerConnector()](http://samchon.github.io/framework/api/ts/classes/
 The [createChild()](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.external.externalserver.html#createchild) is a factory method creating child ExternalSystemRole object from XML object. Extends **ExternalServer** class following below code:
 
 ```typescript
-/// <reference path="typings/samchon-framework/samchon-framework.d.ts" />
+/// <reference types="samchon-framework" />
 
 import samchon = require("samchon-framework");
 import library = samchon.library;
@@ -637,9 +640,9 @@ The [Derived Modules](#derived-modules) can be very helpful for understanding ho
 
 Name | Source | Documents
 ----|----|---
-Parallel System | [protocol/parallel](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.parallel.html), [Guidance](TypeScript-Protocol-Parallel_System)
-Distributed System | [protocol/distributed](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.distributed.html), [Guidance](TypeScript-Protocol-Distributed_System)
-Slave System | [protocol/slave](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.slave.html), [Guidance](TypeScript-Protocol-Slave_System)
+Parallel System | [templates/parallel](https://github.com/samchon/framework/tree/master/ts/src/samchon/templates/parallel) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.templates.parallel.html), [Guidance](TypeScript-Templates-Parallel_System)
+Distributed System | [templates/distributed](https://github.com/samchon/framework/tree/master/ts/src/samchon/templates/distributed) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.templates.distributed.html), [Guidance](TypeScript-Templates-Distributed_System)
+Slave System | [templates/slave](https://github.com/samchon/framework/tree/master/ts/src/samchon/templates/slave) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.templates.slave.html), [Guidance](TypeScript-Templates-Slave_System)
 
 ### Interaction
 ![Conceptual Diagram](http://samchon.github.io/framework/images/design/conceptual_diagram/interaction.png)

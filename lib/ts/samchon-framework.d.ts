@@ -3919,7 +3919,7 @@ declare namespace samchon.templates.distributed {
      * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
      * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
      * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
+     * derived from the {@link SlaveSystem} class.
      *
      * As a master, you can specify this {@link DistributedSystemArrayMediator} class to be <i>a master server accepting
      * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
@@ -6119,7 +6119,7 @@ declare namespace samchon.templates.distributed {
      * Extends this {@link DistributedClientArray}, overrides {@link createServerBase createServerBase()} to determine
      * which protocol to follow and {@link createExternalClient createExternalClient()} creating child
      * {@link DistributedSystem} object. After the extending and overridings, open this server using the
-     * {@liok open open()} method.
+     * {@link open open()} method.
      *
      * #### [Inherited] {@link DistributedSystemArray}
      * The {@link DistributedSystemArray} is an abstract class containing and managing remote distributed **slave** system
@@ -6279,7 +6279,7 @@ declare namespace samchon.templates.distributed {
      * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
      * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
      * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
+     * derived from the {@link SlaveSystem} class.
      *
      * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
      * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
@@ -6439,7 +6439,7 @@ declare namespace samchon.templates.distributed {
 }
 declare namespace samchon.templates.distributed {
     /**
-     * A role of Distributed Processing System.
+     * A process of Distributed Processing System.
      *
      * The {@link DistributedProcess} is an abstract class who represents a **process**, *SOMETHING TO DISTRIBUTE* in a Distributed
      * Processing System. Overrides the {@link DistributedProcess} and defines the *SOMETHING TO DISTRIBUTE*.
@@ -6519,14 +6519,14 @@ declare namespace samchon.templates.distributed {
         /**
          * Get resource index.
          *
-         * Get *resource index* that indicates how much this {@link DistributedProcess role} is heavy.
+         * Get *resource index* that indicates how much this {@link DistributedProcess process} is heavy.
          *
-         * If this {@link DistributedProcess role} does not have any	{@link Invoke} message had handled, then the
+         * If this {@link DistributedProcess process} does not have any	{@link Invoke} message had handled, then the
          * *resource index* will be ```1.0```, which means default and average value between all
          * {@link DistributedProcess} instances (that are belonged to a same {@link DistributedSystemArray} object).
          *
          * You can specify the *resource index* by yourself, but notice that, if the *resource index* is higher than
-         * other {@link DistributedProcess} objects, then this {@link DistributedProcess role} will be ordered to
+         * other {@link DistributedProcess} objects, then this {@link DistributedProcess process} will be ordered to
          * handle less processes than other {@link DistributedProcess} objects. Otherwise, the *resource index* is
          * lower than others, of course, much processes will be requested.
          *
@@ -6542,7 +6542,7 @@ declare namespace samchon.templates.distributed {
         /**
          * Set resource index.
          *
-         * Set *resource index* that indicates how much this {@link DistributedProcess role} is heavy. This
+         * Set *resource index* that indicates how much this {@link DistributedProcess process} is heavy. This
          * *resource index* can be **revaulated**.
          *
          * Note that, initial and average *resource index* of {@link DistributedProcess} objects are ```1.0```. If the
@@ -6552,10 +6552,10 @@ declare namespace samchon.templates.distributed {
          *
          * Unlike {@link enforceResource}, configuring *resource index* by this {@link setResource} allows the
          * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the
-         * *resource index*. The {@link DistributedProcess role} is much heavier than any other, but you estimated it
+         * *resource index*. The {@link DistributedProcess process} is much heavier than any other, but you estimated it
          * to the lightest one. It looks like a terrible case that causes
          * {@link DistributedSystemArray entire distributed processing system} to be slower, however, don't mind. The
-         * {@link DistributedProcess role} will the direct to the *propriate resource index* eventually with the
+         * {@link DistributedProcess process} will the direct to the *propriate resource index* eventually with the
          * **revaluation**.
          *
          * - The **revaluation** is caused by the {@link sendData sendData()} method.
@@ -6566,7 +6566,7 @@ declare namespace samchon.templates.distributed {
         /**
          * Enforce resource index.
          *
-         * Enforce *resource index* that indicates how much heavy the {@link DistributedProcess role is}. The
+         * Enforce *resource index* that indicates how much heavy the {@link DistributedProcess process is}. The
          * *resource index* will be fixed, never be **revaluated**.
          *
          * Note that, initial and average *resource index* of {@link DistributedProcess} objects are ```1.0```. If the
@@ -6579,7 +6579,7 @@ declare namespace samchon.templates.distributed {
          * never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the **mis-valuation**
          * with this {@link enforceResource}.
          *
-         * For example, there's a {@link DistributedProcess role} much heavier than any other, but you
+         * For example, there's a {@link DistributedProcess process} much heavier than any other, but you
          * **mis-estimated** it to the lightest. In that case, there's no way. The
          * {@link DistributedSystemArray entire distributed processing system} will be slower by the **mis-valuation**.
          * By the reason, using {@link enforceResource}, it's recommended only when you can clearly certain the
@@ -6795,7 +6795,7 @@ declare namespace samchon.templates.parallel {
      * connected with this **master** system. This {@link ParallelSystem} takes full charge of network communication with
      * the remote, parallel **slave** system has connected.
      *
-     * When a *parallel process* is requested (by {@link ParallelSystemArray.sendSegementData} or
+     * When a *parallel process* is requested (by {@link ParallelSystemArray.sendSegmentData} or
      * {@link ParallelSystemArray.sendPieceData}), the number of pieces to be allocated to a {@link ParallelSystem} is
      * turn on its {@link getPerformance performance index}. Higher {@link getPerformance performance index}, then
      * more pieces are requested. The {@link getPerformance performance index} is revaluated whenever a *parallel process*
@@ -7321,7 +7321,7 @@ declare namespace samchon.templates.distributed {
      * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
      * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
      * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
+     * derived from the {@link SlaveSystem} class.
      *
      * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
      * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
@@ -7547,7 +7547,7 @@ declare namespace samchon.templates.distributed {
      * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
      * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
      * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
+     * derived from the {@link SlaveSystem} class.
      *
      * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
      * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
@@ -8910,7 +8910,7 @@ declare namespace samchon.templates.parallel {
      * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
      * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
      * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
+     * derived from the {@link SlaveSystem} class.
      *
      * As a **master**, you can specify this {@link ParallelSystemArrayMediator} class to be <i>a master server accepting
      * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
@@ -9058,7 +9058,7 @@ declare namespace samchon.templates.parallel {
      * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
      * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
      * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
+     * derived from the {@link SlaveSystem} class.
      *
      * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
      * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
@@ -9242,7 +9242,7 @@ declare namespace samchon.templates.parallel {
      * connected with this **master** system. This {@link ParallelSystem} takes full charge of network communication with
      * the remote, parallel **slave** system has connected.
      *
-     * When a *parallel process* is requested (by {@link ParallelSystemArray.sendSegementData} or
+     * When a *parallel process* is requested (by {@link ParallelSystemArray.sendSegmentData} or
      * {@link ParallelSystemArray.sendPieceData}), the number of pieces to be allocated to a {@link ParallelSystem} is
      * turn on its {@link getPerformance performance index}. Higher {@link getPerformance performance index}, then
      * more pieces are requested. The {@link getPerformance performance index} is revaluated whenever a *parallel process*
@@ -9406,7 +9406,7 @@ declare namespace samchon.templates.parallel {
      * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
      * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
      * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
+     * derived from the {@link SlaveSystem} class.
      *
      * As a **master**, you can specify this {@link ParallelSystemArrayMediator} class to be <i>a master server accepting
      * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
@@ -9601,7 +9601,7 @@ declare namespace samchon.templates.parallel {
      * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
      * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
      * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
-     * derived from the {@link SlavSystem} class.
+     * derived from the {@link SlaveSystem} class.
      *
      * As a **master**, you can specify this {@link ParallelSystemArrayMediator} class to be <i>a master server accepting
      * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
@@ -9951,7 +9951,7 @@ declare namespace samchon.templates.service {
      * - Objects in composite relationship and their factory methods
      *   - {@link User}: {@link Server.createUser Server.createUser()}
      *   - {@link Client}: {@link User.createClient User.createClient()}
-     *   - {@link Service}: {@liok Client.createService Client.createService()}
+     *   - {@link Service}: {@link Client.createService Client.createService()}
      * - {@link Invoke} message chains; {@link IProtocol.replyData replyData}
      *   - {@link Server.replyData}
      *   - {@link User.replyData}
@@ -10133,7 +10133,7 @@ declare namespace samchon.templates.service {
      * An user.
      *
      * The {@link User} is an abstract class groupping {@link Client} objects, who communicates with remote client, with
-     * same *session id*. This {link User} represents a *remote user* literally. Within framework of remote system,
+     * same *session id*. This {@link User} represents a *remote user* literally. Within framework of remote system,
      * an {@link User} corresponds to a web-browser and a {@link Client} represents a window in the web-browser.
      *
      * Extends this {@link User} class and override the {@link createClient} method, a factory method creating a child

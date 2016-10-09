@@ -17,7 +17,7 @@ function compile()
 
 function attach_header()
 {
-	const TITLE_FILE = "./ts/src/typings/samchon-framework/samchon-framework.d.ts";
+	const TITLE_FILE = "./ts/src/typings/samchon-framework/samchon-framework.txt";
 	const HEADER_FILE = "./lib/ts/samchon-framework.d.ts";
 
 	var text = fs.readFileSync(TITLE_FILE, "utf8");

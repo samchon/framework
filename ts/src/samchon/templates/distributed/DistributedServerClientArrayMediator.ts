@@ -24,7 +24,7 @@ namespace samchon.templates.distributed
 	 * system at the same time. This {@link DistributedSystemArrayMediator} be a master system, containing and managing
 	 * {@link DistributedSystem} objects, which represent distributed slave systems, by extending
 	 * {@link DistributedSystemArray} class. Also, be a slave system through {@link getMediator mediator} object, which is
-	 * derived from the {@link SlavSystem} class.
+	 * derived from the {@link SlaveSystem} class.
 	 * 
 	 * As a slave, you can specify this {@link DistributedSystemArrayMediator} to be <i>a client slave connecting to master
 	 * server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.

@@ -52,7 +52,7 @@ namespace samchon.templates.parallel
 	 * connected with this **master** system. This {@link ParallelSystem} takes full charge of network communication with 
 	 * the remote, parallel **slave** system has connected.
 	 *
-	 * When a *parallel process* is requested (by {@link ParallelSystemArray.sendSegementData} or
+	 * When a *parallel process* is requested (by {@link ParallelSystemArray.sendSegmentData} or
 	 * {@link ParallelSystemArray.sendPieceData}), the number of pieces to be allocated to a {@link ParallelSystem} is
 	 * turn on its {@link getPerformance performance index}. Higher {@link getPerformance performance index}, then
 	 * more pieces are requested. The {@link getPerformance performance index} is revaluated whenever a *parallel process*

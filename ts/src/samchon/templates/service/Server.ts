@@ -20,7 +20,7 @@ namespace samchon.templates.service
 	 * - Objects in composite relationship and their factory methods
 	 *   - {@link User}: {@link Server.createUser Server.createUser()}
 	 *   - {@link Client}: {@link User.createClient User.createClient()}
-	 *   - {@link Service}: {@liok Client.createService Client.createService()}
+	 *   - {@link Service}: {@link Client.createService Client.createService()}
 	 * - {@link Invoke} message chains; {@link IProtocol.replyData replyData}
 	 *   - {@link Server.replyData}
 	 *   - {@link User.replyData}

@@ -2,10 +2,10 @@
 **Basic Compoenents** are the smallest unit of network communication in this *Samchon Framework*. With **Basic Components**, you can construct any type of network system, even how the network system is enormously scaled and complicated, by just combinating the **Basic Components**.
 
 All the system templates in this framework are also being implemented by utilization of the **Basic Components**.
-  - [Service](TypeScript-Protocol-Service)
-  - [External System](TypeScript-Protocol-External_System)
-  - [Parallel System](TypeScript-Protocol-Parallel_System)
-  - [Distributed System](TypeScript-Protocol-Distributed_System)
+  - [Service](TypeScript-Templates-Service)
+  - [External System](TypeScript-Templates-External_System)
+  - [Parallel System](TypeScript-Templates-Parallel_System)
+  - [Distributed System](TypeScript-Templates-Distributed_System)
 
 Note that, whatever the network system what you've to construct is, just concentrate on role of each system and attach matched **Basic Component** to the role, within framework of the **Object-Oriented Design**. Then construction of the network system will be much easier.
   - A system is server, then use [IServer](#iserver) or [IServerBase](#iserverdriver).
@@ -303,7 +303,7 @@ class CalculatorApplication implements protocol.IProtocol
 
 Implements ```IProtocol``` if the class sends and handles [Invoke](TypeScript-Protocol-Standard_Message#invoke) message. Looking around source codes of Samchon Framework, especially System Templates, you can find out that all the classes and modules handling [Invoke](TypeScript-Protocol-Standard_Message#invoke) message are always implementing the ```IProtocol```. Yes, ```IProtocol```, this is the main role you've to follow in Samchon Framework.
 
-Below pseudo code represents [Service Module](TypeScript-Protocol-Service), who can build a cloud server. All the classes in the pseudo code are implementing the IProtocol because all of them are handling [Invoke](TypeScript-Protocol-Standard_Message#invoke) messages.
+Below pseudo code represents [Service Module](TypeScript-Templates-Cloud_Service), who can build a cloud server. All the classes in the pseudo code are implementing the IProtocol because all of them are handling [Invoke](TypeScript-Protocol-Standard_Message#invoke) messages.
 
   - [Server](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.service.server.html): Represents a server literally.
   - [User](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.service.user.html): Represents an user being identified by its session id. User contains multiple Client objects.
@@ -313,11 +313,11 @@ Below pseudo code represents [Service Module](TypeScript-Protocol-Service), who 
   - [Client](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.service.client.html): Represents a browser window and it takes role of network commmunication.
   - [Service](http://samchon.github.io/framework/api/ts/classes/samchon.protocol.service.service.html): Represents a service, domain logic.
 
-![Service Module](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_service.png)
+![Service Module](http://samchon.github.io/framework/images/design/ts_class_diagram/templates_cloud_service.png)
 
 ``` typescript
-/// <reference path="../typings/typescript-stl/typescript-stl.d.ts" />
-/// <reference path="../typings/samchon-framework/samchon-framework.d.ts" />
+/// <reference types="typescript-stl" />
+/// <reference types="samchon-framework" />
 
 // IMPORTS
 import std = require("typescript-stl");
@@ -422,11 +422,11 @@ Learning and understanding **Basic Components** of *Samchon Framework*, reading 
 
 Name | Source | Documents
 ----|----|---
-Cloud Service | [protocol/service](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/service) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.service.html), [Guidance](TypeScript-Protocol-Service)
-External System | [protocol/external](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/external) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.external.html), [Guidance](TypeScript-Protocol-External_System)
-Parallel System | [protocol/parallel](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/parallel) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.parallel.html), [Guidance](TypeScript-Protocol-Parallel_System)
-Distributed System | [protocol/distributed](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/distributed) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.distributed.html), [Guidance](TypeScript-Protocol-Distributed_System)
-Slave System | [protocol/slave](https://github.com/samchon/framework/tree/master/ts/src/samchon/protocol/slave) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.protocol.slave.html), [Guidance](TypeScript-Protocol-Slave_System)
+Cloud Service | [protocol/service](https://github.com/samchon/framework/tree/master/ts/src/samchon/templates/service) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.templates.service.html), [Guidance](TypeScript-Templates-Cloud_Service)
+External System | [protocol/external](https://github.com/samchon/framework/tree/master/ts/src/samchon/templates/external) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.templates.external.html), [Guidance](TypeScript-Templates-External_System)
+Parallel System | [protocol/parallel](https://github.com/samchon/framework/tree/master/ts/src/samchon/templates/parallel) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.templates.parallel.html), [Guidance](TypeScript-Templates-Parallel_System)
+Distributed System | [protocol/distributed](https://github.com/samchon/framework/tree/master/ts/src/samchon/templates/distributed) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.templates.distributed.html), [Guidance](TypeScript-Templates-Distributed_System)
+Slave System | [protocol/slave](https://github.com/samchon/framework/tree/master/ts/src/samchon/templates/slave) | [API](http://samchon.github.io/framework/api/ts/modules/samchon.templates.slave.html), [Guidance](TypeScript-Templates-Slave_System)
 
 #### Example Projects
   - [Calculator](Examples-Calculator)

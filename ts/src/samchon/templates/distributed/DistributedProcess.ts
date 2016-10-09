@@ -5,7 +5,7 @@
 namespace samchon.templates.distributed
 {
 	/**
-	 * A role of Distributed Processing System.
+	 * A process of Distributed Processing System.
 	 * 
 	 * The {@link DistributedProcess} is an abstract class who represents a **process**, *SOMETHING TO DISTRIBUTE* in a Distributed 
 	 * Processing System. Overrides the {@link DistributedProcess} and defines the *SOMETHING TO DISTRIBUTE*.
@@ -124,14 +124,14 @@ namespace samchon.templates.distributed
 		/**
 		 * Get resource index.
 		 * 
-		 * Get *resource index* that indicates how much this {@link DistributedProcess role} is heavy.
+		 * Get *resource index* that indicates how much this {@link DistributedProcess process} is heavy.
 		 * 
-		 * If this {@link DistributedProcess role} does not have any	{@link Invoke} message had handled, then the
+		 * If this {@link DistributedProcess process} does not have any	{@link Invoke} message had handled, then the
 		 * *resource index* will be ```1.0```, which means default and average value between all 
 		 * {@link DistributedProcess} instances (that are belonged to a same {@link DistributedSystemArray} object).
 		 * 
 		 * You can specify the *resource index* by yourself, but notice that, if the *resource index* is higher than 
-		 * other {@link DistributedProcess} objects, then this {@link DistributedProcess role} will be ordered to
+		 * other {@link DistributedProcess} objects, then this {@link DistributedProcess process} will be ordered to
 		 * handle less processes than other {@link DistributedProcess} objects. Otherwise, the *resource index* is 
 		 * lower than others, of course, much processes will be requested.
 		 * 
@@ -151,7 +151,7 @@ namespace samchon.templates.distributed
 		/**
 		 * Set resource index.
 		 * 
-		 * Set *resource index* that indicates how much this {@link DistributedProcess role} is heavy. This 
+		 * Set *resource index* that indicates how much this {@link DistributedProcess process} is heavy. This
 		 * *resource index* can be **revaulated**.
 		 * 
 		 * Note that, initial and average *resource index* of {@link DistributedProcess} objects are ```1.0```. If the 
@@ -161,10 +161,10 @@ namespace samchon.templates.distributed
 		 * 
 		 * Unlike {@link enforceResource}, configuring *resource index* by this {@link setResource} allows the 
 		 * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the 
-		 * *resource index*. The {@link DistributedProcess role} is much heavier than any other, but you estimated it 
+		 * *resource index*. The {@link DistributedProcess process} is much heavier than any other, but you estimated it
 		 * to the lightest one. It looks like a terrible case that causes 
 		 * {@link DistributedSystemArray entire distributed processing system} to be slower, however, don't mind. The 
-		 * {@link DistributedProcess role} will the direct to the *propriate resource index* eventually with the 
+		 * {@link DistributedProcess process} will the direct to the *propriate resource index* eventually with the
 		 * **revaluation**.
 		 * 
 		 * - The **revaluation** is caused by the {@link sendData sendData()} method.
@@ -180,7 +180,7 @@ namespace samchon.templates.distributed
 		/**
 		 * Enforce resource index.
 		 * 
-		 * Enforce *resource index* that indicates how much heavy the {@link DistributedProcess role is}. The 
+		 * Enforce *resource index* that indicates how much heavy the {@link DistributedProcess process is}. The
 		 * *resource index* will be fixed, never be **revaluated**.
 		 *
 		 * Note that, initial and average *resource index* of {@link DistributedProcess} objects are ```1.0```. If the
@@ -193,7 +193,7 @@ namespace samchon.templates.distributed
 		 * never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the **mis-valuation** 
 		 * with this {@link enforceResource}.
 		 * 
-		 * For example, there's a {@link DistributedProcess role} much heavier than any other, but you 
+		 * For example, there's a {@link DistributedProcess process} much heavier than any other, but you
 		 * **mis-estimated** it to the lightest. In that case, there's no way. The 
 		 * {@link DistributedSystemArray entire distributed processing system} will be slower by the **mis-valuation**. 
 		 * By the reason, using {@link enforceResource}, it's recommended only when you can clearly certain the 

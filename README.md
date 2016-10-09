@@ -19,9 +19,9 @@ Samchon Framework supports two languages; **C++** and **TypeScript/NodeJs**. Not
     - Data expression method: [Entity](https://github.com/samchon/framework/wiki/Conception-Message_Protocol#entity)
   3. Construct complicate network system
     - Like
-      - Interaction with [External Systems](https://github.com/samchon/framework/wiki/Conception-External_System)
-      - (Tree-structured) [Parallel Processing System](https://github.com/samchon/framework/wiki/Conception-Parallel_System)
-      - (Tree-structured) [Distributed Processing System](https://github.com/samchon/framework/wiki/Conception-Distributed_System)
+      - Interaction with [External Systems](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+      - (Tree-structured) [Parallel Processing System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+      - (Tree-structured) [Distributed Processing System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
     - Easily within framework of OOD<sup>[2](#f_ood)</sup>, by considering a system as a object (class), via [Basic Components](https://github.com/samchon/framework/wiki/Conception-Modules-Basic_Components)
   4. Utilize libraries independent on operating systems
     - Enable to cross-compile

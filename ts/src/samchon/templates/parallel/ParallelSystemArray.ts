@@ -132,11 +132,13 @@ namespace samchon.templates.parallel
 		 * @param invoke An {@link Invoke} message requesting parallel process.
 		 * @param size Number of pieces to segment.
 		 * 
+		 * @return Number of {@link ParallelSystem slave systems} participating in the *Parallel Process*.
+		 * 
 		 * @see {@link sendPieceData}, {@link ParallelSystem.getPerformacen}
 		 */
-		public sendSegmentData(invoke: protocol.Invoke, size: number): void
+		public sendSegmentData(invoke: protocol.Invoke, size: number): number
 		{
-			this.sendPieceData(invoke, 0, size);
+			return this.sendPieceData(invoke, 0, size);
 		}
 		
 		/**
@@ -167,9 +169,11 @@ namespace samchon.templates.parallel
 		 *			   all the pieces' indices between *first* and *last*, including the piece pointed by index
 		 *			   *first*, but not the piece pointed by the index *last*.
 		 * 
+		 * @return Number of {@link ParallelSystem slave systems} participating in the *Parallel Process*.
+		 * 
 		 * @see {@link sendSegmentData}, {@link ParallelSystem.getPerformacen}
 		 */
-		public sendPieceData(invoke: protocol.Invoke, first: number, last: number): void
+		public sendPieceData(invoke: protocol.Invoke, first: number, last: number): number
 		{
 			if (invoke.has("_History_uid") == false)
 				invoke.push_back(new protocol.InvokeParameter("_History_uid", ++this.history_sequence_));
@@ -186,29 +190,33 @@ namespace samchon.templates.parallel
 			}
 
 			let segment_size: number = last - first; // TOTAL NUMBER OF PIECES TO DIVIDE
-			let system_array: std.Vector<ParallelSystem> = new std.Vector<ParallelSystem>(); // SYSTEMS TO BE GET DIVIDED PROCESSES
+			let candidate_systems: std.Vector<ParallelSystem> = new std.Vector<ParallelSystem>(); // SYSTEMS TO BE GET DIVIDED PROCESSES
+			let participants_count: number = 0;
 
 			// POP EXCLUDEDS
 			for (let i: number = 0; i < this.size(); i++)
 				if (this.at(i)["exclude_"] == false)
-					system_array.push(this.at(i));
+					candidate_systems.push(this.at(i));
 
 			// ORDERS
-			for (let i: number = 0; i < system_array.size(); i++)
+			for (let i: number = 0; i < candidate_systems.size(); i++)
 			{
-				let system: ParallelSystem = system_array.at(i) as ParallelSystem;
+				let system: ParallelSystem = candidate_systems.at(i) as ParallelSystem;
 				
 				// COMPUTE FIRST AND LAST INDEX TO ALLOCATE
-				let piece_size: number = (i == system_array.size() - 1) 
+				let piece_size: number = (i == candidate_systems.size() - 1) 
 					? segment_size - first
-					: Math.floor(segment_size / system_array.size() * system.getPerformance());
+					: Math.floor(segment_size / candidate_systems.size() * system.getPerformance());
 				if (piece_size == 0)
 					continue;
 
 				// SEND DATA WITH PIECES' INDEXES
 				system["send_piece_data"](invoke, first, first + piece_size);
 				first += piece_size; // FOR THE NEXT STEP
+
+				participants_count++;
 			}
+			return participants_count;
 		}
 
 		/* ---------------------------------------------------------

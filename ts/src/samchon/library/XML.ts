@@ -349,6 +349,31 @@ namespace samchon.library
 		}
 
 		/**
+		 * Get iterator to property element.
+		 * 
+		 * Searches the {@link getPropertyMap properties} for an element with a identifier equivalent to <i>key</i> 
+		 * and returns an iterator to it if found, otherwise it returns an iterator to {@link HashMap.end end()}.
+		 *
+		 * <p> Two keys are considered equivalent if the properties' comparison object returns false reflexively
+		 * (i.e., no matter the order in which the elements are passed as arguments). </p>
+		 *
+		 * Another member function, {@link hasProperty hasProperty()} can be used to just check whether a particular 
+		 * <i>key</i> exists.
+		 * 
+		 * ```xml
+		 * <tag PROPERTY_KEY={property_value}>{value}</tag>
+		 * ```
+		 * 
+		 * @param key Key to be searched for
+		 * @return An iterator to the element, if an element with specified <i>key</i> is found, or
+		 *		   {@link end end()} otherwise.
+		 */
+		public findProperty(key: string): std.MapIterator<string, string>
+		{
+			return this.property_map_.find(key);
+		}
+
+		/**
 		 * Test whether a property exists.
 		 * 
 		 * ```xml

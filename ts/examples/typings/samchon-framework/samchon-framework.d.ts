@@ -355,9 +355,6 @@ declare namespace samchon.collections {
         preventDefault(): void;
     }
 }
-/**
- * @hidden
- */
 declare namespace samchon.collections.CollectionEvent {
     const INSERT: "insert";
     const ERASE: "erase";
@@ -1026,6 +1023,8 @@ declare namespace samchon.collections {
     }
 }
 /**
+ * Collections, elements I/O detectable STL containers.
+ *
  * STL Containers       | Collections
  * ---------------------|-------------------
  * {@link Vector}       | {@link ArrayCollection}
@@ -1037,7 +1036,10 @@ declare namespace samchon.collections {
  * {@link TreeMultiSet} | {@link TreeMultiSetCollection}
  * {@link HashMultiSet} | {@link HashMultiSetCollection}
  *                      |
+ * {@link TreeMap}      | {@link TreeMapCollection}
+ * {@link HashMap}      | {@link HashMapCollection}
  * {@link TreeMultiMap} | {@link TreeMultiMapCollection}
+ * {@link HashMultiMap} | {@link HashMultiMapCollection}
  *
  * @author Jeongho Nam <http://samchon.org>
  */
@@ -2993,6 +2995,27 @@ declare namespace samchon.library {
          */
         getValue(): string;
         /**
+         * Get iterator to property element.
+         *
+         * Searches the {@link getPropertyMap properties} for an element with a identifier equivalent to <i>key</i>
+         * and returns an iterator to it if found, otherwise it returns an iterator to {@link HashMap.end end()}.
+         *
+         * <p> Two keys are considered equivalent if the properties' comparison object returns false reflexively
+         * (i.e., no matter the order in which the elements are passed as arguments). </p>
+         *
+         * Another member function, {@link hasProperty hasProperty()} can be used to just check whether a particular
+         * <i>key</i> exists.
+         *
+         * ```xml
+         * <tag PROPERTY_KEY={property_value}>{value}</tag>
+         * ```
+         *
+         * @param key Key to be searched for
+         * @return An iterator to the element, if an element with specified <i>key</i> is found, or
+         *		   {@link end end()} otherwise.
+         */
+        findProperty(key: string): std.MapIterator<string, string>;
+        /**
          * Test whether a property exists.
          *
          * ```xml
@@ -3698,9 +3721,11 @@ declare namespace samchon.templates.parallel {
          * @param invoke An {@link Invoke} message requesting parallel process.
          * @param size Number of pieces to segment.
          *
+         * @return Number of {@link ParallelSystem slave systems} participating in the *Parallel Process*.
+         *
          * @see {@link sendPieceData}, {@link ParallelSystem.getPerformacen}
          */
-        sendSegmentData(invoke: protocol.Invoke, size: number): void;
+        sendSegmentData(invoke: protocol.Invoke, size: number): number;
         /**
          * Send an {@link Invoke} message with range of pieces.
          *
@@ -3729,9 +3754,11 @@ declare namespace samchon.templates.parallel {
          *			   all the pieces' indices between *first* and *last*, including the piece pointed by index
          *			   *first*, but not the piece pointed by the index *last*.
          *
+         * @return Number of {@link ParallelSystem slave systems} participating in the *Parallel Process*.
+         *
          * @see {@link sendSegmentData}, {@link ParallelSystem.getPerformacen}
          */
-        sendPieceData(invoke: protocol.Invoke, first: number, last: number): void;
+        sendPieceData(invoke: protocol.Invoke, first: number, last: number): number;
         /**
          * @hidden
          */

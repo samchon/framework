@@ -579,9 +579,6 @@ var samchon;
         collections.CollectionEvent = CollectionEvent;
     })(collections = samchon.collections || (samchon.collections = {}));
 })(samchon || (samchon = {}));
-/**
- * @hidden
- */
 var samchon;
 (function (samchon) {
     var collections;
@@ -1431,6 +1428,8 @@ var samchon;
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
 /**
+ * Collections, elements I/O detectable STL containers.
+ *
  * STL Containers       | Collections
  * ---------------------|-------------------
  * {@link Vector}       | {@link ArrayCollection}
@@ -1442,7 +1441,10 @@ var samchon;
  * {@link TreeMultiSet} | {@link TreeMultiSetCollection}
  * {@link HashMultiSet} | {@link HashMultiSetCollection}
  *                      |
+ * {@link TreeMap}      | {@link TreeMapCollection}
+ * {@link HashMap}      | {@link HashMapCollection}
  * {@link TreeMultiMap} | {@link TreeMultiMapCollection}
+ * {@link HashMultiMap} | {@link HashMultiMapCollection}
  *
  * @author Jeongho Nam <http://samchon.org>
  */
@@ -4011,6 +4013,29 @@ var samchon;
                 return this.value_;
             };
             /**
+             * Get iterator to property element.
+             *
+             * Searches the {@link getPropertyMap properties} for an element with a identifier equivalent to <i>key</i>
+             * and returns an iterator to it if found, otherwise it returns an iterator to {@link HashMap.end end()}.
+             *
+             * <p> Two keys are considered equivalent if the properties' comparison object returns false reflexively
+             * (i.e., no matter the order in which the elements are passed as arguments). </p>
+             *
+             * Another member function, {@link hasProperty hasProperty()} can be used to just check whether a particular
+             * <i>key</i> exists.
+             *
+             * ```xml
+             * <tag PROPERTY_KEY={property_value}>{value}</tag>
+             * ```
+             *
+             * @param key Key to be searched for
+             * @return An iterator to the element, if an element with specified <i>key</i> is found, or
+             *		   {@link end end()} otherwise.
+             */
+            XML.prototype.findProperty = function (key) {
+                return this.property_map_.find(key);
+            };
+            /**
              * Test whether a property exists.
              *
              * ```xml
@@ -4950,10 +4975,12 @@ var samchon;
                  * @param invoke An {@link Invoke} message requesting parallel process.
                  * @param size Number of pieces to segment.
                  *
+                 * @return Number of {@link ParallelSystem slave systems} participating in the *Parallel Process*.
+                 *
                  * @see {@link sendPieceData}, {@link ParallelSystem.getPerformacen}
                  */
                 ParallelSystemArray.prototype.sendSegmentData = function (invoke, size) {
-                    this.sendPieceData(invoke, 0, size);
+                    return this.sendPieceData(invoke, 0, size);
                 };
                 /**
                  * Send an {@link Invoke} message with range of pieces.
@@ -4983,6 +5010,8 @@ var samchon;
                  *			   all the pieces' indices between *first* and *last*, including the piece pointed by index
                  *			   *first*, but not the piece pointed by the index *last*.
                  *
+                 * @return Number of {@link ParallelSystem slave systems} participating in the *Parallel Process*.
+                 *
                  * @see {@link sendSegmentData}, {@link ParallelSystem.getPerformacen}
                  */
                 ParallelSystemArray.prototype.sendPieceData = function (invoke, first, last) {
@@ -4998,24 +5027,27 @@ var samchon;
                             this.history_sequence_ = uid;
                     }
                     var segment_size = last - first; // TOTAL NUMBER OF PIECES TO DIVIDE
-                    var system_array = new std.Vector(); // SYSTEMS TO BE GET DIVIDED PROCESSES
+                    var candidate_systems = new std.Vector(); // SYSTEMS TO BE GET DIVIDED PROCESSES
+                    var participants_count = 0;
                     // POP EXCLUDEDS
                     for (var i = 0; i < this.size(); i++)
                         if (this.at(i)["exclude_"] == false)
-                            system_array.push(this.at(i));
+                            candidate_systems.push(this.at(i));
                     // ORDERS
-                    for (var i = 0; i < system_array.size(); i++) {
-                        var system = system_array.at(i);
+                    for (var i = 0; i < candidate_systems.size(); i++) {
+                        var system = candidate_systems.at(i);
                         // COMPUTE FIRST AND LAST INDEX TO ALLOCATE
-                        var piece_size = (i == system_array.size() - 1)
+                        var piece_size = (i == candidate_systems.size() - 1)
                             ? segment_size - first
-                            : Math.floor(segment_size / system_array.size() * system.getPerformance());
+                            : Math.floor(segment_size / candidate_systems.size() * system.getPerformance());
                         if (piece_size == 0)
                             continue;
                         // SEND DATA WITH PIECES' INDEXES
                         system["send_piece_data"](invoke, first, first + piece_size);
                         first += piece_size; // FOR THE NEXT STEP
+                        participants_count++;
                     }
+                    return participants_count;
                 };
                 /* ---------------------------------------------------------
                     PERFORMANCE ESTIMATION

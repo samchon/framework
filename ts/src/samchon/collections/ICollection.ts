@@ -1,6 +1,8 @@
 ﻿/// <reference path="../API.ts" />
 
 /**
+ * Collections, elements I/O detectable STL containers.
+ * 
  * STL Containers       | Collections
  * ---------------------|-------------------
  * {@link Vector}       | {@link ArrayCollection}
@@ -12,7 +14,10 @@
  * {@link TreeMultiSet} | {@link TreeMultiSetCollection}
  * {@link HashMultiSet} | {@link HashMultiSetCollection}
  *                      |
+ * {@link TreeMap}      | {@link TreeMapCollection}
+ * {@link HashMap}      | {@link HashMapCollection}
  * {@link TreeMultiMap} | {@link TreeMultiMapCollection}
+ * {@link HashMultiMap} | {@link HashMultiMapCollection}
  * 
  * @author Jeongho Nam <http://samchon.org>
  */

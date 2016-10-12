@@ -1,109 +1,95 @@
 # Samchon Framework
-
 [![NPM](https://nodei.co/npm/samchon-framework.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/samchon-framework)
 
 GitHub Repository: https://github.com/samchon/framework
 
-## Introduction
-#### Samchon Framework is
-Samchon framework is an **OON**<sup id="a_oon">[1](#f_oon)</sup> framework; who can build network system within framework of **OOD**<sup id="a_ood">[2](#f_ood)</sup>, like *cloud system* and *distributed* & *parallel processing systems*, even how the system is enormously complicate.
 
-Samchon Framework supports two languages; **C++** and **TypeScript/NodeJs**. Not only connecting to an external server, but also opening a server is also possible both in *C++* and *TypeScript/NodeJS*. In my case, I prefer to build a cloud server with *TypeScript & NodeJS* quickly. When the cloud server grows up and lots of traffic occurs, I let the cloud server to deliver heavy processes to Distributed systems built via *C++*.
+## What Samchon Framework is
+### Object Oriented Network
+![Network Connectivity to Class Relationship](http://samchon.github.io/framework/images/accessory/oon.png)
 
-[![Supported Languages Diagram](http://samchon.github.io/framework/images/accessory/language_diagram.png)](#interaction)
+Samchon Framework is an OOD (Object-Oriented Network) framework. You can compose network systems within framework of the Object-Oriented. 
 
-#### What can we do
-  1. Build [Cloud Server](https://github.com/samchon/framework/wiki/Conception-Modules-Service)
-  2. Integrate systems with standard ~
-    - Message protocol: [Invoke](https://github.com/samchon/framework/wiki/Conception-Message_Protocol#invoke)
-    - Data expression method: [Entity](https://github.com/samchon/framework/wiki/Conception-Message_Protocol#entity)
-  3. Construct complicate network system
-    - Like
-      - Interaction with [External Systems](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
-      - (Tree-structured) [Parallel Processing System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
-      - (Tree-structured) [Distributed Processing System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
-    - Easily within framework of OOD<sup>[2](#f_ood)</sup>, by considering a system as a object (class), via [Basic Components](https://github.com/samchon/framework/wiki/Conception-Modules-Basic_Components)
-  4. Utilize libraries independent on operating systems
-    - Enable to cross-compile
+Whether how the network system is enormous and complicate, **the system nodes, they're just objects** in the Samchon Framework. Define <u>objects who represent the *system nodes*</u> and <u>deliver message by calling methods from objects to objects</u>. That's all.
 
-![Interaction Movie](http://samchon.github.io/framework/images/example/interaction/demo.gif?ver=2)
+### System Templates
+I repeat, Samchon is an OOD (Object-Oriented Network) framework, composing a network system within framework of the Object-Oriented. It means that even **modulization** is possible and it's called **System Templates**. You can maximize the **reusability** with the **modulization, System Templates**.
 
+When you need a cloud system, then take a System Template named [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Templates-Cloud_Service). When you need a distributed processings system, then take the [Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed-System). If you should implement a specific network system and the network system will be used repeatedly, then **modulize** it to be one of the **System Templates**.
 
-## References
-#### API Documents
-  - [C++ API Documents](http://samchon.github.io/framework/api/cpp)
-  - [TypeScript API Documents](http://samchon.github.io/framework/api/ts)
-  - ~~[Flex API Documents](http://samchon.github.io/framework/api/flex)~~
+Below **System Templates** are basically provided in Samcho Framework:
 
-#### Architecture Designs
-  - [C++ Class Diagram](http://samchon.github.io/framework/design/cpp_class_diagram.pdf)
-  - [TypeScript Class Diagram](http://samchon.github.io/framework/design/ts_class_diagram.pdf)
-  - [Sequence Diagram](http://samchon.github.io/framework/design/sequence_diagram.pdf)
+  - [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Templates-Cloud_Service): Cloud Server Template
+  - [External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External-System): A template for 1: N composite relationship's network system.
+    - [Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel-System): Parallel Processing System Template.
+    - [Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed-System): Distributed Processing System Template.
 
-#### Guide Documents
-Samchon Framework provides guide documents in [Wiki Page](https://github.com/samchon/framework/wiki)
+### Integration with TypeScript and C\++
+##### [TypeScript-STL](https://github.com/samchon/typescript-stl)
+[![Supported Languages](http://samchon.github.io/framework/images/accessory/language_diagram.png)](#interaction)
 
-The contents in the guide documents are such below:
-  1. [Outline](https://github.com/samchon/framework/wiki/Home)
-  2. [C++](https://github.com/samchon/framework/wiki/CPP)
-  3. [TypeScript](https://github.com/samchon/framework/wiki/TypeScript)
-  4. [Example Projects](https://github.com/samchon/framework/wiki/Examples)
+The best solution, for integrating and migrating a system built by different languages (TypeScript and C++), is to sharing same designs and grammers. Those designs and grammers are unitifed, then any other solution can't be better. Samchon Framework provides the best solution.
 
+Unifying designs, it can be come true by utilizing the **Object-Oriented Network** paradigm with Samchon Framework. Unifying grammer, it also can be done by using the [**TypeScript-STL**](https://github.com/samchon/typescript-stl), a sub-project who migrated C\++'s STL (Standard Template Library) to TypeScript. You can use STL's containers and algorithms in TypeScript with the [**TypeScript-STL**](https://github.com/samchon/typescript-stl). Thus, you can unify not only designs but also grammers, algorithms and even data structures with the [**TypeScript-STL**](https://github.com/samchon/typescript-stl).
 
-## License
-#### BSD License
-*Samchon Framework* follows [BSD-3-Clause](http://spdx.org/licenses/BSD-3-Clause) license.
-
-#### Dependencies
-- C++
-  - [Boost.Asio](http://www.boost.org/doc/libs/1_61_0/doc/html/boost_asio.html)
-  - [ODBC](https://support.microsoft.com/en-us/kb/110093)
-- TypeScript
-  - [TypeScript-STL](https://github.com/samchon/typescript-stl)
-  - [WebSocket](https://github.com/theturtle32/WebSocket-Node)
+##### Suggestion
+If you're planning to build a cloud solution, then I sugguest you to follow such step:
+  1. Fast Implementation
+    1.1. Cloud Application with TypeScript & HTML 
+    1.2 Cloud Service with TypeScripty & NodeJS
+  2. Performance Improvement
+    2.1. Heavy processes, distribute them to C\++ systems.
+    2.2. Migrate Cloud server from TypeScript to C++ gradually.
 
 
 ## Installation
-#### C++
-Samchon Framework has two dependencies in C++, **Boost libraries** and **ODBC**.
-  - Install **Boost libraries** and enroll path of the *Boost libraries* in **environment variable's PATH**.
-  - Install **ODBC** and enroll path of the *ODBC* in **environment variable's PATH**.
-
-After installation and configuration of those dependencies, download or fork this repository. And follow those steps:
-  * Go to the path *./cpp/samchon*.
-  * Compile all *cpp* files.
-
-#### TypeScript (NodeJS)
-Installing *Samchon-Framework* in **NodeJS** is very easy. Just install with **npm**.
+#### TypeScript
 ```bash
-# Install Samchon-Framework from NPM modules
+# Install NPM module.
 npm install -g samchon-framework
 
-# Fetch definition (header) file from TSD
-# If TSD is not installed, then type "npm install -g tsd"
-tsd install samchon-framework
+# Install Definition (*.d.ts) files.
+npm install --save @types/samchon-framework
 ```
 
-When importing *Samchon Framework*, don't forget to referencing the header file ```samchon-framework.d.ts```
+Installs Samchon-Framework from NPM module and imports the definition.
+
 ```typescript
-/// <reference path="typings/samchon-framework/samchon-framework.d.ts" />
+/// <reference types="samchon-framework" />
 import samchon = require("samchon-framework");
 ```
 
-##### TypeScript (Browser)
-*Samchon Framework* follows **commonjs** module. Thus, you can't use ~~RequireJS~~. However, using **Browserify** is possible.
+#### C++
+Just include header files what you want.
 
-If you want to include directly without the *Browserify*, then you've to include **TypeScript-STL** first and Samchon-Framework laster.
+```cpp
+#include <samchon/lilbrary.hpp>
+#include <samchon/protocol.hpp>
 
-```javascript
-<head>
-	<title> Samchon-Framework requires TypeScript-STL </title>
-	<script src="include/typescript-stl.js"></script> <!-- MUST BE INCLUDED FIRST -->
-	<script src="include/samchon-framework.js"></script> <!-- MUST BE INCLUDED AFTER TYPESCRIPT-STL -->
-</head>
+#include <samchon/templates/service.hpp>
+#include <samchon/templates/external.hpp>
+#	include <samchon/templates/parallel.hpp>
+#	include <samchon/templates/distributed.hpp>
 ```
 
--------------------------------
 
-<b id="f_oon">[[1]](#a_oon)</b> Object-Oriented Network <br />
-<b id="f_ood">[[2]](#f_ood)</b> Object-Oriented Design
+## Documents
+#### Architecture Designs
+  - Class Diagrams
+    - [TypeScript](http://samchon.github.io/framework/design/ts_class_diagram.pdf)
+    - [C++](http://samchon.github.io/framework/design/cpp_class_diagram.pdf)
+  - [Conceptual Diagram](http://samchon.github.io/framework/design/conceptual_diagram.pdf)
+  - [Sequence Diagram](http://samchon.github.io/framework/design/sequence_diagram.pdf)
+
+#### Guide Documents
+  - [TypeScript](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components)
+  - [C++](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components)
+  - [Examples](https://github.com/samchon/framework/wiki/Examples-Interaction)
+  
+#### API Documents
+  - **v2.0**
+    - [**TypeScript**](http://samchon.github.io/framework/api/ts)
+    - [__C++__](http://samchon.github.io/framework/api/cpp)
+  - v1.0
+    - [C++](http://samchon.github.io/framework/api/v1.0/cpp)
+    - [Flex](http://samchon.github.io/framework/api/v1.0/flex)

@@ -131,9 +131,6 @@ namespace samchon.collections
 	}
 }
 
-/**
- * @hidden
- */
 namespace samchon.collections.CollectionEvent
 {
 	export const INSERT: "insert" = "insert";

@@ -206,7 +206,7 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 		{
 			array<char, 1> buffer;
 
-			socket.read_some(boost::asio::buffer(buffer));
+			size_t piece_size = socket.read_some(boost::asio::buffer(buffer));
 			header += buffer[0];
 
 			if (header.size() > 4 && header.substr(header.size() - 4) == "\r\n\r\n")

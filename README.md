@@ -34,11 +34,11 @@ Unifying designs, it can be come true by utilizing the **Object-Oriented Network
 #### Suggestion
 If you're planning to build a cloud solution, then I sugguest you to follow such step:
   1. Fast Implementation
-    1.1. Cloud Application with TypeScript & HTML 
-    1.2 Cloud Service with TypeScripty & NodeJS
+    1. Cloud Application with TypeScript & HTML 
+    2. Cloud Service with TypeScripty & NodeJS
   2. Performance Improvement
-    2.1. Heavy processes, distribute them to C\++ systems.
-    2.2. Migrate Cloud server from TypeScript to C++ gradually.
+    1. Heavy processes, distribute them to C\++ systems.
+    2. Migrate Cloud server from TypeScript to C++ gradually.
 
 
 ## Installation

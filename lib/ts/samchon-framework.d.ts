@@ -3794,11 +3794,11 @@ declare namespace samchon.templates.distributed {
      * **distributed process** through the {@link DistributedProcess} object. You can access the
      * {@link DistributedProcess} object(s) with those methods:
      *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
+     * - {@link hasProcess}
+     * - {@link getProcess}
+     * - {@link insertProcess}
+     * - {@link eraseProcess}
+     * - {@link getProcessMap}
      *
      * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
      * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
@@ -3974,11 +3974,11 @@ declare namespace samchon.templates.distributed {
      * **distributed process** through the {@link DistributedProcess} object. You can access the
      * {@link DistributedProcess} object(s) with those methods:
      *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
+     * - {@link hasProcess}
+     * - {@link getProcess}
+     * - {@link insertProcess}
+     * - {@link eraseProcess}
+     * - {@link getProcessMap}
      *
      * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
      * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
@@ -6474,11 +6474,11 @@ declare namespace samchon.templates.distributed {
      * **distributed process** through the {@link DistributedProcess} object. You can access the
      * {@link DistributedProcess} object(s) with those methods:
      *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
+     * - {@link hasProcess}
+     * - {@link getProcess}
+     * - {@link insertProcess}
+     * - {@link eraseProcess}
+     * - {@link getProcessMap}
      *
      * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
      * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
@@ -6648,11 +6648,11 @@ declare namespace samchon.templates.distributed {
      * **distributed process** through the {@link DistributedProcess} object. You can access the
      * {@link DistributedProcess} object(s) with those methods:
      *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
+     * - {@link hasProcess}
+     * - {@link getProcess}
+     * - {@link insertProcess}
+     * - {@link eraseProcess}
+     * - {@link getProcessMap}
      *
      * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
      * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
@@ -7582,11 +7582,11 @@ declare namespace samchon.templates.distributed {
      * **distributed process** through the {@link DistributedProcess} object. You can access the
      * {@link DistributedProcess} object(s) with those methods:
      *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
+     * - {@link hasProcess}
+     * - {@link getProcess}
+     * - {@link insertProcess}
+     * - {@link eraseProcess}
+     * - {@link getProcessMap}
      *
      * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
      * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
@@ -7693,11 +7693,11 @@ declare namespace samchon.templates.distributed {
      * **distributed process** through the {@link DistributedProcess} object. You can access the
      * {@link DistributedProcess} object(s) with those methods:
      *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
+     * - {@link hasProcess}
+     * - {@link getProcess}
+     * - {@link insertProcess}
+     * - {@link eraseProcess}
+     * - {@link getProcessMap}
      *
      * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
      * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
@@ -7788,11 +7788,11 @@ declare namespace samchon.templates.distributed {
      * **distributed process** through the {@link DistributedProcess} object. You can access the
      * {@link DistributedProcess} object(s) with those methods:
      *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
+     * - {@link hasProcess}
+     * - {@link getProcess}
+     * - {@link insertProcess}
+     * - {@link eraseProcess}
+     * - {@link getProcessMap}
      *
      * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
      * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed
@@ -7920,11 +7920,11 @@ declare namespace samchon.templates.distributed {
      * **distributed process** through the {@link DistributedProcess} object. You can access the
      * {@link DistributedProcess} object(s) with those methods:
      *
-     * - {@link hasRole}
-     * - {@link getRole}
-     * - {@link insertRole}
-     * - {@link eraseRole}
-     * - {@link getRoleMap}
+     * - {@link hasProcess}
+     * - {@link getProcess}
+     * - {@link insertProcess}
+     * - {@link eraseProcess}
+     * - {@link getProcessMap}
      *
      * When you need the **distributed process**, call the {@link DistributedProcess.sendData} method. Then the
      * {@link DistributedProcess} will find the most idle {@link DistributedSystem} object who represents a distributed

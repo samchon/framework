@@ -102,7 +102,7 @@ namespace samchon.templates.external
 		 * 
 		 * @param systemArray The parent {@link ExternalSystemArray} object.
 		 */
-		public constructor(systemArray: ExternalSystemArray)
+		public constructor(systemArray: ExternalSystemArray<IExternalServer>)
 		{
 			super(systemArray);
 
@@ -119,6 +119,7 @@ namespace samchon.templates.external
 		 * 
 		 * - {@link ServerConnector}
 		 * - {@link WebServerConnector}
+		 * - {@link DedicatedWorkerServerConnector}
 		 * - {@link SharedWorkerServerConnector}
 		 * 
 		 * @return A newly created {@link IServerConnector} object.

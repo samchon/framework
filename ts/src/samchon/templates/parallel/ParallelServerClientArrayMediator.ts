@@ -46,6 +46,7 @@ namespace samchon.templates.parallel
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * #### [Inherited] {@link ParallelSystemArray}
@@ -96,9 +97,9 @@ namespace samchon.templates.parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ParallelServerClientArrayMediator
-		extends ParallelClientArrayMediator
-		implements external.IExternalServerClientArray
+	export abstract class ParallelServerClientArrayMediator<T extends ParallelSystem>
+		extends ParallelClientArrayMediator<T>
+		implements external.IExternalServerClientArray<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -119,7 +120,7 @@ namespace samchon.templates.parallel
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
 		 * @return A new child Entity via {@link createExternalServer createExternalServer()}.
 		 */
-		public createChild(xml: library.XML): ParallelSystem
+		public createChild(xml: library.XML): T
 		{
 			return this.createExternalServer(xml);
 		}
@@ -130,7 +131,7 @@ namespace samchon.templates.parallel
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
 		 * @return A newly created {@link IParallelServer} object.
 		 */
-		protected abstract createExternalServer(xml: library.XML): IParallelServer;
+		protected abstract createExternalServer(xml: library.XML): T;
 
 		/* ---------------------------------------------------------
 			METHOD OF CLIENT

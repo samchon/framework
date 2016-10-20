@@ -17,7 +17,7 @@ namespace packer_mediator
 	export import templates = samchon.templates;
 
 	export class PackerMediator
-		extends templates.parallel.ParallelClientArrayMediator
+		extends templates.parallel.ParallelClientArrayMediator<master.SlaveDriver>
 		implements monitor.ISystem
 	{
 		private uid: number;
@@ -52,7 +52,7 @@ namespace packer_mediator
 		{
 			return new PackerMasterDriver(this, "127.0.0.1", 37200);
 		}
-		protected createExternalClient(driver: protocol.IClientDriver): templates.parallel.ParallelSystem
+		protected createExternalClient(driver: protocol.IClientDriver): master.SlaveDriver
 		{
 			console.log("A new slave has connected.");
 			return new master.SlaveDriver(this, driver);
@@ -63,18 +63,18 @@ namespace packer_mediator
 		--------------------------------------------------------- */
 		// SEND-DATA
 		//--------
-		public sendPieceData(invoke: protocol.Invoke, first: number, last: number): void
+		public sendPieceData(invoke: protocol.Invoke, first: number, last: number): number
 		{
 			if (invoke.getListener() == "optimize")
 			{
 				console.log("Intercepted optimize message");
 
 				this.best_packer = null;
-				this.requested_size = this.size();
 				this.completed_count = 0;
 			}
 
-			super.sendPieceData(invoke, first, last);
+			this.requested_size = super.sendPieceData(invoke, first, last);
+			return this.requested_size;
 		}
 
 		//--------

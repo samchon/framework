@@ -41,6 +41,7 @@ namespace samchon.templates.parallel
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * #### [Inherited] {@link ParallelSystemArray}
@@ -91,9 +92,9 @@ namespace samchon.templates.parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ParallelServerArrayMediator
-		extends ParallelSystemArrayMediator
-		implements external.IExternalServerArray
+	export abstract class ParallelServerArrayMediator<T extends IParallelServer>
+		extends ParallelSystemArrayMediator<T>
+		implements external.IExternalServerArray<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -116,11 +117,7 @@ namespace samchon.templates.parallel
 		{
 			for (let i: number = 0; i < this.size(); i++)
 			{
-				let system: external.ExternalSystem = this.at(i);
-				if ((system as external.IExternalServer).connect == undefined)
-					continue;
-
-				(system as external.IExternalServer).connect();
+				this.at(i).connect();
 			}
 		}
 	}

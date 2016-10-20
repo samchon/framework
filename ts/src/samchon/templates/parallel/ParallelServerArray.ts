@@ -62,9 +62,9 @@ namespace samchon.templates.parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ParallelServerArray
-		extends ParallelSystemArray
-		implements external.IExternalServerArray
+	export abstract class ParallelServerArray<T extends IParallelServer>
+		extends ParallelSystemArray<T>
+		implements external.IExternalServerArray<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -86,13 +86,7 @@ namespace samchon.templates.parallel
 		public connect(): void
 		{
 			for (let i: number = 0; i < this.size(); i++)
-			{
-				let system: IParallelServer = this.at(i) as IParallelServer;
-				if (system.connect == undefined)
-					continue;
-
-				system.connect();
-			}
+				this.at(i).connect();
 		}
 	}
 }

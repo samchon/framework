@@ -22,11 +22,12 @@ namespace samchon.protocol
 	 * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of 
 	 * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
 	 * 
-	 * Protocol | Derived Type | Connect to
-	 * ---------|--------------|---------------
-	 * Samchon Framework's own | {@link ServerConnector} | {@link Server}
-	 * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
-	 * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
+	 * Protocol                | Derived Type                           | Connect to
+	 * ------------------------|----------------------------------------|-------------------------------
+	 * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
+	 * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
+	 * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
+	 * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
 	 * 
 	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
 	 * 
@@ -98,11 +99,12 @@ namespace samchon.protocol
 	 * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
 	 * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
 	 *
-	 * Protocol | Derived Type | Connect to
-	 * ---------|--------------|---------------
-	 * Samchon Framework's own | {@link ServerConnector} | {@link Server}
-	 * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
-	 * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
+	 * Protocol                | Derived Type                           | Connect to
+	 * ------------------------|----------------------------------------|-------------------------------
+	 * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
+	 * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
+	 * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
+	 * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
 	 *
 	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
 	 *
@@ -182,11 +184,12 @@ namespace samchon.protocol
 	 * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
 	 * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
 	 *
-	 * Protocol | Derived Type | Connect to
-	 * ---------|--------------|---------------
-	 * Samchon Framework's own | {@link ServerConnector} | {@link Server}
-	 * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
-	 * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
+	 * Protocol                | Derived Type                           | Connect to
+	 * ------------------------|----------------------------------------|-------------------------------
+	 * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
+	 * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
+	 * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
+	 * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
 	 *
 	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
 	 *
@@ -296,7 +299,10 @@ namespace samchon.protocol
 		 */
 		public close(): void
 		{
-			this.close();
+			if (is_node() == true)
+				super.close();
+			else
+				this.browser_socket_.close();
 		}
 
 		/* ----------------------------------------------------
@@ -364,6 +370,118 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	/**
+	 * A server connector for DedicatedWorker.
+	 *
+	 * {@link DedicatedWorkerServerConnector} is a class connecting to SharedWorker and taking full charge of network
+	 * communication with the SharedWorker. Create an {@link DedicatedWorkerServer} instance from the 
+	 * {@IProtocol listener} and call the {@link connect connect()} method.
+	 * 
+	 * #### Why DedicatedWorker be a server?
+	 * In JavaScript environment, there's no way to implement multi-threading function. Instead, JavaScript supports the
+	 * **Worker**, creating a new process. However, the **Worker** does not shares memory addresses. To integrate the
+	 * **Worker** with its master, only communication with string or binary data is allowed. Doesn't it seem like a network
+	 * communication? Furthermore, there's not any difference between the worker communication and network communication.
+	 * It's the reason why Samchon Framework considers the **Worker** as a network node.
+	 *
+	 * The class {@link DedicatedWorkerCommunicator} is designed make such relationship. From now on, DedicatedWorker is a
+	 * {@link DedicatedWorkerServer server} and {@link DedicatedWorkerServerConnector browser} is a client. Integrate the
+	 * server and clients with this {@link DedicatedWorkerCommunicator}.
+	 * 
+	 * #### [Inherited] {@link IServerConnector}
+	 * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
+	 * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
+	 * charge of network communication with the remote server.
+	 *
+	 * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
+	 * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
+	 * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
+	 * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+	 *
+	 * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
+	 * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
+	 *
+	 * Protocol                | Derived Type                           | Connect to
+	 * ------------------------|----------------------------------------|-------------------------------
+	 * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
+	 * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
+	 * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
+	 * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
+	 *
+	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+	 *
+	 * @see {@link DedicatedWorkerServer}, {@link IProtocol}
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class DedicatedWorkerServerConnector
+		extends DedicatedWorkerCommunicator
+		implements IServerConnector
+	{
+		/**
+		 * @hidden
+		 */
+		private worker: Worker;
+
+		/**
+		 * @inheritdoc
+		 */
+		public onConnect: Function;
+
+		/**
+		 * Construct from *listener*.
+		 * 
+		 * @param listener A listener object to listen replied message from newly connected client in
+		 *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
+		 */
+		public constructor(listener: IProtocol)
+		{
+			super(listener);
+			this.worker = null;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public connect(jsFile: string): void
+		{
+			// CONSTRUCT WORKER AND START LISTENING
+			this.worker = new Worker(jsFile);
+			this.worker.onmessage = this.handle_message.bind(this);
+
+			// NOTIFY THE CONNECTION
+			this.connected_ = true;
+			if (this.onConnect != null)
+				this.onConnect();
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public close(): void
+		{
+			this.worker.terminate();
+
+			if (this.onClose != null)
+				this.onClose();
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public sendData(invoke: Invoke): void
+		{
+			this.worker.postMessage(invoke.toXML().toString(), "");
+
+			for (let i: number = 0; i < invoke.size(); i++)
+				if (invoke.at(i).getType() == "ByteArray")
+					this.worker.postMessage(invoke.at(i).getValue() as Uint8Array, "");
+		}
+	}
+}
+
+namespace samchon.protocol
+{
+	/**
 	 * A server connector for SharedWorker.
 	 *
 	 * {@link SharedWorkerServerConnector} is a class connecting to SharedWorker and taking full charge of network 
@@ -393,11 +511,12 @@ namespace samchon.protocol
 	 * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
 	 * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
 	 *
-	 * Protocol | Derived Type | Connect to
-	 * ---------|--------------|---------------
-	 * Samchon Framework's own | {@link ServerConnector} | {@link Server}
-	 * Web-socket protocol | {@link WebServerConnector} | {@link WebServer}
-	 * SharedWorker | {@link SharedWorkerServerConnector} | {@link SharedWorkerServer}
+	 * Protocol                | Derived Type                           | Connect to
+	 * ------------------------|----------------------------------------|-------------------------------
+	 * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
+	 * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
+	 * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
+	 * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
 	 *
 	 * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
 	 *

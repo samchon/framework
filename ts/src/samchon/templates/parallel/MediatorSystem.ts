@@ -21,6 +21,7 @@ namespace samchon.templates.parallel
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 * 
 	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the 
@@ -45,7 +46,7 @@ namespace samchon.templates.parallel
 		/**
 		 * @hidden
 		 */
-		private system_array_: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator;
+		private system_array_: ParallelSystemArrayMediator<ParallelSystem> | distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>;
 		
 		/**
 		 * @hidden
@@ -60,16 +61,16 @@ namespace samchon.templates.parallel
 		 * 
 		 * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
 		 */
-		public constructor(systemArray: ParallelSystemArrayMediator);
+		public constructor(systemArray: ParallelSystemArrayMediator<ParallelSystem>);
 
 		/**
 		 * Construct from parent {@link DistributedSystemArrayMediator} object.
 		 * 
 		 * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
 		 */
-		public constructor(systemArray: distributed.DistributedSystemArrayMediator)
+		public constructor(systemArray: distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>)
 		
-		public constructor(systemArray: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator)
+		public constructor(systemArray: ParallelSystemArrayMediator<ParallelSystem> | distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>)
 		{
 			super();
 
@@ -92,7 +93,7 @@ namespace samchon.templates.parallel
 		/**
 		 * Get parent {@link ParallelSystemArrayMediator} object.
 		 */
-		public getSystemArray(): ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator
+		public getSystemArray(): ParallelSystemArrayMediator<ParallelSystem> | distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>
 		{
 			return this.system_array_;
 		}
@@ -171,17 +172,13 @@ namespace samchon.templates.parallel
 				else if (this.system_array_ instanceof distributed.DistributedSystemArrayMediator
 					&& invoke.has("_Process_name") == true)
 				{
-					// DISTRIBUTED PROCESS
-					let ds_system_array: distributed.DistributedSystemArrayMediator 
-						= this.system_array_ as distributed.DistributedSystemArrayMediator;
-
 					// FIND THE MATCHED ROLE
 					let process_name: string = invoke.get("_Process_name").getValue();
-					if (ds_system_array.hasProcess(process_name) == false)
+					if (this.system_array_.hasProcess(process_name) == false)
 						return;
 
 					// SEND DATA VIA THE ROLE
-					let process: distributed.DistributedProcess = ds_system_array.getProcess(process_name);
+					let process: distributed.DistributedProcess = this.system_array_.getProcess(process_name);
 					process.sendData(invoke);
 				}
 			}
@@ -222,6 +219,7 @@ namespace samchon.templates.parallel
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
@@ -263,7 +261,7 @@ namespace samchon.templates.parallel
 		 * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
 		 * @param port Port number of server to open.
 		 */
-		public constructor(systemArray: ParallelSystemArrayMediator, port: number);
+		public constructor(systemArray: ParallelSystemArrayMediator<ParallelSystem>, port: number);
 
 		/**
 		 * Initializer Constructor.
@@ -271,15 +269,15 @@ namespace samchon.templates.parallel
 		 * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
 		 * @param port Port number of server to open.
 		 */
-		public constructor(systemArray: distributed.DistributedSystemArrayMediator, port: number);
+		public constructor(systemArray: distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>, port: number);
 
 		public constructor
 			(
-				systemArray: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator, 
+				systemArray: ParallelSystemArrayMediator<ParallelSystem> | distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>, 
 				port: number
 			)
 		{
-			super(systemArray as ParallelSystemArrayMediator);
+			super(systemArray as ParallelSystemArrayMediator<ParallelSystem>);
 			this.port = port;
 		}
 
@@ -370,6 +368,7 @@ namespace samchon.templates.parallel
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
@@ -402,6 +401,57 @@ namespace samchon.templates.parallel
 	/**
 	 * A mediator server, driver for the master client.
 	 * 
+	 * The {@link MediatorDedicatedWorkerServer} is a class opening a server accepting the **master** client, following 
+	 * the DedicatedWorker's protocol.
+	 * 
+	 * #### [Inherited] {@link MediatorSystem}
+	 * The {@link MediatorSystem} is an abstract class helping {@link ParallelSystemArrayMediator} can be a **slave**
+	 * system. The {@link MediatorSystem} interacts and communicates with the **master** system as a role of **slave**.
+	 *
+	 * This {@link MediatorSystem} object is created in {@link ParallelSystemArrayMediator.createMediator}. Override the
+	 * method and return one of them, which are derived from this {@link MediatorSystem} class, considering which
+	 * type and protocol the **master** system follows:
+	 *
+	 * - A client slave connecting to master server:
+	 *   - {@link MediatorClient}
+	 *   - {@link MediatorWebClient}
+	 *   - {@link MediatorSharedWorkerClient}
+	 * - A server slave accepting master client:
+	 *   - {@link MediatorServer}
+	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
+	 *   - {@link MediatorSharedWorkerServer}
+	 *
+	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
+	 * *parallel process* to its parent {@link ParallelSystemArrayMediator} object. The
+	 * {@link ParallelSystemArrayMediator} object distributes the *parallel process* to its slaves system,
+	 * {@link ParallelSystem} objects. When the *parallel process* has completed, then {@link MediatorSystem} reports the
+	 * result to its **master**.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System),
+	 *			 [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class MediatorDedicatedWorkerServer extends MediatorServer
+	{
+		/**
+		 * @inheritdoc
+		 */
+		protected createServerBase(): protocol.IServerBase
+		{
+			return new protocol.DedicatedWorkerServerBase(this);
+		}
+	}
+
+	/**
+	 * A mediator server, driver for the master client.
+	 * 
 	 * The {@link MediatorSharedWorkerServer} is a class opening a server accepting the **master** client, following the
 	 * SharedWorker's protocol.
 	 * 
@@ -420,6 +470,7 @@ namespace samchon.templates.parallel
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
@@ -473,6 +524,7 @@ namespace samchon.templates.parallel
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
@@ -515,7 +567,7 @@ namespace samchon.templates.parallel
 		 * @param ip IP address to connect.
 		 * @param port Port number to connect.
 		 */
-		public constructor(systemArray: ParallelSystemArrayMediator, ip: string, port: number);
+		public constructor(systemArray: ParallelSystemArrayMediator<ParallelSystem>, ip: string, port: number);
 
 		/**
 		 * Initializer Constructor.
@@ -524,15 +576,15 @@ namespace samchon.templates.parallel
 		 * @param ip IP address to connect.
 		 * @param port Port number to connect.
 		 */
-		public constructor(systemArray: distributed.DistributedSystemArrayMediator, ip: string, port: number);
+		public constructor(systemArray: distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>, ip: string, port: number);
 
 		public constructor
 			(
-				systemArray: ParallelSystemArrayMediator | distributed.DistributedSystemArrayMediator, 
+				systemArray: ParallelSystemArrayMediator<ParallelSystem> | distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>, 
 				ip: string, port: number
 			)
 		{
-			super(systemArray as ParallelSystemArrayMediator);
+			super(systemArray as ParallelSystemArrayMediator<ParallelSystem>);
 
 			this.ip = ip;
 			this.port = port;
@@ -601,6 +653,7 @@ namespace samchon.templates.parallel
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the
@@ -652,6 +705,7 @@ namespace samchon.templates.parallel
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * When the **master** orders a *parallel process* to this **slave**, then the {@link MediatorSystem} delivers the

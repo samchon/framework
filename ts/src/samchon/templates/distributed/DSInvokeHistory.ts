@@ -83,7 +83,7 @@ namespace samchon.templates.distributed
 				return;
 			}
 
-			let system_array: DistributedSystemArray = this.system_.getSystemArray();
+			let system_array: DistributedSystemArray<DistributedSystem> = this.system_.getSystemArray();
 			let role_name: string = xml.getProperty("process");
 
 			if (system_array.hasProcess(role_name) == true)

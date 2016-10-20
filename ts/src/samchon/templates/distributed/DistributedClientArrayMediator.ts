@@ -33,6 +33,7 @@ namespace samchon.templates.distributed
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * #### [Inherited] {@link DistributedSystemArray}
@@ -103,9 +104,9 @@ namespace samchon.templates.distributed
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class DistributedClientArrayMediator
-		extends DistributedSystemArrayMediator
-		implements external.IExternalClientArray
+	export abstract class DistributedClientArrayMediator<T extends DistributedSystem>
+		extends DistributedSystemArrayMediator<T>
+		implements external.IExternalClientArray<T>
 	{
 		/**
 		 * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
@@ -159,7 +160,7 @@ namespace samchon.templates.distributed
 		 */
 		public addClient(driver: protocol.IClientDriver): void
 		{
-			let system: DistributedSystem = this.createExternalClient(driver);
+			let system: T = this.createExternalClient(driver);
 			if (system == null)
 				return;
 
@@ -178,7 +179,7 @@ namespace samchon.templates.distributed
 		 * @param xml An {@link XML} object represents the child {@link DistributedSystem} object.
 		 * @return null
 		 */
-		public createChild(xml: library.XML): DistributedSystem { return null; }
+		public createChild(xml: library.XML): T { return null; }
 		
 		/**
 		 * Factory method creating {@link DistributedSystem} object.
@@ -195,7 +196,7 @@ namespace samchon.templates.distributed
 		 * @param driver A communicator with the distributed client.
 		 * @return A newly created {@link DistributedSystem} object.
 		 */
-		protected abstract createExternalClient(driver: protocol.IClientDriver): DistributedSystem;
+		protected abstract createExternalClient(driver: protocol.IClientDriver): T;
 
 		/* ---------------------------------------------------------
 			SERVER's METHOD

@@ -68,10 +68,10 @@ void DistributedProcess::enforceResource(double val)
 /* ---------------------------------------------------------
 	INVOKE MESSAGE CHAIN
 --------------------------------------------------------- */
-void DistributedProcess::sendData(shared_ptr<Invoke> invoke, double weight)
+auto DistributedProcess::sendData(shared_ptr<Invoke> invoke, double weight) -> shared_ptr<DistributedSystem>
 {
 	if (system_array_->empty() == true)
-		return;
+		return nullptr;
 
 	// ADD UID FOR ARCHIVING HISTORY
 	size_t uid;
@@ -123,6 +123,9 @@ void DistributedProcess::sendData(shared_ptr<Invoke> invoke, double weight)
 
 	// SEND DATA
 	idle_system->sendData(invoke);
+
+	// RETURNS THE IDLE
+	return idle_system;
 }
 
 void DistributedProcess::report_history(shared_ptr<DSInvokeHistory> history)

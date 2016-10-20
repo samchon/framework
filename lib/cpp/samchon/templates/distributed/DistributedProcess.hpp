@@ -2,7 +2,7 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/Entity.hpp>
-#include <samchon/protocol/IProtocol.hpp>
+#include <samchon/protocol/Invoke.hpp>
 
 #include <samchon/HashMap.hpp>
 
@@ -42,8 +42,7 @@ namespace distributed
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class SAMCHON_FRAMEWORK_API DistributedProcess
-		: public virtual protocol::Entity<std::string>, 
-		public virtual protocol::IProtocol
+		: public virtual protocol::Entity<std::string>
 	{
 		friend class DistributedSystemArray;
 		friend class DistributedSystem;
@@ -212,9 +211,9 @@ namespace distributed
 		 * @param invoke An {@link Invoke} message requesting distributed process.
 		 * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
 		 */
-		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
+		auto sendData(std::shared_ptr<protocol::Invoke> invoke) -> std::shared_ptr<DistributedSystem>
 		{
-			sendData(invoke, 1.0);
+			return sendData(invoke, 1.0);
 		};
 
 		/**
@@ -230,9 +229,15 @@ namespace distributed
 		 * 
 		 * @param invoke An {@link Invoke} message requesting distributed process.
 		 * @param weight Weight of resource which indicates how heavy this {@link Invoke} message is. Default is 1.
+		 * 
 		 * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
 		 */
-		virtual void sendData(std::shared_ptr<protocol::Invoke>, double);
+		virtual auto sendData(std::shared_ptr<protocol::Invoke>, double) -> std::shared_ptr<DistributedSystem>;
+
+		/**
+		 * @inheritDoc
+		 */
+		virtual void replyData(std::shared_ptr<protocol::Invoke>) = 0;
 
 	private:
 		void report_history(std::shared_ptr<DSInvokeHistory>);

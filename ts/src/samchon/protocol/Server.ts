@@ -12,11 +12,12 @@ namespace samchon.protocol
 	 * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
 	 * object. Then at last, call {@link open open()} method with specified port number.
 	 * 
-	 * Protocol | Derived Type | Related {@link IClientDriver}
-	 * ---------|--------------|-------------------------------
-	 * Samchon Framework's own | {@link Server} | {@link ClientDriver}
-	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
-	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
+	 * Protocol                | Derived Type                  | Related {@link IClientDriver}
+	 * ------------------------|-------------------------------|-------------------------------------
+	 * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
+	 * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
+	 * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
+	 * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
 	 *  
 	 * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients. 
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
@@ -97,11 +98,12 @@ namespace samchon.protocol
 	 * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
 	 * object. Then at last, call {@link open open()} method with specified port number.
 	 *
-	 * Protocol | Derived Type | Related {@link IClientDriver}
-	 * ---------|--------------|-------------------------------
-	 * Samchon Framework's own | {@link Server} | {@link ClientDriver}
-	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
-	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
+	 * Protocol                | Derived Type                  | Related {@link IClientDriver}
+	 * ------------------------|-------------------------------|-------------------------------------
+	 * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
+	 * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
+	 * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
+	 * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
 	 *
 	 * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
@@ -189,11 +191,12 @@ namespace samchon.protocol
 	 * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
 	 * object. Then at last, call {@link open open()} method with specified port number.
 	 *
-	 * Protocol | Derived Type | Related {@link IClientDriver}
-	 * ---------|--------------|-------------------------------
-	 * Samchon Framework's own | {@link Server} | {@link ClientDriver}
-	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
-	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
+	 * Protocol                | Derived Type                  | Related {@link IClientDriver}
+	 * ------------------------|-------------------------------|-------------------------------------
+	 * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
+	 * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
+	 * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
+	 * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
 	 *
 	 * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
@@ -335,9 +338,89 @@ namespace samchon.protocol
 	/**
 	 * A SharedWorker server.
 	 *
+	 * The {@link DedicatedWorkerServer} is an abstract class is realized to open a DedicatedWorker server and accept 
+	 * web-browser client (master). Extends this {@link DedicatedWorkerServer} class and overrides 
+	 * {@link addClient addClient()} method to define what to do with a newly connected 
+	 * {@link DedicatedWorkerClientDriver remote client}.
+	 * 
+	 * #### Why DedicatedWorker be a server?
+	 * In JavaScript environment, there's no way to implement multi-threading function. Instead, JavaScript supports the
+	 * **Worker**, creating a new process. However, the **Worker** does not shares memory addresses. To integrate the
+	 * **Worker** with its master, only communication with string or binary data is allowed. Doesn't it seem like a network
+	 * communication? Furthermore, there's not any difference between the worker communication and network communication.
+	 * It's the reason why Samchon Framework considers the **Worker** as a network node.
+	 *
+	 * The class {@link DedicatedWorkerCommunicator} is designed make such relationship. From now on, DedicatedWorker is a
+	 * {@link DedicatedWorkerServer server} and {@link DedicatedWorkerServerConnector browser} is a client. Integrate the
+	 * server and clients with this {@link DedicatedWorkerCommunicator}.
+	 * 
+	 * #### [Inherited] {@link IServer}
+	 * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
+	 * {@link IClientDriver accepting clients}.
+	 *
+	 * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+	 * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+	 * object. Then at last, call {@link open open()} method with specified port number.
+	 *
+	 * Protocol                | Derived Type                  | Related {@link IClientDriver}
+	 * ------------------------|-------------------------------|-------------------------------------
+	 * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
+	 * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
+	 * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
+	 * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
+	 *
+	 * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+	 * - {@link service.Server}
+	 * - {@link external.ExternalClientArray}
+	 * - {@link slave.SlaveServer}
+	 *
+	 * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 *
+	 * @see {@link DedicatedWorkerClientDriver}, {@link DedicatedWorkerServerBase}
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export abstract class DedicatedWorkerServer implements IServer
+	{
+		/**
+		 * @inheritdoc
+		 */
+		public open(): void
+		{
+			this.addClient(new DedicatedWorkerClientDriver());
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public close(): void
+		{
+			close();
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public abstract addClient(driver: DedicatedWorkerClientDriver): void;
+	}
+}
+
+namespace samchon.protocol
+{
+	/**
+	 * A SharedWorker server.
+	 *
 	 * The {@link SharedWorker} is an abstract class is realized to open a SharedWorker server and accept web-browser 
 	 * clients. Extends this {@link SharedWorkerServer} class and overrides {@link addClient addClient()} method to 
-	 * define what to do with newly connected {@link ClientDriver remote clients}.
+	 * define what to do with newly connected {@link SharedWorkerClientDriver remote clients}.
 	 * 
 	 * #### Why SharedWorker be a server?
 	 * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
@@ -357,11 +440,12 @@ namespace samchon.protocol
 	 * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
 	 * object. Then at last, call {@link open open()} method with specified port number.
 	 *
-	 * Protocol | Derived Type | Related {@link IClientDriver}
-	 * ---------|--------------|-------------------------------
-	 * Samchon Framework's own | {@link Server} | {@link ClientDriver}
-	 * Web-socket protocol | {@link WebServer} | {@link WebClientDriver}
-	 * SharedWorker | {@link SharedWorkerServer} | {@link SharedWorkerClientDriver}
+	 * Protocol                | Derived Type                  | Related {@link IClientDriver}
+	 * ------------------------|-------------------------------|-------------------------------------
+	 * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
+	 * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
+	 * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
+	 * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
 	 *
 	 * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
 	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
@@ -403,6 +487,7 @@ namespace samchon.protocol
 		public close(): void
 		{
 			// MAY IMPOSSIBLE
+			close();
 		}
 
 		/**

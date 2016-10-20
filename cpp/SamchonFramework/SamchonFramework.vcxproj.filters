@@ -151,6 +151,9 @@
     <Filter Include="Source Files\templates\distributed">
       <UniqueIdentifier>{69af3ef5-b120-4e8b-bc89-31a9a32a2d34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\templates\parallel\slave">
+      <UniqueIdentifier>{d74d8da4-b716-4141-91dd-2d810d0d0622}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\ByteArray.hpp">
@@ -444,9 +447,6 @@
     <ClInclude Include="..\samchon\templates\parallel.hpp">
       <Filter>Header Files\templates</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\templates\parallel\MediatorSystem.hpp">
-      <Filter>Header Files\templates\parallel</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\templates\parallel\ParallelClientArray.hpp">
       <Filter>Header Files\templates\parallel</Filter>
     </ClInclude>
@@ -531,6 +531,21 @@
     <ClInclude Include="..\samchon\templates\parallel\ParallelServer.hpp">
       <Filter>Header Files\templates\parallel</Filter>
     </ClInclude>
+    <ClInclude Include="..\samchon\templates\parallel\MediatorSystem.hpp">
+      <Filter>Header Files\templates\parallel\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\parallel\MediatorServer.hpp">
+      <Filter>Header Files\templates\parallel\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\parallel\MediatorClient.hpp">
+      <Filter>Header Files\templates\parallel\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\parallel\MediatorWebClient.hpp">
+      <Filter>Header Files\templates\parallel\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\parallel\MediatorWebServer.hpp">
+      <Filter>Header Files\templates\parallel\slave</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samchon\library\SQLi.cpp">
@@ -606,12 +621,6 @@
       <Filter>Source Files\templates\external</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\templates\slave\SlaveSystem.cpp">
-      <Filter>Source Files\templates\slave</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\templates\slave\SlaveClient.cpp">
-      <Filter>Source Files\templates\slave</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\templates\slave\SlaveServer.cpp">
       <Filter>Source Files\templates\slave</Filter>
     </ClCompile>
     <ClCompile Include="..\samchon\templates\parallel\PRInvokeHistory.cpp">

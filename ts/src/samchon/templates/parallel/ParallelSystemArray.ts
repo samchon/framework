@@ -69,8 +69,8 @@ namespace samchon.templates.parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ParallelSystemArray
-		extends external.ExternalSystemArray
+	export abstract class ParallelSystemArray<T extends ParallelSystem>
+		extends external.ExternalSystemArray<T>
 	{
 		/**
 		 * @hidden
@@ -88,17 +88,6 @@ namespace samchon.templates.parallel
 			super();
 
 			this.history_sequence_ = 0;
-		}
-
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public at(index: number): ParallelSystem
-		{
-			return super.at(index) as ParallelSystem;
 		}
 
 		/* =========================================================
@@ -201,7 +190,7 @@ namespace samchon.templates.parallel
 			// ORDERS
 			for (let i: number = 0; i < candidate_systems.size(); i++)
 			{
-				let system: ParallelSystem = candidate_systems.at(i) as ParallelSystem;
+				let system: ParallelSystem = candidate_systems.at(i);
 				
 				// COMPUTE FIRST AND LAST INDEX TO ALLOCATE
 				let piece_size: number = (i == candidate_systems.size() - 1) 
@@ -247,7 +236,7 @@ namespace samchon.templates.parallel
 
 			for (let i: number = 0; i < this.size(); i++)
 			{
-				let system: ParallelSystem = this.at(i) as ParallelSystem;
+				let system: ParallelSystem = this.at(i);
 				if (system["history_list_"].has(uid) == false)
 					continue; // NO HISTORY (HAVE NOT PARTICIPATED IN THE PARALLEL PROCESS)
 

@@ -33,8 +33,8 @@ namespace samchon.templates.external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export interface IExternalClientArray
-		extends ExternalSystemArray,
+	export interface IExternalClientArray<T extends ExternalSystem>
+		extends ExternalSystemArray<T>,
 				protocol.IServer
 	{
 	}
@@ -86,9 +86,9 @@ namespace samchon.templates.external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ExternalClientArray
-		extends ExternalSystemArray
-		implements IExternalClientArray
+	export abstract class ExternalClientArray<T extends ExternalSystem>
+		extends ExternalSystemArray<T>
+		implements IExternalClientArray<T>
 	{
 		/**
 		 * @hidden
@@ -120,11 +120,10 @@ namespace samchon.templates.external
 		 * may connect to {@link ExternalClientArray this server} must follow the specified templates.
 		 * 
 		 * Creates and returns one of them:
-		 * <ul>
-		 *	<li> {@link ServerBase} </li>
-		 *	<li> {@link WebServerBase} </li>
-		 *	<li> {@link SharedWorkerServerBase} </li>
-		 * </ul>
+		 * 
+		 * - {@link ServerBase}
+		 * - {@link WebServerBase}
+		 * - {@link SharedWorkerServerBase}
 		 * 
 		 * @return A new {@link IServerBase} object.
 		 */
@@ -144,7 +143,7 @@ namespace samchon.templates.external
 		 */
 		public addClient(driver: protocol.IClientDriver): void
 		{
-			let system: ExternalSystem = this.createExternalClient(driver);
+			let system: T = this.createExternalClient(driver);
 			if (system == null)
 				return;
 
@@ -162,7 +161,7 @@ namespace samchon.templates.external
 		 * @param xml An {@link XML} object represents the child {@link ExternalSystem} object.
 		 * @return null
 		 */
-		public createChild(xml: library.XML): ExternalSystem { return null; }
+		public createChild(xml: library.XML): T { return null; }
 
 		/**
 		 * Factory method creating a child {@link ExternalSystem} object.
@@ -170,7 +169,7 @@ namespace samchon.templates.external
 		 * @param driver A communicator with connected client.
 		 * @return A newly created {@link ExternalSystem} object.
 		 */
-		protected abstract createExternalClient(driver: protocol.IClientDriver): ExternalSystem;
+		protected abstract createExternalClient(driver: protocol.IClientDriver): T;
 
 		/* ---------------------------------------------------------
 			METHOD OF SERVER

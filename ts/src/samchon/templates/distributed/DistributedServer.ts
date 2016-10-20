@@ -103,7 +103,7 @@ namespace samchon.templates.distributed
 		 * 
 		 * @param systemArray The parent {@link DistributedSystemArray} object.
 		 */
-		public constructor(systemArray: DistributedSystemArray)
+		public constructor(systemArray: DistributedSystemArray<DistributedSystem>)
 		{
 			super(systemArray);
 
@@ -120,6 +120,7 @@ namespace samchon.templates.distributed
 		 * 
 		 * - {@link ServerConnector}
 		 * - {@link WebServerConnector}
+		 * - {@link DedicatedWorkerServerConnector}
 		 * - {@link SharedWorkerServerConnector}
 		 * 
 		 * @return A newly created {@link IServerConnector} object.

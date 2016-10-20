@@ -56,7 +56,7 @@ namespace samchon.templates.external
 		/**
 		 * @hidden
 		 */
-		private system_array_: ExternalSystemArray;
+		private system_array_: ExternalSystemArray<ExternalSystem>;
 
 		// COMMUNICATOR, TAKES FULL CHARGE OF NETWORK COMMUNICATION
 		/**
@@ -72,7 +72,7 @@ namespace samchon.templates.external
 		 * 
 		 * @param systemArray The parent {@link ExternalSystemArray} object.
 		 */
-		public constructor(systemArray: ExternalSystemArray);
+		public constructor(systemArray: ExternalSystemArray<ExternalSystem>);
 		
 		/**
 		 * Constrct from parent {@link ExternalSystemArray} and communicator.
@@ -80,9 +80,9 @@ namespace samchon.templates.external
 		 * @param systemArray The parent {@link ExternalSystemArray} object.
 		 * @param communicator Communicator with the remote, external system.
 		 */
-		public constructor(systemArray: ExternalSystemArray, communicator: protocol.IClientDriver);
+		public constructor(systemArray: ExternalSystemArray<ExternalSystem>, communicator: protocol.IClientDriver);
 
-		public constructor(systemArray: ExternalSystemArray, communicator: protocol.IClientDriver = null)
+		public constructor(systemArray: ExternalSystemArray<ExternalSystem>, communicator: protocol.IClientDriver = null)
 		{
 			super();
 			
@@ -148,7 +148,7 @@ namespace samchon.templates.external
 		/**
 		 * Get parent {@link ExternalSystemArray} object.
 		 */
-		public getSystemArray(): ExternalSystemArray
+		public getSystemArray(): ExternalSystemArray<ExternalSystem>
 		{
 			return this.system_array_;
 		}

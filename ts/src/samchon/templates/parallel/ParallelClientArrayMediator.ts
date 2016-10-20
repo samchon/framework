@@ -33,6 +33,7 @@ namespace samchon.templates.parallel
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * #### [Inherited] {@link ParallelSystemArray}
@@ -83,9 +84,9 @@ namespace samchon.templates.parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ParallelClientArrayMediator
-		extends ParallelSystemArrayMediator
-		implements external.IExternalClientArray
+	export abstract class ParallelClientArrayMediator<T extends ParallelSystem>
+		extends ParallelSystemArrayMediator<T>
+		implements external.IExternalClientArray<T>
 	{
 		/**
 		 * @hidden
@@ -139,7 +140,7 @@ namespace samchon.templates.parallel
 		 */
 		public addClient(driver: protocol.IClientDriver): void
 		{
-			let system: ParallelSystem = this.createExternalClient(driver);
+			let system: T = this.createExternalClient(driver);
 			if (system == null)
 				return;
 
@@ -158,7 +159,7 @@ namespace samchon.templates.parallel
 		 * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
 		 * @return null
 		 */
-		public createChild(xml: library.XML): ParallelSystem { return null; }
+		public createChild(xml: library.XML): T { return null; }
 
 		/**
 		 * Factory method creating {@link ParallelSystem} object.
@@ -175,7 +176,7 @@ namespace samchon.templates.parallel
 		 * @param driver A communicator with the parallel client.
 		 * @return A newly created {@link ParallelSystem} object.
 		 */
-		protected abstract createExternalClient(driver: protocol.IClientDriver): ParallelSystem;
+		protected abstract createExternalClient(driver: protocol.IClientDriver): T;
 
 		/* ---------------------------------------------------------
 			SERVER's METHOD

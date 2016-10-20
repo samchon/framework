@@ -32,6 +32,7 @@ namespace samchon.templates.distributed
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 *
 	 * #### [Inherited] {@link DistributedSystemArray}
@@ -102,9 +103,9 @@ namespace samchon.templates.distributed
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class DistributedServerArrayMediator
-		extends DistributedSystemArrayMediator
-		implements external.IExternalServerArray
+	export abstract class DistributedServerArrayMediator<T extends IDistributedServer>
+		extends DistributedSystemArrayMediator<T>
+		implements external.IExternalServerArray<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -126,13 +127,7 @@ namespace samchon.templates.distributed
 		public connect(): void
 		{
 			for (let i: number = 0; i < this.size(); i++)
-			{
-				let system: external.ExternalSystem = this.at(i);
-				if ((system as external.IExternalServer).connect == undefined)
-					continue;
-
-				(system as external.IExternalServer).connect();
-			}
+				this.at(i).connect();
 		}
 	}
 }

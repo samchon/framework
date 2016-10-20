@@ -33,8 +33,8 @@ namespace samchon.templates.external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export interface IExternalServerArray
-		extends ExternalSystemArray
+	export interface IExternalServerArray<T extends IExternalServer>
+		extends ExternalSystemArray<T>
 	{
 		/**
 		 * Connect to {@link IExternalServer external servers}.
@@ -91,8 +91,9 @@ namespace samchon.templates.external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ExternalServerArray
-		extends ExternalSystemArray
+	export abstract class ExternalServerArray<T extends IExternalServer>
+		extends ExternalSystemArray<T>
+		implements IExternalServerArray<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -114,13 +115,7 @@ namespace samchon.templates.external
 		public connect(): void
 		{
 			for (let i: number = 0; i < this.size(); i++)
-			{
-				let system: ExternalSystem = this.at(i);
-				if ((system as IExternalServer).connect == undefined)
-					continue;
-
-				(system as IExternalServer).connect();
-			}
+				this.at(i).connect();
 		}
 	}
 }

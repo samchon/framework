@@ -25,7 +25,7 @@ ParallelSystemArray::~ParallelSystemArray()
 /* ---------------------------------------------------------
 	INVOKE MESSAGE CHAIN
 --------------------------------------------------------- */
-void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t first, size_t last)
+auto ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t first, size_t last) -> size_t
 {
 	if (invoke->has("_History_uid") == false)
 		invoke->emplace_back(new InvokeParameter("_History_uid", ++history_sequence));
@@ -75,6 +75,8 @@ void ParallelSystemArray::sendPieceData(shared_ptr<Invoke> invoke, size_t first,
 
 	for (auto it = threads.begin(); it != threads.end(); it++)
 		it->join();
+
+	return threads.size();
 }
 
 auto ParallelSystemArray::_Complete_history(shared_ptr<InvokeHistory> history) -> bool

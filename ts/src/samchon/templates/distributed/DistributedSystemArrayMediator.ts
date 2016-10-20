@@ -33,6 +33,7 @@ namespace samchon.templates.distributed
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 * 
 	 * #### [Inherited] {@link DistributedSystemArray}
@@ -103,8 +104,8 @@ namespace samchon.templates.distributed
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class DistributedSystemArrayMediator
-		extends DistributedSystemArray
+	export abstract class DistributedSystemArrayMediator<T extends DistributedSystem>
+		extends DistributedSystemArray<T>
 	{
 		/**
 		 * @hidden
@@ -143,6 +144,7 @@ namespace samchon.templates.distributed
 		 * - A server slave accepting master client:
 		 *   - {@link MediatorServer}
 		 *   - {@link MediatorWebServer}
+		 *   - {@link MediatorDedicatedWorkerServer}
 		 *   - {@link MediatorSharedWorkerServer}
 		 * 
 		 * @return A newly created {@link MediatorSystem} object.

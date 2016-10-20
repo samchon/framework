@@ -620,6 +620,64 @@ namespace samchon.protocol
 	/**
 	 * A communicator for shared worker.
 	 * 
+	 * {@link DedicatedWorkerCommunicator} is an abstract class for communication between DedicatedWorker and Web-browser. 
+	 * This {@link DedicatedWorkerCommunicator} is specified to {@link DedicatedWorkerServerConnector} and 
+	 * {@link DedicatedWorkerClientDriver} whether the remote system is a server (that my system is connecting to) or a 
+	 * client (a client conneting to to my server).
+	 * 
+	 * #### Why DedicatedWorker be a server?
+	 * In JavaScript environment, there's no way to implement multi-threading function. Instead, JavaScript supports the
+	 * **Worker**, creating a new process. However, the **Worker** does not shares memory addresses. To integrate the 
+	 * **Worker** with its master, only communication with string or binary data is allowed. Doesn't it seem like a network
+	 * communication? Furthermore, there's not any difference between the worker communication and network communication. 
+	 * It's the reason why Samchon Framework considers the **Worker** as a network node.
+	 * 
+	 * The class {@link DedicatedWorkerCommunicator} is designed make such relationship. From now on, DedicatedWorker is a 
+	 * {@link DedicatedWorkerServer server} and {@link DedicatedWorkerServerConnector browser} is a client. Integrate the 
+	 * server and clients with this {@link DedicatedWorkerCommunicator}.
+	 * 
+	 * #### [Inherited] {@link ICommunicator}
+	 * {@link ICommunicator} is an interface for communicator classes who take full charge of network communication with
+	 * remote system, without reference to whether the remote system is a server or a client. Type of the
+	 * {@link ICommunicator} is specified to {@link IServerConnector} and {@link IClientDriver} whether the remote system
+	 * is a server (that I've to connect) or a client (a client connected to my server).
+	 *
+	 * Whenever a replied message comes from the remote system, the message will be converted to an {@link Invoke} class
+	 * and the {@link Invoke} object will be shifted to the {@link IProtocol listener}'s
+	 * {@link IProtocol.replyData IProtocol.replyData()} method.
+	 * 
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 * 
+	 * @see {@link DedicatedWorkerClientDriver}, {@link DedicatedWorkerServerConnector}, {@link IProtocol}
+	 * @reference https://developer.mozilla.org/en-US/docs/Web/API/DedicatedWorker
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#icommunicator)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export abstract class DedicatedWorkerCommunicator
+		extends CommunicatorBase
+	{
+		/**
+		 * @hidden
+		 */
+		protected handle_message(event: MessageEvent): void
+		{
+			if (this.is_binary_invoke() == false)
+				this.handle_string(event.data);
+			else
+				this.handle_binary(event.data);
+		}
+	}
+}
+
+namespace samchon.protocol
+{
+	/**
+	 * A communicator for shared worker.
+	 * 
 	 * {@link SharedWorkerCommunicator} is an abstract class for communication between SharedWorker and Web-browser. This
 	 * {@link SharedWorkerCommunicator} is specified to {@link SharedWorkerServerConnector} and 
 	 * {@link SharedWorkerClientDriver} whether the remote system is a server (that my system is connecting to) or a client 

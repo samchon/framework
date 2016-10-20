@@ -2,6 +2,7 @@
 #include <samchon/API.hpp>
 
 #include <samchon/templates/parallel/ParallelSystemArray.hpp>
+#include <samchon/templates/parallel/MediatorSystem.hpp>
 
 namespace samchon
 {
@@ -9,8 +10,6 @@ namespace templates
 {
 namespace parallel
 {
-	class MediatorSystem;
-
 	/**
 	 * Mediator of Parallel Processing System.
 	 * 

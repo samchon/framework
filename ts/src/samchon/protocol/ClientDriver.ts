@@ -14,11 +14,12 @@ namespace samchon.protocol
 	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being 
 	 * created by the matched {@link IServer} object.
 	 * 
-	 * Protocol                | Derived Type                     | Created By
-	 * ------------------------|----------------------------------|----------------------------
-	 * Samchon Framework's own | {@link ClientDriver}             | {@link Server}
-	 * Web-socket protocol     | {@link WebClientDriver}          | {@link WebServer}
-	 * SharedWorker            | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 * Protocol                | Derived Type                        | Created By
+	 * ------------------------|-------------------------------------|----------------------------
+	 * Samchon Framework's own | {@link ClientDriver}                | {@link Server}
+	 * Web-socket protocol     | {@link WebClientDriver}             | {@link WebServer}
+	 * DedicatedWorker         | {@link DedicatedWorkerClinetDriver} | {@link DedicatedWorkerServer}
+	 * SharedWorker            | {@link SharedWorkerClientDriver}    | {@link SharedWorkerServer}
 	 * 
 	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then 
 	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes 
@@ -72,11 +73,12 @@ namespace samchon.protocol
 	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
 	 * created by the matched {@link IServer} object.
 	 *
-	 * Protocol                | Derived Type                     | Created By
-	 * ------------------------|----------------------------------|----------------------------
-	 * Samchon Framework's own | {@link ClientDriver}             | {@link Server}
-	 * Web-socket protocol     | {@link WebClientDriver}          | {@link WebServer}
-	 * SharedWorker            | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 * Protocol                | Derived Type                        | Created By
+	 * ------------------------|-------------------------------------|----------------------------
+	 * Samchon Framework's own | {@link ClientDriver}                | {@link Server}
+	 * Web-socket protocol     | {@link WebClientDriver}             | {@link WebServer}
+	 * DedicatedWorker         | {@link DedicatedWorkerClinetDriver} | {@link DedicatedWorkerServer}
+	 * SharedWorker            | {@link SharedWorkerClientDriver}    | {@link SharedWorkerServer}
 	 *
 	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
 	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -148,11 +150,12 @@ namespace samchon.protocol
 	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
 	 * created by the matched {@link IServer} object.
 	 *
-	 * Protocol                | Derived Type                     | Created By
-	 * ------------------------|----------------------------------|----------------------------
-	 * Samchon Framework's own | {@link ClientDriver}             | {@link Server}
-	 * Web-socket protocol     | {@link WebClientDriver}          | {@link WebServer}
-	 * SharedWorker            | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 * Protocol                | Derived Type                        | Created By
+	 * ------------------------|-------------------------------------|----------------------------
+	 * Samchon Framework's own | {@link ClientDriver}                | {@link Server}
+	 * Web-socket protocol     | {@link WebClientDriver}             | {@link WebServer}
+	 * DedicatedWorker         | {@link DedicatedWorkerClinetDriver} | {@link DedicatedWorkerServer}
+	 * SharedWorker            | {@link SharedWorkerClientDriver}    | {@link SharedWorkerServer}
 	 *
 	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
 	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
@@ -246,6 +249,106 @@ namespace samchon.protocol
 namespace samchon.protocol
 {
 	/**
+	 * Communicator with master web-browser.
+	 * 
+	 * {@link DedicatedWorkerClientDriver} is a class taking full charge of network communication with web browsers. This 
+	 * {@link DedicatedWorkerClientDriver} object is always created by {@link DedicatedWorkerServer} class. When you got 
+	 * this {@link DedicatedWorkerClientDriver} object from 
+	 * {@link DedicatedWorkerServer.addClient DedicatedWorkerServer.addClient()}, then specify {@link IProtocol listener} 
+	 * with the {@link DedicatedWorkerClientDriver.listen DedicatedWorkerClientDriver.listen()} method.
+	 * 
+	 * #### Why DedicatedWorker be a server?
+	 * In JavaScript environment, there's no way to implement multi-threading function. Instead, JavaScript supports the
+	 * **Worker**, creating a new process. However, the **Worker** does not shares memory addresses. To integrate the
+	 * **Worker** with its master, only communication with string or binary data is allowed. Doesn't it seem like a network
+	 * communication? Furthermore, there's not any difference between the worker communication and network communication.
+	 * It's the reason why Samchon Framework considers the **Worker** as a network node.
+	 *
+	 * The class {@link DedicatedWorkerCommunicator} is designed make such relationship. From now on, DedicatedWorker is a
+	 * {@link DedicatedWorkerServer server} and {@link DedicatedWorkerServerConnector browser} is a client. Integrate the
+	 * server and clients with this {@link DedicatedWorkerCommunicator}.
+	 * 
+	 * #### [Inherited] {@link IClientDriver}
+	 * {@link IClientDriver} is a type of {@link ICommunicator}, specified for communication with remote client who has
+	 * connected in a {@link IServer server}. It takes full charge of network communication with the remote client.
+	 *
+	 * The {@link IClientDriver} object is created and delivered from {@link IServer} and
+	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
+	 * created by the matched {@link IServer} object.
+	 *
+	 * Protocol                | Derived Type                        | Created By
+	 * ------------------------|-------------------------------------|----------------------------
+	 * Samchon Framework's own | {@link ClientDriver}                | {@link Server}
+	 * Web-socket protocol     | {@link WebClientDriver}             | {@link WebServer}
+	 * DedicatedWorker         | {@link DedicatedWorkerClinetDriver} | {@link DedicatedWorkerServer}
+	 * SharedWorker            | {@link SharedWorkerClientDriver}    | {@link SharedWorkerServer}
+	 *
+	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
+	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes
+	 * from the remote system, the message will be converted to an {@link Invoke} class and the {@link Invoke} object
+	 * will be shifted to the {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+	 * Below code is an example specifying and managing the {@link IProtocol listener} objects.
+	 *
+	 * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+	 *
+	 * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		  target="_blank">
+	 *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+	 *		 style="max-width: 100%" />
+	 * </a>
+	 * 
+	 * @see {@link DedicatedWorkerServer}, {@link IProtocol}
+	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iclientdriver)
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class DedicatedWorkerClientDriver
+		extends DedicatedWorkerCommunicator
+		implements IClientDriver
+	{
+		/**
+		 * Default Constructor.
+		 */
+		public constructor()
+		{
+			super();
+
+			onmessage = this.handle_message.bind(this);
+			this.connected_ = true;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public listen(listener: IProtocol): void
+		{
+			this.listener_ = listener;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public close(): void
+		{
+			close();
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public sendData(invoke: Invoke): void
+		{
+			postMessage(invoke.toXML().toString(), "");
+
+			for (let i: number = 0; i < invoke.size(); i++)
+				if (invoke.at(i).getType() == "ByteArray")
+					postMessage(invoke.at(i).getValue() as Uint8Array, "");
+		}
+	}
+}
+
+namespace samchon.protocol
+{
+	/**
 	 * Communicator with remote web-browser.
 	 * 
 	 * {@link SharedWorkerClientDriver} is a class taking full charge of network communication with web browsers. This 
@@ -272,11 +375,12 @@ namespace samchon.protocol
 	 * {@link IServer.addClient IServer.addClient()}. Those are derived types from this {@link IClientDriver}, being
 	 * created by the matched {@link IServer} object.
 	 *
-	 * Protocol                | Derived Type                     | Created By
-	 * ------------------------|----------------------------------|----------------------------
-	 * Samchon Framework's own | {@link ClientDriver}             | {@link Server}
-	 * Web-socket protocol     | {@link WebClientDriver}          | {@link WebServer}
-	 * SharedWorker            | {@link SharedWorkerClientDriver} | {@link SharedWorkerServer}
+	 * Protocol                | Derived Type                        | Created By
+	 * ------------------------|-------------------------------------|----------------------------
+	 * Samchon Framework's own | {@link ClientDriver}                | {@link Server}
+	 * Web-socket protocol     | {@link WebClientDriver}             | {@link WebServer}
+	 * DedicatedWorker         | {@link DedicatedWorkerClinetDriver} | {@link DedicatedWorkerServer}
+	 * SharedWorker            | {@link SharedWorkerClientDriver}    | {@link SharedWorkerServer}
 	 *
 	 * When you've got an {@link IClientDriver} object from the {@link IServer.addClient IServer.addClient()}, then
 	 * specify {@link IProtocol listener} with {@link IClient.listen IClient.listen()}. Whenever a replied message comes

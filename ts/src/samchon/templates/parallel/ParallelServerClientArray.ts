@@ -67,9 +67,9 @@ namespace samchon.templates.parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ParallelServerClientArray
-		extends ParallelClientArray
-		implements external.IExternalServerClientArray
+	export abstract class ParallelServerClientArray<T extends ParallelSystem>
+		extends ParallelClientArray<T>
+		implements external.IExternalServerClientArray<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -90,7 +90,7 @@ namespace samchon.templates.parallel
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
 		 * @return A new child Entity via {@link createExternalServer createExternalServer()}.
 		 */
-		public createChild(xml: library.XML): IParallelServer
+		public createChild(xml: library.XML): T
 		{
 			return this.createExternalServer(xml);
 		}
@@ -101,7 +101,7 @@ namespace samchon.templates.parallel
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
 		 * @return A newly created {@link IParallelServer} object.
 		 */
-		protected abstract createExternalServer(xml: library.XML): IParallelServer;
+		protected abstract createExternalServer(xml: library.XML): T;
 
 		/* ---------------------------------------------------------
 			METHOD OF CLIENT

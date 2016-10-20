@@ -79,8 +79,12 @@ namespace samchon.library
 		 */
 		private property_map_: std.HashMap<string, string>;
 
-		/* -------------------------------------------------------------
+		/* =============================================================
 			CONSTRUCTORS
+				- BASIC CONSTRUCTORS
+				- PARSERS
+		================================================================
+			BASIC CONSTRUCTORS
 		------------------------------------------------------------- */
 		/**
 		 * Default Constructor.
@@ -132,6 +136,9 @@ namespace samchon.library
 			this.parse(str);
 		}
 
+		/* -------------------------------------------------------------
+			PARSERS
+		------------------------------------------------------------- */
 		/**
 		 * @hidden
 		 */
@@ -317,8 +324,13 @@ namespace samchon.library
 			}
 		}
 
-		/* -------------------------------------------------------------
+		/* =============================================================
 			ACCESSORS
+				- GETTERS
+				- SETTERS
+				- ELEMENTS I/O
+		================================================================
+			GETTERS
 		------------------------------------------------------------- */
 		/**
 		 * Get tag.
@@ -366,7 +378,7 @@ namespace samchon.library
 		 * 
 		 * @param key Key to be searched for
 		 * @return An iterator to the element, if an element with specified <i>key</i> is found, or
-		 *		   {@link end end()} otherwise.
+		 *		   {@link end HashMap.end()} otherwise.
 		 */
 		public findProperty(key: string): std.MapIterator<string, string>
 		{
@@ -486,7 +498,7 @@ namespace samchon.library
 		{
 			this.property_map_.set(key, value);
 		}
-
+		
 		/**
 		 * Erase property.
 		 * 
@@ -512,6 +524,9 @@ namespace samchon.library
 			this.property_map_.erase(it);
 		}
 
+		/* -------------------------------------------------------------
+			ELEMENTS I/O
+		------------------------------------------------------------- */
 		/**
 		 * @hidden
 		 */
@@ -593,7 +608,7 @@ namespace samchon.library
 		 * 
 		 * @param obj Target {@link XML} object to copy properties.
 		 */
-		public addAllProperties(obj: XML): void
+		public insertAllProperties(obj: XML): void
 		{
 			for (let it = obj.property_map_.begin(); it.equal_to(obj.property_map_.end()) == false; it = it.next())
 				this.setProperty(it.first, it.second);

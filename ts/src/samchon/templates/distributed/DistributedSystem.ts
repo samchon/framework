@@ -54,7 +54,7 @@ namespace samchon.templates.distributed
 		 * 
 		 * @param systemArray The parent {@link DistributedSystemArray} object.
 		 */
-		public constructor(systemArray: DistributedSystemArray);
+		public constructor(systemArray: DistributedSystemArray<DistributedSystem>);
 
 		/**
 		 * Constrct from parent {@link DistributedSystemArray} and communicator.
@@ -62,9 +62,9 @@ namespace samchon.templates.distributed
 		 * @param systemArray The parent {@link DistributedSystemArray} object.
 		 * @param communicator A communicator communicates with remote, the external system.
 		 */
-		public constructor(systemArray: DistributedSystemArray, communicator: protocol.IClientDriver);
+		public constructor(systemArray: DistributedSystemArray<DistributedSystem>, communicator: protocol.IClientDriver);
 
-		public constructor(systemArray: DistributedSystemArray, communicator: protocol.IClientDriver = null)
+		public constructor(systemArray: DistributedSystemArray<DistributedSystem>, communicator: protocol.IClientDriver = null)
 		{
 			super(systemArray, communicator);
 		}
@@ -101,9 +101,9 @@ namespace samchon.templates.distributed
 		 *
 		 * @return The parent {@link DistributedSystemArray} object.
 		 */
-		public getSystemArray(): DistributedSystemArray
+		public getSystemArray(): DistributedSystemArray<DistributedSystem>
 		{
-			return super.getSystemArray() as DistributedSystemArray;
+			return this["system_array_"] as DistributedSystemArray<DistributedSystem>;
 		}
 
 		/**

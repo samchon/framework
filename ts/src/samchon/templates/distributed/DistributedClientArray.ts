@@ -83,9 +83,9 @@ namespace samchon.templates.distributed
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class DistributedClientArray
-		extends DistributedSystemArray
-		implements external.IExternalClientArray
+	export abstract class DistributedClientArray<T extends DistributedSystem>
+		extends DistributedSystemArray<T>
+		implements external.IExternalClientArray<T>
 	{
 		/**
 		 * @hidden
@@ -138,7 +138,7 @@ namespace samchon.templates.distributed
 		 */
 		public addClient(driver: protocol.IClientDriver): void
 		{
-			let system: DistributedSystem = this.createExternalClient(driver);
+			let system: T = this.createExternalClient(driver);
 			if (system == null)
 				return;
 
@@ -156,7 +156,7 @@ namespace samchon.templates.distributed
 		 * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
 		 * @return ```null```
 		 */
-		public createChild(xml: library.XML): DistributedSystem { return null; }
+		public createChild(xml: library.XML): T { return null; }
 
 		/**
 		 * Factory method creating {@link DistributedSystem} object.
@@ -173,7 +173,7 @@ namespace samchon.templates.distributed
 		 * @param driver A communicator with the parallel client.
 		 * @return A newly created {@link ParallelSystem} object.
 		 */
-		protected abstract createExternalClient(driver: protocol.IClientDriver): DistributedSystem;
+		protected abstract createExternalClient(driver: protocol.IClientDriver): T;
 
 		/* ---------------------------------------------------------
 			SERVER's METHOD

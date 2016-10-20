@@ -93,7 +93,7 @@ namespace samchon.templates.external
 		 * 
 		 * @return The grandparent {@link ExternalSystemArray} object.
 		 */
-		public getSystemArray(): ExternalSystemArray
+		public getSystemArray(): ExternalSystemArray<ExternalSystem>
 		{
 			return this.system.getSystemArray();
 		}

@@ -34,9 +34,15 @@ namespace samchon.templates.external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export interface IExternalServerClientArray
-		extends IExternalServerArray, IExternalClientArray
+	export interface IExternalServerClientArray<T extends ExternalSystem>
+		extends IExternalClientArray<T>
 	{
+		/**
+		 * Connect to {@link IExternalServer external servers}.
+		 * 
+		 * This method calls children elements' method {@link IExternalServer.connect} gradually.
+		 */
+		connect(): void;
 	}
 
 	/**
@@ -91,9 +97,9 @@ namespace samchon.templates.external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ExternalServerClientArray
-		extends ExternalClientArray
-		implements IExternalServerClientArray
+	export abstract class ExternalServerClientArray<T extends ExternalSystem>
+		extends ExternalClientArray<T>
+		implements IExternalServerClientArray<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -114,9 +120,9 @@ namespace samchon.templates.external
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
 		 * @return A new child Entity via {@link createExternalServer createExternalServer()}.
 		 */
-		public createChild(xml: library.XML): ExternalSystem
+		public createChild(xml: library.XML): T
 		{
-			return this.createExternalServer(xml) as ExternalSystem;
+			return this.createExternalServer(xml);
 		}
 
 		/**
@@ -125,7 +131,7 @@ namespace samchon.templates.external
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
 		 * @return A newly created {@link IExternalServer} object.
 		 */
-		protected abstract createExternalServer(xml: library.XML): IExternalServer;
+		protected abstract createExternalServer(xml: library.XML): T;
 
 		/* ---------------------------------------------------------
 			METHOD OF CLIENT

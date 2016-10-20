@@ -132,9 +132,9 @@ namespace parallel
 		 * 
 		 * @see {@link sendPieceData}, {@link ParallelSystem.getPerformacen}
 		 */
-		void sendSegmentData(std::shared_ptr<protocol::Invoke> invoke, size_t size)
+		auto sendSegmentData(std::shared_ptr<protocol::Invoke> invoke, size_t size) -> size_t
 		{
-			sendPieceData(invoke, 0, size);
+			return sendPieceData(invoke, 0, size);
 		};
 
 		/**
@@ -167,7 +167,7 @@ namespace parallel
 		 * 
 		 * @see {@link sendSegmentData}, {@link ParallelSystem.getPerformacen}
 		 */
-		virtual void sendPieceData(std::shared_ptr<protocol::Invoke>, size_t, size_t);
+		virtual auto sendPieceData(std::shared_ptr<protocol::Invoke>, size_t, size_t) -> size_t;
 
 	protected:
 		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory>) -> bool;

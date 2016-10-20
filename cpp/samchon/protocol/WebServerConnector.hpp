@@ -95,7 +95,7 @@ namespace protocol
 		 * @param port The port number to connect to.
 		 * @param path Path of service which you want.
 		 */
-		void connect(const std::string &ip, int port, const std::string &path);
+		virtual void connect(const std::string &ip, int port, const std::string &path);
 
 	private:
 		void handshake(const std::string &ip, int port, const std::string &path);

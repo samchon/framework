@@ -214,7 +214,7 @@ namespace monitor
 
 namespace monitor
 {
-	export class Reporter extends templates.external.ExternalClientArray
+	export class Reporter extends templates.external.ExternalClientArray<Viewer>
 	{
 		private monitor: Monitor;
 
@@ -232,7 +232,7 @@ namespace monitor
 		{
 			return new protocol.WebServerBase(this);
 		}
-		protected createExternalClient(driver: protocol.IClientDriver): templates.external.ExternalSystem
+		protected createExternalClient(driver: protocol.IClientDriver): Viewer
 		{
 			return new Viewer(this, driver);
 		}

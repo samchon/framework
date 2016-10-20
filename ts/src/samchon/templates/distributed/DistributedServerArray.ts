@@ -82,9 +82,9 @@ namespace samchon.templates.distributed
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class DistributedServerArray
-		extends DistributedSystemArray
-		implements external.IExternalServerArray
+	export abstract class DistributedServerArray<T extends IDistributedServer>
+		extends DistributedSystemArray<T>
+		implements external.IExternalServerArray<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -106,13 +106,7 @@ namespace samchon.templates.distributed
 		public connect(): void
 		{
 			for (let i: number = 0; i < this.size(); i++)
-			{
-				let system: IDistributedServer = this.at(i) as IDistributedServer;
-				if (system.connect == undefined)
-					continue;
-
-				system.connect();
-			}
+				this.at(i).connect();
 		}
 	}
 }

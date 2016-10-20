@@ -103,7 +103,11 @@
     <ClInclude Include="..\samchon\templates\external\ExternalSystemArray.hpp" />
     <ClInclude Include="..\samchon\templates\external\ExternalSystemRole.hpp" />
     <ClInclude Include="..\samchon\templates\parallel.hpp" />
+    <ClInclude Include="..\samchon\templates\parallel\MediatorClient.hpp" />
+    <ClInclude Include="..\samchon\templates\parallel\MediatorServer.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\MediatorSystem.hpp" />
+    <ClInclude Include="..\samchon\templates\parallel\MediatorWebClient.hpp" />
+    <ClInclude Include="..\samchon\templates\parallel\MediatorWebServer.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\ParallelClientArray.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\ParallelClientArrayMediator.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\ParallelServerArray.hpp" />
@@ -187,8 +191,6 @@
     <ClCompile Include="..\samchon\templates\service\Server_service.cpp" />
     <ClCompile Include="..\samchon\templates\service\Service.cpp" />
     <ClCompile Include="..\samchon\templates\service\User.cpp" />
-    <ClCompile Include="..\samchon\templates\slave\SlaveClient.cpp" />
-    <ClCompile Include="..\samchon\templates\slave\SlaveServer.cpp" />
     <ClCompile Include="..\samchon\templates\slave\SlaveSystem.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

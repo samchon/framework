@@ -11,7 +11,7 @@ namespace master
 	export import templates = samchon.templates;
 
 	export abstract class Master 
-		extends templates.parallel.ParallelClientArray
+		extends templates.parallel.ParallelClientArray<SlaveDriver>
 		implements monitor.ISystem
 	{
 		private uid: number;
@@ -40,7 +40,7 @@ namespace master
 		{
 			return new protocol.ServerBase(this);
 		}
-		protected createExternalClient(driver: protocol.IClientDriver): templates.parallel.ParallelSystem
+		protected createExternalClient(driver: protocol.IClientDriver): SlaveDriver
 		{
 			console.log("A new slave has connected.");
 			return new SlaveDriver(this, driver);
@@ -87,13 +87,13 @@ namespace master
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(master: templates.parallel.ParallelSystemArray, driver: protocol.IClientDriver)
+		public constructor(master: templates.parallel.ParallelSystemArray<SlaveDriver>, driver: protocol.IClientDriver)
 		{
 			super(master, driver);
 
 			this.uid = -1;
-			if ((master as Master)["uid"] != -1)
-				this.sendData(new protocol.Invoke("set_master_uid", (master as Master)["uid"]));
+			if (this.master["uid"] != -1)
+				this.sendData(new protocol.Invoke("set_master_uid", master["uid"]));
 		}
 		public destructor(): void
 		{

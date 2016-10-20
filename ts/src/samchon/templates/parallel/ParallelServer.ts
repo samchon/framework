@@ -114,7 +114,7 @@ namespace samchon.templates.parallel
 		 * 
 		 * @param systemArray The parent {@link ParallelSystemArray} object.
 		 */
-		public constructor(systemArray: ParallelSystemArray)
+		public constructor(systemArray: ParallelSystemArray<IParallelServer>)
 		{
 			super(systemArray);
 
@@ -131,6 +131,7 @@ namespace samchon.templates.parallel
 		 * 
 		 * - {@link ServerConnector}
 		 * - {@link WebServerConnector}
+		 * - {@link DedicatedWorkerServerConnector}
 		 * - {@link SharedWorkerServerConnector}
 		 * 
 		 * @return A newly created {@link IServerConnector} object.

@@ -40,7 +40,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		private system_array_: DistributedSystemArray;
+		private system_array_: DistributedSystemArray<DistributedSystem>;
 
 		/**
 		 * A name, represents and identifies this {@link DistributedProcess process}.
@@ -79,7 +79,7 @@ namespace samchon.templates.distributed
 		 * 
 		 * @param systemArray The parent {@link DistributedSystemArray} object.
 		 */
-		public constructor(systemArray: DistributedSystemArray)
+		public constructor(systemArray: DistributedSystemArray<DistributedSystem>)
 		{
 			super();
 
@@ -108,7 +108,7 @@ namespace samchon.templates.distributed
 		 * 
 		 * @return The parent {@link DistributedSystemArray} object.
 		 */
-		public getSystemArray(): DistributedSystemArray
+		public getSystemArray(): DistributedSystemArray<DistributedSystem>
 		{
 			return this.system_array_;
 		}
@@ -250,7 +250,7 @@ namespace samchon.templates.distributed
 		 * @param invoke An {@link Invoke} message requesting distributed process.
 		 * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
 		 */
-		public sendData(invoke: protocol.Invoke): void;
+		public sendData(invoke: protocol.Invoke): DistributedSystem;
 
 		/**
 		 * Send an {@link Invoke} message.
@@ -265,14 +265,15 @@ namespace samchon.templates.distributed
 		 * 
 		 * @param invoke An {@link Invoke} message requesting distributed process.
 		 * @param weight Weight of resource which indicates how heavy this {@link Invoke} message is. Default is 1.
+		 * 
 		 * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
 		 */
-		public sendData(invoke: protocol.Invoke, weight: number): void;
+		public sendData(invoke: protocol.Invoke, weight: number): DistributedSystem;
 		
 		public sendData(invoke: protocol.Invoke, weight: number = 1.0): DistributedSystem
 		{
 			if (this.system_array_.empty() == true)
-				return;
+				return null;
 
 			// ADD UID FOR ARCHIVING HISTORY
 			let uid: number;

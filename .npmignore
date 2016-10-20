@@ -17,5 +17,4 @@ lib\flex
 *.log
 *.*ignore
 
-*.d.ts
 build.js

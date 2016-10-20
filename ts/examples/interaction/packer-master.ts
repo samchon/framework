@@ -30,14 +30,13 @@ namespace packer_master
 
 				this.best_packer = packer;
 				this.completed_count = 0;
-				this.requested_size = this.size();
 			}
 
 			let invoke: protocol.Invoke = new protocol.Invoke("optimize", packer.toXML());
 			let piece_size: number = new library.CombinedPermutationGenerator(packer.size(), packer.getProductArray().size()).size();
 		
 			console.log("Start Packer optimization: #" + piece_size);
-			this.sendSegmentData(invoke, piece_size);
+			this.requested_size = this.sendSegmentData(invoke, piece_size);
 		}
 
 		protected replyOptimization(xml: library.XML): void

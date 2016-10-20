@@ -33,6 +33,7 @@ namespace samchon.templates.parallel
 	 * - A server slave accepting master client:
 	 *   - {@link MediatorServer}
 	 *   - {@link MediatorWebServer}
+	 *   - {@link MediatorDedicatedWorkerServer}
 	 *   - {@link MediatorSharedWorkerServer}
 	 * 
 	 * #### [Inherited] {@link ParallelSystemArray}
@@ -83,8 +84,8 @@ namespace samchon.templates.parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ParallelSystemArrayMediator
-		extends ParallelSystemArray
+	export abstract class ParallelSystemArrayMediator<T extends ParallelSystem>
+		extends ParallelSystemArray<T>
 	{
 		/**
 		 * @hidden
@@ -123,6 +124,7 @@ namespace samchon.templates.parallel
 		 * - A server slave accepting master client:
 		 *   - {@link MediatorServer}
 		 *   - {@link MediatorWebServer}
+		 *   - {@link MediatorDedicatedWorkerServer}
 		 *   - {@link MediatorSharedWorkerServer}
 		 * 
 		 * @return A newly created {@link MediatorSystem} object.

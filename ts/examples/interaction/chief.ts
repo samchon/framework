@@ -16,7 +16,7 @@ namespace chief
 	export import external = samchon.templates.external;
 
 	export class Chief
-		extends external.ExternalClientArray
+		extends external.ExternalClientArray<MasterSystem>
 		implements monitor.ISystem
 	{
 		private uid: number;
@@ -44,7 +44,7 @@ namespace chief
 		{
 			return new protocol.ServerBase(this);
 		}
-		protected createExternalClient(driver: protocol.IClientDriver): external.ExternalSystem
+		protected createExternalClient(driver: protocol.IClientDriver): MasterSystem
 		{
 			console.log("A master has connected");
 			return new MasterSystem(this, driver);

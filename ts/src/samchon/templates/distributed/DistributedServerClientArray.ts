@@ -87,9 +87,9 @@ namespace samchon.templates.distributed
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class DistributedServerClientArray
-		extends DistributedClientArray
-		implements external.IExternalServerClientArray
+	export abstract class DistributedServerClientArray<T extends DistributedSystem>
+		extends DistributedClientArray<T>
+		implements external.IExternalServerClientArray<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -110,7 +110,7 @@ namespace samchon.templates.distributed
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
 		 * @return A new child Entity via {@link createExternalServer createExternalServer()}.
 		 */
-		public createChild(xml: library.XML): DistributedSystem
+		public createChild(xml: library.XML): T
 		{
 			return this.createExternalServer(xml);
 		}
@@ -121,7 +121,7 @@ namespace samchon.templates.distributed
 		 * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
 		 * @return A newly created {@link IDistributedServer} object.
 		 */
-		protected abstract createExternalServer(xml: library.XML): IDistributedServer;
+		protected abstract createExternalServer(xml: library.XML): T;
 
 		/* ---------------------------------------------------------
 			METHOD OF CLIENT

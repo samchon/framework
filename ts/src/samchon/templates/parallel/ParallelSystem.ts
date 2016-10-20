@@ -90,7 +90,7 @@ namespace samchon.templates.parallel
 		 * 
 		 * @param systemArray The parent {@link ParallelSystemArray} object.
 		 */
-		public constructor(systemArray: ParallelSystemArray);
+		public constructor(systemArray: ParallelSystemArray<ParallelSystem>);
 
 		/**
 		 * Construct from parent {@link ParallelSystemArray} and communicator.
@@ -98,9 +98,9 @@ namespace samchon.templates.parallel
 		 * @param systemArray The parent {@link ParallelSystemArray} object.
 		 * @param communicator A communicator communicates with remote, the external system.
 		 */
-		public constructor(systemArray: ParallelSystemArray, communicator: protocol.IClientDriver);
+		public constructor(systemArray: ParallelSystemArray<ParallelSystem>, communicator: protocol.IClientDriver);
 
-		public constructor(systemArray: ParallelSystemArray, communicator: protocol.IClientDriver = null)
+		public constructor(systemArray: ParallelSystemArray<ParallelSystem>, communicator: protocol.IClientDriver = null)
 		{
 			super(systemArray, communicator);
 			
@@ -171,9 +171,9 @@ namespace samchon.templates.parallel
 		 * 
 		 * @return The parent {@link ParallelSystemArray} object.
 		 */
-		public getSystemArray(): ParallelSystemArray
+		public getSystemArray(): ParallelSystemArray<ParallelSystem>
 		{
-			return super.getSystemArray() as ParallelSystemArray;
+			return this["system_array_"] as ParallelSystemArray<ParallelSystem>;
 		}
 
 		/**

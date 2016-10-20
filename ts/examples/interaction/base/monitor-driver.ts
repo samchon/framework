@@ -59,10 +59,8 @@ namespace monitor
 
 			if (this.system instanceof templates.external.ExternalSystemArray)
 			{
-				let system_array: templates.external.ExternalSystemArray = this.system as templates.external.ExternalSystemArray;
-
-				for (let i: number = 0; i < system_array.size(); i++)
-					if (system_array.at(i)["uid"] == -1)
+				for (let i: number = 0; i < this.system.size(); i++)
+					if (this.system.at(i)["uid"] == -1)
 						return;
 
 				xml.setTag("system");

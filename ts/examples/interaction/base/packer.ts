@@ -362,7 +362,7 @@ namespace pack
 		public toXML(): library.XML
 		{
 			var xml: library.XML = super.toXML();
-			xml.addAllProperties(this.sample.toXML());
+			xml.insertAllProperties(this.sample.toXML());
 
 			return xml;
 		}

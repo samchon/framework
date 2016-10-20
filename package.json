@@ -6,9 +6,11 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
+
   "main": "./lib/ts/samchon-framework.js",
   "typgins": "./lib/ts/samchon-framework.d.ts",
-  "version": "2.0.0-gamma.5",
+  "version": "2.0.0-gamma.7",
+
   "homepage": "http://samchon.org/framework",
   "repository": {
     "type": "git",
@@ -18,9 +20,10 @@
     "url": "https://github.com/samchon/framework/issues"
   },
   "dependencies": {
-    "typescript-stl": "^1.1.4",
+    "typescript-stl": "^1.2.0",
     "websocket": "~1.0.x"
   },
+  
   "licenses": [
     {
       "type": "BSD 3-Clause",

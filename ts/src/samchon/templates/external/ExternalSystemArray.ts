@@ -57,8 +57,8 @@ namespace samchon.templates.external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ExternalSystemArray
-		extends protocol.EntityDequeCollection<ExternalSystem>
+	export abstract class ExternalSystemArray<T extends ExternalSystem>
+		extends protocol.EntityDequeCollection<T>
 		implements protocol.IProtocol
 	{
 		/* ---------------------------------------------------------
@@ -77,7 +77,7 @@ namespace samchon.templates.external
 		/**
 		 * @hidden
 		 */
-		private handle_system_erase(event: collections.CollectionEvent<ExternalSystem>): void
+		private handle_system_erase(event: collections.CollectionEvent<T>): void
 		{
 			for (let it = event.first; !it.equal_to(event.last); it = it.next())
 				it.value["destructor"]();

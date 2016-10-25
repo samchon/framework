@@ -6,6 +6,7 @@
 
 #include <map>
 #include <samchon/library/RWMutex.hpp>
+#include <samchon/library/StringUtil.hpp>
 
 namespace samchon
 {
@@ -40,7 +41,7 @@ namespace protocol
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#serverconnector)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API WebServerConnector
+	class WebServerConnector
 		: public ServerConnector,
 		public WebCommunicator
 	{
@@ -51,8 +52,12 @@ namespace protocol
 		static library::RWMutex s_mtx;
 
 	public:
-		WebServerConnector(IProtocol *listener);
-		virtual ~WebServerConnector();
+		WebServerConnector(IProtocol *listener)
+			: super(listener),
+			WebCommunicator(false)
+		{
+		};
+		virtual ~WebServerConnector() = default;
 
 		/**
 		 * Connect to a web server.
@@ -73,7 +78,10 @@ namespace protocol
 		 *			 successful.
 		 * @param port The port number to connect to.
 		 */
-		virtual void connect(const std::string &ip, int port);
+		virtual void connect(const std::string &ip, int port) override
+		{
+			connect(ip, port, "");
+		};
 		
 		/**
 		 * Connect to a web server.
@@ -95,10 +103,77 @@ namespace protocol
 		 * @param port The port number to connect to.
 		 * @param path Path of service which you want.
 		 */
-		virtual void connect(const std::string &ip, int port, const std::string &path);
+		virtual void connect(const std::string &ip, int port, const std::string &path)
+		{
+			_Connect(ip, port);
+
+			handshake(ip, port, path);
+
+			listen_message();
+		};
 
 	private:
-		void handshake(const std::string &ip, int port, const std::string &path);
+		void handshake(const std::string &ip, int port, const std::string &path)
+		{
+			///////
+			// SEND HEADER
+			///////
+			// CERTIFICATION KEY
+			std::string &base64_key = WebSocketUtil::generate_base64_certification_key();
+			std::string &sha1_key = WebSocketUtil::encode_certification_key(base64_key);
+
+			// COOKIE
+			std::string cookie;
+			{
+				library::UniqueReadLock uk(s_mtx);
+				auto it = s_cookies.find({ ip, port });
+
+				if (it != s_cookies.end())
+					cookie = "Cookie: " + it->second + "\r\n";
+			}
+
+			// SEND
+			std::string &query = library::StringUtil::substitute
+			(
+				std::string("") +
+				"GET {1} HTTP/1.1\r\n" + //path
+				"Host: {2}\r\n" + //ip:port
+				"Upgrade: websocket\r\n" +
+				"Connection: Upgrade\r\n" +
+				"{3}" + // cookie
+				"Sec-WebSocket-Key: {4}\r\n" + // hashed certification key
+				"Sec-WebSocket-Version: 13\r\n" +
+				"\r\n",
+
+				path.empty() ? "/" : "/" + path,
+				ip + ":" + std::to_string(port),
+				cookie,
+				base64_key
+			);
+			socket->write_some(boost::asio::buffer(query.data(), query.size()));
+
+			///////
+			// LISTEN HEADER
+			///////
+			std::array<unsigned char, 1000> byte_array;
+			size_t size = socket->read_some(boost::asio::buffer(byte_array));
+
+			WeakString wstr((const char*)byte_array.data(), size);
+			std::string server_sha1 = wstr.between("Sec-WebSocket-Accept: ", "\r\n").str();
+
+			// INSPECT VALIDITY
+			if (sha1_key != server_sha1)
+				throw std::domain_error("WebSocket handshaking has failed.");
+
+			// SET-COOKIE
+			if (wstr.find("Set-Cookie: ") != std::string::npos)
+			{
+				WeakString set_cookie = wstr.between("Set-Cookie: ", "\r\n");
+				library::UniqueWriteLock uk(s_mtx);
+
+				s_cookies[{ip, port}] = set_cookie.str();
+			}
+		};
 	};
 };
 };

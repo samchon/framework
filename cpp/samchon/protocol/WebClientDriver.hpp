@@ -43,7 +43,7 @@ namespace protocol
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#clientdriver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API WebClientDriver
+	class WebClientDriver
 		: public ClientDriver,
 		public WebCommunicator
 	{
@@ -56,8 +56,13 @@ namespace protocol
 		std::string path;
 
 	public:
-		WebClientDriver(std::shared_ptr<Socket> socket);
-		virtual ~WebClientDriver();
+		WebClientDriver(std::shared_ptr<boost::asio::ip::tcp::socket> socket)
+			: super(socket),
+			WebCommunicator(true)
+		{
+		};
+
+		virtual ~WebClientDriver() = default;
 
 		/**
 		 * Get session ID, an identifier of the remote client.

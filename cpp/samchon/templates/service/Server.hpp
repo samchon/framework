@@ -4,6 +4,9 @@
 #include <samchon/protocol/WebServer.hpp>
 #include <samchon/protocol/IProtocol.hpp>
 
+#include <samchon/templates/service/User.hpp>
+
+#include <thread>
 #include <samchon/HashMap.hpp>
 #include <samchon/library/RWMutex.hpp>
 
@@ -45,7 +48,7 @@ namespace service
 	 * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/CPP-Templates-Cloud_Service)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API Server
+	class Server
 		: public protocol::WebServer,
 		public virtual protocol::IProtocol
 	{
@@ -67,12 +70,15 @@ namespace service
 		/**
 		 * Default Constructor.
 		 */
-		Server();
+		Server()
+			: super()
+		{
+		};
 
 		/**
 		 * Default Destructor.
 		 */
-		virtual ~Server();
+		virtual ~Server() = default;
 
 	protected:
 		/**
@@ -133,7 +139,11 @@ namespace service
 		 * 
 		 * @param invoke {@link Invoke} message to send to all remote clients.
 		 */
-		virtual void sendData(std::shared_ptr<protocol::Invoke>) override;
+		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
+		{
+			for (auto it = session_map.begin(); it != session_map.end(); it++)
+				it->second->sendData(invoke);
+		};
 
 		/**
 		 * Handle a replied {@link Invoke} message.
@@ -169,9 +179,104 @@ namespace service
 		 * 
 		 * @param driver A web communicator for remote client.
 		 */
-		virtual void addClient(std::shared_ptr<protocol::ClientDriver>) final;
+		virtual void addClient(std::shared_ptr<protocol::ClientDriver> driver) final
+		{
+			std::shared_ptr<protocol::WebClientDriver> web_driver = std::dynamic_pointer_cast<protocol::WebClientDriver>(driver);
 
-		void erase_user(User*);
+			// IDENTIFIERS
+			const std::string &session_id = web_driver->getSessionID(); // SESSION_ID -> USER
+			const std::string &path = web_driver->getPath(); // PATH -> SERVICE
+
+			///////
+			// CONSTRUCT USER
+			///////
+			std::shared_ptr<User> user;
+			HashMap<std::string, std::shared_ptr<User>>::iterator it;
+			{
+				library::UniqueReadLock uk(session_map_mtx);
+				it = session_map.find(session_id);
+			}
+
+			if (it == session_map.end())
+			{
+				// CREATE USER
+				user.reset(this->createUser());
+				user->my_weak_ptr = user;
+
+				// REGISTER TO THIS SERVER
+				library::UniqueWriteLock uk(session_map_mtx);
+				session_map.insert({ session_id, user });
+			}
+			else
+				user = it->second; // FETCH ORDINARY USER
+
+			user->account_map = &account_map;
+			user->account_map_mtx = &account_map_mtx;
+			user->erase_user_function = std::bind(&Server::erase_user, this, user.get());
+
+			///////
+			// CREATE CLIENT
+			///////
+			std::shared_ptr<Client> client(user->createClient());
+			client->user_weak_ptr = user;
+			client->my_weak_ptr = client;
+
+			// REGISTER TO USER
+			{
+				UniqueWriteLock uk(user->client_map_mtx);
+
+				client->no = ++user->sequence;
+				user->insert({ client->no, client });
+			}
+
+			///////
+			// CREATE SERVICE
+			///////
+			Service *service = client->createService(path);
+			service->client = client.get();
+			service->path = path;
+
+			service->user_weak_ptr = user;
+			service->client_weak_ptr = client;
+
+			// REGISTER TO CLIENT
+			client->service.reset(service);
+
+			///////
+			// BEGINS COMMUNICATION
+			///////
+			client->driver->listen(client.get());
+
+			// DISCONNECTED - ERASE CLIENT.
+			// IF THE USER HAS NO CLIENT LEFT, THEN THE USER WILL ALSO BE ERASED.
+			user->erase_client(client.get());
+		};
+
+		void erase_user(User *user)
+		{
+			// USER DOESN'T BE ERASED AT THAT TIME
+			// IT WAITS UNTIL 30 SECONDS TO KEEP SESSION
+			std::this_thread::sleep_for(chrono::seconds(30));
+
+			library::UniqueReadLock r_uk(user->client_map_mtx);
+			if (user->empty() == false)
+			{
+				r_uk.unlock();
+
+				// ERASE FROM ACCOUNT_MAP
+				if (user->account.empty() == false)
+				{
+					library::UniqueWriteLock w_uk(account_map_mtx);
+					account_map.erase(user->account);
+				}
+
+				// ERASE FROM SESSION_MAP
+				{
+					library::UniqueWriteLock w_uk(session_map_mtx);
+					session_map.erase(user->session_id);
+				}
+			}
+		};
 	};
 };
 };

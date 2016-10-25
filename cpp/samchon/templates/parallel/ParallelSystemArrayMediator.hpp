@@ -42,7 +42,7 @@ namespace parallel
 	 * #### [Inherited] {@link ParallelSystemArray}
 	 * @copydetails parallel::ParallelSystemArray
 	 */
-	class SAMCHON_FRAMEWORK_API ParallelSystemArrayMediator
+	class ParallelSystemArrayMediator
 		: public virtual ParallelSystemArray
 	{
 	private:
@@ -57,9 +57,11 @@ namespace parallel
 		/**
 		 * @brief Default Constructor.
 		 */
-		ParallelSystemArrayMediator();
-
-		virtual ~ParallelSystemArrayMediator();
+		ParallelSystemArrayMediator()
+			: super()
+		{
+		};
+		virtual ~ParallelSystemArrayMediator() = default;
 
 	protected:
 		/**
@@ -91,7 +93,14 @@ namespace parallel
 		 * If the {@link getMediator mediator} is a type of server, then opens the server accepting master client. 
 		 * Otherwise, the {@link getMediator mediator} is a type of client, then connects the master server.
 		 */
-		virtual void startMediator();
+		virtual void startMediator()
+		{
+			if (mediator_ != nullptr)
+				return;
+
+			mediator_.reset(createMediator());
+			mediator_->start();
+		};
 
 	public:
 		/* ---------------------------------------------------------
@@ -118,7 +127,14 @@ namespace parallel
 		/* ---------------------------------------------------------
 			HISTORY HANDLER
 		--------------------------------------------------------- */
-		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory>) -> bool override;
+		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory> history) -> bool override
+		{
+			bool ret = super::_Complete_history(history);
+			if (ret == true)
+				mediator_->_Complete_history(history->getUID());
+
+			return ret;
+		};
 	};
 };
 };

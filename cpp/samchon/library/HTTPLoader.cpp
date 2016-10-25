@@ -23,10 +23,6 @@ void toClipboard(const string &);
 /* ------------------------------------------------------------
 	CONSTRUCTORS
 ------------------------------------------------------------ */
-HTTPLoader::HTTPLoader(int method)
-{
-	this->method = method;
-}
 HTTPLoader::HTTPLoader(const string &url, int method)
 	: HTTPLoader(method)
 {

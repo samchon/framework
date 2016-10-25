@@ -3,9 +3,10 @@
 
 #include <vector>
 #include <memory>
-#include <samchon/TreeMap.hpp>
 #include <string>
+
 #include <samchon/ByteArray.hpp>
+#include <samchon/HashMap.hpp>
 
 namespace samchon
 {
@@ -78,7 +79,7 @@ namespace library
 		 * @details
 		 * When calls ByteArray::size(), the returned size_t value can't be kept until
 		 */
-		TreeMap<size_t, SQL_SIZE_T> bindParameterBASizeMap;
+		HashMap<size_t, SQL_SIZE_T> bindParameterBASizeMap;
 
 	protected:
 		/**

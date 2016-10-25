@@ -4,6 +4,8 @@
 #include <samchon/templates/external/ExternalSystemArray.hpp>
 #	include <samchon/templates/external/ExternalServer.hpp>
 
+#include <thread>
+
 namespace samchon
 {
 namespace templates
@@ -23,22 +25,40 @@ namespace external
 	 * #### [Inherited] {@link ExternalSystemArray}
 	 * @copydetails external::ExternalSystemArray
 	 */
-	class SAMCHON_FRAMEWORK_API ExternalServerArray
+	class ExternalServerArray
 		: public virtual ExternalSystemArray
 	{
 	public:
 		/**
 		 * Default Constructor.
 		 */
-		ExternalServerArray();
-		virtual ~ExternalServerArray();
+		ExternalServerArray()
+			: ExternalSystemArray()
+		{
+		};
+		virtual ~ExternalServerArray() = default;
 
 		/**
 		 * Connect to {@link ExternalServer external servers}.
 		 * 
 		 * This method calls children elements' method {@link ExternalServer.connect} gradually.
 		 */
-		virtual void connect();
+		virtual void connect()
+		{
+			std::vector<std::thread> thread_array;
+
+			for (size_t i = 0; i < size(); i++)
+			{
+				auto external_server = std::dynamic_pointer_cast<ExternalServer>(this->at(i));
+				if (external_server == nullptr)
+					continue;
+
+				thread_array.emplace_back(&ExternalServer::connect, external_server.get());
+			}
+
+			for (size_t i = 0; i < thread_array.size(); i++)
+				thread_array[i].join();
+		};
 	};
 };
 };

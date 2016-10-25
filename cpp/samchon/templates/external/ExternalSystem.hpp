@@ -5,6 +5,8 @@
 #	include <samchon/templates/external/ExternalSystemRole.hpp>
 #include <samchon/protocol/IProtocol.hpp>
 
+#include <samchon/protocol/ClientDriver.hpp>
+
 namespace samchon
 {
 namespace protocol
@@ -55,7 +57,7 @@ namespace external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/CPP-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API ExternalSystem 
+	class ExternalSystem 
 		: public protocol::SharedEntityDeque<ExternalSystemRole>,
 		public virtual protocol::IProtocol
 	{
@@ -80,11 +82,24 @@ namespace external
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		/**
+		 * Default Constructor.
+		 */
+		ExternalSystem()
+			: super()
+		{
+			this->system_array_ = nullptr;
+		}
+
+		/**
 		 * Construct from parent {@link ExternalSystemArray}.
 		 * 
 		 * @param systemArray The parent {@link ExternalSystemArray} object.
 		 */
-		ExternalSystem(ExternalSystemArray*);
+		ExternalSystem(ExternalSystemArray *systemArray)
+			: super()
+		{
+			this->system_array_ = systemArray;
+		};
 
 		/**
 		 * Constrct from parent {@link ExternalSystemArray} and communicator.
@@ -92,7 +107,10 @@ namespace external
 		 * @param systemArray The parent {@link ExternalSystemArray} object.
 		 * @param communicator Communicator with the remote, external system.
 		 */
-		ExternalSystem(ExternalSystemArray*, std::shared_ptr<protocol::ClientDriver>);
+		ExternalSystem(ExternalSystemArray *systemArray, std::shared_ptr<protocol::ClientDriver> driver)
+		{
+			this->communicator_ = driver;
+		};
 
 		/**
 		 * Default Destructor.
@@ -101,12 +119,14 @@ namespace external
 		 * {@link ExternalSystem} object is {@link ExternalSystemArray.erase erased} from its parent 
 		 * {@link ExternalSystemArray} object.
 		 */
-		virtual ~ExternalSystem();
+		virtual ~ExternalSystem() = default;
 
-		virtual void construct(std::shared_ptr<library::XML> xml) override;
+		virtual void construct(std::shared_ptr<library::XML> xml) override
+		{
+			name = xml->fetchProperty("name");
 
-	protected:
-		ExternalSystem();
+			super::construct(xml);
+		};
 
 	public:
 		/* ---------------------------------------------------------
@@ -145,21 +165,35 @@ namespace external
 		/**
 		 * Close connection.
 		 */
-		void close();
+		void close()
+		{
+			communicator_->close();
+		};
 
 		/**
 		 * Send {@link Invoke} message to external system.
 		 * 
 		 * @param invoke An {@link Invoke} message to send.
 		 */
-		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override;
+		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
+		{
+			communicator_->sendData(invoke);
+		};
 
 		/**
 		 * Handle an {@Invoke} message has received.
 		 * 
 		 * @param invoke An {@link Invoke} message have received.
 		 */
-		virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override;
+		virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override
+		{
+			// SHIFT TO ROLES
+			for (size_t i = 0; i < size(); i++)
+				at(i)->replyData(invoke);
+
+			// SHIFT TO SYSTEM_ARRAY
+			((IProtocol*)system_array_)->replyData(invoke);
+		};
 
 	public:
 		/* ---------------------------------------------------------
@@ -174,7 +208,13 @@ namespace external
 			return "role";
 		};
 
-		virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override
+		{
+			std::shared_ptr<library::XML> &xml = super::toXML();
+			xml->setProperty("name", name);
+
+			return xml;
+		};
 	};
 };
 };

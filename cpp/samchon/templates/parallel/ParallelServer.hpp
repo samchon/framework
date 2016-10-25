@@ -20,7 +20,7 @@ namespace parallel
 	 * #### [Inherited] {@link ParallelSystem}
 	 * @copydetails parallel::ParallelSystem 
 	 */
-	class SAMCHON_FRAMEWORK_API ParallelServer
+	class ParallelServer
 		: public ParallelSystem,
 		public external::ExternalServer
 	{
@@ -30,8 +30,13 @@ namespace parallel
 		 * 
 		 * @param systemArray The parent {@link ParallelSystemArray} object.
 		 */
-		ParallelServer(ParallelSystemArray*);
-		virtual ~ParallelServer();
+		ParallelServer(ParallelSystemArray *systemArray)
+			: ParallelSystem(systemArray),
+			external::ExternalServer(systemArray),
+			external::ExternalSystem(systemArray)
+		{
+		};
+		virtual ~ParallelServer() = default;
 	};
 };
 };

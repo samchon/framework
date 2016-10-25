@@ -16,7 +16,7 @@ namespace library
 	 * \par [Inherited]
 	 * @copydetails library::SQLi
 	 */
-	class SAMCHON_FRAMEWORK_API TSQLi
+	class TSQLi
 		: public SQLi
 	{
 	private:

@@ -20,7 +20,7 @@ namespace distributed
 	 * #### [Inheritdoc] {@link DistributedSystem}
 	 * @copydetails distributed::DistributedSystem
 	 */
-	class SAMCHON_FRAMEWORK_API DistributedServer
+	class DistributedServer
 		: public DistributedSystem,
 		public external::ExternalServer
 	{
@@ -28,8 +28,13 @@ namespace distributed
 		/**
 		 * Default Constructor.
 		 */
-		DistributedServer(DistributedSystemArray*);
-		virtual ~DistributedServer();
+		DistributedServer(DistributedSystemArray *systemArray)
+			: DistributedSystem(systemArray),
+			external::ExternalServer(systemArray)
+		{
+			this->system_array_ = systemArray;
+		};
+		virtual ~DistributedServer() = default;
 	};
 };
 };

@@ -1,10 +1,12 @@
 #include <samchon/library/SQLi.hpp>
 
-#ifndef WIN32_LEAN_AND_MEAN 
-#	define WIN32_LEAN_AND_MEAN 
+#ifdef _WIN32
+#	ifndef WIN32_LEAN_AND_MEAN 
+#		define WIN32_LEAN_AND_MEAN 
+#	endif
+#	include <Windows.h>
 #endif
 
-#include <Windows.h>
 #include <sqltypes.h>
 #include <sql.h>
 #include <sqlext.h>
@@ -94,7 +96,7 @@ auto SQLi::isConnected() const -> bool
 	if (connected == false)
 		return false;
 
-	UINT ret = SQL_CD_FALSE;
+	unsigned int ret = SQL_CD_FALSE;
 	SQLGetConnectAttr(hdbc, SQL_COPT_SS_CONNECTION_DEAD, &ret, SQL_IS_UINTEGER, NULL);
 
 	return ret != SQL_CD_TRUE;

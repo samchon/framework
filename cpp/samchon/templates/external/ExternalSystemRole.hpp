@@ -47,7 +47,7 @@ namespace external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/CPP-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API ExternalSystemRole
+	class ExternalSystemRole
 		: public virtual protocol::Entity<std::string>,
 		public virtual protocol::IProtocol
 	{
@@ -75,14 +75,20 @@ namespace external
 		 * 
 		 * @param system An external system containing this role.
 		 */
-		ExternalSystemRole(ExternalSystem *system);
+		ExternalSystemRole(ExternalSystem *system)
+		{
+			this->system = system;
+		};
 
 		/**
 		 * Default Destructor.
 		 */
-		virtual ~ExternalSystemRole();
+		virtual ~ExternalSystemRole() = default;
 
-		virtual void construct(std::shared_ptr<library::XML> xml);
+		virtual void construct(std::shared_ptr<library::XML> xml)
+		{
+			name = xml->getProperty("name");
+		};
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -94,16 +100,6 @@ namespace external
 		{
 			return name;
 		};
-
-		/**
-		 * Get grandparent {@link ExternalSystemArray}.
-		 * 
-		 * Get the grandparent {@link ExternalSystemArray} object through this parent {@link ExternalSystem}, 
-		 * {@link ExternalSystem.getSystemArray ExternalSystem.getSystemArray()}.
-		 * 
-		 * @return The grandparent {@link ExternalSystemArray} object.
-		 */
-		auto getSystemArray() const -> ExternalSystemArray*;
 
 		/**
 		 * Get parent {@link ExternalSystemRole} object.
@@ -131,7 +127,10 @@ namespace external
 		 * 
 		 * @param invoke An {@link Invoke} message to send to the external system.
 		 */
-		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override;
+		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
+		{
+			((IProtocol*)system)->sendData(invoke);
+		};
 
 		/**
 		 * Handle replied {@link Invoke} message.
@@ -152,7 +151,13 @@ namespace external
 			return "role";
 		};
 
-		virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override
+		{
+			std::shared_ptr<library::XML> xml = super::toXML();
+			xml->setProperty("name", name);
+
+			return xml;
+		};
 	};
 };
 };

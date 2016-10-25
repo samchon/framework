@@ -3,6 +3,7 @@
 
 #include <samchon/templates/external/ExternalSystemArray.hpp>
 #	include <samchon/templates/parallel/ParallelSystem.hpp>
+#include <samchon/templates/parallel/base/IParallelSystemArray.hpp>
 
 namespace samchon
 {
@@ -72,16 +73,15 @@ namespace parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/CPP-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API ParallelSystemArray
-		: public virtual external::ExternalSystemArray
+	class ParallelSystemArray
+		: public virtual external::ExternalSystemArray,
+		public base::IParallelSystemArray
 	{
 		friend class ParallelSystem;
 		friend class distributed::DistributedProcess;
 
 	private:
 		typedef external::ExternalSystemArray super;
-
-		size_t history_sequence;
 
 	public:
 		/* ---------------------------------------------------------
@@ -90,9 +90,12 @@ namespace parallel
 		/**
 		 * @brief Default Constructor.
 		 */
-		ParallelSystemArray();
-
-		virtual ~ParallelSystemArray();
+		ParallelSystemArray()
+			: super(),
+			base::IParallelSystemArray()
+		{
+		};
+		virtual ~ParallelSystemArray() = default;
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -167,12 +170,151 @@ namespace parallel
 		 * 
 		 * @see {@link sendSegmentData}, {@link ParallelSystem.getPerformacen}
 		 */
-		virtual auto sendPieceData(std::shared_ptr<protocol::Invoke>, size_t, size_t) -> size_t;
+		virtual auto sendPieceData(std::shared_ptr<protocol::Invoke> invoke, size_t first, size_t last) -> size_t
+		{
+			if (invoke->has("_History_uid") == false)
+				invoke->emplace_back(new protocol::InvokeParameter("_History_uid", _Fetch_history_sequence()));
+			else
+			{
+				// INVOKE MESSAGE ALREADY HAS ITS OWN UNIQUE ID
+				//	- THIS IS A TYPE OF ParallelSystemArrayMediator. THE MESSAGE HAS COME FROM ITS MASTER
+				//	- A ParallelSystem HAS DISCONNECTED. THE SYSTEM SHIFTED ITS CHAIN TO OTHER SLAVES.
+				size_t uid = invoke->get("_History_uid")->getValue<size_t>();
+
+				// FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
+				if (uid > _Get_history_sequence())
+					_Set_history_sequence(uid);
+			}
+
+			// TOTAL NUMBER OF PIECES TO DIVIDE
+			size_t segment_size = last - first;
+
+			// SYSTEMS TO BE GET DIVIDED PROCESSES AND
+			std::vector<std::shared_ptr<ParallelSystem>> system_array;
+			std::vector<std::thread> threads; // THREADS TO EMBARK THEM
+
+			system_array.reserve(size());
+			threads.reserve(size());
+
+			// POP EXCLUDEDS
+			for (size_t i = 0; i < size(); i++)
+				if (at(i)->excluded_ == false)
+					system_array.push_back(at(i));
+
+			// ORDERS
+			for (size_t i = 0; i < system_array.size(); i++)
+			{
+				std::shared_ptr<ParallelSystem> system = system_array.at(i);
+
+				// COMPUTE FIRST AND LAST INDEX TO ALLOCATE
+				size_t piece_size = (i == system_array.size() - 1)
+					? segment_size - first
+					: (size_t)(segment_size / system_array.size() * system->getPerformance());
+				if (piece_size == 0)
+					continue;
+
+				// SEND DATA WITH PIECES' INDEXES
+				threads.emplace_back(&ParallelSystem::send_piece_data, system.get(), invoke, first, first + piece_size);
+				first += piece_size; // FOR THE NEXT STEP
+			}
+
+			for (auto it = threads.begin(); it != threads.end(); it++)
+				it->join();
+
+			return threads.size();
+		};
+
+		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory> history) -> bool
+		{
+			// WRONG TYPE
+			if (std::dynamic_pointer_cast<PRInvokeHistory>(history) == nullptr)
+				return false;
+
+			size_t uid = history->getUID();
+
+			// ALL THE SUB-TASKS ARE DONE?
+			for (size_t i = 0; i < size(); i++)
+				if (at(i)->progress_list_.has(uid) == true)
+					return false; // IT'S ON A PROCESS IN SOME SYSTEM.
+
+			//--------
+			// RE-CALCULATE PERFORMANCE INDEX
+			//--------
+			// CONSTRUCT BASIC DATA
+			std::vector<std::pair<std::shared_ptr<ParallelSystem>, double>> system_pairs;
+			double performance_index_average = 0.0;
+
+			system_pairs.reserve(size());
+
+			for (size_t i = 0; i < size(); i++)
+			{
+				std::shared_ptr<ParallelSystem> system = at(i);
+				if (system->history_list_.has(uid) == false)
+					continue; // NO HISTORY (HAVE NOT PARTICIPATED IN THE PARALLEL PROCESS)
+
+							  // COMPUTE PERFORMANCE INDEX BASIS ON EXECUTION TIME OF THIS PARALLEL PROCESS
+				std::shared_ptr<PRInvokeHistory> my_history = std::dynamic_pointer_cast<PRInvokeHistory>(system->history_list_.get(uid));
+				double performance_index = my_history->computeSize() / (double)my_history->computeElapsedTime();
+
+				// PUSH TO SYSTEM PAIRS AND ADD TO AVERAGE
+				system_pairs.emplace_back(system, performance_index);
+				performance_index_average += performance_index;
+			}
+			performance_index_average /= system_pairs.size();
+
+			// RE-CALCULATE PERFORMANCE INDEX
+			for (size_t i = 0; i < system_pairs.size(); i++)
+			{
+				// SYSTEM AND NEW PERFORMANCE INDEX BASIS ON THE EXECUTION TIME
+				std::shared_ptr<ParallelSystem> system = system_pairs[i].first;
+				if (system->enforced_ == true)
+					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
+
+				double new_performance = system_pairs[i].second / performance_index_average;
+
+				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX
+				double ordinary_ratio;
+				if (system->history_list_.size() < 2)
+					ordinary_ratio = .3;
+				else
+					ordinary_ratio = std::min(0.7, 1.0 / (system->history_list_.size() - 1.0));
+
+				system->performance_ = (system->getPerformance() * ordinary_ratio) + (new_performance * (1 - ordinary_ratio));
+			}
+
+			// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SLAVE SYSTEMS
+			_Normalize_performance();
+			return true;
+		};
 
 	protected:
-		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory>) -> bool;
+		virtual void _Normalize_performance()
+		{
+			// COMPUTE AVERAGE
+			double average = 0.0;
+			size_t denominator = 0;
 
-		virtual void _Normalize_performance();
+			for (size_t i = 0; i < size(); i++)
+			{
+				std::shared_ptr<ParallelSystem> &system = at(i);
+				if (system->enforced_ == true)
+					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
+
+				average += system->getPerformance();
+				denominator++;
+			}
+			average /= (double)denominator;
+
+			// DIVIDE FROM THE AVERAGE
+			for (size_t i = 0; i < size(); i++)
+			{
+				std::shared_ptr<ParallelSystem> &system = at(i);
+				if (system->enforced_ == true)
+					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
+
+				system->setPerformance(system->getPerformance() / average);
+			}
+		};
 	};
 };
 };

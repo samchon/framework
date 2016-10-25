@@ -61,9 +61,9 @@ namespace external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/CPP-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API ExternalSystemArray
+	class ExternalSystemArray
 		: public protocol::SharedEntityDeque<ExternalSystem>,
-		public virtual protocol::IProtocol
+		public protocol::IProtocol
 	{
 	private:
 		typedef protocol::SharedEntityDeque<ExternalSystem> super;
@@ -75,12 +75,15 @@ namespace external
 		/**
 		 * Default Constructor.
 		 */
-		ExternalSystemArray();
+		ExternalSystemArray()
+			: super()
+		{
+		};
 
 		/**
 		 * Default Destructor.
 		 */
-		virtual ~ExternalSystemArray();
+		virtual ~ExternalSystemArray() = default;
 		
 	public:
 		/* ---------------------------------------------------------
@@ -128,7 +131,11 @@ namespace external
 		 * 
 		 * @param invoke An {@link Invoke} message to send.
 		 */
-		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke);
+		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke)
+		{
+			for (size_t i = 0; i < size(); i++)
+				at(i)->sendData(invoke);
+		};
 
 		/**
 		 * Handle an {@Invoke} message have received.

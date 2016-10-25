@@ -30,10 +30,11 @@ namespace service
 	 * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/CPP-Templates-Cloud_Service)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API Service
+	class Service
 		: public virtual protocol::IProtocol
 	{
 		friend class Server;
+		friend class Client;
 
 	private:
 		Client *client;
@@ -50,7 +51,11 @@ namespace service
 		 * @param client Driver of remote client.
 		 * @param path Requested path that identifies this {@link Service}.
 		 */
-		Service(Client*, const std::string&);
+		Service(Client *client, const std::string &path)
+		{
+			this->client = client;
+			this->path = path;
+		};
 
 		/**
 		 * Default Destructor.
@@ -59,7 +64,7 @@ namespace service
 		 * {@link Client.~Client destructed} or the {@link Client} object {@link Client.changeService changed} its child 
 		 * {@link Service service} object to another one.
 		 */
-		virtual ~Service();
+		virtual ~Service() = default;
 
 		auto __keep_alive() const -> std::pair<std::shared_ptr<User>, std::shared_ptr<Client>>;
 
@@ -93,7 +98,14 @@ namespace service
 		 * 
 		 * @param invoke An {@link Invoke} message to send to the remte system.
 		 */
-		virtual void sendData(std::shared_ptr<protocol::Invoke>) override;
+		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
+		{
+			((protocol::IProtocol*)client)->sendData(invoke);
+		};
+
+	private:
+		std::weak_ptr<User> user_weak_ptr;
+		std::weak_ptr<Client> client_weak_ptr;
 	};
 }
 }

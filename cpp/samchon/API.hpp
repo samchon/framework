@@ -26,10 +26,10 @@
 #pragma warning(disable: 4250)
 
 // TEMPLATE DLL
-#pragma warning(disable: 4251)
+// #pragma warning(disable: 4251)
 
 // INHERITED NON-DLL
-#pragma warning(disable: 4275)
+// #pragma warning(disable: 4275)
 
 // TYPEDEF TEMPLATE'S DEFAULT PARAMETER
-#pragma warning(disable: 4348)
+// agma warning(disable: 4348)

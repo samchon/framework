@@ -1,8 +1,16 @@
 #pragma once
 #include <samchon/API.hpp>
 
+#include <thread>
+#include <boost/asio.hpp>
 #include <samchon/ByteArray.hpp>
 #include <samchon/library/URLVariables.hpp>
+
+#include <array>
+#include <random>
+#include <chrono>
+#include <samchon/library/Date.hpp>
+#include <samchon/library/StringUtil.hpp>
 
 namespace samchon
 {
@@ -42,20 +50,17 @@ namespace library
 			CONSTRUCTORS
 		------------------------------------------------------------ */
 		/**
-		 * @brief Construct from request method.
-		 *
-		 * @param method Get or Post.
-		 */
-		HTTPLoader(int method = POST);
-
-		/**
 		 * @brief Construct from request url and method.
 		 *
 		 * @param url Target url of remote web server.
 		 * @param method Get or Post
 		 */
-		HTTPLoader(const std::string &, int method = POST);
-		virtual ~HTTPLoader();
+		HTTPLoader(const std::string &url, int method = POST)
+		{
+			this->url = url;
+			this->method = method;
+		};
+		virtual ~HTTPLoader() = default;
 
 		/* ------------------------------------------------------------
 			SETTERS & GETTERS
@@ -63,27 +68,47 @@ namespace library
 		/**
 		 * @brief Set url.
 		 */
-		void setURL(const std::string &);
+		void setURL(const std::string &val)
+		{
+			this->url = val;
+		};
 
 		/**
 		 * @brief Set method.
 		 */
-		void setMethod(int);
+		void setMethod(int val)
+		{
+			this->method = method;
+		};
 
 		/**
 		 * @brief Get url.
 		 */
-		auto getURL() const -> std::string;
+		auto getURL() const -> std::string
+		{
+			return url;
+		};
 
 		/**
 		 * @brief Get method.
 		 */
-		auto getMethod() const -> int;
+		auto getMethod() const -> int
+		{
+			return method;
+		};
 
 		/**
 		 * @brief Get cookie.
 		 */
-		auto getCookie(const std::string &) const -> std::string;
+		auto getCookie(const std::string &key) const -> std::string
+		{
+			auto it = cookie_map.find(key);
+
+			if (it == cookie_map.end())
+				return "";
+			else
+				return it->second;
+		};
 
 		/* ------------------------------------------------------------
 			LOADERS

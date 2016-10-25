@@ -1,8 +1,13 @@
 #pragma once
 #include <samchon/API.hpp>
 
+#include <samchon/templates/distributed/base/IDistributedProcess.hpp>
 #include <samchon/protocol/Entity.hpp>
 #include <samchon/protocol/Invoke.hpp>
+
+#include <samchon/templates/distributed/DistributedSystem.hpp>
+#include <samchon/templates/distributed/DSInvokeHistory.hpp>
+#include <samchon/templates/parallel/base/IParallelSystemArray.hpp>
 
 #include <samchon/HashMap.hpp>
 
@@ -13,8 +18,6 @@ namespace templates
 namespace distributed
 {
 	class DistributedSystemArray;
-	class DistributedSystem;
-	class DSInvokeHistory;
 
 	/**
 	 * A role of Distributed Processing System.
@@ -41,8 +44,9 @@ namespace distributed
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/CPP-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API DistributedProcess
-		: public virtual protocol::Entity<std::string>
+	class DistributedProcess
+		: public virtual protocol::Entity<std::string>,
+		public base::IDistributedProcess
 	{
 		friend class DistributedSystemArray;
 		friend class DistributedSystem;
@@ -77,10 +81,21 @@ namespace distributed
 		 * 
 		 * @param systemArray The parent {@link DistributedSystemArray} object.
 		 */
-		DistributedProcess(DistributedSystemArray*);
-		virtual ~DistributedProcess();
+		DistributedProcess(DistributedSystemArray *systemArray)
+			: super()
+		{
+			this->system_array_ = systemArray;
 
-		virtual void construct(std::shared_ptr<library::XML>) override;
+			resource = 1.0;
+			enforced_ = false;
+		};
+		virtual ~DistributedProcess() = default;
+
+		virtual void construct(std::shared_ptr<library::XML> xml) override
+		{
+			name = xml->getProperty<std::string>("name");
+			resource = xml->getProperty<double>("resource");
+		};
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -161,7 +176,11 @@ namespace distributed
 		 * 
 		 * @param val New resource index, but can be revaluated.
 		 */
-		void setResource(double);
+		void setResource(double val)
+		{
+			resource = val;
+			enforced_ = false;
+		};
 
 		/**
 		 * Enforce resource index.
@@ -188,7 +207,11 @@ namespace distributed
 		 * 
 		 * @param val New resource index to be fixed.
 		 */
-		void enforceResource(double);
+		void enforceResource(double val)
+		{
+			resource = val;
+			enforced_ = true;
+		};
 
 	private:
 		auto compute_average_elapsed_time() const -> double;
@@ -232,7 +255,65 @@ namespace distributed
 		 * 
 		 * @return The most idle {@link DistributedSystem} object who may send the {@link Invoke} message.
 		 */
-		virtual auto sendData(std::shared_ptr<protocol::Invoke>, double) -> std::shared_ptr<DistributedSystem>;
+		virtual auto sendData(std::shared_ptr<protocol::Invoke> invoke, double weight) -> std::shared_ptr<DistributedSystem> override
+		{
+			if (((protocol::SharedEntityDeque<external::ExternalSystem>*)system_array_)->empty() == true)
+				return nullptr;
+
+			// ADD UID FOR ARCHIVING HISTORY
+			size_t uid;
+			if (invoke->has("_History_uid") == false)
+			{
+				// ISSUE UID AND ATTACH IT TO INVOKE'S LAST PARAMETER
+				uid = ((parallel::base::IParallelSystemArray*)system_array_)->_Fetch_history_sequence();
+				invoke->emplace_back(new InvokeParameter("_History_uid", uid));
+			}
+			else
+			{
+				// INVOKE MESSAGE ALREADY HAS ITS OWN UNIQUE ID
+				//	- system_array_ IS A TYPE OF DistributedSystemArrayMediator. THE MESSAGE HAS COME FROM ITS MASTER
+				//	- A Distributed HAS DISCONNECTED. THE SYSTEM SHIFTED ITS CHAIN TO ANOTHER SLAVE.
+				uid = invoke->get("_History_uid")->getValue<size_t>();
+
+				// FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
+				if (uid > ((parallel::base::IParallelSystemArray*)system_array_)->_Get_history_sequence())
+					((parallel::base::IParallelSystemArray*)system_array_)->_Set_history_sequence(uid);
+
+				// FOR CASE 2. ERASE ORDINARY PROGRESSIVE HISTORY FROM THE DISCONNECTED
+				progress_list_.erase(uid);
+			}
+
+			// ADD ROLE NAME FOR MEDIATOR
+			if (invoke->has("_Process_name") == false)
+				invoke->emplace_back(new InvokeParameter("_Process_name", name));
+
+			// FIND THE MOST IDLE SYSTEM
+			shared_ptr<DistributedSystem> idle_system;
+
+			for (size_t i = 0; i < system_array_->size(); i++)
+			{
+				shared_ptr<DistributedSystem> system = system_array_->at(i);
+				if (system->_Is_excluded() == true)
+					continue; // BEING REMOVED SYSTEM
+
+				if (idle_system == nullptr
+					|| system->_Get_progress_list()->size() < idle_system->_Get_progress_list()->size()
+					|| system->getPerformance() < idle_system->getPerformance())
+					idle_system = system;
+			}
+
+			// ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)
+			shared_ptr<DSInvokeHistory> history(new DSInvokeHistory(idle_system.get(), this, invoke, weight));
+
+			progress_list_.emplace(uid, history);
+			idle_system->_Get_progress_list()->emplace(uid, make_pair(invoke, history));
+
+			// SEND DATA
+			idle_system->sendData(invoke);
+
+			// RETURNS THE IDLE
+			return idle_system;
+		};
 
 		/**
 		 * @inheritDoc
@@ -240,7 +321,12 @@ namespace distributed
 		virtual void replyData(std::shared_ptr<protocol::Invoke>) = 0;
 
 	private:
-		void report_history(std::shared_ptr<DSInvokeHistory>);
+		void report_history(std::shared_ptr<DSInvokeHistory> history)
+		{
+			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
+			progress_list_.erase(history->getUID());
+			history_list_.emplace(history->getUID(), history);
+		};
 
 	public:
 		/* ---------------------------------------------------------
@@ -251,7 +337,14 @@ namespace distributed
 			return "process";
 		};
 
-		virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override
+		{
+			std::shared_ptr<library::XML> &xml = super::toXML();
+			xml->setProperty("name", name);
+			xml->setProperty("resource", resource);
+
+			return xml;
+		};
 	};
 };
 };

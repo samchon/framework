@@ -34,12 +34,16 @@ namespace protocol
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#clientdriver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API ClientDriver
+	class ClientDriver
 		: public virtual Communicator
 	{
 	public:
-		ClientDriver(std::shared_ptr<Socket> socket);
-		virtual ~ClientDriver();
+		ClientDriver(std::shared_ptr<boost::asio::ip::tcp::socket> socket)
+			: Communicator()
+		{
+			this->socket = socket;
+		};
+		virtual ~ClientDriver() = default;
 
 		/**
 		 * Listen message from the newly connected client.
@@ -51,7 +55,12 @@ namespace protocol
 		 * @param listener A listener object to listen replied message from newly connected client in 
 		 *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
 		 */
-		void listen(IProtocol *listener);
+		void listen(IProtocol *listener)
+		{
+			this->listener = listener;
+
+			listen_message();
+		};
 	};
 };
 };

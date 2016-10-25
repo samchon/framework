@@ -26,7 +26,7 @@ namespace external
 	 * #### [Inherited] {@link ExternalSystemArray}
 	 * @copydetails external::ExternalSystemArray
 	 */
-	class SAMCHON_FRAMEWORK_API ExternalClientArray
+	class ExternalClientArray
 		: public virtual ExternalSystemArray,
 		public virtual protocol::Server
 	{
@@ -41,9 +41,13 @@ namespace external
 		/**
 		 * Default Constructor.
 		 */
-		ExternalClientArray();
+		ExternalClientArray()
+			: ExternalSystemArray(),
+			protocol::Server()
+		{
+		};
 
-		virtual ~ExternalClientArray();
+		virtual ~ExternalClientArray() = default;
 
 	protected:
 		/* ---------------------------------------------------------
@@ -58,7 +62,24 @@ namespace external
 		 * 
 		 * @param driver A communicator for external client.
 		 */
-		virtual void addClient(std::shared_ptr<protocol::ClientDriver> driver) override final;
+		virtual void addClient(std::shared_ptr<protocol::ClientDriver> driver) override final
+		{
+			std::shared_ptr<ExternalSystem> system(createExternalClient(driver));
+			if (system == nullptr)
+				return;
+
+			system->communicator_ = driver;
+
+			push_back(system);
+			driver->listen(system.get());
+
+			for (size_t i = 0; i < size(); i++)
+				if (at(i) == system)
+				{
+					erase(begin() + i);
+					break;
+				}
+		};
 
 		/**
 		 * (Deprecated) Factory method creating child object.
@@ -71,7 +92,10 @@ namespace external
 		 * @param xml An {@link XML} object represents the child {@link ExternalSystem} object.
 		 * @return null
 		 */
-		virtual auto createChild(std::shared_ptr<library::XML> xml) -> ExternalSystem* override; // = delete;
+		virtual auto createChild(std::shared_ptr<library::XML> xml) -> ExternalSystem* override
+		{
+			return nullptr;
+		} // = delete;
 
 		/**
 		 * Factory method creating a child {@link ExternalSystem} object.

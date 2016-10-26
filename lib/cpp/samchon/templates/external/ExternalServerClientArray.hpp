@@ -28,9 +28,10 @@ namespace external
 	 * #### [Inherited] {@link ExternalSystemArray}
 	 * @copydetails external::ExternalSystemArray
 	 */
-	class SAMCHON_FRAMEWORK_API ExternalServerClientArray
-		: public virtual ExternalServerArray,
-		public virtual ExternalClientArray
+	template <class System = ExternalSystem>
+	class ExternalServerClientArray
+		: public virtual ExternalServerArray<System>,
+		public virtual ExternalClientArray<System>
 	{
 	public:
 		/* =========================================================
@@ -43,12 +44,16 @@ namespace external
 		/**
 		 * @brief Default Constructor.
 		 */
-		ExternalServerClientArray();
+		ExternalServerClientArray()
+			: ExternalServerArray<System>(),
+			ExternalClientArray<System>()
+		{
+		};
 
 		/**
 		 * @brief Default Destructor.
 		 */
-		virtual ~ExternalServerClientArray();
+		virtual ~ExternalServerClientArray() = default;
 
 	protected:
 		/* ---------------------------------------------------------

@@ -104,9 +104,9 @@ namespace samchon.templates.distributed
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class DistributedClientArrayMediator<T extends DistributedSystem>
-		extends DistributedSystemArrayMediator<T>
-		implements external.IExternalClientArray<T>
+	export abstract class DistributedClientArrayMediator<System extends DistributedSystem>
+		extends DistributedSystemArrayMediator<System>
+		implements external.IExternalClientArray<System>
 	{
 		/**
 		 * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
@@ -160,7 +160,7 @@ namespace samchon.templates.distributed
 		 */
 		public addClient(driver: protocol.IClientDriver): void
 		{
-			let system: T = this.createExternalClient(driver);
+			let system: System = this.createExternalClient(driver);
 			if (system == null)
 				return;
 
@@ -179,7 +179,7 @@ namespace samchon.templates.distributed
 		 * @param xml An {@link XML} object represents the child {@link DistributedSystem} object.
 		 * @return null
 		 */
-		public createChild(xml: library.XML): T { return null; }
+		public createChild(xml: library.XML): System { return null; }
 		
 		/**
 		 * Factory method creating {@link DistributedSystem} object.
@@ -196,7 +196,7 @@ namespace samchon.templates.distributed
 		 * @param driver A communicator with the distributed client.
 		 * @return A newly created {@link DistributedSystem} object.
 		 */
-		protected abstract createExternalClient(driver: protocol.IClientDriver): T;
+		protected abstract createExternalClient(driver: protocol.IClientDriver): System;
 
 		/* ---------------------------------------------------------
 			SERVER's METHOD

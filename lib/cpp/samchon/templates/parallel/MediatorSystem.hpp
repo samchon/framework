@@ -4,7 +4,12 @@
 #include <samchon/templates/slave/SlaveSystem.hpp>
 #include <samchon/protocol/IListener.hpp>
 
+#include <samchon/templates/parallel/base/ParallelSystemArrayBase.hpp>
+#include <samchon/templates/distributed/base/DistributedSystemArrayBase.hpp>
+#include <samchon/templates/distributed/base/DistributedProcessBase.hpp>
+
 #include <samchon/HashMap.hpp>
+#include <samchon/protocol/InvokeHistory.hpp>
 
 namespace samchon
 {
@@ -17,8 +22,6 @@ namespace templates
 {
 namespace parallel
 {
-	class ParallelSystemArrayMediator;
-
 	/**
 	 * A mediator, the master driver.
 	 * 
@@ -48,14 +51,14 @@ namespace parallel
 	 *			 [Distributed System](https://github.com/samchon/framework/wiki/CPP-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API MediatorSystem
+	class MediatorSystem
 		: public virtual slave::SlaveSystem,
 		public virtual protocol::IListener
 	{
 	private:
 		typedef slave::SlaveSystem super;
 
-		ParallelSystemArrayMediator *system_array_;
+		external::base::ExternalSystemArrayBase *system_array_;
 		HashMap<size_t, std::shared_ptr<protocol::InvokeHistory>> progress_list_;
 
 	public:
@@ -67,12 +70,16 @@ namespace parallel
 		 * 
 		 * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
 		 */
-		MediatorSystem(ParallelSystemArrayMediator*);
+		MediatorSystem(external::base::ExternalSystemArrayBase* systemArray)
+			: super()
+		{
+			this->system_array_ = systemArray;
+		};
 
 		/**
 		 * Default Destructor.
 		 */
-		virtual ~MediatorSystem();
+		virtual ~MediatorSystem() = default;
 
 		/**
 		 * Start interaction.
@@ -89,21 +96,77 @@ namespace parallel
 		/**
 		 * Get parent {@link ParallelSystemArrayMediator} object.
 		 */
-		auto getSystemArray() const -> ParallelSystemArrayMediator*
+		template <class SystemArray>
+		auto getSystemArray() const -> SystemArray*
 		{
-			return system_array_;
+			return (SystemArray*)system_array_;
 		};
 
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
-		void _Complete_history(size_t uid);
+		void _Complete_history(size_t uid)
+		{
+			//--------
+			// NEED TO REDEFINE START AND END TIME
+			//--------
+			// NO SUCH HISTORY; THE PROCESS HAD DONE ONLY IN THIS MEDIATOR LEVEL.
+			if (progress_list_.has(uid) == false)
+				return;
+
+			// COMPLETE THE HISTORY
+			std::shared_ptr<protocol::InvokeHistory> history = progress_list_.get(uid);
+			history->complete();
+
+			// ERASE THE HISTORY ON PROGRESS LIST
+			progress_list_.erase(uid);
+
+			// REPORT THE HISTORY TO MASTER
+			sendData(history->toInvoke());
+		};
 
 	private:
-		virtual void _replyData(std::shared_ptr<protocol::Invoke>) override final;
+		virtual void _replyData(std::shared_ptr<protocol::Invoke> invoke) override final
+		{
+			if (invoke->has("_History_uid") == true)
+			{
+				// REGISTER THIS PROCESS ON HISTORY LIST
+				std::shared_ptr<protocol::InvokeHistory> history(new protocol::InvokeHistory(invoke));
+				progress_list_.insert({ history->getUID(), history });
+
+				if (invoke->has("_Piece_first") == true)
+				{
+					// PARALLEL PROCESS
+					size_t first = invoke->get("_Piece_first")->getValue<size_t>();
+					size_t last = invoke->get("_Piece_last")->getValue<size_t>();
+
+					invoke->erase(invoke->end() - 2, invoke->end());
+					((base::ParallelSystemArrayBase*)system_array_)->sendPieceData(invoke, first, last);
+				}
+				else if (invoke->has("_Process_name") == true)
+				{
+					// DISTRIBUTED PROCESS
+					auto ds_system_array = (distributed::base::DistributedSystemArrayBase*)system_array_;
+
+					// FIND THE MATCHED ROLE
+					const std::string &process_name = invoke->get("_Process_name")->getValue<std::string>();
+					if (ds_system_array->hasProcess(process_name) == false)
+						return;
+
+					// SEND DATA VIA THE ROLE
+					auto process = ds_system_array->getProcess(process_name);
+					((distributed::base::DistributedProcessBase*)(process.get()))->sendData(invoke, 1.0);
+				}
+			}
+			else
+				replyData(invoke);
+		};
 
 	public:
-		virtual void replyData(std::shared_ptr<protocol::Invoke>) override;
+		virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override
+		{
+			((protocol::IProtocol*)system_array_)->sendData(invoke);
+		};
 	};
 };
 };

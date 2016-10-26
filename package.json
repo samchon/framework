@@ -9,7 +9,7 @@
 
   "main": "./lib/ts/samchon-framework.js",
   "typgins": "./lib/ts/samchon-framework.d.ts",
-  "version": "2.0.0-gamma.7",
+  "version": "2.0.0-gamma.8",
 
   "homepage": "http://samchon.org/framework",
   "repository": {

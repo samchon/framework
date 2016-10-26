@@ -1,4 +1,4 @@
-// Type definitions for Samchon Framework v2.0.0-gamma.7
+// Type definitions for Samchon Framework v2.0.0-gamma.8
 // Project: https://github.com/samchon/framework
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -11,12 +11,12 @@ declare module "samchon-framework"
 }
 
 /**
- * <h1> Samchon-Framework </h1>
+ * # Samchon-Framework
  *
  * <a href="https://nodei.co/npm/samchon-framework">
  *	<img src="https://nodei.co/npm/samchon-framework.png?downloads=true&downloadRank=true&stars=true"> </a>
  *
- * Samchon, a SDN (Software Defined Network) framework.
+ * Samchon, a OON (Object-Oriented Network) framework.
  *
  * With Samchon Framework, you can implement distributed processing system within framework of OOD like handling S/W
  * objects (classes). You can realize cloud and distributed system very easily with provided system templates and even
@@ -3851,7 +3851,7 @@ declare namespace samchon.templates.distributed {
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class DistributedSystemArray<T extends DistributedSystem> extends parallel.ParallelSystemArray<T> {
+    abstract class DistributedSystemArray<System extends DistributedSystem> extends parallel.ParallelSystemArray<System> {
         /**
          * @hidden
          */
@@ -4031,7 +4031,7 @@ declare namespace samchon.templates.distributed {
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class DistributedSystemArrayMediator<T extends DistributedSystem> extends DistributedSystemArray<T> {
+    abstract class DistributedSystemArrayMediator<System extends DistributedSystem> extends DistributedSystemArray<System> {
         /**
          * @hidden
          */
@@ -5134,8 +5134,18 @@ declare namespace samchon.protocol {
         getArguments(): Array<any>;
         /**
          * Apply to a matched function.
+         *
+         * @param obj Target {@link IProtocol} object to find matched function.
+         * @return Whether succeded to find matched function.
          */
         apply(obj: IProtocol): boolean;
+        /**
+         * Apply to a function.
+         *
+         * @param thisArg Owner of the function.
+         * @param func Function to call.
+         */
+        apply(thisArg: IProtocol, func: Function): void;
         /**
          * @inheritdoc
          */
@@ -6531,7 +6541,7 @@ declare namespace samchon.templates.distributed {
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class DistributedClientArray<T extends DistributedSystem> extends DistributedSystemArray<T> implements external.IExternalClientArray<T> {
+    abstract class DistributedClientArray<System extends DistributedSystem> extends DistributedSystemArray<System> implements external.IExternalClientArray<System> {
         /**
          * @hidden
          */
@@ -6577,7 +6587,7 @@ declare namespace samchon.templates.distributed {
          * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
          * @return ```null```
          */
-        createChild(xml: library.XML): T;
+        createChild(xml: library.XML): System;
         /**
          * Factory method creating {@link DistributedSystem} object.
          *
@@ -6593,7 +6603,7 @@ declare namespace samchon.templates.distributed {
          * @param driver A communicator with the parallel client.
          * @return A newly created {@link ParallelSystem} object.
          */
-        protected abstract createExternalClient(driver: protocol.IClientDriver): T;
+        protected abstract createExternalClient(driver: protocol.IClientDriver): System;
         /**
          * @inheritdoc
          */
@@ -6705,7 +6715,7 @@ declare namespace samchon.templates.distributed {
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class DistributedClientArrayMediator<T extends DistributedSystem> extends DistributedSystemArrayMediator<T> implements external.IExternalClientArray<T> {
+    abstract class DistributedClientArrayMediator<System extends DistributedSystem> extends DistributedSystemArrayMediator<System> implements external.IExternalClientArray<System> {
         /**
          * A subrogator of {@link IServer server}'s role instead of this {@link ExternalClientArray}.
          */
@@ -6753,7 +6763,7 @@ declare namespace samchon.templates.distributed {
          * @param xml An {@link XML} object represents the child {@link DistributedSystem} object.
          * @return null
          */
-        createChild(xml: library.XML): T;
+        createChild(xml: library.XML): System;
         /**
          * Factory method creating {@link DistributedSystem} object.
          *
@@ -6769,7 +6779,7 @@ declare namespace samchon.templates.distributed {
          * @param driver A communicator with the distributed client.
          * @return A newly created {@link DistributedSystem} object.
          */
-        protected abstract createExternalClient(driver: protocol.IClientDriver): T;
+        protected abstract createExternalClient(driver: protocol.IClientDriver): System;
         /**
          * @inheritdoc
          */
@@ -6855,6 +6865,12 @@ declare namespace samchon.templates.distributed {
          * @return The parent {@link DistributedSystemArray} object.
          */
         getSystemArray(): DistributedSystemArray<DistributedSystem>;
+        /**
+         * Get parent {@link DistributedSystemArray} object.
+         *
+         * @return The parent {@link DistributedSystemArray} object.
+         */
+        getSystemArray<SystemArray extends DistributedSystemArray<DistributedSystem>>(): SystemArray;
         /**
          * Get name, who represents and identifies this process.
          */
@@ -7085,6 +7101,10 @@ declare namespace samchon.templates.external {
          */
         getSystemArray(): ExternalSystemArray<ExternalSystem>;
         /**
+         * Get parent {@link ExternalSystemArray} object.
+         */
+        getSystemArray<SystemArray extends ExternalSystemArray<ExternalSystem>>(): SystemArray;
+        /**
          * Identifier of {@link ExternalSystem} is its {@link name}.
          *
          * @return name.
@@ -7256,6 +7276,12 @@ declare namespace samchon.templates.parallel {
          */
         getSystemArray(): ParallelSystemArray<ParallelSystem>;
         /**
+         * Get manager of this object.
+         *
+         * @return The parent {@link ParallelSystemArray} object.
+         */
+        getSystemArray<SystemArray extends ParallelSystemArray<ParallelSystem>>(): SystemArray;
+        /**
          * Get performance index.
          *
          * Get *performance index* that indicates how much fast the remote system is.
@@ -7423,11 +7449,17 @@ declare namespace samchon.templates.distributed {
          */
         createChild(xml: library.XML): external.ExternalSystemRole;
         /**
-         * Get parent {@link DistributedSystemArray} object.
+         * Get manager of this object.
          *
          * @return The parent {@link DistributedSystemArray} object.
          */
         getSystemArray(): DistributedSystemArray<DistributedSystem>;
+        /**
+         * Get manager of this object.
+         *
+         * @return The parent {@link DistributedSystemArray} object.
+         */
+        getSystemArray<SystemArray extends DistributedSystemArray<DistributedSystem>>(): SystemArray;
         /**
          * @hidden
          */
@@ -7639,7 +7671,7 @@ declare namespace samchon.templates.distributed {
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class DistributedServerArray<T extends IDistributedServer> extends DistributedSystemArray<T> implements external.IExternalServerArray<T> {
+    abstract class DistributedServerArray<System extends IDistributedServer> extends DistributedSystemArray<System> implements external.IExternalServerArray<System> {
         /**
          * Default Constructor.
          */
@@ -7750,7 +7782,7 @@ declare namespace samchon.templates.distributed {
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class DistributedServerArrayMediator<T extends IDistributedServer> extends DistributedSystemArrayMediator<T> implements external.IExternalServerArray<T> {
+    abstract class DistributedServerArrayMediator<System extends IDistributedServer> extends DistributedSystemArrayMediator<System> implements external.IExternalServerArray<System> {
         /**
          * Default Constructor.
          */
@@ -7845,7 +7877,7 @@ declare namespace samchon.templates.distributed {
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class DistributedServerClientArray<T extends DistributedSystem> extends DistributedClientArray<T> implements external.IExternalServerClientArray<T> {
+    abstract class DistributedServerClientArray<System extends DistributedSystem> extends DistributedClientArray<System> implements external.IExternalServerClientArray<System> {
         /**
          * Default Constructor.
          */
@@ -7858,14 +7890,14 @@ declare namespace samchon.templates.distributed {
          * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
          * @return A new child Entity via {@link createExternalServer createExternalServer()}.
          */
-        createChild(xml: library.XML): T;
+        createChild(xml: library.XML): System;
         /**
          * Factory method creating an {@link IDistributedServer} object.
          *
          * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
          * @return A newly created {@link IDistributedServer} object.
          */
-        protected abstract createExternalServer(xml: library.XML): T;
+        protected abstract createExternalServer(xml: library.XML): System;
         /**
          * @inheritdoc
          */
@@ -7977,7 +8009,7 @@ declare namespace samchon.templates.distributed {
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class DistributedServerClientArrayMediator<T extends DistributedSystem> extends DistributedClientArrayMediator<T> implements external.IExternalServerClientArray<T> {
+    abstract class DistributedServerClientArrayMediator<System extends DistributedSystem> extends DistributedClientArrayMediator<System> implements external.IExternalServerClientArray<System> {
         /**
          * Default Constructor.
          */
@@ -7990,14 +8022,14 @@ declare namespace samchon.templates.distributed {
          * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
          * @return A new child Entity via {@link createExternalServer createExternalServer()}.
          */
-        createChild(xml: library.XML): T;
+        createChild(xml: library.XML): System;
         /**
          * Factory method creating an {@link IDistributedServer} object.
          *
          * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
          * @return A newly created {@link IDistributedServer} object.
          */
-        protected abstract createExternalServer(xml: library.XML): T;
+        protected abstract createExternalServer(xml: library.XML): System;
         /**
          * @inheritdoc
          */
@@ -8737,9 +8769,17 @@ declare namespace samchon.templates.parallel {
          */
         abstract start(): void;
         /**
-         * Get parent {@link ParallelSystemArrayMediator} object.
+         * Get parent {@link ParallelSystemArrayMediator} or {@link DistributedSystemArrayMediator} object.
          */
         getSystemArray(): ParallelSystemArrayMediator<ParallelSystem> | distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>;
+        /**
+         * Get parent {@link ParallelSystemArrayMediator} object.
+         */
+        getSystemArray<SystemArray extends ParallelSystemArray<ParallelSystem>>(): SystemArray;
+        /**
+         * Get parent {@link DistributedSystemArrayMediator} object.
+         */
+        getSystemArray<SystemArray extends distributed.DistributedSystemArray<distributed.DistributedSystem>>(): SystemArray;
         /**
          * @hidden
          */

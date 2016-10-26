@@ -105,9 +105,18 @@ namespace samchon.templates.distributed
 
 		/**
 		 * Get parent {@link DistributedSystemArray} object.
-		 * 
+		 *
 		 * @return The parent {@link DistributedSystemArray} object.
 		 */
+		public getSystemArray(): DistributedSystemArray<DistributedSystem>;
+
+		/**
+		 * Get parent {@link DistributedSystemArray} object.
+		 *
+		 * @return The parent {@link DistributedSystemArray} object.
+		 */
+		public getSystemArray<SystemArray extends DistributedSystemArray<DistributedSystem>>(): SystemArray;
+
 		public getSystemArray(): DistributedSystemArray<DistributedSystem>
 		{
 			return this.system_array_;
@@ -297,9 +306,14 @@ namespace samchon.templates.distributed
 				this.progress_list_.erase(uid);
 			}
 
-			// ADD ROLE NAME FOR MEDIATOR
+			// ADD PROCESS NAME AND WEIGHT FOR MEDIATOR
 			if (invoke.has("_Process_name") == false)
 				invoke.push_back(new protocol.InvokeParameter("_Process_name", this.name));
+
+			if (invoke.has("_Process_weight") == false)
+				invoke.push_back(new protocol.InvokeParameter("_Process_weight", weight));
+			else
+				weight = invoke.get("_Process_name").getValue();
 
 			// FIND THE MOST IDLE SYSTEM
 			let idle_system: DistributedSystem = null;

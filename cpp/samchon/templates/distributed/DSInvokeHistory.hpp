@@ -3,6 +3,9 @@
 
 #include <samchon/protocol/InvokeHistory.hpp>
 
+#include <samchon/templates/distributed/base/DistributedSystemArrayBase.hpp>
+#include <samchon/templates/external/base/ExternalSystemBase.hpp>
+
 namespace samchon
 {
 namespace templates
@@ -82,10 +85,11 @@ namespace distributed
 				return;
 			}
 
-			string &role_name = xml->getProperty("process");
+			std::string &process_name = xml->getProperty("process");
+			base::DistributedSystemArrayBase *system_array = ((external::base::ExternalSystemBase*)system)->getSystemArray<base::DistributedSystemArrayBase>();
 
-			if (system_->getSystemArray()->hasRole(role_name) == true)
-				process_ = system_->getSystemArray()->getProcess(role_name).get();
+			if (system_array->hasProcess(process_name) == true)
+				process_ = system_array->getProcess(process_name).get();
 			else
 				process_ = nullptr;
 		};
@@ -126,7 +130,7 @@ namespace distributed
 		{
 			std::shared_ptr<library::XML> &xml = super::toXML();
 			if (process_ != nullptr)
-				xml->setProperty("process", process_->getName());
+				xml->setProperty("process", ((protocol::Entity<std::string>*)process_)->key());
 
 			return xml;
 		};

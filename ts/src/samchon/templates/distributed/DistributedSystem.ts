@@ -97,10 +97,19 @@ namespace samchon.templates.distributed
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * Get parent {@link DistributedSystemArray} object.
-		 *
+		 * Get manager of this object.
+		 * 
 		 * @return The parent {@link DistributedSystemArray} object.
 		 */
+		public getSystemArray(): DistributedSystemArray<DistributedSystem>;
+
+		/**
+		 * Get manager of this object.
+		 * 
+		 * @return The parent {@link DistributedSystemArray} object.
+		 */
+		public getSystemArray<SystemArray extends DistributedSystemArray<DistributedSystem>>(): SystemArray;
+
 		public getSystemArray(): DistributedSystemArray<DistributedSystem>
 		{
 			return this["system_array_"] as DistributedSystemArray<DistributedSystem>;
@@ -192,7 +201,7 @@ namespace samchon.templates.distributed
 			if (history instanceof DSInvokeHistory)
 			{
 				// RE-SEND INVOKE MESSAGE TO ANOTHER SLAVE VIA ROLE
-				history.getProcess().sendData(invoke);
+				history.getProcess().sendData(invoke, history.getWeight());
 			}
 			
 			// ERASE THE HISTORY

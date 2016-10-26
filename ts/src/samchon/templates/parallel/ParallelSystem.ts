@@ -171,6 +171,15 @@ namespace samchon.templates.parallel
 		 * 
 		 * @return The parent {@link ParallelSystemArray} object.
 		 */
+		public getSystemArray(): ParallelSystemArray<ParallelSystem>;
+
+		/**
+		 * Get manager of this object.
+		 * 
+		 * @return The parent {@link ParallelSystemArray} object.
+		 */
+		public getSystemArray<SystemArray extends ParallelSystemArray<ParallelSystem>>(): SystemArray;
+		
 		public getSystemArray(): ParallelSystemArray<ParallelSystem>
 		{
 			return this["system_array_"] as ParallelSystemArray<ParallelSystem>;

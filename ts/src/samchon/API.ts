@@ -1,10 +1,10 @@
 ﻿/**
- * <h1> Samchon-Framework </h1>
+ * # Samchon-Framework
  * 
  * <a href="https://nodei.co/npm/samchon-framework">
  *	<img src="https://nodei.co/npm/samchon-framework.png?downloads=true&downloadRank=true&stars=true"> </a>
  * 
- * Samchon, a SDN (Software Defined Network) framework.
+ * Samchon, a OON (Object-Oriented Network) framework.
  * 
  * With Samchon Framework, you can implement distributed processing system within framework of OOD like handling S/W 
  * objects (classes). You can realize cloud and distributed system very easily with provided system templates and even 

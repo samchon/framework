@@ -89,8 +89,8 @@ namespace samchon.templates.distributed
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class DistributedSystemArray<T extends DistributedSystem> 
-		extends parallel.ParallelSystemArray<T>
+	export abstract class DistributedSystemArray<System extends DistributedSystem> 
+		extends parallel.ParallelSystemArray<System>
 	{
 		/**
 		 * @hidden

@@ -27,7 +27,7 @@ namespace parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/CPP-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API PRInvokeHistory 
+	class PRInvokeHistory 
 		: public protocol::InvokeHistory
 	{
 		friend class ParallelSystem;
@@ -45,18 +45,32 @@ namespace parallel
 		/**
 		 * Default Constructor.
 		 */
-		PRInvokeHistory();
+		PRInvokeHistory()
+			: super()
+		{
+		};
 
 		/**
 		 * Construct from an {@link Invoke} message.
 		 * 
 		 * @param invoke An {@link Invoke} message requesting a *parallel process*.
 		 */
-		PRInvokeHistory(std::shared_ptr<protocol::Invoke> invoke);
+		PRInvokeHistory(std::shared_ptr<protocol::Invoke> invoke)
+			: super(invoke)
+		{
+			this->first_ = invoke->get("_Piece_first")->getValue<size_t>();
+			this->last_ = invoke->get("_Piece_last")->getValue<size_t>();
+		};
 
-		virtual ~PRInvokeHistory();
+		virtual ~PRInvokeHistory() = default;
 
-		virtual void construct(std::shared_ptr<library::XML> xml) override;
+		virtual void construct(std::shared_ptr<library::XML> xml) override
+		{
+			super::construct(xml);
+
+			first_ = xml->getProperty<size_t>("first");
+			last_ = xml->getProperty<size_t>("last");
+		};
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -98,7 +112,14 @@ namespace parallel
 		/* ---------------------------------------------------------
 			EXPORTERS
 		--------------------------------------------------------- */
-		virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override
+		{
+			std::shared_ptr<library::XML> &xml = super::toXML();
+			xml->setProperty("first", first_);
+			xml->setProperty("last", last_);
+
+			return xml;
+		};
 	};
 };
 };

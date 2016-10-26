@@ -2,6 +2,9 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/IProtocol.hpp>
+#include <samchon/templates/service/Service.hpp>
+
+#include <samchon/protocol/WebClientDriver.hpp>
 
 #define KEEP_CLIENT_ALIVE auto &__keeper = __keep_alive();
 
@@ -18,7 +21,6 @@ namespace service
 {
 	class Server;
 	class User;
-	class Service;
 
 	/**
 	 * A driver of remote client.
@@ -38,17 +40,15 @@ namespace service
 	 * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/CPP-Templates-Cloud_Service)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API Client
+	class Client
 		: public virtual protocol::IProtocol
 	{
 		friend class Server;
-		friend class User;
-		friend class Service;
 
 	private:
 		// RELATED OBJECTS
 		User *user;
-		std::weak_ptr<Client> my_weak_ptr;
+		
 		std::shared_ptr<protocol::WebClientDriver> driver;
 		std::unique_ptr<Service> service;
 
@@ -65,7 +65,11 @@ namespace service
 		 * @param user Parent {@link User} object.
 		 * @param driver Communicator with remote client.
 		 */
-		Client(User*, std::shared_ptr<protocol::WebClientDriver>);
+		Client(User *user, std::shared_ptr<protocol::WebClientDriver> driver)
+		{
+			this->user = user;
+			this->driver = driver;
+		};
 
 		/**
 		 * Default Destructor.
@@ -73,7 +77,7 @@ namespace service
 		 * {@link Client} object is destructed when connection with the remote client is closed or this {@link Client} 
 		 * object is {@link User.erase erased} from its parent {@link User} object.
 		 */
-		virtual ~Client();
+		virtual ~Client() = default;
 
 	protected:
 		/**
@@ -130,14 +134,23 @@ namespace service
 		 * 
 		 * @param path Requested, identifier path.
 		 */
-		void changeService(const std::string&);
+		void changeService(const std::string &path)
+		{
+			service.reset(createService(path));
+		};
 
 		/**
 		 * Change {@link Service} to another.
 		 * 
 		 * @param service {@link service} object to newly assigned.
 		 */
-		void changeService(Service*);
+		void changeService(Service *obj)
+		{
+			service.reset(obj);
+
+			service->user_weak_ptr = user_weak_ptr;
+			service->client_weak_ptr = my_weak_ptr;
+		};
 
 	public:
 		/* ---------------------------------------------------------
@@ -150,7 +163,10 @@ namespace service
 		 * 
 		 * @param invoke An {@link Invoke} messgae to send to remote client.
 		 */
-		virtual void sendData(std::shared_ptr<protocol::Invoke>);
+		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
+		{
+			driver->sendData(invoke);
+		};
 
 		/**
 		 * Handle a replied {@link Invoke} message.
@@ -192,7 +208,15 @@ namespace service
 		 * 
 		 * @param invoke An {@link Invoke invoke} message to be handled in {@link Client} level.
 		 */
-		virtual void replyData(std::shared_ptr<protocol::Invoke>);
+		virtual void replyData(std::shared_ptr<protocol::Invoke> invoke)
+		{
+			((protocol::IProtocol*)user)->replyData(invoke);
+			service->replyData(invoke);
+		};
+
+	private:
+		std::weak_ptr<User> user_weak_ptr;
+		std::weak_ptr<Client> my_weak_ptr;
 	};
 };
 };

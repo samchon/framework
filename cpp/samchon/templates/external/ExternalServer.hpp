@@ -2,6 +2,7 @@
 #include <samchon/API.hpp>
 
 #include <samchon/templates/external/ExternalSystem.hpp>
+#include <samchon/templates/external/base/ExternalServerBase.hpp>
 
 #include <samchon/protocol/ServerConnector.hpp>
 
@@ -22,23 +23,13 @@ namespace external
 	 * @copydetails external::ExternalSystem
 	 */
 	class ExternalServer
-		: public virtual ExternalSystem
+		: public virtual ExternalSystem,
+		public base::ExternalServerBase
 	{
 		friend class ExternalSystem;
 
 	private:
 		typedef ExternalSystem super;
-
-	protected:
-		/**
-		 * IP address of target external system to connect.
-		 */
-		std::string ip;
-
-		/**
-		 * Port number of target external system to connect.
-		 */
-		int port;
 
 	public:
 		/* ---------------------------------------------------------
@@ -49,7 +40,7 @@ namespace external
 		 * 
 		 * @param systemArray The parent {@link ExternalSystemArray} object.
 		 */
-		ExternalServer(ExternalSystemArray *systemArray)
+		ExternalServer(base::ExternalSystemArrayBase *systemArray)
 			: super(systemArray)
 		{
 		};

@@ -28,7 +28,7 @@ namespace distributed
 		/**
 		 * Default Constructor.
 		 */
-		DistributedServer(DistributedSystemArray *systemArray)
+		DistributedServer(external::base::ExternalSystemArrayBase *systemArray)
 			: DistributedSystem(systemArray),
 			external::ExternalServer(systemArray)
 		{

@@ -42,11 +42,12 @@ namespace parallel
 	 * #### [Inherited] {@link ParallelSystemArray}
 	 * @copydetails parallel::ParallelSystemArray
 	 */
+	template <class System = ParallelSystem>
 	class ParallelSystemArrayMediator
-		: public virtual ParallelSystemArray
+		: public virtual ParallelSystemArray<System>
 	{
 	private:
-		typedef ParallelSystemArray super;
+		typedef ParallelSystemArray<System> super;
 
 		std::unique_ptr<MediatorSystem> mediator_;
 

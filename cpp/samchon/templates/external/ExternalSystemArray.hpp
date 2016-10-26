@@ -3,13 +3,13 @@
 
 #include <samchon/protocol/SharedEntityDeque.hpp>
 #	include <samchon/templates/external/ExternalSystem.hpp>
+#include <samchon/templates/external/base/ExternalSystemArrayBase.hpp>
 #include <samchon/protocol/IProtocol.hpp>
 
 namespace samchon
 {
 namespace templates
 {
-
 /**
  * A template for External Systems Manager.
  * 
@@ -61,12 +61,14 @@ namespace external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/CPP-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
+	template <class System = ExternalSystem>
 	class ExternalSystemArray
-		: public protocol::SharedEntityDeque<ExternalSystem>,
+		: public protocol::SharedEntityDeque<System>,
+		public base::ExternalSystemArrayBase,
 		public protocol::IProtocol
 	{
 	private:
-		typedef protocol::SharedEntityDeque<ExternalSystem> super;
+		typedef protocol::SharedEntityDeque<System> super;
 
 	public:
 		/* ---------------------------------------------------------
@@ -121,6 +123,12 @@ namespace external
 						return at(i)->at(j);
 
 			throw std::out_of_range("No such key.");
+		};
+
+		virtual auto _Get_children() const -> std::vector<std::shared_ptr<ExternalSystem>>
+		{
+			std::vector<std::shared_ptr<ExternalSystem>> children(begin(), end());
+			return children;
 		};
 
 		/* ---------------------------------------------------------

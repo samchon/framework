@@ -3,6 +3,9 @@
 
 #include <samchon/protocol/InvokeHistory.hpp>
 
+#include <samchon/templates/distributed/base/DistributedSystemArrayBase.hpp>
+#include <samchon/templates/external/base/ExternalSystemBase.hpp>
+
 namespace samchon
 {
 namespace templates
@@ -27,7 +30,7 @@ namespace distributed
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/CPP-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API DSInvokeHistory
+	class DSInvokeHistory
 		: public protocol::InvokeHistory
 	{
 		friend class DistributedSystem;
@@ -48,7 +51,11 @@ namespace distributed
 		 * 
 		 * @param system The {@link DistributedSystem} object who sent the {@link Invoke} message.
 		 */
-		DSInvokeHistory(DistributedSystem*);
+		DSInvokeHistory(DistributedSystem *system)
+			: super()
+		{
+			this->system_ = system;
+		};
 
 		/**
 		 * Initilizer Constructor.
@@ -58,11 +65,34 @@ namespace distributed
 		 * @param invoke An {@link Invoke} message requesting the *distributed process*.
 		 * @param weight Weight of resource which indicates how heavy this {@link Invoke} message is.
 		 */
-		DSInvokeHistory(DistributedSystem*, DistributedProcess*, std::shared_ptr<protocol::Invoke>, double weight);
+		DSInvokeHistory(DistributedSystem *system, DistributedProcess *process, std::shared_ptr<protocol::Invoke> invoke, double weight)
+			: super(invoke)
+		{
+			this->system_ = system;
+			this->process_ = process;
+			this->weight_ = weight;
+		};
 
-		virtual ~DSInvokeHistory();
+		virtual ~DSInvokeHistory() = default;
 
-		virtual void construct(std::shared_ptr<library::XML>) override;
+		virtual void construct(std::shared_ptr<library::XML> xml) override
+		{
+			super::construct(xml);
+
+			if (xml->hasProperty("process") == false)
+			{
+				process_ = nullptr;
+				return;
+			}
+
+			std::string &process_name = xml->getProperty("process");
+			base::DistributedSystemArrayBase *system_array = ((external::base::ExternalSystemBase*)system)->getSystemArray<base::DistributedSystemArrayBase>();
+
+			if (system_array->hasProcess(process_name) == true)
+				process_ = system_array->getProcess(process_name).get();
+			else
+				process_ = nullptr;
+		};
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -96,7 +126,14 @@ namespace distributed
 		/* ---------------------------------------------------------
 			EXPORTERS
 		--------------------------------------------------------- */
-		virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override
+		{
+			std::shared_ptr<library::XML> &xml = super::toXML();
+			if (process_ != nullptr)
+				xml->setProperty("process", ((protocol::Entity<std::string>*)process_)->key());
+
+			return xml;
+		};
 	};
 };
 };

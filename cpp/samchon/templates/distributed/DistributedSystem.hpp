@@ -4,8 +4,8 @@
 #include <samchon/templates/parallel/ParallelSystem.hpp>
 
 #include <samchon/templates/distributed/DSInvokeHistory.hpp>
-#include <samchon/templates/distributed/base/IDistributedSystemArray.hpp>
-#include <samchon/templates/distributed/base/IDistributedProcess.hpp>
+#include <samchon/templates/distributed/base/DistributedSystemArrayBase.hpp>
+#include <samchon/templates/distributed/base/DistributedProcessBase.hpp>
 
 namespace samchon
 {
@@ -13,9 +13,6 @@ namespace templates
 {
 namespace distributed
 {
-	class DistributedSystemArray;
-	class DistributedProcess;
-
 	/**
 	 * A driver for a distributed slave system.
 	 * 
@@ -54,8 +51,6 @@ namespace distributed
 	class DistributedSystem
 		: public virtual parallel::ParallelSystem
 	{
-		friend class DistributedSystemArray;
-
 	private:
 		typedef parallel::ParallelSystem super;
 
@@ -67,19 +62,17 @@ namespace distributed
 
 		virtual ~DistributedSystem()
 		{
+			_Set_excluded();
+
+			// SHIFT PARALLEL INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVES
 			for (auto it = _Get_progress_list()->begin(); it != _Get_progress_list()->end(); it++)
 			{
-				// SHIFT INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVE
-				std::shared_ptr<DSInvokeHistory> history = std::dynamic_pointer_cast<DSInvokeHistory>(it->second.second);
-				if (history == nullptr)
-					continue;
+				// INVOKE MESSAGE AND ITS HISTORY ON PROGRESS
+				std::shared_ptr<protocol::Invoke> invoke = it->second.first;
+				std::shared_ptr<protocol::InvokeHistory> history = it->second.second;
 
-				// INVOKE MESSAGE TO RESEND TO ANOTHER SLAVE VIA ROLE
-				std::shared_ptr<Invoke> invoke = it->second.first;
-				base::IDistributedProcess *role = (base::IDistributedProcess*)history->getProcess();
-
-				// SEND-DATA VIA THE ROLE
-				role->sendData(invoke, history->getWeight());
+				// SEND THEM BACK
+				_Send_back_history(invoke, history);
 			}
 		};
 
@@ -107,21 +100,7 @@ namespace distributed
 		};
 
 	public:
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		/**
-		 * Get parent {@link DistributedSystemArray} object.
-		 *
-		 * @return The parent {@link DistributedSystemArray} object.
-		 */
-		auto getSystemArray() const -> DistributedSystemArray*
-		{
-			return (DistributedSystemArray*)(base::IDistributedSystemArray*)system_array_;
-		};
-
-	private:
-		auto compute_average_elapsed_time() const -> double
+		auto _Compute_average_elapsed_time() const -> double
 		{
 			double sum = 0.0;
 			size_t denominator = 0;
@@ -134,7 +113,7 @@ namespace distributed
 
 				double elapsed_time = history->computeElapsedTime() / history->getWeight();
 
-				sum += elapsed_time / history->getProcess()->getResource();
+				sum += elapsed_time / ((base::DistributedProcessBase*)(history->getProcess()))->getResource();
 				denominator++;
 			}
 
@@ -151,9 +130,9 @@ namespace distributed
 		virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override
 		{
 			// SHIFT TO PROCESSES
-			auto process_map = ((base::IDistributedSystemArray*)system_array_)->getProcessMap();
+			auto process_map = ((base::DistributedSystemArrayBase*)system_array_)->getProcessMap();
 			for (auto it = process_map.begin(); it != process_map.end(); it++)
-				((base::IDistributedProcess*)(it->second.get()))->replyData(invoke);
+				((base::DistributedProcessBase*)(it->second.get()))->replyData(invoke);
 
 			// SHIFT TO MASTER AND SLAVES
 			super::replyData(invoke);
@@ -165,7 +144,7 @@ namespace distributed
 			if (history != nullptr)
 			{
 				// RE-SEND INVOKE MESSAGE TO ANOTHER SLAVE VIA ROLE
-				history->getProcess()->sendData(invoke);
+				((base::DistributedProcessBase*)(history->getProcess()))->sendData(invoke, history->getWeight());
 			}
 
 			// ERASE THE HISTORY
@@ -204,10 +183,10 @@ namespace distributed
 
 				// ALSO NOTIFY TO THE ROLE
 				if (history->getProcess() != nullptr)
-					history->getProcess()->report_history(history);
+					((base::DistributedProcessBase*)(history->getProcess()))->_Report_history(history);
 
 				// COMPLETE THE HISTORY IN THE BELONGED SYSTEM_ARRAY
-				getSystemArray()->_Complete_history(history);
+				((parallel::base::ParallelSystemArrayBase*)system_array_)->_Complete_history(history);
 			}
 		};
 	};

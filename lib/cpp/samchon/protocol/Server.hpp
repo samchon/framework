@@ -1,15 +1,14 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <memory>
-#include <samchon/protocol/Socket.hpp>
+#include <samchon/protocol/ClientDriver.hpp>
+
+#include <thread>
 
 namespace samchon
 {
 namespace protocol
 {
-	class ClientDriver;
-
 	/**
 	 * A server.
 	 * 
@@ -43,33 +42,69 @@ namespace protocol
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#server)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API Server
+	class Server
 	{
 	protected:
-		std::unique_ptr<Acceptor> _Acceptor;
+		std::unique_ptr<boost::asio::ip::tcp::acceptor> _Acceptor;
 
 	public:
 		/**
 		 * Default Constructor.
 		 */
-		Server();
+		Server()
+		{
+		};
 
 		/**
 		 * Default Destructor.
 		 */
-		virtual ~Server();
+		virtual ~Server()
+		{
+			if (_Acceptor == nullptr || _Acceptor->is_open() == false)
+				return;
+
+			close();
+		};
 
 		/**
 		 * Open server.
 		 * 
 		 * @param port Port number to open.
 		 */
-		virtual void open(int port);
+		virtual void open(int port)
+		{
+			if (_Acceptor != nullptr && _Acceptor->is_open())
+				return;
+
+			boost::asio::io_service io_service;
+			boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
+			boost::system::error_code error;
+
+			_Acceptor.reset(new boost::asio::ip::tcp::acceptor(io_service, endpoint));
+
+			while (true)
+			{
+				std::shared_ptr<boost::asio::ip::tcp::socket> socket(new boost::asio::ip::tcp::socket(io_service));
+				_Acceptor->accept(*socket);
+
+				if (error)
+					break;
+
+				std::thread(&Server::handle_connection, this, socket).detach();
+			}
+		};
 
 		/**
 		 * Close the server.
 		 */
-		virtual void close();
+		virtual void close()
+		{
+			if (_Acceptor == nullptr)
+				return;
+
+			_Acceptor->cancel();
+			_Acceptor->close();
+		};
 
 	protected:
 		/**
@@ -92,7 +127,10 @@ namespace protocol
 		virtual void addClient(std::shared_ptr<ClientDriver>) = 0; //ADD_CLIENT
 
 	private:
-		virtual void handle_connection(std::shared_ptr<Socket> socket);
+		virtual void handle_connection(std::shared_ptr<boost::asio::ip::tcp::socket> socket)
+		{
+			addClient(std::make_shared<ClientDriver>(socket));
+		};
 	};
 };
 };

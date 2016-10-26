@@ -23,17 +23,18 @@ namespace distributed
 	 * #### [Inherited] {@link DistributedSystemArray}
 	 * @copydetails distributed::DistributedSystemArray
 	 */
+	template <class System = DistributedServer>
 	class DistributedServerArray
-		: public DistributedSystemArray,
-		public external::ExternalServerArray
+		: public DistributedSystemArray<System>,
+		public external::ExternalServerArray<System>
 	{
 	public:
 		/**
 		 * Default Constructor.
 		 */
 		DistributedServerArray()
-			: DistributedSystemArray(),
-			external::ExternalServerArray()
+			: DistributedSystemArray<System>(),
+			external::ExternalServerArray<System>()
 		{
 		};
 		virtual ~DistributedServerArray() = default;

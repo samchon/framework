@@ -5,7 +5,7 @@
 #include <samchon/protocol/IListener.hpp>
 
 #include <samchon/templates/parallel/PRInvokeHistory.hpp>
-#include <samchon/templates/parallel/base/IParallelSystemArray.hpp>
+#include <samchon/templates/parallel/base/ParallelSystemArrayBase.hpp>
 
 #include <samchon/HashMap.hpp>
 
@@ -13,17 +13,8 @@ namespace samchon
 {
 namespace templates
 {
-namespace distributed
-{
-	class DistributedSystemArray;
-	class DistributedSystem;
-	class DistributedProcess;
-};
-
 namespace parallel
 {
-	class ParallelSystemArray;
-
 	/**
 	 * A driver for a parallel slave system.
 	 * 
@@ -67,8 +58,6 @@ namespace parallel
 		: public virtual external::ExternalSystem,
 		public virtual protocol::IListener
 	{
-		friend class ParallelSystemArray;
-
 	private:
 		typedef external::ExternalSystem super;
 
@@ -98,7 +87,21 @@ namespace parallel
 		 * does not happen. After the destruction, the remained *parallel processes* will be shifted to and proceeded in 
 		 * other {@link ParallelSystem} objects.
 		 */
-		virtual ~ParallelSystem() = default;
+		virtual ~ParallelSystem()
+		{
+			excluded_ = true;
+
+			// SHIFT PARALLEL INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVES
+			for (auto it = progress_list_.begin(); it != progress_list_.end(); it++)
+			{
+				// INVOKE MESSAGE AND ITS HISTORY ON PROGRESS
+				std::shared_ptr<protocol::Invoke> invoke = it->second.first;
+				std::shared_ptr<protocol::InvokeHistory> history = it->second.second;
+
+				// SEND THEM BACK
+				_Send_back_history(invoke, history);
+			}
+		};
 
 		virtual void construct(std::shared_ptr<library::XML> xml) override
 		{
@@ -111,16 +114,6 @@ namespace parallel
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		/**
-		 * Get parent {@link ParallelSystemArray}.
-		 * 
-		 * @return The parent {@link ParallelSystemArray} object.
-		 */
-		auto getSystemArray() const -> ParallelSystemArray*
-		{
-			return (ParallelSystemArray*)(base::IParallelSystemArray*)system_array_;
-		};
-
 		/**
 		 * Get performance index.
 		 * 
@@ -217,11 +210,10 @@ namespace parallel
 			enforced_ = true;
 		};
 
-	private:
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
-		void send_piece_data(std::shared_ptr<protocol::Invoke> invoke, size_t first, size_t last)
+		void _Send_piece_data(std::shared_ptr<protocol::Invoke> invoke, size_t first, size_t last)
 		{
 			std::shared_ptr<protocol::Invoke> my_invoke(new protocol::Invoke(invoke->getListener()));
 			{
@@ -239,6 +231,7 @@ namespace parallel
 			sendData(my_invoke);
 		};
 
+	protected:
 		virtual void _replyData(std::shared_ptr<protocol::Invoke> invoke) override
 		{
 			if (invoke->getListener() == "_Report_history")
@@ -255,7 +248,6 @@ namespace parallel
 				replyData(invoke);
 		};
 
-	protected:
 		virtual void _Report_history(std::shared_ptr<library::XML> xml)
 		{
 			//--------
@@ -278,7 +270,7 @@ namespace parallel
 			history_list_.insert({ history->getUID(), history });
 
 			// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
-			((base::IParallelSystemArray*)system_array_)->_Complete_history(history);
+			((base::ParallelSystemArrayBase*)system_array_)->_Complete_history(history);
 		};
 
 		virtual void _Send_back_history(std::shared_ptr<protocol::Invoke> invoke, std::shared_ptr<protocol::InvokeHistory> $history)
@@ -299,7 +291,7 @@ namespace parallel
 			// RE-SEND (DISTRIBUTE) THE PIECE TO OTHER SLAVES
 			std::thread
 			(
-				&base::IParallelSystemArray::sendPieceData, (base::IParallelSystemArray*)system_array_,
+				&base::ParallelSystemArrayBase::sendPieceData, (base::ParallelSystemArrayBase*)system_array_,
 				invoke, history->getFirst(), history->getLast()
 			).detach();
 
@@ -344,6 +336,10 @@ namespace parallel
 		auto _Is_excluded() const -> bool
 		{
 			return excluded_;
+		};
+		void _Set_excluded()
+		{
+			excluded_ = true;
 		};
 	};
 };

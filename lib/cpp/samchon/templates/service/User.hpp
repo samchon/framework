@@ -2,7 +2,9 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/IProtocol.hpp>
+#include <samchon/templates/service/Client.hpp>
 
+#include <functional>
 #include <samchon/HashMap.hpp>
 #include <samchon/library/RWMutex.hpp>
 
@@ -42,18 +44,18 @@ namespace service
 	 * @handbook [Templates - Cloud Service](https://github.com/samchon/framework/wiki/CPP-Templates-Cloud_Service)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API User
-		: public virtual protocol::IProtocol
+	class User
+		: public HashMap<size_t, std::shared_ptr<Client>>,
+		public virtual protocol::IProtocol
 	{
 		friend class Server;
-		friend class Client;
 
 	private:
+		typedef HashMap<size_t, std::shared_ptr<Client>> super;
+
 		// RELATED OBJECTS
 		Server *server;
-		std::weak_ptr<User> my_weak_ptr;
-
-		HashMap<size_t, std::shared_ptr<Client>> client_map;
+		
 		library::RWMutex client_map_mtx;
 		
 		// KEY
@@ -73,7 +75,11 @@ namespace service
 		 * 
 		 * @param server The parent {@link Server} object.
 		 */
-		User(Server*);
+		User(Server *server)
+			: super()
+		{
+			this->server = server;
+		};
 		
 		/**
 		 * Default Destructor.
@@ -82,7 +88,7 @@ namespace service
 		 * children {@link Client} objects are all removed, and 30 seconds has left. If some remote client connects within 
 		  * the 30 seconds, then the {@link User} object doesn't be destructed.
 		 */
-		virtual ~User();
+		virtual ~User() = default;
 
 	protected:
 		/**
@@ -94,7 +100,18 @@ namespace service
 		virtual auto createClient() -> Client* = 0;
 
 	private:
-		void erase_client(Client*);
+		void erase_client(Client *client)
+		{
+			size_t left_size;
+			{
+				library::UniqueWriteLock w_uk(client_map_mtx);
+				left_size = erase(client->getNo());
+			}
+
+			// NO CLIENT, THEN ERASE THIS USER.
+			if (left_size == 0)
+				erase_user_function();
+		};
 
 	public:
 		/* ---------------------------------------------------------
@@ -148,7 +165,25 @@ namespace service
 		* @param id To be account id.
 		* @param authority To be authority.
 		*/
-		void setAccount(const std::string &account, int authority);
+		void setAccount(const std::string &account, int authority)
+		{
+			if (this->account == account) // SAME WITH BEFORE
+				return;
+			else if (this->account.empty() == false) // ACCOUNT IS CHANGED
+			{
+				// ERASE FROM ORDINARY ACCOUNT_MAP
+				library::UniqueWriteLock uk(*account_map_mtx);
+				account_map->erase(this->account);
+			}
+
+			// SET
+			this->account = account;
+			this->authority = authority;
+
+			// REGISTER TO ACCOUNT_MAP IN ITS SERVER
+			library::UniqueWriteLock uk(*account_map_mtx);
+			account_map->set(account, my_weak_ptr.lock());
+		};
 
 		/**
 		 * Log-out.
@@ -160,7 +195,13 @@ namespace service
 		 * can't access this {@link User} object from {@link Server.has Server.has()} and {@link Server.get Server.get()}
 		 * with the ordinary {@link getAccountID account id} more.
 		 */
-		void logout();
+		void logout()
+		{
+			if (account.empty() == false)
+				account_map->erase(account);
+
+			account.clear();
+		};
 
 	public:
 		/* ---------------------------------------------------------
@@ -186,7 +227,15 @@ namespace service
 		 * 
 		 * @param invoke {@link Invoke} message to send to all remote clients.
 		 */
-		virtual void sendData(std::shared_ptr<protocol::Invoke>) override;
+		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
+		{
+			client_map_mtx.readLock();
+			super clients = *this;
+			client_map_mtx.readUnlock();
+
+			for (auto it = clients.begin(); it != clients.end(); it++)
+				it->second->sendData(invoke);
+		};
 
 		/**
 		 * Handle a replied {@link Invoke} message.
@@ -218,6 +267,14 @@ namespace service
 		 * @param invoke An {@link Invoke invoke} message to be handled in {@link User} level.
 		 */
 		virtual void replyData(std::shared_ptr<protocol::Invoke>) = 0;
+
+	private:
+		std::weak_ptr<User> my_weak_ptr;
+
+		library::RWMutex *account_map_mtx;
+		HashMap<std::string, std::shared_ptr<User>> *account_map;
+
+		std::function<void()> erase_user_function;
 	};
 };
 };

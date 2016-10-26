@@ -28,9 +28,10 @@ namespace external
 	 * #### [Inherited] {@link ExternalSystemArray}
 	 * @copydetails external::ExternalSystemArray
 	 */
+	template <class System = ExternalSystem>
 	class ExternalServerClientArray
-		: public virtual ExternalServerArray,
-		public virtual ExternalClientArray
+		: public virtual ExternalServerArray<System>,
+		public virtual ExternalClientArray<System>
 	{
 	public:
 		/* =========================================================
@@ -44,8 +45,8 @@ namespace external
 		 * @brief Default Constructor.
 		 */
 		ExternalServerClientArray()
-			: ExternalServerArray(),
-			ExternalClientArray()
+			: ExternalServerArray<System>(),
+			ExternalClientArray<System>()
 		{
 		};
 

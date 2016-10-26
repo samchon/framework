@@ -43,9 +43,10 @@ namespace distributed
 	 * #### [Inherited] {@link DistributedSystemArray}
 	 * @copydetails distributed::DistributedSystemArray
 	 */
+	template <class System = DistributedSystem>
 	class DistributedSystemArrayMediator
-		: public virtual DistributedSystemArray,
-		public virtual parallel::ParallelSystemArrayMediator
+		: public virtual DistributedSystemArray<System>,
+		public virtual parallel::ParallelSystemArrayMediator<System>
 	{
 	public:
 		/* ---------------------------------------------------------
@@ -55,8 +56,8 @@ namespace distributed
 		 * Default Constructor.
 		 */
 		DistributedSystemArrayMediator()
-			: DistributedSystemArray(),
-			ParallelSystemArrayMediator()
+			: DistributedSystemArray<System>(),
+			ParallelSystemArrayMediator<System>()
 		{
 		};
 		virtual ~DistributedSystemArrayMediator() = default;

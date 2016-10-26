@@ -181,8 +181,8 @@ namespace service
 			this->authority = authority;
 
 			// REGISTER TO ACCOUNT_MAP IN ITS SERVER
-			library::UniqueWriteLock uk(server->account_map_mtx);
-			server->account_map.set(account, my_weak_ptr.lock());
+			library::UniqueWriteLock uk(*account_map_mtx);
+			account_map->set(account, my_weak_ptr.lock());
 		};
 
 		/**

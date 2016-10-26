@@ -24,17 +24,18 @@ namespace parallel
 	 * #### [Inherited] {@link ParallelSystemArray}
 	 * @copydetails parallel::ParallelSystemArray
 	 */
+	template <class System = ParallelSystem>
 	class ParallelClientArray
-		: public ParallelSystemArray,
-		public external::ExternalClientArray
+		: public ParallelSystemArray<System>,
+		public external::ExternalClientArray<System>
 	{
 	public:
 		/**
 		 * Default Constructor.
 		 */
 		ParallelClientArray()
-			: ParallelSystemArray(),
-			external::ExternalClientArray()
+			: ParallelSystemArray<System>(),
+			external::ExternalClientArray<System>()
 		{
 		};
 		virtual ~ParallelClientArray() = default;

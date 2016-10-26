@@ -91,9 +91,25 @@ namespace samchon.templates.parallel
 			ACCESSOR
 		--------------------------------------------------------- */
 		/**
+		 * Get parent {@link ParallelSystemArrayMediator} or {@link DistributedSystemArrayMediator} object.
+		 */
+		public getSystemArray(): 
+			ParallelSystemArrayMediator<ParallelSystem> | 
+			distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>;
+
+		/**
 		 * Get parent {@link ParallelSystemArrayMediator} object.
 		 */
-		public getSystemArray(): ParallelSystemArrayMediator<ParallelSystem> | distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>
+		public getSystemArray<SystemArray extends ParallelSystemArray<ParallelSystem>>(): SystemArray;
+
+		/**
+		 * Get parent {@link DistributedSystemArrayMediator} object.
+		 */
+		public getSystemArray<SystemArray extends distributed.DistributedSystemArray<distributed.DistributedSystem>>(): SystemArray;
+		
+		public getSystemArray(): 
+			ParallelSystemArrayMediator<ParallelSystem> | 
+			distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>
 		{
 			return this.system_array_;
 		}

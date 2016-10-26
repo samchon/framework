@@ -26,6 +26,7 @@
     <ClInclude Include="..\samchon\IndexPair.hpp" />
     <ClInclude Include="..\samchon\library.hpp" />
     <ClInclude Include="..\samchon\library\Base64.hpp" />
+    <ClInclude Include="..\samchon\library\base\SQLiBase.hpp" />
     <ClInclude Include="..\samchon\library\CaseGenerator.hpp" />
     <ClInclude Include="..\samchon\library\Charset.hpp" />
     <ClInclude Include="..\samchon\library\CombinedPermutationGenerator.hpp" />
@@ -59,7 +60,6 @@
     <ClInclude Include="..\samchon\library\SQLStatement.hpp" />
     <ClInclude Include="..\samchon\library\StringUtil.hpp" />
     <ClInclude Include="..\samchon\library\TSQLi.hpp" />
-    <ClInclude Include="..\samchon\library\TSQLStatement.hpp" />
     <ClInclude Include="..\samchon\library\UniqueAcquire.hpp" />
     <ClInclude Include="..\samchon\library\UniqueReadLock.hpp" />
     <ClInclude Include="..\samchon\library\UniqueWriteLock.hpp" />
@@ -82,8 +82,8 @@
     <ClInclude Include="..\samchon\protocol\WebSocketUtil.hpp" />
     <ClInclude Include="..\samchon\templates.hpp" />
     <ClInclude Include="..\samchon\templates\distributed.hpp" />
-    <ClInclude Include="..\samchon\templates\distributed\base\IDistributedProcess.hpp" />
-    <ClInclude Include="..\samchon\templates\distributed\base\IDistributedSystemArray.hpp" />
+    <ClInclude Include="..\samchon\templates\distributed\base\DistributedProcessBase.hpp" />
+    <ClInclude Include="..\samchon\templates\distributed\base\DistributedSystemArrayBase.hpp" />
     <ClInclude Include="..\samchon\templates\distributed\DistributedClientArray.hpp" />
     <ClInclude Include="..\samchon\templates\distributed\DistributedClientArrayMediator.hpp" />
     <ClInclude Include="..\samchon\templates\distributed\DistributedServer.hpp" />
@@ -97,6 +97,9 @@
     <ClInclude Include="..\samchon\templates\distributed\DistributedProcess.hpp" />
     <ClInclude Include="..\samchon\templates\distributed\DSInvokeHistory.hpp" />
     <ClInclude Include="..\samchon\templates\external.hpp" />
+    <ClInclude Include="..\samchon\templates\external\base\ExternalServerBase.hpp" />
+    <ClInclude Include="..\samchon\templates\external\base\ExternalSystemArrayBase.hpp" />
+    <ClInclude Include="..\samchon\templates\external\base\ExternalSystemBase.hpp" />
     <ClInclude Include="..\samchon\templates\external\ExternalClientArray.hpp" />
     <ClInclude Include="..\samchon\templates\external\ExternalServer.hpp" />
     <ClInclude Include="..\samchon\templates\external\ExternalServerArray.hpp" />
@@ -105,7 +108,7 @@
     <ClInclude Include="..\samchon\templates\external\ExternalSystemArray.hpp" />
     <ClInclude Include="..\samchon\templates\external\ExternalSystemRole.hpp" />
     <ClInclude Include="..\samchon\templates\parallel.hpp" />
-    <ClInclude Include="..\samchon\templates\parallel\base\IParallelSystemArray.hpp" />
+    <ClInclude Include="..\samchon\templates\parallel\base\ParallelSystemArrayBase.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\MediatorClient.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\MediatorServer.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\MediatorSystem.hpp" />
@@ -154,11 +157,7 @@
     <ClInclude Include="..\samchon\WeakString.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\samchon\library\Charset.cpp" />
-    <ClCompile Include="..\samchon\library\HTTPLoader.cpp" />
-    <ClCompile Include="..\samchon\library\EventDispatcher.cpp" />
-    <ClCompile Include="..\samchon\library\SQLStatement.cpp" />
-    <ClCompile Include="..\samchon\library\TSQLStatement.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{546D9E83-296C-4FB6-9C76-2BBFEC92326F}</ProjectGuid>

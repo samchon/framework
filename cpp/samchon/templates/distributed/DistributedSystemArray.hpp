@@ -4,7 +4,7 @@
 #include <samchon/templates/parallel/ParallelSystemArray.hpp>
 #	include <samchon/templates/distributed/DistributedSystem.hpp>
 #	include <samchon/templates/distributed/DistributedProcess.hpp>
-#include <samchon/templates/distributed/base/IDistributedSystemArray.hpp>
+#include <samchon/templates/distributed/base/DistributedSystemArrayBase.hpp>
 
 namespace samchon
 {
@@ -115,14 +115,13 @@ namespace distributed
 	* @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/CPP-Templates-Distributed_System)
 	* @author Jeongho Nam <http://samchon.org>
 	*/
+	template <class System = DistributedSystem>
 	class DistributedSystemArray
-		: public virtual parallel::ParallelSystemArray,
-		public base::IDistributedSystemArray
+		: public virtual parallel::ParallelSystemArray<System>,
+		public base::DistributedSystemArrayBase
 	{
-		friend class DistributedSystem;
-
 	private:
-		typedef parallel::ParallelSystemArray super;
+		typedef parallel::ParallelSystemArray<System> super;
 
 	public:
 		/* ---------------------------------------------------------
@@ -177,13 +176,6 @@ namespace distributed
 		 */
 		virtual auto createProcess(std::shared_ptr<library::XML>) -> DistributedProcess* = 0;
 
-	public:
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		SHARED_ENTITY_DEQUE_ELEMENT_ACCESSOR_INLINE(DistributedSystem)
-
-	protected:
 		/* ---------------------------------------------------------
 			HISTORY HANDLER - PERFORMANCE ESTIMATION
 		--------------------------------------------------------- */
@@ -223,7 +215,7 @@ namespace distributed
 			for (auto it = process_map_.begin(); it != process_map_.end(); it++)
 			{
 				auto process = it->second;
-				if (process->enforced_ == true)
+				if (process->isEnforced() == true)
 					continue; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
 
 				average += process->getResource();
@@ -235,7 +227,7 @@ namespace distributed
 			for (auto it = process_map_.begin(); it != process_map_.end(); it++)
 			{
 				auto process = it->second;
-				if (process->enforced_ == true)
+				if (process->isEnforced() == true)
 					continue; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
 
 				process->setResource(process->getResource() / average);
@@ -246,7 +238,7 @@ namespace distributed
 		void estimate_process_resource(std::shared_ptr<DSInvokeHistory> history)
 		{
 			DistributedProcess *process = history->getProcess();
-			if (process->enforced_ == true)
+			if (process->isEnforced() == true)
 				return; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
 
 			double average_elapsed_time_of_others = 0;
@@ -256,10 +248,10 @@ namespace distributed
 			for (auto it = process_map_.begin(); it != process_map_.end(); it++)
 			{
 				DistributedProcess *my_process = it->second.get();
-				if (my_process == process || my_process->history_list_.empty() == true)
+				if (my_process == process || my_process->_Get_history_list()->empty() == true)
 					continue;
 
-				average_elapsed_time_of_others += my_process->compute_average_elapsed_time() * my_process->getResource();
+				average_elapsed_time_of_others += my_process->_Compute_average_elapsed_time() * my_process->getResource();
 				denominator++;
 			}
 
@@ -277,10 +269,10 @@ namespace distributed
 
 				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 15%
 				double ordinary_ratio;
-				if (process->history_list_.size() < 2)
+				if (process->_Get_history_list()->size() < 2)
 					ordinary_ratio = .15;
 				else
-					ordinary_ratio = min(.85, 1.0 / (process->history_list_.size() - 1.0));
+					ordinary_ratio = min(.85, 1.0 / (process->_Get_history_list()->size() - 1.0));
 
 				// DEFINE NEW PERFORMANCE
 				process->setResource
@@ -305,7 +297,7 @@ namespace distributed
 			{
 				shared_ptr<DistributedSystem> system = this->at(i);
 
-				double avg = system->compute_average_elapsed_time();
+				double avg = system->_Compute_average_elapsed_time();
 				if (avg == -1)
 					continue;
 

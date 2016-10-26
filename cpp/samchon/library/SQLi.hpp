@@ -1,6 +1,8 @@
 #pragma once
 #include <samchon/API.hpp>
 
+#include <samchon/library/base/SQLiBase.hpp>
+
 #ifdef _WIN32
 #	ifndef WIN32_LEAN_AND_MEAN 
 #		define WIN32_LEAN_AND_MEAN 
@@ -51,7 +53,7 @@ namespace library
 	 * @handbook [Library - SQL Driver](https://github.com/samchon/framework/wiki/CPP-Library-SQL_Driver)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SQLi
+	class SQLi : public base::SQLiBase
 	{
 		friend class SQLStatement;
 
@@ -81,16 +83,6 @@ namespace library
 		 * @brief Handler of DB-connector
 		 */
 		void *hdbc;
-
-		/**
-		 * @brief SQLStatement's pointer linked with the SQLi
-		 */
-		SQLStatement *stmt;
-
-		/**
-		 * @brief Mutex ensuring concurrency with SQLStatement
-		 */
-		std::mutex stmtMutex;
 
 		/**
 		 * @brief Had connected to DBMS.
@@ -190,12 +182,9 @@ namespace library
 		 */
 		virtual void disconnect()
 		{
-			//if (stmt != nullptr)
-			//	stmt->free();
-
 			//FOR STATIC DESTRUCTION
-			stmtMutex.lock();
-
+			std::unique_lock<std::mutex> uk(stmtMutex);
+			
 			SQLDisconnect(hdbc);
 			SQLFreeHandle(SQL_HANDLE_DBC, hdbc);
 			connected = false;

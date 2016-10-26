@@ -43,9 +43,10 @@ namespace distributed
 	 * #### [Inherited] {@link DistributedSystemArray}
 	 * @copydetails distributed::DistributedSystemArray
 	 */
-	class SAMCHON_FRAMEWORK_API DistributedSystemArrayMediator
-		: public virtual DistributedSystemArray,
-		public virtual parallel::ParallelSystemArrayMediator
+	template <class System = DistributedSystem>
+	class DistributedSystemArrayMediator
+		: public virtual DistributedSystemArray<System>,
+		public virtual parallel::ParallelSystemArrayMediator<System>
 	{
 	public:
 		/* ---------------------------------------------------------
@@ -54,14 +55,25 @@ namespace distributed
 		/**
 		 * Default Constructor.
 		 */
-		DistributedSystemArrayMediator();
-		virtual ~DistributedSystemArrayMediator();
+		DistributedSystemArrayMediator()
+			: DistributedSystemArray<System>(),
+			ParallelSystemArrayMediator<System>()
+		{
+		};
+		virtual ~DistributedSystemArrayMediator() = default;
 
 	protected:
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
-		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory>) -> bool override;
+		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory> history) -> bool override
+		{
+			bool ret = DistributedSystemArray::_Complete_history(history);
+			if (ret == true)
+				getMediator()->_Complete_history(history->getUID());
+
+			return ret;
+		};
 	};
 };
 };

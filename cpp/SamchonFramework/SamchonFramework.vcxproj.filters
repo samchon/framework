@@ -19,9 +19,6 @@
     <Filter Include="Header Files\basic">
       <UniqueIdentifier>{fb8fb87d-2054-4a03-914f-cfc5c7092dce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\library">
-      <UniqueIdentifier>{a21837fe-8bc4-4739-bcf7-ae9647c60470}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\library\data">
       <UniqueIdentifier>{a56c39d1-8abc-460d-9972-4646d1310950}</UniqueIdentifier>
     </Filter>
@@ -42,27 +39,6 @@
     </Filter>
     <Filter Include="Header Files\library\utils\string">
       <UniqueIdentifier>{2e2af994-b0b8-4fa7-a703-57ac927dc75f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\data\common">
-      <UniqueIdentifier>{2802d471-4115-4207-8883-d33cd2bb08e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\data\common\critical section">
-      <UniqueIdentifier>{ebb9c0ef-0284-46c5-9f26-0f4ce6f16609}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\data\common\critical section\container">
-      <UniqueIdentifier>{2ff36964-b86d-4387-8c3d-dcd821118953}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\library\data\common\critical section\unique &amp; shared lock">
-      <UniqueIdentifier>{7f7bac72-f20a-442c-bab0-61f4e660d126}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\library\sql interface">
-      <UniqueIdentifier>{84878e71-78cc-42dd-9ffa-13edf0a806b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\library\event">
-      <UniqueIdentifier>{6db1a076-2e83-490b-b23a-aff7540f83d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\library\miscellaneous">
-      <UniqueIdentifier>{76aa68bc-8e60-4ffe-878b-f4d3c20c68ef}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\library\events">
       <UniqueIdentifier>{70cdb311-f894-4ac3-8ec6-a976e9c6e893}</UniqueIdentifier>
@@ -127,6 +103,24 @@
     <Filter Include="Header Files\library\utils\math\case generator">
       <UniqueIdentifier>{1da2e867-3792-4fd6-8cb1-c43bc92abac7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\library\common">
+      <UniqueIdentifier>{2802d471-4115-4207-8883-d33cd2bb08e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\common\critical section">
+      <UniqueIdentifier>{ebb9c0ef-0284-46c5-9f26-0f4ce6f16609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\common\critical section\container">
+      <UniqueIdentifier>{2ff36964-b86d-4387-8c3d-dcd821118953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\common\critical section\unique &amp; shared lock">
+      <UniqueIdentifier>{7f7bac72-f20a-442c-bab0-61f4e660d126}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\library\data\sql\base">
+      <UniqueIdentifier>{5f0544f2-f792-43ab-9223-125c880f3b4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\templates\external\base">
+      <UniqueIdentifier>{d08c37c1-e1a4-451d-9d2e-bce965f4eaa3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samchon\ByteArray.hpp">
@@ -157,34 +151,34 @@
       <Filter>Header Files\library\utils\string</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalDictionary.hpp">
-      <Filter>Header Files\library\data\common\critical section\container</Filter>
+      <Filter>Header Files\library\common\critical section\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalList.hpp">
-      <Filter>Header Files\library\data\common\critical section\container</Filter>
+      <Filter>Header Files\library\common\critical section\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalMap.hpp">
-      <Filter>Header Files\library\data\common\critical section\container</Filter>
+      <Filter>Header Files\library\common\critical section\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalSet.hpp">
-      <Filter>Header Files\library\data\common\critical section\container</Filter>
+      <Filter>Header Files\library\common\critical section\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalVector.hpp">
-      <Filter>Header Files\library\data\common\critical section\container</Filter>
+      <Filter>Header Files\library\common\critical section\container</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\UniqueAcquire.hpp">
-      <Filter>Header Files\library\data\common\critical section\unique &amp; shared lock</Filter>
+      <Filter>Header Files\library\common\critical section\unique &amp; shared lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\UniqueReadLock.hpp">
-      <Filter>Header Files\library\data\common\critical section\unique &amp; shared lock</Filter>
+      <Filter>Header Files\library\common\critical section\unique &amp; shared lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\UniqueWriteLock.hpp">
-      <Filter>Header Files\library\data\common\critical section\unique &amp; shared lock</Filter>
+      <Filter>Header Files\library\common\critical section\unique &amp; shared lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\RWMutex.hpp">
-      <Filter>Header Files\library\data\common\critical section</Filter>
+      <Filter>Header Files\library\common\critical section</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\Semaphore.hpp">
-      <Filter>Header Files\library\data\common\critical section</Filter>
+      <Filter>Header Files\library\common\critical section</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\GAParameters.hpp">
       <Filter>Header Files\library\utils\math\genetic algorithm</Filter>
@@ -211,10 +205,10 @@
       <Filter>Header Files\library\utils\math\case generator</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalAllocator.hpp">
-      <Filter>Header Files\library\data\common\critical section</Filter>
+      <Filter>Header Files\library\common\critical section</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\IOperator.hpp">
-      <Filter>Header Files\library\data\common</Filter>
+      <Filter>Header Files\library\common</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\Math.hpp">
       <Filter>Header Files\library\utils\math</Filter>
@@ -235,9 +229,6 @@
       <Filter>Header Files\library\data\sql</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\TSQLi.hpp">
-      <Filter>Header Files\library\data\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\TSQLStatement.hpp">
       <Filter>Header Files\library\data\sql</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\HTTPLoader.hpp">
@@ -274,13 +265,13 @@
       <Filter>Header Files\basic</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\SharedAcquire.hpp">
-      <Filter>Header Files\library\data\common\critical section\unique &amp; shared lock</Filter>
+      <Filter>Header Files\library\common\critical section\unique &amp; shared lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\SharedReadLock.hpp">
-      <Filter>Header Files\library\data\common\critical section\unique &amp; shared lock</Filter>
+      <Filter>Header Files\library\common\critical section\unique &amp; shared lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\SharedWriteLock.hpp">
-      <Filter>Header Files\library\data\common\critical section\unique &amp; shared lock</Filter>
+      <Filter>Header Files\library\common\critical section\unique &amp; shared lock</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\ErrorEvent.hpp">
       <Filter>Header Files\library\events</Filter>
@@ -519,31 +510,31 @@
     <ClInclude Include="..\samchon\protocol\WebSocketUtil.hpp">
       <Filter>Header Files\protocol\basic components\web-socket</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\templates\parallel\base\IParallelSystemArray.hpp">
+    <ClInclude Include="..\samchon\library\base\SQLiBase.hpp">
+      <Filter>Header Files\library\data\sql\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\external\base\ExternalSystemArrayBase.hpp">
+      <Filter>Header Files\templates\external\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\external\base\ExternalServerBase.hpp">
+      <Filter>Header Files\templates\external\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\external\base\ExternalSystemBase.hpp">
+      <Filter>Header Files\templates\external\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\distributed\base\DistributedProcessBase.hpp">
+      <Filter>Header Files\templates\distributed\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\distributed\base\DistributedSystemArrayBase.hpp">
+      <Filter>Header Files\templates\distributed\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\parallel\base\ParallelSystemArrayBase.hpp">
       <Filter>Header Files\templates\parallel\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\templates\distributed\base\IDistributedProcess.hpp">
-      <Filter>Header Files\templates\distributed\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\templates\distributed\base\IDistributedSystemArray.hpp">
-      <Filter>Header Files\templates\distributed\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\samchon\library\SQLStatement.cpp">
-      <Filter>Source Files\library\sql interface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\TSQLStatement.cpp">
-      <Filter>Source Files\library\sql interface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\EventDispatcher.cpp">
-      <Filter>Source Files\library\event</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\Charset.cpp">
-      <Filter>Source Files\library\miscellaneous</Filter>
-    </ClCompile>
-    <ClCompile Include="..\samchon\library\HTTPLoader.cpp">
-      <Filter>Source Files\library\miscellaneous</Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

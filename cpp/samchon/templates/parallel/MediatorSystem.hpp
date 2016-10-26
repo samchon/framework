@@ -4,11 +4,12 @@
 #include <samchon/templates/slave/SlaveSystem.hpp>
 #include <samchon/protocol/IListener.hpp>
 
-#include <samchon/protocol/InvokeHistory.hpp>
-#include <samchon/templates/parallel/base/IParallelSystemArray.hpp>
-#include <samchon/templates/distributed/base/IDistributedSystemArray.hpp>
+#include <samchon/templates/parallel/base/ParallelSystemArrayBase.hpp>
+#include <samchon/templates/distributed/base/DistributedSystemArrayBase.hpp>
+#include <samchon/templates/distributed/base/DistributedProcessBase.hpp>
 
 #include <samchon/HashMap.hpp>
+#include <samchon/protocol/InvokeHistory.hpp>
 
 namespace samchon
 {
@@ -21,8 +22,6 @@ namespace templates
 {
 namespace parallel
 {
-	class ParallelSystemArrayMediator;
-
 	/**
 	 * A mediator, the master driver.
 	 * 
@@ -59,7 +58,7 @@ namespace parallel
 	private:
 		typedef slave::SlaveSystem super;
 
-		ParallelSystemArrayMediator *system_array_;
+		external::base::ExternalSystemArrayBase *system_array_;
 		HashMap<size_t, std::shared_ptr<protocol::InvokeHistory>> progress_list_;
 
 	public:
@@ -71,7 +70,7 @@ namespace parallel
 		 * 
 		 * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
 		 */
-		MediatorSystem(ParallelSystemArrayMediator* systemArray)
+		MediatorSystem(external::base::ExternalSystemArrayBase* systemArray)
 			: super()
 		{
 			this->system_array_ = systemArray;
@@ -97,9 +96,10 @@ namespace parallel
 		/**
 		 * Get parent {@link ParallelSystemArrayMediator} object.
 		 */
-		auto getSystemArray() const -> ParallelSystemArrayMediator*
+		template <class SystemArray>
+		auto getSystemArray() const -> SystemArray*
 		{
-			return system_array_;
+			return (SystemArray*)system_array_;
 		};
 
 		/* ---------------------------------------------------------
@@ -115,7 +115,7 @@ namespace parallel
 				return;
 
 			// COMPLETE THE HISTORY
-			std::shared_ptr<InvokeHistory> history = progress_list_.get(uid);
+			std::shared_ptr<protocol::InvokeHistory> history = progress_list_.get(uid);
 			history->complete();
 
 			// ERASE THE HISTORY ON PROGRESS LIST
@@ -131,7 +131,7 @@ namespace parallel
 			if (invoke->has("_History_uid") == true)
 			{
 				// REGISTER THIS PROCESS ON HISTORY LIST
-				std::shared_ptr<InvokeHistory> history(new InvokeHistory(invoke));
+				std::shared_ptr<protocol::InvokeHistory> history(new protocol::InvokeHistory(invoke));
 				progress_list_.insert({ history->getUID(), history });
 
 				if (invoke->has("_Piece_first") == true)
@@ -141,21 +141,21 @@ namespace parallel
 					size_t last = invoke->get("_Piece_last")->getValue<size_t>();
 
 					invoke->erase(invoke->end() - 2, invoke->end());
-					((base::IParallelSystemArray*)system_array_)->sendPieceData(invoke, first, last);
+					((base::ParallelSystemArrayBase*)system_array_)->sendPieceData(invoke, first, last);
 				}
 				else if (invoke->has("_Process_name") == true)
 				{
 					// DISTRIBUTED PROCESS
-					auto ds_system_array = (distributed::base::IDistributedSystemArray*)system_array_;
+					auto ds_system_array = (distributed::base::DistributedSystemArrayBase*)system_array_;
 
 					// FIND THE MATCHED ROLE
-					const string &process_name = invoke->get("_Process_name")->getValue<string>();
+					const std::string &process_name = invoke->get("_Process_name")->getValue<std::string>();
 					if (ds_system_array->hasProcess(process_name) == false)
 						return;
 
 					// SEND DATA VIA THE ROLE
 					auto process = ds_system_array->getProcess(process_name);
-					((distributed::base::IDistributedProcess*)process.get())->sendData(invoke, 1.0);
+					((distributed::base::DistributedProcessBase*)(process.get()))->sendData(invoke, 1.0);
 				}
 			}
 			else

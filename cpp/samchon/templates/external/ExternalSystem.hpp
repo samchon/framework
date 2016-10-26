@@ -3,25 +3,20 @@
 
 #include <samchon/protocol/SharedEntityDeque.hpp>
 #	include <samchon/templates/external/ExternalSystemRole.hpp>
+#include <samchon/templates/external/base/ExternalSystemBase.hpp>
 #include <samchon/protocol/IProtocol.hpp>
+
+#include <samchon/templates/external/base/ExternalSystemArrayBase.hpp>
+#include <samchon/templates/external/base/ExternalServerBase.hpp>
 
 #include <samchon/protocol/ClientDriver.hpp>
 
 namespace samchon
 {
-namespace protocol
-{
-	class Communicator;
-	class ClientDriver;
-};
-
 namespace templates
 {
 namespace external
 {
-	class ExternalSystemArray;
-	class ExternalServer;
-	
 	/**
 	 * An external system driver.
 	 * 
@@ -57,19 +52,15 @@ namespace external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/CPP-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class ExternalSystem 
+	class ExternalSystem
 		: public protocol::SharedEntityDeque<ExternalSystemRole>,
+		public base::ExternalSystemBase,
 		public virtual protocol::IProtocol
 	{
-		friend class ExternalClientArray;
-		friend class ExternalServer;
-
 	private:
 		typedef protocol::SharedEntityDeque<ExternalSystemRole> super;
 
 	protected:
-		ExternalSystemArray *system_array_;
-
 		std::shared_ptr<protocol::Communicator> communicator_;
 	
 		/**
@@ -95,7 +86,7 @@ namespace external
 		 * 
 		 * @param systemArray The parent {@link ExternalSystemArray} object.
 		 */
-		ExternalSystem(ExternalSystemArray *systemArray)
+		ExternalSystem(base::ExternalSystemArrayBase *systemArray)
 			: super()
 		{
 			this->system_array_ = systemArray;
@@ -107,7 +98,7 @@ namespace external
 		 * @param systemArray The parent {@link ExternalSystemArray} object.
 		 * @param communicator Communicator with the remote, external system.
 		 */
-		ExternalSystem(ExternalSystemArray *systemArray, std::shared_ptr<protocol::ClientDriver> driver)
+		ExternalSystem(base::ExternalSystemArrayBase *systemArray, std::shared_ptr<protocol::ClientDriver> driver)
 		{
 			this->communicator_ = driver;
 		};
@@ -125,21 +116,20 @@ namespace external
 		{
 			name = xml->fetchProperty("name");
 
+			base::ExternalServerBase *server = dynamic_cast<base::ExternalServerBase*>(this);
+			if (server != nullptr)
+			{
+				server->ip = xml->getProperty<std::string>("ip");
+				server->port = xml->getProperty<int>("port");
+			}
+
 			super::construct(xml);
 		};
 
 	public:
 		/* ---------------------------------------------------------
 			ACCESSORS
-		--------------------------------------------------------- */
-		/**
-		 * Get parent {@link ExternalSystemArray} object.
-		 */
-		auto getSystemArray() const -> ExternalSystemArray*
-		{
-			return system_array_;
-		};
-		
+		--------------------------------------------------------- */	
 		/**
 		 * Identifier of {@link ExternalSystem} is its {@link name}.
 		 * 
@@ -212,6 +202,13 @@ namespace external
 		{
 			std::shared_ptr<library::XML> &xml = super::toXML();
 			xml->setProperty("name", name);
+
+			const base::ExternalServerBase *server = dynamic_cast<const base::ExternalServerBase*>(this);
+			if (server != nullptr)
+			{
+				xml->setProperty("ip", server->ip);
+				xml->setProperty("port", server->port);
+			}
 
 			return xml;
 		};

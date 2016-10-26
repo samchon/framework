@@ -4,6 +4,7 @@
 #include <samchon/templates/parallel/ParallelSystemArray.hpp>
 #	include <samchon/templates/distributed/DistributedSystem.hpp>
 #	include <samchon/templates/distributed/DistributedProcess.hpp>
+#include <samchon/templates/distributed/base/DistributedSystemArrayBase.hpp>
 
 namespace samchon
 {
@@ -114,15 +115,13 @@ namespace distributed
 	* @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/CPP-Templates-Distributed_System)
 	* @author Jeongho Nam <http://samchon.org>
 	*/
-	class SAMCHON_FRAMEWORK_API DistributedSystemArray
-		: public virtual parallel::ParallelSystemArray
+	template <class System = DistributedSystem>
+	class DistributedSystemArray
+		: public virtual parallel::ParallelSystemArray<System>,
+		public base::DistributedSystemArrayBase
 	{
-		friend class DistributedSystem;
-
 	private:
-		typedef parallel::ParallelSystemArray super;
-
-		HashMap<std::string, std::shared_ptr<DistributedProcess>> process_map_;
+		typedef parallel::ParallelSystemArray<System> super;
 
 	public:
 		/* ---------------------------------------------------------
@@ -131,10 +130,42 @@ namespace distributed
 		/**
 		 * Default Constructor.
 		 */
-		DistributedSystemArray();
-		virtual ~DistributedSystemArray();
+		DistributedSystemArray()
+			: super()
+		{
+		};
+		virtual ~DistributedSystemArray() = default;
 
-		virtual void construct(std::shared_ptr<library::XML>) override;
+		virtual void construct(std::shared_ptr<library::XML> xml) override
+		{
+			//--------
+			// CONSTRUCT ROLES
+			//--------
+			// CLEAR ORDINARY ROLES
+			process_map_.clear();
+
+			// CREATE ROLES
+			if (xml->has("processes") == true && xml->get("processes")->front()->has("process") == true)
+			{
+				std::shared_ptr<library::XMLList> &role_xml_list = xml->get("processes")->front()->get("process");
+				for (size_t i = 0; i < role_xml_list->size(); i++)
+				{
+					std::shared_ptr<library::XML> &role_xml = role_xml_list->at(i);
+
+					// CONSTRUCT ROLE FROM XML
+					std::shared_ptr<DistributedProcess> role(createProcess(role_xml));
+					role->construct(role_xml);
+
+					// AND INSERT TO ROLE_MAP
+					insertProcess(role);
+				}
+			}
+
+			//--------
+			// CONSTRUCT SYSTEMS
+			//--------
+			super::construct(xml);
+		};
 
 	protected:
 		/**
@@ -145,86 +176,182 @@ namespace distributed
 		 */
 		virtual auto createProcess(std::shared_ptr<library::XML>) -> DistributedProcess* = 0;
 
-	public:
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		SHARED_ENTITY_DEQUE_ELEMENT_ACCESSOR_INLINE(DistributedSystem)
-
-		/**
-		 * Get process map. 
-		 * 
-		 * Gets an {@link HashMap} containing {@link DistributedProcess} objects with their *key*.
-		 * 
-		 * @return An {@link HasmMap> containing pairs of string and {@link DistributedProcess} object.
-		 */
-		auto getProcessMap() const -> const HashMap<std::string, std::shared_ptr<DistributedProcess>>&
-		{
-			return process_map_;
-		};
-
-		/**
-		 * Test whether the process exists.
-		 * 
-		 * @param name Name, identifier of target {@link DistributedProcess process}.
-		 * 
-		 * @return Whether the process has or not.
-		 */
-		auto hasProcess(const std::string &name) const -> bool
-		{
-			return process_map_.has(name);
-		};
-
-		/**
-		 * Get a process.
-		 * 
-		 * @param name Name, identifier of target {@link DistributedProcess process}.
-		 * 
-		 * @return The specified process.
-		 */
-		auto getProcess(const std::string &name) const -> std::shared_ptr<DistributedProcess>
-		{
-			return process_map_.get(name);
-		};
-
-		/**
-		 * Insert a process.
-		 * 
-		 * @param process A process to be inserted.
-		 * @return Success flag.
-		 */
-		void insertProcess(std::shared_ptr<DistributedProcess> role)
-		{
-			process_map_.emplace(role->getName(), role);
-		};
-
-		/**
-		 * Erase a process.
-		 * 
-		 * @param name Name, identifier of target {@link DistributedProcess process}.
-		 */
-		void eraseProcess(const std::string &name)
-		{
-			process_map_.erase(name);
-		};
-
-	protected:
 		/* ---------------------------------------------------------
 			HISTORY HANDLER - PERFORMANCE ESTIMATION
 		--------------------------------------------------------- */
-		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory>) -> bool override;
+		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory> $history) -> bool override
+		{
+			std::shared_ptr<DSInvokeHistory> history = std::dynamic_pointer_cast<DSInvokeHistory>($history);
 
-		virtual void _Normalize_performance() override;
+			// ParallelSystem's history -> PRInvokeHistory
+			if (history == nullptr)
+				return super::_Complete_history($history);
+
+			//--------
+			// DistributedProcess's history -> DSInvokeHistory
+			//--------
+			// NO ROLE, THEN FAILED TO COMPLETE
+			if (history->getProcess() == nullptr)
+				return false;
+
+			// ESTIMATE PERFORMANCE INDEXES
+			estimate_system_performance(history); // ESTIMATE SYSTEMS' INDEX
+			estimate_process_resource(history); // ESTIMATE PROCESS' PERFORMANCE
+
+			// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SYSTEMS AND ROLES
+			_Normalize_performance();
+			return true;
+		};
+
+		virtual void _Normalize_performance() override
+		{
+			// NORMALIZE SYSTEMS' PERFORMANCE INDEXES
+			super::_Normalize_performance();
+
+			// NORMALIZE ROLES' PERFORMANCE INDEXES
+			double average = 0;
+			size_t denominator = 0;
+
+			for (auto it = process_map_.begin(); it != process_map_.end(); it++)
+			{
+				auto process = it->second;
+				if (process->isEnforced() == true)
+					continue; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
+
+				average += process->getResource();
+				denominator++;
+			}
+			average /= (double)denominator;
+
+			// DIVIDE FROM THE AVERAGE
+			for (auto it = process_map_.begin(); it != process_map_.end(); it++)
+			{
+				auto process = it->second;
+				if (process->isEnforced() == true)
+					continue; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
+
+				process->setResource(process->getResource() / average);
+			}
+		};
 
 	private:
-		void estimate_process_resource(std::shared_ptr<DSInvokeHistory>);
-		void estimate_system_performance(std::shared_ptr<DSInvokeHistory>);
+		void estimate_process_resource(std::shared_ptr<DSInvokeHistory> history)
+		{
+			DistributedProcess *process = history->getProcess();
+			if (process->isEnforced() == true)
+				return; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
+
+			double average_elapsed_time_of_others = 0;
+			size_t denominator = 0;
+
+			// COMPUTE AVERAGE ELAPSED TIME
+			for (auto it = process_map_.begin(); it != process_map_.end(); it++)
+			{
+				DistributedProcess *my_process = it->second.get();
+				if (my_process == process || my_process->_Get_history_list()->empty() == true)
+					continue;
+
+				average_elapsed_time_of_others += my_process->_Compute_average_elapsed_time() * my_process->getResource();
+				denominator++;
+			}
+
+			// COMPARE WITH THIS HISTORY'S ELAPSED TIME
+			if (denominator != 0)
+			{
+				// DIVE WITH DENOMINATOR
+				average_elapsed_time_of_others /= (double)denominator;
+
+				// DEDUCT NEW PERFORMANCE INDEX BASED ON THE EXECUTION TIME
+				//	- ROLE'S PERFORMANCE MEANS; HOW MUCH TIME THE ROLE NEEDS
+				//	- ELAPSED TIME IS LONGER, THEN PERFORMANCE IS HIGHER
+				double elapsed_time = history->computeElapsedTime() / history->getWeight(); // CONSIDER WEIGHT
+				double new_performance = elapsed_time / average_elapsed_time_of_others; // THE NEW RESOURCE
+
+				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 15%
+				double ordinary_ratio;
+				if (process->_Get_history_list()->size() < 2)
+					ordinary_ratio = .15;
+				else
+					ordinary_ratio = min(.85, 1.0 / (process->_Get_history_list()->size() - 1.0));
+
+				// DEFINE NEW PERFORMANCE
+				process->setResource
+				(
+					(process->getResource() * ordinary_ratio)
+					+ (new_performance * (1 - ordinary_ratio))
+				);
+			}
+		};
+
+		void estimate_system_performance(std::shared_ptr<DSInvokeHistory> history)
+		{
+			DistributedSystem *system = history->getSystem();
+			if (system->isEnforced() == true)
+				return; // THE PERFORMANCE INDEX IS ENFORCED. IT DOESN'T PERMIT REVALUATION
+
+			double average_elapsed_time_of_others = 0;
+			size_t denominator = 0;
+
+			// COMPUTE AVERAGE ELAPSED TIME
+			for (size_t i = 0; i < this->size(); i++)
+			{
+				shared_ptr<DistributedSystem> system = this->at(i);
+
+				double avg = system->_Compute_average_elapsed_time();
+				if (avg == -1)
+					continue;
+
+				average_elapsed_time_of_others += avg;
+				denominator++;
+			}
+
+			// COMPARE WITH THIS HISTORY'S ELAPSED TIME
+			if (denominator != 0)
+			{
+				// DIVE WITH DENOMINATOR
+				average_elapsed_time_of_others /= denominator;
+
+				// DEDUCT NEW PERFORMANCE INDEX BASED ON THE EXECUTION TIME
+				//	- SYSTEM'S PERFORMANCE MEANS; HOW FAST THE SYSTEM IS
+				//	- ELAPSED TIME IS LOWER, THEN PERFORMANCE IS HIGHER
+				double elapsed_time = history->computeElapsedTime() / history->getWeight();
+				double new_performance = average_elapsed_time_of_others / elapsed_time;
+
+				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 30%
+				double ordinary_ratio;
+				if (system->_Get_history_list()->size() < 2)
+					ordinary_ratio = .3;
+				else
+					ordinary_ratio = min(0.7, 1.0 / (system->_Get_history_list()->size() - 1.0));
+
+				// DEFINE NEW PERFORMANCE
+				system->setPerformance
+				(
+					(system->getPerformance() * ordinary_ratio)
+					+ (new_performance * (1 - ordinary_ratio))
+				);
+			}
+		};
 
 	public:
 		/* ---------------------------------------------------------
 			EXPORTERS
 		--------------------------------------------------------- */
-		virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override
+		{
+			std::shared_ptr<library::XML> &xml = super::toXML();
+			if (process_map_.empty() == true)
+				return xml;
+
+			std::shared_ptr<library::XML> processes_xml(new library::XML());
+			{
+				processes_xml->setTag("processes");
+				for (auto it = process_map_.begin(); it != process_map_.end(); it++)
+					processes_xml->push_back(it->second->toXML());
+			}
+			xml->push_back(processes_xml);
+			return xml;
+		};
 	};
 };
 };

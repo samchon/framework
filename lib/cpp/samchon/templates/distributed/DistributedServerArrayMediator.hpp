@@ -4,6 +4,8 @@
 #include <samchon/templates/distributed/DistributedSystemArrayMediator.hpp>
 #include <samchon/templates/external/ExternalServerArray.hpp>
 
+#include <samchon/templates/distributed/DistributedServer.hpp>
+
 namespace samchon
 {
 namespace templates
@@ -23,17 +25,18 @@ namespace distributed
 	 * #### [Inherited] {@link DistributedSystemArrayMediator}
 	 * @copydetails distributed::DistributedSystemArrayMediator
 	 */
+	template <class System = DistributedServer>
 	class DistributedServerArrayMediator
-		: public DistributedSystemArrayMediator,
-		public external::ExternalServerArray
+		: public DistributedSystemArrayMediator<System>,
+		public external::ExternalServerArray<System>
 	{
 	public:
 		/**
 		 * Default Constructor.
 		 */
 		DistributedServerArrayMediator()
-			: DistributedSystemArrayMediator(),
-			external::ExternalServerArray()
+			: DistributedSystemArrayMediator<System>(),
+			external::ExternalServerArray<System>()
 		{
 		};
 		virtual ~DistributedServerArrayMediator() = default;

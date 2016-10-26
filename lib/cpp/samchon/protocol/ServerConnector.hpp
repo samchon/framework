@@ -3,8 +3,6 @@
 
 #include <samchon/protocol/Communicator.hpp>
 
-#include <string>
-
 namespace samchon
 {
 namespace protocol
@@ -36,13 +34,13 @@ namespace protocol
 	 * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/CPP-Protocol-Basic_Components#serverconnector)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API ServerConnector
+	class ServerConnector
 		: public virtual Communicator
 	{
 	protected:
 		std::unique_ptr<boost::asio::io_service> io_service;
 
-		std::unique_ptr<EndPoint> endpoint;
+		std::unique_ptr<boost::asio::ip::tcp::endpoint> endpoint;
 
 	public:
 		/* -----------------------------------------------------------
@@ -54,12 +52,15 @@ namespace protocol
 		 * @param listener A listener object to listen replied message from newly connected client in
 		 *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
 		 */
-		ServerConnector(IProtocol *listener);
+		ServerConnector(IProtocol *listener)
+		{
+			this->listener = listener;
+		};
 		
 		/**
 		 * Default Destructor.
 		 */
-		virtual ~ServerConnector();
+		virtual ~ServerConnector() = default;
 
 		/* -----------------------------------------------------------
 			CONNECTOR
@@ -83,7 +84,25 @@ namespace protocol
 		 *			 successful.
 		 * @param port The port number to connect to.
 		 */
-		virtual void connect(const std::string &ip, int port);
+		virtual void connect(const std::string &ip, int port)
+		{
+			_Connect(ip, port);
+
+			listen_message();
+		};
+
+	protected:
+		void _Connect(const std::string &ip, int port)
+		{
+			if (socket != nullptr && socket->is_open() == true)
+				throw std::logic_error("Already connected");
+
+			io_service.reset(new boost::asio::io_service());
+			endpoint.reset(new boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), port));
+
+			socket.reset(new boost::asio::ip::tcp::socket(*io_service, boost::asio::ip::tcp::v4()));
+			socket->connect(*endpoint);
+		};
 	};
 };
 };

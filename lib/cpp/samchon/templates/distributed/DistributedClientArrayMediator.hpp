@@ -24,14 +24,15 @@ namespace distributed
 	 * #### [Inherited] {@link DistributedSystemArrayMediator}
 	 * @copydetails distributed::DistributedSystemArrayMediator
 	 */
+	template <class System = DistributedSystem>
 	class DistributedClientArrayMediator
-		: public DistributedSystemArrayMediator,
-		public external::ExternalClientArray
+		: public DistributedSystemArrayMediator<System>,
+		public external::ExternalClientArray<System>
 	{
 	public:
 		DistributedClientArrayMediator()
-			: DistributedSystemArrayMediator(),
-			external::ExternalClientArray()
+			: DistributedSystemArrayMediator<System>(),
+			external::ExternalClientArray<System>()
 		{
 		};
 		virtual ~DistributedClientArrayMediator() = default;

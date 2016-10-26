@@ -238,37 +238,6 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 	bool reserved = headerMap.has("Content-Length");
 	bool chunked = headerMap.has("Transfer-Encoding") && headerMap.get("Transfer-Encoding") == "chunked";
 
-	/*boost::asio::streambuf response;
-	{
-		boost::asio::read_until(socket, response, "\r\n\r\n");
-
-		std::istream response_stream(&response);
-		string item;
-
-		while (std::getline(response_stream, item) && item != "\r")
-		{
-			size_t index = item.find(":");
-			if (index == string::npos)
-				continue;
-
-			string &key = item.substr(0, index);
-			string &value = item.substr(index + 2);
-
-			if (value.back() == '\r')
-				value.pop_back();
-
-			headerMap.insert({ key, value });
-		}
-
-		// REGISTER COOKIE
-		if (headerMap.has("Set-Cookie") == true)
-		{
-			string &cookie = headerMap.get("Set-Cookie");
-
-			((TreeMap<string, string>*)&cookie_map)->set(host, cookie);
-		}
-	}*/
-
 	//////////////////////////////////////////////////
 	//	GET DATA
 	//////////////////////////////////////////////////
@@ -298,41 +267,6 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 				break;
 		}
 	}
-
-	/*else if (chunked == true)
-	{
-		while (true)
-		{
-			string chunk;
-			boost::system::error_code error;
-
-			while (true)
-			{
-				array<char, 1> chunkPiece;
-				socket.read_some(boost::asio::buffer(chunkPiece), error);
-
-				if (error)
-					return data;
-
-				chunk += chunkPiece[0];
-				if (chunk.size() > 2 && chunk.substr(chunk.size() - 2) == "\r\n")
-					break;
-			}
-			
-			size_t size = (size_t)stoull(chunk.substr(0, chunk.size() - 1), 0, 16);
-			if (size == 0)
-				break;
-
-			vector<unsigned char> piece(size + 2, NULL);
-			socket.read_some(boost::asio::buffer(piece), error);
-
-			if (error)
-				break;
-
-			data.insert(data.end(), piece.begin(), piece.begin() + size);
-		}
-	}*/
-
 	else if (chunked == true)
 	{
 		vector<unsigned char> prevData;
@@ -353,31 +287,6 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 			
 			if (wstr.substring(wstr.size() - 7, wstr.size()) == "\r\n0\r\n\r\n")
 			{
-				// FINDS ALL \R\N
-				/*vector<WeakString> wstrArray = wstr.split("\r\n");
-
-				for (size_t i = 0; i < wstrArray.size(); i++)
-				{
-					WeakString wstr = wstrArray[i];
-					bool isChunkLine = true;
-
-					for (size_t j = 0; j < wstr.size(); j++)
-					{
-						char ch = wstr[j];
-
-						if (!(('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'f')))
-						{
-							isChunkLine = false;
-							break;
-						}
-					}
-
-					if (isChunkLine == false)
-						postStr += wstr.str() + "\r\n";
-					else
-						cout << wstr.str() << endl;
-				}*/
-
 				size_t startIndex = 0;
 				size_t endIndex;
 
@@ -400,11 +309,6 @@ auto HTTPLoader::load(const URLVariables &parameters) const -> ByteArray
 				break;
 			}
 		}
-
-		/*ByteArray data;
-		data.write(postStr);
-
-		return data;*/
 	}
 	else
 	{

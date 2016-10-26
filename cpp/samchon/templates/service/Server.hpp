@@ -223,7 +223,7 @@ namespace service
 
 			// REGISTER TO USER
 			{
-				UniqueWriteLock uk(user->client_map_mtx);
+				library::UniqueWriteLock uk(user->client_map_mtx);
 
 				client->no = ++user->sequence;
 				user->insert({ client->no, client });
@@ -256,7 +256,7 @@ namespace service
 		{
 			// USER DOESN'T BE ERASED AT THAT TIME
 			// IT WAITS UNTIL 30 SECONDS TO KEEP SESSION
-			std::this_thread::sleep_for(chrono::seconds(30));
+			std::this_thread::sleep_for(std::chrono::seconds(30));
 
 			library::UniqueReadLock r_uk(user->client_map_mtx);
 			if (user->empty() == false)

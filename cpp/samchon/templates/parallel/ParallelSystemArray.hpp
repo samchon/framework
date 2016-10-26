@@ -3,7 +3,7 @@
 
 #include <samchon/templates/external/ExternalSystemArray.hpp>
 #	include <samchon/templates/parallel/ParallelSystem.hpp>
-#include <samchon/templates/parallel/base/IParallelSystemArray.hpp>
+#include <samchon/templates/parallel/base/ParallelSystemArrayBase.hpp>
 
 namespace samchon
 {
@@ -73,15 +73,13 @@ namespace parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/CPP-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
+	template <class System = ParallelSystem>
 	class ParallelSystemArray
-		: public virtual external::ExternalSystemArray,
-		public base::IParallelSystemArray
+		: public virtual external::ExternalSystemArray<System>,
+		public base::ParallelSystemArrayBase
 	{
-		friend class ParallelSystem;
-		friend class distributed::DistributedProcess;
-
 	private:
-		typedef external::ExternalSystemArray super;
+		typedef external::ExternalSystemArray<System> super;
 
 	public:
 		/* ---------------------------------------------------------
@@ -92,15 +90,10 @@ namespace parallel
 		 */
 		ParallelSystemArray()
 			: super(),
-			base::IParallelSystemArray()
+			base::ParallelSystemArrayBase()
 		{
 		};
 		virtual ~ParallelSystemArray() = default;
-
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		SHARED_ENTITY_DEQUE_ELEMENT_ACCESSOR_INLINE(ParallelSystem)
 
 		/* =========================================================
 			INVOKE MESSAGE CHAIN
@@ -198,7 +191,7 @@ namespace parallel
 
 			// POP EXCLUDEDS
 			for (size_t i = 0; i < size(); i++)
-				if (at(i)->excluded_ == false)
+				if (at(i)->_Is_excluded() == false)
 					system_array.push_back(at(i));
 
 			// ORDERS
@@ -214,7 +207,7 @@ namespace parallel
 					continue;
 
 				// SEND DATA WITH PIECES' INDEXES
-				threads.emplace_back(&ParallelSystem::send_piece_data, system.get(), invoke, first, first + piece_size);
+				threads.emplace_back(&ParallelSystem::_Send_piece_data, system.get(), invoke, first, first + piece_size);
 				first += piece_size; // FOR THE NEXT STEP
 			}
 
@@ -234,7 +227,7 @@ namespace parallel
 
 			// ALL THE SUB-TASKS ARE DONE?
 			for (size_t i = 0; i < size(); i++)
-				if (at(i)->progress_list_.has(uid) == true)
+				if (at(i)->_Get_progress_list()->has(uid) == true)
 					return false; // IT'S ON A PROCESS IN SOME SYSTEM.
 
 			//--------
@@ -249,11 +242,11 @@ namespace parallel
 			for (size_t i = 0; i < size(); i++)
 			{
 				std::shared_ptr<ParallelSystem> system = at(i);
-				if (system->history_list_.has(uid) == false)
+				if (system->_Get_history_list()->has(uid) == false)
 					continue; // NO HISTORY (HAVE NOT PARTICIPATED IN THE PARALLEL PROCESS)
 
 							  // COMPUTE PERFORMANCE INDEX BASIS ON EXECUTION TIME OF THIS PARALLEL PROCESS
-				std::shared_ptr<PRInvokeHistory> my_history = std::dynamic_pointer_cast<PRInvokeHistory>(system->history_list_.get(uid));
+				std::shared_ptr<PRInvokeHistory> my_history = std::dynamic_pointer_cast<PRInvokeHistory>(system->_Get_history_list()->get(uid));
 				double performance_index = my_history->computeSize() / (double)my_history->computeElapsedTime();
 
 				// PUSH TO SYSTEM PAIRS AND ADD TO AVERAGE
@@ -267,19 +260,19 @@ namespace parallel
 			{
 				// SYSTEM AND NEW PERFORMANCE INDEX BASIS ON THE EXECUTION TIME
 				std::shared_ptr<ParallelSystem> system = system_pairs[i].first;
-				if (system->enforced_ == true)
+				if (system->isEnforced() == true)
 					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
 
 				double new_performance = system_pairs[i].second / performance_index_average;
 
 				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX
 				double ordinary_ratio;
-				if (system->history_list_.size() < 2)
+				if (system->_Get_history_list()->size() < 2)
 					ordinary_ratio = .3;
 				else
-					ordinary_ratio = std::min(0.7, 1.0 / (system->history_list_.size() - 1.0));
+					ordinary_ratio = std::min(0.7, 1.0 / (system->_Get_history_list()->size() - 1.0));
 
-				system->performance_ = (system->getPerformance() * ordinary_ratio) + (new_performance * (1 - ordinary_ratio));
+				system->setPerformance((system->getPerformance() * ordinary_ratio) + (new_performance * (1 - ordinary_ratio)));
 			}
 
 			// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SLAVE SYSTEMS
@@ -296,8 +289,8 @@ namespace parallel
 
 			for (size_t i = 0; i < size(); i++)
 			{
-				std::shared_ptr<ParallelSystem> &system = at(i);
-				if (system->enforced_ == true)
+				auto &system = at(i);
+				if (system->isEnforced() == true)
 					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
 
 				average += system->getPerformance();
@@ -308,8 +301,8 @@ namespace parallel
 			// DIVIDE FROM THE AVERAGE
 			for (size_t i = 0; i < size(); i++)
 			{
-				std::shared_ptr<ParallelSystem> &system = at(i);
-				if (system->enforced_ == true)
+				auto &system = at(i);
+				if (system->isEnforced() == true)
 					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
 
 				system->setPerformance(system->getPerformance() / average);

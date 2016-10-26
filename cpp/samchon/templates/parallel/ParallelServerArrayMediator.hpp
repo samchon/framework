@@ -4,6 +4,8 @@
 #include <samchon/templates/parallel/ParallelSystemArrayMediator.hpp>
 #include <samchon/templates/external/ExternalServerArray.hpp>
 
+#include <samchon/templates/parallel/ParallelServer.hpp>
+
 namespace samchon
 {
 namespace templates
@@ -23,17 +25,18 @@ namespace parallel
 	 * #### [Inherited] {@link ParallelSystemArrayMediator}
 	 * @copydetails parallel::ParallelSystemArrayMediator
 	 */
+	template <class System = ParallelServer>
 	class ParallelServerArrayMediator
-		: public ParallelSystemArrayMediator,
-		public external::ExternalServerArray
+		: public ParallelSystemArrayMediator<System>,
+		public external::ExternalServerArray<System>
 	{
 	public:
 		/**
 		 * Default Constructor.
 		 */
 		ParallelServerArrayMediator()
-			: ParallelSystemArrayMediator(),
-			external::ExternalServerArray()
+			: ParallelSystemArrayMediator<System>(),
+			external::ExternalServerArray<System>()
 		{
 		};
 		virtual ~ParallelServerArrayMediator() = default;

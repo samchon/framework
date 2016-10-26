@@ -2,14 +2,12 @@
 #include <samchon/API.hpp>
 
 #include <samchon/templates/external/ExternalSystem.hpp>
+#include <samchon/templates/external/base/ExternalServerBase.hpp>
+
+#include <samchon/protocol/ServerConnector.hpp>
 
 namespace samchon
 {
-namespace protocol
-{
-	class ServerConnector;
-};
-
 namespace templates
 {
 namespace external
@@ -24,24 +22,14 @@ namespace external
 	 * #### [Inherited] {@link ExternalSystem}
 	 * @copydetails external::ExternalSystem
 	 */
-	class SAMCHON_FRAMEWORK_API ExternalServer
-		: public virtual ExternalSystem
+	class ExternalServer
+		: public virtual ExternalSystem,
+		public base::ExternalServerBase
 	{
 		friend class ExternalSystem;
 
 	private:
 		typedef ExternalSystem super;
-
-	protected:
-		/**
-		 * IP address of target external system to connect.
-		 */
-		std::string ip;
-
-		/**
-		 * Port number of target external system to connect.
-		 */
-		int port;
 
 	public:
 		/* ---------------------------------------------------------
@@ -52,9 +40,12 @@ namespace external
 		 * 
 		 * @param systemArray The parent {@link ExternalSystemArray} object.
 		 */
-		ExternalServer(ExternalSystemArray*);
+		ExternalServer(base::ExternalSystemArrayBase *systemArray)
+			: super(systemArray)
+		{
+		};
 
-		virtual ~ExternalServer();
+		virtual ~ExternalServer() = default;
 
 	protected:
 		/**
@@ -69,7 +60,10 @@ namespace external
 		 * 
 		 * @return A newly created {@link IServerConnector} object.
 		 */
-		virtual auto createServerConnector() -> protocol::ServerConnector*;
+		virtual auto createServerConnector() -> protocol::ServerConnector*
+		{
+			return new protocol::ServerConnector(this);
+		};
 
 	public:
 		/* ---------------------------------------------------------
@@ -78,7 +72,26 @@ namespace external
 		/**
 		 * Connect to external server.
 		 */
-		virtual void connect();
+		virtual void connect()
+		{
+			if (communicator_ != nullptr || ip.empty() == true)
+				return;
+
+			// CREATE CONNECTOR AND CONNECT
+			std::shared_ptr<protocol::ServerConnector> connector(this->createServerConnector());
+			this->communicator_ = connector;
+
+			connector->connect(ip, port);
+
+			// AFTER DISCONNECTION, ERASE THIS OBJECT
+			protocol::SharedEntityDeque<ExternalSystem> *systemArray = (protocol::SharedEntityDeque<ExternalSystem>*)system_array_;
+			for (size_t i = 0; i < systemArray->size(); i++)
+				if (systemArray->at(i).get() == this)
+				{
+					systemArray->erase(systemArray->begin() + i);
+					break;
+				}
+		};
 	};
 };
 };

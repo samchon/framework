@@ -8,7 +8,7 @@ GitHub Repository: https://github.com/samchon/framework
 ### Object Oriented Network
 ![Network Connectivity to Class Relationship](http://samchon.github.io/framework/images/accessory/oon.png)
 
-Samchon Framework is an OOD (Object-Oriented Network) framework. You can compose network systems within framework of the Object-Oriented. 
+Samchon Framework is an OON (Object-Oriented Network) framework. You can compose network systems within framework of the Object-Oriented. 
 
 Whether how the network system is enormous and complicate, **the system nodes, they're just objects** in the Samchon Framework. Define <u>objects who represent the *system nodes*</u> and <u>deliver message by calling methods from objects to objects</u>. That's all.
 

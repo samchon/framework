@@ -30,7 +30,7 @@ namespace parallel
 		 * 
 		 * @param systemArray The parent {@link ParallelSystemArray} object.
 		 */
-		ParallelServer(ParallelSystemArray *systemArray)
+		ParallelServer(external::base::ExternalSystemArrayBase *systemArray)
 			: ParallelSystem(systemArray),
 			external::ExternalServer(systemArray),
 			external::ExternalSystem(systemArray)

@@ -2,7 +2,10 @@
 #include <samchon/API.hpp>
 
 #include <samchon/templates/parallel/ParallelSystem.hpp>
-#	include <samchon/templates/distributed/DistributedProcess.hpp>
+
+#include <samchon/templates/distributed/DSInvokeHistory.hpp>
+#include <samchon/templates/distributed/base/DistributedSystemArrayBase.hpp>
+#include <samchon/templates/distributed/base/DistributedProcessBase.hpp>
 
 namespace samchon
 {
@@ -10,8 +13,6 @@ namespace templates
 {
 namespace distributed
 {
-	class DistributedSystemArray;
-
 	/**
 	 * A driver for a distributed slave system.
 	 * 
@@ -47,11 +48,9 @@ namespace distributed
 	 * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/CPP-Templates-Distributed_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API DistributedSystem
+	class DistributedSystem
 		: public virtual parallel::ParallelSystem
 	{
-		friend class DistributedSystemArray;
-
 	private:
 		typedef parallel::ParallelSystem super;
 
@@ -60,7 +59,22 @@ namespace distributed
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		using super::super;
-		virtual ~DistributedSystem();
+
+		virtual ~DistributedSystem()
+		{
+			_Set_excluded();
+
+			// SHIFT PARALLEL INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVES
+			for (auto it = _Get_progress_list()->begin(); it != _Get_progress_list()->end(); it++)
+			{
+				// INVOKE MESSAGE AND ITS HISTORY ON PROGRESS
+				std::shared_ptr<protocol::Invoke> invoke = it->second.first;
+				std::shared_ptr<protocol::InvokeHistory> history = it->second.second;
+
+				// SEND THEM BACK
+				_Send_back_history(invoke, history);
+			}
+		};
 
 	protected:
 		/**
@@ -86,31 +100,95 @@ namespace distributed
 		};
 
 	public:
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		/**
-		 * Get parent {@link DistributedSystemArray} object.
-		 *
-		 * @return The parent {@link DistributedSystemArray} object.
-		 */
-		auto getSystemArray() const -> DistributedSystemArray*;
+		auto _Compute_average_elapsed_time() const -> double
+		{
+			double sum = 0.0;
+			size_t denominator = 0;
 
-	private:
-		auto compute_average_elapsed_time() const -> double;
+			for (auto it = _Get_history_list()->begin(); it != _Get_history_list()->end(); it++)
+			{
+				std::shared_ptr<DSInvokeHistory> history = std::dynamic_pointer_cast<DSInvokeHistory>(it->second);
+				if (history == nullptr)
+					continue;
+
+				double elapsed_time = history->computeElapsedTime() / history->getWeight();
+
+				sum += elapsed_time / ((base::DistributedProcessBase*)(history->getProcess()))->getResource();
+				denominator++;
+			}
+
+			if (denominator == 0)
+				return -1;
+			else
+				return sum / denominator;
+		};
 
 	public:
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
-		virtual void replyData(std::shared_ptr<protocol::Invoke>) override;
+		virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override
+		{
+			// SHIFT TO PROCESSES
+			auto process_map = ((base::DistributedSystemArrayBase*)system_array_)->getProcessMap();
+			for (auto it = process_map.begin(); it != process_map.end(); it++)
+				((base::DistributedProcessBase*)(it->second.get()))->replyData(invoke);
 
-		virtual void _Send_back_history(std::shared_ptr<protocol::Invoke>, std::shared_ptr<protocol::InvokeHistory>);
+			// SHIFT TO MASTER AND SLAVES
+			super::replyData(invoke);
+		};
 
-	protected:
-		virtual void _Report_history(std::shared_ptr<library::XML>) override;
+		virtual void _Send_back_history(std::shared_ptr<protocol::Invoke> invoke, std::shared_ptr<protocol::InvokeHistory> $history)
+		{
+			std::shared_ptr<DSInvokeHistory> history = std::dynamic_pointer_cast<DSInvokeHistory>($history);
+			if (history != nullptr)
+			{
+				// RE-SEND INVOKE MESSAGE TO ANOTHER SLAVE VIA ROLE
+				((base::DistributedProcessBase*)(history->getProcess()))->sendData(invoke, history->getWeight());
+			}
 
+			// ERASE THE HISTORY
+			super::_Send_back_history(invoke, history);
+		};
 		
+	protected:
+		virtual void _Report_history(std::shared_ptr<library::XML> xml) override
+		{
+			if (xml->hasProperty("_Piece_first") == true)
+			{
+				//--------
+				// ParallelSystem's history -> PRInvokeHistory
+				//--------
+				super::_Report_history(xml);
+			}
+			else
+			{
+				//--------
+				// DistributedProcess's history -> DSInvokeHistory
+				//--------
+				// CONSTRUCT HISTORY
+				std::shared_ptr<DSInvokeHistory> history(new DSInvokeHistory(this));
+				history->construct(xml);
+
+				// IF THE HISTORY IS NOT EXIST IN PROGRESS, THEN TERMINATE REPORTING
+				auto progress_it = _Get_progress_list()->find(history->getUID());
+				if (progress_it == _Get_progress_list()->end())
+					return;
+
+				history->weight_ = std::dynamic_pointer_cast<DSInvokeHistory>(progress_it->second.second)->getWeight();
+
+				// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
+				_Get_progress_list()->erase(progress_it);
+				_Get_history_list()->emplace(history->getUID(), history);
+
+				// ALSO NOTIFY TO THE ROLE
+				if (history->getProcess() != nullptr)
+					((base::DistributedProcessBase*)(history->getProcess()))->_Report_history(history);
+
+				// COMPLETE THE HISTORY IN THE BELONGED SYSTEM_ARRAY
+				((parallel::base::ParallelSystemArrayBase*)system_array_)->_Complete_history(history);
+			}
+		};
 	};
 };
 };

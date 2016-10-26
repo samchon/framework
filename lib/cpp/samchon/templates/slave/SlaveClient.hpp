@@ -14,24 +14,36 @@ namespace templates
 {
 namespace slave
 {
-	class SAMCHON_FRAMEWORK_API SlaveClient
+	class SlaveClient
 		: public virtual SlaveSystem
 	{
 	public:
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		SlaveClient();
-		virtual ~SlaveClient();
+		SlaveClient()
+			: SlaveSystem()
+		{
+		};
+		virtual ~SlaveClient() = default;
 
 	protected:
-		virtual auto createServerConnector() -> protocol::ServerConnector*;
+		virtual auto createServerConnector() -> protocol::ServerConnector*
+		{
+			return new protocol::ServerConnector(this);
+		};
 
 	public:
 		/* ---------------------------------------------------------
 			METHOD OF CONNECTOR
 		--------------------------------------------------------- */
-		void connect(const std::string &ip, int port);
+		void connect(const std::string &ip, int port)
+		{
+			shared_ptr<protocol::ServerConnector> connector(createServerConnector());
+			this->communicator_ = connector;
+
+			connector->connect(ip, port);
+		};
 	};
 };
 };

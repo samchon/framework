@@ -148,6 +148,13 @@ namespace samchon.templates.external
 		/**
 		 * Get parent {@link ExternalSystemArray} object.
 		 */
+		public getSystemArray(): ExternalSystemArray<ExternalSystem>;
+
+		/**
+		 * Get parent {@link ExternalSystemArray} object.
+		 */
+		public getSystemArray<SystemArray extends ExternalSystemArray<ExternalSystem>>(): SystemArray;
+
 		public getSystemArray(): ExternalSystemArray<ExternalSystem>
 		{
 			return this.system_array_;

@@ -29,17 +29,18 @@ namespace parallel
 	 * #### [Inherited] {@link ParallelSystemArrayMediator}
 	 * @copydetails parallel::ParallelSystemArrayMediator
 	 */
+	template <class System = ParallelSystem>
 	class ParallelServerClientArrayMediator
-		: public ParallelSystemArrayMediator,
-		public external::ExternalServerClientArray
+		: public ParallelSystemArrayMediator<System>,
+		public external::ExternalServerClientArray<System>
 	{
 	public:
 		/**
 		 * Default Constructor.
 		 */
 		ParallelServerClientArrayMediator()
-			: ParallelSystemArray(),
-			external::ExternalServerClientArray()
+			: ParallelSystemArray<System>(),
+			external::ExternalServerClientArray<System>()
 		{
 		};
 		virtual ~ParallelServerClientArrayMediator() = default;

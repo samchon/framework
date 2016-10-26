@@ -10,7 +10,6 @@ namespace templates
 {
 namespace external
 {
-	class ExternalSystemArray;
 	class ExternalSystem;
 
 	/**

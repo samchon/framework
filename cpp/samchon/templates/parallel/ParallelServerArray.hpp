@@ -4,6 +4,8 @@
 #include <samchon/templates/parallel/ParallelSystemArray.hpp>
 #include <samchon/templates/external/ExternalServerArray.hpp>
 
+#include <samchon/templates/parallel/ParallelServer.hpp>
+
 namespace samchon
 {
 namespace templates
@@ -23,17 +25,18 @@ namespace parallel
 	 * #### [Inherited] {@link ParallelSystemArray}
 	 * @copydetails parallel::ParallelSystemArray
 	 */
+	template <class System = ParallelServer>
 	class ParallelServerArray
-		: public ParallelSystemArray,
-		public external::ExternalServerArray
+		: public ParallelSystemArray<System>,
+		public external::ExternalServerArray<System>
 	{
 	public:
 		/**
 		 * Default Constructor.
 		 */
 		ParallelServerArray()
-			: ParallelSystemArray(),
-			external::ExternalServerArray()
+			: ParallelSystemArray<System>(),
+			external::ExternalServerArray<System>()
 		{
 		};
 		virtual ~ParallelServerArray() = default;

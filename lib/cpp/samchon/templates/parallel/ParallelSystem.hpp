@@ -4,28 +4,17 @@
 #include <samchon/templates/external/ExternalSystem.hpp>
 #include <samchon/protocol/IListener.hpp>
 
+#include <samchon/templates/parallel/PRInvokeHistory.hpp>
+#include <samchon/templates/parallel/base/ParallelSystemArrayBase.hpp>
+
 #include <samchon/HashMap.hpp>
 
 namespace samchon
 {
-namespace protocol
-{
-	class InvokeHistory;
-};
-
 namespace templates
 {
-namespace distributed
-{
-	class DistributedSystemArray;
-	class DistributedSystem;
-	class DistributedProcess;
-};
-
 namespace parallel
 {
-	class ParallelSystemArray;
-
 	/**
 	 * A driver for a parallel slave system.
 	 * 
@@ -65,15 +54,10 @@ namespace parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/CPP-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	class SAMCHON_FRAMEWORK_API ParallelSystem
+	class ParallelSystem
 		: public virtual external::ExternalSystem,
 		public virtual protocol::IListener
 	{
-		friend class ParallelSystemArray;
-		friend class distributed::DistributedSystemArray;
-		friend class distributed::DistributedSystem;
-		friend class distributed::DistributedProcess;
-
 	private:
 		typedef external::ExternalSystem super;
 
@@ -81,9 +65,7 @@ namespace parallel
 		HashMap<size_t, std::shared_ptr<protocol::InvokeHistory>> history_list_;
 
 		double performance_{ 1.0 };
-
 		bool enforced_{ false };
-
 		bool excluded_{ false };
 
 	public:
@@ -105,20 +87,33 @@ namespace parallel
 		 * does not happen. After the destruction, the remained *parallel processes* will be shifted to and proceeded in 
 		 * other {@link ParallelSystem} objects.
 		 */
-		virtual ~ParallelSystem();
+		virtual ~ParallelSystem()
+		{
+			excluded_ = true;
 
-		virtual void construct(std::shared_ptr<library::XML>) override;
+			// SHIFT PARALLEL INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVES
+			for (auto it = progress_list_.begin(); it != progress_list_.end(); it++)
+			{
+				// INVOKE MESSAGE AND ITS HISTORY ON PROGRESS
+				std::shared_ptr<protocol::Invoke> invoke = it->second.first;
+				std::shared_ptr<protocol::InvokeHistory> history = it->second.second;
+
+				// SEND THEM BACK
+				_Send_back_history(invoke, history);
+			}
+		};
+
+		virtual void construct(std::shared_ptr<library::XML> xml) override
+		{
+			super::construct(xml);
+
+			performance_ = xml->getProperty<double>("performance");
+			enforced_ = xml->getProperty<bool>("enforced");
+		};
 
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		/**
-		 * Get parent {@link ParallelSystemArray}.
-		 * 
-		 * @return The parent {@link ParallelSystemArray} object.
-		 */
-		auto getSystemArray() const -> ParallelSystemArray*;
-
 		/**
 		 * Get performance index.
 		 * 
@@ -150,6 +145,11 @@ namespace parallel
 			return performance_;
 		};
 
+		auto isEnforced() const -> bool
+		{
+			return enforced_;
+		};
+
 		/**
 		 * Set performance index.
 		 * 
@@ -174,7 +174,11 @@ namespace parallel
 		 * 
 		 * @param val New performance index, but can be revaluated.
 		 */
-		void setPerformance(double);
+		void setPerformance(double val)
+		{
+			performance_ = val;
+			enforced_ = false;
+		};
 
 		/**
 		 * Enforce performance index.
@@ -200,26 +204,143 @@ namespace parallel
 		 * 
 		 * @param val New performance index to be fixed.
 		 */
-		void enforcePerformance(double);
+		void enforcePerformance(double val)
+		{
+			performance_ = val;
+			enforced_ = true;
+		};
 
-	private:
 		/* ---------------------------------------------------------
 			INVOKE MESSAGE CHAIN
 		--------------------------------------------------------- */
-		void send_piece_data(std::shared_ptr<protocol::Invoke> invoke, size_t first, size_t last);
+		void _Send_piece_data(std::shared_ptr<protocol::Invoke> invoke, size_t first, size_t last)
+		{
+			std::shared_ptr<protocol::Invoke> my_invoke(new protocol::Invoke(invoke->getListener()));
+			{
+				// DUPLICATE INVOKE AND ATTACH PIECE INFO
+				my_invoke->assign(invoke->begin(), invoke->end());
+				my_invoke->emplace_back(new protocol::InvokeParameter("_Piece_first", first));
+				my_invoke->emplace_back(new protocol::InvokeParameter("_Piece_last", last));
+			}
 
-		virtual void _replyData(std::shared_ptr<protocol::Invoke>) override;
+			// REGISTER THE UID AS PROGRESS
+			std::shared_ptr<protocol::InvokeHistory> history(new PRInvokeHistory(my_invoke));
+			progress_list_.emplace(history->getUID(), make_pair(my_invoke, history));
+
+			// SEND DATA
+			sendData(my_invoke);
+		};
 
 	protected:
-		virtual void _Report_history(std::shared_ptr<library::XML>);
+		virtual void _replyData(std::shared_ptr<protocol::Invoke> invoke) override
+		{
+			if (invoke->getListener() == "_Report_history")
+				_Report_history(invoke->front()->getValueAsXML());
+			else if (invoke->getListener() == "_Send_back_history")
+			{
+				size_t uid = invoke->front()->getValue<size_t>();
+				auto it = progress_list_.find(uid);
 
-		virtual void _Send_back_history(std::shared_ptr<protocol::Invoke>, std::shared_ptr<protocol::InvokeHistory>);
+				if (it != progress_list_.end())
+					_Send_back_history(it->second.first, it->second.second);
+			}
+			else
+				replyData(invoke);
+		};
+
+		virtual void _Report_history(std::shared_ptr<library::XML> xml)
+		{
+			//--------
+			// CONSTRUCT HISTORY
+			//--------
+			std::shared_ptr<PRInvokeHistory> history(new PRInvokeHistory());
+			history->construct(xml);
+
+			// IF THE HISTORY IS NOT EXIST IN PROGRESS, THEN TERMINATE REPORTING
+			auto progress_it = progress_list_.find(history->getUID());
+			if (progress_it == progress_list_.end())
+				return;
+
+			// ARCHIVE FIRST AND LAST INDEX
+			history->first_ = std::dynamic_pointer_cast<PRInvokeHistory>(progress_it->second.second)->getFirst();
+			history->last_ = std::dynamic_pointer_cast<PRInvokeHistory>(progress_it->second.second)->getLast();
+
+			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
+			progress_list_.erase(progress_it);
+			history_list_.insert({ history->getUID(), history });
+
+			// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
+			((base::ParallelSystemArrayBase*)system_array_)->_Complete_history(history);
+		};
+
+		virtual void _Send_back_history(std::shared_ptr<protocol::Invoke> invoke, std::shared_ptr<protocol::InvokeHistory> $history)
+		{
+			std::shared_ptr<PRInvokeHistory> history = std::dynamic_pointer_cast<PRInvokeHistory>($history);
+			if (history == nullptr)
+				return;
+
+			// REMOVE UID AND FIRST, LAST INDEXES
+			for (size_t i = invoke->size(); i < invoke->size(); i--)
+			{
+				const std::string &name = invoke->at(i)->getName();
+
+				if (name == "_History_uid" || name == "_Piece_first" || name == "_Piece_last")
+					invoke->erase(invoke->begin() + i);
+			}
+
+			// RE-SEND (DISTRIBUTE) THE PIECE TO OTHER SLAVES
+			std::thread
+			(
+				&base::ParallelSystemArrayBase::sendPieceData, (base::ParallelSystemArrayBase*)system_array_,
+				invoke, history->getFirst(), history->getLast()
+			).detach();
+
+			// ERASE FROM THE PROGRESS LIST
+			progress_list_.erase(history->getUID());
+		};
 
 	public:
 		/* ---------------------------------------------------------
 			EXPORTERS
 		--------------------------------------------------------- */
-		virtual auto toXML() const -> std::shared_ptr<library::XML> override;
+		virtual auto toXML() const -> std::shared_ptr<library::XML> override
+		{
+			std::shared_ptr<library::XML> xml = super::toXML();
+			xml->setProperty("performance", performance_);
+			xml->setProperty("enforced", enforced_);
+
+			return xml;
+		};
+
+		/* ---------------------------------------------------------
+			HIDDEN METHODS
+		--------------------------------------------------------- */
+		auto _Get_progress_list() -> HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<protocol::InvokeHistory>>>*
+		{
+			return &progress_list_;
+		};
+		auto _Get_progress_list() const -> const HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<protocol::InvokeHistory>>>*
+		{
+			return &progress_list_;
+		};
+		
+		auto _Get_history_list() -> HashMap<size_t, std::shared_ptr<protocol::InvokeHistory>>*
+		{
+			return &history_list_;
+		};
+		auto _Get_history_list() const -> const HashMap<size_t, std::shared_ptr<protocol::InvokeHistory>>*
+		{
+			return &history_list_;
+		};
+
+		auto _Is_excluded() const -> bool
+		{
+			return excluded_;
+		};
+		void _Set_excluded()
+		{
+			excluded_ = true;
+		};
 	};
 };
 };

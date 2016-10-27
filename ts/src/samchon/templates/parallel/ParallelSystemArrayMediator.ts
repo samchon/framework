@@ -84,8 +84,8 @@ namespace samchon.templates.parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ParallelSystemArrayMediator<T extends ParallelSystem>
-		extends ParallelSystemArray<T>
+	export abstract class ParallelSystemArrayMediator<System extends ParallelSystem>
+		extends ParallelSystemArray<System>
 	{
 		/**
 		 * @hidden

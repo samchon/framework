@@ -33,8 +33,8 @@ namespace samchon.templates.external
 	 * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export interface IExternalServerArray<T extends IExternalServer>
-		extends ExternalSystemArray<T>
+	export interface IExternalServerArray<System extends IExternalServer>
+		extends ExternalSystemArray<System>
 	{
 		/**
 		 * Connect to {@link IExternalServer external servers}.

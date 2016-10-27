@@ -62,9 +62,9 @@ namespace samchon.templates.parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ParallelServerArray<T extends IParallelServer>
-		extends ParallelSystemArray<T>
-		implements external.IExternalServerArray<T>
+	export abstract class ParallelServerArray<System extends IParallelServer>
+		extends ParallelSystemArray<System>
+		implements external.IExternalServerArray<System>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

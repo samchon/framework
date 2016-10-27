@@ -62,9 +62,9 @@ namespace samchon.templates.parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ParallelClientArray<T extends ParallelSystem>
-		extends ParallelSystemArray<T>
-		implements external.IExternalClientArray<T>
+	export abstract class ParallelClientArray<System extends ParallelSystem>
+		extends ParallelSystemArray<System>
+		implements external.IExternalClientArray<System>
 	{
 		/**
 		 * @hidden
@@ -117,7 +117,7 @@ namespace samchon.templates.parallel
 		 */
 		public addClient(driver: protocol.IClientDriver): void
 		{
-			let system: T = this.createExternalClient(driver);
+			let system: System = this.createExternalClient(driver);
 			if (system == null)
 				return;
 
@@ -135,7 +135,7 @@ namespace samchon.templates.parallel
 		 * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
 		 * @return ```null```
 		 */
-		public createChild(xml: library.XML): T { return null; }
+		public createChild(xml: library.XML): System { return null; }
 
 		/**
 		 * Factory method creating {@link ParallelSystem} object.
@@ -152,7 +152,7 @@ namespace samchon.templates.parallel
 		 * @param driver A communicator with the parallel client.
 		 * @return A newly created {@link ParallelSystem} object.
 		 */
-		protected abstract createExternalClient(driver: protocol.IClientDriver): T;
+		protected abstract createExternalClient(driver: protocol.IClientDriver): System;
 
 		/* ---------------------------------------------------------
 			SERVER's METHOD

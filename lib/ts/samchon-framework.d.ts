@@ -1,4 +1,4 @@
-// Type definitions for Samchon Framework v2.0.0-gamma.8
+// Type definitions for Samchon Framework v2.0.0-gamma.9
 // Project: https://github.com/samchon/framework
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -3567,7 +3567,7 @@ declare namespace samchon.templates.external {
      * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ExternalSystemArray<T extends ExternalSystem> extends protocol.EntityDequeCollection<T> implements protocol.IProtocol {
+    abstract class ExternalSystemArray<System extends ExternalSystem> extends protocol.EntityDequeCollection<System> implements protocol.IProtocol {
         /**
          * Default Constructor.
          */
@@ -3684,7 +3684,7 @@ declare namespace samchon.templates.parallel {
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ParallelSystemArray<T extends ParallelSystem> extends external.ExternalSystemArray<T> {
+    abstract class ParallelSystemArray<System extends ParallelSystem> extends external.ExternalSystemArray<System> {
         /**
          * @hidden
          */
@@ -8138,7 +8138,7 @@ declare namespace samchon.templates.external {
      * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    interface IExternalClientArray<T extends ExternalSystem> extends ExternalSystemArray<T>, protocol.IServer {
+    interface IExternalClientArray<System extends ExternalSystem> extends ExternalSystemArray<System>, protocol.IServer {
     }
     /**
      * An array and manager of {@link ExternalSystem external clients} as a server.
@@ -8395,7 +8395,7 @@ declare namespace samchon.templates.external {
      * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    interface IExternalServerArray<T extends IExternalServer> extends ExternalSystemArray<T> {
+    interface IExternalServerArray<System extends IExternalServer> extends ExternalSystemArray<System> {
         /**
          * Connect to {@link IExternalServer external servers}.
          *
@@ -8492,7 +8492,7 @@ declare namespace samchon.templates.external {
      * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    interface IExternalServerClientArray<T extends ExternalSystem> extends IExternalClientArray<T> {
+    interface IExternalServerClientArray<System extends ExternalSystem> extends IExternalClientArray<System> {
         /**
          * Connect to {@link IExternalServer external servers}.
          *
@@ -9275,7 +9275,7 @@ declare namespace samchon.templates.parallel {
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ParallelClientArray<T extends ParallelSystem> extends ParallelSystemArray<T> implements external.IExternalClientArray<T> {
+    abstract class ParallelClientArray<System extends ParallelSystem> extends ParallelSystemArray<System> implements external.IExternalClientArray<System> {
         /**
          * @hidden
          */
@@ -9321,7 +9321,7 @@ declare namespace samchon.templates.parallel {
          * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
          * @return ```null```
          */
-        createChild(xml: library.XML): T;
+        createChild(xml: library.XML): System;
         /**
          * Factory method creating {@link ParallelSystem} object.
          *
@@ -9337,7 +9337,7 @@ declare namespace samchon.templates.parallel {
          * @param driver A communicator with the parallel client.
          * @return A newly created {@link ParallelSystem} object.
          */
-        protected abstract createExternalClient(driver: protocol.IClientDriver): T;
+        protected abstract createExternalClient(driver: protocol.IClientDriver): System;
         /**
          * @inheritdoc
          */
@@ -9429,7 +9429,7 @@ declare namespace samchon.templates.parallel {
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ParallelSystemArrayMediator<T extends ParallelSystem> extends ParallelSystemArray<T> {
+    abstract class ParallelSystemArrayMediator<System extends ParallelSystem> extends ParallelSystemArray<System> {
         /**
          * @hidden
          */
@@ -9570,7 +9570,7 @@ declare namespace samchon.templates.parallel {
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ParallelClientArrayMediator<T extends ParallelSystem> extends ParallelSystemArrayMediator<T> implements external.IExternalClientArray<T> {
+    abstract class ParallelClientArrayMediator<System extends ParallelSystem> extends ParallelSystemArrayMediator<System> implements external.IExternalClientArray<System> {
         /**
          * @hidden
          */
@@ -9618,7 +9618,7 @@ declare namespace samchon.templates.parallel {
          * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
          * @return null
          */
-        createChild(xml: library.XML): T;
+        createChild(xml: library.XML): System;
         /**
          * Factory method creating {@link ParallelSystem} object.
          *
@@ -9634,7 +9634,7 @@ declare namespace samchon.templates.parallel {
          * @param driver A communicator with the parallel client.
          * @return A newly created {@link ParallelSystem} object.
          */
-        protected abstract createExternalClient(driver: protocol.IClientDriver): T;
+        protected abstract createExternalClient(driver: protocol.IClientDriver): System;
         /**
          * @inheritdoc
          */
@@ -9829,7 +9829,7 @@ declare namespace samchon.templates.parallel {
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ParallelServerArray<T extends IParallelServer> extends ParallelSystemArray<T> implements external.IExternalServerArray<T> {
+    abstract class ParallelServerArray<System extends IParallelServer> extends ParallelSystemArray<System> implements external.IExternalServerArray<System> {
         /**
          * Default Constructor.
          */
@@ -9929,7 +9929,7 @@ declare namespace samchon.templates.parallel {
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ParallelServerArrayMediator<T extends IParallelServer> extends ParallelSystemArrayMediator<T> implements external.IExternalServerArray<T> {
+    abstract class ParallelServerArrayMediator<System extends IParallelServer> extends ParallelSystemArrayMediator<System> implements external.IExternalServerArray<System> {
         /**
          * Default Constructor.
          */
@@ -10004,7 +10004,7 @@ declare namespace samchon.templates.parallel {
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ParallelServerClientArray<T extends ParallelSystem> extends ParallelClientArray<T> implements external.IExternalServerClientArray<T> {
+    abstract class ParallelServerClientArray<System extends ParallelSystem> extends ParallelClientArray<System> implements external.IExternalServerClientArray<System> {
         /**
          * Default Constructor.
          */
@@ -10017,14 +10017,14 @@ declare namespace samchon.templates.parallel {
          * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
          * @return A new child Entity via {@link createExternalServer createExternalServer()}.
          */
-        createChild(xml: library.XML): T;
+        createChild(xml: library.XML): System;
         /**
          * Factory method creating an {@link IParallelServer} object.
          *
          * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
          * @return A newly created {@link IParallelServer} object.
          */
-        protected abstract createExternalServer(xml: library.XML): T;
+        protected abstract createExternalServer(xml: library.XML): System;
         /**
          * @inheritdoc
          */
@@ -10125,7 +10125,7 @@ declare namespace samchon.templates.parallel {
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ParallelServerClientArrayMediator<T extends ParallelSystem> extends ParallelClientArrayMediator<T> implements external.IExternalServerClientArray<T> {
+    abstract class ParallelServerClientArrayMediator<System extends ParallelSystem> extends ParallelClientArrayMediator<System> implements external.IExternalServerClientArray<System> {
         /**
          * Default Constructor.
          */
@@ -10138,14 +10138,14 @@ declare namespace samchon.templates.parallel {
          * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
          * @return A new child Entity via {@link createExternalServer createExternalServer()}.
          */
-        createChild(xml: library.XML): T;
+        createChild(xml: library.XML): System;
         /**
          * Factory method creating an {@link IParallelServer} object.
          *
          * @param xml An {@link XML} object represents child element, so that can identify the type of child to create.
          * @return A newly created {@link IParallelServer} object.
          */
-        protected abstract createExternalServer(xml: library.XML): T;
+        protected abstract createExternalServer(xml: library.XML): System;
         /**
          * @inheritdoc
          */

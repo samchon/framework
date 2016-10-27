@@ -283,7 +283,7 @@ namespace library
 			uk.unlock();
 
 			for (size_t i = 0; i < THREAD_SIZE(); i++)
-				thread([]()
+				std::thread([]()
 				{
 					while (true)
 					{
@@ -299,7 +299,7 @@ namespace library
 							uk.unlock();
 
 							EventDispatcher *obj = pair.first;
-							shared_ptr<Event> &event = pair.second;
+							std::shared_ptr<Event> &event = pair.second;
 
 							obj->deliver(event);
 						}

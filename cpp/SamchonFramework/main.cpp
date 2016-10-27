@@ -1,5 +1,6 @@
-#include <samchon/templates/distributed.hpp>
-#include <samchon/templates/service.hpp>
+#include <samchon/library.hpp>
+#include <samchon/protocol.hpp>
+#include <samchon/templates.hpp>
 
 using namespace std;
 using namespace samchon;

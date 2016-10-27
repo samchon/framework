@@ -8,8 +8,13 @@
   },
 
   "main": "./lib/ts/samchon-framework.js",
-  "typgins": "./lib/ts/samchon-framework.d.ts",
-  "version": "2.0.0-gamma.8",
+  "typings": "./lib/ts/samchon-framework.d.ts",
+  "version": "2.0.0-gamma.9",
+
+  "dependencies": {
+    "typescript-stl": "^1.2.0",
+    "websocket": "~1.0.x"
+  },
 
   "homepage": "http://samchon.org/framework",
   "repository": {
@@ -18,10 +23,6 @@
   },
   "bugs": {
     "url": "https://github.com/samchon/framework/issues"
-  },
-  "dependencies": {
-    "typescript-stl": "^1.2.0",
-    "websocket": "~1.0.x"
   },
   
   "licenses": [

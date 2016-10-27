@@ -92,9 +92,9 @@ namespace samchon.templates.parallel
 	 * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ParallelServerArrayMediator<T extends IParallelServer>
-		extends ParallelSystemArrayMediator<T>
-		implements external.IExternalServerArray<T>
+	export abstract class ParallelServerArrayMediator<System extends IParallelServer>
+		extends ParallelSystemArrayMediator<System>
+		implements external.IExternalServerArray<System>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

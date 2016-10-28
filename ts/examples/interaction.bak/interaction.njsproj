@@ -12,8 +12,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{e4de4dc3-2ace-4b62-8a04-67faccd1a586}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>
-    </StartupFile>
+    <StartupFile>packer-mediator.ts</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
     <SearchPath>
     </SearchPath>
@@ -56,14 +55,17 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="base\master.ts" />
     <TypeScriptCompile Include="base\monitor-driver.ts" />
     <TypeScriptCompile Include="base\packer.ts" />
+    <TypeScriptCompile Include="base\slave.ts" />
     <TypeScriptCompile Include="chief.ts" />
-    <TypeScriptCompile Include="base\parallel.ts" />
-    <TypeScriptCompile Include="master.ts" />
-    <TypeScriptCompile Include="mediator.ts" />
+    <TypeScriptCompile Include="packer-master.ts" />
+    <TypeScriptCompile Include="packer-mediator.ts" />
+    <TypeScriptCompile Include="packer-slave.ts" />
     <TypeScriptCompile Include="monitor.ts" />
-    <TypeScriptCompile Include="slave.ts" />
+    <TypeScriptCompile Include="tsp-master.ts" />
+    <TypeScriptCompile Include="tsp-slave.ts" />
     <TypeScriptCompile Include="base\tsp.ts" />
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@
 import std = require("typescript-stl");
 import samchon = require("samchon-framework");
 
+import master = require("./base/master");
 import tsp = require("./base/tsp");
 import pack = require("./base/packer");
 

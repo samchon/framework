@@ -1,4 +1,4 @@
-// Type definitions for Samchon Framework v2.0.0-gamma.9
+// Type definitions for Samchon Framework v2.0.0-gamma.11
 // Project: https://github.com/samchon/framework
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -3758,7 +3758,7 @@ declare namespace samchon.templates.parallel {
         /**
          * @hidden
          */
-        protected _Complete_history(history: protocol.InvokeHistory): boolean;
+        protected _Complete_history(history: InvokeHistory): boolean;
         /**
          * @hidden
          */
@@ -3911,7 +3911,7 @@ declare namespace samchon.templates.distributed {
         /**
          * @hidden
          */
-        protected _Complete_history(history: protocol.InvokeHistory): boolean;
+        protected _Complete_history(history: InvokeHistory): boolean;
         /**
          * @hidden
          */
@@ -5229,96 +5229,6 @@ declare namespace samchon.protocol {
          * @inheritdoc
          */
         toXML(): library.XML;
-    }
-}
-declare namespace samchon.protocol {
-    /**
-     * History of an {@link Invoke} message.
-     *
-     * The {@link InvokeHistory} is a class archiving history log of an {@link Invoke} message with elapsed time. This
-     * {@link InvokeHistory} class is used to report elapsed time of handling a requested process from **slave** to
-     * **master** system.
-     *
-     * The **master** system utilizes derived {@link InvokeHistory} objects to compute performance indices.
-     * - {@link ParallelSytem.getPerformance}
-     * - {@link DistributedProcess.getResource}
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class InvokeHistory extends protocol.Entity {
-        /**
-         * @hidden
-         */
-        private uid;
-        /**
-         * @hidden
-         */
-        private listener;
-        /**
-         * @hidden
-         */
-        private start_time_;
-        /**
-         * @hidden
-         */
-        private end_time_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from an {@link Invoke} message.
-         *
-         * @param invoke An {@link Invoke} message requesting a *parallel or distributed process*.
-         */
-        constructor(invoke: protocol.Invoke);
-        /**
-         * @inheritdoc
-         */
-        construct(xml: library.XML): void;
-        /**
-         * Complete the history.
-         *
-         * Completes the history and determines the {@link getEndTime end time}.
-         */
-        complete(): void;
-        key(): number;
-        /**
-         * Get unique ID.
-         */
-        getUID(): number;
-        /**
-         * Get {@link Invoke.getListener listener} of the {@link Invoke} message.
-         */
-        getListener(): string;
-        /**
-         * Get start time.
-         */
-        getStartTime(): Date;
-        /**
-         * Get end time.
-         */
-        getEndTime(): Date;
-        /**
-         * Compute elapsed time.
-         *
-         * @return nanoseconds.
-         */
-        computeElapsedTime(): number;
-        /**
-         * @inheritdoc
-         */
-        TAG(): string;
-        /**
-         * @inheritdoc
-         */
-        toXML(): library.XML;
-        /**
-         * Convert to an {@link Invoke} message.
-         *
-         * Creates and returns an {@link Invoke} message that is used to reporting to the **master**.
-         */
-        toInvoke(): protocol.Invoke;
     }
 }
 declare namespace samchon.protocol {
@@ -7373,7 +7283,7 @@ declare namespace samchon.templates.parallel {
         /**
          * @hidden
          */
-        protected _Send_back_history(invoke: protocol.Invoke, history: protocol.InvokeHistory): void;
+        protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void;
     }
 }
 declare namespace samchon.templates.distributed {
@@ -7475,7 +7385,7 @@ declare namespace samchon.templates.distributed {
         /**
          * @hidden
          */
-        protected _Send_back_history(invoke: protocol.Invoke, history: protocol.InvokeHistory): void;
+        protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void;
     }
 }
 declare namespace samchon.templates.distributed {
@@ -8036,6 +7946,96 @@ declare namespace samchon.templates.distributed {
         connect(): void;
     }
 }
+declare namespace samchon.templates {
+    /**
+     * History of an {@link Invoke} message.
+     *
+     * The {@link InvokeHistory} is a class archiving history log of an {@link Invoke} message with elapsed time. This
+     * {@link InvokeHistory} class is used to report elapsed time of handling a requested process from **slave** to
+     * **master** system.
+     *
+     * The **master** system utilizes derived {@link InvokeHistory} objects to compute performance indices.
+     * - {@link ParallelSytem.getPerformance}
+     * - {@link DistributedProcess.getResource}
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class InvokeHistory extends protocol.Entity {
+        /**
+         * @hidden
+         */
+        private uid;
+        /**
+         * @hidden
+         */
+        private listener;
+        /**
+         * @hidden
+         */
+        private start_time_;
+        /**
+         * @hidden
+         */
+        private end_time_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from an {@link Invoke} message.
+         *
+         * @param invoke An {@link Invoke} message requesting a *parallel or distributed process*.
+         */
+        constructor(invoke: protocol.Invoke);
+        /**
+         * @inheritdoc
+         */
+        construct(xml: library.XML): void;
+        /**
+         * Complete the history.
+         *
+         * Completes the history and determines the {@link getEndTime end time}.
+         */
+        complete(): void;
+        key(): number;
+        /**
+         * Get unique ID.
+         */
+        getUID(): number;
+        /**
+         * Get {@link Invoke.getListener listener} of the {@link Invoke} message.
+         */
+        getListener(): string;
+        /**
+         * Get start time.
+         */
+        getStartTime(): Date;
+        /**
+         * Get end time.
+         */
+        getEndTime(): Date;
+        /**
+         * Compute elapsed time.
+         *
+         * @return nanoseconds.
+         */
+        computeElapsedTime(): number;
+        /**
+         * @inheritdoc
+         */
+        TAG(): string;
+        /**
+         * @inheritdoc
+         */
+        toXML(): library.XML;
+        /**
+         * Convert to an {@link Invoke} message.
+         *
+         * Creates and returns an {@link Invoke} message that is used to reporting to the **master**.
+         */
+        toInvoke(): protocol.Invoke;
+    }
+}
 declare namespace samchon.templates.distributed {
     /**
      * History of an {@link Invoke} message.
@@ -8056,7 +8056,7 @@ declare namespace samchon.templates.distributed {
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    class DSInvokeHistory extends protocol.InvokeHistory {
+    class DSInvokeHistory extends InvokeHistory {
         /**
          * @hidden
          */
@@ -10173,7 +10173,7 @@ declare namespace samchon.templates.parallel {
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    class PRInvokeHistory extends protocol.InvokeHistory {
+    class PRInvokeHistory extends InvokeHistory {
         /**
          * @hidden
          */
@@ -10214,6 +10214,30 @@ declare namespace samchon.templates.parallel {
          * Compute number of allocated pieces.
          */
         computeSize(): number;
+    }
+}
+declare namespace samchon.templates {
+    class PInvoke extends protocol.Invoke {
+        /**
+         * @hidden
+         */
+        private history_;
+        /**
+         * @hidden
+         */
+        private master_driver_;
+        private hold_;
+        constructor(invoke: protocol.Invoke, history: InvokeHistory, masterDriver: protocol.IProtocol);
+        getHistory(): InvokeHistory;
+        isHold(): boolean;
+        /**
+         * Hold reporting completion to master.
+         */
+        hold(): void;
+        /**
+         * Report completion.
+         */
+        complete(): void;
     }
 }
 declare namespace samchon.templates.service {

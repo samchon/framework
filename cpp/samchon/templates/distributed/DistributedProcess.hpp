@@ -143,11 +143,6 @@ namespace distributed
 			return resource;
 		};
 
-		auto isEnforced() const -> bool
-		{
-			return enforced_;
-		};
-
 		/**
 		 * Set resource index.
 		 *
@@ -336,7 +331,7 @@ namespace distributed
 		};
 
 		/* ---------------------------------------------------------
-			HIDDEN METHODS
+			INTERNAL METHODS
 		--------------------------------------------------------- */
 		auto _Compute_average_elapsed_time() const -> double
 		{
@@ -371,6 +366,11 @@ namespace distributed
 		auto _Get_history_list() const -> const HashMap<size_t, std::shared_ptr<DSInvokeHistory>>*
 		{
 			return &history_list_;
+		};
+
+		auto _Is_enforced() const -> bool
+		{
+			return enforced_;
 		};
 	};
 };

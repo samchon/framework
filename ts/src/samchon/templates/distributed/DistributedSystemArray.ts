@@ -221,7 +221,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		protected _Complete_history(history: protocol.InvokeHistory): boolean
+		protected _Complete_history(history: InvokeHistory): boolean
 		{
 			if (history instanceof DSInvokeHistory)
 			{
@@ -238,6 +238,7 @@ namespace samchon.templates.distributed
 
 				// AT LAST, NORMALIZE PERFORMANCE INDEXES OF ALL SYSTEMS AND ROLES
 				this._Normalize_performance();
+
 				return true;
 			}
 			else

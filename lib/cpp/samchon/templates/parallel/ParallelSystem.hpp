@@ -145,11 +145,6 @@ namespace parallel
 			return performance_;
 		};
 
-		auto isEnforced() const -> bool
-		{
-			return enforced_;
-		};
-
 		/**
 		 * Set performance index.
 		 * 
@@ -313,7 +308,7 @@ namespace parallel
 		};
 
 		/* ---------------------------------------------------------
-			HIDDEN METHODS
+			INTERNAL METHODS
 		--------------------------------------------------------- */
 		auto _Get_progress_list() -> HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<protocol::InvokeHistory>>>*
 		{
@@ -333,6 +328,10 @@ namespace parallel
 			return &history_list_;
 		};
 
+		auto _Is_enforced() const -> bool
+		{
+			return enforced_;
+		};
 		auto _Is_excluded() const -> bool
 		{
 			return excluded_;

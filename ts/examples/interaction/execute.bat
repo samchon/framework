@@ -11,20 +11,38 @@ start cmd /k ..\interaction-viewer\index.html
 start cmd /k "color 0F & node chief" & timeout 1
 
 :::::::::::::::::::::::::::::::::
-:: TSP SYSTEMS
+:: MASTER SYSTEMS
 :::::::::::::::::::::::::::::::::
-start cmd /k "color 1F & node tsp-master" & timeout 1
-	start cmd /k "color 9F & node tsp-slave"
-	start cmd /k "color 9F & node tsp-slave"
+start cmd /k "color 2F & node master 37101"
+start cmd /k "color 2F & node master 37102"
+start cmd /k "color 2F & node master 37103" & timeout 1
 
 :::::::::::::::::::::::::::::::::
-:: PACKER SYSTEMS
+:: MEDIATOR SYSTEMS - LV.1
 :::::::::::::::::::::::::::::::::
-start cmd /k "color 2F & node packer-master" & timeout 1
-	start cmd /k "color 6F & node packer-mediator" & timeout 1
-		start cmd /k "color A0 & node packer-slave 2"
-		start cmd /k "color A0 & node packer-slave 2"
-		start cmd /k "color A0 & node packer-slave 2"
-		start cmd /k "color A0 & node packer-slave 2"
-	start cmd /k "color A0 & node packer-slave 1"
-	start cmd /k "color A0 & node packer-slave 1"
+start cmd /k "color 6F & node mediator 37102 37201"
+start cmd /k "color 6F & node mediator 37102 37202"
+start cmd /k "color 6F & node mediator 37103 37203" & timeout 1
+
+:::::::::::::::::::::::::::::::::
+:: MEDIATOR SYSTEMS - LV.2
+:::::::::::::::::::::::::::::::::
+start cmd /k "color 6F & node mediator 37203 37204" & timeout 1
+
+:::::::::::::::::::::::::::::::::
+:: SLAVE SYSTEMS
+:::::::::::::::::::::::::::::::::
+start cmd /k "color A0 & node slave 37101"
+start cmd /k "color A0 & node slave 37101"
+
+start cmd /k "color A0 & node slave 37201"
+start cmd /k "color A0 & node slave 37201"
+start cmd /k "color A0 & node slave 37202"
+start cmd /k "color A0 & node slave 37202"
+
+start cmd /k "color A0 & node slave 37103"
+::start cmd /k "color A0 & node slave 37103"
+start cmd /k "color A0 & node slave 37203"
+::start cmd /k "color A0 & node slave 37203"
+start cmd /k "color A0 & node slave 37204"
+::start cmd /k "color A0 & node slave 37204"

@@ -60,12 +60,12 @@ namespace samchon.templates.parallel
 		/**
 		 * @hidden
 		 */
-		private progress_list_: std.HashMap<number, std.Pair<protocol.Invoke, protocol.InvokeHistory>>;
+		private progress_list_: std.HashMap<number, std.Pair<protocol.Invoke, InvokeHistory>>;
 		
 		/**
 		 * @hidden
 		 */
-		private history_list_: std.HashMap<number, protocol.InvokeHistory>;
+		private history_list_: std.HashMap<number, InvokeHistory>;
 
 		/**
 		 * @hidden
@@ -105,8 +105,8 @@ namespace samchon.templates.parallel
 			super(systemArray, communicator);
 			
 			// HIDDEN MEMBERS
-			this.progress_list_ = new std.HashMap<number, std.Pair<protocol.Invoke, protocol.InvokeHistory>>();
-			this.history_list_ = new std.HashMap<number, protocol.InvokeHistory>();
+			this.progress_list_ = new std.HashMap<number, std.Pair<protocol.Invoke, InvokeHistory>>();
+			this.history_list_ = new std.HashMap<number, InvokeHistory>();
 			
 			this.enforced_ = false;
 			this.exclude_ = false;
@@ -358,7 +358,7 @@ namespace samchon.templates.parallel
 		/**
 		 * @hidden
 		 */
-		protected _Send_back_history(invoke: protocol.Invoke, history: protocol.InvokeHistory): void
+		protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void
 		{
 			if (history instanceof PRInvokeHistory)
 			{

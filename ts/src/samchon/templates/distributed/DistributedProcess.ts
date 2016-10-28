@@ -323,11 +323,21 @@ namespace samchon.templates.distributed
 				let system: DistributedSystem = this.system_array_.at(i) as DistributedSystem;
 				if (system["exclude_"] == true)
 					continue; // BEING REMOVED SYSTEM
-
-				if (idle_system == null 
-					|| system["progress_list_"].size() < idle_system["progress_list_"].size()
-					|| system.getPerformance() < idle_system.getPerformance())
-					idle_system = system;
+				
+				if (idle_system == null || 
+					system["history_list_"].empty() == true || 
+					system["progress_list_"].size() < idle_system["progress_list_"].size() || 
+					(
+						system["progress_list_"].size() == idle_system["progress_list_"].size() && 
+						system.getPerformance() > idle_system.getPerformance()
+					) || 
+					(
+						system["progress_list_"].size() == idle_system["progress_list_"].size() && 
+						system.getPerformance() == idle_system.getPerformance() && 
+						system["history_list_"].size() < idle_system["history_list_"].size())
+					)
+					if (idle_system == null || idle_system["history_list_"].empty() == false)
+						idle_system = system;
 			}
 
 			if (idle_system == null)

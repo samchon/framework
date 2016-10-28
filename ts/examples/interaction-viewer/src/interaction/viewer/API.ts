@@ -8,7 +8,7 @@ namespace interaction.viewer
 	export import protocol = samchon.protocol;
 	
 	export const INTERVAL: number = 1;
-	export const WIDTH: number = 750;
+	export const WIDTH: number = 1500;
 	export const HEIGHT: number = 1000;
 }
 

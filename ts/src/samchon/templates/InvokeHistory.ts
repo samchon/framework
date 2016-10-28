@@ -3,7 +3,7 @@
 /// <reference path="../protocol/Entity.ts" />
 /// <reference path="../protocol/EntityArray.ts" />
 
-namespace samchon.protocol
+namespace samchon.templates
 {
 	/**
 	 * History of an {@link Invoke} message.

@@ -177,7 +177,7 @@ namespace distributed
 		virtual auto createProcess(std::shared_ptr<library::XML>) -> DistributedProcess* = 0;
 
 		/* ---------------------------------------------------------
-			HISTORY HANDLER - PERFORMANCE ESTIMATION
+			HISTORY HANDLER - PERFORMANCE ESTIMATION, INTERNAL
 		--------------------------------------------------------- */
 		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory> $history) -> bool override
 		{
@@ -215,7 +215,7 @@ namespace distributed
 			for (auto it = process_map_.begin(); it != process_map_.end(); it++)
 			{
 				auto process = it->second;
-				if (process->isEnforced() == true)
+				if (process->_Is_enforced() == true)
 					continue; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
 
 				average += process->getResource();
@@ -227,7 +227,7 @@ namespace distributed
 			for (auto it = process_map_.begin(); it != process_map_.end(); it++)
 			{
 				auto process = it->second;
-				if (process->isEnforced() == true)
+				if (process->_Is_enforced() == true)
 					continue; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
 
 				process->setResource(process->getResource() / average);
@@ -238,7 +238,7 @@ namespace distributed
 		void estimate_process_resource(std::shared_ptr<DSInvokeHistory> history)
 		{
 			DistributedProcess *process = history->getProcess();
-			if (process->isEnforced() == true)
+			if (process->_Is_enforced() == true)
 				return; // THE RESOURCE INDEX IS ENFORCED. DO NOT PERMIT REVALUATION
 
 			double average_elapsed_time_of_others = 0;
@@ -286,7 +286,7 @@ namespace distributed
 		void estimate_system_performance(std::shared_ptr<DSInvokeHistory> history)
 		{
 			DistributedSystem *system = history->getSystem();
-			if (system->isEnforced() == true)
+			if (system->_Is_enforced() == true)
 				return; // THE PERFORMANCE INDEX IS ENFORCED. IT DOESN'T PERMIT REVALUATION
 
 			double average_elapsed_time_of_others = 0;

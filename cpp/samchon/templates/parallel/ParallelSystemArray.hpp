@@ -217,6 +217,9 @@ namespace parallel
 			return threads.size();
 		};
 
+		/* ---------------------------------------------------------
+			PERFORMANCE ESTIMATION - INTERNAL METHODS
+		--------------------------------------------------------- */
 		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory> history) -> bool
 		{
 			// WRONG TYPE
@@ -260,7 +263,7 @@ namespace parallel
 			{
 				// SYSTEM AND NEW PERFORMANCE INDEX BASIS ON THE EXECUTION TIME
 				std::shared_ptr<ParallelSystem> system = system_pairs[i].first;
-				if (system->isEnforced() == true)
+				if (system->_Is_enforced() == true)
 					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
 
 				double new_performance = system_pairs[i].second / performance_index_average;
@@ -290,7 +293,7 @@ namespace parallel
 			for (size_t i = 0; i < size(); i++)
 			{
 				auto &system = at(i);
-				if (system->isEnforced() == true)
+				if (system->_Is_enforced() == true)
 					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
 
 				average += system->getPerformance();
@@ -302,7 +305,7 @@ namespace parallel
 			for (size_t i = 0; i < size(); i++)
 			{
 				auto &system = at(i);
-				if (system->isEnforced() == true)
+				if (system->_Is_enforced() == true)
 					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
 
 				system->setPerformance(system->getPerformance() / average);

@@ -179,6 +179,7 @@ namespace samchon.templates.distributed
 			if (progress_it.equal_to(this["progress_list_"].end()) == true)
 				return;
 
+			history["process_"] = (progress_it.second.second as DSInvokeHistory).getProcess();
 			history["weight_"] = (progress_it.second.second as DSInvokeHistory).getWeight();
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
@@ -196,7 +197,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		protected _Send_back_history(invoke: protocol.Invoke, history: protocol.InvokeHistory): void
+		protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void
 		{
 			if (history instanceof DSInvokeHistory)
 			{

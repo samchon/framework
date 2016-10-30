@@ -5135,17 +5135,17 @@ declare namespace samchon.protocol {
         /**
          * Apply to a matched function.
          *
-         * @param obj Target {@link IProtocol} object to find matched function.
+         * @param obj Target object to find matched function.
          * @return Whether succeded to find matched function.
          */
-        apply(obj: IProtocol): boolean;
+        apply(obj: Object): boolean;
         /**
          * Apply to a function.
          *
          * @param thisArg Owner of the function.
          * @param func Function to call.
          */
-        apply(thisArg: IProtocol, func: Function): void;
+        apply(thisArg: Object, func: Function): void;
         /**
          * @inheritdoc
          */
@@ -7275,7 +7275,7 @@ declare namespace samchon.templates.parallel {
         /**
          * @hidden
          */
-        private _replyData(invoke);
+        private _Reply_data(invoke);
         /**
          * @hidden
          */
@@ -8698,7 +8698,7 @@ declare namespace samchon.templates.slave {
         /**
          * @hidden
          */
-        protected _replyData(invoke: protocol.Invoke): void;
+        protected _Reply_data(invoke: protocol.Invoke): void;
         replyData(invoke: protocol.Invoke): void;
     }
 }
@@ -8787,7 +8787,7 @@ declare namespace samchon.templates.parallel {
         /**
          * @hidden
          */
-        protected _replyData(invoke: protocol.Invoke): void;
+        protected _Reply_data(invoke: protocol.Invoke): void;
         /**
          * @inheritdoc
          */
@@ -10226,6 +10226,9 @@ declare namespace samchon.templates {
          * @hidden
          */
         private master_driver_;
+        /**
+         * @hidden
+         */
         private hold_;
         constructor(invoke: protocol.Invoke, history: InvokeHistory, masterDriver: protocol.IProtocol);
         getHistory(): InvokeHistory;

@@ -220,7 +220,7 @@ namespace parallel
 		/* ---------------------------------------------------------
 			PERFORMANCE ESTIMATION - INTERNAL METHODS
 		--------------------------------------------------------- */
-		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory> history) -> bool
+		virtual auto _Complete_history(std::shared_ptr<InvokeHistory> history) -> bool
 		{
 			// WRONG TYPE
 			if (std::dynamic_pointer_cast<PRInvokeHistory>(history) == nullptr)

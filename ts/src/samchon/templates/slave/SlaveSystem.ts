@@ -34,7 +34,7 @@ namespace samchon.templates.slave
 		/**
 		 * @hidden
 		 */
-		protected _replyData(invoke: protocol.Invoke): void
+		protected _Reply_data(invoke: protocol.Invoke): void
 		{
 			// INTERCEPT INVOKE MESSAGE
 			if (invoke.has("_History_uid"))

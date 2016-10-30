@@ -179,7 +179,7 @@ namespace distributed
 		/* ---------------------------------------------------------
 			HISTORY HANDLER - PERFORMANCE ESTIMATION, INTERNAL
 		--------------------------------------------------------- */
-		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory> $history) -> bool override
+		virtual auto _Complete_history(std::shared_ptr<InvokeHistory> $history) -> bool override
 		{
 			std::shared_ptr<DSInvokeHistory> history = std::dynamic_pointer_cast<DSInvokeHistory>($history);
 

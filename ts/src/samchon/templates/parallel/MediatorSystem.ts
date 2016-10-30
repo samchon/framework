@@ -159,7 +159,7 @@ namespace samchon.templates.parallel
 		/**
 		 * @hidden
 		 */
-		protected _replyData(invoke: protocol.Invoke): void
+		protected _Reply_data(invoke: protocol.Invoke): void
 		{
 			if (invoke.has("_History_uid") == true)
 			{

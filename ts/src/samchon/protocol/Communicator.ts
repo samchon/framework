@@ -205,8 +205,8 @@ namespace samchon.protocol
 				this.unhandled_invokes.push_back(invoke);
 			else
 			{
-				if ((this.listener_ as any)["_replyData"] instanceof Function)
-					(this.listener_ as any)["_replyData"](invoke);
+				if ((this.listener_ as any)["_Reply_data"] instanceof Function)
+					(this.listener_ as any)["_Reply_data"](invoke);
 				else
 					this.listener_.replyData(invoke);
 			}

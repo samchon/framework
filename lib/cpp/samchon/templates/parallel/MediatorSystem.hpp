@@ -9,15 +9,10 @@
 #include <samchon/templates/distributed/base/DistributedProcessBase.hpp>
 
 #include <samchon/HashMap.hpp>
-#include <samchon/protocol/InvokeHistory.hpp>
+#include <samchon/templates/InvokeHistory.hpp>
 
 namespace samchon
 {
-namespace protocol
-{
-	class InvokeHistory;
-};
-
 namespace templates
 {
 namespace parallel
@@ -59,7 +54,7 @@ namespace parallel
 		typedef slave::SlaveSystem super;
 
 		external::base::ExternalSystemArrayBase *system_array_;
-		HashMap<size_t, std::shared_ptr<protocol::InvokeHistory>> progress_list_;
+		HashMap<size_t, std::shared_ptr<InvokeHistory>> progress_list_;
 
 	public:
 		/* ---------------------------------------------------------
@@ -115,7 +110,7 @@ namespace parallel
 				return;
 
 			// COMPLETE THE HISTORY
-			std::shared_ptr<protocol::InvokeHistory> history = progress_list_.get(uid);
+			std::shared_ptr<InvokeHistory> history = progress_list_.get(uid);
 			history->complete();
 
 			// ERASE THE HISTORY ON PROGRESS LIST
@@ -126,12 +121,12 @@ namespace parallel
 		};
 
 	private:
-		virtual void _replyData(std::shared_ptr<protocol::Invoke> invoke) override final
+		virtual void _Reply_data(std::shared_ptr<protocol::Invoke> invoke) override final
 		{
 			if (invoke->has("_History_uid") == true)
 			{
 				// REGISTER THIS PROCESS ON HISTORY LIST
-				std::shared_ptr<protocol::InvokeHistory> history(new protocol::InvokeHistory(invoke));
+				std::shared_ptr<InvokeHistory> history(new InvokeHistory(invoke));
 				progress_list_.insert({ history->getUID(), history });
 
 				if (invoke->has("_Piece_first") == true)
@@ -171,3 +166,8 @@ namespace parallel
 };
 };
 };
+
+#include <samchon/templates/parallel/MediatorClient.hpp>
+#include <samchon/templates/parallel/MediatorWebClient.hpp>
+#include <samchon/templates/parallel/MediatorServer.hpp>
+#include <samchon/templates/parallel/MediatorWebServer.hpp>

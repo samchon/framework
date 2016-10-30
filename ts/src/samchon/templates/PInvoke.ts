@@ -16,6 +16,9 @@ namespace samchon.templates
 		 */
 		private master_driver_: protocol.IProtocol;
 
+		/**
+		 * @hidden
+		 */
 		private hold_: boolean;
 
 		public constructor(invoke: protocol.Invoke, history: InvokeHistory, masterDriver: protocol.IProtocol)

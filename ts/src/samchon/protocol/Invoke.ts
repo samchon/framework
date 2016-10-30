@@ -122,10 +122,10 @@ namespace samchon.protocol
 		/**
 		 * Apply to a matched function.
 		 * 
-		 * @param obj Target {@link IProtocol} object to find matched function.
+		 * @param obj Target object to find matched function.
 		 * @return Whether succeded to find matched function.
 		 */
-		public apply(obj: IProtocol): boolean;
+		public apply(obj: Object): boolean;
 
 		/**
 		 * Apply to a function.
@@ -133,9 +133,9 @@ namespace samchon.protocol
 		 * @param thisArg Owner of the function.
 		 * @param func Function to call.
 		 */
-		public apply(thisArg: IProtocol, func: Function): void;
+		public apply(thisArg: Object, func: Function): void;
 
-		public apply(thisArg: IProtocol, func: Function = null): boolean | void
+		public apply(thisArg: Object, func: Function = null): boolean | void
 		{
 			let argArray: any[] = this.getArguments();
 			

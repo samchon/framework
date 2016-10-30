@@ -1,7 +1,7 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/protocol/InvokeHistory.hpp>
+#include <samchon/templates/InvokeHistory.hpp>
 
 namespace samchon
 {
@@ -39,7 +39,7 @@ namespace base
 
 		virtual auto sendPieceData(std::shared_ptr<protocol::Invoke>, size_t, size_t) -> size_t = 0;
 
-		virtual auto _Complete_history(std::shared_ptr<protocol::InvokeHistory>) -> bool = 0;
+		virtual auto _Complete_history(std::shared_ptr<InvokeHistory>) -> bool = 0;
 
 	protected:
 		virtual void _Normalize_performance() = 0;

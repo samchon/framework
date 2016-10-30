@@ -5712,8 +5712,8 @@ var samchon;
                 if (this.listener_ == null)
                     this.unhandled_invokes.push_back(invoke);
                 else {
-                    if (this.listener_["_replyData"] instanceof Function)
-                        this.listener_["_replyData"](invoke);
+                    if (this.listener_["_Reply_data"] instanceof Function)
+                        this.listener_["_Reply_data"](invoke);
                     else
                         this.listener_.replyData(invoke);
                 }
@@ -9174,7 +9174,7 @@ var samchon;
                 /**
                  * @hidden
                  */
-                ParallelSystem.prototype._replyData = function (invoke) {
+                ParallelSystem.prototype._Reply_data = function (invoke) {
                     if (invoke.getListener() == "_Report_history") {
                         this._Report_history(invoke.front().getValue());
                     }
@@ -10755,7 +10755,7 @@ var samchon;
                 /**
                  * @hidden
                  */
-                SlaveSystem.prototype._replyData = function (invoke) {
+                SlaveSystem.prototype._Reply_data = function (invoke) {
                     // INTERCEPT INVOKE MESSAGE
                     if (invoke.has("_History_uid")) {
                         // INIT HISTORY - WITH START TIME
@@ -10874,7 +10874,7 @@ var samchon;
                 /**
                  * @hidden
                  */
-                MediatorSystem.prototype._replyData = function (invoke) {
+                MediatorSystem.prototype._Reply_data = function (invoke) {
                     if (invoke.has("_History_uid") == true) {
                         // INIT HISTORY OBJECT
                         var history_5 = new templates.InvokeHistory(invoke);
@@ -12479,45 +12479,6 @@ var samchon;
         })(parallel = templates.parallel || (templates.parallel = {}));
     })(templates = samchon.templates || (samchon.templates = {}));
 })(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="../protocol/Invoke.ts" />
-var samchon;
-(function (samchon) {
-    var templates;
-    (function (templates) {
-        var PInvoke = (function (_super) {
-            __extends(PInvoke, _super);
-            function PInvoke(invoke, history, masterDriver) {
-                _super.call(this, invoke.getListener());
-                this.assign(invoke.begin(), invoke.end());
-                this.history_ = history;
-                this.master_driver_ = masterDriver;
-                this.hold_ = false;
-            }
-            PInvoke.prototype.getHistory = function () {
-                return this.history_;
-            };
-            PInvoke.prototype.isHold = function () {
-                return this.hold_;
-            };
-            /**
-             * Hold reporting completion to master.
-             */
-            PInvoke.prototype.hold = function () {
-                this.hold_ = true;
-            };
-            /**
-             * Report completion.
-             */
-            PInvoke.prototype.complete = function () {
-                this.history_.complete();
-                this.master_driver_.sendData(this.history_.toInvoke());
-            };
-            return PInvoke;
-        }(samchon.protocol.Invoke));
-        templates.PInvoke = PInvoke;
-    })(templates = samchon.templates || (samchon.templates = {}));
-})(samchon || (samchon = {}));
 /// <reference path="../../APi.ts" />
 var samchon;
 (function (samchon) {
@@ -13288,6 +13249,45 @@ var samchon;
             }(slave.SlaveSystem));
             slave.SlaveServer = SlaveServer;
         })(slave = templates.slave || (templates.slave = {}));
+    })(templates = samchon.templates || (samchon.templates = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="../protocol/Invoke.ts" />
+var samchon;
+(function (samchon) {
+    var templates;
+    (function (templates) {
+        var PInvoke = (function (_super) {
+            __extends(PInvoke, _super);
+            function PInvoke(invoke, history, masterDriver) {
+                _super.call(this, invoke.getListener());
+                this.assign(invoke.begin(), invoke.end());
+                this.history_ = history;
+                this.master_driver_ = masterDriver;
+                this.hold_ = false;
+            }
+            PInvoke.prototype.getHistory = function () {
+                return this.history_;
+            };
+            PInvoke.prototype.isHold = function () {
+                return this.hold_;
+            };
+            /**
+             * Hold reporting completion to master.
+             */
+            PInvoke.prototype.hold = function () {
+                this.hold_ = true;
+            };
+            /**
+             * Report completion.
+             */
+            PInvoke.prototype.complete = function () {
+                this.history_.complete();
+                this.master_driver_.sendData(this.history_.toInvoke());
+            };
+            return PInvoke;
+        }(samchon.protocol.Invoke));
+        templates.PInvoke = PInvoke;
     })(templates = samchon.templates || (samchon.templates = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />

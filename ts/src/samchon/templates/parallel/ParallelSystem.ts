@@ -307,7 +307,7 @@ namespace samchon.templates.parallel
 		/**
 		 * @hidden
 		 */
-		private _replyData(invoke: protocol.Invoke): void
+		private _Reply_data(invoke: protocol.Invoke): void
 		{
 			if (invoke.getListener() == "_Report_history")
 			{

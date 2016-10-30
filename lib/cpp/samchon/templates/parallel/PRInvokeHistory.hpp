@@ -1,7 +1,7 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/protocol/InvokeHistory.hpp>
+#include <samchon/templates/InvokeHistory.hpp>
 
 namespace samchon
 {
@@ -28,12 +28,12 @@ namespace parallel
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class PRInvokeHistory 
-		: public protocol::InvokeHistory
+		: public InvokeHistory
 	{
 		friend class ParallelSystem;
 
 	private:
-		typedef protocol::InvokeHistory super;
+		typedef InvokeHistory super;
 
 		size_t first_;
 		size_t last_;

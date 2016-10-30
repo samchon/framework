@@ -61,8 +61,8 @@ namespace parallel
 	private:
 		typedef external::ExternalSystem super;
 
-		HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<protocol::InvokeHistory>>> progress_list_;
-		HashMap<size_t, std::shared_ptr<protocol::InvokeHistory>> history_list_;
+		HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<InvokeHistory>>> progress_list_;
+		HashMap<size_t, std::shared_ptr<InvokeHistory>> history_list_;
 
 		double performance_{ 1.0 };
 		bool enforced_{ false };
@@ -96,7 +96,7 @@ namespace parallel
 			{
 				// INVOKE MESSAGE AND ITS HISTORY ON PROGRESS
 				std::shared_ptr<protocol::Invoke> invoke = it->second.first;
-				std::shared_ptr<protocol::InvokeHistory> history = it->second.second;
+				std::shared_ptr<InvokeHistory> history = it->second.second;
 
 				// SEND THEM BACK
 				_Send_back_history(invoke, history);
@@ -219,7 +219,7 @@ namespace parallel
 			}
 
 			// REGISTER THE UID AS PROGRESS
-			std::shared_ptr<protocol::InvokeHistory> history(new PRInvokeHistory(my_invoke));
+			std::shared_ptr<InvokeHistory> history(new PRInvokeHistory(my_invoke));
 			progress_list_.emplace(history->getUID(), make_pair(my_invoke, history));
 
 			// SEND DATA
@@ -227,7 +227,7 @@ namespace parallel
 		};
 
 	protected:
-		virtual void _replyData(std::shared_ptr<protocol::Invoke> invoke) override
+		virtual void _Reply_data(std::shared_ptr<protocol::Invoke> invoke) override
 		{
 			if (invoke->getListener() == "_Report_history")
 				_Report_history(invoke->front()->getValueAsXML());
@@ -268,7 +268,7 @@ namespace parallel
 			((base::ParallelSystemArrayBase*)system_array_)->_Complete_history(history);
 		};
 
-		virtual void _Send_back_history(std::shared_ptr<protocol::Invoke> invoke, std::shared_ptr<protocol::InvokeHistory> $history)
+		virtual void _Send_back_history(std::shared_ptr<protocol::Invoke> invoke, std::shared_ptr<InvokeHistory> $history)
 		{
 			std::shared_ptr<PRInvokeHistory> history = std::dynamic_pointer_cast<PRInvokeHistory>($history);
 			if (history == nullptr)
@@ -310,20 +310,20 @@ namespace parallel
 		/* ---------------------------------------------------------
 			INTERNAL METHODS
 		--------------------------------------------------------- */
-		auto _Get_progress_list() -> HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<protocol::InvokeHistory>>>*
+		auto _Get_progress_list() -> HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<InvokeHistory>>>*
 		{
 			return &progress_list_;
 		};
-		auto _Get_progress_list() const -> const HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<protocol::InvokeHistory>>>*
+		auto _Get_progress_list() const -> const HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<InvokeHistory>>>*
 		{
 			return &progress_list_;
 		};
 		
-		auto _Get_history_list() -> HashMap<size_t, std::shared_ptr<protocol::InvokeHistory>>*
+		auto _Get_history_list() -> HashMap<size_t, std::shared_ptr<InvokeHistory>>*
 		{
 			return &history_list_;
 		};
-		auto _Get_history_list() const -> const HashMap<size_t, std::shared_ptr<protocol::InvokeHistory>>*
+		auto _Get_history_list() const -> const HashMap<size_t, std::shared_ptr<InvokeHistory>>*
 		{
 			return &history_list_;
 		};

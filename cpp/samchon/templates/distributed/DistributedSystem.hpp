@@ -69,7 +69,7 @@ namespace distributed
 			{
 				// INVOKE MESSAGE AND ITS HISTORY ON PROGRESS
 				std::shared_ptr<protocol::Invoke> invoke = it->second.first;
-				std::shared_ptr<protocol::InvokeHistory> history = it->second.second;
+				std::shared_ptr<InvokeHistory> history = it->second.second;
 
 				// SEND THEM BACK
 				_Send_back_history(invoke, history);
@@ -138,7 +138,7 @@ namespace distributed
 			super::replyData(invoke);
 		};
 
-		virtual void _Send_back_history(std::shared_ptr<protocol::Invoke> invoke, std::shared_ptr<protocol::InvokeHistory> $history)
+		virtual void _Send_back_history(std::shared_ptr<protocol::Invoke> invoke, std::shared_ptr<InvokeHistory> $history)
 		{
 			std::shared_ptr<DSInvokeHistory> history = std::dynamic_pointer_cast<DSInvokeHistory>($history);
 			if (history != nullptr)

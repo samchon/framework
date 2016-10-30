@@ -8,7 +8,7 @@
 
 namespace samchon
 {
-namespace protocol
+namespace templates
 {
 	/**
 	 * History of an {@link Invoke} message.
@@ -24,10 +24,10 @@ namespace protocol
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	class InvokeHistory 
-		: public Entity<size_t>
+		: public protocol::Entity<size_t>
 	{
 	private:
-		typedef Entity<size_t> super;
+		typedef protocol::Entity<size_t> super;
 
 	private:
 		size_t uid_;
@@ -52,7 +52,7 @@ namespace protocol
 		 * 
 		 * @param invoke An {@link Invoke} message requesting a *parallel or distributed process*.
 		 */
-		InvokeHistory(std::shared_ptr<Invoke> invoke)
+		InvokeHistory(std::shared_ptr<protocol::Invoke> invoke)
 			: super()
 		{
 			uid_ = invoke->get("_History_uid")->getValue<size_t>();
@@ -163,9 +163,9 @@ namespace protocol
 			return xml;
 		};
 
-		auto toInvoke() const -> std::shared_ptr<Invoke>
+		auto toInvoke() const -> std::shared_ptr<protocol::Invoke>
 		{
-			return std::make_shared<Invoke>("_Report_history", toXML());
+			return std::make_shared<protocol::Invoke>("_Report_history", toXML());
 		};
 	};
 };

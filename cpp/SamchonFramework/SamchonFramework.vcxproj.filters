@@ -144,16 +144,7 @@
     <ClInclude Include="..\samchon\library\CriticalAllocator.hpp">
       <Filter>Header Files\library\critical section</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalDictionary.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalList.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalMap.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalSet.hpp">
       <Filter>Header Files\library\critical section</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\CriticalVector.hpp">
@@ -494,6 +485,18 @@
     </ClInclude>
     <ClInclude Include="..\samchon\templates\distributed\DistributedServerClientArrayMediator.hpp">
       <Filter>Header Files\templates\distributed\derived</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalTreeMap.hpp">
+      <Filter>Header Files\library\critical section</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalTreeSet.hpp">
+      <Filter>Header Files\library\critical section</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\library\CriticalHashMap.hpp">
+      <Filter>Header Files\library\critical section</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\parallel\base\ParallelSystemBase.hpp">
+      <Filter>Header Files\templates\parallel\internal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

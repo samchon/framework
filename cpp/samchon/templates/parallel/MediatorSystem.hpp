@@ -117,7 +117,7 @@ namespace parallel
 			progress_list_.erase(uid);
 
 			// REPORT THE HISTORY TO MASTER
-			sendData(history->toInvoke());
+			std::thread(&MediatorSystem::sendData, this, history->toInvoke()).detach();
 		};
 
 	private:

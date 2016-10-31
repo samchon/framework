@@ -14,7 +14,7 @@ namespace library
 	 * @see samchon::library
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	template <typename _Kty, typename T, typename _Pr = std::less<_Kty>>
-	using CriticalMap = TreeMap<_Kty, T, _Pr, CriticalAllocator<std::pair<const std::string, T>>>;
+	template <typename Key, typename T, typename _Pr = std::less<Key>>
+	using CriticalTreeMap = TreeMap<Key, T, _Pr, CriticalAllocator<std::pair<const Key, T>>>;
 };
 };

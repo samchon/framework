@@ -70,13 +70,17 @@ namespace external
 				return;
 
 			system->communicator_ = driver;
-
-			push_back(system);
+			{
+				library::UniqueWriteLock uk(getMutex());
+				push_back(system);
+			}
 			driver->listen(system.get());
 
 			for (size_t i = 0; i < size(); i++)
 				if (at(i) == system)
 				{
+					library::UniqueWriteLock uk(getMutex());
+
 					erase(begin() + i);
 					break;
 				}

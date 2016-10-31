@@ -248,7 +248,7 @@ namespace distributed
 			for (auto it = process_map_.begin(); it != process_map_.end(); it++)
 			{
 				DistributedProcess *my_process = it->second.get();
-				if (my_process == process || my_process->_Get_history_list()->empty() == true)
+				if (my_process == process || my_process->_Get_history_list().empty() == true)
 					continue;
 
 				average_elapsed_time_of_others += my_process->_Compute_average_elapsed_time() * my_process->getResource();
@@ -269,10 +269,10 @@ namespace distributed
 
 				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 15%
 				double ordinary_ratio;
-				if (process->_Get_history_list()->size() < 2)
+				if (process->_Get_history_list().size() < 2)
 					ordinary_ratio = .15;
 				else
-					ordinary_ratio = min(.85, 1.0 / (process->_Get_history_list()->size() - 1.0));
+					ordinary_ratio = min(.85, 1.0 / (process->_Get_history_list().size() - 1.0));
 
 				// DEFINE NEW PERFORMANCE
 				process->setResource
@@ -319,10 +319,10 @@ namespace distributed
 
 				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX -> MAXIMUM: 30%
 				double ordinary_ratio;
-				if (system->_Get_history_list()->size() < 2)
+				if (system->_Get_history_list().size() < 2)
 					ordinary_ratio = .3;
 				else
-					ordinary_ratio = min(0.7, 1.0 / (system->_Get_history_list()->size() - 1.0));
+					ordinary_ratio = min(0.7, 1.0 / (system->_Get_history_list().size() - 1.0));
 
 				// DEFINE NEW PERFORMANCE
 				system->setPerformance

@@ -2,6 +2,7 @@
 #include <samchon/API.hpp>
 
 #include <samchon/templates/external/ExternalSystem.hpp>
+#include <samchon/templates/parallel/base/ParallelSystemBase.hpp>
 #include <samchon/protocol/IListener.hpp>
 
 #include <samchon/templates/parallel/PRInvokeHistory.hpp>
@@ -56,17 +57,11 @@ namespace parallel
 	 */
 	class ParallelSystem
 		: public virtual external::ExternalSystem,
+		public base::ParallelSystemBase,
 		public virtual protocol::IListener
 	{
 	private:
 		typedef external::ExternalSystem super;
-
-		HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<InvokeHistory>>> progress_list_;
-		HashMap<size_t, std::shared_ptr<InvokeHistory>> history_list_;
-
-		double performance_{ 1.0 };
-		bool enforced_{ false };
-		bool excluded_{ false };
 
 	public:
 		/* ---------------------------------------------------------
@@ -116,18 +111,18 @@ namespace parallel
 		--------------------------------------------------------- */
 		/**
 		 * Get performance index.
-		 * 
+		 *
 		 * Get *performance index* that indicates how much fast the remote system is.
 		 *
 		 * If this {@link ParallelSystem parallel system} does not have any {@link Invoke} message had handled, then the
-		 * *performance index* will be ```1.0```, which means default and average value between all {@link ParallelSystem} 
+		 * *performance index* will be ```1.0```, which means default and average value between all {@link ParallelSystem}
 		 * instances (that are belonged to a same {@link ParallelSystemArray} object).
 		 *
-		 * You can specify this *performance index* by yourself but notice that, if the *performance index* is higher 
-		 * than other {@link ParallelSystem} objects, then this {@link ParallelSystem parallel system} will be ordered to 
-		 * handle more processes than other {@link ParallelSystem} objects. Otherwise, the *performance index* is lower 
+		 * You can specify this *performance index* by yourself but notice that, if the *performance index* is higher
+		 * than other {@link ParallelSystem} objects, then this {@link ParallelSystem parallel system} will be ordered to
+		 * handle more processes than other {@link ParallelSystem} objects. Otherwise, the *performance index* is lower
 		 * than others, of course, less processes will be delivered.
-		 * 
+		 *
 		 * - {@link setPerformance setPerformance()}
 		 * - {@link enforcePerformance enforcePerformance()}
 		 *
@@ -137,7 +132,7 @@ namespace parallel
 		 * - {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()}
 		 * - {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()}
 		 * - {@link DistributedProcess.sendData DistributedProcess.sendData()}.
-		 * 
+		 *
 		 * @return Performance index.
 		 */
 		auto getPerformance() const -> double
@@ -147,26 +142,26 @@ namespace parallel
 
 		/**
 		 * Set performance index.
-		 * 
-		 * Set *performance index* that indicates how much fast the remote system is. This *performance index* can be 
+		 *
+		 * Set *performance index* that indicates how much fast the remote system is. This *performance index* can be
 		 * **revaulated**.
-		 * 
-		 * Note that, initial and average *performance index* of {@link ParallelSystem} objects are ```1.0```. If the 
+		 *
+		 * Note that, initial and average *performance index* of {@link ParallelSystem} objects are ```1.0```. If the
 		 * *performance index* is higher than other {@link ParallelSystem} objects, then this {@link ParallelSystem} will
-		 * be ordered to handle more processes than other {@link ParallelSystem} objects. Otherwise, the 
+		 * be ordered to handle more processes than other {@link ParallelSystem} objects. Otherwise, the
 		 * *performance index* is lower than others, of course, less processes will be delivered.
-		 * 
-		 * Unlike {@link enforcePerformance}, configuring *performance index* by this {@link setPerformance} allows 
+		 *
+		 * Unlike {@link enforcePerformance}, configuring *performance index* by this {@link setPerformance} allows
 		 * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the
-		 * *performance index*. The remote system is much faster than any other, but you estimated it to the slowest one. 
-		 * It looks like a terrible case that causes {@link ParallelSystemArray entire parallel systems} to be slower, 
-		 * however, don't mind. The system will direct to the *propriate performance index* eventually with the 
+		 * *performance index*. The remote system is much faster than any other, but you estimated it to the slowest one.
+		 * It looks like a terrible case that causes {@link ParallelSystemArray entire parallel systems} to be slower,
+		 * however, don't mind. The system will direct to the *propriate performance index* eventually with the
 		 * **revaluation** by following methods.
-		 * 
+		 *
 		 * - {@link ParallelSystemArray.sendSegmentData ParallelSystemArray.sendSegmentData()}
 		 * - {@link ParallelSystemArray.sendPieceData ParallelSystemArray.sendPieceData()}
 		 * - {@link DistributedProcess.sendData DistributedProcess.sendData()}.
-		 * 
+		 *
 		 * @param val New performance index, but can be revaluated.
 		 */
 		void setPerformance(double val)
@@ -177,7 +172,7 @@ namespace parallel
 
 		/**
 		 * Enforce performance index.
-		 * 
+		 *
 		 * Enforce *performance index* that indicates how much fast the remote system is. The *performance index* will be
 		 * fixed, never be **revaluated**.
 		 *
@@ -185,18 +180,18 @@ namespace parallel
 		 * *performance index* is higher than other {@link ParallelSystem} objects, then this {@link ParallelSystem} will
 		 * be ordered to handle more processes than other {@link ParallelSystem} objects. Otherwise, the
 		 * *performance index* is lower than others, of course, less processes will be delivered.
-		 * 
+		 *
 		 * The difference between {@link setPerformance} and this {@link enforcePerformance} is allowing **revaluation**
 		 * or not. This {@link enforcePerformance} does not allow the **revaluation**. The *performance index* is clearly
-		 * fixed and never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the 
-		 * **mis-valuation** with this {@link enforcePerformance}. 
-		 * 
-		 * For example, there's a remote system much faster than any other, but you **mis-estimated** it to the slowest. 
-		 * In that case, there's no way. The {@link ParallelSystemArray entire parallel systems} will be slower by the 
+		 * fixed and never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the
+		 * **mis-valuation** with this {@link enforcePerformance}.
+		 *
+		 * For example, there's a remote system much faster than any other, but you **mis-estimated** it to the slowest.
+		 * In that case, there's no way. The {@link ParallelSystemArray entire parallel systems} will be slower by the
 		 * **mis-valuation**. By the reason, using {@link enforcePerformance}, it's recommended only when you can clearly
-		 * certain the *performance index*. If you can't certain the *performance index* but want to recommend, then use 
+		 * certain the *performance index*. If you can't certain the *performance index* but want to recommend, then use
 		 * {@link setPerformance} instead.
-		 * 
+		 *
 		 * @param val New performance index to be fixed.
 		 */
 		void enforcePerformance(double val)
@@ -206,26 +201,8 @@ namespace parallel
 		};
 
 		/* ---------------------------------------------------------
-			INVOKE MESSAGE CHAIN
+			INVOKE MESSAGE CHAIN - PERFORMANCE ESTIMATION
 		--------------------------------------------------------- */
-		void _Send_piece_data(std::shared_ptr<protocol::Invoke> invoke, size_t first, size_t last)
-		{
-			std::shared_ptr<protocol::Invoke> my_invoke(new protocol::Invoke(invoke->getListener()));
-			{
-				// DUPLICATE INVOKE AND ATTACH PIECE INFO
-				my_invoke->assign(invoke->begin(), invoke->end());
-				my_invoke->emplace_back(new protocol::InvokeParameter("_Piece_first", first));
-				my_invoke->emplace_back(new protocol::InvokeParameter("_Piece_last", last));
-			}
-
-			// REGISTER THE UID AS PROGRESS
-			std::shared_ptr<InvokeHistory> history(new PRInvokeHistory(my_invoke));
-			progress_list_.emplace(history->getUID(), make_pair(my_invoke, history));
-
-			// SEND DATA
-			sendData(my_invoke);
-		};
-
 	protected:
 		virtual void _Reply_data(std::shared_ptr<protocol::Invoke> invoke) override
 		{
@@ -245,6 +222,8 @@ namespace parallel
 
 		virtual void _Report_history(std::shared_ptr<library::XML> xml)
 		{
+			library::UniqueWriteLock uk(system_array_->getMutex());
+
 			//--------
 			// CONSTRUCT HISTORY
 			//--------
@@ -308,25 +287,13 @@ namespace parallel
 		};
 
 		/* ---------------------------------------------------------
-			INTERNAL METHODS
+			INTERNAL ACCESSORS
 		--------------------------------------------------------- */
-		auto _Get_progress_list() -> HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<InvokeHistory>>>*
-		{
-			return &progress_list_;
-		};
-		auto _Get_progress_list() const -> const HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<InvokeHistory>>>*
-		{
-			return &progress_list_;
-		};
+		auto _Get_progress_list() -> HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<InvokeHistory>>>& { return progress_list_; };
+		auto _Get_progress_list() const -> const HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<InvokeHistory>>>& { return progress_list_; };
 		
-		auto _Get_history_list() -> HashMap<size_t, std::shared_ptr<InvokeHistory>>*
-		{
-			return &history_list_;
-		};
-		auto _Get_history_list() const -> const HashMap<size_t, std::shared_ptr<InvokeHistory>>*
-		{
-			return &history_list_;
-		};
+		auto _Get_history_list() -> HashMap<size_t, std::shared_ptr<InvokeHistory>>& { return history_list_; };
+		auto _Get_history_list() const -> const HashMap<size_t, std::shared_ptr<InvokeHistory>>& { return history_list_; };
 
 		auto _Is_enforced() const -> bool
 		{

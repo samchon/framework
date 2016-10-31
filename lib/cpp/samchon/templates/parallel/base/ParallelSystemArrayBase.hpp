@@ -1,12 +1,14 @@
 #pragma once
 #include <samchon/API.hpp>
 
-#include <samchon/templates/InvokeHistory.hpp>
+#include <samchon/templates/external/base/ExternalSystemArrayBase.hpp>
 
 namespace samchon
 {
 namespace templates
 {
+	class InvokeHistory;
+
 namespace parallel
 {
 namespace base
@@ -14,35 +16,42 @@ namespace base
 	class ParallelSystemArrayBase
 	{
 	private:
-		size_t history_sequence;
+		size_t history_sequence_{0};
 
 	public:
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		ParallelSystemArrayBase()
 		{
-			history_sequence = 0;
+			history_sequence_ = 0;
 		};
 		virtual ~ParallelSystemArrayBase() = default;
 
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
 		auto _Get_history_sequence() const -> size_t
 		{
-			return history_sequence;
+			return history_sequence_;
 		};
-		void _Set_history_sequence(size_t val)
-		{
-			history_sequence = val;
-		};
-
 		auto _Fetch_history_sequence() -> size_t
 		{
-			++history_sequence;
+			++history_sequence_;
 		};
 
-		virtual auto sendPieceData(std::shared_ptr<protocol::Invoke>, size_t, size_t) -> size_t = 0;
+		void _Set_history_sequence(size_t val)
+		{
+			history_sequence_ = val;
+		};
 
-		virtual auto _Complete_history(std::shared_ptr<InvokeHistory>) -> bool = 0;
+	public:
+		/* ---------------------------------------------------------
+			INVOKE MESSAGE CHAIN
+		--------------------------------------------------------- */
+		virtual auto sendPieceData(std::shared_ptr<protocol::Invoke> invoke, size_t first, size_t last) -> size_t = 0;
 
-	protected:
-		virtual void _Normalize_performance() = 0;
+		virtual auto _Complete_history(std::shared_ptr<InvokeHistory> history) -> bool = 0;
 	};
 };
 };

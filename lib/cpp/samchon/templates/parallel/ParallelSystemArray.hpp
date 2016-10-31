@@ -165,6 +165,8 @@ namespace parallel
 		 */
 		virtual auto sendPieceData(std::shared_ptr<protocol::Invoke> invoke, size_t first, size_t last) -> size_t
 		{
+			library::UniqueReadLock uk(((external::base::ExternalSystemArrayBase*)this)->getMutex());
+
 			if (invoke->has("_History_uid") == false)
 				invoke->emplace_back(new protocol::InvokeParameter("_History_uid", _Fetch_history_sequence()));
 			else
@@ -184,21 +186,25 @@ namespace parallel
 
 			// SYSTEMS TO BE GET DIVIDED PROCESSES AND
 			std::vector<std::shared_ptr<ParallelSystem>> system_array;
-			std::vector<std::thread> threads; // THREADS TO EMBARK THEM
-
+			std::vector<std::thread> threads;
+			
 			system_array.reserve(size());
 			threads.reserve(size());
-
+			
 			// POP EXCLUDEDS
 			for (size_t i = 0; i < size(); i++)
-				if (at(i)->_Is_excluded() == false)
-					system_array.push_back(at(i));
+			{
+				std::shared_ptr<ParallelSystem> system = at(i);
+				
+				if (system->_Is_excluded() == false)
+					system_array.push_back(system);
+			}
 
 			// ORDERS
 			for (size_t i = 0; i < system_array.size(); i++)
 			{
-				std::shared_ptr<ParallelSystem> system = system_array.at(i);
-
+				std::shared_ptr<ParallelSystem> system = system_array[i];
+				
 				// COMPUTE FIRST AND LAST INDEX TO ALLOCATE
 				size_t piece_size = (i == system_array.size() - 1)
 					? segment_size - first
@@ -206,11 +212,20 @@ namespace parallel
 				if (piece_size == 0)
 					continue;
 
-				// SEND DATA WITH PIECES' INDEXES
-				threads.emplace_back(&ParallelSystem::_Send_piece_data, system.get(), invoke, first, first + piece_size);
+				std::shared_ptr<protocol::Invoke> my_invoke(new protocol::Invoke(invoke->getListener()));
+				{
+					// DUPLICATE INVOKE AND ATTACH PIECE INFO
+					my_invoke->assign(invoke->begin(), invoke->end());
+					my_invoke->emplace_back(new protocol::InvokeParameter("_Piece_first", first));
+					my_invoke->emplace_back(new protocol::InvokeParameter("_Piece_last", last));
+				};
+
+				// ENROLL THE SEND DATA INTO THREADS
+				threads.emplace_back(&ParallelSystem::sendData, system, my_invoke);
 				first += piece_size; // FOR THE NEXT STEP
 			}
 
+			// JOIN THREADS
 			for (auto it = threads.begin(); it != threads.end(); it++)
 				it->join();
 
@@ -230,7 +245,7 @@ namespace parallel
 
 			// ALL THE SUB-TASKS ARE DONE?
 			for (size_t i = 0; i < size(); i++)
-				if (at(i)->_Get_progress_list()->has(uid) == true)
+				if (at(i)->_Get_progress_list().has(uid) == true)
 					return false; // IT'S ON A PROCESS IN SOME SYSTEM.
 
 			//--------
@@ -245,11 +260,11 @@ namespace parallel
 			for (size_t i = 0; i < size(); i++)
 			{
 				std::shared_ptr<ParallelSystem> system = at(i);
-				if (system->_Get_history_list()->has(uid) == false)
+				if (system->_Get_history_list().has(uid) == false)
 					continue; // NO HISTORY (HAVE NOT PARTICIPATED IN THE PARALLEL PROCESS)
 
-							  // COMPUTE PERFORMANCE INDEX BASIS ON EXECUTION TIME OF THIS PARALLEL PROCESS
-				std::shared_ptr<PRInvokeHistory> my_history = std::dynamic_pointer_cast<PRInvokeHistory>(system->_Get_history_list()->get(uid));
+				// COMPUTE PERFORMANCE INDEX BASIS ON EXECUTION TIME OF THIS PARALLEL PROCESS
+				std::shared_ptr<PRInvokeHistory> my_history = std::dynamic_pointer_cast<PRInvokeHistory>(system->_Get_history_list().get(uid));
 				double performance_index = my_history->computeSize() / (double)my_history->computeElapsedTime();
 
 				// PUSH TO SYSTEM PAIRS AND ADD TO AVERAGE
@@ -262,7 +277,7 @@ namespace parallel
 			for (size_t i = 0; i < system_pairs.size(); i++)
 			{
 				// SYSTEM AND NEW PERFORMANCE INDEX BASIS ON THE EXECUTION TIME
-				std::shared_ptr<ParallelSystem> system = system_pairs[i].first;
+				auto system = system_pairs[i].first;
 				if (system->_Is_enforced() == true)
 					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
 
@@ -270,10 +285,10 @@ namespace parallel
 
 				// DEDUCT RATIO TO REFLECT THE NEW PERFORMANCE INDEX
 				double ordinary_ratio;
-				if (system->_Get_history_list()->size() < 2)
+				if (system->_Get_history_list().size() < 2)
 					ordinary_ratio = .3;
 				else
-					ordinary_ratio = std::min(0.7, 1.0 / (system->_Get_history_list()->size() - 1.0));
+					ordinary_ratio = std::min(0.7, 1.0 / (system->_Get_history_list().size() - 1.0));
 
 				system->setPerformance((system->getPerformance() * ordinary_ratio) + (new_performance * (1 - ordinary_ratio)));
 			}
@@ -292,7 +307,7 @@ namespace parallel
 
 			for (size_t i = 0; i < size(); i++)
 			{
-				auto &system = at(i);
+				std::shared_ptr<ParallelSystem> system = at(i);
 				if (system->_Is_enforced() == true)
 					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
 
@@ -304,7 +319,7 @@ namespace parallel
 			// DIVIDE FROM THE AVERAGE
 			for (size_t i = 0; i < size(); i++)
 			{
-				auto &system = at(i);
+				std::shared_ptr<ParallelSystem> system = at(i);
 				if (system->_Is_enforced() == true)
 					continue; // PERFORMANCE INDEX IS ENFORCED. DOES NOT PERMIT REVALUATION
 

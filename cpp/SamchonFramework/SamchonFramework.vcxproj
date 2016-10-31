@@ -259,7 +259,6 @@
     <ClInclude Include="..\samchon\templates\InvokeHistory.hpp" />
     <ClInclude Include="..\samchon\templates\parallel.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\base\ParallelSystemArrayBase.hpp" />
-    <ClInclude Include="..\samchon\templates\parallel\base\ParallelSystemBase.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\MediatorClient.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\MediatorServer.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\MediatorSystem.hpp" />

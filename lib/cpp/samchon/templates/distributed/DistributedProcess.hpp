@@ -244,6 +244,7 @@ namespace distributed
 		 */
 		virtual auto sendData(std::shared_ptr<protocol::Invoke> invoke, double weight) -> std::shared_ptr<DistributedSystem> override
 		{
+			library::UniqueReadLock uk(((external::base::ExternalSystemArrayBase*)system_array_)->getMutex());
 			if (((protocol::SharedEntityDeque<external::ExternalSystem>*)system_array_)->empty() == true)
 				return nullptr;
 
@@ -289,7 +290,7 @@ namespace distributed
 					continue; // BEING REMOVED SYSTEM
 
 				if (idle_system == nullptr
-					|| system->_Get_progress_list()->size() < idle_system->_Get_progress_list()->size()
+					|| system->_Get_progress_list().size() < idle_system->_Get_progress_list().size()
 					|| system->getPerformance() < idle_system->getPerformance())
 					idle_system = system;
 			}
@@ -298,7 +299,9 @@ namespace distributed
 			std::shared_ptr<DSInvokeHistory> history(new DSInvokeHistory(idle_system.get(), this, invoke, weight));
 
 			progress_list_.emplace(uid, history);
-			idle_system->_Get_progress_list()->emplace(uid, make_pair(invoke, history));
+			idle_system->_Get_progress_list().emplace(uid, make_pair(invoke, history));
+
+			uk.unlock(); // SELECTING IDLE AND ARCHIVING HISTORY ENTITY ARE COMPLETED.
 
 			// SEND DATA
 			idle_system->sendData(invoke);
@@ -350,23 +353,11 @@ namespace distributed
 			return sum / history_list_.size();
 		};
 
-		auto _Get_progress_list() -> HashMap<size_t, std::shared_ptr<DSInvokeHistory>>*
-		{
-			return &progress_list_;
-		};
-		auto _Get_progress_list() const -> const HashMap<size_t, std::shared_ptr<DSInvokeHistory>>*
-		{
-			return &progress_list_;
-		};
+		auto _Get_progress_list() -> HashMap<size_t, std::shared_ptr<DSInvokeHistory>>& { return progress_list_; };
+		auto _Get_progress_list() const -> const HashMap<size_t, std::shared_ptr<DSInvokeHistory>>& { return progress_list_; };
 
-		auto _Get_history_list() -> HashMap<size_t, std::shared_ptr<DSInvokeHistory>>*
-		{
-			return &history_list_;
-		};
-		auto _Get_history_list() const -> const HashMap<size_t, std::shared_ptr<DSInvokeHistory>>*
-		{
-			return &history_list_;
-		};
+		auto _Get_history_list() -> HashMap<size_t, std::shared_ptr<DSInvokeHistory>>& { return history_list_; };
+		auto _Get_history_list() const -> const HashMap<size_t, std::shared_ptr<DSInvokeHistory>>& { return history_list_; };
 
 		auto _Is_enforced() const -> bool
 		{

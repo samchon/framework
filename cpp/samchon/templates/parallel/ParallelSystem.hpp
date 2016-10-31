@@ -2,13 +2,13 @@
 #include <samchon/API.hpp>
 
 #include <samchon/templates/external/ExternalSystem.hpp>
-#include <samchon/templates/parallel/base/ParallelSystemBase.hpp>
 #include <samchon/protocol/IListener.hpp>
 
-#include <samchon/templates/parallel/PRInvokeHistory.hpp>
 #include <samchon/templates/parallel/base/ParallelSystemArrayBase.hpp>
 
+#include <thread>
 #include <samchon/HashMap.hpp>
+#include <samchon/templates/parallel/PRInvokeHistory.hpp>
 
 namespace samchon
 {
@@ -57,11 +57,17 @@ namespace parallel
 	 */
 	class ParallelSystem
 		: public virtual external::ExternalSystem,
-		public base::ParallelSystemBase,
 		public virtual protocol::IListener
 	{
 	private:
 		typedef external::ExternalSystem super;
+
+		HashMap<size_t, std::pair<std::shared_ptr<protocol::Invoke>, std::shared_ptr<InvokeHistory>>> progress_list_;
+		HashMap<size_t, std::shared_ptr<InvokeHistory>> history_list_;
+
+		double performance_{ 1.0 };
+		bool enforced_{ false };
+		bool excluded_{ false };
 
 	public:
 		/* ---------------------------------------------------------

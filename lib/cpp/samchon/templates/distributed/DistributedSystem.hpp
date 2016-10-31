@@ -65,7 +65,7 @@ namespace distributed
 			_Set_excluded();
 
 			// SHIFT PARALLEL INVOKE MESSAGES HAD PROGRESSED TO OTHER SLAVES
-			for (auto it = _Get_progress_list()->begin(); it != _Get_progress_list()->end(); it++)
+			for (auto it = _Get_progress_list().begin(); it != _Get_progress_list().end(); it++)
 			{
 				// INVOKE MESSAGE AND ITS HISTORY ON PROGRESS
 				std::shared_ptr<protocol::Invoke> invoke = it->second.first;
@@ -105,7 +105,7 @@ namespace distributed
 			double sum = 0.0;
 			size_t denominator = 0;
 
-			for (auto it = _Get_history_list()->begin(); it != _Get_history_list()->end(); it++)
+			for (auto it = _Get_history_list().begin(); it != _Get_history_list().end(); it++)
 			{
 				std::shared_ptr<DSInvokeHistory> history = std::dynamic_pointer_cast<DSInvokeHistory>(it->second);
 				if (history == nullptr)
@@ -163,6 +163,8 @@ namespace distributed
 			}
 			else
 			{
+				library::UniqueWriteLock uk(system_array_->getMutex());
+
 				//--------
 				// DistributedProcess's history -> DSInvokeHistory
 				//--------
@@ -171,15 +173,15 @@ namespace distributed
 				history->construct(xml);
 
 				// IF THE HISTORY IS NOT EXIST IN PROGRESS, THEN TERMINATE REPORTING
-				auto progress_it = _Get_progress_list()->find(history->getUID());
-				if (progress_it == _Get_progress_list()->end())
+				auto progress_it = _Get_progress_list().find(history->getUID());
+				if (progress_it == _Get_progress_list().end())
 					return;
 
 				history->weight_ = std::dynamic_pointer_cast<DSInvokeHistory>(progress_it->second.second)->getWeight();
 
 				// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
-				_Get_progress_list()->erase(progress_it);
-				_Get_history_list()->emplace(history->getUID(), history);
+				_Get_progress_list().erase(progress_it);
+				_Get_history_list().emplace(history->getUID(), history);
 
 				// ALSO NOTIFY TO THE ROLE
 				if (history->getProcess() != nullptr)

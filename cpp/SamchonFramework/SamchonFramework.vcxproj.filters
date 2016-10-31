@@ -111,9 +111,6 @@
     <ClInclude Include="..\samchon\WeakString.hpp">
       <Filter>Header Files\_base</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\API.hpp">
-      <Filter>Header Files\_base</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\ByteArray.hpp">
       <Filter>Header Files\_base</Filter>
     </ClInclude>
@@ -495,8 +492,8 @@
     <ClInclude Include="..\samchon\library\CriticalHashMap.hpp">
       <Filter>Header Files\library\critical section</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\templates\parallel\base\ParallelSystemBase.hpp">
-      <Filter>Header Files\templates\parallel\internal</Filter>
+    <ClInclude Include="..\samchon\API.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

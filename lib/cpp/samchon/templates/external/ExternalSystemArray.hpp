@@ -144,12 +144,15 @@ namespace external
 		 */
 		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke)
 		{
+			library::UniqueReadLock uk(getMutex());
+
 			std::vector<std::thread> threads;
 			threads.reserve(this->size());
 
 			for (size_t i = 0; i < size(); i++)
 				threads.emplace_back(&ExternalSystem::sendData, at(i).get(), invoke);
 			
+			uk.unlock();
 			for (auto it = threads.begin(); it != threads.end(); it++)
 				it->join();
 		};

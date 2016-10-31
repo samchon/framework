@@ -130,8 +130,6 @@ namespace external
 
 		virtual auto _Get_children() const -> std::vector<std::shared_ptr<ExternalSystem>>
 		{
-			library::UniqueReadLock uk(getMutex());
-
 			std::vector<std::shared_ptr<ExternalSystem>> children(begin(), end());
 			return children;
 		};

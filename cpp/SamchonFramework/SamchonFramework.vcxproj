@@ -71,21 +71,21 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);D:\Platform\Boost\boost_1_62_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);D:\Dependencies\Boost;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);D:\Platform\Boost\boost_1_62_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Platform\Boost\boost_1_62_0\stage\lib_x64;C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);D:\Dependencies\Boost;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Dependencies\Boost\stage\lib_x64;C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);D:\Platform\Boost\boost_1_62_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);D:\Dependencies\Boost;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);D:\Platform\Boost\boost_1_62_0;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Platform\Boost\boost_1_62_0\stage\lib_x64;C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);D:\Dependencies\Boost;C:\Program Files\Microsoft SQL Server\110\SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Dependencies\Boost\stage\lib_x64;C:\Program Files\Microsoft SQL Server\110\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

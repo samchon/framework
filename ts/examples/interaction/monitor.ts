@@ -70,7 +70,7 @@ namespace monitor
 		public getRootSystem(): System
 		{
 			if (this.system_map.empty() == true)
-				return;
+				return null;
 
 			// FIND ROOT (CHIEF) SYSTEM
 			// CHIEF MAY THE FIRST
@@ -133,7 +133,7 @@ namespace monitor
 			// ERASE THIS OBJECT FROM MAP AND PARENT
 			system_map.erase(this.uid);
 			if (this.parent != null)
-				std.remove(this.begin(), this.end(), this as System);
+				std.remove(this.parent.begin(), this.parent.end(), this as System);
 
 			// LET VIEWERS TO SEND SYSTEM STRUCTURE AGAIN
 			let viewers: Reporter = this.monitor.getReporter();
@@ -251,7 +251,7 @@ namespace monitor
 		{
 			let root_system: System = this.monitor.getRootSystem();
 			if (root_system == null)
-				return null;
+				return;
 
 			// SEND ROOT SYSTEM'S STRUCTURE TO ALL CONNECTED SYSTEMS
 			this.sendData(new protocol.Invoke("setSystems", root_system.toXML()));

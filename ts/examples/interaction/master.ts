@@ -108,7 +108,7 @@ namespace master
 		{
 			let ret: boolean = super._Complete_history(history);
 
-			if (this.p_invoke_queue.empty() == false)
+			if (ret == true && this.p_invoke_queue.empty() == false)
 			{
 				// COMPLETE A HISTORY AND POP IT.
 				this.p_invoke_queue.front().complete();

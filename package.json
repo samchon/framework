@@ -9,10 +9,10 @@
 
   "main": "./lib/ts/samchon-framework.js",
   "typings": "./lib/ts/samchon-framework.d.ts",
-  "version": "2.0.0-gamma.11",
+  "version": "2.0.0-gamma.12",
 
   "dependencies": {
-    "typescript-stl": "^1.2.0",
+    "typescript-stl": "^1.2.2",
     "websocket": "~1.0.x"
   },
 

@@ -139,10 +139,7 @@ namespace samchon.templates.external
 		 * 
 		 * @param invoke An {@link Invoke} message have received.
 		 */
-		public replyData(invoke: protocol.Invoke): void
-		{
-			invoke.apply(this);
-		}
+		public abstract replyData(invoke: protocol.Invoke): void;
 
 		/* ---------------------------------------------------------
 			EXPORTERS

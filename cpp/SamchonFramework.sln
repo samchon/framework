@@ -3,33 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "namespace_documentation", "namespace_documentation", "{BCD16A47-DF7C-4B5E-BE61-7DBD24870D2E}"
-	ProjectSection(SolutionItems) = preProject
-		samchon\documentation\library.hpp = samchon\documentation\library.hpp
-		samchon\documentation\mainpage.hpp = samchon\documentation\mainpage.hpp
-		samchon\documentation\namtree.hpp = samchon\documentation\namtree.hpp
-		samchon\documentation\samchon.hpp = samchon\documentation\samchon.hpp
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{186F8973-0E74-439B-82B2-A991806A8717}"
-	ProjectSection(SolutionItems) = preProject
-		samchon\documentation\example.hpp = samchon\documentation\example.hpp
-		samchon\documentation\example_entity.hpp = samchon\documentation\example_entity.hpp
-		samchon\documentation\example_event.hpp = samchon\documentation\example_event.hpp
-		samchon\documentation\example_interaction.hpp = samchon\documentation\example_interaction.hpp
-		samchon\documentation\example_invoke.hpp = samchon\documentation\example_invoke.hpp
-		samchon\documentation\example_packer.hpp = samchon\documentation\example_packer.hpp
-		samchon\documentation\example_tsp.hpp = samchon\documentation\example_tsp.hpp
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "protocol", "protocol", "{E2B5B627-FD70-49B1-B7DE-CC125F91F754}"
-	ProjectSection(SolutionItems) = preProject
-		samchon\documentation\protocol.hpp = samchon\documentation\protocol.hpp
-		samchon\documentation\protocol_master.hpp = samchon\documentation\protocol_master.hpp
-		samchon\documentation\protocol_service.hpp = samchon\documentation\protocol_service.hpp
-		samchon\documentation\protocol_slave.hpp = samchon\documentation\protocol_slave.hpp
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamchonFramework", "SamchonFramework\SamchonFramework.vcxproj", "{EA2BCEC9-8F59-4D52-8BD5-67509AF721FA}"
 EndProject
 Global
@@ -51,9 +24,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{186F8973-0E74-439B-82B2-A991806A8717} = {BCD16A47-DF7C-4B5E-BE61-7DBD24870D2E}
-		{E2B5B627-FD70-49B1-B7DE-CC125F91F754} = {BCD16A47-DF7C-4B5E-BE61-7DBD24870D2E}
 	EndGlobalSection
 EndGlobal

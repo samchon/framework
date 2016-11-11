@@ -97,7 +97,7 @@ namespace external
 		 * @param xml An {@link XML} object represents the child {@link ExternalSystem} object.
 		 * @return null
 		 */
-		virtual auto createChild(std::shared_ptr<library::XML> xml) -> ExternalSystem* override
+		virtual auto createChild(std::shared_ptr<library::XML> xml) -> System* override
 		{
 			return nullptr;
 		} // = delete;
@@ -108,7 +108,7 @@ namespace external
 		 * @param driver A communicator with connected client.
 		 * @return A newly created {@link ExternalSystem} object.
 		 */
-		virtual auto createExternalClient(std::shared_ptr<protocol::ClientDriver>) -> ExternalSystem* = 0;
+		virtual auto createExternalClient(std::shared_ptr<protocol::ClientDriver>) -> System* = 0;
 	};
 };
 };

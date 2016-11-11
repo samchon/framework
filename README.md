@@ -59,7 +59,7 @@ import samchon = require("samchon-framework");
 ```
 
 #### C++
-Samchon Framework is a header only project. Linkage like LIB, DLL or SO is not required at all. **Just include header files what you want**. However, notice that, Samchon Framework has two dependencies you should install.
+Samchon Framework is a header only project. Linkages like LIB, DLL or SO are not required at all. **Just include header files what you want**. However, notice that, Samchon Framework has two dependencies you should install.
   - [Boost](http://www.boost.org) - essential.
   - [ODBC](https://en.wikipedia.org/wiki/Open_Database_Connectivity) - optional, required only when using SQL driver.
 

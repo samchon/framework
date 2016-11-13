@@ -256,6 +256,11 @@ namespace monitor
 			// SEND ROOT SYSTEM'S STRUCTURE TO ALL CONNECTED SYSTEMS
 			this.sendData(new protocol.Invoke("setSystems", root_system.toXML()));
 		}
+
+		public replyData(invoke: protocol.Invoke): void
+		{
+			invoke.apply(this);
+		}
 	}
 
 	export class Viewer extends templates.external.ExternalSystem

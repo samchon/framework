@@ -8,8 +8,8 @@
 #include <samchon/templates/distributed/base/DistributedSystemArrayBase.hpp>
 #include <samchon/templates/distributed/base/DistributedProcessBase.hpp>
 
+#include <mutex>
 #include <samchon/HashMap.hpp>
-#include <samchon/templates/InvokeHistory.hpp>
 
 namespace samchon
 {
@@ -54,7 +54,9 @@ namespace parallel
 		typedef slave::SlaveSystem super;
 
 		external::base::ExternalSystemArrayBase *system_array_;
-		HashMap<size_t, std::shared_ptr<InvokeHistory>> progress_list_;
+		HashMap<size_t, std::shared_ptr<slave::InvokeHistory>> progress_list_;
+
+		std::mutex mtx_;
 
 	public:
 		/* ---------------------------------------------------------
@@ -102,6 +104,8 @@ namespace parallel
 		--------------------------------------------------------- */
 		void _Complete_history(size_t uid)
 		{
+			std::unique_lock<std::mutex> uk(mtx_);
+
 			//--------
 			// NEED TO REDEFINE START AND END TIME
 			//--------
@@ -110,7 +114,7 @@ namespace parallel
 				return;
 
 			// COMPLETE THE HISTORY
-			std::shared_ptr<InvokeHistory> history = progress_list_.get(uid);
+			std::shared_ptr<slave::InvokeHistory> history = progress_list_.get(uid);
 			history->complete();
 
 			// ERASE THE HISTORY ON PROGRESS LIST
@@ -126,7 +130,7 @@ namespace parallel
 			if (invoke->has("_History_uid") == true)
 			{
 				// REGISTER THIS PROCESS ON HISTORY LIST
-				std::shared_ptr<InvokeHistory> history(new InvokeHistory(invoke));
+				std::shared_ptr<slave::InvokeHistory> history(new slave::InvokeHistory(invoke));
 				progress_list_.insert({ history->getUID(), history });
 
 				if (invoke->has("_Piece_first") == true)

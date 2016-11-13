@@ -165,7 +165,7 @@ namespace parallel
 		 */
 		virtual auto sendPieceData(std::shared_ptr<protocol::Invoke> invoke, size_t first, size_t last) -> size_t
 		{
-			library::UniqueReadLock uk(((external::base::ExternalSystemArrayBase*)this)->getMutex());
+			library::UniqueWriteLock uk(getMutex());
 
 			if (invoke->has("_History_uid") == false)
 				invoke->emplace_back(new protocol::InvokeParameter("_History_uid", _Fetch_history_sequence()));
@@ -220,10 +220,15 @@ namespace parallel
 					my_invoke->emplace_back(new protocol::InvokeParameter("_Piece_last", last));
 				};
 
+				// ENROLL TO PROGRESS LIST
+				std::shared_ptr<slave::InvokeHistory> history(new PRInvokeHistory(my_invoke));
+				system->_Get_progress_list().emplace(history->getUID(), std::make_pair(invoke, history));
+
 				// ENROLL THE SEND DATA INTO THREADS
-				threads.emplace_back(&ParallelSystem::sendData, system, my_invoke);
+				threads.emplace_back(&ParallelSystem::sendData, system.get(), my_invoke);
 				first += piece_size; // FOR THE NEXT STEP
 			}
+			uk.unlock();
 
 			// JOIN THREADS
 			for (auto it = threads.begin(); it != threads.end(); it++)
@@ -235,12 +240,16 @@ namespace parallel
 		/* ---------------------------------------------------------
 			PERFORMANCE ESTIMATION - INTERNAL METHODS
 		--------------------------------------------------------- */
-		virtual auto _Complete_history(std::shared_ptr<InvokeHistory> history) -> bool
+		virtual auto _Complete_history(std::shared_ptr<slave::InvokeHistory> history) -> bool
 		{
 			// WRONG TYPE
 			if (std::dynamic_pointer_cast<PRInvokeHistory>(history) == nullptr)
 				return false;
 
+			//========
+			// READ LOCK
+			//========
+			library::UniqueWriteLock uk(getMutex());
 			size_t uid = history->getUID();
 
 			// ALL THE SUB-TASKS ARE DONE?

@@ -1,7 +1,7 @@
 #pragma once
 #include <samchon/templates/slave/SlaveClient.hpp>
 
-#include <samchon/templates/PInvoke.hpp>
+#include <samchon/templates/slave/PInvoke.hpp>
 #include <samchon/examples/interaction/base/MasterBase.hpp>
 #include <samchon/examples/interaction/TSPRequest.hpp>
 #include <samchon/examples/interaction/PackerRequest.hpp>
@@ -49,7 +49,7 @@ namespace interaction
 				uid = invoke->front()->getValue<int>();
 			else
 			{
-				auto pInvoke = std::dynamic_pointer_cast<templates::PInvoke>(invoke);
+				auto pInvoke = std::dynamic_pointer_cast<templates::slave::PInvoke>(invoke);
 				if (pInvoke != nullptr)
 				{
 					pInvoke->hold();

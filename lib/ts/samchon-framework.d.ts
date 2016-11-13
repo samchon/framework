@@ -1,4 +1,4 @@
-// Type definitions for Samchon Framework v2.0.0-gamma.11
+// Type definitions for Samchon Framework v2.0.0-rc.1
 // Project: https://github.com/samchon/framework
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -3603,7 +3603,7 @@ declare namespace samchon.templates.external {
          *
          * @param invoke An {@link Invoke} message have received.
          */
-        replyData(invoke: protocol.Invoke): void;
+        abstract replyData(invoke: protocol.Invoke): void;
         /**
          * Tag name of the {@link ExternalSytemArray} in {@link XML}.
          *
@@ -3758,7 +3758,7 @@ declare namespace samchon.templates.parallel {
         /**
          * @hidden
          */
-        protected _Complete_history(history: InvokeHistory): boolean;
+        protected _Complete_history(history: slave.InvokeHistory): boolean;
         /**
          * @hidden
          */
@@ -3911,7 +3911,7 @@ declare namespace samchon.templates.distributed {
         /**
          * @hidden
          */
-        protected _Complete_history(history: InvokeHistory): boolean;
+        protected _Complete_history(history: slave.InvokeHistory): boolean;
         /**
          * @hidden
          */
@@ -4089,7 +4089,7 @@ declare namespace samchon.templates.distributed {
         /**
          * @hidden
          */
-        protected _Complete_history(history: parallel.PRInvokeHistory): boolean;
+        protected _Complete_history(history: slave.InvokeHistory): boolean;
     }
 }
 declare namespace samchon.protocol {
@@ -7283,7 +7283,7 @@ declare namespace samchon.templates.parallel {
         /**
          * @hidden
          */
-        protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void;
+        protected _Send_back_history(invoke: protocol.Invoke, history: slave.InvokeHistory): void;
     }
 }
 declare namespace samchon.templates.distributed {
@@ -7385,7 +7385,7 @@ declare namespace samchon.templates.distributed {
         /**
          * @hidden
          */
-        protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void;
+        protected _Send_back_history(invoke: protocol.Invoke, history: slave.InvokeHistory): void;
     }
 }
 declare namespace samchon.templates.distributed {
@@ -7946,7 +7946,7 @@ declare namespace samchon.templates.distributed {
         connect(): void;
     }
 }
-declare namespace samchon.templates {
+declare namespace samchon.templates.slave {
     /**
      * History of an {@link Invoke} message.
      *
@@ -8056,7 +8056,7 @@ declare namespace samchon.templates.distributed {
      * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    class DSInvokeHistory extends InvokeHistory {
+    class DSInvokeHistory extends slave.InvokeHistory {
         /**
          * @hidden
          */
@@ -9486,7 +9486,7 @@ declare namespace samchon.templates.parallel {
         /**
          * @hidden
          */
-        protected _Complete_history(history: PRInvokeHistory): boolean;
+        protected _Complete_history(history: slave.InvokeHistory): boolean;
     }
 }
 declare namespace samchon.templates.parallel {
@@ -10173,7 +10173,7 @@ declare namespace samchon.templates.parallel {
      * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
      * @author Jeongho Nam <http://samchon.org>
      */
-    class PRInvokeHistory extends InvokeHistory {
+    class PRInvokeHistory extends slave.InvokeHistory {
         /**
          * @hidden
          */
@@ -10214,33 +10214,6 @@ declare namespace samchon.templates.parallel {
          * Compute number of allocated pieces.
          */
         computeSize(): number;
-    }
-}
-declare namespace samchon.templates {
-    class PInvoke extends protocol.Invoke {
-        /**
-         * @hidden
-         */
-        private history_;
-        /**
-         * @hidden
-         */
-        private master_driver_;
-        /**
-         * @hidden
-         */
-        private hold_;
-        constructor(invoke: protocol.Invoke, history: InvokeHistory, masterDriver: protocol.IProtocol);
-        getHistory(): InvokeHistory;
-        isHold(): boolean;
-        /**
-         * Hold reporting completion to master.
-         */
-        hold(): void;
-        /**
-         * Report completion.
-         */
-        complete(): void;
     }
 }
 declare namespace samchon.templates.service {
@@ -10803,6 +10776,33 @@ declare namespace samchon.templates.service {
          * @param invoke An {@link Invoke invoke} message to be handled in {@link User} level.
          */
         replyData(invoke: protocol.Invoke): void;
+    }
+}
+declare namespace samchon.templates.slave {
+    class PInvoke extends protocol.Invoke {
+        /**
+         * @hidden
+         */
+        private history_;
+        /**
+         * @hidden
+         */
+        private master_driver_;
+        /**
+         * @hidden
+         */
+        private hold_;
+        constructor(invoke: protocol.Invoke, history: InvokeHistory, masterDriver: protocol.IProtocol);
+        getHistory(): InvokeHistory;
+        isHold(): boolean;
+        /**
+         * Hold reporting completion to master.
+         */
+        hold(): void;
+        /**
+         * Report completion.
+         */
+        complete(): void;
     }
 }
 declare namespace samchon.templates.slave {

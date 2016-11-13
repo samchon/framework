@@ -197,7 +197,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		protected _Send_back_history(invoke: protocol.Invoke, history: InvokeHistory): void
+		protected _Send_back_history(invoke: protocol.Invoke, history: slave.InvokeHistory): void
 		{
 			if (history instanceof DSInvokeHistory)
 			{

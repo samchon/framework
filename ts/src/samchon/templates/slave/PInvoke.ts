@@ -1,8 +1,8 @@
-﻿/// <reference path="../API.ts" />
+﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../protocol/Invoke.ts" />
+/// <reference path="../../protocol/Invoke.ts" />
 
-namespace samchon.templates
+namespace samchon.templates.slave
 {
 	export class PInvoke extends protocol.Invoke
 	{

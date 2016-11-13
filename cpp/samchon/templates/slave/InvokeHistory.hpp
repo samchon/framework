@@ -10,6 +10,8 @@ namespace samchon
 {
 namespace templates
 {
+namespace slave
+{
 	/**
 	 * History of an {@link Invoke} message.
 	 * 
@@ -168,5 +170,6 @@ namespace templates
 			return std::make_shared<protocol::Invoke>("_Report_history", toXML());
 		};
 	};
+};
 };
 };

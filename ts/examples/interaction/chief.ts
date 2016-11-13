@@ -98,7 +98,7 @@ namespace chief
 			this.sendData(new protocol.Invoke("set_chief_uid", this.uid));
 		}
 
-		protected _Complete_history(history: samchon.templates.InvokeHistory): boolean
+		protected _Complete_history(history: samchon.templates.slave.InvokeHistory): boolean
 		{
 			let ret = super._Complete_history(history);
 

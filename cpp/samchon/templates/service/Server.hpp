@@ -141,16 +141,14 @@ namespace service
 		 */
 		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
 		{
-			session_map_mtx.readLock();
-			auto users = session_map;
-			session_map_mtx.readUnlock();
-
 			std::vector<std::thread> threadArray;
-			threadArray.reserve(users.size());
+			library::UniqueReadLock uk(session_map_mtx);
 
-			for (auto it = users.begin(); it != users.end(); it++)
+			threadArray.reserve(session_map.size());
+			for (auto it = session_map.begin(); it != session_map.end(); it++)
 				threadArray.emplace_back(&User::sendData, it->second.get(), invoke);
 
+			uk.unlock();
 			for (auto it = threadArray.begin(); it != threadArray.end(); it++)
 				it->join();
 		};

@@ -157,6 +157,7 @@
     <ClInclude Include="..\samchon\examples\calculator\CalculatorApplication.hpp" />
     <ClInclude Include="..\samchon\examples\calculator\CalculatorServer.hpp" />
     <ClInclude Include="..\samchon\examples\http.hpp" />
+    <ClInclude Include="..\samchon\examples\interaction\base\ChiefBase.hpp" />
     <ClInclude Include="..\samchon\examples\interaction\base\MasterBase.hpp" />
     <ClInclude Include="..\samchon\examples\interaction\base\MonitorBase.hpp" />
     <ClInclude Include="..\samchon\examples\interaction\base\ReporterBase.hpp" />
@@ -291,7 +292,6 @@
     <ClInclude Include="..\samchon\templates\external\ExternalSystem.hpp" />
     <ClInclude Include="..\samchon\templates\external\ExternalSystemArray.hpp" />
     <ClInclude Include="..\samchon\templates\external\ExternalSystemRole.hpp" />
-    <ClInclude Include="..\samchon\templates\InvokeHistory.hpp" />
     <ClInclude Include="..\samchon\templates\parallel.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\base\ParallelSystemArrayBase.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\MediatorClient.hpp" />
@@ -310,13 +310,17 @@
     <ClInclude Include="..\samchon\templates\parallel\ParallelSystemArray.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\ParallelSystemArrayMediator.hpp" />
     <ClInclude Include="..\samchon\templates\parallel\PRInvokeHistory.hpp" />
-    <ClInclude Include="..\samchon\templates\PInvoke.hpp" />
     <ClInclude Include="..\samchon\templates\service.hpp" />
     <ClInclude Include="..\samchon\templates\service\Client.hpp" />
     <ClInclude Include="..\samchon\templates\service\Server.hpp" />
     <ClInclude Include="..\samchon\templates\service\Service.hpp" />
     <ClInclude Include="..\samchon\templates\service\User.hpp" />
     <ClInclude Include="..\samchon\templates\slave.hpp" />
+    <ClInclude Include="..\samchon\templates\slave\InvokeHistory.hpp" />
+    <ClInclude Include="..\samchon\templates\slave\PInvoke.hpp" />
+    <ClInclude Include="..\samchon\templates\slave\SlaveClient.hpp" />
+    <ClInclude Include="..\samchon\templates\slave\SlaveServer.hpp" />
+    <ClInclude Include="..\samchon\templates\slave\SlaveSystem.hpp" />
     <ClInclude Include="..\samchon\TreeMap.hpp" />
     <ClInclude Include="..\samchon\WeakString.hpp" />
   </ItemGroup>

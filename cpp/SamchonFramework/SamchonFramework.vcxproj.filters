@@ -72,9 +72,6 @@
     <Filter Include="Header Files\protocol\basic components\web socket">
       <UniqueIdentifier>{7163e7ac-38ba-4fcb-ad84-efe2d0e30106}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\templates\_base">
-      <UniqueIdentifier>{8b491669-dbd3-4fbf-b6c1-2bb9e7fbf51c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\templates\external\derived">
       <UniqueIdentifier>{05a0f734-ca17-4b06-9dc0-da226118ca02}</UniqueIdentifier>
     </Filter>
@@ -125,6 +122,9 @@
     </Filter>
     <Filter Include="Header Files\examples\interaction\master &amp; mediator\drivers">
       <UniqueIdentifier>{2f7d1690-4dd9-455f-aac6-f233314eb3da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\templates\slave">
+      <UniqueIdentifier>{daecae49-d91b-4c67-adfe-4b5b07dba178}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -346,12 +346,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\protocol\WebSocketUtil.hpp">
       <Filter>Header Files\protocol\basic components\web socket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\templates\InvokeHistory.hpp">
-      <Filter>Header Files\templates\_base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\templates\PInvoke.hpp">
-      <Filter>Header Files\templates\_base</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\protocol.hpp">
       <Filter>Header Files</Filter>
@@ -628,6 +622,24 @@
     </ClInclude>
     <ClInclude Include="..\samchon\examples\interaction\Chief.hpp">
       <Filter>Header Files\examples\interaction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\examples\interaction\base\ChiefBase.hpp">
+      <Filter>Header Files\examples\interaction\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\slave\SlaveServer.hpp">
+      <Filter>Header Files\templates\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\slave\SlaveSystem.hpp">
+      <Filter>Header Files\templates\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\slave\InvokeHistory.hpp">
+      <Filter>Header Files\templates\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\slave\PInvoke.hpp">
+      <Filter>Header Files\templates\slave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samchon\templates\slave\SlaveClient.hpp">
+      <Filter>Header Files\templates\slave</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

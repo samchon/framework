@@ -1,9 +1,8 @@
-﻿/// <reference path="../API.ts" />
+﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../protocol/Entity.ts" />
-/// <reference path="../protocol/EntityArray.ts" />
+/// <reference path="../../protocol/Entity.ts" />
 
-namespace samchon.templates
+namespace samchon.templates.slave
 {
 	/**
 	 * History of an {@link Invoke} message.

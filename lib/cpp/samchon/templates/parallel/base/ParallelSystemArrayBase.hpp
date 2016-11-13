@@ -7,7 +7,10 @@ namespace samchon
 {
 namespace templates
 {
+namespace slave
+{
 	class InvokeHistory;
+};
 
 namespace parallel
 {
@@ -37,7 +40,7 @@ namespace base
 		};
 		auto _Fetch_history_sequence() -> size_t
 		{
-			++history_sequence_;
+			return ++history_sequence_;
 		};
 
 		void _Set_history_sequence(size_t val)
@@ -51,7 +54,7 @@ namespace base
 		--------------------------------------------------------- */
 		virtual auto sendPieceData(std::shared_ptr<protocol::Invoke> invoke, size_t first, size_t last) -> size_t = 0;
 
-		virtual auto _Complete_history(std::shared_ptr<InvokeHistory> history) -> bool = 0;
+		virtual auto _Complete_history(std::shared_ptr<slave::InvokeHistory> history) -> bool = 0;
 	};
 };
 };

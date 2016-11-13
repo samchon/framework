@@ -4,7 +4,7 @@
 #include <samchon/protocol/IListener.hpp>
 
 #include <samchon/protocol/Communicator.hpp>
-#include <samchon/templates/PInvoke.hpp>
+#include <samchon/templates/slave/PInvoke.hpp>
 
 namespace samchon
 {

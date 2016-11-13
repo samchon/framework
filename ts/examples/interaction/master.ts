@@ -28,7 +28,7 @@ namespace master
 
 		private packer: base.PackerProcess;
 		private tsp: base.TSPProcess;
-		private p_invoke_queue: std.Queue<templates.PInvoke>;
+		private p_invoke_queue: std.Queue<templates.slave.PInvoke>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -45,7 +45,7 @@ namespace master
 
 			this.packer = new base.PackerProcess(this);
 			this.tsp = new base.TSPProcess(this);
-			this.p_invoke_queue = new std.Queue<templates.PInvoke>();
+			this.p_invoke_queue = new std.Queue<templates.slave.PInvoke>();
 		}
 
 		protected createServerBase(): protocol.IServerBase
@@ -104,7 +104,7 @@ namespace master
 			this.chief.sendData(new protocol.Invoke("construct", xml));
 		}
 
-		protected _Complete_history(history: templates.InvokeHistory): boolean
+		protected _Complete_history(history: templates.slave.InvokeHistory): boolean
 		{
 			let ret: boolean = super._Complete_history(history);
 
@@ -179,7 +179,7 @@ namespace master
 			//----
 			// OPTIMIZE - FROM CHIEF
 			//----
-			if (invoke instanceof templates.PInvoke)
+			if (invoke instanceof templates.slave.PInvoke)
 			{
 				// HOLD COMPLETION
 				invoke.hold();

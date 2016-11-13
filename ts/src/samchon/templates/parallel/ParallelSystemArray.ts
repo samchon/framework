@@ -214,7 +214,7 @@ namespace samchon.templates.parallel
 		/**
 		 * @hidden
 		 */
-		protected _Complete_history(history: InvokeHistory): boolean
+		protected _Complete_history(history: slave.InvokeHistory): boolean
 		{
 			// WRONG TYPE
 			if ((history instanceof PRInvokeHistory) == false)

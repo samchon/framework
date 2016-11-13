@@ -20,8 +20,6 @@ namespace interaction
 	private:
 		typedef templates::parallel::ParallelSystem super;
 
-		base::MasterBase *master;
-
 	public:
 		SlaveDriver(base::MasterBase *master, std::shared_ptr<protocol::ClientDriver> driver)
 			: super(master, driver)
@@ -34,11 +32,15 @@ namespace interaction
 		virtual ~SlaveDriver()
 		{
 			std::cout << "A slave has disconnected" << std::endl;
+
+			if (getUID() != -1)
+				getSystemArray<base::MasterBase>()->getMonitor()->sendSystemStructure();
 		};
 
 		virtual void construct(std::shared_ptr<library::XML> xml) override
 		{
 			setUID(xml->getProperty<int>("uid"));
+
 			super::construct(xml);
 		};
 		
@@ -54,7 +56,7 @@ namespace interaction
 			super::sendData(invoke);
 
 			// NOTIFY SEND_DATA
-			master->getMonitor()->reportSendData(getUID(), invoke);
+			getSystemArray<base::MasterBase>()->getMonitor()->reportSendData(getUID(), invoke);
 		};
 
 		virtual void replyData(std::shared_ptr<protocol::Invoke> invoke) override
@@ -62,9 +64,9 @@ namespace interaction
 			if (invoke->getListener() == "construct")
 				construct(invoke->front()->getValueAsXML());
 			else if (invoke->getListener() == "replyPackerOptimization")
-				master->getPacker()->replyOptimization(invoke->front()->getValueAsXML());
+				getSystemArray<base::MasterBase>()->getPacker()->replyOptimization(invoke->front()->getValueAsXML());
 			else if (invoke->getListener() == "replyTSPOptimization")
-				master->getTSP()->replyOptimization(invoke->front()->getValueAsXML());
+				getSystemArray<base::MasterBase>()->getTSP()->replyOptimization(invoke->front()->getValueAsXML());
 		};
 
 		virtual auto TAG() const -> std::string 

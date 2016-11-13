@@ -193,7 +193,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		protected _Complete_history(history: parallel.PRInvokeHistory): boolean
+		protected _Complete_history(history: slave.InvokeHistory): boolean
 		{
 			let ret: boolean = super._Complete_history(history);
 			if (ret == true)

@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../InvokeHistory.ts" />
+/// <reference path="../slave/InvokeHistory.ts" />
 
 namespace samchon.templates.parallel
 {
@@ -25,7 +25,7 @@ namespace samchon.templates.parallel
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class PRInvokeHistory 
-		extends InvokeHistory
+		extends slave.InvokeHistory
 	{
 		/**
 		 * @hidden

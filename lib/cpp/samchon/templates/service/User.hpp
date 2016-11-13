@@ -228,16 +228,14 @@ namespace service
 		 */
 		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
 		{
-			library::UniqueReadLock uk(mtx);
-			super clients = *this;
-			uk.unlock();
-
 			std::vector<std::thread> threadArray;
-			threadArray.reserve(clients.size());
+			library::UniqueReadLock uk(mtx);
 
-			for (auto it = clients.begin(); it != clients.end(); it++)
+			threadArray.reserve(size());
+			for (auto it = begin(); it != end(); it++)
 				threadArray.emplace_back(&Client::sendData, it->second.get(), invoke);
 
+			uk.unlock();
 			for (auto it = threadArray.begin(); it != threadArray.end(); it++)
 				it->join();
 		};

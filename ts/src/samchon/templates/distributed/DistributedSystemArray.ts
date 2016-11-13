@@ -221,7 +221,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		protected _Complete_history(history: InvokeHistory): boolean
+		protected _Complete_history(history: slave.InvokeHistory): boolean
 		{
 			if (history instanceof DSInvokeHistory)
 			{

@@ -59,7 +59,7 @@ namespace samchon.protocol
 		 * @param listener
 		 * @param parameters
 		 */
-		public constructor(listener: string, ...parameters: Array<number|string|library.XML>);
+		public constructor(listener: string, ...parameters: Array<boolean|number|string|library.XML|Uint8Array>);
 
 		public constructor(...args: any[])
 		{

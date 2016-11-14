@@ -134,7 +134,7 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		private unhandled_invokes: std.Deque<Invoke>;
+		private unhandled_invokes_: std.Deque<Invoke>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -161,7 +161,7 @@ namespace samchon.protocol
 			this.binary_invoke_ = null;
 			this.binary_parameters_ = new std.Queue<InvokeParameter>();
 
-			this.unhandled_invokes = new std.Deque<Invoke>();
+			this.unhandled_invokes_ = new std.Deque<Invoke>();
 		}
 
 		/**
@@ -202,7 +202,7 @@ namespace samchon.protocol
 		public replyData(invoke: Invoke): void
 		{
 			if (this.listener_ == null)
-				this.unhandled_invokes.push_back(invoke);
+				this.unhandled_invokes_.push_back(invoke);
 			else
 			{
 				if ((this.listener_ as any)["_Reply_data"] instanceof Function)

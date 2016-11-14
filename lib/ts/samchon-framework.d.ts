@@ -1,4 +1,4 @@
-// Type definitions for Samchon Framework v2.0.0-rc.1
+// Type definitions for Samchon Framework v2.0.0-rc.2
 // Project: https://github.com/samchon/framework
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -5117,7 +5117,7 @@ declare namespace samchon.protocol {
          * @param listener
          * @param parameters
          */
-        constructor(listener: string, ...parameters: Array<number | string | library.XML>);
+        constructor(listener: string, ...parameters: Array<boolean | number | string | library.XML | Uint8Array>);
         /**
          * @inheritdoc
          */
@@ -5178,11 +5178,12 @@ declare namespace samchon.protocol {
         /**
          * Value of the parameter.
          */
-        protected value: string | number | library.XML | Uint8Array;
+        protected value: boolean | number | string | library.XML | Uint8Array;
         /**
          * Default Constructor.
          */
         constructor();
+        constructor(val: boolean);
         constructor(val: number);
         constructor(val: string);
         constructor(val: library.XML);
@@ -5193,6 +5194,7 @@ declare namespace samchon.protocol {
          * @param name
          * @param val
          */
+        constructor(name: string, val: boolean);
         constructor(name: string, val: number);
         constructor(name: string, val: string);
         constructor(name: string, val: library.XML);
@@ -5201,6 +5203,7 @@ declare namespace samchon.protocol {
          * @inheritdoc
          */
         construct(xml: library.XML): void;
+        setValue(value: boolean): void;
         setValue(value: number): void;
         setValue(value: string): void;
         setValue(value: library.XML): void;

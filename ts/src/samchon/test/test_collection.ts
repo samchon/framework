@@ -7,6 +7,8 @@ namespace samchon.test
 {
 	export function test_collection(): void
 	{
+		console.log(new protocol.Invoke("ABCD", true, false, 3.0, "ABCD").toXML().toString());
+
 		let container = new collections.DequeCollection<number>();
 		container.addEventListener("insert", handle_event);
 		container.addEventListener("erase", handle_event);

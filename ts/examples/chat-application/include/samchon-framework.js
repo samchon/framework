@@ -6979,6 +6979,8 @@ var samchon;
                 this.type = xml.getProperty("type");
                 if (this.type == "XML")
                     this.value = xml.begin().second.front();
+                else if (this.type == "boolean")
+                    this.value = Boolean(xml.getValue());
                 else if (this.type == "number")
                     this.value = Number(xml.getValue());
                 else if (this.type == "string")

@@ -29,13 +29,14 @@ namespace samchon.protocol
 		/** 
 		 * Value of the parameter.
 		 */
-		protected value: string | number | library.XML | Uint8Array = null;
+		protected value: boolean | number | string | library.XML | Uint8Array = null;
 
 		/**
 		 * Default Constructor.
 		 */
 		public constructor();
 
+		public constructor(val: boolean);
 		public constructor(val: number);
 		public constructor(val: string);
 		public constructor(val: library.XML);
@@ -47,6 +48,7 @@ namespace samchon.protocol
 		 * @param name
 		 * @param val
 		 */
+		public constructor(name: string, val: boolean);
 		public constructor(name: string, val: number);
 		public constructor(name: string, val: string);
 		public constructor(name: string, val: library.XML);
@@ -86,18 +88,21 @@ namespace samchon.protocol
 
 			if (this.type == "XML")
 				this.value = xml.begin().second.front();
+			else if (this.type == "boolean")
+				this.value = Boolean(xml.getValue());
 			else if (this.type == "number")
 				this.value = Number(xml.getValue());
 			else if (this.type == "string")
 				this.value = xml.getValue();
 		}
 
+		public setValue(value: boolean): void;
 		public setValue(value: number): void;
 		public setValue(value: string): void;
 		public setValue(value: library.XML): void;
 		public setValue(value: Uint8Array): void;
 
-		public setValue(value: number | string | library.XML | Uint8Array): void
+		public setValue(value: boolean | number | string | library.XML | Uint8Array): void
 		{
 			this.value = value;
 

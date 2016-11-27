@@ -29,14 +29,18 @@ namespace library
 	class RWMutex
 	{
 	private:
-		//Status variables
-		size_t reading;
-		bool writing;
+		// Status variables
+		size_t readers_count_;
+		std::atomic<bool> writing_;
 
-		//Lockers
-		std::condition_variable cv;
-		std::mutex read_mtx;
-		std::mutex write_mtx;
+		// Conditional waiters
+		std::condition_variable read_cv_;
+		std::condition_variable write_cv_;
+
+		// Lockers
+		std::mutex readers_count_mtx_;
+		std::mutex read_mtx_;
+		std::mutex write_mtx_;
 
 	public:
 		/**
@@ -44,8 +48,8 @@ namespace library
 		 */
 		RWMutex()
 		{
-			reading = 0;
-			writing = false;
+			readers_count_ = 0;
+			writing_ = false;
 		};
 
 		/**
@@ -62,12 +66,16 @@ namespace library
 		 */
 		void readLock() const
 		{
-			std::unique_lock<std::mutex> uk((std::mutex&)read_mtx);
+			// WAIT WRITE_UNLOCK
+			std::unique_lock<std::mutex> uk((std::mutex&)read_mtx_);
 
-			while (writing == true)
-				((std::condition_variable&)cv).wait(uk);
+			while (writing_ == true)
+				((std::condition_variable&)read_cv_).wait(uk);
 
-			((size_t&)reading)++;
+			// PLUS NUMBER OF READERS
+			((std::mutex&)readers_count_mtx_).lock();
+			((size_t&)readers_count_)++;
+			((std::mutex&)readers_count_mtx_).unlock();
 		};
 
 		/**
@@ -81,11 +89,16 @@ namespace library
 		 */
 		void readUnlock() const
 		{
-			std::unique_lock<std::mutex> uk((std::mutex&)read_mtx);
+			std::unique_lock<std::mutex> uk((std::mutex&)readers_count_mtx_);
 
 			//차감 전 이미 0 (과도한 readUnlock 수행) 은 안 됨
-			if (reading != 0 && --((size_t&)reading) == 0)
-				((std::condition_variable&)cv).notify_all();
+			if (readers_count_ != 0 && --((size_t&)readers_count_) == 0)
+			{
+				uk.unlock();
+
+				((std::condition_variable&)read_cv_).notify_all();
+				((std::condition_variable&)write_cv_).notify_all();
+			}
 		};
 
 		/**
@@ -103,13 +116,12 @@ namespace library
 		 */
 		void writeLock()
 		{
-			std::unique_lock<std::mutex> uk(read_mtx);
-			while (reading > 0)
-				cv.wait(uk);
-			uk.unlock();
+			std::unique_lock<std::mutex> uk(write_mtx_);
 
-			write_mtx.lock();
-			writing = true;
+			while (writing_ == true || readers_count_ > 0)
+				write_cv_.wait(uk);
+
+			writing_ = true;
 		};
 
 		/**
@@ -117,10 +129,10 @@ namespace library
 		 */
 		void writeUnlock()
 		{
-			writing = false;
-			write_mtx.unlock();
-
-			cv.notify_all();
+			writing_ = false;
+			
+			read_cv_.notify_all();
+			write_cv_.notify_all();
 		};
 	};
 };

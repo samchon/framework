@@ -120,7 +120,7 @@ namespace samchon.protocol
 			//  - ATOMIC ONLY; STRING, NUMBER AND BOOLEAN
 			let property_map: std.HashMap<string, string> = xml.getPropertyMap();
 
-			for (let it = property_map.begin(); !it.equal_to(property_map.end()); it = it.next())
+			for (let it = property_map.begin(); !it.equals(property_map.end()); it = it.next())
 			{
 				if ((entity as any)[it.first] == undefined)
 					continue;

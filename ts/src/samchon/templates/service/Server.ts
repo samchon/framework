@@ -123,7 +123,7 @@ namespace samchon.templates.service
 		 */
 		public sendData(invoke: protocol.Invoke): void
 		{
-			for (let it = this.session_map_.begin(); !it.equal_to(this.session_map_.end()); it = it.next())
+			for (let it = this.session_map_.begin(); !it.equals(this.session_map_.end()); it = it.next())
 				it.second.sendData(invoke);
 		}
 

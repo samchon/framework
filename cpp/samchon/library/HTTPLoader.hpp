@@ -257,7 +257,7 @@ namespace library
 			{
 				std::string &cookie = headerMap.get("Set-Cookie");
 
-				((HashMap<std::string, std::string>*)&cookie_map)->set(host, cookie);
+				((HashMap<std::string, std::string>*)&cookie_map())->set(host, cookie);
 			}
 
 			// CONTENT-LENGTH
@@ -326,7 +326,7 @@ namespace library
 								break;
 
 							startIndex = pos + 2;
-							endIndex = std::min(startIndex + size, prevData.size());
+							endIndex = (startIndex + size < prevData.size()) ? startIndex + size : prevData.size();
 
 							data.insert(data.end(), prevData.begin() + startIndex, prevData.begin() + endIndex);
 							startIndex = endIndex + 2;

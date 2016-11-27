@@ -14,7 +14,8 @@ namespace library
 namespace protocol
 {
 	/**
-	 * @brief A flash policy_ server
+	 * @brief A flash policy server
+	 * 
 	 * @details FlashPolicyServer is a policy_ server replying cross-domain-policy_ to flash clients.
 	 *
 	 * @author Jeongho Nam <http://samchon.org>

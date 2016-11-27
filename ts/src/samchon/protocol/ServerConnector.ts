@@ -121,6 +121,9 @@ namespace samchon.protocol
 		 */
 		public onConnect: Function;
 
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		/**
 		 * Construct from *listener*.
 		 * 
@@ -142,6 +145,9 @@ namespace samchon.protocol
 			this.socket_ = net.connect({ host: ip, port: port }, this.handle_connect.bind(this));
 		}
 
+		/* ---------------------------------------------------------
+			HANDLERS
+		--------------------------------------------------------- */
 		/**
 		 * @hidden
 		 */
@@ -150,9 +156,34 @@ namespace samchon.protocol
 			this.connected_ = true;
 
 			this.start_listen();
+			this.send_dummy_packet_repeatedly();
 
 			if (this.onConnect != null)
 				this.onConnect();
+		}
+
+		/**
+		 * @hidden
+		 */
+		private send_dummy_packet_repeatedly(): void
+		{
+			setInterval(function (): void
+			{
+				// WRITE A HEADER BUFFER WHICH MEANS CONTENT SIZE IS ZERO.
+				let packet: Buffer = new Buffer(8);
+				packet.writeUInt32BE(0, 0);
+				packet.writeUInt32BE(0, 4);
+
+				// SEND
+				try
+				{
+					(this as ServerConnector).socket_.write(packet);
+				} 
+				catch (exception)
+				{ // REPEAT IT UNTIL DISCONNECTION
+					return;
+				}
+			}.bind(this), 5000);
 		}
 	}
 }

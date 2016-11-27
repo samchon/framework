@@ -261,7 +261,7 @@ namespace samchon.templates.distributed
 			let denominator: number = 0;
 
 			// COMPUTE AVERAGE ELAPSED TIME
-			for (let it = this.process_map_.begin(); !it.equal_to(this.process_map_.end()); it = it.next())
+			for (let it = this.process_map_.begin(); !it.equals(this.process_map_.end()); it = it.next())
 			{
 				let my_process: DistributedProcess = it.second;
 				if (my_process == history.getProcess() || my_process["history_list_"].empty() == true)
@@ -364,7 +364,7 @@ namespace samchon.templates.distributed
 			let average: number = 0.0;
 			let denominator: number = 0;
 
-			for (let it = this.process_map_.begin(); !it.equal_to(this.process_map_.end()); it = it.next())
+			for (let it = this.process_map_.begin(); !it.equals(this.process_map_.end()); it = it.next())
 			{
 				let process: DistributedProcess = it.second;
 				if (process["enforced_"] == true)
@@ -376,7 +376,7 @@ namespace samchon.templates.distributed
 			average /= denominator;
 
 			// DIVIDE FROM THE AVERAGE
-			for (let it = this.process_map_.begin(); !it.equal_to(this.process_map_.end()); it = it.next())
+			for (let it = this.process_map_.begin(); !it.equals(this.process_map_.end()); it = it.next())
 			{
 				let process: DistributedProcess = it.second;
 				if (process["enforced_"] == true)
@@ -401,7 +401,7 @@ namespace samchon.templates.distributed
 			let processes_xml: library.XML = new library.XML();
 			{
 				processes_xml.setTag("processes");
-				for (let it = this.process_map_.begin(); !it.equal_to(this.process_map_.end()); it = it.next())
+				for (let it = this.process_map_.begin(); !it.equals(this.process_map_.end()); it = it.next())
 					processes_xml.push(it.second.toXML());
 			}
 			xml.push(processes_xml);

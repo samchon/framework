@@ -2,7 +2,9 @@
 #include <samchon/API.hpp>
 
 #include <samchon/protocol/IProtocol.hpp>
+#include <samchon/protocol/IListener.hpp>
 
+#include <iostream>
 #include <array>
 #include <exception>
 #include <mutex>
@@ -73,7 +75,11 @@ namespace protocol
 		*/
 		virtual void replyData(std::shared_ptr<Invoke> invoke)
 		{
-			listener->replyData(invoke);
+			IListener *i_listener = dynamic_cast<IListener*>(listener);
+			if (i_listener != nullptr)
+				i_listener->_Reply_data(invoke);
+			else
+				listener->replyData(invoke);
 		};
 
 		/**
@@ -153,6 +159,11 @@ namespace protocol
 						}
 					}
 				}
+				catch (std::exception &e)
+				{
+					std::cout << "Reason of disconnection: " << e.what() << std::endl;
+					break;
+				}
 				catch (...)
 				{
 					break;
@@ -201,8 +212,11 @@ namespace protocol
 		{
 			size_t completed = 0;
 
-			if (completed < data.size())
-				completed += socket->read_some(boost::asio::buffer((unsigned char*)data.data() + completed, data.size() - completed));
+			while (completed < data.size())
+			{
+				size_t piece_size = socket->read_some(boost::asio::buffer((unsigned char*)data.data() + completed, data.size() - completed));
+				completed += piece_size;
+			}
 		};
 
 		/* ---------------------------------------------------------

@@ -200,7 +200,12 @@ namespace protocol
 			this->type = xml->getProperty("type");
 
 			if (type == "XML")
-				this->xml = xml->begin()->second->at(0);
+			{
+				if (xml->empty())
+					this->xml = nullptr;
+				else
+					this->xml = xml->begin()->second->at(0);
+			}
 			else if (type == "ByteArray")
 			{
 				size_t size = xml->getValue<size_t>();

@@ -151,7 +151,7 @@ namespace samchon.templates.parallel
 		{
 			this.exclude_ = true;
 
-			for (let it = this.progress_list_.begin(); !it.equal_to(this.progress_list_.end()); it = it.next())
+			for (let it = this.progress_list_.begin(); !it.equals(this.progress_list_.end()); it = it.next())
 			{
 				// AN INVOKE AND HISTORY HAD PROGRESSED
 				let invoke: protocol.Invoke = it.second.first;
@@ -318,7 +318,7 @@ namespace samchon.templates.parallel
 				let uid: number = invoke.front().getValue();
 				let it = this.progress_list_.find(uid);
 
-				if (it.equal_to(this.progress_list_.end()) == true)
+				if (it.equals(this.progress_list_.end()) == true)
 					return;
 
 				this._Send_back_history(it.second.first, it.second.second);
@@ -340,7 +340,7 @@ namespace samchon.templates.parallel
 
 			// IF THE HISTORY IS NOT EXIST IN PROGRESS, THEN TERMINATE REPORTING
 			let progress_it = this.progress_list_.find(history.getUID());
-			if (progress_it.equal_to(this.progress_list_.end()) == true)
+			if (progress_it.equals(this.progress_list_.end()) == true)
 				return;
 
 			// ARCHIVE FIRST AND LAST INDEX

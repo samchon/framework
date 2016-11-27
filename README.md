@@ -17,7 +17,7 @@ I repeat, Samchon is an OON (Object-Oriented Network) framework, composing a net
 
 When you need a cloud system, then take a System Template named [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Templates-Cloud_Service). When you need a distributed processings system, then take the [Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed-System). If you should implement a specific network system and the network system will be used repeatedly, then **modulize** it to be one of the **System Templates**.
 
-Below **System Templates** are basically provided in Samcho Framework:
+Below **System Templates** are basically provided in the Samchon Framework:
 
   - [Cloud Service](https://github.com/samchon/framework/wiki/TypeScript-Templates-Cloud_Service): Cloud Server Template
   - [External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External-System): A template for 1: N composite relationship's network system.
@@ -45,10 +45,7 @@ If you're planning to build a cloud solution, then I sugguest you to follow such
 #### TypeScript
 ```bash
 # Install NPM module.
-npm install -g samchon-framework
-
-# Install Definition (*.d.ts) files.
-npm install --save @types/samchon-framework
+npm install --save samchon-framework
 ```
 
 Installs Samchon-Framework from NPM module and imports the definition.

@@ -81,9 +81,9 @@ namespace samchon.library
 		{
 			let str: string = "";
 
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+			for (let it = this.begin(); !it.equals(this.end()); it = it.next())
 			{
-				if (!it.equal_to(this.begin()))
+				if (!it.equals(this.begin()))
 					str += "&";
 
 				str += it.first + "=" + encodeURIComponent(it.second);

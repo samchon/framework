@@ -14,7 +14,7 @@
 #include <sqltypes.h>
 #include <sql.h>
 #include <sqlext.h>
-#include <odbcss.h>
+#include <sqlncli.h>
 
 namespace samchon
 {
@@ -30,7 +30,7 @@ namespace base
 		friend class SQLi;
 		friend class SQLStatement;
 
-	private:
+	protected:
 		/**
 		 * @brief Handler of DB-connector
 		 */

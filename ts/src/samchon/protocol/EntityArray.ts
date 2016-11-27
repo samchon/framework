@@ -167,7 +167,7 @@ namespace samchon.protocol
 			let xml: library.XML = IEntity.toXML(entityGroup, ...prohibited_names);
 
 			// CHILDREN
-			for (let it = entityGroup.begin(); !it.equal_to(entityGroup.end()); it = it.next())
+			for (let it = entityGroup.begin(); !it.equals(entityGroup.end()); it = it.next())
 				xml.push(it.value.toXML());
 
 			return xml;
@@ -201,7 +201,7 @@ namespace samchon.protocol
 		export function get<T extends IEntity>
 			(entityGroup: IEntityGroup<T>, key: any): T
 		{
-			for (let it = entityGroup.begin(); !it.equal_to(entityGroup.end()); it = it.next())
+			for (let it = entityGroup.begin(); !it.equals(entityGroup.end()); it = it.next())
 				if (std.equal_to(it.value.key(), key) == true)
 					return it.value;
 

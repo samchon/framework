@@ -102,13 +102,6 @@ namespace library
 
 			SQLAllocHandle(SQL_HANDLE_STMT, ((base::SQLiBase*)sqli)->hdbc, &hstmt);
 		};
-		void reset(SQLi *sqli)
-		{
-			free();
-			this->sqli = sqli;
-
-			SQLAllocHandle(SQL_HANDLE_STMT, ((base::SQLiBase*)sqli)->hdbc, &hstmt);
-		};
 
 	public:
 		virtual ~SQLStatement()
@@ -117,6 +110,14 @@ namespace library
 		};
 
 	public:
+		void reset(SQLi *sqli)
+		{
+			free();
+			this->sqli = sqli;
+
+			SQLAllocHandle(SQL_HANDLE_STMT, ((base::SQLiBase*)sqli)->hdbc, &hstmt);
+		};
+
 		/**
 		 * @brief Free the sql statement
 		 */
@@ -144,6 +145,16 @@ namespace library
 		/* -----------------------------------------------------------------------
 			QUERY
 		----------------------------------------------------------------------- */
+		void prepare(const std::string &sql)
+		{
+			refresh();
+
+			((base::SQLiBase*)sqli)->stmtMutex.lock();
+			((base::SQLiBase*)sqli)->stmt = this;
+
+			SQLPrepareA(hstmt, (SQLCHAR*)&sql[0], SQL_NTS);
+		};
+
 		/**
 		 * @brief Prepare a sql statement
 		 * @details Prepare a sql statement with parameters to bind for execution
@@ -167,15 +178,7 @@ namespace library
 
 			bindParameter(val);
 		};
-		void prepare(const std::string &sql)
-		{
-			refresh();
-
-			((base::SQLiBase*)sqli)->stmtMutex.lock();
-			((base::SQLiBase*)sqli)->stmt = this;
-
-			SQLPrepareA(hstmt, (SQLCHAR*)&sql[0], SQL_NTS);
-		};
+		
 		void prepare(const std::wstring &sql)
 		{
 			refresh();
@@ -326,15 +329,7 @@ namespace library
 			}
 
 			// ERASE ZERO-CHARS
-			long long i;
-			for (i = str.size() - 1; i >= 0; i--)
-				if (str[i] != NULL)
-					break;
-
-			if (i != str.size() - 1)
-				str.erase(str.begin() + i + 1, str.end());
-
-			return str;
+			return str.data();
 		}
 		template<> auto at(size_t index) const -> std::wstring
 		{
@@ -353,15 +348,7 @@ namespace library
 			}
 
 			// ERASE ZERO-CHARS
-			long long i;
-			for (i = str.size() - 1; i >= 0; i--)
-				if (str[i] != NULL)
-					break;
-
-			if (i != str.size() - 1)
-				str.erase(str.begin() + i + 1, str.end());
-
-			return str;
+			return str.data();
 		};
 		template<> auto at(size_t index) const -> ByteArray
 		{

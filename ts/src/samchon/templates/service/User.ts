@@ -132,7 +132,7 @@ namespace samchon.templates.service
 		 */
 		private handle_erase_client(event: collections.MapCollectionEvent<number, Client>): void
 		{
-			for (let it = event.first; !it.equal_to(event.last); it = it.next())
+			for (let it = event.first; !it.equals(event.last); it = it.next())
 				it.second.close();
 			
 			if (this.empty() == true)
@@ -239,7 +239,7 @@ namespace samchon.templates.service
 		 * {
 		 *     public sendData(invoke: Invoke): void
 		 *     {
-		 *         for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+		 *         for (let it = this.begin(); !it.equals(this.end()); it = it.next())
 		 *             it.second.sendData(invoke);
 		 *     }
 		 * }
@@ -249,7 +249,7 @@ namespace samchon.templates.service
 		 */
 		public sendData(invoke: protocol.Invoke): void
 		{
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+			for (let it = this.begin(); !it.equals(this.end()); it = it.next())
 				it.second.sendData(invoke);
 		}
 

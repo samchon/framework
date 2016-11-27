@@ -137,7 +137,7 @@ namespace samchon.templates.parallel
 				let system: ParallelSystem = this.system_array_.at(i);
 				
 				let it: std.MapIterator<number, slave.InvokeHistory> = system["history_list_"].find(uid);
-				if (it.equal_to(system["history_list_"].end()) == true)
+				if (it.equals(system["history_list_"].end()) == true)
 					continue;
 				
 				let my_history: slave.InvokeHistory = it.second;

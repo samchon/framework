@@ -543,7 +543,9 @@ namespace library
 
 		template<> auto getProperty(const std::string &key) const -> bool
 		{
-			return property_map_.get(key) == "true";
+			const std::string &val = property_map_.get(key);
+
+			return val == "true" || val == "1";
 		};
 
 		template<> auto getProperty(const std::string &key) const -> std::string
@@ -839,12 +841,7 @@ namespace library
 			{
 				{ "&", "&amp;" },
 				{ "<", "&lt;" },
-				{ ">", "&gt;" },
-				{ "\"", "&quot;" },
-				{ "'", "&apos;" },
-				{ "\t", "&#x9;" }, //9
-				{ "\n", "&#xA;" }, //10
-				{ "\r", "&#xD;" } //13
+				{ ">", "&gt;" }
 			};
 
 			return wstr.replaceAll(pairArray);
@@ -856,12 +853,7 @@ namespace library
 			{
 				{ "&amp;", "&" },
 				{ "&lt;", "<" },
-				{ "&gt;", ">" },
-				{ "&quot;", "\"" },
-				{ "&apos;", "'" },
-				{ "&#x9;", "\t" }, //9
-				{ "&#xA;", "\n" }, //10
-				{ "&#xD;", "\r" } //13
+				{ "&gt;", ">" }
 			};
 
 			return wstr.replaceAll(pairArray);
@@ -873,7 +865,12 @@ namespace library
 			{
 				{ "&", "&amp;" },
 				{ "<", "&lt;" },
-				{ ">", "&gt;" }
+				{ ">", "&gt;" },
+				{ "\"", "&quot;" },
+				{ "'", "&apos;" },
+				{ "\t", "&#x9;" }, //9
+				{ "\n", "&#xA;" }, //10
+				{ "\r", "&#xD;" } //13
 			};
 
 			return wstr.trim().replaceAll(pairArray);
@@ -885,7 +882,12 @@ namespace library
 			{
 				{ "&amp;", "&" },
 				{ "&lt;", "<" },
-				{ "&gt;", ">" }
+				{ "&gt;", ">" },
+				{ "&quot;", "\"" },
+				{ "&apos;", "'" },
+				{ "&#x9;", "\t" }, //9
+				{ "&#xA;", "\n" }, //10
+				{ "&#xD;", "\r" } //13
 			};
 
 			return wstr.replaceAll(pairArray);

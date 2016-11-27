@@ -518,7 +518,7 @@ namespace samchon.library
 		public eraseProperty(key: string): void
 		{
 			let it = this.property_map_.find(key);
-			if (it.equal_to(this.property_map_.end()) == true)
+			if (it.equals(this.property_map_.end()) == true)
 				throw Error("out of range");
 
 			this.property_map_.erase(it);
@@ -610,7 +610,7 @@ namespace samchon.library
 		 */
 		public insertAllProperties(obj: XML): void
 		{
-			for (let it = obj.property_map_.begin(); it.equal_to(obj.property_map_.end()) == false; it = it.next())
+			for (let it = obj.property_map_.begin(); it.equals(obj.property_map_.end()) == false; it = it.next())
 				this.setProperty(it.first, it.second);
 		}
 
@@ -735,7 +735,7 @@ namespace samchon.library
 			let children_str: string = "";
 
 			//PROPERTIES
-			for (let p_it = this.property_map_.begin(); p_it.equal_to(this.property_map_.end()) == false; p_it = p_it.next())
+			for (let p_it = this.property_map_.begin(); p_it.equals(this.property_map_.end()) == false; p_it = p_it.next())
 				str += " " + p_it.first + "=\"" + this.encode_property(p_it.second) + "\"";
 
 			if (this.size() == 0) 
@@ -751,7 +751,7 @@ namespace samchon.library
 				// CHILDREN
 				str += ">\n";
 
-				for (let x_it = this.begin(); x_it.equal_to(this.end()) == false; x_it = x_it.next())
+				for (let x_it = this.begin(); x_it.equals(this.end()) == false; x_it = x_it.next())
 					str += x_it.second.toString(tab + 1);
 
 				str += StringUtil.repeat("\t", tab) + "</" + this.tag_ + ">";

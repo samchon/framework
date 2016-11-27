@@ -224,7 +224,7 @@ namespace samchon.templates.distributed
 		{
 			let sum: number = 0;
 			
-			for (let it = this.history_list_.begin(); !it.equal_to(this.history_list_.end()); it = it.next())
+			for (let it = this.history_list_.begin(); !it.equals(this.history_list_.end()); it = it.next())
 			{
 				let history: DSInvokeHistory = it.second;
 				let elapsed_time: number = history.computeElapsedTime() / history.getWeight();

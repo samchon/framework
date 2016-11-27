@@ -164,29 +164,18 @@ namespace library
 		 */
 		void set(const WeakString &wstr)
 		{
-			int year, month, date, hour, min, sec;
+			int year, month, date, hour = 0, min = 0, sec = 0;
 			WeakString date_wstr;
-			WeakString time_wstr;
 
 			size_t delimiter = wstr.find(" ");
-
 			if (delimiter == std::string::npos)
 				date_wstr = wstr;
 			else
 			{
+				WeakString time_wstr;
 				date_wstr = wstr.substr(0, delimiter);
 				time_wstr = wstr.substr(delimiter);
-			}
 
-			std::vector<WeakString> &ymd = date_wstr.split("-");
-			year = std::stoi(ymd[0]);
-			month = std::stoi(ymd[1]);
-			date = std::stoi(ymd[2]);
-
-			if (time_wstr.empty() == true)
-				hour = min = sec = 0;
-			else
-			{
 				std::vector<WeakString> &hms = time_wstr.between(" ").split(":");
 				int hour = std::stoi(hms[0]);
 				int min = std::stoi(hms[1]);
@@ -197,6 +186,11 @@ namespace library
 				else
 					sec = 0;
 			}
+
+			std::vector<WeakString> &ymd = date_wstr.split("-");
+			year = std::stoi(ymd[0]);
+			month = std::stoi(ymd[1]);
+			date = std::stoi(ymd[2]);
 
 			set(year, month, date, hour, min, sec);
 		};

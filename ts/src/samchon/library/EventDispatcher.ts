@@ -238,7 +238,7 @@ namespace samchon.library
 				return false;
 
 			let listenerSet = this.event_listeners_.get(event.type);
-			for (let it = listenerSet.begin(); it.equal_to(listenerSet.end()) == false; it = it.next())
+			for (let it = listenerSet.begin(); it.equals(listenerSet.end()) == false; it = it.next())
 			{
 				if (event.defaultPrevented == true)
 					continue;

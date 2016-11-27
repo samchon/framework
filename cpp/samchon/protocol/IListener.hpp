@@ -7,6 +7,8 @@ namespace samchon
 {
 namespace protocol
 {
+	class Communicator;
+
 	/**
 	 * An interface for {@link Invoke} message chain.
 	 *
@@ -26,6 +28,8 @@ namespace protocol
 	 */
 	class IListener : public virtual IProtocol
 	{
+		friend class Communicator;
+
 	protected:
 		virtual void _Reply_data(std::shared_ptr<Invoke>) = 0;
 	};

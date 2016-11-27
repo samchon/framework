@@ -39,7 +39,7 @@ namespace room
 			let xml: library.XML = new library.XML();
 			xml.setTag("roomList");
 
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+			for (let it = this.begin(); !it.equals(this.end()); it = it.next())
 				xml.push(it.second.toXML());
 
 			return xml;
@@ -93,7 +93,7 @@ namespace room
 		public sendData(invoke: protocol.Invoke): void
 		{
 			// SEND DATA - TO ALL PARTICIPANTS
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+			for (let it = this.begin(); !it.equals(this.end()); it = it.next())
 				it.second.sendData(invoke);
 		}
 
@@ -111,7 +111,7 @@ namespace room
 			xml.setProperty("uid", this.uid + "");
 			xml.setProperty("title", this.title);
 
-			for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+			for (let it = this.begin(); !it.equals(this.end()); it = it.next())
 			{
 				let participant: library.XML = new library.XML();
 				participant.setTag("participant");

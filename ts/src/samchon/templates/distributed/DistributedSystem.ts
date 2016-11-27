@@ -123,7 +123,7 @@ namespace samchon.templates.distributed
 			let sum: number = 0;
 			let denominator: number = 0;
 
-			for (let it = this["history_list_"].begin(); !it.equal_to(this["history_list_"].end()); it = it.next())
+			for (let it = this["history_list_"].begin(); !it.equals(this["history_list_"].end()); it = it.next())
 			{
 				let history: DSInvokeHistory = it.second as DSInvokeHistory;
 				if (history instanceof DSInvokeHistory == false)
@@ -151,7 +151,7 @@ namespace samchon.templates.distributed
 		{
 			// SHIFT TO ROLES
 			let role_map = this.getSystemArray().getProcessMap();
-			for (let it = role_map.begin(); !it.equal_to(role_map.end()); it = it.next())
+			for (let it = role_map.begin(); !it.equals(role_map.end()); it = it.next())
 				it.second.replyData(invoke);
 
 			// SHIFT TO PARENT AND CHIILDREN, EXCLUSIVE ROLES
@@ -176,7 +176,7 @@ namespace samchon.templates.distributed
 
 			// IF THE HISTORY HAS NOT EXISTED IN PROGRESS, THEN TERMINATE REPORTING
 			let progress_it = this["progress_list_"].find(history.getUID());
-			if (progress_it.equal_to(this["progress_list_"].end()) == true)
+			if (progress_it.equals(this["progress_list_"].end()) == true)
 				return;
 
 			history["process_"] = (progress_it.second.second as DSInvokeHistory).getProcess();

@@ -222,7 +222,7 @@ namespace samchon.library
 				for (let i: number = 0; i < size; i++)
 				{
 					let ptr: T = parent2.at(i);
-					if (ptr_set.find(ptr).equal_to(ptr_set.end()) == false)
+					if (ptr_set.find(ptr).equals(ptr_set.end()) == false)
 						continue;
 
 					individual.set(index_set.begin().value, ptr);
@@ -261,7 +261,7 @@ namespace samchon.library
 		private mutate<T, GeneArray extends std.base.IArrayContainer<T>>
 			(individual: GeneArray): void
 		{
-			for (let it = individual.begin(); !it.equal_to(individual.end()); it = it.next())
+			for (let it = individual.begin(); !it.equals(individual.end()); it = it.next())
 			{
 				if (Math.random() > this.mutation_rate_)
 					continue;

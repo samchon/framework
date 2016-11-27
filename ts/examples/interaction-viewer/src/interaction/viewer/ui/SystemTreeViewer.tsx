@@ -49,7 +49,7 @@ namespace interaction.viewer
 			let system_tree: SystemTree = this.props.systemTree;
 			let system_movie_elements: JSX.Element[] = [];
 
-			for (let it = system_tree.begin(); !it.equal_to(system_tree.end()); it = it.next())
+			for (let it = system_tree.begin(); !it.equals(system_tree.end()); it = it.next())
 				system_movie_elements.push(<SystemMovie system={it.second} />);
 
 			return <div style={this.props.style}>

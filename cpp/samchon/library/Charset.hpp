@@ -5,6 +5,10 @@
 #include <codecvt>
 #include <samchon/WeakString.hpp>
 
+#ifdef _WIN32
+#include <atlstr.h>
+#endif
+
 namespace samchon
 {
 namespace library
@@ -71,6 +75,13 @@ namespace library
 		 */
 		static auto toMultibyte(const std::wstring &source) -> std::string
 		{
+#ifdef _WIN32
+			int len = WideCharToMultiByte(CP_ACP, 0, &source[0], -1, NULL, 0, NULL, NULL);
+			std::string str(len, 0);
+			WideCharToMultiByte(CP_ACP, 0, &source[0], -1, &str[0], len, NULL, NULL);
+
+			return str;
+#else
 			using namespace std;
 			typedef codecvt<wchar_t, char, mbstate_t> codecvt_t;
 
@@ -94,6 +105,7 @@ namespace library
 				throw runtime_error("can't convert wstring to string");
 
 			return string(buf.begin(), buf.end());
+#endif
 		};
 
 		/**
@@ -132,9 +144,16 @@ namespace library
 		 */
 		static auto toUTF8(const std::wstring &source) -> std::string
 		{
-			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8Converter;
+#ifdef _WIN32
+			int len = WideCharToMultiByte(CP_UTF8, 0, &source[0], -1, NULL, 0, NULL, NULL);
+			std::string str(len, 0);
+			WideCharToMultiByte(CP_UTF8, 0, &source[0], -1, &str[0], len, NULL, NULL);
 
+			return str;
+#else
+			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8Converter;
 			return utf8Converter.to_bytes(source);
+#endif
 		};
 
 		/**
@@ -146,6 +165,27 @@ namespace library
 		 */
 		static auto toUnicode(const std::string &source, int charset) -> std::wstring
 		{
+#ifdef _WIN32
+			if (charset == MULTIBYTE)
+			{
+				int nLen = MultiByteToWideChar(CP_ACP, 0, &source[0], (int)source.size(), NULL, NULL);
+				std::wstring wstr(nLen, 0);
+				MultiByteToWideChar(CP_ACP, 0, &source[0], (int)source.size(), &wstr[0], nLen);
+
+				return wstr;
+			}
+			else if (charset == UTF8)
+			{
+				int nLen = MultiByteToWideChar(CP_UTF8, 0, &source[0], (int)source.size(), NULL, NULL);
+				std::wstring wstr(nLen, 0);
+				MultiByteToWideChar(CP_UTF8, 0, &source[0], (int)source.size(), &wstr[0], nLen);
+
+				return wstr;
+		}
+			else
+				return L"";
+
+#else
 			using namespace std;
 
 			if (charset == MULTIBYTE)
@@ -181,6 +221,7 @@ namespace library
 			}
 			else
 				return L"";
+#endif
 		};
 	};
 };

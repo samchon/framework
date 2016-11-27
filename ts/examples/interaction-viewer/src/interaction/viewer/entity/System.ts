@@ -192,7 +192,7 @@ namespace interaction.viewer
             this.get_left_contour(0, contour);
 
             let shiftAmount: number = 0;
-			for (let it = contour.begin(); !it.equal_to(contour.end()); it = it.next())
+			for (let it = contour.begin(); !it.equals(contour.end()); it = it.next())
 				if (it.first + shiftAmount < 0)
 					shiftAmount = it.first * -1;
 
@@ -206,7 +206,7 @@ namespace interaction.viewer
 		private get_left_contour(modSum: number, values: std.TreeMap<number, number>): void
         {
 			let it = values.find(this.row_);
-            if (it.equal_to(values.end()) == true)
+            if (it.equals(values.end()) == true)
                 values.insert([this.row_, this.col_ + modSum]);
             else
                 it.second = Math.min(it.second, this.col_ + modSum);
@@ -219,7 +219,7 @@ namespace interaction.viewer
 		private get_right_contour(modSum: number, values: std.TreeMap<number, number>): void
         {
 			let it = values.find(this.row_);
-            if (it.equal_to(values.end()) == true)
+            if (it.equals(values.end()) == true)
                 values.insert([this.row_, this.col_ + modSum]);
             else
                 it.second = Math.max(it.second, this.col_ + modSum);

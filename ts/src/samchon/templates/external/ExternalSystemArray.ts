@@ -79,7 +79,7 @@ namespace samchon.templates.external
 		 */
 		private handle_system_erase(event: collections.CollectionEvent<System>): void
 		{
-			for (let it = event.first; !it.equal_to(event.last); it = it.next())
+			for (let it = event.first; !it.equals(event.last); it = it.next())
 				it.value["destructor"]();
 		}
 

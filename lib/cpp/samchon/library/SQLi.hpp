@@ -64,7 +64,6 @@ namespace library
 		 */
 		int port;
 
-	private:
 		/**
 		 * @brief Had connected to DBMS.
 		 *

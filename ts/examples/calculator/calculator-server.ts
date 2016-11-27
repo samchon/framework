@@ -42,7 +42,7 @@ class CalculatorServer extends protocol.Server
 	public sendData(invoke: protocol.Invoke): void
 	{
 		// ALL sendData() METHOD IN CalculatorClient OBJECTS ARE CALLED
-		for (let it = this.clients.begin(); !it.equal_to(this.clients.end()); it = it.next())
+		for (let it = this.clients.begin(); !it.equals(this.clients.end()); it = it.next())
 			it.value.sendData(invoke);
 	}
 	public replyData(invoke: protocol.Invoke): void

@@ -1,4 +1,4 @@
-// Type definitions for Samchon Framework v2.0.0-rc.2
+// Type definitions for Samchon Framework v2.0.0-rc.3
 // Project: https://github.com/samchon/framework
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -4209,7 +4209,7 @@ declare namespace samchon.protocol {
         /**
          * @hidden
          */
-        private unhandled_invokes;
+        private unhandled_invokes_;
         /**
          * Default Constructor.
          */
@@ -6104,6 +6104,10 @@ declare namespace samchon.protocol {
          * @hidden
          */
         private handle_connect(...arg);
+        /**
+         * @hidden
+         */
+        private send_dummy_packet_repeatedly();
     }
 }
 declare namespace samchon.protocol {
@@ -10740,7 +10744,7 @@ declare namespace samchon.templates.service {
          * {
          *     public sendData(invoke: Invoke): void
          *     {
-         *         for (let it = this.begin(); !it.equal_to(this.end()); it = it.next())
+         *         for (let it = this.begin(); !it.equals(this.end()); it = it.next())
          *             it.second.sendData(invoke);
          *     }
          * }

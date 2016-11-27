@@ -23,7 +23,7 @@ namespace samchon.test
 	{
 		console.log("Handle Event:", event.type);
 
-		for (let it = event.first; !it.equal_to(event.last); it = it.next())
+		for (let it = event.first; !it.equals(event.last); it = it.next())
 			console.log("\t" + it.value);
 		console.log();
 	}

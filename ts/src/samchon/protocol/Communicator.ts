@@ -393,10 +393,10 @@ namespace samchon.protocol
 
 			// WRITE CONTENT SIZE TO HEADER BUFFER
 			str_header.writeUInt32BE(0, 0);
-			str_header.writeUInt32BE(str.length, 4);
+			str_header.writeUInt32BE(Buffer.byteLength(str, "utf8"), 4);
 
 			this.socket_.write(str_header); // SEND SIZE HEADER
-			this.socket_.write(str, "binary"); // TEXT IS AFTER
+			this.socket_.write(str, "utf8"); // TEXT IS AFTER
 
 			for (let i: number = 0; i < invoke.size(); i++)
 			{
@@ -464,15 +464,20 @@ namespace samchon.protocol
 
 			// READ CONTENT SIZE AND INIT DATA
 			let content_size: number = piece.readUInt32BE(piece_index + 4);
+			piece_index += 8;
+
+			if (content_size != 0)
 			{
 				this.data_ = new Buffer(content_size);
 				this.data_index_ = 0;
-				piece_index += 8;
 			}
 
 			// IF LEFT BYTES ARE, THEN LISTEN DATA
 			if (piece_index < piece.byteLength)
-				this.listen_data(piece, piece_index);
+				if (content_size != 0)
+					this.listen_data(piece, piece_index);
+				else
+					this.listen_header(piece, piece_index);
 		}
 
 		/**

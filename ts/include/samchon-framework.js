@@ -2402,7 +2402,7 @@ var samchon;
          *
          * {@link CaseGenerator} is an abstract case generator being used like a matrix.
          * <ul>
-         *  <li> n∏r(n^r) -> {@link CombinedPermutationGenerator} </li>
+         *  <li> n��r(n^r) -> {@link CombinedPermutationGenerator} </li>
          *  <li> nPr -> {@link PermutationGenerator} </li>
          *  <li> n! -> {@link FactorialGenerator} </li>
          * </ul>
@@ -2452,7 +2452,7 @@ var samchon;
         /**
          * A combined-permutation case generator.
          *
-         * <sub>n</sub>∏<sub>r</sub>
+         * <sub>n</sub>��<sub>r</sub>
          *
          * @author Jeongho Nam <http://samchon.org>
          */
@@ -5868,9 +5868,9 @@ var samchon;
                 var str = invoke.toXML().toString();
                 // WRITE CONTENT SIZE TO HEADER BUFFER
                 str_header.writeUInt32BE(0, 0);
-                str_header.writeUInt32BE(str.length, 4);
+                str_header.writeUInt32BE(Buffer.byteLength(str, "utf8"), 4);
                 this.socket_.write(str_header); // SEND SIZE HEADER
-                this.socket_.write(str, "binary"); // TEXT IS AFTER
+                this.socket_.write(str, "utf8"); // TEXT IS AFTER
                 for (var i = 0; i < invoke.size(); i++) {
                     var parameter = invoke.at(i);
                     if (parameter.getType() != "ByteArray")
@@ -5920,14 +5920,17 @@ var samchon;
                 }
                 // READ CONTENT SIZE AND INIT DATA
                 var content_size = piece.readUInt32BE(piece_index + 4);
-                {
+                piece_index += 8;
+                if (content_size != 0) {
                     this.data_ = new Buffer(content_size);
                     this.data_index_ = 0;
-                    piece_index += 8;
                 }
                 // IF LEFT BYTES ARE, THEN LISTEN DATA
                 if (piece_index < piece.byteLength)
-                    this.listen_data(piece, piece_index);
+                    if (content_size != 0)
+                        this.listen_data(piece, piece_index);
+                    else
+                        this.listen_header(piece, piece_index);
             };
             /**
              * @hidden
@@ -6550,6 +6553,138 @@ var samchon;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../API.ts" />
+/// <reference path="Entity.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A parameter belongs to an Invoke.
+         *
+         * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var InvokeParameter = (function (_super) {
+            __extends(InvokeParameter, _super);
+            /* -------------------------------------------------------------------
+                CONSTRUCTORS
+            ------------------------------------------------------------------- */
+            function InvokeParameter() {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                _super.call(this);
+                /**
+                 * Name of the parameter.
+                 *
+                 * @details Optional property, can be omitted.
+                 */
+                this.name = "";
+                /**
+                 * Type of the parameter.
+                 */
+                this.type = "";
+                /**
+                 * Value of the parameter.
+                 */
+                this.value = null;
+                // DEFAULT CONSTRUCTOR
+                if (args.length == 0)
+                    return;
+                // INITIALIZATION CONSTRUCTOR
+                if (args.length == 1) {
+                    this.name = "";
+                    this.setValue(args[0]);
+                }
+                else {
+                    this.name = args[0];
+                    this.setValue(args[1]);
+                }
+            }
+            /**
+             * @inheritdoc
+             */
+            InvokeParameter.prototype.construct = function (xml) {
+                this.name = (xml.hasProperty("name")) ? xml.getProperty("name") : "";
+                this.type = xml.getProperty("type");
+                if (this.type == "XML")
+                    this.value = xml.begin().second.front();
+                else if (this.type == "boolean")
+                    this.value = Boolean(xml.getValue());
+                else if (this.type == "number")
+                    this.value = Number(xml.getValue());
+                else if (this.type == "string")
+                    this.value = xml.getValue();
+            };
+            InvokeParameter.prototype.setValue = function (value) {
+                this.value = value;
+                if (value instanceof samchon.library.XML)
+                    this.type = "XML";
+                else if (value instanceof Uint8Array)
+                    this.type = "ByteArray";
+                else
+                    this.type = typeof value;
+            };
+            /* -------------------------------------------------------------------
+                GETTERS
+            ------------------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            InvokeParameter.prototype.key = function () {
+                return this.name;
+            };
+            /**
+             * Get name.
+             */
+            InvokeParameter.prototype.getName = function () {
+                return this.name;
+            };
+            /**
+             * Get type.
+             */
+            InvokeParameter.prototype.getType = function () {
+                return this.type;
+            };
+            /**
+             * Get value.
+             */
+            InvokeParameter.prototype.getValue = function () {
+                return this.value;
+            };
+            /* -------------------------------------------------------------------
+                EXPORTERS
+            ------------------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            InvokeParameter.prototype.TAG = function () {
+                return "parameter";
+            };
+            /**
+             * @inheritdoc
+             */
+            InvokeParameter.prototype.toXML = function () {
+                var xml = new samchon.library.XML();
+                xml.setTag(this.TAG());
+                if (this.name != "")
+                    xml.setProperty("name", this.name);
+                xml.setProperty("type", this.type);
+                // NOT CONSIDERED ABOUT THE BINARY DATA
+                if (this.type == "XML")
+                    xml.push(this.value);
+                else if (this.type != "ByteArray")
+                    xml.setValue(this.value + "");
+                return xml;
+            };
+            return InvokeParameter;
+        }(protocol.Entity));
+        protocol.InvokeParameter = InvokeParameter;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
 var samchon;
 (function (samchon) {
     var protocol;
@@ -6920,1275 +7055,297 @@ var samchon;
         protocol.Invoke = Invoke;
     })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="Entity.ts" />
+/// <reference path="../../API.ts" />
+/// <reference path="../../protocol/Invoke.ts" />
 var samchon;
 (function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A parameter belongs to an Invoke.
-         *
-         * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_message_protocol.png)
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var InvokeParameter = (function (_super) {
-            __extends(InvokeParameter, _super);
-            /* -------------------------------------------------------------------
-                CONSTRUCTORS
-            ------------------------------------------------------------------- */
-            function InvokeParameter() {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+    var templates;
+    (function (templates) {
+        var slave;
+        (function (slave) {
+            var PInvoke = (function (_super) {
+                __extends(PInvoke, _super);
+                function PInvoke(invoke, history, masterDriver) {
+                    _super.call(this, invoke.getListener());
+                    this.assign(invoke.begin(), invoke.end());
+                    this.history_ = history;
+                    this.master_driver_ = masterDriver;
+                    this.hold_ = false;
                 }
-                _super.call(this);
+                PInvoke.prototype.getHistory = function () {
+                    return this.history_;
+                };
+                PInvoke.prototype.isHold = function () {
+                    return this.hold_;
+                };
                 /**
-                 * Name of the parameter.
+                 * Hold reporting completion to master.
+                 */
+                PInvoke.prototype.hold = function () {
+                    this.hold_ = true;
+                };
+                /**
+                 * Report completion.
+                 */
+                PInvoke.prototype.complete = function () {
+                    this.history_.complete();
+                    this.master_driver_.sendData(this.history_.toInvoke());
+                };
+                return PInvoke;
+            }(samchon.protocol.Invoke));
+            slave.PInvoke = PInvoke;
+        })(slave = templates.slave || (templates.slave = {}));
+    })(templates = samchon.templates || (samchon.templates = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="../../protocol/Entity.ts" />
+var samchon;
+(function (samchon) {
+    var templates;
+    (function (templates) {
+        var distributed;
+        (function (distributed) {
+            /**
+             * A process of Distributed Processing System.
+             *
+             * The {@link DistributedProcess} is an abstract class who represents a **process**, *SOMETHING TO DISTRIBUTE* in a Distributed
+             * Processing System. Overrides the {@link DistributedProcess} and defines the *SOMETHING TO DISTRIBUTE*.
+             *
+             * Relationship between {@link DistributedSystem} and {@link DistributedProcess} objects are **M: N Associative**.
+             * Unlike {@link ExternalSystemRole}, the {@link DistributedProcess} objects are not belonged to a specific
+             * {@link DistributedSystem} object. The {@link DistributedProcess} objects are belonged to the
+             * {@link DistributedSystemArrayMediator} directly.
+             *
+             * When you need the **distributed process**, then call {@link sendData sendData()}. The {@link sendData} will find
+             * the most idle {@link DistributedSystem slave system} considering not only number of processes on progress, but also
+             * {@link DistributedSystem.getPerformance performance index} of each {@link DistributedSystem} object and
+             * {@link getResource resource index} of this {@link DistributedProcess} object. The {@link Invoke} message
+             * requesting the **distributed process** will be sent to the most idle {@link DistributedSystem slave system}.
+             *
+             * Those {@link DistributedSystem.getPerformance performance index} and {@link getResource resource index} are
+             * revaluated whenever the **distributed process** has completed basis on the execution time.
+             *
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+             *		  target="_blank">
+             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
+             *		 style="max-width: 100%" />
+             * </a>
+             *
+             * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
+             * @author Jeongho Nam <http://samchon.org>
+             */
+            var DistributedProcess = (function (_super) {
+                __extends(DistributedProcess, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Constrct from parent {@link DistributedSystemArray} object.
                  *
-                 * @details Optional property, can be omitted.
+                 * @param systemArray The parent {@link DistributedSystemArray} object.
                  */
-                this.name = "";
-                /**
-                 * Type of the parameter.
-                 */
-                this.type = "";
-                /**
-                 * Value of the parameter.
-                 */
-                this.value = null;
-                // DEFAULT CONSTRUCTOR
-                if (args.length == 0)
-                    return;
-                // INITIALIZATION CONSTRUCTOR
-                if (args.length == 1) {
+                function DistributedProcess(systemArray) {
+                    _super.call(this);
+                    this.system_array_ = systemArray;
                     this.name = "";
-                    this.setValue(args[0]);
+                    // PERFORMANCE INDEX
+                    this.resource = 1.0;
+                    this.progress_list_ = new std.HashMap();
+                    this.history_list_ = new std.HashMap();
                 }
-                else {
-                    this.name = args[0];
-                    this.setValue(args[1]);
-                }
-            }
-            /**
-             * @inheritdoc
-             */
-            InvokeParameter.prototype.construct = function (xml) {
-                this.name = (xml.hasProperty("name")) ? xml.getProperty("name") : "";
-                this.type = xml.getProperty("type");
-                if (this.type == "XML")
-                    this.value = xml.begin().second.front();
-                else if (this.type == "boolean")
-                    this.value = Boolean(xml.getValue());
-                else if (this.type == "number")
-                    this.value = Number(xml.getValue());
-                else if (this.type == "string")
-                    this.value = xml.getValue();
-            };
-            InvokeParameter.prototype.setValue = function (value) {
-                this.value = value;
-                if (value instanceof samchon.library.XML)
-                    this.type = "XML";
-                else if (value instanceof Uint8Array)
-                    this.type = "ByteArray";
-                else
-                    this.type = typeof value;
-            };
-            /* -------------------------------------------------------------------
-                GETTERS
-            ------------------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            InvokeParameter.prototype.key = function () {
-                return this.name;
-            };
-            /**
-             * Get name.
-             */
-            InvokeParameter.prototype.getName = function () {
-                return this.name;
-            };
-            /**
-             * Get type.
-             */
-            InvokeParameter.prototype.getType = function () {
-                return this.type;
-            };
-            /**
-             * Get value.
-             */
-            InvokeParameter.prototype.getValue = function () {
-                return this.value;
-            };
-            /* -------------------------------------------------------------------
-                EXPORTERS
-            ------------------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            InvokeParameter.prototype.TAG = function () {
-                return "parameter";
-            };
-            /**
-             * @inheritdoc
-             */
-            InvokeParameter.prototype.toXML = function () {
-                var xml = new samchon.library.XML();
-                xml.setTag(this.TAG());
-                if (this.name != "")
-                    xml.setProperty("name", this.name);
-                xml.setProperty("type", this.type);
-                // NOT CONSIDERED ABOUT THE BINARY DATA
-                if (this.type == "XML")
-                    xml.push(this.value);
-                else if (this.type != "ByteArray")
-                    xml.setValue(this.value + "");
-                return xml;
-            };
-            return InvokeParameter;
-        }(protocol.Entity));
-        protocol.InvokeParameter = InvokeParameter;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="../API.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A server.
-         *
-         * The {@link Server} is an abstract class designed to open a server and accept clients who are following Samchon
-         * Framework's own protocol. Extends this {@link Server} class and overrides {@link addClient addClient()} method to
-         * define what to do with newly connected {@link ClientDriver remote clients}.
-         *
-         * #### [Inherited] {@link IServer}
-         * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
-         * {@link IClientDriver accepting clients}.
-         *
-         * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
-         * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
-         * object. Then at last, call {@link open open()} method with specified port number.
-         *
-         * Protocol                | Derived Type                  | Related {@link IClientDriver}
-         * ------------------------|-------------------------------|-------------------------------------
-         * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
-         * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
-         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
-         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
-         *
-         * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
-         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
-         * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
-         * - {@link service.Server}
-         * - {@link external.ExternalClientArray}
-         * - {@link slave.SlaveServer}
-         *
-         * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
-         *
-         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		  target="_blank">
-         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		 style="max-width: 100%" />
-         * </a>
-         *
-         * @see {@link ClientDriver}, {@link ServerBase}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var Server = (function () {
-            function Server() {
-            }
-            /**
-             * @inheritdoc
-             */
-            Server.prototype.open = function (port) {
-                this.server = net.createServer(this.handle_connect.bind(this));
-                this.server.listen(port);
-            };
-            /**
-             * @inheritdoc
-             */
-            Server.prototype.close = function () {
-                this.server.close();
-            };
-            /**
-             * @hidden
-             */
-            Server.prototype.handle_connect = function (socket) {
-                var clientDriver = new protocol.ClientDriver(socket);
-                ;
-                this.addClient(clientDriver);
-            };
-            return Server;
-        }());
-        protocol.Server = Server;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A web server.
-         *
-         * The {@link WebServer} is an abstract class designed to open a server and accept clients who are following
-         * web-socket protocol. Extends this {@link WebServer} class and overrides {@link addClient addClient()} method to
-         * define what to do with newly connected {@link WebClientDriver remote clients}.
-         *
-         * #### [Inherited] {@link IServer}
-         * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
-         * {@link IClientDriver accepting clients}.
-         *
-         * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
-         * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
-         * object. Then at last, call {@link open open()} method with specified port number.
-         *
-         * Protocol                | Derived Type                  | Related {@link IClientDriver}
-         * ------------------------|-------------------------------|-------------------------------------
-         * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
-         * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
-         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
-         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
-         *
-         * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
-         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
-         * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
-         * - {@link service.Server}
-         * - {@link external.ExternalClientArray}
-         * - {@link slave.SlaveServer}
-         *
-         * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
-         *
-         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		  target="_blank">
-         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		 style="max-width: 100%" />
-         * </a>
-         *
-         * @see {@link WebClientDriver}, {@link WebServerBase}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var WebServer = (function () {
-            /**
-             * Default Constructor.
-             */
-            function WebServer() {
-                this.sequence_ = 0;
-            }
-            /**
-             * @inheritdoc
-             */
-            WebServer.prototype.open = function (port) {
-                this.my_port_ = port;
-                this.http_server_ = http.createServer();
-                this.http_server_.listen(port);
-                var ws_server = new websocket.server({ httpServer: this.http_server_ });
-                ws_server.on("request", this.handle_request.bind(this));
-            };
-            /**
-             * @inheritdoc
-             */
-            WebServer.prototype.close = function () {
-                this.http_server_.close();
-            };
-            /**
-             * @hidden
-             */
-            WebServer.prototype.handle_request = function (request) {
-                //--------
-                // Handle request from a client system.
-                // 
-                // This method "handle_request()" will be called when a client is connected. It will call an abstract method 
-                // "addClient()" who handles an accepted client. If the newly connected client doesn't have its own session 
-                // id, then a new session id will be issued.
-                // 
-                // @param request Requested header.
-                //--------
-                var path = request.resource.substr(1);
-                var session_id = this.get_session_id(request.cookies);
-                var connection = request.accept("", request.origin, [{ name: "SESSION_ID", value: session_id }]);
-                var driver = new protocol.WebClientDriver(connection, path, session_id);
-                this.addClient(driver);
-            };
-            /**
-             * @hidden
-             */
-            WebServer.prototype.get_session_id = function (cookies) {
-                //--------
-                // Get session id from a newly connected.
-                // 
-                // Queries ordinary session id from cookies of a newly connected client. If the client has not, a new session 
-                // id will be issued.
-                // 
-                // @param cookies Cookies from the remote client.
-                // @return Session id
-                //--------
-                for (var i = 0; i < cookies.length; i++)
-                    if (cookies[i].name == "SESSION_ID")
-                        return cookies[i].value;
-                return this.issue_session_id();
-            };
-            /**
-             * @hidden
-             */
-            WebServer.prototype.issue_session_id = function () {
-                // Issue a new session id.
-                var port = this.my_port_;
-                var uid = ++this.sequence_;
-                var linux_time = new Date().getTime();
-                var rand = Math.floor(Math.random() * 0xffffffff);
-                return port.toString(16) + uid.toString(16) + linux_time.toString(16) + rand.toString(16);
-            };
-            return WebServer;
-        }());
-        protocol.WebServer = WebServer;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A SharedWorker server.
-         *
-         * The {@link DedicatedWorkerServer} is an abstract class is realized to open a DedicatedWorker server and accept
-         * web-browser client (master). Extends this {@link DedicatedWorkerServer} class and overrides
-         * {@link addClient addClient()} method to define what to do with a newly connected
-         * {@link DedicatedWorkerClientDriver remote client}.
-         *
-         * #### Why DedicatedWorker be a server?
-         * In JavaScript environment, there's no way to implement multi-threading function. Instead, JavaScript supports the
-         * **Worker**, creating a new process. However, the **Worker** does not shares memory addresses. To integrate the
-         * **Worker** with its master, only communication with string or binary data is allowed. Doesn't it seem like a network
-         * communication? Furthermore, there's not any difference between the worker communication and network communication.
-         * It's the reason why Samchon Framework considers the **Worker** as a network node.
-         *
-         * The class {@link DedicatedWorkerCommunicator} is designed make such relationship. From now on, DedicatedWorker is a
-         * {@link DedicatedWorkerServer server} and {@link DedicatedWorkerServerConnector browser} is a client. Integrate the
-         * server and clients with this {@link DedicatedWorkerCommunicator}.
-         *
-         * #### [Inherited] {@link IServer}
-         * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
-         * {@link IClientDriver accepting clients}.
-         *
-         * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
-         * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
-         * object. Then at last, call {@link open open()} method with specified port number.
-         *
-         * Protocol                | Derived Type                  | Related {@link IClientDriver}
-         * ------------------------|-------------------------------|-------------------------------------
-         * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
-         * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
-         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
-         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
-         *
-         * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
-         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
-         * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
-         * - {@link service.Server}
-         * - {@link external.ExternalClientArray}
-         * - {@link slave.SlaveServer}
-         *
-         * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
-         *
-         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		  target="_blank">
-         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		 style="max-width: 100%" />
-         * </a>
-         *
-         * @see {@link DedicatedWorkerClientDriver}, {@link DedicatedWorkerServerBase}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var DedicatedWorkerServer = (function () {
-            function DedicatedWorkerServer() {
-            }
-            /**
-             * @inheritdoc
-             */
-            DedicatedWorkerServer.prototype.open = function () {
-                this.addClient(new protocol.DedicatedWorkerClientDriver());
-            };
-            /**
-             * @inheritdoc
-             */
-            DedicatedWorkerServer.prototype.close = function () {
-                close();
-            };
-            return DedicatedWorkerServer;
-        }());
-        protocol.DedicatedWorkerServer = DedicatedWorkerServer;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A SharedWorker server.
-         *
-         * The {@link SharedWorker} is an abstract class is realized to open a SharedWorker server and accept web-browser
-         * clients. Extends this {@link SharedWorkerServer} class and overrides {@link addClient addClient()} method to
-         * define what to do with newly connected {@link SharedWorkerClientDriver remote clients}.
-         *
-         * #### Why SharedWorker be a server?
-         * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
-         * or multiple browsers. To integrate them, messages are being sent and received. Doesn't it seem like a relationship
-         * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
-         * clients.
-         *
-         * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
-         * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
-         * server and clients with this {@link SharedWorkerCommunicator}.
-         *
-         * #### [Inherited] {@link IServer}
-         * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
-         * {@link IClientDriver accepting clients}.
-         *
-         * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
-         * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
-         * object. Then at last, call {@link open open()} method with specified port number.
-         *
-         * Protocol                | Derived Type                  | Related {@link IClientDriver}
-         * ------------------------|-------------------------------|-------------------------------------
-         * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
-         * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
-         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
-         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
-         *
-         * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
-         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
-         * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
-         * - {@link service.Server}
-         * - {@link external.ExternalClientArray}
-         * - {@link slave.SlaveServer}
-         *
-         * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
-         *
-         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		  target="_blank">
-         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		 style="max-width: 100%" />
-         * </a>
-         *
-         * @see {@link SharedWorkerClientDriver}, {@link SharedWorkerServerBase}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var SharedWorkerServer = (function () {
-            function SharedWorkerServer() {
-            }
-            /**
-             * @inheritdoc
-             */
-            SharedWorkerServer.prototype.open = function () {
-                self.addEventListener("connect", this.handle_connect.bind(this));
-            };
-            /**
-             * @inheritdoc
-             */
-            SharedWorkerServer.prototype.close = function () {
-                // MAY IMPOSSIBLE
-                close();
-            };
-            /**
-             * @hidden
-             */
-            SharedWorkerServer.prototype.handle_connect = function (event) {
-                var port = event.ports[event.ports.length - 1];
-                var driver = new protocol.SharedWorkerClientDriver(port);
-                this.addClient(driver);
-            };
-            return SharedWorkerServer;
-        }());
-        protocol.SharedWorkerServer = SharedWorkerServer;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="Server.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A substitute {@link Server}.
-         *
-         * The {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility.
-         *
-         * #### [Inherited] {@link IServerBase}
-         * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
-         *
-         * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
-         * However, it is impossible (that is, if the class is already extending another class), you can instead implement
-         * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
-         * the aggregated {@link IServerBase}.
-         *
-         * Protocol                | {@link IServer}               | {@link IServerBase}               | {@link IClientDriver}
-         * ------------------------|-------------------------------|-----------------------------------|-------------------------------------
-         * Samchon Framework's own | {@link Server}                | {@link ServerBase}                | {@link ClientDriver}
-         * Web-socket protocol     | {@link WebServer}             | {@link WebServerBase}             | {@link WebClientDriver}
-         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerServerBase} | {@link DedicatedWorkerClientDriver}
-         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerServerBase}    | {@link SharedWorkerClientDriver}
-         *
-         * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
-         * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
-         * specified port number.
-         *
-         * ```typescript
-         * class MyServer extends Something implements IServer
-         * {
-         * 	private server_base_: IServerBase = new WebServerBase(this);
-         *
-         * 	public addClient(driver: IClientDriver): void
-         * 	{
-         * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
-         * 	}
-         *
-         * 	public open(port: number): void
-         * 	{
-         * 		this.server_base_.open();
-         * 	}
-         * 	public close(): void
-         * 	{
-         * 		this.server_base_.close();
-         * 	}
-         * }
-         * ```
-         *
-         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		  target="_blank">
-         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		 style="max-width: 100%" />
-         * </a>
-         *
-         *
-         * @see {@link Server}, {@link ClientDriver}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var ServerBase = (function (_super) {
-            __extends(ServerBase, _super);
-            /**
-             * Construct from a *hooker*.
-             *
-             * @param hooker A hooker throwing responsibility of server's role.
-             */
-            function ServerBase(hooker) {
-                _super.call(this);
-                this.hooker_ = hooker;
-            }
-            /**
-             * @inheritdoc
-             */
-            ServerBase.prototype.addClient = function (driver) {
-                this.hooker_.addClient(driver);
-            };
-            return ServerBase;
-        }(protocol.Server));
-        protocol.ServerBase = ServerBase;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A substitute {@link WebServer}.
-         *
-         * The {@link WebServerBase} is a substitute class who subrogates {@link WebServer}'s responsibility.
-         *
-         * #### [Inherited] {@link IServerBase}
-         * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
-         *
-         * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
-         * However, it is impossible (that is, if the class is already extending another class), you can instead implement
-         * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
-         * the aggregated {@link IServerBase}.
-         *
-         * Protocol                | {@link IServer}               | {@link IServerBase}               | {@link IClientDriver}
-         * ------------------------|-------------------------------|-----------------------------------|-------------------------------------
-         * Samchon Framework's own | {@link Server}                | {@link ServerBase}                | {@link ClientDriver}
-         * Web-socket protocol     | {@link WebServer}             | {@link WebServerBase}             | {@link WebClientDriver}
-         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerServerBase} | {@link DedicatedWorkerClientDriver}
-         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerServerBase}    | {@link SharedWorkerClientDriver}
-         *
-         * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
-         * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
-         * specified port number.
-         *
-         * ```typescript
-         * class MyServer extends Something implements IServer
-         * {
-         * 	private server_base_: IServerBase = new WebServerBase(this);
-         *
-         * 	public addClient(driver: IClientDriver): void
-         * 	{
-         * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
-         * 	}
-         *
-         * 	public open(port: number): void
-         * 	{
-         * 		this.server_base_.open();
-         * 	}
-         * 	public close(): void
-         * 	{
-         * 		this.server_base_.close();
-         * 	}
-         * }
-         * ```
-         *
-         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		  target="_blank">
-         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		 style="max-width: 100%" />
-         * </a>
-         *
-         * @see {@link WebServer}, {@link WebClientDriver}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var WebServerBase = (function (_super) {
-            __extends(WebServerBase, _super);
-            /**
-             * Construct from a *hooker*.
-             *
-             * @param hooker A hooker throwing responsibility of server's role.
-             */
-            function WebServerBase(hooker) {
-                _super.call(this);
-                this.hooker_ = hooker;
-            }
-            /**
-             * @inheritdoc
-             */
-            WebServerBase.prototype.addClient = function (driver) {
-                this.hooker_.addClient(driver);
-            };
-            return WebServerBase;
-        }(protocol.WebServer));
-        protocol.WebServerBase = WebServerBase;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A substitute {@link DedicatedWorkerServer}.
-         *
-         * The {@link DedicatedWorkerServerBase} is a substitute class who subrogates {@link DedicatedWorkerServer}'s
-         * responsibility.
-         *
-         * #### [Inherited] {@link IServerBase}
-         * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
-         *
-         * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
-         * However, it is impossible (that is, if the class is already extending another class), you can instead implement
-         * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
-         * the aggregated {@link IServerBase}.
-         *
-         * Protocol                | {@link IServer}               | {@link IServerBase}               | {@link IClientDriver}
-         * ------------------------|-------------------------------|-----------------------------------|-------------------------------------
-         * Samchon Framework's own | {@link Server}                | {@link ServerBase}                | {@link ClientDriver}
-         * Web-socket protocol     | {@link WebServer}             | {@link WebServerBase}             | {@link WebClientDriver}
-         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerServerBase} | {@link DedicatedWorkerClientDriver}
-         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerServerBase}    | {@link SharedWorkerClientDriver}
-         *
-         * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
-         * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
-         * specified port number.
-         *
-         * ```typescript
-         * class MyServer extends Something implements IServer
-         * {
-         * 	private server_base_: IServerBase = new WebServerBase(this);
-         *
-         * 	public addClient(driver: IClientDriver): void
-         * 	{
-         * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
-         * 	}
-         *
-         * 	public open(port: number): void
-         * 	{
-         * 		this.server_base_.open();
-         * 	}
-         * 	public close(): void
-         * 	{
-         * 		this.server_base_.close();
-         * 	}
-         * }
-         * ```
-         *
-         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		  target="_blank">
-         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		 style="max-width: 100%" />
-         * </a>
-         *
-         * @see {@link DedicatedWorkerServer}, {@link DedicatedWorkerClientDriver}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var DedicatedWorkerServerBase = (function (_super) {
-            __extends(DedicatedWorkerServerBase, _super);
-            /**
-             * Construct from a *hooker*.
-             *
-             * @param hooker A hooker throwing responsibility of server's role.
-             */
-            function DedicatedWorkerServerBase(hooker) {
-                _super.call(this);
-                this.hooker_ = hooker;
-            }
-            /**
-             * @inheritdoc
-             */
-            DedicatedWorkerServerBase.prototype.addClient = function (driver) {
-                this.hooker_.addClient(driver);
-            };
-            return DedicatedWorkerServerBase;
-        }(protocol.DedicatedWorkerServer));
-        protocol.DedicatedWorkerServerBase = DedicatedWorkerServerBase;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A substitute {@link SharedWorkerServer}.
-         *
-         * The {@link SharedWorkerServerBase} is a substitute class who subrogates {@link SharedWorkerServer}'s
-         * responsibility.
-         *
-         * #### [Inherited] {@link IServerBase}
-         * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
-         *
-         * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
-         * However, it is impossible (that is, if the class is already extending another class), you can instead implement
-         * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
-         * the aggregated {@link IServerBase}.
-         *
-         * Protocol                | {@link IServer}               | {@link IServerBase}               | {@link IClientDriver}
-         * ------------------------|-------------------------------|-----------------------------------|-------------------------------------
-         * Samchon Framework's own | {@link Server}                | {@link ServerBase}                | {@link ClientDriver}
-         * Web-socket protocol     | {@link WebServer}             | {@link WebServerBase}             | {@link WebClientDriver}
-         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerServerBase} | {@link DedicatedWorkerClientDriver}
-         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerServerBase}    | {@link SharedWorkerClientDriver}
-         *
-         * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
-         * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
-         * specified port number.
-         *
-         * ```typescript
-         * class MyServer extends Something implements IServer
-         * {
-         * 	private server_base_: IServerBase = new WebServerBase(this);
-         *
-         * 	public addClient(driver: IClientDriver): void
-         * 	{
-         * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
-         * 	}
-         *
-         * 	public open(port: number): void
-         * 	{
-         * 		this.server_base_.open();
-         * 	}
-         * 	public close(): void
-         * 	{
-         * 		this.server_base_.close();
-         * 	}
-         * }
-         * ```
-         *
-         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		  target="_blank">
-         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
-         *		 style="max-width: 100%" />
-         * </a>
-         *
-         * @see {@link SharedWorkerServer}, {@link SharedWorkerClientDriver}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var SharedWorkerServerBase = (function (_super) {
-            __extends(SharedWorkerServerBase, _super);
-            /**
-             * Construct from a *hooker*.
-             *
-             * @param hooker A hooker throwing responsibility of server's role.
-             */
-            function SharedWorkerServerBase(hooker) {
-                _super.call(this);
-                this.hooker_ = hooker;
-            }
-            /**
-             * @inheritdoc
-             */
-            SharedWorkerServerBase.prototype.addClient = function (driver) {
-                this.hooker_.addClient(driver);
-            };
-            return SharedWorkerServerBase;
-        }(protocol.SharedWorkerServer));
-        protocol.SharedWorkerServerBase = SharedWorkerServerBase;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
-/// <reference path="Communicator.ts" />
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * Server connnector.
-         *
-         * {@link ServerConnector} is a class connecting to remote server who follows Samchon Framework's own protocol and
-         * taking full charge of network communication with the remote server. Create a {@link ServerConnector} instance from
-         * the {@IProtocol listener} and call the {@link connect connect()} method.
-         *
-         * #### [Inherited] {@link IServerConnector}
-         * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
-         * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
-         * charge of network communication with the remote server.
-         *
-         * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
-         * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
-         * be converted to an {@link Invoke} object and the {@link Invoke} object will be shifted to the
-         * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
-         *
-         * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
-         * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
-         *
-         * Protocol                | Derived Type                           | Connect to
-         * ------------------------|----------------------------------------|-------------------------------
-         * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
-         * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
-         * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
-         * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
-         *
-         * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
-         *
-         * @see {@link Server}, {@link IProtocol}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var ServerConnector = (function (_super) {
-            __extends(ServerConnector, _super);
-            /* ---------------------------------------------------------
-                CONSTRUCTORS
-            --------------------------------------------------------- */
-            /**
-             * Construct from *listener*.
-             *
-             * @param listener A listener object to listen replied message from newly connected client in
-             *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
-             */
-            function ServerConnector(listener) {
-                _super.call(this, listener);
-                this.connected_ = false;
-            }
-            /**
-             * @inheritdoc
-             */
-            ServerConnector.prototype.connect = function (ip, port) {
-                this.socket_ = net.connect({ host: ip, port: port }, this.handle_connect.bind(this));
-            };
-            /* ---------------------------------------------------------
-                HANDLERS
-            --------------------------------------------------------- */
-            /**
-             * @hidden
-             */
-            ServerConnector.prototype.handle_connect = function () {
-                var arg = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    arg[_i - 0] = arguments[_i];
-                }
-                this.connected_ = true;
-                this.start_listen();
-                this.send_dummy_packet_repeatedly();
-                if (this.onConnect != null)
-                    this.onConnect();
-            };
-            /**
-             * @hidden
-             */
-            ServerConnector.prototype.send_dummy_packet_repeatedly = function () {
-                setInterval(function () {
-                    // WRITE A HEADER BUFFER WHICH MEANS CONTENT SIZE IS ZERO.
-                    var packet = new Buffer(8);
-                    packet.writeUInt32BE(0, 0);
-                    packet.writeUInt32BE(0, 4);
-                    // SEND
-                    try {
-                        this.socket_.write(packet);
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                /**
+                 * Identifier of {@link ParallelProcess} is its {@link name}.
+                 */
+                DistributedProcess.prototype.key = function () {
+                    return this.name;
+                };
+                DistributedProcess.prototype.getSystemArray = function () {
+                    return this.system_array_;
+                };
+                /**
+                 * Get name, who represents and identifies this process.
+                 */
+                DistributedProcess.prototype.getName = function () {
+                    return this.name;
+                };
+                /**
+                 * Get resource index.
+                 *
+                 * Get *resource index* that indicates how much this {@link DistributedProcess process} is heavy.
+                 *
+                 * If this {@link DistributedProcess process} does not have any	{@link Invoke} message had handled, then the
+                 * *resource index* will be ```1.0```, which means default and average value between all
+                 * {@link DistributedProcess} instances (that are belonged to a same {@link DistributedSystemArray} object).
+                 *
+                 * You can specify the *resource index* by yourself, but notice that, if the *resource index* is higher than
+                 * other {@link DistributedProcess} objects, then this {@link DistributedProcess process} will be ordered to
+                 * handle less processes than other {@link DistributedProcess} objects. Otherwise, the *resource index* is
+                 * lower than others, of course, much processes will be requested.
+                 *
+                 * - {@link setResource setResource()}
+                 * - {@link enforceResource enforceResource()}
+                 *
+                 * Unless {@link enforceResource enforceResource()} is called, This *resource index* is **revaluated** whenever
+                 * {@link sendData sendData()} is called.
+                 *
+                 * @return Resource index.
+                 */
+                DistributedProcess.prototype.getResource = function () {
+                    return this.resource;
+                };
+                /**
+                 * Set resource index.
+                 *
+                 * Set *resource index* that indicates how much this {@link DistributedProcess process} is heavy. This
+                 * *resource index* can be **revaulated**.
+                 *
+                 * Note that, initial and average *resource index* of {@link DistributedProcess} objects are ```1.0```. If the
+                 * *resource index* is higher than other {@link DistributedProcess} objects, then this
+                 * {@link DistributedProcess} will be ordered to handle more processes than other {@link DistributedProcess}
+                 * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
+                 *
+                 * Unlike {@link enforceResource}, configuring *resource index* by this {@link setResource} allows the
+                 * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the
+                 * *resource index*. The {@link DistributedProcess process} is much heavier than any other, but you estimated it
+                 * to the lightest one. It looks like a terrible case that causes
+                 * {@link DistributedSystemArray entire distributed processing system} to be slower, however, don't mind. The
+                 * {@link DistributedProcess process} will the direct to the *propriate resource index* eventually with the
+                 * **revaluation**.
+                 *
+                 * - The **revaluation** is caused by the {@link sendData sendData()} method.
+                 *
+                 * @param val New resource index, but can be revaluated.
+                 */
+                DistributedProcess.prototype.setResource = function (val) {
+                    this.resource = val;
+                    this.enforced_ = false;
+                };
+                /**
+                 * Enforce resource index.
+                 *
+                 * Enforce *resource index* that indicates how much heavy the {@link DistributedProcess process is}. The
+                 * *resource index* will be fixed, never be **revaluated**.
+                 *
+                 * Note that, initial and average *resource index* of {@link DistributedProcess} objects are ```1.0```. If the
+                 * *resource index* is higher than other {@link DistributedProcess} objects, then this
+                 * {@link DistributedProcess} will be ordered to handle more processes than other {@link DistributedProcess}
+                 * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
+                 *
+                 * The difference between {@link setResource} and this {@link enforceResource} is allowing **revaluation** or not.
+                 * This {@link enforceResource} does not allow the **revaluation**. The *resource index* is clearly fixed and
+                 * never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the **mis-valuation**
+                 * with this {@link enforceResource}.
+                 *
+                 * For example, there's a {@link DistributedProcess process} much heavier than any other, but you
+                 * **mis-estimated** it to the lightest. In that case, there's no way. The
+                 * {@link DistributedSystemArray entire distributed processing system} will be slower by the **mis-valuation**.
+                 * By the reason, using {@link enforceResource}, it's recommended only when you can clearly certain the
+                 * *resource index*. If you can't certain the *resource index* but want to recommend, then use {@link setResource}
+                 * instead.
+                 *
+                 * @param val New resource index to be fixed.
+                 */
+                DistributedProcess.prototype.enforceResource = function (val) {
+                    this.resource = val;
+                    this.enforced_ = true;
+                };
+                /**
+                 * @hidden
+                 */
+                DistributedProcess.prototype.compute_average_elapsed_time = function () {
+                    var sum = 0;
+                    for (var it = this.history_list_.begin(); !it.equals(this.history_list_.end()); it = it.next()) {
+                        var history_1 = it.second;
+                        var elapsed_time = history_1.computeElapsedTime() / history_1.getWeight();
+                        // THE SYSTEM'S PERFORMANCE IS 5. THE SYSTEM CAN HANDLE A PROCESS VERY QUICKLY
+                        //	AND ELAPSED TIME OF THE PROCESS IS 3 SECONDS
+                        //	THEN I CONSIDER THE ELAPSED TIME AS 15 SECONDS.
+                        sum += elapsed_time * history_1.getSystem().getPerformance();
                     }
-                    catch (exception) {
-                        return;
+                    return sum / this.history_list_.size();
+                };
+                DistributedProcess.prototype.sendData = function (invoke, weight) {
+                    if (weight === void 0) { weight = 1.0; }
+                    if (this.system_array_.empty() == true)
+                        return null;
+                    // ADD UID FOR ARCHIVING HISTORY
+                    var uid;
+                    if (invoke.has("_History_uid") == false) {
+                        // ISSUE UID AND ATTACH IT TO INVOKE'S LAST PARAMETER
+                        uid = ++this.system_array_["history_sequence_"];
+                        invoke.push_back(new samchon.protocol.InvokeParameter("_History_uid", uid));
                     }
-                }.bind(this), 5000);
-            };
-            return ServerConnector;
-        }(protocol.Communicator));
-        protocol.ServerConnector = ServerConnector;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A server connector for web-socket protocol.
-         *
-         * {@link WebServerConnector} is a class connecting to remote server who follows Web-socket protocol and taking full
-         * charge of network communication with the remote server. Create an {@link WebServerConnector} instance from the
-         * {@IProtocol listener} and call the {@link connect connect()} method.
-         *
-         * #### [Inherited] {@link IServerConnector}
-         * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
-         * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
-         * charge of network communication with the remote server.
-         *
-         * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
-         * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
-         * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
-         * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
-         *
-         * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
-         * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
-         *
-         * Protocol                | Derived Type                           | Connect to
-         * ------------------------|----------------------------------------|-------------------------------
-         * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
-         * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
-         * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
-         * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
-         *
-         * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
-         *
-         * @see {@link WebServer}, {@link IProtocol}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var WebServerConnector = (function (_super) {
-            __extends(WebServerConnector, _super);
-            /* ----------------------------------------------------
-                CONSTRUCTORS
-            ---------------------------------------------------- */
-            /**
-             * Construct from *listener*.
-             *
-             * @param listener A listener object to listen replied message from newly connected client in
-             *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
-             */
-            function WebServerConnector(listener) {
-                _super.call(this, listener);
-                this.browser_socket_ = null;
-                this.node_client_ = null;
-                this.connected_ = false;
-                this.onConnect = null;
-            }
-            /**
-             * Connect to a web server.
-             *
-             * Connects to a server with specified *host* address, *port* number and *path*. After the connection has
-             * succeeded, callback function {@link onConnect} is called. Listening data from the connected server also begins.
-             * Replied messages from the connected server will be converted to {@link Invoke} classes and will be shifted to
-             * the {@link WebCommunicator.listener listener}'s {@link IProtocol.replyData replyData()} method.
-             *
-             * If the connection fails immediately, either an event is dispatched or an exception is thrown: an error
-             * event is dispatched if a host was specified, and an exception is thrown if no host was specified. Otherwise,
-             * the status of the connection is reported by an event. If the socket is already connected, the existing
-             * connection is closed first.
-             *
-             * @param ip The name or IP address of the host to connect to.
-             *			 If no host is specified, the host that is contacted is the host where the calling file resides.
-             *			 If you do not specify a host, use an event listener to determine whether the connection was
-             *			 successful.
-             * @param port The port number to connect to.
-             * @param path Path of service which you want.
-             */
-            WebServerConnector.prototype.connect = function (ip, port, path) {
-                if (path === void 0) { path = ""; }
-                // COMPOSITE FULL-ADDRESS
-                var address;
-                if (ip.indexOf("ws://") == -1)
-                    if (ip.indexOf("://") != -1)
-                        throw "only websocket is possible";
+                    else {
+                        // INVOKE MESSAGE ALREADY HAS ITS OWN UNIQUE ID
+                        //	- system_array_ IS A TYPE OF DistributedSystemArrayMediator. THE MESSAGE HAS COME FROM ITS MASTER
+                        //	- A Distributed HAS DISCONNECTED. THE SYSTEM SHIFTED ITS CHAIN TO ANOTHER SLAVE.
+                        uid = invoke.get("_History_uid").getValue();
+                        // FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
+                        this.system_array_["history_sequence_"] = uid;
+                        // FOR CASE 2. ERASE ORDINARY PROGRESSIVE HISTORY FROM THE DISCONNECTED
+                        this.progress_list_.erase(uid);
+                    }
+                    // ADD PROCESS NAME AND WEIGHT FOR MEDIATOR
+                    if (invoke.has("_Process_name") == false)
+                        invoke.push_back(new samchon.protocol.InvokeParameter("_Process_name", this.name));
+                    if (invoke.has("_Process_weight") == false)
+                        invoke.push_back(new samchon.protocol.InvokeParameter("_Process_weight", weight));
                     else
-                        ip = "ws://" + ip;
-                address = ip + ":" + port + "/" + path;
-                // CONNECTION BRANCHES
-                if (samchon.is_node() == true) {
-                    this.node_client_ = new websocket.client();
-                    this.node_client_.on("connect", this.handle_node_connect.bind(this));
-                    this.node_client_.connect(address);
-                }
-                else {
-                    this.browser_socket_ = new WebSocket(address);
-                    this.browser_socket_.onopen = this.handle_browser_connect.bind(this);
-                    this.browser_socket_.onerror = this.handle_close.bind(this);
-                    this.browser_socket_.onclose = this.handle_close.bind(this);
-                    this.browser_socket_.onmessage = this.handle_browser_message.bind(this);
-                }
-            };
-            /**
-             * @inheritdoc
-             */
-            WebServerConnector.prototype.close = function () {
-                if (samchon.is_node() == true)
-                    _super.prototype.close.call(this);
-                else
-                    this.browser_socket_.close();
-            };
-            /* ----------------------------------------------------
-                IPROTOCOL'S METHOD
-            ---------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            WebServerConnector.prototype.sendData = function (invoke) {
-                if (this.browser_socket_ != null) {
-                    this.browser_socket_.send(invoke.toXML().toString());
-                    for (var i = 0; i < invoke.size(); i++)
-                        if (invoke.at(i).getType() == "ByteArray")
-                            this.browser_socket_.send(invoke.at(i).getValue());
-                }
-                else {
-                    _super.prototype.sendData.call(this, invoke);
-                }
-            };
-            /**
-             * @hidden
-             */
-            WebServerConnector.prototype.handle_browser_connect = function (event) {
-                this.connected_ = true;
-                if (this.onConnect != null)
-                    this.onConnect();
-            };
-            /**
-             * @hidden
-             */
-            WebServerConnector.prototype.handle_browser_message = function (event) {
-                if (this.is_binary_invoke() == false)
-                    this.handle_string(event.data);
-                else
-                    this.handle_binary(event.data);
-            };
-            /**
-             * @hidden
-             */
-            WebServerConnector.prototype.handle_node_connect = function (connection) {
-                this.connected_ = true;
-                this.connection_ = connection;
-                this.connection_.on("message", this.handle_message.bind(this));
-                this.connection_.on("close", this.handle_close.bind(this));
-                this.connection_.on("error", this.handle_close.bind(this));
-                if (this.onConnect != null)
-                    this.onConnect();
-            };
-            return WebServerConnector;
-        }(protocol.WebCommunicator));
-        protocol.WebServerConnector = WebServerConnector;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
+                        weight = invoke.get("_Process_name").getValue();
+                    // FIND THE MOST IDLE SYSTEM
+                    var idle_system = null;
+                    for (var i = 0; i < this.system_array_.size(); i++) {
+                        var system = this.system_array_.at(i);
+                        if (system["exclude_"] == true)
+                            continue; // BEING REMOVED SYSTEM
+                        if (idle_system == null ||
+                            system["history_list_"].empty() == true ||
+                            system["progress_list_"].size() < idle_system["progress_list_"].size() ||
+                            (system["progress_list_"].size() == idle_system["progress_list_"].size() &&
+                                system.getPerformance() > idle_system.getPerformance()) ||
+                            (system["progress_list_"].size() == idle_system["progress_list_"].size() &&
+                                system.getPerformance() == idle_system.getPerformance() &&
+                                system["history_list_"].size() < idle_system["history_list_"].size()))
+                            if (idle_system == null || idle_system["history_list_"].empty() == false)
+                                idle_system = system;
+                    }
+                    if (idle_system == null)
+                        throw new std.OutOfRange("No remote system to send data");
+                    // ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)
+                    var history = new distributed.DSInvokeHistory(idle_system, this, invoke, weight);
+                    this.progress_list_.insert([uid, history]);
+                    idle_system["progress_list_"].insert([uid, std.make_pair(invoke, history)]);
+                    // SEND DATA
+                    idle_system.sendData(invoke);
+                    // RETURN THE IDLE SYSTEM, WHO SENT THE INVOKE MESSAGE.
+                    return idle_system;
+                };
+                /**
+                 * @hidden
+                 */
+                DistributedProcess.prototype.complete_history = function (history) {
+                    // ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
+                    this.progress_list_.erase(history.getUID());
+                    this.history_list_.insert([history.getUID(), history]);
+                };
+                /* ---------------------------------------------------------
+                    EXPORTERS
+                --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
+                DistributedProcess.prototype.TAG = function () {
+                    return "process";
+                };
+                return DistributedProcess;
+            }(samchon.protocol.Entity));
+            distributed.DistributedProcess = DistributedProcess;
+        })(distributed = templates.distributed || (templates.distributed = {}));
+    })(templates = samchon.templates || (samchon.templates = {}));
 })(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A server connector for DedicatedWorker.
-         *
-         * {@link DedicatedWorkerServerConnector} is a class connecting to SharedWorker and taking full charge of network
-         * communication with the SharedWorker. Create an {@link DedicatedWorkerServer} instance from the
-         * {@IProtocol listener} and call the {@link connect connect()} method.
-         *
-         * #### Why DedicatedWorker be a server?
-         * In JavaScript environment, there's no way to implement multi-threading function. Instead, JavaScript supports the
-         * **Worker**, creating a new process. However, the **Worker** does not shares memory addresses. To integrate the
-         * **Worker** with its master, only communication with string or binary data is allowed. Doesn't it seem like a network
-         * communication? Furthermore, there's not any difference between the worker communication and network communication.
-         * It's the reason why Samchon Framework considers the **Worker** as a network node.
-         *
-         * The class {@link DedicatedWorkerCommunicator} is designed make such relationship. From now on, DedicatedWorker is a
-         * {@link DedicatedWorkerServer server} and {@link DedicatedWorkerServerConnector browser} is a client. Integrate the
-         * server and clients with this {@link DedicatedWorkerCommunicator}.
-         *
-         * #### [Inherited] {@link IServerConnector}
-         * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
-         * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
-         * charge of network communication with the remote server.
-         *
-         * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
-         * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
-         * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
-         * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
-         *
-         * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
-         * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
-         *
-         * Protocol                | Derived Type                           | Connect to
-         * ------------------------|----------------------------------------|-------------------------------
-         * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
-         * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
-         * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
-         * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
-         *
-         * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
-         *
-         * @see {@link DedicatedWorkerServer}, {@link IProtocol}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var DedicatedWorkerServerConnector = (function (_super) {
-            __extends(DedicatedWorkerServerConnector, _super);
-            /**
-             * Construct from *listener*.
-             *
-             * @param listener A listener object to listen replied message from newly connected client in
-             *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
-             */
-            function DedicatedWorkerServerConnector(listener) {
-                _super.call(this, listener);
-                this.worker = null;
-            }
-            /**
-             * @inheritdoc
-             */
-            DedicatedWorkerServerConnector.prototype.connect = function (jsFile) {
-                // CONSTRUCT WORKER AND START LISTENING
-                this.worker = new Worker(jsFile);
-                this.worker.onmessage = this.handle_message.bind(this);
-                // NOTIFY THE CONNECTION
-                this.connected_ = true;
-                if (this.onConnect != null)
-                    this.onConnect();
-            };
-            /**
-             * @inheritdoc
-             */
-            DedicatedWorkerServerConnector.prototype.close = function () {
-                this.worker.terminate();
-                if (this.onClose != null)
-                    this.onClose();
-            };
-            /**
-             * @inheritdoc
-             */
-            DedicatedWorkerServerConnector.prototype.sendData = function (invoke) {
-                this.worker.postMessage(invoke.toXML().toString(), "");
-                for (var i = 0; i < invoke.size(); i++)
-                    if (invoke.at(i).getType() == "ByteArray")
-                        this.worker.postMessage(invoke.at(i).getValue(), "");
-            };
-            return DedicatedWorkerServerConnector;
-        }(protocol.DedicatedWorkerCommunicator));
-        protocol.DedicatedWorkerServerConnector = DedicatedWorkerServerConnector;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-var samchon;
-(function (samchon) {
-    var protocol;
-    (function (protocol) {
-        /**
-         * A server connector for SharedWorker.
-         *
-         * {@link SharedWorkerServerConnector} is a class connecting to SharedWorker and taking full charge of network
-         * communication with the SharedWorker. Create an {@link SharedWorkerServerConnector} instance from the
-         * {@IProtocol listener} and call the {@link connect connect()} method.
-         *
-         * #### Why SharedWorker be a server?
-         * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
-         * or multiple browsers. To integrate them, messages are being sent and received. Doesn't it seem like a relationship
-         * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
-         * clients.
-         *
-         * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
-         * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
-         * server and clients with this {@link SharedWorkerCommunicator}.
-         *
-         * #### [Inherited] {@link IServerConnector}
-         * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
-         * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
-         * charge of network communication with the remote server.
-         *
-         * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
-         * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
-         * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
-         * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
-         *
-         * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
-         * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
-         *
-         * Protocol                | Derived Type                           | Connect to
-         * ------------------------|----------------------------------------|-------------------------------
-         * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
-         * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
-         * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
-         * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
-         *
-         * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
-         *
-         * @see {@link SharedWorkerServer}, {@link IProtocol}
-         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var SharedWorkerServerConnector = (function (_super) {
-            __extends(SharedWorkerServerConnector, _super);
-            /* ---------------------------------------------------------
-                CONSTRUCTORS AND CONNECTORS
-            --------------------------------------------------------- */
-            /**
-             * Construct from *listener*.
-             *
-             * @param listener A listener object to listen replied message from newly connected client in
-             *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
-             */
-            function SharedWorkerServerConnector(listener) {
-                _super.call(this, listener);
-                this.connected_ = false;
-                this.onConnect = null;
-            }
-            /**
-             * Connect to a SharedWorker.
-             *
-             * Connects to a server with specified *jstFile* path. If a SharedWorker instance of the *jsFile* is not
-             * constructed yet, then the SharedWorker will be newly constructed. Otherwise the SharedWorker already exists,
-             * then connect to the SharedWorker. After those processes, callback function {@link onConnect} is called.
-             * Listening data from the connected server also begins. Replied messages from the connected server will be
-             * converted to {@link Invoke} classes and will be shifted to the {@link WebCommunicator.listener listener}'s
-             * {@link IProtocol.replyData replyData()} method.
-             *
-             * If the connection fails immediately, either an event is dispatched or an exception is thrown: an error
-             * event is dispatched if a host was specified, and an exception is thrown if no host was specified. Otherwise,
-             * the status of the connection is reported by an event. If the socket is already connected, the existing
-             * connection is closed first.
-             *
-             * @param jsFile Path of JavaScript file to execute who defines SharedWorker.
-             */
-            SharedWorkerServerConnector.prototype.connect = function (jsFile) {
-                // CONSTRUCT AND START SHARED-WORKER-SERVER
-                var worker = new SharedWorker(jsFile);
-                // LISTEN MESSAGE
-                this.port_ = worker.port;
-                this.port_.onmessage = this.handle_message.bind(this);
-                // NOTIFY THE CONNECTION
-                this.connected_ = true;
-                if (this.onConnect != null)
-                    this.onConnect();
-            };
-            return SharedWorkerServerConnector;
-        }(protocol.SharedWorkerCommunicator));
-        protocol.SharedWorkerServerConnector = SharedWorkerServerConnector;
-    })(protocol = samchon.protocol || (samchon.protocol = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../API.ts" />
 /// <reference path="../../API.ts" />
 /// <reference path="DistributedSystemArray.ts" />
 var samchon;
@@ -8526,255 +7683,6 @@ var samchon;
                 return DistributedClientArrayMediator;
             }(distributed.DistributedSystemArrayMediator));
             distributed.DistributedClientArrayMediator = DistributedClientArrayMediator;
-        })(distributed = templates.distributed || (templates.distributed = {}));
-    })(templates = samchon.templates || (samchon.templates = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="../../protocol/Entity.ts" />
-var samchon;
-(function (samchon) {
-    var templates;
-    (function (templates) {
-        var distributed;
-        (function (distributed) {
-            /**
-             * A process of Distributed Processing System.
-             *
-             * The {@link DistributedProcess} is an abstract class who represents a **process**, *SOMETHING TO DISTRIBUTE* in a Distributed
-             * Processing System. Overrides the {@link DistributedProcess} and defines the *SOMETHING TO DISTRIBUTE*.
-             *
-             * Relationship between {@link DistributedSystem} and {@link DistributedProcess} objects are **M: N Associative**.
-             * Unlike {@link ExternalSystemRole}, the {@link DistributedProcess} objects are not belonged to a specific
-             * {@link DistributedSystem} object. The {@link DistributedProcess} objects are belonged to the
-             * {@link DistributedSystemArrayMediator} directly.
-             *
-             * When you need the **distributed process**, then call {@link sendData sendData()}. The {@link sendData} will find
-             * the most idle {@link DistributedSystem slave system} considering not only number of processes on progress, but also
-             * {@link DistributedSystem.getPerformance performance index} of each {@link DistributedSystem} object and
-             * {@link getResource resource index} of this {@link DistributedProcess} object. The {@link Invoke} message
-             * requesting the **distributed process** will be sent to the most idle {@link DistributedSystem slave system}.
-             *
-             * Those {@link DistributedSystem.getPerformance performance index} and {@link getResource resource index} are
-             * revaluated whenever the **distributed process** has completed basis on the execution time.
-             *
-             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
-             *		  target="_blank">
-             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_distributed_system.png"
-             *		 style="max-width: 100%" />
-             * </a>
-             *
-             * @handbook [Templates - Distributed System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Distributed_System)
-             * @author Jeongho Nam <http://samchon.org>
-             */
-            var DistributedProcess = (function (_super) {
-                __extends(DistributedProcess, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                /**
-                 * Constrct from parent {@link DistributedSystemArray} object.
-                 *
-                 * @param systemArray The parent {@link DistributedSystemArray} object.
-                 */
-                function DistributedProcess(systemArray) {
-                    _super.call(this);
-                    this.system_array_ = systemArray;
-                    this.name = "";
-                    // PERFORMANCE INDEX
-                    this.resource = 1.0;
-                    this.progress_list_ = new std.HashMap();
-                    this.history_list_ = new std.HashMap();
-                }
-                /* ---------------------------------------------------------
-                    ACCESSORS
-                --------------------------------------------------------- */
-                /**
-                 * Identifier of {@link ParallelProcess} is its {@link name}.
-                 */
-                DistributedProcess.prototype.key = function () {
-                    return this.name;
-                };
-                DistributedProcess.prototype.getSystemArray = function () {
-                    return this.system_array_;
-                };
-                /**
-                 * Get name, who represents and identifies this process.
-                 */
-                DistributedProcess.prototype.getName = function () {
-                    return this.name;
-                };
-                /**
-                 * Get resource index.
-                 *
-                 * Get *resource index* that indicates how much this {@link DistributedProcess process} is heavy.
-                 *
-                 * If this {@link DistributedProcess process} does not have any	{@link Invoke} message had handled, then the
-                 * *resource index* will be ```1.0```, which means default and average value between all
-                 * {@link DistributedProcess} instances (that are belonged to a same {@link DistributedSystemArray} object).
-                 *
-                 * You can specify the *resource index* by yourself, but notice that, if the *resource index* is higher than
-                 * other {@link DistributedProcess} objects, then this {@link DistributedProcess process} will be ordered to
-                 * handle less processes than other {@link DistributedProcess} objects. Otherwise, the *resource index* is
-                 * lower than others, of course, much processes will be requested.
-                 *
-                 * - {@link setResource setResource()}
-                 * - {@link enforceResource enforceResource()}
-                 *
-                 * Unless {@link enforceResource enforceResource()} is called, This *resource index* is **revaluated** whenever
-                 * {@link sendData sendData()} is called.
-                 *
-                 * @return Resource index.
-                 */
-                DistributedProcess.prototype.getResource = function () {
-                    return this.resource;
-                };
-                /**
-                 * Set resource index.
-                 *
-                 * Set *resource index* that indicates how much this {@link DistributedProcess process} is heavy. This
-                 * *resource index* can be **revaulated**.
-                 *
-                 * Note that, initial and average *resource index* of {@link DistributedProcess} objects are ```1.0```. If the
-                 * *resource index* is higher than other {@link DistributedProcess} objects, then this
-                 * {@link DistributedProcess} will be ordered to handle more processes than other {@link DistributedProcess}
-                 * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
-                 *
-                 * Unlike {@link enforceResource}, configuring *resource index* by this {@link setResource} allows the
-                 * **revaluation**. This **revaluation** prevents wrong valuation from user. For example, you *mis-valuated* the
-                 * *resource index*. The {@link DistributedProcess process} is much heavier than any other, but you estimated it
-                 * to the lightest one. It looks like a terrible case that causes
-                 * {@link DistributedSystemArray entire distributed processing system} to be slower, however, don't mind. The
-                 * {@link DistributedProcess process} will the direct to the *propriate resource index* eventually with the
-                 * **revaluation**.
-                 *
-                 * - The **revaluation** is caused by the {@link sendData sendData()} method.
-                 *
-                 * @param val New resource index, but can be revaluated.
-                 */
-                DistributedProcess.prototype.setResource = function (val) {
-                    this.resource = val;
-                    this.enforced_ = false;
-                };
-                /**
-                 * Enforce resource index.
-                 *
-                 * Enforce *resource index* that indicates how much heavy the {@link DistributedProcess process is}. The
-                 * *resource index* will be fixed, never be **revaluated**.
-                 *
-                 * Note that, initial and average *resource index* of {@link DistributedProcess} objects are ```1.0```. If the
-                 * *resource index* is higher than other {@link DistributedProcess} objects, then this
-                 * {@link DistributedProcess} will be ordered to handle more processes than other {@link DistributedProcess}
-                 * objects. Otherwise, the *resource index* is lower than others, of course, less processes will be requested.
-                 *
-                 * The difference between {@link setResource} and this {@link enforceResource} is allowing **revaluation** or not.
-                 * This {@link enforceResource} does not allow the **revaluation**. The *resource index* is clearly fixed and
-                 * never be changed by the **revaluation**. But you've to keep in mind that, you can't avoid the **mis-valuation**
-                 * with this {@link enforceResource}.
-                 *
-                 * For example, there's a {@link DistributedProcess process} much heavier than any other, but you
-                 * **mis-estimated** it to the lightest. In that case, there's no way. The
-                 * {@link DistributedSystemArray entire distributed processing system} will be slower by the **mis-valuation**.
-                 * By the reason, using {@link enforceResource}, it's recommended only when you can clearly certain the
-                 * *resource index*. If you can't certain the *resource index* but want to recommend, then use {@link setResource}
-                 * instead.
-                 *
-                 * @param val New resource index to be fixed.
-                 */
-                DistributedProcess.prototype.enforceResource = function (val) {
-                    this.resource = val;
-                    this.enforced_ = true;
-                };
-                /**
-                 * @hidden
-                 */
-                DistributedProcess.prototype.compute_average_elapsed_time = function () {
-                    var sum = 0;
-                    for (var it = this.history_list_.begin(); !it.equals(this.history_list_.end()); it = it.next()) {
-                        var history_1 = it.second;
-                        var elapsed_time = history_1.computeElapsedTime() / history_1.getWeight();
-                        // THE SYSTEM'S PERFORMANCE IS 5. THE SYSTEM CAN HANDLE A PROCESS VERY QUICKLY
-                        //	AND ELAPSED TIME OF THE PROCESS IS 3 SECONDS
-                        //	THEN I CONSIDER THE ELAPSED TIME AS 15 SECONDS.
-                        sum += elapsed_time * history_1.getSystem().getPerformance();
-                    }
-                    return sum / this.history_list_.size();
-                };
-                DistributedProcess.prototype.sendData = function (invoke, weight) {
-                    if (weight === void 0) { weight = 1.0; }
-                    if (this.system_array_.empty() == true)
-                        return null;
-                    // ADD UID FOR ARCHIVING HISTORY
-                    var uid;
-                    if (invoke.has("_History_uid") == false) {
-                        // ISSUE UID AND ATTACH IT TO INVOKE'S LAST PARAMETER
-                        uid = ++this.system_array_["history_sequence_"];
-                        invoke.push_back(new samchon.protocol.InvokeParameter("_History_uid", uid));
-                    }
-                    else {
-                        // INVOKE MESSAGE ALREADY HAS ITS OWN UNIQUE ID
-                        //	- system_array_ IS A TYPE OF DistributedSystemArrayMediator. THE MESSAGE HAS COME FROM ITS MASTER
-                        //	- A Distributed HAS DISCONNECTED. THE SYSTEM SHIFTED ITS CHAIN TO ANOTHER SLAVE.
-                        uid = invoke.get("_History_uid").getValue();
-                        // FOR CASE 1. UPDATE HISTORY_SEQUENCE TO MAXIMUM
-                        this.system_array_["history_sequence_"] = uid;
-                        // FOR CASE 2. ERASE ORDINARY PROGRESSIVE HISTORY FROM THE DISCONNECTED
-                        this.progress_list_.erase(uid);
-                    }
-                    // ADD PROCESS NAME AND WEIGHT FOR MEDIATOR
-                    if (invoke.has("_Process_name") == false)
-                        invoke.push_back(new samchon.protocol.InvokeParameter("_Process_name", this.name));
-                    if (invoke.has("_Process_weight") == false)
-                        invoke.push_back(new samchon.protocol.InvokeParameter("_Process_weight", weight));
-                    else
-                        weight = invoke.get("_Process_name").getValue();
-                    // FIND THE MOST IDLE SYSTEM
-                    var idle_system = null;
-                    for (var i = 0; i < this.system_array_.size(); i++) {
-                        var system = this.system_array_.at(i);
-                        if (system["exclude_"] == true)
-                            continue; // BEING REMOVED SYSTEM
-                        if (idle_system == null ||
-                            system["history_list_"].empty() == true ||
-                            system["progress_list_"].size() < idle_system["progress_list_"].size() ||
-                            (system["progress_list_"].size() == idle_system["progress_list_"].size() &&
-                                system.getPerformance() > idle_system.getPerformance()) ||
-                            (system["progress_list_"].size() == idle_system["progress_list_"].size() &&
-                                system.getPerformance() == idle_system.getPerformance() &&
-                                system["history_list_"].size() < idle_system["history_list_"].size()))
-                            if (idle_system == null || idle_system["history_list_"].empty() == false)
-                                idle_system = system;
-                    }
-                    if (idle_system == null)
-                        throw new std.OutOfRange("No remote system to send data");
-                    // ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)
-                    var history = new distributed.DSInvokeHistory(idle_system, this, invoke, weight);
-                    this.progress_list_.insert([uid, history]);
-                    idle_system["progress_list_"].insert([uid, std.make_pair(invoke, history)]);
-                    // SEND DATA
-                    idle_system.sendData(invoke);
-                    // RETURN THE IDLE SYSTEM, WHO SENT THE INVOKE MESSAGE.
-                    return idle_system;
-                };
-                /**
-                 * @hidden
-                 */
-                DistributedProcess.prototype.complete_history = function (history) {
-                    // ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
-                    this.progress_list_.erase(history.getUID());
-                    this.history_list_.insert([history.getUID(), history]);
-                };
-                /* ---------------------------------------------------------
-                    EXPORTERS
-                --------------------------------------------------------- */
-                /**
-                 * @inheritdoc
-                 */
-                DistributedProcess.prototype.TAG = function () {
-                    return "process";
-                };
-                return DistributedProcess;
-            }(samchon.protocol.Entity));
-            distributed.DistributedProcess = DistributedProcess;
         })(distributed = templates.distributed || (templates.distributed = {}));
     })(templates = samchon.templates || (samchon.templates = {}));
 })(samchon || (samchon = {}));
@@ -10368,83 +9276,6 @@ var samchon;
     })(templates = samchon.templates || (samchon.templates = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
-/// <reference path="ExternalSystem.ts" />
-var samchon;
-(function (samchon) {
-    var templates;
-    (function (templates) {
-        var external;
-        (function (external) {
-            /**
-             * An external server driver.
-             *
-             * The {@link ExternalServer} is an abstract class, derived from the {@link ExternalSystem} class, connecting to
-             * remote, external server. Extends this {@link ExternalServer} class and overrides the
-             * {@link createServerConnector createServerConnector()} method following which protocol the external server uses.
-             *
-             * #### [Inherited] {@link ExternalSystem}
-             * The {@link ExternalSystem} class represents an external system, connected and interact with this system.
-             * {@link ExternalSystem} takes full charge of network communication with the remote, external system have connected.
-             * Replied {@link Invoke} messages from the external system is shifted to and processed in, children elements of this
-             * class, {@link ExternalSystemRole} objects.
-             *
-             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
-             *		  target="_blank">
-             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
-             *		 style="max-width: 100%" />
-             * </a>
-             *
-             * #### Bridge & Proxy Pattern
-             * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
-             * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-             * important. Only interested in user's perspective is *which can be done*.
-             *
-             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-             * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-             *
-             * <ul>
-             *	<li>
-             *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-             *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-             *	</li>
-             *	<li>
-             *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-             *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-             *		external system.
-             *	</li>
-             *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
-             * </ul>
-             *
-             * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
-             * @author Jeongho Nam <http://samchon.org>
-             */
-            var ExternalServer = (function (_super) {
-                __extends(ExternalServer, _super);
-                /**
-                 * Construct from parent {@link ExternalSystemArray}.
-                 *
-                 * @param systemArray The parent {@link ExternalSystemArray} object.
-                 */
-                function ExternalServer(systemArray) {
-                    _super.call(this, systemArray);
-                    this.ip = "";
-                    this.port = 0;
-                }
-                /**
-                 * @inheritdoc
-                 */
-                ExternalServer.prototype.connect = function () {
-                    this.communicator = this.createServerConnector();
-                    this.communicator.connect(this.ip, this.port);
-                };
-                return ExternalServer;
-            }(external.ExternalSystem));
-            external.ExternalServer = ExternalServer;
-        })(external = templates.external || (templates.external = {}));
-    })(templates = samchon.templates || (samchon.templates = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
 /// <reference path="ExternalSystemArray.ts" />
 var samchon;
 (function (samchon) {
@@ -10629,6 +9460,83 @@ var samchon;
     })(templates = samchon.templates || (samchon.templates = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
+/// <reference path="ExternalSystem.ts" />
+var samchon;
+(function (samchon) {
+    var templates;
+    (function (templates) {
+        var external;
+        (function (external) {
+            /**
+             * An external server driver.
+             *
+             * The {@link ExternalServer} is an abstract class, derived from the {@link ExternalSystem} class, connecting to
+             * remote, external server. Extends this {@link ExternalServer} class and overrides the
+             * {@link createServerConnector createServerConnector()} method following which protocol the external server uses.
+             *
+             * #### [Inherited] {@link ExternalSystem}
+             * The {@link ExternalSystem} class represents an external system, connected and interact with this system.
+             * {@link ExternalSystem} takes full charge of network communication with the remote, external system have connected.
+             * Replied {@link Invoke} messages from the external system is shifted to and processed in, children elements of this
+             * class, {@link ExternalSystemRole} objects.
+             *
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+             *		  target="_blank">
+             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_external_system.png"
+             *		 style="max-width: 100%" />
+             * </a>
+             *
+             * #### Bridge & Proxy Pattern
+             * The {@link ExternalSystem} class can be a *bridge* for *logical proxy*. In framework within user,
+             * which {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+             * important. Only interested in user's perspective is *which can be done*.
+             *
+             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+             * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+             *
+             * <ul>
+             *	<li>
+             *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+             *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+             *	</li>
+             *	<li>
+             *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+             *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+             *		external system.
+             *	</li>
+             *	<li> Those strategy is called *Bridge Pattern* and *Proxy Pattern*. </li>
+             * </ul>
+             *
+             * @handbook [Templates - External System](https://github.com/samchon/framework/wiki/TypeScript-Templates-External_System)
+             * @author Jeongho Nam <http://samchon.org>
+             */
+            var ExternalServer = (function (_super) {
+                __extends(ExternalServer, _super);
+                /**
+                 * Construct from parent {@link ExternalSystemArray}.
+                 *
+                 * @param systemArray The parent {@link ExternalSystemArray} object.
+                 */
+                function ExternalServer(systemArray) {
+                    _super.call(this, systemArray);
+                    this.ip = "";
+                    this.port = 0;
+                }
+                /**
+                 * @inheritdoc
+                 */
+                ExternalServer.prototype.connect = function () {
+                    this.communicator = this.createServerConnector();
+                    this.communicator.connect(this.ip, this.port);
+                };
+                return ExternalServer;
+            }(external.ExternalSystem));
+            external.ExternalServer = ExternalServer;
+        })(external = templates.external || (templates.external = {}));
+    })(templates = samchon.templates || (samchon.templates = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
 /// <reference path="../../protocol/Entity.ts" />
 var samchon;
 (function (samchon) {
@@ -10748,6 +9656,316 @@ var samchon;
             }(samchon.protocol.Entity));
             external.ExternalSystemRole = ExternalSystemRole;
         })(external = templates.external || (templates.external = {}));
+    })(templates = samchon.templates || (samchon.templates = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="ParallelSystemArray".ts" />
+var samchon;
+(function (samchon) {
+    var templates;
+    (function (templates) {
+        var parallel;
+        (function (parallel) {
+            /**
+             * Mediator of Parallel Processing System.
+             *
+             * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
+             * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
+             * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
+             * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
+             * derived from the {@link SlaveSystem} class.
+             *
+             * As a **master**, you can specify this {@link ParallelSystemArrayMediator} class to be <i>a master server accepting
+             * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
+             * of them below and overrides abstract factory method(s) creating the child {@link ParallelSystem} object.
+             *
+             * - {@link ParallelClientArrayMediator}: A server accepting {@link ParallelSystem parallel clients}.
+             * - {@link ParallelServerArrayMediator}: A client connecting to {@link ParallelServer parallel servers}.
+             * - {@link ParallelServerClientArrayMediator}: Both of them. Accepts {@link ParallelSystem parallel clients} and
+             *   connects to {@link ParallelServer parallel servers} at the same time.
+             *
+             * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
+             * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
+             * Overrides the {@link createMediator createMediator()} method and return one of them:
+             *
+             * - A client slave connecting to master server:
+             *   - {@link MediatorClient}
+             *   - {@link MediatorWebClient}
+             *   - {@link MediatorSharedWorkerClient}
+             * - A server slave accepting master client:
+             *   - {@link MediatorServer}
+             *   - {@link MediatorWebServer}
+             *   - {@link MediatorDedicatedWorkerServer}
+             *   - {@link MediatorSharedWorkerServer}
+             *
+             * #### [Inherited] {@link ParallelSystemArray}
+             * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+             * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+             * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+             * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+             * *parallel processes*.
+             *
+             * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+             * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+             * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
+             * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+             *
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+             *		  target="_blank">
+             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+             *		 style="max-width: 100%" />
+             * </a>
+             *
+             * #### Proxy Pattern
+             * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+             * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
+             * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+             * may better to utilizing the *Proxy Pattern*:
+             *
+             * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+             * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+             * important. Only interested in user's perspective is *which can be done*.
+             *
+             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+             * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+             *
+             * <ul>
+             *	<li>
+             *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+             *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+             *	</li>
+             *	<li>
+             *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+             *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+             *		external system.
+             *	</li>
+             *	<li> Those strategy is called *Proxy Pattern*. </li>
+             * </ul>
+             *
+             * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+             * @author Jeongho Nam <http://samchon.org>
+             */
+            var ParallelSystemArrayMediator = (function (_super) {
+                __extends(ParallelSystemArrayMediator, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function ParallelSystemArrayMediator() {
+                    _super.call(this);
+                    this.mediator_ = null;
+                }
+                /**
+                 * Start mediator.
+                 *
+                 * If the {@link getMediator mediator} is a type of server, then opens the server accepting master client.
+                 * Otherwise, the {@link getMediator mediator} is a type of client, then connects the master server.
+                 */
+                ParallelSystemArrayMediator.prototype.startMediator = function () {
+                    if (this.mediator_ != null)
+                        return;
+                    this.mediator_ = this.createMediator();
+                    this.mediator_.start();
+                };
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                /**
+                 * Get {@link MediatorSystem} object.
+                 *
+                 * When you need to send an {@link Invoke} message to the master system of this
+                 * {@link ParallelSystemArrayMediator}, then send to the {@link MediatorSystem} through this {@link getMediator}.
+                 *
+                 * ```typescript
+                 * this.getMediator().sendData(...);
+                 * ```
+                 *
+                 * @return The {@link MediatorSystem} object.
+                 */
+                ParallelSystemArrayMediator.prototype.getMediator = function () {
+                    return this.mediator_;
+                };
+                /* ---------------------------------------------------------
+                    INVOKE MESSAGE CHAIN
+                --------------------------------------------------------- */
+                /**
+                 * @hidden
+                 */
+                ParallelSystemArrayMediator.prototype._Complete_history = function (history) {
+                    var ret = _super.prototype._Complete_history.call(this, history);
+                    if (ret == true)
+                        this.mediator_["complete_history"](history.getUID());
+                    return ret;
+                };
+                return ParallelSystemArrayMediator;
+            }(parallel.ParallelSystemArray));
+            parallel.ParallelSystemArrayMediator = ParallelSystemArrayMediator;
+        })(parallel = templates.parallel || (templates.parallel = {}));
+    })(templates = samchon.templates || (samchon.templates = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="ParallelSystemArrayMediator.ts" />
+var samchon;
+(function (samchon) {
+    var templates;
+    (function (templates) {
+        var parallel;
+        (function (parallel) {
+            /**
+             * Mediator of Parallel Processing System, a server accepting slave clients.
+             *
+             * The {@link ParallelClientArrayMediator} is an abstract class, derived from the {@link ParallelSystemArrayMediator}
+             * class, opening a server accepting {@link ParallelSystem parallel clients} as a **master**.
+             *
+             * Extends this {@link ParallelClientArrayMediator}, overrides {@link createServerBase createServerBase()} to
+             * determine which protocol to follow and {@link createExternalClient createExternalClient()} creating child
+             * {@link ParallelSystem} object. After the extending and overridings, open this server using the
+             * {@link open open()} method.
+             *
+             * #### [Inherited] {@link ParallelSystemArrayMediator}
+             * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
+             * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
+             * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
+             * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
+             * derived from the {@link SlaveSystem} class.
+             *
+             * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
+             * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
+             * Overrides the {@link createMediator createMediator()} method and return one of them:
+             *
+             * - A client slave connecting to master server:
+             *   - {@link MediatorClient}
+             *   - {@link MediatorWebClient}
+             *   - {@link MediatorSharedWorkerClient}
+             * - A server slave accepting master client:
+             *   - {@link MediatorServer}
+             *   - {@link MediatorWebServer}
+             *   - {@link MediatorDedicatedWorkerServer}
+             *   - {@link MediatorSharedWorkerServer}
+             *
+             * #### [Inherited] {@link ParallelSystemArray}
+             * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
+             * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
+             * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
+             * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
+             * *parallel processes*.
+             *
+             * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
+             * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
+             * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
+             * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
+             *
+             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+             *		  target="_blank">
+             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
+             *		 style="max-width: 100%" />
+             * </a>
+             *
+             * #### Proxy Pattern
+             * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
+             * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
+             * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
+             * may better to utilizing the *Proxy Pattern*:
+             *
+             * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
+             * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
+             * important. Only interested in user's perspective is *which can be done*.
+             *
+             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
+             * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
+             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
+             *
+             * <ul>
+             *	<li>
+             *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
+             *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
+             *	</li>
+             *	<li>
+             *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
+             *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
+             *		external system.
+             *	</li>
+             *	<li> Those strategy is called *Proxy Pattern*. </li>
+             * </ul>
+             *
+             * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
+             * @author Jeongho Nam <http://samchon.org>
+             */
+            var ParallelClientArrayMediator = (function (_super) {
+                __extends(ParallelClientArrayMediator, _super);
+                /* =========================================================
+                    CONSTRUCTORS
+                        - MEMBER
+                        - FACTORY METHOD FOR CHILDREN
+                ============================================================
+                    MEMBER
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function ParallelClientArrayMediator() {
+                    _super.call(this);
+                }
+                /* ---------------------------------------------------------
+                    FACTORY METHOD FOR CHILDREN
+                --------------------------------------------------------- */
+                /**
+                 * Add a newly connected remote client.
+                 *
+                 * When a {@link IClientDriver remote client} connects to this *master server of parallel processing system*,
+                 * then this {@link ParallelClientArrayMediator} creates a child {@link ParallelSystem parallel client} object
+                 * through the {@link createExternalClient createExternalClient()} method and {@link insert inserts} it.
+                 *
+                 * @param driver A communicator for parallel client.
+                 */
+                ParallelClientArrayMediator.prototype.addClient = function (driver) {
+                    var system = this.createExternalClient(driver);
+                    if (system == null)
+                        return;
+                    this.push_back(system);
+                };
+                /**
+                 * (Deprecated) Factory method creating child object.
+                 *
+                 * The method {@link createChild createChild()} is deprecated. Don't use and override this.
+                 *
+                 * Note that, the {@link ParallelClientArrayMediator} is a server accepting {@link ParallelSystem parallel
+                 * clients} as a master. There's no way to creating the {@link ParallelSystem parallel clients} in advance before
+                 * opening the server.
+                 *
+                 * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
+                 * @return null
+                 */
+                ParallelClientArrayMediator.prototype.createChild = function (xml) { return null; };
+                /* ---------------------------------------------------------
+                    SERVER's METHOD
+                --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
+                ParallelClientArrayMediator.prototype.open = function (port) {
+                    this.server_base_ = this.createServerBase();
+                    if (this.server_base_ == null)
+                        return;
+                    this.server_base_.open(port);
+                    this.startMediator();
+                };
+                /**
+                 * @inheritdoc
+                 */
+                ParallelClientArrayMediator.prototype.close = function () {
+                    if (this.server_base_ == null)
+                        return;
+                    this.server_base_.close();
+                    this.clear();
+                };
+                return ParallelClientArrayMediator;
+            }(parallel.ParallelSystemArrayMediator));
+            parallel.ParallelClientArrayMediator = ParallelClientArrayMediator;
+        })(parallel = templates.parallel || (templates.parallel = {}));
     })(templates = samchon.templates || (samchon.templates = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
@@ -11553,316 +10771,6 @@ var samchon;
     })(templates = samchon.templates || (samchon.templates = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
-/// <reference path="ParallelSystemArray".ts" />
-var samchon;
-(function (samchon) {
-    var templates;
-    (function (templates) {
-        var parallel;
-        (function (parallel) {
-            /**
-             * Mediator of Parallel Processing System.
-             *
-             * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
-             * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
-             * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
-             * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
-             * derived from the {@link SlaveSystem} class.
-             *
-             * As a **master**, you can specify this {@link ParallelSystemArrayMediator} class to be <i>a master server accepting
-             * slave clients<i> or <i>a master client to connecting slave servers</i>. Even both of them is possible. Extends one
-             * of them below and overrides abstract factory method(s) creating the child {@link ParallelSystem} object.
-             *
-             * - {@link ParallelClientArrayMediator}: A server accepting {@link ParallelSystem parallel clients}.
-             * - {@link ParallelServerArrayMediator}: A client connecting to {@link ParallelServer parallel servers}.
-             * - {@link ParallelServerClientArrayMediator}: Both of them. Accepts {@link ParallelSystem parallel clients} and
-             *   connects to {@link ParallelServer parallel servers} at the same time.
-             *
-             * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
-             * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
-             * Overrides the {@link createMediator createMediator()} method and return one of them:
-             *
-             * - A client slave connecting to master server:
-             *   - {@link MediatorClient}
-             *   - {@link MediatorWebClient}
-             *   - {@link MediatorSharedWorkerClient}
-             * - A server slave accepting master client:
-             *   - {@link MediatorServer}
-             *   - {@link MediatorWebServer}
-             *   - {@link MediatorDedicatedWorkerServer}
-             *   - {@link MediatorSharedWorkerServer}
-             *
-             * #### [Inherited] {@link ParallelSystemArray}
-             * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
-             * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
-             * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
-             * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
-             * *parallel processes*.
-             *
-             * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-             * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
-             * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
-             * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
-             *
-             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
-             *		  target="_blank">
-             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
-             *		 style="max-width: 100%" />
-             * </a>
-             *
-             * #### Proxy Pattern
-             * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
-             * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
-             * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-             * may better to utilizing the *Proxy Pattern*:
-             *
-             * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-             * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-             * important. Only interested in user's perspective is *which can be done*.
-             *
-             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-             * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-             *
-             * <ul>
-             *	<li>
-             *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-             *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-             *	</li>
-             *	<li>
-             *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-             *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-             *		external system.
-             *	</li>
-             *	<li> Those strategy is called *Proxy Pattern*. </li>
-             * </ul>
-             *
-             * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
-             * @author Jeongho Nam <http://samchon.org>
-             */
-            var ParallelSystemArrayMediator = (function (_super) {
-                __extends(ParallelSystemArrayMediator, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                /**
-                 * Default Constructor.
-                 */
-                function ParallelSystemArrayMediator() {
-                    _super.call(this);
-                    this.mediator_ = null;
-                }
-                /**
-                 * Start mediator.
-                 *
-                 * If the {@link getMediator mediator} is a type of server, then opens the server accepting master client.
-                 * Otherwise, the {@link getMediator mediator} is a type of client, then connects the master server.
-                 */
-                ParallelSystemArrayMediator.prototype.startMediator = function () {
-                    if (this.mediator_ != null)
-                        return;
-                    this.mediator_ = this.createMediator();
-                    this.mediator_.start();
-                };
-                /* ---------------------------------------------------------
-                    ACCESSORS
-                --------------------------------------------------------- */
-                /**
-                 * Get {@link MediatorSystem} object.
-                 *
-                 * When you need to send an {@link Invoke} message to the master system of this
-                 * {@link ParallelSystemArrayMediator}, then send to the {@link MediatorSystem} through this {@link getMediator}.
-                 *
-                 * ```typescript
-                 * this.getMediator().sendData(...);
-                 * ```
-                 *
-                 * @return The {@link MediatorSystem} object.
-                 */
-                ParallelSystemArrayMediator.prototype.getMediator = function () {
-                    return this.mediator_;
-                };
-                /* ---------------------------------------------------------
-                    INVOKE MESSAGE CHAIN
-                --------------------------------------------------------- */
-                /**
-                 * @hidden
-                 */
-                ParallelSystemArrayMediator.prototype._Complete_history = function (history) {
-                    var ret = _super.prototype._Complete_history.call(this, history);
-                    if (ret == true)
-                        this.mediator_["complete_history"](history.getUID());
-                    return ret;
-                };
-                return ParallelSystemArrayMediator;
-            }(parallel.ParallelSystemArray));
-            parallel.ParallelSystemArrayMediator = ParallelSystemArrayMediator;
-        })(parallel = templates.parallel || (templates.parallel = {}));
-    })(templates = samchon.templates || (samchon.templates = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="ParallelSystemArrayMediator.ts" />
-var samchon;
-(function (samchon) {
-    var templates;
-    (function (templates) {
-        var parallel;
-        (function (parallel) {
-            /**
-             * Mediator of Parallel Processing System, a server accepting slave clients.
-             *
-             * The {@link ParallelClientArrayMediator} is an abstract class, derived from the {@link ParallelSystemArrayMediator}
-             * class, opening a server accepting {@link ParallelSystem parallel clients} as a **master**.
-             *
-             * Extends this {@link ParallelClientArrayMediator}, overrides {@link createServerBase createServerBase()} to
-             * determine which protocol to follow and {@link createExternalClient createExternalClient()} creating child
-             * {@link ParallelSystem} object. After the extending and overridings, open this server using the
-             * {@link open open()} method.
-             *
-             * #### [Inherited] {@link ParallelSystemArrayMediator}
-             * The {@link ParallelSystemArrayMediator} class be a **master** for its slave systems, and be a **slave** to its
-             * master system at the same time. This {@link ParallelSystemArrayMediator} be a **master **system, containing and
-             * managing {@link ParallelSystem} objects, which represent parallel slave systems, by extending
-             * {@link ParallelSystemArray} class. Also, be a **slave** system through {@link getMediator mediator} object, which is
-             * derived from the {@link SlaveSystem} class.
-             *
-             * As a **slave**, you can specify this {@link ParallelSystemArrayMediator} to be <i>a client slave connecting to
-             * master server</i> or <i>a server slave accepting master client</i> by overriding the {@link createMediator} method.
-             * Overrides the {@link createMediator createMediator()} method and return one of them:
-             *
-             * - A client slave connecting to master server:
-             *   - {@link MediatorClient}
-             *   - {@link MediatorWebClient}
-             *   - {@link MediatorSharedWorkerClient}
-             * - A server slave accepting master client:
-             *   - {@link MediatorServer}
-             *   - {@link MediatorWebServer}
-             *   - {@link MediatorDedicatedWorkerServer}
-             *   - {@link MediatorSharedWorkerServer}
-             *
-             * #### [Inherited] {@link ParallelSystemArray}
-             * The {@link ParallelSystemArray} is an abstract class containing and managing remote parallel **slave** system
-             * drivers, {@link ParallelSystem} objects. Within framework of network, {@link ParallelSystemArray} represents your
-             * system, a **Master** of *Parallel Processing System* that requesting *parallel process* to slave systems and the
-             * children {@link ParallelSystem} objects represent the remote slave systems, who is being requested the
-             * *parallel processes*.
-             *
-             * When you need the **parallel process**, then call one of them: {@link sendSegmentData} or {@link sendPieceData}.
-             * When the **parallel process** has completed, {@link ParallelSystemArray} estimates each {@link ParallelSystem}'s
-             * {@link ParallelSystem.getPerformance performance index} basis on their execution time. Those performance indices
-             * will be reflected to the next **parallel process**, how much pieces to allocate to each {@link ParallelSystem}.
-             *
-             * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
-             *		  target="_blank">
-             *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/templates_parallel_system.png"
-             *		 style="max-width: 100%" />
-             * </a>
-             *
-             * #### Proxy Pattern
-             * This class {@link ParallelSystemArray} is derived from the {@link ExternalSystemArray} class. Thus, you can take
-             * advantage of the *Proxy Pattern* in the {@link ParallelSystemArray} class. If a process to request is not the
-             * *parallel process* (to be distrubted to all slaves), but the **exclusive process** handled in a system, then it
-             * may better to utilizing the *Proxy Pattern*:
-             *
-             * The {@link ExternalSystemArray} class can use *Proxy Pattern*. In framework within user, which
-             * {@link ExternalSystem external system} is connected with {@link ExternalSystemArray this system}, it's not
-             * important. Only interested in user's perspective is *which can be done*.
-             *
-             * By using the *logical proxy*, user dont't need to know which {@link ExternalSystemRole role} is belonged
-             * to which {@link ExternalSystem system}. Just access to a role directly from {@link ExternalSystemArray.getRole}.
-             * Sends and receives {@link Invoke} message via the {@link ExternalSystemRole role}.
-             *
-             * <ul>
-             *	<li>
-             *		{@link ExternalSystemRole} can be accessed from {@link ExternalSystemArray} directly, without inteferring
-             *		from {@link ExternalSystem}, with {@link ExternalSystemArray.getRole}.
-             *	</li>
-             *	<li>
-             *		When you want to send an {@link Invoke} message to the belonged {@link ExternalSystem system}, just call
-             *		{@link ExternalSystemRole.sendData ExternalSystemRole.sendData()}. Then, the message will be sent to the
-             *		external system.
-             *	</li>
-             *	<li> Those strategy is called *Proxy Pattern*. </li>
-             * </ul>
-             *
-             * @handbook [Templates - Parallel System](https://github.com/samchon/framework/wiki/TypeScript-Templates-Parallel_System)
-             * @author Jeongho Nam <http://samchon.org>
-             */
-            var ParallelClientArrayMediator = (function (_super) {
-                __extends(ParallelClientArrayMediator, _super);
-                /* =========================================================
-                    CONSTRUCTORS
-                        - MEMBER
-                        - FACTORY METHOD FOR CHILDREN
-                ============================================================
-                    MEMBER
-                --------------------------------------------------------- */
-                /**
-                 * Default Constructor.
-                 */
-                function ParallelClientArrayMediator() {
-                    _super.call(this);
-                }
-                /* ---------------------------------------------------------
-                    FACTORY METHOD FOR CHILDREN
-                --------------------------------------------------------- */
-                /**
-                 * Add a newly connected remote client.
-                 *
-                 * When a {@link IClientDriver remote client} connects to this *master server of parallel processing system*,
-                 * then this {@link ParallelClientArrayMediator} creates a child {@link ParallelSystem parallel client} object
-                 * through the {@link createExternalClient createExternalClient()} method and {@link insert inserts} it.
-                 *
-                 * @param driver A communicator for parallel client.
-                 */
-                ParallelClientArrayMediator.prototype.addClient = function (driver) {
-                    var system = this.createExternalClient(driver);
-                    if (system == null)
-                        return;
-                    this.push_back(system);
-                };
-                /**
-                 * (Deprecated) Factory method creating child object.
-                 *
-                 * The method {@link createChild createChild()} is deprecated. Don't use and override this.
-                 *
-                 * Note that, the {@link ParallelClientArrayMediator} is a server accepting {@link ParallelSystem parallel
-                 * clients} as a master. There's no way to creating the {@link ParallelSystem parallel clients} in advance before
-                 * opening the server.
-                 *
-                 * @param xml An {@link XML} object represents the child {@link ParallelSystem} object.
-                 * @return null
-                 */
-                ParallelClientArrayMediator.prototype.createChild = function (xml) { return null; };
-                /* ---------------------------------------------------------
-                    SERVER's METHOD
-                --------------------------------------------------------- */
-                /**
-                 * @inheritdoc
-                 */
-                ParallelClientArrayMediator.prototype.open = function (port) {
-                    this.server_base_ = this.createServerBase();
-                    if (this.server_base_ == null)
-                        return;
-                    this.server_base_.open(port);
-                    this.startMediator();
-                };
-                /**
-                 * @inheritdoc
-                 */
-                ParallelClientArrayMediator.prototype.close = function () {
-                    if (this.server_base_ == null)
-                        return;
-                    this.server_base_.close();
-                    this.clear();
-                };
-                return ParallelClientArrayMediator;
-            }(parallel.ParallelSystemArrayMediator));
-            parallel.ParallelClientArrayMediator = ParallelClientArrayMediator;
-        })(parallel = templates.parallel || (templates.parallel = {}));
-    })(templates = samchon.templates || (samchon.templates = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
 /// <reference path="ParallelSystem.ts" />
 var samchon;
 (function (samchon) {
@@ -12500,6 +11408,1141 @@ var samchon;
             parallel.PRInvokeHistory = PRInvokeHistory;
         })(parallel = templates.parallel || (templates.parallel = {}));
     })(templates = samchon.templates || (samchon.templates = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A server.
+         *
+         * The {@link Server} is an abstract class designed to open a server and accept clients who are following Samchon
+         * Framework's own protocol. Extends this {@link Server} class and overrides {@link addClient addClient()} method to
+         * define what to do with newly connected {@link ClientDriver remote clients}.
+         *
+         * #### [Inherited] {@link IServer}
+         * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
+         * {@link IClientDriver accepting clients}.
+         *
+         * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+         * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+         * object. Then at last, call {@link open open()} method with specified port number.
+         *
+         * Protocol                | Derived Type                  | Related {@link IClientDriver}
+         * ------------------------|-------------------------------|-------------------------------------
+         * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
+         * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
+         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
+         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
+         *
+         * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
+         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+         * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+         * - {@link service.Server}
+         * - {@link external.ExternalClientArray}
+         * - {@link slave.SlaveServer}
+         *
+         * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link ClientDriver}, {@link ServerBase}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var Server = (function () {
+            function Server() {
+            }
+            /**
+             * @inheritdoc
+             */
+            Server.prototype.open = function (port) {
+                this.server = net.createServer(this.handle_connect.bind(this));
+                this.server.listen(port);
+            };
+            /**
+             * @inheritdoc
+             */
+            Server.prototype.close = function () {
+                this.server.close();
+            };
+            /**
+             * @hidden
+             */
+            Server.prototype.handle_connect = function (socket) {
+                var clientDriver = new protocol.ClientDriver(socket);
+                ;
+                this.addClient(clientDriver);
+            };
+            return Server;
+        }());
+        protocol.Server = Server;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A web server.
+         *
+         * The {@link WebServer} is an abstract class designed to open a server and accept clients who are following
+         * web-socket protocol. Extends this {@link WebServer} class and overrides {@link addClient addClient()} method to
+         * define what to do with newly connected {@link WebClientDriver remote clients}.
+         *
+         * #### [Inherited] {@link IServer}
+         * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
+         * {@link IClientDriver accepting clients}.
+         *
+         * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+         * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+         * object. Then at last, call {@link open open()} method with specified port number.
+         *
+         * Protocol                | Derived Type                  | Related {@link IClientDriver}
+         * ------------------------|-------------------------------|-------------------------------------
+         * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
+         * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
+         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
+         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
+         *
+         * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
+         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+         * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+         * - {@link service.Server}
+         * - {@link external.ExternalClientArray}
+         * - {@link slave.SlaveServer}
+         *
+         * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link WebClientDriver}, {@link WebServerBase}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var WebServer = (function () {
+            /**
+             * Default Constructor.
+             */
+            function WebServer() {
+                this.sequence_ = 0;
+            }
+            /**
+             * @inheritdoc
+             */
+            WebServer.prototype.open = function (port) {
+                this.my_port_ = port;
+                this.http_server_ = http.createServer();
+                this.http_server_.listen(port);
+                var ws_server = new websocket.server({ httpServer: this.http_server_ });
+                ws_server.on("request", this.handle_request.bind(this));
+            };
+            /**
+             * @inheritdoc
+             */
+            WebServer.prototype.close = function () {
+                this.http_server_.close();
+            };
+            /**
+             * @hidden
+             */
+            WebServer.prototype.handle_request = function (request) {
+                //--------
+                // Handle request from a client system.
+                // 
+                // This method "handle_request()" will be called when a client is connected. It will call an abstract method 
+                // "addClient()" who handles an accepted client. If the newly connected client doesn't have its own session 
+                // id, then a new session id will be issued.
+                // 
+                // @param request Requested header.
+                //--------
+                var path = request.resource.substr(1);
+                var session_id = this.get_session_id(request.cookies);
+                var connection = request.accept("", request.origin, [{ name: "SESSION_ID", value: session_id }]);
+                var driver = new protocol.WebClientDriver(connection, path, session_id);
+                this.addClient(driver);
+            };
+            /**
+             * @hidden
+             */
+            WebServer.prototype.get_session_id = function (cookies) {
+                //--------
+                // Get session id from a newly connected.
+                // 
+                // Queries ordinary session id from cookies of a newly connected client. If the client has not, a new session 
+                // id will be issued.
+                // 
+                // @param cookies Cookies from the remote client.
+                // @return Session id
+                //--------
+                for (var i = 0; i < cookies.length; i++)
+                    if (cookies[i].name == "SESSION_ID")
+                        return cookies[i].value;
+                return this.issue_session_id();
+            };
+            /**
+             * @hidden
+             */
+            WebServer.prototype.issue_session_id = function () {
+                // Issue a new session id.
+                var port = this.my_port_;
+                var uid = ++this.sequence_;
+                var linux_time = new Date().getTime();
+                var rand = Math.floor(Math.random() * 0xffffffff);
+                return port.toString(16) + uid.toString(16) + linux_time.toString(16) + rand.toString(16);
+            };
+            return WebServer;
+        }());
+        protocol.WebServer = WebServer;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A SharedWorker server.
+         *
+         * The {@link DedicatedWorkerServer} is an abstract class is realized to open a DedicatedWorker server and accept
+         * web-browser client (master). Extends this {@link DedicatedWorkerServer} class and overrides
+         * {@link addClient addClient()} method to define what to do with a newly connected
+         * {@link DedicatedWorkerClientDriver remote client}.
+         *
+         * #### Why DedicatedWorker be a server?
+         * In JavaScript environment, there's no way to implement multi-threading function. Instead, JavaScript supports the
+         * **Worker**, creating a new process. However, the **Worker** does not shares memory addresses. To integrate the
+         * **Worker** with its master, only communication with string or binary data is allowed. Doesn't it seem like a network
+         * communication? Furthermore, there's not any difference between the worker communication and network communication.
+         * It's the reason why Samchon Framework considers the **Worker** as a network node.
+         *
+         * The class {@link DedicatedWorkerCommunicator} is designed make such relationship. From now on, DedicatedWorker is a
+         * {@link DedicatedWorkerServer server} and {@link DedicatedWorkerServerConnector browser} is a client. Integrate the
+         * server and clients with this {@link DedicatedWorkerCommunicator}.
+         *
+         * #### [Inherited] {@link IServer}
+         * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
+         * {@link IClientDriver accepting clients}.
+         *
+         * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+         * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+         * object. Then at last, call {@link open open()} method with specified port number.
+         *
+         * Protocol                | Derived Type                  | Related {@link IClientDriver}
+         * ------------------------|-------------------------------|-------------------------------------
+         * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
+         * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
+         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
+         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
+         *
+         * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
+         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+         * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+         * - {@link service.Server}
+         * - {@link external.ExternalClientArray}
+         * - {@link slave.SlaveServer}
+         *
+         * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link DedicatedWorkerClientDriver}, {@link DedicatedWorkerServerBase}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var DedicatedWorkerServer = (function () {
+            function DedicatedWorkerServer() {
+            }
+            /**
+             * @inheritdoc
+             */
+            DedicatedWorkerServer.prototype.open = function () {
+                this.addClient(new protocol.DedicatedWorkerClientDriver());
+            };
+            /**
+             * @inheritdoc
+             */
+            DedicatedWorkerServer.prototype.close = function () {
+                close();
+            };
+            return DedicatedWorkerServer;
+        }());
+        protocol.DedicatedWorkerServer = DedicatedWorkerServer;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A SharedWorker server.
+         *
+         * The {@link SharedWorker} is an abstract class is realized to open a SharedWorker server and accept web-browser
+         * clients. Extends this {@link SharedWorkerServer} class and overrides {@link addClient addClient()} method to
+         * define what to do with newly connected {@link SharedWorkerClientDriver remote clients}.
+         *
+         * #### Why SharedWorker be a server?
+         * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
+         * or multiple browsers. To integrate them, messages are being sent and received. Doesn't it seem like a relationship
+         * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
+         * clients.
+         *
+         * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+         * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
+         * server and clients with this {@link SharedWorkerCommunicator}.
+         *
+         * #### [Inherited] {@link IServer}
+         * {@link IServer} is an interfaec for server classes who are providing methods for {@link open opening a server} and
+         * {@link IClientDriver accepting clients}.
+         *
+         * To open a server, extends one of derived class under below considedring which protocol to follow first. At next,
+         * overrides {@link addClient addClient()} method who accepts a newly connected client as an {@link IClientDriver}
+         * object. Then at last, call {@link open open()} method with specified port number.
+         *
+         * Protocol                | Derived Type                  | Related {@link IClientDriver}
+         * ------------------------|-------------------------------|-------------------------------------
+         * Samchon Framework's own | {@link Server}                | {@link ClientDriver}
+         * Web-socket protocol     | {@link WebServer}             | {@link WebClientDriver}
+         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerClientDriver}
+         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerClientDriver}
+         *
+         * Below codes and classes will be good examples for comprehending how to open a server and handle remote clients.
+         * - https://github.com/samchon/framework/blob/master/ts/examples/calculator/calculator-server.ts
+         * - https://github.com/samchon/framework/blob/master/ts/examples/chat-server/server.ts
+         * - {@link service.Server}
+         * - {@link external.ExternalClientArray}
+         * - {@link slave.SlaveServer}
+         *
+         * If you're embarrased because your class already extended another one, then use {@link IServerBase}.
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link SharedWorkerClientDriver}, {@link SharedWorkerServerBase}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserver)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var SharedWorkerServer = (function () {
+            function SharedWorkerServer() {
+            }
+            /**
+             * @inheritdoc
+             */
+            SharedWorkerServer.prototype.open = function () {
+                self.addEventListener("connect", this.handle_connect.bind(this));
+            };
+            /**
+             * @inheritdoc
+             */
+            SharedWorkerServer.prototype.close = function () {
+                // MAY IMPOSSIBLE
+                close();
+            };
+            /**
+             * @hidden
+             */
+            SharedWorkerServer.prototype.handle_connect = function (event) {
+                var port = event.ports[event.ports.length - 1];
+                var driver = new protocol.SharedWorkerClientDriver(port);
+                this.addClient(driver);
+            };
+            return SharedWorkerServer;
+        }());
+        protocol.SharedWorkerServer = SharedWorkerServer;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="Server.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A substitute {@link Server}.
+         *
+         * The {@link ServerBase} is a substitute class who subrogates {@link Server}'s responsibility.
+         *
+         * #### [Inherited] {@link IServerBase}
+         * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
+         *
+         * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
+         * However, it is impossible (that is, if the class is already extending another class), you can instead implement
+         * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
+         * the aggregated {@link IServerBase}.
+         *
+         * Protocol                | {@link IServer}               | {@link IServerBase}               | {@link IClientDriver}
+         * ------------------------|-------------------------------|-----------------------------------|-------------------------------------
+         * Samchon Framework's own | {@link Server}                | {@link ServerBase}                | {@link ClientDriver}
+         * Web-socket protocol     | {@link WebServer}             | {@link WebServerBase}             | {@link WebClientDriver}
+         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerServerBase} | {@link DedicatedWorkerClientDriver}
+         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerServerBase}    | {@link SharedWorkerClientDriver}
+         *
+         * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
+         * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
+         * specified port number.
+         *
+         * ```typescript
+         * class MyServer extends Something implements IServer
+         * {
+         * 	private server_base_: IServerBase = new WebServerBase(this);
+         *
+         * 	public addClient(driver: IClientDriver): void
+         * 	{
+         * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
+         * 	}
+         *
+         * 	public open(port: number): void
+         * 	{
+         * 		this.server_base_.open();
+         * 	}
+         * 	public close(): void
+         * 	{
+         * 		this.server_base_.close();
+         * 	}
+         * }
+         * ```
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         *
+         * @see {@link Server}, {@link ClientDriver}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var ServerBase = (function (_super) {
+            __extends(ServerBase, _super);
+            /**
+             * Construct from a *hooker*.
+             *
+             * @param hooker A hooker throwing responsibility of server's role.
+             */
+            function ServerBase(hooker) {
+                _super.call(this);
+                this.hooker_ = hooker;
+            }
+            /**
+             * @inheritdoc
+             */
+            ServerBase.prototype.addClient = function (driver) {
+                this.hooker_.addClient(driver);
+            };
+            return ServerBase;
+        }(protocol.Server));
+        protocol.ServerBase = ServerBase;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A substitute {@link WebServer}.
+         *
+         * The {@link WebServerBase} is a substitute class who subrogates {@link WebServer}'s responsibility.
+         *
+         * #### [Inherited] {@link IServerBase}
+         * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
+         *
+         * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
+         * However, it is impossible (that is, if the class is already extending another class), you can instead implement
+         * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
+         * the aggregated {@link IServerBase}.
+         *
+         * Protocol                | {@link IServer}               | {@link IServerBase}               | {@link IClientDriver}
+         * ------------------------|-------------------------------|-----------------------------------|-------------------------------------
+         * Samchon Framework's own | {@link Server}                | {@link ServerBase}                | {@link ClientDriver}
+         * Web-socket protocol     | {@link WebServer}             | {@link WebServerBase}             | {@link WebClientDriver}
+         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerServerBase} | {@link DedicatedWorkerClientDriver}
+         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerServerBase}    | {@link SharedWorkerClientDriver}
+         *
+         * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
+         * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
+         * specified port number.
+         *
+         * ```typescript
+         * class MyServer extends Something implements IServer
+         * {
+         * 	private server_base_: IServerBase = new WebServerBase(this);
+         *
+         * 	public addClient(driver: IClientDriver): void
+         * 	{
+         * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
+         * 	}
+         *
+         * 	public open(port: number): void
+         * 	{
+         * 		this.server_base_.open();
+         * 	}
+         * 	public close(): void
+         * 	{
+         * 		this.server_base_.close();
+         * 	}
+         * }
+         * ```
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link WebServer}, {@link WebClientDriver}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var WebServerBase = (function (_super) {
+            __extends(WebServerBase, _super);
+            /**
+             * Construct from a *hooker*.
+             *
+             * @param hooker A hooker throwing responsibility of server's role.
+             */
+            function WebServerBase(hooker) {
+                _super.call(this);
+                this.hooker_ = hooker;
+            }
+            /**
+             * @inheritdoc
+             */
+            WebServerBase.prototype.addClient = function (driver) {
+                this.hooker_.addClient(driver);
+            };
+            return WebServerBase;
+        }(protocol.WebServer));
+        protocol.WebServerBase = WebServerBase;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A substitute {@link DedicatedWorkerServer}.
+         *
+         * The {@link DedicatedWorkerServerBase} is a substitute class who subrogates {@link DedicatedWorkerServer}'s
+         * responsibility.
+         *
+         * #### [Inherited] {@link IServerBase}
+         * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
+         *
+         * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
+         * However, it is impossible (that is, if the class is already extending another class), you can instead implement
+         * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
+         * the aggregated {@link IServerBase}.
+         *
+         * Protocol                | {@link IServer}               | {@link IServerBase}               | {@link IClientDriver}
+         * ------------------------|-------------------------------|-----------------------------------|-------------------------------------
+         * Samchon Framework's own | {@link Server}                | {@link ServerBase}                | {@link ClientDriver}
+         * Web-socket protocol     | {@link WebServer}             | {@link WebServerBase}             | {@link WebClientDriver}
+         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerServerBase} | {@link DedicatedWorkerClientDriver}
+         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerServerBase}    | {@link SharedWorkerClientDriver}
+         *
+         * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
+         * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
+         * specified port number.
+         *
+         * ```typescript
+         * class MyServer extends Something implements IServer
+         * {
+         * 	private server_base_: IServerBase = new WebServerBase(this);
+         *
+         * 	public addClient(driver: IClientDriver): void
+         * 	{
+         * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
+         * 	}
+         *
+         * 	public open(port: number): void
+         * 	{
+         * 		this.server_base_.open();
+         * 	}
+         * 	public close(): void
+         * 	{
+         * 		this.server_base_.close();
+         * 	}
+         * }
+         * ```
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link DedicatedWorkerServer}, {@link DedicatedWorkerClientDriver}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var DedicatedWorkerServerBase = (function (_super) {
+            __extends(DedicatedWorkerServerBase, _super);
+            /**
+             * Construct from a *hooker*.
+             *
+             * @param hooker A hooker throwing responsibility of server's role.
+             */
+            function DedicatedWorkerServerBase(hooker) {
+                _super.call(this);
+                this.hooker_ = hooker;
+            }
+            /**
+             * @inheritdoc
+             */
+            DedicatedWorkerServerBase.prototype.addClient = function (driver) {
+                this.hooker_.addClient(driver);
+            };
+            return DedicatedWorkerServerBase;
+        }(protocol.DedicatedWorkerServer));
+        protocol.DedicatedWorkerServerBase = DedicatedWorkerServerBase;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A substitute {@link SharedWorkerServer}.
+         *
+         * The {@link SharedWorkerServerBase} is a substitute class who subrogates {@link SharedWorkerServer}'s
+         * responsibility.
+         *
+         * #### [Inherited] {@link IServerBase}
+         * {@link IServerBase} is an interface for substitue server classes who subrogate server's role.
+         *
+         * The easiest way to defining a server class is to extending one of them below, who implemented the {@link IServer}.
+         * However, it is impossible (that is, if the class is already extending another class), you can instead implement
+         * the {@link IServer} interface, create an {@link IServerBase} member, and write simple hooks to route calls into
+         * the aggregated {@link IServerBase}.
+         *
+         * Protocol                | {@link IServer}               | {@link IServerBase}               | {@link IClientDriver}
+         * ------------------------|-------------------------------|-----------------------------------|-------------------------------------
+         * Samchon Framework's own | {@link Server}                | {@link ServerBase}                | {@link ClientDriver}
+         * Web-socket protocol     | {@link WebServer}             | {@link WebServerBase}             | {@link WebClientDriver}
+         * DedicatedWorker         | {@link DedicatedWorkerServer} | {@link DedicatedWorkerServerBase} | {@link DedicatedWorkerClientDriver}
+         * SharedWorker            | {@link SharedWorkerServer}    | {@link SharedWorkerServerBase}    | {@link SharedWorkerClientDriver}
+         *
+         * After the hooking to aggregated {@link IServerBase} object, overrides {@link addClient addClient()} method who
+         * accepts a newly connected client as an {@link IClientDriver} object. At last, call {@link open open()} method with
+         * specified port number.
+         *
+         * ```typescript
+         * class MyServer extends Something implements IServer
+         * {
+         * 	private server_base_: IServerBase = new WebServerBase(this);
+         *
+         * 	public addClient(driver: IClientDriver): void
+         * 	{
+         * 		// WHAT TO DO WHEN A CLIENT HAS CONNECTED
+         * 	}
+         *
+         * 	public open(port: number): void
+         * 	{
+         * 		this.server_base_.open();
+         * 	}
+         * 	public close(): void
+         * 	{
+         * 		this.server_base_.close();
+         * 	}
+         * }
+         * ```
+         *
+         * <a href="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		  target="_blank">
+         *	<img src="http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png"
+         *		 style="max-width: 100%" />
+         * </a>
+         *
+         * @see {@link SharedWorkerServer}, {@link SharedWorkerClientDriver}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverbase)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var SharedWorkerServerBase = (function (_super) {
+            __extends(SharedWorkerServerBase, _super);
+            /**
+             * Construct from a *hooker*.
+             *
+             * @param hooker A hooker throwing responsibility of server's role.
+             */
+            function SharedWorkerServerBase(hooker) {
+                _super.call(this);
+                this.hooker_ = hooker;
+            }
+            /**
+             * @inheritdoc
+             */
+            SharedWorkerServerBase.prototype.addClient = function (driver) {
+                this.hooker_.addClient(driver);
+            };
+            return SharedWorkerServerBase;
+        }(protocol.SharedWorkerServer));
+        protocol.SharedWorkerServerBase = SharedWorkerServerBase;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
+/// <reference path="Communicator.ts" />
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * Server connnector.
+         *
+         * {@link ServerConnector} is a class connecting to remote server who follows Samchon Framework's own protocol and
+         * taking full charge of network communication with the remote server. Create a {@link ServerConnector} instance from
+         * the {@IProtocol listener} and call the {@link connect connect()} method.
+         *
+         * #### [Inherited] {@link IServerConnector}
+         * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
+         * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
+         * charge of network communication with the remote server.
+         *
+         * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
+         * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
+         * be converted to an {@link Invoke} object and the {@link Invoke} object will be shifted to the
+         * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+         *
+         * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
+         * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
+         *
+         * Protocol                | Derived Type                           | Connect to
+         * ------------------------|----------------------------------------|-------------------------------
+         * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
+         * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
+         * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
+         * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
+         *
+         * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+         *
+         * @see {@link Server}, {@link IProtocol}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var ServerConnector = (function (_super) {
+            __extends(ServerConnector, _super);
+            /* ---------------------------------------------------------
+                CONSTRUCTORS
+            --------------------------------------------------------- */
+            /**
+             * Construct from *listener*.
+             *
+             * @param listener A listener object to listen replied message from newly connected client in
+             *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
+             */
+            function ServerConnector(listener) {
+                _super.call(this, listener);
+                this.connected_ = false;
+            }
+            /**
+             * @inheritdoc
+             */
+            ServerConnector.prototype.connect = function (ip, port) {
+                this.socket_ = net.connect({ host: ip, port: port }, this.handle_connect.bind(this));
+            };
+            /* ---------------------------------------------------------
+                HANDLERS
+            --------------------------------------------------------- */
+            /**
+             * @hidden
+             */
+            ServerConnector.prototype.handle_connect = function () {
+                var arg = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    arg[_i - 0] = arguments[_i];
+                }
+                this.connected_ = true;
+                this.start_listen();
+                this.send_dummy_packet_repeatedly();
+                if (this.onConnect != null)
+                    this.onConnect();
+            };
+            /**
+             * @hidden
+             */
+            ServerConnector.prototype.send_dummy_packet_repeatedly = function () {
+                setInterval(function () {
+                    // WRITE A HEADER BUFFER WHICH MEANS CONTENT SIZE IS ZERO.
+                    var packet = new Buffer(8);
+                    packet.writeUInt32BE(0, 0);
+                    packet.writeUInt32BE(0, 4);
+                    // SEND
+                    try {
+                        this.socket_.write(packet);
+                    }
+                    catch (exception) {
+                        return;
+                    }
+                }.bind(this), 5000);
+            };
+            return ServerConnector;
+        }(protocol.Communicator));
+        protocol.ServerConnector = ServerConnector;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A server connector for web-socket protocol.
+         *
+         * {@link WebServerConnector} is a class connecting to remote server who follows Web-socket protocol and taking full
+         * charge of network communication with the remote server. Create an {@link WebServerConnector} instance from the
+         * {@IProtocol listener} and call the {@link connect connect()} method.
+         *
+         * #### [Inherited] {@link IServerConnector}
+         * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
+         * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
+         * charge of network communication with the remote server.
+         *
+         * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
+         * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
+         * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
+         * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+         *
+         * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
+         * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
+         *
+         * Protocol                | Derived Type                           | Connect to
+         * ------------------------|----------------------------------------|-------------------------------
+         * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
+         * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
+         * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
+         * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
+         *
+         * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+         *
+         * @see {@link WebServer}, {@link IProtocol}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var WebServerConnector = (function (_super) {
+            __extends(WebServerConnector, _super);
+            /* ----------------------------------------------------
+                CONSTRUCTORS
+            ---------------------------------------------------- */
+            /**
+             * Construct from *listener*.
+             *
+             * @param listener A listener object to listen replied message from newly connected client in
+             *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
+             */
+            function WebServerConnector(listener) {
+                _super.call(this, listener);
+                this.browser_socket_ = null;
+                this.node_client_ = null;
+                this.connected_ = false;
+                this.onConnect = null;
+            }
+            /**
+             * Connect to a web server.
+             *
+             * Connects to a server with specified *host* address, *port* number and *path*. After the connection has
+             * succeeded, callback function {@link onConnect} is called. Listening data from the connected server also begins.
+             * Replied messages from the connected server will be converted to {@link Invoke} classes and will be shifted to
+             * the {@link WebCommunicator.listener listener}'s {@link IProtocol.replyData replyData()} method.
+             *
+             * If the connection fails immediately, either an event is dispatched or an exception is thrown: an error
+             * event is dispatched if a host was specified, and an exception is thrown if no host was specified. Otherwise,
+             * the status of the connection is reported by an event. If the socket is already connected, the existing
+             * connection is closed first.
+             *
+             * @param ip The name or IP address of the host to connect to.
+             *			 If no host is specified, the host that is contacted is the host where the calling file resides.
+             *			 If you do not specify a host, use an event listener to determine whether the connection was
+             *			 successful.
+             * @param port The port number to connect to.
+             * @param path Path of service which you want.
+             */
+            WebServerConnector.prototype.connect = function (ip, port, path) {
+                if (path === void 0) { path = ""; }
+                // COMPOSITE FULL-ADDRESS
+                var address;
+                if (ip.indexOf("ws://") == -1)
+                    if (ip.indexOf("://") != -1)
+                        throw "only websocket is possible";
+                    else
+                        ip = "ws://" + ip;
+                address = ip + ":" + port + "/" + path;
+                // CONNECTION BRANCHES
+                if (samchon.is_node() == true) {
+                    this.node_client_ = new websocket.client();
+                    this.node_client_.on("connect", this.handle_node_connect.bind(this));
+                    this.node_client_.connect(address);
+                }
+                else {
+                    this.browser_socket_ = new WebSocket(address);
+                    this.browser_socket_.onopen = this.handle_browser_connect.bind(this);
+                    this.browser_socket_.onerror = this.handle_close.bind(this);
+                    this.browser_socket_.onclose = this.handle_close.bind(this);
+                    this.browser_socket_.onmessage = this.handle_browser_message.bind(this);
+                }
+            };
+            /**
+             * @inheritdoc
+             */
+            WebServerConnector.prototype.close = function () {
+                if (samchon.is_node() == true)
+                    _super.prototype.close.call(this);
+                else
+                    this.browser_socket_.close();
+            };
+            /* ----------------------------------------------------
+                IPROTOCOL'S METHOD
+            ---------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            WebServerConnector.prototype.sendData = function (invoke) {
+                if (this.browser_socket_ != null) {
+                    this.browser_socket_.send(invoke.toXML().toString());
+                    for (var i = 0; i < invoke.size(); i++)
+                        if (invoke.at(i).getType() == "ByteArray")
+                            this.browser_socket_.send(invoke.at(i).getValue());
+                }
+                else {
+                    _super.prototype.sendData.call(this, invoke);
+                }
+            };
+            /**
+             * @hidden
+             */
+            WebServerConnector.prototype.handle_browser_connect = function (event) {
+                this.connected_ = true;
+                if (this.onConnect != null)
+                    this.onConnect();
+            };
+            /**
+             * @hidden
+             */
+            WebServerConnector.prototype.handle_browser_message = function (event) {
+                if (this.is_binary_invoke() == false)
+                    this.handle_string(event.data);
+                else
+                    this.handle_binary(event.data);
+            };
+            /**
+             * @hidden
+             */
+            WebServerConnector.prototype.handle_node_connect = function (connection) {
+                this.connected_ = true;
+                this.connection_ = connection;
+                this.connection_.on("message", this.handle_message.bind(this));
+                this.connection_.on("close", this.handle_close.bind(this));
+                this.connection_.on("error", this.handle_close.bind(this));
+                if (this.onConnect != null)
+                    this.onConnect();
+            };
+            return WebServerConnector;
+        }(protocol.WebCommunicator));
+        protocol.WebServerConnector = WebServerConnector;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A server connector for DedicatedWorker.
+         *
+         * {@link DedicatedWorkerServerConnector} is a class connecting to SharedWorker and taking full charge of network
+         * communication with the SharedWorker. Create an {@link DedicatedWorkerServer} instance from the
+         * {@IProtocol listener} and call the {@link connect connect()} method.
+         *
+         * #### Why DedicatedWorker be a server?
+         * In JavaScript environment, there's no way to implement multi-threading function. Instead, JavaScript supports the
+         * **Worker**, creating a new process. However, the **Worker** does not shares memory addresses. To integrate the
+         * **Worker** with its master, only communication with string or binary data is allowed. Doesn't it seem like a network
+         * communication? Furthermore, there's not any difference between the worker communication and network communication.
+         * It's the reason why Samchon Framework considers the **Worker** as a network node.
+         *
+         * The class {@link DedicatedWorkerCommunicator} is designed make such relationship. From now on, DedicatedWorker is a
+         * {@link DedicatedWorkerServer server} and {@link DedicatedWorkerServerConnector browser} is a client. Integrate the
+         * server and clients with this {@link DedicatedWorkerCommunicator}.
+         *
+         * #### [Inherited] {@link IServerConnector}
+         * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
+         * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
+         * charge of network communication with the remote server.
+         *
+         * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
+         * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
+         * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
+         * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+         *
+         * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
+         * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
+         *
+         * Protocol                | Derived Type                           | Connect to
+         * ------------------------|----------------------------------------|-------------------------------
+         * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
+         * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
+         * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
+         * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
+         *
+         * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+         *
+         * @see {@link DedicatedWorkerServer}, {@link IProtocol}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var DedicatedWorkerServerConnector = (function (_super) {
+            __extends(DedicatedWorkerServerConnector, _super);
+            /**
+             * Construct from *listener*.
+             *
+             * @param listener A listener object to listen replied message from newly connected client in
+             *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
+             */
+            function DedicatedWorkerServerConnector(listener) {
+                _super.call(this, listener);
+                this.worker = null;
+            }
+            /**
+             * @inheritdoc
+             */
+            DedicatedWorkerServerConnector.prototype.connect = function (jsFile) {
+                // CONSTRUCT WORKER AND START LISTENING
+                this.worker = new Worker(jsFile);
+                this.worker.onmessage = this.handle_message.bind(this);
+                // NOTIFY THE CONNECTION
+                this.connected_ = true;
+                if (this.onConnect != null)
+                    this.onConnect();
+            };
+            /**
+             * @inheritdoc
+             */
+            DedicatedWorkerServerConnector.prototype.close = function () {
+                this.worker.terminate();
+                if (this.onClose != null)
+                    this.onClose();
+            };
+            /**
+             * @inheritdoc
+             */
+            DedicatedWorkerServerConnector.prototype.sendData = function (invoke) {
+                this.worker.postMessage(invoke.toXML().toString(), "");
+                for (var i = 0; i < invoke.size(); i++)
+                    if (invoke.at(i).getType() == "ByteArray")
+                        this.worker.postMessage(invoke.at(i).getValue(), "");
+            };
+            return DedicatedWorkerServerConnector;
+        }(protocol.DedicatedWorkerCommunicator));
+        protocol.DedicatedWorkerServerConnector = DedicatedWorkerServerConnector;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
+})(samchon || (samchon = {}));
+var samchon;
+(function (samchon) {
+    var protocol;
+    (function (protocol) {
+        /**
+         * A server connector for SharedWorker.
+         *
+         * {@link SharedWorkerServerConnector} is a class connecting to SharedWorker and taking full charge of network
+         * communication with the SharedWorker. Create an {@link SharedWorkerServerConnector} instance from the
+         * {@IProtocol listener} and call the {@link connect connect()} method.
+         *
+         * #### Why SharedWorker be a server?
+         * SharedWorker, it allows only an instance (process) to be created whether the SharedWorker is declared in a browser
+         * or multiple browsers. To integrate them, messages are being sent and received. Doesn't it seem like a relationship
+         * between a server and clients? Thus, Samchon Framework consider the SharedWorker as a server and browsers as
+         * clients.
+         *
+         * The class {@link SharedWorkerCommunicator} is designed make such relationship. From now on, SharedWorker is a
+         * {@link SharedWorkerServer server} and {@link SharedWorkerServerConnector browsers} are clients. Integrate the
+         * server and clients with this {@link SharedWorkerCommunicator}.
+         *
+         * #### [Inherited] {@link IServerConnector}
+         * {@link IServerConnector} is a type of {@link ICommunicator}, specified for server connector classes who connect to
+         * the remote server as a client. {@link IServerConnector} provides {@link connect connection method} and takes full
+         * charge of network communication with the remote server.
+         *
+         * Declare specific type of {@link IServerConnector} from {@link IProtocol listener} and call the
+         * {@link connect connect()} method. Then whenever a replied message comes from the remote system, the message will
+         * be converted to an {@link Invoke} class and the {@link Invoke} object will be shifted to the
+         * {@link IProtocol listener}'s {@link IProtocol.replyData IProtocol.replyData()} method.
+         *
+         * Note that, protocol of this client and remote server must be matched. Thus, before determining specific type of
+         * this {@link IServerConnector}, you've to consider which protocol and type the remote server follows.
+         *
+         * Protocol                | Derived Type                           | Connect to
+         * ------------------------|----------------------------------------|-------------------------------
+         * Samchon Framework's own | {@link ServerConnector}                | {@link Server}
+         * Web-socket protocol     | {@link WebServerConnector}             | {@link WebServer}
+         * DedicatedWorker         | {@link DedicatedWorkerServerConnector} | {@link DedicatedWorkerServer}
+         * SharedWorker            | {@link SharedWorkerServerConnector}    | {@link SharedWorkerServer}
+         *
+         * ![Class Diagram](http://samchon.github.io/framework/images/design/ts_class_diagram/protocol_basic_components.png)
+         *
+         * @see {@link SharedWorkerServer}, {@link IProtocol}
+         * @handbook [Protocol - Basic Components](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Basic_Components#iserverconnector)
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var SharedWorkerServerConnector = (function (_super) {
+            __extends(SharedWorkerServerConnector, _super);
+            /* ---------------------------------------------------------
+                CONSTRUCTORS AND CONNECTORS
+            --------------------------------------------------------- */
+            /**
+             * Construct from *listener*.
+             *
+             * @param listener A listener object to listen replied message from newly connected client in
+             *				   {@link IProtocol.replyData replyData()} as an {@link Invoke} object.
+             */
+            function SharedWorkerServerConnector(listener) {
+                _super.call(this, listener);
+                this.connected_ = false;
+                this.onConnect = null;
+            }
+            /**
+             * Connect to a SharedWorker.
+             *
+             * Connects to a server with specified *jstFile* path. If a SharedWorker instance of the *jsFile* is not
+             * constructed yet, then the SharedWorker will be newly constructed. Otherwise the SharedWorker already exists,
+             * then connect to the SharedWorker. After those processes, callback function {@link onConnect} is called.
+             * Listening data from the connected server also begins. Replied messages from the connected server will be
+             * converted to {@link Invoke} classes and will be shifted to the {@link WebCommunicator.listener listener}'s
+             * {@link IProtocol.replyData replyData()} method.
+             *
+             * If the connection fails immediately, either an event is dispatched or an exception is thrown: an error
+             * event is dispatched if a host was specified, and an exception is thrown if no host was specified. Otherwise,
+             * the status of the connection is reported by an event. If the socket is already connected, the existing
+             * connection is closed first.
+             *
+             * @param jsFile Path of JavaScript file to execute who defines SharedWorker.
+             */
+            SharedWorkerServerConnector.prototype.connect = function (jsFile) {
+                // CONSTRUCT AND START SHARED-WORKER-SERVER
+                var worker = new SharedWorker(jsFile);
+                // LISTEN MESSAGE
+                this.port_ = worker.port;
+                this.port_.onmessage = this.handle_message.bind(this);
+                // NOTIFY THE CONNECTION
+                this.connected_ = true;
+                if (this.onConnect != null)
+                    this.onConnect();
+            };
+            return SharedWorkerServerConnector;
+        }(protocol.SharedWorkerCommunicator));
+        protocol.SharedWorkerServerConnector = SharedWorkerServerConnector;
+    })(protocol = samchon.protocol || (samchon.protocol = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../APi.ts" />
 var samchon;
@@ -13190,85 +13233,6 @@ var samchon;
     })(templates = samchon.templates || (samchon.templates = {}));
 })(samchon || (samchon = {}));
 /// <reference path="../../API.ts" />
-/// <reference path="../../protocol/Invoke.ts" />
-var samchon;
-(function (samchon) {
-    var templates;
-    (function (templates) {
-        var slave;
-        (function (slave) {
-            var PInvoke = (function (_super) {
-                __extends(PInvoke, _super);
-                function PInvoke(invoke, history, masterDriver) {
-                    _super.call(this, invoke.getListener());
-                    this.assign(invoke.begin(), invoke.end());
-                    this.history_ = history;
-                    this.master_driver_ = masterDriver;
-                    this.hold_ = false;
-                }
-                PInvoke.prototype.getHistory = function () {
-                    return this.history_;
-                };
-                PInvoke.prototype.isHold = function () {
-                    return this.hold_;
-                };
-                /**
-                 * Hold reporting completion to master.
-                 */
-                PInvoke.prototype.hold = function () {
-                    this.hold_ = true;
-                };
-                /**
-                 * Report completion.
-                 */
-                PInvoke.prototype.complete = function () {
-                    this.history_.complete();
-                    this.master_driver_.sendData(this.history_.toInvoke());
-                };
-                return PInvoke;
-            }(samchon.protocol.Invoke));
-            slave.PInvoke = PInvoke;
-        })(slave = templates.slave || (templates.slave = {}));
-    })(templates = samchon.templates || (samchon.templates = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="SlaveSystem.ts" />
-var samchon;
-(function (samchon) {
-    var templates;
-    (function (templates) {
-        var slave;
-        (function (slave) {
-            var SlaveClient = (function (_super) {
-                __extends(SlaveClient, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                /**
-                 * Default Constructor.
-                 */
-                function SlaveClient() {
-                    _super.call(this);
-                }
-                /* ---------------------------------------------------------
-                    METHOD OF CONNECTOR
-                --------------------------------------------------------- */
-                /**
-                 * @inheritdoc
-                 */
-                SlaveClient.prototype.connect = function (ip, port) {
-                    if (this.communicator_ != null)
-                        return;
-                    this.communicator_ = this.createServerConnector();
-                    this.communicator_.connect(ip, port);
-                };
-                return SlaveClient;
-            }(slave.SlaveSystem));
-            slave.SlaveClient = SlaveClient;
-        })(slave = templates.slave || (templates.slave = {}));
-    })(templates = samchon.templates || (samchon.templates = {}));
-})(samchon || (samchon = {}));
-/// <reference path="../../API.ts" />
 /// <reference path="SlaveSystem.ts" />
 var samchon;
 (function (samchon) {
@@ -13315,6 +13279,44 @@ var samchon;
         })(slave = templates.slave || (templates.slave = {}));
     })(templates = samchon.templates || (samchon.templates = {}));
 })(samchon || (samchon = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="SlaveSystem.ts" />
+var samchon;
+(function (samchon) {
+    var templates;
+    (function (templates) {
+        var slave;
+        (function (slave) {
+            var SlaveClient = (function (_super) {
+                __extends(SlaveClient, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function SlaveClient() {
+                    _super.call(this);
+                }
+                /* ---------------------------------------------------------
+                    METHOD OF CONNECTOR
+                --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
+                SlaveClient.prototype.connect = function (ip, port) {
+                    if (this.communicator_ != null)
+                        return;
+                    this.communicator_ = this.createServerConnector();
+                    this.communicator_.connect(ip, port);
+                };
+                return SlaveClient;
+            }(slave.SlaveSystem));
+            slave.SlaveClient = SlaveClient;
+        })(slave = templates.slave || (templates.slave = {}));
+    })(templates = samchon.templates || (samchon.templates = {}));
+})(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
 /// <reference path="../API.ts" />
 /**
  * @hidden
@@ -13341,4 +13343,5 @@ var samchon;
         }
     })(test = samchon.test || (samchon.test = {}));
 })(samchon || (samchon = {}));
+/// <reference path="../API.ts" />
 //# sourceMappingURL=samchon-framework.js.map

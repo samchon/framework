@@ -33,7 +33,7 @@ function remove_dynamics()
 	var text = fs.readFileSync(JS_FILE, "utf8");
 	var dynamics = new std.HashSet(StringUtil.betweens(text, '["', '"]'));
 
-	for (var it = dynamics.begin(); !it.equal_to(dynamics.end()); it = it.next())
+	for (var it = dynamics.begin(); !it.equals(dynamics.end()); it = it.next())
 	{
 		if (it.value.indexOf(',') != -1)
 			continue;

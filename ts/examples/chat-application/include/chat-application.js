@@ -1,4 +1,6 @@
 /// <reference types="samchon-framework" />
+/// <reference types="react" />
+/// <reference types="react-dom" />
 var example;
 (function (example) {
     var chat;

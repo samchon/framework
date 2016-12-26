@@ -267,7 +267,7 @@ namespace samchon.templates.distributed
 				if (my_process == history.getProcess() || my_process["history_list_"].empty() == true)
 					continue;
 
-				average_elapsed_time_of_others += my_process["compute_average_elapsed_time"]() * my_process.getResource();
+				average_elapsed_time_of_others += my_process["_Compute_average_elapsed_time"]() * my_process.getResource();
 				denominator++;
 			}
 
@@ -316,7 +316,7 @@ namespace samchon.templates.distributed
 			{
 				let system: DistributedSystem = this.at(i);
 
-				let avg: number = system["compute_average_elapsed_time"]();
+				let avg: number = system["_Compute_average_elapsed_time"]();
 				if (avg == -1)
 					continue;
 

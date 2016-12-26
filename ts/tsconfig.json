@@ -4,13 +4,7 @@
         "target": "es5",
         "declaration": true,
         "noImplicitAny": true,
-        "outFile": "../lib/ts/samchon-framework.js"
+        "outFile": "../lib/samchon.js"
     },
-    
-    "exclude": 
-    [
-        "examples",
-        "src/samchon/test",
-        "src/typings/samchon-framework"
-    ]
+    "exclude": ["src/samchon/test"]
 }

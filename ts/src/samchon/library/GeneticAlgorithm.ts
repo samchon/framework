@@ -362,7 +362,6 @@ namespace samchon.library
 			if (args.length == 1)
 			{
 				this.children_ = new std.Vector<GeneArray>();
-				this.children_.length = args[0] as number;
 			}
 			else
 			{
@@ -371,7 +370,6 @@ namespace samchon.library
 				let compare: (left: GeneArray, right: GeneArray) => boolean = (args.length == 2) ? std.greater : args[2];
 
 				this.children_ = new std.Vector<GeneArray>();
-				this.children_.length = args[1] as number;
 				this.compare_ = compare;
 
 				for (let i: number = 0; i < size; i++)
@@ -384,7 +382,7 @@ namespace samchon.library
 							child.begin() as std.base.IArrayIterator<T>,
 							child.end() as std.base.IArrayIterator<T>
 						);
-					this.children_[i] = child;
+					this.children_.push_back(child);
 				}
 			}
 		}

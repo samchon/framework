@@ -1,4 +1,6 @@
-﻿/**
+﻿/// <reference types="tstl" />
+
+/**
  * # Samchon-Framework
  * 
  * <a href="https://nodei.co/npm/samchon-framework">
@@ -39,7 +41,7 @@ namespace samchon
 try
 {
 	// IF THE CONDITION BE IS_NODE(), THEN CANNOT BE USED IN BROWSERIFY
-	eval("var std = require('typescript-stl')");
+	eval("var std = require('tstl')");
 	eval("var http = require('http')");
 	eval("var websocket = require('websocket')");
 	eval("var net = require('net')");

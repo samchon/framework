@@ -2,7 +2,7 @@
 
 /// <reference path="../library/XML.ts" />
 /// <reference path="../collections/ArrayCollection.ts" />
-/// <reference path="../protocol/Entity.ts" />
+/// <reference path="../protocol/entity/Entity.ts" />
 /// <reference path="../templates/distributed/DistributedSystemArrayMediator.ts" />
 
 try

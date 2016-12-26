@@ -1,9 +1,9 @@
 const fs = require("fs");
 const process = require('child_process');
-const minifier = require('minifier');
+//const minifier = require('minifier');
 
-const std = require('typescript-stl');
-const StringUtil = require('samchon-framework').library.StringUtil;
+const std = require('tstl');
+const StringUtil = require('./ts/include/samchon').library.StringUtil;
 
 compile();
 attach_header();
@@ -17,8 +17,8 @@ function compile()
 
 function attach_header()
 {
-	const TITLE_FILE = "./ts/src/typings/samchon-framework/samchon-framework.txt";
-	const HEADER_FILE = "./lib/ts/samchon-framework.d.ts";
+	const TITLE_FILE = "./ts/src/typings/samchon/samchon.d.ts";
+	const HEADER_FILE = "./lib/samchon.d.ts";
 
 	var text = fs.readFileSync(TITLE_FILE, "utf8");
 	text += fs.readFileSync(HEADER_FILE, "utf8");
@@ -28,7 +28,7 @@ function attach_header()
 
 function remove_dynamics()
 {
-	const JS_FILE = "./lib/ts/samchon-framework.js";
+	const JS_FILE = "./lib/samchon.js";
 
 	var text = fs.readFileSync(JS_FILE, "utf8");
 	var dynamics = new std.HashSet(StringUtil.betweens(text, '["', '"]'));
@@ -48,5 +48,5 @@ function remove_dynamics()
 
 function minify()
 {
-	minifier.minify("lib/ts/samchon-framework.js");
+	process.execSync("minify lib/samchon.js");
 }

@@ -1,7 +1,0 @@
-{
-    "compilerOptions": {
-        "target": "es5",
-        "outFile": "include/interaction-viewer.js",
-        "jsx": "react"
-    }
-}

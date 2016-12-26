@@ -100,31 +100,11 @@ namespace samchon.collections
 		{
 			let ret = super.push(...items);
 
-			this.notify_insert(this.end().advance(-items.length), this.end());
+			this._Notify_insert(this.end().advance(-items.length), this.end());
 
 			return ret;
 		}
 		
-		/**
-		 * @inheritdoc
-		 */
-		public push_front(val: T): void
-		{
-			super.push_front(val);
-
-			this.notify_insert(this.begin(), this.begin().next());
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public push_back(val: T): void
-		{
-			super.push_back(val);
-
-			this.notify_insert(this.end().prev(), this.end());
-		}
-
 		/**
 		 * @hidden
 		 */
@@ -132,7 +112,7 @@ namespace samchon.collections
 		{
 			let ret = super._Insert_by_repeating_val(position, n, val);
 
-			this.notify_insert(ret, ret.advance(n));
+			this._Notify_insert(ret, ret.advance(n));
 
 			return ret;
 		}
@@ -148,7 +128,7 @@ namespace samchon.collections
 			let ret = super._Insert_by_range(position, begin, end);
 			n = this.size() - n;
 
-			this.notify_insert(ret, ret.advance(n));
+			this._Notify_insert(ret, ret.advance(n));
 
 			return ret;
 		}
@@ -157,35 +137,13 @@ namespace samchon.collections
 			ERASE
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
-		 */
-		public pop_front(): void
-		{
-			let it = this.begin();
-			super.pop_front();
-			
-			this.notify_erase(it, it.next());
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public pop_back(): void
-		{
-			let it = this.end().prev();
-			super.pop_back();
-
-			this.notify_erase(it, this.end());
-		}
-
-		/**
 		 * @hidden
 		 */
 		protected _Erase_by_range(first: std.ListIterator<T>, last: std.ListIterator<T>): std.ListIterator<T>
 		{
 			let ret = super._Erase_by_range(first, last);
 
-			this.notify_erase(first, last);
+			this._Notify_erase(first, last);
 
 			return ret;
 		}
@@ -196,7 +154,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private notify_insert(first: std.ListIterator<T>, last: std.ListIterator<T>): void
+		private _Notify_insert(first: std.ListIterator<T>, last: std.ListIterator<T>): void
 		{
 			ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
 		}
@@ -204,7 +162,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private notify_erase(first: std.ListIterator<T>, last: std.ListIterator<T>): void
+		private _Notify_erase(first: std.ListIterator<T>, last: std.ListIterator<T>): void
 		{
 			ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
 		}

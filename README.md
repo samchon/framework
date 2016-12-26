@@ -1,5 +1,5 @@
 # Samchon Framework
-[![NPM](https://nodei.co/npm/samchon-framework.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/samchon-framework)
+[![NPM](https://nodei.co/npm/samchon.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/samchon)
 
 GitHub Repository: https://github.com/samchon/framework
 
@@ -29,7 +29,7 @@ Below **System Templates** are basically provided in the Samchon Framework:
 
 The best solution, for integrating and migrating a system built by different languages (TypeScript and C++), is to sharing same designs and grammers. Those designs and grammers are unitifed, then any other solution can't be better. Samchon Framework provides the best solution.
 
-Unifying designs, it can be come true by utilizing the **Object-Oriented Network** paradigm with Samchon Framework. Unifying grammer, it also can be done by using the [**TypeScript-STL**](https://github.com/samchon/typescript-stl), a sub-project who migrated C\++'s STL (Standard Template Library) to TypeScript. You can use STL's containers and algorithms in TypeScript with the [**TypeScript-STL**](https://github.com/samchon/typescript-stl). Thus, you can unify not only designs but also grammers, algorithms and even data structures with the [**TypeScript-STL**](https://github.com/samchon/typescript-stl).
+Unifying designs, it can be come true by utilizing the **Object-Oriented Network** paradigm with Samchon Framework. Unifying grammer, it also can be done by using the [**TypeScript-STL**](https://github.com/samchon/tstl), a sub-project who migrated C\++'s STL (Standard Template Library) to TypeScript. You can use STL's containers and algorithms in TypeScript with the [**TypeScript-STL**](https://github.com/samchon/tstl). Thus, you can unify not only designs but also grammers, algorithms and even data structures with the [**TypeScript-STL**](https://github.com/samchon/tstl).
 
 #### Suggestion
 If you're planning to build a cloud solution, then I sugguest you to follow such step:
@@ -45,14 +45,14 @@ If you're planning to build a cloud solution, then I sugguest you to follow such
 #### TypeScript
 ```bash
 # Install NPM module.
-npm install --save samchon-framework
+npm install --save samchon
 ```
 
 Installs Samchon-Framework from NPM module and imports the definition.
 
 ```typescript
-/// <reference types="samchon-framework" />
-import samchon = require("samchon-framework");
+/// <reference types="samchon" />
+import samchon = require("samchon");
 ```
 
 #### C++

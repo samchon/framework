@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../../protocol/Entity.ts" />
+/// <reference path="../../protocol/entity/Entity.ts" />
 
 namespace samchon.templates.slave
 {

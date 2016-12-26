@@ -131,13 +131,13 @@ namespace samchon.library
 			return this.currentTarget_;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
-		public get isTrusted(): boolean
-		{
-			return this.isTrusted;
-		}
+		///**
+		// * @inheritdoc
+		// */
+		//public get isTrusted(): boolean
+		//{
+		//	return this.isTrusted;
+		//}
 
 		/**
 		 * @inheritdoc

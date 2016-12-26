@@ -85,7 +85,7 @@ namespace samchon.templates.service
 			this.session_id_ = "";
 			this.sequence_ = 0;
 
-			this.addEventListener("erase", this.handle_erase_client, this);
+			this.addEventListener("erase", this._Handle_erase_client, this);
 		}
 
 		/**
@@ -130,13 +130,13 @@ namespace samchon.templates.service
 		/**
 		 * @hidden
 		 */
-		private handle_erase_client(event: collections.MapCollectionEvent<number, Client>): void
+		private _Handle_erase_client(event: collections.MapCollectionEvent<number, Client>): void
 		{
 			for (let it = event.first; !it.equals(event.last); it = it.next())
 				it.second.close();
 			
 			if (this.empty() == true)
-				this.server_["erase_user"](this);
+				this.server_["_Erase_user"](this);
 		}
 
 		/* ---------------------------------------------------------

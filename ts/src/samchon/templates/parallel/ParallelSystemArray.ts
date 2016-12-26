@@ -200,7 +200,7 @@ namespace samchon.templates.parallel
 					continue;
 
 				// SEND DATA WITH PIECES' INDEXES
-				system["send_piece_data"](invoke, first, first + piece_size);
+				system["_Send_piece_data"](invoke, first, first + piece_size);
 				first += piece_size; // FOR THE NEXT STEP
 
 				participants_count++;

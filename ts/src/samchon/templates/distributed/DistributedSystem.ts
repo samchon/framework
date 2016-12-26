@@ -118,7 +118,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		private compute_average_elapsed_time(): number
+		private _Compute_average_elapsed_time(): number
 		{
 			let sum: number = 0;
 			let denominator: number = 0;
@@ -188,7 +188,7 @@ namespace samchon.templates.distributed
 
 			// REPORT TO THE ROLE
 			if (history.getProcess() != null)
-				history.getProcess()["complete_history"](history);
+				history.getProcess()["_Complete_history"](history);
 				
 			// COMPLETE THE HISTORY IN THE BELONGED SYSTEM_ARRAY
 			this.getSystemArray()["_Complete_history"](history);

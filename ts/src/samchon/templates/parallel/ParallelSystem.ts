@@ -282,7 +282,7 @@ namespace samchon.templates.parallel
 		/**
 		 * @hidden
 		 */
-		private send_piece_data(invoke: protocol.Invoke, first: number, last: number): void
+		private _Send_piece_data(invoke: protocol.Invoke, first: number, last: number): void
 		{
 			// DUPLICATE INVOKE AND ATTACH PIECE INFO
 			let my_invoke: protocol.Invoke = new protocol.Invoke(invoke.getListener());

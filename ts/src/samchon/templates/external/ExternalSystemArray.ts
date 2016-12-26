@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../../protocol/EntityCollection.ts" />
+/// <reference path="../../protocol/entity/EntityCollection.ts" />
 
 /**
  * A template for External Systems Manager.
@@ -71,13 +71,13 @@ namespace samchon.templates.external
 		{
 			super();
 			
-			this.addEventListener("erase", this.handle_system_erase, this);
+			this.addEventListener("erase", this._Handle_system_erase, this);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private handle_system_erase(event: collections.CollectionEvent<System>): void
+		private _Handle_system_erase(event: collections.CollectionEvent<System>): void
 		{
 			for (let it = event.first; !it.equals(event.last); it = it.next())
 				it.value["destructor"]();

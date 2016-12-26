@@ -99,7 +99,7 @@ namespace samchon.collections
 		{
 			let ret = super.push(...items);
 
-			this.notify_insert(this.end().advance(-items.length), this.end());
+			this._Notify_insert(this.end().advance(-items.length), this.end());
 
 			return ret;
 		}
@@ -111,7 +111,7 @@ namespace samchon.collections
 		{
 			super.push(val);
 
-			this.notify_insert(this.end().prev(), this.end());
+			this._Notify_insert(this.end().prev(), this.end());
 		}
 
 		/**
@@ -121,7 +121,7 @@ namespace samchon.collections
 		{
 			let ret = super._Insert_by_repeating_val(position, n, val);
 
-			this.notify_insert(ret, ret.advance(n));
+			this._Notify_insert(ret, ret.advance(n));
 
 			return ret;
 		}
@@ -137,7 +137,7 @@ namespace samchon.collections
 			let ret = super._Insert_by_range(position, begin, end);
 			n = this.size() - n;
 
-			this.notify_insert(ret, ret.advance(n));
+			this._Notify_insert(ret, ret.advance(n));
 
 			return ret;
 		}
@@ -148,9 +148,19 @@ namespace samchon.collections
 		/**
 		 * @inheritdoc
 		 */
+		public pop_front(): void
+		{
+			this._Notify_erase(this.begin(), this.begin().next());
+
+			super.pop_front();
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public pop_back(): void
 		{
-			this.notify_erase(this.end().prev(), this.end());
+			this._Notify_erase(this.end().prev(), this.end());
 
 			super.pop_back();
 		}
@@ -160,7 +170,7 @@ namespace samchon.collections
 		 */
 		protected _Erase_by_range(first: std.DequeIterator<T>, last: std.DequeIterator<T>): std.DequeIterator<T>
 		{
-			this.notify_erase(first, last);
+			this._Notify_erase(first, last);
 
 			return super._Erase_by_range(first, last);
 		}
@@ -171,7 +181,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private notify_insert(first: std.DequeIterator<T>, last: std.DequeIterator<T>): void
+		private _Notify_insert(first: std.DequeIterator<T>, last: std.DequeIterator<T>): void
 		{
 			ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
 		}
@@ -179,7 +189,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private notify_erase(first: std.DequeIterator<T>, last: std.DequeIterator<T>): void
+		private _Notify_erase(first: std.DequeIterator<T>, last: std.DequeIterator<T>): void
 		{
 			ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
 		}

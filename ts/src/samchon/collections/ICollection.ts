@@ -41,7 +41,7 @@ namespace samchon.collections
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface ICollection<T>
-		extends std.base.IContainer<T>, library.IEventDispatcher
+		extends std.base.Container<T>, library.IEventDispatcher
 	{
 		/* ---------------------------------------------------------
 			REFRESH

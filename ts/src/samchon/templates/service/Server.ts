@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../../protocol/Server.ts" />
+/// <reference path="../../protocol/server/WebServer.ts" />
 
 /**
  * A system template for Cloud Service.
@@ -203,12 +203,11 @@ namespace samchon.templates.service
 		/**
 		 * @hidden
 		 */
-		private erase_user(user: User): void
+		private _Erase_user(user: User): void
 		{
 			// USER DOESN'T BE ERASED AT THAT TIME
 			// IT WAITS UNTIL 30 SECONDS TO KEEP SESSION
-			setTimeout
-			(
+			setTimeout(
 				function ()
 				{
 					let server: Server = this;

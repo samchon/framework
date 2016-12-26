@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../../protocol/Entity.ts" />
+/// <reference path="../../protocol/entity/Entity.ts" />
 
 namespace samchon.templates.distributed
 {
@@ -220,7 +220,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		private compute_average_elapsed_time(): number
+		private _Compute_average_elapsed_time(): number
 		{
 			let sum: number = 0;
 			
@@ -359,7 +359,7 @@ namespace samchon.templates.distributed
 		/**
 		 * @hidden
 		 */
-		private complete_history(history: DSInvokeHistory): void
+		private _Complete_history(history: DSInvokeHistory): void
 		{
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list_.erase(history.getUID());

@@ -95,10 +95,6 @@ ipch/
 *.vspx
 *.sap
 
-# Visual Studio TypeScript files
-*.csproj
-*.config
-
 # TFS 2012 Local Workspace
 $tf/
 

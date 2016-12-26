@@ -133,7 +133,7 @@ namespace samchon.library
 			}
 
 			//BEGIN PARSING
-			this.parse(str);
+			this._Parse(str);
 		}
 
 		/* -------------------------------------------------------------
@@ -142,24 +142,24 @@ namespace samchon.library
 		/**
 		 * @hidden
 		 */
-		private parse(str: string): void
+		private _Parse(str: string): void
 		{
-			this.parse_tag(str);
-			this.parse_properties(str);
+			this._Parse_tag(str);
+			this._Parse_properties(str);
 
-			let res = this.parse_value(str);
+			let res = this._Parse_value(str);
 			if (res.second == true)
-				this.parse_children(res.first);
+				this._Parse_children(res.first);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private parse_tag(str: string): void
+		private _Parse_tag(str: string): void
 		{
 			let start: number = str.indexOf("<") + 1;
 			let end: number =
-				this.compute_min_index
+				this._Compute_min_index
 					(
 					str.indexOf(" ", start),
 					str.indexOf("\r\n", start),
@@ -177,10 +177,10 @@ namespace samchon.library
 		/**
 		 * @hidden
 		 */
-		private parse_properties(str: string): void
+		private _Parse_properties(str: string): void
 		{
 			let start: number = str.indexOf("<" + this.tag_) + this.tag_.length + 1;
-			let end: number = this.compute_min_index(str.lastIndexOf("/"), str.indexOf(">", start));
+			let end: number = this._Compute_min_index(str.lastIndexOf("/"), str.indexOf(">", start));
 
 			if (start == -1 || end == -1 || start >= end)
 				return;
@@ -243,14 +243,14 @@ namespace samchon.library
 				}
 				value = line.substring(helpers[i].start + 1, helpers[i].end);
 
-				this.setProperty(label, this.decode_property(value));
+				this.setProperty(label, this._Decode_property(value));
 			}
 		}
 
 		/**
 		 * @hidden
 		 */
-		private parse_value(str: string): std.Pair<string, boolean>
+		private _Parse_value(str: string): std.Pair<string, boolean>
 		{
 			let end_slash: number = str.lastIndexOf("/");
 			let end_block: number = str.indexOf(">");
@@ -269,7 +269,7 @@ namespace samchon.library
 			str = str.substring(start, end); //REDEFINE WEAK_STRING -> IN TO THE TAG
 
 			if (str.indexOf("<") == -1)
-				this.value_ = this.decode_value(str.trim());
+				this.value_ = this._Decode_value(str.trim());
 			else
 				this.value_ = "";
 
@@ -279,7 +279,7 @@ namespace samchon.library
 		/**
 		 * @hidden
 		 */
-		private parse_children(str: string): void
+		private _Parse_children(str: string): void
 		{
 			if (str.indexOf("<") == -1)
 				return;
@@ -305,7 +305,7 @@ namespace samchon.library
 
 					let xmlList: XMLList;
 					let xml: XML = new XML();
-					xml.parse(str.substring(start, end + 1));
+					xml._Parse(str.substring(start, end + 1));
 
 					if (this.has(xml.tag_) == true)
 						xmlList = this.get(xml.tag_);
@@ -636,7 +636,7 @@ namespace samchon.library
 		/**
 		 * @hidden
 		 */
-		private compute_min_index(...args: number[]): number 
+		private _Compute_min_index(...args: number[]): number 
 		{
 			let min: number = args[0];
 
@@ -654,7 +654,7 @@ namespace samchon.library
 		/**
 		 * @hidden
 		 */
-		private decode_value(str: string): string 
+		private _Decode_value(str: string): string 
 		{
 			let pairs: Array<std.Pair<string, string>> =
 				[
@@ -669,7 +669,7 @@ namespace samchon.library
 		/**
 		 * @hidden
 		 */
-		private encode_value(str: string): string 
+		private _Encode_value(str: string): string 
 		{
 			let pairs: Array<std.Pair<string, string>> =
 				[
@@ -683,7 +683,7 @@ namespace samchon.library
 		/**
 		 * @hidden
 		 */
-		private decode_property(str: string): string 
+		private _Decode_property(str: string): string 
 		{
 			let pairs: Array<std.Pair<string, string>> =
 				[
@@ -702,7 +702,7 @@ namespace samchon.library
 		/**
 		 * @hidden
 		 */
-		private encode_property(str: string): string 
+		private _Encode_property(str: string): string 
 		{
 			let pairs: Array<std.Pair<string, string>> =
 				[
@@ -736,13 +736,13 @@ namespace samchon.library
 
 			//PROPERTIES
 			for (let p_it = this.property_map_.begin(); p_it.equals(this.property_map_.end()) == false; p_it = p_it.next())
-				str += " " + p_it.first + "=\"" + this.encode_property(p_it.second) + "\"";
+				str += " " + p_it.first + "=\"" + this._Encode_property(p_it.second) + "\"";
 
 			if (this.size() == 0) 
 			{
 				// VALUE
 				if (this.value_ != "")
-					str += ">" + this.encode_value(this.value_) + "</" + this.tag_ + ">";
+					str += ">" + this._Encode_value(this.value_) + "</" + this.tag_ + ">";
 				else
 					str += " />";
 			}

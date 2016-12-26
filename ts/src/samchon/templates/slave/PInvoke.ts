@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../../protocol/Invoke.ts" />
+/// <reference path="../../protocol/invoke/Invoke.ts" />
 
 namespace samchon.templates.slave
 {

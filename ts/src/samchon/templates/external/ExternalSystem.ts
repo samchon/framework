@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../../protocol/EntityCollection.ts" />
+/// <reference path="../../protocol/entity/EntityCollection.ts" />
 
 namespace samchon.templates.external
 {
@@ -134,7 +134,7 @@ namespace samchon.templates.external
 		/**
 		 * @hidden
 		 */
-		private handle_close(): void
+		private _Handle_close(): void
 		{
 			if (this.system_array_ == null)
 				return;
@@ -186,7 +186,7 @@ namespace samchon.templates.external
 			this.communicator_ = val;
 
 			if (this.communicator_ != null)
-				this.communicator.onClose = this.handle_close.bind(this);
+				this.communicator.onClose = this._Handle_close.bind(this);
 		}
 
 		/**

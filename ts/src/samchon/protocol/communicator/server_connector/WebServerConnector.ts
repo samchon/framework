@@ -98,7 +98,7 @@ namespace samchon.protocol
 			address = ip + ":" + port + "/" + path;
 
 			// CONNECTION BRANCHES
-			if (is_node() == true)
+			if (std.is_node() == true)
 			{
 				this.node_client_ = new websocket.client();
 				this.node_client_.on("connect", this._Handle_node_connect.bind(this));
@@ -121,7 +121,7 @@ namespace samchon.protocol
 		 */
 		public close(): void
 		{
-			if (is_node() == true)
+			if (std.is_node() == true)
 				super.close();
 			else
 				this.browser_socket_.close();

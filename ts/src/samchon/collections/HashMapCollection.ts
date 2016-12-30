@@ -22,59 +22,15 @@ namespace samchon.collections
 	 *   - {@link refresh}
 	 * 
 	 * #### [Inherited] {@link HashMap}
-	 * {@link HashMap HashMaps} are associative containers that store elements formed by the combination of a 
-	 * *key value* and a *mapped value*, and which allows for fast retrieval of individual elements based on their 
-	 * *keys*.
-	 *
-	 * In an {@link HashMap}, the *key value* is generally used to uniquely identify the element, while the
-	 * *mapped value* is an object with the content associated to this *key*. Types of *key* and *mapped value* may 
-	 * differ. 
-	 *
-	 * Internally, the elements in the {@link HashMap} are not sorted in any particular order with respect to either
-	 * their *key* or *mapped values*, but organized into *buckets* depending on their hash values to allow for fast 
-	 * access to individual elements directly by their *key values* (with a constant average time complexity on 
-	 * average). 
-	 *
-	 * {@link HashMap} containers are faster than {@link TreeMap} containers to access individual elements by their
-	 * *key*, although they are generally less efficient for range iteration through a subset of their elements. 
-	 *
-	 *  <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> 
-	 * </a>
-	 *
-	 * <h3> Container properties </h3>
-	 * <dl>
-	 * 	<dt> Associative </dt>
-	 * 	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
-	 *		 position in the container. </dd>
-	 *
-	 * 	<dt> Hashed </dt>
-	 * 	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
-	 *		 by their *key*. </dd>
-	 *
-	 * 	<dt> Map </dt>
-	 * 	<dd> Each element associates a *key* to a *mapped value*:
-	 *		 *Keys* are meant to identify the elements whose main content is the *mapped value*. </dd>
-	 *
-	 * 	<dt> Unique keys </dt>
-	 * 	<dd> No two elements in the container can have equivalent keys. </dd>
-	 * </dl>
-	 *
-	 * @param <Key> Type of the key values.
-	 *				Each element in an {@link HashMap} is uniquely identified by its key value.
-	 * @param <T> Type of the mapped value.
-	 *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
-	 *
-	 * @reference http://www.cplusplus.com/reference/unordered_map/unordered_map
-	 * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-	 * @author Jeongho Nam <http://samchon.org>
+	 * @copydoc HashMap
 	 */
 	export class HashMapCollection<Key, T>
 		extends std.HashMap<Key, T>
 		implements ICollection<std.Pair<Key, T>>
 	{
+		// A chain object taking responsibility of dispatching events.
 		/**
-		 * A chain object taking responsibility of dispatching events.
+		 * @hidden
 		 */
 		private event_dispatcher_: library.EventDispatcher = new library.EventDispatcher(this);
 
@@ -90,7 +46,7 @@ namespace samchon.collections
 			HANDLE_INSERT & HANDLE_ERASE
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void
 		{
@@ -100,7 +56,7 @@ namespace samchon.collections
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void
 		{
@@ -169,7 +125,7 @@ namespace samchon.collections
 				last = args[1];
 			}
 
-			this.dispatchEvent(new MapCollectionEvent<Key, T>("refresh", first, last));
+			ICollection._Dispatch_MapCollectionEvent(this, "refresh", first, last);
 		}
 
 		/* ---------------------------------------------------------

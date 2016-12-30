@@ -1,6 +1,4 @@
-﻿/// <reference path="../API.ts" />
-
-/**
+﻿/**
  * Collections, elements I/O detectable STL containers.
  * 
  * STL Containers       | Collections

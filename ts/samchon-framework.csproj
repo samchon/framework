@@ -46,7 +46,6 @@
     <TypeScriptCompile Include="src\samchon\library\URLVariables.ts" />
     <TypeScriptCompile Include="src\samchon\library\XML.ts" />
     <TypeScriptCompile Include="src\samchon\miscellaneous\exports.ts" />
-    <TypeScriptCompile Include="src\typings\samchon\samchon.d.ts" />
     <Content Include="web.config" />
     <TypeScriptCompile Include="src\samchon\protocol\communicator\client_driver\ClientDriver.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\communicator\client_driver\DedicatedWorkerClientDriver.ts" />
@@ -126,6 +125,7 @@
     <TypeScriptCompile Include="src\samchon\protocol\communicator\_socket.ts" />
     <TypeScriptCompile Include="src\samchon\test\test_collection.ts" />
     <TypeScriptCompile Include="src\typings\node\node.d.ts" />
+    <TypeScriptCompile Include="src\typings\samchon\samchon.d.ts" />
     <TypeScriptCompile Include="src\typings\shared-worker.d.ts" />
     <TypeScriptCompile Include="src\typings\websocket\websocket.d.ts" />
   </ItemGroup>
@@ -151,6 +151,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>samchon_framework</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyName>`</AssemblyName>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />

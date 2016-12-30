@@ -18,55 +18,15 @@ namespace samchon.collections
 	 *   - {@link refresh}
 	 * 
 	 * #### [Inherited] {@link HashMultiSet}
-	 * {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
-	 * retrieval of individual elements based on their value, much like {@link HashMultiSet} containers, but allowing 
-	 * different elements to have equivalent values.
-	 *
-	 * In an {@link HashMultiSet}, the value of an element is at the same time its *key*, used to identify it. *Keys* 
-	 * are immutable, therefore, the elements in an {@link HashMultiSet} cannot be modified once in the container - 
-	 * they can be inserted and removed, though.
-	 *
-	 * Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but organized into 
-	 * *buckets* depending on their hash values to allow for fast access to individual elements directly by their 
-	 * *values* (with a constant average time complexity on average).
-	 *
-	 * Elements with equivalent values are grouped together in the same bucket and in such a way that an iterator can 
-	 * iterate through all of them. Iterators in the container are doubly linked iterators.
-	 *
-	 * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" />
-	 * </a>
-	 *
-	 * <h3> Container properties </h3>
-	 * <dl>
-	 *	<dt> Associative </dt>
-	 *	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
-	 *		 position in the container. </dd>
-	 *
-	 *	<dt> Hashed </dt>
-	 *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
-	 *		 by their *key*. </dd>
-	 *
-	 *	<dt> Set </dt>
-	 *	<dd> The value of an element is also the *key* used to identify it. </dd>
-	 *
-	 *	<dt> Multiple equivalent keys </dt>
-	 *	<dd> The container can hold multiple elements with equivalent *keys*. </dd>
-	 * </dl>
-	 *
-	 * @param <T> Type of the elements.
-	 *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
-	 *
-	 * @reference http://www.cplusplus.com/reference/unordered_set/unordered_multiset
-	 * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-	 * @author Jeongho Nam <http://samchon.org>
+	 * @copydoc HashMultiSet
 	 */
 	export class HashMultiSetCollection<T>
 		extends std.HashMultiSet<T>
 		implements ICollection<T>
 	{
+		// A chain object taking responsibility of dispatching events.
 		/**
-		 * A chain object taking responsibility of dispatching events.
+		 * @hidden
 		 */
 		private event_dispatcher_: library.EventDispatcher = new library.EventDispatcher(this);
 
@@ -82,7 +42,7 @@ namespace samchon.collections
 			HANDLE_INSERT & HANDLE_ERASE
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void
 		{
@@ -92,7 +52,7 @@ namespace samchon.collections
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void
 		{
@@ -161,7 +121,7 @@ namespace samchon.collections
 				last = args[1];
 			}
 
-			this.dispatchEvent(new CollectionEvent<T>("refresh", first, last));
+			ICollection._Dispatch_CollectionEvent(this, "refresh", first, last);
 		}
 
 		/* ---------------------------------------------------------

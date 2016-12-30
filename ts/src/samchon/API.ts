@@ -1,10 +1,8 @@
-﻿/// <reference types="tstl" />
-
-/**
- * # Samchon-Framework
+﻿/**
+ * # Samchon Framework
  * 
- * <a href="https://nodei.co/npm/samchon-framework">
- *	<img src="https://nodei.co/npm/samchon-framework.png?downloads=true&downloadRank=true&stars=true"> </a>
+ * <a href="https://nodei.co/npm/samchon">
+ *	<img src="https://nodei.co/npm/samchon.png?downloads=true&downloadRank=true&stars=true"> </a>
  * 
  * Samchon, a OON (Object-Oriented Network) framework.
  * 
@@ -18,25 +16,7 @@
  * @git https://github.com/samchon/framework
  * @author Jeongho Nam <http://samchon.org>
  */
-namespace samchon
-{
-	/**
-	 * Running on Node.
-	 * 
-	 * Test whether the JavaScript is running on Node.
-	 * 
-	 * @references http://stackoverflow.com/questions/17575790/environment-detection-node-js-or-browser
-	 */
-	export function is_node(): boolean
-	{
-		if (typeof process === "object")
-			if (typeof process.versions === "object")
-				if (typeof process.versions.node !== "undefined")
-					return true;
-
-		return false;
-	}
-}
+namespace samchon {}
 
 try
 {

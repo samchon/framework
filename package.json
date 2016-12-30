@@ -1,5 +1,5 @@
 {
-  "name": "samchon-framework",
+  "name": "samchon",
   "description": "Samchon, a OON (Object Oriented Network) Framework with C++ and TypeScript",
   "author": {
     "name": "Jeongho Nam",
@@ -9,14 +9,13 @@
 
   "main": "./lib/samchon.js",
   "typings": "./lib/samchon.d.ts",
-  "version": "2.0.0",
-
+  "version": "2.0.1",
   "dependencies": {
-    "tstl": "~1.3.2",
+    "tstl": "~1.3.5",
     "websocket": "~1.0.x"
   },
-
-  "homepage": "http://samchon.org/framework",
+  
+  "homepage": "https://github.com/samchon/framework",
   "repository": {
     "type": "git",
     "url": "https://github.com/samchon/framework.git"
@@ -24,13 +23,13 @@
   "bugs": {
     "url": "https://github.com/samchon/framework/issues"
   },
-  
   "licenses": [
     {
       "type": "BSD 3-Clause",
       "url": "https://opensource.org/licenses/BSD-3-Clause"
     }
   ],
+
   "keywords": [
     "samchon framework",
     "OON",

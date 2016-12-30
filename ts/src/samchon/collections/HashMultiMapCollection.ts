@@ -19,59 +19,15 @@ namespace samchon.collections
 	 *   - {@link refresh}
 	 * 
 	 * #### [Inherited] {@link HashMultiMap}
-	 * {@link HashMultiMap HashMultiMap}s are associative containers that store elements formed by the combination of
-	 * a *key value* and a *mapped value*, much like {@link HashMultiMap} containers, but allowing different elements 
-	 * to have equivalent *keys*. 
-	 *
-	 * In an {@link HashMultiMap}, the *key value* is generally used to uniquely identify the element, while the 
-	 * *mapped value* is an object with the content associated to this *key*. Types of *key* and *mapped value* may 
-	 * differ. 
-	 *
-	 * Internally, the elements in the {@link HashMultiMap} are not sorted in any particular order with respect to 
-	 * either their *key* or *mapped values*, but organized into *buckets* depending on their hash values to allow for 
-	 * fast access to individual elements directly by their *key values* (with a constant average time complexity on 
-	 * average). 
-	 *
-	 * Elements with equivalent *keys* are grouped together in the same bucket and in such a way that an iterator can 
-	 * iterate through all of them. Iterators in the container are doubly linked iterators. 
-	 *
-	 * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> 
-	 * </a>
-	 *
-	 * <h3> Container properties </h3>
-	 * <dl>
-	 *	<dt> Associative </dt>
-	 *	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
-	 *		 position in the container. </dd>
-	 *
-	 *	<dt> Hashed </dt>
-	 *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
-	 *		 by their *key*. </dd>
-	 *
-	 *	<dt> Map </dt>
-	 *	<dd> Each element associates a *key* to a *mapped value*:
-	 *		 *Keys* are meant to identify the elements whose main content is the *mapped value*. </dd>
-	 *
-	 *	<dt> Multiple equivalent keys </dt>
-	 *	<dd> The container can hold multiple elements with equivalent *keys*. </dd>
-	 * </dl>
-	 *
-	 * @param <Key> Type of the key values.
-	 *				Each element in an {@link HashMultiMap} is identified by a key value.
-	 * @param <T> Type of the mapped value.
-	 *			  Each element in an {@link HashMultiMap} is used to store some data as its mapped value.
-	 *
-	 * @reference http://www.cplusplus.com/reference/unordered_map/unordered_multimap
-	 * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-	 * @author Jeongho Nam <http://samchon.org>
+	 * @copydoc HashMultiMap
 	 */
 	export class HashMultiMapCollection<Key, T>
-		extends std.HashMap<Key, T>
+		extends std.HashMultiMap<Key, T>
 		implements ICollection<std.Pair<Key, T>>
 	{
+		// A chain object taking responsibility of dispatching events.
 		/**
-		 * A chain object taking responsibility of dispatching events.
+		 * @hidden
 		 */
 		private event_dispatcher_: library.EventDispatcher = new library.EventDispatcher(this);
 
@@ -87,7 +43,7 @@ namespace samchon.collections
 			HANDLE_INSERT & HANDLE_ERASE
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void
 		{
@@ -97,7 +53,7 @@ namespace samchon.collections
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void
 		{
@@ -166,7 +122,7 @@ namespace samchon.collections
 				last = args[1];
 			}
 
-			this.dispatchEvent(new MapCollectionEvent<Key, T>("refresh", first, last));
+			ICollection._Dispatch_MapCollectionEvent(this, "refresh", first, last);
 		}
 
 		/* ---------------------------------------------------------

@@ -1,21 +1,20 @@
-// Type definitions for Samchon Framework v2.0.0
+// Type definitions for Samchon Framework v2.0.1
 // Project: https://github.com/samchon/framework
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 /// <reference types="tstl" />
 
-declare module "samchon-framework"
+declare module "samchon"
 {
 	export = samchon;
 }
 
-/// <reference types="tstl" />
 /**
- * # Samchon-Framework
+ * # Samchon Framework
  *
- * <a href="https://nodei.co/npm/samchon-framework">
- *	<img src="https://nodei.co/npm/samchon-framework.png?downloads=true&downloadRank=true&stars=true"> </a>
+ * <a href="https://nodei.co/npm/samchon">
+ *	<img src="https://nodei.co/npm/samchon.png?downloads=true&downloadRank=true&stars=true"> </a>
  *
  * Samchon, a OON (Object-Oriented Network) framework.
  *
@@ -30,14 +29,6 @@ declare module "samchon-framework"
  * @author Jeongho Nam <http://samchon.org>
  */
 declare namespace samchon {
-    /**
-     * Running on Node.
-     *
-     * Test whether the JavaScript is running on Node.
-     *
-     * @references http://stackoverflow.com/questions/17575790/environment-detection-node-js-or-browser
-     */
-    function is_node(): boolean;
 }
 declare namespace samchon.collections {
     /**
@@ -57,15 +48,12 @@ declare namespace samchon.collections {
      * - *refresh* typed events:
      *   - {@link refresh}
      *
-     * @copydoc std.Vector
-     *
-     * @reference http://www.cplusplus.com/reference/vector/vector
-     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-     * @author Jeongho Nam <http://samchon.org>
+     * #### [Inherited] {@link Vector}
+     * @copydoc Vector
      */
     class ArrayCollection<T> extends std.Vector<T> implements ICollection<T> {
         /**
-         * A chain object taking responsibility of dispatching events.
+         * @hidden
          */
         private event_dispatcher_;
         /**
@@ -311,57 +299,11 @@ declare namespace samchon.collections {
      *   - {@link refresh}
      *
      * #### [Inherited] {@link Deque}
-     * {@link Deque} (usually pronounced like "*deck*") is an irregular acronym of **d**ouble-**e**nded **q**ueue.
-     * Double-ended queues are sequence containers with dynamic sizes that can be expanded or contracted on both ends
-     * (either its front or its back).
-     *
-     * Specific libraries may implement deques in different ways, generally as some form of dynamic array. But in any
-     * case, they allow for the individual elements to be accessed directly through random access iterators, with
-     * storage handled automatically by expanding and contracting the container as needed.
-     *
-     * Therefore, they provide a functionality similar to vectors, but with efficient insertion and deletion of
-     * elements also at the beginning of the sequence, and not only at its end. But, unlike {@link Vector Vectors},
-     * {@link Deque Deques} are not guaranteed to store all its elements in contiguous storage locations: accessing
-     * elements in a <u>deque</u> by offsetting a pointer to another element causes undefined behavior.
-     *
-     * Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for similar purposes,
-     * but internally both work in quite different ways: While {@link Vector}s use a single array that needs to be
-     * occasionally reallocated for growth, the elements of a {@link Deque} can be scattered in different chunks of
-     * storage, with the container keeping the necessary information internally to provide direct access to any of its
-     * elements in constant time and with a uniform sequential interface (through iterators). Therefore,
-     * {@link Deque Deques} are a little more complex internally than {@link Vector}s, but this allows them to grow
-     * more efficiently under certain circumstances, especially with very long sequences, where reallocations become
-     * more expensive.
-     *
-     * For operations that involve frequent insertion or removals of elements at positions other than the beginning or
-     * the end, {@link Deque Deques} perform worse and have less consistent iterators and references than
-     * {@link List Lists}.
-     *
-     * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
-     * </a>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Sequence </dt>
-     *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements
-     *		 are accessed by their position in this sequence. </dd>
-     *
-     *	<dt> Dynamic array </dt>
-     *	<dd> Generally implemented as a dynamic array, it allows direct access to any element in the
-     *		 sequence and provides relatively fast addition/removal of elements at the beginning or the end
-     *		 of the sequence. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements.
-     *
-     * @reference http://www.cplusplus.com/reference/deque/deque/
-     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-     * @author Jeongho Nam <http://samchon.org>
+     * @copydoc Deque
      */
     class DequeCollection<T> extends std.Deque<T> implements ICollection<T> {
         /**
-         * A chain object taking responsibility of dispatching events.
+         * @hidden
          */
         private event_dispatcher_;
         /**
@@ -471,64 +413,19 @@ declare namespace samchon.collections {
      *   - {@link refresh}
      *
      * #### [Inherited] {@link HashMap}
-     * {@link HashMap HashMaps} are associative containers that store elements formed by the combination of a
-     * *key value* and a *mapped value*, and which allows for fast retrieval of individual elements based on their
-     * *keys*.
-     *
-     * In an {@link HashMap}, the *key value* is generally used to uniquely identify the element, while the
-     * *mapped value* is an object with the content associated to this *key*. Types of *key* and *mapped value* may
-     * differ.
-     *
-     * Internally, the elements in the {@link HashMap} are not sorted in any particular order with respect to either
-     * their *key* or *mapped values*, but organized into *buckets* depending on their hash values to allow for fast
-     * access to individual elements directly by their *key values* (with a constant average time complexity on
-     * average).
-     *
-     * {@link HashMap} containers are faster than {@link TreeMap} containers to access individual elements by their
-     * *key*, although they are generally less efficient for range iteration through a subset of their elements.
-     *
-     *  <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" />
-     * </a>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     * 	<dt> Associative </dt>
-     * 	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
-     *		 position in the container. </dd>
-     *
-     * 	<dt> Hashed </dt>
-     * 	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
-     *		 by their *key*. </dd>
-     *
-     * 	<dt> Map </dt>
-     * 	<dd> Each element associates a *key* to a *mapped value*:
-     *		 *Keys* are meant to identify the elements whose main content is the *mapped value*. </dd>
-     *
-     * 	<dt> Unique keys </dt>
-     * 	<dd> No two elements in the container can have equivalent keys. </dd>
-     * </dl>
-     *
-     * @param <Key> Type of the key values.
-     *				Each element in an {@link HashMap} is uniquely identified by its key value.
-     * @param <T> Type of the mapped value.
-     *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
-     *
-     * @reference http://www.cplusplus.com/reference/unordered_map/unordered_map
-     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-     * @author Jeongho Nam <http://samchon.org>
+     * @copydoc HashMap
      */
     class HashMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
         /**
-         * A chain object taking responsibility of dispatching events.
+         * @hidden
          */
         private event_dispatcher_;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
@@ -599,64 +496,19 @@ declare namespace samchon.collections {
      *   - {@link refresh}
      *
      * #### [Inherited] {@link HashMultiMap}
-     * {@link HashMultiMap HashMultiMap}s are associative containers that store elements formed by the combination of
-     * a *key value* and a *mapped value*, much like {@link HashMultiMap} containers, but allowing different elements
-     * to have equivalent *keys*.
-     *
-     * In an {@link HashMultiMap}, the *key value* is generally used to uniquely identify the element, while the
-     * *mapped value* is an object with the content associated to this *key*. Types of *key* and *mapped value* may
-     * differ.
-     *
-     * Internally, the elements in the {@link HashMultiMap} are not sorted in any particular order with respect to
-     * either their *key* or *mapped values*, but organized into *buckets* depending on their hash values to allow for
-     * fast access to individual elements directly by their *key values* (with a constant average time complexity on
-     * average).
-     *
-     * Elements with equivalent *keys* are grouped together in the same bucket and in such a way that an iterator can
-     * iterate through all of them. Iterators in the container are doubly linked iterators.
-     *
-     * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" />
-     * </a>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
-     *		 position in the container. </dd>
-     *
-     *	<dt> Hashed </dt>
-     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
-     *		 by their *key*. </dd>
-     *
-     *	<dt> Map </dt>
-     *	<dd> Each element associates a *key* to a *mapped value*:
-     *		 *Keys* are meant to identify the elements whose main content is the *mapped value*. </dd>
-     *
-     *	<dt> Multiple equivalent keys </dt>
-     *	<dd> The container can hold multiple elements with equivalent *keys*. </dd>
-     * </dl>
-     *
-     * @param <Key> Type of the key values.
-     *				Each element in an {@link HashMultiMap} is identified by a key value.
-     * @param <T> Type of the mapped value.
-     *			  Each element in an {@link HashMultiMap} is used to store some data as its mapped value.
-     *
-     * @reference http://www.cplusplus.com/reference/unordered_map/unordered_multimap
-     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-     * @author Jeongho Nam <http://samchon.org>
+     * @copydoc HashMultiMap
      */
-    class HashMultiMapCollection<Key, T> extends std.HashMap<Key, T> implements ICollection<std.Pair<Key, T>> {
+    class HashMultiMapCollection<Key, T> extends std.HashMultiMap<Key, T> implements ICollection<std.Pair<Key, T>> {
         /**
-         * A chain object taking responsibility of dispatching events.
+         * @hidden
          */
         private event_dispatcher_;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
@@ -726,60 +578,19 @@ declare namespace samchon.collections {
      *   - {@link refresh}
      *
      * #### [Inherited] {@link HashMultiSet}
-     * {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
-     * retrieval of individual elements based on their value, much like {@link HashMultiSet} containers, but allowing
-     * different elements to have equivalent values.
-     *
-     * In an {@link HashMultiSet}, the value of an element is at the same time its *key*, used to identify it. *Keys*
-     * are immutable, therefore, the elements in an {@link HashMultiSet} cannot be modified once in the container -
-     * they can be inserted and removed, though.
-     *
-     * Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but organized into
-     * *buckets* depending on their hash values to allow for fast access to individual elements directly by their
-     * *values* (with a constant average time complexity on average).
-     *
-     * Elements with equivalent values are grouped together in the same bucket and in such a way that an iterator can
-     * iterate through all of them. Iterators in the container are doubly linked iterators.
-     *
-     * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" />
-     * </a>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
-     *		 position in the container. </dd>
-     *
-     *	<dt> Hashed </dt>
-     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
-     *		 by their *key*. </dd>
-     *
-     *	<dt> Set </dt>
-     *	<dd> The value of an element is also the *key* used to identify it. </dd>
-     *
-     *	<dt> Multiple equivalent keys </dt>
-     *	<dd> The container can hold multiple elements with equivalent *keys*. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements.
-     *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
-     *
-     * @reference http://www.cplusplus.com/reference/unordered_set/unordered_multiset
-     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-     * @author Jeongho Nam <http://samchon.org>
+     * @copydoc HashMultiSet
      */
     class HashMultiSetCollection<T> extends std.HashMultiSet<T> implements ICollection<T> {
         /**
-         * A chain object taking responsibility of dispatching events.
+         * @hidden
          */
         private event_dispatcher_;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
@@ -851,59 +662,19 @@ declare namespace samchon.collections {
      *   - {@link refresh}
      *
      * #### [Inherited] {@link HashSet}
-     * {@link HashSet HashSets} are containers that store unique elements in no particular order, and which allow for
-     * fast retrieval of individual elements based on their value.
-     *
-     * In an {@link HashSet}, the value of an element is at the same time its *key*, that identifies it uniquely.
-     * Keys are immutable, therefore, the elements in an {@link HashSet} cannot be modified once in the container -
-     * they can be inserted and removed, though.
-     *
-     * Internally, the elements in the {@link HashSet} are not sorted in any particular order, but organized into
-     * buckets depending on their hash values to allow for fast access to individual elements directly by their
-     * *values* (with a constant average time complexity on average).
-     *
-     * {@link HashSet} containers are faster than {@link TreeSet} containers to access individual elements by their
-     * *key*, although they are generally less efficient for range iteration through a subset of their elements.
-     *
-     * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" />
-     * </a>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
-     *		 position in the container. </dd>
-     *
-     *	<dt> Hashed </dt>
-     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
-     *		 by their *key*. </dd>
-     *
-     *	<dt> Set </dt>
-     *	<dd> The value of an element is also the *key* used to identify it. </dd>
-     *
-     *	<dt> Unique keys </dt>
-     *	<dd> No two elements in the container can have equivalent *keys*. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements.
-     *			  Each element in an {@link HashSet} is also uniquely identified by this value.
-     *
-     * @reference http://www.cplusplus.com/reference/unordered_set/unordered_set
-     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-     * @author Jeongho Nam <http://samchon.org>
+     * @copydoc HashSet
      */
     class HashSetCollection<T> extends std.HashSet<T> implements ICollection<T> {
         /**
-         * A chain object taking responsibility of dispatching events.
+         * @hidden
          */
         private event_dispatcher_;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
@@ -1116,52 +887,11 @@ declare namespace samchon.collections {
      *   - {@link sort}
      *
      * #### [Inherited] {@link List}
-     * {@link List Lists} are sequence containers that allow constant time insert and erase operations anywhere within
-     * the sequence, and iteration in both directions.
-     *
-     * List containers are implemented as doubly-linked lists; Doubly linked lists can store each of the elements they
-     * contain in different and unrelated storage locations. The ordering is kept internally by the association to
-     * each element of a link to the element preceding it and a link to the element following it.
-     *
-     * They are very similar to forward_list: The main difference being that forward_list objects are single-linked
-     * lists, and thus they can only be iterated forwards, in exchange for being somewhat smaller and more efficient.
-     *
-     * Compared to other base standard sequence containers (array, vector and deque), lists perform generally better
-     * in inserting, extracting and moving elements in any position within the container for which an iterator has
-     * already been obtained, and therefore also in algorithms that make intensive use of these, like sorting
-     * algorithms.
-     *
-     * The main drawback of lists and forward_lists compared to these other sequence containers is that they lack
-     * direct access to the elements by their position; For example, to access the sixth element in a list, one has to
-     * iterate from a known position (like the beginning or the end) to that position, which takes linear time in the
-     * distance between these. They also consume some extra memory to keep the linking information associated to each
-     * element (which may be an important factor for large lists of small-sized elements).
-     *
-     * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
-     * </a>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     * 	<dt> Sequence </dt>
-     * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are accessed by
-     *		 their position in this sequence. </dd>
-     *
-     * 	<dt> Doubly-linked list </dt>
-     *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing constant time
-     *		 insert and erase operations before or after a specific element (even of entire ranges), but no direct random
-     *		 access. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements.
-     *
-     * @reference http://www.cplusplus.com/reference/list/list/
-     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-     * @author Jeongho Nam <http://samchon.org>
+     * @copydoc List
      */
     class ListCollection<T> extends std.List<T> implements ICollection<T> {
         /**
-         * A chain object taking responsibility of dispatching events.
+         * @hidden
          */
         private event_dispatcher_;
         /**
@@ -1278,63 +1008,19 @@ declare namespace samchon.collections {
      *   - {@link refresh}
      *
      * #### [Inherited] {@link TreeMap}
-     * {@link TreeMap TreeMaps} are associative containers that store elements formed by a combination of a
-     * *key value* (*Key*) and a *mapped value* (*T*), following order.
-     *
-     * In a {@link TreeMap}, the *key values* are generally used to sort and uniquely identify the elements, while the
-     * *mapped values* store the content associated to this key. The types of *key* and *mapped value* may differ, and
-     * are grouped together in member type *value_type*, which is a {@link Pair} type combining both:
-     *
-     * ```typedef Pair<Key, T> value_type;```
-     *
-     * Internally, the elements in a {@link TreeMap} are always sorted by its *key* following a *strict weak ordering*
-     * criterion indicated by its internal comparison method {@link less}.
-     *
-     * {@link TreeMap} containers are generally slower than {@link HashMap HashMap} containers to access individual
-     * elements by their *key*, but they allow the direct iteration on subsets based on their order.
-     *
-     * {@link TreeMap}s are typically implemented as binary search trees.
-     *
-     * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" />
-     * </a>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their *key* and not by their absolute
-     *		 position in the container. </dd>
-     *
-     *	<dt> Ordered </dt>
-     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
-     *		 given a position in this order. </dd>
-     *
-     *	<dt> Map </dt>
-     *	<dd> Each element associates a *key* to a *mapped value*:
-     *		 *Keys* are meant to identify the elements whose main content is the *mapped value*. </dd>
-     *
-     *	<dt> Unique keys </dt>
-     *	<dd> No two elements in the container can have equivalent *keys*. </dd>
-     * </dl>
-     *
-     * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
-     * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
-     *
-     * @reference http://www.cplusplus.com/reference/map/map
-     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-     * @author Jeongho Nam <http://samchon.org>
+     * @copydoc TreeMap
      */
     class TreeMapCollection<Key, T> extends std.TreeMap<Key, T> implements ICollection<std.Pair<Key, T>> {
         /**
-         * A chain object taking responsibility of dispatching events.
+         * @hidden
          */
         private event_dispatcher_;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
@@ -1405,70 +1091,19 @@ declare namespace samchon.collections {
      *   - {@link refresh}
      *
      * #### [Inherited] {@link TreeMultiMap}
-     * {@link TreeMultiMap TreeMultiMaps} are associative containers that store elements formed by a combination of a
-     * *key value* and a *mapped value*, following a specific order, and where multiple elements can have equivalent
-     * keys.
-     *
-     * In a {@link TreeMultiMap}, the *key values* are generally used to sort and uniquely identify the elements,
-     * while the *mapped values* store the content associated to this *key*. The types of *key* and *mapped value* may
-     * differ, and are grouped together in member type ```value_type```, which is a {@link Pair} type combining both:
-     *
-     * ```typedef Pair<const Key, T> value_type;```
-     *
-     * Internally, the elements in a {@link TreeMultiMap}are always sorted by its key following a strict weak ordering
-     * criterion indicated by its internal comparison method (of {@link less}).
-     *
-     * {@link TreeMultiMap}containers are generally slower than {@link HashMap} containers to access individual
-     * elements by their *key*, but they allow the direct iteration on subsets based on their order.
-     *
-     * {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees.
-     *
-     * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank"> <
-     * img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" />
-     * </a>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd>
-     *		Elements in associative containers are referenced by their *key* and not by their absolute
-     *		position in the container.
-     *	</dd>
-     *
-     *	<dt> Ordered </dt>
-     *	<dd>
-     *		The elements in the container follow a strict order at all times. All inserted elements are
-     *		given a position in this order.
-     *	</dd>
-     *
-     *	<dt> Map </dt>
-     *	<dd>
-     *		Each element associates a *key* to a *mapped value*:
-     *		*Keys* are meant to identify the elements whose main content is the *mapped value*.
-     *	</dd>
-     *
-     *	<dt> Multiple equivalent keys </dt>
-     *	<dd> Multiple elements in the container can have equivalent *keys*. </dd>
-     * </dl>
-     *
-     * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
-     * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
-     *
-     * @reference http://www.cplusplus.com/reference/map/multimap
-     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-     * @author Jeongho Nam <http://samchon.org>
+     * @copydoc TreeMultiMap
      */
     class TreeMultiMapCollection<Key, T> extends std.TreeMultiMap<Key, T> implements ICollection<std.Pair<Key, T>> {
         /**
-         * A chain object taking responsibility of dispatching events.
+         * @hidden
          */
         private event_dispatcher_;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
         /**
@@ -1538,63 +1173,19 @@ declare namespace samchon.collections {
      *   - {@link refresh}
      *
      * #### [Inherited] {@link TreeMultiSet}
-     * {@link TreeMultiSet TreeMultiSets} are containers that store elements following a specific order, and where
-     * multiple elements can have equivalent values.
-     *
-     * In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself the *key*, of type
-     * *T*). The value of the elements in a {@link TreeMultiSet} cannot be modified once in the container (the
-     * elements are always const), but they can be inserted or removed from the container.
-     *
-     * Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict weak
-     * ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}).
-     *
-     * {@link TreeMultiSet} containers are generally slower than {@link HashMultiSet} containers to access individual
-     * elements by their *key*, but they allow the direct iteration on subsets based on their order.
-     *
-     * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
-     *
-     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /> </a></p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd>
-     *		Elements in associative containers are referenced by their *key* and not by their absolute
-     *		position in the container.
-     *	</dd>
-     *
-     *	<dt> Ordered </dt>
-     *	<dd>
-     *		The elements in the container follow a strict order at all times. All inserted elements are
-     *		given a position in this order.
-     *	</dd>
-     *
-     *	<dt> Set </dt>
-     *	<dd> The value of an element is also the *key* used to identify it. </dd>
-     *
-     *	<dt> Multiple equivalent keys </dt>
-     *	<dd> Multiple elements in the container can have equivalent *keys*. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified
-     *			  by this value (each value is itself also the element's *key*).
-     *
-     * @reference http://www.cplusplus.com/reference/set/multiset
-     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-     * @author Jeongho Nam <http://samchon.org>
+     * @copydoc TreeMultiSet
      */
     class TreeMultiSetCollection<T> extends std.TreeMultiSet<T> implements ICollection<T> {
         /**
-         * A chain object taking responsibility of dispatching events.
+         * @hidden
          */
         private event_dispatcher_;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
@@ -1659,70 +1250,26 @@ declare namespace samchon.collections {
      *   - {@link push}
      * - *erase* typed events:
      *   - {@link assign}
-     *   - {@link clear}
+     *   - {@link clear}7
      *   - {@link erase}
      *   - {@link extract}
      * - *refresh* typed events:
      *   - {@link refresh}
      *
      * #### [Inherited] {@link TreeSet}
-     * {@link TreeSet TreeSets} are containers that store unique elements following a specific order.
-     *
-     * In a {@link TreeSet}, the value of an element also identifies it (the value is itself the *key*, of type *T*),
-     * and each value must be unique. The value of the elements in a {@link TreeSet} cannot be modified once in the
-     * container (the elements are always const), but they can be inserted or removed from the container.
-     *
-     * Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak ordering
-     * criterion indicated by its internal comparison method (of {@link less}).
-     *
-     * {@link TreeSet} containers are generally slower than {@link HashSet} containers to access individual elements
-     * by their *key*, but they allow the direct iteration on subsets based on their order.
-     *
-     * {@link TreeSet}s are typically implemented as binary search trees.
-     *
-     * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" />
-     * </a>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd>
-     *		Elements in associative containers are referenced by their *key* and not by their absolute
-     *		position in the container.
-     *	</dd>
-     *
-     *	<dt> Ordered </dt>
-     *	<dd>
-     *		The elements in the container follow a strict order at all times. All inserted elements are
-     *		given a position in this order.
-     *	</dd>
-     *
-     *	<dt> Set </dt>
-     *	<dd> The value of an element is also the *key* used to identify it. </dd>
-     *
-     *	<dt> Unique keys </dt>
-     *	<dd> No two elements in the container can have equivalent *keys*. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements.
-     *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
-     *
-     * @reference http://www.cplusplus.com/reference/set/set
-     * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-     * @author Jeongho Nam <http://samchon.org>
+     * @copydoc TreeSet
      */
     class TreeSetCollection<T> extends std.TreeSet<T> implements ICollection<T> {
         /**
-         * A chain object taking responsibility of dispatching events.
+         * @hidden
          */
         private event_dispatcher_;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
         /**
@@ -2825,7 +2372,7 @@ declare namespace samchon.library {
      * <?xml version="1.0" ?>
      * <TAG property_name={property_value}>
      *	<!--
-     *		The cchild XML objects with "CHILD_TAG", They're contained in an XMLList object.
+     *		The child XML objects with "CHILD_TAG", They're contained in an XMLList object.
      *		The XMLList object, it is stored in std.HashMap (XML class itself) with its key "CHILD_TAG"
      *	-->
      *	<CHILD_TAG property_name={property_value}>{value}</CHILD_TAG>

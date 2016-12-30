@@ -39,7 +39,7 @@ namespace samchon.library
 	 * <?xml version="1.0" ?>
 	 * <TAG property_name={property_value}>
 	 *	<!-- 
-	 *		The cchild XML objects with "CHILD_TAG", They're contained in an XMLList object. 
+	 *		The child XML objects with "CHILD_TAG", They're contained in an XMLList object. 
 	 *		The XMLList object, it is stored in std.HashMap (XML class itself) with its key "CHILD_TAG" 
 	 *	--> 
 	 *	<CHILD_TAG property_name={property_value}>{value}</CHILD_TAG>

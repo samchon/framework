@@ -324,24 +324,23 @@ namespace samchon.templates.distributed
 				if (system["exclude_"] == true)
 					continue; // BEING REMOVED SYSTEM
 				
-				if (idle_system == null || 
-					system["history_list_"].empty() == true || 
-					system["progress_list_"].size() < idle_system["progress_list_"].size() || 
+				if (idle_system == null ||
+					system["progress_list_"].size() + system["history_list_"].size() == 0 || // NOTHING HAS REQUESTED
+					system["progress_list_"].size() < idle_system["progress_list_"].size() || // LESS NUMBER OF PROGRESS
 					(
-						system["progress_list_"].size() == idle_system["progress_list_"].size() && 
-						system.getPerformance() > idle_system.getPerformance()
-					) || 
+						system["progress_list_"].size() == idle_system["progress_list_"].size() &&
+						system.getPerformance() > idle_system.getPerformance() // GREATER PERFORMANCE
+					) ||
 					(
-						system["progress_list_"].size() == idle_system["progress_list_"].size() && 
-						system.getPerformance() == idle_system.getPerformance() && 
-						system["history_list_"].size() < idle_system["history_list_"].size())
+						system["progress_list_"].size() == idle_system["progress_list_"].size() &&
+						system.getPerformance() == idle_system.getPerformance() &&
+						system["history_list_"].size() < idle_system["history_list_"].size()) // LESS HISTORY
 					)
-					if (idle_system == null || idle_system["history_list_"].empty() == false)
 						idle_system = system;
 			}
 
 			if (idle_system == null)
-				throw new std.OutOfRange("No remote system to send data");
+				throw new std.OutOfRange("No remote system to send data exists.");
 
 			// ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)
 			let history: DSInvokeHistory = new DSInvokeHistory(idle_system, this, invoke, weight);

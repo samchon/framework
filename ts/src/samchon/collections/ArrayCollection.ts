@@ -18,19 +18,17 @@ namespace samchon.collections
 	 *   - {@link pop_back} 
 	 * - *refresh* typed events:
 	 *   - {@link refresh}
-	 * 
-	 * @copydoc std.Vector
 	 *
-	 * @reference http://www.cplusplus.com/reference/vector/vector
-	 * @handbook [Collections](https://github.com/samchon/framework/wiki/TypeScript-STL#collections)
-	 * @author Jeongho Nam <http://samchon.org>
+	 * #### [Inherited] {@link Vector}
+	 * @copydoc Vector
 	 */
 	export class ArrayCollection<T>
 		extends std.Vector<T>
 		implements ICollection<T>
 	{
+		// A chain object taking responsibility of dispatching events.
 		/**
-		 * A chain object taking responsibility of dispatching events.
+		 * @hidden
 		 */
 		private event_dispatcher_: library.EventDispatcher = new library.EventDispatcher(this);
 
@@ -190,7 +188,7 @@ namespace samchon.collections
 				last = args[1];
 			}
 
-			this.dispatchEvent(new CollectionEvent<T>("refresh", first, last));
+			ICollection._Dispatch_CollectionEvent(this, "refresh", first, last);
 		}
 
 		/* ---------------------------------------------------------

@@ -99,7 +99,7 @@ namespace samchon.templates.parallel
 		 */
 		public computeSize(): number
 		{
-			return this.last;
+			return this.last - this.first;
 		}
 	}
 }

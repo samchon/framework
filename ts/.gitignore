@@ -1,11 +1,16 @@
 ##############################
 # CUSTOM IGNORE
 ##############################
+# NPM  PACKAGE
 node_modules
 lib
 dist
 
+# VS PROJECT
 index.html
+*.sln
+*.*proj
+*.user
 
 ##############################
 # DEFAULT

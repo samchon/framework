@@ -289,10 +289,19 @@ namespace distributed
 				if (system->_Is_excluded() == true)
 					continue; // BEING REMOVED SYSTEM
 
-				if (idle_system == nullptr
-					|| system->_Get_progress_list().size() < idle_system->_Get_progress_list().size()
-					|| system->getPerformance() < idle_system->getPerformance())
-					idle_system = system;
+				if (idle_system == nullptr // NO IDLE SYSTEM YET
+					|| (system->_Get_progress_list().empty() && system->_Get_history_list().empty()) // NOTHING HAS REQUESTED
+					|| system->_Get_progress_list().size() < idle_system->_Get_progress_list().size() // LESS NUMBER OF PROGRESS
+					|| (
+						system->_Get_progress_list().size() == idle_system->_Get_progress_list().size() &&
+						system->getPerformance() > idle_system->getPerformance() // GREATER PERFORMANCE
+					)
+					|| (
+						system->_Get_progress_list().size() == idle_system->_Get_progress_list().size() &&
+						system->getPerformance() == idle_system->getPerformance() &&
+						system->_Get_history_list().size() < idle_system->_Get_history_list().size()) // LESS HISTORY
+					)
+						idle_system = system;
 			}
 
 			// ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)

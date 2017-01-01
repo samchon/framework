@@ -46,7 +46,6 @@
     <TypeScriptCompile Include="src\samchon\library\URLVariables.ts" />
     <TypeScriptCompile Include="src\samchon\library\XML.ts" />
     <TypeScriptCompile Include="src\samchon\miscellaneous\exports.ts" />
-    <Content Include="web.config" />
     <TypeScriptCompile Include="src\samchon\protocol\communicator\client_driver\ClientDriver.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\communicator\client_driver\DedicatedWorkerClientDriver.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\communicator\client_driver\SharedWorkerClientDriver.ts" />
@@ -130,14 +129,6 @@
     <TypeScriptCompile Include="src\typings\websocket\websocket.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="web.Debug.config">
-      <DependentUpon>web.config</DependentUpon>
-    </None>
-    <None Include="web.Release.config">
-      <DependentUpon>web.config</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <TypeScriptCompile Include="src\samchon\API.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\entity\Entity.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\entity\EntityCollection.ts" />
@@ -145,7 +136,9 @@
     <TypeScriptCompile Include="src\samchon\protocol\invoke\Invoke.ts" />
     <TypeScriptCompile Include="src\samchon\protocol\invoke\IProtocol.ts" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="tsconfig.json" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

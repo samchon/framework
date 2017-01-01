@@ -324,8 +324,8 @@ namespace samchon.templates.distributed
 				if (system["exclude_"] == true)
 					continue; // BEING REMOVED SYSTEM
 				
-				if (idle_system == null ||
-					system["progress_list_"].size() + system["history_list_"].size() == 0 || // NOTHING HAS REQUESTED
+				if (idle_system == null || // NO IDLE SYSTEM YET
+					(system["progress_list_"].empty() && system["history_list_"].empty()) || // NOTHING HAS REQUESTED
 					system["progress_list_"].size() < idle_system["progress_list_"].size() || // LESS NUMBER OF PROGRESS
 					(
 						system["progress_list_"].size() == idle_system["progress_list_"].size() &&

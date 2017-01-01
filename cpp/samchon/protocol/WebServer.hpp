@@ -4,6 +4,7 @@
 #include <samchon/protocol/Server.hpp>
 #include <samchon/protocol/WebClientDriver.hpp>
 
+#include <functional>
 #include <sstream>
 #include <samchon/WeakString.hpp>
 #include <samchon/library/StringUtil.hpp>
@@ -111,7 +112,7 @@ namespace protocol
 					session_id = header.substr
 					(
 						session_id_idx + 11,
-						std::min
+						std::min<size_t>
 						(
 							header.find(";", session_id_idx),
 							header.find("\r\n", session_id_idx)

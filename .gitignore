@@ -47,5 +47,4 @@ Temporary Items
 # ======================================================
 *.bat
 *.log
-node_modules
-dist
+release

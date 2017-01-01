@@ -1,7 +1,11 @@
 ##############################
 # CUSTOM IGNORE
 ##############################
-include
+node_modules
+lib
+dist
+
+index.html
 
 ##############################
 # DEFAULT

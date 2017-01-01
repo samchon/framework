@@ -297,7 +297,7 @@ namespace parallel
 				if (system->_Get_history_list().size() < 2)
 					ordinary_ratio = .3;
 				else
-					ordinary_ratio = std::min(0.7, 1.0 / (system->_Get_history_list().size() - 1.0));
+					ordinary_ratio = std::min<double>(0.7, 1.0 / (system->_Get_history_list().size() - 1.0));
 
 				system->setPerformance((system->getPerformance() * ordinary_ratio) + (new_performance * (1 - ordinary_ratio)));
 			}

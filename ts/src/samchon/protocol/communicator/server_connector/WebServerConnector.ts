@@ -84,7 +84,7 @@ namespace samchon.protocol
 		 * @param port The port number to connect to.
 		 * @param path Path of service which you want.
 		 */
-		public connect(ip: string, port: number, path: string = ""): void 
+		public connect(ip: string, port: number, path: string = "/"): void 
 		{
 			// COMPOSITE FULL-ADDRESS
 			let address: string;
@@ -95,7 +95,10 @@ namespace samchon.protocol
 				else
 					ip = "ws://" + ip;
 
-			address = ip + ":" + port + "/" + path;
+			if (path.length != 0 && path.charAt(0) != "/")
+				path = "/" + path;
+
+			address = ip + ":" + port + path;
 
 			// CONNECTION BRANCHES
 			if (std.is_node() == true)
@@ -110,8 +113,8 @@ namespace samchon.protocol
 				this.browser_socket_ = new WebSocket(address);
 				
 				this.browser_socket_.onopen = this._Handle_browser_connect.bind(this);
-				this.browser_socket_.onerror = this.handle_close.bind(this);
-				this.browser_socket_.onclose = this.handle_close.bind(this);
+				this.browser_socket_.onerror = this._Handle_close.bind(this);
+				this.browser_socket_.onclose = this._Handle_close.bind(this);
 				this.browser_socket_.onmessage = this._Handle_browser_message.bind(this);
 			}
 		}
@@ -179,9 +182,9 @@ namespace samchon.protocol
 			this.connected_ = true;
 
 			this.connection_ = connection;
-			this.connection_.on("message", this.handle_message.bind(this));
-			this.connection_.on("close", this.handle_close.bind(this));
-			this.connection_.on("error", this.handle_close.bind(this));
+			this.connection_.on("message", this._Handle_message.bind(this));
+			this.connection_.on("close", this._Handle_close.bind(this));
+			this.connection_.on("error", this._Handle_close.bind(this));
 
 			if (this.onConnect != null)
 				this.onConnect();

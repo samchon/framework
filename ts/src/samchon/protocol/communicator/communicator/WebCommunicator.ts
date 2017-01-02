@@ -57,7 +57,7 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		protected handle_message(message: websocket.IMessage)
+		protected _Handle_message(message: websocket.IMessage)
 		{
 			// EXCEPTION HANDLING IS REQUIRED
 			//	- BINARY_INVOKE EXISTS, BUT TEXT MESSAGE HAS COME
@@ -72,7 +72,7 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		protected handle_close(): void
+		protected _Handle_close(): void
 		{
 			this.connected_ = false;
 

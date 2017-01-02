@@ -73,9 +73,9 @@ namespace samchon.protocol
 				return;
 			this.listening_ = true;
 
-			this.connection_.on("message", this.handle_message.bind(this));
-			this.connection_.on("close", this.handle_close.bind(this));
-			this.connection_.on("error", this.handle_close.bind(this));
+			this.connection_.on("message", this._Handle_message.bind(this));
+			this.connection_.on("close", this._Handle_close.bind(this));
+			this.connection_.on("error", this._Handle_close.bind(this));
 		}
 
         /* ---------------------------------------------------------

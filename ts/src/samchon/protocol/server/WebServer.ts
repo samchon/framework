@@ -94,7 +94,7 @@ namespace samchon.protocol
 			// 
 			// @param request Requested header.
 			//--------
-			let path: string = request.resource.substr(1);
+			let path: string = request.resource;
             let session_id: string = this._Fetch_session_id(request.cookies);
 
 			let connection = request.accept

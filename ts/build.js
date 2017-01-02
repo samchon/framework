@@ -65,11 +65,14 @@ function distribute()
 	source = source.split("module.exports").join("// module.exports");
 	source = source.split("eval(\"var ").join("// eval(\"var ");
 
+	// MAKE DIRECTORY AND FILE
+	if (fs.existsSync("dist") == false)
+		fs.mkdirSync("dist");
 	fs.writeFileSync("dist/samchon.js", source, "utf8");
 
 	// MINIFY
 	process.execSync("minify dist/samchon.js");
 
-	// MINIFY IN LIB LEVEL
+	// MINIFY IN THE LIB LEVEL (WELL, IS THIS ESSENTIAL?)
 	process.execSync("minify lib/samchon.js");
 }

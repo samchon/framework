@@ -89,7 +89,10 @@ namespace samchon.protocol
 			if (this.type == "XML")
 				this.value = xml.begin().second.front();
 			else if (this.type == "boolean")
-				this.value = Boolean(xml.getValue());
+			{
+				let value: string = xml.getValue();
+				this.value = (value != "0" && value != "false"); // Do not use the Boolean(value);
+			}
 			else if (this.type == "number")
 				this.value = Number(xml.getValue());
 			else if (this.type == "string")

@@ -140,7 +140,7 @@ namespace samchon.protocol
 				else if (typeof (entity as any)[it.first] == "number")
 					(entity as any)[it.first] = Number(it.second);
 				else if (typeof (entity as any)[it.first] == "boolean")
-					(entity as any)[it.first] = (it.second == "true");
+					(entity as any)[it.first] = (it.second != "0" && it.second != "false");
 			}
 		}
 

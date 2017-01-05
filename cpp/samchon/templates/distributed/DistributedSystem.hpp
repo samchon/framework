@@ -163,8 +163,6 @@ namespace distributed
 			}
 			else
 			{
-				library::UniqueWriteLock uk(system_array_->getMutex());
-
 				//--------
 				// DistributedProcess's history -> DSInvokeHistory
 				//--------
@@ -173,6 +171,8 @@ namespace distributed
 				history->construct(xml);
 
 				// IF THE HISTORY IS NOT EXIST IN PROGRESS, THEN TERMINATE REPORTING
+				std::unique_lock<std::shared_mutex> uk(system_array_->getMutex());
+				
 				auto progress_it = _Get_progress_list().find(history->getUID());
 				if (progress_it == _Get_progress_list().end())
 					return;

@@ -165,7 +165,7 @@ namespace parallel
 		 */
 		virtual auto sendPieceData(std::shared_ptr<protocol::Invoke> invoke, size_t first, size_t last) -> size_t
 		{
-			library::UniqueWriteLock uk(getMutex());
+			std::unique_lock<std::shared_mutex> uk(getMutex());
 
 			if (invoke->has("_History_uid") == false)
 				invoke->emplace_back(new protocol::InvokeParameter("_History_uid", _Fetch_history_sequence()));
@@ -249,7 +249,6 @@ namespace parallel
 			//========
 			// READ LOCK
 			//========
-			library::UniqueWriteLock uk(getMutex());
 			size_t uid = history->getUID();
 
 			// ALL THE SUB-TASKS ARE DONE?

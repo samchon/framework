@@ -8,9 +8,8 @@
 #include <memory>
 #include <functional>
 #include <condition_variable>
-#include <mutex>
+#include <shared_mutex>
 
-#include <samchon/library/RWMutex.hpp>
 #include <samchon/library/Event.hpp>
 
 namespace samchon
@@ -62,7 +61,7 @@ namespace library
 		/**
 		 * @brief A rw_mutex for concurrency
 		 */
-		RWMutex mtx;
+		std::shared_mutex mtx;
 
 	public:
 		/* ----------------------------------------------------------
@@ -96,7 +95,7 @@ namespace library
 		 */
 		EventDispatcher(EventDispatcher &&obj)
 		{
-			UniqueWriteLock obj_uk(obj.mtx);
+			std::unique_lock<std::shared_mutex> obj_uk(obj.mtx);
 			{
 				listeners = move(obj.listeners);
 			}
@@ -119,7 +118,7 @@ namespace library
 		 */
 		virtual ~EventDispatcher()
 		{
-			UniqueWriteLock my_uk(mtx);
+			std::unique_lock<std::shared_mutex> my_uk(mtx);
 			std::unique_lock<std::mutex> s_uk(sMtx());
 
 			for (auto it = eventMap().begin(); it != eventMap().end();)
@@ -153,7 +152,7 @@ namespace library
 		 */
 		void addEventListener(int type, Listener listener, void *addiction = nullptr)
 		{
-			UniqueWriteLock uk(mtx);
+			std::unique_lock<std::shared_mutex> uk(mtx);
 
 			listeners[type][listener].insert(addiction);
 		};
@@ -171,7 +170,7 @@ namespace library
 		 */
 		void removeEventListener(int type, Listener listener, void *addiction = nullptr)
 		{
-			UniqueWriteLock uk(mtx);
+			std::unique_lock<std::shared_mutex> uk(mtx);
 			if (listeners.count(type) == 0)
 				return;
 
@@ -207,7 +206,7 @@ namespace library
 			// STARTS BACK-GROUND PROCESS IF NOT STARTED
 			start();
 
-			UniqueReadLock my_uk(mtx);
+			std::shared_lock<std::shared_mutex> my_uk(mtx);
 			if (listeners.count(event->getType()) == 0)
 				return;
 
@@ -222,7 +221,7 @@ namespace library
 	private:
 		void deliver(std::shared_ptr<Event> event)
 		{
-			UniqueReadLock my_uk(mtx);
+			std::shared_lock<std::shared_mutex> my_uk(mtx);
 			if (listeners.count(event->getType()) == 0)
 				return;
 

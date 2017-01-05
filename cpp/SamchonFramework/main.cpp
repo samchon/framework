@@ -11,7 +11,7 @@ class MyExt : public templates::distributed::DistributedSystemArrayMediator<>
 
 void main()
 {
-	library::FactorialGenerator pg(5);
+	library::FactorialGenerator pg(13);
 	cout << pg.size() << endl;
 
 	system("pause");

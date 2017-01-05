@@ -104,8 +104,6 @@ namespace parallel
 		--------------------------------------------------------- */
 		void _Complete_history(size_t uid)
 		{
-			std::unique_lock<std::mutex> uk(mtx_);
-
 			//--------
 			// NEED TO REDEFINE START AND END TIME
 			//--------

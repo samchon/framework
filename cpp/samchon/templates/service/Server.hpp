@@ -7,8 +7,8 @@
 #include <samchon/templates/service/User.hpp>
 
 #include <thread>
+#include <shared_mutex>
 #include <samchon/HashMap.hpp>
-#include <samchon/library/RWMutex.hpp>
 
 namespace samchon
 {
@@ -60,8 +60,8 @@ namespace service
 		HashMap<std::string, std::shared_ptr<User>> session_map;
 		HashMap<std::string, std::shared_ptr<User>> account_map;
 
-		library::RWMutex session_map_mtx;
-		library::RWMutex account_map_mtx;
+		std::shared_mutex session_map_mtx;
+		std::shared_mutex account_map_mtx;
 
 	public:
 		/* ---------------------------------------------------------
@@ -142,7 +142,7 @@ namespace service
 		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
 		{
 			std::vector<std::thread> threadArray;
-			library::UniqueReadLock uk(session_map_mtx);
+			std::shared_lock<std::shared_mutex> uk(session_map_mtx);
 
 			threadArray.reserve(session_map.size());
 			for (auto it = session_map.begin(); it != session_map.end(); it++)
@@ -201,7 +201,7 @@ namespace service
 			std::shared_ptr<User> user;
 			HashMap<std::string, std::shared_ptr<User>>::iterator it;
 			{
-				library::UniqueReadLock uk(session_map_mtx);
+				std::shared_lock<std::shared_mutex> uk(session_map_mtx);
 				it = session_map.find(session_id);
 			}
 
@@ -212,7 +212,7 @@ namespace service
 				user->my_weak_ptr = user;
 
 				// REGISTER TO THIS SERVER
-				library::UniqueWriteLock uk(session_map_mtx);
+				std::unique_lock<std::shared_mutex> uk(session_map_mtx);
 				session_map.insert({ session_id, user });
 			}
 			else
@@ -231,7 +231,7 @@ namespace service
 
 			// REGISTER TO USER
 			{
-				library::UniqueWriteLock uk(user->mtx);
+				std::unique_lock<std::shared_mutex> uk(user->mtx);
 
 				client->no = ++user->sequence;
 				user->insert({ client->no, client });
@@ -272,13 +272,13 @@ namespace service
 				// ERASE FROM ACCOUNT_MAP
 				if (user->account.empty() == false)
 				{
-					library::UniqueWriteLock w_uk(account_map_mtx);
+					std::unique_lock<std::shared_mutex> w_uk(account_map_mtx);
 					account_map.erase(user->account);
 				}
 
 				// ERASE FROM SESSION_MAP
 				{
-					library::UniqueWriteLock w_uk(session_map_mtx);
+					std::unique_lock<std::shared_mutex> w_uk(session_map_mtx);
 					session_map.erase(user->session_id);
 				}
 			}

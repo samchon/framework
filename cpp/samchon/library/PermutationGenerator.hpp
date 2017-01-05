@@ -25,7 +25,7 @@ namespace library
 
 		std::vector<size_t> atoms;
 
-		template<const size_t N> struct factorial
+		template<size_t N> struct factorial
 		{
 			enum { value = N * factorial<N - 1>::value };
 		};

@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <memory>
-#include <samchon/library/RWMutex.hpp>
+#include <shared_mutex>
 
 namespace samchon
 {
@@ -18,13 +18,13 @@ namespace base
 	class ExternalSystemArrayBase
 	{
 	private:
-		library::RWMutex mtx;
+		std::shared_mutex mtx;
 
 	public:
 		virtual auto _Get_children() const -> std::vector<std::shared_ptr<ExternalSystem>> = 0;
 
-		auto getMutex() -> library::RWMutex& { return mtx; };
-		auto getMutex() const -> const library::RWMutex& { return mtx; };
+		auto getMutex() -> std::shared_mutex& { return mtx; };
+		auto getMutex() const -> const std::shared_mutex& { return mtx; };
 	};
 };
 };

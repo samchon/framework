@@ -187,7 +187,7 @@ namespace distributed
 			if (history == nullptr)
 				return super::_Complete_history($history);
 
-			library::UniqueWriteLock uk(getMutex());
+			std::unique_lock<std::shared_mutex> uk(getMutex());
 
 			//--------
 			// DistributedProcess's history -> DSInvokeHistory

@@ -8,7 +8,7 @@
 #include <vector>
 #include <functional>
 #include <thread>
-#include <samchon/library/RWMutex.hpp>
+#include <shared_mutex>
 
 namespace samchon
 {
@@ -56,7 +56,7 @@ namespace service
 
 		// RELATED OBJECTS
 		Server *server;
-		library::RWMutex mtx;
+		std::shared_mutex mtx;
 		
 		// KEY
 		std::string session_id;
@@ -102,7 +102,7 @@ namespace service
 	private:
 		void check_empty()
 		{
-			library::UniqueWriteLock uk(mtx);
+			std::unique_lock<std::shared_mutex> uk(mtx);
 
 			// NO CLIENT, THEN ERASE THIS USER.
 			if (empty() == true)
@@ -143,8 +143,8 @@ namespace service
 			return authority;
 		};
 
-		auto getMutex() -> library::RWMutex& { return mtx; };
-		auto getMutex() const -> const library::RWMutex& { return mtx; };
+		auto getMutex() -> std::shared_mutex& { return mtx; };
+		auto getMutex() const -> const std::shared_mutex& { return mtx; };
 
 		/**
 		* Set *account id* and *authority*.
@@ -171,7 +171,7 @@ namespace service
 			else if (this->account.empty() == false) // ACCOUNT IS CHANGED
 			{
 				// ERASE FROM ORDINARY ACCOUNT_MAP
-				library::UniqueWriteLock uk(*account_map_mtx);
+				std::unique_lock<std::shared_mutex> uk(*account_map_mtx);
 				account_map->erase(this->account);
 			}
 
@@ -180,7 +180,7 @@ namespace service
 			this->authority = authority;
 
 			// REGISTER TO ACCOUNT_MAP IN ITS SERVER
-			library::UniqueWriteLock uk(*account_map_mtx);
+			std::unique_lock<std::shared_mutex> uk(*account_map_mtx);
 			account_map->set(account, my_weak_ptr.lock());
 		};
 
@@ -229,7 +229,7 @@ namespace service
 		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke) override
 		{
 			std::vector<std::thread> threadArray;
-			library::UniqueReadLock uk(mtx);
+			std::shared_lock<std::shared_mutex> uk(mtx);
 
 			threadArray.reserve(size());
 			for (auto it = begin(); it != end(); it++)
@@ -274,7 +274,7 @@ namespace service
 	private:
 		std::weak_ptr<User> my_weak_ptr;
 
-		library::RWMutex *account_map_mtx;
+		std::shared_mutex *account_map_mtx;
 		HashMap<std::string, std::shared_ptr<User>> *account_map;
 
 		std::function<void()> erase_user_function;

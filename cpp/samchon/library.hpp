@@ -3,18 +3,6 @@
 #include <samchon/library/IOperator.hpp>
 
 /* -------------------------------------------------------------
-	CRITICAL SECTION
-------------------------------------------------------------- */
-#include <samchon/library/CriticalAllocator.hpp>
-#include <samchon/library/CriticalList.hpp>
-#include <samchon/library/CriticalVector.hpp>
-#include <samchon/library/CriticalTreeMap.hpp>
-#include <samchon/library/CriticalHashMap.hpp>
-
-#include <samchon/library/RWMutex.hpp>
-#include <samchon/library/Semaphore.hpp>
-
-/* -------------------------------------------------------------
 	DATA
 ------------------------------------------------------------- */
 #include <samchon/library/XML.hpp>

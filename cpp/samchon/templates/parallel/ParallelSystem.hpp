@@ -228,8 +228,6 @@ namespace parallel
 
 		virtual void _Report_history(std::shared_ptr<library::XML> xml)
 		{
-			library::UniqueWriteLock uk(system_array_->getMutex());
-
 			//--------
 			// CONSTRUCT HISTORY
 			//--------
@@ -246,6 +244,8 @@ namespace parallel
 			history->last_ = std::dynamic_pointer_cast<PRInvokeHistory>(progress_it->second.second)->getLast();
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
+			std::unique_lock<std::shared_mutex> uk(system_array_->getMutex());
+
 			progress_list_.erase(progress_it);
 			history_list_.insert({ history->getUID(), history });
 

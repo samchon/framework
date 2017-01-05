@@ -244,7 +244,7 @@ namespace distributed
 		 */
 		virtual auto sendData(std::shared_ptr<protocol::Invoke> invoke, double weight) -> std::shared_ptr<DistributedSystem> override
 		{
-			library::UniqueReadLock uk(((external::base::ExternalSystemArrayBase*)system_array_)->getMutex());
+			std::shared_lock<std::shared_mutex> uk(((external::base::ExternalSystemArrayBase*)system_array_)->getMutex());
 			if (((protocol::SharedEntityDeque<external::ExternalSystem>*)system_array_)->empty() == true)
 				return nullptr;
 

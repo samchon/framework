@@ -145,7 +145,7 @@ namespace external
 		virtual void sendData(std::shared_ptr<protocol::Invoke> invoke)
 		{
 			std::vector<std::thread> threads;
-			library::UniqueReadLock uk(getMutex());
+			std::shared_lock<std::shared_mutex> uk(getMutex());
 			
 			threads.reserve(this->size());
 			for (size_t i = 0; i < size(); i++)

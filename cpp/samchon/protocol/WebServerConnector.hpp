@@ -5,7 +5,7 @@
 #include <samchon/protocol/WebCommunicator.hpp>
 
 #include <map>
-#include <samchon/library/RWMutex.hpp>
+#include <shared_mutex>
 #include <samchon/library/StringUtil.hpp>
 
 namespace samchon
@@ -49,7 +49,7 @@ namespace protocol
 		typedef ServerConnector super;
 
 		static std::map<std::pair<std::string, int>, std::string> s_cookies;
-		static library::RWMutex s_mtx;
+		static std::shared_mutex s_mtx;
 
 	public:
 		WebServerConnector(IProtocol *listener)
@@ -125,7 +125,7 @@ namespace protocol
 			// COOKIE
 			std::string cookie;
 			{
-				library::UniqueReadLock uk(s_mtx);
+				std::shared_lock<std::shared_mutex> uk(s_mtx);
 				auto it = s_cookies.find({ ip, port });
 
 				if (it != s_cookies.end())
@@ -169,8 +169,8 @@ namespace protocol
 			if (wstr.find("Set-Cookie: ") != std::string::npos)
 			{
 				WeakString set_cookie = wstr.between("Set-Cookie: ", "\r\n");
-				library::UniqueWriteLock uk(s_mtx);
-
+				std::unique_lock<std::shared_mutex> uk(s_mtx);
+				
 				s_cookies[{ip, port}] = set_cookie.str();
 			}
 		};

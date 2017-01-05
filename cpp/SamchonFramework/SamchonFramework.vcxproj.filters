@@ -42,9 +42,6 @@
     <Filter Include="Header Files\library\math">
       <UniqueIdentifier>{70f6cb44-8d69-4888-8d4b-fe99eb60f9ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\library\critical section">
-      <UniqueIdentifier>{355e9e82-5c0d-42c0-afd8-4476c7186ced}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\library\string utils">
       <UniqueIdentifier>{a19acd8d-3854-4fe1-a870-9710bce78dbf}</UniqueIdentifier>
     </Filter>
@@ -90,39 +87,6 @@
     <Filter Include="Header Files\templates\distributed\derived">
       <UniqueIdentifier>{02f8030a-84bf-483f-93d1-e6a95bf5bf41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\examples">
-      <UniqueIdentifier>{a45e6f70-fb9e-4e6e-af9e-33bdd171abda}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\examples\interaction">
-      <UniqueIdentifier>{d67bb625-1071-48c4-a109-d13d0158395a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\examples\calculator">
-      <UniqueIdentifier>{1b4adb1e-f9be-4dca-a691-5263ffb9a734}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\examples\chat">
-      <UniqueIdentifier>{e5192862-4cff-4ace-86e6-883160fcac12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\examples\interaction\monitor">
-      <UniqueIdentifier>{6f81cb81-e359-4990-bd17-f7eef77d99b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\examples\interaction\base">
-      <UniqueIdentifier>{86679473-4c52-4c72-a596-7c7031282d2a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\examples\interaction\master &amp; mediator">
-      <UniqueIdentifier>{c62417fb-64b2-42b0-99ce-42f39e8e321e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\examples\interaction\master &amp; mediator\packer">
-      <UniqueIdentifier>{2b6be551-41ff-4394-9547-82dfdc05ad80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\examples\interaction\master &amp; mediator\tsp">
-      <UniqueIdentifier>{9a6e51f2-72e4-410b-8d20-022369caee5f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\examples\interaction\chief">
-      <UniqueIdentifier>{eb3ed264-d1f0-4a80-8688-fe40a58b3c93}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\examples\interaction\master &amp; mediator\drivers">
-      <UniqueIdentifier>{2f7d1690-4dd9-455f-aac6-f233314eb3da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\templates\slave">
       <UniqueIdentifier>{daecae49-d91b-4c67-adfe-4b5b07dba178}</UniqueIdentifier>
     </Filter>
@@ -166,39 +130,6 @@
     </ClInclude>
     <ClInclude Include="..\samchon\library\CombinedPermutationGenerator.hpp">
       <Filter>Header Files\library\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalAllocator.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalList.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalVector.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\UniqueWriteLock.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\UniqueAcquire.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\UniqueReadLock.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SharedWriteLock.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\Semaphore.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SharedAcquire.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\SharedReadLock.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\RWMutex.hpp">
-      <Filter>Header Files\library\critical section</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\library\URLVariables.hpp">
       <Filter>Header Files\library\http service</Filter>
@@ -506,125 +437,8 @@
     <ClInclude Include="..\samchon\templates\distributed\DistributedServerClientArrayMediator.hpp">
       <Filter>Header Files\templates\distributed\derived</Filter>
     </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalTreeMap.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalTreeSet.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\library\CriticalHashMap.hpp">
-      <Filter>Header Files\library\critical section</Filter>
-    </ClInclude>
     <ClInclude Include="..\samchon\API.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\calculator\CalculatorApplication.hpp">
-      <Filter>Header Files\examples\calculator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\calculator\CalculatorServer.hpp">
-      <Filter>Header Files\examples\calculator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\sql.hpp">
-      <Filter>Header Files\examples</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\xml.hpp">
-      <Filter>Header Files\examples</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\http.hpp">
-      <Filter>Header Files\examples</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\invoke.hpp">
-      <Filter>Header Files\examples</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\Viewer.hpp">
-      <Filter>Header Files\examples\interaction\monitor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\Reporter.hpp">
-      <Filter>Header Files\examples\interaction\monitor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\System.hpp">
-      <Filter>Header Files\examples\interaction\monitor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\base\ReporterBase.hpp">
-      <Filter>Header Files\examples\interaction\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\base\MonitorBase.hpp">
-      <Filter>Header Files\examples\interaction\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\base\SystemBase.hpp">
-      <Filter>Header Files\examples\interaction\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\packer\ProductArray.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\packer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\packer\Wrapper.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\packer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\packer\WrapperArray.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\packer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\packer\Instance.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\packer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\packer\Packer.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\packer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\packer\Product.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\packer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\base\MasterBase.hpp">
-      <Filter>Header Files\examples\interaction\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\tsp\Scheduler.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\tsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\tsp\Travel.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\tsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\tsp\GeometryPoint.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\tsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\ChiefDriver.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\drivers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\MonitorDriver.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\drivers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\SlaveDriver.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\drivers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\PackerRequest.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\packer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\TSPRequest.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\tsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\Master.hpp">
-      <Filter>Header Files\examples\interaction</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\Mediator.hpp">
-      <Filter>Header Files\examples\interaction</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\Monitor.hpp">
-      <Filter>Header Files\examples\interaction</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\MasterDriver.hpp">
-      <Filter>Header Files\examples\interaction\master &amp; mediator\drivers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\MasterSystem.hpp">
-      <Filter>Header Files\examples\interaction\chief</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\TSPProcess.hpp">
-      <Filter>Header Files\examples\interaction\chief</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\PackerProcess.hpp">
-      <Filter>Header Files\examples\interaction\chief</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\Chief.hpp">
-      <Filter>Header Files\examples\interaction</Filter>
-    </ClInclude>
-    <ClInclude Include="..\samchon\examples\interaction\base\ChiefBase.hpp">
-      <Filter>Header Files\examples\interaction\base</Filter>
     </ClInclude>
     <ClInclude Include="..\samchon\templates\slave\SlaveServer.hpp">
       <Filter>Header Files\templates\slave</Filter>

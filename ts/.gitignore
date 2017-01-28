@@ -6,7 +6,7 @@ node_modules
 lib
 dist
 
-# VS PROJECT
+# VISUAL STUDIO
 index.html
 *.sln
 *.*proj

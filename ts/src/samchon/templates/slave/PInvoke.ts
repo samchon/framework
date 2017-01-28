@@ -4,6 +4,14 @@
 
 namespace samchon.templates.slave
 {
+	/**
+	 * An {@link Invoke} message which represents a **process**.
+	 * 
+	 * 
+	 * 
+	 * #### [Inherited] {@link Invoke}
+	 * @copydoc Invoke
+	 */
 	export class PInvoke extends protocol.Invoke
 	{
 		/**
@@ -14,27 +22,51 @@ namespace samchon.templates.slave
 		/**
 		 * @hidden
 		 */
-		private master_driver_: protocol.IProtocol;
+		private slave_system_: SlaveSystem;
 
 		/**
 		 * @hidden
 		 */
 		private hold_: boolean;
-
-		public constructor(invoke: protocol.Invoke, history: InvokeHistory, masterDriver: protocol.IProtocol)
+	
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param invoke Original {@link Invoke} message.
+		 * @param history {@link InvokeHistory} object archiving execution time.
+		 * @param slaveSystem Related {@link SlaveSystem} object who gets those processes from its master. 
+		 */
+		public constructor(invoke: protocol.Invoke, history: InvokeHistory, slaveSystem: SlaveSystem)
 		{
+			// INVOKE'S CONSTRUCTION
 			super(invoke.getListener());
 			this.assign(invoke.begin(), invoke.end());
 
+			// INITIALIZATION OF MEMBERS
 			this.history_ = history;
-			this.master_driver_ = masterDriver;
+			this.slave_system_ = slaveSystem;
 			this.hold_ = false;
 		}
 
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		/**
+		 * Get history object.
+		 *
+		 * Get {@link InvokeHistory} object who is archiving execution time of this process.
+		 */
 		public getHistory(): InvokeHistory
 		{
 			return this.history_;
 		}
+
+		/**
+		 * Is the reporting hold?
+		 */
 		public isHold(): boolean
 		{
 			return this.hold_;
@@ -55,7 +87,7 @@ namespace samchon.templates.slave
 		{
 			this.history_.complete();
 
-			this.master_driver_.sendData(this.history_.toInvoke());
+			this.slave_system_.sendData(this.history_.toInvoke());
 		}
 	}
 }

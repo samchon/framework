@@ -232,16 +232,16 @@ namespace samchon.library
 			SUBSTITUTE
 		------------------------------------------------------------------ */
 		/**
-		 * Substitute <code>{n}</code> tokens within the specified string.
+		 * Substitute `{n}` tokens within the specified string.
 		 * 
 		 * @param format The string to make substitutions in. This string can contain special tokens of the form
-		 *				 <code>{n}</code>, where <code>n</code> is a zero based index, that will be replaced with the 
-		 *				 additional parameters found at that index if specified.
+		 *				 `{n}`, where *n* is a zero based index, that will be replaced with the additional parameters
+		 *				 found at that index if specified.
 		 * @param args Additional parameters that can be substituted in the *format* parameter at each 
-		 *			   <code>{n}</code> location, where <code>n</code> is an integer (zero based) index value into 
-		 *			   the array of values specified.
+		 *			   `{n}` location, where *n* is an integer (zero based) index value into the array of values
+		 *			   specified.
 		 *
-		 * @return New string with all of the <code>{n}</code> tokens replaced with the respective arguments specified.
+		 * @return New string with all of the `{n}` tokens replaced with the respective arguments specified.
 		 */
 		public static substitute(format: string, ...args: any[]): string
 		{
@@ -250,25 +250,79 @@ namespace samchon.library
 				if (args.length == 0)
 					break;
 
-				let parenthesisArray: Array<string> = StringUtil.betweens(format, "{", "}");
-				let minIndex: number = Number.MAX_VALUE;
-
-				for (let i: number = 0; i < parenthesisArray.length; i++)
-				{
-					let index: number = Number(parenthesisArray[i]);
-					if (isNaN(index) == true)
-						continue;
-
-					minIndex = Math.min(minIndex, index);
-				}
-
-				if (minIndex == Number.MAX_VALUE)
+				let min_index: number = StringUtil._Fetch_substitute_index(format);
+				if (min_index == Number.MAX_VALUE)
 					break;
 
-				format = StringUtil.replaceAll(format, "{" + minIndex + "}", args[0]);
+				format = StringUtil.replaceAll(format, "{" + min_index + "}", String(args[0]));
 				args.shift();
 			}
 			return format;
+		}
+
+		/**
+		 * Substitute `{n}` tokens within the specified SQL-string.
+		 * 
+		 * @param format The string to make substitutions in. This string can contain special tokens of the form
+		 *				 `{n}`, where *n* is a zero based index, that will be replaced with the additional parameters
+		 *				 found at that index if specified.
+		 * @param args Additional parameters that can be substituted in the *format* parameter at each 
+		 *			   `{n}` location, where *n* is an integer (zero based) index value into the array of values
+		 *			   specified.
+		 *
+		 * @return New SQL-string with all of the `{n}` tokens replaced with the respective arguments specified.
+		 */
+		public static substituteSQL(format: string, ...args: any[]): string
+		{
+			while (true)
+			{
+				if (args.length == 0)
+					break;
+
+				let min_index: number = StringUtil._Fetch_substitute_index(format);
+				if (min_index == Number.MAX_VALUE)
+					break;
+
+				let symbol: string = "{" + min_index + "}";
+				if (args[0] == null)
+					format = StringUtil.replaceAll(format, symbol, "NULL");
+				else if (typeof args[0] == "number")
+					format = StringUtil.replaceAll(format, symbol, String(args[0]));
+				else if (typeof args[0] == "string")
+					format = StringUtil.replaceAll(format, symbol, "'" + args[0] + "'");
+				else
+				{
+					if (args[0].toXML != undefined)
+					{
+						let xml: library.XML = args[0].toXML();
+						if (xml instanceof library.XML)
+							args[0] = xml;
+					}
+					format = StringUtil.replaceAll(format, symbol, "'" + args[0].toString() + "'");
+				}
+
+				args.shift();
+			}
+			return format;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private static _Fetch_substitute_index(format: string): number
+		{
+			let parenthesis_array: Array<string> = StringUtil.betweens(format, "{", "}");
+			let min_index: number = Number.MAX_VALUE;
+
+			for (let i: number = 0; i < parenthesis_array.length; i++)
+			{
+				let index: number = Number(parenthesis_array[i]);
+				if (isNaN(index) == true)
+					continue;
+
+				min_index = Math.min(min_index, index);
+			}
+			return min_index;
 		}
 
 		/* ------------------------------------------------------------------

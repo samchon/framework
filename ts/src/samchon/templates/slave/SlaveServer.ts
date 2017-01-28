@@ -13,6 +13,9 @@ namespace samchon.templates.slave
 		extends SlaveSystem
 		implements ISlaveServer
 	{
+		/**
+		 * @hidden
+		 */
 		private server_base_: protocol.IServerBase;
 
 		/* =========================================================
@@ -22,6 +25,9 @@ namespace samchon.templates.slave
 		============================================================
 			MEMBER 
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor()
 		{
 			super();
@@ -29,11 +35,17 @@ namespace samchon.templates.slave
 			this.server_base_ = null;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		protected abstract createServerBase(): protocol.IServerBase;
 
 		/* ---------------------------------------------------------
 			SERVER's METHOD
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public open(port: number): void
 		{
 			this.server_base_ = this.createServerBase();
@@ -43,6 +55,9 @@ namespace samchon.templates.slave
 			this.server_base_.open(port);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public close(): void
 		{
 			if (this.server_base_ != null)
@@ -52,6 +67,9 @@ namespace samchon.templates.slave
 		/* ---------------------------------------------------------
 			OVERRIDINGS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public addClient(driver: protocol.IClientDriver): void
 		{
 			this.communicator_ = driver;

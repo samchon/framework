@@ -70,18 +70,6 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_repeating_val(position: std.VectorIterator<T>, n: number, val: T): std.VectorIterator<T>
-		{
-			let ret = super._Insert_by_repeating_val(position, n, val);
-
-			this._Notify_insert(ret, ret.advance(n));
-			
-			return ret;
-		}
-
-		/**
-		 * @hidden
-		 */
 		protected _Insert_by_range<U extends T, InputIterator extends std.Iterator<U>>
 			(position: std.VectorIterator<T>, begin: InputIterator, end: InputIterator): std.VectorIterator<T>
 		{
@@ -111,7 +99,6 @@ namespace samchon.collections
 		/* ---------------------------------------------------------
 			NOTIFIER
 		--------------------------------------------------------- */
-
 		/**
 		 * @hidden
 		 */

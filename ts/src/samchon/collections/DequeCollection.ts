@@ -50,13 +50,11 @@ namespace samchon.collections
 		/**
 		 * @inheritdoc
 		 */
-		public push(...items: T[]): number
+		public push_front(val: T): void
 		{
-			let ret = super.push(...items);
+			super.push_front(val);
 
-			this._Notify_insert(this.end().advance(-items.length), this.end());
-
-			return ret;
+			this._Notify_insert(this.begin(), this.begin().next());
 		}
 
 		/**
@@ -67,18 +65,6 @@ namespace samchon.collections
 			super.push(val);
 
 			this._Notify_insert(this.end().prev(), this.end());
-		}
-
-		/**
-		 * @hidden
-		 */
-		protected _Insert_by_repeating_val(position: std.DequeIterator<T>, n: number, val: T): std.DequeIterator<T>
-		{
-			let ret = super._Insert_by_repeating_val(position, n, val);
-
-			this._Notify_insert(ret, ret.advance(n));
-
-			return ret;
 		}
 
 		/**

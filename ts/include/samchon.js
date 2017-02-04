@@ -81,14 +81,6 @@ var samchon;
             /**
              * @hidden
              */
-            ArrayCollection.prototype._Insert_by_repeating_val = function (position, n, val) {
-                var ret = _super.prototype._Insert_by_repeating_val.call(this, position, n, val);
-                this._Notify_insert(ret, ret.advance(n));
-                return ret;
-            };
-            /**
-             * @hidden
-             */
             ArrayCollection.prototype._Insert_by_range = function (position, begin, end) {
                 var n = this.size();
                 var ret = _super.prototype._Insert_by_range.call(this, position, begin, end);
@@ -529,14 +521,9 @@ var samchon;
             /**
              * @inheritdoc
              */
-            DequeCollection.prototype.push = function () {
-                var items = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    items[_i] = arguments[_i];
-                }
-                var ret = _super.prototype.push.apply(this, items);
-                this._Notify_insert(this.end().advance(-items.length), this.end());
-                return ret;
+            DequeCollection.prototype.push_front = function (val) {
+                _super.prototype.push_front.call(this, val);
+                this._Notify_insert(this.begin(), this.begin().next());
             };
             /**
              * @inheritdoc
@@ -544,14 +531,6 @@ var samchon;
             DequeCollection.prototype.push_back = function (val) {
                 _super.prototype.push.call(this, val);
                 this._Notify_insert(this.end().prev(), this.end());
-            };
-            /**
-             * @hidden
-             */
-            DequeCollection.prototype._Insert_by_repeating_val = function (position, n, val) {
-                var ret = _super.prototype._Insert_by_repeating_val.call(this, position, n, val);
-                this._Notify_insert(ret, ret.advance(n));
-                return ret;
             };
             /**
              * @hidden
@@ -1224,26 +1203,6 @@ var samchon;
             ============================================================
                 INSERT
             --------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            ListCollection.prototype.push = function () {
-                var items = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    items[_i] = arguments[_i];
-                }
-                var ret = _super.prototype.push.apply(this, items);
-                this._Notify_insert(this.end().advance(-items.length), this.end());
-                return ret;
-            };
-            /**
-             * @hidden
-             */
-            ListCollection.prototype._Insert_by_repeating_val = function (position, n, val) {
-                var ret = _super.prototype._Insert_by_repeating_val.call(this, position, n, val);
-                this._Notify_insert(ret, ret.advance(n));
-                return ret;
-            };
             /**
              * @hidden
              */

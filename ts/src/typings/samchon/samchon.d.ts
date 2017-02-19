@@ -1,4 +1,4 @@
-// Type definitions for Samchon Framework v2.0.7
+// Type definitions for Samchon Framework v2.0.8
 // Project: https://github.com/samchon/framework
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped

@@ -5,75 +5,24 @@ namespace samchon.library
 	/**
 	 * Case generator.
 	 * 
-	 * {@link CaseGenerator} is an abstract case generator being used like a matrix.
+	 * {@link ICaseGenerator} is an interface for case generators being used like a matrix.
 	 * <ul>
-	 *  <li> n¢³r(n^r) -> {@link CombinedPermutationGenerator} </li>
-	 *  <li> nPr -> {@link PermutationGenerator} </li>
-	 *  <li> n! -> {@link FactorialGenerator} </li>
+	 * 	<li> A x B x ... x Z -> {@link CartesianProduct} </li>
+	 *  <li> nï¿½ï¿½r(n^r) -> {@link RepeatedPermutation} </li>
+	 *  <li> nPr -> {@link Permutation} </li>
+	 *  <li> n! -> {@link Factorial} </li>
 	 * </ul>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class CaseGenerator
+	export interface ICaseGenerator
 	{
-		/**
-		 * Size, the number of all cases.
-		 */
-		protected size_: number;
-
-		/**
-		 * N, size of the candidates.
-		 */
-		protected n_: number;
-
-		/**
-		 * R, size of elements of each case.
-		 */
-		protected r_: number;
-
-		/* ---------------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------------- */
-		/**
-		 * Construct from size of N and R.
-		 * 
-		 * @param n Size of candidates.
-		 * @param r Size of elements of each case.
-		 */
-		constructor(n: number, r: number)
-		{
-			this.n_ = n;
-			this.r_ = r;
-		}
-
-		/* ---------------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------------- */
 		/**
 		 * Get size of all cases.
 		 *
 		 * @return Get a number of the all cases.
 		 */
-		public size(): number
-		{
-			return this.size_;
-		}
-
-		/**
-		 * Get size of the N.
-		 */
-		public n(): number
-		{
-			return this.n_;
-		}
-
-		/**
-		 * Get size of the R.
-		 */
-		public r(): number
-		{
-			return this.r_;
-		}
+		size(): number;
 
 		/**
 		 * Get index'th case.
@@ -81,21 +30,123 @@ namespace samchon.library
 		 * @param index Index number
 		 * @return The row of the index'th in combined permuation case
 		 */
-		public abstract at(index: number): number[];
+		at(index: number): Array<number>;
 	}
 
 	/**
-	 * A combined-permutation case generator.
+	 * A cartesian-product case generator.
 	 * 
-	 * <sub>n</sub>¢³<sub>r</sub>
+	 * A<sub>1</sub> X A<sub>2</sub> X ... X A<sub>n</sub>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class CombinedPermutationGenerator
-		extends CaseGenerator
+	export class CaterisanProduct
+		implements ICaseGenerator
 	{
 		/**
-		 * An array using for dividing each element index.
+		 * @hidden
+		 */
+		private digits_: Array<number>;
+
+		/**
+		 * @hidden
+		 */
+		private dividers_: Array<number>;
+
+		/**
+		 * @hidden
+		 */
+		private size_: number;
+
+		/* -----------------------------------------------------------
+			CONSTRUCTORS
+		----------------------------------------------------------- */
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param digits Max number (size) of each digit.
+		 */
+		public constructor(...digits: number[])
+		{
+			this.digits_ = digits;
+
+			this.dividers_ = new Array<number>(digits.length);
+			this.size_ = 1;
+
+			for (let i: number = digits.length - 1; i >= 0; i--)
+			{
+				this.dividers_[i] = this.size_;
+				this.size_ *= digits[i];
+			}
+		}
+
+		/* -----------------------------------------------------------
+			ACCESSORS
+		----------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public size(): number
+		{
+			return this.size_;
+		}
+
+		/**
+		 * Get digits, Max number (size) of each digit.
+		 */
+		public digits(): number[]
+		{
+			return this.digits_;
+		}
+
+		/* -----------------------------------------------------------
+			COMPUTATION
+		----------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public at(index: number): Array<number>
+		{
+			let row: Array<number> = [];
+			for (let i: number = 0; i < this.digits_.length; i++)
+			{
+				let val: number = Math.floor(index / this.dividers_[i]);
+				val = val % this.digits_[i];
+
+				row.push(val);
+			}
+
+			return row;
+		}
+	}
+
+	/**
+	 * A repeated-permutation case generator.
+	 * 
+	 * <sub>n</sub>ï¿½ï¿½<sub>r</sub>
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class RepeatedPermutation
+		implements ICaseGenerator
+	{
+		/**
+		 * @hidden
+		 */
+		private size_: number;
+
+		/**
+		 * @hidden
+		 */
+		private n_: number;
+
+		/**
+		 * @hidden
+		 */
+		private r_: number;
+
+		/**
+		 * @hidden
 		 */
 		private divider_array: Array<number>;
 
@@ -110,9 +161,10 @@ namespace samchon.library
 		 */
 		public constructor(n: number, r: number)
 		{
-			super(n, r);
-
+			this.n_ = n;
+			this.r_ = r;
 			this.size_ = Math.pow(n, r);
+
 			this.divider_array = new Array<number>();
 
 			for (let i: number = 0; i < r; i++)
@@ -124,6 +176,39 @@ namespace samchon.library
 			}
 		}
 
+		/* -----------------------------------------------------------
+			ACCESSORS
+		----------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public size(): number
+		{
+			return this.size_;
+		}
+
+		/**
+		 * Get N, number of candidates.
+		 */
+		public n(): number
+		{
+			return this.n_;
+		}
+
+		/**
+		 * Get R, number of elements for each case.
+		 */
+		public r(): number
+		{
+			return this.r_;
+		}
+
+		/* -----------------------------------------------------------
+			COMPUTATION
+		----------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public at(index: number): number[]
 		{
 			let row: number[] = [];
@@ -144,9 +229,24 @@ namespace samchon.library
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class PermuationGenerator
-		extends CaseGenerator
+	export class Permutation
+		implements ICaseGenerator
 	{
+		/**
+		 * @hidden
+		 */
+		private size_: number;
+
+		/**
+		 * @hidden
+		 */
+		private n_: number;
+
+		/**
+		 * @hidden
+		 */
+		private r_: number;
+
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------------- */
@@ -158,13 +258,44 @@ namespace samchon.library
 		 */
 		public constructor(n: number, r: number) 
 		{
-			super(n, r);
+			this.n_ = n;
+			this.r_ = r;
 
 			this.size_ = n;
 			for (let i: number = n - 1; i > n - r; i--)
 				this.size_ *= i;
 		}
 
+		/* -----------------------------------------------------------
+			ACCESSORS
+		----------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public size(): number
+		{
+			return this.size_;
+		}
+
+		/**
+		 * Get N, number of candidates.
+		 */
+		public n(): number
+		{
+			return this.n_;
+		}
+
+		/**
+		 * Get R, number of elements for each case.
+		 */
+		public r(): number
+		{
+			return this.r_;
+		}
+
+		/* -----------------------------------------------------------
+			COMPUTATION
+		----------------------------------------------------------- */
 		/**
 		 * @inheritdoc
 		 */
@@ -195,8 +326,8 @@ namespace samchon.library
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class FactorialGenerator
-		extends PermuationGenerator
+	export class Factorial
+		extends Permutation
 	{
 		/**
 		 * Construct from factorial size N. 

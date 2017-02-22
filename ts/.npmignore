@@ -2,20 +2,13 @@
 #	NPM
 # ======================================================
 node_modules
-build.js
 
 # ======================================================
 #	TYPESCRIPT
 # ======================================================
 tsconfig.json
+.gitignore
 
-.vs
-bin
-obj
+.vscode
+build
 src
-
-*.html
-*.sln
-*.gitignore
-*.*proj
-*.user

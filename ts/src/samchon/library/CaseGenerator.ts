@@ -40,7 +40,7 @@ namespace samchon.library
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class CaterisanProduct
+	export class CartesianProduct
 		implements ICaseGenerator
 	{
 		/**

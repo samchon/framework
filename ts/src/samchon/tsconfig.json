@@ -3,12 +3,8 @@
     {
         "target": "es5",
         "declaration": true,
-        "outFile": "lib/samchon.js",
+        "outFile": "../lib/samchon.js",
 
         "noImplicitAny": true
-    },
-    "exclude": [
-        "src/test",
-        "lib"
-    ]
+    }
 }

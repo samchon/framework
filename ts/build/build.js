@@ -8,13 +8,13 @@ distribute();
 
 function compile()
 {
-	process.execSync("tsc -p tsconfig.json");
+	process.execSync("tsc -p ../src/samchon/tsconfig.json");
 }
 
 function attach_header()
 {
-	const TITLE_FILE = "src/typings/samchon/samchon.d.ts";
-	const HEADER_FILE = "lib/samchon.d.ts";
+	const TITLE_FILE = "../src/samchon/typings/samchon/samchon.d.ts";
+	const HEADER_FILE = "../lib/samchon.d.ts";
 
 	var text = fs.readFileSync(TITLE_FILE, "utf8");
 	text += fs.readFileSync(HEADER_FILE, "utf8");
@@ -25,7 +25,7 @@ function attach_header()
 
 function remove_dynamics()
 {
-	const JS_FILE = "lib/samchon.js";
+	const JS_FILE = "../lib/samchon.js";
 
 	var text = fs.readFileSync(JS_FILE, "utf8");
 	if (text.indexOf('["') == -1)
@@ -57,8 +57,8 @@ function remove_dynamics()
 
 function distribute()
 {
-	const TSTL_FILE = "node_modules/tstl/lib/tstl.js";
-	const SAMCHON_FILE = "lib/samchon.js";
+	const TSTL_FILE = "../node_modules/tstl/lib/tstl.js";
+	const SAMCHON_FILE = "../lib/samchon.js";
 
 	// MERGE TSTL.JS AND SAMCHON.JS
 	var source = fs.readFileSync(TSTL_FILE, "utf8") + "\n\n" + fs.readFileSync(SAMCHON_FILE, "utf8");
@@ -68,11 +68,11 @@ function distribute()
 	// MAKE DIRECTORY AND FILE
 	if (fs.existsSync("dist") == false)
 		fs.mkdirSync("dist");
-	fs.writeFileSync("dist/samchon.js", source, "utf8");
+	fs.writeFileSync("../dist/samchon.js", source, "utf8");
 
 	// MINIFY
-	process.execSync("minify dist/samchon.js");
+	process.execSync("minify ../dist/samchon.js");
 
 	// MINIFY IN THE LIB LEVEL (WELL, IS THIS ESSENTIAL?)
-	process.execSync("minify lib/samchon.js");
+	process.execSync("minify ../lib/samchon.js");
 }

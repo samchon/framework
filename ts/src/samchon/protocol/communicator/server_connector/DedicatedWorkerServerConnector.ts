@@ -88,11 +88,11 @@ namespace samchon.protocol
 		 */
 		public sendData(invoke: Invoke): void
 		{
-			this.worker_.postMessage(invoke.toXML().toString(), "");
+			this.worker_.postMessage(invoke.toXML().toString());
 
 			for (let i: number = 0; i < invoke.size(); i++)
 				if (invoke.at(i).getType() == "ByteArray")
-					this.worker_.postMessage(invoke.at(i).getValue() as Uint8Array, "");
+					this.worker_.postMessage(invoke.at(i).getValue() as Uint8Array);
 		}
 	}
 }

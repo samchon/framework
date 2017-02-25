@@ -3,16 +3,6 @@
 namespace samchon.protocol
 {
 	/**
-	 * @hidden
-	 */
-	declare var http: typeof NodeJS.http;
-	
-	/**
-	 * @hidden
-	 */
-	declare var websocket: typeof __websocket;
-
-	/**
 	 * A web server.
 	 *
 	 * The {@link WebServer} is an abstract class designed to open a server and accept clients who are following 
@@ -27,7 +17,7 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		private http_server_: socket.http_server;
+		private http_server_: http.Server;
 		
 		/**
 		 * @hidden
@@ -102,8 +92,8 @@ namespace samchon.protocol
 				"", request.origin,
 				[{ name: "SESSION_ID", value: session_id }]
 			);
-
-			let driver = new WebClientDriver(connection, path, session_id);
+			
+			let driver: WebClientDriver = new WebClientDriver(connection, path, session_id);
 			this.addClient(driver);
 		}
 

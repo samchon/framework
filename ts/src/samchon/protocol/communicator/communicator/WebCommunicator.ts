@@ -24,7 +24,7 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		protected connection_: websocket.connection = null;
+		private connection_: websocket.connection = null;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -57,7 +57,7 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		protected _Handle_message(message: websocket.IMessage)
+		private _Handle_message(message: websocket.IMessage)
 		{
 			// EXCEPTION HANDLING IS REQUIRED
 			//	- BINARY_INVOKE EXISTS, BUT TEXT MESSAGE HAS COME

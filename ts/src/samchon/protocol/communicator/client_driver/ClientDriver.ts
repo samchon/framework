@@ -22,11 +22,11 @@ namespace samchon.protocol
 		/**
 		 * Construct from a socket.
 		 */
-		public constructor(socket: socket.socket)
+		public constructor(socket: any)
 		{
 			super();
 
-			this.socket_ = socket;
+			this["socket_"] = socket as net.Socket;
 			this.connected_ = true;
 		}
 

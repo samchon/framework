@@ -5,11 +5,6 @@
 namespace samchon.protocol
 {
 	/**
-	 * @hidden
-	 */
-	declare var net: typeof NodeJS.net;
-
-	/**
 	 * Server connnector.
 	 * 
 	 * {@link ServerConnector} is a class connecting to remote server who follows Samchon Framework's own protocol and 
@@ -49,7 +44,7 @@ namespace samchon.protocol
 		 */
 		public connect(ip: string, port: number): void
 		{
-			this.socket_ = net.connect({ host: ip, port: port }, this._Handle_connect.bind(this));
+			this["socket_"] = net.connect({ host: ip, port: port }, this._Handle_connect.bind(this));
 		}
 
 		/* ---------------------------------------------------------
@@ -84,7 +79,7 @@ namespace samchon.protocol
 				// SEND
 				try
 				{
-					(this as ServerConnector).socket_.write(packet);
+					(this as ServerConnector)["socket_"].write(packet);
 				} 
 				catch (exception)
 				{ // REPEAT IT UNTIL DISCONNECTION

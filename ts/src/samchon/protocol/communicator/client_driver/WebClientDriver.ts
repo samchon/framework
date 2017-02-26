@@ -51,11 +51,11 @@ namespace samchon.protocol
 		 * @param path Requested path.
 		 * @param session_id Session ID, an identifier of the remote client.
 		 */
-		public constructor(connection: websocket.connection, path: string, session_id: string)
+		public constructor(connection: any, path: string, session_id: string)
 		{
 			super();
 
-			this.connection_ = connection;
+			this["connection_"] = (connection as websocket.connection);
 			this.path_ = path;
 			this.session_id_ = session_id;
 
@@ -73,9 +73,9 @@ namespace samchon.protocol
 				return;
 			this.listening_ = true;
 
-			this.connection_.on("message", this._Handle_message.bind(this));
-			this.connection_.on("close", this._Handle_close.bind(this));
-			this.connection_.on("error", this._Handle_close.bind(this));
+			this["connection_"].on("message", this["_Handle_message"].bind(this));
+			this["connection_"].on("close", this._Handle_close.bind(this));
+			this["connection_"].on("error", this._Handle_close.bind(this));
 		}
 
         /* ---------------------------------------------------------

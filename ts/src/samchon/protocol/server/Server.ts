@@ -3,11 +3,6 @@
 namespace samchon.protocol
 {
 	/**
-	 * @hidden
-	 */
-	declare var net: typeof NodeJS.net;
-
-	/**
 	 * A server.
 	 * 
 	 * The {@link Server} is an abstract class designed to open a server and accept clients who are following Samchon
@@ -22,7 +17,7 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		private net_driver_: socket.server = null;
+		private net_driver_: net.Server = null;
 
         /* -------------------------------------------------------------------
 			CONSTRUCTORS
@@ -58,9 +53,9 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		private _Handle_connect(socket: socket.server): void
+		private _Handle_connect(socket: net.Socket): void
 		{
-			let clientDriver: ClientDriver = new ClientDriver(socket);;
+			let clientDriver: ClientDriver = new ClientDriver(socket);
 			this.addClient(clientDriver);
 		}
 	}

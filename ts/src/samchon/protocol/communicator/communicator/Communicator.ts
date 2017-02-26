@@ -25,7 +25,7 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		protected socket_: socket.socket = null;
+		private socket_: net.Socket = null;
 
 		/**
 		 * @hidden

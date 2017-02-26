@@ -5,11 +5,6 @@
 namespace samchon.protocol
 {
 	/**
-	 * @hidden
-	 */
-	declare var websocket: typeof __websocket;
-
-	/**
 	 * A server connector for web-socket protocol.
 	 * 
 	 * {@link WebServerConnector} is a class connecting to remote server who follows Web-socket protocol and taking full 
@@ -181,10 +176,10 @@ namespace samchon.protocol
 		{
 			this.connected_ = true;
 
-			this.connection_ = connection;
-			this.connection_.on("message", this._Handle_message.bind(this));
-			this.connection_.on("close", this._Handle_close.bind(this));
-			this.connection_.on("error", this._Handle_close.bind(this));
+			this["connection_"] = connection;
+			this["connection_"].on("message", this["_Handle_message"].bind(this));
+			this["connection_"].on("close", this._Handle_close.bind(this));
+			this["connection_"].on("error", this._Handle_close.bind(this));
 
 			if (this.onConnect != null)
 				this.onConnect();

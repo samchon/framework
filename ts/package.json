@@ -11,7 +11,7 @@
   "typings": "./lib/samchon.d.ts",
   "version": "2.0.8",
   "dependencies": {
-    "tstl": "~1.3.11",
+    "tstl": "~1.4.1",
     "websocket": "~1.0.x"
   },
   "devDependencies": {

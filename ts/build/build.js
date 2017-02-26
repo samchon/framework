@@ -4,7 +4,7 @@ const process = require('child_process');
 compile();
 attach_header();
 remove_dynamics();
-distribute();
+minify();
 
 function compile()
 {
@@ -55,24 +55,7 @@ function remove_dynamics()
 	fs.writeFileSync(JS_FILE, text, "utf8");
 }
 
-function distribute()
+function minify()
 {
-	const TSTL_FILE = "../node_modules/tstl/lib/tstl.js";
-	const SAMCHON_FILE = "../lib/samchon.js";
-
-	// MERGE TSTL.JS AND SAMCHON.JS
-	var source = fs.readFileSync(TSTL_FILE, "utf8") + "\n\n" + fs.readFileSync(SAMCHON_FILE, "utf8");
-	source = source.split("module.exports").join("// module.exports");
-	source = source.split("eval(\"var ").join("// eval(\"var ");
-
-	// MAKE DIRECTORY AND FILE
-	if (fs.existsSync("dist") == false)
-		fs.mkdirSync("dist");
-	fs.writeFileSync("../dist/samchon.js", source, "utf8");
-
-	// MINIFY
-	process.execSync("minify ../dist/samchon.js");
-
-	// MINIFY IN THE LIB LEVEL (WELL, IS THIS ESSENTIAL?)
 	process.execSync("minify ../lib/samchon.js");
 }

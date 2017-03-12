@@ -9,6 +9,7 @@ minify();
 function compile()
 {
 	process.execSync("tsc -p ../src/samchon/tsconfig.json");
+	process.execSync("tsc -p ../src/samchon/tsconfig.json  --removeComments --declaration false");
 }
 
 function attach_header()

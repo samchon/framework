@@ -6,19 +6,17 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-
   "main": "./lib/samchon.js",
   "typings": "./lib/samchon.d.ts",
   "version": "2.0.9-c",
   "dependencies": {
-    "tstl": "~1.4.3",
+    "tstl": "^1.4.3",
     "websocket": "~1.0.x"
   },
   "devDependencies": {
     "@types/node": "^7.0.5",
     "@types/websocket": "0.0.33"
   },
-
   "homepage": "https://github.com/samchon/framework",
   "repository": {
     "type": "git",
@@ -33,7 +31,6 @@
       "url": "https://opensource.org/licenses/BSD-3-Clause"
     }
   ],
-  
   "keywords": [
     "samchon framework",
     "OON",

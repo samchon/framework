@@ -59,7 +59,7 @@ namespace samchon.protocol
 		 * @return An iterator to the element, if an element with specified *key* is found, or 
 		 *		   {@link end end()} otherwise.
 		 */
-		// find(key: any): std.Iterator<T>;
+		// find(key: any): std.base.Iterator<T>;
 
 		/**
 		 * Whether have the item or not.

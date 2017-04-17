@@ -70,7 +70,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends std.Iterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends std.base.Iterator<U>>
 			(position: std.DequeIterator<T>, begin: InputIterator, end: InputIterator): std.DequeIterator<T>
 		{
 			let n: number = this.size();

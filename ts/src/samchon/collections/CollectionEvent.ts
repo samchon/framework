@@ -1,6 +1,6 @@
 ﻿/// <reference path="../API.ts" />
 
-/// <reference path="../library/BasicEvent.ts" />
+/// <reference path="../library/events/BasicEvent.ts" />
 
 namespace samchon.collections
 {

@@ -5,6 +5,13 @@
         "declaration": true,
         "outFile": "../../lib/samchon.js",
 
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "downlevelIteration": true,
+        
+        "lib":[
+            "dom",
+            "es5",
+            "es2015.iterable"
+        ]
     }
 }

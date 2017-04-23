@@ -1,4 +1,6 @@
-﻿namespace samchon.library
+﻿/// <reference path="../../API.ts" />
+
+namespace samchon.library
 {
 	/**
 	 * The {@link FileReference} class provides a means to load and save files in browser level.
@@ -7,9 +9,8 @@
 	 * browser-system dialog box prompts the user to select a file to {@link load} or a location for {@link svae}. Each 
 	 * {@link FileReference} object refers to a single file on the user's disk and has properties that contain 
 	 * information about the file's size, type, name, creation date, modification date, and creator type (Macintosh only). 
-	 *
 	 * 
-	 * FileReference instances are created in the following ways:
+	 * {@link FileReference} instances are created in the following ways:
 	 * <ul>
 	 *	<li> 
 	 *		When you use the new operator with the {@link FileReference} constructor: 

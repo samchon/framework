@@ -102,10 +102,5 @@ namespace samchon.library
 			}
 			return row;
 		}
-
-		public [Symbol.iterator](): IterableIterator<Array<number>>
-		{
-			return new _CGForOfAdaptor(this);
-		}
 	}
 }

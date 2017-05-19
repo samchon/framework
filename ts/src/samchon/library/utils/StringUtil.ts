@@ -312,6 +312,9 @@ namespace samchon.library
 			return format;
 		}
 
+		/**
+		 * @hidden
+		 */
 		private static _Substitute_sql_string(str: string): string
 		{
 			str = StringUtil.replaceAll(str, "\\", "\\\\");

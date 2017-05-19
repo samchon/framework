@@ -289,7 +289,10 @@ namespace samchon.library
 				else if (typeof args[0] == "number")
 					format = StringUtil.replaceAll(format, symbol, String(args[0]));
 				else if (typeof args[0] == "string")
-					format = StringUtil.replaceAll(format, symbol, "'" + args[0] + "'");
+				{
+					let str: string = StringUtil._Substitute_sql_string(args[0]);
+					format = StringUtil.replaceAll(format, symbol, str);
+				}
 				else
 				{
 					if (args[0].toXML != undefined)
@@ -298,12 +301,23 @@ namespace samchon.library
 						if (xml instanceof library.XML)
 							args[0] = xml;
 					}
-					format = StringUtil.replaceAll(format, symbol, "'" + args[0].toString() + "'");
+					let str: string = args[0].toString();
+					str = StringUtil._Substitute_sql_string(str);
+
+					format = StringUtil.replaceAll(format, symbol, str);
 				}
 
 				args.shift();
 			}
 			return format;
+		}
+
+		private static _Substitute_sql_string(str: string): string
+		{
+			str = StringUtil.replaceAll(str, "\\", "\\\\");
+			str = StringUtil.replaceAll(str, "'", "\\'");
+
+			return "'" + str + "'";
 		}
 
 		/**

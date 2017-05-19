@@ -1,4 +1,4 @@
-﻿/// <reference path="../API.ts" />
+/// <reference path="../../API.ts" />
 
 namespace samchon.library
 {
@@ -44,7 +44,7 @@ namespace samchon.library
 		private tournament_: number;
 
 		/* ---------------------------------------------------------
-			CONSTRUCTORS AND MAIN PROCEDURES
+			CONSTRUCTORS & ACCESSORS
 		--------------------------------------------------------- */
 		/**
 		 * Initialization Constructor.
@@ -60,6 +60,9 @@ namespace samchon.library
 			this.tournament_ = tournament;
 		}
 
+		/* ---------------------------------------------------------
+			MAIN PROCEDURES
+		--------------------------------------------------------- */
 		/**
 		 * Evolove *GeneArray*.
 		 * 
@@ -69,6 +72,7 @@ namespace samchon.library
 		 * @param population Size of population in a generation.
 		 * @param generation Size of generation in evolution.
 		 * @param compare A comparison function returns whether left gene is more optimal.
+		 * @param cloner Copy constructor of the *GeneArray*.
 		 * 
 		 * @return An evolved *GeneArray*, optimally.
 		 * 
@@ -77,10 +81,11 @@ namespace samchon.library
 		public evolveGeneArray<T, GeneArray extends std.base.IArrayContainer<T>>
 			(
 				individual: GeneArray, population: number, generation: number, 
-				compare: (left: T, right: T) => boolean = std.greater
+				compare: (left: GeneArray, right: GeneArray) => boolean,
+				cloner: (obj: GeneArray) => GeneArray
 			): GeneArray
 		{
-			let ga_population = new GAPopulation(individual, population);
+			let ga_population = new GAPopulation<T, GeneArray>(individual, population, compare, cloner);
 
 			for (let i: number = 0; i < generation; i++)
 				ga_population = this.evolvePopulation(ga_population);
@@ -100,25 +105,24 @@ namespace samchon.library
 		 */
 		public evolvePopulation<T, GeneArray extends std.base.IArrayContainer<T>>
 			(
-				population: GAPopulation<T, GeneArray>, 
-				compare: (left: T, right: T) => boolean = std.greater
+				population: GAPopulation<T, GeneArray>
 			): GAPopulation<T, GeneArray>
 		{
-			let size: number = population.children().size();
-			let evolved = new GAPopulation<T, GeneArray>(size);
+			let size: number = population.getChildren().size();
+			let evolved = new GAPopulation<T, GeneArray>(population);
 
 			// ELITICISM
-			evolved.children().set(0, population.fitTest());
+			evolved.getChildren().set(0, population.fitTest());
 
 			for (let i: number = 1; i < size; i++)
 			{
 				let gene1: GeneArray = this.selection(population);
 				let gene2: GeneArray = this.selection(population);
 
-				let child: GeneArray = this.crossover(gene1, gene2);
+				let child: GeneArray = this.crossover(population, gene1, gene2);
 				this.mutate(child);
 
-				evolved.children().set(i, child);
+				evolved.getChildren().set(i, child);
 			}
 
 			return evolved;
@@ -158,8 +162,8 @@ namespace samchon.library
 		private selection<T, GeneArray extends std.base.IArrayContainer<T>>
 			(population: GAPopulation<T, GeneArray>): GeneArray
 		{
-			let size: number = population.children().size();
-			let tournament: GAPopulation<T, GeneArray> = new GAPopulation<T, GeneArray>(size);
+			let size: number = population.getChildren().size();
+			let tournament: GAPopulation<T, GeneArray> = new GAPopulation<T, GeneArray>(population);
 
 			for (let i: number = 0; i < size; i++)
 			{
@@ -167,7 +171,7 @@ namespace samchon.library
 				if (random_index == size)
 					random_index--;
 
-				tournament.children().set(i, population.children().at(random_index));
+				tournament.getChildren().set(i, population.getChildren().at(random_index));
 			}
 			return tournament.fitTest();
 		}
@@ -188,9 +192,9 @@ namespace samchon.library
 		 * @reference https://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)
 		 */
 		private crossover<T, GeneArray extends std.base.IArrayContainer<T>>
-			(parent1: GeneArray, parent2: GeneArray): GeneArray
+			(population: GAPopulation<T, GeneArray>, parent1: GeneArray, parent2: GeneArray): GeneArray
 		{
-			let individual: GeneArray = parent1.constructor(parent1);
+			let individual: GeneArray = population.getCloner()(parent1);
 			let size: number = parent1.size();
 
 			if (this.unique_ == false)
@@ -270,156 +274,6 @@ namespace samchon.library
 				let j: number = Math.floor(Math.random() * individual.size());
 				it.swap(individual.begin().advance(j));
 			}
-		}
-	}
-
-	/**
-	 * A population in a generation.
-	 * 
-	 * {@link GAPopulation} is a class representing population of candidate genes (sequence listing) having an array 
-	 * of GeneArray as a member. {@link GAPopulation} also manages initial set of genes and handles fitting test direclty 
-	 * by the method {@link fitTest fitTest()}.
-	 *
-	 * The success of evolution of genetic algorithm is depend on the {@link GAPopulation}'s initial set and fitting 
-	 * test. (*GeneArray* and {@link compare}.)
-	 * 
-	 * <h4> Warning </h4>
-	 * Be careful for the mistakes of direction or position of the {@link compare}.
-	 * Most of logical errors failed to access optimal solution are occured from those mistakes.
-	 * 
-	 * @param <T> Type of gene elements.
-	 * @param <GeneArray> An array containing genes as elments; sequnce listing.
-	 * 
-	 * @author Jeongho Nam <http://samcho.org>
-	 */
-	export class GAPopulation<T, GeneArray extends std.base.IArrayContainer<T>>
-	{
-		/**
-		 * Genes representing the population.
-		 */
-		private children_: std.Vector<GeneArray>;
-
-		/**
-		 * A comparison function returns whether left gene is more optimal, greater.
-		 * 
-		 * Default value of this {@link compare} is {@link std.greater}. It means to compare two array 
-		 * (GeneArray must be a type of {@link std.base.IArrayContainer}). Thus, you've to keep follwing rule.
-		 *
-		 * <ul>
-		 *	<li> GeneArray is implemented from {@link std.base.IArrayContainer}. </li>
-		 *	<ul>
-		 *		<li> {@link std.Vector} </li>
-		 *		<li> {@link std.Deque} </li>
-		 *	</ul>
-		 *	<li> GeneArray has custom <code>public less(obj: T): boolean;</code> function. </li>
-		 * </ul>
-		 *
-		 * If you don't want to follow the rule or want a custom comparison function, you have to realize a 
-		 * comparison function.
-		 */
-		private compare_: (left: GeneArray, right: GeneArray) => boolean;
-		
-		/**
-		 * Private constructor with population.
-		 * 
-		 * Private constructor of GAPopulation does not create {@link children}. (candidate genes) but only assigns
-		 * *null* repeatedly following the *population size*.
-		 * 
-		 * This private constructor is designed only for {@link GeneticAlgorithm}. Don't create {@link GAPopulation}
-		 * with this constructor, by yourself.
-		 * 
-		 * @param size Size of the population.
-		 */
-		public constructor(size: number);
-
-		/**
-		 * Construct from a {@link GeneArray} and *size of the population*.
-		 * 
-		 * This public constructor creates *GeneArray(s)* as population (size) having shuffled genes which are 
-		 * came from the initial set of genes (*geneArray*). It uses {@link std.greater} as default comparison function. 
-		 *
-		 * 
-		 * @param geneArray An initial sequence listing.
-		 * @param size The size of population to have as children.
-		 */
-		public constructor(geneArray: GeneArray, size: number);
-
-		/**
-		 * Constructor from a GeneArray, size of the poluation and custom comparison function.
-		 * 
-		 * This public constructor creates *GeneArray(s)* as population (size) having shuffled genes which are
-		 * came from the initial set of genes (*geneArray*). The *compare* is used for comparison function. 
-		 *
-		 * 
-		 * @param geneArray An initial sequence listing.
-		 * @param size The size of population to have as children.
-		 * @param compare A comparison function returns whether left gene is more optimal.
-		 */
-		public constructor(geneArray: GeneArray, size: number, compare: (left: GeneArray, right: GeneArray) => boolean);
-
-		public constructor(...args: any[])
-		{
-			if (args.length == 1)
-			{
-				this.children_ = new std.Vector<GeneArray>();
-			}
-			else
-			{
-				let geneArray: GeneArray = args[0];
-				let size: number = args[1];
-				let compare: (left: GeneArray, right: GeneArray) => boolean = (args.length == 2) ? std.greater : args[2];
-
-				this.children_ = new std.Vector<GeneArray>();
-				this.compare_ = compare;
-
-				for (let i: number = 0; i < size; i++)
-				{
-					let child: GeneArray = this.clone(geneArray);
-
-					if (i > 0) // DO NOT TOUCH THE FIRST, THE ELITEST ELEMENT; ELITICISM
-						std.random_shuffle
-						(
-							child.begin() as std.base.IArrayIterator<T>,
-							child.end() as std.base.IArrayIterator<T>
-						);
-					this.children_.push_back(child);
-				}
-			}
-		}
-
-		public children(): std.Vector<GeneArray>
-		{
-			return this.children_;
-		}
-
-		/**
-		 * Test fitness of each *GeneArray* in the {@link population}.
-		 * 
-		 * @return The best *GeneArray* in the {@link population}.
-		 */
-		public fitTest(): GeneArray
-		{
-			let best: GeneArray = this.children_.front();
-
-			for (let i: number = 1; i < this.children_.size(); i++)
-				if (this.compare_(this.children_.at(i), best) == true)
-					best = this.children_.at(i);
-
-			return best;
-		}
-
-		/**
-		 * @hidden
-		 */
-		private clone(obj: GeneArray): GeneArray
-		{
-			var ret: GeneArray = eval("new obj.constructor()");
-
-			for (let key in obj)
-				if (obj.hasOwnProperty(key) == true)
-					(ret as any)[key] = (obj as any)[key];
-
-			return ret;
 		}
 	}
 }

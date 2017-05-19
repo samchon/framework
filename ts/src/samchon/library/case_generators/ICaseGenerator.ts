@@ -13,7 +13,7 @@ namespace samchon.library
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export interface ICaseGenerator extends Iterable<Array<number>>
+	export interface ICaseGenerator
 	{
 		/**
 		 * Get size of all cases.

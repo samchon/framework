@@ -286,7 +286,7 @@ namespace samchon.library
 				let symbol: string = "{" + min_index + "}";
 				if (args[0] == null)
 					format = StringUtil.replaceAll(format, symbol, "NULL");
-				else if (typeof args[0] == "number")
+				else if (typeof args[0] == "boolean" || typeof args[0] == "number")
 					format = StringUtil.replaceAll(format, symbol, String(args[0]));
 				else if (typeof args[0] == "string")
 				{

@@ -50,13 +50,11 @@ namespace samchon.collections
 		/**
 		 * @inheritdoc
 		 */
-		public push(...items: T[]): number
+		public push_front(val: T): void
 		{
-			let ret = super.push(...items);
+			super.push_front(val);
 
-			this._Notify_insert(this.end().advance(-items.length), this.end());
-
-			return ret;
+			this._Notify_insert(this.begin(), this.begin().next());
 		}
 
 		/**
@@ -72,19 +70,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_repeating_val(position: std.DequeIterator<T>, n: number, val: T): std.DequeIterator<T>
-		{
-			let ret = super._Insert_by_repeating_val(position, n, val);
-
-			this._Notify_insert(ret, ret.advance(n));
-
-			return ret;
-		}
-
-		/**
-		 * @hidden
-		 */
-		protected _Insert_by_range<U extends T, InputIterator extends std.Iterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends std.base.Iterator<U>>
 			(position: std.DequeIterator<T>, begin: InputIterator, end: InputIterator): std.DequeIterator<T>
 		{
 			let n: number = this.size();
@@ -231,7 +217,8 @@ namespace samchon.collections
 		public addEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
 		public addEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
 
-		public addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object = null): void
+		public addEventListener<Listener extends library.BasicEventListener>
+			(type: string, listener: Listener, thisArg: Object = null): void
 		{
 			this.event_dispatcher_.addEventListener(type, listener, thisArg);
 		}
@@ -255,7 +242,8 @@ namespace samchon.collections
 		public removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
 		public removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
 
-		public removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object = null): void
+		public removeEventListener<Listener extends library.BasicEventListener>
+			(type: string, listener: Listener, thisArg: Object = null): void
 		{
 			this.event_dispatcher_.removeEventListener(type, listener, thisArg);
 		}

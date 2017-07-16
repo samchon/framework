@@ -54,33 +54,9 @@ namespace samchon.collections
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
-		 */
-		public push(...items: T[]): number
-		{
-			let ret = super.push(...items);
-
-			this._Notify_insert(this.end().advance(-items.length), this.end());
-
-			return ret;
-		}
-		
-		/**
 		 * @hidden
 		 */
-		protected _Insert_by_repeating_val(position: std.ListIterator<T>, n: number, val: T): std.ListIterator<T>
-		{
-			let ret = super._Insert_by_repeating_val(position, n, val);
-
-			this._Notify_insert(ret, ret.advance(n));
-
-			return ret;
-		}
-
-		/**
-		 * @hidden
-		 */
-		protected _Insert_by_range<U extends T, InputIterator extends std.Iterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends std.base.Iterator<U>>
 			(position: std.ListIterator<T>, begin: InputIterator, end: InputIterator): std.ListIterator<T>
 		{
 			let n: number = this.size();
@@ -209,7 +185,8 @@ namespace samchon.collections
 		public addEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
 		public addEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
 
-		public addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object = null): void
+		public addEventListener<Listener extends library.BasicEventListener>
+			(type: string, listener: Listener, thisArg: Object = null): void
 		{
 			this.event_dispatcher_.addEventListener(type, listener, thisArg);
 		}
@@ -233,7 +210,8 @@ namespace samchon.collections
 		public removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
 		public removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
 
-		public removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object = null): void
+		public removeEventListener<Listener extends library.BasicEventListener>
+			(type: string, listener: Listener, thisArg: Object = null): void
 		{
 			this.event_dispatcher_.removeEventListener(type, listener, thisArg);
 		}

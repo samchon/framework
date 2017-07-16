@@ -1,0 +1,18 @@
+{
+    "compilerOptions": 
+    {
+        "target": "es5",
+        "declaration": true,
+        "outFile": "../../lib/samchon.js",
+
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "downlevelIteration": true,
+        
+        "lib":[
+            "dom",
+            "es5",
+            "es2015.iterable"
+        ]
+    }
+}

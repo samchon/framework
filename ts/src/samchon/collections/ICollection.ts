@@ -75,7 +75,7 @@ namespace samchon.collections
 		 * 
 		 * @param it An iterator targeting the content changed element.
 		 */
-		refresh(it: std.Iterator<T>): void;
+		refresh(it: std.base.Iterator<T>): void;
 
 		/**
 		 * Dispatch a {@link CollectionEvent} with *refresh* typed.
@@ -95,7 +95,7 @@ namespace samchon.collections
 		 *			   *last*, including the element pointed by *first* but not the element pointed by 
 		 *			   *last*.
 		 */
-		refresh(first: std.Iterator<T>, last: std.Iterator<T>): void;
+		refresh(first: std.base.Iterator<T>, last: std.base.Iterator<T>): void;
 
 		/* ---------------------------------------------------------
 			ADD
@@ -147,7 +147,7 @@ namespace samchon.collections
 		export function _Dispatch_CollectionEvent<T>
 			(
 				collection: ICollection<T>, type: string, 
-				first: std.Iterator<T>, last: std.Iterator<T>
+				first: std.base.Iterator<T>, last: std.base.Iterator<T>
 			): void
 		{
 			if (collection.hasEventListener(type) == false)

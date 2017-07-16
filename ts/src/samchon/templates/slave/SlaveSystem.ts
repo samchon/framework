@@ -4,6 +4,11 @@
 
 namespace samchon.templates.slave
 {
+	/**
+	 * A slave system.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class SlaveSystem
 		implements protocol.IProtocol
 	{
@@ -30,6 +35,8 @@ namespace samchon.templates.slave
 		{
 			this.communicator_.sendData(invoke);
 		}
+
+		public abstract replyData(invoke: protocol.Invoke): void;
 
 		/**
 		 * @hidden
@@ -62,11 +69,6 @@ namespace samchon.templates.slave
 			}
 			else
 				this.replyData(invoke);
-		}
-
-		public replyData(invoke: protocol.Invoke): void
-		{
-			invoke.apply(this);
 		}
 	}
 }

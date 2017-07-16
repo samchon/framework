@@ -37,11 +37,8 @@ namespace samchon.collections
 		--------------------------------------------------------- */
 		// using super::constructor
 
-		/* =========================================================
+		/* ---------------------------------------------------------
 			ELEMENTS I/O
-				- HANDLE_INSERT & HANDLE_ERASE
-		============================================================
-			HANDLE_INSERT & HANDLE_ERASE
 		--------------------------------------------------------- */
 		/**
 		 * @hidden
@@ -145,7 +142,8 @@ namespace samchon.collections
 		public addEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
 		public addEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
 
-		public addEventListener(type: string, listener: library.BasicEventListener, thisArg: Object = null): void
+		public addEventListener<Listener extends library.BasicEventListener>
+			(type: string, listener: Listener, thisArg: Object = null): void
 		{
 			this.event_dispatcher_.addEventListener(type, listener, thisArg);
 		}
@@ -169,7 +167,8 @@ namespace samchon.collections
 		public removeEventListener(type: "erase", listener: CollectionEventListener<T>, thisArg: Object): void;
 		public removeEventListener(type: "refresh", listener: CollectionEventListener<T>, thisArg: Object): void;
 
-		public removeEventListener(type: string, listener: library.BasicEventListener, thisArg: Object = null): void
+		public removeEventListener<Listener extends library.BasicEventListener>
+			(type: string, listener: Listener, thisArg: Object = null): void
 		{
 			this.event_dispatcher_.removeEventListener(type, listener, thisArg);
 		}

@@ -1,4 +1,4 @@
-import http = require("http");
+import __http = require("http");
 
-export = http;
+export = __http;
 export as namespace http;

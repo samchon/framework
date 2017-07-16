@@ -15,14 +15,9 @@ if (fs.existsSync(RELEASE_DIR))
 	else
 		process.execSync("rm -rf " + RELEASE_DIR);
 
-// var command = 
-// 	"typedoc --tsconfig ../src/samchon/tsconfig.json " + 
-// 	"--target ES5 --mode file --out " + RELEASE_DIR + " " +
-// 	"--includeDeclarations --excludeExternals --externalPattern \"**/+(node|websocket)*\"";
-
-var command = 
-	"typedoc ../node_modules/tstl/lib/tstl.d.ts ../lib/samchon.d.ts " + 
-	"--target ES5 --mode file --out " + RELEASE_DIR + " " +
-	"--includeDeclarations --excludeExternals --externalPattern \"**/+(node|websocket)*\"";
+ var command = 
+ 	"typedoc ../lib ../node_modules/tstl " + 
+ 	"--out " + RELEASE_DIR + " --mode file --target es6 " +
+ 	"--includeDeclarations --excludeExternals";
 
 process.execSync(command);

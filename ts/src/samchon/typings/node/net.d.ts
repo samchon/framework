@@ -1,4 +1,4 @@
-import net = require("net");
+import __net = require("net");
 
-export = net;
+export = __net;
 export as namespace net;

@@ -279,29 +279,34 @@ namespace samchon.library
 				if (args.length == 0)
 					break;
 
+				let element: any = args[0];
 				let min_index: number = StringUtil._Fetch_substitute_index(format);
 				if (min_index == Number.MAX_VALUE)
 					break;
 
 				let symbol: string = "{" + min_index + "}";
-				if (args[0] == null)
+				if (element == null)
 					format = StringUtil.replaceAll(format, symbol, "NULL");
-				else if (typeof args[0] == "boolean" || typeof args[0] == "number")
-					format = StringUtil.replaceAll(format, symbol, String(args[0]));
-				else if (typeof args[0] == "string")
+				else if (typeof element == "boolean" || typeof element == "number")
+					format = StringUtil.replaceAll(format, symbol, String(element));
+				else if (typeof element == "string")
 				{
-					let str: string = StringUtil._Substitute_sql_string(args[0]);
+					let str: string = StringUtil._Substitute_sql_string(element);
 					format = StringUtil.replaceAll(format, symbol, str);
+				}
+				else if (element instanceof Array)
+				{
+
 				}
 				else
 				{
-					if (args[0].toXML != undefined)
+					if (element.toXML != undefined)
 					{
-						let xml: library.XML = args[0].toXML();
+						let xml: library.XML = element.toXML();
 						if (xml instanceof library.XML)
-							args[0] = xml;
+							element = xml;
 					}
-					let str: string = args[0].toString();
+					let str: string = element.toString();
 					str = StringUtil._Substitute_sql_string(str);
 
 					format = StringUtil.replaceAll(format, symbol, str);

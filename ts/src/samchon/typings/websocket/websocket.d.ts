@@ -1,4 +1,4 @@
-import websocket = require("websocket");
+import __websocket = require("websocket");
 
-export = websocket;
+export = __websocket;
 export as namespace websocket;

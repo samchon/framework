@@ -61,14 +61,27 @@ namespace samchon.templates.slave
 
 				// MAIN PROCESS - REPLY_DATA
 				let pInvoke: PInvoke = new PInvoke(invoke, history, this);
-				this.replyData(pInvoke);
+				let ret: Promise<void> = this.replyData(pInvoke) as any as Promise<void>; // NOTHING OR PROMISE
 
-				// NOTIFY - WITH END TIME
-				if (pInvoke.isHold() == false)
-					pInvoke.complete();
+				if (ret.then instanceof Function && ret.catch instanceof Function)
+				{
+					ret.then(() =>
+					{
+						this._Complete_process(pInvoke);
+					});
+				}
+				else
+					this._Complete_process(pInvoke);
 			}
 			else
 				this.replyData(invoke);
+		}
+
+		private _Complete_process(pInvoke: PInvoke): void
+		{
+			// NOTIFY - WITH END TIME
+			if (pInvoke.isHold() == false)
+				pInvoke.complete();
 		}
 	}
 }

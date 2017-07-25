@@ -487,6 +487,7 @@ namespace samchon.library
 			xml.setTag(tag);
 			xml.setValue(value);
 
+			this.push(xml);
 			return xml;
 		}
 

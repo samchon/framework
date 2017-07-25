@@ -8,7 +8,7 @@
   },
   "main": "./lib/samchon.js",
   "typings": "./lib/samchon.d.ts",
-  "version": "2.0.16",
+  "version": "2.0.17",
   "dependencies": {
     "tstl": "~1.5.3",
     "websocket": "~1.0.x"

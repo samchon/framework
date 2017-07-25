@@ -475,6 +475,22 @@ namespace samchon.library
 		}
 
 		/**
+		 * Insert a XML object with value.
+		 * 
+		 * @param tag Tag name, an identifier of new XML object.
+		 * @param value Value to be the new XML object.
+		 * @return A newly inserted XML object with the value.
+		 */
+		public insertValue(tag: string, value: string): XML
+		{
+			let xml = new XML();
+			xml.setTag(tag);
+			xml.setValue(value);
+
+			return xml;
+		}
+
+		/**
 		 * Set property.
 		 * 
 		 * Set a property *value* with its *key*. If the *key* already exists, then the *value* will be overwritten to 

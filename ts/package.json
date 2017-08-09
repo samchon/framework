@@ -8,14 +8,14 @@
   },
   "main": "./lib/samchon.js",
   "typings": "./lib/samchon.d.ts",
-  "version": "2.0.19",
+  "version": "2.0.20",
   "dependencies": {
-    "tstl": "~1.5.4",
+    "tstl": "~1.5.5",
     "websocket": "~1.0.x"
   },
   "devDependencies": {
     "@types/node": "^7.0.5",
-    "@types/websocket": "0.0.33"
+    "@types/websocket": "~0.0.33"
   },
   "homepage": "https://github.com/samchon/framework",
   "repository": {

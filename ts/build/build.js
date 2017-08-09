@@ -19,7 +19,6 @@ function attach_header()
 
 	var text = fs.readFileSync(TITLE_FILE, "utf8");
 	text += fs.readFileSync(HEADER_FILE, "utf8");
-	text = text.replace("/// <reference types=\"tstl\" />", "");
 
 	fs.writeFileSync(HEADER_FILE, text, "utf8");
 }

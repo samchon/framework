@@ -3,9 +3,7 @@
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-/// <reference types="tstl" />
+import std = require("tstl");
 
-declare module "samchon"
-{
-	export = samchon;
-}
+export = samchon;
+

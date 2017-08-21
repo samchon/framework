@@ -63,7 +63,7 @@ namespace samchon.templates.slave
 				let pInvoke: PInvoke = new PInvoke(invoke, history, this);
 				let ret: Promise<void> = this.replyData(pInvoke) as Promise<void>; // NOTHING OR PROMISE
 
-				if (ret.then instanceof Function && ret.catch instanceof Function)
+				if (ret instanceof Function && ret.then instanceof Function && ret.catch instanceof Function)
 				{
 					ret.then(() =>
 					{

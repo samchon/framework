@@ -184,7 +184,7 @@ namespace samchon.templates.distributed
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this["progress_list_"].erase(progress_it);
-			this["history_list_"].insert([history.getUID(), history]);
+			this["history_list_"].emplace(history.getUID(), history);
 
 			// REPORT TO THE ROLE
 			if (history.getProcess() != null)

@@ -70,8 +70,8 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends std.base.Iterator<U>>
-			(position: std.VectorIterator<T>, begin: InputIterator, end: InputIterator): std.VectorIterator<T>
+		protected _Insert_by_range<U extends T, InputIterator extends std.IForwardIterator<U>>
+			(position: std.Vector.Iterator<T>, begin: InputIterator, end: InputIterator): std.Vector.Iterator<T>
 		{
 			let n: number = this.size();
 
@@ -89,7 +89,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Erase_by_range(first: std.VectorIterator<T>, last: std.VectorIterator<T>): std.VectorIterator<T>
+		protected _Erase_by_range(first: std.Vector.Iterator<T>, last: std.Vector.Iterator<T>): std.Vector.Iterator<T>
 		{
 			this._Notify_erase(first, last);
 
@@ -102,7 +102,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private _Notify_insert(first: std.VectorIterator<T>, last: std.VectorIterator<T>): void
+		private _Notify_insert(first: std.Vector.Iterator<T>, last: std.Vector.Iterator<T>): void
 		{
 			ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
 		}
@@ -110,7 +110,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private _Notify_erase(first: std.VectorIterator<T>, last: std.VectorIterator<T>): void
+		private _Notify_erase(first: std.Vector.Iterator<T>, last: std.Vector.Iterator<T>): void
 		{
 			ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
 		}
@@ -147,17 +147,17 @@ namespace samchon.collections
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(it: std.VectorIterator<T>): void;
+		public refresh(it: std.Vector.Iterator<T>): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(first: std.VectorIterator<T>, last: std.VectorIterator<T>): void;
+		public refresh(first: std.Vector.Iterator<T>, last: std.Vector.Iterator<T>): void;
 
 		public refresh(...args: any[]): void
 		{
-			let first: std.VectorIterator<T>;
-			let last: std.VectorIterator<T>;
+			let first: std.Vector.Iterator<T>;
+			let last: std.Vector.Iterator<T>;
 
 			if (args.length == 0)
 			{

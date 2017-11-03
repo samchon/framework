@@ -117,12 +117,12 @@ namespace samchon.collections
 			else if (this.type == "erase")
 			{
 				let container: ArrayCollection<T> = this.target as ArrayCollection<T>;
-				let it: std.VectorIterator<T>;
+				let it: std.Vector.Iterator<T>;
 
 				if (this.temporary_container_ == null)
-					it = this.first_.prev().next() as std.VectorIterator<T>;
+					it = this.first_.prev().next() as std.Vector.Iterator<T>;
 				else
-					it = this.origin_first_.prev().next() as std.VectorIterator<T>;
+					it = this.origin_first_.prev().next() as std.Vector.Iterator<T>;
 				
 				container.insert(it, this.first_, this.last_);
 			}

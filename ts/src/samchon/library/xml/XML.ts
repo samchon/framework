@@ -380,7 +380,7 @@ namespace samchon.library
 		 * @return An iterator to the element, if an element with specified <i>key</i> is found, or
 		 *		   {@link end HashMap.end()} otherwise.
 		 */
-		public findProperty(key: string): std.MapIterator<string, string>
+		public findProperty(key: string): std.HashMap.Iterator<string, string>
 		{
 			return this.property_map_.find(key);
 		}

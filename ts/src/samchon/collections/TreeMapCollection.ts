@@ -45,7 +45,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void
+		protected _Handle_insert(first: std.TreeMap.Iterator<Key, T>, last: std.TreeMap.Iterator<Key, T>): void
 		{
 			super._Handle_insert(first, last);
 
@@ -55,7 +55,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void
+		protected _Handle_erase(first: std.TreeMap.Iterator<Key, T>, last: std.TreeMap.Iterator<Key, T>): void
 		{
 			super._Handle_erase(first, last);
 
@@ -94,17 +94,17 @@ namespace samchon.collections
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(it: std.MapIterator<Key, T>): void;
+		public refresh(it: std.TreeMap.Iterator<Key, T>): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+		public refresh(first: std.TreeMap.Iterator<Key, T>, last: std.TreeMap.Iterator<Key, T>): void;
 
 		public refresh(...args: any[]): void
 		{
-			let first: std.MapIterator<Key, T>;
-			let last: std.MapIterator<Key, T>;
+			let first: std.TreeMap.Iterator<Key, T>;
+			let last: std.TreeMap.Iterator<Key, T>;
 
 			if (args.length == 0)
 			{

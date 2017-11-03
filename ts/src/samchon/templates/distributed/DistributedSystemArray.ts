@@ -135,7 +135,7 @@ namespace samchon.templates.distributed
 					process.construct(role_xml);
 
 					// AND INSERT TO ROLE_MAP
-					this.process_map_.insert([process.getName(), process]);
+					this.process_map_.emplace(process.getName(), process);
 				}
 			}
 
@@ -200,7 +200,7 @@ namespace samchon.templates.distributed
 		 */
 		public insertProcess(process: DistributedProcess): boolean
 		{
-			return this.process_map_.insert([process.getName(), process]).second;
+			return this.process_map_.emplace(process.getName(), process).second;
 		}
 
 		/**

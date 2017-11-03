@@ -294,11 +294,11 @@ namespace samchon.templates.parallel
 
 			// REGISTER THE UID AS PROGRESS
 			let history: PRInvokeHistory = new PRInvokeHistory(my_invoke);
-			this.progress_list_.insert
-			([
+			this.progress_list_.emplace
+			(
 				history.getUID(), // KEY: UID
 				std.make_pair(my_invoke, history) // VALUE: PAIR OF INVOKE AND ITS HISTORY
-			]);
+			);
 
 			// SEND DATA
 			this.sendData(my_invoke);
@@ -349,7 +349,7 @@ namespace samchon.templates.parallel
 
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list_.erase(progress_it);
-			this.history_list_.insert([history.getUID(), history]);
+			this.history_list_.emplace(history.getUID(), history);
 
 			// NOTIFY TO THE MANAGER, SYSTEM_ARRAY
 			this.getSystemArray()["_Complete_history"](history);

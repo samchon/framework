@@ -56,8 +56,8 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends std.base.Iterator<U>>
-			(position: std.ListIterator<T>, begin: InputIterator, end: InputIterator): std.ListIterator<T>
+		protected _Insert_by_range<U extends T, InputIterator extends std.IForwardIterator<U>>
+			(position: std.List.Iterator<T>, begin: InputIterator, end: InputIterator): std.List.Iterator<T>
 		{
 			let n: number = this.size();
 
@@ -75,7 +75,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Erase_by_range(first: std.ListIterator<T>, last: std.ListIterator<T>): std.ListIterator<T>
+		protected _Erase_by_range(first: std.List.Iterator<T>, last: std.List.Iterator<T>): std.List.Iterator<T>
 		{
 			let ret = super._Erase_by_range(first, last);
 
@@ -90,7 +90,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private _Notify_insert(first: std.ListIterator<T>, last: std.ListIterator<T>): void
+		private _Notify_insert(first: std.List.Iterator<T>, last: std.List.Iterator<T>): void
 		{
 			ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
 		}
@@ -98,7 +98,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private _Notify_erase(first: std.ListIterator<T>, last: std.ListIterator<T>): void
+		private _Notify_erase(first: std.List.Iterator<T>, last: std.List.Iterator<T>): void
 		{
 			ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
 		}
@@ -135,17 +135,17 @@ namespace samchon.collections
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(it: std.ListIterator<T>): void;
+		public refresh(it: std.List.Iterator<T>): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(first: std.ListIterator<T>, last: std.ListIterator<T>): void;
+		public refresh(first: std.List.Iterator<T>, last: std.List.Iterator<T>): void;
 
 		public refresh(...args: any[]): void
 		{
-			let first: std.ListIterator<T>;
-			let last: std.ListIterator<T>;
+			let first: std.List.Iterator<T>;
+			let last: std.List.Iterator<T>;
 
 			if (args.length == 0)
 			{

@@ -13,24 +13,24 @@ namespace samchon.collections
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class MapCollectionEvent<Key, T> 
-		extends CollectionEvent<std.Pair<Key, T>>
+		extends CollectionEvent<std.Entry<Key, T>>
 	{
 		// using super::constructor
 		
 		/**
 		 * @inheritdoc
 		 */
-		public get first(): std.MapIterator<Key, T>
+		public get first(): std.base.MapIterator<Key, T, std.base.IMapContainer<Key, T>>
 		{
-			return this["first_"] as std.MapIterator<Key, T>;
+			return this["first_"] as std.base.MapIterator<Key, T, std.base.IMapContainer<Key, T>>
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public get last(): std.MapIterator<Key, T>
+		public get last(): std.base.MapIterator<Key, T, std.base.IMapContainer<Key, T>>
 		{
-			return this["last_"] as std.MapIterator<Key, T>;
+			return this["last_"] as std.base.MapIterator<Key, T, std.base.IMapContainer<Key, T>>
 		}
 	}
 }

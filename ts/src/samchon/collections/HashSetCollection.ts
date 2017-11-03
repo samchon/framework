@@ -43,21 +43,21 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Handle_insert(first: std.SetIterator<T>, last: std.SetIterator<T>): void
+		protected _Handle_insert(first: std.HashSet.Iterator<T>, last: std.HashSet.Iterator<T>): void
 		{
 			super._Handle_insert(first, last);
 
-			ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
+			ICollection._Dispatch_CollectionEvent<T>(this, "insert", first, last);
 		}
 
 		/**
 		 * @hidden
 		 */
-		protected _Handle_erase(first: std.SetIterator<T>, last: std.SetIterator<T>): void
+		protected _Handle_erase(first: std.HashSet.Iterator<T>, last: std.HashSet.Iterator<T>): void
 		{
 			super._Handle_erase(first, last);
 
-			ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
+			ICollection._Dispatch_CollectionEvent<T>(this, "erase", first, last);
 		}
 
 		/* =========================================================
@@ -92,17 +92,17 @@ namespace samchon.collections
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(it: std.SetIterator<T>): void;
+		public refresh(it: std.HashSet.Iterator<T>): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(first: std.SetIterator<T>, last: std.SetIterator<T>): void;
+		public refresh(first: std.HashSet.Iterator<T>, last: std.HashSet.Iterator<T>): void;
 
 		public refresh(...args: any[]): void
 		{
-			let first: std.SetIterator<T>;
-			let last: std.SetIterator<T>;
+			let first: std.HashSet.Iterator<T>;
+			let last: std.HashSet.Iterator<T>;
 
 			if (args.length == 0)
 			{
@@ -120,7 +120,7 @@ namespace samchon.collections
 				last = args[1];
 			}
 
-			ICollection._Dispatch_CollectionEvent(this, "refresh", first, last);
+			ICollection._Dispatch_CollectionEvent<T>(this, "refresh", first, last);
 		}
 
 		/* ---------------------------------------------------------

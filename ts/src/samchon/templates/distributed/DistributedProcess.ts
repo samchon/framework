@@ -345,8 +345,8 @@ namespace samchon.templates.distributed
 			// ARCHIVE HISTORY ON PROGRESS_LIST (IN SYSTEM AND ROLE AT THE SAME TIME)
 			let history: DSInvokeHistory = new DSInvokeHistory(idle_system, this, invoke, weight);
 
-			this.progress_list_.insert([uid, history]);
-			idle_system["progress_list_"].insert([uid, std.make_pair(invoke, history)]);
+			this.progress_list_.emplace(uid, history);
+			idle_system["progress_list_"].emplace(uid, std.make_pair(invoke, history));
 
 			// SEND DATA
 			idle_system.sendData(invoke);
@@ -362,7 +362,7 @@ namespace samchon.templates.distributed
 		{
 			// ERASE FROM ORDINARY PROGRESS AND MIGRATE TO THE HISTORY
 			this.progress_list_.erase(history.getUID());
-			this.history_list_.insert([history.getUID(), history]);
+			this.history_list_.emplace(history.getUID(), history);
 		}
 
 		/* ---------------------------------------------------------

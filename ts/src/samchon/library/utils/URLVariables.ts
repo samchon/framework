@@ -70,7 +70,7 @@ namespace samchon.library
 					value = decodeURIComponent(var_pairs[i].substr(equal_index + 1));
 				}
 
-				this.insert([key, value]);
+				this.emplace(key, value);
 			}
 		}
 

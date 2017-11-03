@@ -70,8 +70,8 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends std.base.Iterator<U>>
-			(position: std.DequeIterator<T>, begin: InputIterator, end: InputIterator): std.DequeIterator<T>
+		protected _Insert_by_range<U extends T, InputIterator extends std.IForwardIterator<U>>
+			(position: std.Deque.Iterator<T>, begin: InputIterator, end: InputIterator): std.Deque.Iterator<T>
 		{
 			let n: number = this.size();
 
@@ -109,7 +109,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Erase_by_range(first: std.DequeIterator<T>, last: std.DequeIterator<T>): std.DequeIterator<T>
+		protected _Erase_by_range(first: std.Deque.Iterator<T>, last: std.Deque.Iterator<T>): std.Deque.Iterator<T>
 		{
 			this._Notify_erase(first, last);
 
@@ -122,7 +122,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private _Notify_insert(first: std.DequeIterator<T>, last: std.DequeIterator<T>): void
+		private _Notify_insert(first: std.Deque.Iterator<T>, last: std.Deque.Iterator<T>): void
 		{
 			ICollection._Dispatch_CollectionEvent(this, "insert", first, last);
 		}
@@ -130,7 +130,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private _Notify_erase(first: std.DequeIterator<T>, last: std.DequeIterator<T>): void
+		private _Notify_erase(first: std.Deque.Iterator<T>, last: std.Deque.Iterator<T>): void
 		{
 			ICollection._Dispatch_CollectionEvent(this, "erase", first, last);
 		}
@@ -167,17 +167,17 @@ namespace samchon.collections
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(it: std.DequeIterator<T>): void;
+		public refresh(it: std.Deque.Iterator<T>): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(first: std.DequeIterator<T>, last: std.DequeIterator<T>): void;
+		public refresh(first: std.Deque.Iterator<T>, last: std.Deque.Iterator<T>): void;
 
 		public refresh(...args: any[]): void
 		{
-			let first: std.DequeIterator<T>;
-			let last: std.DequeIterator<T>;
+			let first: std.Deque.Iterator<T>;
+			let last: std.Deque.Iterator<T>;
 
 			if (args.length == 0)
 			{

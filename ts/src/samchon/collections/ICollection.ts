@@ -166,7 +166,8 @@ namespace samchon.collections
 		export function _Dispatch_MapCollectionEvent<Key, T>
 			(
 				collection: ICollection<std.Pair<Key, T>>, type: string,
-				first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>
+				first: std.base.MapIterator<Key, T, std.base.IMapContainer<Key, T>>, 
+				last: std.base.MapIterator<Key, T, std.base.IMapContainer<Key, T>>
 			): void
 		{
 			if (collection.hasEventListener(type) == false)

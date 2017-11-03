@@ -23,7 +23,7 @@ namespace samchon.collections
 	 */
 	export class HashMultiMapCollection<Key, T>
 		extends std.HashMultiMap<Key, T>
-		implements ICollection<std.Pair<Key, T>>
+		implements ICollection<std.Entry<Key, T>>
 	{
 		// A chain object taking responsibility of dispatching events.
 		/**
@@ -42,7 +42,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Handle_insert(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void
+		protected _Handle_insert(first: std.HashMultiMap.Iterator<Key, T>, last: std.HashMultiMap.Iterator<Key, T>): void
 		{
 			super._Handle_insert(first, last);
 
@@ -52,7 +52,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		protected _Handle_erase(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void
+		protected _Handle_erase(first: std.HashMultiMap.Iterator<Key, T>, last: std.HashMultiMap.Iterator<Key, T>): void
 		{
 			super._Handle_erase(first, last);
 
@@ -91,17 +91,17 @@ namespace samchon.collections
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(it: std.MapIterator<Key, T>): void;
+		public refresh(it: std.HashMultiMap.Iterator<Key, T>): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public refresh(first: std.MapIterator<Key, T>, last: std.MapIterator<Key, T>): void;
+		public refresh(first: std.HashMultiMap.Iterator<Key, T>, last: std.HashMultiMap.Iterator<Key, T>): void;
 
 		public refresh(...args: any[]): void
 		{
-			let first: std.MapIterator<Key, T>;
-			let last: std.MapIterator<Key, T>;
+			let first: std.HashMultiMap.Iterator<Key, T>;
+			let last: std.HashMultiMap.Iterator<Key, T>;
 
 			if (args.length == 0)
 			{

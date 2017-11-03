@@ -136,7 +136,7 @@ namespace samchon.templates.parallel
 			{
 				let system: ParallelSystem = this.system_array_.at(i);
 				
-				let it: std.MapIterator<number, slave.InvokeHistory> = system["history_list_"].find(uid);
+				let it: std.HashMap.Iterator<number, slave.InvokeHistory> = system["history_list_"].find(uid);
 				if (it.equals(system["history_list_"].end()) == true)
 					continue;
 				
@@ -174,7 +174,7 @@ namespace samchon.templates.parallel
 				}
 
 				// REGISTER THIS PROCESS ON HISTORY LIST
-				this.progress_list_.insert([history.getUID(), history]);
+				this.progress_list_.emplace(history.getUID(), history);
 
 				if (invoke.has("_Piece_first") == true)
 				{

@@ -8,14 +8,16 @@ minify();
 
 function compile()
 {
-	process.execSync("tsc -p ../src/samchon/tsconfig.json");
-	process.execSync("tsc -p ../src/samchon/tsconfig.json  --removeComments --declaration false");
+	const FILE = __dirname + "/../src/samchon/tsconfig.json";
+
+	process.execSync("tsc -p " + FILE);
+	process.execSync("tsc -p " + FILE + " --removeComments --declaration false");
 }
 
 function attach_header()
 {
-	const TITLE_FILE = "../src/samchon/typings/samchon/samchon.d.ts";
-	const HEADER_FILE = "../lib/samchon.d.ts";
+	const TITLE_FILE = __dirname + "/../src/samchon/typings/samchon/samchon.d.ts";
+	const HEADER_FILE = __dirname + "/../lib/samchon.d.ts";
 
 	var text = fs.readFileSync(TITLE_FILE, "utf8");
 	text += fs.readFileSync(HEADER_FILE, "utf8");
@@ -25,7 +27,7 @@ function attach_header()
 
 function remove_dynamics()
 {
-	const JS_FILE = "../lib/samchon.js";
+	const JS_FILE = __dirname + "/../lib/samchon.js";
 
 	var text = fs.readFileSync(JS_FILE, "utf8");
 	if (text.indexOf('["') == -1)
@@ -57,5 +59,5 @@ function remove_dynamics()
 
 function minify()
 {
-	process.execSync("minify ../lib/samchon.js");
+	process.execSync("minify " + __dirname + "/../lib/samchon.js");
 }

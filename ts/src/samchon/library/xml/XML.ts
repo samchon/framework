@@ -126,7 +126,7 @@ namespace samchon.library
 			while ((start = str.indexOf("<!--")) != -1) 
 			{
 				end = str.indexOf("-->", start);
-				if (end != -1)
+				if (end == -1)
 					break;
 
 				str = str.substr(0, start) + str.substr(end + 3);

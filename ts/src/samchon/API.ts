@@ -22,6 +22,8 @@ try
 {
 	// IF THE CONDITION BE IS_NODE(), THEN CANNOT BE USED IN BROWSERIFY
 	eval("var std = require('tstl');");
+	eval("var sxml = require('sxml')");
+
 	eval("var http = require('http');");
 	eval("var websocket = require('websocket');");
 	eval("var net = require('net');");

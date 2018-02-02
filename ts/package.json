@@ -8,7 +8,7 @@
   },
   "main": "./lib/samchon.js",
   "typings": "./lib/samchon.d.ts",
-  "version": "2.0.37",
+  "version": "2.0.38",
   "dependencies": {
     "tstl": "~1.6.10",
     "sxml": "~0.0.3",

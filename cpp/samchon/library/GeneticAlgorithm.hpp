@@ -189,7 +189,7 @@ namespace library
 			size_t size = population->children.size();
 			Population tornament(size);
 
-			for (size_t i = 0; i < size; i++)
+			for (size_t i = 0; i < this->tournament; i++)
 			{
 				size_t randomIndex = (size_t)(Math::random() * size);
 				if (randomIndex == size)

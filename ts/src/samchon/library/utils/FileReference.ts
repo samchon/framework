@@ -202,7 +202,7 @@ namespace samchon.library
 				input.accept = typeFilter.toString();
 
 			// EVENT HANDLER
-			input.onchange = function (event: any): void
+			input.onchange = function (): void
 			{
 				this_.file_ = input.files[0];
 				this_.dispatchEvent(new library.BasicEvent("select"));
@@ -238,7 +238,7 @@ namespace samchon.library
 			let this_: FileReference = this;
 
 			let reader: FileReader = new FileReader();
-			reader.onload = function (event: any): void
+			reader.onload = function (): void
 			{
 				this_.data_ = reader.result;
 				this_.dispatchEvent(new library.BasicEvent("complete"));
@@ -426,7 +426,7 @@ namespace samchon.library
 				input.accept = typeFilter.toString();
 
 			// EVENT HANDLER
-			input.onchange = function (event: any): void
+			input.onchange = function (): void
 			{
 				let fileList: FileList = input.files;
 

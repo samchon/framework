@@ -53,7 +53,7 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		private _Handle_connect(...arg: any[]): void
+		private _Handle_connect(): void
 		{
 			this.connected_ = true;
 

@@ -1,10 +1,9 @@
 # Samchon Framework
-[![NPM](https://nodei.co/npm/samchon.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/samchon)
+[![npm version](https://badge.fury.io/js/samchon.svg)](https://www.npmjs.com/package/samchon)
+[![Downloads](https://img.shields.io/npm/dm/samchon.svg)](https://www.npmjs.com/package/samchon)
+[![DeepScan Grade](https://deepscan.io/api/projects/1803/branches/7815/badge/grade.svg)](https://deepscan.io/dashboard/#view=project&pid=1803&bid=7815)
+[![Chat on Gitter](https://badges.gitter.im/samchon/framework.svg)](https://gitter.im/samchon/framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-GitHub Repository: https://github.com/samchon/framework
-
-
-## What Samchon Framework is
 ### Object Oriented Network
 ![Network Connectivity to Class Relationship](http://samchon.github.io/framework/images/accessory/oon.png)
 

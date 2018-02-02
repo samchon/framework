@@ -165,7 +165,7 @@ namespace samchon.library
 			let size: number = population.getChildren().size();
 			let tournament: GAPopulation<T, GeneArray> = new GAPopulation<T, GeneArray>(population);
 
-			for (let i: number = 0; i < size; i++)
+			for (let i: number = 0; i < this.tournament_; i++)
 			{
 				let random_index: number = Math.floor(Math.random() * size);
 				if (random_index == size)

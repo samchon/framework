@@ -12,7 +12,7 @@ function main()
 		let first = content.indexOf('eval("');
 		let last = content.indexOf('");', first + 1);
 
-		if (first == -1)
+		if (first == -1 || last == -1)
 			return null;
 
 		let repl = content.substring(first + 6, last);
@@ -29,7 +29,7 @@ function main()
 			first = content.indexOf('["', first + 1);
 			let last = content.indexOf('"]', first + 1);
 
-			if (first == -1)
+			if (first == -1 || last == -1)
 				return null;
 			
 			let repl = "." + content.substring(first + 2, last);

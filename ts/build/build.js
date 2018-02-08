@@ -1,24 +1,56 @@
 const fs = require("fs");
-const process = require('child_process');
+const cmd = require('child_process');
 
 function main()
 {
 	compile();
 	attach_header();
 
-	replace_body('["', '"]', (value) => 
+	// REMOVE EVALS
+	replace_body(content =>
 	{
-		return "." + value;
+		let first = content.indexOf('eval("');
+		let last = content.indexOf('");', first + 1);
+
+		if (first == -1)
+			return null;
+
+		let repl = content.substring(first + 6, last);
+		return content.substr(0, first) + repl + content.substr(last + 3);
 	});
-	replace_body('eval("', '");', (value) => {return value;});
+
+	// REMOVE DYNAMICS
+	replace_body(content =>
+	{
+		let first = -1;
+
+		while (true)
+		{
+			first = content.indexOf('["', first + 1);
+			let last = content.indexOf('"]', first + 1);
+
+			if (first == -1)
+				return null;
+			
+			let repl = "." + content.substring(first + 2, last);
+
+			if (repl.indexOf(",") != -1)
+			{
+				first = last;
+				continue;
+			}
+			else
+				return content.substr(0, first) + repl + content.substr(last + 2);
+		}
+	});
 }
 
 function compile()
 {
 	const FILE = __dirname + "/../src/samchon/tsconfig.json";
 
-	process.execSync("tsc -p " + FILE);
-	process.execSync("tsc -p " + FILE + " --removeComments --declaration false");
+	cmd.execSync("tsc -p " + FILE);
+	cmd.execSync("tsc -p " + FILE + " --removeComments --declaration false");
 }
 
 function attach_header()
@@ -26,32 +58,26 @@ function attach_header()
 	const TITLE_FILE = __dirname + "/../src/samchon/typings/samchon/samchon.d.ts";
 	const HEADER_FILE = __dirname + "/../lib/samchon.d.ts";
 
-	let text = fs.readFileSync(TITLE_FILE, "utf8");
-	text += fs.readFileSync(HEADER_FILE, "utf8");
+	let content = fs.readFileSync(TITLE_FILE, "utf8");
+	content += fs.readFileSync(HEADER_FILE, "utf8");
 
-	fs.writeFileSync(HEADER_FILE, text, "utf8");
+	fs.writeFileSync(HEADER_FILE, content, "utf8");
 }
 
-function replace_body(S1, S2, changer)
+function replace_body(replacer)
 {
 	const JS_FILE = __dirname + "/../lib/samchon.js";
-	let text = fs.readFileSync(JS_FILE, "utf8");
-	if (text.indexOf(S1) == -1)
-		return;
-
-	let segments = text.split(S1);
-	for (let part of segments)
+	let content = fs.readFileSync(JS_FILE, "utf8");
+	
+	while (true)
 	{
-		if (part.indexOf(S2) == -1)
-			continue;
-
-		let value = part.substr(0, part.indexOf(S2));
-		let org = S1 + value + S2;
-		let repl = changer(value);
-
-		text = text.split(org).join(repl);
+		let repl = replacer(content);
+		if (repl == null)
+			break;
+		else
+			content = repl;
 	}
-	fs.writeFileSync(JS_FILE, text, "utf8");
+	fs.writeFileSync(JS_FILE, content, "utf8");
 }
 
 main();

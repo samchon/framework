@@ -130,7 +130,7 @@ namespace samchon.library
 		/**
 		 * An array containing whitespaces.
 		 */
-		private static SPACE_ARRAY: Array<string> = [" ", "\t", "\r", "\n"];
+		private static SPACE_ARRAY: Array<string> = [' ', '\t', '\r', '\n'];
 
 		/**
 		 * Remove all designated characters from the beginning and end of the specified string.

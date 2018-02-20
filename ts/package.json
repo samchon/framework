@@ -8,10 +8,11 @@
   },
   "main": "./lib/samchon.js",
   "typings": "./lib/samchon.d.ts",
-  "version": "2.0.40",
+  "version": "2.0.41",
   "dependencies": {
-    "tstl": "~1.6.11",
-    "sxml": "~0.0.6",
+    "tstl": "~x.x.x",
+    "sxml": "~x.x.x",
+    "url-variables": "~x.x.x",
     "websocket": "~1.0.x"
   },
   "devDependencies": {

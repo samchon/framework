@@ -1,6 +1,6 @@
 ﻿/// <reference path="API.ts" />
 
-/// <reference path="library/xml.ts" />
+/// <reference path="library/modules.ts" />
 /// <reference path="collections/ArrayCollection.ts" />
 /// <reference path="protocol/entity/Entity.ts" />
 /// <reference path="templates/distributed/DistributedSystemArrayMediator.ts" />

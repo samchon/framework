@@ -363,13 +363,16 @@ namespace samchon.templates.parallel
 			if (history instanceof PRInvokeHistory)
 			{
 				// REMOVE UID AND FIRST, LAST INDEXES
-				std.remove_if(invoke.begin(), invoke.end(),
-					function (param: protocol.InvokeParameter): boolean
+				invoke.erase
+				(
+					std.remove_if(invoke.begin(), invoke.end(), function (param: protocol.InvokeParameter): boolean
 					{
 						return param.getName() == "_History_uid"
 							|| param.getName() == "_Piece_first"
 							|| param.getName() == "_Piece_last";
-					});
+					}),
+					invoke.end()
+				);
 
 				// RE-SEND (DISTRIBUTE) THE PIECE TO OTHER SLAVES
 				this.getSystemArray().sendPieceData

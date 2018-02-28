@@ -118,7 +118,7 @@ namespace samchon.protocol
 		{
 			// MEMBER VARIABLES
 			//  - ATOMIC ONLY; STRING, NUMBER AND BOOLEAN
-			let property_map: std.HashMap<string, string> = xml.getPropertyMap();
+			let property_map = xml.getPropertyMap();
 
 			for (let it = property_map.begin(); !it.equals(property_map.end()); it = it.next())
 			{

@@ -139,7 +139,11 @@ namespace samchon.templates.external
 			if (this.system_array_ == null)
 				return;
 			else
-				std.remove(this.system_array_.begin(), this.system_array_.end(), this as ExternalSystem);
+				this.system_array_.erase
+				(
+					std.remove(this.system_array_.begin(), this.system_array_.end(), this as ExternalSystem),
+					this.system_array_.end()
+				);
 		}
 
 		/* ---------------------------------------------------------

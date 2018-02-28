@@ -48,15 +48,15 @@ namespace samchon.templates.slave
 			{
 				// INIT HISTORY - WITH START TIME
 				let history: InvokeHistory = new InvokeHistory(invoke);
-				std.remove_if
+				invoke.erase
 				(
-					invoke.begin(), invoke.end(),
-					function (parameter: protocol.InvokeParameter): boolean
+					std.remove_if(invoke.begin(), invoke.end(), function (parameter: protocol.InvokeParameter): boolean
 					{
 						return parameter.getName() == "_History_uid"
 							|| parameter.getName() == "_Process_name"
 							|| parameter.getName() == "_Process_weight";
-					}
+					}),
+					invoke.end()
 				); // DETACH THE UID FOR FUNCTION AUTO-MATCHING
 
 				// MAIN PROCESS - REPLY_DATA

@@ -64,7 +64,7 @@ namespace samchon.collections
 			let ret = super._Insert_by_range(position, begin, end);
 			n = this.size() - n;
 
-			this._Notify_insert(ret, ret.advance(n));
+			this._Notify_insert(ret, std.advance(ret, n));
 
 			return ret;
 		}

@@ -272,7 +272,7 @@ namespace samchon.library
 
 				// JUST SHUFFLE SEQUENCE OF GENES
 				let j: number = Math.floor(Math.random() * individual.size());
-				it.swap(individual.begin().advance(j));
+				std.iter_swap(it, individual.begin().advance(j));
 			}
 		}
 	}

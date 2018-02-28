@@ -11,7 +11,7 @@ namespace samchon.protocol
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IEntityGroup<T extends IEntity>
-		extends IEntity, std.base.Container<T>
+		extends IEntity, std.base.IContainer<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS

@@ -85,11 +85,7 @@ namespace samchon.library
 					let child: GeneArray = this.cloner_(geneArray);
 
 					if (i > 0) // DO NOT TOUCH THE FIRST, THE ELITEST ELEMENT; ELITICISM
-						std.random_shuffle
-						(
-							child.begin() as std.base.IArrayIterator<T>,
-							child.end() as std.base.IArrayIterator<T>
-						);
+						std.shuffle(child.begin(), child.end());
 					this.children_.push_back(child);
 				}
 			}

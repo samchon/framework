@@ -24,12 +24,12 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private first_: std.base.Iterator<T>;
+		private first_: std.base.IIterator<T>;
 
 		/**
 		 * @hidden
 		 */
-		private last_: std.base.Iterator<T>;
+		private last_: std.base.IIterator<T>;
 
 		/**
 		 * @hidden
@@ -39,7 +39,7 @@ namespace samchon.collections
 		/**
 		 * @hidden
 		 */
-		private origin_first_: std.base.Iterator<T>;
+		private origin_first_: std.base.IIterator<T>;
 
 		/**
 		 * Initialization Constructor.
@@ -48,13 +48,13 @@ namespace samchon.collections
 		 * @param first An {@link Iterator} to the initial position in this {@link CollectionEvent}.
 		 * @param last An {@link Iterator} to the final position in this {@link CollectionEvent}.
 		 */
-		public constructor(type: string, first: std.base.Iterator<T>, last: std.base.Iterator<T>);
+		public constructor(type: string, first: std.base.IIterator<T>, last: std.base.IIterator<T>);
 
-		public constructor(type: "insert", first: std.base.Iterator<T>, last: std.base.Iterator<T>);
-		public constructor(type: "erase", first: std.base.Iterator<T>, last: std.base.Iterator<T>);
-		public constructor(type: "refresh", first: std.base.Iterator<T>, last: std.base.Iterator<T>);
+		public constructor(type: "insert", first: std.base.IIterator<T>, last: std.base.IIterator<T>);
+		public constructor(type: "erase", first: std.base.IIterator<T>, last: std.base.IIterator<T>);
+		public constructor(type: "refresh", first: std.base.IIterator<T>, last: std.base.IIterator<T>);
 
-		public constructor(type: string, first: std.base.Iterator<T>, last: std.base.Iterator<T>)
+		public constructor(type: string, first: std.base.IIterator<T>, last: std.base.IIterator<T>)
 		{
 			super(type, false, (type == "insert" || type == "erase"));
 
@@ -87,7 +87,7 @@ namespace samchon.collections
 		/**
 		 * An {@link Iterator} to the initial position in this {@link CollectionEvent}.
 		 */
-		public get first(): std.base.Iterator<T>
+		public get first(): std.base.IIterator<T>
 		{
 			return this.first_;
 		}
@@ -95,7 +95,7 @@ namespace samchon.collections
 		/**
 		 * An {@link Iterator} to the final position in this {@link CollectionEvent}.
 		 */
-		public get last(): std.base.Iterator<T>
+		public get last(): std.base.IIterator<T>
 		{
 			return this.last_;
 		}

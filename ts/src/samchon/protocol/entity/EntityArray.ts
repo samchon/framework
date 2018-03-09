@@ -10,8 +10,11 @@ namespace samchon.protocol
 	 * @handbook  [Protocol - Standard Message](https://github.com/samchon/framework/wiki/TypeScript-Protocol-Standard_Message)
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export interface IEntityGroup<T extends IEntity>
-		extends IEntity, std.base.IContainer<T>
+	export interface IEntityGroup<T extends IEntity,
+			SourceT extends std.base.Container<T, SourceT, IteratorT, ReverseT>,
+			IteratorT extends std.base.Iterator<T, SourceT, IteratorT, ReverseT>,
+			ReverseT extends std.base.ReverseIterator<T, SourceT, IteratorT, ReverseT>>
+		extends IEntity, std.base.Container<T, SourceT, IteratorT, ReverseT>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -130,8 +133,11 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		export function construct<T extends IEntity>
-			(entityGroup: IEntityGroup<T>, xml: library.XML, ...prohibited_names: string[]): void
+		export function construct<T extends IEntity,
+				SourceT extends std.base.Container<T, SourceT, IteratorT, ReverseT>,
+				IteratorT extends std.base.Iterator<T, SourceT, IteratorT, ReverseT>,
+				ReverseT extends std.base.ReverseIterator<T, SourceT, IteratorT, ReverseT>>
+			(entityGroup: IEntityGroup<T, SourceT, IteratorT, ReverseT>, xml: library.XML, ...prohibited_names: string[]): void
 		{
 			entityGroup.clear();
 
@@ -160,8 +166,11 @@ namespace samchon.protocol
 		/**
 		 * @hidden
 		 */
-		export function toXML<T extends IEntity>
-			(group: IEntityGroup<T>, ...prohibited_names: string[]): library.XML
+		export function toXML<T extends IEntity,
+				SourceT extends std.base.Container<T, SourceT, IteratorT, ReverseT>,
+				IteratorT extends std.base.Iterator<T, SourceT, IteratorT, ReverseT>,
+				ReverseT extends std.base.ReverseIterator<T, SourceT, IteratorT, ReverseT>>
+			(group: IEntityGroup<T, SourceT, IteratorT, ReverseT>, ...prohibited_names: string[]): library.XML
 		{
 			// MEMBERS
 			let xml: library.XML = IEntity.toXML(group, ...prohibited_names);
@@ -176,8 +185,11 @@ namespace samchon.protocol
 		/* ------------------------------------------------------------------
 			ACCESSORS
 		------------------------------------------------------------------ */
-		export function has<T extends IEntity>
-			(entityGroup: IEntityGroup<T>, key: any): boolean
+		export function has<T extends IEntity,
+				SourceT extends std.base.Container<T, SourceT, IteratorT, ReverseT>,
+				IteratorT extends std.base.Iterator<T, SourceT, IteratorT, ReverseT>,
+				ReverseT extends std.base.ReverseIterator<T, SourceT, IteratorT, ReverseT>>
+			(entityGroup: IEntityGroup<T, SourceT, IteratorT, ReverseT>, key: any): boolean
 		{
 			return std.any_of(entityGroup.begin(), entityGroup.end(),
 				function (entity: T): boolean
@@ -187,8 +199,11 @@ namespace samchon.protocol
 			);
 		}
 
-		export function count<T extends IEntity>
-			(entityGroup: IEntityGroup<T>, key: any): number
+		export function count<T extends IEntity,
+				SourceT extends std.base.Container<T, SourceT, IteratorT, ReverseT>,
+				IteratorT extends std.base.Iterator<T, SourceT, IteratorT, ReverseT>,
+				ReverseT extends std.base.ReverseIterator<T, SourceT, IteratorT, ReverseT>>
+			(entityGroup: IEntityGroup<T, SourceT, IteratorT, ReverseT>, key: any): number
 		{
 			return std.count_if(entityGroup.begin(), entityGroup.end(),
 				function (entity: T): boolean
@@ -198,8 +213,11 @@ namespace samchon.protocol
 			);
 		}
 
-		export function get<T extends IEntity>
-			(entityGroup: IEntityGroup<T>, key: any): T
+		export function get<T extends IEntity,
+				SourceT extends std.base.Container<T, SourceT, IteratorT, ReverseT>,
+				IteratorT extends std.base.Iterator<T, SourceT, IteratorT, ReverseT>,
+				ReverseT extends std.base.ReverseIterator<T, SourceT, IteratorT, ReverseT>>
+			(entityGroup: IEntityGroup<T, SourceT, IteratorT, ReverseT>, key: any): T
 		{
 			for (let it = entityGroup.begin(); !it.equals(entityGroup.end()); it = it.next())
 				if (std.equal_to(it.value.key(), key) == true)
@@ -217,7 +235,6 @@ namespace samchon.protocol
 	 */
 	export abstract class EntityArray<T extends IEntity>
 		extends std.Vector<T>
-		implements IEntityGroup<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -302,7 +319,6 @@ namespace samchon.protocol
 	 */
 	export abstract class EntityList<T extends IEntity>
 		extends std.List<T>
-		implements IEntityGroup<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -387,7 +403,6 @@ namespace samchon.protocol
 	 */
 	export abstract class EntityDeque<T extends IEntity>
 		extends std.Deque<T>
-		implements IEntityGroup<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS

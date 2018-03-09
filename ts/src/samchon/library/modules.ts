@@ -2,7 +2,7 @@
 
 namespace samchon.library
 {
-	export import XML = sxml.XML;
-	export import XMLList = sxml.XMLList;
+	export import XML = _s_xml.XML;
+	export import XMLList = _s_xml.XMLList;
 	export import URLVariables = _url_variables;
 }

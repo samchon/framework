@@ -21,7 +21,7 @@ namespace samchon.library
 	 * 
 	 * @author Jeongho Nam <http://samcho.org>
 	 */
-	export class GAPopulation<T, GeneArray extends std.base.IArrayContainer<T>>
+	export class GAPopulation<T, GeneArray extends std.Vector<T>>
 	{
 		/**
 		 * @hidden 
@@ -97,7 +97,7 @@ namespace samchon.library
 		/**
 		 * Genes representing the population.
 		 */
-		public getChildren(): std.base.IArrayContainer<GeneArray>
+		public getChildren(): std.Vector<GeneArray>
 		{
 			return this.children_;
 		}
@@ -106,10 +106,10 @@ namespace samchon.library
 		 * A comparison function returns whether left gene is more optimal, greater.
 		 * 
 		 * Default value of this {@link compare} is {@link std.greater}. It means to compare two array 
-		 * (GeneArray must be a type of {@link std.base.IArrayContainer}). Thus, you've to keep follwing rule.
+		 * (GeneArray must be a type of {@link std.Vector}). Thus, you've to keep follwing rule.
 		 *
 		 * <ul>
-		 *	<li> GeneArray is implemented from {@link std.base.IArrayContainer}. </li>
+		 *	<li> GeneArray is implemented from {@link std.Vector}. </li>
 		 *	<ul>
 		 *		<li> {@link std.Vector} </li>
 		 *		<li> {@link std.Deque} </li>

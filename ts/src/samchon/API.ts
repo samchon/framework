@@ -1,4 +1,18 @@
-﻿/**
+﻿try
+{
+	// IF THE CONDITION BE IS_NODE(), THEN CANNOT BE USED IN BROWSERIFY
+	eval("var std = require('tstl');");
+	eval("var _e_con = require('econ')");
+	eval("var _s_xml = require('sxml');");
+	eval("var _url_variables = require('url-variables');");
+
+	eval("var http = require('http');");
+	eval("var websocket = require('websocket');");
+	eval("var net = require('net');");
+}
+catch (exception) {}
+
+/**
  * # Samchon Framework
  * 
  * <a href="https://nodei.co/npm/samchon">
@@ -16,17 +30,7 @@
  * @git https://github.com/samchon/framework
  * @author Jeongho Nam <http://samchon.org>
  */
-namespace samchon {}
-
-try
+namespace samchon 
 {
-	// IF THE CONDITION BE IS_NODE(), THEN CANNOT BE USED IN BROWSERIFY
-	eval("var std = require('tstl');");
-	eval("var sxml = require('sxml');");
-	eval("var _url_variables = require('url-variables');");
-
-	eval("var http = require('http');");
-	eval("var websocket = require('websocket');");
-	eval("var net = require('net');");
+	export import collections = _e_con;
 }
-catch (exception) {}

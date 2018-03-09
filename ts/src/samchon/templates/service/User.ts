@@ -35,7 +35,7 @@ namespace samchon.templates.service
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class User
-		extends collections.HashMapCollection<number, Client>
+		extends collections.HashMap<number, Client>
 		implements protocol.IProtocol
 	{
 		// RELATED OBJECTS
@@ -85,7 +85,7 @@ namespace samchon.templates.service
 			this.session_id_ = "";
 			this.sequence_ = 0;
 
-			this.addEventListener("erase", this._Handle_erase_client, this);
+			this.addEventListener("erase", this._Handle_erase_client);
 		}
 
 		/**
@@ -130,7 +130,7 @@ namespace samchon.templates.service
 		/**
 		 * @hidden
 		 */
-		private _Handle_erase_client(event: collections.MapCollectionEvent<number, Client>): void
+		private _Handle_erase_client(event: collections.HashMap.Event<number, Client>): void
 		{
 			for (let it = event.first; !it.equals(event.last); it = it.next())
 				it.second.close();

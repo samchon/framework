@@ -71,13 +71,13 @@ namespace samchon.templates.external
 		{
 			super();
 			
-			this.addEventListener("erase", this._Handle_system_erase, this);
+			this.addEventListener("erase", this._Handle_system_erase);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private _Handle_system_erase(event: collections.CollectionEvent<System>): void
+		private _Handle_system_erase(event: collections.Deque.Event<System>): void
 		{
 			for (let it = event.first; !it.equals(event.last); it = it.next())
 				it.value["destructor"]();

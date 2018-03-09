@@ -1,28 +1,12 @@
 ﻿/// <reference path="../../API.ts" />
 
-/// <reference path="../../collections/ArrayCollection.ts" />
-/// <reference path="../../collections/ListCollection.ts" />
-/// <reference path="../../collections/DequeCollection.ts" />
-
-namespace samchon.protocol
-{
-	/**
-	 * @inheritdoc
-	 */
-	export interface IEntityCollection<T extends IEntity>
-		extends IEntityGroup<T>, collections.ICollection<T>
-	{
-	}
-}
-
 namespace samchon.protocol
 {
 	/**
 	 * @inheritdoc
 	 */
 	export abstract class EntityArrayCollection<T extends IEntity>
-		extends collections.ArrayCollection<T>
-		implements IEntityCollection<T>
+		extends collections.Vector<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -34,7 +18,7 @@ namespace samchon.protocol
 		 */
 		public construct(xml: library.XML): void
 		{
-			IEntityGroup.construct(this, xml);
+			IEntityGroup.construct(<any>this, xml);
 		}
 
 		/**
@@ -58,7 +42,7 @@ namespace samchon.protocol
 		 */
 		public has(key: any): boolean
 		{
-			return IEntityGroup.has(this, key);
+			return IEntityGroup.has(<any>this, key);
 		}
 
 		/**
@@ -66,7 +50,7 @@ namespace samchon.protocol
 		 */
 		public count(key: any): number
 		{
-			return IEntityGroup.count(this, key);
+			return IEntityGroup.count(<any>this, key);
 		}
 
 		/**
@@ -74,7 +58,7 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			return IEntityGroup.get(this, key);
+			return IEntityGroup.get(<any>this, key);
 		}
 
 		/* ------------------------------------------------------------------
@@ -95,7 +79,7 @@ namespace samchon.protocol
 		 */
 		public toXML(): library.XML
 		{
-			return IEntityGroup.toXML(this);
+			return IEntityGroup.toXML(<any>this);
 		}
 	}
 }
@@ -106,8 +90,7 @@ namespace samchon.protocol
 	 * @inheritdoc
 	 */
 	export abstract class EntityListCollection<T extends IEntity>
-		extends collections.ListCollection<T>
-		implements IEntityCollection<T>
+		extends collections.List<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -119,7 +102,7 @@ namespace samchon.protocol
 		 */
 		public construct(xml: library.XML): void
 		{
-			IEntityGroup.construct(this, xml);
+			IEntityGroup.construct(<any>this, xml);
 		}
 
 		/**
@@ -143,7 +126,7 @@ namespace samchon.protocol
 		 */
 		public has(key: any): boolean
 		{
-			return IEntityGroup.has(this, key);
+			return IEntityGroup.has(<any>this, key);
 		}
 
 		/**
@@ -151,7 +134,7 @@ namespace samchon.protocol
 		 */
 		public count(key: any): number
 		{
-			return IEntityGroup.count(this, key);
+			return IEntityGroup.count(<any>this, key);
 		}
 
 		/**
@@ -159,7 +142,7 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			return IEntityGroup.get(this, key);
+			return IEntityGroup.get(<any>this, key);
 		}
 
 		/* ------------------------------------------------------------------
@@ -180,7 +163,7 @@ namespace samchon.protocol
 		 */
 		public toXML(): library.XML
 		{
-			return IEntityGroup.toXML(this);
+			return IEntityGroup.toXML(<any>this);
 		}
 	}
 }
@@ -191,8 +174,7 @@ namespace samchon.protocol
 	 * @inheritdoc
 	 */
 	export abstract class EntityDequeCollection<T extends IEntity>
-		extends collections.DequeCollection<T>
-		implements IEntityCollection<T>
+		extends collections.Deque<T>
 	{
 		/* ------------------------------------------------------------------
 			CONSTRUCTORS
@@ -204,7 +186,7 @@ namespace samchon.protocol
 		 */
 		public construct(xml: library.XML): void
 		{
-			IEntityGroup.construct(this, xml);
+			IEntityGroup.construct(<any>this, xml);
 		}
 
 		/**
@@ -228,7 +210,7 @@ namespace samchon.protocol
 		 */
 		public has(key: any): boolean
 		{
-			return IEntityGroup.has(this, key);
+			return IEntityGroup.has(<any>this, key);
 		}
 
 		/**
@@ -236,7 +218,7 @@ namespace samchon.protocol
 		 */
 		public count(key: any): number
 		{
-			return IEntityGroup.count(this, key);
+			return IEntityGroup.count(<any>this, key);
 		}
 
 		/**
@@ -244,7 +226,7 @@ namespace samchon.protocol
 		 */
 		public get(key: any): T
 		{
-			return IEntityGroup.get(this, key);
+			return IEntityGroup.get(<any>this, key);
 		}
 
 		/* ------------------------------------------------------------------
@@ -265,7 +247,7 @@ namespace samchon.protocol
 		 */
 		public toXML(): library.XML
 		{
-			return IEntityGroup.toXML(this);
+			return IEntityGroup.toXML(<any>this);
 		}
 	}
 }

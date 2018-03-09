@@ -78,7 +78,7 @@ namespace samchon.library
 		 * 
 		 * @see {@link GAPopulation.compare}
 		 */
-		public evolveGeneArray<T, GeneArray extends std.base.IArrayContainer<T>>
+		public evolveGeneArray<T, GeneArray extends std.Vector<T>>
 			(
 				individual: GeneArray, population: number, generation: number, 
 				compare: (left: GeneArray, right: GeneArray) => boolean,
@@ -103,7 +103,7 @@ namespace samchon.library
 		 * 
 		 * @see {@link GAPopulation.compare}
 		 */
-		public evolvePopulation<T, GeneArray extends std.base.IArrayContainer<T>>
+		public evolvePopulation<T, GeneArray extends std.Vector<T>>
 			(
 				population: GAPopulation<T, GeneArray>
 			): GAPopulation<T, GeneArray>
@@ -159,7 +159,7 @@ namespace samchon.library
 		 * 
 		 * @reference https://en.wikipedia.org/wiki/Selection_(genetic_algorithm)
 		 */
-		private selection<T, GeneArray extends std.base.IArrayContainer<T>>
+		private selection<T, GeneArray extends std.Vector<T>>
 			(population: GAPopulation<T, GeneArray>): GeneArray
 		{
 			let size: number = population.getChildren().size();
@@ -191,7 +191,7 @@ namespace samchon.library
 		 * 
 		 * @reference https://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)
 		 */
-		private crossover<T, GeneArray extends std.base.IArrayContainer<T>>
+		private crossover<T, GeneArray extends std.Vector<T>>
 			(population: GAPopulation<T, GeneArray>, parent1: GeneArray, parent2: GeneArray): GeneArray
 		{
 			let individual: GeneArray = population.getCloner()(parent1);
@@ -262,7 +262,7 @@ namespace samchon.library
 		 * @reference https://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)
 		 * @see {@link mutation_rate}
 		 */
-		private mutate<T, GeneArray extends std.base.IArrayContainer<T>>
+		private mutate<T, GeneArray extends std.Vector<T>>
 			(individual: GeneArray): void
 		{
 			for (let it = individual.begin(); !it.equals(individual.end()); it = it.next())

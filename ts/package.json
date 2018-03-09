@@ -10,8 +10,8 @@
   "typings": "./lib/samchon.d.ts",
   "version": "2.0.46",
   "dependencies": {
-    "tstl": "~x.x.x",
-    "econ": "~x.x.x",
+    "tstl": ">= 1.7.6",
+    "econ": ">= 0.0.3",
     "sxml": "~x.x.x",
     "url-variables": "~x.x.x",
     "websocket": "~1.0.x"

@@ -1,0 +1,1 @@
+export import URLVariables = require("url-variables");

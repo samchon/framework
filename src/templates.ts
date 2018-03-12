@@ -1,5 +1,5 @@
-export * from "./templates/service";
-export * from "./templates/external";
-export * from "./templates/slave";
-export * from "./templates/parallel";
-export * from "./templates/distributed";
+export import service = require("./templates/service");
+export import external = require("./templates/external");
+export import slave = require("./templates/slave");
+export import parallel = require("./templates/parallel");
+export import distributed = require("./templates/distributed");

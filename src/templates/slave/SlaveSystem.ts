@@ -1,87 +1,90 @@
-﻿/// <reference path="../../API.ts" />
+﻿import * as std from "tstl";
 
-/// <reference path="../external/ExternalSystem.ts" />
+import { IProtocol } from "../../protocol/invoke/IProtocol";
+import { ICommunicator } from "../../protocol/communicator/ICommunicator";
 
-namespace samchon.templates.slave
+import { InvokeHistory } from "./InvokeHistory";
+import { PInvoke } from "./PInvoke";
+import { Invoke } from "../../protocol/invoke/Invoke";
+import { InvokeParameter } from "../../protocol/invoke/InvokeParameter";
+
+/**
+ * A slave system.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export abstract class SlaveSystem
+	implements IProtocol
 {
 	/**
-	 * A slave system.
-	 * 
-	 * @author Jeongho Nam <http://samchon.org>
+	 * @hidden
 	 */
-	export abstract class SlaveSystem
-		implements protocol.IProtocol
+	protected communicator_: ICommunicator;
+
+	/* ---------------------------------------------------------
+		CONSTRUCTORS
+	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
+	public constructor()
 	{
-		/**
-		 * @hidden
-		 */
-		protected communicator_: protocol.ICommunicator;
+		this.communicator_ = null;
+	}
 
-		/* ---------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
-		public constructor()
+	/* ---------------------------------------------------------
+		INVOKE MSSAGE CHIAN
+	--------------------------------------------------------- */
+	public sendData(invoke: Invoke): void
+	{
+		this.communicator_.sendData(invoke);
+	}
+
+	public abstract replyData(invoke: Invoke): void | Promise<void>;
+
+	/**
+	 * @hidden
+	 */
+	protected _Reply_data(invoke: Invoke): void
+	{
+		// INTERCEPT INVOKE MESSAGE
+		if (invoke.has("_History_uid"))
 		{
-			this.communicator_ = null;
-		}
-
-		/* ---------------------------------------------------------
-			INVOKE MSSAGE CHIAN
-		--------------------------------------------------------- */
-		public sendData(invoke: protocol.Invoke): void
-		{
-			this.communicator_.sendData(invoke);
-		}
-
-		public abstract replyData(invoke: protocol.Invoke): void | Promise<void>;
-
-		/**
-		 * @hidden
-		 */
-		protected _Reply_data(invoke: protocol.Invoke): void
-		{
-			// INTERCEPT INVOKE MESSAGE
-			if (invoke.has("_History_uid"))
-			{
-				// INIT HISTORY - WITH START TIME
-				let history: InvokeHistory = new InvokeHistory(invoke);
-				invoke.erase
-				(
-					std.remove_if(invoke.begin(), invoke.end(), function (parameter: protocol.InvokeParameter): boolean
-					{
-						return parameter.getName() == "_History_uid"
-							|| parameter.getName() == "_Process_name"
-							|| parameter.getName() == "_Process_weight";
-					}),
-					invoke.end()
-				); // DETACH THE UID FOR FUNCTION AUTO-MATCHING
-
-				// MAIN PROCESS - REPLY_DATA
-				let pInvoke: PInvoke = new PInvoke(invoke, history, this);
-				let ret: Promise<void> = this.replyData(pInvoke) as Promise<void>; // NOTHING OR PROMISE
-
-				if (ret instanceof Function && ret.then instanceof Function && ret.catch instanceof Function)
+			// INIT HISTORY - WITH START TIME
+			let history: InvokeHistory = new InvokeHistory(invoke);
+			invoke.erase
+			(
+				std.remove_if(invoke.begin(), invoke.end(), function (parameter: InvokeParameter): boolean
 				{
-					ret.then(() =>
-					{
-						this._Complete_process(pInvoke);
-					});
-				}
-				else
+					return parameter.getName() == "_History_uid"
+						|| parameter.getName() == "_Process_name"
+						|| parameter.getName() == "_Process_weight";
+				}),
+				invoke.end()
+			); // DETACH THE UID FOR FUNCTION AUTO-MATCHING
+
+			// MAIN PROCESS - REPLY_DATA
+			let pInvoke: PInvoke = new PInvoke(invoke, history, this);
+			let ret: Promise<void> = this.replyData(pInvoke) as Promise<void>; // NOTHING OR PROMISE
+
+			if (ret instanceof Function && ret.then instanceof Function && ret.catch instanceof Function)
+			{
+				ret.then(() =>
+				{
 					this._Complete_process(pInvoke);
+				});
 			}
 			else
-				this.replyData(invoke);
+				this._Complete_process(pInvoke);
 		}
+		else
+			this.replyData(invoke);
+	}
 
-		private _Complete_process(pInvoke: PInvoke): void
-		{
-			// NOTIFY - WITH END TIME
-			if (pInvoke.isHold() == false)
-				pInvoke.complete();
-		}
+	private _Complete_process(pInvoke: PInvoke): void
+	{
+		// NOTIFY - WITH END TIME
+		if (pInvoke.isHold() == false)
+			pInvoke.complete();
 	}
 }

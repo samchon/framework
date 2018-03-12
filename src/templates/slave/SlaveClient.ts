@@ -1,48 +1,44 @@
-﻿/// <reference path="../../API.ts" />
+﻿import { SlaveSystem } from "./SlaveSystem";
+import { IServerConnector } from "../../protocol/communicator/IServerConnector";
 
-/// <reference path="SlaveSystem.ts" />
-
-namespace samchon.templates.slave
+export interface ISlaveClient
+	extends SlaveSystem
 {
-	export interface ISlaveClient
-		extends SlaveSystem
+	connect(ip: string, port: number): void;
+}
+
+export abstract class SlaveClient
+	extends SlaveSystem
+	implements ISlaveClient
+{
+	/* ---------------------------------------------------------
+		CONSTRUCTORS
+	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
+	public constructor()
 	{
-		connect(ip: string, port: number): void;
+		super();
 	}
 
-	export abstract class SlaveClient
-		extends SlaveSystem
-		implements ISlaveClient
+	/**
+	 * @inheritdoc
+	 */
+	protected abstract createServerConnector(): IServerConnector;
+	
+	/* ---------------------------------------------------------
+		METHOD OF CONNECTOR
+	--------------------------------------------------------- */
+	/**
+	 * @inheritdoc
+	 */
+	public connect(ip: string, port: number): void
 	{
-		/* ---------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
-		public constructor()
-		{
-			super();
-		}
+		if (this.communicator_ != null)
+			return;
 
-		/**
-		 * @inheritdoc
-		 */
-		protected abstract createServerConnector(): protocol.IServerConnector;
-		
-		/* ---------------------------------------------------------
-			METHOD OF CONNECTOR
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public connect(ip: string, port: number): void
-		{
-			if (this.communicator_ != null)
-				return;
-
-			this.communicator_ = this.createServerConnector();
-			(this.communicator_ as protocol.IServerConnector).connect(ip, port);
-		}
+		this.communicator_ = this.createServerConnector();
+		(this.communicator_ as IServerConnector).connect(ip, port);
 	}
 }

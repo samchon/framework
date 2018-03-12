@@ -1,144 +1,152 @@
-﻿/// <reference path="../MediatorSystem.ts" />
+﻿import { MediatorSystem } from "../MediatorSystem";
+import { ISlaveClient } from "../../slave/SlaveClient";
 
-namespace samchon.templates.parallel
+import { ParallelSystemArrayMediator } from "../ParallelSystemArrayMediator";
+import { ParallelSystem } from "../ParallelSystem";
+import { DistributedSystemArrayMediator } from "../../distributed/DistributedSystemArrayMediator";
+import { DistributedSystem } from "../../distributed/DistributedSystem";
+
+import { IServerConnector } from "../../../protocol/communicator/IServerConnector";
+import { ServerConnector } from "../../../protocol/communicator/server_connector/ServerConnector";
+import { WebServerConnector } from "../../../protocol/communicator/server_connector/WebServerConnector";
+import { SharedWorkerServerConnector } from "../../../protocol/communicator/server_connector/SharedWorkerServerConnector";
+
+/**
+ * A mediator client, driver for the master server.
+ * 
+ * The {@link MediatorServer} is a class being a client connecting to the **master** server, following the protocol 
+ * of Samchon Framework's own.
+ * 
+ * #### [Inherited] {@link MediatorSystem}
+ * @copydoc MediatorSystem
+ */
+export class MediatorClient
+	extends MediatorSystem
+	implements ISlaveClient
 {
 	/**
-	 * A mediator client, driver for the master server.
-	 * 
-	 * The {@link MediatorServer} is a class being a client connecting to the **master** server, following the protocol 
-	 * of Samchon Framework's own.
-	 * 
-	 * #### [Inherited] {@link MediatorSystem}
-	 * @copydoc MediatorSystem
+	 * @hidden
 	 */
-	export class MediatorClient
-		extends MediatorSystem
-		implements slave.ISlaveClient
+	private ip: string;
+	
+	/**
+	 * @hidden
+	 */
+	private port: number;
+
+	/* ---------------------------------------------------------
+		CONSTRUCTORS
+	--------------------------------------------------------- */
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
+	 * @param ip IP address to connect.
+	 * @param port Port number to connect.
+	 */
+	public constructor(systemArray: ParallelSystemArrayMediator<ParallelSystem>, ip: string, port: number);
+
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
+	 * @param ip IP address to connect.
+	 * @param port Port number to connect.
+	 */
+	public constructor(systemArray: DistributedSystemArrayMediator<DistributedSystem>, ip: string, port: number);
+
+	public constructor
+		(
+			systemArray: ParallelSystemArrayMediator<ParallelSystem> | DistributedSystemArrayMediator<DistributedSystem>, 
+			ip: string, port: number
+		)
 	{
-		/**
-		 * @hidden
-		 */
-		private ip: string;
-		
-		/**
-		 * @hidden
-		 */
-		private port: number;
+		super(systemArray as ParallelSystemArrayMediator<ParallelSystem>);
 
-		/* ---------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------- */
-		/**
-		 * Initializer Constructor.
-		 * 
-		 * @param systemArray The parent {@link ParallelSystemArrayMediator} object.
-		 * @param ip IP address to connect.
-		 * @param port Port number to connect.
-		 */
-		public constructor(systemArray: ParallelSystemArrayMediator<ParallelSystem>, ip: string, port: number);
-
-		/**
-		 * Initializer Constructor.
-		 * 
-		 * @param systemArray The parent {@link DistributedSystemArrayMediator} object.
-		 * @param ip IP address to connect.
-		 * @param port Port number to connect.
-		 */
-		public constructor(systemArray: distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>, ip: string, port: number);
-
-		public constructor
-			(
-				systemArray: ParallelSystemArrayMediator<ParallelSystem> | distributed.DistributedSystemArrayMediator<distributed.DistributedSystem>, 
-				ip: string, port: number
-			)
-		{
-			super(systemArray as ParallelSystemArrayMediator<ParallelSystem>);
-
-			this.ip = ip;
-			this.port = port;
-		}
-
-		/**
-		 * Factory method creating {@link IServerConnector} object.
-		 * 
-		 * The {@link createServerConnector createServerConnector()} is an abstract method creating 
-		 * {@link IServerConnector} object. Overrides and returns one of them, considering which protocol the **master** 
-		 * server follows:
-		 * 
-		 * - {@link ServerConnector}
-		 * - {@link WebServerConnector}
-		 * - {@link SharedWorkerServerConnector}
-		 * 
-		 * @return A newly created {@link IServerConnector} object.
-		 */
-		protected createServerConnector(): protocol.IServerConnector
-		{
-			return new protocol.ServerConnector(this);
-		}
-
-		/* ---------------------------------------------------------
-			METHOD OF CONNECTOR
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public start(): void
-		{
-			this.connect();
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public connect(): void
-		{
-			if (this.communicator_ != null)
-				return;
-
-			this.communicator_ = this.createServerConnector();
-			(this.communicator_ as protocol.IServerConnector).connect(this.ip, this.port);
-		}
+		this.ip = ip;
+		this.port = port;
 	}
 
 	/**
-	 * A mediator client, driver for the master server.
+	 * Factory method creating {@link IServerConnector} object.
 	 * 
-	 * The {@link MediatorWebClient} is a class being a client connecting to the **master** server, following the 
-	 * web-socket protocol.
+	 * The {@link createServerConnector createServerConnector()} is an abstract method creating 
+	 * {@link IServerConnector} object. Overrides and returns one of them, considering which protocol the **master** 
+	 * server follows:
 	 * 
-	 * #### [Inherited] {@link MediatorSystem}
-	 * @copydoc MediatorSystem
+	 * - {@link ServerConnector}
+	 * - {@link WebServerConnector}
+	 * - {@link SharedWorkerServerConnector}
+	 * 
+	 * @return A newly created {@link IServerConnector} object.
 	 */
-	export class MediatorWebClient
-		extends MediatorClient
+	protected createServerConnector(): IServerConnector
 	{
-		/**
-		 * @inheritdoc
-		 */
-		protected createServerConnector(): protocol.IServerConnector
-		{
-			return new protocol.WebServerConnector(this);
-		}
+		return new ServerConnector(this);
+	}
+
+	/* ---------------------------------------------------------
+		METHOD OF CONNECTOR
+	--------------------------------------------------------- */
+	/**
+	 * @inheritdoc
+	 */
+	public start(): void
+	{
+		this.connect();
 	}
 
 	/**
-	 * A mediator client, driver for the master server.
-	 * 
-	 * The {@link MediatorSharedWorkerClient} is a class being a client connecting to the **master** server, following 
-	 * the SharedWorker's protocol.
-	 * 
-	 * #### [Inherited] {@link MediatorSystem}
-	 * @copydoc MediatorSystem
+	 * @inheritdoc
 	 */
-	export class MediatorSharedWorkerClient
-		extends MediatorClient
+	public connect(): void
 	{
-		/**
-		 * @inheritdoc
-		 */
-		protected createServerConnector(): protocol.IServerConnector
-		{
-			return new protocol.SharedWorkerServerConnector(this);
-		}
+		if (this.communicator_ != null)
+			return;
+
+		this.communicator_ = this.createServerConnector();
+		(this.communicator_ as IServerConnector).connect(this.ip, this.port);
+	}
+}
+
+/**
+ * A mediator client, driver for the master server.
+ * 
+ * The {@link MediatorWebClient} is a class being a client connecting to the **master** server, following the 
+ * web-socket 
+ * 
+ * #### [Inherited] {@link MediatorSystem}
+ * @copydoc MediatorSystem
+ */
+export class MediatorWebClient
+	extends MediatorClient
+{
+	/**
+	 * @inheritdoc
+	 */
+	protected createServerConnector(): IServerConnector
+	{
+		return new WebServerConnector(this);
+	}
+}
+
+/**
+ * A mediator client, driver for the master server.
+ * 
+ * The {@link MediatorSharedWorkerClient} is a class being a client connecting to the **master** server, following 
+ * the SharedWorker's protocol.
+ * 
+ * #### [Inherited] {@link MediatorSystem}
+ * @copydoc MediatorSystem
+ */
+export class MediatorSharedWorkerClient
+	extends MediatorClient
+{
+	/**
+	 * @inheritdoc
+	 */
+	protected createServerConnector(): IServerConnector
+	{
+		return new SharedWorkerServerConnector(this);
 	}
 }

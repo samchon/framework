@@ -6,9 +6,13 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "main": "./lib/samchon.js",
-  "typings": "./lib/samchon.d.ts",
-  "version": "2.0.48",
+  "version": "2.1.0-dev.20180312",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "git clean -Xdf && git clean -df"
+  },
   "dependencies": {
     "tstl": ">= 1.7.9",
     "econ": ">= 1.0.0",
@@ -35,7 +39,7 @@
     }
   ],
   "keywords": [
-    "samchon framework",
+    "samchon", "framework",
     "OON",
     "object oriented network",
     "interaction",
@@ -44,7 +48,6 @@
     "parallel processing system",
     "C++",
     "TypeScript",
-    "XML",
     "Entity"
   ]
 }

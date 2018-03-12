@@ -1,6 +1,7 @@
 import * as std from "tstl";
 
 import { IEntity } from "./IEntity";
+import { XML, XMLList } from "sxml";
 
 /**
  * A container of entity, and it's a type of entity, too.

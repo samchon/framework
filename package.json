@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.1.0",
+  "version": "2.1.1",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
@@ -14,9 +14,9 @@
     "clean": "git clean -Xdf && git clean -df"
   },
   "dependencies": {
-    "tstl": ">= 1.7.9",
-    "econ": ">= 1.0.0",
+    "ecol": ">= 1.0.0",
     "sxml": ">= 1.0.1",
+    "tstl": ">= 1.7.9",
     "url-variables": ">= 1.0.0",
     "websocket": "~x.x.x"
   },
@@ -39,7 +39,8 @@
     }
   ],
   "keywords": [
-    "samchon", "framework",
+    "samchon",
+    "framework",
     "OON",
     "object oriented network",
     "interaction",

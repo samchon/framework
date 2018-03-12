@@ -1,4 +1,4 @@
-﻿import * as collections from "../../collections";
+﻿import * as collections from "ecol";
 
 import { Server } from "./Server";
 import { Client } from "./Client";
@@ -38,7 +38,7 @@ import { WebClientDriver } from "../../protocol/communicator/client_driver/WebCl
 	* @author Jeongho Nam <http://samchon.org>
 	*/
 export abstract class User
-	extends collections.HashMap<number, Client>
+	extends collections.HashMapCollection<number, Client>
 	implements IProtocol
 {
 	// RELATED OBJECTS
@@ -133,7 +133,7 @@ export abstract class User
 	/**
 	 * @hidden
 	 */
-	private _Handle_erase_client(event: collections.HashMap.Event<number, Client>): void
+	private _Handle_erase_client(event: collections.HashMapCollection.Event<number, Client>): void
 	{
 		for (let it = event.first; !it.equals(event.last); it = it.next())
 			it.second.close();

@@ -75,7 +75,7 @@ export abstract class ExternalSystemArray<System extends ExternalSystem>
 	/**
 	 * @hidden
 	 */
-	private _Handle_system_erase(event: collections.Deque.Event<System>): void
+	private _Handle_system_erase(event: collections.DequeCollection.Event<System>): void
 	{
 		for (let it = event.first; !it.equals(event.last); it = it.next())
 			it.value["destructor"]();

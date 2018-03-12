@@ -1,1 +1,1 @@
-export * from "econ";
+export * from "ecol";

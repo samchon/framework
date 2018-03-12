@@ -1,4 +1,4 @@
-﻿import * as collections from "econ";
+﻿import * as collections from "ecol";
 import { XML } from "sxml";
 
 import { IEntity } from "./IEntity";
@@ -8,7 +8,7 @@ import { IEntityGroup } from "./IEntityGroup";
  * @inheritdoc
  */
 export abstract class EntityArrayCollection<T extends IEntity>
-	extends collections.Vector<T>
+	extends collections.ArrayCollection<T>
 {
 	/* ------------------------------------------------------------------
 		CONSTRUCTORS
@@ -89,7 +89,7 @@ export abstract class EntityArrayCollection<T extends IEntity>
  * @inheritdoc
  */
 export abstract class EntityListCollection<T extends IEntity>
-	extends collections.List<T>
+	extends collections.ListCollection<T>
 {
 	/* ------------------------------------------------------------------
 		CONSTRUCTORS
@@ -170,7 +170,7 @@ export abstract class EntityListCollection<T extends IEntity>
  * @inheritdoc
  */
 export abstract class EntityDequeCollection<T extends IEntity>
-	extends collections.Deque<T>
+	extends collections.DequeCollection<T>
 {
 	/* ------------------------------------------------------------------
 		CONSTRUCTORS

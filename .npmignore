@@ -1,7 +1,12 @@
-src/
-build/
+.git/
+.github/
 .vscode/
-node_modules/
 
+node_modules/
+cpp/
+src/
+
+*.log
 *.*ignore
+*.js.map
 package-lock.json

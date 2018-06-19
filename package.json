@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.1.2",
+  "version": "2.1.3",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
@@ -14,10 +14,10 @@
     "clean": "git clean -Xdf && git clean -df"
   },
   "dependencies": {
-    "ecol": ">= 1.0.0",
-    "sxml": ">= 1.0.1",
-    "tstl": ">= 1.7.9",
-    "url-variables": ">= 1.0.0",
+    "ecol": ">= 1.0.2",
+    "sxml": ">= 1.0.3",
+    "tstl": ">= 2.0.0",
+    "url-variables": ">= 1.0.1",
     "websocket": "~x.x.x"
   },
   "devDependencies": {

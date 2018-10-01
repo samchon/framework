@@ -6,22 +6,18 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.1.4",
+  "version": "3.0.0-dev.20180930",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
     "build": "tsc",
-    "clean": "git clean -Xdf && git clean -df"
+    "test": "node lib/tests/main"
   },
   "dependencies": {
-    "ecol": ">= 1.0.2",
-    "sxml": ">= 1.0.3",
-    "tstl": ">= 2.0.0",
-    "url-variables": ">= 1.0.1",
-    "websocket": "~x.x.x"
+    "tstl": ">= 2.0.5"
   },
   "devDependencies": {
-    "@types/node": "~x.x.x",
+    "@types/node": "^10.11.3",
     "@types/websocket": "~x.x.x"
   },
   "homepage": "https://github.com/samchon/framework",

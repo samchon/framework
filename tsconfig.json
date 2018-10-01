@@ -4,7 +4,7 @@
         "module": "commonjs",
         "declaration": true,
         "sourceMap": true,
-        "outDir": ".",
+        "outDir": "lib",
         
         "noImplicitAny": true,
         "downlevelIteration": true,
@@ -13,10 +13,10 @@
             "dom",
             "es2015"
         ]
-    },
-    "exclude": ["**/*.d.ts"],
-    "include": [
-        "node_modules",
-        "src"
-    ]
+    }//,
+    // "exclude": ["**/*.d.ts"],
+    // "include": [
+    //     "node_modules",
+    //     "src"
+    // ]
 }

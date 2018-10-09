@@ -32,7 +32,6 @@ export class WebConnector<Listener extends object = {}>
 			this.socket_.onerror = reject;
 			this.socket_.onclose = this.destroy.bind(this);
 
-			console.log("connect");
 			this.socket_.onmessage = msg =>
 			{
 				this.replyData(JSON.parse(msg.data));
@@ -50,7 +49,6 @@ export class WebConnector<Listener extends object = {}>
 	---------------------------------------------------------------- */
 	public sendData(invoke: Invoke): void
 	{
-		console.log("sendData");
 		this.socket_.send(JSON.stringify(invoke));
 	}
 }

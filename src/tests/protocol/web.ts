@@ -1,16 +1,36 @@
-import "./instances/web-server";
+import * as std from "tstl";
 
-import { WebConnector } from "../../protocol/web";
-import { ICalculator } from "../base/Calculator";
+import { WebServer, WebAcceptor, WebConnector } from "../../protocol/web";
+import { ICalculator, Calculator } from "../base/Calculator";
 
-export async function _test_web(): Promise<void>
+export async function test_web(): Promise<void>
 {
+	const PORT: number = 10919;
+
+	//----
+	// SERVER
+	//----
+	let server: WebServer = new WebServer();
+	server.open(PORT, (acceptor: WebAcceptor) =>
+	{
+		acceptor.accept(); // ALLOW CONNECTION
+		acceptor.listen(new Calculator()); // SET LISTENER
+	});
+
+	//----
+	// CLIENT
+	//----
+	// DO CONNECT
 	let connector: WebConnector = new WebConnector();
-	await connector.connect("ws://127.0.0.1:10107/calculator");
+	await connector.connect(`ws://127.0.0.1:${PORT}/calculator`);
 
-	console.log("connected");
+	// SET DRIVER AND TEST BY CALCULATOR PROCESS
+	let driver: ICalculator = connector.getDriver();
+	await ICalculator.main(driver);
 
-	await ICalculator.main(connector.getDriver<ICalculator>());
+	//----
+	// CLOSES
+	//----
 	connector.close();
+	server.close();
 }
-_test_web();

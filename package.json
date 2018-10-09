@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "3.0.0-dev.20180930",
+  "version": "3.0.0-dev.20181009",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
@@ -17,7 +17,7 @@
     "@types/node": "^10.11.3",
     "tstl": "^2.0.6",
     "websocket": "^1.0.28",
-    "websocket-polyfill": "0.0.0"
+    "websocket-polyfill": "^0.0.2"
   },
   "devDependencies": {
     "@types/sharedworker": "0.0.28",

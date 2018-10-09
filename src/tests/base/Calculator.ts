@@ -57,8 +57,6 @@ export namespace ICalculator
 		let y: number = std.randint(1, 10);
 		
 		let ret = await driver[method](x, y);
-		// console.log("\t", method, x, y, ret);
-
 		if (ret !== validator[method](x, y))
 			throw new std.DomainError("Error on function calling.");
 	}

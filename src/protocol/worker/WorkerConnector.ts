@@ -1,7 +1,8 @@
-import { Communicator } from "../Communicator";
+import { CommunicatorBase } from "../CommunicatorBase";
+import { Invoke } from "../Invoke";
 
 export class WorkerConnector<Listener extends Object = {}> 
-	extends Communicator<Listener>
+	extends CommunicatorBase<Listener>
 {
 	/**
 	 * @hidden
@@ -10,15 +11,12 @@ export class WorkerConnector<Listener extends Object = {}>
 
 	public constructor(listener: Listener = null)
 	{
-		super(invoke =>
-		{
-			this.worker_.postMessage(JSON.stringify(invoke))
-		}, listener)
+		super(listener);
 	}
 
-	public connect(path: string): void
+	public connect(jsFile: string): void
 	{
-		this.worker_ = new Worker(path);
+		this.worker_ = new Worker(jsFile);
 		this.worker_.onmessage = evt =>
 		{
 			this.replyData(JSON.parse(evt.data));
@@ -28,5 +26,10 @@ export class WorkerConnector<Listener extends Object = {}>
 	public close(): void
 	{
 		this.worker_.terminate();
+	}
+
+	public sendData(invoke: Invoke): void
+	{
+		this.worker_.postMessage(JSON.stringify(invoke));
 	}
 }

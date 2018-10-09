@@ -1,18 +1,20 @@
-import { Communicator } from "../Communicator";
+import { CommunicatorBase } from "../CommunicatorBase";
+import { Invoke } from "../Invoke";
 
 export class ProcessServer<Listener extends object = {}> 
-	extends Communicator<Listener>
+	extends CommunicatorBase<Listener>
 {
 	public constructor(listener: Listener = null)
 	{
-		super(invoke =>
-		{
-			process.send(JSON.stringify(invoke));
-		}, listener);
-
+		super(listener);
 		process.on("message", msg =>
 		{
 			this.replyData(JSON.parse(msg));
 		});
+	}
+
+	public sendData(invoke: Invoke): void
+	{
+		process.send(JSON.stringify(invoke));
 	}
 }

@@ -1,9 +1,7 @@
-import * as std from "tstl";
-
 import { Communicator } from "../../protocol/Communicator";
 import { Calculator, ICalculator } from "../base/Calculator";
 
-export async function _test_pseudo(): Promise<void>
+export async function test_pseudo(): Promise<void>
 {
 	//----
 	// SERVER & CLIENT

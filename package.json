@@ -14,11 +14,14 @@
     "test": "node lib/tests/main"
   },
   "dependencies": {
-    "tstl": ">= 2.0.5"
+    "@types/node": "^10.11.3",
+    "tstl": "^2.0.6",
+    "websocket": "^1.0.28",
+    "websocket-polyfill": "0.0.0"
   },
   "devDependencies": {
-    "@types/node": "^10.11.3",
-    "@types/websocket": "~x.x.x"
+    "@types/sharedworker": "0.0.28",
+    "@types/websocket": "0.0.40"
   },
   "homepage": "https://github.com/samchon/framework",
   "repository": {

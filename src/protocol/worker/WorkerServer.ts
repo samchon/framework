@@ -1,18 +1,21 @@
-import { Communicator } from "../Communicator";
+import { CommunicatorBase } from "../CommunicatorBase";
+import { Invoke } from "../Invoke";
 
 export class WorkerServer<Listener extends object = {}> 
-	extends Communicator<Listener>
+	extends CommunicatorBase<Listener>
 {
 	public constructor(listener: Listener = null)
 	{
-		super(invoke =>
-		{
-			postMessage(JSON.stringify(invoke), "")
-		}, listener)
+		super(listener);
 	}
 
 	public close(): void
 	{
 		close();
+	}
+
+	public sendData(invoke: Invoke): void
+	{
+		postMessage(JSON.stringify(invoke), "");
 	}
 }

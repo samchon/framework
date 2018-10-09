@@ -44,8 +44,8 @@ export namespace ICalculator
 			validate(driver, validator);
 
 		// EXCEPTION THROWN BY THE SERVER
-		// if (await get_exception(driver) === null)
-		// 	throw new std.DomainError("Throwing exception doesn't work.");
+		if (await get_exception(driver) === null)
+			throw new std.DomainError("Throwing exception doesn't work.");
 	}
 
 	async function validate(driver: ICalculator, validator: Calculator): Promise<void>

@@ -1,5 +1,5 @@
 import { ProcessConnector } from "../../protocol/worker/ProcessConnector";
-import { ICalculator } from "../base/Calculator";
+import { ICalculator } from "../base/ICalculator";
 
 export async function test_process(): Promise<void>
 {

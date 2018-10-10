@@ -1,5 +1,7 @@
 import { Communicator } from "../../protocol/Communicator";
-import { Calculator, ICalculator } from "../base/Calculator";
+
+import { Calculator } from "../base/Calculator";
+import { ICalculator } from "../base/ICalculator";
 
 export async function test_pseudo(): Promise<void>
 {

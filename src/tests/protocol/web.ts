@@ -1,7 +1,6 @@
-import * as std from "tstl";
-
 import { WebServer, WebAcceptor, WebConnector } from "../../protocol/web";
-import { ICalculator, Calculator } from "../base/Calculator";
+import { Calculator } from "../base/Calculator";
+import { ICalculator } from "../base/ICalculator";
 
 export async function test_web(): Promise<void>
 {

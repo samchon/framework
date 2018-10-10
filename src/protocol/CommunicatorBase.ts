@@ -1,7 +1,9 @@
 import { HashMap } from "tstl/container/HashMap";
 import { Pair, make_pair } from "tstl/utility/Pair";
+import { RangeError } from "tstl/exception/RuntimeError";
 
 import { Invoke, IFunction, IReturn } from "./Invoke";
+import { Promisify } from "./Promisify";
 
 export abstract class CommunicatorBase<Listener extends object = {}>
 {
@@ -40,19 +42,34 @@ export abstract class CommunicatorBase<Listener extends object = {}>
 	}
 
 	/* ----------------------------------------------------------------
-		ACCESSORS
+		DRIVER
 	---------------------------------------------------------------- */
-	public getDriver<Feature extends object>(): Feature
+	public getDriver<Feature extends object>(): Promisify<Feature>
 	{
-		return new Proxy<Feature>({} as Feature,
+		return new Proxy<Promisify<Feature>>({} as Promisify<Feature>,
 		{
-			get: (target: Feature, name: string) =>
+			get: (target: Promisify<Feature>, name: string) =>
 			{
-				target; // TO AVOID THE UNUSED PARAMETER ERROR
-				return (...params: any[]) =>
-				{
-					return this._Call_function(name, ...params);
-				};
+				target;
+				return this._Proxy_func(name);
+			}
+		});
+	}
+
+	/**
+	 * @hidden
+	 */
+	private _Proxy_func(name: string): Function
+	{
+		return new Proxy<Function>((...params: any[]) => 
+		{
+			return this._Call_function(name, ...params);
+		},
+		{
+			get: (target: any, newName: string) =>
+			{
+				target;
+				return this._Proxy_func(`${name}.${newName}`);
 			}
 		});
 	}
@@ -97,14 +114,18 @@ export abstract class CommunicatorBase<Listener extends object = {}>
 	private _Handle_function(invoke: IFunction): void
 	{
 		let uid: number = invoke.uid;
-		let func: Function = (this.listener_ as any)[invoke.name];
 
 		try
 		{
-			// CALL FUNCTION
+			// FIND & CALL FUNCTION
+			let listener: Listener = this.listener_;
+			if (listener === null)
+				throw new RangeError("Listener is not specified yet.");
+			
+			let func: Function = eval(`listener.${invoke.name}`);
 			let ret: any = func(...invoke.params);
 
-			// RETURNS
+			// RETURN VALUE
 			if (ret.then instanceof Function) // Async
 				ret.then(this._Send_return.bind(this, uid, true))
 				   .catch(this._Send_return.bind(this, uid, false));

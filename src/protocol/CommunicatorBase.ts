@@ -1,6 +1,6 @@
 import { HashMap } from "tstl/container/HashMap";
 import { Pair, make_pair } from "tstl/utility/Pair";
-import { RangeError } from "tstl/exception/RuntimeError";
+import { InvalidArgument } from "tstl/exception/LogicError";
 
 import { Invoke, IFunction, IReturn } from "./Invoke";
 import { Promisify } from "./Promisify";
@@ -117,16 +117,31 @@ export abstract class CommunicatorBase<Listener extends object = {}>
 
 		try
 		{
-			// FIND & CALL FUNCTION
-			let listener: Listener = this.listener_;
-			if (listener === null)
-				throw new RangeError("Listener is not specified yet.");
-			
-			let func: Function = eval(`listener.${invoke.name}`);
-			let ret: any = func(...invoke.params);
+			//----
+			// FIND FUNCTION
+			//----
+			if (this.listener_ === null) // LISTENER MUST BE
+				throw new InvalidArgument("Listener is not specified yet.");
 
+			// FIND FUNCTION (WITH THIS-ARG)
+			let func: Function = <any>this.listener_;
+			let thisArg: any = null;
+
+			let routes: string[] = invoke.name.split(".");
+			for (let name of routes)
+			{
+				thisArg = func;
+				func = thisArg[name];
+			}
+
+			//----
 			// RETURN VALUE
-			if (ret.then instanceof Function) // Async
+			//----
+			// CALL FUNCTION
+			let ret: any = func.apply(thisArg, invoke.params);
+
+			// PROMISE | ATOMIC
+			if (ret && ret.then instanceof Function) // Async
 				ret.then(this._Send_return.bind(this, uid, true))
 				   .catch(this._Send_return.bind(this, uid, false));
 			else

@@ -54,6 +54,11 @@ export class WebAcceptor extends CommunicatorBase
 		return this.server_;
 	}
 
+	public getPath(): string
+	{
+		return this.request_.resource;
+	}
+
 	/* ----------------------------------------------------------------
 		MESSAG I/O
 	---------------------------------------------------------------- */
